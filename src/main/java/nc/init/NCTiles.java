@@ -13,9 +13,10 @@ import nc.multiblock.fission.tile.TileFissionComputerPort;
 import nc.multiblock.fission.tile.TileFissionConductor;
 import nc.multiblock.fission.tile.TileFissionGlass;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
-import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.port.TileFissionCellPort;
+import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.tile.TileCondenserController;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
@@ -80,13 +81,15 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionCasing.class, Global.MOD_ID + ":fission_casing");
 		GameRegistry.registerTileEntity(TileFissionGlass.class, Global.MOD_ID + ":fission_glass");
 		GameRegistry.registerTileEntity(TileFissionConductor.class, Global.MOD_ID + ":fission_conductor");
-		GameRegistry.registerTileEntity(TileFissionPort.class, Global.MOD_ID + ":fission_port");
 		GameRegistry.registerTileEntity(TileFissionVent.class, Global.MOD_ID + ":fission_vent");
 		GameRegistry.registerTileEntity(TileFissionIrradiator.class, Global.MOD_ID + ":fission_irradiator");
 		GameRegistry.registerTileEntity(TileFissionSource.RadiumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.RADIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.PoloniumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.POLONIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.Californium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.CALIFORNIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionComputerPort.class, Global.MOD_ID + ":fission_computer_port");
+		
+		GameRegistry.registerTileEntity(TileFissionIrradiatorPort.class, Global.MOD_ID + ":fission_irradiator_port");
+		GameRegistry.registerTileEntity(TileFissionCellPort.class, Global.MOD_ID + ":fission_cell_port");
 		
 		GameRegistry.registerTileEntity(TileSolidFissionController.class, Global.MOD_ID + ":solid_fission_controller");
 		GameRegistry.registerTileEntity(TileSolidFissionCell.class, Global.MOD_ID + ":solid_fission_cell");

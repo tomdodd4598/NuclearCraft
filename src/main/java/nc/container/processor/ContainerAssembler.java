@@ -20,8 +20,8 @@ public class ContainerAssembler extends ContainerItemProcessor {
 		
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 4, 126, 41));
 		
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 5, 132, 76, speedUpgrade));
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 6, 152, 76, energyUpgrade));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 5, 132, 76, SPEED_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 6, 152, 76, ENERGY_UPGRADE));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -43,9 +43,9 @@ public class RadArmor {
 			int scorePos = stackInfo.lastIndexOf('_');
 			if (scorePos == -1) continue;
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo.substring(0, scorePos));
-			if (stack == null || stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) return;
+			if (stack == null || stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) continue;
 			int packed = RecipeItemHelper.pack(stack);
-			if (packed == 0) return;
+			if (packed == 0) continue;
 			ARMOR_RAD_RESISTANCE_MAP.put(packed, Double.parseDouble(stackInfo.substring(scorePos + 1)));
 		}
 	}

@@ -13,29 +13,26 @@ public class BlockHighlightUpdatePacket implements IMessage {
 	
 	protected boolean messageValid;
 	
-	protected BlockPos pos;
-	protected long highlightTimeMillis;
+	protected long posLong, highlightTimeMillis;
 	
 	public BlockHighlightUpdatePacket() {
 		messageValid = false;
 	}
 	
 	public BlockHighlightUpdatePacket(BlockPos pos, long highlightTimeMillis) {
-		this.pos = pos;
+		posLong = pos.toLong();
 		this.highlightTimeMillis = highlightTimeMillis;
 		
 		messageValid = true;
 	}
 	
 	public void readMessage(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		posLong = buf.readLong();
 		highlightTimeMillis = buf.readLong();
 	}
 	
 	public void writeMessage(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		buf.writeLong(posLong);
 		buf.writeLong(highlightTimeMillis);
 	}
 	
@@ -66,7 +63,7 @@ public class BlockHighlightUpdatePacket implements IMessage {
 		}
 		
 		protected void processMessage(BlockHighlightUpdatePacket message) {
-			NuclearCraft.instance.blockOverlayTracker.highlightBlock(message.pos, message.highlightTimeMillis);
+			NuclearCraft.instance.blockOverlayTracker.highlightBlock(message.posLong, message.highlightTimeMillis);
 		}
 	}
 }

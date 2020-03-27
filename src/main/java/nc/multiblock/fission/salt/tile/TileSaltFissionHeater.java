@@ -45,7 +45,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, ITileFluid, IFissionCoolingComponent {
+public class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, IFissionCoolingComponent {
 	
 	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()));
 	
@@ -69,10 +69,10 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
-	private long heat = 0L;
-	public boolean isInValidPosition = false;
+	protected long heat = 0L;
+	protected boolean isInValidPosition = false;
 	
-	protected int heaterCount;
+	//protected int heaterCount;
 	
 	public TileSaltFissionHeater() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -188,8 +188,8 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 			
 			if (isProcessing) process();
 			
-			tickHeater();
-			if (heaterCount == 0) pushFluid();
+			//tickHeater();
+			//if (heaterCount == 0) pushFluid();
 			
 			if (shouldRefresh && isMultiblockAssembled()) {
 				getMultiblock().refreshFlag = true;
@@ -198,9 +198,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 		}
 	}
 	
-	public void tickHeater() {
+	/*public void tickHeater() {
 		heaterCount++; heaterCount %= NCConfig.machine_update_rate / 2;
-	}
+	}*/
 	
 	@Override
 	public void refreshRecipe() {
@@ -209,12 +209,12 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs(false);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	@Override
 	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs(true);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	// Processor Stats
@@ -242,10 +242,12 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 		return canProcessInputs && isInValidPosition && isMultiblockAssembled() && !(checkCluster && cluster == null);
 	}
 	
-	public boolean canProcessInputs(boolean justProduced) {
-		if (!setRecipeStats()) return false;
-		else if (!justProduced && time >= baseProcessTime) return true;
-		return canProduceProducts();
+	public boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (!canProcess) {
+			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+		}
+		return canProcess;
 	}
 	
 	public boolean canProduceProducts() {
@@ -314,18 +316,28 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	// IProcessor
 	
 	@Override
+	public int getFluidInputSize() {
+		return fluidInputSize;
+	}
+	
+	@Override
+	public int getFluidOutputputSize() {
+		return fluidOutputSize;
+	}
+	
+	@Override
 	public List<Tank> getFluidInputs() {
 		return tanks.subList(0, fluidInputSize);
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().fluidIngredients();
+		return recipeInfo.getRecipe().getFluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().fluidProducts();
+		return recipeInfo.getRecipe().getFluidProducts();
 	}
 	
 	// Fluids

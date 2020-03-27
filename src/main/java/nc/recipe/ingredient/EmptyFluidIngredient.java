@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class EmptyFluidIngredient implements IFluidIngredient {
 
@@ -66,5 +68,13 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	@Override
 	public boolean isValid() {
 		return true;
+	}
+	
+	// CraftTweaker
+	
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct() {
+		return CraftTweakerMC.getILiquidStack(null);
 	}
 }

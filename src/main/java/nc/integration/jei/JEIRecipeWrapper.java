@@ -479,7 +479,7 @@ public class JEIRecipeWrapper {
 public static class FissionIrradiator extends JEIRecipeWrapperAbstract<FissionIrradiator> {
 		
 		public FissionIrradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, "_jei", 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
 		@Override
@@ -497,6 +497,11 @@ public static class FissionIrradiator extends JEIRecipeWrapperAbstract<FissionIr
 			return recipe.getIrradiatorHeatPerFlux();
 		}
 		
+		protected double getIrradiatorProcessEfficiency() {
+			if (recipe == null) return 0D;
+			return recipe.getIrradiatorProcessEfficiency();
+		}
+		
 		protected double getIrradiatorBaseProcessRadiation() {
 			if (recipe == null) return 0D;
 			return recipe.getIrradiatorBaseProcessRadiation();
@@ -510,6 +515,8 @@ public static class FissionIrradiator extends JEIRecipeWrapperAbstract<FissionIr
 				tooltip.add(TextFormatting.RED + FLUX_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getIrradiatorFluxRequired(), 5, "N"));
 				double heatPerFlux = getIrradiatorHeatPerFlux();
 				if (heatPerFlux > 0D) tooltip.add(TextFormatting.YELLOW + HEAT_PER_FLUX + " " + TextFormatting.WHITE + UnitHelper.prefix(heatPerFlux, 5, "H/t/N"));
+				double efficiency = getIrradiatorProcessEfficiency();
+				if (efficiency > 0D) tooltip.add(TextFormatting.LIGHT_PURPLE + EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*efficiency) + "%");
 				double radiation = getIrradiatorBaseProcessRadiation();
 				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 			}
@@ -519,6 +526,7 @@ public static class FissionIrradiator extends JEIRecipeWrapperAbstract<FissionIr
 		
 		private static final String FLUX_REQUIRED = Lang.localise("jei.nuclearcraft.irradiator_flux_required");
 		private static final String HEAT_PER_FLUX = Lang.localise("jei.nuclearcraft.irradiator_heat_per_flux");
+		private static final String EFFICIENCY = Lang.localise("jei.nuclearcraft.irradiator_process_efficiency");
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.base_process_radiation");
 	}
 	

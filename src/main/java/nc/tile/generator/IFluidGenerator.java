@@ -3,10 +3,14 @@ package nc.tile.generator;
 import java.util.List;
 
 import nc.recipe.ingredient.IFluidIngredient;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.processor.IProcessor;
 
-public interface IFluidGenerator extends IProcessor {
+public interface IFluidGenerator extends IGenerator, ITileFluid {
+	
+	public int getFluidInputSize();
+	
+	public int getFluidOutputputSize();
 	
 	public List<Tank> getFluidInputs(boolean consumed);
 	

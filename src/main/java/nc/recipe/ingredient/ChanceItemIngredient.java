@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.config.NCConfig;
+import nc.integration.crafttweaker.ingredient.CTChanceItemIngredient;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Optional;
 
 public class ChanceItemIngredient implements IItemIngredient {
 	
@@ -101,5 +103,13 @@ public class ChanceItemIngredient implements IItemIngredient {
 	@Override
 	public boolean isValid() {
 		return ingredient.isValid();
+	}
+	
+	// CraftTweaker
+	
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct() {
+		return CTChanceItemIngredient.create(ingredient.ct(), chancePercent, minStackSize);
 	}
 }

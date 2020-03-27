@@ -146,16 +146,17 @@ tile.nuclearcraft.energy_storage.desc=Right click a side to read the energy leve
 tile.nuclearcraft.fission_casing.name=Fission Reactor Casing
 tile.nuclearcraft.fission_glass.name=Fission Reactor Glass
 tile.nuclearcraft.fission_conductor.name=Fission Reactor Conductor
-tile.nuclearcraft.fission_port.name=Fission Reactor Port (WIP)
 tile.nuclearcraft.fission_vent.name=Fission Reactor Vent
 tile.nuclearcraft.fission_irradiator.name=Fission Reactor Neutron Irradiator
-info.nuclearcraft.fission_irradiator.fixd=Efficiency Multiplier: %s
 tile.nuclearcraft.fission_source.radium_beryllium.name=Ra-Be Fission Reactor Neutron Source
 tile.nuclearcraft.fission_source.polonium_beryllium.name=Po-Be Fission Reactor Neutron Source
 tile.nuclearcraft.fission_source.californium.name=Cf-252 Fission Reactor Neutron Source
 tile.nuclearcraft.fission_redstone_port.name=Fission Reactor Redstone Port (WIP)
 tile.nuclearcraft.fission_computer_port.name=Fission Reactor Computer Port (WIP)
 tile.nuclearcraft.fission_computer_port.desc=Used to access the reactor via OpenComputers.
+
+tile.nuclearcraft.fission_irradiator_port.name=Fission Irradiator Port (WIP)
+tile.nuclearcraft.fission_cell_port.name=Fission Fuel Cell Port (WIP)
 
 tile.nuclearcraft.solid_fission_controller.name=Solid Fuel Fission Controller
 tile.nuclearcraft.solid_fission_cell.name=Fission Reactor Fuel Cell
@@ -198,7 +199,7 @@ tile.nuclearcraft.solid_fission_sink2.lead.desc=Must be adjacent to at least one
 tile.nuclearcraft.solid_fission_sink2.boron.name=Boron Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.boron.desc=Must be adjacent to exactly one valid quartz sink and at least one reactor casing.
 tile.nuclearcraft.solid_fission_sink2.lithium.name=Lithium Fission Reactor Heat Sink
-tile.nuclearcraft.solid_fission_sink2.lithium.desc=Must be adjacent to at least two valid lead sinks along a common axis and at least one reactor casing.
+tile.nuclearcraft.solid_fission_sink2.lithium.desc=Must be adjacent to exactly two valid lead sinks along a common axis and at least one reactor casing.
 tile.nuclearcraft.solid_fission_sink2.magnesium.name=Magnesium Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.magnesium.desc=Must be adjacent to exactly one active moderator and at least one reactor casing.
 tile.nuclearcraft.solid_fission_sink2.manganese.name=Manganese Fission Reactor Heat Sink
@@ -206,11 +207,11 @@ tile.nuclearcraft.solid_fission_sink2.manganese.desc=Must be adjacent to at leas
 tile.nuclearcraft.solid_fission_sink2.aluminum.name=Aluminum Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.aluminum.desc=Must be adjacent to at least one valid quartz sink and one valid lapis sink.
 tile.nuclearcraft.solid_fission_sink2.silver.name=Silver Fission Reactor Heat Sink
-tile.nuclearcraft.solid_fission_sink2.silver.desc=Must be adjacent to at least one valid glowstone sink and one valid tin sink.
+tile.nuclearcraft.solid_fission_sink2.silver.desc=Must be adjacent to at least two valid glowstone sinks and one valid tin sink.
 tile.nuclearcraft.solid_fission_sink2.fluorite.name=Fluorite Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.fluorite.desc=Must be adjacent to at least one valid gold sink and one valid prismarine sink.
 tile.nuclearcraft.solid_fission_sink2.villiaumite.name=Villiaumite Fission Reactor Heat Sink
-tile.nuclearcraft.solid_fission_sink2.villiaumite.desc=Must be adjacent to at least one active reflector and one valid redstone sink.
+tile.nuclearcraft.solid_fission_sink2.villiaumite.desc=Must be adjacent to at least one valid redstone sink and one valid end stone sink.
 tile.nuclearcraft.solid_fission_sink2.carobbiite.name=Carobbiite Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.carobbiite.desc=Must be adjacent to at least one valid end stone sink and one valid copper sink.
 tile.nuclearcraft.solid_fission_sink2.arsenic.name=Arsenic Fission Reactor Heat Sink
@@ -1796,11 +1797,12 @@ item.nuclearcraft.fuel_californium.hecf_251_ox.name=HECf-251 Oxide Fuel Pellet
 item.nuclearcraft.fuel_californium.hecf_251_ni.name=HECf-251 Nitride Fuel Pellet
 item.nuclearcraft.fuel_californium.hecf_251_za.name=HECf-251-Zirconium Alloy Fuel Pellet
 
-item.nuclearcraft.fission_fuel.base_time.desc=Base depletion time: %s
-item.nuclearcraft.fission_fuel.base_heat.desc=Base heat gen: %s
-item.nuclearcraft.fission_fuel.base_efficiency.desc=Base efficiency: %s
-item.nuclearcraft.fission_fuel.criticality.desc=Criticality factor: %s
-item.nuclearcraft.fission_fuel.self_priming.desc=Self-priming!
+info.nuclearcraft.fission_fuel.desc=Fission Reactor Fuel
+info.nuclearcraft.fission_fuel.base_time.desc=Base depletion time: %s
+info.nuclearcraft.fission_fuel.base_heat.desc=Base heat gen: %s
+info.nuclearcraft.fission_fuel.base_efficiency.desc=Base efficiency: %s
+info.nuclearcraft.fission_fuel.criticality.desc=Criticality factor: %s
+info.nuclearcraft.fission_fuel.self_priming.desc=Self-priming!
 
 item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=Depleted TBU TRISO Fuel Pebble
 item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=Depleted TBU Oxide Fuel Pellet
@@ -2065,6 +2067,7 @@ jei.nuclearcraft.collector_production_rate=Production rate:
 
 jei.nuclearcraft.irradiator_flux_required=Flux required:
 jei.nuclearcraft.irradiator_heat_per_flux=Heat gen per flux:
+jei.nuclearcraft.irradiator_process_efficiency=Efficiency contribution:
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_heat=Base heat gen:
@@ -2527,7 +2530,7 @@ gui.nc.config.radiation.radiation_from_biomes_dims_blacklist=Biome Radiation Dim
 gui.nc.config.radiation.radiation_from_biomes_dims_blacklist.comment=List of IDs of dimensions to blacklist for biome background radiation.
 
 gui.nc.config.radiation.radiation_ores=Ore Stack Radiation
-gui.nc.config.radiation.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Format: 'oreName_radiationLevel'.
+gui.nc.config.radiation.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Can use Unix-style wildcards for the ore name. Format: 'oreName_radiationLevel'.
 gui.nc.config.radiation.radiation_items=Item Stack Radiation
 gui.nc.config.radiation.radiation_items.comment=List of items and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
 gui.nc.config.radiation.radiation_blocks=Block Stack Radiation
@@ -2538,7 +2541,7 @@ gui.nc.config.radiation.radiation_foods=Food Radiation and Resistance
 gui.nc.config.radiation.radiation_foods.comment=List of foods and the rads and rad resistance gained on consumption. Negative values mean rads and rad resistance will be lost. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel_radiationResistance'.
 
 gui.nc.config.radiation.radiation_ores_blacklist=Ore Stack Radiation Blacklist
-gui.nc.config.radiation.radiation_ores_blacklist.comment=List of ore dict entries that will be forced not have a radiation level. Format: 'oreName'.
+gui.nc.config.radiation.radiation_ores_blacklist.comment=List of ore dict entries that will be forced not have a radiation level. Can use Unix-style wildcards for the ore name. Format: 'oreName'.
 gui.nc.config.radiation.radiation_items_blacklist=Item Stack Radiation Blacklist
 gui.nc.config.radiation.radiation_items_blacklist.comment=List of items that will be forced not have a radiation level. Format: 'modid:name:meta'.
 gui.nc.config.radiation.radiation_blocks_blacklist=Block Stack Radiation Blacklist
@@ -2819,11 +2822,14 @@ gui.nc.container.fission_controller.total_cluster_cooling=Total Cluster Cooling:
 gui.nc.container.fission_controller.heat_mult=Mean Heat Multiplier:
 gui.nc.container.fission_controller.heat_stored=Casing Heat Level:
 
+gui.nc.container.fission_irradiator.irradiator=Fission Irradiator
+gui.nc.container.fission_irradiator.heat_stored=Cluster Heat Level:
+
 gui.nc.container.solid_fission_controller.reactor=Solid Fuel Reactor (WIP)
 gui.nc.container.solid_fission_controller.efficiency=Mean Efficiency:
 gui.nc.container.solid_fission_controller.output_rate=Production Rate:
-gui.nc.container.solid_fission_cell.cell=Fission Fuel Cell
 
+gui.nc.container.solid_fission_cell.cell=Fission Fuel Cell
 gui.nc.container.solid_fission_cell.heat_stored=Cluster Heat Level:
 
 gui.nc.container.fusion_core.reactor=Fusion Reactor

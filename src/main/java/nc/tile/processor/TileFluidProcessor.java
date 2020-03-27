@@ -36,9 +36,9 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	public final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
-	public final int fluidInputSize, fluidOutputSize;
+	protected final int fluidInputSize, fluidOutputSize;
 	
-	public double time;
+	public double time, resetTime;
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
@@ -149,12 +149,12 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs(false);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	@Override
 	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs(true);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	// Processor Stats
@@ -190,7 +190,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft
-		return ModCheck.galacticraftLoaded() ? getMaxEnergyStored() - 16 : getMaxEnergyStored();
+		return ModCheck.galacticraftLoaded() ? Math.max(0, getMaxEnergyStored() - 16) : getMaxEnergyStored();
 	}
 	
 	// Processing
@@ -207,14 +207,16 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		return canProcessInputs && hasSufficientEnergy();
 	}
 	
-	public boolean canProcessInputs(boolean justProduced) {
-		if (!setRecipeStats()) return false;
-		else if (!justProduced && time >= baseProcessTime) return true;
-		return canProduceProducts();
+	public boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (!canProcess) {
+			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+		}
+		return canProcess;
 	}
 	
 	public boolean hasSufficientEnergy() {
-		return (time <= 0 && ((getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified()) || getProcessEnergy() <= getEnergyStored())) || (time > 0 && getEnergyStored() >= getProcessPower());
+		return (time <= resetTime && ((getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified()) || getProcessEnergy() <= getEnergyStored())) || (time > resetTime && getEnergyStored() >= getProcessPower());
 	}
 	
 	public boolean canProduceProducts() {
@@ -249,14 +251,14 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		produceProducts();
 		refreshRecipe();
 		if (!setRecipeStats()) {
-			time = 0;
+			time = resetTime = 0;
 			for (int i = 0; i < fluidInputSize; i++) {
 				if (getVoidUnusableFluidInput(i)) getTanks().get(i).setFluid(null);
 			}
 		}
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		else time = resetTime = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
-		if (!canProcessInputs) time = 0;
+		if (!canProcessInputs) time = resetTime = 0;
 	}
 	
 	public void produceProducts() {
@@ -286,9 +288,20 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	public void loseProgress() {
 		time = MathHelper.clamp(time - 1.5D*getSpeedMultiplier(), 0D, baseProcessTime);
+		if (time < resetTime) resetTime = time;
 	}
 	
 	// IProcessor
+	
+	@Override
+	public int getFluidInputSize() {
+		return fluidInputSize;
+	}
+	
+	@Override
+	public int getFluidOutputputSize() {
+		return fluidOutputSize;
+	}
 	
 	@Override
 	public List<Tank> getFluidInputs() {
@@ -297,12 +310,12 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().fluidIngredients();
+		return recipeInfo.getRecipe().getFluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().fluidProducts();
+		return recipeInfo.getRecipe().getFluidProducts();
 	}
 	
 	// Upgrades
@@ -413,6 +426,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setDouble("time", time);
+		nbt.setDouble("resetTime", resetTime);
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		return nbt;
@@ -422,6 +436,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		time = nbt.getDouble("time");
+		resetTime = nbt.getDouble("resetTime");
 		isProcessing = nbt.getBoolean("isProcessing");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		if (nbt.hasKey("redstoneControl")) {

@@ -27,8 +27,8 @@ public class RemoveProcessorRecipe implements IAction {
 	public RemoveProcessorRecipe(ProcessorRecipeHandler recipeHandler, IngredientSorption type, List<IIngredient> ctIngredients) {
 		this.recipeHandler = recipeHandler;
 		this.type = type;
-		int itemSize = type == IngredientSorption.INPUT ? recipeHandler.itemInputSize : recipeHandler.itemOutputSize;
-		int fluidSize = type == IngredientSorption.INPUT ? recipeHandler.fluidInputSize : recipeHandler.fluidOutputSize;
+		int itemSize = type == IngredientSorption.INPUT ? recipeHandler.getItemInputSize() : recipeHandler.getItemOutputSize();
+		int fluidSize = type == IngredientSorption.INPUT ? recipeHandler.getFluidInputSize() : recipeHandler.getFluidOutputSize();
 		if (ctIngredients.size() != itemSize + fluidSize) {
 			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;

@@ -146,7 +146,7 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCBlocks.fission_casing, new Object[] {NCBlocks.fission_conductor});
 		addShapelessOreRecipe(NCBlocks.fission_glass, new Object[] {NCBlocks.fission_casing, "blockGlass"});
 		addShapelessOreRecipe(NCBlocks.fission_conductor, new Object[] {NCBlocks.fission_casing});
-		addShapedOreRecipe(new ItemStack(NCBlocks.fission_port, 4), new Object[] {"SHS", "VFV", "SHS", 'S', "ingotSteel", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(NCBlocks.fission_cell_port, 4), new Object[] {"SHS", "VFV", "SHS", 'S', "ingotSteel", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_vent, 4), new Object[] {"STS", "VFV", "STS", 'S', "ingotSteel", 'T', "ingotTough", 'V', "servo", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_irradiator, 4), new Object[] {"PZP", "AFA", "PZP", 'P', "plateBasic", 'Z', "ingotZirconium", 'A', "ingotZircaloy", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_source, 1, 0), new Object[] {"SRS", "BFB", "SRS", 'S', "ingotSteel", 'R', "dustRadium", 'B', "dustBeryllium", 'F', "steelFrame"});

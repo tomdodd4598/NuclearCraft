@@ -3,22 +3,23 @@ package nc.multiblock.container;
 import nc.container.ContainerTile;
 import nc.container.slot.SlotFiltered;
 import nc.container.slot.SlotFurnace;
-import nc.multiblock.fission.tile.TileFissionPort;
+import nc.multiblock.fission.tile.port.TileFissionCellPort;
+import nc.recipe.NCRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFissionPort extends ContainerTile<TileFissionPort> {
+public class ContainerFissionCellPort extends ContainerTile<TileFissionCellPort> {
 	
-	protected final TileFissionPort port;
+	protected final TileFissionCellPort port;
 	
-	public ContainerFissionPort(EntityPlayer player, TileFissionPort port) {
+	public ContainerFissionCellPort(EntityPlayer player, TileFissionCellPort port) {
 		super(port);
 		this.port = port;
 		
 		port.beginUpdatingPlayer(player);
 		
-		addSlotToContainer(new SlotFiltered.ProcessorInput(port, port.getRecipeHandler(), 0, 44, 35));
+		addSlotToContainer(new SlotFiltered.ProcessorInput(port, NCRecipes.solid_fission, 0, 44, 35));
 		
 		addSlotToContainer(new SlotFurnace(player, port, 1, 116, 35));
 		
@@ -59,13 +60,13 @@ public class ContainerFissionPort extends ContainerTile<TileFissionPort> {
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if (index >= invStart) {
-				if (port.getRecipeHandler().isValidItemInput(itemstack1)) {
+				if (NCRecipes.solid_fission.isValidItemInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
 				else {
-					if (!port.getFilterStacks().get(0).isEmpty()) {
+					if (port.canModifyFilter(0) && !port.getFilterStacks().get(0).isEmpty()) {
 						port.getFilterStacks().set(0, ItemStack.EMPTY);
 						port.onFilterChanged(0);
 						inventorySlots.get(0).onSlotChanged();

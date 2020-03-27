@@ -3,21 +3,21 @@ package nc.multiblock.gui;
 import nc.Global;
 import nc.gui.NCGui;
 import nc.gui.element.GuiItemRenderer;
-import nc.multiblock.container.ContainerFissionPort;
-import nc.multiblock.fission.tile.TileFissionPort;
+import nc.multiblock.container.ContainerFissionIrradiatorPort;
+import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiFissionPort extends NCGui {
+public class GuiFissionIrradiatorPort extends NCGui {
 	
-	protected final TileFissionPort port;
+	protected final TileFissionIrradiatorPort port;
 	protected final ResourceLocation gui_textures;
 
-	public GuiFissionPort(EntityPlayer player, TileFissionPort port) {
-		super(new ContainerFissionPort(player, port));
+	public GuiFissionIrradiatorPort(EntityPlayer player, TileFissionIrradiatorPort port) {
+		super(new ContainerFissionIrradiatorPort(player, port));
 		this.port = port;
-		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fission_port" + ".png");
+		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fission_irradiator_port" + ".png");
 	}
 	
 	@Override

@@ -31,16 +31,16 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory implements IFluidGenerator {
 
-	public final int defaultProcessTime, defaultProcessPower;
+	protected final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime = 1, baseProcessPower = 0, baseProcessRadiation = 0;
 	public double processPower = 0;
-	public double speedMultiplier = 1;
-	public final int fluidInputSize, fluidOutputSize, otherSlotsSize;
+	protected double speedMultiplier = 1;
+	protected final int fluidInputSize, fluidOutputSize, otherSlotsSize;
 	
 	public double time;
-	public boolean isProcessing, hasConsumed, canProcessInputs;
+	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	public final ProcessorRecipeHandler recipeHandler;
+	protected final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
@@ -117,12 +117,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs(false);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	@Override
 	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs(true);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	// Processor Stats
@@ -147,16 +147,16 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		return false;
 	}
 	
-	public boolean canProcessInputs(boolean justProduced) {
-		if (!setRecipeStats()) {
-			if (hasConsumed) {
-				for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
-				hasConsumed = false;
-			}
-			return false;
+	public boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (hasConsumed && !validRecipe) {
+			for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
+			hasConsumed = false;
 		}
-		if (!justProduced && time >= baseProcessTime) return true;
-		return canProduceProducts();
+		if (!canProcess) {
+			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+		}
+		return canProcess;
 	}
 	
 	public boolean canProduceProducts() {
@@ -246,18 +246,33 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	// IProcessor
 	
 	@Override
+	public int getFluidInputSize() {
+		return fluidInputSize;
+	}
+	
+	@Override
+	public int getFluidOutputputSize() {
+		return fluidOutputSize;
+	}
+	
+	@Override
+	public int getOtherSlotsSize() {
+		return otherSlotsSize;
+	}
+	
+	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
 		return consumed ? getTanks().subList(fluidInputSize + fluidOutputSize, 2*fluidInputSize + fluidOutputSize) : getTanks().subList(0, fluidInputSize);
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().fluidIngredients();
+		return recipeInfo.getRecipe().getFluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().fluidProducts();
+		return recipeInfo.getRecipe().getFluidProducts();
 	}
 	
 	// ITileInventory

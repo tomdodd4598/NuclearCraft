@@ -45,9 +45,6 @@ public final class WorldHelper {
 
 		world.notifyBlockUpdate(position, oldState, newState, 3);
 	}
-
-	private WorldHelper() {
-	}
 	
 	public static long getChunkXZHashFromBlock(int blockX, int blockZ) {
 		return ChunkPos.asLong(WorldHelper.getChunkXFromBlock(blockX), WorldHelper.getChunkZFromBlock(blockZ));

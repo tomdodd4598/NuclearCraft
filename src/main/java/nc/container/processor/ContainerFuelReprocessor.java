@@ -22,8 +22,8 @@ public class ContainerFuelReprocessor extends ContainerItemProcessor {
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 5, 116, 51));
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 6, 136, 51));
 		
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 7, 132, 76, speedUpgrade));
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 8, 152, 76, energyUpgrade));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 7, 132, 76, SPEED_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 8, 152, 76, ENERGY_UPGRADE));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

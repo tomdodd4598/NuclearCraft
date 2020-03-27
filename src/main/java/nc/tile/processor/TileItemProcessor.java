@@ -35,9 +35,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	public final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
-	public final int itemInputSize, itemOutputSize;
+	protected final int itemInputSize, itemOutputSize;
 	
-	public double time;
+	public double time, resetTime;
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
@@ -136,12 +136,12 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs(false);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	@Override
 	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs(true);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	// Processor Stats
@@ -177,7 +177,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft
-		return ModCheck.galacticraftLoaded() ? getMaxEnergyStored() - 16 : getMaxEnergyStored();
+		return ModCheck.galacticraftLoaded() ? Math.max(0, getMaxEnergyStored() - 16) : getMaxEnergyStored();
 	}
 	
 	// Processing
@@ -194,14 +194,16 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		return canProcessInputs && hasSufficientEnergy();
 	}
 	
-	public boolean canProcessInputs(boolean justProduced) {
-		if (!setRecipeStats()) return false;
-		else if (!justProduced && time >= baseProcessTime) return true;
-		return canProduceProducts();
+	public boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (!canProcess) {
+			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+		}
+		return canProcess;
 	}
 	
 	public boolean hasSufficientEnergy() {
-		return (time <= 0 && ((getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified()) || getProcessEnergy() <= getEnergyStored())) || (time > 0 && getEnergyStored() >= getProcessPower());
+		return (time <= resetTime && ((getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified()) || getProcessEnergy() <= getEnergyStored())) || (time > resetTime && getEnergyStored() >= getProcessPower());
 	}
 	
 	public boolean canProduceProducts() {
@@ -235,10 +237,10 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		double oldProcessTime = baseProcessTime;
 		produceProducts();
 		refreshRecipe();
-		if (!setRecipeStats()) time = 0;
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		if (!setRecipeStats()) time = resetTime = 0;
+		else time = resetTime = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
-		if (!canProcessInputs) time = 0;
+		if (!canProcessInputs) time = resetTime = 0;
 	}
 	
 	public void produceProducts() {
@@ -269,9 +271,20 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	public void loseProgress() {
 		time = MathHelper.clamp(time - 1.5D*getSpeedMultiplier(), 0D, baseProcessTime);
+		if (time < resetTime) resetTime = time;
 	}
 	
 	// IProcessor
+	
+	@Override
+	public int getItemInputSize() {
+		return itemInputSize;
+	}
+	
+	@Override
+	public int getItemOutputSize() {
+		return itemOutputSize;
+	}
 	
 	@Override
 	public List<ItemStack> getItemInputs() {
@@ -280,12 +293,12 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	@Override
 	public List<IItemIngredient> getItemIngredients() {
-		return recipeInfo.getRecipe().itemIngredients();
+		return recipeInfo.getRecipe().getItemIngredients();
 	}
 	
 	@Override
 	public List<IItemIngredient> getItemProducts() {
-		return recipeInfo.getRecipe().itemProducts();
+		return recipeInfo.getRecipe().getItemProducts();
 	}
 	
 	// Upgrades
@@ -412,6 +425,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setDouble("time", time);
+		nbt.setDouble("resetTime", resetTime);
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		return nbt;
@@ -421,6 +435,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		time = nbt.getDouble("time");
+		resetTime = nbt.getDouble("resetTime");
 		isProcessing = nbt.getBoolean("isProcessing");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		if (nbt.hasKey("redstoneControl")) {

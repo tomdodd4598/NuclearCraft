@@ -180,7 +180,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
 	public void refreshCluster(FissionCluster cluster) {
 		if (cluster != null && clusterMap.containsKey(cluster.getId())) {
-			cluster.refreshClusterStats();
+			logic.refreshClusterStats(cluster);
 		}
 		logic.refreshReactorStats();
 	}
@@ -230,7 +230,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 			cluster.heatBuffer.changeHeatStored(cluster.getNetHeating());
 			if (cluster.heatBuffer.isFull() && NCConfig.fission_overheat) {
 				cluster.heatBuffer.setHeatStored(0);
-				cluster.doMeltdown();
+				logic.clusterMeltdown(cluster);
 				return true;
 			}
 		}

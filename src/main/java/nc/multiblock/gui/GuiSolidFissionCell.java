@@ -57,6 +57,7 @@ public class GuiSolidFissionCell extends NCGui {
 		if (!cell.getFilterStacks().get(0).isEmpty()) {
 			new GuiItemRenderer(guiLeft + 56, guiTop + 35, 0.5F, cell.getFilterStacks().get(0)).draw();
 		}
+		mc.getTextureManager().bindTexture(gui_textures);
 		
 		if (cell.clusterHeatCapacity >= 0L) {
 			int e = (int) Math.round(74D*cell.clusterHeatStored/cell.clusterHeatCapacity);

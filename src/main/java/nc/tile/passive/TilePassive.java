@@ -15,14 +15,6 @@ public class TilePassive {
 		public ElectromagnetAbstract(String name, double energyChange) {
 			super(name + "_electromagnet", -energyChange);
 		}
-		
-		@Override
-		public void update() {
-			super.update();
-			if(!world.isRemote && tickCount == 0) {
-				spreadEnergy();
-			}
-		}
 	}
 	
 	public static class FusionElectromagnet extends ElectromagnetAbstract {
@@ -43,15 +35,6 @@ public class TilePassive {
 		
 		public ElectromagnetSupercooler() {
 			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, new FluidIngredient("liquid_helium", 1), -NCConfig.accelerator_supercooler_coolant);
-		}
-		
-		@Override
-		public void update() {
-			super.update();
-			if(!world.isRemote && tickCount == 0) {
-				spreadEnergy();
-				spreadFluid();
-			}
 		}
 	}
 	

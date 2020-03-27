@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:wall_part",
+		"textures": {
+			"in": "nuclearcraft:blocks/fission/port/irradiator",
+			"out": "nuclearcraft:blocks/fission/port/irradiator",
+			"side": "nuclearcraft:blocks/fission/port/side",
+			"top": "nuclearcraft:blocks/fission/port/top"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 90},
+			"z": {}
+		}
+	}
+}

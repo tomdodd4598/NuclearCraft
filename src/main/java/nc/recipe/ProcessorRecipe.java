@@ -2,6 +2,7 @@ package nc.recipe;
 
 import java.util.List;
 
+import crafttweaker.annotations.ZenRegister;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.generator.TileDecayGenerator;
@@ -10,55 +11,55 @@ import nc.util.InfoHelper;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import stanhebben.zenscript.annotations.ZenClass;
 
+@ZenClass("mods.nuclearcraft.ProcessorRecipe")
+@ZenRegister
 public class ProcessorRecipe implements IRecipe {
 	
 	protected List<IItemIngredient> itemIngredients, itemProducts;
 	protected List<IFluidIngredient> fluidIngredients, fluidProducts;
 	
-	//private int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
-	
 	protected List extras;
-	public boolean isShapeless;
+	protected boolean isShapeless;
 	
-	public ProcessorRecipe(List<IItemIngredient> itemIngredientsList, List<IFluidIngredient> fluidIngredientsList, List<IItemIngredient> itemProductsList, List<IFluidIngredient> fluidProductsList, List extrasList, boolean shapeless) {
-		itemIngredients = itemIngredientsList;
-		fluidIngredients = fluidIngredientsList;
-		itemProducts = itemProductsList;
-		fluidProducts = fluidProductsList;
+	public ProcessorRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+		this.itemIngredients = itemIngredients;
+		this.fluidIngredients = fluidIngredients;
+		this.itemProducts = itemProducts;
+		this.fluidProducts = fluidProducts;
 		
-		/*itemInputSize = itemIngredientsList.size();
-		fluidInputSize = fluidIngredientsList.size();
-		itemOutputSize = itemProductsList.size();
-		fluidOutputSize = fluidProductsList.size();*/
-		
-		extras = extrasList;
+		this.extras = extras;
 		isShapeless = shapeless;
 	}
 	
 	@Override
-	public List<IItemIngredient> itemIngredients() {
+	public List<IItemIngredient> getItemIngredients() {
 		return itemIngredients;
 	}
 	
 	@Override
-	public List<IFluidIngredient> fluidIngredients() {
+	public List<IFluidIngredient> getFluidIngredients() {
 		return fluidIngredients;
 	}
 	
 	@Override
-	public List<IItemIngredient> itemProducts() {
+	public List<IItemIngredient> getItemProducts() {
 		return itemProducts;
 	}
 	
 	@Override
-	public List<IFluidIngredient> fluidProducts() {
+	public List<IFluidIngredient> getFluidProducts() {
 		return fluidProducts;
 	}
 	
 	@Override
-	public List extras() {
+	public List getExtras() {
 		return extras;
+	}
+	
+	public boolean isShapeless() {
+		return isShapeless;
 	}
 
 	@Override
@@ -173,9 +174,15 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
-	public double getIrradiatorBaseProcessRadiation() {
+	public double getIrradiatorProcessEfficiency() {
 		if (extras.size() < 3) return 0D;
 		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 0D;
+	}
+	
+	public double getIrradiatorBaseProcessRadiation() {
+		if (extras.size() < 4) return 0D;
+		else if (extras.get(3) instanceof Double) return (double) extras.get(3);
 		else return 0D;
 	}
 	

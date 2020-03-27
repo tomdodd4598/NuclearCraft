@@ -18,8 +18,8 @@ public class ContainerAlloyFurnace extends ContainerItemProcessor {
 		
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 126, 35));
 		
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 4, 152, 64, energyUpgrade));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 132, 64, SPEED_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 4, 152, 64, ENERGY_UPGRADE));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

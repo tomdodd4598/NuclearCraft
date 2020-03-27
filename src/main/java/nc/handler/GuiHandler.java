@@ -41,7 +41,9 @@ import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSeparator;
 import nc.gui.processor.GuiSupercooler;
-import nc.multiblock.container.ContainerFissionPort;
+import nc.multiblock.container.ContainerFissionCellPort;
+import nc.multiblock.container.ContainerFissionIrradiator;
+import nc.multiblock.container.ContainerFissionIrradiatorPort;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.container.ContainerSaltFissionController;
 import nc.multiblock.container.ContainerSolidFissionCell;
@@ -50,8 +52,12 @@ import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
-import nc.multiblock.fission.tile.TileFissionPort;
-import nc.multiblock.gui.GuiFissionPort;
+import nc.multiblock.fission.tile.TileFissionIrradiator;
+import nc.multiblock.fission.tile.port.TileFissionCellPort;
+import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
+import nc.multiblock.gui.GuiFissionCellPort;
+import nc.multiblock.gui.GuiFissionIrradiator;
+import nc.multiblock.gui.GuiFissionIrradiatorPort;
 import nc.multiblock.gui.GuiHeatExchangerController;
 import nc.multiblock.gui.GuiSaltFissionController;
 import nc.multiblock.gui.GuiSolidFissionCell;
@@ -143,9 +149,13 @@ public class GuiHandler implements IGuiHandler {
 			case 104:
 				if (tile instanceof TileTurbineController) return new ContainerTurbineController(player, (TileTurbineController) tile);
 			case 200:
-				if (tile instanceof TileFissionPort) return new ContainerFissionPort(player, (TileFissionPort) tile);
+				if (tile instanceof TileFissionIrradiator) return new ContainerFissionIrradiator(player, (TileFissionIrradiator) tile);
 			case 201:
 				if (tile instanceof TileSolidFissionCell) return new ContainerSolidFissionCell(player, (TileSolidFissionCell) tile);
+			case 300:
+				if (tile instanceof TileFissionIrradiatorPort) return new ContainerFissionIrradiatorPort(player, (TileFissionIrradiatorPort) tile);
+			case 301:
+				if (tile instanceof TileFissionCellPort) return new ContainerFissionCellPort(player, (TileFissionCellPort) tile);
 			case 1001:
 				if (tile instanceof Manufactory) return new ContainerMachineConfig(player, (Manufactory) tile);
 			case 1002:
@@ -246,9 +256,13 @@ public class GuiHandler implements IGuiHandler {
 			case 104:
 				if (tile instanceof TileTurbineController) return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), tile.getPos(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
 			case 200:
-				if (tile instanceof TileFissionPort) return new GuiFissionPort(player, (TileFissionPort) tile);
+				if (tile instanceof TileFissionIrradiator) return new GuiFissionIrradiator(player, (TileFissionIrradiator) tile);
 			case 201:
 				if (tile instanceof TileSolidFissionCell) return new GuiSolidFissionCell(player, (TileSolidFissionCell) tile);
+			case 300:
+				if (tile instanceof TileFissionIrradiatorPort) return new GuiFissionIrradiatorPort(player, (TileFissionIrradiatorPort) tile);
+			case 301:
+				if (tile instanceof TileFissionCellPort) return new GuiFissionCellPort(player, (TileFissionCellPort) tile);
 			case 1001:
 				if (tile instanceof Manufactory) return new GuiManufactory.SideConfig(player, (Manufactory) tile);
 			case 1002:

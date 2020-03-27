@@ -7,7 +7,7 @@ import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 
-public interface IProcessor extends IInterfaceable, IBufferable {
+public abstract interface IProcessor extends IInterfaceable, IBufferable {
 	
 	public void refreshRecipe();
 	
@@ -15,12 +15,12 @@ public interface IProcessor extends IInterfaceable, IBufferable {
 	
 	public void refreshActivityOnProduction();
 	
-	public static double maxStat(ProcessorRecipeHandler recipeHandler, int i) {
+	public static double maxStat(ProcessorRecipeHandler recipeHandler, int extraIndex) {
 		double max = 1D;
 		List<ProcessorRecipe> recipes = recipeHandler.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null || recipe.extras().size() <= i) continue;
-			else if (recipe.extras().get(i) instanceof Double) max = Math.max(max, (double) recipe.extras().get(i));
+			if (recipe == null || recipe.getExtras().size() <= extraIndex) continue;
+			else if (recipe.getExtras().get(extraIndex) instanceof Double) max = Math.max(max, (double) recipe.getExtras().get(extraIndex));
 		}
 		return max;
 	}

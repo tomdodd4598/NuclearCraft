@@ -3,11 +3,13 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+import nc.integration.crafttweaker.ingredient.CTChanceFluidIngredient;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.util.NCMath;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class ChanceFluidIngredient implements IFluidIngredient {
 	
@@ -106,5 +108,13 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	@Override
 	public boolean isValid() {
 		return ingredient.isValid();
+	}
+	
+	// CraftTweaker
+	
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct() {
+		return CTChanceFluidIngredient.create(ingredient.ct(), chancePercent, stackDiff, minStackSize);
 	}
 }

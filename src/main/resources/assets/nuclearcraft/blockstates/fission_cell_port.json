@@ -3,10 +3,10 @@
 	"defaults": {
 		"model": "nuclearcraft:wall_part",
 		"textures": {
-			"in": "nuclearcraft:blocks/fission/port",
-			"out": "nuclearcraft:blocks/fission/port",
-			"side": "nuclearcraft:blocks/fission/port_side",
-			"top": "nuclearcraft:blocks/fission/port_top"
+			"in": "nuclearcraft:blocks/fission/port/cell",
+			"out": "nuclearcraft:blocks/fission/port/cell",
+			"side": "nuclearcraft:blocks/fission/port/side",
+			"top": "nuclearcraft:blocks/fission/port/top"
 		}
 	},
 	"variants": {

@@ -26,9 +26,10 @@ import nc.multiblock.fission.block.BlockFissionComputerPort;
 import nc.multiblock.fission.block.BlockFissionConductor;
 import nc.multiblock.fission.block.BlockFissionGlass;
 import nc.multiblock.fission.block.BlockFissionIrradiator;
-import nc.multiblock.fission.block.BlockFissionPort;
 import nc.multiblock.fission.block.BlockFissionSource;
 import nc.multiblock.fission.block.BlockFissionVent;
+import nc.multiblock.fission.block.port.BlockFissionCellPort;
+import nc.multiblock.fission.block.port.BlockFissionIrradiatorPort;
 import nc.multiblock.fission.salt.block.BlockSaltFissionController;
 import nc.multiblock.fission.salt.block.BlockSaltFissionHeater;
 import nc.multiblock.fission.salt.block.BlockSaltFissionVessel;
@@ -136,11 +137,13 @@ public class NCBlocks {
 	public static Block fission_glass;
 	public static Block fission_conductor;
 	public static Block fission_reflector;
-	public static Block fission_port;
 	public static Block fission_vent;
 	public static Block fission_irradiator;
 	public static Block fission_source;
 	public static Block fission_computer_port;
+	
+	public static Block fission_irradiator_port;
+	public static Block fission_cell_port;
 	
 	public static Block solid_fission_controller;
 	public static Block solid_fission_cell;
@@ -264,11 +267,13 @@ public class NCBlocks {
 		fission_glass = withName(new BlockFissionGlass(), "fission_glass");
 		fission_conductor = withName(new BlockFissionConductor(), "fission_conductor");
 		fission_reflector = withName(new BlockMeta.BlockFissionReflector(), "fission_reflector");
-		fission_port = withName(new BlockFissionPort(), "fission_port");
 		fission_vent = withName(new BlockFissionVent(), "fission_vent");
 		fission_irradiator = withName(new BlockFissionIrradiator(), "fission_irradiator");
 		fission_source = withName(new BlockFissionSource(), "fission_source");
 		fission_computer_port = withName(new BlockFissionComputerPort(), "fission_computer_port");
+		
+		fission_irradiator_port = withName(new BlockFissionIrradiatorPort(), "fission_irradiator_port");
+		fission_cell_port = withName(new BlockFissionCellPort(), "fission_cell_port");
 		
 		solid_fission_controller = withName(new BlockSolidFissionController(), "solid_fission_controller");
 		solid_fission_cell = withName(new BlockSolidFissionCell(), "solid_fission_cell");
@@ -398,11 +403,13 @@ public class NCBlocks {
 		registerBlock(fission_glass);
 		registerBlock(fission_conductor);
 		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, MetaEnums.NeutronReflectorType.class, TextFormatting.AQUA));
-		registerBlock(fission_port);
 		registerBlock(fission_vent);
-		registerBlock(fission_irradiator, TextFormatting.LIGHT_PURPLE, InfoHelper.formattedInfo(fixedLine("fission_irradiator"), Math.round(100D*NCConfig.fission_flux_acceptor_efficiency[0]) + "%"), TextFormatting.WHITE, InfoHelper.EMPTY_ARRAY);
+		registerBlock(fission_irradiator);
 		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()));
 		registerBlock(fission_computer_port);
+		
+		registerBlock(fission_irradiator_port);
+		registerBlock(fission_cell_port);
 		
 		registerBlock(solid_fission_controller);
 		registerBlock(solid_fission_cell);
@@ -541,13 +548,15 @@ public class NCBlocks {
 		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
 			registerRender(fission_reflector, i, MetaEnums.NeutronReflectorType.values()[i].getName());
 		}
-		registerRender(fission_port);
 		registerRender(fission_vent);
 		registerRender(fission_irradiator);
 		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_source), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_source.getRegistryName().getPath()), "active=false,facing=south,type=" + MetaEnums.NeutronSourceType.values()[i].getName()));
 		}
 		registerRender(fission_computer_port);
+		
+		registerRender(fission_irradiator_port);
+		registerRender(fission_cell_port);
 		
 		registerRender(solid_fission_controller);
 		registerRender(solid_fission_cell);

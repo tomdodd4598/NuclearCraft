@@ -8,6 +8,9 @@ package nc.render;
 
 import org.lwjgl.opengl.GL11;
 
+import it.unimi.dsi.fastutil.longs.Long2LongMap;
+import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongList;
 import nc.NuclearCraft;
 import nc.util.NCMath;
 import nc.util.RenderHelper;
@@ -26,19 +29,34 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHighlightHandler {
 	
-	private static BlockHighlightTracker getOverlayTracker() {
-		return NuclearCraft.instance.blockOverlayTracker;
+	LongList expiredCache = new LongArrayList();
+	
+	private static Long2LongMap getHighlightMap() {
+		return NuclearCraft.instance.blockOverlayTracker.getHighlightMap();
 	}
 	
 	@SubscribeEvent
-	public void highlightBlock(RenderWorldLastEvent event) {
-		BlockPos pos = getOverlayTracker().getHighlightPos();
-		if (pos == null) return;
+	public void highlightBlocks(RenderWorldLastEvent event) {
+		for (Long2LongMap.Entry entry : getHighlightMap().long2LongEntrySet()) {
+			highlightBlock(event, entry);
+		}
+		for (long expired : expiredCache) {
+			getHighlightMap().remove(expired);
+		}
+		expiredCache.clear();
+	}
+	
+	public void highlightBlock(RenderWorldLastEvent event, Long2LongMap.Entry entry) {
+		BlockPos pos = BlockPos.fromLong(entry.getLongKey());
+		if (pos == null) {
+			expiredCache.add(entry.getLongKey());
+			return;
+		}
 		
 		long time = System.currentTimeMillis();
 		
-		if (time > getOverlayTracker().getHighlightExpireTimeMillis()) {
-			getOverlayTracker().highlightBlock(null, -1);
+		if (time > entry.getLongValue()) {
+			expiredCache.add(entry.getLongKey());
 			return;
 		}
 		
@@ -47,9 +65,9 @@ public class BlockHighlightHandler {
 		double relativeY = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks();
 		double relativeZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks();
 		
-		float r = (float)NCMath.trapezoidalWave(time*0.18D, 0D);
-		float g = (float)NCMath.trapezoidalWave(time*0.18D, 120D);
-		float b = (float)NCMath.trapezoidalWave(time*0.18D, 240D);
+		float r = (float) NCMath.trapezoidalWave(time*0.18D, 0D);
+		float g = (float) NCMath.trapezoidalWave(time*0.18D, 120D);
+		float b = (float) NCMath.trapezoidalWave(time*0.18D, 240D);
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.color(r, g, b);
@@ -61,11 +79,8 @@ public class BlockHighlightHandler {
 		
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder buffer = tessellator.getBuffer();
-		float x = pos.getX();
-		float y = pos.getY();
-		float z = pos.getZ();
 		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
-		RenderHelper.renderBlockOutline(buffer, x, y, z, r, g, b, 1F);
+		RenderHelper.renderBlockOutline(buffer, pos.getX(), pos.getY(), pos.getZ(), r, g, b, 1F);
 		
 		tessellator.draw();
 		

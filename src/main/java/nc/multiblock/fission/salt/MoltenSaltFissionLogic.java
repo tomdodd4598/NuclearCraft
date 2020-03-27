@@ -3,6 +3,11 @@ package nc.multiblock.fission.salt;
 import static nc.block.property.BlockProperties.ACTIVE;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
@@ -18,12 +23,15 @@ import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
+import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.fission.tile.IFissionHeatingComponent;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,6 +42,9 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public MoltenSaltFissionLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
+		if (oldLogic instanceof MoltenSaltFissionLogic) {
+			
+		}
 	}
 	
 	@Override
@@ -71,7 +82,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	// TODO
 	@Override
 	public void refreshPorts() {
-		
+		super.refreshPorts();
 	}
 	
 	@Override
@@ -100,7 +111,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		
 		for (IFissionFuelComponent primedComponent : primedCache) {
 			primedComponent.refreshIsProcessing(false);
-			primedComponent.refreshLocal();
+			refreshFuelComponentLocal(primedComponent);
 			primedComponent.unprime();
 			
 			if (!primedComponent.isFunctional()) {
@@ -113,7 +124,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshClusters() {
 		for (TileSaltFissionVessel vessel : getPartMap(TileSaltFissionVessel.class).values()) {
-			vessel.refreshModerators();
+			refreshFuelComponentModerators(vessel);
 		}
 		
 		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
@@ -137,6 +148,43 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		}
 		
 		super.refreshClusters();
+	}
+	
+	@Override
+	public void refreshClusterStats(FissionCluster cluster) {
+		super.refreshClusterStats(cluster);
+		
+		for (IFissionComponent component : cluster.getComponentMap().values()) {
+			if (component.isFunctional()) {
+				cluster.componentCount++;
+				if (component instanceof IFissionHeatingComponent) {
+					cluster.rawHeating += ((IFissionHeatingComponent)component).getRawHeating();
+					cluster.effectiveHeating += ((IFissionHeatingComponent)component).getEffectiveHeating();
+					if (component instanceof IFissionFuelComponent) {
+						cluster.fuelComponentCount++;
+						cluster.totalHeatMult += ((IFissionFuelComponent)component).getHeatMultiplier();
+						cluster.totalEfficiency += ((IFissionFuelComponent)component).getEfficiency();
+					}
+				}
+				if (component instanceof IFissionCoolingComponent) {
+					cluster.cooling += ((IFissionCoolingComponent)component).getCooling();
+				}
+			}
+		}
+		
+		cluster.overcoolingEfficiencyFactor = cluster.cooling == 0L ? 1D : Math.min(1D, (double)(cluster.rawHeating + NCConfig.fission_cooling_efficiency_leniency)/(double)cluster.cooling);
+		cluster.undercoolingLifetimeFactor = cluster.rawHeating == 0L ? 1D : Math.min(1D, (double)(cluster.cooling + NCConfig.fission_cooling_efficiency_leniency)/(double)cluster.rawHeating);
+		cluster.effectiveHeating *= cluster.overcoolingEfficiencyFactor;
+		cluster.totalEfficiency *= cluster.overcoolingEfficiencyFactor;
+		cluster.meanHeatMult = cluster.fuelComponentCount == 0 ? 0D : (double)cluster.totalHeatMult/(double)cluster.fuelComponentCount;
+		cluster.meanEfficiency = cluster.fuelComponentCount == 0 ? 0D : cluster.totalEfficiency/cluster.fuelComponentCount;
+		
+		for (IFissionComponent component : cluster.getComponentMap().values()) {
+			if (component instanceof IFissionFuelComponent) {
+				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
+				fuelComponent.setUndercoolingLifetimeFactor(cluster.undercoolingLifetimeFactor);
+			}
+		}
 	}
 	
 	@Override
@@ -170,7 +218,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		if (getReactor().heatBuffer.isFull() && NCConfig.fission_overheat) {
 			getReactor().heatBuffer.setHeatStored(0);
 			//reservedEffectiveHeat = 0D;
-			doMeltdown();
+			casingMeltdown();
 			return true;
 		}
 		
@@ -179,6 +227,44 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public long getNetClusterHeating() {
 		return getReactor().rawHeating - getReactor().cooling;
+	}
+	
+	@Override
+	public void clusterMeltdown(FissionCluster cluster) {
+		final Iterator<IFissionComponent> componentIterator = cluster.getComponentMap().values().iterator();
+		while (componentIterator.hasNext()) {
+			IFissionComponent component = componentIterator.next();
+			componentIterator.remove();
+			component.onClusterMeltdown();
+		}
+		clusterMeltdown(cluster);
+	}
+	
+	// Component Logic
+	
+	@Override
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
+		fuelComponent.defaultDistributeFlux(fluxSearchCache);
+	}
+	
+	@Override
+	public IFissionFuelComponent getNextFuelComponent(IFissionFuelComponent fuelComponent, BlockPos pos) {
+		return getPartMap(TileSaltFissionVessel.class).get(pos.toLong());
+	}
+	
+	@Override
+	public void refreshFuelComponentLocal(IFissionFuelComponent fuelComponent) {
+		fuelComponent.defaultRefreshLocal();
+	}
+	
+	@Override
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {
+		fuelComponent.defaultRefreshModerators();
+	}
+	
+	@Override
+	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks) {
+		return backupTanks;
 	}
 	
 	// Client

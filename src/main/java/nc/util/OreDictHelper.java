@@ -3,6 +3,7 @@ package nc.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -129,6 +130,28 @@ public class OreDictHelper {
 	public static ItemStack getPrioritisedCraftingStack(Block backup, String ore) {
 		return getPrioritisedCraftingStack(backup == null ? ItemStack.EMPTY : new ItemStack(backup), ore);
 	}
+	
+	// Wildcard Helper
+	
+	public static void addWildcard(Set<String> set, String ore) {
+		ore = StringHelper.regex(ore);
+		for (String o : OreDictionary.getOreNames()) {
+			if (o.matches(ore)) {
+				set.add(o);
+			}
+		}
+	}
+	
+	public static <T> void putWildcard(Map<String, T> map, String ore, T value) {
+		ore = StringHelper.regex(ore);
+		for (String o : OreDictionary.getOreNames()) {
+			if (o.matches(ore)) {
+				map.put(o, value);
+			}
+		}
+	}
+	
+	// Ore Dictionary Entry Cache
 	
 	private static final Int2ObjectMap<Set<String>> ORE_DICT_CACHE = new Int2ObjectOpenHashMap<>();
 	

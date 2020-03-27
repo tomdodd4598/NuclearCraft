@@ -31,7 +31,7 @@ public class ModCheck {
 		cofhCoreLoaded = Loader.isModLoaded("cofhcore");
 		ic2Loaded = Loader.isModLoaded("ic2");
 		mekanismLoaded = Loader.isModLoaded("mekanism");
-		craftTweakerLoaded = Loader.isModLoaded("minetweaker3") || Loader.isModLoaded("crafttweaker");
+		craftTweakerLoaded = Loader.isModLoaded("crafttweaker");
 		mantleLoaded = Loader.isModLoaded("mantle");
 		tinkersLoaded = mantleLoaded && Loader.isModLoaded("tconstruct");
 		constructsArmoryLoaded = tinkersLoaded && Loader.isModLoaded("conarm");

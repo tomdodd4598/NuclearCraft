@@ -57,8 +57,8 @@ public class GTCERecipeHelper {
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 10);
 			break;
 		case "infuser":
-			recipeMap = RecipeMaps.CHEMICAL_BATH_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 12);
+			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
+			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10);
 			break;
 		case "melter":
 			recipeMap = RecipeMaps.FLUID_EXTRACTION_RECIPES;
@@ -127,10 +127,10 @@ public class GTCERecipeHelper {
 		List<List<ItemStack>> itemInputLists = new ArrayList<>();
 		List<List<FluidStack>> fluidInputLists = new ArrayList<>();
 		
-		for (IItemIngredient item : recipe.itemIngredients()) itemInputLists.add(item.getInputStackList());
-		for (IFluidIngredient fluid : recipe.fluidIngredients()) fluidInputLists.add(fluid.getInputStackList());
+		for (IItemIngredient item : recipe.getItemIngredients()) itemInputLists.add(item.getInputStackList());
+		for (IFluidIngredient fluid : recipe.getFluidIngredients()) fluidInputLists.add(fluid.getInputStackList());
 		
-		int arrSize = recipe.itemIngredients().size() + recipe.fluidIngredients().size();
+		int arrSize = recipe.getItemIngredients().size() + recipe.getFluidIngredients().size();
 		int[] inputNumbers = new int[arrSize];
 		Arrays.fill(inputNumbers, 0);
 		
@@ -159,7 +159,7 @@ public class GTCERecipeHelper {
 		List<RecipeBuilder<?>> builders = new ArrayList<RecipeBuilder<?>>(); // Holds all the recipe variants
 		builders.add(builder);
 		
-		for (IItemIngredient input : recipe.itemIngredients()) {
+		for (IItemIngredient input : recipe.getItemIngredients()) {
 			if (input instanceof OreIngredient) {
 				for (RecipeBuilder<?> builderVariant : builders) {
 					builderVariant.input(((OreIngredient)input).oreName, ((OreIngredient)input).stackSize);
@@ -204,14 +204,14 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		for (IFluidIngredient input : recipe.fluidIngredients()) {
+		for (IFluidIngredient input : recipe.getFluidIngredients()) {
 			if (input.getInputStackList().isEmpty()) continue;
 			for (RecipeBuilder<?> builderVariant : builders) {
 				builderVariant.fluidInputs(input.getInputStackList().get(0));
 			}
 		}
 		
-		for (IItemIngredient output : recipe.itemProducts()) {
+		for (IItemIngredient output : recipe.getItemProducts()) {
 			List<ItemStack> outputStackList = output.getOutputStackList();
 			if (outputStackList.isEmpty()) continue;
 			for (RecipeBuilder<?> builderVariant : builders) {
@@ -219,7 +219,7 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		for (IFluidIngredient output : recipe.fluidProducts()) {
+		for (IFluidIngredient output : recipe.getFluidProducts()) {
 			if (output.getOutputStackList().isEmpty()) continue;
 			for (RecipeBuilder<?> builderVariant : builders) {
 				builderVariant.fluidOutputs(output.getOutputStackList().get(0));
@@ -311,12 +311,12 @@ public class GTCERecipeHelper {
 	}
 	
 	private static boolean isPlateRecipe(ProcessorRecipe recipe) {
-		ItemStack output = recipe.itemProducts().get(0).getStack();
+		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		return output != null && OreDictHelper.hasOrePrefix(output, "plate", "plateDense");
 	}
 	
 	private static MetaValueItem getIngotFormerMold(ProcessorRecipe recipe) {
-		ItemStack output = recipe.itemProducts().get(0).getStack();
+		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		if (output != null) {
 			if (OreDictHelper.hasOrePrefix(output, "ingot")) return MetaItems.SHAPE_MOLD_INGOT;
 			else if (OreDictHelper.hasOrePrefix(output, "block")) return MetaItems.SHAPE_MOLD_BLOCK;

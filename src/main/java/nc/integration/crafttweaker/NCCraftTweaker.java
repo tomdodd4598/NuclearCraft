@@ -15,6 +15,7 @@ import nc.radiation.RadSources;
 import nc.radiation.RadiationHelper;
 import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import net.minecraft.client.util.RecipeItemHelper;
@@ -26,9 +27,14 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 public class NCCraftTweaker {
 	
-	@ZenClass("mods.nuclearcraft.manufactory")
+	@ZenClass("mods.nuclearcraft.Manufactory")
 	@ZenRegister
-	public static class ManufactoryHandler {
+	public static class ManufactoryMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.manufactory;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -51,9 +57,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.separator")
+	@ZenClass("mods.nuclearcraft.Separator")
 	@ZenRegister
-	public static class SeparatorHandler {
+	public static class SeparatorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.separator;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -76,9 +87,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.decay_hastener")
+	@ZenClass("mods.nuclearcraft.DecayHastener")
 	@ZenRegister
-	public static class DecayHastenerHandler {
+	public static class DecayHastenerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.decay_hastener;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -101,9 +117,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.fuel_reprocessor")
+	@ZenClass("mods.nuclearcraft.FuelReprocessor")
 	@ZenRegister
-	public static class FuelReprocessorHandler {
+	public static class FuelReprocessorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.fuel_reprocessor;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, IIngredient output5, IIngredient output6, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -126,9 +147,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.alloy_furnace")
+	@ZenClass("mods.nuclearcraft.AlloyFurnace")
 	@ZenRegister
-	public static class AlloyFurnaceHandler {
+	public static class AlloyFurnaceMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.alloy_furnace;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -151,9 +177,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.infuser")
+	@ZenClass("mods.nuclearcraft.Infuser")
 	@ZenRegister
-	public static class InfuserHandler {
+	public static class InfuserMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.infuser;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -176,9 +207,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.melter")
+	@ZenClass("mods.nuclearcraft.Melter")
 	@ZenRegister
-	public static class MelterHandler {
+	public static class MelterMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.melter;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -201,9 +237,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.supercooler")
+	@ZenClass("mods.nuclearcraft.Supercooler")
 	@ZenRegister
-	public static class SupercoolerHandler {
+	public static class SupercoolerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.supercooler;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -226,9 +267,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.electrolyzer")
+	@ZenClass("mods.nuclearcraft.Electrolyzer")
 	@ZenRegister
-	public static class ElectrolyzerHandler {
+	public static class ElectrolyzerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.electrolyzer;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -251,9 +297,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.assembler")
+	@ZenClass("mods.nuclearcraft.Assembler")
 	@ZenRegister
-	public static class AssemblerHandler {
+	public static class AssemblerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.assembler;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IIngredient input4, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -276,9 +327,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.ingot_former")
+	@ZenClass("mods.nuclearcraft.IngotFormer")
 	@ZenRegister
-	public static class IngotFormerHandler {
+	public static class IngotFormerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.ingot_former;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -301,9 +357,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.pressurizer")
+	@ZenClass("mods.nuclearcraft.Pressurizer")
 	@ZenRegister
-	public static class PressurizerHandler {
+	public static class PressurizerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.pressurizer;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -326,9 +387,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.chemical_reactor")
+	@ZenClass("mods.nuclearcraft.ChemicalReactor")
 	@ZenRegister
-	public static class ChemicalReactorHandler {
+	public static class ChemicalReactorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.chemical_reactor;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -351,9 +417,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.salt_mixer")
+	@ZenClass("mods.nuclearcraft.SaltMixer")
 	@ZenRegister
-	public static class SaltMixerHandler {
+	public static class SaltMixerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.salt_mixer;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -376,9 +447,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.crystallizer")
+	@ZenClass("mods.nuclearcraft.Crystallizer")
 	@ZenRegister
-	public static class CrystallizerHandler {
+	public static class CrystallizerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.crystallizer;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -401,9 +477,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.enricher")
+	@ZenClass("mods.nuclearcraft.Enricher")
 	@ZenRegister
-	public static class EnricherHandler {
+	public static class EnricherMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.enricher;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -426,9 +507,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.extractor")
+	@ZenClass("mods.nuclearcraft.Extractor")
 	@ZenRegister
-	public static class ExtractorHandler {
+	public static class ExtractorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.extractor;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -451,9 +537,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.centrifuge")
+	@ZenClass("mods.nuclearcraft.Centrifuge")
 	@ZenRegister
-	public static class CentrifugeHandler {
+	public static class CentrifugeMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.centrifuge;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -476,9 +567,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.rock_crusher")
+	@ZenClass("mods.nuclearcraft.RockCrusher")
 	@ZenRegister
-	public static class RockCrusherHandler {
+	public static class RockCrusherMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.rock_crusher;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -501,9 +597,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.decay_generator")
+	@ZenClass("mods.nuclearcraft.DecayGenerator")
 	@ZenRegister
-	public static class DecayGeneratorHandler {
+	public static class DecayGeneratorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.decay_generator;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, double meanLifetime, double power, double radiation) {
@@ -526,9 +627,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.fission_moderator")
+	@ZenClass("mods.nuclearcraft.FissionModerator")
 	@ZenRegister
-	public static class FissionModeratorHandler {
+	public static class FissionModeratorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.fission_moderator;
+		}
 		
 		@ZenMethod
 		public static void add(IIngredient input, int fluxFactor, double efficiency) {
@@ -546,9 +652,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.fission_reflector")
+	@ZenClass("mods.nuclearcraft.FissionReflector")
 	@ZenRegister
-	public static class FissionReflectorHandler {
+	public static class FissionReflectorMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.fission_reflector;
+		}
 		
 		@ZenMethod
 		public static void add(IIngredient input, double efficiency, double reflectivity) {
@@ -566,13 +677,18 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.fission_irradiator")
+	@ZenClass("mods.nuclearcraft.FissionIrradiator")
 	@ZenRegister
-	public static class FissionIrradiatorHandler {
+	public static class FissionIrradiatorMethods {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, int fluxRequired, double heatPerFlux, double radiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.fission_irradiator, Lists.newArrayList(input, output, fluxRequired, heatPerFlux, radiation)));
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.fission_irradiator;
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, int fluxRequired, double heatPerFlux, double efficiency, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.fission_irradiator, Lists.newArrayList(input, output, fluxRequired, heatPerFlux, efficiency, radiation)));
 		}
 		
 		@ZenMethod
@@ -591,9 +707,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.solid_fission")
+	@ZenClass("mods.nuclearcraft.SolidFission")
 	@ZenRegister
-	public static class SolidFissionHandler {
+	public static class SolidFissionMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.solid_fission;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
@@ -616,9 +737,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.fission_heating")
+	@ZenClass("mods.nuclearcraft.FissionHeating")
 	@ZenRegister
-	public static class FissionHeatingHandler {
+	public static class FissionHeatingMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.fission_heating;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, int heatPerInputMB) {
@@ -642,9 +768,14 @@ public class NCCraftTweaker {
 	}
 	
 	//TODO
-	@ZenClass("mods.nuclearcraft.salt_fission")
+	@ZenClass("mods.nuclearcraft.SaltFission")
 	@ZenRegister
-	public static class SaltFissionHandler {
+	public static class SaltFissionMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.salt_fission;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
@@ -668,9 +799,14 @@ public class NCCraftTweaker {
 	}
 	
 	//TODO
-	@ZenClass("mods.nuclearcraft.fusion")
+	@ZenClass("mods.nuclearcraft.Fusion")
 	@ZenRegister
-	public static class FusionHandler {
+	public static class FusionMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.fusion;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int time, int power, int optimalTemp) {
@@ -694,9 +830,14 @@ public class NCCraftTweaker {
 	}
 	
 	//TODO
-	@ZenClass("mods.nuclearcraft.heat_exchanger")
+	@ZenClass("mods.nuclearcraft.HeatExchanger")
 	@ZenRegister
-	public static class HeatExchangerHandler {
+	public static class HeatExchangerMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.heat_exchanger;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -720,9 +861,14 @@ public class NCCraftTweaker {
 	}
 	
 	//TODO
-	@ZenClass("mods.nuclearcraft.condenser")
+	@ZenClass("mods.nuclearcraft.Condenser")
 	@ZenRegister
-	public static class CondenserHandler {
+	public static class CondenserMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.condenser;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -745,9 +891,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.turbine")
+	@ZenClass("mods.nuclearcraft.Turbine")
 	@ZenRegister
-	public static class TurbineHandler {
+	public static class TurbineMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.turbine;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, double powerPerMB, double expansionLevel) {
@@ -770,9 +921,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.radiation_scrubber")
+	@ZenClass("mods.nuclearcraft.RadiationScrubber")
 	@ZenRegister
-	public static class RadiationScrubberHandler {
+	public static class RadiationScrubberMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.radiation_scrubber;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, int processTime, int processPower, double processEfficiency) {
@@ -795,9 +951,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.radiation_block_mutation")
+	@ZenClass("mods.nuclearcraft.RadiationBlockMutation")
 	@ZenRegister
-	public static class RadiationBlockMutation {
+	public static class RadiationBlockMutationMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.radiation_block_mutation;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, double radiationThreshold) {
@@ -820,9 +981,14 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.radiation_block_purification")
+	@ZenClass("mods.nuclearcraft.RadiationBlockPurification")
 	@ZenRegister
-	public static class RadiationBlockPurification {
+	public static class RadiationBlockPurificationMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.radiation_block_purification;
+		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, double radiationThreshold) {
@@ -845,9 +1011,9 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.radiation")
+	@ZenClass("mods.nuclearcraft.Radiation")
 	@ZenRegister
-	public static class RadiationHandler {
+	public static class RadiationMethods {
 		
 		@ZenMethod
 		public static double getRadiationLevel(IIngredient ingredient) {
@@ -884,11 +1050,6 @@ public class NCCraftTweaker {
 			else {
 				return 0D;
 			}
-		}
-		
-		@ZenMethod
-		public static void addBlockMutation(IIngredient input, IIngredient output, double threshold) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_mutation, Lists.newArrayList(input, output, threshold)));
 		}
 		
 		@ZenMethod

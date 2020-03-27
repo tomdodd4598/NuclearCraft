@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import nc.Global;
@@ -15,24 +16,28 @@ import nc.integration.gtce.GTCERecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.util.NCUtil;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
+@ZenClass("mods.nuclearcraft.ProcessorRecipeHandler")
+@ZenRegister
 public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
 	
-	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
-	public final boolean isShapeless;
 	private final String recipeName;
+	private final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
+	private final boolean isShapeless;
 	
 	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
 		this(recipeName, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
 	}
 	
 	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean isShapeless) {
+		this.recipeName = recipeName;
 		this.itemInputSize = itemInputSize;
 		this.fluidInputSize = fluidInputSize;
 		this.itemOutputSize = itemOutputSize;
 		this.fluidOutputSize = fluidOutputSize;
 		this.isShapeless = isShapeless;
-		this.recipeName = recipeName;
 		addRecipes();
 	}
 	
@@ -131,5 +136,36 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	@Override
 	public String getRecipeName() {
 		return Global.MOD_ID + "_" + recipeName;
+	}
+	
+	@Override
+	@ZenMethod
+	public List<ProcessorRecipe> getRecipeList() {
+		return recipeList;
+	}
+	
+	@ZenMethod
+	public int getItemInputSize() {
+		return itemInputSize;
+	}
+	
+	@ZenMethod
+	public int getFluidInputSize() {
+		return fluidInputSize;
+	}
+	
+	@ZenMethod
+	public int getItemOutputSize() {
+		return itemOutputSize;
+	}
+	
+	@ZenMethod
+	public int getFluidOutputSize() {
+		return fluidOutputSize;
+	}
+	
+	@ZenMethod
+	public boolean isShapeless() {
+		return isShapeless;
 	}
 }

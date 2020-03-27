@@ -5,10 +5,13 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.api.item.IngredientStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class OreIngredient implements IItemIngredient {
 	
@@ -99,5 +102,13 @@ public class OreIngredient implements IItemIngredient {
 	@Override
 	public boolean isValid() {
 		return cachedStackList != null && !cachedStackList.isEmpty() && cachedStackList.get(0) != null;
+	}
+	
+	// CraftTweaker
+	
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct() {
+		return new IngredientStack(CraftTweakerMC.getOreDict(oreName), stackSize);
 	}
 }

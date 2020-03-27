@@ -70,11 +70,13 @@ public class BlockSolidFissionCell extends BlockFissionPart implements ISidedPro
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		
 		if (!world.isRemote) {
-			if (world.getTileEntity(pos) instanceof TileSolidFissionCell) {
-				TileSolidFissionCell cell = (TileSolidFissionCell) world.getTileEntity(pos);
-				if (cell.getMultiblock() != null /*&& cell.getMultiblock().isAssembled()*/) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileSolidFissionCell) {
+				TileSolidFissionCell cell = (TileSolidFissionCell) tile;
+				FissionReactor reactor = cell.getMultiblock();
+				if (reactor != null) {
 					ItemStack heldStack = player.getHeldItem(hand);
-					if (cell.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(cell.getFilterStacks().get(0)) && cell.isItemValidForSlotRaw(0, heldStack)) {
+					if (cell.canModifyFilter(0) && cell.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(cell.getFilterStacks().get(0)) && cell.isItemValidForSlotInternal(0, heldStack)) {
 						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(heldStack.getTranslationKey() + ".name")));
 						ItemStack filter = heldStack.copy();
 						filter.setCount(1);
@@ -99,11 +101,11 @@ public class BlockSolidFissionCell extends BlockFissionPart implements ISidedPro
 				TileSolidFissionCell cell = (TileSolidFissionCell) tile;
 				dropItems(world, pos, cell.getInventoryStacksInternal());
 				//world.updateComparatorOutputLevel(pos, this);
-				FissionReactor reactor = cell.getMultiblock();
-				world.removeTileEntity(pos);
-				if (reactor != null) {
+				//FissionReactor reactor = cell.getMultiblock();
+				//world.removeTileEntity(pos);
+				/*if (reactor != null) {
 					reactor.getLogic().refreshPorts();
-				}
+				}*/
 			}
 		}
 		//super.breakBlock(world, pos, state);

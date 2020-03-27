@@ -30,16 +30,16 @@ import net.minecraft.util.math.MathHelper;
 
 public abstract class TileItemGenerator extends TileEnergySidedInventory implements IItemGenerator {
 
-	public final int defaultProcessTime, defaultProcessPower;
+	protected final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime = 1, baseProcessPower = 0, baseProcessRadiation = 0;
 	public double processPower = 0;
-	public double speedMultiplier = 1;
-	public final int itemInputSize, itemOutputSize, otherSlotsSize;
+	protected double speedMultiplier = 1;
+	protected final int itemInputSize, itemOutputSize, otherSlotsSize;
 	
 	public double time;
-	public boolean isProcessing, hasConsumed, canProcessInputs;
+	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	public final ProcessorRecipeHandler recipeHandler;
+	protected final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
@@ -105,12 +105,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs(false);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	@Override
 	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs(true);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	// Processor Stats
@@ -135,16 +135,16 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return false;
 	}
 	
-	public boolean canProcessInputs(boolean justProduced) {
-		if (!setRecipeStats()) {
-			if (hasConsumed) {
-				for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
-				hasConsumed = false;
-			}
-			return false;
+	public boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (hasConsumed && !validRecipe) {
+			for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
+			hasConsumed = false;
 		}
-		if (!justProduced && time >= baseProcessTime) return true;
-		return canProduceProducts();
+		if (!canProcess) {
+			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+		}
+		return canProcess;
 	}
 	
 	public boolean canProduceProducts() {
@@ -230,18 +230,33 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	// IProcessor
 	
 	@Override
+	public int getItemInputSize() {
+		return itemInputSize;
+	}
+	
+	@Override
+	public int getItemOutputSize() {
+		return itemOutputSize;
+	}
+	
+	@Override
+	public int getOtherSlotsSize() {
+		return otherSlotsSize;
+	}
+	
+	@Override
 	public List<ItemStack> getItemInputs(boolean consumed) {
 		return consumed ? getInventoryStacks().subList(itemInputSize + itemOutputSize, 2*itemInputSize + itemOutputSize) : getInventoryStacks().subList(0, itemInputSize);
 	}
 	
 	@Override
 	public List<IItemIngredient> getItemIngredients() {
-		return recipeInfo.getRecipe().itemIngredients();
+		return recipeInfo.getRecipe().getItemIngredients();
 	}
 	
 	@Override
 	public List<IItemIngredient> getItemProducts() {
-		return recipeInfo.getRecipe().itemProducts();
+		return recipeInfo.getRecipe().getItemProducts();
 	}
 	
 	// ITileInventory

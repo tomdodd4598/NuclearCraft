@@ -1,3 +1,29 @@
+v2o.1.1
+
+* Split fission ports into multiple types
+* Fixed known fission port filtering bugs
+* Filters can now only be modified while the reactor is disassembled
+
++ Improved API support for custom cluster and fuel component behaviour
++ Added API support for custom port-target linking
+
+* Tweaked many fission fuel stats, sink cooling rates and sink placement rules [thanks as ever to Hellrage for keeping the planner updated!]
+* Fission irradiator recipes now have independent efficiencies
+
+* Fixed self-priming fuels not updating correctly
+* Only fission reflectors with 100% reflectivity block neutron sources
+
+* Fixed low-throughput turbines producing wrong amounts of power
+
++ Added many new CT methods for extracting info from registered recipes
+* All fission fuels now have stat tooltips, including those given recipes via CT
+
+* Multiple blocks can now be highlighted at once
+
+* Various other minor fixes, changes and refactors
+* Includes all fixes introduced in v2.18p
+* Possible other things that I have forgotten
+
 v2o.1.0
 
 + Added fission port and cell filtering for multi-fuel reactor designs!

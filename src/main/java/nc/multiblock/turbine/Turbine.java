@@ -63,7 +63,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	
 	public boolean isTurbineOn, computerActivated, isProcessing;
 	public double power = 0D, conductivity = 0D;
-	public double rawPower = 0D, rawMaxPower = 0D;
+	public double rawPower = 0D, rawLimitPower = 0D, rawMaxPower = 0D;
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
 	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D, maxBladeExpansionCoefficient = 1D, bearingTension = 0D;
@@ -190,7 +190,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	@Override
 	public void checkIfMachineIsWhole() {
 		super.checkIfMachineIsWhole();
-		if (assemblyState != AssemblyState.Assembled) {
+		if (WORLD.isRemote && assemblyState != AssemblyState.Assembled) {
 			logic.stopSounds();
 		}
 	}
@@ -209,8 +209,12 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 		return getInteriorLength(flowDir);
 	}
 	
+	protected int getBladeArea() {
+		return 4*shaftWidth*bladeLength;
+	}
+	
 	protected int getBladeVolume() {
-		return 4*shaftWidth*bladeLength*noBladeSets;
+		return getBladeArea()*noBladeSets;
 	}
 	
 	public double getRotorRadius() {
@@ -297,6 +301,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("power", power);
 		data.setDouble("rawPower", rawPower);
+		data.setDouble("rawLimitPower", rawLimitPower);
 		data.setDouble("rawMaxPower", rawMaxPower);
 		data.setDouble("conductivity", conductivity);
 		data.setString("particleEffect", particleEffect);
@@ -333,6 +338,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 		computerActivated = data.getBoolean("computerActivated");
 		power = data.getDouble("power");
 		rawPower = data.getDouble("rawPower");
+		rawLimitPower = data.getDouble("rawLimitPower");
 		rawMaxPower = data.getDouble("rawMaxPower");
 		conductivity = data.getDouble("conductivity");
 		particleEffect = data.getString("particleEffect");

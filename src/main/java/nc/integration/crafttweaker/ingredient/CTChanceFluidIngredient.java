@@ -2,6 +2,7 @@ package nc.integration.crafttweaker.ingredient;
 
 import java.util.List;
 
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemCondition;
 import crafttweaker.api.item.IItemStack;
@@ -11,8 +12,13 @@ import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.player.IPlayer;
 import nc.integration.crafttweaker.CTHelper;
 import nc.recipe.ingredient.ChanceFluidIngredient;
+import stanhebben.zenscript.annotations.Optional;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
-public class CTChanceFluidIngredient implements IChanceFluidIngredient {
+@ZenClass("mods.nuclearcraft.ChanceFluidIngredient")
+@ZenRegister
+public class CTChanceFluidIngredient implements IIngredient {
 	
 	private final IIngredient internalIngredient;
 	private final int chancePercent;
@@ -20,37 +26,42 @@ public class CTChanceFluidIngredient implements IChanceFluidIngredient {
 	private final int minStackSize;
 	private final ChanceFluidIngredient chanceIngredient;
 	
-	public CTChanceFluidIngredient(IIngredient ingredient, int chancePercent, int stackDiff, int minStackSize) {
-		this.internalIngredient = ingredient;
+	private CTChanceFluidIngredient(IIngredient ingredient, int chancePercent, int stackDiff, int minStackSize) {
+		internalIngredient = ingredient;
 		this.chancePercent = chancePercent;
 		this.stackDiff = stackDiff;
 		this.minStackSize = minStackSize;
 		chanceIngredient = new ChanceFluidIngredient(CTHelper.buildAdditionFluidIngredient(ingredient), chancePercent, stackDiff, minStackSize);
 	}
 	
-	@Override
+	@ZenMethod
+	public static CTChanceFluidIngredient create(IIngredient ingredient, int chancePercent, int stackDiff, @Optional int minStackSize) {
+		return new CTChanceFluidIngredient(ingredient, chancePercent, stackDiff, minStackSize);
+	}
+	
+	@ZenMethod
 	public IIngredient getInternalIngredient() {
 		return internalIngredient;
 	}
 	
-	@Override
+	@ZenMethod
 	public int getChancePercent() {
 		return chancePercent;
 	}
 	
-	@Override
+	@ZenMethod
 	public int getStackDiff() {
 		return stackDiff;
 	}
 	
-	@Override
+	@ZenMethod
 	public int getMinStackSize() {
 		return minStackSize;
 	}
 	
 	@Override
 	public String getMark() {
-		return null;
+		return internalIngredient.getMark();
 	}
 	
 	@Override
@@ -95,7 +106,7 @@ public class CTChanceFluidIngredient implements IChanceFluidIngredient {
 	
 	@Override
 	public IIngredient marked(String mark) {
-		return null;
+		return internalIngredient.marked(mark);
 	}
 	
 	@Override

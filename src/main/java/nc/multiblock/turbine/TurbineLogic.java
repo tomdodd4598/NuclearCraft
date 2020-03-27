@@ -63,7 +63,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, TurbineUpdatePacket> {
+public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbinePart, TurbineUpdatePacket> {
 	
 	public TurbineLogic(Turbine turbine) {
 		super(turbine);
@@ -245,7 +245,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		
 		getTurbine().isTurbineOn = getTurbine().isProcessing = false;
 		if (getTurbine().controller != null) getTurbine().controller.updateBlockState(false);
-		getTurbine().power = getTurbine().rawPower = getTurbine().rawMaxPower = getTurbine().conductivity = 0D;
+		getTurbine().power = getTurbine().rawPower = getTurbine().rawLimitPower = getTurbine().rawMaxPower = getTurbine().conductivity = 0D;
 		getTurbine().angVel = getTurbine().rotorAngle = 0F;
 		getTurbine().flowDir = null;
 		getTurbine().shaftWidth = getTurbine().inertia = getTurbine().bladeLength = getTurbine().noBladeSets = getTurbine().recipeInputRate = 0;
@@ -316,7 +316,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		if (axis == Axis.X) internalDiameter = getTurbine().getInteriorLengthY();
 		else if (axis == Axis.Y) internalDiameter = getTurbine().getInteriorLengthZ();
 		else internalDiameter = getTurbine().getInteriorLengthX();
-		boolean isEvenDiameter = internalDiameter % 2 == 0;
+		boolean isEvenDiameter = (internalDiameter & 1) == 0;
 		boolean validAmountOfBearings = false;
 		
 		for (getTurbine().shaftWidth = isEvenDiameter? 2 : 1; getTurbine().shaftWidth <= internalDiameter - 2; getTurbine().shaftWidth += 2) {
@@ -579,17 +579,18 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	public void onUpdateServer() {
 		boolean wasProcessing = getTurbine().isProcessing;
 		refreshRecipe();
-		double previousRawPower = getTurbine().rawPower, previousRawMaxPower = getTurbine().rawMaxPower;
-		getTurbine().rawMaxPower = getRawMaxProcessPower();
+		double previousRawPower = getTurbine().rawPower, previousRawLimitPower = getTurbine().rawLimitPower, previousRawMaxPower = getTurbine().rawMaxPower;
+		getTurbine().rawLimitPower = getRawLimitProcessPower(getTurbine().recipeInputRate);
+		getTurbine().rawMaxPower = getRawLimitProcessPower(getMaxRecipeRateMultiplier());
 		if (canProcessInputs()) {
 			getTurbine().isProcessing = true;
 			produceProducts();
-			getTurbine().rawPower = getNewRawProcessPower(previousRawPower, getTurbine().rawMaxPower, true);
+			getTurbine().rawPower = getNewRawProcessPower(previousRawPower, getTurbine().rawLimitPower, true);
 		}
 		else {
 			getTurbine().isProcessing = false;
 			getTurbine().rawMaxPower = previousRawMaxPower;
-			getTurbine().rawPower = getNewRawProcessPower(previousRawPower, getTurbine().rawMaxPower, false);
+			getTurbine().rawPower = getNewRawProcessPower(previousRawPower, previousRawLimitPower, false);
 		}
 		getTurbine().power = getTurbine().rawPower*getTurbine().conductivity;
 		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (getTurbine().rawPower/getTurbine().rawMaxPower);
@@ -661,7 +662,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	}
 	
 	protected boolean canProduceProducts() {
-		IFluidIngredient fluidProduct = getTurbine().recipeInfo.getRecipe().fluidProducts().get(0);
+		IFluidIngredient fluidProduct = getTurbine().recipeInfo.getRecipe().getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) return false;
 		
 		int recipeInputRateDiff = getTurbine().recipeInputRate;
@@ -682,11 +683,11 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	}
 	
 	protected void produceProducts() {
-		int fluidIngredientStackSize = getTurbine().recipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(getTurbine().recipeInfo.getFluidIngredientNumbers().get(0))*getTurbine().recipeInputRate;
+		int fluidIngredientStackSize = getTurbine().recipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(getTurbine().recipeInfo.getFluidIngredientNumbers().get(0))*getTurbine().recipeInputRate;
 		if (fluidIngredientStackSize > 0) getTurbine().tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
 		if (getTurbine().tanks.get(0).getFluidAmount() <= 0) getTurbine().tanks.get(0).setFluidStored(null);
 		
-		IFluidIngredient fluidProduct = getTurbine().recipeInfo.getRecipe().fluidProducts().get(0);
+		IFluidIngredient fluidProduct = getTurbine().recipeInfo.getRecipe().getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0) return;
 		if (getTurbine().tanks.get(1).isEmpty()) {
 			getTurbine().tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
@@ -700,12 +701,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		return getTurbine().getBladeVolume()*NCConfig.turbine_mb_per_blade;
 	}
 	
-	public double getNewRawProcessPower(double previousRawPower, double maxRawPower, boolean increasing) {
-		double absoluteLeniency = 4D*getTurbine().shaftWidth*getTurbine().bladeLength*getThroughputLeniencyMult();
+	public double getNewRawProcessPower(double previousRawPower, double maxLimitPower, boolean increasing) {
+		double absoluteLeniency = getTurbine().getBladeArea()*getThroughputLeniencyMult()*NCConfig.turbine_mb_per_blade;
 		double throughputEfficiency = getMaxRecipeRateMultiplier() == 0 ? 1D : Math.min(1D, (getTurbine().recipeInputRateFP + absoluteLeniency)/getMaxRecipeRateMultiplier());
 		
 		if (increasing) {
-			return throughputEfficiency*(getTurbine().inertia*previousRawPower + maxRawPower)/(getTurbine().inertia + 1D);
+			return throughputEfficiency*(getTurbine().inertia*previousRawPower + maxLimitPower)/(getTurbine().inertia + 1D);
 		}
 		else {
 			return throughputEfficiency*(getTurbine().inertia*previousRawPower)/(getTurbine().inertia + 2D);
@@ -716,7 +717,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		return Math.max(NCConfig.turbine_throughput_efficiency_leniency, getTurbine().idealTotalExpansionLevel <= 1D || getTurbine().maxBladeExpansionCoefficient <= 1 ? Double.MAX_VALUE : Math.ceil(Math.log(getTurbine().idealTotalExpansionLevel)/Math.log(getTurbine().maxBladeExpansionCoefficient)));
 	}
 	
-	public double getRawMaxProcessPower() {
+	public double getRawLimitProcessPower(int recipeInputRate) {
 		if (getTurbine().noBladeSets == 0) return 0D;
 		
 		double bladeMultiplier = 0D;
@@ -727,7 +728,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		}
 		bladeMultiplier /= getTurbine().noBladeSets;
 		
-		return bladeMultiplier*getExpansionIdealityMultiplier(getTurbine().idealTotalExpansionLevel, getTurbine().totalExpansionLevel)*getTurbine().recipeInputRate*getTurbine().basePowerPerMB;
+		return bladeMultiplier*getExpansionIdealityMultiplier(getTurbine().idealTotalExpansionLevel, getTurbine().totalExpansionLevel)*recipeInputRate*getTurbine().basePowerPerMB;
 	}
 	
 	public static double getExpansionIdealityMultiplier(double ideal, double actual) {

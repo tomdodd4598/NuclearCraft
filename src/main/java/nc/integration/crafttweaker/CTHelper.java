@@ -10,8 +10,8 @@ import crafttweaker.api.item.IngredientOr;
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
-import nc.integration.crafttweaker.ingredient.IChanceFluidIngredient;
-import nc.integration.crafttweaker.ingredient.IChanceItemIngredient;
+import nc.integration.crafttweaker.ingredient.CTChanceFluidIngredient;
+import nc.integration.crafttweaker.ingredient.CTChanceItemIngredient;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
@@ -45,8 +45,8 @@ public class CTHelper {
 	public static IItemIngredient buildAdditionItemIngredient(IIngredient ingredient) {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
-		} else if (ingredient instanceof IChanceItemIngredient) {
-			IChanceItemIngredient chanceIngredient = (IChanceItemIngredient) ingredient;
+		} else if (ingredient instanceof CTChanceItemIngredient) {
+			CTChanceItemIngredient chanceIngredient = (CTChanceItemIngredient) ingredient;
 			return new ChanceItemIngredient(buildAdditionItemIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getMinStackSize());
 		} else if (ingredient instanceof IItemStack) {
 			return RecipeHelper.buildItemIngredient(getItemStack((IItemStack) ingredient));
@@ -65,8 +65,8 @@ public class CTHelper {
 	public static IFluidIngredient buildAdditionFluidIngredient(IIngredient ingredient) {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
-		} else if (ingredient instanceof IChanceFluidIngredient) {
-			IChanceFluidIngredient chanceIngredient = (IChanceFluidIngredient) ingredient;
+		} else if (ingredient instanceof CTChanceFluidIngredient) {
+			CTChanceFluidIngredient chanceIngredient = (CTChanceFluidIngredient) ingredient;
 			return new ChanceFluidIngredient(buildAdditionFluidIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getStackDiff(), chanceIngredient.getMinStackSize());
 		} else if (ingredient instanceof ILiquidStack) {
 			return RecipeHelper.buildFluidIngredient(getFluidStack((ILiquidStack) ingredient));

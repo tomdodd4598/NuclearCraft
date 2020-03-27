@@ -33,8 +33,14 @@ public class TooltipHandler {
 	@SideOnly(Side.CLIENT)
 	public void addAdditionalTooltips(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
-		RecipeInfo<ProcessorRecipe> recipeInfo = NCRecipes.fission_moderator.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
+		RecipeInfo<ProcessorRecipe> recipeInfo = NCRecipes.solid_fission.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
 		ProcessorRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
+		if (recipe != null) {
+			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {}, InfoHelper.EMPTY_ARRAY, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
+		}
+		
+		recipeInfo = NCRecipes.fission_moderator.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
+		recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
 			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.LIGHT_PURPLE}, NCInfo.fissionModeratorFixedInfo(recipe), TextFormatting.AQUA, NCInfo.fissionModeratorInfo());
 		}

@@ -14,7 +14,6 @@ import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.solid.SolidFuelFissionLogic;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -84,14 +83,10 @@ public class TileFissionVent extends TileFissionPart implements ITileFluid {
 	// Fluids
 	
 	@Override
-	@Nonnull
-	public List<Tank> getTanks() {
-		if (isMultiblockAssembled() && getLogic() instanceof SolidFuelFissionLogic) {
-			return ((SolidFuelFissionLogic)getLogic()).tanks;
-		}
-		return backupTanks;
+	public @Nonnull List<Tank> getTanks() {
+		return getMultiblock() != null ? getLogic().getVentTanks(backupTanks) : backupTanks;
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidConnection[] getFluidConnections() {

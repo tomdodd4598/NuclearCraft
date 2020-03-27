@@ -12,6 +12,8 @@ five categories and packaging the information up into a recipe.
 Parameters in curly brackets `{...}` are optional. If there are multiple optional parameters, they must be specified in
 the correct order. For example, if you want to set a Manufactory recipe's power multiplier, you must also first set a time
 multiplier. Make sure to not actually include the curly brackets in your scripts!
+___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------
 
  Chance Ingredients
 #==================#
@@ -28,27 +30,56 @@ the possible stacks (for ChanceItemIngredients, this is effectively 1). For exam
 ingredient of size 500, with a stack difference of 150 and minimum stack size of 50, will produce 50, 200, 350 or 500
 millibuckets of the fluid.
 
+---------------------------------------------------------------------------------------------------------------------------
+
  ChanceItemIngredient:
 >---------------------<
-mods.nuclearcraft.IChanceItemIngredient.create(IIngredient ingredient, int chancePercent, {int minStackSize});
 
-Examples: `IChanceItemIngredient.create(<minecraft:coal>*2, 25)`,
-          `IChanceItemIngredient.create(<ore:dustGlowstone>*3, 60, 2)`.
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.ChanceItemIngredient.create(IIngredient ingredient, int chancePercent, {int minStackSize});
+
+ Examples: `ChanceItemIngredient.create(<minecraft:coal>*2, 25)`,
+>--------- `ChanceItemIngredient.create(<ore:dustGlowstone>*3, 60, 2)`.
+
+Extra Methods:
+--------------
+
+IIngredient getInternalIngredient();
+int getChancePercent();
+int getMinStackSize();
+
+---------------------------------------------------------------------------------------------------------------------------
 
  ChanceFluidIngredient:
 >----------------------<
-mods.nuclearcraft.IChanceFluidIngredient.create(IIngredient ingredient, int chancePercent, int stackDiff, {int minStackSize});
 
-Examples: `IChanceFluidIngredient.create(<liquid:water>*1500, 35, 300)`,
-          `IChanceFluidIngredient.create(<liquid:oil>*1000, 80, 200, 400)`.
+mods.nuclearcraft.ChanceFluidIngredient.create(IIngredient ingredient, int chancePercent, int stackDiff, {int minStackSize});
+
+ Examples: `ChanceFluidIngredient.create(<liquid:water>*1500, 35, 300)`,
+>--------- `ChanceFluidIngredient.create(<liquid:oil>*1000, 80, 200, 400)`.
+
+Extra Methods:
+--------------
+
+IIngredient getInternalIngredient();
+int getChancePercent();
+int getStackDiff();
+int getMinStackSize();
 ___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------
+
+ Recipe Methods
+#==============#
+
+Note A: recipe extras in curly brackets `{...}` are optional, but must be in the order specified. For example, if you want
+to set a Manufactory recipe's power multiplier, you must also first set a time multiplier. Make sure to not actually
+include the curly brackets!
+
+Note B: input ingredients can be ORed together using CT's `<...>*x | <...>*y | ...` syntax!
+
+---------------------------------------------------------------------------------------------------------------------------
 
  Recipe Addition
-#===============#
-
-Specifying an ingredient involves listing the item inputs, fluid inputs, item outputs, fluid outputs and extra info, in
-that order.
+>---------------<
 
 Item inputs can be:
 An ItemStack, e.g. `<minecraft:gunpowder>*4`,
@@ -62,345 +93,395 @@ An empty stack, i.e. `null`.
 Item outputs can be:
 An ItemStack,
 An OreStack,
-A ChanceItemIngredient, e.g. `IChanceItemIngredient.create(<minecraft:quartz>*3, 50, 1)`,
+A ChanceItemIngredient, e.g. `ChanceItemIngredient.create(<minecraft:quartz>*3, 50, 1)`,
 An empty stack, i.e. `null`.
 
 Fluid outputs can be:
 A FluidStack,
-A ChanceFluidIngredient, e.g. `IChanceFluidIngredient.create(<liquid:ethanol>*2000, 40, 250, 500)`.
+A ChanceFluidIngredient, e.g. `ChanceFluidIngredient.create(<liquid:ethanol>*2000, 40, 250, 500)`.
 An empty stack, i.e. `null`.
 
 The allowed recipe extras are specified below per recipe. Be sure to use a decimal when a double is required and you want
 to use a whole number, e.g. `1.0` rather than just `1`.
 
+---------------------------------------------------------------------------------------------------------------------------
+
  Recipe Removal
-#==============#
+>--------------<
 
 When specifying a recipe to remove, all that is required is for either all input or output ingredients to be specified.
 Ingredient chance data is not required. Again, the items must come first, followed by the fluids.
 
 You may also want to remove all of a certain type of recipe - to do this, simply use the `removeAllRecipes()` method.
 
-___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
 
- Recipe Methods
-#==============#
+Manufactory:
+------------
 
-Note A: recipe extras in curly brackets `{...}` are optional, but must be in the order specified. For example, if you want to
-set a Manufactory recipe's power multiplier, you must also first set a time multiplier. Make sure to not actually include
-the curly brackets!
+mods.nuclearcraft.Manufactory.addRecipe(IIngredient itemInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-Note B: input ingredients can be ORed together using CT's `<...>*x | <...>*y | ...` syntax!
+mods.nuclearcraft.Manufactory.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.Manufactory.removeRecipeWithOutput(IIngredient itemOutput);
 
- Manufactory:
->------------<
 
-mods.nuclearcraft.manufactory.addRecipe(IIngredient itemInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+Separator:
+----------
 
-mods.nuclearcraft.manufactory.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.manufactory.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Separator.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
- Separator:
->----------<
+mods.nuclearcraft.Separator.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.Separator.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2);
 
-mods.nuclearcraft.separator.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.separator.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.separator.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2);
-___________________________________________________________________________________________________________________________
+Decay Hastener:
+---------------
 
- Decay Hastener:
->---------------<
+mods.nuclearcraft.DecayHastener.addRecipe(IIngredient itemInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.decay_hastener.addRecipe(IIngredient itemInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.DecayHastener.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.DecayHastener.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.decay_hastener.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.decay_hastener.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
 
- Fuel Reprocessor:
->-----------------<
+Fuel Reprocessor:
+-----------------
 
-mods.nuclearcraft.fuel_reprocessor.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.FuelReprocessor.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.fuel_reprocessor.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.fuel_reprocessor.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.FuelReprocessor.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.FuelReprocessor.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6);
 
- Alloy Furnace:
->--------------<
 
-mods.nuclearcraft.alloy_furnace.addRecipe(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+Alloy Furnace:
+--------------
 
-mods.nuclearcraft.alloy_furnace.removeRecipeWithInput(IIngredient itemInput1, IIngredient itemInput2);
-mods.nuclearcraft.alloy_furnace.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.AlloyFurnace.addRecipe(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
- Infuser:
->--------<
+mods.nuclearcraft.AlloyFurnace.removeRecipeWithInput(IIngredient itemInput1, IIngredient itemInput2);
+mods.nuclearcraft.AlloyFurnace.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.infuser.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.infuser.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
-mods.nuclearcraft.infuser.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+Infuser:
+--------
 
- Melter:
->-------<
+mods.nuclearcraft.Infuser.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.melter.addRecipe(IIngredient itemInput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Infuser.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
+mods.nuclearcraft.Infuser.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.melter.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.melter.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
 
- Supercooler:
->------------<
+Melter:
+-------
 
-mods.nuclearcraft.supercooler.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Melter.addRecipe(IIngredient itemInput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.supercooler.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.supercooler.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Melter.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.Melter.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
- Electrolyzer:
->-------------<
 
-mods.nuclearcraft.electrolyzer.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, {double timeMultiplier, double powerMultiplier, double processRadiation});
+Supercooler:
+------------
 
-mods.nuclearcraft.electrolyzer.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.electrolyzer.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Supercooler.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
- Assembler:
->----------<
+mods.nuclearcraft.Supercooler.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.Supercooler.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
-mods.nuclearcraft.assembler.addRecipe(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemInput3, IIngredient itemInput4, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.assembler.removeRecipeWithInput(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemInput3, IIngredient itemInput4);
-mods.nuclearcraft.assembler.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+Electrolyzer:
+-------------
 
- Ingot Former:
->-------------<
+mods.nuclearcraft.Electrolyzer.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.ingot_former.addRecipe(ILiquidStack fluidInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Electrolyzer.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.Electrolyzer.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
 
-mods.nuclearcraft.ingot_former.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.ingot_former.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
 
- Pressurizer:
->------------<
+Assembler:
+----------
 
-mods.nuclearcraft.pressurizer.addRecipe(IIngredient itemInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Assembler.addRecipe(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemInput3, IIngredient itemInput4, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.pressurizer.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.pressurizer.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Assembler.removeRecipeWithInput(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemInput3, IIngredient itemInput4);
+mods.nuclearcraft.Assembler.removeRecipeWithOutput(IIngredient itemOutput);
 
- Chemical Reactor:
->-----------------<
 
-mods.nuclearcraft.chemical_reactor.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
+Ingot Former:
+-------------
 
-mods.nuclearcraft.chemical_reactor.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
-mods.nuclearcraft.chemical_reactor.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.IngotFormer.addRecipe(ILiquidStack fluidInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
- Salt Mixer:
->-----------<
+mods.nuclearcraft.IngotFormer.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.IngotFormer.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.salt_mixer.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.salt_mixer.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
-mods.nuclearcraft.salt_mixer.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+Pressurizer:
+------------
 
- Crystallizer:
->-------------<
+mods.nuclearcraft.Pressurizer.addRecipe(IIngredient itemInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.crystallizer.addRecipe(ILiquidStack fluidInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Pressurizer.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.Pressurizer.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.crystallizer.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.crystallizer.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
 
- Fluid Enricher:
->---------------<
+Chemical Reactor:
+-----------------
 
-mods.nuclearcraft.enricher.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.ChemicalReactor.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.enricher.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
-mods.nuclearcraft.enricher.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.ChemicalReactor.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
+mods.nuclearcraft.ChemicalReactor.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2);
 
- Fluid Extractor:
->----------------<
 
-mods.nuclearcraft.extractor.addRecipe(IIngredient itemInput, IIngredient itemOutput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
+Salt Mixer:
+-----------
 
-mods.nuclearcraft.extractor.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.extractor.removeRecipeWithOutput(IIngredient itemOutput, ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.SaltMixer.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
- Centrifuge:
->-----------<
+mods.nuclearcraft.SaltMixer.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
+mods.nuclearcraft.SaltMixer.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
-mods.nuclearcraft.centrifuge.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.centrifuge.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.centrifuge.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
-___________________________________________________________________________________________________________________________
+Crystallizer:
+-------------
 
- Rock Crusher:
->-------------<
+mods.nuclearcraft.Crystallizer.addRecipe(ILiquidStack fluidInput, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.rock_crusher.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Crystallizer.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.Crystallizer.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.rock_crusher.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.rock_crusher.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3);
-___________________________________________________________________________________________________________________________
 
- Decay Generator:
->----------------<
+Fluid Enricher:
+---------------
 
-mods.nuclearcraft.decay_generator.addRecipe(IIngredient blockInput, IIngredient blockOutput, double meanLifetime, double power, double radiation);
+mods.nuclearcraft.Enricher.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.decay_generator.removeRecipeWithInput(IIngredient blockInput);
-mods.nuclearcraft.decay_generator.removeRecipeWithOutput(IIngredient blockOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Enricher.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
+mods.nuclearcraft.Enricher.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
- Fission Moderator:
->------------------<
 
-mods.nuclearcraft.fission_moderator.add(IIngredient block, int fluxFactor, double efficiency);
+Fluid Extractor:
+----------------
 
-mods.nuclearcraft.fission_moderator.remove(IIngredient block);
+mods.nuclearcraft.Extractor.addRecipe(IIngredient itemInput, IIngredient itemOutput, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.fission_moderator.removeAll();
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Extractor.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.Extractor.removeRecipeWithOutput(IIngredient itemOutput, ILiquidStack fluidOutput);
 
- Fission Reflector:
->------------------<
 
-mods.nuclearcraft.fission_reflector.add(IIngredient block, double efficiency, double reflectivity);
+Centrifuge:
+-----------
 
-mods.nuclearcraft.fission_reflector.remove(IIngredient block);
+mods.nuclearcraft.Centrifuge.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.fission_reflector.removeAll();
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.Centrifuge.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.Centrifuge.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
 
- Fission Irradiator:
->-------------------<
 
-mods.nuclearcraft.fission_irradiator.addRecipe(IIngredient itemInput, IIngredient itemOutput, int fluxRequired, double heatPerFlux, double radiation);
+Rock Crusher:
+-------------
 
-mods.nuclearcraft.fission_irradiator.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.fission_irradiator.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.RockCrusher.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
- Solid Fuel Fission:
->-------------------<
+mods.nuclearcraft.RockCrusher.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.RockCrusher.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3);
 
-mods.nuclearcraft.solid_fission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
 
-mods.nuclearcraft.solid_fission.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.solid_fission.removeRecipeWithOutput(IIngredient itemOutput);
-___________________________________________________________________________________________________________________________
+Decay Generator:
+----------------
 
- Fission Heating:
->----------------<
+mods.nuclearcraft.DecayGenerator.addRecipe(IIngredient blockInput, IIngredient blockOutput, double meanLifetime, double power, double radiation);
 
-mods.nuclearcraft.fission_heating.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int heatPerInputMB);
+mods.nuclearcraft.DecayGenerator.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.DecayGenerator.removeRecipeWithOutput(IIngredient blockOutput);
 
-mods.nuclearcraft.fission_heating.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.fission_heating.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
 
- Molten Salt Fission (KINDA BROKEN!):
->------------------------------------<
+Fission Moderator:
+------------------
 
-mods.nuclearcraft.salt_fission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.FissionModerator.add(IIngredient block, int fluxFactor, double efficiency);
 
-mods.nuclearcraft.salt_fission.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.salt_fission.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.FissionModerator.remove(IIngredient block);
 
- Fusion (NOT YET IMPLEMENTED!):
->------------------------------<
+mods.nuclearcraft.FissionModerator.removeAll();
 
-mods.nuclearcraft.fusion.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, double comboTime, double comboPower, double comboHeatVar, double processRadiation);
+---------------------------------------------------------------------------------------------------------------------------
 
-mods.nuclearcraft.fusion.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
-mods.nuclearcraft.fusion.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
-___________________________________________________________________________________________________________________________
+Fission Reflector:
+------------------
 
- Heat Exchanger (KINDA BROKEN!):
->-------------------------------<
+mods.nuclearcraft.FissionReflector.add(IIngredient block, double efficiency, double reflectivity);
 
-mods.nuclearcraft.heat_exchanger.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double heatRequired, int temperatureIn, int temperatureOut);
+mods.nuclearcraft.FissionReflector.remove(IIngredient block);
 
-mods.nuclearcraft.heat_exchanger.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.heat_exchanger.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.FissionReflector.removeAll();
 
- Condenser (KINDA BROKEN!):
->--------------------------<
 
-mods.nuclearcraft.condenser.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double coolingRequired, int condensingTemperature});
+Fission Irradiator:
+-------------------
 
-mods.nuclearcraft.condenser.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.condenser.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+mods.nuclearcraft.FissionIrradiator.addRecipe(IIngredient itemInput, IIngredient itemOutput, int fluxRequired, double heatPerFlux, double efficiency, double radiation);
 
- Steam Turbine:
->--------------<
+mods.nuclearcraft.FissionIrradiator.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.FissionIrradiator.removeRecipeWithOutput(IIngredient itemOutput);
 
-mods.nuclearcraft.turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double powerPerMB, double expansionLevel, {String particleEffect, double particleSpeedMultiplier});
 
-mods.nuclearcraft.turbine.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.turbine.removeRecipeWithOutput(ILiquidStack fluidOutput);
-___________________________________________________________________________________________________________________________
+Solid Fuel Fission:
+-------------------
+
+mods.nuclearcraft.SolidFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+
+mods.nuclearcraft.SolidFission.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.SolidFission.removeRecipeWithOutput(IIngredient itemOutput);
+
+
+Fission Heating:
+----------------
+
+mods.nuclearcraft.FissionHeating.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int heatPerInputMB);
+
+mods.nuclearcraft.FissionHeating.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Molten Salt Fission (KINDA BROKEN!):
+------------------------------------
+
+mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+
+mods.nuclearcraft.SaltFission.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.SaltFission.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Fusion (NOT YET IMPLEMENTED!):
+------------------------------
+
+mods.nuclearcraft.Fusion.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, double comboTime, double comboPower, double comboHeatVar, double processRadiation);
+
+mods.nuclearcraft.Fusion.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
+mods.nuclearcraft.Fusion.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
+
+
+Heat Exchanger (KINDA BROKEN!):
+-------------------------------
+
+mods.nuclearcraft.HeatExchanger.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double heatRequired, int temperatureIn, int temperatureOut);
+
+mods.nuclearcraft.HeatExchanger.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.HeatExchanger.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Condenser (KINDA BROKEN!):
+--------------------------
+
+mods.nuclearcraft.Condenser.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double coolingRequired, int condensingTemperature});
+
+mods.nuclearcraft.Condenser.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.Condenser.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Steam Turbine:
+--------------
+
+mods.nuclearcraft.Turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double powerPerMB, double expansionLevel, {String particleEffect, double particleSpeedMultiplier});
+
+mods.nuclearcraft.Turbine.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.Turbine.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
 ---------------------------------------------------------------------------------------------------------------------------
 
  Radiation:
 >----------<
 
-mods.nuclearcraft.radiation_scrubber.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, IIngredient itemOutput, ILiquidStack fluidOutput, int processTime, int processPower, double processEfficiency);
-mods.nuclearcraft.radiation_scrubber.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
-mods.nuclearcraft.radiation_scrubber.removeRecipeWithOutput(IIngredient itemOutput, ILiquidStack fluidOutput);
+Radiation Scrubber:
+-------------------
 
-mods.nuclearcraft.radiation_block_mutation.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
-mods.nuclearcraft.radiation_block_mutation.removeRecipeWithInput(IIngredient blockInput);
-mods.nuclearcraft.radiation_block_mutation.removeRecipeWithOutput(IIngredient blockOutput);
+mods.nuclearcraft.RadiationScrubber.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, IIngredient itemOutput, ILiquidStack fluidOutput, int processTime, int processPower, double processEfficiency);
 
-mods.nuclearcraft.radiation_block_purification.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
-mods.nuclearcraft.radiation_block_purification.removeRecipeWithInput(IIngredient blockInput);
-mods.nuclearcraft.radiation_block_purification.removeRecipeWithOutput(IIngredient blockOutput);
+mods.nuclearcraft.RadiationScrubber.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
+mods.nuclearcraft.RadiationScrubber.removeRecipeWithOutput(IIngredient itemOutput, ILiquidStack fluidOutput);
 
-mods.nuclearcraft.radiation.getRadiationLevel(IIngredient itemInput);
 
-mods.nuclearcraft.radiation.setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames);
+Block Mutation:
+---------------
 
-IEntityLivingBase.addRadiation(double amount, {boolean useImmunity});
-IEntityLivingBase.setRadiation(double amount, {boolean useImmunity});
-IEntityLivingBase.getRadiation();
+mods.nuclearcraft.RadiationBlockMutation.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
 
-IEntityLivingBase.addRadawayBuffer(double amount, {boolean slowBuffer});
-IEntityLivingBase.setRadawayBuffer(double amount, {boolean slowBuffer});
-IEntityLivingBase.getRadawayBuffer({boolean slowBuffer});
+mods.nuclearcraft.RadiationBlockMutation.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.RadiationBlockMutation.removeRecipeWithOutput(IIngredient blockOutput);
 
-IEntityLivingBase.addPoisonBuffer(double amount);
-IEntityLivingBase.setPoisonBuffer(double amount);
-IEntityLivingBase.getPoisonBuffer();
 
-IEntityLivingBase.addRadiationResistance(double amount);
-IEntityLivingBase.setRadiationResistance(double amount);
-IEntityLivingBase.getRadiationResistance();
+Block Purification:
+-------------------
 
-IEntityLivingBase.getRawRadiationLevel();
-IEntityLivingBase.getRadiationLevel();
+mods.nuclearcraft.RadiationBlockPurification.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
+
+mods.nuclearcraft.RadiationBlockPurification.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.RadiationBlockPurification.removeRecipeWithOutput(IIngredient blockOutput);
+
+
+Entity Radiation:
+-----------------
+
+IEntityLivingBase::addRadiation(double amount, {boolean useImmunity});
+IEntityLivingBase::setRadiation(double amount, {boolean useImmunity});
+IEntityLivingBase::getRadiation();
+
+IEntityLivingBase::addRadawayBuffer(double amount, {boolean slowBuffer});
+IEntityLivingBase::setRadawayBuffer(double amount, {boolean slowBuffer});
+IEntityLivingBase::getRadawayBuffer({boolean slowBuffer});
+
+IEntityLivingBase::addPoisonBuffer(double amount);
+IEntityLivingBase::setPoisonBuffer(double amount);
+IEntityLivingBase::getPoisonBuffer();
+
+IEntityLivingBase::addRadiationResistance(double amount);
+IEntityLivingBase::setRadiationResistance(double amount);
+IEntityLivingBase::getRadiationResistance();
+
+IEntityLivingBase::getRawRadiationLevel();
+IEntityLivingBase::getRadiationLevel();
+
+
+Miscellaneous:
+--------------
+
+mods.nuclearcraft.Radiation.getRadiationLevel(IIngredient itemInput);
+
+mods.nuclearcraft.Radiation.setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames);
+
+---------------------------------------------------------------------------------------------------------------------------
+
+ Recipe Info:
+>------------<
+
+Recipe Handlers:
+----------------
+
+If you want to get the recipe handler associated with a recipe type, use `getRecipeHandler()`. For example, if you want to
+get the Solid Fuel Fission recipe handler, use `mods.nuclearcraft.SolidFission.getRecipeHandler()`.
+
+
+Recipe Handler Methods:
+-----------------------
+
+RecipeHandler::getRecipeName();
+RecipeHandler::getRecipeList();
+
+RecipeHandler::getItemInputSize();
+RecipeHandler::getFluidInputSize();
+RecipeHandler::getItemOutputSize();
+RecipeHandler::getFluidOutputSize();
+RecipeHandler::isShapeless();
+
+
+Recipe Methods:
+---------------
+
+Recipe::getItemIngredient(int index);
+Recipe::getFluidIngredient(int index);
+Recipe::getItemProduct(int index);
+Recipe::getFluidProduct(int index);
+
 ___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------

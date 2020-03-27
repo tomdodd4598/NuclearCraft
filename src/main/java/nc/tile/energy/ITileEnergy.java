@@ -131,13 +131,13 @@ public interface ITileEnergy extends ITile {
 		}
 	}
 	
-	public default void spreadEnergy() {
+	/*public default void spreadEnergy() {
 		if (!NCConfig.passive_permeation) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			if (getEnergyStorage().getEnergyStored() <= 0) return;
 			spreadEnergyToSide(side);
 		}
-	}
+	}*/
 	
 	public default void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (!getEnergyConnection(side).canExtract()) return;

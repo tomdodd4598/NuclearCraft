@@ -373,7 +373,7 @@ public class RecipeHelper {
 	
 	public static String getRecipeString(IRecipe recipe) {
 		if (recipe == null) return "nullRecipe";
-		return getRecipeString(recipe.itemIngredients(), recipe.fluidIngredients(), recipe.itemProducts(), recipe.fluidProducts());
+		return getRecipeString(recipe.getItemIngredients(), recipe.getFluidIngredients(), recipe.getItemProducts(), recipe.getFluidProducts());
 	}
 	
 	public static List<String> buildItemIngredientNames(List ingredientList) {
@@ -409,8 +409,8 @@ public class RecipeHelper {
 	}
 	
 	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes, List<String> exceptions) {
-		int fluidInputSize = recipes.fluidInputSize;
-		int fluidOutputSize = recipes.fluidOutputSize;
+		int fluidInputSize = recipes.getFluidInputSize();
+		int fluidOutputSize = recipes.getFluidOutputSize();
 		
 		List<FluidStack> fluidStackList = new ArrayList<FluidStack>();
 		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) fluidStackList.add(new FluidStack(fluid, 1000));

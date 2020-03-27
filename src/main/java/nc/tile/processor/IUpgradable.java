@@ -6,6 +6,10 @@ public interface IUpgradable {
 	
 	public boolean hasUpgrades();
 	
+	public default int getNumberOfUpgrades() {
+		return hasUpgrades() ? 2 : 0;
+	}
+	
 	public int getSpeedCount();
 	
 	public int getEnergyCount();

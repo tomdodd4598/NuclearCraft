@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.recipe.ingredient.IFluidIngredient;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
 
-public interface IFluidProcessor extends IProcessor {
+public interface IFluidProcessor extends IProcessor, ITileFluid {
+	
+	public int getFluidInputSize();
+	
+	public int getFluidOutputputSize();
 	
 	public List<Tank> getFluidInputs();
 	

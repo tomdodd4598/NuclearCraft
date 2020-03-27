@@ -31,7 +31,9 @@ public class NCUtil {
 	}
 	
 	public static boolean areEqual(int value, int... values) {
-		for (int i : values) if(value != i) return false;
+		for (int i : values) {
+			if (value != i) return false;
+		}
 		return true;
 	}
 	

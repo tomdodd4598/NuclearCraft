@@ -37,7 +37,7 @@ public class AddProcessorRecipe implements IAction {
 		
 		while (listCount < objects.size()) {
 			Object object = objects.get(listCount);
-			if (ingredientCount < recipeHandler.itemInputSize) {
+			if (ingredientCount < recipeHandler.getItemInputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -51,7 +51,7 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				itemIngredients.add(ingredient);
-			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize) {
+			} else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -65,7 +65,7 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				fluidIngredients.add(ingredient);
-			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize) {
+			} else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize() + recipeHandler.getItemOutputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -78,7 +78,7 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				itemProducts.add(ingredient);
-			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize + recipeHandler.fluidOutputSize) {
+			} else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize() + recipeHandler.getItemOutputSize() + recipeHandler.getFluidOutputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -98,7 +98,7 @@ public class AddProcessorRecipe implements IAction {
 			ingredientCount++;
 		}
 		
-		if (itemIngredients.size() != recipeHandler.itemInputSize || fluidIngredients.size() != recipeHandler.fluidInputSize || itemProducts.size() != recipeHandler.itemOutputSize || fluidProducts.size() != recipeHandler.fluidOutputSize) {
+		if (itemIngredients.size() != recipeHandler.getItemInputSize() || fluidIngredients.size() != recipeHandler.getFluidInputSize() || itemProducts.size() != recipeHandler.getItemOutputSize() || fluidProducts.size() != recipeHandler.getFluidOutputSize()) {
 			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;
 			return;
@@ -110,7 +110,7 @@ public class AddProcessorRecipe implements IAction {
 		this.fluidProducts = fluidProducts;
 		this.extras = extras;
 		
-		recipe = recipeHandler.buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, recipeHandler.isShapeless);
+		recipe = recipeHandler.buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, recipeHandler.isShapeless());
 		if (recipe == null) wasNull = true;
 	}
 	

@@ -5,15 +5,13 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import static nc.recipe.NCRecipes.fission_heating;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
@@ -29,10 +27,12 @@ import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
+import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
-import nc.multiblock.fission.tile.TileFissionPort;
+import nc.multiblock.fission.tile.IFissionHeatingComponent;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
+import nc.multiblock.fission.tile.port.TileFissionCellPort;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SolidFissionUpdatePacket;
 import nc.recipe.NCRecipes;
@@ -40,7 +40,6 @@ import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
-import nc.util.BlockPosHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -103,64 +102,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public void refreshPorts() {
-		Long2ObjectMap<TileSolidFissionCell> cellMap = getPartMap(TileSolidFissionCell.class);
-		Long2ObjectMap<TileFissionPort> portMap = getPartMap(TileFissionPort.class);
-		
-		for (TileSolidFissionCell cell : cellMap.values()) {
-			cell.clearMasterPort();
-		}
-		
-		Int2ObjectMap<TileFissionPort> masterPortMap = new Int2ObjectOpenHashMap<>();
-		Int2IntMap cellCountMap = new Int2IntOpenHashMap();
-		for (TileFissionPort port : portMap.values()) {
-			int filter = port.getFilterID();
-			if (BlockPosHelper.DEFAULT_NON.equals(port.getMasterPortPos()) && !masterPortMap.containsKey(filter)) {
-				masterPortMap.put(filter, port);
-				cellCountMap.put(filter, 0);
-			}
-			port.clearMasterPort();
-			port.connectedParts.clear();
-		}
-		
-		if (!getReactor().isAssembled() || portMap.isEmpty()) {
-			return;
-		}
-		
-		for (TileFissionPort port : portMap.values()) {
-			int filter = port.getFilterID();
-			if (!masterPortMap.containsKey(filter)) {
-				masterPortMap.put(filter, port);
-				cellCountMap.put(filter, 0);
-			}
-		}
-		
-		for (TileFissionPort port : portMap.values()) {
-			int filter = port.getFilterID();
-			TileFissionPort master = masterPortMap.get(filter);
-			if (port != master) {
-				port.setMasterPortPos(master.getPos());
-				port.refreshMasterPort();
-			}
-			
-			port.recipe_handler = NCRecipes.solid_fission;
-		}
-		
-		for (TileSolidFissionCell cell : cellMap.values()) {
-			int filter = cell.getFilterID();
-			if (masterPortMap.containsKey(filter)) {
-				TileFissionPort master = masterPortMap.get(filter);
-				if (master != null) {
-					master.connectedParts.add(cell);
-					cell.setMasterPortPos(master.getPos());
-					cell.refreshMasterPort();
-					cellCountMap.put(filter, cellCountMap.get(filter) + 1);
-				}
-			}
-		}
-		
-		for (Int2ObjectMap.Entry<TileFissionPort> entry : masterPortMap.int2ObjectEntrySet()) {
-			entry.getValue().inventoryStackLimit = Math.max(64, 2*cellCountMap.get(entry.getIntKey()));
-		}
+		super.refreshPorts();
+		refreshFilteredItemPorts(TileFissionCellPort.class, TileSolidFissionCell.class);
 	}
 	
 	@Override
@@ -189,7 +132,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		
 		for (IFissionFuelComponent primedComponent : primedCache) {
 			primedComponent.refreshIsProcessing(false);
-			primedComponent.refreshLocal();
+			refreshFuelComponentLocal(primedComponent);
 			primedComponent.unprime();
 			
 			if (!primedComponent.isFunctional()) {
@@ -202,7 +145,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshClusters() {
 		for (TileSolidFissionCell cell : getPartMap(TileSolidFissionCell.class).values()) {
-			cell.refreshModerators();
+			refreshFuelComponentModerators(cell);
 		}
 		
 		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
@@ -226,6 +169,43 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		}
 		
 		super.refreshClusters();
+	}
+	
+	@Override
+	public void refreshClusterStats(FissionCluster cluster) {
+		super.refreshClusterStats(cluster);
+		
+		for (IFissionComponent component : cluster.getComponentMap().values()) {
+			if (component.isFunctional()) {
+				cluster.componentCount++;
+				if (component instanceof IFissionHeatingComponent) {
+					cluster.rawHeating += ((IFissionHeatingComponent)component).getRawHeating();
+					cluster.effectiveHeating += ((IFissionHeatingComponent)component).getEffectiveHeating();
+					if (component instanceof IFissionFuelComponent) {
+						cluster.fuelComponentCount++;
+						cluster.totalHeatMult += ((IFissionFuelComponent)component).getHeatMultiplier();
+						cluster.totalEfficiency += ((IFissionFuelComponent)component).getEfficiency();
+					}
+				}
+				if (component instanceof IFissionCoolingComponent) {
+					cluster.cooling += ((IFissionCoolingComponent)component).getCooling();
+				}
+			}
+		}
+		
+		cluster.overcoolingEfficiencyFactor = cluster.cooling == 0L ? 1D : Math.min(1D, (double)(cluster.rawHeating + NCConfig.fission_cooling_efficiency_leniency)/(double)cluster.cooling);
+		cluster.undercoolingLifetimeFactor = cluster.rawHeating == 0L ? 1D : Math.min(1D, (double)(cluster.cooling + NCConfig.fission_cooling_efficiency_leniency)/(double)cluster.rawHeating);
+		cluster.effectiveHeating *= cluster.overcoolingEfficiencyFactor;
+		cluster.totalEfficiency *= cluster.overcoolingEfficiencyFactor;
+		cluster.meanHeatMult = cluster.fuelComponentCount == 0 ? 0D : (double)cluster.totalHeatMult/(double)cluster.fuelComponentCount;
+		cluster.meanEfficiency = cluster.fuelComponentCount == 0 ? 0D : cluster.totalEfficiency/cluster.fuelComponentCount;
+		
+		for (IFissionComponent component : cluster.getComponentMap().values()) {
+			if (component instanceof IFissionFuelComponent) {
+				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
+				fuelComponent.setUndercoolingLifetimeFactor(cluster.undercoolingLifetimeFactor);
+			}
+		}
 	}
 	
 	@Override
@@ -261,7 +241,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		if (getReactor().heatBuffer.isFull() && NCConfig.fission_overheat) {
 			getReactor().heatBuffer.setHeatStored(0);
 			reservedEffectiveHeat = 0D;
-			doMeltdown();
+			casingMeltdown();
 			return true;
 		}
 		
@@ -302,12 +282,12 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	public boolean canProduceProducts() {
 		ProcessorRecipe recipe = heatingRecipeInfo.getRecipe();
-		IFluidIngredient fluidProduct = recipe.fluidProducts().get(0);
+		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		int productSize = fluidProduct.getMaxStackSize(0);
 		if (productSize <= 0 || fluidProduct.getStack() == null) return false;
 		
 		int heatPerMB = recipe.getFissionHeatingHeatPerInputMB();
-		int inputSize = recipe.fluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
+		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		
 		double usedInput = Math.min(tanks.get(0).getFluidAmount(), getEffectiveHeat()/heatPerMB);
 		heatingRecipeRate = heatingOutputRateFP = Math.min(Integer.MAX_VALUE, Math.min((tanks.get(1).getCapacity() - tanks.get(1).getFluidAmount())/productSize, usedInput/inputSize));
@@ -322,13 +302,13 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	public void produceProducts() {
 		ProcessorRecipe recipe = heatingRecipeInfo.getRecipe();
-		int inputSize = recipe.fluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
+		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		int heatingRecipeRateInt = (int)heatingRecipeRate;
 		
 		if (heatingRecipeRateInt*inputSize > 0) tanks.get(0).changeFluidAmount(-heatingRecipeRateInt*inputSize);
 		if (tanks.get(0).getFluidAmount() <= 0) tanks.get(0).setFluidStored(null);
 		
-		IFluidIngredient fluidProduct = recipe.fluidProducts().get(0);
+		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) > 0) {
 			int stackSize = 0;
 			if (tanks.get(1).isEmpty()) {
@@ -355,6 +335,44 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	public long getNetClusterHeating() {
 		return getReactor().rawHeating - getReactor().cooling;
+	}
+	
+	@Override
+	public void clusterMeltdown(FissionCluster cluster) {
+		final Iterator<IFissionComponent> componentIterator = cluster.getComponentMap().values().iterator();
+		while (componentIterator.hasNext()) {
+			IFissionComponent component = componentIterator.next();
+			componentIterator.remove();
+			component.onClusterMeltdown();
+		}
+		clusterMeltdown(cluster);
+	}
+	
+	// Component Logic
+	
+	@Override
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
+		fuelComponent.defaultDistributeFlux(fluxSearchCache);
+	}
+	
+	@Override
+	public IFissionFuelComponent getNextFuelComponent(IFissionFuelComponent fuelComponent, BlockPos pos) {
+		return getPartMap(TileSolidFissionCell.class).get(pos.toLong());
+	}
+	
+	@Override
+	public void refreshFuelComponentLocal(IFissionFuelComponent fuelComponent) {
+		fuelComponent.defaultRefreshLocal();
+	}
+	
+	@Override
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {
+		fuelComponent.defaultRefreshModerators();
+	}
+	
+	@Override
+	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks) {
+		return getReactor().isAssembled() ? tanks : backupTanks;
 	}
 	
 	// Client

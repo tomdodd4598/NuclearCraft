@@ -12,6 +12,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import nc.recipe.ingredient.ChanceFluidIngredient;
@@ -32,12 +33,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
+@ZenClass("mods.nuclearcraft.AbstractRecipeHandler")
+@ZenRegister
 public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
-	private List<T> recipeList = new ArrayList<>();
+	protected List<T> recipeList = new ArrayList<>();
 	
-	private Long2ObjectMap<T> recipeCache = new Long2ObjectOpenHashMap<>();
+	protected Long2ObjectMap<T> recipeCache = new Long2ObjectOpenHashMap<>();
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
@@ -51,11 +56,11 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	public abstract void addRecipes();
 	
+	@ZenMethod
 	public abstract String getRecipeName();
 	
-	public List<T> getRecipeList() {
-		return recipeList;
-	}
+	@ZenMethod
+	public abstract List<T> getRecipeList();
 	
 	public Long2ObjectMap<T> getRecipeCache() {
 		return recipeCache;
@@ -136,10 +141,10 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 			List<List<ItemStack>> itemInputLists = new ArrayList<>();
 			List<List<FluidStack>> fluidInputLists = new ArrayList<>();
 			
-			for (IItemIngredient item : recipe.itemIngredients()) itemInputLists.add(item.getInputStackHashingList());
-			for (IFluidIngredient fluid : recipe.fluidIngredients()) fluidInputLists.add(fluid.getInputStackHashingList());
+			for (IItemIngredient item : recipe.getItemIngredients()) itemInputLists.add(item.getInputStackHashingList());
+			for (IFluidIngredient fluid : recipe.getFluidIngredients()) fluidInputLists.add(fluid.getInputStackHashingList());
 			
-			int arrSize = recipe.itemIngredients().size() + recipe.fluidIngredients().size();
+			int arrSize = recipe.getItemIngredients().size() + recipe.getFluidIngredients().size();
 			int[] inputNumbers = new int[arrSize];
 			Arrays.fill(inputNumbers, 0);
 			
@@ -243,7 +248,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	public boolean isValidItemInput(ItemStack stack) {
 		for (T recipe : recipeList) {
-			for (IItemIngredient input : recipe.itemIngredients()) {
+			for (IItemIngredient input : recipe.getItemIngredients()) {
 				if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
 					return true;
 				}
@@ -254,7 +259,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	public boolean isValidFluidInput(FluidStack stack) {
 		for (T recipe : recipeList) {
-			for (IFluidIngredient input : recipe.fluidIngredients()) {
+			for (IFluidIngredient input : recipe.getFluidIngredients()) {
 				if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
 					return true;
 				}
@@ -265,7 +270,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 
 	public boolean isValidItemOutput(ItemStack stack) {
 		for (T recipe : recipeList) {
-			for (IItemIngredient output : recipe.itemProducts()) {
+			for (IItemIngredient output : recipe.getItemProducts()) {
 				if (output.match(stack, IngredientSorption.OUTPUT).matches()) {
 					return true;
 				}
@@ -276,7 +281,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	public boolean isValidFluidOutput(FluidStack stack) {
 		for (T recipe : recipeList) {
-			for (IFluidIngredient output : recipe.fluidProducts()) {
+			for (IFluidIngredient output : recipe.getFluidProducts()) {
 				if (output.match(stack, IngredientSorption.OUTPUT).matches()) {
 					return true;
 				}
@@ -303,7 +308,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		List<T> recipeList = new ArrayList(this.recipeList);
 		recipeLoop: for (T recipe : this.recipeList) {
 			objLoop: for (ItemStack obj : allStacks) {
-				for (IItemIngredient input : recipe.itemIngredients()) {
+				for (IItemIngredient input : recipe.getItemIngredients()) {
 					if (input.match(obj, IngredientSorption.NEUTRAL).matches()) continue objLoop;
 				}
 				recipeList.remove(recipe);
@@ -312,7 +317,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		}
 		
 		for (T recipe : recipeList) {
-			for (IItemIngredient input : recipe.itemIngredients()) {
+			for (IItemIngredient input : recipe.getItemIngredients()) {
 				if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
 					for (ItemStack other : otherStacks) {
 						if (input.match(other, IngredientSorption.NEUTRAL).matches()) return false;

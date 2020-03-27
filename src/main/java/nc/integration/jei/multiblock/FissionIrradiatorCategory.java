@@ -14,7 +14,7 @@ import nc.util.Lang;
 public class FissionIrradiatorCategory extends JEICategoryProcessor<JEIRecipeWrapper.FissionIrradiator> {
 	
 	public FissionIrradiatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "fission_irradiator", 47, 30, 90, 26);
+		super(guiHelper, handler, "fission_irradiator", "_jei", 47, 30, 90, 26);
 		recipeTitle = Lang.localise(Global.MOD_ID + ".multiblock_gui.fission_irradiator.jei_name");
 	}
 	

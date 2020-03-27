@@ -4,6 +4,7 @@ import java.util.List;
 
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
+import net.minecraftforge.fml.common.Optional;
 
 public interface IIngredient<T> {
 	
@@ -32,4 +33,9 @@ public interface IIngredient<T> {
 	public IngredientMatchResult match(Object object, IngredientSorption sorption);
 	
 	public boolean isValid();
+	
+	// CraftTweaker
+	
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct();
 }

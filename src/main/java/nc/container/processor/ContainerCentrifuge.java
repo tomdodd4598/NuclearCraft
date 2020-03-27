@@ -11,8 +11,8 @@ public class ContainerCentrifuge extends ContainerFluidProcessor {
 	public ContainerCentrifuge(EntityPlayer player, TileFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.centrifuge);
 		
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 76, speedUpgrade));
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 76, energyUpgrade));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 76, SPEED_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 76, ENERGY_UPGRADE));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -11,8 +11,8 @@ public class ContainerChemicalReactor extends ContainerFluidProcessor {
 	public ContainerChemicalReactor(EntityPlayer player, TileFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.chemical_reactor);
 		
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 64, energyUpgrade));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, SPEED_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 64, ENERGY_UPGRADE));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -144,7 +144,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	public ItemStack getOutput(EnumFacing side) {
 		if (getDecayRecipeInfo(side) == null) return ItemStack.EMPTY;
-		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipeInfo(side).getRecipe().itemProducts(), 0);
+		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipeInfo(side).getRecipe().getItemProducts(), 0);
 		return output != null ? output : ItemStack.EMPTY;
 	}
 }

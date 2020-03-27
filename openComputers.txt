@@ -27,13 +27,14 @@ Object[] getModeratorStats() -> {{{posX, posY, posZ}, isInValidPosition, isInMod
 void activate()
 void deactivate()
 void clearAllMaterial()
-___________________________________________________________________________________________________________________________
+
+---------------------------------------------------------------------------------------------------------------------------
 
  Heat Exchanger - component.nc_heat_exchanger:
 >---------------------------------------------<
 
 boolean isComplete()
-boolean isReactorOn()
+boolean isHeatExchangerOn()
 int getLengthX()
 int getLengthY()
 int getLengthZ()
@@ -47,13 +48,14 @@ Object[] getCondensationTubeStats() -> {{{posX, posY, posZ}, conductivity, isPro
 void activate()
 void deactivate()
 void clearAllMaterial()
-___________________________________________________________________________________________________________________________
+
+---------------------------------------------------------------------------------------------------------------------------
 
  Turbine - component.nc_turbine:
 >-------------------------------<
 
 boolean isComplete()
-boolean isReactorOn()
+boolean isTurbineOn()
 int getLengthX()
 int getLengthY()
 int getLengthZ()
@@ -75,13 +77,15 @@ Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPositi
 void activate()
 void deactivate()
 void clearAllMaterial()
-___________________________________________________________________________________________________________________________
+
+---------------------------------------------------------------------------------------------------------------------------
 
  Geiger Counter - component.nc_geiger_counter:
 >---------------------------------------------<
 
 double getChunkRadiationLevel()
-___________________________________________________________________________________________________________________________
+
+---------------------------------------------------------------------------------------------------------------------------
 
  Radiation Scrubber - component.nc_radiation_scrubber:
 >-----------------------------------------------------<
@@ -89,3 +93,4 @@ ________________________________________________________________________________
 double getRadiationRemovalRate()
 double getEfficiency()
 ___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------

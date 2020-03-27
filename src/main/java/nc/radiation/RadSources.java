@@ -16,7 +16,9 @@ import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
+import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
+import nc.util.StringHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
@@ -41,7 +43,12 @@ public class RadSources {
 	
 	public static void addToOreMap(String ore, double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) return;
-		ORE_MAP.put(ore, radiation);
+		if (StringHelper.isGlob(ore)) {
+			OreDictHelper.putWildcard(ORE_MAP, ore, radiation);
+		}
+		else {
+			ORE_MAP.put(ore, radiation);
+		}
 	}
 	
 	public static void addToStackMap(ItemStack stack, double radiation) {
@@ -100,19 +107,24 @@ public class RadSources {
 	public static final List<String> ORE_PREFIXES = Lists.newArrayList("ore");
 	
 	public static void init() {
-		for (String oreInfo : NCConfig.radiation_ores_blacklist) {
-			ORE_BLACKLIST.add(oreInfo);
+		for (String ore : NCConfig.radiation_ores_blacklist) {
+			if (StringHelper.isGlob(ore)) {
+				OreDictHelper.addWildcard(ORE_BLACKLIST, ore);
+			}
+			else {
+				ORE_BLACKLIST.add(ore);
+			}
 		}
-		for (String itemInfo : NCConfig.radiation_items_blacklist) {
-			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo);
+		for (String item : NCConfig.radiation_items_blacklist) {
+			ItemStack stack = RegistryHelper.itemStackFromRegistry(item);
 			if (stack != null) STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
 		}
-		for (String blockInfo : NCConfig.radiation_blocks_blacklist) {
-			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo);
+		for (String block : NCConfig.radiation_blocks_blacklist) {
+			ItemStack stack = RegistryHelper.blockStackFromRegistry(block);
 			if (stack != null) STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
 		}
-		for (String fluidInfo : NCConfig.radiation_fluids_blacklist) {
-			FLUID_BLACKLIST.add(fluidInfo);
+		for (String fluid : NCConfig.radiation_fluids_blacklist) {
+			FLUID_BLACKLIST.add(fluid);
 		}
 		
 		if (ModCheck.gregtechLoaded()) {

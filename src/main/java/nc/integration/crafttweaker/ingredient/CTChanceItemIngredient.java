@@ -2,6 +2,7 @@ package nc.integration.crafttweaker.ingredient;
 
 import java.util.List;
 
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemCondition;
 import crafttweaker.api.item.IItemStack;
@@ -11,39 +12,49 @@ import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.player.IPlayer;
 import nc.integration.crafttweaker.CTHelper;
 import nc.recipe.ingredient.ChanceItemIngredient;
+import stanhebben.zenscript.annotations.Optional;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
-public class CTChanceItemIngredient implements IChanceItemIngredient {
+@ZenClass("mods.nuclearcraft.ChanceItemIngredient")
+@ZenRegister
+public class CTChanceItemIngredient implements IIngredient {
 	
 	private final IIngredient internalIngredient;
 	private final int chancePercent;
 	private final int minStackSize;
 	private final ChanceItemIngredient chanceIngredient;
 	
-	public CTChanceItemIngredient(IIngredient ingredient, int chancePercent, int minStackSize) {
-		this.internalIngredient = ingredient;
+	private CTChanceItemIngredient(IIngredient ingredient, int chancePercent, int minStackSize) {
+		internalIngredient = ingredient;
 		this.chancePercent = chancePercent;
 		this.minStackSize = minStackSize;
 		chanceIngredient = new ChanceItemIngredient(CTHelper.buildAdditionItemIngredient(ingredient), chancePercent, minStackSize);
 	}
 	
-	@Override
+	@ZenMethod
+	public static CTChanceItemIngredient create(IIngredient ingredient, int chancePercent, @Optional int minStackSize) {
+		return new CTChanceItemIngredient(ingredient, chancePercent, minStackSize);
+	}
+	
+	@ZenMethod
 	public IIngredient getInternalIngredient() {
 		return internalIngredient;
 	}
 	
-	@Override
+	@ZenMethod
 	public int getChancePercent() {
 		return chancePercent;
 	}
 	
-	@Override
+	@ZenMethod
 	public int getMinStackSize() {
 		return minStackSize;
 	}
 	
 	@Override
 	public String getMark() {
-		return null;
+		return internalIngredient.getMark();
 	}
 	
 	@Override
@@ -88,7 +99,7 @@ public class CTChanceItemIngredient implements IChanceItemIngredient {
 	
 	@Override
 	public IIngredient marked(String mark) {
-		return null;
+		return internalIngredient.marked(mark);
 	}
 	
 	@Override

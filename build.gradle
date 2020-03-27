@@ -101,7 +101,7 @@ dependencies {
 	deobfCompile "projecte:ProjectE:${projecte_version}"
 	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
-	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6"){
+	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6") {
 		transitive = false
 	}
 }

@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.api.item.IngredientOr;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class FluidArrayIngredient implements IFluidIngredient {
 	
@@ -25,8 +27,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	@Override
 	public FluidStack getStack() {
-		if (cachedStackList == null || cachedStackList.isEmpty() || cachedStackList.get(0) == null) return null;
-		return cachedStackList.get(0).copy();
+		return isValid() ? cachedStackList.get(0).copy() : null;
 	}
 	
 	@Override
@@ -68,8 +69,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	@Override
 	public List<FluidStack> getOutputStackList() {
-		if (cachedStackList == null || cachedStackList.isEmpty()) return new ArrayList<FluidStack>();
-		return Lists.newArrayList(getStack());
+		return isValid() ? Lists.newArrayList(getStack()) : new ArrayList<FluidStack>();
 	}
 	
 	@Override
@@ -83,5 +83,17 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	@Override
 	public boolean isValid() {
 		return cachedStackList != null && !cachedStackList.isEmpty();
+	}
+	
+	// CraftTweaker
+	
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct() {
+		crafttweaker.api.item.IIngredient[] array = new crafttweaker.api.item.IIngredient[ingredientList.size()];
+		for (int i = 0; i < ingredientList.size(); i++) {
+			array[i] = ingredientList.get(i).ct();
+		}
+		return new IngredientOr(array);
 	}
 }

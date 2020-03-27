@@ -7,7 +7,7 @@ import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket> {
+public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart, HeatExchangerUpdatePacket> {
 	
 	public HeatExchangerLogic(HeatExchanger exchanger) {
 		super(exchanger);

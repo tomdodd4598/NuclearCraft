@@ -20,11 +20,10 @@ public class SlotFiltered extends Slot {
 		return tile.getFilterStacks().get(slotIndex);
 	}
 	
-	public ItemStack setFilterStack(ItemStack stack) {
-		ItemStack out = tile.getFilterStacks().set(slotIndex, stack);
+	public void setFilterStack(ItemStack stack) {
+		tile.getFilterStacks().set(slotIndex, stack);
 		onSlotChanged();
 		tile.onFilterChanged(slotIndex);
-		return out;
 	}
 	
 	@Override
@@ -32,15 +31,17 @@ public class SlotFiltered extends Slot {
 		if (stack.isEmpty()) return false;
 		boolean itemValidRaw = isItemValidRaw(stack);
 		
-		if (!itemValidRaw) {
-			setFilterStack(ItemStack.EMPTY);
-			return false;
-		}
-		else if (getFilterStack().isEmpty() || !stack.isItemEqual(getFilterStack())) {
-			ItemStack filter = stack.copy();
-			filter.setCount(1);
-			setFilterStack(filter);
-			return false;
+		if (tile.canModifyFilter(slotIndex)) {
+			if (!itemValidRaw) {
+				setFilterStack(ItemStack.EMPTY);
+				return false;
+			}
+			else if (!stack.isItemEqual(getFilterStack())) {
+				ItemStack filter = stack.copy();
+				filter.setCount(1);
+				setFilterStack(filter);
+				return false;
+			}
 		}
 		
 		return itemValidRaw && (getFilterStack().isEmpty() || stack.isItemEqual(getFilterStack()));
@@ -52,7 +53,7 @@ public class SlotFiltered extends Slot {
 	
 	@Override
 	public void putStack(ItemStack stack) {
-		if (stack.isEmpty()) {
+		if (stack.isEmpty() && tile.canModifyFilter(slotIndex)) {
 			setFilterStack(ItemStack.EMPTY);
 		}
 		super.putStack(stack);

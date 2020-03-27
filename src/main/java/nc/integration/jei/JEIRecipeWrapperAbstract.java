@@ -42,14 +42,14 @@ public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstrac
 		this.recipeHandler = recipeHandler;
 		this.recipe = recipe;
 		
-		itemInputs = RecipeHelper.getItemInputLists(recipe.itemIngredients());
-		fluidInputs = RecipeHelper.getFluidInputLists(recipe.fluidIngredients());
+		itemInputs = RecipeHelper.getItemInputLists(recipe.getItemIngredients());
+		fluidInputs = RecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
 		
 		/*itemOutputs = RecipeHelper.getItemOutputList(recipe.itemProducts());
 		fluidOutputs = RecipeHelper.getFluidOutputList(recipe.fluidProducts());*/
 		
-		itemOutputs = RecipeHelper.getItemOutputLists(recipe.itemProducts());
-		fluidOutputs = RecipeHelper.getFluidOutputLists(recipe.fluidProducts());
+		itemOutputs = RecipeHelper.getItemOutputLists(recipe.getItemProducts());
+		fluidOutputs = RecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
 		
 		this.drawArrow = arrowWidth > 0 && arrowHeight > 0;
 		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + guiExtra + ".png");

@@ -6,7 +6,6 @@ import java.util.Locale;
 import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
-import nc.enumm.IFissionFuelEnum;
 import nc.enumm.IHeatSinkEnum;
 import nc.enumm.IMetaEnum;
 import nc.enumm.MetaEnums;
@@ -23,7 +22,7 @@ public class NCInfo {
 	
 	// Fission Fuel
 	
-	public static <T extends Enum<T> & IFissionFuelEnum> String[][] fissionFuelInfo(T[] values) {
+	/*public static <T extends Enum<T> & IFissionFuelEnum> String[][] fissionFuelInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			List<String> list = Lists.newArrayList(
@@ -38,6 +37,20 @@ public class NCInfo {
 			info[i] = list.toArray(new String[list.size()]);
 		}
 		return info;
+	}*/
+	
+	public static String[] fissionFuelInfo(ProcessorRecipe fuelInfo) {
+		List<String> list = Lists.newArrayList(
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 3)),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", Math.round(100D*fuelInfo.getFissionFuelEfficiency()) + "%"),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t")
+				);
+		if (fuelInfo.getFissionFuelSelfPriming()) {
+			list.add(Lang.localise("info." + Global.MOD_ID + ".fission_fuel.self_priming.desc"));
+		}
+		return list.toArray(new String[list.size()]);
 	}
 	
 	// Fission Heat Sinks

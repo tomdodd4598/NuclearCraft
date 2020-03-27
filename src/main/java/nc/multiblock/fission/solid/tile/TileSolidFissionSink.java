@@ -355,7 +355,20 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean lead = false;
+			byte l = 0;
+			boolean[] lead = new boolean[] {false, false, false, false, false, false};
+			boolean wall = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveSink(pos.offset(dir), "lead")) {
+					l++;
+					lead[dir.ordinal()] = true;
+				}
+				if (l > 2) return false;
+				if (!wall && isWall(pos.offset(dir))) wall = true;
+			}
+			return wall && l == 2 && ((lead[0] && lead[1]) || (lead[2] && lead[3]) || (lead[4] && lead[5]));
+			
+			/*boolean lead = false;
 			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
 				for (EnumFacing dir : axialDirs) {
 					if (!isActiveSink(pos.offset(dir), "lead")) continue axialDirsLoop;
@@ -367,7 +380,7 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isWall(pos.offset(dir))) return true;
 			}
-			return false;
+			return false;*/
 		}
 	}
 	
@@ -433,11 +446,12 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean glowstone = false, tin = false;
+			byte glowstone = 0;
+			boolean tin = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				if (!glowstone && isActiveSink(pos.offset(dir), "glowstone")) glowstone = true;
+				if (glowstone < 2 && isActiveSink(pos.offset(dir), "glowstone")) glowstone++;
 				if (!tin && isActiveSink(pos.offset(dir), "tin")) tin = true;
-				if (glowstone && tin) return true;
+				if (glowstone >= 2 && tin) return true;
 			}
 			return false;
 		}
@@ -469,11 +483,11 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean reflector = false, redstone = false;
+			boolean redstone = false, endStone = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				if (!reflector && isActiveReflector(pos.offset(dir))) reflector = true;
 				if (!redstone && isActiveSink(pos.offset(dir), "redstone")) redstone = true;
-				if (reflector && redstone) return true;
+				if (!endStone && isActiveSink(pos.offset(dir), "end_stone")) endStone = true;
+				if (redstone && endStone) return true;
 			}
 			return false;
 		}

@@ -1,5 +1,7 @@
 package nc.render;
 
+import it.unimi.dsi.fastutil.longs.Long2LongMap;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import nc.network.PacketHandler;
 import nc.network.render.BlockHighlightUpdatePacket;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -7,20 +9,14 @@ import net.minecraft.util.math.BlockPos;
 
 public class BlockHighlightTracker {
 	
-	private BlockPos highlightPos = null;
-	private long highlightExpireTimeMillis = 0;
+	private Long2LongMap highlightMap = new Long2LongOpenHashMap();
 	
-	public void highlightBlock(BlockPos pos, long highlightTimeMillis) {
-		highlightPos = pos;
-		this.highlightExpireTimeMillis = System.currentTimeMillis() + highlightTimeMillis;
+	public void highlightBlock(long posLong, long highlightTimeMillis) {
+		highlightMap.put(posLong, System.currentTimeMillis() + highlightTimeMillis);
 	}
 	
-	public BlockPos getHighlightPos() {
-		return highlightPos;
-	}
-	
-	public long getHighlightExpireTimeMillis() {
-		return highlightExpireTimeMillis;
+	public Long2LongMap getHighlightMap() {
+		return highlightMap;
 	}
 	
 	public static void sendPacket(EntityPlayerMP player, BlockPos pos, long highlightTimeMillis) {

@@ -23,7 +23,7 @@ import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
 import nc.multiblock.fission.tile.IFissionComponent;
-import nc.multiblock.fission.tile.IFissionFluxAcceptor;
+import nc.multiblock.fission.tile.IFissionFluxSink;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.radiation.RadiationHelper;
@@ -55,7 +55,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileSaltFissionVessel extends TileFissionPart implements IFluidGenerator, ITileFluid, IFissionFuelComponent {
+public class TileSaltFissionVessel extends TileFissionPart implements IFluidGenerator, IFissionFuelComponent {
 	
 	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, new ArrayList<String>()));
 	
@@ -79,21 +79,21 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
-	private long heat = 0L;
+	protected long heat = 0L;
 	
 	protected boolean primed = false, fluxSearched = false;
 	protected int flux = 0, heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
-	protected IFissionFluxAcceptor[] adjacentFluxAcceptors = new IFissionFluxAcceptor[] {null, null, null, null, null, null};
+	protected IFissionFluxSink[] adjacentFluxSinks = new IFissionFluxSink[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveReflectorModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
 	
-	protected int vesselCount;
+	//protected int vesselCount;
 	
 	public TileSaltFissionVessel() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -145,7 +145,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		sourceEfficiency = null;
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			moderatorLineEfficiencies[dir.getIndex()] = null;
-			adjacentFluxAcceptors[dir.getIndex()] = null;
+			adjacentFluxSinks[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
 			activeModeratorCache[dir.getIndex()] = null;
 			passiveReflectorModeratorCaches[dir.getIndex()].clear();
@@ -182,6 +182,11 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	@Override
 	public void unprime() {
 		primed = false;
+	}
+	
+	@Override
+	public boolean isAcceptingFlux(EnumFacing side) {
+		return canProcessInputs;
 	}
 	
 	@Override
@@ -226,8 +231,8 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	}
 	
 	@Override
-	public IFissionFluxAcceptor[] getAdjacentFluxAcceptors() {
-		return adjacentFluxAcceptors;
+	public IFissionFluxSink[] getAdjacentFluxSinks() {
+		return adjacentFluxSinks;
 	}
 	
 	@Override
@@ -352,8 +357,8 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			
-			tickVessel();
-			if (vesselCount == 0) pushFluid();
+			//tickVessel();
+			//if (vesselCount == 0) pushFluid();
 			
 			if (shouldRefresh && isMultiblockAssembled()) {
 				getMultiblock().refreshFlag = true;
@@ -362,9 +367,9 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		}
 	}
 	
-	public void tickVessel() {
+	/*public void tickVessel() {
 		vesselCount++; vesselCount %= NCConfig.machine_update_rate / 2;
-	}
+	}*/
 	
 	@Override
 	public void refreshRecipe() {
@@ -374,12 +379,12 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs(false);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	@Override
 	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs(true);
+		canProcessInputs = canProcessInputs();
 	}
 	
 	// Processor Stats
@@ -425,16 +430,16 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		return false;
 	}
 		
-	public boolean canProcessInputs(boolean justProduced) {
-		if (!setRecipeStats()) {
-			if (hasConsumed) {
-				for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
-				hasConsumed = false;
-			}
-			return false;
+	public boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (hasConsumed && !validRecipe) {
+			for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
+			hasConsumed = false;
 		}
-		if (!justProduced && time >= baseProcessTime) return true;
-		return canProduceProducts();
+		if (!canProcess) {
+			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+		}
+		return canProcess;
 	}
 	
 	public boolean canProduceProducts() {
@@ -527,18 +532,33 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	// IProcessor
 	
 	@Override
+	public int getFluidInputSize() {
+		return fluidInputSize;
+	}
+	
+	@Override
+	public int getFluidOutputputSize() {
+		return fluidOutputSize;
+	}
+	
+	@Override
+	public int getOtherSlotsSize() {
+		return 0;
+	}
+	
+	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
 		return consumed ? tanks.subList(fluidInputSize + fluidOutputSize, 2*fluidInputSize + fluidOutputSize) : tanks.subList(0, fluidInputSize);
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().fluidIngredients();
+		return recipeInfo.getRecipe().getFluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().fluidProducts();
+		return recipeInfo.getRecipe().getFluidProducts();
 	}
 	
 	// Fluids
@@ -697,7 +717,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	
 	@Override
 	public void clearAllTanks() {
-		ITileFluid.super.clearAllTanks();
+		IFluidGenerator.super.clearAllTanks();
 		
 		refreshRecipe();
 		refreshActivity();

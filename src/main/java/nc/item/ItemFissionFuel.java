@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import nc.NCInfo;
 import nc.enumm.IFissionFuelEnum;
 import nc.util.InfoHelper;
 import nc.util.ItemStackHelper;
@@ -51,7 +50,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionF
 	@Override
 	public void setInfo() {
 		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), InfoHelper.EMPTY_ARRAY);
-		info = InfoHelper.buildInfo(getTranslationKey(), enumm, NCInfo.fissionFuelInfo(values));
+		info = InfoHelper.buildInfo(getTranslationKey(), enumm, /*NCInfo.fissionFuelInfo(values)*/ InfoHelper.EMPTY_ARRAYS);
 	}
 	
 	@Override

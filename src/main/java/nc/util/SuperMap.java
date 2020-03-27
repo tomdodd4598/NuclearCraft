@@ -3,7 +3,6 @@ package nc.util;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
@@ -13,7 +12,7 @@ public abstract class SuperMap<KEY, T, M extends Map<KEY, ? extends T>> {
 	protected final Object2ObjectMap<Class<? extends T>, M> internalMap;
 	
 	protected SuperMap() {
-		internalMap = new Object2ObjectOpenHashMap<>(Hash.DEFAULT_INITIAL_SIZE);
+		internalMap = new Object2ObjectOpenHashMap<>();
 	}
 	
 	public <TYPE extends T, MAP extends Map<KEY, TYPE>> MAP put(Class<TYPE> clazz, M map) {

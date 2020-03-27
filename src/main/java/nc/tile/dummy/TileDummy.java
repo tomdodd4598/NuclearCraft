@@ -22,7 +22,9 @@ import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -217,12 +219,6 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		super.pushEnergy();
 	}
 	
-	@Override
-	public void spreadEnergy() {
-		if (getMaster() == null) return;
-		super.spreadEnergy();
-	}
-	
 	// Fluids
 	
 	// Tanks
@@ -303,12 +299,6 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		super.pushFluid();
 	}
 	
-	@Override
-	public void spreadFluid() {
-		if (getMaster() == null) return;
-		super.spreadFluid();
-	}
-	
 	// Find Master
 	
 	/** Find the BlockPos of the master tile entity */
@@ -326,5 +316,133 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	public T getMaster() {
 		if (hasMaster()) return (T) world.getTileEntity(masterPosition);
 		return null;
+	}
+	
+	// NBT
+	
+	@Override
+	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
+		ItemStackHelper.saveAllItems(nbt, super.getInventoryStacks());
+		return nbt;
+	}
+	
+	@Override
+	public void readInventory(NBTTagCompound nbt) {
+		ItemStackHelper.loadAllItems(nbt, super.getInventoryStacks());
+	}
+	
+	@Override
+	public NBTTagCompound writeInventoryConnections(NBTTagCompound nbt) {
+		for (EnumFacing side : EnumFacing.VALUES) {
+			super.getInventoryConnections()[side.getIndex()].writeToNBT(nbt, side);
+		}
+		return nbt;
+	}
+	
+	@Override
+	public void readInventoryConnections(NBTTagCompound nbt) {
+		if (!super.hasConfigurableInventoryConnections()) {
+			return;
+		}
+		for (EnumFacing side : EnumFacing.VALUES) {
+			super.getInventoryConnections()[side.getIndex()].readFromNBT(nbt, side);
+		}
+	}
+	
+	@Override
+	public NBTTagCompound writeSlotSettings(NBTTagCompound nbt) {
+		for (int i = 0; i < super.getInventoryStacks().size(); i++) {
+			nbt.setInteger("itemOutputSetting" + i, super.getItemOutputSetting(i).ordinal());
+		}
+		return nbt;
+	}
+	
+	@Override
+	public void readSlotSettings(NBTTagCompound nbt) {
+		for (int i = 0; i < super.getInventoryStacks().size(); i++) {
+			super.setItemOutputSetting(i, ItemOutputSetting.values()[nbt.getInteger("itemOutputSetting" + i)]);
+		}
+	}
+	
+	@Override
+	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
+		for (int i = 0; i < super.getTanks().size(); i++) {
+			super.getTanks().get(i).writeToNBT(nbt, i);
+		}
+		return nbt;
+	}
+	
+	@Override
+	public void readTanks(NBTTagCompound nbt) {
+		for (int i = 0; i < super.getTanks().size(); i++) {
+			super.getTanks().get(i).readFromNBT(nbt, i);
+		}
+	}
+	
+	@Override
+	public NBTTagCompound writeFluidConnections(NBTTagCompound nbt) {
+		for (EnumFacing side : EnumFacing.VALUES) {
+			super.getFluidConnections()[side.getIndex()].writeToNBT(nbt, side);
+		}
+		return nbt;
+	}
+	
+	@Override
+	public void readFluidConnections(NBTTagCompound nbt) {
+		if (!super.hasConfigurableFluidConnections()) {
+			return;
+		}
+		for (EnumFacing side : EnumFacing.VALUES) {
+			super.getFluidConnections()[side.getIndex()].readFromNBT(nbt, side);
+		}
+	}
+	
+	@Override
+	public NBTTagCompound writeTankSettings(NBTTagCompound nbt) {
+		nbt.setBoolean("inputTanksSeparated", super.getInputTanksSeparated());
+		for (int i = 0; i < super.getTanks().size(); i++) {
+			nbt.setBoolean("voidUnusableFluidInput" + i, super.getVoidUnusableFluidInput(i));
+			nbt.setInteger("tankOutputSetting" + i, super.getTankOutputSetting(i).ordinal());
+		}
+		return nbt;
+	}
+	
+	@Override
+	public void readTankSettings(NBTTagCompound nbt) {
+		super.setInputTanksSeparated(nbt.getBoolean("inputTanksSeparated"));
+		for (int i = 0; i < super.getTanks().size(); i++) {
+			super.setVoidUnusableFluidInput(i, nbt.getBoolean("voidUnusableFluidInput" + i));
+			int ordinal = nbt.hasKey("voidExcessFluidOutput" + i) ? (nbt.getBoolean("voidExcessFluidOutput" + i) ? 1 : 0) : nbt.getInteger("tankOutputSetting" + i);
+			super.setTankOutputSetting(i, TankOutputSetting.values()[ordinal]);
+		}
+	}
+	
+	@Override
+	public NBTTagCompound writeEnergy(NBTTagCompound nbt) {
+		nbt.setInteger("energy", super.getEnergyStorage().getEnergyStored());
+		nbt.setInteger("capacity", super.getEnergyStorage().getMaxEnergyStored());
+		nbt.setInteger("maxTransfer", super.getEnergyStorage().getMaxTransfer());
+		return nbt;
+	}
+	
+	@Override
+	public void readEnergy(NBTTagCompound nbt) {
+		super.getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
+		super.getEnergyStorage().setStorageCapacity(nbt.getInteger("capacity"));
+		if (nbt.hasKey("maxTransfer")) super.getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
+		else super.getEnergyStorage().setMaxTransfer(Math.max(nbt.getInteger("maxReceive"), nbt.getInteger("maxExtract"))); // For old NBT
+	}
+	
+	@Override
+	public NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {
+		for (int i = 0; i < 6; i++) nbt.setInteger("energyConnections" + i, super.getEnergyConnections()[i].ordinal());
+		return nbt;
+	}
+	
+	@Override
+	public void readEnergyConnections(NBTTagCompound nbt) {
+		if (super.hasConfigurableEnergyConnections()) for (int i = 0; i < 6; i++) {
+			if (nbt.hasKey("energyConnections" + i)) super.getEnergyConnections()[i] = EnergyConnection.values()[nbt.getInteger("energyConnections" + i)];
+		}
 	}
 }

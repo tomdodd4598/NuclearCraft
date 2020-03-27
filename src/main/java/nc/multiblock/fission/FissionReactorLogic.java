@@ -1,6 +1,9 @@
 package nc.multiblock.fission;
 
 import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -19,16 +22,20 @@ import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.IFissionPart;
 import nc.multiblock.fission.tile.IFissionSpecialComponent;
+import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.network.FissionUpdatePacket;
+import nc.tile.internal.fluid.Tank;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 
-public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissionPart, FissionUpdatePacket> {
+public class FissionReactorLogic extends MultiblockLogic<FissionReactor, FissionReactorLogic, IFissionPart, FissionUpdatePacket> {
 	
 	public FissionReactorLogic(FissionReactor reactor) {
 		super(reactor);
@@ -102,10 +109,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	@Override
 	public void onMachineDisassembled() {
 		getReactor().resetStats();
-		if (getReactor().controller != null) {
-			getReactor().controller.updateBlockState(false);
+		
+		if (!getWorld().isRemote) {
+			refreshPorts();
+			//refreshReactor();
+			getReactor().updateActivity();
 		}
-		getReactor().isReactorOn = false;
 	}
 	
 	@Override
@@ -122,7 +131,9 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	
 	public void onAssimilated(Multiblock assimilator) {}
 	
-	public void refreshPorts() {}
+	public void refreshPorts() {
+		refreshFilteredItemPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
+	}
 	
 	public void refreshReactor() {
 		refreshFlux();
@@ -176,10 +187,18 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		}
 		
 		for (FissionCluster cluster : getReactor().clusterMap.values()) {
-			cluster.refreshClusterStats();
+			refreshClusterStats(cluster);
 			cluster.recoverHeatFromComponents();
 		}
 		getReactor().sortClusters();
+	}
+	
+	public void refreshClusterStats(FissionCluster cluster) {
+		cluster.componentCount = cluster.fuelComponentCount = 0;
+		cluster.cooling = cluster.rawHeating = cluster.totalHeatMult = 0L;
+		cluster.effectiveHeating = cluster.meanHeatMult = cluster.totalEfficiency = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = 0D;
+		
+		cluster.heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*cluster.getComponentMap().size());
 	}
 	
 	public void onSourceUpdated(TileFissionSource source) {
@@ -258,7 +277,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		}*/
 	}
 	
-	public void doMeltdown() {
+	public void casingMeltdown() {
 		Iterator<IFissionController> controllerIterator = getPartMap(IFissionController.class).values().iterator();
 		while (controllerIterator.hasNext()) {
 			IFissionController controller = controllerIterator.next();
@@ -287,9 +306,30 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		getReactor().checkIfMachineIsWhole();
 	}
 	
+	public void clusterMeltdown(FissionCluster cluster) {
+		getReactor().checkIfMachineIsWhole();
+	}
+	
 	//TODO - config
 	public long getHeatDissipation() {
 		return Math.max(1L, getReactor().heatBuffer.getHeatStored()*getReactor().getExteriorSurfaceArea()/(NCMath.cube(6)*672000L));
+	}
+	
+	// Component Logic
+	
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache) {}
+	
+	public IFissionFuelComponent getNextFuelComponent(IFissionFuelComponent fuelComponent, BlockPos pos) {
+		IFissionComponent component = getPartMap(IFissionComponent.class).get(pos.toLong());
+		return component instanceof IFissionFuelComponent ? (IFissionFuelComponent) component : null;
+	}
+	
+	public void refreshFuelComponentLocal(IFissionFuelComponent fuelComponent) {}
+	
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {}
+	
+	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks) {
+		return backupTanks;
 	}
 	
 	// Client

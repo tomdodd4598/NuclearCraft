@@ -6,10 +6,12 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class ItemIngredient implements IItemIngredient {
 	
@@ -80,5 +82,13 @@ public class ItemIngredient implements IItemIngredient {
 	@Override
 	public boolean isValid() {
 		return stack != null;
+	}
+	
+	// CraftTweaker
+	
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public crafttweaker.api.item.IIngredient ct() {
+		return CraftTweakerMC.getIItemStack(stack);
 	}
 }

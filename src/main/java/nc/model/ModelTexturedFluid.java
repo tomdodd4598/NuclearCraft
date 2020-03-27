@@ -48,34 +48,34 @@ public final class ModelTexturedFluid implements IModel {
 	
 	public static final ModelTexturedFluid WATER = new ModelTexturedFluid(new ResourceLocation("blocks/water_still"), new ResourceLocation("blocks/water_flow"));
 	protected final ResourceLocation still, flowing;
-
+	
 	public ModelTexturedFluid(ResourceLocation still, ResourceLocation flowing) {
 		this.still = still;
 		this.flowing = flowing;
 	}
-
+	
 	@Override
 	public Collection<ResourceLocation> getTextures() {
 		return ImmutableSet.of(still, flowing);
 	}
-
+	
 	@Override
 	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 		ImmutableMap<TransformType, TRSRTransformation> map = PerspectiveMapWrapper.getTransforms(state);
 		return new BakedFluidTextured(state.apply(Optional.empty()), map, format, bakedTextureGetter.apply(still), bakedTextureGetter.apply(flowing), Optional.empty());
 	}
-
+	
 	@Override
 	public IModelState getDefaultState() {
 		return ModelRotation.X0_Y0;
 	}
-
+	
 	public static enum FluidTexturedLoader implements ICustomModelLoader {
 		INSTANCE;
-
+		
 		@Override
 		public void onResourceManagerReload(IResourceManager resourceManager) {}
-
+		
 		@Override
 		public boolean accepts(ResourceLocation modelLocation) {
 			return modelLocation.getNamespace().equals(Global.MOD_ID) && (
@@ -83,18 +83,18 @@ public final class ModelTexturedFluid implements IModel {
 					modelLocation.getPath().equals("models/block/fluid") ||
 					modelLocation.getPath().equals("models/item/fluid"));
 		}
-
+		
 		@Override
 		public IModel loadModel(ResourceLocation modelLocation) {
 			return WATER;
 		}
 	}
-
+	
 	protected static final class BakedFluidTextured implements IBakedModel {
 		protected static final int x[] = {0, 0, 1, 1};
 		protected static final int z[] = {0, 1, 1, 0};
 		protected static final float eps = 0.001F;
-
+		
 		protected final LoadingCache<Long, BakedFluidTextured> modelCache = CacheBuilder.newBuilder().maximumSize(500).build(new CacheLoader<Long, BakedFluidTextured>() {
 			@Override
 			public BakedFluidTextured load(Long key) throws Exception {
@@ -113,17 +113,17 @@ public final class ModelTexturedFluid implements IModel {
 				return new BakedFluidTextured(transformation, transforms, format, opacity, still, flowing, gas, statePresent, cornerRound, flowRound);
 			}
 		});
-
+		
 		protected final Optional<TRSRTransformation> transformation;
 		protected final ImmutableMap<TransformType, TRSRTransformation> transforms;
 		protected final VertexFormat format;
 		protected final TextureAtlasSprite still, flowing;
 		protected final EnumMap<EnumFacing, List<BakedQuad>> faceQuads;
-
+		
 		public BakedFluidTextured(Optional<TRSRTransformation> transformation, ImmutableMap<TransformType, TRSRTransformation> transforms, VertexFormat format, TextureAtlasSprite still, TextureAtlasSprite flowing, Optional<IExtendedBlockState> stateOption) {
 			this(transformation, transforms, format, 0xFF, still, flowing, false, stateOption.isPresent(), getCorners(stateOption), getFlow(stateOption));
 		}
-
+		
 		private static int[] getCorners(Optional<IExtendedBlockState> stateOption) {
 			int[] cornerRound = new int[] {0, 0, 0, 0};
 			if(stateOption.isPresent()) {
@@ -135,7 +135,7 @@ public final class ModelTexturedFluid implements IModel {
 			}
 			return cornerRound;
 		}
-
+		
 		protected static int getFlow(Optional<IExtendedBlockState> stateOption) {
 			Float flow = -1000F;
 			if (stateOption.isPresent()) {
@@ -146,26 +146,26 @@ public final class ModelTexturedFluid implements IModel {
 			flowRound = MathHelper.clamp(flowRound, -1000, 1000);
 			return flowRound;
 		}
-
+		
 		public BakedFluidTextured(Optional<TRSRTransformation> transformation, ImmutableMap<TransformType, TRSRTransformation> transforms, VertexFormat format, int opacity, TextureAtlasSprite still, TextureAtlasSprite flowing, boolean gas, boolean statePresent, int[] cornerRound, int flowRound) {
 			this.transformation = transformation;
 			this.transforms = transforms;
 			this.format = format;
 			this.still = still;
 			this.flowing = flowing;
-
+			
 			faceQuads = Maps.newEnumMap(EnumFacing.class);
 			for(EnumFacing side : EnumFacing.values()) faceQuads.put(side, ImmutableList.of());
-
+			
 			if (statePresent) {
 				float[] y = new float[4];
 				for (int i = 0; i < 4; i++) {
 					if (gas) y[i] = 1 - cornerRound[i]/768F;
 					else y[i] = cornerRound[i]/768F;
 				}
-
+				
 				float flow = (float)Math.toRadians(flowRound);
-
+				
 				TextureAtlasSprite topSprite = flowing;
 				float scale = 4;
 				if (flow < -17F) {
@@ -173,10 +173,10 @@ public final class ModelTexturedFluid implements IModel {
 					scale = 8;
 					topSprite = still;
 				}
-
+				
 				float c = MathHelper.cos(flow) * scale;
 				float s = MathHelper.sin(flow) * scale;
-
+				
 				EnumFacing side = gas ? EnumFacing.DOWN : EnumFacing.UP;
 				UnpackedBakedQuad.Builder builder;
 				ImmutableList.Builder<BakedQuad> topFaceBuilder = ImmutableList.builder();
@@ -196,7 +196,7 @@ public final class ModelTexturedFluid implements IModel {
 					topFaceBuilder.add(builder.build());
 				}
 				faceQuads.put(side, topFaceBuilder.build());
-
+				
 				side = side.getOpposite();
 				builder = new UnpackedBakedQuad.Builder(format);
 				builder.setQuadOrientation(side);
@@ -214,11 +214,11 @@ public final class ModelTexturedFluid implements IModel {
 									opacity);
 				}
 				faceQuads.put(side, ImmutableList.of(builder.build()));
-
+				
 				for (int i = 0; i < 4; i++) {
 					side = EnumFacing.byHorizontalIndex((5 - i) % 4);
 					BakedQuad q[] = new BakedQuad[2];
-
+					
 					for (int k = 0; k < 2; k++) {
 						builder = new UnpackedBakedQuad.Builder(format);
 						builder.setQuadOrientation(side);
@@ -257,7 +257,7 @@ public final class ModelTexturedFluid implements IModel {
 				faceQuads.put(EnumFacing.SOUTH, ImmutableList.of(builder.build()));
 			}
 		}
-
+		
 		protected void putVertex(UnpackedBakedQuad.Builder builder, EnumFacing side, float x, float y, float z, float u, float v, int opacity) {
 			for (int e = 0; e < format.getElementCount(); e++) {
 				switch(format.getElement(e).getUsage()) {
@@ -286,27 +286,27 @@ public final class ModelTexturedFluid implements IModel {
 				}
 			}
 		}
-
+		
 		@Override
 		public boolean isAmbientOcclusion() {
 			return true;
 		}
-
+		
 		@Override
 		public boolean isGui3d() {
 			return false;
 		}
-
+		
 		@Override
 		public boolean isBuiltInRenderer() {
 			return false;
 		}
-
+		
 		@Override
 		public TextureAtlasSprite getParticleTexture() {
 			return still;
 		}
-
+		
 		@Override
 		public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 			BakedFluidTextured model = this;
@@ -332,18 +332,18 @@ public final class ModelTexturedFluid implements IModel {
 				return ImmutableList.<BakedQuad>of();
 			return model.faceQuads.get(side);
 		}
-
+		
 		@Override
 		public ItemOverrideList getOverrides() {
 			return ItemOverrideList.NONE;
 		}
-
+		
 		@Override
 		public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType type) {
 			return PerspectiveMapWrapper.handlePerspective(this, transforms, type);
 		}
 	}
-
+	
 	@Override
 	public IModel retexture(ImmutableMap<String, String> textures) {
 		ResourceLocation still = this.still;
