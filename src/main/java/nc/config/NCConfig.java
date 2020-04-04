@@ -186,6 +186,8 @@ public class NCConfig {
 	public static double[] heat_exchanger_conductivity;
 	public static double heat_exchanger_coolant_mult;
 	public static boolean heat_exchanger_alternate_exhaust_recipe;
+	public static int[] heat_exchanger_tube_tank_capacity;
+	public static int[] heat_exchanger_condenser_tube_tank_capacity;
 	public static double heat_exchanger_tube_spread_ratio;
 	public static double heat_exchanger_condenser_tube_spread_ratio;
 	
@@ -643,6 +645,10 @@ public class NCConfig {
 		propertyHeatExchangerCoolantMult.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_coolant_mult");
 		Property propertyHeatExchangerAlternateExhaustRecipe = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_exhaust_recipe", false, Lang.localise("gui.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe.comment"));
 		propertyHeatExchangerAlternateExhaustRecipe.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe");
+		Property propertyHeatExchangerTubeTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_tube_tank_capacity", new int[] {32000, 64000}, Lang.localise("gui.config.heat_exchanger.heat_exchanger_tube_tank_capacity.comment"), 1000, Integer.MAX_VALUE);
+		propertyHeatExchangerTubeTankCapacity.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_conductivity");
+		Property propertyHeatExchangerCondenserTubeTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_condenser_tube_tank_capacity", new int[] {128000, 32000}, Lang.localise("gui.config.heat_exchanger.heat_exchanger_condenser_tube_tank_capacity.comment"), 1000, Integer.MAX_VALUE);
+		propertyHeatExchangerCondenserTubeTankCapacity.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_condenser_tube_tank_capacity");
 		Property propertyHeatExchangerTubeSpreadRatio = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_tube_spread_ratio", 0.5D, Lang.localise("gui.config.heat_exchanger.heat_exchanger_tube_spread_ratio.comment"), 0D, 1D);
 		propertyHeatExchangerTubeSpreadRatio.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_tube_spread_ratio");
 		Property propertyHeatExchangerCondenserTubeSpreadRatio = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_condenser_tube_spread_ratio", 0.5D, Lang.localise("gui.config.heat_exchanger.heat_exchanger_condenser_tube_spread_ratio.comment"), 0D, 1D);
@@ -1084,6 +1090,8 @@ public class NCConfig {
 		propertyOrderHeatExchanger.add(propertyHeatExchangerConductivity.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerCoolantMult.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerAlternateExhaustRecipe.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerTubeTankCapacity.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerCondenserTubeTankCapacity.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerTubeSpreadRatio.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerCondenserTubeSpreadRatio.getName());
 		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
@@ -1381,6 +1389,8 @@ public class NCConfig {
 			heat_exchanger_conductivity = readDoubleArrayFromConfig(propertyHeatExchangerConductivity);
 			heat_exchanger_coolant_mult = propertyHeatExchangerCoolantMult.getDouble();
 			heat_exchanger_alternate_exhaust_recipe = propertyHeatExchangerAlternateExhaustRecipe.getBoolean();
+			heat_exchanger_tube_tank_capacity = readIntegerArrayFromConfig(propertyHeatExchangerTubeTankCapacity);
+			heat_exchanger_condenser_tube_tank_capacity = readIntegerArrayFromConfig(propertyHeatExchangerCondenserTubeTankCapacity);
 			heat_exchanger_tube_spread_ratio = propertyHeatExchangerTubeSpreadRatio.getDouble();
 			heat_exchanger_condenser_tube_spread_ratio = propertyHeatExchangerCondenserTubeSpreadRatio.getDouble();
 			
@@ -1672,6 +1682,8 @@ public class NCConfig {
 		propertyHeatExchangerConductivity.set(heat_exchanger_conductivity);
 		propertyHeatExchangerCoolantMult.set(heat_exchanger_coolant_mult);
 		propertyHeatExchangerAlternateExhaustRecipe.set(heat_exchanger_alternate_exhaust_recipe);
+		propertyHeatExchangerTubeTankCapacity.set(heat_exchanger_tube_tank_capacity);
+		propertyHeatExchangerCondenserTubeTankCapacity.set(heat_exchanger_condenser_tube_tank_capacity);
 		propertyHeatExchangerTubeSpreadRatio.set(heat_exchanger_tube_spread_ratio);
 		propertyHeatExchangerCondenserTubeSpreadRatio.set(heat_exchanger_condenser_tube_spread_ratio);
 		

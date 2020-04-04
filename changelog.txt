@@ -1,3 +1,7 @@
+v2.18r
+
++ Added configs to modify the tank capacities of exchanger and condenser tubes
+
 v2.18q
 
 * Increased condenser tubes' input fluid capacity
