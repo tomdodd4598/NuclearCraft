@@ -14,18 +14,20 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 	public BlockPos masterPortPos;
 	public ItemStack filterStack;
 	public long clusterHeatStored, clusterHeatCapacity;
+	public boolean isProcessing;
 	public double time, baseProcessTime;
 	
 	public SolidFissionCellUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public SolidFissionCellUpdatePacket(BlockPos pos, BlockPos masterPortPos, NonNullList<ItemStack> filterStacks, FissionCluster cluster, double time, double baseProcessTime) {
+	public SolidFissionCellUpdatePacket(BlockPos pos, BlockPos masterPortPos, NonNullList<ItemStack> filterStacks, FissionCluster cluster, boolean isProcessing, double time, double baseProcessTime) {
 		this.pos = pos;
 		this.masterPortPos = masterPortPos;
 		filterStack = filterStacks.get(0);
 		clusterHeatStored = cluster == null ? -1L : cluster.heatBuffer.getHeatStored();
 		clusterHeatCapacity = cluster == null ? -1L : cluster.heatBuffer.getHeatCapacity();
+		this.isProcessing = isProcessing;
 		this.time = time;
 		this.baseProcessTime = baseProcessTime;
 		
@@ -39,6 +41,7 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 		filterStack = ByteBufUtils.readItemStack(buf);
 		clusterHeatStored = buf.readLong();
 		clusterHeatCapacity = buf.readLong();
+		isProcessing = buf.readBoolean();
 		time = buf.readDouble();
 		baseProcessTime = buf.readDouble();
 	}
@@ -54,6 +57,7 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 		ByteBufUtils.writeItemStack(buf, filterStack);
 		buf.writeLong(clusterHeatStored);
 		buf.writeLong(clusterHeatCapacity);
+		buf.writeBoolean(isProcessing);
 		buf.writeDouble(time);
 		buf.writeDouble(baseProcessTime);
 	}

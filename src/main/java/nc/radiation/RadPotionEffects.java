@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import nc.config.NCConfig;
 import nc.util.PotionHelper;
 import net.minecraft.potion.Potion;
@@ -13,13 +14,13 @@ import net.minecraft.potion.PotionEffect;
 
 public class RadPotionEffects {
 	
-	public static final List<Double> PLAYER_RAD_LEVEL_LIST = new ArrayList<>();
+	public static final List<Double> PLAYER_RAD_LEVEL_LIST = new DoubleArrayList();
 	public static final List<List<PotionEffect>> PLAYER_DEBUFF_LIST = new ArrayList<>();
 	
-	public static final List<Double> ENTITY_RAD_LEVEL_LIST = new ArrayList<>();
+	public static final List<Double> ENTITY_RAD_LEVEL_LIST = new DoubleArrayList();
 	public static final List<List<PotionEffect>> ENTITY_DEBUFF_LIST = new ArrayList<>();
 	
-	public static final List<Double> MOB_RAD_LEVEL_LIST = new ArrayList<>();
+	public static final List<Double> MOB_RAD_LEVEL_LIST = new DoubleArrayList();
 	public static final List<List<PotionEffect>> MOB_EFFECTS_LIST = new ArrayList<>();
 	
 	public static void init() {
@@ -41,7 +42,7 @@ public class RadPotionEffects {
 			double health = Double.parseDouble(effects.substring(0, puncPos));
 			effects = effects.substring(puncPos + 1);
 			
-			List<PotionEffect> effectList = new ArrayList<PotionEffect>();
+			List<PotionEffect> effectList = new ArrayList<>();
 			do {
 				puncPos = effects.indexOf('@');
 				if (puncPos == -1) {

@@ -66,7 +66,7 @@ public class ToggleVoidUnusableFluidInputPacket implements IMessage {
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.setVoidUnusableFluidInput(message.tankNumber, message.voidUnusableFluidInput);
-				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
+				tile.markDirty();
 			}
 		}
 	}

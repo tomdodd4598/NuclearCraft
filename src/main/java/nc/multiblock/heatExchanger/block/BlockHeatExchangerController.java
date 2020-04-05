@@ -88,8 +88,9 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPart {
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		
 		if (!world.isRemote) {
-			if (world.getTileEntity(pos) instanceof TileHeatExchangerController) {
-				TileHeatExchangerController controller = (TileHeatExchangerController) world.getTileEntity(pos);
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileHeatExchangerController) {
+				TileHeatExchangerController controller = (TileHeatExchangerController) tile;
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
 					player.openGui(NuclearCraft.instance, 103, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;

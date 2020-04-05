@@ -3,11 +3,14 @@ package nc.multiblock;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
+import nc.multiblock.tile.ITileMultiblockPart;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,23 +28,23 @@ final class MultiblockWorldRegistry {
 
 	private World worldObj;
 
-	private final Set<Multiblock> multiblocks;		// Active multiblocks
-	private final Set<Multiblock> dirtyMultiblocks;	// Multiblocks whose parts lists have changed
-	private final Set<Multiblock> deadMultiblocks;	// Multiblocks which are empty
+	private final ObjectSet<Multiblock> multiblocks;		// Active multiblocks
+	private final ObjectSet<Multiblock> dirtyMultiblocks;	// Multiblocks whose parts lists have changed
+	private final ObjectSet<Multiblock> deadMultiblocks;	// Multiblocks which are empty
 
 	// A list of orphan parts - parts which currently have no master, but should seek one this tick
 	// Indexed by the hashed chunk coordinate
 	// This can be added-to asynchronously via chunk loads!
-	private Set<ITileMultiblockPart> orphanedParts;
+	private ObjectSet<ITileMultiblockPart> orphanedParts;
 
 	// A list of parts which have been detached during internal operations
-	private final Set<ITileMultiblockPart> detachedParts;
+	private final ObjectSet<ITileMultiblockPart> detachedParts;
 
 	// A list of parts whose chunks have not yet finished loading
 	// They will be added to the orphan list when they are finished loading.
 	// Indexed by the hashed chunk coordinate
 	// This can be added-to asynchronously via chunk loads!
-	private final HashMap<Long, Set<ITileMultiblockPart>> partsAwaitingChunkLoad;
+	private final Long2ObjectMap<Set<ITileMultiblockPart>> partsAwaitingChunkLoad;
 
 	// Mutexes to protect lists which may be changed due to asynchronous events, such as chunk loads
 	private final Object partsAwaitingChunkLoadMutex;
@@ -50,14 +53,14 @@ final class MultiblockWorldRegistry {
 	public MultiblockWorldRegistry(final World world) {
 		worldObj = world;
 
-		multiblocks = new ObjectOpenHashSet<Multiblock>();
-		deadMultiblocks = new ObjectOpenHashSet<Multiblock>();
-		dirtyMultiblocks = new ObjectOpenHashSet<Multiblock>();
+		multiblocks = new ObjectOpenHashSet<>();
+		deadMultiblocks = new ObjectOpenHashSet<>();
+		dirtyMultiblocks = new ObjectOpenHashSet<>();
 
-		detachedParts = new ObjectOpenHashSet<ITileMultiblockPart>();
-		orphanedParts = new ObjectOpenHashSet<ITileMultiblockPart>();
+		detachedParts = new ObjectOpenHashSet<>();
+		orphanedParts = new ObjectOpenHashSet<>();
 
-		partsAwaitingChunkLoad = new HashMap<Long, Set<ITileMultiblockPart>>();
+		partsAwaitingChunkLoad = new Long2ObjectOpenHashMap<>();
 		partsAwaitingChunkLoadMutex = new Object();
 		orphanedPartsMutex = new Object();
 	}
@@ -101,7 +104,7 @@ final class MultiblockWorldRegistry {
 			synchronized(orphanedPartsMutex) {
 				if(orphanedParts.size() > 0) {
 					orphansToProcess = orphanedParts;
-					orphanedParts = new ObjectOpenHashSet<ITileMultiblockPart>();
+					orphanedParts = new ObjectOpenHashSet<>();
 				}
 			}
 
@@ -136,13 +139,13 @@ final class MultiblockWorldRegistry {
 						this.multiblocks.add(newMultiblock);
 					}
 					else if(compatibleMultiblocks.size() > 1) {
-						if(mergePools == null) { mergePools = new ArrayList<Set<Multiblock>>(); }
+						if(mergePools == null) { mergePools = new ArrayList<>(); }
 
 						// THIS IS THE ONLY PLACE WHERE MERGES ARE DETECTED
 						// Multiple compatible multiblocks indicates an impending merge.
 						// Locate the appropriate merge pool(s)
 						//boolean hasAddedToPool = false;
-						List<Set<Multiblock>> candidatePools = new ArrayList<Set<Multiblock>>();
+						List<Set<Multiblock>> candidatePools = new ArrayList<>();
 						for(Set<Multiblock> candidatePool : mergePools) {
 							if(!Collections.disjoint(candidatePool, compatibleMultiblocks)) {
 								// They share at least one element, so that means they will all touch after the merge
@@ -279,7 +282,7 @@ final class MultiblockWorldRegistry {
 
 			synchronized(partsAwaitingChunkLoadMutex) {
 				if(!partsAwaitingChunkLoad.containsKey(chunkHash)) {
-					partSet = new ObjectOpenHashSet<ITileMultiblockPart>();
+					partSet = new ObjectOpenHashSet<>();
 					partsAwaitingChunkLoad.put(chunkHash, partSet);
 				}
 				else {

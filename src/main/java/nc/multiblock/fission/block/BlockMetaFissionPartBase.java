@@ -1,7 +1,7 @@
 package nc.multiblock.fission.block;
 
 import nc.enumm.IBlockMetaEnum;
-import nc.multiblock.BlockMultiblockMetaPart;
+import nc.multiblock.block.BlockMultiblockMetaPart;
 import nc.tab.NCTabs;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;

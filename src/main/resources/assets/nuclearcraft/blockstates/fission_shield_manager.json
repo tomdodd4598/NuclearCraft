@@ -1,0 +1,31 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:wall_part",
+		"textures": {
+			"in": "nuclearcraft:blocks/fission/shield_manager_in",
+			"out": "nuclearcraft:blocks/fission/shield_manager_out_off",
+			"side": "nuclearcraft:blocks/fission/shield_manager_side",
+			"top": "nuclearcraft:blocks/fission/shield_manager_top"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		},
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"out": "nuclearcraft:blocks/fission/shield_manager_out_on"
+				}
+			}
+		}
+	}
+}

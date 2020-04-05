@@ -67,7 +67,7 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.setTankOutputSetting(message.tankNumber, TankOutputSetting.values()[message.voidExcessFluidOutput]);
-				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
+				tile.markDirty();
 			}
 		}
 	}

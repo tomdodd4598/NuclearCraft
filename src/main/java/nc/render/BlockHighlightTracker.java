@@ -22,4 +22,8 @@ public class BlockHighlightTracker {
 	public static void sendPacket(EntityPlayerMP player, BlockPos pos, long highlightTimeMillis) {
 		PacketHandler.instance.sendTo(new BlockHighlightUpdatePacket(pos, highlightTimeMillis), player);
 	}
+	
+	public static void sendPacket(EntityPlayerMP player, long posLong, long highlightTimeMillis) {
+		sendPacket(player, BlockPos.fromLong(posLong), highlightTimeMillis);
+	}
 }

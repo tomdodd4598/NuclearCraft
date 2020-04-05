@@ -47,7 +47,7 @@ public class GuiSaltFissionController extends GuiLogicMultiblockController<Fissi
 	
 	//TODO
 	public List<String> efficiencyInfo() {
-		List<String> info = new ArrayList<String>();
+		List<String> info = new ArrayList<>();
 		info.add(TextFormatting.AQUA + Lang.localise("gui.nc.container.salt_fission_controller.raw_efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.totalEfficiency : multiblock.meanEfficiency)*100D, 1) + "%");
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_controller.heat_mult" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.totalHeatMult : multiblock.meanHeatMult)*100D, 1) + "%");
 		info.add(TextFormatting.BLUE + Lang.localise("gui.nc.container.salt_fission_controller.cooling_efficiency") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(/*multiblock.coolingEfficiency*/100D, 1) + "%");
@@ -59,7 +59,7 @@ public class GuiSaltFissionController extends GuiLogicMultiblockController<Fissi
 	}
 	
 	public List<String> heatInfo() {
-		List<String> info = new ArrayList<String>();
+		List<String> info = new ArrayList<>();
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_controller.heat_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.heatBuffer.getHeatStored(), multiblock.heatBuffer.getHeatCapacity(), 6, "H"));
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_controller.raw_net_heating") + " " + TextFormatting.WHITE + UnitHelper.prefix(logic.getNetClusterHeating(), 6, "H/t"));
 		info.add(TextFormatting.BLUE + Lang.localise("gui.nc.container.salt_fission_controller.cooling_rate") + " " + TextFormatting.WHITE + UnitHelper.prefix(-multiblock.cooling, 6, "H/t"));

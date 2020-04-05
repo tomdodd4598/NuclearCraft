@@ -1,9 +1,8 @@
 package nc.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cofh.core.item.tool.ItemHorseArmorCore;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import nc.ModCheck;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -17,7 +16,7 @@ public class ArmorHelper {
 		return false;
 	}
 	
-	private static final Map<Item, Boolean> HORSE_ARMOR_CACHE = new HashMap<Item, Boolean>();
+	private static final Object2BooleanMap<Item> HORSE_ARMOR_CACHE = new Object2BooleanOpenHashMap<>();
 	
 	public static boolean isHorseArmor(Item item) {
 		if (item == Items.IRON_HORSE_ARMOR || item == Items.GOLDEN_HORSE_ARMOR || item == Items.DIAMOND_HORSE_ARMOR) return true;

@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class ProcessorUpdatePacket extends TileUpdatePacket {
 	
+	public boolean isProcessing;
 	public double time;
 	public int energyStored;
 	public double baseProcessTime;
@@ -21,8 +22,9 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		messageValid = false;
 	}
 	
-	public ProcessorUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower, List<Tank> tanks) {
+	public ProcessorUpdatePacket(BlockPos pos, boolean isProcessing, double time, int energyStored, double baseProcessTime, double baseProcessPower, List<Tank> tanks) {
 		this.pos = pos;
+		this.isProcessing = isProcessing;
 		this.time = time;
 		this.energyStored = energyStored;
 		this.baseProcessTime = baseProcessTime;
@@ -36,6 +38,7 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 	@Override
 	public void readMessage(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		isProcessing = buf.readBoolean();
 		time = buf.readDouble();
 		energyStored = buf.readInt();
 		baseProcessTime = buf.readDouble();
@@ -49,6 +52,7 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
+		buf.writeBoolean(isProcessing);
 		buf.writeDouble(time);
 		buf.writeInt(energyStored);
 		buf.writeDouble(baseProcessTime);

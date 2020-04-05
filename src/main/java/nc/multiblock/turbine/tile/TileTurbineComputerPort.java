@@ -153,7 +153,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getDynamoCoilStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			List<Object[]> stats = new ArrayList<Object[]>();
+			List<Object[]> stats = new ArrayList<>();
 			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getPartMap(TileTurbineDynamoCoil.class).values()) {
 				stats.add(new Object[] {
 						new Object[] {dynamoCoil.getPos().getX(), dynamoCoil.getPos().getY(), dynamoCoil.getPos().getZ()},

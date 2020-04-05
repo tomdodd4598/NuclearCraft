@@ -73,7 +73,7 @@ public class BlockBattery extends BlockSimpleTile implements ISidedEnergy, INBTD
 		if (tile instanceof IBattery) {
 			return ((IBattery)tile).getComparatorStrength();
 		}
-		return Container.calcRedstone(world.getTileEntity(pos));
+		return Container.calcRedstone(tile);
 	}
 	
 	// NBT Stuff

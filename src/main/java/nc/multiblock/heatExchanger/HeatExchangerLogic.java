@@ -2,9 +2,9 @@ package nc.multiblock.heatExchanger;
 
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart, HeatExchangerUpdatePacket> {
@@ -20,6 +20,10 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	@Override
 	public String getID() {
 		return "heat_exchanger";
+	}
+	
+	protected HeatExchanger getExchanger() {
+		return multiblock;
 	}
 	
 	// Multiblock Size Limits
@@ -50,6 +54,10 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 		
 	}
 	
+	protected void onExchangerFormed() {
+		
+	}
+	
 	@Override
 	public void onMachinePaused() {
 		// TODO Auto-generated method stub
@@ -67,6 +75,13 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public void onAssimilate(Multiblock assimilated) {
+		if (!(assimilated instanceof HeatExchanger)) return;
+		onExchangerFormed();
+	}
+	
+	public void onAssimilated(Multiblock assimilator) {}
 	
 	// Server
 	

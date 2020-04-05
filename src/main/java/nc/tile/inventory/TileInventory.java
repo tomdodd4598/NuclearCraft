@@ -33,10 +33,10 @@ public class TileInventory extends NCTile implements ITileInventory {
 	public TileInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections) {
 		super();
 		inventoryName = Global.MOD_ID + ".container." + name;
-		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
+		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
 		invWrapper = new InventoryTileWrapper(this);
-		itemOutputSettings = new ArrayList<ItemOutputSetting>();
+		itemOutputSettings = new ArrayList<>();
 		for (int i = 0; i < size; i++) itemOutputSettings.add(ItemOutputSetting.DEFAULT);
 	}
 	

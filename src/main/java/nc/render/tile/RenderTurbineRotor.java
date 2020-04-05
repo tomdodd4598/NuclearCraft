@@ -71,7 +71,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		double rY = -turbine.getMaxY() + pos.getY() + (dir.getAxis() == Axis.Y ? 0D : r);
 		double rZ = -turbine.getMaxZ() + pos.getZ() + (dir.getAxis() == Axis.Z ? 0D : r);
 		
-		double scale = r/Math.sqrt(r*r + NCMath.square(turbine.shaftWidth)/4D);
+		double scale = r/Math.sqrt(r*r + NCMath.sq(turbine.shaftWidth)/4D);
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(posX - rX, posY - rY, posZ - rZ);

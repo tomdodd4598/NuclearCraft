@@ -28,15 +28,14 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
-		if (player != null) {
-			if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileGeigerCounter) {
-				if (!world.isRemote) {
-					TileGeigerCounter geiger = (TileGeigerCounter) world.getTileEntity(pos);
-					double radiation = geiger.getChunkRadiationLevel();
-					player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < NCConfig.radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radiation, true))));
-				}
-				return true;
+		if (player != null && player.getHeldItemMainhand().isEmpty()) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (!world.isRemote && tile instanceof TileGeigerCounter) {
+				TileGeigerCounter geiger = (TileGeigerCounter) tile;
+				double radiation = geiger.getChunkRadiationLevel();
+				player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < NCConfig.radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radiation, true))));
 			}
+			return true;
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}

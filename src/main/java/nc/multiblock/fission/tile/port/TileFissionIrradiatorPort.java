@@ -18,7 +18,7 @@ public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIr
 	public TileFissionIrradiatorPort() {
 		super(TileFissionIrradiatorPort.class, "irradiator", NCRecipes.fission_irradiator);
 		
-		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
 	// Ticking

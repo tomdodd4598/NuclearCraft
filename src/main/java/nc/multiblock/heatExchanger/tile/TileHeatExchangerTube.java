@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -29,7 +30,6 @@ import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
 import nc.util.GasHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -40,7 +40,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFluidProcessor {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, new ArrayList<String>()));
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, new ArrayList<>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -58,7 +58,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	public boolean isProcessing, canProcessInputs;
 	public double speedMultiplier = 0;
 	
-	public int inputTemperature = 0, outputTemperature = 0;
+	public int inputTemperature = 300, outputTemperature = 300;
 	public EnumFacing flowDir = null;
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
@@ -207,7 +207,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = NCRecipes.heat_exchanger.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+		recipeInfo = NCRecipes.heat_exchanger.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
 	}
 	
 	@Override
@@ -245,11 +245,11 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	public boolean setRecipeStats() {
 		if (recipeInfo == null) {
 			baseProcessTime = 16000D;
-			inputTemperature = 0;
-			outputTemperature = 0;
+			inputTemperature = 300;
+			outputTemperature = 300;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getHeatExchangerProcessTime(16000D);
+		baseProcessTime = recipeInfo.getRecipe().getHeatExchangerProcessTime();
 		inputTemperature = recipeInfo.getRecipe().getHeatExchangerInputTemperature();
 		outputTemperature = recipeInfo.getRecipe().getHeatExchangerOutputTemperature();
 		return true;
@@ -291,22 +291,21 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	
 	public void process() {
 		time = Math.max(0, time + getSpeedMultiplier());
-		if (time >= baseProcessTime) finishProcess();
+		while (time >= baseProcessTime) finishProcess();
 	}
 	
 	public void finishProcess() {
 		double oldProcessTime = baseProcessTime;
 		produceProducts();
 		refreshRecipe();
-		if (!setRecipeStats()) time = 0;
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		time = Math.max(0D, time - oldProcessTime);
 		refreshActivityOnProduction();
 		if (!canProcessInputs) time = 0;
 	}
 	
 	public void produceProducts() {
 		if (recipeInfo == null) return;
-		List<Integer> fluidInputOrder = recipeInfo.getFluidInputOrder();
+		IntList fluidInputOrder = recipeInfo.getFluidInputOrder();
 		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class RegistryHelper {
@@ -48,20 +49,26 @@ public class RegistryHelper {
 		return block == null ? null : block.getStateFromMeta(getMeta(location));
 	}
 	
+	private static int getMeta(String location) {
+		if (StringUtils.countMatches(location, ':') < 2) return 0;
+		return Integer.parseInt(location.substring(location.lastIndexOf(':') + 1));
+	}
+	
+	private static String removeMeta(String location) {
+		if (StringUtils.countMatches(location, ':') < 2) return location;
+		return StringHelper.starting(location, location.lastIndexOf(':'));
+	}
+	
 	public static Biome biomeFromRegistry(String location) {
 		ResourceLocation resLoc = new ResourceLocation(location);
 		if (!Loader.isModLoaded(resLoc.getNamespace())) return null;
 		return ForgeRegistries.BIOMES.getValue(resLoc);
 	}
 	
-	public static int getMeta(String location) {
-		if (StringUtils.countMatches(location, ':') < 2) return 0;
-		return Integer.parseInt(location.substring(location.lastIndexOf(':') + 1));
-	}
-	
-	public static String removeMeta(String location) {
-		if (StringUtils.countMatches(location, ':') < 2) return location;
-		return StringHelper.starting(location, location.lastIndexOf(':'));
+	public static EntityEntry getEntityEntry(String location) {
+		ResourceLocation resLoc = new ResourceLocation(location);
+		if (!Loader.isModLoaded(resLoc.getNamespace())) return null;
+		return ForgeRegistries.ENTITIES.getValue(resLoc);
 	}
 	
 	public static String getModID(ItemStack stack) {

@@ -68,6 +68,14 @@ public class GuiSolidFissionCell extends NCGui {
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
 	}
 	
+	protected int getCookProgressScaled(int pixels) {
+		if (cell.baseProcessTime/cell.getSpeedMultiplier() < 4D) {
+			return cell.isProcessing ? pixels : 0;
+		}
+		double i = cell.time, j = cell.baseProcessTime;
+		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
+	}
+	
 	@Override
 	public void initGui() {
 		super.initGui();
@@ -76,11 +84,5 @@ public class GuiSolidFissionCell extends NCGui {
 	
 	public void initButtons() {
 		
-	}
-	
-	protected int getCookProgressScaled(double pixels) {
-		double i = cell.time;
-		double j = cell.baseProcessTime;
-		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
 	}
 }

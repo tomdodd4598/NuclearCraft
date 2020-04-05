@@ -15,8 +15,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class RadiationEnvironmentHandler {
 	
-	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
-	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_BACKUP = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
+	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_BACKUP = new ConcurrentHashMap<>();
 	
 	@SubscribeEvent
 	public void updateRadiationEnvironment(TickEvent.WorldTickEvent event) {

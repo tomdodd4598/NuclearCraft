@@ -4,8 +4,9 @@ import static nc.recipe.NCRecipes.turbine;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
@@ -16,10 +17,10 @@ import nc.handler.SoundHandler.SoundInfo;
 import nc.init.NCSounds;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.network.TurbineRenderPacket;
 import nc.multiblock.network.TurbineUpdatePacket;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.Turbine.PlaneDir;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
@@ -50,7 +51,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -116,6 +116,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().energyStorage.setMaxTransfer(Turbine.BASE_MAX_ENERGY*getTurbine().getExteriorSurfaceArea());
 		getTurbine().tanks.get(0).setCapacity(Turbine.BASE_MAX_INPUT*getTurbine().getExteriorSurfaceArea());
 		getTurbine().tanks.get(1).setCapacity(Turbine.BASE_MAX_OUTPUT*getTurbine().getExteriorSurfaceArea());
+		
+		if (getTurbine().flowDir == null) return;
 		
 		if (getWorld().isRemote) {
 			getTurbine().inputPlane[0] = getTurbine().getInteriorPlane(getTurbine().flowDir.getOpposite(), 0, 0, 0, getTurbine().bladeLength, getTurbine().shaftWidth + getTurbine().bladeLength);
@@ -251,8 +253,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().shaftWidth = getTurbine().inertia = getTurbine().bladeLength = getTurbine().noBladeSets = getTurbine().recipeInputRate = 0;
 		getTurbine().totalExpansionLevel = getTurbine().idealTotalExpansionLevel = getTurbine().maxBladeExpansionCoefficient = 1D;
 		getTurbine().basePowerPerMB = getTurbine().recipeInputRateFP = 0D;
-		getTurbine().expansionLevels = new ArrayList<Double>();
-		getTurbine().rawBladeEfficiencies = new ArrayList<Double>();
+		getTurbine().expansionLevels = new DoubleArrayList();
+		getTurbine().rawBladeEfficiencies = new DoubleArrayList();
 		getTurbine().inputPlane[0] = getTurbine().inputPlane[1] = getTurbine().inputPlane[2] = getTurbine().inputPlane[3] = null;
 		
 		if (getWorld().isRemote) {
@@ -417,8 +419,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().noBladeSets = 0;
 		
 		getTurbine().totalExpansionLevel = 1D;
-		getTurbine().expansionLevels = new ArrayList<Double>();
-		getTurbine().rawBladeEfficiencies = new ArrayList<Double>();
+		getTurbine().expansionLevels = new DoubleArrayList();
+		getTurbine().rawBladeEfficiencies = new DoubleArrayList();
 		
 		for (int depth = 0; depth < flowLength; depth++) {
 			
@@ -570,6 +572,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		if (!(assimilated instanceof Turbine)) return;
 		Turbine assimilatedTurbine = (Turbine) assimilated;
 		getTurbine().energyStorage.mergeEnergyStorage(assimilatedTurbine.energyStorage);
+		onTurbineFormed();
 	}
 	
 	public void onAssimilated(Multiblock assimilator) {}
@@ -594,7 +597,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		getTurbine().power = getTurbine().rawPower*getTurbine().conductivity;
 		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (getTurbine().rawPower/getTurbine().rawMaxPower);
-		if (wasProcessing != getTurbine().isProcessing) {
+		if (wasProcessing != getTurbine().isProcessing && getTurbine().controller != null) {
 			getTurbine().sendUpdateToAllPlayers();
 		}
 		
@@ -618,16 +621,20 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		
 		getTurbine().energyStorage.changeEnergyStored((int)getTurbine().power);
 		
-		PacketHandler.instance.sendToAll(getRenderPacket());
-		getTurbine().sendUpdateToListeningPlayers();
+		if (getTurbine().controller != null) {
+			PacketHandler.instance.sendToAll(getRenderPacket());
+			getTurbine().sendUpdateToListeningPlayers();
+		}
 	}
 	
 	public void setIsTurbineOn() {
 		boolean oldIsTurbineOn = getTurbine().isTurbineOn;
 		getTurbine().isTurbineOn = (isRedstonePowered()|| getTurbine().computerActivated) && getTurbine().isAssembled();
 		if (getTurbine().isTurbineOn != oldIsTurbineOn) {
-			if (getTurbine().controller != null) getTurbine().controller.updateBlockState(getTurbine().isTurbineOn);
-			getTurbine().sendUpdateToAllPlayers();
+			if (getTurbine().controller != null) {
+				getTurbine().controller.updateBlockState(getTurbine().isTurbineOn);
+				getTurbine().sendUpdateToAllPlayers();
+			}
 		}
 	}
 	
@@ -637,7 +644,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected void refreshRecipe() {
-		getTurbine().recipeInfo = turbine.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getTurbine().tanks.subList(0, 1));
+		getTurbine().recipeInfo = turbine.getRecipeInfoFromInputs(new ArrayList<>(), getTurbine().tanks.subList(0, 1));
 	}
 	
 	protected boolean canProcessInputs() {
@@ -740,8 +747,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		return Math.pow(getTurbine().idealTotalExpansionLevel, (depth + 0.5D)/getTurbine().getFlowLength());
 	}
 	
-	public List<Double> getIdealExpansionLevels() {
-		List<Double> levels = new ArrayList<Double>();
+	public DoubleList getIdealExpansionLevels() {
+		DoubleList levels = new DoubleArrayList();
 		if (getTurbine().flowDir == null) {
 			return levels;
 		}

@@ -47,9 +47,11 @@ public abstract class GuiItemFluidProcessor extends NCGui {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 	
-	protected int getCookProgressScaled(double pixels) {
-		double i = tile.time;
-		double j = tile.baseProcessTime;
+	protected int getCookProgressScaled(int pixels) {
+		if (tile.baseProcessTime/tile.getSpeedMultiplier() < 4D) {
+			return tile.isProcessing ? pixels : 0;
+		}
+		double i = tile.time, j = tile.baseProcessTime;
 		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
 	}
 	

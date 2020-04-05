@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
@@ -57,7 +59,7 @@ public class InventoryConnection {
 	}
 	
 	public int[] getSlotsForFace() {
-		List<Integer> slotList = new ArrayList<Integer>();
+		IntList slotList = new IntArrayList();
 		for (int i = 0; i < sorptionList.size(); i++) {
 			if (getItemSorption(i).canConnect()) {
 				slotList.add(i);

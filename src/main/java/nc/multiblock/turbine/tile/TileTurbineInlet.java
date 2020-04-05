@@ -32,7 +32,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.IN);
 	

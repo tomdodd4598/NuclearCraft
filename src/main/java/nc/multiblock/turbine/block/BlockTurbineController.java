@@ -88,8 +88,9 @@ public class BlockTurbineController extends BlockTurbinePart {
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		
 		if (!world.isRemote) {
-			if (world.getTileEntity(pos) instanceof TileTurbineController) {
-				TileTurbineController controller = (TileTurbineController) world.getTileEntity(pos);
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileTurbineController) {
+				TileTurbineController controller = (TileTurbineController) tile;
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
 					player.openGui(NuclearCraft.instance, 104, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;

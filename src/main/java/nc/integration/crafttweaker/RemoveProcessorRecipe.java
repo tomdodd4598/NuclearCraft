@@ -34,8 +34,8 @@ public class RemoveProcessorRecipe implements IAction {
 			wrongSize = true;
 			return;
 		}
-		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
-		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+		List<IItemIngredient> itemIngredients = new ArrayList<>();
+		List<IFluidIngredient> fluidIngredients = new ArrayList<>();
 		for (int i = 0; i < itemSize; i++) {
 			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i));
 			if (ingredient == null) {

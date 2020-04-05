@@ -17,4 +17,7 @@ public interface IFluidIngredient extends IIngredient<FluidStack> {
 	public default List<FluidStack> getInputStackHashingList() {
 		return getInputStackList();
 	}
+	
+	@Override
+	public IFluidIngredient getFactoredIngredient(int factor);
 }

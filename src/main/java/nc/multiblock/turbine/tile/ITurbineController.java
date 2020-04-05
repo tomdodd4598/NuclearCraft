@@ -1,6 +1,6 @@
 package nc.multiblock.turbine.tile;
 
-import nc.multiblock.ILogicMultiblockController;
+import nc.multiblock.tile.ILogicMultiblockController;
 import nc.multiblock.turbine.Turbine;
 
 public interface ITurbineController extends ITurbinePart, ILogicMultiblockController<Turbine> {

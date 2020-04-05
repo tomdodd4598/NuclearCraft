@@ -1,6 +1,6 @@
 package nc.multiblock.turbine.tile;
 
-import nc.multiblock.ITileLogicMultiblockPart;
+import nc.multiblock.tile.ITileLogicMultiblockPart;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.TurbineLogic;
 

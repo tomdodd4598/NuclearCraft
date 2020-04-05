@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -34,20 +35,19 @@ import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
+import nc.util.BlockPosHelper;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, IFissionCoolingComponent {
+public abstract class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, IFissionCoolingComponent {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()));
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -60,7 +60,6 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
 	protected double baseProcessCooling;
-	protected final int baseProcessTime = 20;
 	protected double clusterCoolingEfficiency; // Based on the cluster efficiency, but with heat/cooling taken into account
 	
 	protected double time;
@@ -68,16 +67,591 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
+	public final String heaterName;
+	
 	protected FissionCluster cluster = null;
 	protected long heat = 0L;
 	protected boolean isInValidPosition = false;
 	
-	//protected int heaterCount;
-	
-	public TileSaltFissionHeater() {
+	public TileSaltFissionHeater(String heaterName) {
 		super(CuboidalPartPositionType.INTERIOR);
+		this.heaterName = heaterName;
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
+	}
+	
+	public static class Standard extends TileSaltFissionHeater {
+		
+		public Standard() {
+			super("standard");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveVessel(pos.offset(dir))) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Iron extends TileSaltFissionHeater {
+		
+		public Iron() {
+			super("iron");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveModerator(pos.offset(dir))) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Redstone extends TileSaltFissionHeater {
+		
+		public Redstone() {
+			super("redstone");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean cell = false, moderator = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!cell && isActiveVessel(pos.offset(dir))) cell = true;
+				if (!moderator && isActiveModerator(pos.offset(dir))) moderator = true;
+				if (cell && moderator) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Quartz extends TileSaltFissionHeater {
+		
+		public Quartz() {
+			super("quartz");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "redstone")) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Obsidian extends TileSaltFissionHeater {
+		
+		public Obsidian() {
+			super("obsidian");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
+				for (EnumFacing dir : axialDirs) {
+					if (!isActiveHeater(pos.offset(dir), "glowstone")) continue axialDirsLoop;
+				}
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class NetherBrick extends TileSaltFissionHeater {
+		
+		public NetherBrick() {
+			super("nether_brick");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "obsidian")) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Glowstone extends TileSaltFissionHeater {
+		
+		public Glowstone() {
+			super("glowstone");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte moderators = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveModerator(pos.offset(dir))) moderators++;
+				if (moderators >= 2) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Lapis extends TileSaltFissionHeater {
+		
+		public Lapis() {
+			super("lapis");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean cell = false, wall = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!cell && isActiveVessel(pos.offset(dir))) cell = true;
+				if (!wall && isWall(pos.offset(dir))) wall = true;
+				if (cell && wall) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Gold extends TileSaltFissionHeater {
+		
+		public Gold() {
+			super("gold");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte iron = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "iron")) iron++;
+				if (iron >= 2) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Prismarine extends TileSaltFissionHeater {
+		
+		public Prismarine() {
+			super("prismarine");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte standard = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "standard")) standard++;
+				if (standard >= 2) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Slime extends TileSaltFissionHeater {
+		
+		public Slime() {
+			super("slime");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte standard = 0, lead = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "standard")) standard++;
+				if (standard > 1) return false;
+				if (lead < 2 && isActiveHeater(pos.offset(dir), "lead")) lead++;
+			}
+			return standard == 1 && lead >= 2;
+		}
+	}
+	
+	public static class EndStone extends TileSaltFissionHeater {
+		
+		public EndStone() {
+			super("end_stone");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveReflector(pos.offset(dir))) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Purpur extends TileSaltFissionHeater {
+		
+		public Purpur() {
+			super("purpur");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte iron = 0;
+			boolean endStone = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "iron")) iron++;
+				if (iron > 1) return false;
+				if (!endStone && isActiveHeater(pos.offset(dir), "end_stone")) endStone = true;
+			}
+			return iron == 1 && endStone;
+		}
+	}
+	
+	public static class Diamond extends TileSaltFissionHeater {
+		
+		public Diamond() {
+			super("diamond");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean cell = false, gold = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!cell && isActiveVessel(pos.offset(dir))) cell = true;
+				if (!gold && isActiveHeater(pos.offset(dir), "gold")) gold = true;
+				if (cell && gold) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Emerald extends TileSaltFissionHeater {
+		
+		public Emerald() {
+			super("emerald");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean moderator = false, prismarine = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!moderator && isActiveModerator(pos.offset(dir))) moderator = true;
+				if (!prismarine && isActiveHeater(pos.offset(dir), "prismarine")) prismarine = true;
+				if (moderator && prismarine) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Copper extends TileSaltFissionHeater {
+		
+		public Copper() {
+			super("copper");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "standard")) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Tin extends TileSaltFissionHeater {
+		
+		public Tin() {
+			super("tin");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
+				for (EnumFacing dir : axialDirs) {
+					if (!isActiveHeater(pos.offset(dir), "lapis")) continue axialDirsLoop;
+				}
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Lead extends TileSaltFissionHeater {
+		
+		public Lead() {
+			super("lead");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "iron")) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Boron extends TileSaltFissionHeater {
+		
+		public Boron() {
+			super("boron");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte quartz = 0;
+			boolean wall = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "quartz")) quartz++;
+				if (quartz > 1) return false;
+				if (!wall && isWall(pos.offset(dir))) wall = true;
+			}
+			return quartz == 1 && wall;
+		}
+	}
+	
+	public static class Lithium extends TileSaltFissionHeater {
+		
+		public Lithium() {
+			super("lithium");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte l = 0;
+			boolean[] lead = new boolean[] {false, false, false, false, false, false};
+			boolean wall = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "lead")) {
+					l++;
+					lead[dir.ordinal()] = true;
+				}
+				if (l > 2) return false;
+				if (!wall && isWall(pos.offset(dir))) wall = true;
+			}
+			return wall && l == 2 && ((lead[0] && lead[1]) || (lead[2] && lead[3]) || (lead[4] && lead[5]));
+			
+			/*boolean lead = false;
+			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
+				for (EnumFacing dir : axialDirs) {
+					if (!isActiveHeater(pos.offset(dir), "lead")) continue axialDirsLoop;
+				}
+				lead = true;
+				break;
+			}
+			if (!lead) return false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isWall(pos.offset(dir))) return true;
+			}
+			return false;*/
+		}
+	}
+	
+	public static class Magnesium extends TileSaltFissionHeater {
+		
+		public Magnesium() {
+			super("magnesium");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte moderator = 0;
+			boolean wall = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveModerator(pos.offset(dir))) moderator++;
+				if (moderator > 1) return false;
+				if (!wall && isWall(pos.offset(dir))) wall = true;
+			}
+			return moderator == 1 && wall;
+		}
+	}
+	
+	public static class Manganese extends TileSaltFissionHeater {
+		
+		public Manganese() {
+			super("manganese");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte cell = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveVessel(pos.offset(dir))) cell++;
+				if (cell >= 2) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Aluminum extends TileSaltFissionHeater {
+		
+		public Aluminum() {
+			super("aluminum");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean quartz = false, lapis = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!quartz && isActiveHeater(pos.offset(dir), "quartz")) quartz = true;
+				if (!lapis && isActiveHeater(pos.offset(dir), "lapis")) lapis = true;
+				if (quartz && lapis) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Silver extends TileSaltFissionHeater {
+		
+		public Silver() {
+			super("silver");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte glowstone = 0;
+			boolean tin = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (glowstone < 2 && isActiveHeater(pos.offset(dir), "glowstone")) glowstone++;
+				if (!tin && isActiveHeater(pos.offset(dir), "tin")) tin = true;
+				if (glowstone >= 2 && tin) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Fluorite extends TileSaltFissionHeater {
+		
+		public Fluorite() {
+			super("fluorite");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean gold = false, prismarine = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!gold && isActiveHeater(pos.offset(dir), "gold")) gold = true;
+				if (!prismarine && isActiveHeater(pos.offset(dir), "prismarine")) prismarine = true;
+				if (gold && prismarine) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Villiaumite extends TileSaltFissionHeater {
+		
+		public Villiaumite() {
+			super("villiaumite");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean redstone = false, endStone = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!redstone && isActiveHeater(pos.offset(dir), "redstone")) redstone = true;
+				if (!endStone && isActiveHeater(pos.offset(dir), "end_stone")) endStone = true;
+				if (redstone && endStone) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Carobbiite extends TileSaltFissionHeater {
+		
+		public Carobbiite() {
+			super("carobbiite");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			boolean endStone = false, copper = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (!endStone && isActiveHeater(pos.offset(dir), "end_stone")) endStone = true;
+				if (!copper && isActiveHeater(pos.offset(dir), "copper")) copper = true;
+				if (endStone && copper) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Arsenic extends TileSaltFissionHeater {
+		
+		public Arsenic() {
+			super("arsenic");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
+				for (EnumFacing dir : axialDirs) {
+					if (!isActiveReflector(pos.offset(dir))) continue axialDirsLoop;
+				}
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class LiquidNitrogen extends TileSaltFissionHeater {
+		
+		public LiquidNitrogen() {
+			super("liquid_nitrogen");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte copper = 0;
+			boolean purpur = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (copper < 2 && isActiveHeater(pos.offset(dir), "copper")) copper++;
+				if (!purpur && isActiveHeater(pos.offset(dir), "purpur")) purpur = true;
+				if (copper >= 2 && purpur) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class LiquidHelium extends TileSaltFissionHeater {
+		
+		public LiquidHelium() {
+			super("liquid_helium");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte redstone = 0;
+			boolean wall = false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveHeater(pos.offset(dir), "redstone")) redstone++;
+				if (redstone > 2) return false;
+				if (!wall && isWall(pos.offset(dir))) wall = true;
+			}
+			return redstone == 2 && wall;
+		}
+	}
+	
+	public static class Enderium extends TileSaltFissionHeater {
+		
+		public Enderium() {
+			super("enderium");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte moderators = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveModerator(pos.offset(dir))) moderators++;
+				if (moderators >= 3) return true;
+			}
+			return false;
+		}
+	}
+	
+	public static class Cryotheum extends TileSaltFissionHeater {
+		
+		public Cryotheum() {
+			super("cryotheum");
+		}
+		
+		@Override
+		public boolean isHeaterValid() {
+			byte cell = 0;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isActiveVessel(pos.offset(dir))) cell++;
+				if (cell >= 3) return true;
+			}
+			return false;
+		}
 	}
 	
 	@Override
@@ -110,15 +684,15 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	public boolean isValidHeatConductor() {
 		if (!isProcessing) return false;
 		else if (isInValidPosition) return true;
-		
-		//TODO: Coolant rule logic
-		return false;
+		return isInValidPosition = isHeaterValid();
 	}
 	
 	@Override
 	public boolean isFunctional() {
-		return isProcessing && isInValidPosition;
+		return isProcessing;
 	}
+	
+	public abstract boolean isHeaterValid();
 	
 	@Override
 	public void resetStats() {
@@ -204,7 +778,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = coolant_heater.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+		recipeInfo = coolant_heater.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
 	}
 	
 	@Override
@@ -239,13 +813,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	}
 	
 	public boolean readyToProcess(boolean checkCluster) {
-		return canProcessInputs && isInValidPosition && isMultiblockAssembled() && !(checkCluster && cluster == null);
+		return canProcessInputs && isMultiblockAssembled() && !(checkCluster && (cluster == null || !isInValidPosition));
 	}
 	
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
 		if (!canProcess) {
-			time = MathHelper.clamp(time, 0D, baseProcessTime - 1D);
+			time = 0D;
 		}
 		return canProcess;
 	}
@@ -268,15 +842,14 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	
 	public void process() {
 		time += getSpeedMultiplier();
-		if (time >= baseProcessTime) finishProcess();
+		while (time >= 1D) finishProcess();
 	}
 	
 	public void finishProcess() {
-		double oldProcessTime = baseProcessTime, oldProcessCooling = baseProcessCooling;
+		double oldProcessCooling = baseProcessCooling;
 		produceProducts();
 		refreshRecipe();
-		if (!setRecipeStats()) time = 0;
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		time = Math.max(0D, time - 1D);
 		refreshActivityOnProduction();
 		if (!canProcessInputs) time = 0;
 		
@@ -294,7 +867,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	
 	public void produceProducts() {
 		if (recipeInfo == null) return;
-		List<Integer> fluidInputOrder = recipeInfo.getFluidInputOrder();
+		IntList fluidInputOrder = recipeInfo.getFluidInputOrder();
 		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {

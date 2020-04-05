@@ -39,11 +39,11 @@ public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProces
 	
 	@Override
 	public List<String> getTooltipStrings(int mouseX, int mouseY) {
-		List<String> tooltip = new ArrayList<String>();
+		List<String> tooltip = new ArrayList<>();
 		
 		if (mouseX >= infoX && mouseY >= infoY && mouseX < infoX + infoWidth + 1 && mouseY < infoY + infoHeight + 1) {
-			tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(Math.round(getBaseProcessTime()), 3));
-			tooltip.add(TextFormatting.LIGHT_PURPLE + BASE_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(Math.round(getBaseProcessPower()), 5, "RF/t"));
+			tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getBaseProcessTime(), 3));
+			tooltip.add(TextFormatting.LIGHT_PURPLE + BASE_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getBaseProcessPower(), 5, "RF/t"));
 			double radiation = getBaseProcessRadiation();
 			if (radiation > 0D) tooltip.add(TextFormatting.GOLD + BASE_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 		}

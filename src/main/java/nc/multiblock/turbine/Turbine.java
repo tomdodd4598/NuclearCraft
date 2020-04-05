@@ -1,13 +1,14 @@
 package nc.multiblock.turbine;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -15,13 +16,13 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.handler.SoundHandler.SoundInfo;
 import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.network.TurbineRenderPacket;
 import nc.multiblock.network.TurbineUpdatePacket;
+import nc.multiblock.tile.ITileMultiblockPart;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
 import nc.multiblock.turbine.tile.ITurbineController;
@@ -67,7 +68,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
 	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D, maxBladeExpansionCoefficient = 1D, bearingTension = 0D;
-	public List<Double> expansionLevels = new ArrayList<Double>(), rawBladeEfficiencies = new ArrayList<Double>();
+	public DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
 	
 	@SideOnly(Side.CLIENT)
 	public List<SoundInfo> activeSounds;
@@ -294,7 +295,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	// NBT
 	
 	@Override
-	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
+	public void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		energyStorage.writeToNBT(data);
 		writeTanks(tanks, data);
 		data.setBoolean("isTurbineOn", isTurbineOn);
@@ -331,7 +332,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	}
 	
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
+	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		energyStorage.readFromNBT(data);
 		readTanks(tanks, data);
 		isTurbineOn = data.getBoolean("isTurbineOn");
@@ -358,11 +359,11 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 		recipeInputRateFP = data.getDouble("recipeInputRateFP");
 		maxBladeExpansionCoefficient = data.getDouble("maxBladeExpansionCoefficient");
 		bearingTension = data.getDouble("bearingTension");
-		expansionLevels = new ArrayList<Double>();
+		expansionLevels = new DoubleArrayList();
 		if (data.hasKey("expansionLevelsSize")) for (int i = 0; i < data.getInteger("expansionLevelsSize"); i++) {
 			expansionLevels.add(data.getDouble("expansionLevels" + i));
 		}
-		rawBladeEfficiencies = new ArrayList<Double>();
+		rawBladeEfficiencies = new DoubleArrayList();
 		if (data.hasKey("rawBladeEfficienciesSize")) for (int i = 0; i < data.getInteger("rawBladeEfficienciesSize"); i++) {
 			rawBladeEfficiencies.add(data.getDouble("rawBladeEfficiencies" + i));
 		}

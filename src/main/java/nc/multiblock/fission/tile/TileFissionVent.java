@@ -35,15 +35,13 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileFissionVent extends TileFissionPart implements ITileFluid {
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()), new Tank(1, new ArrayList<String>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()), new Tank(1, new ArrayList<>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.OUT));
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
 	private @Nonnull GasTileWrapper gasWrapper;
-	
-	protected int portCount;
 	
 	public TileFissionVent() {
 		super(CuboidalPartPositionType.WALL);

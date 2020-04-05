@@ -8,7 +8,6 @@ import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.FissionReactorLogic;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
@@ -22,8 +21,11 @@ import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionSpecialComponent;
 import nc.multiblock.fission.tile.TileFissionConductor;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
+import nc.multiblock.fission.tile.TileFissionMonitor;
+import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.heatExchanger.CondenserLogic;
@@ -34,8 +36,11 @@ import nc.multiblock.heatExchanger.tile.TileCondenserTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
 import nc.multiblock.network.MultiblockUpdatePacket;
-import nc.multiblock.port.ITilePort;
-import nc.multiblock.port.ITilePortTarget;
+import nc.multiblock.tile.ITileLogicMultiblockPart;
+import nc.multiblock.tile.ITileMultiblockPart;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.multiblock.tile.port.ITilePort;
+import nc.multiblock.tile.port.ITilePortTarget;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.TurbineLogic;
 import nc.multiblock.turbine.tile.ITurbineController;
@@ -131,7 +136,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & IL
 				targetCountMap.put(filter, 0);
 			}
 			port.clearMasterPort();
-			port.getConnectedParts().clear();
+			port.getTargets().clear();
 		}
 		
 		if (!multiblock.isAssembled() || portMap.isEmpty()) {
@@ -161,7 +166,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & IL
 			if (masterPortMap.containsKey(filter)) {
 				PORT master = masterPortMap.get(filter);
 				if (master != null) {
-					master.getConnectedParts().add(target);
+					master.getTargets().add(target);
 					target.setMasterPortPos(master.getTilePos());
 					target.refreshMasterPort();
 					targetCountMap.put(filter, targetCountMap.get(filter) + 1);
@@ -221,11 +226,14 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & IL
 		FissionReactor.PART_CLASSES.add(IFissionComponent.class);
 		FissionReactor.PART_CLASSES.add(IFissionSpecialComponent.class);
 		FissionReactor.PART_CLASSES.add(TileFissionConductor.class);
+		FissionReactor.PART_CLASSES.add(TileFissionMonitor.class);
+		FissionReactor.PART_CLASSES.add(TileFissionVent.class);
 		FissionReactor.PART_CLASSES.add(TileFissionIrradiatorPort.class);
 		FissionReactor.PART_CLASSES.add(TileFissionCellPort.class);
-		FissionReactor.PART_CLASSES.add(TileFissionVent.class);
+		FissionReactor.PART_CLASSES.add(TileFissionShieldManager.class);
 		FissionReactor.PART_CLASSES.add(TileFissionIrradiator.class);
 		FissionReactor.PART_CLASSES.add(TileFissionSource.class);
+		FissionReactor.PART_CLASSES.add(TileFissionShield.class);
 		FissionReactor.PART_CLASSES.add(TileSolidFissionCell.class);
 		FissionReactor.PART_CLASSES.add(TileSolidFissionSink.class);
 		FissionReactor.PART_CLASSES.add(TileSaltFissionVessel.class);

@@ -32,8 +32,8 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	private final @Nonnull String inventoryName;
 	
-	protected final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
-	protected final @Nonnull NonNullList<ItemStack> filterStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
+	protected final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
+	protected final @Nonnull NonNullList<ItemStack> filterStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 	
@@ -207,7 +207,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		readInventoryConnections(nbt);
 		
 		inventoryStackLimit = nbt.getInteger("inventoryStackLimit");
-		refreshMasterPort();
 	}
 	
 	@Override

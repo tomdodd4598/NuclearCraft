@@ -6,6 +6,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleList;
+import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.floats.FloatList;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class CollectionHelper {
@@ -13,26 +19,26 @@ public class CollectionHelper {
 	/* Lists */
 	
 	public static <T> List<T> asList(T[] array) {
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 		for (T t : array) list.add(t);
 		return list;
 	}
 	
 	public static <T> List<T> intersect(List<T> list1, Collection<T> list2) {
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 		for (T t : list1) if(list2.contains(t)) list.add(t);
 		return list;
 	}
 	
 	public static <T> List<T> intersect(List<T> first, List<T>... rest) {
-		List<T> tList = new ArrayList<T>();
+		List<T> tList = new ArrayList<>();
 		tList.addAll(first);
 		for (List<T> list : rest) tList = intersect(tList, list);
 		return tList;
 	}
 	
 	public static <T> List<T> union(List<T> first, List<T>... rest) {
-		Set<T> set = new ObjectOpenHashSet<T>();
+		Set<T> set = new ObjectOpenHashSet<>();
 		set.addAll(first);
 		for (List<T> list : rest) set.addAll(list);
 		return new ArrayList<T>(set);
@@ -59,7 +65,7 @@ public class CollectionHelper {
 	}
 	
 	public static <T> List<T> concatenate(List<T> first, List<T>... rest) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		result.addAll(first);
 		for (List<T> list : rest) result.addAll(list);
 		return result;
@@ -75,26 +81,26 @@ public class CollectionHelper {
 	/* Sets */
 	
 	public static <T> Set<T> asSet(T[] array) {
-		Set<T> set = new ObjectOpenHashSet<T>();
+		Set<T> set = new ObjectOpenHashSet<>();
 		for (T t : array) set.add(t);
 		return set;
 	}
 	
 	public static <T> Set<T> intersect(Set<T> set1, Collection<T> set2) {
-		Set<T> set = new ObjectOpenHashSet<T>();
+		Set<T> set = new ObjectOpenHashSet<>();
 		for (T t : set1) if(set2.contains(t)) set.add(t);
 		return set;
 	}
 	
 	public static <T> Set<T> intersect(Set<T> first, Set<T>... rest) {
-		Set<T> tSet = new ObjectOpenHashSet<T>();
+		Set<T> tSet = new ObjectOpenHashSet<>();
 		tSet.addAll(first);
 		for (Set<T> set : rest) tSet = intersect(tSet, set);
 		return tSet;
 	}
 	
 	public static <T> Set<T> union(Set<T> first, Set<T>... rest) {
-		Set<T> tSet = new ObjectOpenHashSet<T>();
+		Set<T> tSet = new ObjectOpenHashSet<>();
 		tSet.addAll(first);
 		for (Set<T> set : rest) tSet.addAll(set);
 		return tSet;
@@ -120,9 +126,9 @@ public class CollectionHelper {
 		return result;
 	}
 	
-	public static int sumIntList(List<Integer> numberList) {
+	public static int sumIntList(IntList numberList) {
 		int result = 0;
-		for (Integer i : numberList) result += i;
+		for (int i : numberList) result += i;
 		return result;
 	}
 	
@@ -132,47 +138,47 @@ public class CollectionHelper {
 		return result;
 	}
 	
-	public static double sumDoubleList(List<Double> numberList) {
+	public static double sumDoubleList(DoubleList numberList) {
 		double result = 0D;
-		for (Double i : numberList) result += i;
+		for (double i : numberList) result += i;
 		return result;
 	}
 	
 	// Special cases for primitives
 	
-	public static List<Integer> asIntegerList(int[] array) {
-		List<Integer> list = new ArrayList<Integer>();
+	public static IntList asIntegerList(int[] array) {
+		IntList list = new IntArrayList();
 		for (int t : array) list.add(t);
 		return list;
 	}
 	
-	public static List<Double> asDoubleList(double[] array) {
-		List<Double> list = new ArrayList<Double>();
+	public static DoubleList asDoubleList(double[] array) {
+		DoubleList list = new DoubleArrayList();
 		for (double t : array) list.add(t);
 		return list;
 	}
 	
-	public static List<Float> asFloatList(float[] array) {
-		List<Float> list = new ArrayList<Float>();
+	public static FloatList asFloatList(float[] array) {
+		FloatList list = new FloatArrayList();
 		for (float t : array) list.add(t);
 		return list;
 	}
 	
 	// List to Array
 	
-	public static int[] asIntegerArray(List<Integer> list) {
+	public static int[] asIntegerArray(IntList list) {
 		int[] array = new int[list.size()];
 		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
 		return array;
 	}
 	
-	public static double[] asDoubleArray(List<Double> list) {
+	public static double[] asDoubleArray(DoubleList list) {
 		double[] array = new double[list.size()];
 		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
 		return array;
 	}
 	
-	public static float[] asFloatArray(List<Float> list) {
+	public static float[] asFloatArray(FloatList list) {
 		float[] array = new float[list.size()];
 		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
 		return array;
@@ -196,13 +202,13 @@ public class CollectionHelper {
 		return increasingArray(0, length);
 	}
 	
-	public static List<Integer> increasingList(int start, int length) {
-		List<Integer> list = new ArrayList<Integer>();
+	public static IntList increasingList(int start, int length) {
+		IntList list = new IntArrayList();
 		for (int i = 0; i < length; i++) list.add(start + i);
 		return list;
 	}
 	
-	public static List<Integer> increasingList(int length) {
+	public static IntList increasingList(int length) {
 		return increasingList(0, length);
 	}
 	

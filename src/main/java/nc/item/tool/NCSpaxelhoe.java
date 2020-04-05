@@ -35,7 +35,7 @@ public class NCSpaxelhoe extends ItemTool implements IInfoItem {
 	public String[] info;
 	
 	public NCSpaxelhoe(ToolMaterial material, TextFormatting infoColor, String... tooltip) {
-		super(3F, -2.4F, material, new ObjectOpenHashSet<Block>());
+		super(3F, -2.4F, material, new ObjectOpenHashSet<>());
 		this.infoColor = infoColor;
 		this.tooltip = tooltip;
 	}

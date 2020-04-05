@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.NCTile;
@@ -37,22 +39,22 @@ public abstract class TileFluid extends NCTile implements ITileFluid {
 	private final List<TankOutputSetting> tankOutputSettings;
 	
 	public TileFluid(int capacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(Lists.newArrayList(capacity), Lists.newArrayList(capacity), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
+		this(new IntArrayList(new int[] {capacity}), new IntArrayList(new int[] {capacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileFluid(@Nonnull List<Integer> capacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+	public TileFluid(@Nonnull IntList capacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		this(capacity, capacity, allowedFluidsLists, fluidConnections);
 	}
 	
 	public TileFluid(int capacity, int maxTransfer, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(Lists.newArrayList(capacity), Lists.newArrayList(maxTransfer), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
+		this(new IntArrayList(new int[] {capacity}), new IntArrayList(new int[] {maxTransfer}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileFluid(@Nonnull List<Integer> capacity, @Nonnull List<Integer> maxTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+	public TileFluid(@Nonnull IntList capacity, @Nonnull IntList maxTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		super();
-		tanks = new ArrayList<Tank>();
-		voidUnusableFluidInputs = new ArrayList<Boolean>();
-		tankOutputSettings = new ArrayList<TankOutputSetting>();
+		tanks = new ArrayList<>();
+		voidUnusableFluidInputs = new ArrayList<>();
+		tankOutputSettings = new ArrayList<>();
 		if (!capacity.isEmpty()) {
 			for (int i = 0; i < capacity.size(); i++) {
 				tanks.add(new Tank(capacity.get(i), maxTransfer.get(i), allowedFluidsLists == null || allowedFluidsLists.size() <= i ? null : allowedFluidsLists.get(i)));

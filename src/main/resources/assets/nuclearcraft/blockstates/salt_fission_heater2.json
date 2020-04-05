@@ -1,0 +1,90 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"tin": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/tin"
+				}
+			},
+			"lead": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/lead"
+				}
+			},
+			"boron": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/boron"
+				}
+			},
+			"lithium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/lithium"
+				}
+			},
+			"magnesium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/magnesium"
+				}
+			},
+			"manganese": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/manganese"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/aluminum"
+				}
+			},
+			"silver": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/silver"
+				}
+			},
+			"fluorite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/fluorite"
+				}
+			},
+			"villiaumite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/villiaumite"
+				}
+			},
+			"carobbiite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/carobbiite"
+				}
+			},
+			"arsenic": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/arsenic"
+				}
+			},
+			"liquid_nitrogen": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/liquid_nitrogen"
+				}
+			},
+			"liquid_helium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/liquid_helium"
+				}
+			},
+			"enderium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/enderium"
+				}
+			},
+			"cryotheum": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/cryotheum"
+				}
+			}
+		}
+	}
+}

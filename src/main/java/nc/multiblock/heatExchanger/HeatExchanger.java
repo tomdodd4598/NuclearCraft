@@ -11,9 +11,7 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.heatExchanger.tile.IHeatExchangerController;
@@ -23,6 +21,8 @@ import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
+import nc.multiblock.tile.ITileMultiblockPart;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -181,12 +181,12 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 	
 	@Override
 	protected void onAssimilate(Multiblock assimilated) {
-		
+		logic.onAssimilate(assimilated);
 	}
 	
 	@Override
 	protected void onAssimilated(Multiblock assimilator) {
-		
+		logic.onAssimilated(assimilator);
 	}
 	
 	// Server
@@ -194,8 +194,12 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 	@Override
 	protected boolean updateServer() {
 		//setIsHeatExchangerOn();
-		if (shouldUpdate()) updateHeatExchangerStats();
-		if (shouldUpdate()) sendUpdateToListeningPlayers();
+		if (shouldUpdate()) {
+			updateHeatExchangerStats();
+			if (controller != null) {
+				sendUpdateToListeningPlayers();
+			}
+		}
 		incrementUpdateCount();
 		return true;
 	}
@@ -204,8 +208,10 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 		boolean oldIsHeatExchangerOn = isHeatExchangerOn;
 		isHeatExchangerOn = (isRedstonePowered() || computerActivated) && isAssembled();
 		if (isHeatExchangerOn != oldIsHeatExchangerOn) {
-			if (controller != null) controller.updateBlockState(isHeatExchangerOn);
-			sendUpdateToAllPlayers();
+			if (controller != null) {
+				controller.updateBlockState(isHeatExchangerOn);
+				sendUpdateToAllPlayers();
+			}
 		}
 	}
 	
@@ -263,7 +269,7 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 	// NBT
 	
 	@Override
-	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
+	public void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		data.setBoolean("isHeatExchangerOn", isHeatExchangerOn);
 		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("fractionOfTubesActive", fractionOfTubesActive);
@@ -274,7 +280,7 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 	}
 	
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
+	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		isHeatExchangerOn = data.getBoolean("isHeatExchangerOn");
 		computerActivated = data.getBoolean("computerActivated");
 		fractionOfTubesActive = data.getDouble("fractionOfTubesActive");

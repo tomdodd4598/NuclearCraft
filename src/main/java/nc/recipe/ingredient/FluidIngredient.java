@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
@@ -17,23 +19,40 @@ public class FluidIngredient implements IFluidIngredient {
 	
 	public FluidStack stack;
 	public String fluidName;
-	public int amount;
 	
 	public FluidIngredient(FluidStack stack) {
 		this.stack = stack;
 		fluidName = FluidStackHelper.getFluidName(stack);
-		amount = stack.amount;
 	}
 	
 	public FluidIngredient(String fluidName, int amount) {
 		stack = FluidRegistry.getFluidStack(fluidName, amount);
 		this.fluidName = fluidName;
-		this.amount = amount;
 	}
 	
 	@Override
 	public FluidStack getStack() {
 		return stack == null ? null : stack.copy();
+	}
+	
+	@Override
+	public List<FluidStack> getInputStackList() {
+		return Lists.newArrayList(stack);
+	}
+	
+	@Override
+	public List<FluidStack> getOutputStackList() {
+		return Lists.newArrayList(stack);
+	}
+	
+	@Override
+	public int getMaxStackSize(int ingredientNumber) {
+		return stack == null ? 0 : stack.amount;
+	}
+	
+	@Override
+	public void setMaxStackSize(int stackSize) {
+		stack.amount = stackSize;
 	}
 	
 	@Override
@@ -44,6 +63,18 @@ public class FluidIngredient implements IFluidIngredient {
 	@Override
 	public String getIngredientNamesConcat() {
 		return fluidName;
+	}
+	
+	@Override
+	public IntList getFactors() {
+		return new IntArrayList(Lists.newArrayList(stack.amount));
+	}
+	
+	@Override
+	public IFluidIngredient getFactoredIngredient(int factor) {
+		FluidStack newStack = stack.copy();
+		newStack.amount = stack.amount/factor;
+		return new FluidIngredient(newStack);
 	}
 	
 	@Override
@@ -60,27 +91,6 @@ public class FluidIngredient implements IFluidIngredient {
 			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((FluidIngredient) object).getMaxStackSize(0)), 0);
 		}
 		return IngredientMatchResult.FAIL;
-	}
-	
-	@Override
-	public List<FluidStack> getInputStackList() {
-		return Lists.newArrayList(stack);
-	}
-	
-	@Override
-	public List<FluidStack> getOutputStackList() {
-		return Lists.newArrayList(stack);
-	}
-	
-	@Override
-	public int getMaxStackSize(int ingredientNumber) {
-		return amount;
-	}
-	
-	@Override
-	public void setMaxStackSize(int stackSize) {
-		amount = stackSize;
-		stack.amount = stackSize;
 	}
 	
 	@Override

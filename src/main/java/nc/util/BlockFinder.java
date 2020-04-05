@@ -63,7 +63,7 @@ public class BlockFinder {
 	}
 	
 	public boolean findOre(BlockPos pos, String... names) {
-		List<ItemStack> stackList = new ArrayList<ItemStack>();
+		List<ItemStack> stackList = new ArrayList<>();
 		for (int i = 0; i < names.length; i++) {
 			List<ItemStack> stacks = OreDictionary.getOres(names[i], false);
 			stackList.addAll(stacks);

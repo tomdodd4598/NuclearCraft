@@ -2,13 +2,12 @@
 
 package nc.util;
 
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +19,7 @@ public class StructureHelper {
 	
 	public static final StructureHelper CACHE = new StructureHelper();
 	
-	private final Object2BooleanMap<StructureCacheEntry> structureCache = new Object2BooleanOpenHashMap<StructureCacheEntry>();
+	private final Object2BooleanMap<StructureCacheEntry> structureCache = new Object2BooleanOpenHashMap<>();
 	
 	public void clear() {
 		structureCache.clear();
@@ -41,7 +40,7 @@ public class StructureHelper {
 			return false;
 		}
 		
-		Set<Long> longs = parseStructureData(data);
+		LongSet longs = parseStructureData(data);
 		for (Long l : longs) {
 			structureCache.put(new StructureCacheEntry(structure, dimension, l), true);
 		}
@@ -53,8 +52,8 @@ public class StructureHelper {
 		}
 	}
 	
-	private static Set<Long> parseStructureData(MapGenStructureData data) {
-		Set<Long> chunks = new ObjectOpenHashSet<>();
+	private static LongSet parseStructureData(MapGenStructureData data) {
+		LongSet chunks = new LongOpenHashSet();
 		NBTTagCompound nbttagcompound = data.getTagCompound();
 		
 		for (String s : nbttagcompound.getKeySet()) {

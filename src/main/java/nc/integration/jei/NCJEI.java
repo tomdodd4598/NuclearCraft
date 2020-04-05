@@ -63,6 +63,7 @@ import nc.integration.jei.multiblock.FissionIrradiatorCategory;
 import nc.integration.jei.multiblock.FissionModeratorCategory;
 import nc.integration.jei.multiblock.FissionReflectorCategory;
 import nc.integration.jei.multiblock.HeatExchangerCategory;
+import nc.integration.jei.multiblock.PebbleFissionCategory;
 import nc.integration.jei.multiblock.SaltFissionCategory;
 import nc.integration.jei.multiblock.SolidFissionCategory;
 import nc.integration.jei.multiblock.TurbineCategory;
@@ -197,6 +198,7 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		registry.addRecipeClickArea(GuiFissionIrradiator.class, 73, 34, 37, 18, JEIHandler.FISSION_IRRADIATOR.getUUID());
+		//registry.addRecipeClickArea(GuiPebbleFissionChamber.class, 73, 34, 37, 18, JEIHandler.PEBBLE_FISSION.getUUID());
 		registry.addRecipeClickArea(GuiSolidFissionCell.class, 73, 34, 37, 18, JEIHandler.SOLID_FISSION.getUUID());
 		
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, JEIHandler.MANUFACTORY.getUUID(), 0, 1, 4, 36);
@@ -220,6 +222,7 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUUID(), 0, 1, 6, 36);
 		
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionIrradiator.class, JEIHandler.FISSION_IRRADIATOR.getUUID(), 0, 1, 2, 36);
+		//recipeTransferRegistry.addRecipeTransferHandler(ContainerPebbleFissionChamber.class, JEIHandler.PEBBLE_FISSION.getUUID(), 0, 1, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUUID(), 0, 1, 2, 36);
 		
 		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
@@ -297,11 +300,12 @@ public class NCJEI implements IModPlugin {
 		FISSION_MODERATOR(NCRecipes.fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
 		FISSION_REFLECTOR(NCRecipes.fission_reflector, NCBlocks.fission_reflector, "fission_reflector", JEIRecipeWrapper.FissionReflector.class),
 		FISSION_IRRADIATOR(NCRecipes.fission_irradiator, NCBlocks.fission_irradiator, "fission_irradiator", JEIRecipeWrapper.FissionIrradiator.class),
+		PEBBLE_FISSION(NCRecipes.pebble_fission, Lists.newArrayList(), "pebble_fission", JEIRecipeWrapper.PebbleFission.class),
 		SOLID_FISSION(NCRecipes.solid_fission, Lists.newArrayList(NCBlocks.solid_fission_controller, NCBlocks.solid_fission_cell), "solid_fission", JEIRecipeWrapper.SolidFission.class),
 		FISSION_HEATING(NCRecipes.fission_heating, NCBlocks.fission_vent, "fission_heating", JEIRecipeWrapper.FissionHeating.class),
 		SALT_FISSION(NCRecipes.salt_fission, Lists.newArrayList(NCBlocks.salt_fission_controller, NCBlocks.salt_fission_vessel), "salt_fission", JEIRecipeWrapper.SaltFission.class),
 		//FUSION(NCRecipes.fusion, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
-		COOLANT_HEATER(NCRecipes.coolant_heater, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
+		COOLANT_HEATER(NCRecipes.coolant_heater, coolantHeaters(), "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
 		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class),
 		TURBINE(NCRecipes.turbine, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
@@ -313,24 +317,23 @@ public class NCJEI implements IModPlugin {
 		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIHandler(ProcessorRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
-			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper);
+		JEIHandler(ProcessorRecipeHandler recipeHandler, Object crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+			this(recipeHandler, crafter, textureName, recipeWrapper, -1);
 		}
 		
-		JEIHandler(ProcessorRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+		JEIHandler(ProcessorRecipeHandler recipeHandler, List<?> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
 			this(recipeHandler, crafters, textureName, recipeWrapper, -1);
 		}
 		
-		JEIHandler(ProcessorRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+		JEIHandler(ProcessorRecipeHandler recipeHandler, Object crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
 			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper, enabled);
 		}
 		
-		JEIHandler(ProcessorRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+		JEIHandler(ProcessorRecipeHandler recipeHandler, List<?> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
 			this.recipeHandler = recipeHandler;
 			this.recipeWrapper = recipeWrapper;
 			this.enabled = enabled < 0 ? true : NCConfig.register_processor[enabled];
-			this.crafters = new ArrayList<ItemStack>();
-			if (this.enabled) for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
+			this.crafters = this.enabled ? fixStacks(crafters) : new ArrayList<>();
 			this.textureName = textureName;
 		}
 		
@@ -385,6 +388,8 @@ public class NCJEI implements IModPlugin {
 				return new FissionReflectorCategory(guiHelper, this);
 			case FISSION_IRRADIATOR:
 				return new FissionIrradiatorCategory(guiHelper, this);
+			case PEBBLE_FISSION:
+				return new PebbleFissionCategory(guiHelper, this);
 			case SOLID_FISSION:
 				return new SolidFissionCategory(guiHelper, this);
 			case FISSION_HEATING:
@@ -445,6 +450,14 @@ public class NCJEI implements IModPlugin {
 		}
 	}
 	
+	private static List<ItemStack> fixStacks(List<?> list) {
+		List<ItemStack> stacks = new ArrayList<>();
+		for (Object obj : list) {
+			stacks.add(ItemStackHelper.fixItemStack(obj));
+		}
+		return stacks;
+	}
+	
 	private static List<Block> registeredCollectors() {
 		List<Block> list = new ArrayList<>();
 		if (NCConfig.register_passive[0]) {
@@ -461,6 +474,17 @@ public class NCJEI implements IModPlugin {
 			list.add(NCBlocks.nitrogen_collector);
 			list.add(NCBlocks.nitrogen_collector_compact);
 			list.add(NCBlocks.nitrogen_collector_dense);
+		}
+		return list;
+	}
+	
+	private static List<ItemStack> coolantHeaters() {
+		List<ItemStack> list = new ArrayList<>();
+		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
+			list.add(new ItemStack(NCBlocks.salt_fission_heater, 1, i));
+		}
+		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
+			list.add(new ItemStack(NCBlocks.salt_fission_heater2, 1, i));
 		}
 		return list;
 	}

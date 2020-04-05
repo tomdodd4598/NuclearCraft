@@ -1,11 +1,11 @@
 package nc.multiblock;
 
+import it.unimi.dsi.fastutil.bytes.Byte2ObjectMap;
+import it.unimi.dsi.fastutil.bytes.Byte2ObjectOpenHashMap;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.HashMap;
 
 /**
  * A general purpose class to track the state of all 6 faces of a block
@@ -17,14 +17,7 @@ import java.util.HashMap;
  */
 public final class BlockFacing {
 
-	public static final BlockFacing NONE;
-	public static final BlockFacing ALL;
-	public static final BlockFacing DOWN;
-	public static final BlockFacing UP;
-	public static final BlockFacing NORTH;
-	public static final BlockFacing SOUTH;
-	public static final BlockFacing WEST;
-	public static final BlockFacing EAST;
+	public static final BlockFacing NONE, ALL, DOWN, UP, NORTH, SOUTH, WEST, EAST;
 
 	public static final PropertyBool FACING_DOWN = PropertyBool.create("downFacing");
 	public static final PropertyBool FACING_UP = PropertyBool.create("upFacing");
@@ -276,12 +269,12 @@ public final class BlockFacing {
 
 	private byte _value;
 
-	private static HashMap<Byte, BlockFacing> s_cache;
+	private static Byte2ObjectMap<BlockFacing> s_cache;
 
 	static {
 		Byte hash;
 
-		s_cache = new HashMap<Byte, BlockFacing>(8);
+		s_cache = new Byte2ObjectOpenHashMap<BlockFacing>(8);
 
 		hash = BlockFacing.computeHash(false, false, false, false, false, false);
 		s_cache.put(hash, NONE = new BlockFacing(hash.byteValue()));

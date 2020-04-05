@@ -9,7 +9,7 @@ import nc.util.FourPos;
 public class RadiationEnvironmentInfo {
 	
 	public final FourPos pos;
-	public final ConcurrentMap<FourPos, ITileRadiationEnvironment> tileMap = new ConcurrentHashMap<FourPos, ITileRadiationEnvironment>();
+	public final ConcurrentMap<FourPos, ITileRadiationEnvironment> tileMap = new ConcurrentHashMap<>();
 	
 	public RadiationEnvironmentInfo(FourPos pos) {
 		this.pos = pos;

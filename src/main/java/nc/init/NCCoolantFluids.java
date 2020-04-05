@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.google.common.collect.Lists;
+
 import nc.Global;
 import nc.ModCheck;
 import nc.NuclearCraft;
@@ -28,8 +30,10 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCCoolantFluids {
 	
-	private static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<Pair<Fluid, NCBlockFluid>>();
-	public static List<Fluid> fluidList = new ArrayList<Fluid>();
+	private static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<>();
+	public static List<Fluid> fluidList = new ArrayList<>();
+	
+	public static final List<String> COOLANTS = Lists.newArrayList("");
 	
 	public static void init() {
 		addMoltenPair("iron", 0x8D1515);
@@ -131,6 +135,7 @@ public class NCCoolantFluids {
 	}
 	
 	private static void addNAKPairs(String name, int color) {
+		COOLANTS.add(name + "_");
 		FluidCoolant coolant = new FluidCoolant(name + "_nak", FluidCoolant.getNAKColor(color));
 		fluidPairList.add(Pair.of(coolant, register_fluid_blocks ? new BlockFluidCoolant(coolant) : null));
 		FluidHotCoolant hotCoolant = new FluidHotCoolant(name + "_nak_hot", FluidHotCoolant.getNAKColor(color));

@@ -34,7 +34,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	
 	private double efficiency = 0D, scrubberFraction = 0D, currentChunkLevel = 0D, currentChunkBuffer = 0D;
 	
-	public final ConcurrentMap<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
+	public final ConcurrentMap<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<>();
 	
 	private int radCheckCount = 0;
 	
@@ -240,7 +240,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	// All opaque blocks plus translucent full blocks are occlusive
 	private static boolean isOcclusive(BlockPos pos, World world, BlockPos otherPos) {
 		IBlockState state = world.getBlockState(otherPos);
-		return pos.distanceSq(otherPos) < NCMath.square(searchRadius()) && !MaterialHelper.isEmpty(state.getMaterial()) && (state.isOpaqueCube() || !state.getMaterial().isOpaque());
+		return pos.distanceSq(otherPos) < NCMath.sq(searchRadius()) && !MaterialHelper.isEmpty(state.getMaterial()) && (state.isOpaqueCube() || !state.getMaterial().isOpaque());
 	}
 	
 	@Override

@@ -185,7 +185,7 @@ public class RadiationHelper {
 			resistance = providerResistance.getRadiationResistance();
 		}
 		
-		double radiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
+		double radiation = rawRadiation <= 0D ? 0D : NCMath.sq(rawRadiation)/(rawRadiation + resistance);
 		addToSourceBuffer(chunkSource, radiation);
 	}
 	
@@ -277,7 +277,7 @@ public class RadiationHelper {
 		}
 		double resistance = ignoreResistance ? Math.min(0D, entityRads.getInternalRadiationResistance()) : entityRads.getFullRadiationResistance();
 		
-		double addedRadiation = resistance > 0D ? NCMath.square(rawRadiation)/(rawRadiation + resistance) : rawRadiation*(1D - resistance);
+		double addedRadiation = resistance > 0D ? NCMath.sq(rawRadiation)/(rawRadiation + resistance) : rawRadiation*(1D - resistance);
 		entityRads.setTotalRads(entityRads.getTotalRads() + addedRadiation*updateRate, true);
 		return addedRadiation;
 	}

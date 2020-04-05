@@ -1,7 +1,7 @@
 package nc.multiblock.container;
 
-import nc.multiblock.IMultiblockController;
 import nc.multiblock.Multiblock;
+import nc.multiblock.tile.IMultiblockController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;

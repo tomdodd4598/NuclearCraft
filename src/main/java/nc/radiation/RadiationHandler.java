@@ -24,7 +24,6 @@ import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
 import nc.recipe.RecipeInfo;
-import nc.tile.internal.fluid.Tank;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.DamageSources;
 import nc.util.ItemStackHelper;
@@ -334,10 +333,10 @@ public class RadiationHandler {
 				newLevel = Math.min(newLevel, NCConfig.radiation_chunk_limit);
 			}
 			Biome biome = chunk.getBiome(randomOffsetPos, biomeProvider);
-			if (!RadBiomes.LIMIT_MAP.isEmpty() && RadBiomes.LIMIT_MAP.containsKey(biome)) {
+			if (RadBiomes.LIMIT_MAP.containsKey(biome)) {
 				newLevel = Math.min(newLevel, RadBiomes.LIMIT_MAP.get(biome));
 			}
-			if (!RadWorlds.LIMIT_MAP.isEmpty() && RadWorlds.LIMIT_MAP.containsKey(dimension)) {
+			if (RadWorlds.LIMIT_MAP.containsKey(dimension)) {
 				newLevel = Math.min(newLevel, RadWorlds.LIMIT_MAP.get(dimension));
 			}
 			
@@ -388,8 +387,8 @@ public class RadiationHandler {
 			
 			ItemStack stack = ItemStackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutation.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
-				if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold(false)) {
+				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutation.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+				if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
 					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
 					if (output != null) {
 						IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
@@ -408,8 +407,8 @@ public class RadiationHandler {
 			IBlockState state = world.getBlockState(randomChunkPos);
 			ItemStack stack = ItemStackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_purification.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
-				if (mutationInfo != null && radiation < mutationInfo.getRecipe().getBlockMutationThreshold(true)) {
+				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_purification.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+				if (mutationInfo != null && radiation < mutationInfo.getRecipe().getBlockMutationThreshold()) {
 					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
 					if (output != null) {
 						IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
@@ -427,7 +426,7 @@ public class RadiationHandler {
 		if (block_mutation_threshold == null) {
 			double threshold = Double.MAX_VALUE;
 			for (ProcessorRecipe recipe : NCRecipes.radiation_block_mutation.getRecipeList()) {
-				if (recipe != null) threshold = Math.min(threshold, recipe.getBlockMutationThreshold(false));
+				if (recipe != null) threshold = Math.min(threshold, recipe.getBlockMutationThreshold());
 			}
 			block_mutation_threshold = new Double(threshold);
 		}
@@ -439,7 +438,7 @@ public class RadiationHandler {
 		if (block_purification_threshold == null) {
 			double threshold = 0D;
 			for (ProcessorRecipe recipe : NCRecipes.radiation_block_purification.getRecipeList()) {
-				if (recipe != null) threshold = Math.max(threshold, recipe.getBlockMutationThreshold(true));
+				if (recipe != null) threshold = Math.max(threshold, recipe.getBlockMutationThreshold());
 			}
 			block_purification_threshold = new Double(threshold);
 		}

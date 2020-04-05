@@ -1,8 +1,7 @@
 package nc.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
@@ -16,10 +15,10 @@ import net.minecraftforge.fluids.FluidStack;
 public class GasHelper {
 	
 	// NC Fluid <-> Mek Fluid
-	public static final Map<String, String> TRANSLATION_MAP = new HashMap<String, String>();
+	public static final Object2ObjectMap<String, String> TRANSLATION_MAP = new Object2ObjectOpenHashMap<>();
 	
 	// Mek Fluid -> Mek Gas
-	public static final Map<String, String> GAS_MAP = new HashMap<String, String>();
+	public static final Object2ObjectMap<String, String> GAS_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public static void preInit() {
 		TRANSLATION_MAP.put("sulfur_dioxide", "liquidsulfurdioxide");

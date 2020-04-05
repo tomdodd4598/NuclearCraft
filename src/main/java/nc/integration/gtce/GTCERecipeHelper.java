@@ -156,7 +156,7 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		List<RecipeBuilder<?>> builders = new ArrayList<RecipeBuilder<?>>(); // Holds all the recipe variants
+		List<RecipeBuilder<?>> builders = new ArrayList<>(); // Holds all the recipe variants
 		builders.add(builder);
 		
 		for (IItemIngredient input : recipe.getItemIngredients()) {
@@ -166,8 +166,8 @@ public class GTCERecipeHelper {
 				}
 			}
 			else {
-				List<String> ingredientOreList = new ArrayList<String>(); // Hold the different oreDict names
-				List<RecipeBuilder<?>> newBuilders = new ArrayList<RecipeBuilder<?>>();
+				List<String> ingredientOreList = new ArrayList<>(); // Hold the different oreDict names
+				List<RecipeBuilder<?>> newBuilders = new ArrayList<>();
 				for (ItemStack inputVariant : input.getInputStackList()) {
 					if(inputVariant.isEmpty()) continue;
 					Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);

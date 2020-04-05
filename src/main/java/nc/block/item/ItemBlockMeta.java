@@ -19,20 +19,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockMeta extends ItemBlock {
 	
-	private final TextFormatting fixedColor, infoColor;
+	private final TextFormatting[] fixedColors;
+	private final TextFormatting infoColor;
 	public final String[][] fixedInfo, info;
 	
-	public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(Block block, Class<T> enumm, TextFormatting fixedColor, String[][] fixedTooltips, TextFormatting infoColor, String[]... tooltips) {
+	public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(Block block, Class<T> enumm, TextFormatting[] fixedColors, String[][] fixedTooltips, TextFormatting infoColor, String[]... tooltips) {
 		super(block);
 		if (!(block instanceof IBlockMeta)) {
 			throw new IllegalArgumentException(String.format("The block %s for this ItemBlockMeta is not an instance of IBlockMeta!", block.getTranslationKey()));
 		}
 		setMaxDamage(0);
 		setHasSubtypes(true);
-		this.fixedColor = fixedColor;
+		this.fixedColors = fixedColors;
 		fixedInfo = InfoHelper.buildFixedInfo(block.getTranslationKey(), enumm, fixedTooltips);
 		this.infoColor = infoColor;
 		info = InfoHelper.buildInfo(block.getTranslationKey(), enumm, tooltips);
+	}
+	
+	public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(Block block, Class<T> enumm, TextFormatting fixedColor, String[][] fixedTooltips, TextFormatting infoColor, String[]... tooltips) {
+		this(block, enumm, new TextFormatting[] {fixedColor}, fixedTooltips, infoColor, tooltips);
 	}
 	
 	public <T extends Enum<T> & IStringSerializable> ItemBlockMeta(Block block, Class<T> enumm, TextFormatting infoColor, String[]... tooltips) {
@@ -59,7 +64,12 @@ public class ItemBlockMeta extends ItemBlock {
 		super.addInformation(stack, world, tooltip, flag);
 		int meta = ItemStackHelper.getMetadata(stack);
 		if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {
-			InfoHelper.infoFull(tooltip, fixedColor, fixedInfo[meta], infoColor, info[meta]);
+			if (fixedColors.length == 1) {
+				InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo[meta], infoColor, info[meta]);
+			}
+			else {
+				InfoHelper.infoFull(tooltip, fixedColors, fixedInfo[meta], infoColor, info[meta]);
+			}
 		}
 	}
 }

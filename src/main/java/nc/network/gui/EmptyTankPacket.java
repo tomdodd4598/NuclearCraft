@@ -62,7 +62,7 @@ public class EmptyTankPacket implements IMessage {
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.clearTank(message.tankNo);
-				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
+				tile.markDirty();
 			}
 		}
 	}

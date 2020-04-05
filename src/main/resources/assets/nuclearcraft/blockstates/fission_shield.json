@@ -1,0 +1,14 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"active=false,type=boron_silver": {
+			"model": "nuclearcraft:fission_shield_boron_silver_off"
+		},
+		"active=true,type=boron_silver": {
+			"model": "nuclearcraft:fission_shield_boron_silver_on"
+		}
+	}
+}

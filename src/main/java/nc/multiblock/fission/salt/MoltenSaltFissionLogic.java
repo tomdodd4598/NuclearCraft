@@ -12,7 +12,6 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.container.ContainerSaltFissionController;
 import nc.multiblock.fission.FissionCluster;
@@ -26,11 +25,13 @@ import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.IFissionHeatingComponent;
+import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -81,8 +82,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	// TODO
 	@Override
-	public void refreshPorts() {
-		super.refreshPorts();
+	public void refreshConnections() {
+		super.refreshConnections();
 	}
 	
 	@Override
@@ -237,7 +238,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			componentIterator.remove();
 			component.onClusterMeltdown();
 		}
-		clusterMeltdown(cluster);
+		super.clusterMeltdown(cluster);
 	}
 	
 	// Component Logic
@@ -260,6 +261,11 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {
 		fuelComponent.defaultRefreshModerators();
+	}
+	
+	@Override
+	public boolean isShieldActiveModerator(TileFissionShield shield, boolean isActiveModeratorPos) {
+		return isActiveModeratorPos && !shield.isShielding();
 	}
 	
 	@Override

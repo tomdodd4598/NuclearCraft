@@ -1,3 +1,20 @@
+v2o.1.2
+
++ Added fission neutron shields and shield managers to turn reactors off!
++ Added WIP fission monitors and power ports
++ Added multitool used to configure managers and monitors [thanks to Thiz for the texture!]
+
++ Added config to reduce all fluid recipes by their highest common factor
+* Machines can now process at rates of more than one recipe per tick
+
++ Added commands for setting world, player and chunk radius radiation levels
++ Added config for custom mob max radiation counts
+
+* Began preparation for implementing pebble bed and molten salt fission reactors
+
+- Removed various unnecessary pre-overhaul classes
+* Huge amounts of small backend performance improvements and refactors
+
 v2o.1.1
 
 * Split fission ports into multiple types

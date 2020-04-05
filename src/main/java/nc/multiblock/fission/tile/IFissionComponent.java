@@ -4,12 +4,20 @@ import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
+import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
+import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorLineBlockInfo;
 import nc.recipe.NCRecipes;
+import nc.util.Lang;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
 public interface IFissionComponent extends IFissionPart {
 	
@@ -75,7 +83,40 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void onClusterMeltdown();
 	
+	// Moderator Lines
+	
+	public default ModeratorLineBlockInfo getModeratorComponentInfo(boolean activeModeratorPos) {
+		return null;
+	}
+	
+	public default void onAddedToModeratorCache(ModeratorLineBlockInfo info) {}
+	
+	public default void onModeratorLineComplete(ModeratorLineBlockInfo info, int flux) {}
+	
+	// IMultitoolLogic
+	
+	@Override
+	public default boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (player.isSneaking()) {
+			multitoolStack.getTagCompound().setLong("componentPos", getTilePos().toLong());
+			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.copy_component_info")));
+			return true;
+		}
+		else {
+			
+		}
+		return IFissionPart.super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+	}
+	
 	// Helper methods
+	
+	public default boolean isActiveModerator(BlockPos pos) {
+		return getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_moderator, pos) != null;
+	}
+	
+	public default boolean isActiveReflector(BlockPos pos) {
+		return getMultiblock().activeReflectorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_reflector, pos) != null;
+	}
 	
 	public default boolean isActiveCell(BlockPos pos) {
 		TileSolidFissionCell cell = getMultiblock().getPartMap(TileSolidFissionCell.class).get(pos.toLong());
@@ -87,12 +128,14 @@ public interface IFissionComponent extends IFissionPart {
 		return sink == null ? false : sink.isFunctional() && sink.sinkName.equals(sinkName);
 	}
 	
-	public default boolean isActiveModerator(BlockPos pos) {
-		return getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_moderator, pos) != null;
+	public default boolean isActiveVessel(BlockPos pos) {
+		TileSaltFissionVessel vessel = getMultiblock().getPartMap(TileSaltFissionVessel.class).get(pos.toLong());
+		return vessel == null ? false : vessel.isFunctional();
 	}
 	
-	public default boolean isActiveReflector(BlockPos pos) {
-		return getMultiblock().activeReflectorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_reflector, pos) != null;
+	public default boolean isActiveHeater(BlockPos pos, String sinkName) {
+		TileSaltFissionHeater heater = getMultiblock().getPartMap(TileSaltFissionHeater.class).get(pos.toLong());
+		return heater == null ? false : heater.isFunctional() && heater.heaterName.equals(sinkName);
 	}
 	
 	public default boolean isWall(BlockPos pos) {

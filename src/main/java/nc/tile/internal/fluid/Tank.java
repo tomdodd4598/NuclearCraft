@@ -201,14 +201,14 @@ public class Tank extends FluidTank {
 		}
 		
 		public static List<TankInfo> infoList(List<Tank> tanks) {
-			List<TankInfo> infoList = new ArrayList<TankInfo>();
+			List<TankInfo> infoList = new ArrayList<>();
 			if (tanks == null || tanks.isEmpty()) return infoList;
 			for (Tank tank : tanks) infoList.add(new TankInfo(tank));
 			return infoList;
 		}
 		
 		public static List<TankInfo> readBuf(ByteBuf buf, byte numberOfTanks) {
-			List<TankInfo> infoList = new ArrayList<TankInfo>();
+			List<TankInfo> infoList = new ArrayList<>();
 			for (byte i = 0; i < numberOfTanks; i++) infoList.add(new TankInfo(ByteBufUtils.readUTF8String(buf), buf.readInt()));
 			return infoList;
 		}

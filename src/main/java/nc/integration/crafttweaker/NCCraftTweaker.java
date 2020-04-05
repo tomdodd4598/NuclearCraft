@@ -707,6 +707,36 @@ public class NCCraftTweaker {
 		}
 	}
 	
+	@ZenClass("mods.nuclearcraft.PebbleFission")
+	@ZenRegister
+	public static class PebbleFissionMethods {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return NCRecipes.pebble_fission;
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.pebble_fission, Lists.newArrayList(input, output, time, heat, efficiency, criticality, selfPriming, radiation)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.pebble_fission, IngredientSorption.INPUT, Lists.newArrayList(input)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.pebble_fission, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.pebble_fission));
+		}
+	}
+	
 	@ZenClass("mods.nuclearcraft.SolidFission")
 	@ZenRegister
 	public static class SolidFissionMethods {

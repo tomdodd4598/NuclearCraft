@@ -7,6 +7,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import crafttweaker.annotations.ZenRegister;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import nc.Global;
@@ -15,6 +17,7 @@ import nc.config.NCConfig;
 import nc.integration.gtce.GTCERecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
+import nc.util.NCMath;
 import nc.util.NCUtil;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -24,8 +27,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
 	
 	private final String recipeName;
-	private final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
-	private final boolean isShapeless;
+	protected final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
+	protected final boolean isShapeless;
 	
 	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
 		this(recipeName, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
@@ -58,15 +61,56 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 				extras.add(object);
 			}
 		}
-		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
-		addRecipe(recipe);
+		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, fixExtras(extras), isShapeless);
 		
 		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName) && recipe != null) {
 			GTCERecipeHelper.addGTCERecipe(recipeName, recipe);
 		}
+		
+		addRecipe(NCConfig.factor_recipes ? factorRecipe(recipe) : recipe);
 	}
 	
-	private static final Object2BooleanMap<String> GTCE_INTEGRATION = new Object2BooleanOpenHashMap<String>();
+	public abstract List fixExtras(List extras);
+	
+	public ProcessorRecipe factorRecipe(ProcessorRecipe recipe) {
+		if (recipe == null) return null;
+		if (recipe.getItemIngredients().size() != 0 || recipe.getItemProducts().size() != 0) {
+			return recipe;
+		}
+		
+		IntList stackSizes = new IntArrayList();
+		for (IFluidIngredient ingredient : recipe.getFluidIngredients()) {
+			stackSizes.addAll(ingredient.getFactors());
+		}
+		for (IFluidIngredient ingredient : recipe.getFluidProducts()) {
+			stackSizes.addAll(ingredient.getFactors());
+		}
+		stackSizes.addAll(getExtraFactors(recipe.getExtras()));
+		
+		int hcf = NCMath.hcf(stackSizes.toIntArray());
+		if (hcf == 1) return recipe;
+		
+		List<IFluidIngredient> fluidIngredients = new ArrayList<>(), fluidProducts = new ArrayList<>();
+		
+		for (IFluidIngredient ingredient : recipe.getFluidIngredients()) {
+			fluidIngredients.add(ingredient.getFactoredIngredient(hcf));
+		}
+		for (IFluidIngredient ingredient : recipe.getFluidProducts()) {
+			fluidProducts.add(ingredient.getFactoredIngredient(hcf));
+		}
+		
+		return new ProcessorRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
+	}
+	
+	public IntList getExtraFactors(List extras) {
+		return new IntArrayList();
+	}
+	
+	public List getFactoredExtras(List extras, int factor) {
+		return extras;
+	}
+	
+	private static final Object2BooleanMap<String> GTCE_INTEGRATION = new Object2BooleanOpenHashMap<>();
 	
 	public static void initGTCEIntegration() {
 		boolean[] arr = NCConfig.gtce_recipe_integration;
@@ -93,8 +137,8 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	
 	@Nullable
 	public ProcessorRecipe buildRecipe(List itemInputs, List fluidInputs, List itemOutputs, List fluidOutputs, List extras, boolean shapeless) {
-		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>(), itemProducts = new ArrayList<IItemIngredient>();
-		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>(), fluidProducts = new ArrayList<IFluidIngredient>();
+		List<IItemIngredient> itemIngredients = new ArrayList<>(), itemProducts = new ArrayList<>();
+		List<IFluidIngredient> fluidIngredients = new ArrayList<>(), fluidProducts = new ArrayList<>();
 		for (Object obj : itemInputs) {
 			if (obj != null && isValidItemInputType(obj)) {
 				IItemIngredient input = RecipeHelper.buildItemIngredient(obj);

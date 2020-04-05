@@ -74,6 +74,7 @@ public class NCConfig {
 	public static boolean gtce_recipe_logging;
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
+	public static boolean factor_recipes;
 	public static boolean processor_particles;
 	
 	public static int[] rtg_power;
@@ -84,10 +85,13 @@ public class NCConfig {
 	public static double fission_fuel_time_multiplier; // Default: 1
 	public static double[] fission_source_efficiency;
 	public static int[] fission_sink_cooling_rate;
+	public static int[] fission_heater_cooling_rate;
 	public static int[] fission_moderator_flux_factor;
 	public static double[] fission_moderator_efficiency;
 	public static double[] fission_reflector_efficiency;
 	public static double[] fission_reflector_reflectivity;
+	public static double[] fission_shield_heat_per_flux;
+	public static double[] fission_shield_efficiency;
 	public static double[] fission_irradiator_heat_per_flux;
 	public static double[] fission_irradiator_efficiency;
 	public static int fission_cooling_efficiency_leniency;
@@ -252,6 +256,7 @@ public class NCConfig {
 	
 	public static double max_player_rads;
 	public static double radiation_player_decay_rate;
+	public static String[] max_entity_rads;
 	public static double radiation_entity_decay_rate;
 	public static double radiation_spread_rate;
 	public static double radiation_spread_gradient;
@@ -441,6 +446,8 @@ public class NCConfig {
 		propertySmartProcessorInput.setLanguageKey("gui.nc.config.processors.smart_processor_input");
 		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", true, Lang.localise("gui.nc.config.processors.passive_permeation.comment"));
 		propertyPermeation.setLanguageKey("gui.nc.config.processors.passive_permeation");
+		Property propertyFactorRecipes = config.get(CATEGORY_PROCESSORS, "factor_recipes", false, Lang.localise("gui.nc.config.processors.factor_recipes.comment"));
+		propertyFactorRecipes.setLanguageKey("gui.nc.config.processors.factor_recipes");
 		Property propertyProcessorParticles = config.get(CATEGORY_PROCESSORS, "processor_particles", true, Lang.localise("gui.nc.config.processors.processor_particles.comment"));
 		propertyProcessorParticles.setLanguageKey("gui.nc.config.processors.processor_particles");
 		
@@ -459,14 +466,20 @@ public class NCConfig {
 		propertyFissionSourceEfficiency.setLanguageKey("gui.nc.config.fission.fission_source_efficiency");
 		Property propertyFissionSinkCoolingRate = config.get(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {55, 50, 85, 75, 70, 105, 100, 95, 110, 115, 145, 65, 90, 195, 190, 80, 120, 60, 165, 130, 125, 150, 185, 170, 175, 160, 140, 135, 180, 200, 155, 205}, Lang.localise("gui.nc.config.fission.fission_sink_cooling_rate.comment"), 0, 32767);
 		propertyFissionSinkCoolingRate.setLanguageKey("gui.nc.config.fission.fission_sink_cooling_rate");
+		Property propertyFissionHeaterCoolingRate = config.get(CATEGORY_FISSION, "fission_heater_cooling_rate", new int[] {55, 50, 85, 75, 70, 105, 100, 95, 110, 115, 145, 65, 90, 195, 190, 80, 120, 60, 165, 130, 125, 150, 185, 170, 175, 160, 140, 135, 180, 200, 155, 205}, Lang.localise("gui.nc.config.fission.fission_heater_cooling_rate.comment"), 0, 32767);
+		propertyFissionHeaterCoolingRate.setLanguageKey("gui.nc.config.fission.fission_heater_cooling_rate");
 		Property propertyFissionModeratorFluxFactor = config.get(CATEGORY_FISSION, "fission_moderator_flux_factor", new int[] {10, 22, 36}, Lang.localise("gui.nc.config.fission.fission_moderator_flux_factor.comment"), 0, 32767);
 		propertyFissionModeratorFluxFactor.setLanguageKey("gui.nc.config.fission.fission_moderator_flux_factor");
 		Property propertyFissionModeratorEfficiency = config.get(CATEGORY_FISSION, "fission_moderator_efficiency", new double[] {1.1D, 1.05D, 1D}, Lang.localise("gui.nc.config.fission.fission_moderator_efficiency.comment"), 0D, 255D);
 		propertyFissionModeratorEfficiency.setLanguageKey("gui.nc.config.fission.fission_moderator_efficiency");
-		Property propertyFissionReflectorEfficiency = config.get(CATEGORY_FISSION, "fission_reflector_efficiency", new double[] {0.5D, 0.25D}, Lang.localise("gui.nc.config.fission.fission_reflector_efficiency.comment"), 0D, 1D);
+		Property propertyFissionReflectorEfficiency = config.get(CATEGORY_FISSION, "fission_reflector_efficiency", new double[] {0.5D, 0.25D}, Lang.localise("gui.nc.config.fission.fission_reflector_efficiency.comment"), 0D, 255D);
 		propertyFissionReflectorEfficiency.setLanguageKey("gui.nc.config.fission.fission_reflector_efficiency");
 		Property propertyFissionReflectorReflectivity = config.get(CATEGORY_FISSION, "fission_reflector_reflectivity", new double[] {1D, 0.5D}, Lang.localise("gui.nc.config.fission.fission_reflector_reflectivity.comment"), 0D, 1D);
 		propertyFissionReflectorReflectivity.setLanguageKey("gui.nc.config.fission.fission_reflector_reflectivity");
+		Property propertyFissionShieldHeatPerFlux = config.get(CATEGORY_FISSION, "fission_shield_heat_per_flux", new double[] {5D}, Lang.localise("gui.nc.config.fission.fission_shield_heat_per_flux.comment"), 0D, 32767D);
+		propertyFissionShieldHeatPerFlux.setLanguageKey("gui.nc.config.fission.fission_shield_heat_per_flux");
+		Property propertyFissionShieldEfficiency = config.get(CATEGORY_FISSION, "fission_shield_efficiency", new double[] {0.5D}, Lang.localise("gui.nc.config.fission.fission_shield_efficiency.comment"), 0D, 255D);
+		propertyFissionShieldEfficiency.setLanguageKey("gui.nc.config.fission.fission_shield_efficiency");
 		Property propertyFissionIrradiatorHeatPerFlux = config.get(CATEGORY_FISSION, "fission_irradiator_heat_per_flux", new double[] {0D, 0D, 0D}, Lang.localise("gui.nc.config.fission.fission_irradiator_heat_per_flux.comment"), 0D, 32767D);
 		propertyFissionIrradiatorHeatPerFlux.setLanguageKey("gui.nc.config.fission.fission_irradiator_heat_per_flux");
 		Property propertyFissionIrradiatorEfficiency = config.get(CATEGORY_FISSION, "fission_irradiator_efficiency", new double[] {0D, 0D, 0.5D}, Lang.localise("gui.nc.config.fission.fission_irradiator_efficiency.comment"), 0D, 32767D);
@@ -771,6 +784,8 @@ public class NCConfig {
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.nc.config.radiation.max_player_rads");
 		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0.0000005D, Lang.localise("gui.nc.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
 		propertyRadiationPlayerDecayRate.setLanguageKey("gui.nc.config.radiation.radiation_player_decay_rate");
+		Property propertyRadiationMaxEntityRads = config.get(CATEGORY_RADIATION, "max_entity_rads", new String[] {}, Lang.localise("gui.nc.config.radiation.max_entity_rads.comment"));
+		propertyRadiationMaxEntityRads.setLanguageKey("gui.nc.config.radiation.max_entity_rads");
 		Property propertyRadiationEntityDecayRate = config.get(CATEGORY_RADIATION, "radiation_entity_decay_rate", 0.001D, Lang.localise("gui.nc.config.radiation.radiation_entity_decay_rate.comment"), 0D, 1D);
 		propertyRadiationEntityDecayRate.setLanguageKey("gui.nc.config.radiation.radiation_entity_decay_rate");
 		Property propertyRadiationSpreadRate = config.get(CATEGORY_RADIATION, "radiation_spread_rate", 0.1D, Lang.localise("gui.nc.config.radiation.radiation_spread_rate.comment"), 0D, 1D);
@@ -943,7 +958,7 @@ public class NCConfig {
 		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.nc.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.nc.config.other.ore_dict_priority");
 		
-		List<String> propertyOrderOres = new ArrayList<String>();
+		List<String> propertyOrderOres = new ArrayList<>();
 		propertyOrderOres.add(propertyOreDims.getName());
 		propertyOrderOres.add(propertyOreDimsListType.getName());
 		propertyOrderOres.add(propertyOreGen.getName());
@@ -956,7 +971,7 @@ public class NCConfig {
 		propertyOrderOres.add(propertyOreHarvestLevels.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ORES, propertyOrderOres);
 		
-		List<String> propertyOrderProcessors = new ArrayList<String>();
+		List<String> propertyOrderProcessors = new ArrayList<>();
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertySpeedUpgradePowerLaws.getName());
@@ -977,24 +992,28 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyGTCERecipeLogging.getName());
 		propertyOrderProcessors.add(propertySmartProcessorInput.getName());
 		propertyOrderProcessors.add(propertyPermeation.getName());
+		propertyOrderProcessors.add(propertyFactorRecipes.getName());
 		propertyOrderProcessors.add(propertyProcessorParticles.getName());
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
-		List<String> propertyOrderGenerators = new ArrayList<String>();
+		List<String> propertyOrderGenerators = new ArrayList<>();
 		propertyOrderGenerators.add(propertyRTGPower.getName());
 		propertyOrderGenerators.add(propertySolarPower.getName());
 		propertyOrderGenerators.add(propertyDecayLifetime.getName());
 		propertyOrderGenerators.add(propertyDecayPower.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
 		
-		List<String> propertyOrderFission = new ArrayList<String>();
+		List<String> propertyOrderFission = new ArrayList<>();
 		propertyOrderFission.add(propertyFissionFuelTimeMultiplier.getName());
 		propertyOrderFission.add(propertyFissionSourceEfficiency.getName());
 		propertyOrderFission.add(propertyFissionSinkCoolingRate.getName());
+		propertyOrderFission.add(propertyFissionHeaterCoolingRate.getName());
 		propertyOrderFission.add(propertyFissionModeratorFluxFactor.getName());
 		propertyOrderFission.add(propertyFissionModeratorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionReflectorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionReflectorReflectivity.getName());
+		propertyOrderFission.add(propertyFissionShieldHeatPerFlux.getName());
+		propertyOrderFission.add(propertyFissionShieldEfficiency.getName());
 		propertyOrderFission.add(propertyFissionIrradiatorHeatPerFlux.getName());
 		propertyOrderFission.add(propertyFissionIrradiatorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionCoolingEfficiencyLeniency.getName());
@@ -1072,7 +1091,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionCaliforniumRadiation.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FISSION, propertyOrderFission);
 		
-		List<String> propertyOrderFusion = new ArrayList<String>();
+		List<String> propertyOrderFusion = new ArrayList<>();
 		propertyOrderFusion.add(propertyFusionBasePower.getName());
 		propertyOrderFusion.add(propertyFusionFuelUse.getName());
 		propertyOrderFusion.add(propertyFusionHeatGeneration.getName());
@@ -1092,7 +1111,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionRadiation.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FUSION, propertyOrderFusion);
 		
-		List<String> propertyOrderHeatExchanger = new ArrayList<String>();
+		List<String> propertyOrderHeatExchanger = new ArrayList<>();
 		propertyOrderHeatExchanger.add(propertyHeatExchangerMinSize.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerMaxSize.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerConductivity.getName());
@@ -1100,7 +1119,7 @@ public class NCConfig {
 		propertyOrderHeatExchanger.add(propertyHeatExchangerAlternateExhaustRecipe.getName());
 		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
 		
-		List<String> propertyOrderTurbine = new ArrayList<String>();
+		List<String> propertyOrderTurbine = new ArrayList<>();
 		propertyOrderTurbine.add(propertyTurbineMinSize.getName());
 		propertyOrderTurbine.add(propertyTurbineMaxSize.getName());
 		propertyOrderTurbine.add(propertyTurbineBladeEfficiency.getName());
@@ -1115,16 +1134,16 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineSoundVolume.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
-		List<String> propertyOrderAccelerator = new ArrayList<String>();
+		List<String> propertyOrderAccelerator = new ArrayList<>();
 		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorSupercoolerCoolant.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
 		
-		List<String> propertyOrderEnergyStorage = new ArrayList<String>();
+		List<String> propertyOrderEnergyStorage = new ArrayList<>();
 		propertyOrderEnergyStorage.add(propertyBatteryCapacity.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ENERGY_STORAGE, propertyOrderEnergyStorage);
 		
-		List<String> propertyOrderTools = new ArrayList<String>();
+		List<String> propertyOrderTools = new ArrayList<>();
 		propertyOrderTools.add(propertyToolMiningLevel.getName());
 		propertyOrderTools.add(propertyToolDurability.getName());
 		propertyOrderTools.add(propertyToolSpeed.getName());
@@ -1134,7 +1153,7 @@ public class NCConfig {
 		propertyOrderTools.add(propertyToolTiCRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
 		
-		List<String> propertyOrderArmor = new ArrayList<String>();
+		List<String> propertyOrderArmor = new ArrayList<>();
 		propertyOrderArmor.add(propertyArmorDurability.getName());
 		propertyOrderArmor.add(propertyArmorEnchantability.getName());
 		propertyOrderArmor.add(propertyArmorBoron.getName());
@@ -1146,12 +1165,12 @@ public class NCConfig {
 		propertyOrderArmor.add(propertyArmorConarmRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
 		
-		List<String> propertyOrderEntities = new ArrayList<String>();
+		List<String> propertyOrderEntities = new ArrayList<>();
 		propertyOrderEntities.add(propertyEntityTrackingRange.getName());
 		propertyOrderEntities.add(propertyEntityRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ENTITIES, propertyOrderEntities);
 		
-		List<String> propertyOrderRadiation = new ArrayList<String>();
+		List<String> propertyOrderRadiation = new ArrayList<>();
 		propertyOrderRadiation.add(propertyRadiationEnabled.getName());
 		propertyOrderRadiation.add(propertyRadiationWorldChunksPerTick.getName());
 		propertyOrderRadiation.add(propertyRadiationPlayerTickRate.getName());
@@ -1172,6 +1191,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationFluidsBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
 		propertyOrderRadiation.add(propertyRadiationPlayerDecayRate.getName());
+		propertyOrderRadiation.add(propertyRadiationMaxEntityRads.getName());
 		propertyOrderRadiation.add(propertyRadiationEntityDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationSpreadRate.getName());
 		propertyOrderRadiation.add(propertyRadiationSpreadGradient.getName());
@@ -1227,7 +1247,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationBadgeInfoRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_RADIATION, propertyOrderRadiation);
 		
-		List<String> propertyOrderOther = new ArrayList<String>();
+		List<String> propertyOrderOther = new ArrayList<>();
 		propertyOrderOther.add(propertySingleCreativeTab.getName());
 		propertyOrderOther.add(propertyRegisterProcessor.getName());
 		propertyOrderOther.add(propertyRegisterPassive.getName());
@@ -1286,6 +1306,7 @@ public class NCConfig {
 			gtce_recipe_logging = propertyGTCERecipeLogging.getBoolean();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
 			passive_permeation = propertyPermeation.getBoolean();
+			factor_recipes = propertyFactorRecipes.getBoolean();
 			processor_particles = propertyProcessorParticles.getBoolean();
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
@@ -1296,10 +1317,13 @@ public class NCConfig {
 			fission_fuel_time_multiplier = propertyFissionFuelTimeMultiplier.getDouble();
 			fission_source_efficiency = readDoubleArrayFromConfig(propertyFissionSourceEfficiency);
 			fission_sink_cooling_rate = readIntegerArrayFromConfig(propertyFissionSinkCoolingRate);
+			fission_heater_cooling_rate = readIntegerArrayFromConfig(propertyFissionHeaterCoolingRate);
 			fission_moderator_flux_factor = readIntegerArrayFromConfig(propertyFissionModeratorFluxFactor);
 			fission_moderator_efficiency = readDoubleArrayFromConfig(propertyFissionModeratorEfficiency);
 			fission_reflector_efficiency = readDoubleArrayFromConfig(propertyFissionReflectorEfficiency);
 			fission_reflector_reflectivity = readDoubleArrayFromConfig(propertyFissionReflectorReflectivity);
+			fission_shield_heat_per_flux = readDoubleArrayFromConfig(propertyFissionShieldHeatPerFlux);
+			fission_shield_efficiency = readDoubleArrayFromConfig(propertyFissionShieldEfficiency);
 			fission_irradiator_heat_per_flux = readDoubleArrayFromConfig(propertyFissionIrradiatorHeatPerFlux);
 			fission_irradiator_efficiency = readDoubleArrayFromConfig(propertyFissionIrradiatorEfficiency);
 			fission_cooling_efficiency_leniency = propertyFissionCoolingEfficiencyLeniency.getInt();
@@ -1463,6 +1487,7 @@ public class NCConfig {
 			
 			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
 			radiation_player_decay_rate = propertyRadiationPlayerDecayRate.getDouble();
+			max_entity_rads = propertyRadiationMaxEntityRads.getStringList();
 			radiation_entity_decay_rate = propertyRadiationEntityDecayRate.getDouble();
 			radiation_spread_rate = propertyRadiationSpreadRate.getDouble();
 			radiation_spread_gradient = propertyRadiationSpreadGradient.getDouble();
@@ -1581,6 +1606,7 @@ public class NCConfig {
 		propertyGTCERecipeLogging.set(gtce_recipe_logging);
 		propertySmartProcessorInput.set(smart_processor_input);
 		propertyPermeation.set(passive_permeation);
+		propertyFactorRecipes.set(factor_recipes);
 		propertyProcessorParticles.set(processor_particles);
 		
 		propertyRTGPower.set(rtg_power);
@@ -1591,10 +1617,13 @@ public class NCConfig {
 		propertyFissionFuelTimeMultiplier.set(fission_fuel_time_multiplier);
 		propertyFissionSourceEfficiency.set(fission_source_efficiency);
 		propertyFissionSinkCoolingRate.set(fission_sink_cooling_rate);
+		propertyFissionHeaterCoolingRate.set(fission_heater_cooling_rate);
 		propertyFissionModeratorFluxFactor.set(fission_moderator_flux_factor);
 		propertyFissionModeratorEfficiency.set(fission_moderator_efficiency);
 		propertyFissionReflectorEfficiency.set(fission_reflector_efficiency);
 		propertyFissionReflectorReflectivity.set(fission_reflector_reflectivity);
+		propertyFissionShieldHeatPerFlux.set(fission_shield_heat_per_flux);
+		propertyFissionShieldEfficiency.set(fission_shield_efficiency);
 		propertyFissionIrradiatorHeatPerFlux.set(fission_irradiator_heat_per_flux);
 		propertyFissionIrradiatorEfficiency.set(fission_irradiator_efficiency);
 		propertyFissionCoolingEfficiencyLeniency.set(fission_cooling_efficiency_leniency);
@@ -1758,6 +1787,7 @@ public class NCConfig {
 		
 		propertyRadiationMaxPlayerRads.set(max_player_rads);
 		propertyRadiationPlayerDecayRate.set(radiation_player_decay_rate);
+		propertyRadiationMaxEntityRads.set(max_entity_rads);
 		propertyRadiationEntityDecayRate.set(radiation_entity_decay_rate);
 		propertyRadiationSpreadRate.set(radiation_spread_rate);
 		propertyRadiationSpreadGradient.set(radiation_spread_gradient);

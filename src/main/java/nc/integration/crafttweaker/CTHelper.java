@@ -115,7 +115,7 @@ public class CTHelper {
 			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
-		List<IItemIngredient> ingredientList = new ArrayList<IItemIngredient>();
+		List<IItemIngredient> ingredientList = new ArrayList<>();
 		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
 			ingredientList.add(buildAdditionItemIngredient(ctIngredient));
 		}
@@ -127,7 +127,7 @@ public class CTHelper {
 			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
-		List<IItemIngredient> ingredientList = new ArrayList<IItemIngredient>();
+		List<IItemIngredient> ingredientList = new ArrayList<>();
 		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
 			ingredientList.add(buildRemovalItemIngredient(ctIngredient));
 		}
@@ -135,7 +135,7 @@ public class CTHelper {
 	}
 	
 	public static IItemIngredient buildOreIngredientArray(IIngredient stack, boolean addition) {
-		List<ItemStack> stackList = new ArrayList<ItemStack>();
+		List<ItemStack> stackList = new ArrayList<>();
 		stack.getItems().forEach(item -> stackList.add(ItemStackHelper.changeStackSize(getItemStack(item), stack.getAmount())));
 		if (addition) {
 			OreIngredient oreStack = RecipeHelper.getOreStackFromItems(stackList, stack.getAmount());
@@ -149,7 +149,7 @@ public class CTHelper {
 			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
-		List<IFluidIngredient> ingredientList = new ArrayList<IFluidIngredient>();
+		List<IFluidIngredient> ingredientList = new ArrayList<>();
 		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
 			ingredientList.add(buildAdditionFluidIngredient(ctIngredient));
 		}
@@ -161,7 +161,7 @@ public class CTHelper {
 			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
-		List<IFluidIngredient> ingredientList = new ArrayList<IFluidIngredient>();
+		List<IFluidIngredient> ingredientList = new ArrayList<>();
 		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
 			ingredientList.add(buildRemovalFluidIngredient(ctIngredient));
 		}

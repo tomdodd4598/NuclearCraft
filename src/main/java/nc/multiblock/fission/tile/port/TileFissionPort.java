@@ -22,7 +22,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	protected final Class<PORT> portClass;
 	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected PORT masterPort = null;
-	protected ObjectSet<TARGET> connectedParts = new ObjectOpenHashSet<>();
+	protected ObjectSet<TARGET> targets = new ObjectOpenHashSet<>();
 	public boolean refreshPartsFlag = false;
 	
 	public TileFissionPort(Class<PORT> portClass) {
@@ -57,8 +57,8 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	}
 	
 	@Override
-	public ObjectSet<TARGET> getConnectedParts() {
-		return connectedParts;
+	public ObjectSet<TARGET> getTargets() {
+		return targets;
 	}
 	
 	@Override
@@ -84,11 +84,12 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	}
 	
 	//TODO - temporary ports
-	protected void refreshConnectedParts() {
+	@Override
+	public void refreshTargets() {
 		refreshPartsFlag = false;
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
-			for (TARGET part : connectedParts) {
+			for (TARGET part : targets) {
 				refresh = refresh || part.onPortRefresh();
 			}
 			if (refresh) getMultiblock().refreshFlag = true;
@@ -102,7 +103,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 		super.update();
 		if (!world.isRemote) {
 			if (refreshPartsFlag) {
-				refreshConnectedParts();
+				refreshTargets();
 			}
 		}
 	}
@@ -118,15 +119,14 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setLong("masterPortPos", masterPortPos.toLong());
+		//nbt.setLong("masterPortPos", masterPortPos.toLong());
 		return nbt;
 	}
 	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
-		refreshMasterPort();
+		//masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 	}
 	
 	// Capability

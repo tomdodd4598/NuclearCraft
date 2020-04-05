@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -79,7 +80,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	protected boolean selfPriming = false;
 	
 	public double time;
-	protected boolean isProcessing, hasConsumed, canProcessInputs;
+	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
@@ -98,6 +99,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	protected IFissionFluxSink[] adjacentFluxSinks = new IFissionFluxSink[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
+	protected final ModeratorLineComponentCache[] moderatorLineComponentCaches = new ModeratorLineComponentCache[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveReflectorModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
@@ -111,7 +113,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		super(CuboidalPartPositionType.INTERIOR);
 		invWrapper = new InventoryTileWrapper(this);
 		
-		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -161,6 +163,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			adjacentFluxSinks[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
 			activeModeratorCache[dir.getIndex()] = null;
+			moderatorLineComponentCaches[dir.getIndex()] = null;
 			passiveReflectorModeratorCaches[dir.getIndex()].clear();
 			activeReflectorModeratorCache[dir.getIndex()] = null;
 		}
@@ -259,6 +262,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
+	public ModeratorLineComponentCache[] getModeratorLineComponentCaches() {
+		return moderatorLineComponentCaches;
+	}
+	
+	@Override
 	public LongSet[] getPassiveReflectorModeratorCaches() {
 		return passiveReflectorModeratorCaches;
 	}
@@ -340,7 +348,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		this.heat = heat;
 	}
 	
-	// IFissionPortConnector
+	// IFissionPortTarget
 	
 	@Override
 	public BlockPos getMasterPortPos() {
@@ -428,7 +436,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public void refreshActivity() {
+		boolean wasReady = readyToProcess(false);
 		canProcessInputs = canProcessInputs();
+		if (getMultiblock() != null && !wasReady && readyToProcess(false) && selfPriming) {
+			getMultiblock().refreshFlag = true;
+		}
 	}
 	
 	@Override
@@ -509,7 +521,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		
 	public void consumeInputs() {
 		if (hasConsumed || recipeInfo == null) return;
-		List<Integer> itemInputOrder = recipeInfo.getItemInputOrder();
+		IntList itemInputOrder = recipeInfo.getItemInputOrder();
 		if (itemInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < itemInputSize; i++) {
@@ -531,7 +543,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public void process() {
 		time += getSpeedMultiplier();
 		getRadiationSource().setRadiationLevel(baseProcessRadiation*getSpeedMultiplier());
-		if (time >= baseProcessTime) finishProcess();
+		while (time >= baseProcessTime) finishProcess();
 	}
 	
 	public void finishProcess() {
@@ -539,8 +551,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		int oldProcessHeat = baseProcessHeat, oldProcessCriticality = baseProcessCriticality;
 		produceProducts();
 		refreshRecipe();
-		if (!setRecipeStats()) time = 0;
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		time = Math.max(0D, time - oldProcessTime);
 		refreshActivityOnProduction();
 		if (!canProcessInputs) time = 0;
 		
@@ -825,7 +836,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public SolidFissionCellUpdatePacket getGuiUpdatePacket() {
-		return new SolidFissionCellUpdatePacket(pos, masterPortPos, getFilterStacks(), cluster, time, baseProcessTime);
+		return new SolidFissionCellUpdatePacket(pos, masterPortPos, getFilterStacks(), cluster, isProcessing, time, baseProcessTime);
 	}
 	
 	@Override
@@ -837,6 +848,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		getFilterStacks().set(0, message.filterStack);
 		clusterHeatStored = message.clusterHeatStored;
 		clusterHeatCapacity = message.clusterHeatCapacity;
+		isProcessing = message.isProcessing;
 		time = message.time;
 		baseProcessTime = message.baseProcessTime;
 	}
@@ -881,7 +893,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
-		nbt.setLong("masterPortPos", masterPortPos.toLong());
+		//nbt.setLong("masterPortPos", masterPortPos.toLong());
 		return nbt;
 	}
 	
@@ -906,8 +918,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");
 		
-		masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
-		refreshMasterPort();
+		//masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 	}
 	
 	@Override

@@ -1,16 +1,16 @@
 package nc.radiation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import nc.config.NCConfig;
 
 public class RadStructures {
 	
-	public static final Map<String, Double> RAD_MAP = new HashMap<String, Double>();
-	public static final List<String> STRUCTURE_LIST = new ArrayList<String>();
+	public static final Object2DoubleMap<String> RAD_MAP = new Object2DoubleOpenHashMap<>();
+	public static final List<String> STRUCTURE_LIST = new ArrayList<>();
 	
 	public static void init() {
 		for (String structure : NCConfig.radiation_structures) {

@@ -99,7 +99,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getExchangerTubeStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			List<Object[]> stats = new ArrayList<Object[]>();
+			List<Object[]> stats = new ArrayList<>();
 			for (TileHeatExchangerTube tube : getMultiblock().getTubes()) {
 				stats.add(new Object[] {
 						new Object[] {tube.getPos().getX(), tube.getPos().getY(), tube.getPos().getZ()},
@@ -122,7 +122,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getCondensationTubeStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			List<Object[]> stats = new ArrayList<Object[]>();
+			List<Object[]> stats = new ArrayList<>();
 			for (TileCondenserTube condenserTube : getMultiblock().getCondenserTubes()) {
 				stats.add(new Object[] {
 						new Object[] {condenserTube.getPos().getX(), condenserTube.getPos().getY(), condenserTube.getPos().getZ()},

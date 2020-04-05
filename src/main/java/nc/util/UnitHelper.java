@@ -165,6 +165,9 @@ public class UnitHelper {
 	}
 	
 	public static String applyTimeUnit(double ticks, int maxLength, int startUnit) {
+		if (ticks < 1D) {
+			return NCMath.decimalPlaces(ticks, 3) + " ticks";
+		}
 		int i = startUnit;
 		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
 		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT[i];
@@ -185,6 +188,9 @@ public class UnitHelper {
 	}
 	
 	public static String applyTimeUnitShort(double ticks, int maxLength, int startUnit) {
+		if (ticks < 1D) {
+			return NCMath.decimalPlaces(ticks, 3) + " t";
+		}
 		int i = startUnit;
 		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
 		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT_SHORT[i];

@@ -1,149 +1,88 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"textures": {
-			"particle":"nuclearcraft:blocks/fission/salt/heater",
-			"north":"nuclearcraft:blocks/fission/salt/heater",
-			"east":"nuclearcraft:blocks/fission/salt/heater",
-			"south":"nuclearcraft:blocks/fission/salt/heater",
-			"west":"nuclearcraft:blocks/fission/salt/heater",
-			"up":"nuclearcraft:blocks/fission/salt/heater",
-			"down":"nuclearcraft:blocks/fission/salt/heater"
-		},
-		"model":"cube",
-		"transform":"forge:default-block"
+		"model": "cube_all"
 	},
 	"variants": {
-		"inventory": [{}],
-		"north": {
-			"default": {
-			   "textures": {
-					"north":"nuclearcraft:blocks/fission/salt/heater/default"
+		"type": {
+			"standard": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/standard"
 				}
 			},
-			"coolant_spread": {
-			   "textures": {
-					"north":"nuclearcraft:blocks/fission/salt/heater/coolant_spread"
+			"iron": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/iron"
 				}
 			},
-			"hot_coolant_out": {
-				 "textures": {
-					"north":"nuclearcraft:blocks/fission/salt/heater/hot_coolant_out"
+			"redstone": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/redstone"
 				}
 			},
-			"disabled": {
-				 "textures": {
-					"north":"nuclearcraft:blocks/fission/salt/heater/disabled"
-				}
-			}
-		},
-		"east": {
-			"default": {
-			   "textures": {
-					"east":"nuclearcraft:blocks/fission/salt/heater/default"
+			"quartz": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/quartz"
 				}
 			},
-			"coolant_spread": {
-			   "textures": {
-					"east":"nuclearcraft:blocks/fission/salt/heater/coolant_spread"
+			"obsidian": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/obsidian"
 				}
 			},
-			"hot_coolant_out": {
-				 "textures": {
-					"east":"nuclearcraft:blocks/fission/salt/heater/hot_coolant_out"
+			"nether_brick": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/nether_brick"
 				}
 			},
-			"disabled": {
-				 "textures": {
-					"east":"nuclearcraft:blocks/fission/salt/heater/disabled"
-				}
-			}
-		},
-		"south": {
-			"default": {
-			   "textures": {
-					"south":"nuclearcraft:blocks/fission/salt/heater/default"
+			"glowstone": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/glowstone"
 				}
 			},
-			"coolant_spread": {
-			   "textures": {
-					"south":"nuclearcraft:blocks/fission/salt/heater/coolant_spread"
+			"lapis": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/lapis"
 				}
 			},
-			"hot_coolant_out": {
-				 "textures": {
-					"south":"nuclearcraft:blocks/fission/salt/heater/hot_coolant_out"
+			"gold": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/gold"
 				}
 			},
-			"disabled": {
-				 "textures": {
-					"south":"nuclearcraft:blocks/fission/salt/heater/disabled"
-				}
-			}
-		},
-		"west": {
-			"default": {
-			   "textures": {
-					"west":"nuclearcraft:blocks/fission/salt/heater/default"
+			"prismarine": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/prismarine"
 				}
 			},
-			"coolant_spread": {
-			   "textures": {
-					"west":"nuclearcraft:blocks/fission/salt/heater/coolant_spread"
+			"slime": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/slime"
 				}
 			},
-			"hot_coolant_out": {
-				 "textures": {
-					"west":"nuclearcraft:blocks/fission/salt/heater/hot_coolant_out"
+			"end_stone": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/end_stone"
 				}
 			},
-			"disabled": {
-				 "textures": {
-					"west":"nuclearcraft:blocks/fission/salt/heater/disabled"
-				}
-			}
-		},
-		"up": {
-			"default": {
-			   "textures": {
-					"up":"nuclearcraft:blocks/fission/salt/heater/default"
+			"purpur": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/purpur"
 				}
 			},
-			"coolant_spread": {
-			   "textures": {
-					"up":"nuclearcraft:blocks/fission/salt/heater/coolant_spread"
+			"diamond": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/diamond"
 				}
 			},
-			"hot_coolant_out": {
-				 "textures": {
-					"up":"nuclearcraft:blocks/fission/salt/heater/hot_coolant_out"
+			"emerald": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/emerald"
 				}
 			},
-			"disabled": {
-				 "textures": {
-					"up":"nuclearcraft:blocks/fission/salt/heater/disabled"
-				}
-			}
-		},
-		"down": {
-			"default": {
-			   "textures": {
-					"down":"nuclearcraft:blocks/fission/salt/heater/default"
-				}
-			},
-			"coolant_spread": {
-			   "textures": {
-					"down":"nuclearcraft:blocks/fission/salt/heater/coolant_spread"
-				}
-			},
-			"hot_coolant_out": {
-				 "textures": {
-					"down":"nuclearcraft:blocks/fission/salt/heater/hot_coolant_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"down":"nuclearcraft:blocks/fission/salt/heater/disabled"
+			"copper": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/salt/heater/copper"
 				}
 			}
 		}

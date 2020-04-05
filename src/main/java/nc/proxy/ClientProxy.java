@@ -128,7 +128,7 @@ public class ClientProxy extends CommonProxy {
 	public void initFluidColors() {
 		super.initFluidColors();
 		if (NCConfig.register_fluid_blocks && FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			List<Fluid> fluidList = new ArrayList<Fluid>();
+			List<Fluid> fluidList = new ArrayList<>();
 			fluidList.addAll(NCCoolantFluids.fluidList);
 			fluidList.addAll(NCFissionFluids.fluidList);
 			

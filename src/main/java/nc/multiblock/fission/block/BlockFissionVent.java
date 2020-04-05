@@ -57,7 +57,7 @@ public class BlockFissionVent extends BlockFissionPart {
 			EnumFacing enumfacing = state.getValue(FACING_ALL);
 			boolean flag = world.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
-
+			
 			if (enumfacing == EnumFacing.NORTH && flag && !flag1) enumfacing = EnumFacing.SOUTH;
 			else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag) enumfacing = EnumFacing.NORTH;
 			
@@ -71,7 +71,7 @@ public class BlockFissionVent extends BlockFissionPart {
 			world.setBlockState(pos, state.withProperty(FACING_ALL, enumfacing), 2);
 		}
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) return false;

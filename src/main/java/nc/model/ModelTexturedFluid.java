@@ -95,7 +95,7 @@ public final class ModelTexturedFluid implements IModel {
 		protected static final int z[] = {0, 1, 1, 0};
 		protected static final float eps = 0.001F;
 		
-		protected final LoadingCache<Long, BakedFluidTextured> modelCache = CacheBuilder.newBuilder().maximumSize(500).build(new CacheLoader<Long, BakedFluidTextured>() {
+		protected final LoadingCache<Long, BakedFluidTextured> modelCache = CacheBuilder.newBuilder().maximumSize(1000).build(new CacheLoader<Long, BakedFluidTextured>() {
 			@Override
 			public BakedFluidTextured load(Long key) throws Exception {
 				int opacity = (int) (key & 0x3FF);
@@ -329,7 +329,7 @@ public final class ModelTexturedFluid implements IModel {
 				model = modelCache.getUnchecked(key);
 			}
 			if (side == null)
-				return ImmutableList.<BakedQuad>of();
+				return ImmutableList.of();
 			return model.faceQuads.get(side);
 		}
 		

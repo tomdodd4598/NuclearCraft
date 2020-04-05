@@ -1,0 +1,32 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "nuclearcraft:blocks/fission/monitor_top",
+			"bottom": "nuclearcraft:blocks/fission/monitor_bottom",
+			"front": "nuclearcraft:blocks/fission/monitor_front_off",
+			"side": "nuclearcraft:blocks/fission/monitor_side",
+			"back": "nuclearcraft:blocks/fission/monitor_back"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "nuclearcraft:blocks/fission/monitor_front_on"
+				}
+			}
+		},
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		}
+	}
+}

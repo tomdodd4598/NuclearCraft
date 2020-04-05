@@ -1,5 +1,8 @@
 package nc.radiation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.collect.Lists;
 
 import nc.init.NCBlocks;
@@ -20,6 +23,13 @@ public class RadBlockEffects {
 			addRecipe(Lists.newArrayList("treeLeaves", "vine"), Blocks.AIR, 1D);
 			addRecipe(Lists.newArrayList("treeSapling", "cropWheat", "cropPotato", "cropCarrot"), Blocks.AIR, 4D);
 		}
+		
+		@Override
+		public List fixExtras(List extras) {
+			List fixed = new ArrayList(1);
+			fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : Double.MAX_VALUE);
+			return fixed;
+		}
 	}
 	
 	public static class RadiationBlockPurification extends ProcessorRecipeHandler {
@@ -31,6 +41,13 @@ public class RadBlockEffects {
 		@Override
 		public void addRecipes() {
 			addRecipe(NCBlocks.wasteland_earth, "dirt", 0.001D);
+		}
+		
+		@Override
+		public List fixExtras(List extras) {
+			List fixed = new ArrayList(1);
+			fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 0D);
+			return fixed;
 		}
 	}
 }

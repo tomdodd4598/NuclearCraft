@@ -7,10 +7,10 @@ import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -24,41 +24,41 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	private final int energyTier;
 	
 	public ItemEnergyCapabilityProvider(ItemStack stack, NBTTagCompound nbt, int energyTier) {
-		this(stack, nbt.getInteger("energy"), nbt.getInteger("capacity"), nbt.getInteger("maxTransfer"), energyTier);
+		this(stack, nbt.getLong("energy"), nbt.getLong("capacity"), nbt.getInteger("maxTransfer"), energyTier);
 	}
 	
-	public ItemEnergyCapabilityProvider(ItemStack stack, int energy, int capacity, int maxTransfer, int energyTier) {
+	public ItemEnergyCapabilityProvider(ItemStack stack, long energy, long capacity, int maxTransfer, int energyTier) {
 		this.stack = stack;
 		storage = new EnergyStorage(capacity, maxTransfer, energy) {
 			
 			@Override
 			public int getEnergyStored() {
-				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("energy");
+				if (stack.hasTagCompound()) return (int) Math.min(Integer.MAX_VALUE, stack.getTagCompound().getLong("energy"));
 				return 0;
 			}
 			
 			@Override
 			public int getMaxEnergyStored() {
-				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("capacity");
+				if (stack.hasTagCompound()) return (int) Math.min(Integer.MAX_VALUE, stack.getTagCompound().getLong("capacity"));
 				return 0;
 			}
 			
 			@Override
-			public void setEnergyStored(int energy) {
+			public void setEnergyStored(long energy) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("energy", energy);
+				stack.getTagCompound().setLong("energy", energy);
 			}
 			
 			@Override
-			public void changeEnergyStored(int energy) {
+			public void changeEnergyStored(long energy) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("energy", MathHelper.clamp(stack.getTagCompound().getInteger("energy") + energy/stack.getCount(), 0, getMaxEnergyStored()));
+				stack.getTagCompound().setLong("energy", NCMath.clamp(stack.getTagCompound().getLong("energy") + energy/stack.getCount(), 0, getMaxEnergyStored()));
 			}
 			
 			@Override
-			public void setStorageCapacity(int capacity) {
+			public void setStorageCapacity(long capacity) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("capacity", capacity);
+				stack.getTagCompound().setLong("capacity", capacity);
 			}
 			
 			@Override
@@ -89,7 +89,7 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			public int receiveEnergy(int maxReceive, boolean simulate) {
 				if (!canReceive()) return 0;
 				int energyReceived = Math.min(getMaxEnergyStored() - getEnergyStored(), Math.min(getMaxTransfer(), maxReceive));
-				if (!simulate) stack.getTagCompound().setInteger("energy", getEnergyStored() + energyReceived/stack.getCount());
+				if (!simulate) stack.getTagCompound().setLong("energy", getEnergyStored() + energyReceived/stack.getCount());
 				return energyReceived;
 			}
 			
@@ -97,7 +97,7 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			public int extractEnergy(int maxExtract, boolean simulate) {
 				if (!canExtract()) return 0;
 				int energyExtracted = Math.min(getEnergyStored(), Math.min(getMaxTransfer(), maxExtract));
-				if (!simulate) stack.getTagCompound().setInteger("energy", getEnergyStored() - energyExtracted/stack.getCount());
+				if (!simulate) stack.getTagCompound().setLong("energy", getEnergyStored() - energyExtracted/stack.getCount());
 				return energyExtracted;
 			}
 		};

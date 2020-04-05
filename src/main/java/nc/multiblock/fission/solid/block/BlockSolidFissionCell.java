@@ -43,8 +43,9 @@ public class BlockSolidFissionCell extends BlockFissionPart implements ISidedPro
 	
 	@Override
 	public SolidFissionCellSetting getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		if (world.getTileEntity(pos) instanceof TileSolidFissionCell) {
-			return ((TileSolidFissionCell) world.getTileEntity(pos)).getCellSetting(facing);
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileSolidFissionCell) {
+			return ((TileSolidFissionCell) tile).getCellSetting(facing);
 		}
 		return SolidFissionCellSetting.DISABLED;
 	}
@@ -116,8 +117,9 @@ public class BlockSolidFissionCell extends BlockFissionPart implements ISidedPro
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
-		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileSolidFissionCell) {
-			TileSolidFissionCell vessel = (TileSolidFissionCell) world.getTileEntity(pos);
+		TileEntity tile = world.getTileEntity(pos);
+		if (player.getHeldItemMainhand().isEmpty() && tile instanceof TileSolidFissionCell) {
+			TileSolidFissionCell vessel = (TileSolidFissionCell) tile;
 			EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
 			vessel.toggleCellSetting(side);
 			if (!world.isRemote) player.sendMessage(getToggleMessage(player, vessel, side));
@@ -144,9 +146,10 @@ public class BlockSolidFissionCell extends BlockFissionPart implements ISidedPro
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		if (placementSide ==  null) return;
 		BlockPos from = pos.offset(placementSide);
-		if (world.getTileEntity(pos) instanceof TileSolidFissionCell && world.getTileEntity(from) instanceof TileSolidFissionCell) {
-			TileSolidFissionCell vessel = (TileSolidFissionCell) world.getTileEntity(pos);
-			TileSolidFissionCell other = (TileSolidFissionCell) world.getTileEntity(from);
+		TileEntity tile = world.getTileEntity(pos), otherTile = world.getTileEntity(from);
+		if (tile instanceof TileSolidFissionCell && otherTile instanceof TileSolidFissionCell) {
+			TileSolidFissionCell vessel = (TileSolidFissionCell) tile;
+			TileSolidFissionCell other = (TileSolidFissionCell) otherTile;
 			vessel.setInventoryConnections(InventoryConnection.cloneArray(other.getInventoryConnections()));
 			vessel.setCellSettings(other.getCellSettings().clone());
 			vessel.markDirtyAndNotify();

@@ -2,6 +2,9 @@ package nc.recipe.processor;
 
 import static nc.util.FissionHelper.FISSION_FLUID;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 
@@ -17,20 +20,37 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("lithium", FluidStackHelper.NUGGET_VOLUME*10), fluidStack("lithium7", FluidStackHelper.INGOT_VOLUME), fluidStack("lithium6", FluidStackHelper.NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), 10D/9D, 1D);
 		addRecipe(fluidStack("redstone_ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
 		
-		addCoolantNAKRecipe("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*10);
-		addCoolantNAKRecipe("quartz", FluidStackHelper.GEM_VOLUME*7);
-		addCoolantNAKRecipe("gold", FluidStackHelper.INGOT_VOLUME*4);
-		addCoolantNAKRecipe("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME*7);
-		addCoolantNAKRecipe("lapis", FluidStackHelper.GEM_BLOCK_VOLUME);
-		addCoolantNAKRecipe("diamond", FluidStackHelper.GEM_VOLUME*4);
-		addCoolantNAKRecipe("liquid_helium", FluidStackHelper.BUCKET_VOLUME/2);
-		addCoolantNAKRecipe("enderium", FluidStackHelper.INGOT_VOLUME*4);
-		addCoolantNAKRecipe("cryotheum", FluidStackHelper.EUM_DUST_VOLUME*4);
 		addCoolantNAKRecipe("iron", FluidStackHelper.INGOT_VOLUME*4);
-		addCoolantNAKRecipe("emerald", FluidStackHelper.GEM_VOLUME*3);
+		addCoolantNAKRecipe("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*8);
+		addCoolantNAKRecipe("quartz", FluidStackHelper.GEM_VOLUME*8);
+		addCoolantNAKRecipe("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME*5);
+		addCoolantNAKRecipe("nether_brick", FluidStackHelper.SEARED_BLOCK_VOLUME*5);
+		addCoolantNAKRecipe("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME*8);
+		addCoolantNAKRecipe("lapis", FluidStackHelper.GEM_VOLUME*8);
+		addCoolantNAKRecipe("gold", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("prismarine", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("slime", FluidStackHelper.INGOT_VOLUME*8);
+		addCoolantNAKRecipe("end_stone", FluidStackHelper.SEARED_BLOCK_VOLUME*5);
+		addCoolantNAKRecipe("purpur", FluidStackHelper.SEARED_BLOCK_VOLUME*5);
+		addCoolantNAKRecipe("diamond", FluidStackHelper.GEM_VOLUME*4);
+		addCoolantNAKRecipe("emerald", FluidStackHelper.GEM_VOLUME*4);
 		addCoolantNAKRecipe("copper", FluidStackHelper.INGOT_VOLUME*4);
 		addCoolantNAKRecipe("tin", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("lead", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("boron", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("lithium", FluidStackHelper.INGOT_VOLUME*4);
 		addCoolantNAKRecipe("magnesium", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("manganese", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("aluminum", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("silver", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("fluorite", FluidStackHelper.GEM_VOLUME*8);
+		addCoolantNAKRecipe("villiaumite", FluidStackHelper.GEM_VOLUME*8);
+		addCoolantNAKRecipe("carobbiite", FluidStackHelper.GEM_VOLUME*8);
+		addCoolantNAKRecipe("arsenic", FluidStackHelper.GEM_VOLUME*8);
+		addCoolantNAKRecipe("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME);
+		addCoolantNAKRecipe("liquid_helium", FluidStackHelper.BUCKET_VOLUME);
+		addCoolantNAKRecipe("enderium", FluidStackHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("cryotheum", FluidStackHelper.EUM_DUST_VOLUME*4);
 		
 		/* ========================================= Fission Materials ========================================= */
 		
@@ -108,5 +128,21 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 	
 	public void addReprocessingRecipe(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
 		addRecipe(fluidStack("depleted_" + fuel, FluidStackHelper.INGOT_BLOCK_VOLUME), fluidStack(out1, FluidStackHelper.INGOT_VOLUME*n1), fluidStack(out2, FluidStackHelper.INGOT_VOLUME*n2), fluidStack(out3, FluidStackHelper.INGOT_VOLUME*n3), fluidStack(out4, FluidStackHelper.INGOT_VOLUME*n4), 1D, 1D);
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(3);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		return fixed;
+	}
+	
+	@Override
+	public List getFactoredExtras(List extras, int factor) {
+		List factored = new ArrayList(extras);
+		factored.set(0, (double)extras.get(0)/factor);
+		return factored;
 	}
 }

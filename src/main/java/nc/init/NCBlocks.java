@@ -26,12 +26,17 @@ import nc.multiblock.fission.block.BlockFissionComputerPort;
 import nc.multiblock.fission.block.BlockFissionConductor;
 import nc.multiblock.fission.block.BlockFissionGlass;
 import nc.multiblock.fission.block.BlockFissionIrradiator;
+import nc.multiblock.fission.block.BlockFissionMonitor;
+import nc.multiblock.fission.block.BlockFissionPowerPort;
+import nc.multiblock.fission.block.BlockFissionShield;
 import nc.multiblock.fission.block.BlockFissionSource;
 import nc.multiblock.fission.block.BlockFissionVent;
+import nc.multiblock.fission.block.manager.BlockFissionShieldManager;
 import nc.multiblock.fission.block.port.BlockFissionCellPort;
 import nc.multiblock.fission.block.port.BlockFissionIrradiatorPort;
 import nc.multiblock.fission.salt.block.BlockSaltFissionController;
 import nc.multiblock.fission.salt.block.BlockSaltFissionHeater;
+import nc.multiblock.fission.salt.block.BlockSaltFissionHeater2;
 import nc.multiblock.fission.salt.block.BlockSaltFissionVessel;
 import nc.multiblock.fission.solid.block.BlockSolidFissionCell;
 import nc.multiblock.fission.solid.block.BlockSolidFissionController;
@@ -136,14 +141,19 @@ public class NCBlocks {
 	public static Block fission_casing;
 	public static Block fission_glass;
 	public static Block fission_conductor;
+	public static Block fission_monitor;
 	public static Block fission_reflector;
+	public static Block fission_power_port;
 	public static Block fission_vent;
 	public static Block fission_irradiator;
 	public static Block fission_source;
+	public static Block fission_shield;
 	public static Block fission_computer_port;
 	
 	public static Block fission_irradiator_port;
 	public static Block fission_cell_port;
+	
+	public static Block fission_shield_manager;
 	
 	public static Block solid_fission_controller;
 	public static Block solid_fission_cell;
@@ -153,6 +163,7 @@ public class NCBlocks {
 	public static Block salt_fission_controller;
 	public static Block salt_fission_vessel;
 	public static Block salt_fission_heater;
+	public static Block salt_fission_heater2;
 	
 	public static Block heat_exchanger_controller;
 	public static Block heat_exchanger_casing;
@@ -266,14 +277,19 @@ public class NCBlocks {
 		fission_casing = withName(new BlockFissionCasing(), "fission_casing");
 		fission_glass = withName(new BlockFissionGlass(), "fission_glass");
 		fission_conductor = withName(new BlockFissionConductor(), "fission_conductor");
+		fission_monitor = withName(new BlockFissionMonitor(), "fission_monitor");
 		fission_reflector = withName(new BlockMeta.BlockFissionReflector(), "fission_reflector");
+		fission_power_port = withName(new BlockFissionPowerPort(), "fission_power_port");
 		fission_vent = withName(new BlockFissionVent(), "fission_vent");
 		fission_irradiator = withName(new BlockFissionIrradiator(), "fission_irradiator");
 		fission_source = withName(new BlockFissionSource(), "fission_source");
+		fission_shield = withName(new BlockFissionShield(), "fission_shield");
 		fission_computer_port = withName(new BlockFissionComputerPort(), "fission_computer_port");
 		
 		fission_irradiator_port = withName(new BlockFissionIrradiatorPort(), "fission_irradiator_port");
 		fission_cell_port = withName(new BlockFissionCellPort(), "fission_cell_port");
+		
+		fission_shield_manager = withName(new BlockFissionShieldManager(), "fission_shield_manager");
 		
 		solid_fission_controller = withName(new BlockSolidFissionController(), "solid_fission_controller");
 		solid_fission_cell = withName(new BlockSolidFissionCell(), "solid_fission_cell");
@@ -283,6 +299,7 @@ public class NCBlocks {
 		salt_fission_controller = withName(new BlockSaltFissionController(), "salt_fission_controller");
 		salt_fission_vessel = withName(new BlockSaltFissionVessel(), "salt_fission_vessel");
 		salt_fission_heater = withName(new BlockSaltFissionHeater(), "salt_fission_heater");
+		salt_fission_heater2 = withName(new BlockSaltFissionHeater2(), "salt_fission_heater2");
 		
 		heat_exchanger_controller = withName(new BlockHeatExchangerController(), "heat_exchanger_controller");
 		heat_exchanger_casing = withName(new BlockHeatExchangerCasing(), "heat_exchanger_casing");
@@ -402,14 +419,19 @@ public class NCBlocks {
 		registerBlock(fission_casing);
 		registerBlock(fission_glass);
 		registerBlock(fission_conductor);
+		registerBlock(fission_monitor);
 		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, MetaEnums.NeutronReflectorType.class, TextFormatting.AQUA));
+		registerBlock(fission_power_port);
 		registerBlock(fission_vent);
 		registerBlock(fission_irradiator);
 		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()));
+		registerBlock(fission_shield, new ItemBlockMeta(fission_shield, MetaEnums.NeutronShieldType.class, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, NCInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, NCInfo.neutronShieldInfo()));
 		registerBlock(fission_computer_port);
 		
 		registerBlock(fission_irradiator_port);
 		registerBlock(fission_cell_port);
+		
+		registerBlock(fission_shield_manager);
 		
 		registerBlock(solid_fission_controller);
 		registerBlock(solid_fission_cell);
@@ -418,7 +440,8 @@ public class NCBlocks {
 		
 		registerBlock(salt_fission_controller);
 		registerBlock(salt_fission_vessel);
-		registerBlock(salt_fission_heater);
+		registerBlock(salt_fission_heater, new ItemBlockMeta(salt_fission_heater, MetaEnums.CoolantHeaterType.class, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo(), TextFormatting.AQUA, NCInfo.coolantHeaterInfo()));
+		registerBlock(salt_fission_heater2, new ItemBlockMeta(salt_fission_heater2, MetaEnums.CoolantHeaterType2.class, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo2(), TextFormatting.AQUA, NCInfo.coolantHeaterInfo2()));
 		
 		registerBlock(heat_exchanger_controller);
 		registerBlock(heat_exchanger_casing);
@@ -545,18 +568,25 @@ public class NCBlocks {
 		registerRender(fission_casing);
 		registerRender(fission_glass);
 		registerRender(fission_conductor);
+		registerRender(fission_monitor);
 		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
 			registerRender(fission_reflector, i, MetaEnums.NeutronReflectorType.values()[i].getName());
 		}
+		registerRender(fission_power_port);
 		registerRender(fission_vent);
 		registerRender(fission_irradiator);
 		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_source), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_source.getRegistryName().getPath()), "active=false,facing=south,type=" + MetaEnums.NeutronSourceType.values()[i].getName()));
 		}
+		for (int i = 0; i < MetaEnums.NeutronShieldType.values().length; i++) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_shield), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_shield.getRegistryName().getPath()), "active=true,type=" + MetaEnums.NeutronShieldType.values()[i].getName()));
+		}
 		registerRender(fission_computer_port);
 		
 		registerRender(fission_irradiator_port);
 		registerRender(fission_cell_port);
+		
+		registerRender(fission_shield_manager);
 		
 		registerRender(solid_fission_controller);
 		registerRender(solid_fission_cell);
@@ -569,7 +599,12 @@ public class NCBlocks {
 		
 		registerRender(salt_fission_controller);
 		registerRender(salt_fission_vessel);
-		registerRender(salt_fission_heater);
+		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
+			registerRender(salt_fission_heater, i, MetaEnums.CoolantHeaterType.values()[i].getName());
+		}
+		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
+			registerRender(salt_fission_heater2, i, MetaEnums.CoolantHeaterType2.values()[i].getName());
+		}
 		
 		registerRender(heat_exchanger_controller);
 		registerRender(heat_exchanger_casing);

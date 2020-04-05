@@ -15,13 +15,13 @@ public class MetaEnums {
 		LITHIUM("lithium", 6, NCConfig.ore_harvest_levels[6], "pickaxe", 3, 15, 0),
 		MAGNESIUM("magnesium", 7, NCConfig.ore_harvest_levels[7], "pickaxe", 3, 15, 0);
 		
-		private String name;
-		private int id;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
+		private final String name;
+		private final int id;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
 		
 		private OreType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
@@ -32,7 +32,7 @@ public class MetaEnums {
 			this.resistance = resistance;
 			this.lightValue = lightValue;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -92,16 +92,16 @@ public class MetaEnums {
 		MANGANESE_OXIDE("manganese_oxide", 14, 0, "pickaxe", 4, 30, 0, 0, 0, false),
 		MANGANESE_DIOXIDE("manganese_dioxide", 15, 0, "pickaxe", 4, 30, 0, 0, 0, false);
 		
-		private String name;
-		private int id;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
-		private int fireSpreadSpeed;
-		private int flammability;
-		private boolean isFireSource;
+		private final String name;
+		private final int id;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
+		private final int fireSpreadSpeed;
+		private final int flammability;
+		private final boolean isFireSource;
 		
 		private IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
 			this.name = name;
@@ -115,7 +115,7 @@ public class MetaEnums {
 			this.flammability = flammability;
 			this.isFireSource = isFireSource;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -178,13 +178,13 @@ public class MetaEnums {
 		BERKELIUM("berkelium", 5, 0, "pickaxe", 3, 15, 0),
 		CALIFORNIUM("californium", 6, 0, "pickaxe", 3, 15, 0);
 		
-		private String name;
-		private int id;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
+		private final String name;
+		private final int id;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
 		
 		private FertileIsotopeType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
@@ -195,7 +195,7 @@ public class MetaEnums {
 			this.resistance = resistance;
 			this.lightValue = lightValue;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -242,14 +242,14 @@ public class MetaEnums {
 		POLONIUM_BERYLLIUM("polonium_beryllium", 1, NCConfig.fission_source_efficiency[1], 0, "pickaxe", 2, 15, 0),
 		CALIFORNIUM("californium", 2, NCConfig.fission_source_efficiency[2], 0, "pickaxe", 2, 15, 0);
 		
-		private String name;
-		private int id;
-		private double efficiency;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
+		private final String name;
+		private final int id;
+		private final double efficiency;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
 		
 		private NeutronSourceType(String name, int id, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
@@ -261,7 +261,7 @@ public class MetaEnums {
 			this.resistance = resistance;
 			this.lightValue = lightValue;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -311,15 +311,15 @@ public class MetaEnums {
 		BERYLLIUM_CARBON("beryllium_carbon", 0, NCConfig.fission_reflector_efficiency[0], NCConfig.fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
 		LEAD_STEEL("lead_steel", 1, NCConfig.fission_reflector_efficiency[1], NCConfig.fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
 		
-		private String name;
-		private int id;
-		private double efficiency;
-		private double reflectivity;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
+		private final String name;
+		private final int id;
+		private final double efficiency;
+		private final double reflectivity;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
 		
 		private NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
@@ -332,7 +332,7 @@ public class MetaEnums {
 			this.resistance = resistance;
 			this.lightValue = lightValue;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -382,7 +382,81 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum HeatSinkType implements IStringSerializable, IHeatSinkEnum {
+	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum {
+		BORON_SILVER("boron_silver", 0, NCConfig.fission_shield_heat_per_flux[0], NCConfig.fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
+		
+		private final String name;
+		private final int id;
+		private final double heatPerFlux;
+		private final double efficiency;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
+		
+		private NeutronShieldType(String name, int id, double heatPerFlux, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+			this.name = name;
+			this.id = id;
+			this.heatPerFlux = heatPerFlux;
+			this.efficiency = efficiency;
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public double getHeatPerFlux() {
+			return heatPerFlux;
+		}
+		
+		public double getEfficiency() {
+			return efficiency;
+		}
+		
+		@Override
+		public int getHarvestLevel() {
+			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
+		public float getHardness() {
+			return hardness;
+		}
+		
+		@Override
+		public float getResistance() {
+			return resistance;
+		}
+		
+		@Override
+		public int getLightValue() {
+			return lightValue;
+		}
+	}
+	
+	public static enum HeatSinkType implements IStringSerializable, ICoolingComponentEnum {
 		WATER("water", 0, NCConfig.fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
 		IRON("iron", 1, NCConfig.fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
 		REDSTONE("redstone", 2, NCConfig.fission_sink_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
@@ -400,14 +474,14 @@ public class MetaEnums {
 		EMERALD("emerald", 14, NCConfig.fission_sink_cooling_rate[14], 0, "pickaxe", 2, 15, 0),
 		COPPER("copper", 15, NCConfig.fission_sink_cooling_rate[15], 0, "pickaxe", 2, 15, 0);
 		
-		private String name;
-		private int id;
-		private int coolingRate;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
+		private final String name;
+		private final int id;
+		private final int coolingRate;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
 		
 		private HeatSinkType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
@@ -419,7 +493,7 @@ public class MetaEnums {
 			this.resistance = resistance;
 			this.lightValue = lightValue;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -466,7 +540,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum HeatSinkType2 implements IStringSerializable, IHeatSinkEnum {
+	public static enum HeatSinkType2 implements IStringSerializable, ICoolingComponentEnum {
 		TIN("tin", 0, NCConfig.fission_sink_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
 		LEAD("lead", 1, NCConfig.fission_sink_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
 		BORON("boron", 2, NCConfig.fission_sink_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
@@ -484,14 +558,14 @@ public class MetaEnums {
 		ENDERIUM("enderium", 14, NCConfig.fission_sink_cooling_rate[30], 0, "pickaxe", 2, 15, 0),
 		CRYOTHEUM("cryotheum", 15, NCConfig.fission_sink_cooling_rate[31], 0, "pickaxe", 2, 15, 0);
 		
-		private String name;
-		private int id;
-		private int coolingRate;
-		private int harvestLevel;
-		private String harvestTool;
-		private float hardness;
-		private float resistance;
-		private int lightValue;
+		private final String name;
+		private final int id;
+		private final int coolingRate;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
 		
 		private HeatSinkType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
@@ -503,7 +577,175 @@ public class MetaEnums {
 			this.resistance = resistance;
 			this.lightValue = lightValue;
 		}
-
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		@Override
+		public int getCooling() {
+			return coolingRate;
+		}
+		
+		@Override
+		public int getHarvestLevel() {
+			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
+		public float getHardness() {
+			return hardness;
+		}
+		
+		@Override
+		public float getResistance() {
+			return resistance;
+		}
+		
+		@Override
+		public int getLightValue() {
+			return lightValue;
+		}
+	}
+	
+	public static enum CoolantHeaterType implements IStringSerializable, ICoolingComponentEnum {
+		STANDARD("standard", 0, NCConfig.fission_heater_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
+		IRON("iron", 1, NCConfig.fission_heater_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
+		REDSTONE("redstone", 2, NCConfig.fission_heater_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
+		QUARTZ("quartz", 3, NCConfig.fission_heater_cooling_rate[3], 0, "pickaxe", 2, 15, 0),
+		OBSIDIAN("obsidian", 4, NCConfig.fission_heater_cooling_rate[4], 0, "pickaxe", 2, 15, 0),
+		NETHER_BRICK("nether_brick", 5, NCConfig.fission_heater_cooling_rate[5], 0, "pickaxe", 2, 15, 0),
+		GLOWSTONE("glowstone", 6, NCConfig.fission_heater_cooling_rate[6], 0, "pickaxe", 2, 15, 15),
+		LAPIS("lapis", 7, NCConfig.fission_heater_cooling_rate[7], 0, "pickaxe", 2, 15, 0),
+		GOLD("gold", 8, NCConfig.fission_heater_cooling_rate[8], 0, "pickaxe", 2, 15, 0),
+		PRISMARINE("prismarine", 9, NCConfig.fission_heater_cooling_rate[9], 0, "pickaxe", 2, 15, 0),
+		SLIME("slime", 10, NCConfig.fission_heater_cooling_rate[10], 0, "pickaxe", 2, 15, 0),
+		END_STONE("end_stone", 11, NCConfig.fission_heater_cooling_rate[11], 0, "pickaxe", 2, 15, 0),
+		PURPUR("purpur", 12, NCConfig.fission_heater_cooling_rate[12], 0, "pickaxe", 2, 15, 0),
+		DIAMOND("diamond", 13, NCConfig.fission_heater_cooling_rate[13], 0, "pickaxe", 2, 15, 0),
+		EMERALD("emerald", 14, NCConfig.fission_heater_cooling_rate[14], 0, "pickaxe", 2, 15, 0),
+		COPPER("copper", 15, NCConfig.fission_heater_cooling_rate[15], 0, "pickaxe", 2, 15, 0);
+		
+		private final String name;
+		private final int id;
+		private final int coolingRate;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
+		
+		private CoolantHeaterType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+			this.name = name;
+			this.id = id;
+			this.coolingRate = coolingRate;
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		@Override
+		public int getCooling() {
+			return coolingRate;
+		}
+		
+		@Override
+		public int getHarvestLevel() {
+			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
+		public float getHardness() {
+			return hardness;
+		}
+		
+		@Override
+		public float getResistance() {
+			return resistance;
+		}
+		
+		@Override
+		public int getLightValue() {
+			return lightValue;
+		}
+	}
+	
+	public static enum CoolantHeaterType2 implements IStringSerializable, ICoolingComponentEnum {
+		TIN("tin", 0, NCConfig.fission_heater_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
+		LEAD("lead", 1, NCConfig.fission_heater_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
+		BORON("boron", 2, NCConfig.fission_heater_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
+		LITHIUM("lithium", 3, NCConfig.fission_heater_cooling_rate[19], 0, "pickaxe", 2, 15, 0),
+		MAGNESIUM("magnesium", 4, NCConfig.fission_heater_cooling_rate[20], 0, "pickaxe", 2, 15, 0),
+		MANGANESE("manganese", 5, NCConfig.fission_heater_cooling_rate[21], 0, "pickaxe", 2, 15, 0),
+		ALUMINUM("aluminum", 6, NCConfig.fission_heater_cooling_rate[22], 0, "pickaxe", 2, 15, 0),
+		SILVER("silver", 7, NCConfig.fission_heater_cooling_rate[23], 0, "pickaxe", 2, 15, 0),
+		FLUORITE("fluorite", 8, NCConfig.fission_heater_cooling_rate[24], 0, "pickaxe", 2, 15, 0),
+		VILLIAUMITE("villiaumite", 9, NCConfig.fission_heater_cooling_rate[25], 0, "pickaxe", 2, 15, 0),
+		CAROBBIITE("carobbiite", 10, NCConfig.fission_heater_cooling_rate[26], 0, "pickaxe", 2, 15, 0),
+		ARSENIC("arsenic", 11, NCConfig.fission_heater_cooling_rate[27], 0, "pickaxe", 2, 15, 0),
+		LIQUID_NITROGEN("liquid_nitrogen", 12, NCConfig.fission_heater_cooling_rate[28], 0, "pickaxe", 2, 15, 0),
+		LIQUID_HELIUM("liquid_helium", 13, NCConfig.fission_heater_cooling_rate[29], 0, "pickaxe", 2, 15, 0),
+		ENDERIUM("enderium", 14, NCConfig.fission_heater_cooling_rate[30], 0, "pickaxe", 2, 15, 0),
+		CRYOTHEUM("cryotheum", 15, NCConfig.fission_heater_cooling_rate[31], 0, "pickaxe", 2, 15, 0);
+		
+		private final String name;
+		private final int id;
+		private final int coolingRate;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
+		
+		private CoolantHeaterType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+			this.name = name;
+			this.id = id;
+			this.coolingRate = coolingRate;
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+		}
+		
 		@Override
 		public String getName() {
 			return name;
@@ -568,14 +810,14 @@ public class MetaEnums {
 		MANGANESE_OXIDE("manganese_oxide", 14),
 		MANGANESE_DIOXIDE("manganese_dioxide", 15);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private DustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -601,14 +843,14 @@ public class MetaEnums {
 		BORON_ARSENIDE("boron_arsenide", 5),
 		SILICON("silicon", 6);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private GemType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -639,14 +881,14 @@ public class MetaEnums {
 		ARSENIC("arsenic", 10),
 		END_STONE("end_stone", 11);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private GemDustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -681,14 +923,14 @@ public class MetaEnums {
 		SIC_SIC_CMC("sic_sic_cmc", 14),
 		HSLA_STEEL("hsla_steel", 15);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private AlloyType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -719,14 +961,14 @@ public class MetaEnums {
 		C_MN_BLEND("c_mn_blend", 10),
 		ALUGENTUM("alugentum", 11);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private CompoundType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -761,14 +1003,14 @@ public class MetaEnums {
 		EMPTY_HEAT_SINK("empty_sink", 14),
 		PYROLYTIC_CARBON("pyrolytic_carbon", 15);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private PartType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -789,14 +1031,14 @@ public class MetaEnums {
 		SPEED("speed", 0),
 		ENERGY("energy", 1);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private UpgradeType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -820,14 +1062,14 @@ public class MetaEnums {
 		TBP("tbp", 3),
 		PROTACTINIUM_233("protactinium_233", 4);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private FissionDustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -861,14 +1103,14 @@ public class MetaEnums {
 		_238_NI("238_ni", 13),
 		_238_ZA("238_za", 14);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private UraniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -897,14 +1139,14 @@ public class MetaEnums {
 		_237_NI("237_ni", 8),
 		_237_ZA("237_za", 9);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private NeptuniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -943,14 +1185,14 @@ public class MetaEnums {
 		_242_NI("242_ni", 18),
 		_242_ZA("242_za", 19);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private PlutoniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -984,14 +1226,14 @@ public class MetaEnums {
 		_243_NI("243_ni", 13),
 		_243_ZA("243_za", 14);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private AmericiumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -1030,14 +1272,14 @@ public class MetaEnums {
 		_247_NI("247_ni", 18),
 		_247_ZA("247_za", 19);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private CuriumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -1066,14 +1308,14 @@ public class MetaEnums {
 		_248_NI("248_ni", 8),
 		_248_ZA("248_za", 9);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private BerkeliumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -1112,14 +1354,14 @@ public class MetaEnums {
 		_252_NI("252_ni", 18),
 		_252_ZA("252_za", 19);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private CaliforniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2069,8 +2311,8 @@ public class MetaEnums {
 		TBU_NI("tbu_ni", 2),
 		TBU_ZA("tbu_za", 3);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private ThoriumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2111,8 +2353,8 @@ public class MetaEnums {
 		HEU_235_NI("heu_235_ni", 14),
 		HEU_235_ZA("heu_235_za", 15);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private UraniumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2145,8 +2387,8 @@ public class MetaEnums {
 		HEN_236_NI("hen_236_ni", 6),
 		HEN_236_ZA("hen_236_za", 7);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private NeptuniumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2187,8 +2429,8 @@ public class MetaEnums {
 		HEP_241_NI("hep_241_ni", 14),
 		HEP_241_ZA("hep_241_za", 15);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private PlutoniumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2221,8 +2463,8 @@ public class MetaEnums {
 		MIX_241_NI("mix_241_ni", 6),
 		MIX_241_ZA("mix_241_za", 7);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private MixedDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2255,8 +2497,8 @@ public class MetaEnums {
 		HEA_242_NI("hea_242_ni" ,6),
 		HEA_242_ZA("hea_242_za", 7);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private AmericiumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2305,8 +2547,8 @@ public class MetaEnums {
 		HECm_247_NI("hecm_247_ni", 22),
 		HECm_247_ZA("hecm_247_za", 23);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private CuriumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2339,8 +2581,8 @@ public class MetaEnums {
 		HEB_248_NI("heb_248_ni", 6),
 		HEB_248_ZA("heb_248_za", 7);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private BerkeliumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2381,8 +2623,8 @@ public class MetaEnums {
 		HECf_251_NI("hecf_251_ni", 14),
 		HECf_251_ZA("hecf_251_za", 15);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private CaliforniumDepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2409,8 +2651,8 @@ public class MetaEnums {
 		U("u", 0),
 		MOX("mox", 1);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private IC2DepletedFuelType(String name, int id) {
 			this.name = name;
@@ -2437,8 +2679,8 @@ public class MetaEnums {
 		_10("10", 0),
 		_11("11", 1);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private BoronType(String name, int id) {
 			this.name = name;
@@ -2465,8 +2707,8 @@ public class MetaEnums {
 		_6("6", 0),
 		_7("7", 1);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private LithiumType(String name, int id) {
 			this.name = name;
@@ -2494,8 +2736,8 @@ public class MetaEnums {
 		MEDIUM("medium", 1),
 		HEAVY("heavy", 2);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private RadShieldingType(String name, int id) {
 			this.name = name;

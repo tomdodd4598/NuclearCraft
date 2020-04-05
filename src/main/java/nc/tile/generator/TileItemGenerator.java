@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -17,15 +18,16 @@ import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.util.ItemStackHelper;
+import nc.util.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 
 public abstract class TileItemGenerator extends TileEnergySidedInventory implements IItemGenerator {
@@ -36,6 +38,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	protected double speedMultiplier = 1;
 	protected final int itemInputSize, itemOutputSize, otherSlotsSize;
 	
+	protected final @Nonnull NonNullList<ItemStack> consumedStacks;
+	
 	public double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
@@ -45,22 +49,24 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
-		super(name, 2*itemInSize + itemOutSize + otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
+		super(name, itemInSize + itemOutSize + otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
 		otherSlotsSize = otherSize;
+		
+		consumedStacks = NonNullList.withSize(itemInSize, ItemStack.EMPTY);
 		
 		defaultProcessTime = 1;
 		defaultProcessPower = 0;
 		
 		this.recipeHandler = recipeHandler;
 		
-		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, ItemSorption... others) {
-		List<ItemSorption> itemSorptions = new ArrayList<ItemSorption>();
+		List<ItemSorption> itemSorptions = new ArrayList<>();
 		for (int i = 0; i < inSize; i++) itemSorptions.add(ItemSorption.IN);
 		for (int i = 0; i < outSize; i++) itemSorptions.add(ItemSorption.OUT);
 		for (ItemSorption other : others) itemSorptions.add(other);
@@ -99,7 +105,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(hasConsumed), new ArrayList<>());
 		consumeInputs();
 	}
 	
@@ -130,7 +136,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean hasConsumed() {
 		if (world.isRemote) return hasConsumed;
 		for (int i = 0; i < itemInputSize; i++) {
-			if (!getInventoryStacks().get(i + itemInputSize + itemOutputSize).isEmpty()) return true;
+			if (!consumedStacks.get(i).isEmpty()) return true;
 		}
 		return false;
 	}
@@ -169,18 +175,18 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public void consumeInputs() {
 		if (hasConsumed || recipeInfo == null) return;
-		List<Integer> itemInputOrder = recipeInfo.getItemInputOrder();
+		IntList itemInputOrder = recipeInfo.getItemInputOrder();
 		if (itemInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < itemInputSize; i++) {
-			if (!getInventoryStacks().get(i + itemInputSize + itemOutputSize).isEmpty()) {
-				getInventoryStacks().set(i + itemInputSize + itemOutputSize, ItemStack.EMPTY);
+			if (!consumedStacks.get(i).isEmpty()) {
+				consumedStacks.set(i, ItemStack.EMPTY);
 			}
 		}
 		for (int i = 0; i < itemInputSize; i++) {
 			int maxStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
-				getInventoryStacks().set(i + itemInputSize + itemOutputSize, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, ItemStackHelper.getMetadata(getInventoryStacks().get(i))));
+				consumedStacks.set(i, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, ItemStackHelper.getMetadata(getInventoryStacks().get(i))));
 				getInventoryStacks().get(i).shrink(maxStackSize);
 			}
 			if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);
@@ -192,21 +198,20 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		time += speedMultiplier;
 		getEnergyStorage().changeEnergyStored((int) processPower);
 		getRadiationSource().setRadiationLevel(baseProcessRadiation*speedMultiplier);
-		if (time >= baseProcessTime) finishProcess();
+		while (time >= baseProcessTime) finishProcess();
 	}
 	
 	public void finishProcess() {
 		double oldProcessTime = baseProcessTime;
 		produceProducts();
 		refreshRecipe();
-		if (!setRecipeStats()) time = 0;
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		time = Math.max(0D, time - oldProcessTime);
 		refreshActivityOnProduction();
 		if (!canProcessInputs) time = 0;
 	}
 	
 	public void produceProducts() {
-		for (int i = itemInputSize + itemOutputSize; i < 2*itemInputSize + itemOutputSize; i++) getInventoryStacks().set(i, ItemStack.EMPTY);
+		for (int i = 0; i < itemInputSize; i++) consumedStacks.set(i, ItemStack.EMPTY);
 		
 		if (!hasConsumed || recipeInfo == null) return;
 		
@@ -246,7 +251,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	@Override
 	public List<ItemStack> getItemInputs(boolean consumed) {
-		return consumed ? getInventoryStacks().subList(itemInputSize + itemOutputSize, 2*itemInputSize + itemOutputSize) : getInventoryStacks().subList(0, itemInputSize);
+		return consumed ? consumedStacks : getInventoryStacks().subList(0, itemInputSize);
 	}
 	
 	@Override
@@ -320,6 +325,17 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return true;
 	}
 	
+	@Override
+	public void clearAllSlots() {
+		IItemGenerator.super.clearAllSlots();
+		for (int i = 0; i < consumedStacks.size(); i++) consumedStacks.set(i, ItemStack.EMPTY);
+		
+		refreshRecipe();
+		refreshActivity();
+		isProcessing = isProcessing();
+		hasConsumed = hasConsumed();
+	}
+	
 	// NBT
 	
 	@Override
@@ -339,5 +355,16 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		isProcessing = nbt.getBoolean("isProcessing");
 		hasConsumed = nbt.getBoolean("hasConsumed");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
+	}
+	
+	@Override
+	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
+		NBTHelper.saveAllItems(nbt, getInventoryStacks(), consumedStacks);
+		return nbt;
+	}
+	
+	@Override
+	public void readInventory(NBTTagCompound nbt) {
+		NBTHelper.loadAllItems(nbt, getInventoryStacks(), consumedStacks);
 	}
 }

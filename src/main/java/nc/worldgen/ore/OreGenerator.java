@@ -1,9 +1,9 @@
 package nc.worldgen.ore;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.block.BlockMeta;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
@@ -36,7 +36,7 @@ public class OreGenerator implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		List<Integer> dimList = new ArrayList<Integer>();
+		IntList dimList = new IntArrayList();
 		for (int i = 0; i < NCConfig.ore_dims.length; i++) dimList.add(NCConfig.ore_dims[i]);
 		if (dimList.contains(world.provider.getDimension()) != NCConfig.ore_dims_list_type) generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 	}

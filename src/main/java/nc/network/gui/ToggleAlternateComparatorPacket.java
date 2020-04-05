@@ -62,7 +62,7 @@ public class ToggleAlternateComparatorPacket implements IMessage {
 			if (tile instanceof ITile) {
 				ITile machine = (ITile) tile;
 				machine.setAlternateComparator(message.alternateComparator);
-				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
+				tile.markDirty();
 			}
 		}
 	}

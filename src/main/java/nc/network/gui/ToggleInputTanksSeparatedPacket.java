@@ -62,7 +62,7 @@ public class ToggleInputTanksSeparatedPacket implements IMessage {
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.setInputTanksSeparated(message.inputTanksSeparated);
-				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
+				tile.markDirty();
 			}
 		}
 	}

@@ -25,14 +25,14 @@ public class AddProcessorRecipe implements IAction {
 	public boolean inputsAllNull = true, ingredientError, wasNull, wrongSize;
 	public final ProcessorRecipeHandler recipeHandler;
 
-	public AddProcessorRecipe(ProcessorRecipeHandler recipeHandler, List<Object> objects) {
+	public AddProcessorRecipe(ProcessorRecipeHandler recipeHandler, List objects) {
 		this.recipeHandler = recipeHandler;
 		
 		int listCount = 0, ingredientCount = 0;
-		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
-		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
-		List<IItemIngredient> itemProducts = new ArrayList<IItemIngredient>();
-		List<IFluidIngredient> fluidProducts = new ArrayList<IFluidIngredient>();
+		List<IItemIngredient> itemIngredients = new ArrayList<>();
+		List<IFluidIngredient> fluidIngredients = new ArrayList<>();
+		List<IItemIngredient> itemProducts = new ArrayList<>();
+		List<IFluidIngredient> fluidProducts = new ArrayList<>();
 		List extras = new ArrayList();
 		
 		while (listCount < objects.size()) {

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.inventory.InventoryConnection;
 import net.minecraft.util.EnumFacing;
@@ -17,7 +18,7 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory {
 		super(name, size, inventoryConnections, capacity, allowedFluidsList, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull List<Integer> capacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+	public TileFluidSidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull IntList capacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		super(name, size, inventoryConnections, capacity, allowedFluidsLists, fluidConnections);
 	}
 	
@@ -25,7 +26,7 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory {
 		super(name, size, inventoryConnections, capacity, maxTransfer, allowedFluidsList, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull List<Integer> capacity, @Nonnull List<Integer> maxTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+	public TileFluidSidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull IntList capacity, @Nonnull IntList maxTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		super(name, size, inventoryConnections, capacity, maxTransfer, allowedFluidsLists, fluidConnections);
 	}
 	

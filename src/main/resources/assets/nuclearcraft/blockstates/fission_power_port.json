@@ -1,0 +1,23 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:wall_part",
+		"textures": {
+			"in": "nuclearcraft:blocks/fission/power_port_in",
+			"out": "nuclearcraft:blocks/fission/power_port_out",
+			"side": "nuclearcraft:blocks/fission/power_port_side",
+			"top": "nuclearcraft:blocks/fission/power_port_side"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		}
+	}
+}

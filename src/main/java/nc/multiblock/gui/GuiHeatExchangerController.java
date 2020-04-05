@@ -43,7 +43,7 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	}
 	
 	public List<String> efficiencyInfo() {
-		List<String> info = new ArrayList<String>();
+		List<String> info = new ArrayList<>();
 		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.fractionOfTubesActive*100D, 1) + "%");
 		info.add(TextFormatting.AQUA + Lang.localise("gui.nc.container.heat_exchanger_controller.efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxEfficiency : multiblock.efficiency)*100D, 1) + "%");
 		return info;

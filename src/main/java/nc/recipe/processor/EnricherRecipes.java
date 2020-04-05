@@ -1,5 +1,8 @@
 package nc.recipe.processor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.ModCheck;
 import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
@@ -31,5 +34,14 @@ public class EnricherRecipes extends ProcessorRecipeHandler {
 		if (!ModCheck.thermalFoundationLoaded()) {
 			addRecipe(new ItemStack(Items.SNOWBALL, 4), fluidStack("liquid_helium", 25), fluidStack("cryotheum", 25), 0.5D, 1D);
 		}
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(3);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		return fixed;
 	}
 }

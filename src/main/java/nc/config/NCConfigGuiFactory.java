@@ -41,7 +41,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 		}
 
 		private static List<IConfigElement> getConfigElements() {
-			List<IConfigElement> list = new ArrayList<IConfigElement>();
+			List<IConfigElement> list = new ArrayList<>();
 			list.add(categoryElement(NCConfig.CATEGORY_ORES, CategoryEntryOres.class));
 			list.add(categoryElement(NCConfig.CATEGORY_PROCESSORS, CategoryEntryProcessors.class));
 			list.add(categoryElement(NCConfig.CATEGORY_GENERATORS, CategoryEntryGenerators.class));

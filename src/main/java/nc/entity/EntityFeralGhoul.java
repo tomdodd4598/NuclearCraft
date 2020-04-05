@@ -58,7 +58,7 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class EntityFeralGhoul extends EntityZombie {
 	
-	private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntityFeralGhoul.class, DataSerializers.BYTE);
+	private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityFeralGhoul.class, DataSerializers.BYTE);
 	
 	public EntityFeralGhoul(World world) {
 		super(world);

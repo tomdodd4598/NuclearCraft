@@ -1,6 +1,6 @@
 package nc.multiblock.fission.block;
 
-import nc.multiblock.BlockMultiblockPart;
+import nc.multiblock.block.BlockMultiblockPart;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.TileFissionPart;

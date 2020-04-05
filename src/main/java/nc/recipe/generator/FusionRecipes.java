@@ -1,5 +1,8 @@
 package nc.recipe.generator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.recipe.ProcessorRecipeHandler;
 
 public class FusionRecipes extends ProcessorRecipeHandler {
@@ -50,4 +53,21 @@ public class FusionRecipes extends ProcessorRecipeHandler {
 	/*public void addFusionRecipe(String in1, int amountIn1, String in2, int amountIn2, String out1, int amountOut1, String out2, int amountOut2, String out3, int amountOut3, String out4, int amountOut4, int combo) {
 		addRecipe(fluidStack(in1, amountIn1), fluidStack(in2, amountIn2), fluidStack(out1, amountOut1), fluidStack(out2, amountOut2), fluidStack(out3, amountOut3), fluidStack(out4, amountOut4), NCConfig.fusion_fuel_time[combo], NCConfig.fusion_power[combo], NCConfig.fusion_heat_variable[combo], NCConfig.fusion_radiation[combo]);
 	}*/
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(4);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 0D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 1000D);
+		fixed.add(extras.size() > 3 && extras.get(3) instanceof Double ? (double) extras.get(3) : 0D);
+		return fixed;
+	}
+	
+	@Override
+	public List getFactoredExtras(List extras, int factor) {
+		List factored = new ArrayList(extras);
+		factored.set(0, (double)extras.get(0)/factor);
+		return factored;
+	}
 }

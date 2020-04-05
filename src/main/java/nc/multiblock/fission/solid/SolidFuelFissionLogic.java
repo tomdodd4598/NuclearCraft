@@ -16,7 +16,6 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.fission.FissionCluster;
@@ -35,6 +34,7 @@ import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SolidFissionUpdatePacket;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
@@ -42,7 +42,6 @@ import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -101,8 +100,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void refreshPorts() {
-		super.refreshPorts();
+	public void refreshConnections() {
+		super.refreshConnections();
 		refreshFilteredItemPorts(TileFissionCellPort.class, TileSolidFissionCell.class);
 	}
 	
@@ -263,7 +262,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void refreshRecipe() {
-		heatingRecipeInfo = fission_heating.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+		heatingRecipeInfo = fission_heating.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
 	}
 	
 	public boolean canProcessInputs() {
@@ -345,7 +344,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			componentIterator.remove();
 			component.onClusterMeltdown();
 		}
-		clusterMeltdown(cluster);
+		super.clusterMeltdown(cluster);
 	}
 	
 	// Component Logic

@@ -14,7 +14,6 @@ import nc.config.NCConfig;
 import nc.init.NCSounds;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.fission.tile.IFissionComponent;
@@ -23,11 +22,15 @@ import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.IFissionPart;
 import nc.multiblock.fission.tile.IFissionSpecialComponent;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
+import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.network.FissionUpdatePacket;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
@@ -93,7 +96,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		getReactor().ambientTemp = 273 + (int) (getWorld().getBiome(getReactor().getMiddleCoord()).getTemperature(getReactor().getMiddleCoord())*20F);
 		
 		if (!getWorld().isRemote) {
-			refreshPorts();
+			refreshConnections();
 			refreshReactor();
 			getReactor().updateActivity();
 		}
@@ -111,7 +114,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		getReactor().resetStats();
 		
 		if (!getWorld().isRemote) {
-			refreshPorts();
+			refreshConnections();
 			//refreshReactor();
 			getReactor().updateActivity();
 		}
@@ -127,12 +130,19 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		if (!(assimilated instanceof FissionReactor)) return;
 		FissionReactor assimilatedReactor = (FissionReactor) assimilated;
 		getReactor().heatBuffer.mergeHeatBuffers(assimilatedReactor.heatBuffer);
+		onReactorFormed();
 	}
 	
 	public void onAssimilated(Multiblock assimilator) {}
 	
-	public void refreshPorts() {
+	public void refreshConnections() {
 		refreshFilteredItemPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
+		
+		//TODO - Temporary shield manager connections
+		for (TileFissionShieldManager manager : getPartMap(TileFissionShieldManager.class).values()) {
+			manager.moveListenersFromCache();
+			manager.refreshListeners();
+		}
 	}
 	
 	public void refreshReactor() {
@@ -199,20 +209,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		cluster.effectiveHeating = cluster.meanHeatMult = cluster.totalEfficiency = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = 0D;
 		
 		cluster.heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*cluster.getComponentMap().size());
-	}
-	
-	public void onSourceUpdated(TileFissionSource source) {
-		if (source.getIsRedstonePowered()) {
-			PrimingTargetInfo targetInfo = source.getPrimingTarget();
-			if (targetInfo != null) {
-				if (!targetInfo.fuelComponent.isFunctional()) {
-					getReactor().refreshFlag = true;
-				}
-				else if (targetInfo.newSourceEfficiency) {
-					getReactor().refreshCluster(targetInfo.fuelComponent.getCluster());
-				}
-			}
-		}
 	}
 	
 	public void iterateFluxSearch(IFissionFuelComponent rootFuelComponent) {
@@ -317,6 +313,26 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	// Component Logic
 	
+	public void onSourceUpdated(TileFissionSource source) {
+		if (source.getIsRedstonePowered()) {
+			PrimingTargetInfo targetInfo = source.getPrimingTarget();
+			if (targetInfo != null) {
+				if (!targetInfo.fuelComponent.isFunctional()) {
+					getReactor().refreshFlag = true;
+				}
+				else if (targetInfo.newSourceEfficiency) {
+					getReactor().refreshCluster(targetInfo.fuelComponent.getCluster());
+				}
+			}
+		}
+	}
+	
+	public void onShieldUpdated(TileFissionShield shield) {
+		if (shield.isInActiveModeratorLine()) {
+			getReactor().refreshFlag = true;
+		}
+	}
+	
 	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache) {}
 	
 	public IFissionFuelComponent getNextFuelComponent(IFissionFuelComponent fuelComponent, BlockPos pos) {
@@ -327,6 +343,18 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	public void refreshFuelComponentLocal(IFissionFuelComponent fuelComponent) {}
 	
 	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {}
+	
+	public boolean isShieldActiveModerator(TileFissionShield shield, boolean isActiveModeratorPos) {
+		return false;
+	}
+	
+	public @Nonnull EnergyStorage getPowerPortEnergyStorage(EnergyStorage backupStorage) {
+		return backupStorage;
+	}
+	
+	public int getPowerPortEUSourceTier() {
+		return 1;
+	}
 	
 	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks) {
 		return backupTanks;

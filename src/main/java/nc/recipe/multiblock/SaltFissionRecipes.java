@@ -1,5 +1,8 @@
 package nc.recipe.multiblock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
@@ -33,5 +36,24 @@ public class SaltFissionRecipes extends ProcessorRecipeHandler {
 			addFuelDepleteRecipe(fuelType, time[id + 4], heat[id + 4], efficiency[id + 4], criticality[id + 4], selfPriming[id + 4], radiation[id + 4]);
 			id += 5;
 		}
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(6);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		fixed.add(extras.size() > 3 && extras.get(3) instanceof Integer ? (int) extras.get(3) : 1);
+		fixed.add(extras.size() > 4 && extras.get(4) instanceof Boolean ? (boolean) extras.get(4) : false);
+		fixed.add(extras.size() > 5 && extras.get(5) instanceof Double ? (double) extras.get(5) : 0D);
+		return fixed;
+	}
+	
+	@Override
+	public List getFactoredExtras(List extras, int factor) {
+		List factored = new ArrayList(extras);
+		factored.set(0, (int)extras.get(0)/factor);
+		return factored;
 	}
 }

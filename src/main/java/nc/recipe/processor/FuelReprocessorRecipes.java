@@ -1,5 +1,8 @@
 package nc.recipe.processor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
@@ -59,5 +62,14 @@ public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 		addRecipe(oreStack("ingotDepleted" + fuel + "Oxide", 9), oreStack("ingot" + out1 + "Oxide", n1), oreStack("ingot" + out2 + "Oxide", n2), emptyItemStack(), oreStack("ingot" + out3 + "Oxide", n3), oreStack("ingot" + out4 + "Oxide", n4), emptyItemStack(), 1D, 1D);
 		addRecipe(oreStack("ingotDepleted" + fuel + "Nitride", 9), oreStack("ingot" + out1 + "Nitride", n1), oreStack("ingot" + out2 + "Nitride", n2), emptyItemStack(), oreStack("ingot" + out3 + "Nitride", n3), oreStack("ingot" + out4 + "Nitride", n4), emptyItemStack(), 1D, 1D);
 		addRecipe(oreStack("ingotDepleted" + fuel + "ZA", 9), oreStack("ingot" + out1 + "ZA", n1), oreStack("ingot" + out2 + "ZA", n2), oreStack("dustZirconium", extraReturn), oreStack("ingot" + out3 + "ZA", n3), oreStack("ingot" + out4 + "ZA", n4), emptyItemStack(), 1D, 1D);
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(3);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		return fixed;
 	}
 }

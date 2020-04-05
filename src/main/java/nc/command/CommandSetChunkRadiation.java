@@ -1,6 +1,7 @@
 package nc.command;
 
 import nc.capability.radiation.source.IRadiationSource;
+import nc.radiation.RadiationHelper;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -36,11 +37,10 @@ public class CommandSetChunkRadiation extends CommandBase {
 				throw new WrongUsageException(getUsage(sender), new Object[0]);
 			}
 			
-			Chunk chunk = sender.getEntityWorld().getChunk(sender.getPosition().getX() >> 4, sender.getPosition().getZ() >> 4);
-			
-			if (chunk != null && chunk.isLoaded() && chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
-				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-				if (chunkRadiation != null) chunkRadiation.setRadiationLevel(newRadiation);
+			Chunk chunk = sender.getEntityWorld().getChunk(sender.getPosition());
+			if (chunk != null && chunk.isLoaded()) {
+				IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
+				if (chunkSource != null) chunkSource.setRadiationLevel(newRadiation);
 			}
 		}
 		
@@ -70,10 +70,9 @@ public class CommandSetChunkRadiation extends CommandBase {
 			}
 			
 			Chunk chunk = sender.getEntityWorld().getChunk(x >> 4, z >> 4);
-			
-			if (chunk != null && chunk.isLoaded() && chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
-				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-				if (chunkRadiation != null) chunkRadiation.setRadiationLevel(newRadiation);
+			if (chunk != null && chunk.isLoaded()) {
+				IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
+				if (chunkSource != null) chunkSource.setRadiationLevel(newRadiation);
 			}
 		}
 		

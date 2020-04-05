@@ -15,15 +15,16 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionPart;
+import nc.multiblock.fission.tile.TileFissionMonitor;
 import nc.multiblock.network.FissionUpdatePacket;
+import nc.multiblock.tile.ITileMultiblockPart;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -236,7 +237,9 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 		}
 		
 		logic.updateRedstone();
-		sendUpdateToListeningPlayers();
+		if (controller != null) {
+			sendUpdateToListeningPlayers();
+		}
 		
 		return true;
 	}
@@ -247,8 +250,11 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 		if (isReactorOn != wasReactorOn) {
 			if (controller != null) {
 				controller.updateBlockState(isReactorOn);
+				sendUpdateToAllPlayers();
 			}
-			sendUpdateToAllPlayers();
+			for (TileFissionMonitor monitor : getPartMap(TileFissionMonitor.class).values()) {
+				monitor.updateBlockState(isReactorOn);
+			}
 		}
 	}
 	
@@ -270,7 +276,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 	// NBT
 	
 	@Override
-	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
+	public void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		heatBuffer.writeToNBT(data);
 		data.setBoolean("isReactorOn", isReactorOn);
 		data.setInteger("clusterCount", clusterCount);
@@ -288,7 +294,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 	}
 	
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
+	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		heatBuffer.readFromNBT(data);
 		isReactorOn = data.getBoolean("isReactorOn");
 		clusterCount = data.getInteger("clusterCount");

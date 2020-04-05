@@ -2,6 +2,7 @@ package nc.multiblock;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import nc.multiblock.tile.ITileMultiblockPart;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 

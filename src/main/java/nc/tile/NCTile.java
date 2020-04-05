@@ -243,6 +243,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
-		return NCMath.square(0.92D*16D*FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
+		return NCMath.sq(0.92D*16D*FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
 	}
 }

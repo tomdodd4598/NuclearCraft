@@ -6,6 +6,7 @@ import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.item.IInfoItem;
 import nc.item.ItemFissionFuel;
+import nc.item.ItemMultitool;
 import nc.item.ItemPortableEnderChest;
 import nc.item.ItemRadShielding;
 import nc.item.ItemRadX;
@@ -89,6 +90,8 @@ public class NCItems {
 	public static Item lithium;
 	
 	public static Item lithium_ion_cell;
+	
+	public static Item multitool;
 	
 	public static Item geiger_counter;
 	public static Item rad_shielding;
@@ -183,6 +186,8 @@ public class NCItems {
 		
 		lithium_ion_cell = withName(new ItemBattery(BatteryType.LITHIUM_ION_BATTERY_BASIC), "lithium_ion_cell");
 		
+		multitool = withName(new ItemMultitool(), "multitool");
+		
 		geiger_counter = withName(new ItemGeigerCounter(), "geiger_counter");
 		rad_shielding = withName(new ItemRadShielding(NCInfo.radShieldingInfo()), "rad_shielding");
 		radiation_badge = withName(new ItemRadiationBadge(InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rad"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rad"))), "radiation_badge");
@@ -276,6 +281,8 @@ public class NCItems {
 		registerItem(lithium, NCTabs.MATERIAL);
 		
 		registerItem(lithium_ion_cell, NCTabs.MACHINE);
+		
+		registerItem(multitool, NCTabs.MACHINE);
 		
 		registerItem(geiger_counter, NCTabs.RADIATION);
 		registerItem(rad_shielding, NCTabs.RADIATION);
@@ -499,6 +506,8 @@ public class NCItems {
 		}
 		
 		registerRender(lithium_ion_cell);
+		
+		registerRender(multitool);
 		
 		registerRender(geiger_counter);
 		for(int i = 0; i < MetaEnums.RadShieldingType.values().length; i++) {

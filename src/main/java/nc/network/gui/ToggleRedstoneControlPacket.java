@@ -62,7 +62,7 @@ public class ToggleRedstoneControlPacket implements IMessage {
 			if (tile instanceof ITile) {
 				ITile machine = (ITile) tile;
 				machine.setRedstoneControl(message.redstoneControl);
-				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
+				tile.markDirty();
 			}
 		}
 	}

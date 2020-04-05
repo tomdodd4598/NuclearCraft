@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
@@ -20,15 +22,20 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	public FluidStack getStack() {
 		return null;
 	}
-
+	
 	@Override
-	public String getIngredientName() {
-		return "null";
+	public List<FluidStack> getInputStackList() {
+		return new ArrayList<>();
 	}
-
+	
 	@Override
-	public String getIngredientNamesConcat() {
-		return "null";
+	public List<FluidStack> getInputStackHashingList() {
+		return Lists.newArrayList((FluidStack)null);
+	}
+	
+	@Override
+	public List<FluidStack> getOutputStackList() {
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -40,25 +47,32 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	public void setMaxStackSize(int stackSize) {
 		
 	}
+	
+	@Override
+	public String getIngredientName() {
+		return "null";
+	}
 
 	@Override
-	public List<FluidStack> getInputStackList() {
-		return new ArrayList<>();
+	public String getIngredientNamesConcat() {
+		return "null";
 	}
 	
 	@Override
-	public List<FluidStack> getOutputStackList() {
-		return new ArrayList<>();
+	public IntList getFactors() {
+		return new IntArrayList();
 	}
 	
 	@Override
-	public List<FluidStack> getInputStackHashingList() {
-		return Lists.newArrayList((FluidStack)null);
+	public IFluidIngredient getFactoredIngredient(int factor) {
+		return new EmptyFluidIngredient();
 	}
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
-		if (object == null) return IngredientMatchResult.PASS_0;
+		if (object == null) {
+			return IngredientMatchResult.PASS_0;
+		}
 		if (object instanceof Tank) {
 			return new IngredientMatchResult(((Tank)object).getFluid() == null, 0);
 		}

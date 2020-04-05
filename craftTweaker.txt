@@ -305,7 +305,6 @@ mods.nuclearcraft.FissionModerator.remove(IIngredient block);
 
 mods.nuclearcraft.FissionModerator.removeAll();
 
----------------------------------------------------------------------------------------------------------------------------
 
 Fission Reflector:
 ------------------
@@ -324,6 +323,15 @@ mods.nuclearcraft.FissionIrradiator.addRecipe(IIngredient itemInput, IIngredient
 
 mods.nuclearcraft.FissionIrradiator.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.FissionIrradiator.removeRecipeWithOutput(IIngredient itemOutput);
+
+
+Pebble Bed Fission:
+-------------------
+
+mods.nuclearcraft.PebbleFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+
+mods.nuclearcraft.PebbleFission.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.PebbleFission.removeRecipeWithOutput(IIngredient itemOutput);
 
 
 Solid Fuel Fission:

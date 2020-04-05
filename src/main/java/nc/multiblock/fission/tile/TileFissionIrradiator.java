@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
@@ -62,7 +63,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	public double baseProcessTime = 1D, baseProcessHeatPerFlux = 0D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
 	
 	public double time;
-	protected boolean isProcessing, canProcessInputs;
+	public boolean isProcessing, canProcessInputs;
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
@@ -84,7 +85,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		super(CuboidalPartPositionType.INTERIOR);
 		invWrapper = new InventoryTileWrapper(this);
 		
-		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -101,7 +102,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
-	// IFissionFuelComponent
+	// IFissionComponent
 	
 	@Override
 	public @Nullable FissionCluster getCluster() {
@@ -177,7 +178,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public double getEffectiveHeating() {
-		return flux*baseProcessHeatPerFlux;
+		return flux*baseProcessHeatPerFlux*baseProcessEfficiency;
 	}
 	
 	@Override
@@ -190,7 +191,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		this.heat = heat;
 	}
 	
-	// IFissionPortConnector
+	// IFissionPortTarget
 	
 	@Override
 	public BlockPos getMasterPortPos() {
@@ -223,7 +224,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		return isFunctional() ^ readyToProcess(false);
 	}
 	
-	// Processing
+	// Ticking
 	
 	@Override
 	public void onAdded() {
@@ -235,8 +236,6 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 			refreshIsProcessing(true);
 		}
 	}
-	
-	// Ticking
 	
 	@Override
 	public void update() {
@@ -347,15 +346,14 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	public void process() {
 		time += getSpeedMultiplier();
 		getRadiationSource().setRadiationLevel(baseProcessRadiation*getSpeedMultiplier());
-		if (time >= baseProcessTime) finishProcess();
+		while (time >= baseProcessTime) finishProcess();
 	}
 	
 	public void finishProcess() {
 		double oldProcessTime = baseProcessTime, oldProcessHeat = baseProcessHeatPerFlux, oldProcessEfficiency = baseProcessEfficiency;
 		produceProducts();
 		refreshRecipe();
-		if (!setRecipeStats()) time = 0;
-		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		time = Math.max(0D, time - oldProcessTime);
 		refreshActivityOnProduction();
 		if (!canProcessInputs) time = 0;
 		
@@ -373,7 +371,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	public void produceProducts() {
 		if (recipeInfo == null) return;
-		List<Integer> itemInputOrder = recipeInfo.getItemInputOrder();
+		IntList itemInputOrder = recipeInfo.getItemInputOrder();
 		if (itemInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < itemInputSize; i++) {
@@ -585,7 +583,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public FissionIrradiatorUpdatePacket getGuiUpdatePacket() {
-		return new FissionIrradiatorUpdatePacket(pos, masterPortPos, getFilterStacks(), cluster, time, baseProcessTime);
+		return new FissionIrradiatorUpdatePacket(pos, masterPortPos, getFilterStacks(), cluster, isProcessing, time, baseProcessTime);
 	}
 	
 	@Override
@@ -597,6 +595,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		getFilterStacks().set(0, message.filterStack);
 		clusterHeatStored = message.clusterHeatStored;
 		clusterHeatCapacity = message.clusterHeatCapacity;
+		isProcessing = message.isProcessing;
 		time = message.time;
 		baseProcessTime = message.baseProcessTime;
 	}
@@ -620,7 +619,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
-		nbt.setLong("masterPortPos", masterPortPos.toLong());
+		//nbt.setLong("masterPortPos", masterPortPos.toLong());
 		return nbt;
 	}
 	
@@ -641,8 +640,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");
 		
-		masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
-		refreshMasterPort();
+		//masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 	}
 	
 	@Override

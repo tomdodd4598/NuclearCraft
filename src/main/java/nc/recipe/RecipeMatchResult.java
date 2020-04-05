@@ -1,6 +1,6 @@
 package nc.recipe;
 
-import java.util.List;
+import it.unimi.dsi.fastutil.ints.IntList;
 
 public class RecipeMatchResult {
 	
@@ -8,9 +8,9 @@ public class RecipeMatchResult {
 	
 	private final boolean match;
 	
-	final List<Integer> itemIngredientNumbers, fluidIngredientNumbers, itemInputOrder, fluidInputOrder;
+	final IntList itemIngredientNumbers, fluidIngredientNumbers, itemInputOrder, fluidInputOrder;
 	
-	public RecipeMatchResult(boolean match, List<Integer> itemIngredientNumbers, List<Integer> fluidIngredientNumbers, List<Integer> itemInputOrder, List<Integer> fluidInputOrder) {
+	public RecipeMatchResult(boolean match, IntList itemIngredientNumbers, IntList fluidIngredientNumbers, IntList itemInputOrder, IntList fluidInputOrder) {
 		this.match = match;
 		this.itemIngredientNumbers = itemIngredientNumbers;
 		this.fluidIngredientNumbers = fluidIngredientNumbers;

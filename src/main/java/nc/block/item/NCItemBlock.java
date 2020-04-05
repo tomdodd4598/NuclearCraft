@@ -17,24 +17,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class NCItemBlock extends ItemBlock {
 	
 	private final TextFormatting[] fixedColors;
-	private final TextFormatting fixedColor, infoColor;
+	private final TextFormatting infoColor;
 	public final String[] fixedInfo, info;
 	
-	private NCItemBlock(Block block, TextFormatting[] fixedColors, TextFormatting fixedColor, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
+	public NCItemBlock(Block block, TextFormatting[] fixedColors, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
 		super(block);
 		this.fixedColors = fixedColors;
-		this.fixedColor = fixedColor;
 		fixedInfo = InfoHelper.buildFixedInfo(block.getTranslationKey(), fixedTooltip);
 		this.infoColor = infoColor;
 		info = InfoHelper.buildInfo(block.getTranslationKey(), tooltip);
 	}
 	
-	public NCItemBlock(Block block, TextFormatting[] fixedColors, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
-		this(block, fixedColors, null, fixedTooltip, infoColor, tooltip);
-	}
-	
 	public NCItemBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
-		this(block, null, fixedColor, fixedTooltip, infoColor, tooltip);
+		this(block, new TextFormatting[] {fixedColor}, fixedTooltip, infoColor, tooltip);
 	}
 	
 	public NCItemBlock(Block block, TextFormatting infoColor, String... tooltip) {
@@ -50,11 +45,11 @@ public class NCItemBlock extends ItemBlock {
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
 		if (info.length + fixedInfo.length > 0) {
-			if (fixedColors != null) {
-				InfoHelper.infoFull(tooltip, fixedColors, fixedInfo, infoColor, info);
+			if (fixedColors.length == 1) {
+				InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo, infoColor, info);
 			}
 			else {
-				InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, infoColor, info);
+				InfoHelper.infoFull(tooltip, fixedColors, fixedInfo, infoColor, info);
 			}
 		}
 	}

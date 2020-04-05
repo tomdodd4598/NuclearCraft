@@ -1,6 +1,6 @@
 package nc.multiblock.turbine.block;
 
-import nc.multiblock.BlockMultiblockPart;
+import nc.multiblock.block.BlockMultiblockPart;
 import nc.tab.NCTabs;
 import net.minecraft.block.material.Material;
 

@@ -1,5 +1,8 @@
 package nc.recipe.other;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
@@ -35,5 +38,12 @@ public class CollectorRecipes extends ProcessorRecipeHandler {
 			addRecipe(NCBlocks.nitrogen_collector_compact, emptyItemStack(), fluidStack("nitrogen", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[2]*8, 5, "B/t", -1));
 			addRecipe(NCBlocks.nitrogen_collector_dense, emptyItemStack(), fluidStack("nitrogen", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[2]*64, 5, "B/t", -1));
 		}
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(1);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof String ? (String) extras.get(0) : null);
+		return fixed;
 	}
 }

@@ -68,6 +68,14 @@ public class GuiFissionIrradiator extends NCGui {
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
 	}
 	
+	protected int getCookProgressScaled(int pixels) {
+		if (irradiator.baseProcessTime/irradiator.getSpeedMultiplier() < 4D) {
+			return irradiator.isProcessing ? pixels : 0;
+		}
+		double i = irradiator.time, j = irradiator.baseProcessTime;
+		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
+	}
+	
 	@Override
 	public void initGui() {
 		super.initGui();
@@ -76,11 +84,5 @@ public class GuiFissionIrradiator extends NCGui {
 	
 	public void initButtons() {
 		
-	}
-	
-	protected int getCookProgressScaled(double pixels) {
-		double i = irradiator.time;
-		double j = irradiator.baseProcessTime;
-		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
 	}
 }

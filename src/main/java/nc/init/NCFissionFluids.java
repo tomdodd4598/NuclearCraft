@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFissionFluids {
 	
-	public static List<FluidFission> fluidList = new ArrayList<FluidFission>();
+	public static List<FluidFission> fluidList = new ArrayList<>();
 	
 	public static void init() {
 		fluidList.add(new FluidFission("thorium", 0x242424));

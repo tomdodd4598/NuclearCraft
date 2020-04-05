@@ -13,8 +13,12 @@ import nc.multiblock.fission.tile.TileFissionComputerPort;
 import nc.multiblock.fission.tile.TileFissionConductor;
 import nc.multiblock.fission.tile.TileFissionGlass;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
+import nc.multiblock.fission.tile.TileFissionMonitor;
+import nc.multiblock.fission.tile.TileFissionPowerPort;
+import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
@@ -81,15 +85,23 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionCasing.class, Global.MOD_ID + ":fission_casing");
 		GameRegistry.registerTileEntity(TileFissionGlass.class, Global.MOD_ID + ":fission_glass");
 		GameRegistry.registerTileEntity(TileFissionConductor.class, Global.MOD_ID + ":fission_conductor");
+		GameRegistry.registerTileEntity(TileFissionMonitor.class, Global.MOD_ID + ":fission_monitor");
+		GameRegistry.registerTileEntity(TileFissionPowerPort.class, Global.MOD_ID + ":fission_power_port");
 		GameRegistry.registerTileEntity(TileFissionVent.class, Global.MOD_ID + ":fission_vent");
 		GameRegistry.registerTileEntity(TileFissionIrradiator.class, Global.MOD_ID + ":fission_irradiator");
+		
 		GameRegistry.registerTileEntity(TileFissionSource.RadiumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.RADIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.PoloniumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.POLONIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.Californium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.CALIFORNIUM.getName());
+		
+		GameRegistry.registerTileEntity(TileFissionShield.BoronSilver.class, Global.MOD_ID + ":fission_shield_" + MetaEnums.NeutronShieldType.BORON_SILVER.getName());
+		
 		GameRegistry.registerTileEntity(TileFissionComputerPort.class, Global.MOD_ID + ":fission_computer_port");
 		
 		GameRegistry.registerTileEntity(TileFissionIrradiatorPort.class, Global.MOD_ID + ":fission_irradiator_port");
 		GameRegistry.registerTileEntity(TileFissionCellPort.class, Global.MOD_ID + ":fission_cell_port");
+		
+		GameRegistry.registerTileEntity(TileFissionShieldManager.class, Global.MOD_ID + ":fission_shield_manager");
 		
 		GameRegistry.registerTileEntity(TileSolidFissionController.class, Global.MOD_ID + ":solid_fission_controller");
 		GameRegistry.registerTileEntity(TileSolidFissionCell.class, Global.MOD_ID + ":solid_fission_cell");
@@ -128,7 +140,38 @@ public class NCTiles {
 		
 		GameRegistry.registerTileEntity(TileSaltFissionController.class, Global.MOD_ID + ":salt_fission_controller");
 		GameRegistry.registerTileEntity(TileSaltFissionVessel.class, Global.MOD_ID + ":salt_fission_vessel");
-		GameRegistry.registerTileEntity(TileSaltFissionHeater.class, Global.MOD_ID + ":salt_fission_heater");
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Standard.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.STANDARD.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Iron.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.IRON.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Redstone.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.REDSTONE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Quartz.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.QUARTZ.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Obsidian.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.OBSIDIAN.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.NetherBrick.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.NETHER_BRICK.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Glowstone.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.GLOWSTONE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Lapis.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.LAPIS.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Gold.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.GOLD.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Prismarine.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.PRISMARINE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Slime.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.SLIME.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.EndStone.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.END_STONE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Purpur.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.PURPUR.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Diamond.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.DIAMOND.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Emerald.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.EMERALD.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Copper.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType.COPPER.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Tin.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.TIN.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Lead.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.LEAD.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Boron.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.BORON.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Lithium.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.LITHIUM.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Magnesium.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.MAGNESIUM.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Manganese.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.MANGANESE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Aluminum.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.ALUMINUM.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Silver.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.SILVER.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Fluorite.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.FLUORITE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Villiaumite.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.VILLIAUMITE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Carobbiite.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.CAROBBIITE.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Arsenic.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.ARSENIC.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.LiquidNitrogen.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.LIQUID_NITROGEN.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.LiquidHelium.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.LIQUID_HELIUM.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Enderium.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.ENDERIUM.getName());
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.Cryotheum.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.CRYOTHEUM.getName());
 		
 		GameRegistry.registerTileEntity(TileHeatExchangerController.class, Global.MOD_ID + ":heat_exchanger_controller");
 		GameRegistry.registerTileEntity(TileHeatExchangerCasing.class, Global.MOD_ID + ":heat_exchanger_casing");

@@ -18,7 +18,7 @@ public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort
 	public TileFissionCellPort() {
 		super(TileFissionCellPort.class, "cell", NCRecipes.solid_fission);
 		
-		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
 	// Ticking

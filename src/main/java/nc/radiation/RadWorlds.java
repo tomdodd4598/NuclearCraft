@@ -1,14 +1,13 @@
 package nc.radiation;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
+import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
 import nc.config.NCConfig;
 
 public class RadWorlds {
 	
-	public static final Map<Integer, Double> RAD_MAP = new HashMap<Integer, Double>();
-	public static final Map<Integer, Double> LIMIT_MAP = new HashMap<Integer, Double>();
+	public static final Int2DoubleMap RAD_MAP = new Int2DoubleOpenHashMap();
+	public static final Int2DoubleMap LIMIT_MAP = new Int2DoubleOpenHashMap();
 	
 	public static void init() {
 		for (String world : NCConfig.radiation_worlds) {

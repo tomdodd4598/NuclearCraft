@@ -7,7 +7,9 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.ITileLogicMultiblockPart;
+import nc.multiblock.tile.ITileMultiblockPart;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.inventory.ITileInventory;
 import nc.util.SuperMap;

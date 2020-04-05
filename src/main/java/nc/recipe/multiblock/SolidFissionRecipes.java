@@ -1,5 +1,8 @@
 package nc.recipe.multiblock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
@@ -38,5 +41,17 @@ public class SolidFissionRecipes extends ProcessorRecipeHandler {
 			addRecipe("ingot" + fuelType + "ZA", "ingotDepleted" + fuelType + "ZA", time[id + 3], heat[id + 3], efficiency[id + 3], criticality[id + 3], selfPriming[id + 3], radiation[id + 3]);
 			id += 5;
 		}
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(6);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		fixed.add(extras.size() > 3 && extras.get(3) instanceof Integer ? (int) extras.get(3) : 1);
+		fixed.add(extras.size() > 4 && extras.get(4) instanceof Boolean ? (boolean) extras.get(4) : false);
+		fixed.add(extras.size() > 5 && extras.get(5) instanceof Double ? (double) extras.get(5) : 0D);
+		return fixed;
 	}
 }

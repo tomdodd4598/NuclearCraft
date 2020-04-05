@@ -10,11 +10,16 @@ public class NCMath {
 	
 	private static Random rand = new Random();
 	
-	public static int square(int number) {
+	public static long clamp(long num, long min, long max) {
+		if (num < min) return min;
+		else return num > max ? max : num;
+	}
+	
+	public static int sq(int number) {
 		return number*number;
 	}
 	
-	public static double square(double number) {
+	public static double sq(double number) {
 		return number*number;
 	}
 	
@@ -136,13 +141,45 @@ public class NCMath {
 		return x;
 	}
 	
-	public static int highestCommonFactor(int a, int b) {
-		if (b == 0) return a;
-		return highestCommonFactor(b, a % b);
+	public static int hcf(int... arr) {
+		int l = arr.length;
+		if (l == 0) return 1;
+		else if (l == 1) return arr[0];
+		int hcf = hcfInternal(arr[0], arr[1]);
+		if (l == 2) return hcf;
+		else {
+			int[] next = new int[l - 1];
+			next[0] = hcf;
+			for(int i = 1; i < l - 1; i++) {
+				next[i] = arr[i + 1];
+			}
+			return hcf(next);
+		}
 	}
 	
-	public static int lowestCommonMultiple(int a, int b) {
-		return Math.abs(a*b)/highestCommonFactor(a, b);
+	private static int hcfInternal(int a, int b) {
+		if (b == 0) return a;
+		return hcfInternal(b, a % b);
+	}
+	
+	public static int lcm(int... arr) {
+		int l = arr.length;
+		if (l == 0) return 1;
+		else if (l == 1) return arr[0];
+		int lcm = lcmInternal(arr[0], arr[1]);
+		if (l == 2) return lcm;
+		else {
+			int[] next = new int[l - 1];
+			next[0] = lcm;
+			for(int i = 1; i < l - 1; i++) {
+				next[i] = arr[i + 1];
+			}
+			return hcf(next);
+		}
+	}
+	
+	private static int lcmInternal(int a, int b) {
+		return toInt(Math.abs((long)a*b))/hcfInternal(a, b);
 	}
 	
 	public static int hollowCuboid(int x, int y, int z) {
@@ -180,5 +217,9 @@ public class NCMath {
 		Arrays.fill(arr, '#');
 		DecimalFormat df = new DecimalFormat("0." + new String(arr));
 		return df.format(number);
+	}
+	
+	public static int toInt(long value) {
+		return (int) Math.min(Integer.MAX_VALUE, value);
 	}
 }

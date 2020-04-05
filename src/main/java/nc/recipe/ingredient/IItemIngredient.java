@@ -42,4 +42,7 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 		}
 		return list;
 	}
+	
+	@Override
+	public IItemIngredient getFactoredIngredient(int factor);
 }

@@ -129,13 +129,13 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	}
 	
 	private static ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
-		ArrayList<OreIngredient> list = new ArrayList<OreIngredient>();
+		ArrayList<OreIngredient> list = new ArrayList<>();
 		for (String form : forms) list.add(oreStack(form + type, size));
 		return list;
 	}
 	
 	private static final List<String> SILICON = Lists.newArrayList("itemSilicon", "ingotSilicon");
-	private static final List<Object> ENDER_PEARL = Lists.newArrayList(Items.ENDER_PEARL, "dustEnder");
+	private static final List ENDER_PEARL = Lists.newArrayList(Items.ENDER_PEARL, "dustEnder");
 	
 	private static List<String> metalList(String name) {
 		return Lists.newArrayList("ingot" + name, "dust" + name);
@@ -143,5 +143,14 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	
 	private static List<String> gemList(String name) {
 		return Lists.newArrayList("gem" + name, "dust" + name);
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(3);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		return fixed;
 	}
 }

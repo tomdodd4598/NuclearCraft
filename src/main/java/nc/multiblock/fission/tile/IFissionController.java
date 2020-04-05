@@ -1,7 +1,7 @@
 package nc.multiblock.fission.tile;
 
-import nc.multiblock.ILogicMultiblockController;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.tile.ILogicMultiblockController;
 
 public interface IFissionController extends IFissionPart, ILogicMultiblockController<FissionReactor> {
 	

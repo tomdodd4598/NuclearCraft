@@ -216,7 +216,7 @@ public class BlockPosHelper {
 	// Ring
 	
 	public List<BlockPos> squareRing(int radius, int height) {
-		List<BlockPos> posList = new ArrayList<BlockPos>();
+		List<BlockPos> posList = new ArrayList<>();
 		for (int i = -radius; i < radius; i++) {
 			posList.add(position(i, height, radius));
 			posList.add(position(-i, height, -radius));
@@ -227,7 +227,7 @@ public class BlockPosHelper {
 	}
 	
 	public List<BlockPos> cutoffRing(int radius, int height) {
-		List<BlockPos> posList = new ArrayList<BlockPos>();
+		List<BlockPos> posList = new ArrayList<>();
 		for (int i = -radius + 1; i < radius; i++) {
 			posList.add(position(i, height, radius));
 			posList.add(position(-i, height, -radius));
@@ -252,7 +252,7 @@ public class BlockPosHelper {
 	// Other
 	
 	public List<BlockPos> cuboid(int x1, int y1, int z1, int x2, int y2, int z2) {
-		List<BlockPos> posList = new ArrayList<BlockPos>();
+		List<BlockPos> posList = new ArrayList<>();
 		for(BlockPos pos : BlockPos.getAllInBox(position(x1, y1, z1), position(x2, y2, z2))) posList.add(pos);
 		return posList;
 	}

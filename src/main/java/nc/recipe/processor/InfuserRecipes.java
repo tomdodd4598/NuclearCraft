@@ -2,6 +2,9 @@ package nc.recipe.processor;
 
 import static nc.util.FissionHelper.FISSION_ORE_DICT;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.collect.Lists;
 
 import nc.init.NCBlocks;
@@ -39,6 +42,15 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		}
 		if (!OreDictHelper.oreExists("dustCryotheum")) {
 			addRecipe("emptyHeatSink", fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 15), 1D, 1D);
+		}
+		
+		addRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 0), fluidStack("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.salt_fission_heater2, 1, 12), 1D, 1D);
+		addRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 0), fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.salt_fission_heater2, 1, 13), 1D, 1D);
+		if (!OreDictHelper.oreExists("ingotEnderium")) {
+			addRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 0), fluidStack("enderium", FluidStackHelper.INGOT_VOLUME*4), new ItemStack(NCBlocks.salt_fission_heater2, 1, 14), 1D, 1D);
+		}
+		if (!OreDictHelper.oreExists("dustCryotheum")) {
+			addRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.salt_fission_heater2, 1, 15), 1D, 1D);
 		}
 		
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway, 1D, 0.5D);
@@ -91,5 +103,14 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 			addRecipe("ingot" + FISSION_ORE_DICT[i], fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), "ingot" + FISSION_ORE_DICT[i] + "Oxide", 1D, 1D);
 			addRecipe("ingot" + FISSION_ORE_DICT[i], fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME), "ingot" + FISSION_ORE_DICT[i] + "Nitride", 1D, 1D);
 		}
+	}
+	
+	@Override
+	public List fixExtras(List extras) {
+		List fixed = new ArrayList(3);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		return fixed;
 	}
 }

@@ -35,8 +35,9 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (world.getTileEntity(pos) instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) world.getTileEntity(pos);
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileFissionSource) {
+			TileFissionSource source = (TileFissionSource) tile;
 			EnumFacing facing = source.getPartPosition().getFacing();
 			return state.withProperty(FACING_ALL, facing != null ? facing : source.facing).withProperty(ACTIVE, source.getIsRedstonePowered());
 		}

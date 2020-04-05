@@ -16,7 +16,6 @@ import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.Tank;
 import nc.util.EnergyHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.block.state.IBlockState;
@@ -31,8 +30,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public int tickCount;
 	
 	protected RecipeInfo<ProcessorRecipe>[] recipes = new RecipeInfo[6];
-	
-	public static final double DEFAULT_LIFETIME = 1200D;
 	
 	protected int generatorCount;
 	
@@ -111,7 +108,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	public void refreshRecipe(EnumFacing side) {
 		List<ItemStack> input = Lists.newArrayList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
-		recipes[side.getIndex()] = decay_generator.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
+		recipes[side.getIndex()] = decay_generator.getRecipeInfoFromInputs(input, new ArrayList<>());
 	}
 	
 	// IC2
@@ -133,7 +130,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public double getRecipeLifetime(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) return DEFAULT_LIFETIME;
+		if (getDecayRecipeInfo(side) == null) return 1200D;
 		return getDecayRecipeInfo(side).getRecipe().getDecayLifetime();
 	}
 	

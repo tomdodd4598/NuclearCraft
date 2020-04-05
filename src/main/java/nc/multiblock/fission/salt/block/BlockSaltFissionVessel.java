@@ -37,8 +37,9 @@ public class BlockSaltFissionVessel extends BlockFissionPart implements ISidedPr
 	
 	@Override
 	public SaltFissionVesselSetting getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		if (world.getTileEntity(pos) instanceof TileSaltFissionVessel) {
-			return ((TileSaltFissionVessel) world.getTileEntity(pos)).getVesselSetting(facing);
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileSaltFissionVessel) {
+			return ((TileSaltFissionVessel) tile).getVesselSetting(facing);
 		}
 		return SaltFissionVesselSetting.DISABLED;
 	}
@@ -69,8 +70,9 @@ public class BlockSaltFissionVessel extends BlockFissionPart implements ISidedPr
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
-		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileSaltFissionVessel) {
-			TileSaltFissionVessel vessel = (TileSaltFissionVessel) world.getTileEntity(pos);
+		TileEntity tile = world.getTileEntity(pos);
+		if (player.getHeldItemMainhand().isEmpty() && tile instanceof TileSaltFissionVessel) {
+			TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
 			EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
 			vessel.toggleVesselSetting(side);
 			if (!world.isRemote) player.sendMessage(getToggleMessage(player, vessel, side));
@@ -97,9 +99,10 @@ public class BlockSaltFissionVessel extends BlockFissionPart implements ISidedPr
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		if (placementSide ==  null) return;
 		BlockPos from = pos.offset(placementSide);
-		if (world.getTileEntity(pos) instanceof TileSaltFissionVessel && world.getTileEntity(from) instanceof TileSaltFissionVessel) {
-			TileSaltFissionVessel vessel = (TileSaltFissionVessel) world.getTileEntity(pos);
-			TileSaltFissionVessel other = (TileSaltFissionVessel) world.getTileEntity(from);
+		TileEntity tile = world.getTileEntity(pos), otherTile = world.getTileEntity(from);
+		if (tile instanceof TileSaltFissionVessel && otherTile instanceof TileSaltFissionVessel) {
+			TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
+			TileSaltFissionVessel other = (TileSaltFissionVessel) otherTile;
 			vessel.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			vessel.setVesselSettings(other.getVesselSettings().clone());
 			vessel.markDirtyAndNotify();

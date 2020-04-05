@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 
 import nc.multiblock.BlockFacing;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileMultiblockPart;
+import nc.multiblock.tile.TileMultiblockPart;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
