@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all"
+	},
+	"variants": {
+		"type": {
+			"swap": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/swap/swap"
+				}
+			},
+			"cswap": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/swap/cswap"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,115 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:wall_part",
+		"textures": {
+			"side": "nuclearcraft:blocks/fission/port/side",
+			"top": "nuclearcraft:blocks/fission/port/top"
+		}
+	},
+	"variants": {
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 90},
+			"z": {}
+		},
+		"type": {
+			"tin": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/tin",
+					"out": "nuclearcraft:blocks/fission/port/heater/tin"
+				}
+			},
+			"lead": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/lead",
+					"out": "nuclearcraft:blocks/fission/port/heater/lead"
+				}
+			},
+			"boron": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/boron",
+					"out": "nuclearcraft:blocks/fission/port/heater/boron"
+				}
+			},
+			"lithium": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/lithium",
+					"out": "nuclearcraft:blocks/fission/port/heater/lithium"
+				}
+			},
+			"magnesium": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/magnesium",
+					"out": "nuclearcraft:blocks/fission/port/heater/magnesium"
+				}
+			},
+			"manganese": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/manganese",
+					"out": "nuclearcraft:blocks/fission/port/heater/manganese"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/aluminum",
+					"out": "nuclearcraft:blocks/fission/port/heater/aluminum"
+				}
+			},
+			"silver": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/silver",
+					"out": "nuclearcraft:blocks/fission/port/heater/silver"
+				}
+			},
+			"fluorite": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/fluorite",
+					"out": "nuclearcraft:blocks/fission/port/heater/fluorite"
+				}
+			},
+			"villiaumite": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/villiaumite",
+					"out": "nuclearcraft:blocks/fission/port/heater/villiaumite"
+				}
+			},
+			"carobbiite": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/carobbiite",
+					"out": "nuclearcraft:blocks/fission/port/heater/carobbiite"
+				}
+			},
+			"arsenic": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/arsenic",
+					"out": "nuclearcraft:blocks/fission/port/heater/arsenic"
+				}
+			},
+			"liquid_nitrogen": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/liquid_nitrogen",
+					"out": "nuclearcraft:blocks/fission/port/heater/liquid_nitrogen"
+				}
+			},
+			"liquid_helium": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/liquid_helium",
+					"out": "nuclearcraft:blocks/fission/port/heater/liquid_helium"
+				}
+			},
+			"enderium": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/enderium",
+					"out": "nuclearcraft:blocks/fission/port/heater/enderium"
+				}
+			},
+			"cryotheum": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/cryotheum",
+					"out": "nuclearcraft:blocks/fission/port/heater/cryotheum"
+				}
+			}
+		}
+	}
+}

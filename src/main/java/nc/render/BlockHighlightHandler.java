@@ -6,20 +6,16 @@
 
 package nc.render;
 
-import org.lwjgl.opengl.GL11;
-
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
 import nc.NuclearCraft;
 import nc.util.NCMath;
-import nc.util.RenderHelper;
+import nc.util.NCRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -77,12 +73,8 @@ public class BlockHighlightHandler {
 		GlStateManager.disableDepth();
 		GlStateManager.disableTexture2D();
 		
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
-		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
-		RenderHelper.renderBlockOutline(buffer, pos.getX(), pos.getY(), pos.getZ(), r, g, b, 1F);
-		
-		tessellator.draw();
+		NCRenderHelper.renderBlockFrame(pos, r, g, b, 1F);
+		Tessellator.getInstance().draw();
 		
 		GlStateManager.enableTexture2D();
 		GlStateManager.enableDepth();

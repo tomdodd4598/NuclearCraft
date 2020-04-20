@@ -73,13 +73,13 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatStored(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().heatBuffer.getHeatStored() : 0L};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getLogic().heatBuffer.getHeatStored() : 0L};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatCapacity(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().heatBuffer.getHeatCapacity() : 0L};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getLogic().heatBuffer.getHeatCapacity() : 0L};
 	}
 	
 	@Callback

@@ -15,7 +15,7 @@ public abstract class TileHeatExchangerPart extends TileCuboidalMultiblockPart<H
 	
 	@Override
 	public HeatExchanger createNewMultiblock() {
-		return new HeatExchanger(getWorld());
+		return new HeatExchanger(world);
 	}
 	
 	public void setIsHeatExchangerOn() {

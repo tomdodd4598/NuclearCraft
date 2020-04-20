@@ -13,6 +13,7 @@ import nc.recipe.NCRecipes;
 import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +23,10 @@ import net.minecraft.world.World;
 public interface IFissionComponent extends IFissionPart {
 	
 	public @Nullable FissionCluster getCluster();
+	
+	public default FissionCluster newCluster(int id) {
+		return new FissionCluster(getMultiblock(), id);
+	}
 	
 	public default void setCluster(@Nullable FissionCluster cluster) {
 		if (cluster == null && getCluster() != null) {
@@ -61,7 +66,7 @@ public interface IFissionComponent extends IFissionPart {
 		}
 		FissionCluster cluster = getMultiblock().getClusterMap().get(id.intValue());
 		if (cluster == null) {
-			cluster = new FissionCluster(getMultiblock(), id);
+			cluster = newCluster(id);
 			getMultiblock().getClusterMap().put(id.intValue(), cluster);
 		}
 		setCluster(cluster);
@@ -98,7 +103,8 @@ public interface IFissionComponent extends IFissionPart {
 	@Override
 	public default boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
-			multitoolStack.getTagCompound().setLong("componentPos", getTilePos().toLong());
+			NBTTagCompound nbt = multitoolStack.getTagCompound();
+			nbt.setLong("componentPos", getTilePos().toLong());
 			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.copy_component_info")));
 			return true;
 		}

@@ -6,6 +6,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import nc.NuclearCraft;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
+import nc.util.BlockHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,27 +55,7 @@ public class BlockSaltFissionController extends BlockFissionPart {
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(world, pos, state);
-		setDefaultDirection(world, pos, state);
-	}
-	
-	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
-		if (!world.isRemote) {
-			EnumFacing enumfacing = state.getValue(FACING_ALL);
-			boolean flag = world.getBlockState(pos.north()).isFullBlock();
-			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
-
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1) enumfacing = EnumFacing.SOUTH;
-			else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag) enumfacing = EnumFacing.NORTH;
-			
-			else {
-				boolean flag2 = world.getBlockState(pos.west()).isFullBlock();
-				boolean flag3 = world.getBlockState(pos.east()).isFullBlock();
-
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) enumfacing = EnumFacing.EAST;
-				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) enumfacing = EnumFacing.WEST;
-			}
-			world.setBlockState(pos, state.withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
-		}
+		BlockHelper.setDefaultFacing(world, pos, state, FACING_ALL);
 	}
 	
 	@Override
@@ -86,7 +67,7 @@ public class BlockSaltFissionController extends BlockFissionPart {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileSaltFissionController) {
 				TileSaltFissionController controller = (TileSaltFissionController) tile;
-				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
+				if (controller.isMultiblockAssembled()) {
 					player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;
 				}

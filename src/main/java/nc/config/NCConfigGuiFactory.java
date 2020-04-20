@@ -42,20 +42,22 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 
 		private static List<IConfigElement> getConfigElements() {
 			List<IConfigElement> list = new ArrayList<>();
-			list.add(categoryElement(NCConfig.CATEGORY_ORES, CategoryEntryOres.class));
-			list.add(categoryElement(NCConfig.CATEGORY_PROCESSORS, CategoryEntryProcessors.class));
-			list.add(categoryElement(NCConfig.CATEGORY_GENERATORS, CategoryEntryGenerators.class));
+			list.add(categoryElement(NCConfig.CATEGORY_WORLD_GEN, CategoryEntryWorldGen.class));
+			list.add(categoryElement(NCConfig.CATEGORY_PROCESSOR, CategoryEntryProcessor.class));
+			list.add(categoryElement(NCConfig.CATEGORY_GENERATOR, CategoryEntryGenerator.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ENERGY_STORAGE, CategoryEntryEnergyStorage.class));
 			list.add(categoryElement(NCConfig.CATEGORY_FISSION, CategoryEntryFission.class));
 			list.add(categoryElement(NCConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
 			list.add(categoryElement(NCConfig.CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
 			list.add(categoryElement(NCConfig.CATEGORY_TURBINE, CategoryEntryTurbine.class));
 			list.add(categoryElement(NCConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
-			list.add(categoryElement(NCConfig.CATEGORY_ENERGY_STORAGE, CategoryEntryEnergyStorage.class));
-			list.add(categoryElement(NCConfig.CATEGORY_TOOLS, CategoryEntryTools.class));
+			list.add(categoryElement(NCConfig.CATEGORY_QUANTUM, CategoryEntryQuantum.class));
+			list.add(categoryElement(NCConfig.CATEGORY_TOOL, CategoryEntryTool.class));
 			list.add(categoryElement(NCConfig.CATEGORY_ARMOR, CategoryEntryArmor.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ENTITY, CategoryEntryEntity.class));
 			list.add(categoryElement(NCConfig.CATEGORY_RADIATION, CategoryEntryRadiation.class));
-			list.add(categoryElement(NCConfig.CATEGORY_ENTITIES, CategoryEntryEntities.class));
-			list.add(categoryElement(NCConfig.CATEGORY_OTHER, CategoryEntryOther.class));
+			list.add(categoryElement(NCConfig.CATEGORY_REGISTRATION, CategoryEntryRegistration.class));
+			list.add(categoryElement(NCConfig.CATEGORY_MISC, CategoryEntryMisc.class));
 			return list;
 		}
 		
@@ -63,39 +65,51 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			return new DummyCategoryElement(Lang.localise("gui.nc.config.category." + categoryName), "gui.nc.config.category." + categoryName, categoryClass);
 		}
 		
-		public static class CategoryEntryOres extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryWorldGen extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryOres(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryWorldGen(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_ORES, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_WORLD_GEN, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryProcessors extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryProcessor extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryProcessors(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryProcessor(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_PROCESSORS, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_PROCESSOR, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryGenerators extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryGenerator extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryGenerators(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryGenerator(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_GENERATORS, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_GENERATOR, owningScreen, configElement);
+			}
+		}
+		
+		public static class CategoryEntryEnergyStorage extends CategoryEntry implements IConfigCategory {
+
+			public CategoryEntryEnergyStorage(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				return buildChildScreen(NCConfig.CATEGORY_ENERGY_STORAGE, owningScreen, configElement);
 			}
 		}
 		
@@ -159,27 +173,27 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			}
 		}
 		
-		public static class CategoryEntryEnergyStorage extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryQuantum extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryEnergyStorage(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryQuantum(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_ENERGY_STORAGE, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_QUANTUM, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryTools extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryTool extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryTools(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryTool(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_TOOLS, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_TOOL, owningScreen, configElement);
 			}
 		}
 		
@@ -195,6 +209,18 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			}
 		}
 		
+		public static class CategoryEntryEntity extends CategoryEntry implements IConfigCategory {
+
+			public CategoryEntryEntity(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				return buildChildScreen(NCConfig.CATEGORY_ENTITY, owningScreen, configElement);
+			}
+		}
+		
 		public static class CategoryEntryRadiation extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryRadiation(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
@@ -207,27 +233,27 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			}
 		}
 		
-		public static class CategoryEntryEntities extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryRegistration extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryEntities(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryRegistration(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_ENTITIES, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_REGISTRATION, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryOther extends CategoryEntry implements IConfigCategory {
+		public static class CategoryEntryMisc extends CategoryEntry implements IConfigCategory {
 
-			public CategoryEntryOther(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+			public CategoryEntryMisc(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
 			}
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_OTHER, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_MISC, owningScreen, configElement);
 			}
 		}
 	}

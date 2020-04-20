@@ -1,0 +1,13 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/quantum_computer/port"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}]
+	}
+}

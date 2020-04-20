@@ -1,0 +1,70 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all"
+	},
+	"variants": {
+		"type": {
+			"cx": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/cx"
+				}
+			},
+			"cy": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/cy"
+				}
+			},
+			"cz": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/cz"
+				}
+			},
+			"ch": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/ch"
+				}
+			},
+			"cs": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/cs"
+				}
+			},
+			"csdg": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/csdg"
+				}
+			},
+			"ct": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/ct"
+				}
+			},
+			"ctdg": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/ctdg"
+				}
+			},
+			"cp": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/cp"
+				}
+			},
+			"crx": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/crx"
+				}
+			},
+			"cry": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/cry"
+				}
+			},
+			"crz": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/control/crz"
+				}
+			}
+		}
+	}
+}

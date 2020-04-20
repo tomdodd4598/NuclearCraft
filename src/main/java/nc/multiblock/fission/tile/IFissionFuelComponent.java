@@ -38,6 +38,8 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public void setSourceEfficiency(double sourceEfficiency, boolean maximize);
 	
+	public int[] getModeratorLineFluxes();
+	
 	public Double[] getModeratorLineEfficiencies();
 	
 	public IFissionFluxSink[] getAdjacentFluxSinks();
@@ -59,10 +61,11 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	public default double getModeratorEfficiencyFactor() {
 		byte count = 0;
 		double efficiency = 0D;
-		for (Double lineEfficiency : getModeratorLineEfficiencies()) {
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			Double lineEfficiency = getModeratorLineEfficiencies()[dir.getIndex()];
 			if (lineEfficiency != null) {
 				count++;
-				efficiency += lineEfficiency;
+				efficiency += (getModeratorLineFluxes()[dir.getIndex()] == 0 ? 0D : lineEfficiency);
 			}
 		}
 		return count == 0 ? 0D : efficiency/count;
@@ -119,6 +122,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 						IFissionFuelComponent fuelComponent = getLogic().getNextFuelComponent(this, offPos);
 						if (fuelComponent != null) {
 							fuelComponent.addFlux(moderatorFlux);
+							fuelComponent.getModeratorLineFluxes()[dir.getOpposite().getIndex()] = moderatorFlux;
 							fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency/(i - 1);
 							fuelComponent.incrementHeatMultiplier();
 							
@@ -132,6 +136,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 								IFissionFluxSink fluxAcceptor = (IFissionFluxSink) component;
 								if (fluxAcceptor.isAcceptingFlux(dir.getOpposite())) {
 									fluxAcceptor.addFlux(moderatorFlux);
+									getModeratorLineFluxes()[dir.getIndex()] = moderatorFlux;
 									getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.moderatorLineEfficiencyFactor()*moderatorEfficiency/(i - 1);
 									incrementHeatMultiplier();
 									
@@ -143,6 +148,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 								if (recipe != null) {
 									int reflectedFlux = (int) Math.floor(2D*moderatorFlux*recipe.getFissionReflectorReflectivity());
 									addFlux(reflectedFlux);
+									getModeratorLineFluxes()[dir.getIndex()] = reflectedFlux;
 									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency()*moderatorEfficiency/(i - 1);
 									incrementHeatMultiplier();
 									

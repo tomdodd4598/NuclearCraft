@@ -6,6 +6,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.tile.manager.IFissionManagerListener;
 import nc.multiblock.fission.tile.manager.TileFissionManager;
+import nc.util.BlockHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -52,27 +53,7 @@ public abstract class BlockFissionManager<MANAGER extends TileFissionManager<MAN
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(world, pos, state);
-		setDefaultDirection(world, pos, state);
-	}
-	
-	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
-		if (!world.isRemote) {
-			EnumFacing enumfacing = state.getValue(FACING_ALL);
-			boolean flag = world.getBlockState(pos.north()).isFullBlock();
-			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
-
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1) enumfacing = EnumFacing.SOUTH;
-			else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag) enumfacing = EnumFacing.NORTH;
-			
-			else {
-				boolean flag2 = world.getBlockState(pos.west()).isFullBlock();
-				boolean flag3 = world.getBlockState(pos.east()).isFullBlock();
-
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) enumfacing = EnumFacing.EAST;
-				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) enumfacing = EnumFacing.WEST;
-			}
-			world.setBlockState(pos, state.withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
-		}
+		BlockHelper.setDefaultFacing(world, pos, state, FACING_ALL);
 	}
 	
 	@Override

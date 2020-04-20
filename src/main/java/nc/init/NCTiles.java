@@ -2,6 +2,7 @@ package nc.init;
 
 import nc.Global;
 import nc.enumm.MetaEnums;
+import nc.multiblock.battery.tile.TileBattery;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
@@ -20,7 +21,9 @@ import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
+import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
+import nc.multiblock.fission.tile.port.TileFissionVesselPort;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.tile.TileCondenserController;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
@@ -30,6 +33,13 @@ import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerGlass;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
+import nc.multiblock.qComputer.QuantumComputerGateEnums;
+import nc.multiblock.qComputer.tile.TileQuantumComputerConnector;
+import nc.multiblock.qComputer.tile.TileQuantumComputerController;
+import nc.multiblock.qComputer.tile.TileQuantumComputerGate;
+import nc.multiblock.qComputer.tile.TileQuantumComputerPort;
+import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
+import nc.multiblock.rtg.tile.TileRTG;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.tile.TileTurbineCasing;
@@ -45,9 +55,7 @@ import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
 import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileMachineInterface;
-import nc.tile.energy.battery.TileBattery;
 import nc.tile.generator.TileDecayGenerator;
-import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileNuclearFurnace;
@@ -99,7 +107,42 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionComputerPort.class, Global.MOD_ID + ":fission_computer_port");
 		
 		GameRegistry.registerTileEntity(TileFissionIrradiatorPort.class, Global.MOD_ID + ":fission_irradiator_port");
+		
 		GameRegistry.registerTileEntity(TileFissionCellPort.class, Global.MOD_ID + ":fission_cell_port");
+		
+		GameRegistry.registerTileEntity(TileFissionVesselPort.class, Global.MOD_ID + ":fission_vessel_port");
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Standard.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.STANDARD.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Iron.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.IRON.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Redstone.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.REDSTONE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Quartz.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.QUARTZ.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Obsidian.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.OBSIDIAN.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.NetherBrick.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.NETHER_BRICK.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Glowstone.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.GLOWSTONE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Lapis.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.LAPIS.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Gold.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.GOLD.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Prismarine.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.PRISMARINE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Slime.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.SLIME.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.EndStone.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.END_STONE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Purpur.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.PURPUR.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Diamond.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.DIAMOND.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Emerald.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.EMERALD.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Copper.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType.COPPER.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Tin.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.TIN.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Lead.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.LEAD.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Boron.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.BORON.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Lithium.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.LITHIUM.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Magnesium.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.MAGNESIUM.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Manganese.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.MANGANESE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Aluminum.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.ALUMINUM.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Silver.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.SILVER.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Fluorite.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.FLUORITE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Villiaumite.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.VILLIAUMITE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Carobbiite.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.CAROBBIITE.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Arsenic.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.ARSENIC.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.LiquidNitrogen.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.LIQUID_NITROGEN.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.LiquidHelium.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.LIQUID_HELIUM.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Enderium.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.ENDERIUM.getName());
+		GameRegistry.registerTileEntity(TileFissionHeaterPort.Cryotheum.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.CRYOTHEUM.getName());
 		
 		GameRegistry.registerTileEntity(TileFissionShieldManager.class, Global.MOD_ID + ":fission_shield_manager");
 		
@@ -251,6 +294,39 @@ public class NCTiles {
 		
 		GameRegistry.registerTileEntity(TileGeigerCounter.class, Global.MOD_ID + ":geiger_block");
 		
-		//GameRegistry.registerTileEntity(TileSpin.class, Global.MOD_ID + ":spin");
+		GameRegistry.registerTileEntity(TileQuantumComputerController.class, Global.MOD_ID + ":quantum_computer_controller");
+		GameRegistry.registerTileEntity(TileQuantumComputerQubit.class, Global.MOD_ID + ":quantum_computer_qubit");
+		
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.X.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.X.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.Y.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.Y.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.Z.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.Z.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.H.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.H.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.S.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.S.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.Sdg.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.Sdg.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.T.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.T.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.Tdg.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.Tdg.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.P.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.P.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.RX.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.RX.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.RY.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.RY.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.RZ.class, Global.MOD_ID + ":quantum_computer_gate_single_" + QuantumComputerGateEnums.SingleType.RZ.getName());
+		
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CX.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CX.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CY.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CY.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CZ.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CZ.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CH.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CH.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CS.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CS.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CSdg.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CSdg.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CT.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CT.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CTdg.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CTdg.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CP.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CP.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CRX.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CRX.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CRY.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CRY.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.CRZ.class, Global.MOD_ID + ":quantum_computer_gate_control_" + QuantumComputerGateEnums.ControlType.CRZ.getName());
+		
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.Swap.class, Global.MOD_ID + ":quantum_computer_gate_swap_" + QuantumComputerGateEnums.SwapType.SWAP.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerGate.ControlSwap.class, Global.MOD_ID + ":quantum_computer_gate_swap_" + QuantumComputerGateEnums.SwapType.CSWAP.getName());
+		
+		GameRegistry.registerTileEntity(TileQuantumComputerConnector.class, Global.MOD_ID + ":quantum_computer_connector");
+		GameRegistry.registerTileEntity(TileQuantumComputerPort.class, Global.MOD_ID + ":quantum_computer_port");
 	}
 }

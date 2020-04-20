@@ -12,6 +12,6 @@ public abstract class TileFissionPart extends TileCuboidalMultiblockPart<Fission
 	
 	@Override
 	public FissionReactor createNewMultiblock() {
-		return new FissionReactor(getWorld());
+		return new FissionReactor(world);
 	}
 }

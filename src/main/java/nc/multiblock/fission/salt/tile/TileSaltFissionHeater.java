@@ -1,10 +1,12 @@
 package nc.multiblock.fission.salt.tile;
 
+import static nc.init.NCCoolantFluids.COOLANTS;
 import static nc.recipe.NCRecipes.coolant_heater;
-import static nc.recipe.NCRecipes.coolant_heater_valid_fluids;
+import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,6 +15,7 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -22,10 +25,16 @@ import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorLineBlockInfo;
+import nc.multiblock.fission.tile.port.IFissionPortTarget;
+import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
+import nc.multiblock.network.SaltFissionHeaterUpdatePacket;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
+import nc.tile.ITileGui;
+import nc.tile.fluid.ITileFilteredFluid;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -33,21 +42,21 @@ import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
-import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
 import nc.util.BlockPosHelper;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public abstract class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, IFissionCoolingComponent {
+public abstract class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidProcessor, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<>()));
+	protected final @Nonnull List<Tank> tanks;
+	protected final @Nonnull List<Tank> filterTanks;
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -59,31 +68,47 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
-	protected double baseProcessCooling;
-	protected double clusterCoolingEfficiency; // Based on the cluster efficiency, but with heat/cooling taken into account
+	protected int baseProcessCooling;
+	public double heatingSpeedMultiplier; // Based on the cluster efficiency, but with heat/cooling taken into account
 	
-	protected double time;
-	protected boolean isProcessing, canProcessInputs;
+	public double time;
+	public boolean isProcessing, canProcessInputs;
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
-	public final String heaterName;
+	protected Set<EntityPlayer> playersToUpdate;
+	
+	public final String heaterName, coolantName;
 	
 	protected FissionCluster cluster = null;
 	protected long heat = 0L;
 	protected boolean isInValidPosition = false;
 	
-	public TileSaltFissionHeater(String heaterName) {
+	public long clusterHeatStored, clusterHeatCapacity;
+	
+	protected BlockPos masterPortPos = DEFAULT_NON;
+	protected TileFissionHeaterPort masterPort = null;
+	
+	public TileSaltFissionHeater(String heaterName, String coolantName) {
 		super(CuboidalPartPositionType.INTERIOR);
 		this.heaterName = heaterName;
+		this.coolantName = coolantName;
+		tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, Lists.newArrayList(coolantName)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, new ArrayList<>()));
+		filterTanks = Lists.newArrayList(new Tank(1000, Lists.newArrayList(coolantName)), new Tank(1000, new ArrayList<>()));
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
+		
+		playersToUpdate = new ObjectOpenHashSet<>();
+	}
+	
+	protected TileSaltFissionHeater(String heaterName, int coolant) {
+		this(heaterName, COOLANTS.get(coolant) + "nak");
 	}
 	
 	public static class Standard extends TileSaltFissionHeater {
 		
 		public Standard() {
-			super("standard");
+			super("standard", 0);
 		}
 		
 		@Override
@@ -98,7 +123,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Iron extends TileSaltFissionHeater {
 		
 		public Iron() {
-			super("iron");
+			super("iron", 1);
 		}
 		
 		@Override
@@ -113,7 +138,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Redstone extends TileSaltFissionHeater {
 		
 		public Redstone() {
-			super("redstone");
+			super("redstone", 2);
 		}
 		
 		@Override
@@ -131,7 +156,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Quartz extends TileSaltFissionHeater {
 		
 		public Quartz() {
-			super("quartz");
+			super("quartz", 3);
 		}
 		
 		@Override
@@ -146,7 +171,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Obsidian extends TileSaltFissionHeater {
 		
 		public Obsidian() {
-			super("obsidian");
+			super("obsidian", 4);
 		}
 		
 		@Override
@@ -164,7 +189,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class NetherBrick extends TileSaltFissionHeater {
 		
 		public NetherBrick() {
-			super("nether_brick");
+			super("nether_brick", 5);
 		}
 		
 		@Override
@@ -179,7 +204,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Glowstone extends TileSaltFissionHeater {
 		
 		public Glowstone() {
-			super("glowstone");
+			super("glowstone", 6);
 		}
 		
 		@Override
@@ -196,7 +221,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Lapis extends TileSaltFissionHeater {
 		
 		public Lapis() {
-			super("lapis");
+			super("lapis", 7);
 		}
 		
 		@Override
@@ -214,7 +239,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Gold extends TileSaltFissionHeater {
 		
 		public Gold() {
-			super("gold");
+			super("gold", 8);
 		}
 		
 		@Override
@@ -231,7 +256,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Prismarine extends TileSaltFissionHeater {
 		
 		public Prismarine() {
-			super("prismarine");
+			super("prismarine", 9);
 		}
 		
 		@Override
@@ -248,7 +273,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Slime extends TileSaltFissionHeater {
 		
 		public Slime() {
-			super("slime");
+			super("slime", 10);
 		}
 		
 		@Override
@@ -266,7 +291,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class EndStone extends TileSaltFissionHeater {
 		
 		public EndStone() {
-			super("end_stone");
+			super("end_stone", 11);
 		}
 		
 		@Override
@@ -281,7 +306,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Purpur extends TileSaltFissionHeater {
 		
 		public Purpur() {
-			super("purpur");
+			super("purpur", 12);
 		}
 		
 		@Override
@@ -300,7 +325,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Diamond extends TileSaltFissionHeater {
 		
 		public Diamond() {
-			super("diamond");
+			super("diamond", 13);
 		}
 		
 		@Override
@@ -318,7 +343,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Emerald extends TileSaltFissionHeater {
 		
 		public Emerald() {
-			super("emerald");
+			super("emerald", 14);
 		}
 		
 		@Override
@@ -336,7 +361,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Copper extends TileSaltFissionHeater {
 		
 		public Copper() {
-			super("copper");
+			super("copper", 15);
 		}
 		
 		@Override
@@ -351,7 +376,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Tin extends TileSaltFissionHeater {
 		
 		public Tin() {
-			super("tin");
+			super("tin", 16);
 		}
 		
 		@Override
@@ -369,7 +394,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Lead extends TileSaltFissionHeater {
 		
 		public Lead() {
-			super("lead");
+			super("lead", 17);
 		}
 		
 		@Override
@@ -384,7 +409,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Boron extends TileSaltFissionHeater {
 		
 		public Boron() {
-			super("boron");
+			super("boron", 18);
 		}
 		
 		@Override
@@ -403,7 +428,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Lithium extends TileSaltFissionHeater {
 		
 		public Lithium() {
-			super("lithium");
+			super("lithium", 19);
 		}
 		
 		@Override
@@ -440,7 +465,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Magnesium extends TileSaltFissionHeater {
 		
 		public Magnesium() {
-			super("magnesium");
+			super("magnesium", 20);
 		}
 		
 		@Override
@@ -459,7 +484,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Manganese extends TileSaltFissionHeater {
 		
 		public Manganese() {
-			super("manganese");
+			super("manganese", 21);
 		}
 		
 		@Override
@@ -476,7 +501,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Aluminum extends TileSaltFissionHeater {
 		
 		public Aluminum() {
-			super("aluminum");
+			super("aluminum", 22);
 		}
 		
 		@Override
@@ -494,7 +519,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Silver extends TileSaltFissionHeater {
 		
 		public Silver() {
-			super("silver");
+			super("silver", 23);
 		}
 		
 		@Override
@@ -513,7 +538,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Fluorite extends TileSaltFissionHeater {
 		
 		public Fluorite() {
-			super("fluorite");
+			super("fluorite", 24);
 		}
 		
 		@Override
@@ -531,7 +556,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Villiaumite extends TileSaltFissionHeater {
 		
 		public Villiaumite() {
-			super("villiaumite");
+			super("villiaumite", 25);
 		}
 		
 		@Override
@@ -549,7 +574,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Carobbiite extends TileSaltFissionHeater {
 		
 		public Carobbiite() {
-			super("carobbiite");
+			super("carobbiite", 26);
 		}
 		
 		@Override
@@ -567,7 +592,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Arsenic extends TileSaltFissionHeater {
 		
 		public Arsenic() {
-			super("arsenic");
+			super("arsenic", 27);
 		}
 		
 		@Override
@@ -585,7 +610,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class LiquidNitrogen extends TileSaltFissionHeater {
 		
 		public LiquidNitrogen() {
-			super("liquid_nitrogen");
+			super("liquid_nitrogen", 28);
 		}
 		
 		@Override
@@ -604,7 +629,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class LiquidHelium extends TileSaltFissionHeater {
 		
 		public LiquidHelium() {
-			super("liquid_helium");
+			super("liquid_helium", 29);
 		}
 		
 		@Override
@@ -623,7 +648,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Enderium extends TileSaltFissionHeater {
 		
 		public Enderium() {
-			super("enderium");
+			super("enderium", 30);
 		}
 		
 		@Override
@@ -640,7 +665,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public static class Cryotheum extends TileSaltFissionHeater {
 		
 		public Cryotheum() {
-			super("cryotheum");
+			super("cryotheum", 31);
 		}
 		
 		@Override
@@ -697,6 +722,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	@Override
 	public void resetStats() {
 		isInValidPosition = false;
+		heatingSpeedMultiplier = 0;
 		
 		refreshRecipe();
 		refreshActivity();
@@ -731,8 +757,45 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public long getCooling() {
-		//TODO
-		return (long) baseProcessCooling;
+		return baseProcessCooling;
+	}
+	
+	@Override
+	public ModeratorLineBlockInfo getModeratorComponentInfo(boolean activeModeratorPos) {
+		return new ModeratorLineBlockInfo(pos, this, !isProcessing(false), false, 0, 0D);
+	}
+	
+	// IFissionPortTarget
+	
+	@Override
+	public BlockPos getMasterPortPos() {
+		return masterPortPos;
+	}
+	
+	@Override
+	public void setMasterPortPos(BlockPos pos) {
+		masterPortPos = pos;
+	}
+	
+	@Override
+	public void clearMasterPort() {
+		masterPort = null;
+		masterPortPos = DEFAULT_NON;
+	}
+	
+	@Override
+	public void refreshMasterPort() {
+		masterPort = getMultiblock() == null ? null : getMultiblock().getPartMap(TileFissionHeaterPort.class).get(masterPortPos.toLong());
+		if (masterPort == null) masterPortPos = DEFAULT_NON;
+	}
+	
+	@Override
+	public boolean onPortRefresh() {
+		refreshRecipe();
+		refreshActivity();
+		refreshIsProcessing(isFunctional());
+		
+		return isFunctional() ^ readyToProcess(false);
 	}
 	
 	// Ticking
@@ -761,6 +824,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();
+			else getRadiationSource().setRadiationLevel(0D);
 			
 			//tickHeater();
 			//if (heaterCount == 0) pushFluid();
@@ -768,6 +832,8 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 			if (shouldRefresh && isMultiblockAssembled()) {
 				getMultiblock().refreshFlag = true;
 			}
+
+			sendUpdateToListeningPlayers();
 			if (shouldUpdate) markDirty();
 		}
 	}
@@ -794,12 +860,12 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	// Processor Stats
 	
 	public double getSpeedMultiplier() {
-		return clusterCoolingEfficiency;
+		return heatingSpeedMultiplier;
 	}
 	
 	public boolean setRecipeStats() {
 		if (recipeInfo == null) {
-			baseProcessCooling = 0D;
+			baseProcessCooling = 0;
 			return false;
 		}
 		baseProcessCooling = recipeInfo.getRecipe().getCoolantHeaterCoolingRate();
@@ -829,10 +895,10 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
-			else if (!tanks.get(j + fluidInputSize).isEmpty()) {
-				if (!tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
+				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > tanks.get(j + fluidInputSize).getCapacity()) {
+				} else if (getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -846,7 +912,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	}
 	
 	public void finishProcess() {
-		double oldProcessCooling = baseProcessCooling;
+		int oldProcessCooling = baseProcessCooling;
 		produceProducts();
 		refreshRecipe();
 		time = Math.max(0D, time - 1D);
@@ -872,16 +938,16 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		
 		for (int i = 0; i < fluidInputSize; i++) {
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
-			if (fluidIngredientStackSize > 0) tanks.get(i).changeFluidAmount(-fluidIngredientStackSize);
-			if (tanks.get(i).getFluidAmount() <= 0) tanks.get(i).setFluidStored(null);
+			if (fluidIngredientStackSize > 0) getTanks().get(i).changeFluidAmount(-fluidIngredientStackSize);
+			if (getTanks().get(i).getFluidAmount() <= 0) getTanks().get(i).setFluidStored(null);
 		}
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
-			if (tanks.get(j + fluidInputSize).isEmpty()) {
-				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
-			} else if (tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				tanks.get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
+			if (getTanks().get(j + fluidInputSize).isEmpty()) {
+				getTanks().get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
+			} else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
 		}
 	}
@@ -900,7 +966,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public List<Tank> getFluidInputs() {
-		return tanks.subList(0, fluidInputSize);
+		return getTanks().subList(0, fluidInputSize);
 	}
 	
 	@Override
@@ -916,14 +982,12 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	// Fluids
 	
 	@Override
-	@Nonnull
-	public List<Tank> getTanks() {
-		return tanks;
+	public @Nonnull List<Tank> getTanks() {
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getTanks() : tanks;
 	}
 
 	@Override
-	@Nonnull
-	public FluidConnection[] getFluidConnections() {
+	public @Nonnull FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
 	
@@ -933,14 +997,13 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	}
 
 	@Override
-	@Nonnull
-	public FluidTileWrapper[] getFluidSides() {
-		return fluidSides;
+	public @Nonnull FluidTileWrapper[] getFluidSides() {
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getFluidSides() : fluidSides;
 	}
 	
 	@Override
 	public @Nonnull GasTileWrapper getGasWrapper() {
-		return gasWrapper;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getGasWrapper() : gasWrapper;
 	}
 	
 	public @Nonnull SaltFissionHeaterSetting[] getHeaterSettings() {
@@ -990,8 +1053,9 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		}
 	}
 	
+	//TODO
 	@Override
-	public void pushFluidToSide(@Nonnull EnumFacing side) {
+	public void pushFluidToSide(@Nonnull EnumFacing side) {/*
 		SaltFissionHeaterSetting thisSetting = getHeaterSetting(side);
 		if (thisSetting == SaltFissionHeaterSetting.DISABLED) return;
 		
@@ -1025,7 +1089,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 			}
 		}
-	}
+	*/}
 	
 	public void pushCoolant(TileSaltFissionHeater other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
@@ -1065,6 +1129,71 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	@Override
 	public boolean hasConfigurableFluidConnections() {
 		return true;
+	}
+	
+	// ITileFilteredFluid
+	
+	@Override
+	public @Nonnull List<Tank> getTanksInternal() {
+		return tanks;
+	}
+	
+	@Override
+	public @Nonnull List<Tank> getFilterTanks() {
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getFilterTanks() : filterTanks;
+	}
+	
+	@Override
+	public boolean canModifyFilter(int tank) {
+		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+	}
+	
+	@Override
+	public void onFilterChanged(int slot) {
+		/*if (!canModifyFilter(slot)) {
+			getMultiblock().getLogic().refreshPorts();
+		}*/
+		markDirty();
+	}
+	
+	@Override
+	public int getFilterID() {
+		return coolantName.hashCode();
+	}
+	
+	// ITileGui
+	
+	@Override
+	public int getGuiID() {
+		return 203;
+	}
+	
+	@Override
+	public Set<EntityPlayer> getPlayersToUpdate() {
+		return playersToUpdate;
+	}
+	
+	@Override
+	public SaltFissionHeaterUpdatePacket getGuiUpdatePacket() {
+		return new SaltFissionHeaterUpdatePacket(pos, masterPortPos, getTanks(), getFilterTanks(), cluster, isProcessing, time);
+	}
+	
+	@Override
+	public void onGuiPacket(SaltFissionHeaterUpdatePacket message) {
+		masterPortPos = message.masterPortPos;
+		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
+			refreshMasterPort();
+		}
+		for (int i = 0; i < getTanks().size(); i++) {
+			getTanks().get(i).readInfo(message.tanksInfo.get(i));
+		}
+		for (int i = 0; i < getFilterTanks().size(); i++) {
+			getFilterTanks().get(i).readInfo(message.filterTanksInfo.get(i));
+		}
+		clusterHeatStored = message.clusterHeatStored;
+		clusterHeatCapacity = message.clusterHeatCapacity;
+		isProcessing = message.isProcessing;
+		time = message.time;
 	}
 	
 	// NBT
@@ -1126,8 +1255,8 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		writeTanks(nbt);
 		writeHeaterSettings(nbt);
 		
-		nbt.setDouble("baseProcessCooling", baseProcessCooling);
-		nbt.setDouble("clusterCoolingEfficiency", clusterCoolingEfficiency);
+		nbt.setInteger("baseProcessCooling", baseProcessCooling);
+		nbt.setDouble("heatingSpeedMultiplier", heatingSpeedMultiplier);
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
@@ -1144,8 +1273,8 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		readTanks(nbt);
 		readHeaterSettings(nbt);
 		
-		baseProcessCooling = nbt.getDouble("baseProcessCooling");
-		clusterCoolingEfficiency = nbt.getDouble("clusterCoolingEfficiency");
+		baseProcessCooling = nbt.getInteger("baseProcessCooling");
+		heatingSpeedMultiplier = nbt.getDouble("heatingSpeedMultiplier");
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
@@ -1153,6 +1282,27 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		
 		heat = nbt.getLong("clusterHeat");
 		isInValidPosition = nbt.getBoolean("isInValidPosition");
+	}
+	
+	@Override
+	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
+		for (int i = 0; i < tanks.size(); i++) {
+			tanks.get(i).writeToNBT(nbt, "tanks" + i);
+		}
+		for (int i = 0; i < filterTanks.size(); i++) {
+			filterTanks.get(i).writeToNBT(nbt, "filterTanks" + i);
+		}
+		return nbt;
+	}
+	
+	@Override
+	public void readTanks(NBTTagCompound nbt) {
+		for (int i = 0; i < tanks.size(); i++) {
+			tanks.get(i).readFromNBT(nbt, "tanks" + i);
+		}
+		for (int i = 0; i < filterTanks.size(); i++) {
+			filterTanks.get(i).readFromNBT(nbt, "filterTanks" + i);
+		}
 	}
 	
 	// Capability

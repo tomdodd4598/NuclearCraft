@@ -1,158 +1,178 @@
 package nc.util;
 
+/** Only handles square matrices! */
 public class Matrix {
 	
-	public static int delta(int a, int b) {
-		return a == b ? 1 : 0;
+	public final int dim;
+	private final Complex[][] elements;
+	
+	public Matrix(int dim) {
+		this.dim = dim;
+		elements = new Complex[dim][dim];
 	}
 	
-	public static Complex[][] I(int n) {
-		Complex[][] c = new Complex[n][n];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				c[j][i] = new Complex(delta(j, i), 0);
+	public Matrix(Complex[][] elements) {
+		this.dim = elements.length;
+		this.elements = elements;
+	}
+	
+	public Matrix copy() {
+		Matrix m = new Matrix(dim);
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				m.elements[j][i] = get(i, j).copy();
 			}
 		}
-		return c;
+		return m;
 	}
 	
-	public static Complex[][] zero(int n) {
-		Complex[][] c = new Complex[n][n];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				c[j][i] = new Complex(0, 0);
+	public void set(Complex[][] c) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				elements[j][i] = c[j][i];
 			}
 		}
-		return c;
 	}
 	
-	public static Complex[][] add(Complex[][] a, Complex[][] b) {
-		Complex[][] c = new Complex[a[0].length][a[0].length];
-		for (int i = 0; i < a[0].length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				c[j][i] = Complex.add(a[j][i], b[j][i]);
+	public void set(Matrix m) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				elements[j][i] = m.elements[j][i];
 			}
 		}
-		return c;
 	}
 	
-	public static Complex[][] subtract(Complex[][] a, Complex[][] b) {
-		Complex[][] c = new Complex[a[0].length][a[0].length];
-		for (int i = 0; i < a[0].length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				c[j][i] = Complex.subtract(a[j][i], b[j][i]);
+	public Complex get(int i, int j) {
+		if (elements[j][i] == null) {
+			elements[j][i] = Complex._0();
+		}
+		return elements[j][i];
+	}
+	
+	public void set(int i, int j, Complex c) {
+		elements[j][i] = c == null ? Complex._0() : c;
+	}
+	
+	public Matrix id() {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				elements[j][i] = j == i ? Complex._1() : Complex._0();
 			}
 		}
-		return c;
+		return this;
 	}
 	
-	public static Complex[][] hadamard(Complex[][] a, Complex[][] b) {
-		Complex[][] c = new Complex[a[0].length][a[0].length];
-		for (int i = 0; i < a[0].length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				c[j][i] = Complex.multiply(a[j][i], b[j][i]);
+	public Matrix zero() {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				elements[j][i] = Complex._0();
 			}
 		}
-		return c;
+		return this;
 	}
 	
-	public static Complex[][] multiply(Complex a, Complex[][] b) {
-		Complex[][] c = new Complex[b[0].length][b[0].length];
-		for (int i = 0; i < b[0].length; i++) {
-			for (int j = 0; j < b[0].length; j++) {
-				c[j][i] = Complex.multiply(a, b[j][i]);
+	public Matrix add(Matrix m) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				get(i, j).add(m.get(i, j));
 			}
 		}
-		return c;
+		return this;
 	}
 	
-	public static Complex[][] multiply(double a, Complex[][] b) {
-		return multiply(new Complex(a, 0), b);
+	public Matrix subtract(Matrix m) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				get(i, j).subtract(m.get(i, j));
+			}
+		}
+		return this;
 	}
 	
-	public static Complex[][] multiply(Complex[][] a, Complex[][] b) {
-		Complex[][] c = new Complex[a[0].length][a[0].length];
-		for (int i = 0; i < a[0].length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				c[j][i] = new Complex(0, 0);
-				for (int k = 0; k < a[0].length; k++) {
-					c[j][i].add(Complex.multiply(a[k][i], b[j][k]));
+	public Matrix hadamardProduct(Matrix m) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				get(i, j).multiply(m.get(i, j));
+			}
+		}
+		return this;
+	}
+	
+	public Matrix multiply(Complex c) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				get(i, j).multiply(c);
+			}
+		}
+		return this;
+	}
+	
+	public Matrix multiply(double a) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				get(i, j).multiply(a);
+			}
+		}
+		return this;
+	}
+	
+	public Matrix multiply(Matrix m) {
+		Matrix copy = copy();
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				elements[j][i] = Complex._0();
+				for (int k = 0; k < dim; k++) {
+					elements[j][i].add(copy.get(i, k).copy().multiply(m.get(k, j)));
 				}
 			}
 		}
+		return this;
+	}
+	
+	public Complex expectation(Vector v) {
+		return v.copy().dot(v.map(this));
+	}
+	
+	public Complex trace() {
+		Complex c = Complex._0();
+		for (int i = 0; i < dim; i++) {
+			c.add(get(i, i));
+		}
 		return c;
 	}
 	
-	public static Complex[] transform(Complex[] a, Complex[][] b) {
-		Complex[] c = new Complex[a.length];
-		for (int i = 0; i < a.length; i++) {
-			c[i] = new Complex(0, 0);
-			for (int j = 0; j < a.length; j++) {
-				c[i].add(Complex.multiply(b[i][j], a[j]));
+	public Matrix transpose() {
+		Complex c;
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				if (i != j) {
+					c = elements[i][j];
+					elements[i][j] = elements[j][i];
+					elements[j][i] = c;
+				}
 			}
 		}
-		return c;
+		return this;
 	}
 	
-	public static Complex[] normalise(Complex[] a) {
-		Complex[] b = new Complex[a.length];
-		double n = 0;
-		for (int i = 0; i < a.length; i++) {
-			n += Complex.absSq(a[i]);
-		}
-		for (int i = 0; i < a.length; i++) {
-			b[i] = Complex.divide(a[i], Math.sqrt(n));
-		}
-		return b;
-	}
-	
-	public static Complex dot(Complex[] a, Complex[] b) {
-		Complex c = new Complex(0, 0);
-		for (int i = 0; i < a.length; i++) {
-			c.add(Complex.multiply(a[i].conjugate(), b[i]));
-		}
-		return c;
-	}
-	
-	public static Complex expectation(Complex[] a, Complex[][] b) {
-		return dot(a, transform(a, b));
-	}
-	
-	public static Complex trace(Complex[][] a) {
-		Complex b = new Complex(0, 0);
-		for (int i = 0; i < a.length; i++) {
-			b.add(a[i][i]);
-		}
-		return b;
-	}
-	
-	public static Complex[][] transpose(Complex[][] a) {
-		Complex[][] b = new Complex[a[0].length][a[0].length];
-		for (int i = 0; i < a[0].length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				b[j][i] = a[i][j];
-			}
-		}
-		return b;
-	}
-	
-	public static Complex[][] dyad(Complex[] a, Complex[] b) {
+	/*public static Complex[][] dyad(Complex[] a, Complex[] b) {
 		Complex[][] c = new Complex[a.length][a.length];
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a.length; j++) {
-				c[j][i] = Complex.multiply(a[j], b[i].conjugate());
+				c[j][i] = a[j].copy().multiply(b[i].copy().conj());
 			}
 		}
 		return c;
-	}
+	}*/
 	
-	public static Complex[][] tensorProduct(Complex[][] a, Complex[][] b) {
-		Complex[][] c = new Complex[a[0].length*b[0].length][a[0].length*b[0].length];
-		for (int m = 0; m < a[0].length; m++) {
-			for (int n = 0; n < a[0].length; n++) {
-				for (int i = 0; i < b[0].length; i++) {
-					for (int j = 0; j < b[0].length; j++) {
-						c[j + b[0].length*n][i + b[0].length*m] = Complex.multiply(a[n][m], b[j][i]);
+	/** Returns new Matrix! */
+	public Matrix tensorProduct(Matrix a) {
+		Matrix c = new Matrix(dim*a.dim);
+		for (int m = 0; m < dim; m++) {
+			for (int n = 0; n < dim; n++) {
+				for (int i = 0; i < a.dim; i++) {
+					for (int j = 0; j < a.dim; j++) {
+						c.elements[j + a.dim*n][i + a.dim*m] = get(m, n).copy().multiply(a.get(i, j));
 					}
 				}
 			}
@@ -160,32 +180,48 @@ public class Matrix {
 		return c;
 	}
 	
-	public static Complex[][] commutator(Complex[][] a, Complex[][] b) {
-		return subtract(multiply(a, b), multiply(b, a));
-	}
-	
-	public static Complex[][] square(Complex[][] a) {
-		return multiply(a, a);
-	}
-	
-	public static Complex[][] conjugate(Complex[][] a) {
-		Complex[][] b = new Complex[a[0].length][a[0].length];
-		for (int i = 0; i < a[0].length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				b[j][i] = a[j][i].conjugate();
+	/** Returns new Matrix! */
+	public Matrix directSum(Matrix a) {
+		Matrix m = new Matrix(dim + a.dim);
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				m.elements[j][i] = elements[j][i].copy();
 			}
 		}
-		return b;
+		for (int i = 0; i < a.dim; i++) {
+			for (int j = 0; j < a.dim; j++) {
+				m.elements[j + a.dim][i + a.dim] = a.elements[j][i].copy();
+			}
+		}
+		return m;
 	}
 	
-	public static Complex[][] hermitian(Complex[][] a) {
-		return conjugate(transpose(a));
+	public Matrix commute(Matrix a) {
+		Matrix c = copy();
+		return multiply(a).subtract(a.copy().multiply(c));
 	}
 	
-	// Spin Matrices
+	public Matrix square() {
+		return multiply(copy());
+	}
 	
+	public Matrix conjugate() {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				elements[j][i] = get(i, j).conj();
+			}
+		}
+		return this;
+	}
+	
+	public Matrix hermitian() {
+		return conjugate().transpose();
+	}
+	
+	// General Spin Matrices
+	/*
 	public static int dim(double s) {
-		return (int) (2*s + 1);
+		return (int) Math.round(2*s + 1);
 	}
 	
 	public static double rPlus(double s, double m) {
@@ -197,7 +233,7 @@ public class Matrix {
 	}
 	
 	public static Complex[][] spinSquared(double s) {
-		Complex[][] c = I(dim(s));
+		Complex[][] c = id(dim(s));
 		return multiply(s*(s + 1), c);
 	}
 	
@@ -205,7 +241,7 @@ public class Matrix {
 		Complex[][] c = new Complex[dim(s)][dim(s)];
 		for (int i = 0; i < dim(s); i++) {
 			for (int j = 0; j < dim(s); j++) {
-				c[j][i] = new Complex(delta(j, i)*(s - i), 0);
+				c[j][i] = new Complex(NCMath.kroneckerDelta(j, i)*(s - i), 0);
 			}
 		}
 		return c;
@@ -215,7 +251,7 @@ public class Matrix {
 		Complex[][] c = new Complex[dim(s)][dim(s)];
 		for (int i = 0; i < dim(s); i++) {
 			for (int j = 0; j < dim(s); j++) {
-				if (i >= 0 && j >= 0) c[j][i] = new Complex(delta(j, i - 1)*rPlus(s, s - j - 1), 0);
+				if (i >= 0 && j >= 0) c[j][i] = new Complex(NCMath.kroneckerDelta(j, i - 1)*rPlus(s, s - j - 1), 0);
 			}
 		}
 		return c;
@@ -225,7 +261,7 @@ public class Matrix {
 		Complex[][] c = new Complex[dim(s)][dim(s)];
 		for (int i = 0; i < dim(s); i++) {
 			for (int j = 0; j < dim(s); j++) {
-				if (i >= 0 && j >= 0) c[j][i] = new Complex(delta(j - 1, i)*rMinus(s, s - i), 0);
+				if (i >= 0 && j >= 0) c[j][i] = new Complex(NCMath.kroneckerDelta(j - 1, i)*rMinus(s, s - i), 0);
 			}
 		}
 		return c;
@@ -240,16 +276,16 @@ public class Matrix {
 	}
 	
 	public static Complex[][] spinW(double s, double t, double p) {
-		return add(multiply(Math.cos(t*Math.PI/180), spinZ(s)), add(multiply(Math.sin(t*Math.PI/180)*Math.cos(p*Math.PI/180), spinX(s)), multiply(Math.sin(t*Math.PI/180)*Math.sin(p*Math.PI/180), spinY(s))));
+		return add(multiply(NCMath.cos_d(t), spinZ(s)), add(multiply(NCMath.sin_d(t)*NCMath.cos_d(p), spinX(s)), multiply(NCMath.sin_d(t)*NCMath.sin_d(p), spinY(s))));
 	}
 	
 	public static Complex[][] projection(Complex[] a) {
-		Complex[] b = normalise(a);
+		Complex[] b = normalize(a);
 		return dyad(b, b);
 	}
 	
 	public static double probability(Complex[] u, Complex[] v) {
-		return Complex.abs(expectation(u, projection(v)));
+		return expectation(u, projection(v)).abs();
 	}
 	
 	public static Complex[][] spinZ(int a, double... spin) {
@@ -265,7 +301,7 @@ public class Matrix {
 		for (int i = a + 1; i <= spin.length; i++) {
 			y *= dim(s[i - 1]);
 		}
-		return tensorProduct(I(x), tensorProduct(spinZ(s[a - 1]), I(y)));
+		return tensorProduct(id(x), tensorProduct(spinZ(s[a - 1]), id(y)));
 	}
 	
 	public static Complex[][] spinX(int a, double... spin) {
@@ -281,7 +317,7 @@ public class Matrix {
 		for (int i = a + 1; i <= spin.length; i++) {
 			y *= dim(s[i - 1]);
 		}
-		return tensorProduct(I(x), tensorProduct(spinX(s[a - 1]), I(y)));
+		return tensorProduct(id(x), tensorProduct(spinX(s[a - 1]), id(y)));
 	}
 	
 	public static Complex[][] spinY(int a, double... spin) {
@@ -297,7 +333,7 @@ public class Matrix {
 		for (int i = a + 1; i <= spin.length; i++) {
 			y *= dim(s[i - 1]);
 		}
-		return tensorProduct(I(x), tensorProduct(spinY(s[a - 1]), I(y)));
+		return tensorProduct(id(x), tensorProduct(spinY(s[a - 1]), id(y)));
 	}
 	
 	public static Complex[][] spinW(int a, double t, double p, double... spin) {
@@ -313,7 +349,7 @@ public class Matrix {
 		for (int i = a + 1; i <= spin.length; i++) {
 			y *= dim(s[i - 1]);
 		}
-		return tensorProduct(I(x), tensorProduct(spinW(s[a - 1], t, p), I(y)));
+		return tensorProduct(id(x), tensorProduct(spinW(s[a - 1], t, p), id(y)));
 	}
 	
 	public static int dim(double... spin) {
@@ -377,10 +413,11 @@ public class Matrix {
 			y *= dim(s[i - 1]);
 		}
 		
-		return tensorProduct(I(x), tensorProduct(p, I(y)));
+		return tensorProduct(id(x), tensorProduct(p, id(y)));
 	}
 	
 	public static Complex[][] projection(Complex[] v, int a, double... spin) {
 		return projection(projection(v), a, spin);
 	}
+	*/
 }

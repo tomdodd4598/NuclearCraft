@@ -161,6 +161,10 @@ public class ProcessorRecipe implements IRecipe {
 		return (int) extras.get(0);
 	}
 	
+	public double getSaltFissionFuelTime() {
+		return (double) extras.get(0);
+	}
+	
 	public int getFissionFuelHeat() {
 		return (int) extras.get(1);
 	}
@@ -207,8 +211,8 @@ public class ProcessorRecipe implements IRecipe {
 	
 	// Coolant Heater
 	
-	public double getCoolantHeaterCoolingRate() {
-		return (double) extras.get(0);
+	public int getCoolantHeaterCoolingRate() {
+		return (int) extras.get(0);
 	}
 	
 	public String[] getCoolantHeaterJEIInfo() {

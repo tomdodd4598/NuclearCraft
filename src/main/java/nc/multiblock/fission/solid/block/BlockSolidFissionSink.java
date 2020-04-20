@@ -1,7 +1,7 @@
 package nc.multiblock.fission.solid.block;
 
 import nc.enumm.MetaEnums;
-import nc.multiblock.fission.block.BlockMetaFissionPartBase;
+import nc.multiblock.fission.block.BlockFissionMetaPart;
 import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -14,7 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockSolidFissionSink extends BlockMetaFissionPartBase<MetaEnums.HeatSinkType> {
+public class BlockSolidFissionSink extends BlockFissionMetaPart<MetaEnums.HeatSinkType> {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.HeatSinkType.class);
 	

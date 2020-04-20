@@ -1,0 +1,70 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all"
+	},
+	"variants": {
+		"type": {
+			"x": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/x"
+				}
+			},
+			"y": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/y"
+				}
+			},
+			"z": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/z"
+				}
+			},
+			"h": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/h"
+				}
+			},
+			"s": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/s"
+				}
+			},
+			"sdg": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/sdg"
+				}
+			},
+			"t": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/t"
+				}
+			},
+			"tdg": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/tdg"
+				}
+			},
+			"p": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/p"
+				}
+			},
+			"rx": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/rx"
+				}
+			},
+			"ry": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/ry"
+				}
+			},
+			"rz": {
+				"textures": {
+					"all":"nuclearcraft:blocks/quantum_computer/gate/single/rz"
+				}
+			}
+		}
+	}
+}

@@ -21,7 +21,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -51,7 +50,7 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 			ITileFluid tileFluid = (ITileFluid) tile;
 			if (FluidHelper.accessTanks(player, hand, facing, tileFluid)) return true;
 		}
-		if (!world.isRemote && player.getHeldItemMainhand().isEmpty()) {
+		if (!world.isRemote && player.getHeldItem(hand).isEmpty()) {
 			if (tile instanceof ITileMultiblockPart) {
 				Multiblock controller = ((ITileMultiblockPart) tile).getMultiblock();
 				if (controller != null) {
@@ -91,10 +90,6 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 		}
 		super.breakBlock(world, pos, state);
 		world.removeTileEntity(pos);
-	}
-	
-	public void dropItems(World world, BlockPos pos, IInventory tileentity) {
-		InventoryHelper.dropInventoryItems(world, pos, tileentity);
 	}
 	
 	@Override

@@ -112,9 +112,20 @@ public abstract class NCGui extends GuiContainer {
 		return Lists.newArrayList(TextFormatting.GREEN + fluidName + TextFormatting.WHITE + " [" + fluidAmount + "]", TextFormatting.ITALIC + Lang.localise("gui.nc.container.shift_clear_tank"));
 	}
 	
+	protected List<String> fluidFilterInfo(Tank tank) {
+		String fluidName = tank.getFluidLocalizedName();
+		return Lists.newArrayList(TextFormatting.GREEN + fluidName + TextFormatting.WHITE, TextFormatting.ITALIC + Lang.localise("gui.nc.container.shift_clear_filter"));
+	}
+	
 	protected void drawFluidTooltip(Tank tank, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if (tank.getFluidAmount() <= 0) return;
-		drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+		if (!tank.isEmpty()) drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+	}
+	
+	protected void drawFilteredFluidTooltip(Tank tank, Tank filterTank, int mouseX, int mouseY, int x, int y, int width, int height) {
+		if (tank.isEmpty()) {
+			if (!filterTank.isEmpty()) drawTooltip(fluidFilterInfo(filterTank), mouseX, mouseY, x, y, width, height + 1);
+		}
+		else drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
 	}
 	
 	protected List<String> energyInfo(ITileEnergy tile) {

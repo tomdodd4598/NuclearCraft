@@ -2,10 +2,11 @@ package nc.tile.inventory;
 
 import javax.annotation.Nonnull;
 
+import nc.tile.ITileFiltered;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public interface ITileFilteredInventory extends ITileInventory {
+public interface ITileFilteredInventory extends ITileFiltered, ITileInventory {
 	
 	public @Nonnull NonNullList<ItemStack> getInventoryStacksInternal();
 	
@@ -16,10 +17,4 @@ public interface ITileFilteredInventory extends ITileInventory {
 	//public ItemStack getFilterStack(int slot);
 	
 	//public ItemStack setFilterStack(int slot, ItemStack stack);
-	
-	public boolean canModifyFilter(int slot);
-	
-	public void onFilterChanged(int slot);
-	
-	public int getFilterID();
 }

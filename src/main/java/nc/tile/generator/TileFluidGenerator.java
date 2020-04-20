@@ -50,7 +50,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
-		super(name, otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
+		super(name, otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		
@@ -333,7 +333,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		super.writeTanks(nbt);
 		for (int i = 0; i < consumedTanks.size(); i++) {
-			getTanks().get(i).writeToNBT(nbt, i + consumedTanks.size());
+			consumedTanks.get(i).writeToNBT(nbt, "consumedTanks" + i);
 		}
 		return nbt;
 	}
@@ -342,7 +342,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public void readTanks(NBTTagCompound nbt) {
 		super.readTanks(nbt);
 		for (int i = 0; i < consumedTanks.size(); i++) {
-			getTanks().get(i).readFromNBT(nbt, i + consumedTanks.size());
+			consumedTanks.get(i).readFromNBT(nbt, "consumedTanks" + i);
 		}
 	}
 }

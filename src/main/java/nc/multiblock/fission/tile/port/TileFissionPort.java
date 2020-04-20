@@ -3,16 +3,19 @@ package nc.multiblock.fission.tile.port;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 import static nc.util.BlockPosHelper.DEFAULT_NON;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.cuboidal.PartPosition;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.TileFissionPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -24,6 +27,8 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	protected PORT masterPort = null;
 	protected ObjectSet<TARGET> targets = new ObjectOpenHashSet<>();
 	public boolean refreshPartsFlag = false;
+	
+	public Axis axis = Axis.Z;
 	
 	public TileFissionPort(Class<PORT> portClass) {
 		super(CuboidalPartPositionType.WALL);
@@ -49,6 +54,15 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 			clearMasterPort();
 			master.shiftStacks(this);
 		}*/
+	}
+	
+	@Override
+	public @Nonnull PartPosition getPartPosition() {
+		PartPosition partPos = super.getPartPosition();
+		if (partPos.getFacing() != null) {
+			axis = partPos.getFacing().getAxis();
+		}
+		return partPos;
 	}
 	
 	@Override
@@ -120,6 +134,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		//nbt.setLong("masterPortPos", masterPortPos.toLong());
+		nbt.setString("axis", axis.getName());
 		return nbt;
 	}
 	
@@ -127,6 +142,8 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		//masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
+		Axis axis = Axis.byName(nbt.getString("axis"));
+		this.axis = axis == null ? Axis.Z : axis;
 	}
 	
 	// Capability

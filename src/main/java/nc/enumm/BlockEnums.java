@@ -4,9 +4,7 @@ import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileMachineInterface;
-import nc.tile.energy.battery.TileBattery;
 import nc.tile.generator.TileDecayGenerator;
-import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileProcessor;
@@ -179,25 +177,10 @@ public class BlockEnums {
 		DECAY_GENERATOR("decay_generator", NCTabs.MACHINE),
 		BIN("bin", NCTabs.MACHINE),
 		
-		RTG_URANIUM("rtg_uranium", NCTabs.MACHINE),
-		RTG_PLUTONIUM("rtg_plutonium", NCTabs.MACHINE),
-		RTG_AMERICIUM("rtg_americium", NCTabs.MACHINE),
-		RTG_CALIFORNIUM("rtg_californium", NCTabs.MACHINE),
-		
 		SOLAR_PANEL_BASIC("solar_panel_basic", NCTabs.MACHINE),
 		SOLAR_PANEL_ADVANCED("solar_panel_advanced", NCTabs.MACHINE),
 		SOLAR_PANEL_DU("solar_panel_du", NCTabs.MACHINE),
 		SOLAR_PANEL_ELITE("solar_panel_elite", NCTabs.MACHINE),
-		
-		VOLTAIC_PILE_BASIC("voltaic_pile_basic", NCTabs.MACHINE),
-		VOLTAIC_PILE_ADVANCED("voltaic_pile_advanced", NCTabs.MACHINE),
-		VOLTAIC_PILE_DU("voltaic_pile_du", NCTabs.MACHINE),
-		VOLTAIC_PILE_ELITE("voltaic_pile_elite", NCTabs.MACHINE),
-		
-		LITHIUM_ION_BATTERY_BASIC("lithium_ion_battery_basic", NCTabs.MACHINE),
-		LITHIUM_ION_BATTERY_ADVANCED("lithium_ion_battery_advanced", NCTabs.MACHINE),
-		LITHIUM_ION_BATTERY_DU("lithium_ion_battery_du", NCTabs.MACHINE),
-		LITHIUM_ION_BATTERY_ELITE("lithium_ion_battery_elite", NCTabs.MACHINE),
 		
 		COBBLESTONE_GENERATOR("cobblestone_generator", NCTabs.MACHINE),
 		COBBLESTONE_GENERATOR_COMPACT("cobblestone_generator_compact", NCTabs.MACHINE),
@@ -237,15 +220,6 @@ public class BlockEnums {
 			case BIN:
 				return new TileBin();
 			
-			case RTG_URANIUM:
-				return new TileRTG.Uranium();
-			case RTG_PLUTONIUM:
-				return new TileRTG.Plutonium();
-			case RTG_AMERICIUM:
-				return new TileRTG.Americium();
-			case RTG_CALIFORNIUM:
-				return new TileRTG.Californium();
-			
 			case SOLAR_PANEL_BASIC:
 				return new TileSolarPanel.Basic();
 			case SOLAR_PANEL_ADVANCED:
@@ -254,24 +228,6 @@ public class BlockEnums {
 				return new TileSolarPanel.DU();
 			case SOLAR_PANEL_ELITE:
 				return new TileSolarPanel.Elite();
-				
-			case VOLTAIC_PILE_BASIC:
-				return new TileBattery.VoltaicPileBasic();
-			case VOLTAIC_PILE_ADVANCED:
-				return new TileBattery.VoltaicPileAdvanced();
-			case VOLTAIC_PILE_DU:
-				return new TileBattery.VoltaicPileDU();
-			case VOLTAIC_PILE_ELITE:
-				return new TileBattery.VoltaicPileElite();
-				
-			case LITHIUM_ION_BATTERY_BASIC:
-				return new TileBattery.LithiumIonBatteryBasic();
-			case LITHIUM_ION_BATTERY_ADVANCED:
-				return new TileBattery.LithiumIonBatteryAdvanced();
-			case LITHIUM_ION_BATTERY_DU:
-				return new TileBattery.LithiumIonBatteryDU();
-			case LITHIUM_ION_BATTERY_ELITE:
-				return new TileBattery.LithiumIonBatteryElite();
 				
 			case COBBLESTONE_GENERATOR:
 				return new TilePassive.CobblestoneGenerator();

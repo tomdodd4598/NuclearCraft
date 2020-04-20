@@ -38,7 +38,7 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 5, 18, 18);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 5, 18, 18);
 	}
 	
 	@Override

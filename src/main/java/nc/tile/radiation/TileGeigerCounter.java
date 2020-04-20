@@ -9,22 +9,13 @@ import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.radiation.RadiationHelper;
 import nc.tile.NCTile;
-import nc.util.BlockFinder;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 public class TileGeigerCounter extends NCTile implements SimpleComponent {
 	
-	private BlockFinder finder;
 	public int comparatorStrength = 0;
-	
-	@Override
-	public void onAdded() {
-		finder = new BlockFinder(pos, world, getBlockMetadata());
-		super.onAdded();
-	}
 	
 	@Override
 	public void update() {
@@ -32,7 +23,7 @@ public class TileGeigerCounter extends NCTile implements SimpleComponent {
 		if(!world.isRemote) {
 			boolean shouldUpdate = false;
 			int compStrength = getComparatorStrength();
-			if (comparatorStrength != compStrength && findAdjacentComparator()) {
+			if (comparatorStrength != compStrength) {
 				shouldUpdate = true;
 			}
 			comparatorStrength = compStrength;
@@ -40,10 +31,6 @@ public class TileGeigerCounter extends NCTile implements SimpleComponent {
 				markDirty();
 			}
 		}
-	}
-	
-	public boolean findAdjacentComparator() {
-		return finder.adjacent(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR);
 	}
 	
 	public double getChunkRadiationLevel() {

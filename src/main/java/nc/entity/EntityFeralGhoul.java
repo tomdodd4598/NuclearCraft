@@ -144,7 +144,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	
 	@Override
 	public void onUpdate() {
-		if (!NCConfig.entity_register[0]) {
+		if (!NCConfig.register_entity[0]) {
 			setDead();
 			return;
 		}

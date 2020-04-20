@@ -1,8 +1,16 @@
 package nc.multiblock.heatExchanger;
 
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
+import nc.Global;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
+import nc.multiblock.heatExchanger.tile.TileCondenserTube;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,7 +51,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	// Multiblock Methods
 	
 	@Override
-	public void onMachineAssembled() {
+	public void onMachineAssembled(boolean wasAssembled) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -72,8 +80,16 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	
 	@Override
 	public boolean isMachineWhole(Multiblock multiblock) {
-		// TODO Auto-generated method stub
-		return false;
+		return !containsBlacklistedPart();
+	}
+	
+	public static final List<Pair<Class<? extends IHeatExchangerPart>, String>> EXCHANGER_PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileCondenserTube.class, Global.MOD_ID + ".multiblock_validation.heat_exchanger.prohibit_condenser_tubes")
+			);
+	
+	@Override
+	public List<Pair<Class<? extends IHeatExchangerPart>, String>> getPartBlacklist() {
+		return EXCHANGER_PART_BLACKLIST;
 	}
 	
 	public void onAssimilate(Multiblock assimilated) {
@@ -85,7 +101,15 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	
 	// Server
 	
+	@Override
+	public boolean onUpdateServer() {
+		return false;
+	}
+	
 	// Client
+	
+	@Override
+	public void onUpdateClient() {}
 	
 	// NBT
 	

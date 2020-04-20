@@ -7,6 +7,7 @@ import nc.block.property.BlockProperties;
 import nc.capability.radiation.source.IRadiationSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -44,6 +45,10 @@ public interface ITile {
 	
 	public default void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		refreshIsRedstonePowered(world, pos);
+	}
+	
+	public default boolean isUsableByPlayer(EntityPlayer player) {
+		return getTileWorld().getTileEntity(getTilePos()) != this ? false : player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
 	}
 	
 	// Redstone

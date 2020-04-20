@@ -2,8 +2,10 @@ package nc.util;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 
 public class FluidStackHelper {
 	
@@ -58,7 +60,7 @@ public static final int BUCKET_VOLUME = 1000;
 	}
 	
 	public static String getFluidName(FluidStack stack) {
-		if (stack == null || stack.getFluid() == null) return "nullFluid";
+		if (stack == null || stack.getFluid() == null) return "null";
 		return stack.getFluid().getName();
 	}
 	
@@ -72,5 +74,18 @@ public static final int BUCKET_VOLUME = 1000;
 		FluidStack newStack = stack.copy();
 		newStack.amount = size;
 		return newStack.copy();
+	}
+	
+	public static boolean stacksEqual(FluidStack stackA, FluidStack stackB) {
+		return stackA == null ? stackB == null : stackA.isFluidEqual(stackB);
+	}
+	
+	public static boolean fluidsEqual(FluidStack fluid, ItemStack container) {
+		FluidStack containedFluid = getFluid(container);
+		return fluid == null ? containedFluid == null : fluid.isFluidEqual(containedFluid);
+	}
+	
+	public static FluidStack getFluid(ItemStack container) {
+		return FluidUtil.getFluidContained(container);
 	}
 }
