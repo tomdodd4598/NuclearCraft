@@ -14,7 +14,7 @@ public class NCEntities {
 	
 	public static void register() {
 		registerEntity("feral_ghoul", EntityFeralGhoul.class, 0, 0x967D73, 0x302C28);
-		if (NCConfig.entity_register[0]) {
+		if (NCConfig.register_entity[0]) {
 			EntityRegistry.addSpawn(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1, EnumCreatureType.MONSTER, NCBiomes.NUCLEAR_WASTELAND);
 		}
 	}

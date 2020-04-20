@@ -10,7 +10,7 @@ public class GuiHelper {
 		if (angle >= 45D && angle <= 135D) return width;
 		if (angle >= 225D && angle <= 315D) return 0;
 		
-		double radAngle = (angle - 45D)*Math.PI/180D;
+		double radAngle = Math.toRadians(angle - 45D);
 		double cos = Math.cos(radAngle);
 		double sin = Math.sin(radAngle);
 		
@@ -22,7 +22,7 @@ public class GuiHelper {
 		if (angle >= 315D || angle <= 45D) return 0;
 		if (angle >= 135D && angle <= 225D) return height;
 		
-		double radAngle = (angle - 45D)*Math.PI/180D;
+		double radAngle = Math.toRadians(angle - 45D);
 		double cos = Math.cos(radAngle);
 		double sin = Math.sin(radAngle);
 		

@@ -10,6 +10,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -20,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockFissionShield extends BlockMetaFissionPartBase<MetaEnums.NeutronShieldType> {
+public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronShieldType> {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronShieldType.class);
 	
@@ -55,7 +56,16 @@ public class BlockFissionShield extends BlockMetaFissionPartBase<MetaEnums.Neutr
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getStateFromMeta(meta).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getStateFromMeta(meta);
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileFissionShield) {
+			TileFissionShield shield = (TileFissionShield) tile;
+			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding()), 2);
+		}
 	}
 	
 	@Override

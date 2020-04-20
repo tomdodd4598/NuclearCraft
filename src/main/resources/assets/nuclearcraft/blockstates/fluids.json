@@ -368,6 +368,18 @@
 				"fluid": "corium"
 			}
 		},
+		"fluid_ice": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ice"
+			}
+		},
+		"fluid_slurry_ice": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "slurry_ice"
+			}
+		},
 		"fluid_chocolate_liquor": {
 			"model": "forge:fluid",
 			"custom": {
@@ -462,6 +474,18 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "nak_hot"
+			}
+		},
+		"fluid_emergency_coolant": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "emergency_coolant"
+			}
+		},
+		"fluid_emergency_coolant_heated": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "emergency_coolant_heated"
 			}
 		},
 		"fluid_sodium_fluoride_solution": {

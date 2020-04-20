@@ -47,8 +47,8 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof IUpgradable) {
-			if (installUpgrade(tile, ((IUpgradable) tile).getSpeedUpgradeSlot(), player, facing, new ItemStack(NCItems.upgrade, 1, 0))) return true;
-			if (installUpgrade(tile, ((IUpgradable) tile).getEnergyUpgradeSlot(), player, facing, new ItemStack(NCItems.upgrade, 1, 1))) return true;
+			if (installUpgrade(tile, ((IUpgradable) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) return true;
+			if (installUpgrade(tile, ((IUpgradable) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) return true;
 		}
 		
 		if (player.isSneaking()) return false;
@@ -86,17 +86,17 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		return true;
 	}
 	
-	protected boolean installUpgrade(TileEntity tile, int slot, EntityPlayer player, EnumFacing facing, ItemStack stack) {
-		if (player.getHeldItemMainhand().isItemEqual(stack)) {
+	protected boolean installUpgrade(TileEntity tile, int slot, EntityPlayer player, EnumHand hand, EnumFacing facing, ItemStack stack) {
+		if (player.getHeldItem(hand).isItemEqual(stack)) {
 			IItemHandler inv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
 			
-			if (inv != null && inv.isItemValid(slot, player.getHeldItemMainhand())) {
+			if (inv != null && inv.isItemValid(slot, player.getHeldItem(hand))) {
 				if (player.isSneaking()) {
-					player.setHeldItem(EnumHand.MAIN_HAND, inv.insertItem(slot, player.getHeldItemMainhand(), false));
+					player.setHeldItem(EnumHand.MAIN_HAND, inv.insertItem(slot, player.getHeldItem(hand), false));
 					return true;
 				} else {
 					if (inv.insertItem(slot, stack, false).isEmpty()) {
-						player.getHeldItemMainhand().shrink(1);
+						player.getHeldItem(hand).shrink(1);
 						return true;
 					}
 				}

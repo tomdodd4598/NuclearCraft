@@ -116,9 +116,8 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 	}
 	
-	/** Never override this! */
 	@Override
-	public void markTileDirty() {
+	public final void markTileDirty() {
 		markDirty();
 	}
 	

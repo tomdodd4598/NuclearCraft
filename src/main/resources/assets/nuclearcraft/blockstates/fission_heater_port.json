@@ -1,0 +1,115 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:wall_part",
+		"textures": {
+			"side": "nuclearcraft:blocks/fission/port/side",
+			"top": "nuclearcraft:blocks/fission/port/top"
+		}
+	},
+	"variants": {
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 90},
+			"z": {}
+		},
+		"type": {
+			"standard": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/standard",
+					"out": "nuclearcraft:blocks/fission/port/heater/standard"
+				}
+			},
+			"iron": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/iron",
+					"out": "nuclearcraft:blocks/fission/port/heater/iron"
+				}
+			},
+			"redstone": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/redstone",
+					"out": "nuclearcraft:blocks/fission/port/heater/redstone"
+				}
+			},
+			"quartz": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/quartz",
+					"out": "nuclearcraft:blocks/fission/port/heater/quartz"
+				}
+			},
+			"obsidian": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/obsidian",
+					"out": "nuclearcraft:blocks/fission/port/heater/obsidian"
+				}
+			},
+			"nether_brick": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/nether_brick",
+					"out": "nuclearcraft:blocks/fission/port/heater/nether_brick"
+				}
+			},
+			"glowstone": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/glowstone",
+					"out": "nuclearcraft:blocks/fission/port/heater/glowstone"
+				}
+			},
+			"lapis": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/lapis",
+					"out": "nuclearcraft:blocks/fission/port/heater/lapis"
+				}
+			},
+			"gold": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/gold",
+					"out": "nuclearcraft:blocks/fission/port/heater/gold"
+				}
+			},
+			"prismarine": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/prismarine",
+					"out": "nuclearcraft:blocks/fission/port/heater/prismarine"
+				}
+			},
+			"slime": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/slime",
+					"out": "nuclearcraft:blocks/fission/port/heater/slime"
+				}
+			},
+			"end_stone": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/end_stone",
+					"out": "nuclearcraft:blocks/fission/port/heater/end_stone"
+				}
+			},
+			"purpur": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/purpur",
+					"out": "nuclearcraft:blocks/fission/port/heater/purpur"
+				}
+			},
+			"diamond": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/diamond",
+					"out": "nuclearcraft:blocks/fission/port/heater/diamond"
+				}
+			},
+			"emerald": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/emerald",
+					"out": "nuclearcraft:blocks/fission/port/heater/emerald"
+				}
+			},
+			"copper": {
+				"textures": {
+					"in": "nuclearcraft:blocks/fission/port/heater/copper",
+					"out": "nuclearcraft:blocks/fission/port/heater/copper"
+				}
+			}
+		}
+	}
+}

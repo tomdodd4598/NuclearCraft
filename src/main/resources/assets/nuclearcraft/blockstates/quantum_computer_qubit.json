@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:quantum_computer_qubit"
+	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}]
+	}
+}

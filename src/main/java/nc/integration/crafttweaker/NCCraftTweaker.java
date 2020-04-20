@@ -808,7 +808,7 @@ public class NCCraftTweaker {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
+		public static void addRecipe(IIngredient input, IIngredient output, double time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
 			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.salt_fission, Lists.newArrayList(input, output, time, heat, efficiency, criticality, selfPriming, radiation)));
 		}
 		

@@ -261,7 +261,7 @@ public class RadiationHandler {
 						}
 						else {
 							if (entityRads.isFatal()) {
-								if (NCConfig.entity_register[0] && entityLiving instanceof INpc) {
+								if (NCConfig.register_entity[0] && entityLiving instanceof INpc) {
 									spawnFeralGhoul(world, entityLiving);
 								}
 								else {

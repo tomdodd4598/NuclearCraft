@@ -9,6 +9,7 @@ import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.recipe.generator.FusionRecipes;
 import nc.recipe.multiblock.CondenserRecipes;
 import nc.recipe.multiblock.CoolantHeaterRecipes;
+import nc.recipe.multiblock.FissionEmergencyCoolingRecipes;
 import nc.recipe.multiblock.FissionHeatingRecipes;
 import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
@@ -82,6 +83,7 @@ public class NCRecipes {
 	public static SaltFissionRecipes salt_fission;
 	public static FusionRecipes fusion;
 	public static CoolantHeaterRecipes coolant_heater;
+	public static FissionEmergencyCoolingRecipes fission_emergency_cooling;
 	public static HeatExchangerRecipes heat_exchanger;
 	public static CondenserRecipes condenser;
 	public static TurbineRecipes turbine;
@@ -125,6 +127,7 @@ public class NCRecipes {
 		salt_fission = new SaltFissionRecipes();
 		fusion = new FusionRecipes();
 		coolant_heater = new CoolantHeaterRecipes();
+		fission_emergency_cooling = new FissionEmergencyCoolingRecipes();
 		heat_exchanger = new HeatExchangerRecipes();
 		condenser = new CondenserRecipes();
 		turbine = new TurbineRecipes();
@@ -155,6 +158,7 @@ public class NCRecipes {
 	public static List<List<String>> salt_fission_valid_fluids;
 	public static List<List<String>> fusion_valid_fluids;
 	public static List<List<String>> coolant_heater_valid_fluids;
+	public static List<List<String>> fission_emergency_cooling_valid_fluids;
 	public static List<List<String>> heat_exchanger_valid_fluids;
 	public static List<List<String>> condenser_valid_fluids;
 	public static List<List<String>> turbine_valid_fluids;
@@ -177,6 +181,7 @@ public class NCRecipes {
 		salt_fission_valid_fluids = RecipeHelper.validFluids(salt_fission);
 		fusion_valid_fluids = RecipeHelper.validFluids(fusion);
 		coolant_heater_valid_fluids = RecipeHelper.validFluids(coolant_heater);
+		fission_emergency_cooling_valid_fluids = RecipeHelper.validFluids(fission_emergency_cooling);
 		heat_exchanger_valid_fluids = RecipeHelper.validFluids(heat_exchanger);
 		condenser_valid_fluids = RecipeHelper.validFluids(condenser);
 		turbine_valid_fluids = RecipeHelper.validFluids(turbine);
@@ -214,6 +219,7 @@ public class NCRecipes {
 		salt_fission.refreshCache();
 		fusion.refreshCache();
 		coolant_heater.refreshCache();
+		fission_emergency_cooling.refreshCache();
 		heat_exchanger.refreshCache();
 		condenser.refreshCache();
 		turbine.refreshCache();

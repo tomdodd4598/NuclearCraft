@@ -95,6 +95,9 @@ public class RadPotionEffects {
 		else if (potionName.equals("poison") || potionName.equals("minecraft:poison")) {
 			return Math.max(effectTime, 25 >> amplifier);
 		}
+		else if (potionName.equals("blindness") || potionName.equals("minecraft:blindness")) {
+			return Math.max(effectTime, 25);
+		}
 		else return effectTime;
 	}
 }

@@ -8,6 +8,11 @@ import java.util.Random;
 
 public class NCMath {
 	
+	public static final double SQRT2 = 1.41421356237309504880D;
+	public static final double INV_SQRT2 = 0.707106781186547524401D;
+	public static final double LN2 = 0.693147180559945309417D;
+	public static final double LN10 = 2.30258509299404568402D;
+	
 	private static Random rand = new Random();
 	
 	public static long clamp(long num, long min, long max) {
@@ -35,9 +40,40 @@ public class NCMath {
 		return (number >> position) & 1;
 	}
 	
-	public static double round(double value, int precision) {
-		double scale = Math.pow(10D, precision);
-		return (double) Math.round(value * scale) / Math.round(scale);
+	public static int onlyBits(int number, int... positions) {
+		int out = 0, bit;
+		for (int position : positions) {
+			bit = getBit(number, position);
+			if (bit != 0) {
+				out += (1 << position);
+			}
+		}
+		return out;
+	}
+	
+	public static int swap(int number, int i, int j) {
+		int bit1 = getBit(number, i), bit2 = getBit(number, j);
+		return bit1 == bit2 ? number : number ^ ((1 << i) | (1 << j));
+	}
+	
+	public static byte[] booleansToBytes(boolean[] arr) {
+		byte[] out = new byte[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			out[i] = (byte) (arr[i] ? 1 : 0);
+		}
+		return out;
+	}
+	
+	public static boolean[] bytesToBooleans(byte[] arr) {
+		boolean[] out = new boolean[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			out[i] = arr[i] != 0;
+		}
+		return out;
+	}
+	
+	public static double round(double value, int decimal) {
+		return roundTo(value, Math.pow(10D, -decimal));
 	}
 	
 	public static int kroneckerDelta(int... indices) {
@@ -47,49 +83,54 @@ public class NCMath {
 		return 1;
 	}
 	
-	public static double[] cartesianFromSpherical(double r, double theta, double phi) {
-		return new double[] {r*Math.sin(theta*Math.PI/180D)*Math.cos(phi*Math.PI/180D), r*Math.sin(theta*Math.PI/180D)*Math.sin(phi*Math.PI/180D), r*Math.cos(theta*Math.PI/180D)};
+	public static double sin_d(double deg) {
+		return Math.sin(Math.toRadians(deg));
 	}
 	
-	public static int magnitudeMult(int in, int power) {
-		double doubleOut = (1D*in)*Math.pow(10D, 1D*power);
-		double roundedOut = Math.round(doubleOut);
-		return (int) roundedOut;
+	public static double cos_d(double deg) {
+		return Math.cos(Math.toRadians(deg));
+	}
+	
+	public static double tan_d(double deg) {
+		return Math.tan(Math.toRadians(deg));
+	}
+	
+	public static double[] cartesianFromSpherical(double r, double theta, double phi) {
+		return new double[] {r*sin_d(theta)*cos_d(phi), r*sin_d(theta)*sin_d(phi), r*cos_d(theta)};
 	}
 	
 	public static long magnitudeMult(long in, int power) {
-		double doubleOut = (1D*in)*Math.pow(10D, 1D*power);
-		double roundedOut = Math.round(doubleOut);
-		return (long) roundedOut;
+		double doubleOut = in*Math.pow(10D, 1D*power);
+		return Math.round(doubleOut);
 	}
 	
 	public static double magnitudeMult(double in, int power) {
-		return (1D*in)*Math.pow(10D, 1D*power);
+		return in*Math.pow(10D, 1D*power);
 	}
 	
-	public static boolean atIntLimit(int number, int divider) {
-		return Math.abs(number) > Integer.MAX_VALUE/divider;
+	public static boolean atIntLimit(int number, int multiplier) {
+		return Math.abs(number) > Integer.MAX_VALUE/multiplier;
 	}
 	
-	public static boolean atLongLimit(long number, long divider) {
-		return Math.abs(number) > Long.MAX_VALUE/divider;
+	public static boolean atLongLimit(long number, long multiplier) {
+		return Math.abs(number) > Long.MAX_VALUE/multiplier;
 	}
 	
-	public static boolean atDoubleLimit(double number, double divider) {
-		return Math.abs(number) > Double.MAX_VALUE/divider;
+	public static boolean atDoubleLimit(double number, double multiplier) {
+		return Math.abs(number) > Double.MAX_VALUE/multiplier;
 	}
 	
 	public static int numberLength(long number) {
 		return String.valueOf(number).length();
 	}
 	
-	public static int minus1Power(int pow) {
+	public static int minus1Pow(int pow) {
 		return (pow & 1) == 0 ? 1 : -1;
 	}
 	
 	public static int choose(int n, int k) {
 		if (n == k) return 1;
-		if (n < k) return minus1Power(k)*choose(k - n - 1, k);
+		if (n < k) return minus1Pow(k)*choose(k - n - 1, k);
 		if (k > n - k) k = n - k;
 		
 		double x = 1D;
@@ -101,36 +142,20 @@ public class NCMath {
 		return choose(n + p - 1, p);
 	}
 	
-	public static int floorTo(int x, int mult) {
-		return mult*(int)Math.floor(1D*x/mult);
-	}
-	
 	public static double floorTo(double x, double mult) {
-		return mult*Math.floor(1D*x/mult);
-	}
-	
-	public static int ceilTo(int x, int mult) {
-		return mult*(int)Math.ceil(1D*x/mult);
+		return mult == 0D ? x : x - (x % mult);
 	}
 	
 	public static double ceilTo(double x, double mult) {
-		return mult*Math.ceil(1D*x/mult);
-	}
-	
-	public static int roundTo(int x, int mult) {
-		return mult*(int)Math.round(1D*x/mult);
+		if (mult == 0D) return x;
+		double mod = x % mult;
+		return mod == 0D ? x : x + mult - mod;
 	}
 	
 	public static double roundTo(double x, double mult) {
-		return mult*Math.round(x/mult);
-	}
-	
-	public static int getBinomial(int n, double p) {
-		int x = 0;
-		for(int i = 0; i < n; i++) {
-			if(Math.random() < p) x++;
-		}
-		return x;
+		if (mult == 0D) return x;
+		double mod = x % mult;
+		return mod >= mult/2D ? x + mult - mod : x - mod;
 	}
 	
 	public static int getBinomial(int n, int p) {
@@ -220,6 +245,10 @@ public class NCMath {
 	}
 	
 	public static int toInt(long value) {
-		return (int) Math.min(Integer.MAX_VALUE, value);
+		return (int) clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static int getComparatorSignal(double var, double max, double leeway) {
+		return var <= leeway ? 0 : (var >= max - leeway ? 15 : (int) (1D + 14D*var/max));
 	}
 }

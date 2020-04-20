@@ -1,3 +1,32 @@
+v2o.2.0
+
++ Added Molten Salt Reactors!
+* Interact with vessels and heaters using their respective filtered ports
+* Heaters will not block flux, but contribute none themselves and have zero moderator efficiency
+* Remove excess heat from the casing of a heat-positive MSR using emergency coolant via vents
+
++ Added Quantum Computers!
+* Simulate real quantum algorithms using many types of quantum gate on a configurable number of qubits
+* Do be careful when using more than five qubits - the memory cost can become large!
+
++ Batteries and RTGs now form multiblocks
+
+* Moderator lines of zero flux now contribute zero efficiency
+* Fixed fission shield managers occasionally not remembering their connected shields
+* Vents can now be toggled between input and output mode
+* Moved various reactor properties such as heat buffers into logic classes
+
+* Reorganised a huge number of configs
+
++ Finally added explicit server proxy
+
+* Fixed blindness radiation debuff flickering
+
+* Cleaned up many unnecessary method calls on block updates
+* Various other minor fixes, changes and refactors
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2o.1.2
 
 + Added fission neutron shields and shield managers to turn reactors off!

@@ -5,8 +5,8 @@ import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import javax.annotation.Nullable;
 
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -109,12 +109,18 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 		nbt.setLong("masterManagerPos", masterManagerPos.toLong());
 		
 		BlockPos listenerPos;
-		IntSet posCacheArrayX = new IntOpenHashSet(), posCacheArrayY = new IntOpenHashSet(), posCacheArrayZ = new IntOpenHashSet();
+		IntList posCacheArrayX = new IntArrayList(), posCacheArrayY = new IntArrayList(), posCacheArrayZ = new IntArrayList();
 		for (LISTENER listener : listeners) {
 			listenerPos = listener.getTilePos();
 			posCacheArrayX.add(listenerPos.getX());
 			posCacheArrayY.add(listenerPos.getY());
 			posCacheArrayZ.add(listenerPos.getZ());
+		}
+		for (long posLong : listenerPosCache) {
+			BlockPos pos = BlockPos.fromLong(posLong);
+			posCacheArrayX.add(pos.getX());
+			posCacheArrayY.add(pos.getY());
+			posCacheArrayZ.add(pos.getZ());
 		}
 		nbt.setIntArray("listenerPosCacheX", posCacheArrayX.toIntArray());
 		nbt.setIntArray("listenerPosCacheY", posCacheArrayY.toIntArray());

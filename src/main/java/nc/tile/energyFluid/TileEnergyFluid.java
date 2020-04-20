@@ -41,41 +41,25 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid {
 	private final List<TankOutputSetting> tankOutputSettings;
 	
 	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, new IntArrayList(new int[] {fluidCapacity}), new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
+		this(capacity, capacity, energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
 	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, fluidCapacity, fluidCapacity, allowedFluidsLists, fluidConnections);
-	}
-	
-	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, new IntArrayList(new int[] {fluidCapacity}), new IntArrayList(new int[] {maxFluidTransfer}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
-	}
-	
-	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, @Nonnull IntList maxFluidTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, fluidCapacity, maxFluidTransfer, allowedFluidsLists, fluidConnections);
+		this(capacity, capacity, energyConnections, fluidCapacity, allowedFluidsLists, fluidConnections);
 	}
 	
 	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, maxTransfer, energyConnections, new IntArrayList(new int[] {fluidCapacity}), new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
+		this(capacity, maxTransfer, energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
 	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, maxTransfer, energyConnections, fluidCapacity, fluidCapacity, allowedFluidsLists, fluidConnections);
-	}
-	
-	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, maxTransfer, energyConnections, new IntArrayList(new int[] {fluidCapacity}), new IntArrayList(new int[] {maxFluidTransfer}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
-	}
-	
-	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, @Nonnull IntList maxFluidTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		super(capacity, maxTransfer, energyConnections);
 		tanks = new ArrayList<>();
 		voidUnusableFluidInputs = new ArrayList<>();
 		tankOutputSettings = new ArrayList<>();
 		if (!fluidCapacity.isEmpty()) {
 			for (int i = 0; i < fluidCapacity.size(); i++) {
-				tanks.add(new Tank(fluidCapacity.get(i), maxFluidTransfer.get(i), allowedFluidsLists == null || allowedFluidsLists.size() <= i ? null : allowedFluidsLists.get(i)));
+				tanks.add(new Tank(fluidCapacity.get(i), allowedFluidsLists == null || allowedFluidsLists.size() <= i ? null : allowedFluidsLists.get(i)));
 				voidUnusableFluidInputs.add(false);
 				tankOutputSettings.add(TankOutputSetting.DEFAULT);
 			}

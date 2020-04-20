@@ -24,10 +24,10 @@ public class CollectionHelper {
 		return list;
 	}
 	
-	public static <T> List<T> intersect(List<T> list1, Collection<T> list2) {
-		List<T> list = new ArrayList<>();
-		for (T t : list1) if(list2.contains(t)) list.add(t);
-		return list;
+	public static <T> List<T> intersect(List<T> list, Collection<T> collection) {
+		List<T> out = new ArrayList<>();
+		for (T t : list) if (collection.contains(t)) out.add(t);
+		return out;
 	}
 	
 	public static <T> List<T> intersect(List<T> first, List<T>... rest) {

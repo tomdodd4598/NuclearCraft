@@ -22,14 +22,6 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory {
 		super(name, size, inventoryConnections, capacity, allowedFluidsLists, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, int maxTransfer, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, size, inventoryConnections, capacity, maxTransfer, allowedFluidsList, fluidConnections);
-	}
-	
-	public TileFluidSidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull IntList capacity, @Nonnull IntList maxTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, size, inventoryConnections, capacity, maxTransfer, allowedFluidsLists, fluidConnections);
-	}
-	
 	// Capability
 	
 	@Override

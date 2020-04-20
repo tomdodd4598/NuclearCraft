@@ -4,13 +4,21 @@
 		"model": "nuclearcraft:wall_part",
 		"textures": {
 			"in": "nuclearcraft:blocks/fission/vent_in",
-			"out": "nuclearcraft:blocks/fission/vent_out",
+			"out": "nuclearcraft:blocks/fission/vent_out_input",
 			"side": "nuclearcraft:blocks/fission/vent_side",
 			"top": "nuclearcraft:blocks/fission/vent_side"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"out": "nuclearcraft:blocks/fission/vent_out_output"
+				}
+			}
+		},
 		"facing": {
 			"down": {"x": 90},
 			"up": {"x": 270},

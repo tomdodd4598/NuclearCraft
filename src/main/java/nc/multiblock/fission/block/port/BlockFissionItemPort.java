@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredInventory> extends BlockFissionPort<PORT, TARGET> {
 	
-	private final int guiID;
+	protected final int guiID;
 	
 	public BlockFissionItemPort(Class<PORT> portClass, int guiID) {
 		super(portClass);

@@ -1,6 +1,6 @@
 package nc.item.energy;
 
-import nc.tile.energy.battery.BatteryType;
+import nc.multiblock.battery.BatteryType;
 import nc.tile.internal.energy.EnergyConnection;
 
 public class ItemBattery extends ItemEnergy {

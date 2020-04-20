@@ -101,7 +101,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public EnergyStorage getEnergyStorage() {
 		return getMultiblock() != null ? getLogic().getPowerPortEnergyStorage(backupStorage) : backupStorage;
-		
 	}
 	
 	@Override

@@ -5,12 +5,11 @@ import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.ITileGui;
 import nc.tile.generator.IFluidGenerator;
 import nc.tile.generator.TileFluidGenerator;
-import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerFluidGenerator<GENERATOR extends IFluidGenerator & ITileInventory & ITileGui> extends ContainerTile<GENERATOR> {
+public abstract class ContainerFluidGenerator<GENERATOR extends IFluidGenerator & ITileGui> extends ContainerTile<GENERATOR> {
 	
 	protected final GENERATOR tile;
 	protected final ProcessorRecipeHandler recipeHandler;

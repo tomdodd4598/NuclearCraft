@@ -80,10 +80,12 @@ public class NCBlock extends Block {
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack stack) {
-		world.setBlockState(pos, state, 2);
-		if (this instanceof INBTDrop && stack.hasTagCompound()) ((INBTDrop)this).readStackData(world, pos, player, stack);
-		world.notifyBlockUpdate(pos, state, state, 3);
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		super.onBlockPlacedBy(world, pos, state, placer, stack);
+		if (this instanceof INBTDrop && stack.hasTagCompound()) {
+			((INBTDrop)this).readStackData(world, pos, placer, stack);
+			world.notifyBlockUpdate(pos, state, state, 3);
+		}
 	}
 	
 	// Transparent Block

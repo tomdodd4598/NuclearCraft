@@ -15,7 +15,6 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 	public int energyStored;
 	public double baseProcessTime;
 	public double baseProcessPower;
-	public byte numberOfTanks;
 	public List<TankInfo> tanksInfo;
 	
 	public ProcessorUpdatePacket() {
@@ -29,7 +28,6 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		this.energyStored = energyStored;
 		this.baseProcessTime = baseProcessTime;
 		this.baseProcessPower = baseProcessPower;
-		numberOfTanks = (byte) tanks.size();
 		tanksInfo = TankInfo.infoList(tanks);
 		
 		messageValid = true;
@@ -43,7 +41,7 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		energyStored = buf.readInt();
 		baseProcessTime = buf.readDouble();
 		baseProcessPower = buf.readDouble();
-		numberOfTanks = buf.readByte();
+		byte numberOfTanks = buf.readByte();
 		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
 	}
 	
@@ -57,7 +55,7 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		buf.writeInt(energyStored);
 		buf.writeDouble(baseProcessTime);
 		buf.writeDouble(baseProcessPower);
-		buf.writeByte(numberOfTanks);
+		buf.writeByte(tanksInfo.size());
 		for (TankInfo info : tanksInfo) info.writeBuf(buf);
 	}
 	

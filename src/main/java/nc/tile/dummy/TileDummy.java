@@ -367,7 +367,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	@Override
 	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		for (int i = 0; i < super.getTanks().size(); i++) {
-			super.getTanks().get(i).writeToNBT(nbt, i);
+			super.getTanks().get(i).writeToNBT(nbt, "tanks" + i);
 		}
 		return nbt;
 	}
@@ -375,7 +375,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	@Override
 	public void readTanks(NBTTagCompound nbt) {
 		for (int i = 0; i < super.getTanks().size(); i++) {
-			super.getTanks().get(i).readFromNBT(nbt, i);
+			super.getTanks().get(i).readFromNBT(nbt, "tanks" + i);
 		}
 	}
 	
@@ -429,8 +429,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	public void readEnergy(NBTTagCompound nbt) {
 		super.getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
 		super.getEnergyStorage().setStorageCapacity(nbt.getInteger("capacity"));
-		if (nbt.hasKey("maxTransfer")) super.getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
-		else super.getEnergyStorage().setMaxTransfer(Math.max(nbt.getInteger("maxReceive"), nbt.getInteger("maxExtract"))); // For old NBT
+		super.getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
 	}
 	
 	@Override

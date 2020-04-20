@@ -44,7 +44,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements ILogicMultiblock<TurbineLogic, ITurbinePart> {
+public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacket> implements ILogicMultiblock<TurbineLogic, ITurbinePart> {
 	
 	public static final ObjectSet<Class<? extends ITurbinePart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends TurbineLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
@@ -145,8 +145,8 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	}
 	
 	@Override
-	protected void onMachineAssembled() {
-		logic.onMachineAssembled();
+	protected void onMachineAssembled(boolean wasAssembled) {
+		logic.onMachineAssembled(wasAssembled);
 	}
 	
 	@Override
@@ -280,9 +280,12 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	
 	@Override
 	protected boolean updateServer() {
+		boolean flag = false;
 		//setIsTurbineOn();
-		logic.onUpdateServer();
-		return true;
+		if (logic.onUpdateServer()) {
+			flag = true;
+		}
+		return flag;
 	}
 	
 	// Client
@@ -296,8 +299,8 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
-		energyStorage.writeToNBT(data);
-		writeTanks(tanks, data);
+		writeEnergy(energyStorage, data, "energyStorage");
+		writeTanks(tanks, data, "tanks");
 		data.setBoolean("isTurbineOn", isTurbineOn);
 		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("power", power);
@@ -333,8 +336,8 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 	
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
-		energyStorage.readFromNBT(data);
-		readTanks(tanks, data);
+		readEnergy(energyStorage, data, "energyStorage");
+		readTanks(tanks, data, "turbineTanks");
 		isTurbineOn = data.getBoolean("isTurbineOn");
 		computerActivated = data.getBoolean("computerActivated");
 		power = data.getDouble("power");
@@ -429,7 +432,7 @@ public class Turbine extends CuboidalMultiblock<TurbineUpdatePacket> implements 
 		
 		logic.clearAllMaterial();
 		
-		ILogicMultiblock.super.clearAllMaterial();
+		super.clearAllMaterial();
 	}
 	
 	// Multiblock Validators

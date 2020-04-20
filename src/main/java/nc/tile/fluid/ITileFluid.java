@@ -226,14 +226,14 @@ public interface ITileFluid extends ITile {
 	
 	public default NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		for (int i = 0; i < getTanks().size(); i++) {
-			getTanks().get(i).writeToNBT(nbt, i);
+			getTanks().get(i).writeToNBT(nbt, "tanks" + i);
 		}
 		return nbt;
 	}
 	
 	public default void readTanks(NBTTagCompound nbt) {
 		for (int i = 0; i < getTanks().size(); i++) {
-			getTanks().get(i).readFromNBT(nbt, i);
+			getTanks().get(i).readFromNBT(nbt, "tanks" + i);
 		}
 	}
 	

@@ -2,6 +2,8 @@ package nc.util;
 
 import java.util.List;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntCollection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -46,6 +48,21 @@ public class NBTHelper {
 			if (j - offset >= 0 && j - offset < lists[n].size()) {
 				lists[n].set(j - offset, new ItemStack(nbttagcompound));
 			}
+		}
+	}
+	
+	public static NBTTagCompound saveIntCollection(NBTTagCompound nbt, IntCollection coll, String name) {
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setIntArray("ints", coll.toIntArray());
+		nbt.setTag(name, tag);
+		return nbt;
+	}
+	
+	public static void loadIntCollection(NBTTagCompound nbt, IntCollection coll, String name) {
+		if (nbt.hasKey(name, 10)) {
+			NBTTagCompound tag = nbt.getCompoundTag(name);
+			coll.clear();
+			coll.addAll(new IntArrayList(tag.getIntArray("ints")));
 		}
 	}
 }

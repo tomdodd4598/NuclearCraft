@@ -10,6 +10,7 @@ import nc.block.tile.IActivatable;
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.processor.TileNuclearFurnace;
+import nc.util.BlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -21,7 +22,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -78,36 +78,9 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		world.setBlockState(pos, state, 2);
-		world.notifyBlockUpdate(pos, state, state, 3);
-	}
-	
-	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(world, pos, state);
-		setDefaultFacing(world, pos, state);
-	}
-	
-	private static void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
-		if (!world.isRemote) {
-			IBlockState state0 = world.getBlockState(pos.north());
-			IBlockState state1 = world.getBlockState(pos.south());
-			IBlockState state2 = world.getBlockState(pos.west());
-			IBlockState state3 = world.getBlockState(pos.east());
-			EnumFacing enumfacing = state.getValue(FACING_HORIZONTAL);
-			
-			if (enumfacing == EnumFacing.NORTH && state0.isFullBlock() && !state1.isFullBlock()) {
-				enumfacing = EnumFacing.SOUTH;
-			} else if (enumfacing == EnumFacing.SOUTH && state1.isFullBlock() && !state0.isFullBlock()) {
-				enumfacing = EnumFacing.NORTH;
-			} else if (enumfacing == EnumFacing.WEST && state2.isFullBlock() && !state3.isFullBlock()) {
-				enumfacing = EnumFacing.EAST;
-			} else if (enumfacing == EnumFacing.EAST && state3.isFullBlock() && !state2.isFullBlock()) {
-				enumfacing = EnumFacing.WEST;
-			}
-			world.setBlockState(pos, state.withProperty(FACING_HORIZONTAL, enumfacing), 2);
-		}
+		BlockHelper.setDefaultFacing(world, pos, state, FACING_HORIZONTAL);
 	}
 	
 	@Override

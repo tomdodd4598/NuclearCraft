@@ -9,7 +9,7 @@ public class Global {
 	public static final String DEPENDENCIES = "after:tconstruct;after:conarm;after:openterraingenerator;after:alchemistry";
 
 	public static final String NC_CLIENT_PROXY = "nc.proxy.ClientProxy";
-	public static final String NC_COMMON_PROXY = "nc.proxy.CommonProxy";
+	public static final String NC_SERVER_PROXY = "nc.proxy.ServerProxy";
 	
 	public static final String GUI_FACTORY = "nc.config.NCConfigGuiFactory";
 	

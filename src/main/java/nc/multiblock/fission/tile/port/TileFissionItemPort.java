@@ -55,6 +55,19 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	}
 	
 	@Override
+	public int getTankCapacityPerConnection() {
+		return 0;
+	}
+	
+	@Override
+	public int getTankBaseCapacity() {
+		return 1;
+	}
+	
+	@Override
+	public void setTankCapacity(int capacity) {}
+	
+	@Override
 	public boolean canModifyFilter(int slot) {
 		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
 	}

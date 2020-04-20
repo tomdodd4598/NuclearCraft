@@ -24,7 +24,7 @@ public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
 	@Override
 	public List fixExtras(List extras) {
 		List fixed = new ArrayList(2);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 40D);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 40);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof String ? (String) extras.get(1) : 300);
 		return fixed;
 	}

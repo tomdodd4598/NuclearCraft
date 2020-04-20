@@ -2,7 +2,9 @@ package nc.util;
 
 import java.util.Random;
 
+import nc.block.property.BlockProperties;
 import nc.config.NCConfig;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -13,6 +15,47 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockHelper {
+	
+	public static void setDefaultFacing(World world, BlockPos pos, IBlockState state, PropertyEnum<EnumFacing> property) {
+		if (!world.isRemote) {
+			world.setBlockState(pos, state.withProperty(property, getDefaultFacing(world, pos, state, property)), 2);
+		}
+	}
+	
+	public static EnumFacing getDefaultFacing(World world, BlockPos pos, IBlockState state, PropertyEnum<EnumFacing> property) {
+		EnumFacing facing = state.getValue(property);
+		if (!world.isRemote) {
+			boolean n = world.getBlockState(pos.north()).isFullBlock();
+			boolean s = world.getBlockState(pos.south()).isFullBlock();
+			
+			if (facing == EnumFacing.NORTH && n && !s) {
+				facing = EnumFacing.SOUTH;
+			} else if (facing == EnumFacing.SOUTH && s && !n) {
+				facing = EnumFacing.NORTH;
+			}
+			else {
+				boolean w = world.getBlockState(pos.west()).isFullBlock();
+				boolean e = world.getBlockState(pos.east()).isFullBlock();
+				
+				if (facing == EnumFacing.WEST && w && !e) {
+					facing = EnumFacing.EAST;
+				} else if (facing == EnumFacing.EAST && e && !w) {
+					facing = EnumFacing.WEST;
+				}
+				else if (property == BlockProperties.FACING_ALL) {
+					boolean u = world.getBlockState(pos.up()).isFullBlock();
+					boolean d = world.getBlockState(pos.down()).isFullBlock();
+					
+					if (facing == EnumFacing.UP && u && !d) {
+						facing = EnumFacing.DOWN;
+					} else if (facing == EnumFacing.DOWN && d && !u) {
+						facing = EnumFacing.UP;
+					}
+				}
+			}
+		}
+		return facing;
+	}
 	
 	public static void spawnParticleOnProcessor(IBlockState state, World world, BlockPos pos, Random rand, EnumFacing side, String particleName) {
 		if (particleName.equals("") || !NCConfig.processor_particles) return;

@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.ObjectSet;
@@ -29,6 +31,7 @@ import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.IFissionHeatingComponent;
+import nc.multiblock.fission.tile.IFissionPart;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
@@ -88,21 +91,23 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public boolean isMachineWhole(Multiblock multiblock) {
-		if (getPartMap(TileSaltFissionVessel.class).size() != 0) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_vessels", null);
-			return false;
-		}
-		if (getPartMap(TileSaltFissionHeater.class).size() != 0) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_heaters", null);
-			return false;
-		}
-		return true;
+		return !containsBlacklistedPart();
+	}
+	
+	public static final List<Pair<Class<? extends IFissionPart>, String>> SOLID_FUEL_PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileSaltFissionVessel.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_vessels"),
+			Pair.of(TileSaltFissionHeater.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_heaters")
+			);
+	
+	@Override
+	public List<Pair<Class<? extends IFissionPart>, String>> getPartBlacklist() {
+		return SOLID_FUEL_PART_BLACKLIST;
 	}
 	
 	@Override
 	public void refreshConnections() {
 		super.refreshConnections();
-		refreshFilteredItemPorts(TileFissionCellPort.class, TileSolidFissionCell.class);
+		refreshFilteredPorts(TileFissionCellPort.class, TileSolidFissionCell.class);
 	}
 	
 	@Override
@@ -235,16 +240,27 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public boolean onUpdateServer() {
-		getReactor().heatBuffer.changeHeatStored(getReactor().rawHeating);
+		heatBuffer.changeHeatStored(getReactor().rawHeating);
 		
-		if (getReactor().heatBuffer.isFull() && NCConfig.fission_overheat) {
-			getReactor().heatBuffer.setHeatStored(0);
+		if (heatBuffer.isFull() && NCConfig.fission_overheat) {
+			heatBuffer.setHeatStored(0);
 			reservedEffectiveHeat = 0D;
 			casingMeltdown();
 			return true;
 		}
 		
-		updateFluidHeating();
+		for (FissionCluster cluster : getClusterMap().values()) {
+			cluster.heatBuffer.changeHeatStored(cluster.getNetHeating());
+			if (cluster.heatBuffer.isFull() && NCConfig.fission_overheat) {
+				cluster.heatBuffer.setHeatStored(0);
+				clusterMeltdown(cluster);
+				return true;
+			}
+		}
+		
+		if (getEffectiveHeat() > 0D) {
+			updateFluidHeating();
+		}
 		
 		return super.onUpdateServer();
 	}
@@ -271,7 +287,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean setRecipeStats() {
-		if (heatingRecipeInfo == null || !getReactor().isReactorOn) {
+		if (heatingRecipeInfo == null) {
 			heatingOutputRate = 0;
 			heatingRecipeRate = heatingOutputRateFP = 0D;
 			return false;
@@ -325,11 +341,11 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		}
 		
 		long heatRemoval = (long) ((getReactor().rawHeating/effectiveHeating)*heatingRecipeRate*inputSize*recipe.getFissionHeatingHeatPerInputMB());
-		getReactor().heatBuffer.changeHeatStored(-heatRemoval);
+		heatBuffer.changeHeatStored(-heatRemoval);
 	}
 	
 	public double getEffectiveHeat() {
-		return getReactor().rawHeating == 0L ? 0D : (effectiveHeating/getReactor().rawHeating)*getReactor().heatBuffer.getHeatStored();
+		return getReactor().rawHeating == 0L ? 0D : (effectiveHeating/getReactor().rawHeating)*heatBuffer.getHeatStored();
 	}
 	
 	public long getNetClusterHeating() {
@@ -392,7 +408,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	@Override
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		super.writeToLogicTag(logicTag, syncReason);
-		writeTanks(tanks, logicTag);
+		writeTanks(tanks, logicTag, "tanks");
 		logicTag.setInteger("heatingOutputRate", heatingOutputRate);
 		logicTag.setDouble("effectiveHeating", effectiveHeating);
 		logicTag.setDouble("reservedEffectiveHeat", reservedEffectiveHeat);
@@ -402,7 +418,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		super.readFromLogicTag(logicTag, syncReason);
-		readTanks(tanks, logicTag);
+		readTanks(tanks, logicTag, "tanks");
 		heatingOutputRate = logicTag.getInteger("heatingOutputRate");
 		effectiveHeating = logicTag.getDouble("effectiveHeating");
 		reservedEffectiveHeat = logicTag.getDouble("reservedEffectiveHeat");
@@ -413,7 +429,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public SolidFissionUpdatePacket getUpdatePacket() {
-		return new SolidFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, getReactor().heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, getReactor().sparsityEfficiencyMult, effectiveHeating, heatingOutputRateFP, reservedEffectiveHeat);
+		return new SolidFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, getReactor().sparsityEfficiencyMult, effectiveHeating, heatingOutputRateFP, reservedEffectiveHeat);
 	}
 	
 	@Override
