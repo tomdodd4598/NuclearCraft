@@ -89,12 +89,8 @@ import nc.integration.jei.processor.SaltMixerCategory;
 import nc.integration.jei.processor.SeparatorCategory;
 import nc.integration.jei.processor.SupercoolerCategory;
 import nc.multiblock.container.ContainerFissionIrradiator;
-import nc.multiblock.container.ContainerSaltFissionHeater;
-import nc.multiblock.container.ContainerSaltFissionVessel;
 import nc.multiblock.container.ContainerSolidFissionCell;
 import nc.multiblock.gui.GuiFissionIrradiator;
-import nc.multiblock.gui.GuiSaltFissionHeater;
-import nc.multiblock.gui.GuiSaltFissionVessel;
 import nc.multiblock.gui.GuiSolidFissionCell;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
@@ -204,8 +200,6 @@ public class NCJEI implements IModPlugin {
 		registry.addRecipeClickArea(GuiFissionIrradiator.class, 73, 34, 37, 18, JEIHandler.FISSION_IRRADIATOR.getUUID());
 		//registry.addRecipeClickArea(GuiPebbleFissionChamber.class, 73, 34, 37, 18, JEIHandler.PEBBLE_FISSION.getUUID());
 		registry.addRecipeClickArea(GuiSolidFissionCell.class, 73, 34, 37, 18, JEIHandler.SOLID_FISSION.getUUID());
-		registry.addRecipeClickArea(GuiSaltFissionVessel.class, 73, 34, 37, 18, JEIHandler.SALT_FISSION.getUUID());
-		registry.addRecipeClickArea(GuiSaltFissionHeater.class, 73, 34, 37, 18, JEIHandler.COOLANT_HEATER.getUUID());
 		
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, JEIHandler.MANUFACTORY.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSeparator.class, JEIHandler.SEPARATOR.getUUID(), 0, 1, 5, 36);
@@ -230,11 +224,9 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionIrradiator.class, JEIHandler.FISSION_IRRADIATOR.getUUID(), 0, 1, 2, 36);
 		//recipeTransferRegistry.addRecipeTransferHandler(ContainerPebbleFissionChamber.class, JEIHandler.PEBBLE_FISSION.getUUID(), 0, 1, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUUID(), 0, 1, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionVessel.class, JEIHandler.SALT_FISSION.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionHeater.class, JEIHandler.COOLANT_HEATER.getUUID(), 0, 0, 2, 36);
 		
 		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
-			if (!NCConfig.ore_gen[i] && NCConfig.ore_hide_disabled) {
+			if (!NCConfig.ore_gen[i] && NCConfig.hide_disabled_ores) {
 				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i), new ItemStack(NCBlocks.ingot_block, 1, i), new ItemStack(NCItems.ingot, 1, i), new ItemStack(NCItems.dust, 1, i));
 			}
 		}

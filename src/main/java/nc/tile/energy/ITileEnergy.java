@@ -202,7 +202,8 @@ public interface ITileEnergy extends ITile {
 	public default void readEnergy(NBTTagCompound nbt) {
 		getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
 		getEnergyStorage().setStorageCapacity(nbt.getInteger("capacity"));
-		getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
+		if (nbt.hasKey("maxTransfer")) getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
+		else getEnergyStorage().setMaxTransfer(Math.max(nbt.getInteger("maxReceive"), nbt.getInteger("maxExtract"))); // For old NBT
 	}
 	
 	public default NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {

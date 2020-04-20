@@ -25,7 +25,7 @@ public class BlockScrubber extends BlockSimpleTile {
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
-		if (player != null && player.getHeldItem(hand).isEmpty()) {
+		if (player != null && player.getHeldItemMainhand().isEmpty()) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (!world.isRemote && tile instanceof TileRadiationScrubber) {
 				TileRadiationScrubber scrubber = (TileRadiationScrubber) tile;

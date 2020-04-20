@@ -1,6 +1,7 @@
 package nc.multiblock.network;
 
 import io.netty.buffer.ByteBuf;
+import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.Multiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import net.minecraft.tileentity.TileEntity;
@@ -59,7 +60,7 @@ public class ClearAllMaterialPacket implements IMessage {
 			if (tile == null) return;
 			if(tile instanceof ITileMultiblockPart) {
 				Multiblock multiblock = ((ITileMultiblockPart)tile).getMultiblock();
-				multiblock.clearAllMaterial();
+				if (multiblock instanceof ILogicMultiblock) ((ILogicMultiblock)multiblock).clearAllMaterial();
 			}
 		}
 	}

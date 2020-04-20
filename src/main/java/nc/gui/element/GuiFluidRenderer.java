@@ -46,17 +46,11 @@ public class GuiFluidRenderer {
 	}
 	
 	public static void renderGuiTank(FluidTank tank, double x, double y, double zLevel, double width, double height) {
-		renderGuiTank(tank.getFluid(), tank.getCapacity(), tank.getFluidAmount(), x, y, zLevel, width, height, 255);
-	}
-	
-	/** Alpha is a byte! */
-	public static void renderGuiTank(FluidTank tank, double x, double y, double zLevel, double width, double height, int alpha) {
 		if (tank == null || tank.getFluid() == null) return;
-		renderGuiTank(tank.getFluid(), tank.getCapacity(), tank.getFluidAmount(), x, y, zLevel, width, height, alpha);
+		renderGuiTank(tank.getFluid(), tank.getCapacity(), tank.getFluidAmount(), x, y, zLevel, width, height);
 	}
 	
-	/** Alpha is a byte! */
-	public static void renderGuiTank(@Nullable FluidStack fluid, int capacity, int amount, double x, double y, double zLevel, double width, double height, int alpha) {
+	public static void renderGuiTank(@Nullable FluidStack fluid, int capacity, int amount, double x, double y, double zLevel, double width, double height) {
 		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0) {
 			return;
 		}
@@ -67,7 +61,7 @@ public class GuiFluidRenderer {
 		
 		MC.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		int color = fluid.getFluid().getColor(fluid);
-		GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF), (byte) alpha);
+		GL11.glColor3ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF));
 		
 		GlStateManager.enableBlend();
 		for (int i = 0; i < width; i += 16) {

@@ -17,7 +17,7 @@ public class FissionCluster {
 	public boolean connectedToWall = false;
 	public int componentCount = 0, fuelComponentCount = 0;
 	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L;
-	public double effectiveHeating = 0D, meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, overcoolingEfficiencyFactor = 0D, undercoolingLifetimeFactor = 0D, totalHeatingSpeedMultiplier = 0D, meanHeatingSpeedMultiplier = 0D;
+	public double effectiveHeating = 0D, meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, overcoolingEfficiencyFactor = 0D, undercoolingLifetimeFactor = 0D;
 	
 	public FissionCluster(FissionReactor reactor, int id) {
 		this.reactor = reactor;

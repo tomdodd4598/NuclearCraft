@@ -94,7 +94,6 @@ public class CommonProxy {
 		
 		NCTiles.register();
 		
-		MultiblockHandler.init();
 		MultiblockLogic.init();
 		
 		OreDictHandler.registerOres();

@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
+import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -24,11 +25,12 @@ import nc.multiblock.fission.tile.TileFissionMonitor;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpdatePacket> implements ILogicMultiblock<FissionReactorLogic, IFissionPart> {
+public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> implements ILogicMultiblock<FissionReactorLogic, IFissionPart> {
 	
 	public static final ObjectSet<Class<? extends IFissionPart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends FissionReactorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
@@ -46,6 +48,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	public final LongSet activeReflectorCache = new LongOpenHashSet();
 	
 	public static final int BASE_MAX_HEAT = 25000, MAX_TEMP = 2400, BASE_TANK_CAPACITY = 4000;
+	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
 	
 	public boolean refreshFlag = true, isReactorOn = false;
 	public int ambientTemp = 290, fuelComponentCount = 0;
@@ -120,8 +123,8 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	}
 	
 	@Override
-	protected void onMachineAssembled(boolean wasAssembled) {
-		logic.onMachineAssembled(wasAssembled);
+	protected void onMachineAssembled() {
+		logic.onMachineAssembled();
 	}
 	
 	@Override
@@ -215,15 +218,22 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	@Override
 	protected boolean updateServer() {
-		boolean flag = refreshFlag;
-		
 		if (refreshFlag) {
 			logic.refreshReactor();
 		}
 		updateActivity();
 		
 		if (logic.onUpdateServer()) {
-			flag = true;
+			return true;
+		}
+		
+		for (FissionCluster cluster : clusterMap.values()) {
+			cluster.heatBuffer.changeHeatStored(cluster.getNetHeating());
+			if (cluster.heatBuffer.isFull() && NCConfig.fission_overheat) {
+				cluster.heatBuffer.setHeatStored(0);
+				logic.clusterMeltdown(cluster);
+				return true;
+			}
 		}
 		
 		logic.updateRedstone();
@@ -231,7 +241,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 			sendUpdateToListeningPlayers();
 		}
 		
-		return flag;
+		return true;
 	}
 	
 	public void updateActivity() {
@@ -248,6 +258,14 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		}
 	}
 	
+	public int getTemperature() {
+		return Math.round(ambientTemp + (MAX_TEMP - ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
+	}
+	
+	public float getBurnDamage() {
+		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373)/200F;
+	}
+	
 	// Client
 	
 	@Override
@@ -259,6 +277,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
+		heatBuffer.writeToNBT(data);
 		data.setBoolean("isReactorOn", isReactorOn);
 		data.setInteger("clusterCount", clusterCount);
 		data.setLong("cooling", cooling);
@@ -276,6 +295,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
+		heatBuffer.readFromNBT(data);
 		isReactorOn = data.getBoolean("isReactorOn");
 		clusterCount = data.getInteger("clusterCount");
 		cooling = data.getLong("cooling");
@@ -301,6 +321,8 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	@Override
 	public void onPacket(FissionUpdatePacket message) {
 		isReactorOn = message.isReactorOn;
+		heatBuffer.setHeatStored(message.heatStored);
+		heatBuffer.setHeatCapacity(message.heatCapacity);
 		clusterCount = message.clusterCount;
 		cooling = message.cooling;
 		rawHeating = message.rawHeating;
@@ -323,7 +345,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	public void clearAllMaterial() {
 		logic.clearAllMaterial();
 		
-		super.clearAllMaterial();
+		ILogicMultiblock.super.clearAllMaterial();
 		
 		if (!WORLD.isRemote) {
 			logic.refreshReactor();

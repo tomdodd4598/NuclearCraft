@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor & ITileGui> extends ContainerTile<PROCESSOR> {
+public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor & ITileInventory & ITileGui> extends ContainerTile<PROCESSOR> {
 	
 	protected final PROCESSOR tile;
 	protected final ProcessorRecipeHandler recipeHandler;
@@ -58,13 +58,13 @@ public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor 
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if (index >= invStart) {
-				if (tile instanceof ITileInventory && hasUpgrades && itemstack1.getItem() == NCItems.upgrade) {
-					if (((ITileInventory)tile).isItemValidForSlot(speedUpgradeSlot, itemstack1)) {
+				if (hasUpgrades && itemstack1.getItem() == NCItems.upgrade) {
+					if (tile.isItemValidForSlot(speedUpgradeSlot, itemstack1)) {
 						if (!mergeItemStack(itemstack1, speedUpgradeSlot, speedUpgradeSlot + 1, false)) {
 							return ItemStack.EMPTY;
 						}
 					}
-					else if (((ITileInventory)tile).isItemValidForSlot(otherUpgradeSlot, itemstack1)) {
+					else if (tile.isItemValidForSlot(otherUpgradeSlot, itemstack1)) {
 						if (!mergeItemStack(itemstack1, otherUpgradeSlot, otherUpgradeSlot + 1, false)) {
 							return ItemStack.EMPTY;
 						}

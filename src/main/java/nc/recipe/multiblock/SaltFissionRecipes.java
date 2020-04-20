@@ -27,7 +27,7 @@ public class SaltFissionRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addFuelDepleteRecipe(String fuel, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
-		addRecipe(fluidStack(fuel + "_fluoride_flibe", 1), fluidStack("depleted_" + fuel + "_fluoride_flibe", 1), (double)time/(double)FluidStackHelper.INGOT_VOLUME, heat, efficiency, criticality, selfPriming, radiation);
+		addRecipe(fluidStack(fuel + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), fluidStack("depleted_" + fuel + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), time, heat, efficiency, criticality, selfPriming, radiation);
 	}
 	
 	public void addFuelDepleteRecipes(int[] time, int[] heat, double[] efficiency, int[] criticality, boolean[] selfPriming, double[] radiation, String... fuelTypes) {
@@ -41,7 +41,7 @@ public class SaltFissionRecipes extends ProcessorRecipeHandler {
 	@Override
 	public List fixExtras(List extras) {
 		List fixed = new ArrayList(6);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
 		fixed.add(extras.size() > 3 && extras.get(3) instanceof Integer ? (int) extras.get(3) : 1);

@@ -1,14 +1,18 @@
 package nc.tile.internal.heat;
 
-import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class HeatBuffer {
+public class HeatBuffer implements INBTSerializable<NBTTagCompound> {
 	
 	private long heatStored, heatCapacity;
 
 	public HeatBuffer(long capacity) {
 		heatCapacity = capacity;
+	}
+	
+	public boolean isFull() {
+		return heatStored >= heatCapacity;
 	}
 	
 	public long removeHeat(long heat, boolean simulated) {
@@ -24,34 +28,29 @@ public class HeatBuffer {
 	}
 	
 	public long getHeatStored() {
-		return heatStored;
+		return Math.min(heatStored, Long.MAX_VALUE);
 	}
 	
 	public long getHeatCapacity() {
-		return heatCapacity;
+		return Math.min(heatCapacity, Long.MAX_VALUE);
 	}
 	
 	public void changeHeatStored(long heat) {
-		heatStored = NCMath.clamp(heatStored + heat, 0, heatCapacity);
+		heatStored += heat;
+		if (heatStored > heatCapacity) heatStored = heatCapacity;
+		else if (heatStored < 0) heatStored = 0;
 	}
 	
-	/** Ignores heat capacity! */
 	public void setHeatStored(long heat) {
-		heatStored = Math.max(0, heat);
+		heatStored = heat;
+		if (heatStored > heatCapacity) heatStored = heatCapacity;
+		else if (heatStored < 0) heatStored = 0;
 	}
 	
-	/** Ignores heat stored! */
 	public void setHeatCapacity(long newCapacity) {
-		heatCapacity = Math.max(0, newCapacity);
-		//if (newCapacity < heatStored) setHeatStored(newCapacity);
-	}
-	
-	public boolean isFull() {
-		return heatStored >= heatCapacity;
-	}
-	
-	public boolean isEmpty() {
-		return heatStored == 0;
+		if(newCapacity == heatCapacity || newCapacity <= 0) return;
+		heatCapacity = newCapacity;
+		if(newCapacity < heatStored) setHeatStored(newCapacity);
 	}
 	
 	public void mergeHeatBuffers(HeatBuffer other) {
@@ -61,20 +60,39 @@ public class HeatBuffer {
 	
 	// NBT
 	
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {
-		NBTTagCompound tag = new NBTTagCompound();
-		tag.setLong("heatStored", heatStored);
-		tag.setLong("heatCapacity", heatCapacity);
-		nbt.setTag(name, tag);
+	@Override
+	public NBTTagCompound serializeNBT() {
+		return writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
+	public void deserializeNBT(NBTTagCompound nbt) {
+		readAll(nbt);
+	}
+	
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		if (heatStored < 0) heatStored = 0;
+		nbt.setLong("Heat", heatStored);
+		nbt.setLong("Capacity", heatCapacity);
 		return nbt;
 	}
 	
-	public HeatBuffer readFromNBT(NBTTagCompound nbt, String name) {
-		if (nbt.hasKey(name, 10)) {
-			NBTTagCompound tag = nbt.getCompoundTag(name);
-			heatStored = tag.getLong("heatStored");
-			heatCapacity = tag.getLong("heatCapacity");
-		}
+	public final NBTTagCompound writeAll(NBTTagCompound nbt) {
+		NBTTagCompound heatTag = new NBTTagCompound();
+		writeToNBT(heatTag);
+		nbt.setTag("heatStorage", heatTag);
+		return nbt;
+
+	}
+	
+	public HeatBuffer readFromNBT(NBTTagCompound nbt) {
+		heatStored = nbt.getLong("Heat");
+		heatCapacity = nbt.getLong("Capacity");
+		if (heatStored > heatCapacity) heatStored = heatCapacity;
 		return this;
+	}
+	
+	public final void readAll(NBTTagCompound nbt) {
+		if (nbt.hasKey("heatStorage")) readFromNBT(nbt.getCompoundTag("heatStorage"));
 	}
 }

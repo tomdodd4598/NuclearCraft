@@ -62,7 +62,7 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 						damage = ((IFissionComponent)part).getCluster().getBurnDamage();
 					}
 					else {
-						damage = reactor.getLogic().getBurnDamage();
+						damage = reactor.getBurnDamage();
 					}
 					if (damage > 0F) {
 						entity.attackEntityFrom(DamageSources.FISSION_BURN, damage);

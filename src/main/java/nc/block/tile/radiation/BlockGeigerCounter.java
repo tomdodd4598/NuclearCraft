@@ -8,6 +8,7 @@ import nc.tile.radiation.TileGeigerCounter;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -27,7 +28,7 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
-		if (player != null && player.getHeldItem(hand).isEmpty()) {
+		if (player != null && player.getHeldItemMainhand().isEmpty()) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (!world.isRemote && tile instanceof TileGeigerCounter) {
 				TileGeigerCounter geiger = (TileGeigerCounter) tile;
@@ -50,6 +51,6 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 		if (tile instanceof TileGeigerCounter) {
 			return ((TileGeigerCounter)tile).comparatorStrength;
 		}
-		return 0;
+		return Container.calcRedstone(tile);
 	}
 }

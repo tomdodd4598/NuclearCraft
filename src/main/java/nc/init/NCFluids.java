@@ -103,9 +103,6 @@ public class NCFluids {
 		
 		addFluidPair(FluidType.CORIUM, "corium", 0x7F8178);
 		
-		addFluidPair(FluidType.LIQUID, "ice", false, 0xAFF1FF, 1000, 250, 2000, 0);
-		addFluidPair(FluidType.LIQUID, "slurry_ice", false, 0x7EAEB7, 950, 270, 4000, 0);
-		
 		addFluidPair(FluidType.CHOCOLATE, "chocolate_liquor", 0x41241C);
 		addFluidPair(FluidType.CHOCOLATE, "cocoa_butter", 0xF6EEBF);
 		addFluidPair(FluidType.CHOCOLATE, "unsweetened_chocolate", 0x2C0A08);
@@ -139,8 +136,6 @@ public class NCFluids {
 		
 		addFluidPair(FluidType.COOLANT, "nak", 0xFFE5BC);
 		addFluidPair(FluidType.HOT_COOLANT, "nak_hot", 0xFFD5AC);
-		addFluidPair(FluidType.LIQUID, "emergency_coolant", true, 0x6DD0E7, 2000, 100, 2000, 3);
-		addFluidPair(FluidType.LIQUID, "emergency_coolant_heated", true, 0x6D93E7, 2000, 300, 1500, 9);
 		
 		addFluidPair(FluidType.HOT_GAS, "arsenic", 0x818475);
 		addFluidPair(FluidType.MOLTEN, "bas", 0x9B9B89);

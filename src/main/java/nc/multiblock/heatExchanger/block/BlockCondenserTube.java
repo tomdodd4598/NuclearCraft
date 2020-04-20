@@ -2,7 +2,6 @@ package nc.multiblock.heatExchanger.block;
 
 import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
-import nc.item.ItemMultitool;
 import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
@@ -82,19 +81,14 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements ISided
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
-		if (ItemMultitool.isMultitool(player.getHeldItem(hand))) {
-			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileCondenserTube) {
-				TileCondenserTube tube = (TileCondenserTube) tile;
-				EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
-				tube.toggleTubeSetting(side);
-				if (!world.isRemote) {
-					player.sendMessage(getToggleMessage(player, tube, side));
-				}
-				return true;
-			}
+		TileEntity tile = world.getTileEntity(pos);
+		if (player.getHeldItemMainhand().isEmpty() && tile instanceof TileCondenserTube) {
+			TileCondenserTube tube = (TileCondenserTube) tile;
+			EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
+			tube.toggleTubeSetting(side);
+			if (!world.isRemote) player.sendMessage(getToggleMessage(player, tube, side));
+			return true;
 		}
-		
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}
 	

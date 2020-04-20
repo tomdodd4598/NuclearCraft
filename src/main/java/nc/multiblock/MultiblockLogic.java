@@ -3,8 +3,6 @@ package nc.multiblock;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -13,10 +11,30 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.FissionReactorLogic;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
+import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
+import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.multiblock.fission.solid.SolidFuelFissionLogic;
+import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
+import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
+import nc.multiblock.fission.tile.IFissionComponent;
+import nc.multiblock.fission.tile.IFissionController;
+import nc.multiblock.fission.tile.IFissionSpecialComponent;
+import nc.multiblock.fission.tile.TileFissionConductor;
+import nc.multiblock.fission.tile.TileFissionIrradiator;
+import nc.multiblock.fission.tile.TileFissionMonitor;
+import nc.multiblock.fission.tile.TileFissionShield;
+import nc.multiblock.fission.tile.TileFissionSource;
+import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
+import nc.multiblock.fission.tile.port.TileFissionCellPort;
+import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.heatExchanger.CondenserLogic;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.multiblock.heatExchanger.HeatExchangerLogic;
+import nc.multiblock.heatExchanger.tile.IHeatExchangerController;
+import nc.multiblock.heatExchanger.tile.TileCondenserTube;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileLogicMultiblockPart;
 import nc.multiblock.tile.ITileMultiblockPart;
@@ -25,19 +43,25 @@ import nc.multiblock.tile.port.ITilePort;
 import nc.multiblock.tile.port.ITilePortTarget;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.TurbineLogic;
-import nc.tile.ITileFiltered;
-import nc.tile.internal.energy.EnergyStorage;
+import nc.multiblock.turbine.tile.ITurbineController;
+import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
+import nc.multiblock.turbine.tile.TileTurbineInlet;
+import nc.multiblock.turbine.tile.TileTurbineOutlet;
+import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
+import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
+import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
+import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.inventory.ITileFilteredInventory;
 import nc.util.BlockPosHelper;
 import nc.util.SuperMap;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> & ILogicMultiblock<LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T, PACKET>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>, PACKET extends MultiblockUpdatePacket> {
+public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & ILogicMultiblock<LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T, PACKET>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>, PACKET extends MultiblockUpdatePacket> {
 	
 	protected final MULTIBLOCK multiblock;
 	
@@ -79,7 +103,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	public void onBlockRemoved(ITileMultiblockPart oldPart) {}
 	
-	public abstract void onMachineAssembled(boolean wasAssembled);
+	public abstract void onMachineAssembled();
 	
 	public abstract void onMachineRestored();
 	
@@ -89,29 +113,13 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	public abstract boolean isMachineWhole(Multiblock multiblock);
 	
-	public abstract boolean onUpdateServer();
-	
-	public abstract void onUpdateClient();
-	
-	public boolean containsBlacklistedPart() {
-		for (Pair<Class<? extends T>, String> pair : getPartBlacklist()) {
-			for (long posLong : getPartMap(pair.getLeft()).keySet()) {
-				multiblock.setLastError(pair.getRight(), BlockPos.fromLong(posLong));
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public abstract List<Pair<Class<? extends T>, String>> getPartBlacklist();
-	
 	// Utility Methods
 	
-	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
-		refreshFilteredPorts(portClass, (Class<PRT>) portClass, targetClass, (Class<TRGT>) targetClass);
+	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFilteredInventory, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFilteredInventory, TRGT extends T> void refreshFilteredItemPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
+		refreshFilteredItemPorts(portClass, (Class<PRT>) portClass, targetClass, (Class<TRGT>) targetClass);
 	}
 	
-	private <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<PRT> portClz, Class<TARGET> targetClass, Class<TRGT> targetClz) {
+	private <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFilteredInventory, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFilteredInventory, TRGT extends T> void refreshFilteredItemPorts(Class<PORT> portClass, Class<PRT> portClz, Class<TARGET> targetClass, Class<TRGT> targetClz) {
 		Long2ObjectMap<PORT> portMap = (Long2ObjectMap<PORT>) getPartMap(portClz);
 		Long2ObjectMap<TARGET> targetMap = (Long2ObjectMap<TARGET>) getPartMap(targetClz);
 		
@@ -150,7 +158,6 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 				port.setMasterPortPos(master.getTilePos());
 				port.refreshMasterPort();
 				port.setInventoryStackLimit(64);
-				port.setTankCapacity(port.getTankBaseCapacity());
 			}
 		}
 		
@@ -168,8 +175,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		}
 		
 		for (Int2ObjectMap.Entry<PORT> entry : masterPortMap.int2ObjectEntrySet()) {
-			entry.getValue().setInventoryStackLimit(Math.max(64, entry.getValue().getInventoryStackLimitPerConnection()*targetCountMap.get(entry.getIntKey())));
-			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection()*targetCountMap.get(entry.getIntKey())));
+			entry.getValue().setInventoryStackLimit(Math.max(64, 2*targetCountMap.get(entry.getIntKey())));
 		}
 	}
 	
@@ -188,26 +194,17 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		ItemStackHelper.loadAllItems(data, stacks);
 	}
 	
-	public NBTTagCompound writeTanks(List<Tank> tanks, NBTTagCompound data, String name) {
+	public NBTTagCompound writeTanks(List<Tank> tanks, NBTTagCompound data) {
 		for (int i = 0; i < tanks.size(); i++) {
-			tanks.get(i).writeToNBT(data, name + i);
+			tanks.get(i).writeToNBT(data, i);
 		}
 		return data;
 	}
 	
-	public void readTanks(List<Tank> tanks, NBTTagCompound data, String name) {
+	public void readTanks(List<Tank> tanks, NBTTagCompound data) {
 		for (int i = 0; i < tanks.size(); i++) {
-			tanks.get(i).readFromNBT(data, name + i);
+			tanks.get(i).readFromNBT(data, i);
 		}
-	}
-	
-	public NBTTagCompound writeEnergy(EnergyStorage storage, NBTTagCompound data, String name) {
-		storage.writeToNBT(data, name);
-		return data;
-	}
-	
-	public void readEnergy(EnergyStorage storage, NBTTagCompound data, String name) {
-		storage.readFromNBT(data, name);
 	}
 	
 	// Packets
@@ -225,6 +222,37 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	// Init
 	
 	public static void init() {
+		FissionReactor.PART_CLASSES.add(IFissionController.class);
+		FissionReactor.PART_CLASSES.add(IFissionComponent.class);
+		FissionReactor.PART_CLASSES.add(IFissionSpecialComponent.class);
+		FissionReactor.PART_CLASSES.add(TileFissionConductor.class);
+		FissionReactor.PART_CLASSES.add(TileFissionMonitor.class);
+		FissionReactor.PART_CLASSES.add(TileFissionVent.class);
+		FissionReactor.PART_CLASSES.add(TileFissionIrradiatorPort.class);
+		FissionReactor.PART_CLASSES.add(TileFissionCellPort.class);
+		FissionReactor.PART_CLASSES.add(TileFissionShieldManager.class);
+		FissionReactor.PART_CLASSES.add(TileFissionIrradiator.class);
+		FissionReactor.PART_CLASSES.add(TileFissionSource.class);
+		FissionReactor.PART_CLASSES.add(TileFissionShield.class);
+		FissionReactor.PART_CLASSES.add(TileSolidFissionCell.class);
+		FissionReactor.PART_CLASSES.add(TileSolidFissionSink.class);
+		FissionReactor.PART_CLASSES.add(TileSaltFissionVessel.class);
+		FissionReactor.PART_CLASSES.add(TileSaltFissionHeater.class);
+		
+		HeatExchanger.PART_CLASSES.add(IHeatExchangerController.class);
+		HeatExchanger.PART_CLASSES.add(TileHeatExchangerVent.class);
+		HeatExchanger.PART_CLASSES.add(TileHeatExchangerTube.class);
+		HeatExchanger.PART_CLASSES.add(TileCondenserTube.class);
+		
+		Turbine.PART_CLASSES.add(ITurbineController.class);
+		Turbine.PART_CLASSES.add(TileTurbineRotorShaft.class);
+		Turbine.PART_CLASSES.add(TileTurbineRotorBlade.class);
+		Turbine.PART_CLASSES.add(TileTurbineRotorStator.class);
+		Turbine.PART_CLASSES.add(TileTurbineRotorBearing.class);
+		Turbine.PART_CLASSES.add(TileTurbineDynamoCoil.class);
+		Turbine.PART_CLASSES.add(TileTurbineInlet.class);
+		Turbine.PART_CLASSES.add(TileTurbineOutlet.class);
+		
 		try {
 			FissionReactor.LOGIC_MAP.put("", FissionReactorLogic.class.getConstructor(FissionReactorLogic.class));
 			//FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic.class);

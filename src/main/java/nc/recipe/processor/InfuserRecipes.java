@@ -34,15 +34,6 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquid_helium", 50), NCBlocks.supercold_ice, 0.2D, 0.5D);
 		
-		addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.fission_heater_port2, 1, 12), 1D, 1D);
-		addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.fission_heater_port2, 1, 13), 1D, 1D);
-		if (!OreDictHelper.oreExists("ingotEnderium")) {
-			addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("enderium", FluidStackHelper.INGOT_VOLUME*4), new ItemStack(NCBlocks.fission_heater_port2, 1, 14), 1D, 1D);
-		}
-		if (!OreDictHelper.oreExists("dustCryotheum")) {
-			addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.fission_heater_port2, 1, 15), 1D, 1D);
-		}
-		
 		addRecipe("emptyHeatSink", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink, 1, 0), 1D, 1D);
 		addRecipe("emptyHeatSink", fluidStack("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 12), 1D, 1D);
 		addRecipe("emptyHeatSink", fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 13), 1D, 1D);

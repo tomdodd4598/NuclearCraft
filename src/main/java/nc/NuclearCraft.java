@@ -27,7 +27,7 @@ public class NuclearCraft {
 	@Instance(Global.MOD_ID)
 	public static NuclearCraft instance;
 	
-	@SidedProxy(clientSide = Global.NC_CLIENT_PROXY, serverSide = Global.NC_SERVER_PROXY)
+	@SidedProxy(clientSide = Global.NC_CLIENT_PROXY, serverSide = Global.NC_COMMON_PROXY)
 	public static CommonProxy proxy;
 	
 	public BlockHighlightTracker blockOverlayTracker = new BlockHighlightTracker();

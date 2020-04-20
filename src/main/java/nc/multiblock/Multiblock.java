@@ -2,12 +2,9 @@ package nc.multiblock;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.NuclearCraft;
@@ -15,12 +12,7 @@ import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract;
 import nc.network.PacketHandler;
-import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.inventory.ITileInventory;
-import nc.util.SuperMap;
-import nc.util.SuperMap.SuperMapEntry;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +33,7 @@ import net.minecraftforge.fml.common.FMLLog;
  * 
  * Subordinate TileEntities implement the IMultiblockPart class and, generally, should not have an update() loop.
  */
-public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> {
+public abstract class Multiblock<PACKET extends MultiblockUpdatePacket> {
 	public static final short DIMENSION_UNBOUNDED = -1;
 	
 	// Multiblock stuff - do not mess with
@@ -228,7 +220,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	/**
 	 * Called when a machine is assembled from a disassembled state.
 	 */
-	protected abstract void onMachineAssembled(boolean wasAssembled);
+	protected abstract void onMachineAssembled();
 	
 	/**
 	 * Called when a machine is restored to the assembled state from a paused state.
@@ -418,7 +410,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			onMachineRestored();
 		}
 		else {
-			onMachineAssembled(oldState == AssemblyState.Assembled);
+			onMachineAssembled();
 		}
 	}
 	
@@ -664,26 +656,17 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		ItemStackHelper.loadAllItems(data, stacks);
 	}
 	
-	public NBTTagCompound writeTanks(List<Tank> tanks, NBTTagCompound data, String name) {
+	public NBTTagCompound writeTanks(List<Tank> tanks, NBTTagCompound data) {
 		for (int i = 0; i < tanks.size(); i++) {
-			tanks.get(i).writeToNBT(data, name + i);
+			tanks.get(i).writeToNBT(data, i);
 		}
 		return data;
 	}
 	
-	public void readTanks(List<Tank> tanks, NBTTagCompound data, String name) {
+	public void readTanks(List<Tank> tanks, NBTTagCompound data) {
 		for (int i = 0; i < tanks.size(); i++) {
-			tanks.get(i).readFromNBT(data, name + i);
+			tanks.get(i).readFromNBT(data, i);
 		}
-	}
-	
-	public NBTTagCompound writeEnergy(EnergyStorage storage, NBTTagCompound data, String string) {
-		storage.writeToNBT(data, string);
-		return data;
-	}
-	
-	public void readEnergy(EnergyStorage storage, NBTTagCompound data, String string) {
-		storage.readFromNBT(data, string);
 	}
 	
 	/**
@@ -1138,59 +1121,6 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			return;
 		}
 		PacketHandler.instance.sendToAll(getUpdatePacket());
-	}
-	
-	// Part SuperMap
-	
-	public static class PartSuperMap<T extends ITileMultiblockPart> extends SuperMap<Long, T, Long2ObjectMap<? extends T>> {
-		
-		@Override
-		public <TYPE extends T> Long2ObjectMap<? extends T> backup(Class<TYPE> clazz) {
-			return new Long2ObjectOpenHashMap<>();
-		}
-	}
-	
-	public abstract PartSuperMap<T> getPartSuperMap();
-	
-	public <TYPE extends T> Long2ObjectMap<TYPE> getPartMap(Class<TYPE> type) {
-		return getPartSuperMap().get(type);
-	}
-	
-	public void onPartAdded(ITileMultiblockPart newPart) {
-		for (Entry<Class<? extends T>, Long2ObjectMap<? extends T>> superMapEntryRaw : getPartSuperMap().entrySet()) {
-			addBlockForSuperMapEntry(new SuperMapEntry(superMapEntryRaw), newPart);
-		}
-	}
-	
-	public <TYPE extends T> void addBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, ITileMultiblockPart newPart) {
-		if (superMapEntry.getKey().isInstance(newPart)) {
-			superMapEntry.getValue().put(newPart.getTilePos().toLong(), superMapEntry.getKey().cast(newPart));
-		}
-	}
-	
-	public void onPartRemoved(ITileMultiblockPart oldPart) {
-		for (Entry<Class<? extends T>, Long2ObjectMap<? extends T>> superMapEntryRaw : getPartSuperMap().entrySet()) {
-			removeBlockForSuperMapEntry(new SuperMapEntry(superMapEntryRaw), oldPart);
-		}
-	}
-	
-	public <TYPE extends T> void removeBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, ITileMultiblockPart oldPart) {
-		if (superMapEntry.getKey().isInstance(oldPart)) {
-			superMapEntry.getValue().remove(oldPart.getTilePos().toLong());
-		}
-	}
-	
-	public void clearAllMaterial() {
-		for (Entry<Class<? extends T>, Long2ObjectMap<? extends T>> superMapEntryRaw : getPartSuperMap().entrySet()) {
-			for (T tile : superMapEntryRaw.getValue().values()) {
-				if (tile instanceof ITileInventory) {
-					((ITileInventory)tile).clearAllSlots();
-				}
-				if (tile instanceof ITileFluid) {
-					((ITileFluid)tile).clearAllTanks();
-				}
-			}
-		}
 	}
 	
 	// Registry

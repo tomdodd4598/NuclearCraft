@@ -700,12 +700,12 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getSaltFissionFuelTime()/80D);
+			return (int) (getFissionFuelTime()/80D);
 		}
 		
-		protected double getSaltFissionFuelTime() {
-			if (recipe == null) return 1D;
-			return recipe.getSaltFissionFuelTime();
+		protected int getFissionFuelTime() {
+			if (recipe == null) return 1;
+			return recipe.getFissionFuelTime();
 		}
 		
 		protected int getFissionFuelHeat() {
@@ -738,7 +738,7 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getSaltFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 3));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
@@ -816,8 +816,8 @@ public class JEIRecipeWrapper {
 			return 20;
 		}
 		
-		protected int getCoolantHeaterCoolingRate() {
-			if (recipe == null) return 40;
+		protected double getCoolantHeaterCoolingRate() {
+			if (recipe == null) return 10D;
 			return recipe.getCoolantHeaterCoolingRate();
 		}
 		

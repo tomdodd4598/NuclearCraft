@@ -29,7 +29,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatExchangerUpdatePacket> implements ILogicMultiblock<HeatExchangerLogic, IHeatExchangerPart> {
+public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket> implements ILogicMultiblock<HeatExchangerLogic, IHeatExchangerPart> {
 	
 	public static final ObjectSet<Class<? extends IHeatExchangerPart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends HeatExchangerLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
@@ -44,6 +44,8 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	protected final PartSuperMap<IHeatExchangerPart> partSuperMap = new PartSuperMap<>();
 	
 	protected IHeatExchangerController controller;
+	
+	protected int updateCount = 0;
 	
 	public boolean isHeatExchangerOn, computerActivated;
 	public double fractionOfTubesActive, efficiency, maxEfficiency;
@@ -127,7 +129,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	@Override
-	protected void onMachineAssembled(boolean wasAssembled) {
+	protected void onMachineAssembled() {
 		onHeatExchangerFormed();
 	}
 	
@@ -191,16 +193,15 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	
 	@Override
 	protected boolean updateServer() {
-		boolean flag = false;
 		//setIsHeatExchangerOn();
-		updateHeatExchangerStats();
-		if (logic.onUpdateServer()) {
-			flag = true;
+		if (shouldUpdate()) {
+			updateHeatExchangerStats();
+			if (controller != null) {
+				sendUpdateToListeningPlayers();
+			}
 		}
-		if (controller != null) {
-			sendUpdateToListeningPlayers();
-		}
-		return flag;
+		incrementUpdateCount();
+		return true;
 	}
 	
 	public void setIsHeatExchangerOn() {
@@ -246,11 +247,23 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 		maxEfficiency = (double)maxEfficiencyCount/numberOfTubes;
 	}
 	
+	protected void incrementUpdateCount() {
+		updateCount++; updateCount %= updateTime();
+	}
+	
+	protected static int updateTime() {
+		return NCConfig.machine_update_rate;
+	}
+	
+	protected boolean shouldUpdate() {
+		return updateCount == 0;
+	}
+	
 	// Client
 	
 	@Override
 	protected void updateClient() {
-		logic.onUpdateClient();
+		
 	}
 	
 	// NBT
@@ -298,7 +311,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	
 	@Override
 	public void clearAllMaterial() {
-		super.clearAllMaterial();
+		ILogicMultiblock.super.clearAllMaterial();
 	}
 	
 	// Multiblock Validators

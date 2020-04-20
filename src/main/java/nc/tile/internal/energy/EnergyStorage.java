@@ -40,14 +40,6 @@ public class EnergyStorage implements IEnergyStorage {
 		return maxTransfer;
 	}
 	
-	public long getEnergyStoredLong() {
-		return energyStored;
-	}
-	
-	public long getMaxEnergyStoredLong() {
-		return energyCapacity;
-	}
-	
 	@Override
 	public boolean canReceive() {
 		return true;
@@ -73,54 +65,52 @@ public class EnergyStorage implements IEnergyStorage {
 	}
 	
 	public void changeEnergyStored(long energy) {
-		energyStored = NCMath.clamp(energyStored + energy, 0, energyCapacity);
+		energyStored += energy;
+		if (energyStored > energyCapacity) energyStored = energyCapacity;
+		else if (energyStored < 0) energyStored = 0;
 	}
 	
-	/** Ignores energy capacity! */
 	public void setEnergyStored(long energy) {
-		energyStored = Math.max(0, energy);
+		energyStored = energy;
+		if (energyStored > energyCapacity) energyStored = energyCapacity;
+		else if (energyStored < 0) energyStored = 0;
 	}
 	
-	/** Ignores energy stored! */
 	public void setStorageCapacity(long newCapacity) {
+		if (newCapacity == energyCapacity || newCapacity <= 0) return;
 		energyCapacity = Math.max(newCapacity, NCConfig.rf_per_eu);
-		//if (newCapacity < energyStored) setEnergyStored(newCapacity);
-	}
-	
-	public boolean isFull() {
-		return energyStored >= energyCapacity;
-	}
-	
-	public boolean isEmpty() {
-		return energyStored == 0;
+		if (newCapacity < energyStored) setEnergyStored(newCapacity);
 	}
 	
 	public void mergeEnergyStorage(EnergyStorage other) {
-		setStorageCapacity(getMaxEnergyStoredLong() + other.getMaxEnergyStoredLong());
-		setEnergyStored(getEnergyStoredLong() + other.getEnergyStoredLong());
+		setStorageCapacity(getMaxEnergyStored() + other.getMaxEnergyStored());
+		setEnergyStored(getEnergyStored() + other.getEnergyStored());
 	}
 	
 	public void setMaxTransfer(int newMaxTransfer) {
-		maxTransfer = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
+		if (newMaxTransfer < 0) return;
+		if (newMaxTransfer != maxTransfer) maxTransfer = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
 	}
 	
 	// NBT
 	
-	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {
-		NBTTagCompound tag = new NBTTagCompound();
-		tag.setLong("energy", energyStored);
-		tag.setLong("capacity", energyCapacity);
-		nbt.setTag(name, tag);
+	public final NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		NBTTagCompound storageTag = new NBTTagCompound();
+		if (energyStored < 0) {
+			energyStored = 0;
+		}
+		storageTag.setLong("energy", energyStored);
+		nbt.setTag("energyStorage", storageTag);
 		return nbt;
 
 	}
 	
-	public final EnergyStorage readFromNBT(NBTTagCompound nbt, String name) {
-		if (nbt.hasKey(name, 10)) {
-			NBTTagCompound tag = nbt.getCompoundTag(name);
-			energyStored = tag.getLong("energy");
-			if (tag.hasKey("capacity", 99)) {
-				energyCapacity = tag.getLong("capacity");
+	public final EnergyStorage readFromNBT(NBTTagCompound nbt) {
+		if (nbt.hasKey("energyStorage")) {
+			NBTTagCompound storageTag = nbt.getCompoundTag("energyStorage");
+			energyStored = storageTag.getLong("energy");
+			if (energyStored > energyCapacity) {
+				energyStored = energyCapacity;
 			}
 		}
 		return this;

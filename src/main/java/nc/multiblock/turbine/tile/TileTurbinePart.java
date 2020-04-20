@@ -15,7 +15,7 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 	
 	@Override
 	public Turbine createNewMultiblock() {
-		return new Turbine(world);
+		return new Turbine(getWorld());
 	}
 	
 	public void setIsTurbineOn() {

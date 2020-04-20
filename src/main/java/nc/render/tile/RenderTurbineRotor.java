@@ -38,10 +38,10 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 	}
 	
 	@Override
-	public void render(TileTurbineController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
-		if (!controller.isRenderer || !controller.isMultiblockAssembled()) return;
+	public void render(TileTurbineController tile, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
+		if (!tile.isRenderer || !tile.isMultiblockAssembled()) return;
 		
-		Turbine turbine = controller.getMultiblock();
+		Turbine turbine = tile.getMultiblock();
 		if (turbine == null) return; 
 		
 		EnumFacing dir = turbine.flowDir;
@@ -56,7 +56,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		
 		BlockRendererDispatcher renderer = MC.getBlockRendererDispatcher();
 		//brightness = tile.getWorld().getLightBrightness(turbine.getMinimumInteriorPlaneCoord(dir, turbine.getFlowLength()/2, turbine.bladeLength - 1, turbine.bladeLength - 1));
-		brightness[count] = controller.getWorld().getLightBrightness(turbine.getExtremeInteriorCoord(NCMath.getBit(count, 0) == 1, NCMath.getBit(count, 1) == 1, NCMath.getBit(count, 2) == 1));
+		brightness[count] = tile.getWorld().getLightBrightness(turbine.getExtremeInteriorCoord(NCMath.getBit(count, 0) == 1, NCMath.getBit(count, 1) == 1, NCMath.getBit(count, 2) == 1));
 		count++; count %= 8;
 		float bright = (brightness[0] + brightness[1] + brightness[2] + brightness[3] + brightness[4] + brightness[5] + brightness[6] + brightness[7])/8F;
 		MC.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -65,7 +65,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0, 15*16);
 		
-		BlockPos pos = controller.getPos();
+		BlockPos pos = tile.getPos();
 		double r = turbine.getRotorRadius();
 		double rX = -turbine.getMaxX() + pos.getX() + (dir.getAxis() == Axis.X ? 0D : r);
 		double rY = -turbine.getMaxY() + pos.getY() + (dir.getAxis() == Axis.Y ? 0D : r);
@@ -107,7 +107,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.popMatrix();
 		
 		GlStateManager.pushMatrix();
-		pos = controller.getPos();
+		pos = tile.getPos();
 		GlStateManager.translate(posX - rX, posY - rY, posZ - rZ);
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);

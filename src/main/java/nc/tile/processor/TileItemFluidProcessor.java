@@ -59,7 +59,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	}
 	
 	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
-		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeHandler, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
+		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeHandler, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
 		itemOutputSize = itemOutSize;
@@ -558,9 +558,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		getEnergyStorage().setEnergyStored(message.energyStored);
 		baseProcessTime = message.baseProcessTime;
 		baseProcessPower = message.baseProcessPower;
-		for (int i = 0; i < getTanks().size(); i++) {
-			getTanks().get(i).readInfo(message.tanksInfo.get(i));
-		}
+		for (int i = 0; i < getTanks().size(); i++) getTanks().get(i).readInfo(message.tanksInfo.get(i));
 	}
 	
 	@Override

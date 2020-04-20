@@ -59,7 +59,7 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 			ITileFluid tileFluid = (ITileFluid) tile;
 			if (FluidHelper.accessTanks(player, hand, facing, tileFluid)) return true;
 		}
-		if (!world.isRemote && player.getHeldItem(hand).isEmpty()) {
+		if (!world.isRemote && player.getHeldItemMainhand().isEmpty()) {
 			if (tile instanceof ITileMultiblockPart) {
 				Multiblock controller = ((ITileMultiblockPart) tile).getMultiblock();
 				if (controller != null) {

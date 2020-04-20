@@ -1,12 +1,9 @@
 package nc.multiblock.fission;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -35,7 +32,6 @@ import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.heat.HeatBuffer;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,8 +39,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 
 public class FissionReactorLogic extends MultiblockLogic<FissionReactor, FissionReactorLogic, IFissionPart, FissionUpdatePacket> {
-	
-	public final HeatBuffer heatBuffer = new HeatBuffer(FissionReactor.BASE_MAX_HEAT);
 	
 	public FissionReactorLogic(FissionReactor reactor) {
 		super(reactor);
@@ -84,7 +78,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	// Multiblock Methods
 	
 	@Override
-	public void onMachineAssembled(boolean wasAssembled) {
+	public void onMachineAssembled() {
 		onReactorFormed();
 	}
 	
@@ -98,7 +92,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			 getReactor().controller = contr;
 		}
 		
-		heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*getCapacityMultiplier());
+		getReactor().heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*getCapacityMultiplier());
 		getReactor().ambientTemp = 273 + (int) (getWorld().getBiome(getReactor().getMiddleCoord()).getTemperature(getReactor().getMiddleCoord())*20F);
 		
 		if (!getWorld().isRemote) {
@@ -132,22 +126,17 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		return false;
 	}
 	
-	@Override
-	public List<Pair<Class<? extends IFissionPart>, String>> getPartBlacklist() {
-		return new ArrayList<>();
-	}
-	
 	public void onAssimilate(Multiblock assimilated) {
 		if (!(assimilated instanceof FissionReactor)) return;
 		FissionReactor assimilatedReactor = (FissionReactor) assimilated;
-		heatBuffer.mergeHeatBuffers(assimilatedReactor.getLogic().heatBuffer);
+		getReactor().heatBuffer.mergeHeatBuffers(assimilatedReactor.heatBuffer);
 		onReactorFormed();
 	}
 	
 	public void onAssimilated(Multiblock assimilator) {}
 	
 	public void refreshConnections() {
-		refreshFilteredPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
+		refreshFilteredItemPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
 		
 		//TODO - Temporary shield manager connections
 		for (TileFissionShieldManager manager : getPartMap(TileFissionShieldManager.class).values()) {
@@ -217,7 +206,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	public void refreshClusterStats(FissionCluster cluster) {
 		cluster.componentCount = cluster.fuelComponentCount = 0;
 		cluster.cooling = cluster.rawHeating = cluster.totalHeatMult = 0L;
-		cluster.effectiveHeating = cluster.meanHeatMult = cluster.totalEfficiency = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = cluster.meanHeatingSpeedMultiplier = 0D;
+		cluster.effectiveHeating = cluster.meanHeatMult = cluster.totalEfficiency = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = 0D;
 		
 		cluster.heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*cluster.getComponentMap().size());
 	}
@@ -263,10 +252,9 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	// Server
 	
-	@Override
 	public boolean onUpdateServer() {
 		if (!getReactor().isReactorOn) {
-			heatBuffer.changeHeatStored(-getHeatDissipation());
+			getReactor().heatBuffer.changeHeatStored(-getHeatDissipation());
 		}
 		return false;
 	}
@@ -276,7 +264,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void updateRedstone() {
-		/*getReactor().comparatorSignal = NCMath.getComparatorSignal(100D/NCConfig.fission_comparator_max_heat*getReactor().heatBuffer.heatStored, getReactor().heatBuffer.heatCapacity, 0D);
+		/*getReactor().comparatorSignal = (int) MathHelper.clamp(1500D/NCConfig.fission_comparator_max_heat*getReactor().heatBuffer.heatStored/getReactor().heatBuffer.heatCapacity, 0D, 15D);
 		for (TileSaltFissionRedstonePort redstonePort : getReactor().partSuperMap.get(TileSaltFissionRedstonePort.class).values) {
 			if (redstonePort.comparatorSignal != getReactor().comparatorSignal) {
 				redstonePort.comparatorSignal = getReactor().comparatorSignal;
@@ -295,7 +283,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		
 		//TODO - graphite fires
 		
-		//TODO - explosions if vents with water are present, melt casing if not
+		//TODO - explosions if vents are present, melt casing if not
 		if (getPartMap(TileFissionVent.class).isEmpty()) {
 			
 		}
@@ -320,15 +308,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	//TODO - config
 	public long getHeatDissipation() {
-		return Math.max(1L, heatBuffer.getHeatStored()*getReactor().getExteriorSurfaceArea()/(NCMath.cube(6)*672000L));
-	}
-	
-	public int getTemperature() {
-		return Math.round(getReactor().ambientTemp + (FissionReactor.MAX_TEMP - getReactor().ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
-	}
-	
-	public float getBurnDamage() {
-		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373)/200F;
+		return Math.max(1L, getReactor().heatBuffer.getHeatStored()*getReactor().getExteriorSurfaceArea()/(NCMath.cube(6)*672000L));
 	}
 	
 	// Component Logic
@@ -382,7 +362,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	// Client
 	
-	@Override
 	public void onUpdateClient() {}
 	
 	public boolean playFissionSound(IFissionFuelComponent fuelComponent) {
@@ -399,12 +378,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	@Override
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
-		heatBuffer.writeToNBT(logicTag, "heatBuffer");
+		
 	}
 	
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
-		heatBuffer.readFromNBT(logicTag, "heatBuffer");
+		
 	}
 	
 	// Packets
@@ -416,8 +395,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	@Override
 	public void onPacket(FissionUpdatePacket message) {
-		heatBuffer.setHeatStored(message.heatStored);
-		heatBuffer.setHeatCapacity(message.heatCapacity);
+		
 	}
 	
 	public ContainerMultiblockController<FissionReactor, IFissionController> getContainer(EntityPlayer player) {

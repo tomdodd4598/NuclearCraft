@@ -5,8 +5,8 @@ import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import javax.annotation.Nullable;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -109,7 +109,7 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 		nbt.setLong("masterManagerPos", masterManagerPos.toLong());
 		
 		BlockPos listenerPos;
-		IntList posCacheArrayX = new IntArrayList(), posCacheArrayY = new IntArrayList(), posCacheArrayZ = new IntArrayList();
+		IntSet posCacheArrayX = new IntOpenHashSet(), posCacheArrayY = new IntOpenHashSet(), posCacheArrayZ = new IntOpenHashSet();
 		for (LISTENER listener : listeners) {
 			listenerPos = listener.getTilePos();
 			posCacheArrayX.add(listenerPos.getX());

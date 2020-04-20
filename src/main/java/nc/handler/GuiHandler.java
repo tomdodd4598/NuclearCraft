@@ -42,36 +42,24 @@ import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSeparator;
 import nc.gui.processor.GuiSupercooler;
 import nc.multiblock.container.ContainerFissionCellPort;
-import nc.multiblock.container.ContainerFissionHeaterPort;
 import nc.multiblock.container.ContainerFissionIrradiator;
 import nc.multiblock.container.ContainerFissionIrradiatorPort;
-import nc.multiblock.container.ContainerFissionVesselPort;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.container.ContainerSaltFissionController;
-import nc.multiblock.container.ContainerSaltFissionHeater;
-import nc.multiblock.container.ContainerSaltFissionVessel;
 import nc.multiblock.container.ContainerSolidFissionCell;
 import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
-import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
-import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
-import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
-import nc.multiblock.fission.tile.port.TileFissionVesselPort;
 import nc.multiblock.gui.GuiFissionCellPort;
-import nc.multiblock.gui.GuiFissionHeaterPort;
 import nc.multiblock.gui.GuiFissionIrradiator;
 import nc.multiblock.gui.GuiFissionIrradiatorPort;
-import nc.multiblock.gui.GuiFissionVesselPort;
 import nc.multiblock.gui.GuiHeatExchangerController;
 import nc.multiblock.gui.GuiSaltFissionController;
-import nc.multiblock.gui.GuiSaltFissionHeater;
-import nc.multiblock.gui.GuiSaltFissionVessel;
 import nc.multiblock.gui.GuiSolidFissionCell;
 import nc.multiblock.gui.GuiSolidFissionController;
 import nc.multiblock.gui.GuiTurbineController;
@@ -164,18 +152,10 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileFissionIrradiator) return new ContainerFissionIrradiator(player, (TileFissionIrradiator) tile);
 			case 201:
 				if (tile instanceof TileSolidFissionCell) return new ContainerSolidFissionCell(player, (TileSolidFissionCell) tile);
-			case 202:
-				if (tile instanceof TileSaltFissionVessel) return new ContainerSaltFissionVessel(player, (TileSaltFissionVessel) tile);
-			case 203:
-				if (tile instanceof TileSaltFissionHeater) return new ContainerSaltFissionHeater(player, (TileSaltFissionHeater) tile);
 			case 300:
 				if (tile instanceof TileFissionIrradiatorPort) return new ContainerFissionIrradiatorPort(player, (TileFissionIrradiatorPort) tile);
 			case 301:
 				if (tile instanceof TileFissionCellPort) return new ContainerFissionCellPort(player, (TileFissionCellPort) tile);
-			case 302:
-				if (tile instanceof TileFissionVesselPort) return new ContainerFissionVesselPort(player, (TileFissionVesselPort) tile);
-			case 303:
-				if (tile instanceof TileFissionHeaterPort) return new ContainerFissionHeaterPort(player, (TileFissionHeaterPort) tile);
 			case 1001:
 				if (tile instanceof Manufactory) return new ContainerMachineConfig(player, (Manufactory) tile);
 			case 1002:
@@ -279,18 +259,10 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileFissionIrradiator) return new GuiFissionIrradiator(player, (TileFissionIrradiator) tile);
 			case 201:
 				if (tile instanceof TileSolidFissionCell) return new GuiSolidFissionCell(player, (TileSolidFissionCell) tile);
-			case 202:
-				if (tile instanceof TileSaltFissionVessel) return new GuiSaltFissionVessel(player, (TileSaltFissionVessel) tile);
-			case 203:
-				if (tile instanceof TileSaltFissionHeater) return new GuiSaltFissionHeater(player, (TileSaltFissionHeater) tile);
 			case 300:
 				if (tile instanceof TileFissionIrradiatorPort) return new GuiFissionIrradiatorPort(player, (TileFissionIrradiatorPort) tile);
 			case 301:
 				if (tile instanceof TileFissionCellPort) return new GuiFissionCellPort(player, (TileFissionCellPort) tile);
-			case 302:
-				if (tile instanceof TileFissionVesselPort) return new GuiFissionVesselPort(player, (TileFissionVesselPort) tile);
-			case 303:
-				if (tile instanceof TileFissionHeaterPort) return new GuiFissionHeaterPort(player, (TileFissionHeaterPort) tile);
 			case 1001:
 				if (tile instanceof Manufactory) return new GuiManufactory.SideConfig(player, (Manufactory) tile);
 			case 1002:

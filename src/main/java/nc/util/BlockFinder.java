@@ -1,4 +1,4 @@
-/*package nc.util;
+package nc.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -263,4 +263,3 @@ public class BlockFinder {
 		return position(randomBetween(xMin, xMax), randomBetween(yMin, yMax), randomBetween(zMin, zMax));
 	}
 }
-*/

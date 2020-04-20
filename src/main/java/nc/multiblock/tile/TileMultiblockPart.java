@@ -20,10 +20,10 @@ import net.minecraftforge.fml.common.FMLLog;
  * Base logic class for Multiblock-connected tile entities. Most multiblock machines
  * should derive from this and implement their game logic in certain abstract methods.
  */
-public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends TileBeefAbstract implements ITileMultiblockPart<MULTIBLOCK> {
+public abstract class TileMultiblockPart<T extends Multiblock> extends TileBeefAbstract implements ITileMultiblockPart<T> {
 	
-	private MULTIBLOCK multiblock;
-	protected final Class<MULTIBLOCK> multiblockClass;
+	private T multiblock;
+	protected final Class<T> tClass;
 	
 	private boolean visited;
 	
@@ -31,10 +31,10 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	private NBTTagCompound cachedMultiblockData;
 	//private boolean paused;
 
-	public TileMultiblockPart(Class<MULTIBLOCK> multiblockClass) {
+	public TileMultiblockPart(Class<T> tClass) {
 		super();
 		multiblock = null;
-		this.multiblockClass = multiblockClass;
+		this.tClass = tClass;
 		visited = false;
 		saveMultiblockData = false;
 		//paused = false;
@@ -42,21 +42,21 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	}
 	
 	@Override
-	public Class<MULTIBLOCK> getMultiblockType() {
-		return multiblockClass;
+	public Class<T> getMultiblockType() {
+		return tClass;
 	}
 
 	///// Multiblock Connection Base Logic
 	@Override
-	public Set<MULTIBLOCK> attachToNeighbors() {
-		Set<MULTIBLOCK> multiblocks = null;
-		MULTIBLOCK bestMultiblock = null;
+	public Set<T> attachToNeighbors() {
+		Set<T> multiblocks = null;
+		T bestMultiblock = null;
 		
 		// Look for a compatible multiblock in our neighboring parts.
-		ITileMultiblockPart<MULTIBLOCK>[] partsToCheck = getNeighboringParts();
-		for(ITileMultiblockPart<MULTIBLOCK> neighborPart : partsToCheck) {
+		ITileMultiblockPart<T>[] partsToCheck = getNeighboringParts();
+		for(ITileMultiblockPart<T> neighborPart : partsToCheck) {
 			if(neighborPart.isConnected()) {
-				MULTIBLOCK candidate = neighborPart.getMultiblock();
+				T candidate = neighborPart.getMultiblock();
 				if(!candidate.getClass().equals(getMultiblockType())) {
 					// Skip multiblocks with incompatible types
 					continue;
@@ -200,7 +200,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	}
 
 	@Override
-	public abstract void onMachineAssembled(MULTIBLOCK multiblock);
+	public abstract void onMachineAssembled(T multiblock);
 
 	@Override
 	public abstract void onMachineBroken();
@@ -217,7 +217,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	}
 
 	@Override
-	public MULTIBLOCK getMultiblock() {
+	public T getMultiblock() {
 		return multiblock;
 	}
 
@@ -250,29 +250,29 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	}
 
 	@Override
-	public void onAssimilated(MULTIBLOCK newMultiblock) {
+	public void onAssimilated(T newMultiblock) {
 		assert(this.multiblock != newMultiblock);
 		this.multiblock = newMultiblock;
 	}
 	
 	@Override
-	public void onAttached(MULTIBLOCK newMultiblock) {
+	public void onAttached(T newMultiblock) {
 		this.multiblock = newMultiblock;
 	}
 	
 	@Override
-	public void onDetached(MULTIBLOCK oldMultiblock) {
+	public void onDetached(T oldMultiblock) {
 		this.multiblock = null;
 	}
 
 	@Override
-	public abstract MULTIBLOCK createNewMultiblock();
+	public abstract T createNewMultiblock();
 	
 	@Override
-	public ITileMultiblockPart<MULTIBLOCK>[] getNeighboringParts() {
+	public ITileMultiblockPart<T>[] getNeighboringParts() {
 
 		TileEntity te;
-		List<ITileMultiblockPart<MULTIBLOCK>> neighborParts = new ArrayList<>();
+		List<ITileMultiblockPart<T>> neighborParts = new ArrayList<>();
 		BlockPos neighborPosition, partPosition = pos;
 
 		for (EnumFacing facing : EnumFacing.VALUES) {
@@ -281,14 +281,14 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 			te = this.getWorld().getTileEntity(neighborPosition);
 
 			if (te instanceof ITileMultiblockPart)
-				neighborParts.add((ITileMultiblockPart<MULTIBLOCK>)te);
+				neighborParts.add((ITileMultiblockPart<T>)te);
 		}
 
 		return neighborParts.toArray(new ITileMultiblockPart[neighborParts.size()]);
 	}
 	
 	@Override
-	public void onOrphaned(MULTIBLOCK multiblock, int oldSize, int newSize) {
+	public void onOrphaned(T multiblock, int oldSize, int newSize) {
 		this.markDirty();
 		getWorld().markChunkDirty(pos, this);
 	}
@@ -304,7 +304,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	
 	// Validator standard errors
 	
-	protected void doStandardNullControllerResponse(MULTIBLOCK controller) {
+	protected void doStandardNullControllerResponse(T controller) {
 		if (controller == null) {
 			throw nullControllerError();
 		}
@@ -350,7 +350,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	 */
 	protected void markMultiblockForRenderUpdate() {
 
-		MULTIBLOCK multiblock = this.getMultiblock();
+		T multiblock = this.getMultiblock();
 
 		if (null != multiblock)
 			multiblock.markMultiblockForRenderUpdate();

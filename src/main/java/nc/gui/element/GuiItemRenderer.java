@@ -108,12 +108,14 @@ public class GuiItemRenderer extends Gui {
 	
 	public void draw() {
 		GlStateManager.color(1F, 1F, 1F, alpha);
+		GlStateManager.pushAttrib();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		bindTexture(texture);
 		drawTexturedModalRect(xPosition, yPosition, icon, width, height);
 		
+		GlStateManager.popAttrib();
 		GlStateManager.disableBlend();
 		
 		GlStateManager.color(1F, 1F, 1F, 1F);

@@ -41,7 +41,6 @@ public class GuiFissionIrradiatorPort extends NCGui {
 		if (!port.getFilterStacks().get(0).isEmpty()) {
 			new GuiItemRenderer(guiLeft + 44, guiTop + 35, 0.5F, port.getFilterStacks().get(0)).draw();
 		}
-		mc.getTextureManager().bindTexture(gui_textures);
 	}
 	
 	@Override

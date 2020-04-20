@@ -9,6 +9,7 @@ import nc.block.NCBlockMushroom;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
 import nc.block.item.energy.ItemBlockBattery;
+import nc.block.tile.BlockBattery;
 import nc.block.tile.BlockSimpleTile;
 import nc.block.tile.ITileType;
 import nc.block.tile.dummy.BlockMachineInterface;
@@ -20,8 +21,6 @@ import nc.config.NCConfig;
 import nc.enumm.BlockEnums.ProcessorType;
 import nc.enumm.BlockEnums.SimpleTileType;
 import nc.enumm.MetaEnums;
-import nc.multiblock.battery.BatteryType;
-import nc.multiblock.battery.block.BlockBattery;
 import nc.multiblock.fission.block.BlockFissionCasing;
 import nc.multiblock.fission.block.BlockFissionComputerPort;
 import nc.multiblock.fission.block.BlockFissionConductor;
@@ -34,10 +33,7 @@ import nc.multiblock.fission.block.BlockFissionSource;
 import nc.multiblock.fission.block.BlockFissionVent;
 import nc.multiblock.fission.block.manager.BlockFissionShieldManager;
 import nc.multiblock.fission.block.port.BlockFissionCellPort;
-import nc.multiblock.fission.block.port.BlockFissionHeaterPort;
-import nc.multiblock.fission.block.port.BlockFissionHeaterPort2;
 import nc.multiblock.fission.block.port.BlockFissionIrradiatorPort;
-import nc.multiblock.fission.block.port.BlockFissionVesselPort;
 import nc.multiblock.fission.salt.block.BlockSaltFissionController;
 import nc.multiblock.fission.salt.block.BlockSaltFissionHeater;
 import nc.multiblock.fission.salt.block.BlockSaltFissionHeater2;
@@ -55,13 +51,6 @@ import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerGlass;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerTube;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerVent;
-import nc.multiblock.qComputer.QuantumComputerGateEnums;
-import nc.multiblock.qComputer.block.BlockQuantumComputerConnector;
-import nc.multiblock.qComputer.block.BlockQuantumComputerController;
-import nc.multiblock.qComputer.block.BlockQuantumComputerGate;
-import nc.multiblock.qComputer.block.BlockQuantumComputerQubit;
-import nc.multiblock.rtg.RTGType;
-import nc.multiblock.rtg.block.BlockRTG;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.block.BlockTurbineCasing;
@@ -77,6 +66,7 @@ import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
 import nc.multiblock.turbine.block.BlockTurbineRotorStator;
 import nc.radiation.RadiationHelper;
 import nc.tab.NCTabs;
+import nc.tile.energy.battery.BatteryType;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.NCMath;
@@ -141,7 +131,6 @@ public class NCBlocks {
 	public static Block voltaic_pile_advanced;
 	public static Block voltaic_pile_du;
 	public static Block voltaic_pile_elite;
-	
 	public static Block lithium_ion_battery_basic;
 	public static Block lithium_ion_battery_advanced;
 	public static Block lithium_ion_battery_du;
@@ -162,12 +151,7 @@ public class NCBlocks {
 	public static Block fission_computer_port;
 	
 	public static Block fission_irradiator_port;
-	
 	public static Block fission_cell_port;
-	
-	public static Block fission_vessel_port;
-	public static Block fission_heater_port;
-	public static Block fission_heater_port2;
 	
 	public static Block fission_shield_manager;
 	
@@ -231,15 +215,7 @@ public class NCBlocks {
 	public static Block tritium_lamp;
 	public static Block tritium_lantern;
 	
-	public static Block quantum_computer_controller;
-	public static Block quantum_computer_qubit;
-	
-	public static Block quantum_computer_gate_single;
-	public static Block quantum_computer_gate_control;
-	public static Block quantum_computer_gate_swap;
-	
-	public static Block quantum_computer_connector;
-	//public static Block quantum_computer_port;
+	//public static Block spin;
 	
 	public static void init() {
 		ore = withName(new BlockMeta.BlockOre(), "ore");
@@ -274,10 +250,10 @@ public class NCBlocks {
 		
 		machine_interface = withName(new BlockMachineInterface(SimpleTileType.MACHINE_INTERFACE));
 		
-		rtg_uranium = withName(new BlockRTG(RTGType.URANIUM), "rtg_uranium");
-		rtg_plutonium = withName(new BlockRTG(RTGType.PLUTONIUM), "rtg_plutonium");
-		rtg_americium = withName(new BlockRTG(RTGType.AMERICIUM), "rtg_americium");
-		rtg_californium = withName(new BlockRTG(RTGType.CALIFORNIUM), "rtg_californium");
+		rtg_uranium = withName(new BlockSimpleTile(SimpleTileType.RTG_URANIUM));
+		rtg_plutonium = withName(new BlockSimpleTile(SimpleTileType.RTG_PLUTONIUM));
+		rtg_americium = withName(new BlockSimpleTile(SimpleTileType.RTG_AMERICIUM));
+		rtg_californium = withName(new BlockSimpleTile(SimpleTileType.RTG_CALIFORNIUM));
 		
 		solar_panel_basic = withName(new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_BASIC));
 		solar_panel_advanced = withName(new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_ADVANCED));
@@ -286,19 +262,15 @@ public class NCBlocks {
 		
 		decay_generator = withName(new BlockSimpleTile(SimpleTileType.DECAY_GENERATOR));
 		
-		if (NCConfig.register_battery[0]) {
-			voltaic_pile_basic = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_BASIC), "voltaic_pile_basic");
-			voltaic_pile_advanced = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_ADVANCED), "voltaic_pile_advanced");
-			voltaic_pile_du = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_DU), "voltaic_pile_du");
-			voltaic_pile_elite = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_ELITE), "voltaic_pile_elite");
-		}
+		voltaic_pile_basic = withName(new BlockBattery(SimpleTileType.VOLTAIC_PILE_BASIC));
+		voltaic_pile_advanced = withName(new BlockBattery(SimpleTileType.VOLTAIC_PILE_ADVANCED));
+		voltaic_pile_du = withName(new BlockBattery(SimpleTileType.VOLTAIC_PILE_DU));
+		voltaic_pile_elite = withName(new BlockBattery(SimpleTileType.VOLTAIC_PILE_ELITE));
 		
-		if (NCConfig.register_battery[1]) {
-			lithium_ion_battery_basic = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_BASIC), "lithium_ion_battery_basic");
-			lithium_ion_battery_advanced = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_ADVANCED), "lithium_ion_battery_advanced");
-			lithium_ion_battery_du = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_DU), "lithium_ion_battery_du");
-			lithium_ion_battery_elite = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_ELITE), "lithium_ion_battery_elite");	
-		}
+		lithium_ion_battery_basic = withName(new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_BASIC));
+		lithium_ion_battery_advanced = withName(new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_ADVANCED));
+		lithium_ion_battery_du = withName(new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_DU));
+		lithium_ion_battery_elite = withName(new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_ELITE));	
 		
 		bin = withName(new BlockSimpleTile(SimpleTileType.BIN));
 		
@@ -315,12 +287,7 @@ public class NCBlocks {
 		fission_computer_port = withName(new BlockFissionComputerPort(), "fission_computer_port");
 		
 		fission_irradiator_port = withName(new BlockFissionIrradiatorPort(), "fission_irradiator_port");
-		
 		fission_cell_port = withName(new BlockFissionCellPort(), "fission_cell_port");
-		
-		fission_vessel_port = withName(new BlockFissionVesselPort(), "fission_vessel_port");
-		fission_heater_port = withName(new BlockFissionHeaterPort(), "fission_heater_port");
-		fission_heater_port2 = withName(new BlockFissionHeaterPort2(), "fission_heater_port2");
 		
 		fission_shield_manager = withName(new BlockFissionShieldManager(), "fission_shield_manager");
 		
@@ -389,17 +356,7 @@ public class NCBlocks {
 		
 		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.MISC).setLightLevel(1F), "tritium_lamp");
 		
-		if (NCConfig.register_quantum) {
-			quantum_computer_controller = withName(new BlockQuantumComputerController(), "quantum_computer_controller");
-			quantum_computer_qubit = withName(new BlockQuantumComputerQubit(), "quantum_computer_qubit");
-			
-			quantum_computer_gate_single = withName(new BlockQuantumComputerGate.Single(), "quantum_computer_gate_single");
-			quantum_computer_gate_control = withName(new BlockQuantumComputerGate.Control(), "quantum_computer_gate_control");
-			quantum_computer_gate_swap = withName(new BlockQuantumComputerGate.Swap(), "quantum_computer_gate_swap");
-			
-			quantum_computer_connector = withName(new BlockQuantumComputerConnector(), "quantum_computer_connector");
-			//quantum_computer_port = withName(new BlockQuantumComputerPort(), "quantum_computer_port");
-		}
+		//spin = withName(new BlockSpin(), "spin");
 	}
 	
 	public static void register() {
@@ -447,19 +404,15 @@ public class NCBlocks {
 		
 		registerBlock(decay_generator);
 		
-		if (NCConfig.register_battery[0]) {
-			registerBlock(voltaic_pile_basic, new ItemBlockBattery(voltaic_pile_basic, BatteryType.VOLTAIC_PILE_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(voltaic_pile_advanced, new ItemBlockBattery(voltaic_pile_advanced, BatteryType.VOLTAIC_PILE_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(voltaic_pile_du, new ItemBlockBattery(voltaic_pile_du, BatteryType.VOLTAIC_PILE_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(voltaic_pile_elite, new ItemBlockBattery(voltaic_pile_elite, BatteryType.VOLTAIC_PILE_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-		}
+		registerBlock(voltaic_pile_basic, new ItemBlockBattery(voltaic_pile_basic, BatteryType.VOLTAIC_PILE_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(voltaic_pile_advanced, new ItemBlockBattery(voltaic_pile_advanced, BatteryType.VOLTAIC_PILE_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(voltaic_pile_du, new ItemBlockBattery(voltaic_pile_du, BatteryType.VOLTAIC_PILE_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(voltaic_pile_elite, new ItemBlockBattery(voltaic_pile_elite, BatteryType.VOLTAIC_PILE_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
 		
-		if (NCConfig.register_battery[1]) {
-			registerBlock(lithium_ion_battery_basic, new ItemBlockBattery(lithium_ion_battery_basic, BatteryType.LITHIUM_ION_BATTERY_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(lithium_ion_battery_advanced, new ItemBlockBattery(lithium_ion_battery_advanced, BatteryType.LITHIUM_ION_BATTERY_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(lithium_ion_battery_du, new ItemBlockBattery(lithium_ion_battery_du, BatteryType.LITHIUM_ION_BATTERY_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(lithium_ion_battery_elite, new ItemBlockBattery(lithium_ion_battery_elite, BatteryType.LITHIUM_ION_BATTERY_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-		}
+		registerBlock(lithium_ion_battery_basic, new ItemBlockBattery(lithium_ion_battery_basic, BatteryType.LITHIUM_ION_BATTERY_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_advanced, new ItemBlockBattery(lithium_ion_battery_advanced, BatteryType.LITHIUM_ION_BATTERY_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_du, new ItemBlockBattery(lithium_ion_battery_du, BatteryType.LITHIUM_ION_BATTERY_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_elite, new ItemBlockBattery(lithium_ion_battery_elite, BatteryType.LITHIUM_ION_BATTERY_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
 		
 		registerBlock(bin);
 		
@@ -476,12 +429,7 @@ public class NCBlocks {
 		registerBlock(fission_computer_port);
 		
 		registerBlock(fission_irradiator_port);
-		
 		registerBlock(fission_cell_port);
-		
-		registerBlock(fission_vessel_port);
-		registerBlock(fission_heater_port, new ItemBlockMeta(fission_heater_port, MetaEnums.CoolantHeaterType.class, TextFormatting.AQUA));
-		registerBlock(fission_heater_port2, new ItemBlockMeta(fission_heater_port2, MetaEnums.CoolantHeaterType2.class, TextFormatting.AQUA));
 		
 		registerBlock(fission_shield_manager);
 		
@@ -551,17 +499,7 @@ public class NCBlocks {
 		
 		registerBlock(tritium_lamp);
 		
-		if (NCConfig.register_quantum) {
-			registerBlock(quantum_computer_controller);
-			registerBlock(quantum_computer_qubit);
-			
-			registerBlock(quantum_computer_gate_single, new ItemBlockMeta(quantum_computer_gate_single, QuantumComputerGateEnums.SingleType.class, TextFormatting.AQUA));
-			registerBlock(quantum_computer_gate_control, new ItemBlockMeta(quantum_computer_gate_control, QuantumComputerGateEnums.ControlType.class, TextFormatting.AQUA));
-			registerBlock(quantum_computer_gate_swap, new ItemBlockMeta(quantum_computer_gate_swap, QuantumComputerGateEnums.SwapType.class, TextFormatting.AQUA));
-			
-			registerBlock(quantum_computer_connector);
-			//registerBlock(quantum_computer_port);
-		}
+		//registerBlock(spin);
 	}
 	
 	public static void registerRenders() {
@@ -615,19 +553,15 @@ public class NCBlocks {
 		
 		registerRender(decay_generator);
 		
-		if (NCConfig.register_battery[0]) {
-			registerRender(voltaic_pile_basic);
-			registerRender(voltaic_pile_advanced);
-			registerRender(voltaic_pile_du);
-			registerRender(voltaic_pile_elite);
-		}
+		registerRender(voltaic_pile_basic);
+		registerRender(voltaic_pile_advanced);
+		registerRender(voltaic_pile_du);
+		registerRender(voltaic_pile_elite);
 		
-		if (NCConfig.register_battery[1]) {
-			registerRender(lithium_ion_battery_basic);
-			registerRender(lithium_ion_battery_advanced);
-			registerRender(lithium_ion_battery_du);
-			registerRender(lithium_ion_battery_elite);
-		}
+		registerRender(lithium_ion_battery_basic);
+		registerRender(lithium_ion_battery_advanced);
+		registerRender(lithium_ion_battery_du);
+		registerRender(lithium_ion_battery_elite);
 		
 		registerRender(bin);
 		
@@ -650,16 +584,7 @@ public class NCBlocks {
 		registerRender(fission_computer_port);
 		
 		registerRender(fission_irradiator_port);
-		
 		registerRender(fission_cell_port);
-		
-		registerRender(fission_vessel_port);
-		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_heater_port), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_heater_port.getRegistryName().getPath()), "axis=z,type=" + MetaEnums.CoolantHeaterType.values()[i].getName()));
-		}
-		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_heater_port2), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_heater_port2.getRegistryName().getPath()), "axis=z,type=" + MetaEnums.CoolantHeaterType2.values()[i].getName()));
-		}
 		
 		registerRender(fission_shield_manager);
 		
@@ -738,23 +663,7 @@ public class NCBlocks {
 		
 		registerRender(tritium_lamp);
 		
-		if (NCConfig.register_quantum) {
-			registerRender(quantum_computer_controller);
-			registerRender(quantum_computer_qubit);
-			
-			for (int i = 0; i < QuantumComputerGateEnums.SingleType.values().length; i++) {
-				registerRender(quantum_computer_gate_single, i, QuantumComputerGateEnums.SingleType.values()[i].getName());
-			}
-			for (int i = 0; i < QuantumComputerGateEnums.ControlType.values().length; i++) {
-				registerRender(quantum_computer_gate_control, i, QuantumComputerGateEnums.ControlType.values()[i].getName());
-			}
-			for (int i = 0; i < QuantumComputerGateEnums.SwapType.values().length; i++) {
-				registerRender(quantum_computer_gate_swap, i, QuantumComputerGateEnums.SwapType.values()[i].getName());
-			}
-			
-			registerRender(quantum_computer_connector);
-			//registerRender(quantum_computer_port);
-		}
+		//registerRender(spin);
 	}
 	
 	public static Block withName(Block block, String name) {

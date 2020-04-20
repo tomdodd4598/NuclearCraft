@@ -99,6 +99,10 @@ public interface ITileInventory extends ITile {
 		getInventoryStacks().clear();
 	}
 	
+	public default boolean isUsableByPlayer(EntityPlayer player) {
+		return getTileWorld().getTileEntity(getTilePos()) != this ? false : player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
+	}
+	
 	public default void openInventory(EntityPlayer player) {}
 	
 	public default void closeInventory(EntityPlayer player) {}

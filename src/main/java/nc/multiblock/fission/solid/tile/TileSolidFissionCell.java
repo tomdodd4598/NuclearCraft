@@ -95,7 +95,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	protected int flux = 0, heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
-	protected int[] moderatorLineFluxes = new int[] {0, 0, 0, 0, 0, 0};
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
 	protected IFissionFluxSink[] adjacentFluxSinks = new IFissionFluxSink[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
@@ -160,7 +159,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		undercoolingLifetimeFactor = 1D;
 		sourceEfficiency = null;
 		for (EnumFacing dir : EnumFacing.VALUES) {
-			moderatorLineFluxes[dir.getIndex()] = 0;
 			moderatorLineEfficiencies[dir.getIndex()] = null;
 			adjacentFluxSinks[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
@@ -241,11 +239,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	@Override
 	public void addFlux(int flux) {
 		this.flux += flux;
-	}
-	
-	@Override
-	public int[] getModeratorLineFluxes() {
-		return moderatorLineFluxes;
 	}
 	
 	@Override
