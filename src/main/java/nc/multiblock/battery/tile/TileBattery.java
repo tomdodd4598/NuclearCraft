@@ -97,11 +97,17 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	
 	private boolean ic2reg = false;
 	
-	public final BatteryType type;
+	public final long capacity;
+	private final int energyTier;
 	
-	public TileBattery(BatteryType type) {
+	private TileBattery(BatteryType type) {
+		this(type.getCapacity(), type.getEnergyTier());
+	}
+	
+	public TileBattery(long capacity, int energyTier) {
 		super(BatteryMultiblock.class);
-		this.type = type;
+		this.capacity = capacity;
+		this.energyTier = energyTier;
 		energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.IN);
 		energySides = ITileEnergy.getDefaultEnergySides(this);
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
@@ -260,12 +266,12 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	
 	@Override
 	public int getEUSourceTier() {
-		return type.getEnergyTier();
+		return energyTier;
 	}
 	
 	@Override
 	public int getEUSinkTier() {
-		return type.getEnergyTier();
+		return energyTier;
 	}
 	
 	@Override

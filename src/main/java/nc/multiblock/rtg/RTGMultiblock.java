@@ -21,8 +21,9 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 	protected final PartSuperMap<TileRTG> partSuperMap = new PartSuperMap<>();
 	
 	protected final @Nonnull EnergyStorage storage = new EnergyStorage(1);
-	
 	protected long power = 0L;
+	
+	protected boolean refreshEnergy = false;
 	
 	public RTGMultiblock(World world) {
 		super(world);
@@ -57,16 +58,16 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 	
 	@Override
 	protected void onMachineAssembled(boolean wasAssembled) {
-		refreshMultiblock(wasAssembled);
+		refreshMultiblock();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
-		refreshMultiblock(false);
+		refreshMultiblock();
 	}
 	
-	protected void refreshMultiblock(boolean alreadyAssembled) {
-		if (!WORLD.isRemote && !alreadyAssembled) {
+	protected void refreshMultiblock() {
+		if (!WORLD.isRemote) {
 			long power = 0L;
 			for (TileRTG rtg : getPartMap(TileRTG.class).values()) {
 				power += rtg.power;
@@ -75,6 +76,7 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 			this.power = power;
 			storage.setStorageCapacity(4*power);
 			storage.setMaxTransfer(NCMath.toInt(4*power));
+			refreshEnergy = true;
 		}
 	}
 	
@@ -111,7 +113,7 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 	
 	@Override
 	protected void onAssimilate(Multiblock assimilated) {
-		refreshMultiblock(false);
+		refreshMultiblock();
 		if (assimilated instanceof RTGMultiblock) {
 			storage.mergeEnergyStorage(((RTGMultiblock)assimilated).storage);
 		}
@@ -122,6 +124,11 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 	
 	@Override
 	protected boolean updateServer() {
+		if (refreshEnergy) {
+			storage.cullEnergyStored();
+			refreshEnergy = false;
+		}
+		
 		getEnergyStorage().changeEnergyStored(power);
 		return false;
 	}

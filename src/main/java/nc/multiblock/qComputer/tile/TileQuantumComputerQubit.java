@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -30,6 +31,11 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart {
 	
 	@Override
 	public void onMachineBroken() {}
+	
+	@Override
+	public int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {2, 3, 4, 5};
+	}
 	
 	@Override
 	public void update() {

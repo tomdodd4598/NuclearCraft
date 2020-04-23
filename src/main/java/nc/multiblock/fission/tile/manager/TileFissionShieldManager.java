@@ -18,6 +18,11 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 		super(TileFissionShieldManager.class);
 	}
 	
+	@Override
+	public int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {2, 3, 4, 5};
+	}
+	
 	public boolean isShieldingActive() {
 		return getIsRedstonePowered();
 	}
@@ -71,15 +76,20 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	@Override
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		//TODO
-		if (getMultiblock() != null) {
-			Long2ObjectMap<TileFissionShield> shieldMap = getMultiblock().getPartMap(TileFissionShield.class);
-			for (TileFissionShield shield : shieldMap.values()) {
-				getListeners().add(shield);
-				shield.setMasterManagerPos(pos);
-				shield.refreshMasterManager();
+		if (player.isSneaking()) {
+			
+		}
+		else {
+			if (getMultiblock() != null) {
+				Long2ObjectMap<TileFissionShield> shieldMap = getMultiblock().getPartMap(TileFissionShield.class);
+				for (TileFissionShield shield : shieldMap.values()) {
+					getListeners().add(shield);
+					shield.setMasterManagerPos(pos);
+					shield.refreshMasterManager();
+				}
+				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", shieldMap.size())));
+				return true;
 			}
-			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", shieldMap.size())));
-			return true;
 		}
 		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
 	}

@@ -230,8 +230,8 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionIrradiator.class, JEIHandler.FISSION_IRRADIATOR.getUUID(), 0, 1, 2, 36);
 		//recipeTransferRegistry.addRecipeTransferHandler(ContainerPebbleFissionChamber.class, JEIHandler.PEBBLE_FISSION.getUUID(), 0, 1, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUUID(), 0, 1, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionVessel.class, JEIHandler.SALT_FISSION.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionHeater.class, JEIHandler.COOLANT_HEATER.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionVessel.class, JEIHandler.SALT_FISSION.getUUID(), 0, 0, 0, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionHeater.class, JEIHandler.COOLANT_HEATER.getUUID(), 0, 0, 0, 36);
 		
 		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
 			if (!NCConfig.ore_gen[i] && NCConfig.ore_hide_disabled) {

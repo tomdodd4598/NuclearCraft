@@ -3,6 +3,8 @@ package nc.multiblock.qComputer.tile;
 import nc.multiblock.qComputer.QuantumComputer;
 import nc.multiblock.qComputer.QuantumComputerGate;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileQuantumComputerController extends TileQuantumComputerPart {
 	
@@ -19,6 +21,11 @@ public class TileQuantumComputerController extends TileQuantumComputerPart {
 	
 	@Override
 	public void onMachineBroken() {}
+	
+	@Override
+	public int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {2, 3, 4, 5};
+	}
 	
 	@Override
 	public void update() {

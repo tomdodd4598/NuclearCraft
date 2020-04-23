@@ -6,8 +6,10 @@ import javax.annotation.Nullable;
 import nc.block.property.BlockProperties;
 import nc.capability.radiation.source.IRadiationSource;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -54,7 +56,28 @@ public interface ITile {
 	// Redstone
 	
 	public default boolean checkIsRedstonePowered(World world, BlockPos pos) {
-		return world.isBlockPowered(pos);
+		return world.isBlockPowered(pos) || isWeaklyPowered(world, pos);
+	}
+	
+	public default int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {};
+	}
+	
+	public default boolean isWeaklyPowered(World world, BlockPos pos) {
+		for (int i : weakSidesToCheck(world, pos)) {
+			EnumFacing side = EnumFacing.byIndex(i);
+			BlockPos offPos = pos.offset(side);
+			if (world.getRedstonePower(offPos, side) > 0) {
+				return true;
+			}
+			else {
+				IBlockState state = world.getBlockState(offPos);
+				if (state.getBlock() == Blocks.REDSTONE_WIRE && state.getValue(BlockRedstoneWire.POWER).intValue() > 0) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public default void refreshIsRedstonePowered(World world, BlockPos pos) {

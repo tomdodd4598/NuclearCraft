@@ -81,6 +81,11 @@ public abstract class TileFissionSource extends TileFissionPart {
 	}
 	
 	@Override
+	public int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {2, 3, 4, 5};
+	}
+	
+	@Override
 	public void onAdded() {
 		world.neighborChanged(pos, getBlockType(), pos);
 		super.onAdded();

@@ -28,7 +28,7 @@ public class EnergyStorage implements IEnergyStorage {
 	
 	@Override
 	public int getEnergyStored() {
-		return NCMath.toInt(energyStored);
+		return NCMath.toInt(Math.min(energyStored, energyCapacity));
 	}
 	
 	@Override
@@ -61,6 +61,8 @@ public class EnergyStorage implements IEnergyStorage {
 	@Override
 	public int receiveEnergy(int receive, boolean simulated) {
 		int energyReceived = Math.min(NCMath.toInt(energyCapacity - energyStored), Math.min(maxTransfer, receive));
+		if (energyReceived <= 0) return 0;
+		
 		if (!simulated) changeEnergyStored(energyReceived);
 		return energyReceived;
 	}
@@ -68,6 +70,8 @@ public class EnergyStorage implements IEnergyStorage {
 	@Override
 	public int extractEnergy(int extract, boolean simulated) {
 		int energyExtracted = Math.min(NCMath.toInt(energyStored), Math.min(maxTransfer, extract));
+		if (energyExtracted <= 0) return 0;
+		
 		if (!simulated) changeEnergyStored(-energyExtracted);
 		return energyExtracted;
 	}
@@ -84,7 +88,12 @@ public class EnergyStorage implements IEnergyStorage {
 	/** Ignores energy stored! */
 	public void setStorageCapacity(long newCapacity) {
 		energyCapacity = Math.max(newCapacity, NCConfig.rf_per_eu);
-		//if (newCapacity < energyStored) setEnergyStored(newCapacity);
+		//cullEnergyStored();
+	}
+	
+	/** Use to remove excess stored energy */
+	public void cullEnergyStored() {
+		if (energyStored > energyCapacity) setEnergyStored(energyCapacity);
 	}
 	
 	public boolean isFull() {

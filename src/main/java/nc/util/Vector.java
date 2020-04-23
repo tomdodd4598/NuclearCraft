@@ -5,59 +5,50 @@ import net.minecraft.nbt.NBTTagCompound;
 public class Vector {
 	
 	public final int dim;
-	private final Complex[] components;
+	public final double[] re;
+	public final double[] im;
 	
 	public Vector(int dim) {
 		this.dim = dim;
-		components = new Complex[dim];
-	}
-	
-	public Vector(Complex[] components) {
-		dim = components.length;
-		this.components = components;
+		re = new double[dim];
+		im = new double[dim];
 	}
 	
 	public Vector copy() {
 		Vector v = new Vector(dim);
 		for (int i = 0; i < dim; i++) {
-			v.components[i] = components[i];
+			v.re[i] = re[i];
+			v.im[i] = im[i];
 		}
 		return v;
 	}
 	
-	public Complex get(int i) {
-		if (components[i] == null) {
-			components[i] = Complex._0();
-		}
-		return components[i];
-	}
-	
-	public void set(int i, Complex c) {
-		components[i] = c == null ? Complex._0() : c;
-	}
-	
-	public Vector zero() {
+	public void zero() {
 		for (int i = 0; i < dim; i++) {
-			components[i] = Complex._0();
+			this.re[i] = 0D;
+			this.im[i] = 0D;
 		}
-		return this;
 	}
 	
 	public Vector map(Matrix m) {
-		Vector copy = copy();
+		Vector v = copy();
+		double[] c;
 		for (int i = 0; i < dim; i++) {
-			components[i] = Complex._0();
+			re[i] = 0D;
+			im[i] = 0D;
 			for (int j = 0; j < dim; j++) {
-				components[i].add(m.get(j, i).copy().multiply(copy.get(j)));
+				c = Complex.multiply(m.re[i][j], m.im[i][j], v.re[j], v.im[j]);
+				re[i] += c[0];
+				im[i] += c[1];
 			}
 		}
 		return this;
 	}
 	
 	public double absSq() {
-		double n = 0;
+		double n = 0D;
 		for (int i = 0; i < dim; i++) {
-			n += get(i).absSq();
+			n += Complex.absSq(re[i], im[i]);
 		}
 		return n;
 	}
@@ -65,25 +56,29 @@ public class Vector {
 	public Vector normalize() {
 		double scale = Math.sqrt(absSq());
 		for (int i = 0; i < dim; i++) {
-			get(i).divide(scale);
+			re[i] /= scale;
+			im[i] /= scale;
 		}
 		return this;
 	}
 	
-	public Complex dot(Vector v) {
-		Complex c = Complex._0();
+	public double[] dot(Vector v) {
+		double re = 0D, im = 0D;
+		double[] c;
 		for (int i = 0; i < dim; i++) {
-			c.add(get(i).copy().conj().multiply(v.get(i)));
+			c = Complex.multiply(this.re[i], -this.im[i], v.re[i], v.im[i]);
+			re += c[0];
+			im += c[1];
 		}
-		return c;
+		return new double[] {re, im};
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {
 		NBTTagCompound vectorTag = new NBTTagCompound();
 		vectorTag.setInteger("dim", dim);
 		for (int i = 0; i < dim; i++) {
-			vectorTag.setDouble("componentRe" + i, get(i).re());
-			vectorTag.setDouble("componentIm" + i, get(i).im());
+			vectorTag.setDouble("re" + i, re[i]);
+			vectorTag.setDouble("im" + i, im[i]);
 		}
 		nbt.setTag(name, vectorTag);
 		return nbt;
@@ -94,7 +89,8 @@ public class Vector {
 			NBTTagCompound vectorTag = nbt.getCompoundTag(name);
 			Vector v = new Vector(vectorTag.getInteger("dim"));
 			for (int i = 0; i < v.dim; i++) {
-				v.set(i, new Complex(vectorTag.getDouble("componentRe" + i), vectorTag.getDouble("componentIm" + i)));
+				v.re[i] = vectorTag.getDouble("re" + i);
+				v.im[i] = vectorTag.getDouble("im" + i);
 			}
 			return v;
 		}

@@ -139,7 +139,7 @@ tile.nuclearcraft.lithium_ion_battery_basic.name=Basic Lithium Ion Battery
 tile.nuclearcraft.lithium_ion_battery_advanced.name=Advanced Lithium Ion Battery
 tile.nuclearcraft.lithium_ion_battery_du.name=DU Lithium Ion Battery
 tile.nuclearcraft.lithium_ion_battery_elite.name=Elite Lithium Ion Battery
-tile.nuclearcraft.energy_storage.desc=Right click a side to read the energy level and right click while sneaking with empty hands to toggle the side's energy connection. Sneaking while placing will maintain the energy connection configuration.
+tile.nuclearcraft.energy_storage.desc=Right click a side to read the energy level and right click with a multitool to toggle the side's energy connection. Sneaking while placing will maintain the energy connection configuration.
 
 tile.nuclearcraft.fission_casing.name=Fission Reactor Casing
 tile.nuclearcraft.fission_glass.name=Fission Reactor Glass
@@ -2695,7 +2695,7 @@ gui.nc.config.category.quantum=Quantum Configs
 gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
 
 gui.nc.config.quantum_max_qubits=Max Qubits
-gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than five qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with extreme caution!
+gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
 gui.nc.config.quantum_angle_precision=Gate Angle Precision
 gui.nc.config.quantum_angle_precision.comment=Controls the precision allowed for setting the working angle of gates by defining the number of available angles, uniformly distributed from 0 to 360 degrees.
 

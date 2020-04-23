@@ -1,5 +1,6 @@
 package nc.multiblock.qComputer;
 
+import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -21,6 +22,7 @@ import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.network.QuantumComputerQubitRenderPacket;
 import nc.multiblock.qComputer.tile.IQuantumComputerPart;
 import nc.multiblock.qComputer.tile.TileQuantumComputerController;
+import nc.multiblock.qComputer.tile.TileQuantumComputerGate;
 import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -29,10 +31,10 @@ import nc.util.CollectionHelper;
 import nc.util.Complex;
 import nc.util.Matrix;
 import nc.util.NCMath;
+import nc.util.NCUtil;
 import nc.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 public class QuantumComputer extends Multiblock<IQuantumComputerPart, MultiblockUpdatePacket> {
 	
@@ -88,9 +90,10 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected void onQuantumComputerFormed() {
 		if (!WORLD.isRemote) {
+			int q = qubits();
 			IntSet set = new IntOpenHashSet(NCConfig.quantum_max_qubits);
 			for (TileQuantumComputerQubit qubit : getQubits()) {
-				if (set.contains(qubit.id)) qubit.id = -1;
+				if (set.contains(qubit.id) || qubit.id >= q) qubit.id = -1;
 				else if (qubit.id >= 0) set.add(qubit.id);
 			}
 			
@@ -161,27 +164,36 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	@Override
 	protected boolean updateServer() {
-		tryLoadStateCache(dim(qubits()));
-		
 		boolean refresh = false;
-		QuantumComputerGate gate = queue.poll();
-		if (gate != null) {
-			QuantumComputerGate merger = gate, next;
-			while (merger != null) {
-				next = queue.peek();
-				
-				if (next == null) {
-					break;
+		try {
+			QuantumComputerGate gate = queue.poll();
+			if (gate != null) {
+				tryLoadStateCache(dim(qubits()));
+				QuantumComputerGate merger = gate, next;
+				while (merger != null) {
+					next = queue.peek();
+					
+					if (next == null) {
+						break;
+					}
+					
+					merger = merger.merge(next);
+					if (merger != null) {
+						queue.poll();
+						gate = merger;
+					}
 				}
-				
-				merger = merger.merge(next);
-				if (merger != null) {
-					queue.poll();
-					gate = merger;
-				}
+				gate.run();
+				refresh = gate.shouldMarkDirty();
 			}
-			gate.run();
-			refresh = gate.shouldMarkDirty();
+		}
+		catch (OutOfMemoryError e) {
+			if (controller != null) {
+				WORLD.removeTileEntity(controller.getPos());
+				WORLD.setBlockToAir(controller.getPos());
+			}
+			NCUtil.getLogger().fatal("The quantum computer at " + (controller == null ? "[]" : controller.getPos().toString()) + " has caused the game to run out of heap memory! The controller has been destroyed and so the multiblock has been disabled. It is HIGHLY recommended that the maximum qubit limit is lowered in the configs!");
+			e.printStackTrace();
 		}
 		
 		return refresh;
@@ -262,19 +274,18 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	}
 	
 	protected void collapse(int dim, int o, IntSet i, IntSet n) {
-		checkStateDim(dim);
-		
 		if (i.size() <= 1) {
 			state.zero();
 			int j = 0;
 			for (int k : i) {
 				j = k;
 			}
-			state.set(j, Complex._1());
+			state.re[j] = 1D;
+			state.im[j] = 0D;
 		}
 		else for (int j = 0; j < dim; j++) {
 			if (!i.contains(j)) {
-				state.set(j, Complex._0());
+				state.re[j] = state.im[j] = 0D;
 			}
 		}
 		state.normalize();
@@ -290,6 +301,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		}
 		
 		int dim = dim(q);
+		checkStateDim(dim);
+		
 		if (collapse) {
 			collapse(dim, 0, set(0), set(CollectionHelper.increasingArray(q)));
 		}
@@ -300,6 +313,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	public void measure(IntSet n) {
 		IntList _n = list(n);
 		int q = qubits(), dim = dim(q), o;
+		checkStateDim(dim);
+		
 		int[] z = new int[_n.size()];
 		for (int j = 0; j < _n.size(); j++) {
 			z[j] = q - _n.getInt(j) - 1;
@@ -311,7 +326,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		IntSet i = null;
 		double a, sum = 0D;
 		for (int j = 0; j < dim; j++) {
-			a = state.get(j).absSq();
+			a = Complex.absSq(state.re[j], state.im[j]);
 			sum += a;
 			o = NCMath.onlyBits(j, z);
 			if (w.containsKey(o)) {
@@ -362,7 +377,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		state.map(m);
 	}
 	
-	protected Matrix single(Matrix m, IntList n) {
+	protected Matrix single(TileQuantumComputerGate tile, Matrix m, IntList n) {
 		int q = qubits();
 		if (n.isEmpty()) {
 			return id(q);
@@ -372,67 +387,64 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			return fallback();
 		}
 		
-		int i = n.getInt(0), j = 1;
-		Matrix t = tensor(id(i), m);
-		while (j < n.size()) {
-			i = n.getInt(j) - n.getInt(j - 1) - 1;
-			t = tensor(t, tensor(id(i), m));
-			++j;
+		Matrix[] t = new Matrix[q];
+		for (int j = 0; j < q; j++) {
+			t[j] = n.contains(j) ? m : I;
 		}
 		
-		return tensor(t, id(q - n.getInt(j - 1) - 1));
+		return Matrix.tensorProduct(t);
 	}
 	
-	public void x(IntSet n) {
-		gate(single(X, list(n)));
+	public void x(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, X, list(n)));
 	}
 	
-	public void y(IntSet n) {
-		gate(single(Y, list(n)));
+	public void y(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, Y, list(n)));
 	}
 	
-	public void z(IntSet n) {
-		gate(single(Z, list(n)));
+	public void z(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, Z, list(n)));
 	}
 	
-	public void h(IntSet n) {
-		gate(single(H, list(n)));
+	public void h(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, H, list(n)));
 	}
 	
-	public void s(IntSet n) {
-		gate(single(S, list(n)));
+	public void s(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, S, list(n)));
 	}
 	
-	public void sdg(IntSet n) {
-		gate(single(Sdg, list(n)));
+	public void sdg(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, Sdg, list(n)));
 	}
 	
-	public void t(IntSet n) {
-		gate(single(T, list(n)));
+	public void t(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, T, list(n)));
 	}
 	
-	public void tdg(IntSet n) {
-		gate(single(Tdg, list(n)));
-	}
-	
-	/** Angle in degrees! */
-	public void p(double angle, IntSet n) {
-		gate(single(p(angle), list(n)));
+	public void tdg(TileQuantumComputerGate tile, IntSet n) {
+		gate(single(tile, Tdg, list(n)));
 	}
 	
 	/** Angle in degrees! */
-	public void rx(double angle, IntSet n) {
-		gate(single(rx(angle), list(n)));
+	public void p(TileQuantumComputerGate tile, double angle, IntSet n) {
+		gate(single(tile, p(angle), list(n)));
 	}
 	
 	/** Angle in degrees! */
-	public void ry(double angle, IntSet n) {
-		gate(single(ry(angle), list(n)));
+	public void rx(TileQuantumComputerGate tile, double angle, IntSet n) {
+		gate(single(tile, rx(angle), list(n)));
 	}
 	
 	/** Angle in degrees! */
-	public void rz(double angle, IntSet n) {
-		gate(single(rz(angle), list(n)));
+	public void ry(TileQuantumComputerGate tile, double angle, IntSet n) {
+		gate(single(tile, ry(angle), list(n)));
+	}
+	
+	/** Angle in degrees! */
+	public void rz(TileQuantumComputerGate tile, double angle, IntSet n) {
+		gate(single(tile, rz(angle), list(n)));
 	}
 	
 	public void swap(IntList i_, IntList j_) {
@@ -446,7 +458,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		int q = qubits(), dim = dim(q), i, j, s;
 		checkStateDim(dim);
 		
-		Complex c;
+		double re, im;
 		for (int k = 0; k < dim; k++) {
 			for (int a = 0; a < i_.size(); a++) {
 				i = i_.getInt(a);
@@ -457,22 +469,25 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 				j = q - j - 1;
 				if (NCMath.getBit(k, i) == 0 && NCMath.getBit(k, j) == 1) {
 					s = NCMath.swap(k, i, j);
-					c = state.get(k);
-					state.set(k, state.get(s));
-					state.set(s, c);
+					re = state.re[k];
+					im = state.im[k];
+					state.re[k] = state.re[s];
+					state.im[k] = state.im[s];
+					state.re[s] = re;
+					state.im[s] = im;
 				}
 			}
 		}
 	}
 	
-	public Matrix control(Matrix g, IntList c, IntList t) {
+	public Matrix control(TileQuantumComputerGate tile, Matrix g, IntList c, IntList t) {
 		int q = qubits();
 		if (t.isEmpty()) {
 			return id(q);
 		}
 		
 		if (c.isEmpty()) {
-			return single(g, t);
+			return single(tile, g, t);
 		}
 		
 		if (invalid(c)) {
@@ -484,76 +499,76 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		}
 		
 		int s = dim(c.size()), k;
-		Matrix m = new Matrix(dim(q)), p = null, e;
+		Matrix m = new Matrix(dim(q));
+		Matrix[] e = new Matrix[q];
 		boolean b;
 		for (int i = 0; i < s; i++) {
 			k = 0;
 			for (int j = 0; j < q; j++) {
 				b = c.contains(j);
-				e = b ? (NCMath.getBit(i, c.size() - k - 1) == 1 ? P_1 : P_0) : (t.contains(j) && i == s - 1 ? g : I);
-				p = p == null ? e : tensor(p, e);
+				e[j] = b ? (NCMath.getBit(i, c.size() - k - 1) == 1 ? P_1 : P_0) : (t.contains(j) && i == s - 1 ? g : I);
 				if (b) ++k;
 			}
-			m.add(p);
+			m.add(Matrix.tensorProduct(e));
 		}
 		
 		return m;
 	}
 	
-	public void cx(IntSet c, IntSet t) {
-		gate(control(X, list(c), list(t)));
+	public void cx(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, X, list(c), list(t)));
 	}
 	
-	public void cy(IntSet c, IntSet t) {
-		gate(control(Y, list(c), list(t)));
+	public void cy(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, Y, list(c), list(t)));
 	}
 	
-	public void cz(IntSet c, IntSet t) {
-		gate(control(Z, list(c), list(t)));
+	public void cz(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, Z, list(c), list(t)));
 	}
 	
-	public void ch(IntSet c, IntSet t) {
-		gate(control(H, list(c), list(t)));
+	public void ch(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, H, list(c), list(t)));
 	}
 	
-	public void cs(IntSet c, IntSet t) {
-		gate(control(S, list(c), list(t)));
+	public void cs(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, S, list(c), list(t)));
 	}
 	
-	public void csdg(IntSet c, IntSet t) {
-		gate(control(Sdg, list(c), list(t)));
+	public void csdg(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, Sdg, list(c), list(t)));
 	}
 	
-	public void ct(IntSet c, IntSet t) {
-		gate(control(T, list(c), list(t)));
+	public void ct(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, T, list(c), list(t)));
 	}
 	
-	public void ctdg(IntSet c, IntSet t) {
-		gate(control(Tdg, list(c), list(t)));
-	}
-	
-	/** Angle in degrees! */
-	public void cp(double angle, IntSet c, IntSet t) {
-		gate(control(p(angle), list(c), list(t)));
+	public void ctdg(TileQuantumComputerGate tile, IntSet c, IntSet t) {
+		gate(control(tile, Tdg, list(c), list(t)));
 	}
 	
 	/** Angle in degrees! */
-	public void crx(double angle, IntSet c, IntSet t) {
-		gate(control(rx(angle), list(c), list(t)));
+	public void cp(TileQuantumComputerGate tile, double angle, IntSet c, IntSet t) {
+		gate(control(tile, p(angle), list(c), list(t)));
 	}
 	
 	/** Angle in degrees! */
-	public void cry(double angle, IntSet c, IntSet t) {
-		gate(control(ry(angle), list(c), list(t)));
+	public void crx(TileQuantumComputerGate tile, double angle, IntSet c, IntSet t) {
+		gate(control(tile, rx(angle), list(c), list(t)));
 	}
 	
 	/** Angle in degrees! */
-	public void crz(double angle, IntSet c, IntSet t) {
-		gate(control(rz(angle), list(c), list(t)));
+	public void cry(TileQuantumComputerGate tile, double angle, IntSet c, IntSet t) {
+		gate(control(tile, ry(angle), list(c), list(t)));
+	}
+	
+	/** Angle in degrees! */
+	public void crz(TileQuantumComputerGate tile, double angle, IntSet c, IntSet t) {
+		gate(control(tile, rz(angle), list(c), list(t)));
 	}
 	
 	/* Don't know how to optimise this! */
-	public void cswap(IntSet c_, IntList i_, IntList j_) {
+	public void cswap(TileQuantumComputerGate tile, IntSet c_, IntList i_, IntList j_) {
 		if (c_.isEmpty()) {
 			swap(i_, j_);
 			return;
@@ -561,7 +576,6 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		
 		if (i_.size() != j_.size()) return;
 		
-		//IntList _i = list(i_), _j = list(j_);
 		if (invalid(i_) || invalid(j_)) {
 			return;
 		}
@@ -572,17 +586,20 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		
 		IntList c = list(c_);
 		int s = dim(c.size()), q = qubits(), dim = dim(q), k, i, j, w;
-		Matrix m = new Matrix(dim), p = null, e;
+		checkStateDim(dim);
+		
+		Matrix m = new Matrix(dim), p;
+		Matrix[] e = new Matrix[q];
 		boolean b;
-		Complex t;
+		double re, im;
 		for (int u = 0; u < s; u++) {
 			k = 0;
 			for (int v = 0; v < q; v++) {
 				b = c.contains(v);
-				e = b ? (NCMath.getBit(u, c.size() - k - 1) == 1 ? P_1 : P_0) : I;
-				p = p == null ? e : tensor(p, e);
+				e[v] = b ? (NCMath.getBit(u, c.size() - k - 1) == 1 ? P_1 : P_0) : I;
 				if (b) ++k;
 			}
+			p = Matrix.tensorProduct(e);
 			if (u == s - 1) {
 				for (int l = 0; l < dim; l++) {
 					for (int a = 0; a < i_.size(); a++) {
@@ -594,12 +611,19 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 						j = q - j - 1;
 						if (NCMath.getBit(l, i) == 0 && NCMath.getBit(l, j) == 1) {
 							w = NCMath.swap(l, i, j);
-							t = p.get(l, l);
-							p.set(l, l, p.get(l, w));
-							p.set(l, w, t);
-							t = p.get(w, w);
-							p.set(w, w, p.get(w, l));
-							p.set(w, l, t);
+							re = p.re[l][l];
+							im = p.im[l][l];
+							p.re[l][l] = p.re[w][l];
+							p.im[l][l] = p.im[w][l];
+							p.re[w][l] = re;
+							p.im[w][l] = im;
+							
+							re = p.re[w][w];
+							im = p.im[w][w];
+							p.re[w][w] = p.re[l][w];
+							p.im[w][w] = p.im[l][w];
+							p.re[l][w] = re;
+							p.im[l][w] = im;
 						}
 					}
 				}
@@ -618,18 +642,6 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected static Matrix id(int n) {
 		return new Matrix(dim(n)).id();
-	}
-	
-	public static Matrix tensor(Matrix... m) {
-		if (m.length == 0) return new Matrix(0);
-		
-		Matrix c = m[0].copy();
-		if (m.length == 1) return c;
-		
-		for (int i = 1; i < m.length; i++) {
-			c = c.tensorProduct(m[i]);
-		}
-		return c;
 	}
 	
 	public static IntSet set(int... n) {
@@ -652,90 +664,92 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		return Arrays.toString(list.toIntArray());
 	}
 	
-	protected static final Matrix I = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), Complex._1()}
+	protected static final Matrix I = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, 1D, 0D}
 	});
 	
-	protected static final Matrix X = new Matrix(new Complex[][] {
-		new Complex[] {Complex._0(), Complex._1()},
-		new Complex[] {Complex._1(), Complex._0()}
+	protected static final Matrix X = new Matrix(new double[][] {
+		new double[] {0D, 0D, 1D, 0D},
+		new double[] {1D, 0D, 0D, 0D}
 	});
 	
-	protected static final Matrix Y = new Matrix(new Complex[][] {
-		new Complex[] {Complex._0(), Complex._mI()},
-		new Complex[] {Complex._I(), Complex._0()}
+	protected static final Matrix Y = new Matrix(new double[][] {
+		new double[] {0D, 0D, 0D, -1D},
+		new double[] {0D, 1D, 0D, 0D}
 	});
 	
-	protected static final Matrix Z = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), Complex._m1()}
+	protected static final Matrix Z = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, -1D, 0D}
 	});
 	
-	protected static final Matrix H = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._1()},
-		new Complex[] {Complex._1(), Complex._m1()}
+	protected static final Matrix H = new Matrix(new double[][] {
+		new double[] {1D, 0D, 1D, 0D},
+		new double[] {1D, 0D, -1D, 0D}
 	}).multiply(NCMath.INV_SQRT2);
 	
-	protected static final Matrix S = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), Complex._I()}
+	protected static final Matrix S = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, 0D, 1D}
 	});
 	
-	protected static final Matrix Sdg = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), Complex._mI()}
+	protected static final Matrix Sdg = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, 0D, -1D}
 	});
 	
-	protected static final Matrix T = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), new Complex(NCMath.INV_SQRT2, NCMath.INV_SQRT2)}
+	protected static final Matrix T = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, NCMath.INV_SQRT2, NCMath.INV_SQRT2}
 	});
 	
-	protected static final Matrix Tdg = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), new Complex(NCMath.INV_SQRT2, -NCMath.INV_SQRT2)}
+	protected static final Matrix Tdg = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, NCMath.INV_SQRT2, -NCMath.INV_SQRT2}
 	});
 	
 	/** Angle in degrees! */
 	protected static Matrix p(double angle) {
-		return new Matrix(new Complex[][] {
-			new Complex[] {Complex._1(), Complex._0()},
-			new Complex[] {Complex._0(), Complex.phase_d(angle)}
+		double[] p = Complex.phase_d(angle);
+		return new Matrix(new double[][] {
+			new double[] {1D, 0D, 0D, 0D},
+			new double[] {0D, 0D, p[0], p[1]}
 		});
 	}
 	
 	/** Angle in degrees! */
 	protected static Matrix rx(double angle) {
-		return new Matrix(new Complex[][] {
-			new Complex[] {new Complex(NCMath.cos_d(angle/2D), 0D), new Complex(0D, -NCMath.sin_d(angle/2D))},
-			new Complex[] {new Complex(0D, -NCMath.sin_d(angle/2D)), new Complex(NCMath.cos_d(angle/2D), 0D)}
+		return new Matrix(new double[][] {
+			new double[] {NCMath.cos_d(angle/2D), 0D, 0D, -NCMath.sin_d(angle/2D)},
+			new double[] {0D, -NCMath.sin_d(angle/2D), NCMath.cos_d(angle/2D), 0D}
 		});
 	}
 	
 	/** Angle in degrees! */
 	protected static Matrix ry(double angle) {
-		return new Matrix(new Complex[][] {
-			new Complex[] {new Complex(NCMath.cos_d(angle/2D), 0D), new Complex(-NCMath.sin_d(angle/2D), 0D)},
-			new Complex[] {new Complex(NCMath.sin_d(angle/2D), 0D), new Complex(NCMath.cos_d(angle/2D), 0D)}
+		return new Matrix(new double[][] {
+			new double[] {NCMath.cos_d(angle/2D), 0D, -NCMath.sin_d(angle/2D), 0D},
+			new double[] {NCMath.sin_d(angle/2D), 0D, NCMath.cos_d(angle/2D), 0D}
 		});
 	}
 	
 	/** Angle in degrees! */
 	protected static Matrix rz(double angle) {
-		return new Matrix(new Complex[][] {
-			new Complex[] {Complex.phase_d(-angle/2D), Complex._0()},
-			new Complex[] {Complex._0(), Complex.phase_d(angle/2D)}
+		double[] a = Complex.phase_d(-angle/2D), b = Complex.phase_d(angle/2D);
+		return new Matrix(new double[][] {
+			new double[] {a[0], a[1], 0D, 0D},
+			new double[] {0D, 0D, b[0], b[1]}
 		});
 	}
 	
-	protected static final Matrix P_0 = new Matrix(new Complex[][] {
-		new Complex[] {Complex._1(), Complex._0()},
-		new Complex[] {Complex._0(), Complex._0()}
+	protected static final Matrix P_0 = new Matrix(new double[][] {
+		new double[] {1D, 0D, 0D, 0D},
+		new double[] {0D, 0D, 0D, 0D}
 	});
 	
-	protected static final Matrix P_1 = new Matrix(new Complex[][] {
-		new Complex[] {Complex._0(), Complex._0()},
-		new Complex[] {Complex._0(), Complex._1()}
+	protected static final Matrix P_1 = new Matrix(new double[][] {
+		new double[] {0D, 0D, 0D, 0D},
+		new double[] {0D, 0D, 1D, 0D}
 	});
 }

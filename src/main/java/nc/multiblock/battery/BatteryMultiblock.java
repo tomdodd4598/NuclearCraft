@@ -23,6 +23,8 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 	protected final @Nonnull EnergyStorage storage = new EnergyStorage(1);
 	protected int comparatorStrength = 0;
 	
+	protected boolean refreshEnergy = false;
+	
 	public BatteryMultiblock(World world) {
 		super(world);
 		for (Class<? extends TileBattery> clazz : PART_CLASSES) {
@@ -56,23 +58,24 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 	
 	@Override
 	protected void onMachineAssembled(boolean alreadyAssembled) {
-		refreshMultiblock(alreadyAssembled);
+		refreshMultiblock();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
-		refreshMultiblock(false);
+		refreshMultiblock();
 	}
 	
-	protected void refreshMultiblock(boolean alreadyAssembled) {
-		if (!WORLD.isRemote && !alreadyAssembled) {
+	protected void refreshMultiblock() {
+		if (!WORLD.isRemote) {
 			long capacity = 0L;
 			for (TileBattery battery : getPartMap(TileBattery.class).values()) {
-				capacity += battery.type.getCapacity();
+				capacity += battery.capacity;
 				battery.onMultiblockRefresh();
 			}
 			storage.setStorageCapacity(capacity);
 			storage.setMaxTransfer(NCMath.toInt(capacity));
+			refreshEnergy = true;
 		}
 	}
 	
@@ -109,7 +112,7 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 	
 	@Override
 	protected void onAssimilate(Multiblock assimilated) {
-		refreshMultiblock(false);
+		refreshMultiblock();
 		if (assimilated instanceof BatteryMultiblock) {
 			storage.mergeEnergyStorage(((BatteryMultiblock)assimilated).storage);
 		}
@@ -120,6 +123,11 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 	
 	@Override
 	protected boolean updateServer() {
+		if (refreshEnergy) {
+			storage.cullEnergyStored();
+			refreshEnergy = false;
+		}
+		
 		boolean shouldUpdate = false;
 		int compStrength = getComparatorStrength();
 		if (comparatorStrength != compStrength) {

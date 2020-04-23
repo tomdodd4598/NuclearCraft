@@ -2,168 +2,67 @@ package nc.util;
 
 public class Complex {
 	
-	private double re, im;
+	private Complex() {}
 	
-	public Complex(double real, double imag) {
-		re = real;
-		im = imag;
-	}
-	
-	public Complex copy() {
-		return new Complex(re, im);
-	}
-	
-	public void set(double real, double imag) {
-		re = real;
-		im = imag;
-	}
-	
-	public void set(Complex c) {
-		set(c.re, c.im);
-	}
-	
-	public double re() {
-		return re;
-	}
-	
-	public double im() {
-		return im;
-	}
-	
-	public double abs() {
+	public static double abs(double re, double im) {
 		return Math.hypot(re, im);
 	}
 	
-	public double absSq() {
+	public static double absSq(double re, double im) {
 		return re*re + im*im;
 	}
 	
-	public double arg() {
+	public static double arg(double re, double im) {
 		return Math.atan2(im, re);
 	}
 	
-	public Complex conj() {
-		im = -im;
-		return this;
+	public static double[] multiply(double re1, double im1, double re2, double im2) {
+		return new double[] {re1*re2 - im1*im2, re1*im2 + im1*re2};
 	}
 	
-	public Complex add(Complex c) {
-		re += c.re;
-		im += c.im;
-		return this;
+	public static double[] reciprocal(double re, double im) {
+		double scale = absSq(re, im);
+		return new double[] {re/scale, -im/scale};
 	}
 	
-	public Complex subtract(Complex c) {
-		re -= c.re;
-		im -= c.im;
-		return this;
+	public static double[] divide(double re1, double im1, double re2, double im2) {
+		double scale = absSq(re2, im2);
+		return new double[] {(re1*re2 + im1*im2)/scale, (im1*re2 - re1*im2)/scale};
 	}
 	
-	public Complex multiply(Complex c) {
-		double real = re*c.re - im*c.im;
-		double imag = re*c.im + im*c.re;
-		set(real, imag);
-		return this;
+	public static double[] exp(double re, double im) {
+		return new double[] {Math.exp(re)*Math.cos(im), Math.exp(re)*Math.sin(im)};
 	}
 	
-	public Complex multiply(double a) {
-		re *= a;
-		im *= a;
-		return this;
+	public static double[] sin(double re, double im) {
+		return new double[] {Math.sin(re)*Math.cosh(im), Math.cos(re)*Math.sinh(im)};
 	}
 	
-	public Complex reciprocal() {
-		double scale = absSq();
-		re /= scale;
-		im /= -scale;
-		return this;
+	public static double[] cos(double re, double im) {
+		return new double[] {Math.cos(re)*Math.cosh(im), -Math.sin(re)*Math.sinh(im)};
 	}
 	
-	public Complex divide(Complex c) {
-		double scale = c.absSq();
-		double real = (re*c.re + im*c.im)/scale;
-		double imag = (im*c.re - re*c.im)/scale;
-		set(real, imag);
-		return this;
+	public static double[] tan(double re, double im) {
+		return new double[] {Math.sin(re)*Math.cosh(im)/(Math.cos(re)*Math.cosh(im)), Math.cos(re)*Math.sinh(im)/(-Math.sin(re)*Math.sinh(im))};
 	}
 	
-	public Complex divide(double a) {
-		re /= a;
-		im /= a;
-		return this;
+	public static double[] normalize(double re, double im) {
+		double scale = abs(re, im);
+		return new double[] {re/scale, im/scale};
 	}
 	
-	public Complex exp() {
-		double real = Math.exp(re)*Math.cos(im);
-		double imag = Math.exp(re)*Math.sin(im);
-		set(real, imag);
-		return this;
-		
+	public static double[] phase(double phi) {
+		return new double[] {Math.cos(phi), Math.sin(phi)};
 	}
 	
-	public Complex sin() {
-		double real = Math.sin(re)*Math.cosh(im);
-		double imag = Math.cos(re)*Math.sinh(im);
-		set(real, imag);
-		return this;
+	public static double[] phase_d(double phi) {
+		return new double[] {NCMath.cos_d(phi), NCMath.sin_d(phi)};
 	}
 	
-	public Complex cos() {
-		double real = Math.cos(re)*Math.cosh(im);
-		double imag = -Math.sin(re)*Math.sinh(im);
-		set(real, imag);
-		return this;
-	}
-	
-	public Complex tan() {
-		double real = Math.sin(re)*Math.cosh(im)/(Math.cos(re)*Math.cosh(im));
-		double imag = Math.cos(re)*Math.sinh(im)/(-Math.sin(re)*Math.sinh(im));
-		set(real, imag);
-		return this;
-	}
-	
-	public Complex normalize() {
-		double scale = abs();
-		re /= scale;
-		im /= scale;
-		return this;
-	}
-	
-	@Override
-	public String toString() {
+	public static String toString(double re, double im) {
 		if (im == 0) return re + "";
 		if (re == 0) return im + "i";
 		if (im < 0) return re + " - " + (-im) + "i";
 		return re + " + " + im + "i";
-	}
-	
-	// Static
-	
-	public static Complex _0() {
-		return new Complex(0, 0);
-	}
-	
-	public static Complex _1() {
-		return new Complex(1, 0);
-	}
-	
-	public static Complex _I() {
-		return new Complex(0, 1);
-	}
-	
-	public static Complex _m1() {
-		return new Complex(-1, 0);
-	}
-	
-	public static Complex _mI() {
-		return new Complex(0, -1);
-	}
-	
-	public static Complex phase(double phi) {
-		return new Complex(Math.cos(phi), Math.sin(phi));
-	}
-	
-	public static Complex phase_d(double phi) {
-		return new Complex(NCMath.cos_d(phi), NCMath.sin_d(phi));
 	}
 }

@@ -48,6 +48,11 @@ public class TileHeatExchangerController extends TileHeatExchangerPart implement
 	}
 	
 	@Override
+	public int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {2, 3, 4, 5};
+	}
+	
+	@Override
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockHeatExchangerController) {
 			((BlockHeatExchangerController)getBlockType()).setState(isActive, this);

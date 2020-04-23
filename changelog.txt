@@ -1,3 +1,18 @@
+v2o.2.2
+
+* Massively optimised quantum computer memory use
+* Default max qubits config raised to seven
+
+* Fixed qubits, quantum gates and other blocks not correctly receiving indirect redstone signals
+
+* Fixed RTGs and multiblock batteries not correctly updating their capacities
+
+* Fixed crash on showing fission vessel and coolant heater recipes
+
+v2o.2.1
+
+* Fixed crash on activating a lone qubit with a redstone signal
+
 v2o.2.0
 
 + Added Molten Salt Reactors!

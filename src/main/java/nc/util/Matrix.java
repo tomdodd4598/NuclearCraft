@@ -1,62 +1,48 @@
 package nc.util;
 
+import java.util.Arrays;
+
+import net.minecraft.nbt.NBTTagCompound;
+
 /** Only handles square matrices! */
 public class Matrix {
 	
 	public final int dim;
-	private final Complex[][] elements;
+	public final double[][] re;
+	public final double[][] im;
 	
 	public Matrix(int dim) {
 		this.dim = dim;
-		elements = new Complex[dim][dim];
+		re = new double[dim][dim];
+		im = new double[dim][dim];
 	}
 	
-	public Matrix(Complex[][] elements) {
-		this.dim = elements.length;
-		this.elements = elements;
+	public Matrix(double[][] c) {
+		this(c.length);
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				re[i][j] = c[i][2*j];
+				im[i][j] = c[i][2*j+1];
+			}
+		}
 	}
 	
 	public Matrix copy() {
 		Matrix m = new Matrix(dim);
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				m.elements[j][i] = get(i, j).copy();
+				m.re[i][j] = re[i][j];
+				m.im[i][j] = im[i][j];
 			}
 		}
 		return m;
 	}
 	
-	public void set(Complex[][] c) {
-		for (int i = 0; i < dim; i++) {
-			for (int j = 0; j < dim; j++) {
-				elements[j][i] = c[j][i];
-			}
-		}
-	}
-	
-	public void set(Matrix m) {
-		for (int i = 0; i < dim; i++) {
-			for (int j = 0; j < dim; j++) {
-				elements[j][i] = m.elements[j][i];
-			}
-		}
-	}
-	
-	public Complex get(int i, int j) {
-		if (elements[j][i] == null) {
-			elements[j][i] = Complex._0();
-		}
-		return elements[j][i];
-	}
-	
-	public void set(int i, int j, Complex c) {
-		elements[j][i] = c == null ? Complex._0() : c;
-	}
-	
 	public Matrix id() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				elements[j][i] = j == i ? Complex._1() : Complex._0();
+				re[i][j] = j == i ? 1D : 0D;
+				im[i][j] = 0D;
 			}
 		}
 		return this;
@@ -65,7 +51,7 @@ public class Matrix {
 	public Matrix zero() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				elements[j][i] = Complex._0();
+				re[i][j] = im[i][j] = 0D;
 			}
 		}
 		return this;
@@ -74,7 +60,8 @@ public class Matrix {
 	public Matrix add(Matrix m) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				get(i, j).add(m.get(i, j));
+				re[i][j] += m.re[i][j];
+				im[i][j] += m.im[i][j];
 			}
 		}
 		return this;
@@ -83,25 +70,32 @@ public class Matrix {
 	public Matrix subtract(Matrix m) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				get(i, j).subtract(m.get(i, j));
+				re[i][j] -= m.re[i][j];
+				im[i][j] -= m.im[i][j];
 			}
 		}
 		return this;
 	}
 	
 	public Matrix hadamardProduct(Matrix m) {
+		double[] c;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				get(i, j).multiply(m.get(i, j));
+				c = Complex.multiply(re[i][j], im[i][j], m.re[i][j], m.im[i][j]);
+				re[i][j] = c[0];
+				im[i][j] = c[1];
 			}
 		}
 		return this;
 	}
 	
-	public Matrix multiply(Complex c) {
+	public Matrix multiply(double re, double im) {
+		double[] c;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				get(i, j).multiply(c);
+				c = Complex.multiply(this.re[i][j], this.im[i][j], re, im);
+				this.re[i][j] = c[0];
+				this.im[i][j] = c[1];
 			}
 		}
 		return this;
@@ -110,7 +104,8 @@ public class Matrix {
 	public Matrix multiply(double a) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				get(i, j).multiply(a);
+				this.re[i][j] *= a;
+				this.im[i][j] *= a;
 			}
 		}
 		return this;
@@ -118,83 +113,140 @@ public class Matrix {
 	
 	public Matrix multiply(Matrix m) {
 		Matrix copy = copy();
+		double[] c;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				elements[j][i] = Complex._0();
+				re[i][j] = im[i][j] = 0D;
 				for (int k = 0; k < dim; k++) {
-					elements[j][i].add(copy.get(i, k).copy().multiply(m.get(k, j)));
+					c = Complex.multiply(copy.re[i][k], copy.im[i][k], m.re[k][j], m.im[k][j]);
+					re[i][j] += c[0];
+					im[i][j] += c[1];
 				}
 			}
 		}
 		return this;
 	}
 	
-	public Complex expectation(Vector v) {
+	public double[] expectation(Vector v) {
 		return v.copy().dot(v.map(this));
 	}
 	
-	public Complex trace() {
-		Complex c = Complex._0();
+	public double[] trace() {
+		double re = 0D, im = 0D;
 		for (int i = 0; i < dim; i++) {
-			c.add(get(i, i));
+			re += this.re[i][i];
+			im += this.im[i][i];
 		}
-		return c;
+		return new double[] {re, im};
 	}
 	
 	public Matrix transpose() {
-		Complex c;
+		double re, im;
 		for (int i = 0; i < dim; i++) {
-			for (int j = 0; j < dim; j++) {
+			for (int j = 0; j < i; j++) {
 				if (i != j) {
-					c = elements[i][j];
-					elements[i][j] = elements[j][i];
-					elements[j][i] = c;
+					re = this.re[i][j];
+					im = this.im[i][j];
+					this.re[i][j] = this.re[j][i];
+					this.im[i][j] = this.im[j][i];
+					this.re[j][i] = re;
+					this.im[j][i] = im;
 				}
 			}
 		}
 		return this;
 	}
 	
-	/*public static Complex[][] dyad(Complex[] a, Complex[] b) {
-		Complex[][] c = new Complex[a.length][a.length];
-		for (int i = 0; i < a.length; i++) {
+	public static Matrix tensorProduct(Matrix... a) {
+		if (a.length == 0) {
+			return new Matrix(0);
+		}
+		if (a.length == 1) {
+			return a[0];
+		}
+		
+		int dim = a[0].dim, mul = 1, _j;
+		for (int j = 1; j < a.length; j++) {
+			dim *= a[j].dim;
+		}
+		
+		Matrix m = new Matrix(dim);
+		double[] c;
+		int[] length = new int[a.length], count = new int[2*a.length], mult = new int[a.length];
+		for (int j = 0; j < a.length; j++) {
+			length[j] = a[j].dim;
+			if (j > 0) mul *= a[a.length - j].dim;
+			mult[a.length - j - 1] = mul;
+		}
+		Arrays.fill(count, 0);
+		
+		boolean end;
+		while (true) {
+			int u = 0, v = 0;
 			for (int j = 0; j < a.length; j++) {
-				c[j][i] = a[j].copy().multiply(b[i].copy().conj());
+				u += mult[j]*count[2*j];
+				v += mult[j]*count[2*j + 1];
+			}
+			
+			c = Complex.multiply(a[0].re[count[0]][count[1]], a[0].im[count[0]][count[1]], a[1].re[count[2]][count[3]], a[1].im[count[2]][count[3]]);
+			
+			for (int j = 2; j < a.length; j++) {
+				c = Complex.multiply(c[0], c[1], a[j].re[count[2*j]][count[2*j + 1]], a[j].im[count[2*j]][count[2*j + 1]]);
+			}
+			m.re[u][v] = c[0];
+			m.im[u][v] = c[1];
+			
+			end = true;
+			for (int j = 0; j < count.length; j++) {
+				_j = count.length - j - 1;
+				if (count[_j] < length[_j/2] - 1) {
+					++count[_j];
+					end = false;
+					break;
+				}
+				else {
+					count[_j] = 0;
+				}
+			}
+			
+			if (end) {
+				return m;
 			}
 		}
-		return c;
-	}*/
+	}
 	
-	/** Returns new Matrix! */
-	public Matrix tensorProduct(Matrix a) {
-		Matrix c = new Matrix(dim*a.dim);
-		for (int m = 0; m < dim; m++) {
-			for (int n = 0; n < dim; n++) {
-				for (int i = 0; i < a.dim; i++) {
-					for (int j = 0; j < a.dim; j++) {
-						c.elements[j + a.dim*n][i + a.dim*m] = get(m, n).copy().multiply(a.get(i, j));
+	/*public static Matrix tensorProduct(Matrix... a) {
+		if (a.length == 0) {
+			return new Matrix(0);
+		}
+		if (a.length == 1) {
+			return a[0];
+		}
+		
+		Matrix m = new Matrix(a[0].dim*a[1].dim);
+		double[] c;
+		for (int u = 0; u < a[0].dim; u++) {
+			for (int v = 0; v < a[0].dim; v++) {
+				for (int i = 0; i < a[1].dim; i++) {
+					for (int j = 0; j < a[1].dim; j++) {
+						c = Complex.multiply(a[0].re[v][u], a[0].im[v][u], a[1].re[j][i], a[1].im[j][i]);
+						m.re[j + a[1].dim*v][i + a[1].dim*u] = c[0];
+						m.im[j + a[1].dim*v][i + a[1].dim*u] = c[1];
 					}
 				}
 			}
 		}
-		return c;
-	}
-	
-	/** Returns new Matrix! */
-	public Matrix directSum(Matrix a) {
-		Matrix m = new Matrix(dim + a.dim);
-		for (int i = 0; i < dim; i++) {
-			for (int j = 0; j < dim; j++) {
-				m.elements[j][i] = elements[j][i].copy();
+		
+		if (a.length == 2) return m;
+		else {
+			Matrix[] m_ = new Matrix[a.length - 1];
+			m_[0] = m;
+			for (int i = 1; i < m_.length; i++) {
+				m_[i] = a[i + 1];
 			}
+			return tensorProduct(m_);
 		}
-		for (int i = 0; i < a.dim; i++) {
-			for (int j = 0; j < a.dim; j++) {
-				m.elements[j + a.dim][i + a.dim] = a.elements[j][i].copy();
-			}
-		}
-		return m;
-	}
+	}*/
 	
 	public Matrix commute(Matrix a) {
 		Matrix c = copy();
@@ -208,216 +260,55 @@ public class Matrix {
 	public Matrix conjugate() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				elements[j][i] = get(i, j).conj();
+				re[i][j] = re[i][j];
+				im[i][j] = -im[i][j];
 			}
 		}
 		return this;
 	}
 	
 	public Matrix hermitian() {
-		return conjugate().transpose();
-	}
-	
-	// General Spin Matrices
-	/*
-	public static int dim(double s) {
-		return (int) Math.round(2*s + 1);
-	}
-	
-	public static double rPlus(double s, double m) {
-		return Math.sqrt(s*(s + 1) - m*(m + 1));
-	}
-	
-	public static double rMinus(double s, double m) {
-		return Math.sqrt(s*(s + 1) - m*(m - 1));
-	}
-	
-	public static Complex[][] spinSquared(double s) {
-		Complex[][] c = id(dim(s));
-		return multiply(s*(s + 1), c);
-	}
-	
-	public static Complex[][] spinZ(double s) {
-		Complex[][] c = new Complex[dim(s)][dim(s)];
-		for (int i = 0; i < dim(s); i++) {
-			for (int j = 0; j < dim(s); j++) {
-				c[j][i] = new Complex(NCMath.kroneckerDelta(j, i)*(s - i), 0);
+		double re, im;
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < i; j++) {
+				if (i != j) {
+					re = this.re[i][j];
+					im = this.im[i][j];
+					this.re[i][j] = this.re[j][i];
+					this.im[i][j] = -this.im[j][i];
+					this.re[j][i] = re;
+					this.im[j][i] = -im;
+				}
 			}
 		}
-		return c;
+		return this;
 	}
 	
-	public static Complex[][] spinPlus(double s) {
-		Complex[][] c = new Complex[dim(s)][dim(s)];
-		for (int i = 0; i < dim(s); i++) {
-			for (int j = 0; j < dim(s); j++) {
-				if (i >= 0 && j >= 0) c[j][i] = new Complex(NCMath.kroneckerDelta(j, i - 1)*rPlus(s, s - j - 1), 0);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {
+		NBTTagCompound matrixTag = new NBTTagCompound();
+		matrixTag.setInteger("dim", dim);
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				matrixTag.setDouble("re" + i + "_" + j, re[i][j]);
+				matrixTag.setDouble("im" + i + "_" + j, im[i][j]);
 			}
 		}
-		return c;
+		nbt.setTag(name, matrixTag);
+		return nbt;
 	}
 	
-	public static Complex[][] spinMinus(double s) {
-		Complex[][] c = new Complex[dim(s)][dim(s)];
-		for (int i = 0; i < dim(s); i++) {
-			for (int j = 0; j < dim(s); j++) {
-				if (i >= 0 && j >= 0) c[j][i] = new Complex(NCMath.kroneckerDelta(j - 1, i)*rMinus(s, s - i), 0);
+	public static Matrix readFromNBT(NBTTagCompound nbt, String name) {
+		if (nbt.hasKey(name, 10)) {
+			NBTTagCompound matrixTag = nbt.getCompoundTag(name);
+			Matrix m = new Matrix(matrixTag.getInteger("dim"));
+			for (int i = 0; i < m.dim; i++) {
+				for (int j = 0; j < m.dim; j++) {
+					m.re[i][j] = matrixTag.getDouble("re" + i + "_" + j);
+					m.im[i][j] = matrixTag.getDouble("im" + i + "_" + j);
+				}
 			}
+			return m;
 		}
-		return c;
+		return null;
 	}
-	
-	public static Complex[][] spinX(double s) {
-		return multiply(0.5, add(spinPlus(s), spinMinus(s)));
-	}
-	
-	public static Complex[][] spinY(double s) {
-		return multiply(new Complex(0, 0.5), subtract(spinMinus(s), spinPlus(s)));
-	}
-	
-	public static Complex[][] spinW(double s, double t, double p) {
-		return add(multiply(NCMath.cos_d(t), spinZ(s)), add(multiply(NCMath.sin_d(t)*NCMath.cos_d(p), spinX(s)), multiply(NCMath.sin_d(t)*NCMath.sin_d(p), spinY(s))));
-	}
-	
-	public static Complex[][] projection(Complex[] a) {
-		Complex[] b = normalize(a);
-		return dyad(b, b);
-	}
-	
-	public static double probability(Complex[] u, Complex[] v) {
-		return expectation(u, projection(v)).abs();
-	}
-	
-	public static Complex[][] spinZ(int a, double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		int x = 1;
-		int y = 1;
-		for (int i = 1; i <= a - 1; i++) {
-			x *= dim(s[i - 1]);
-		}
-		for (int i = a + 1; i <= spin.length; i++) {
-			y *= dim(s[i - 1]);
-		}
-		return tensorProduct(id(x), tensorProduct(spinZ(s[a - 1]), id(y)));
-	}
-	
-	public static Complex[][] spinX(int a, double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		int x = 1;
-		int y = 1;
-		for (int i = 1; i <= a - 1; i++) {
-			x *= dim(s[i - 1]);
-		}
-		for (int i = a + 1; i <= spin.length; i++) {
-			y *= dim(s[i - 1]);
-		}
-		return tensorProduct(id(x), tensorProduct(spinX(s[a - 1]), id(y)));
-	}
-	
-	public static Complex[][] spinY(int a, double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		int x = 1;
-		int y = 1;
-		for (int i = 1; i <= a - 1; i++) {
-			x *= dim(s[i - 1]);
-		}
-		for (int i = a + 1; i <= spin.length; i++) {
-			y *= dim(s[i - 1]);
-		}
-		return tensorProduct(id(x), tensorProduct(spinY(s[a - 1]), id(y)));
-	}
-	
-	public static Complex[][] spinW(int a, double t, double p, double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		int x = 1;
-		int y = 1;
-		for (int i = 1; i <= a - 1; i++) {
-			x *= dim(s[i - 1]);
-		}
-		for (int i = a + 1; i <= spin.length; i++) {
-			y *= dim(s[i - 1]);
-		}
-		return tensorProduct(id(x), tensorProduct(spinW(s[a - 1], t, p), id(y)));
-	}
-	
-	public static int dim(double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		int x = 1;
-		for (int i = 1; i <= spin.length; i++) {
-			x *= dim(s[i - 1]);
-		}
-		return x;
-	}
-	
-	public static Complex[][] twoSpinInteraction(int a, int b, double... spin) {
-		return add(multiply(spinZ(a, spin), spinZ(b, spin)), add(multiply(spinX(a, spin), spinX(b, spin)), multiply(spinY(a, spin), spinY(b, spin))));
-	}
-	
-	public static Complex[][] totalSpinSquared(double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		Complex[][] c = zero(dim(s));
-		for (int i = 1; i <= s.length; i++) {
-			for (int j = 1; j <= s.length; j++) {
-				c = add(c, twoSpinInteraction(i, j, spin));
-			}
-		}
-		return c;
-	}
-	
-	public static Complex[][] totalSpinHamiltonian(double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		Complex[][] c = zero(dim(s));
-		for (int i = 1; i <= s.length; i++) {
-			for (int j = 1; j <= s.length; j++) {
-				if (i != j) c = add(c, twoSpinInteraction(i, j, spin));
-			}
-		}
-		return Matrix.multiply(new Complex(0.5, 0), c);
-	}
-	
-	public static Complex[][] projection(Complex[][] p, int a, double... spin) {
-		double[] s = new double[spin.length];
-		for (int i = 0; i < spin.length; i++) {
-			s[i] = spin[i];
-		}
-		
-		if (spin.length == 1) return p;
-		
-		int x = 1;
-		int y = 1;
-		for (int i = 1; i <= a - 1; i++) {
-			x *= dim(s[i - 1]);
-		}
-		for (int i = a + 1; i <= spin.length; i++) {
-			y *= dim(s[i - 1]);
-		}
-		
-		return tensorProduct(id(x), tensorProduct(p, id(y)));
-	}
-	
-	public static Complex[][] projection(Complex[] v, int a, double... spin) {
-		return projection(projection(v), a, spin);
-	}
-	*/
 }

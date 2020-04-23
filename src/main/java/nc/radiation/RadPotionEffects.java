@@ -96,7 +96,7 @@ public class RadPotionEffects {
 			return Math.max(effectTime, 25 >> amplifier);
 		}
 		else if (potionName.equals("blindness") || potionName.equals("minecraft:blindness")) {
-			return Math.max(effectTime, 25);
+			return effectTime + 25;
 		}
 		else return effectTime;
 	}

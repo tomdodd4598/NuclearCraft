@@ -171,25 +171,30 @@ public class TileFissionVent extends TileFissionPart implements ITileFluid {
 	
 	@Override
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (getMultiblock() != null) {
-			if (getTankSorption(facing, 0) != TankSorption.IN) {
-				for (EnumFacing side : EnumFacing.VALUES) {
-					setTankSorption(side, 0, TankSorption.IN);
-					setTankSorption(side, 1, TankSorption.NON);
+		if (player.isSneaking()) {
+			
+		}
+		else {
+			if (getMultiblock() != null) {
+				if (getTankSorption(facing, 0) != TankSorption.IN) {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setTankSorption(side, 0, TankSorption.IN);
+						setTankSorption(side, 1, TankSorption.NON);
+					}
+					updateBlockState(false);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_vent_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
 				}
-				updateBlockState(false);
-				player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_vent_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
-			}
-			else {
-				for (EnumFacing side : EnumFacing.VALUES) {
-					setTankSorption(side, 0, TankSorption.NON);
-					setTankSorption(side, 1, TankSorption.OUT);
+				else {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setTankSorption(side, 0, TankSorption.NON);
+						setTankSorption(side, 1, TankSorption.OUT);
+					}
+					updateBlockState(true);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_vent_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
 				}
-				updateBlockState(true);
-				player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_vent_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
+				markDirtyAndNotify();
+				return true;
 			}
-			markDirtyAndNotify();
-			return true;
 		}
 		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
 	}

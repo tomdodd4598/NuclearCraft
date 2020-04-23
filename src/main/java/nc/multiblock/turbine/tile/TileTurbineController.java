@@ -48,6 +48,11 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	}
 	
 	@Override
+	public int[] weakSidesToCheck(World world, BlockPos pos) {
+		return new int[] {2, 3, 4, 5};
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		if (!isRenderer || !isMultiblockAssembled()) {

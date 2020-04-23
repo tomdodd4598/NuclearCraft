@@ -71,10 +71,14 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	
 	public final int power;
 	
-	public TileRTG(RTGType type) {
+	private TileRTG(RTGType type) {
+		this(type.getPower(), type.getRadiation());
+	}
+	
+	public TileRTG(int power, double radiation) {
 		super(RTGMultiblock.class);
-		power = type.getPower();
-		getRadiationSource().setRadiationLevel(type.getRadiation());
+		this.power = power;
+		getRadiationSource().setRadiationLevel(radiation);
 		energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.OUT);
 		energySides = ITileEnergy.getDefaultEnergySides(this);
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);

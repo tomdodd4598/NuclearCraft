@@ -13,6 +13,6 @@ public interface IDummyMaster extends ITile {
 	
 	@Override
 	public default boolean checkIsRedstonePowered(World world, BlockPos pos) {
-		return world.isBlockPowered(pos) || world.isBlockPowered(getTilePos());
+		return ITile.super.checkIsRedstonePowered(world, pos) || world.isBlockPowered(getTilePos());
 	}
 }
