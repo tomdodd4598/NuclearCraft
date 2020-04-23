@@ -1,3 +1,7 @@
+v2o.2.3
+
+* Made multitool behaviour on quantum computer components consistent
+
 v2o.2.2
 
 * Massively optimised quantum computer memory use

@@ -3,7 +3,9 @@ package nc.multiblock.qComputer.block;
 import javax.annotation.Nullable;
 
 import nc.enumm.IBlockMetaEnum;
+import nc.item.ItemMultitool;
 import nc.multiblock.qComputer.QuantumComputerGateEnums;
+import nc.multiblock.qComputer.tile.TileQuantumComputerGate;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -84,6 +86,17 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) return false;
 		if (hand != EnumHand.MAIN_HAND) return false;
+		
+		if (!ItemMultitool.isMultitool(player.getHeldItem(hand))) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileQuantumComputerGate) {
+				if (!world.isRemote) {
+					TileQuantumComputerGate gate = (TileQuantumComputerGate) tile;
+					player.sendMessage(gate.gateInfo());
+				}
+				return true;
+			}
+		}
 		
 		return rightClickOnPart(world, pos, player, hand, facing, false);
 	}

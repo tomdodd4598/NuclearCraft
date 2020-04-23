@@ -140,7 +140,6 @@ public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.Cool
 			}
 		}
 		
-		
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}
 	

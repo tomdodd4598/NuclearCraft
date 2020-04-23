@@ -34,7 +34,9 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (!NCConfig.radiation_tile_shielding || !player.isSneaking()) return actionResult(false, stack);
+		if (!NCConfig.radiation_tile_shielding || !player.isSneaking()) {
+			return actionResult(false, stack);
+		}
 		if (NCConfig.radiation_hardcore_containers <= 0D) {
 			if (!world.isRemote) {
 				player.sendMessage(new TextComponentString(NOT_HARDCORE));
@@ -43,7 +45,9 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		}
 		
 		RayTraceResult raytraceresult = rayTrace(world, player, false);
-		if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) return actionResult(false, stack);
+		if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
+			return actionResult(false, stack);
+		}
 		
 		BlockPos pos = raytraceresult.getBlockPos();
 		TileEntity te = world.getTileEntity(pos);

@@ -91,9 +91,6 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart {
 			}
 			return true;
 		}
-		else if (!player.isSneaking()) {
-			player.sendMessage(new TextComponentString(Lang.localise(Lang.localise("info.nuclearcraft.multitool.quantum_computer.qubit_id", id))));
-		}
 		
 		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
 	}

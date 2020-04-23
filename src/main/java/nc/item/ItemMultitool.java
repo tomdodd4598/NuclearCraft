@@ -13,6 +13,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -72,9 +73,18 @@ public class ItemMultitool extends NCItem {
 				return actionResult(true, stack);
 			}
 			else if (player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
-				clearNBT(stack);
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.clear_info")));
-				return actionResult(true, stack);
+				RayTraceResult raytraceresult = rayTrace(world, player, false);
+				if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
+					return actionResult(false, stack);
+				}
+				
+				BlockPos pos = raytraceresult.getBlockPos();
+				TileEntity tile = world.getTileEntity(pos);
+				if (!(tile instanceof IMultitoolLogic)) {
+					clearNBT(stack);
+					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.clear_info")));
+					return actionResult(true, stack);
+				}
 			}
 			stack.getTagCompound().removeTag("multitoolUsed");
 		}

@@ -90,10 +90,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected void onQuantumComputerFormed() {
 		if (!WORLD.isRemote) {
-			int q = qubits();
 			IntSet set = new IntOpenHashSet(NCConfig.quantum_max_qubits);
 			for (TileQuantumComputerQubit qubit : getQubits()) {
-				if (set.contains(qubit.id) || qubit.id >= q) qubit.id = -1;
+				if (set.contains(qubit.id)) qubit.id = -1;
 				else if (qubit.id >= 0) set.add(qubit.id);
 			}
 			
