@@ -33,7 +33,7 @@ import nc.multiblock.rtg.RTGMultiblock;
 import nc.multiblock.rtg.tile.TileRTG;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.ITurbineController;
-import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
+import nc.multiblock.turbine.tile.TileTurbineDynamoPart;
 import nc.multiblock.turbine.tile.TileTurbineInlet;
 import nc.multiblock.turbine.tile.TileTurbineOutlet;
 import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
@@ -109,11 +109,11 @@ public final class MultiblockHandler {
 		HeatExchanger.PART_CLASSES.add(TileCondenserTube.class);
 		
 		Turbine.PART_CLASSES.add(ITurbineController.class);
+		Turbine.PART_CLASSES.add(TileTurbineDynamoPart.class);
 		Turbine.PART_CLASSES.add(TileTurbineRotorShaft.class);
 		Turbine.PART_CLASSES.add(TileTurbineRotorBlade.class);
 		Turbine.PART_CLASSES.add(TileTurbineRotorStator.class);
 		Turbine.PART_CLASSES.add(TileTurbineRotorBearing.class);
-		Turbine.PART_CLASSES.add(TileTurbineDynamoCoil.class);
 		Turbine.PART_CLASSES.add(TileTurbineInlet.class);
 		Turbine.PART_CLASSES.add(TileTurbineOutlet.class);
 		

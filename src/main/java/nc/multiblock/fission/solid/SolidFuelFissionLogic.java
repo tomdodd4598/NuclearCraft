@@ -154,8 +154,11 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		
 		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
 		
-		for (TileSolidFissionCell cell : getPartMap(TileSolidFissionCell.class).values()) {
+		/*for (TileSolidFissionCell cell : getPartMap(TileSolidFissionCell.class).values()) {
 			iterateClusterSearch(cell);
+		}*/
+		for (IFissionComponent component : getPartMap(IFissionComponent.class).values()) {
+			iterateClusterSearch(component);
 		}
 		
 		for (long posLong : getReactor().activeModeratorCache) {

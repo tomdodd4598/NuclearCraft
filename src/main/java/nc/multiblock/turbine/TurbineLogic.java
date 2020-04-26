@@ -35,7 +35,7 @@ import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
 import nc.multiblock.turbine.tile.ITurbineController;
 import nc.multiblock.turbine.tile.ITurbinePart;
 import nc.multiblock.turbine.tile.TileTurbineController;
-import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
+import nc.multiblock.turbine.tile.TileTurbineDynamoPart;
 import nc.multiblock.turbine.tile.TileTurbineInlet;
 import nc.multiblock.turbine.tile.TileTurbineOutlet;
 import nc.multiblock.turbine.tile.TileTurbinePart;
@@ -158,9 +158,9 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 				}
 			}
 			
-			for (TileTurbineDynamoCoil dynamoCoil : getPartMap(TileTurbineDynamoCoil.class).values()) {
+			for (TileTurbineDynamoPart dynamoPart : getPartMap(TileTurbineDynamoPart.class).values()) {
 				for (EnumFacing side : EnumFacing.VALUES) {
-					dynamoCoil.setEnergyConnection(side == getTurbine().flowDir || side == getTurbine().flowDir.getOpposite() ? EnergyConnection.OUT : EnergyConnection.NON, side);
+					dynamoPart.setEnergyConnection(side == getTurbine().flowDir || side == getTurbine().flowDir.getOpposite() ? EnergyConnection.OUT : EnergyConnection.NON, side);
 				}
 			}
 			
@@ -173,41 +173,46 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected void refreshDynamoCoils() {
-		if (getPartMap(TileTurbineDynamoCoil.class).isEmpty()) {
+		if (getPartMap(TileTurbineDynamoPart.class).isEmpty()) {
 			getTurbine().conductivity = 0D;
 			return;
 		}
 		
-		ObjectSet<TileTurbineDynamoCoil> dynamoCoilRootCache = new ObjectOpenHashSet<>(), dynamoCoilRootCacheOpposite = new ObjectOpenHashSet<>();
-		for (TileTurbineDynamoCoil dynamoCoil : getPartMap(TileTurbineDynamoCoil.class).values()) {
-			dynamoCoil.isSearched = dynamoCoil.isInValidPosition = false;
-			if (dynamoCoil.isSearchRoot()) {
-				if (dynamoCoil.getPartPosition().getFacing() == getTurbine().flowDir) {
-					dynamoCoilRootCache.add(dynamoCoil);
+		ObjectSet<TileTurbineDynamoPart> dynamoPartRootCache = new ObjectOpenHashSet<>(), dynamoPartRootCacheOpposite = new ObjectOpenHashSet<>();
+		for (TileTurbineDynamoPart dynamoPart : getPartMap(TileTurbineDynamoPart.class).values()) {
+			dynamoPart.isSearched = dynamoPart.isInValidPosition = false;
+			if (dynamoPart.isSearchRoot()) {
+				if (dynamoPart.getPartPosition().getFacing() == getTurbine().flowDir) {
+					dynamoPartRootCache.add(dynamoPart);
 				}
 				else {
-					dynamoCoilRootCacheOpposite.add(dynamoCoil);
+					dynamoPartRootCacheOpposite.add(dynamoPart);
 				}
 			}
 		}
 		
-		ObjectSet<TileTurbineDynamoCoil> dynamoCoilCache = new ObjectOpenHashSet<>(), dynamoCoilCacheOpposite = new ObjectOpenHashSet<>();
-		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilRootCache) {
-			dynamoCoil.dynamoSearch(dynamoCoilCache);
+		ObjectSet<TileTurbineDynamoPart> dynamoPartCache = new ObjectOpenHashSet<>(), dynamoPartCacheOpposite = new ObjectOpenHashSet<>();
+		for (TileTurbineDynamoPart dynamoCoil : dynamoPartRootCache) {
+			dynamoCoil.dynamoSearch(dynamoPartCache);
 		}
-		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilRootCacheOpposite) {
-			dynamoCoil.dynamoSearch(dynamoCoilCacheOpposite);
+		for (TileTurbineDynamoPart dynamoCoil : dynamoPartRootCacheOpposite) {
+			dynamoCoil.dynamoSearch(dynamoPartCacheOpposite);
 		}
 		
+		getTurbine().dynamoCoilCount = getTurbine().dynamoCoilCountOpposite = 0;
 		double newConductivity = 0D, newConductivityOpposite = 0D;
-		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilCache) {
-			newConductivity += dynamoCoil.conductivity;
+		for (TileTurbineDynamoPart dynamoPart : dynamoPartCache) {
+			if (dynamoPart.conductivity != null) {
+				getTurbine().dynamoCoilCount++;
+				newConductivity += dynamoPart.conductivity;
+			}
 		}
-		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilCacheOpposite) {
-			newConductivityOpposite += dynamoCoil.conductivity;
+		for (TileTurbineDynamoPart dynamoPart : dynamoPartCacheOpposite) {
+			if (dynamoPart.conductivity != null) {
+				getTurbine().dynamoCoilCountOpposite++;
+				newConductivityOpposite += dynamoPart.conductivity;
+			}
 		}
-		getTurbine().dynamoCoilCount = dynamoCoilCache.size();
-		getTurbine().dynamoCoilCountOpposite = dynamoCoilCacheOpposite.size();
 		
 		Long2ObjectMap<TileTurbineRotorBearing> rotorBearingMap = getPartMap(TileTurbineRotorBearing.class);
 		
@@ -751,7 +756,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		bladeMultiplier /= getTurbine().noBladeSets;
 		
-		return bladeMultiplier*getExpansionIdealityMultiplier(getTurbine().idealTotalExpansionLevel, getTurbine().totalExpansionLevel)*recipeInputRate*getTurbine().basePowerPerMB;
+		return bladeMultiplier*getExpansionIdealityMultiplier(getTurbine().idealTotalExpansionLevel, getTurbine().totalExpansionLevel)*getInputRateEfficiencyBonus(recipeInputRate)*recipeInputRate*getTurbine().basePowerPerMB;
 	}
 	
 	public static double getExpansionIdealityMultiplier(double ideal, double actual) {
@@ -761,6 +766,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	public double getIdealExpansionLevel(int depth) {
 		return Math.pow(getTurbine().idealTotalExpansionLevel, (depth + 0.5D)/getTurbine().getFlowLength());
+	}
+	
+	private static final double Z = Math.pow(Math.E, Math.E - 1D) - 1D;
+	
+	public double getInputRateEfficiencyBonus(int recipeInputRate) {
+		return Math.log1p(Math.log1p(Z*recipeInputRate/NCConfig.turbine_mb_per_blade));
 	}
 	
 	public DoubleList getIdealExpansionLevels() {

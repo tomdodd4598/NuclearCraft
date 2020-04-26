@@ -1,3 +1,10 @@
+v2o.2.4
+
++ Added turbine coil connector blocks to allow more coils to be connected to turbine dynamos
+* Turbines now have another efficiency multiplier that increases as the double logarithm of steam throughput
+
+* Fixed non-fuel fission components not correctly creating clusters
+
 v2o.2.3
 
 * Made multitool behaviour on quantum computer components consistent

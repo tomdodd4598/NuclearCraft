@@ -65,6 +65,7 @@ import nc.multiblock.rtg.block.BlockRTG;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.block.BlockTurbineCasing;
+import nc.multiblock.turbine.block.BlockTurbineCoilConnector;
 import nc.multiblock.turbine.block.BlockTurbineComputerPort;
 import nc.multiblock.turbine.block.BlockTurbineController;
 import nc.multiblock.turbine.block.BlockTurbineDynamoCoil;
@@ -205,6 +206,7 @@ public class NCBlocks {
 	public static Block turbine_rotor_stator;
 	public static Block turbine_rotor_bearing;
 	public static Block turbine_dynamo_coil;
+	public static Block turbine_coil_connector;
 	public static Block turbine_inlet;
 	public static Block turbine_outlet;
 	public static Block turbine_computer_port;
@@ -358,6 +360,7 @@ public class NCBlocks {
 		turbine_rotor_stator = withName(new BlockTurbineRotorStator(), "turbine_rotor_stator");
 		turbine_rotor_bearing = withName(new BlockTurbineRotorBearing(), "turbine_rotor_bearing");
 		turbine_dynamo_coil = withName(new BlockTurbineDynamoCoil(), "turbine_dynamo_coil");
+		turbine_coil_connector = withName(new BlockTurbineCoilConnector(), "turbine_coil_connector");
 		turbine_inlet = withName(new BlockTurbineInlet(), "turbine_inlet");
 		turbine_outlet = withName(new BlockTurbineOutlet(), "turbine_outlet");
 		turbine_computer_port = withName(new BlockTurbineComputerPort(), "turbine_computer_port");
@@ -519,6 +522,7 @@ public class NCBlocks {
 		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D*NCConfig.turbine_stator_expansion) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
 		registerBlock(turbine_rotor_bearing);
 		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, NCInfo.dynamoCoilInfo()));
+		registerBlock(turbine_coil_connector);
 		registerBlock(turbine_inlet);
 		registerBlock(turbine_outlet);
 		registerBlock(turbine_computer_port);
@@ -707,6 +711,7 @@ public class NCBlocks {
 		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
 			registerRender(turbine_dynamo_coil, i, TurbineDynamoCoilType.values()[i].getName());
 		}
+		registerRender(turbine_coil_connector);
 		registerRender(turbine_inlet);
 		registerRender(turbine_outlet);
 		registerRender(turbine_computer_port);

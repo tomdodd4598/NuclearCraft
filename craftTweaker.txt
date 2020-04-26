@@ -355,7 +355,7 @@ mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput
 Molten Salt Fission (KINDA BROKEN!):
 ------------------------------------
 
-mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SaltFission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.SaltFission.removeRecipeWithOutput(ILiquidStack fluidOutput);

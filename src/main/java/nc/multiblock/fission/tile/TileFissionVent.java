@@ -190,7 +190,7 @@ public class TileFissionVent extends TileFissionPart implements ITileFluid {
 						setTankSorption(side, 1, TankSorption.OUT);
 					}
 					updateBlockState(true);
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_vent_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " " + TextFormatting.RED + Lang.localise("nc.block.fission_vent_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
 				}
 				markDirtyAndNotify();
 				return true;

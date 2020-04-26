@@ -72,7 +72,7 @@ double[] getIdealExpansionLevels()
 double[] getBladeEfficiencies()
 int getInputRate()
 int getNumberOfDynamoCoils()
-Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPosition},...}
+Object[] getDynamoPartStats() -> {{{posX, posY, posZ}, partName, isInValidPosition},...}
 
 void activate()
 void deactivate()

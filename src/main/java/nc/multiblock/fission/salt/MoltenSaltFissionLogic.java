@@ -159,8 +159,11 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		
 		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
 		
-		for (TileSaltFissionVessel vessel : getPartMap(TileSaltFissionVessel.class).values()) {
+		/*for (TileSaltFissionVessel vessel : getPartMap(TileSaltFissionVessel.class).values()) {
 			iterateClusterSearch(vessel);
+		}*/
+		for (IFissionComponent component : getPartMap(IFissionComponent.class).values()) {
+			iterateClusterSearch(component);
 		}
 		
 		for (long posLong : getReactor().activeModeratorCache) {
