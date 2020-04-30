@@ -10,23 +10,28 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionShield;
-import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorLineBlockInfo;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.manager.IFissionManagerListener;
 import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
+import nc.util.BlockPosHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class TileFissionShield extends TileFissionPart implements IFissionHeatingComponent, IFissionManagerListener<TileFissionShieldManager, TileFissionShield> {
 	
-	protected final double heatPerFlux, efficiency;
-	protected boolean isShielding = false, inActiveModeratorLine = false;
+	public final double heatPerFlux, efficiency;
+	public boolean isShielding = false, inActiveModeratorLine = false, activeModerator = false;
+	protected boolean[] activeModeratorPos = new boolean[] {false, false, false, false, false, false};
 	
 	protected FissionCluster cluster = null;
 	protected long heat = 0L;
 	
 	protected int flux = 0;
+	protected boolean[] moderatorLineAxes = new boolean[] {false, false, false};
 	
 	protected BlockPos masterManagerPos = DEFAULT_NON;
 	protected TileFissionShieldManager masterManager = null;
@@ -90,9 +95,20 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
+	public boolean isActiveModerator() {
+		return isFunctional() && activeModerator;
+	}
+	
+	@Override
 	public void resetStats() {
-		inActiveModeratorLine = false;
+		inActiveModeratorLine = activeModerator = false;
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			activeModeratorPos[dir.getIndex()] = false;
+		}
 		flux = 0;
+		for (Axis axis : BlockPosHelper.AXES) {
+			moderatorLineAxes[BlockPosHelper.getAxisIndex(axis)] = false;
+		}
 	}
 	
 	@Override
@@ -127,39 +143,23 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	
 	// FissionShield
 	
-	public boolean isShielding() {
-		return isShielding;
-	}
-	
-	public void setShielding(boolean shielding) {
-		this.isShielding = shielding;
-	}
-	
-	public boolean isInActiveModeratorLine() {
-		return inActiveModeratorLine;
-	}
-	
-	public void setInActiveModeratorLine(boolean inActiveModeratorLine) {
-		this.inActiveModeratorLine = inActiveModeratorLine;
-	}
-	
-	public boolean isShieldActiveModerator(boolean isActiveModeratorPos) {
-		return getMultiblock() != null ? getLogic().isShieldActiveModerator(this, isActiveModeratorPos) : false;
+	@Override
+	public ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean activeModeratorPos) {
+		this.activeModeratorPos[dir.getIndex()] = getMultiblock() != null ? getLogic().isShieldActiveModerator(this, activeModeratorPos) : false;
+		return getMultiblock() != null ? getLogic().getShieldModeratorBlockInfo(this, this.activeModeratorPos[dir.getIndex()]) : null;
 	}
 	
 	@Override
-	public ModeratorLineBlockInfo getModeratorComponentInfo(boolean activeModeratorPos) {
-		return new ModeratorLineBlockInfo(pos, this, isShielding, false, 0, efficiency);
-	}
-	
-	@Override
-	public void onAddedToModeratorCache(ModeratorLineBlockInfo info) {
-		setInActiveModeratorLine(true);
-	}
-	
-	@Override
-	public void onModeratorLineComplete(ModeratorLineBlockInfo info, int flux) {
-		this.flux += flux;
+	public void onModeratorLineComplete(ModeratorBlockInfo info, EnumFacing dir, int flux) {
+		inActiveModeratorLine = true;
+		if (activeModeratorPos[dir.getIndex()]) {
+			activeModerator = true;
+		}
+		int index = BlockPosHelper.getAxisIndex(dir.getAxis());
+		if (!moderatorLineAxes[index]) {
+			this.flux += flux;
+			moderatorLineAxes[index] = true;
+		}
 	}
 	
 	// IFissionManagerListener
@@ -190,10 +190,13 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	public boolean onManagerRefresh() {
 		boolean wasShielding = isShielding;
 		isShielding = masterManager.isShieldingActive();
-		if (!world.isRemote && wasShielding != isShielding) {
-			updateBlockState(isShielding);
+		if (wasShielding != isShielding) {
+			if (!world.isRemote) {
+				updateBlockState(isShielding);
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	// Ticking
@@ -228,6 +231,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 		super.writeAll(nbt);
 		nbt.setBoolean("isShielding", isShielding);
 		nbt.setBoolean("inActiveModeratorLine", inActiveModeratorLine);
+		nbt.setBoolean("activeModerator", activeModerator);
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		nbt.setLong("masterManagerPos", masterManagerPos.toLong());
@@ -239,6 +243,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 		super.readAll(nbt);
 		isShielding = nbt.getBoolean("isShielding");
 		inActiveModeratorLine = nbt.getBoolean("inActiveModeratorLine");
+		activeModerator = nbt.getBoolean("activeModerator");
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");
 		masterManagerPos = BlockPos.fromLong(nbt.getLong("masterManagerPos"));

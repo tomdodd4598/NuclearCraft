@@ -247,7 +247,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
-			boolean shouldRefresh = !isProcessing && isProcessing(false);
+			boolean shouldRefresh = getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();

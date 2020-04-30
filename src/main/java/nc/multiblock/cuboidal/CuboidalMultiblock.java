@@ -92,10 +92,15 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					if(te instanceof TileCuboidalMultiblockPart) {
 						part = (TileCuboidalMultiblockPart)te;
 						
-						// Ensure this part should actually be allowed within a cube of this multiblock's type
+						// Ensure this part should actually be allowed within a cuboid of this multiblock's type
 						if(!myClass.equals(part.getMultiblockType())) {
-							
 							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
+							return false;
+						}
+						
+						// Ensure this part is actually connected to this multiblock
+						if (part.getMultiblock() != this) {
+							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_disconnected", new BlockPos(x, y, z), x, y, z);
 							return false;
 						}
 					}

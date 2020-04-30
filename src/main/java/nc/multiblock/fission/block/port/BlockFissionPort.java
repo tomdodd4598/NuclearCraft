@@ -5,6 +5,7 @@ import static nc.block.property.BlockProperties.AXIS_ALL;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.tile.port.IFissionPortTarget;
 import nc.multiblock.fission.tile.port.TileFissionPort;
+import nc.util.BlockPosHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,7 +30,7 @@ public abstract class BlockFissionPort<PORT extends TileFissionPort<PORT, TARGET
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(AXIS_ALL, EnumFacing.Axis.values()[meta]);
+		return getDefaultState().withProperty(AXIS_ALL, BlockPosHelper.AXES[meta]);
 	}
 	
 	@Override

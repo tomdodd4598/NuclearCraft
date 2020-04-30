@@ -47,10 +47,12 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	public void refreshListeners() {
 		refreshPartsFlag = false;
 		//if (isMultiblockAssembled()) {
+			boolean refresh = false;
 			for (TileFissionShield shield : listeners) {
-				shield.onManagerRefresh();
+				if (shield.onManagerRefresh()) refresh = true;
 			}
-			getMultiblock().refreshFlag = true;
+			markTileDirty();
+			if (refresh) getMultiblock().refreshFlag = true;
 		//}
 	}
 	
@@ -86,8 +88,9 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 					getListeners().add(shield);
 					shield.setMasterManagerPos(pos);
 					shield.refreshMasterManager();
-					getMultiblock().refreshFlag = true;
 				}
+				markTileDirty();
+				getMultiblock().refreshFlag = true;
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", shieldMap.size())));
 				return true;
 			}

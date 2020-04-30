@@ -24,8 +24,8 @@ import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.TileFissionPart;
-import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorLineBlockInfo;
 import nc.multiblock.fission.tile.port.IFissionPortTarget;
 import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.multiblock.network.SaltFissionHeaterUpdatePacket;
@@ -707,7 +707,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public boolean isValidHeatConductor() {
-		if (!isProcessing) return false;
+		if (!isProcessing(false, false)) return false;
 		else if (isInValidPosition) return true;
 		return isInValidPosition = isHeaterValid();
 	}
@@ -726,20 +726,21 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		
 		refreshRecipe();
 		refreshActivity();
-		refreshIsProcessing(true);
+		refreshIsProcessing(true, true);
 	}
 	
 	@Override
 	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
-		refreshIsProcessing(false);
 		
 		IFissionCoolingComponent.super.clusterSearch(id, clusterSearchCache);
+		
+		refreshIsProcessing(true, true);
 	}
 	
-	public void refreshIsProcessing(boolean checkCluster) {
-		isProcessing = isProcessing(checkCluster);
+	public void refreshIsProcessing(boolean checkCluster, boolean checkValid) {
+		isProcessing = isProcessing(checkCluster, checkValid);
 	}
 	
 	@Override
@@ -761,8 +762,8 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	}
 	
 	@Override
-	public ModeratorLineBlockInfo getModeratorComponentInfo(boolean activeModeratorPos) {
-		return new ModeratorLineBlockInfo(pos, this, !isProcessing(false), false, 0, 0D);
+	public ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean activeModeratorPos) {
+		return new ModeratorBlockInfo(pos, this, false, false, 0, 0D);
 	}
 	
 	// IFissionPortTarget
@@ -793,9 +794,9 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public boolean onPortRefresh() {
 		refreshRecipe();
 		refreshActivity();
-		refreshIsProcessing(isFunctional());
+		refreshIsProcessing(isFunctional(), true);
 		
-		return isFunctional() ^ readyToProcess(false);
+		return isFunctional() ^ readyToProcess(false, true);
 	}
 	
 	// Ticking
@@ -806,7 +807,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
-			refreshIsProcessing(true);
+			refreshIsProcessing(true, true);
 		}
 	}
 	
@@ -819,8 +820,8 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public void updateHeater() {
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
-			isProcessing = isProcessing(true);
-			boolean shouldRefresh = !isProcessing && isProcessing(false);
+			isProcessing = isProcessing(true, true);
+			boolean shouldRefresh = getMultiblock().isReactorOn && !isProcessing && isProcessing(false, true);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();
@@ -874,12 +875,12 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	// Processing
 	
-	public boolean isProcessing(boolean checkCluster) {
-		return readyToProcess(checkCluster);
+	public boolean isProcessing(boolean checkCluster, boolean checkValid) {
+		return readyToProcess(checkCluster, checkValid);
 	}
 	
-	public boolean readyToProcess(boolean checkCluster) {
-		return canProcessInputs && isMultiblockAssembled() && !(checkCluster && (cluster == null || !isInValidPosition));
+	public boolean readyToProcess(boolean checkCluster, boolean checkValid) {
+		return canProcessInputs && isMultiblockAssembled() && !(checkCluster && cluster == null) && !(checkValid && !isInValidPosition);
 	}
 	
 	public boolean canProcessInputs() {

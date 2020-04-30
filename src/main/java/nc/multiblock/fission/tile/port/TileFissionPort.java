@@ -104,7 +104,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
 			for (TARGET part : targets) {
-				refresh = refresh || part.onPortRefresh();
+				if (part.onPortRefresh()) refresh = true;
 			}
 			if (refresh) getMultiblock().refreshFlag = true;
 		}

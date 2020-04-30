@@ -40,7 +40,7 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionShield) {
 			TileFissionShield shield = (TileFissionShield) tile;
-			return state.withProperty(ACTIVE, shield.isShielding());
+			return state.withProperty(ACTIVE, shield.isShielding);
 		}
 		return state;
 	}
@@ -64,7 +64,7 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionShield) {
 			TileFissionShield shield = (TileFissionShield) tile;
-			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding()), 2);
+			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding), 2);
 		}
 	}
 	

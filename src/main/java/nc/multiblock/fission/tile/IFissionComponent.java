@@ -8,7 +8,7 @@ import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
-import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorLineBlockInfo;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.recipe.NCRecipes;
 import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,6 +48,11 @@ public interface IFissionComponent extends IFissionPart {
 	public boolean isValidHeatConductor();
 	
 	public boolean isFunctional();
+	
+	/** Called during cluster searches! */
+	public default boolean isActiveModerator() {
+		return false;
+	}
 	
 	public void resetStats();
 	
@@ -90,13 +95,15 @@ public interface IFissionComponent extends IFissionPart {
 	
 	// Moderator Lines
 	
-	public default ModeratorLineBlockInfo getModeratorComponentInfo(boolean activeModeratorPos) {
+	public default ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean activeModeratorPos) {
 		return null;
 	}
 	
-	public default void onAddedToModeratorCache(ModeratorLineBlockInfo info) {}
+	/** The moderator line does not necessarily have to be active! */
+	public default void onAddedToModeratorCache(ModeratorBlockInfo info) {}
 	
-	public default void onModeratorLineComplete(ModeratorLineBlockInfo info, int flux) {}
+	/** Called if and only if the moderator line from the fuel component searching in the dir direction is active! */
+	public default void onModeratorLineComplete(ModeratorBlockInfo info, EnumFacing dir, int flux) {}
 	
 	// IMultitoolLogic
 	
@@ -117,7 +124,8 @@ public interface IFissionComponent extends IFissionPart {
 	// Helper methods
 	
 	public default boolean isActiveModerator(BlockPos pos) {
-		return getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_moderator, pos) != null;
+		IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
+		return (component != null && component.isActiveModerator()) || (getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_moderator, pos) != null);
 	}
 	
 	public default boolean isActiveReflector(BlockPos pos) {

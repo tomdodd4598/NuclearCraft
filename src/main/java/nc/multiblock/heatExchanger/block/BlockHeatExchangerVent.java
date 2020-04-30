@@ -3,6 +3,7 @@ package nc.multiblock.heatExchanger.block;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
+import nc.util.BlockPosHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +28,7 @@ public class BlockHeatExchangerVent extends BlockHeatExchangerPart {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(AXIS_ALL, EnumFacing.Axis.values()[meta]);
+		return getDefaultState().withProperty(AXIS_ALL, BlockPosHelper.AXES[meta]);
 	}
 	
 	@Override

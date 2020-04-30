@@ -29,6 +29,7 @@ import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.network.FissionUpdatePacket;
@@ -348,7 +349,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void onShieldUpdated(TileFissionShield shield) {
-		if (shield.isInActiveModeratorLine()) {
+		if (shield.inActiveModeratorLine) {
 			getReactor().refreshFlag = true;
 		}
 	}
@@ -364,8 +365,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {}
 	
-	public boolean isShieldActiveModerator(TileFissionShield shield, boolean isActiveModeratorPos) {
+	public boolean isShieldActiveModerator(TileFissionShield shield, boolean activeModeratorPos) {
 		return false;
+	}
+	
+	public ModeratorBlockInfo getShieldModeratorBlockInfo(TileFissionShield shield, boolean validActiveModerator) {
+		return new ModeratorBlockInfo(shield.getPos(), shield, shield.isShielding, validActiveModerator, 0, shield.efficiency);
 	}
 	
 	public @Nonnull EnergyStorage getPowerPortEnergyStorage(EnergyStorage backupStorage) {

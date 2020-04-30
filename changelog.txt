@@ -1,3 +1,11 @@
+v2o.2.5
+
+* Multiblocks won't form if they contain an independent, disconnected part
+
+* Fixed some reactor components triggering continual reactor refreshes
+* Fixed neutron shields not producing the correct amount of flux
+* Fixed heating rate units in reactor GUIs
+
 v2o.2.4
 
 + Added turbine coil connector blocks to allow more coils to be connected to turbine dynamos

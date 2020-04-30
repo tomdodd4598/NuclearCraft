@@ -33,10 +33,9 @@ import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.IFissionHeatingComponent;
 import nc.multiblock.fission.tile.IFissionPart;
-import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
-import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
+import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.multiblock.fission.tile.port.TileFissionVesselPort;
 import nc.multiblock.network.FissionUpdatePacket;
@@ -385,11 +384,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {
 		fuelComponent.defaultRefreshModerators();
-	}
-	
-	@Override
-	public boolean isShieldActiveModerator(TileFissionShield shield, boolean isActiveModeratorPos) {
-		return isActiveModeratorPos && !shield.isShielding();
 	}
 	
 	@Override

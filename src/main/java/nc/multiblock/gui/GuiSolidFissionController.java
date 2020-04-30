@@ -86,7 +86,7 @@ public class GuiSolidFissionController extends GuiLogicMultiblockController<Fiss
 		fontRenderer.drawString(temperature, xSize / 2 - width(temperature) / 2, NCUtil.isModifierKeyDown() ? 70 : 76, fontColor);
 		
 		if (!NCUtil.isModifierKeyDown()) {
-			String netClusterHeating = Lang.localise("gui.nc.container.fission_controller.net_cluster_heating") + " " + UnitHelper.prefix(logic.getNetClusterHeating(), 6, "H");
+			String netClusterHeating = Lang.localise("gui.nc.container.fission_controller.net_cluster_heating") + " " + UnitHelper.prefix(logic.getNetClusterHeating(), 6, "H/t");
 			fontRenderer.drawString(netClusterHeating, xSize / 2 - width(netClusterHeating) / 2, 88, fontColor);
 		}
 	}

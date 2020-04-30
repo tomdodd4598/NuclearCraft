@@ -48,7 +48,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public Long[] getActiveModeratorCache();
 	
-	public ModeratorLineComponentCache[] getModeratorLineComponentCaches();
+	public ModeratorLine[] getModeratorLineCaches();
 	
 	public LongSet[] getPassiveReflectorModeratorCaches();
 	
@@ -96,23 +96,23 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	public default void defaultDistributeFlux(final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
 		dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
 			BlockPos offPos = getTilePos().offset(dir);
-			ModeratorLineBlockInfo activeInfo = getModeratorComponentInfo(offPos, true);
+			ModeratorBlockInfo activeInfo = getModeratorBlockInfo(offPos, dir, true);
 			if (activeInfo != null && !activeInfo.blockingFlux) {
 				final LongSet passiveModeratorCache = new LongOpenHashSet();
-				final ObjectSet<ModeratorLineBlockInfo> passiveComponentInfoCache = new ObjectOpenHashSet<>();
+				final ObjectSet<ModeratorBlockInfo> passiveInfoCache = new ObjectOpenHashSet<>();
 				int moderatorFlux = activeInfo.fluxFactor;
 				double moderatorEfficiency = activeInfo.efficiency;
 				for (int i = 2; i <= NCConfig.fission_neutron_reach + 1; i++) {
 					offPos = getTilePos().offset(dir, i);
-					ModeratorLineBlockInfo info = getModeratorComponentInfo(offPos, false);
+					ModeratorBlockInfo info = getModeratorBlockInfo(offPos, dir, false);
 					if (info != null) {
 						if (info.blockingFlux) {
 							passiveModeratorCache.clear();
-							passiveComponentInfoCache.clear();
+							passiveInfoCache.clear();
 							continue dirLoop;
 						}
 						if (info.component != null) {
-							passiveComponentInfoCache.add(info);
+							passiveInfoCache.add(info);
 						}
 						passiveModeratorCache.add(offPos.toLong());
 						moderatorFlux += info.fluxFactor;
@@ -126,7 +126,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 							fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency/(i - 1);
 							fuelComponent.incrementHeatMultiplier();
 							
-							updateModeratorLine(fuelComponent, offPos, dir, moderatorFlux, passiveModeratorCache, passiveComponentInfoCache, activeInfo);
+							updateModeratorLine(fuelComponent, offPos, dir, moderatorFlux, passiveModeratorCache, passiveInfoCache, activeInfo);
 							
 							fluxSearchCache.add(fuelComponent);
 						}
@@ -140,7 +140,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 									getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.moderatorLineEfficiencyFactor()*moderatorEfficiency/(i - 1);
 									incrementHeatMultiplier();
 									
-									updateModeratorLine(fluxAcceptor, offPos, dir, moderatorFlux, passiveModeratorCache, passiveComponentInfoCache, activeInfo);
+									updateModeratorLine(fluxAcceptor, offPos, dir, moderatorFlux, passiveModeratorCache, passiveInfoCache, activeInfo);
 								}
 							}
 							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
@@ -153,14 +153,14 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 									incrementHeatMultiplier();
 									
 									if (isFunctional()) {
-										onModeratorLineComplete(passiveComponentInfoCache, reflectedFlux);
-										addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, passiveModeratorCache, passiveComponentInfoCache);
+										onModeratorLineComplete(passiveInfoCache, dir, reflectedFlux);
+										addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, passiveModeratorCache, passiveInfoCache);
 										activeInfo.addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
 										getMultiblock().activeReflectorCache.add(offPos.toLong());
 									}
 									else {
-										getModeratorLineComponentCaches()[dir.getIndex()] = new ModeratorLineComponentCache(passiveComponentInfoCache, reflectedFlux);
-										addToPassiveModeratorCache(getPassiveReflectorModeratorCaches()[dir.getIndex()], passiveModeratorCache, passiveComponentInfoCache);
+										getModeratorLineCaches()[dir.getIndex()] = new ModeratorLine(passiveInfoCache, reflectedFlux);
+										addToPassiveModeratorCache(getPassiveReflectorModeratorCaches()[dir.getIndex()], passiveModeratorCache, passiveInfoCache);
 										activeInfo.addToModeratorCache(dir, getActiveReflectorModeratorCache(), getPassiveReflectorModeratorCaches()[dir.getIndex()]);
 										getActiveReflectorCache().add(offPos.toLong());
 									}
@@ -168,7 +168,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 							}
 						}
 						passiveModeratorCache.clear();
-						passiveComponentInfoCache.clear();
+						passiveInfoCache.clear();
 						continue dirLoop;
 					}
 				}
@@ -176,32 +176,32 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public static class ModeratorLineComponentCache {
+	public static class ModeratorLine {
 		
-		public final ObjectSet<ModeratorLineBlockInfo> infoCache;
+		public final ObjectSet<ModeratorBlockInfo> infoCache;
 		public final int flux;
 		
-		public ModeratorLineComponentCache(ObjectSet<ModeratorLineBlockInfo> infoCache, int flux) {
-			this.infoCache = infoCache;
+		public ModeratorLine(ObjectSet<ModeratorBlockInfo> infoCache, int flux) {
+			this.infoCache = new ObjectOpenHashSet<>(infoCache);
 			this.flux = flux;
 		}
 	}
 	
-	public default ModeratorLineBlockInfo getModeratorComponentInfo(BlockPos pos, boolean activeModeratorPos) {
+	public default ModeratorBlockInfo getModeratorBlockInfo(BlockPos pos, EnumFacing dir, boolean activeModeratorPos) {
 		IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
 		if (component != null) {
-			return component.getModeratorComponentInfo(activeModeratorPos);
+			return component.getModeratorBlockInfo(dir, activeModeratorPos);
 		}
 		
 		ProcessorRecipe recipe = blockRecipe(NCRecipes.fission_moderator, pos);
 		if (recipe != null) {
-			return new ModeratorLineBlockInfo(pos, null, false, activeModeratorPos, recipe.getFissionModeratorFluxFactor(), recipe.getFissionModeratorEfficiency());
+			return new ModeratorBlockInfo(pos, null, false, activeModeratorPos, recipe.getFissionModeratorFluxFactor(), recipe.getFissionModeratorEfficiency());
 		}
 		
 		return null;
 	}
 	
-	public static class ModeratorLineBlockInfo {
+	public static class ModeratorBlockInfo {
 		
 		public final long posLong;
 		public final IFissionComponent component;
@@ -210,7 +210,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		public final int fluxFactor;
 		public final double efficiency;
 		
-		public ModeratorLineBlockInfo(BlockPos pos, IFissionComponent component, boolean blockingFlux, boolean validActiveModerator, int fluxFactor, double efficiency) {
+		public ModeratorBlockInfo(BlockPos pos, IFissionComponent component, boolean blockingFlux, boolean validActiveModerator, int fluxFactor, double efficiency) {
 			posLong = pos.toLong();
 			this.component = component;
 			this.blockingFlux = blockingFlux;
@@ -246,41 +246,37 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 				passiveCache.add(posLong);
 			}
 		}
-		
-		public void onModeratorLineComplete(int flux) {
-			if (component != null) {
-				component.onModeratorLineComplete(this, flux);
-			}
-		}
 	}
 	
 	// Don't iterate if there are no fission components
-	public static void addToPassiveModeratorCache(LongSet passiveModeratorCache, LongSet newPassiveModerators, ObjectSet<ModeratorLineBlockInfo> newPassiveComponentInfo) {
-		if (newPassiveComponentInfo.isEmpty()) {
+	public static void addToPassiveModeratorCache(LongSet passiveModeratorCache, LongSet newPassiveModerators, ObjectSet<ModeratorBlockInfo> newPassiveInfo) {
+		if (newPassiveInfo.isEmpty()) {
 			passiveModeratorCache.addAll(newPassiveModerators);
 		}
-		else for (ModeratorLineBlockInfo info : newPassiveComponentInfo) {
+		else for (ModeratorBlockInfo info : newPassiveInfo) {
 			info.addToPassiveModeratorCache(passiveModeratorCache);
 		}
 	}
 	
-	public static void onModeratorLineComplete(ObjectSet<ModeratorLineBlockInfo> newPassiveComponentInfo, int flux) {
-		for (ModeratorLineBlockInfo info : newPassiveComponentInfo) {
-			info.onModeratorLineComplete(flux);
+	public static void onModeratorLineComplete(ObjectSet<ModeratorBlockInfo> newPassiveComponentInfo, EnumFacing dir, int flux) {
+		for (ModeratorBlockInfo info : newPassiveComponentInfo) {
+			if (info.component != null) {
+				info.component.onModeratorLineComplete(info, dir, flux);
+			}
 		}
 	}
 	
-	public default void updateModeratorLine(IFissionFluxSink fluxAcceptor, BlockPos fluxAcceptorPos, EnumFacing dir, int flux, LongSet newPassiveModerators, ObjectSet<ModeratorLineBlockInfo> newPassiveComponentInfo, ModeratorLineBlockInfo activeInfo) {
+	public default void updateModeratorLine(IFissionFluxSink fluxAcceptor, BlockPos fluxAcceptorPos, EnumFacing dir, int flux, LongSet newPassiveModerators, ObjectSet<ModeratorBlockInfo> newPassiveInfo, ModeratorBlockInfo activeInfo) {
 		fluxAcceptor.refreshIsProcessing(false);
 		if (isFunctional() && fluxAcceptor.isFunctional()) {
-			onModeratorLineComplete(newPassiveComponentInfo, flux);
-			addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, newPassiveModerators, newPassiveComponentInfo);
+			onModeratorLineComplete(newPassiveInfo, dir, flux);
+			addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, newPassiveModerators, newPassiveInfo);
 			activeInfo.addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
-			getModeratorComponentInfo(fluxAcceptorPos.offset(dir.getOpposite()), true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
+			getModeratorBlockInfo(fluxAcceptorPos.offset(dir.getOpposite()), dir.getOpposite(), true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
 		}
 		else {
-			getModeratorLineComponentCaches()[dir.getIndex()] = new ModeratorLineComponentCache(newPassiveComponentInfo, flux);
-			addToPassiveModeratorCache(getPassiveModeratorCaches()[dir.getIndex()], newPassiveModerators, newPassiveComponentInfo);
+			getModeratorLineCaches()[dir.getIndex()] = new ModeratorLine(newPassiveInfo, flux);
+			addToPassiveModeratorCache(getPassiveModeratorCaches()[dir.getIndex()], newPassiveModerators, newPassiveInfo);
 			activeInfo.addToModeratorCache(dir, getActiveModeratorCache(), getPassiveModeratorCaches()[dir.getIndex()]);
 		}
 		getAdjacentFluxSinks()[dir.getIndex()] = fluxAcceptor;
@@ -293,9 +289,9 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			IFissionFluxSink fluxAcceptor = getAdjacentFluxSinks()[dir.getIndex()];
 			if (fluxAcceptor != null && fluxAcceptor.isFunctional()) {
-				ModeratorLineComponentCache componentCache = getModeratorLineComponentCaches()[dir.getIndex()];
-				if (componentCache != null) {
-					onModeratorLineComplete(componentCache.infoCache, componentCache.flux);
+				ModeratorLine line = getModeratorLineCaches()[dir.getIndex()];
+				if (line != null) {
+					onModeratorLineComplete(line.infoCache, dir, line.flux);
 				}
 				getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCaches()[dir.getIndex()]);
 				Long posLong = getActiveModeratorCache()[dir.getIndex()];
@@ -321,7 +317,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 			if (fluxAcceptor != null && fluxAcceptor.isFunctional()) {
 				BlockPos adjPos = getTilePos().offset(dir);
 				if (getMultiblock().passiveModeratorCache.contains(adjPos.toLong())) {
-					getModeratorComponentInfo(adjPos, true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
+					getModeratorBlockInfo(adjPos, dir, true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
 				}
 			}
 		}

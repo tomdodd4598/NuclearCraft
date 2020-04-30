@@ -105,7 +105,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	protected IFissionFluxSink[] adjacentFluxSinks = new IFissionFluxSink[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
-	protected final ModeratorLineComponentCache[] moderatorLineComponentCaches = new ModeratorLineComponentCache[] {null, null, null, null, null, null};
+	protected final ModeratorLine[] moderatorLineCaches = new ModeratorLine[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveReflectorModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
@@ -171,7 +171,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 			adjacentFluxSinks[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
 			activeModeratorCache[dir.getIndex()] = null;
-			moderatorLineComponentCaches[dir.getIndex()] = null;
+			moderatorLineCaches[dir.getIndex()] = null;
 			passiveReflectorModeratorCaches[dir.getIndex()].clear();
 			activeReflectorModeratorCache[dir.getIndex()] = null;
 		}
@@ -275,8 +275,8 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public ModeratorLineComponentCache[] getModeratorLineComponentCaches() {
-		return moderatorLineComponentCaches;
+	public ModeratorLine[] getModeratorLineCaches() {
+		return moderatorLineCaches;
 	}
 	
 	@Override
@@ -418,7 +418,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
-			boolean shouldRefresh = !isProcessing && isProcessing(false);
+			boolean shouldRefresh = getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();

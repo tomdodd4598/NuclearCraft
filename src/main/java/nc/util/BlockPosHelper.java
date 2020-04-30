@@ -3,6 +3,8 @@ package nc.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.EnumFacing;
@@ -34,10 +36,8 @@ public class BlockPosHelper {
 	
 	// Adjacents
 	
-	private static final EnumFacing[] ADJACENTS = EnumFacing.VALUES;
-	
 	public BlockPos[] adjacents(int dist) {
-		return offsets(ADJACENTS, dist);
+		return offsets(EnumFacing.VALUES, dist);
 	}
 	
 	public BlockPos[] adjacents() {
@@ -250,6 +250,18 @@ public class BlockPosHelper {
 	}
 	
 	// Other
+	
+	public static final EnumFacing.Axis[] AXES = new EnumFacing.Axis[] {EnumFacing.Axis.X, EnumFacing.Axis.Y, EnumFacing.Axis.Z};
+	
+	public static int getAxisIndex(@Nonnull EnumFacing.Axis axis) {
+		return axis == EnumFacing.Axis.X ? 0 : (axis == EnumFacing.Axis.Y ? 1 : 2);
+	}
+	
+	//public static final EnumFacing.AxisDirection[] AXISDIRS = new EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE, EnumFacing.AxisDirection.NEGATIVE};
+	
+	public static int getAxisDirIndex(@Nonnull EnumFacing.AxisDirection dir) {
+		return dir == EnumFacing.AxisDirection.POSITIVE ? 0 : 1;
+	}
 	
 	public List<BlockPos> cuboid(int x1, int y1, int z1, int x2, int y2, int z2) {
 		List<BlockPos> posList = new ArrayList<>();

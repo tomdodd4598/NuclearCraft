@@ -3,6 +3,7 @@ package nc.multiblock.turbine.block;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 
 import nc.multiblock.turbine.tile.TileTurbineOutlet;
+import nc.util.BlockPosHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +28,7 @@ public class BlockTurbineOutlet extends BlockTurbinePart {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(AXIS_ALL, EnumFacing.Axis.values()[meta]);
+		return getDefaultState().withProperty(AXIS_ALL, BlockPosHelper.AXES[meta]);
 	}
 	
 	@Override
