@@ -21,6 +21,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockRotorBlade {
+
+	// Bounding box pulled from the rotor stator model
+	private final AxisAlignedBB bbox = new AxisAlignedBB(7D, 0D, 2D, 9D, 16D, 14D);
 	
 	public BlockTurbineRotorStator() {
 		super();
@@ -46,7 +49,12 @@ public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockR
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
 	}
-	
+
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+		return bbox;
+	}
+
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) return false;
