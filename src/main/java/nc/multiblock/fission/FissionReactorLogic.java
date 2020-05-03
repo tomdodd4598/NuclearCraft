@@ -22,15 +22,15 @@ import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.IFissionPart;
 import nc.multiblock.fission.tile.IFissionSpecialComponent;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.fission.tile.TileFissionShield;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
-import nc.multiblock.fission.tile.TileFissionVent;
-import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
+import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -149,18 +149,17 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	public void refreshConnections() {
 		refreshFilteredPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
-		
-		//TODO - Temporary shield manager connections
-		for (TileFissionShieldManager manager : getPartMap(TileFissionShieldManager.class).values()) {
-			manager.moveListenersFromCache();
-			manager.refreshListeners();
-		}
 	}
 	
 	public void refreshReactor() {
+		refreshManagers();
 		refreshFlux();
 		refreshClusters();
 		refreshReactorStats();
+	}
+	
+	public void refreshManagers() {
+		refreshManagers(TileFissionShieldManager.class);
 	}
 	
 	public void refreshFlux() {

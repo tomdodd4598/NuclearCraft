@@ -83,11 +83,10 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 		return getFilterTanks().get(0).getFluidName().hashCode();
 	}
 	
-	@Override
+	/*@Override
 	public void markDirty() {
-		refreshPartsFlag = true;
 		super.markDirty();
-	}
+	}*/
 	
 	// Fluids
 	

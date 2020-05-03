@@ -45,7 +45,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	public Class<MULTIBLOCK> getMultiblockType() {
 		return multiblockClass;
 	}
-
+	
 	///// Multiblock Connection Base Logic
 	@Override
 	public Set<MULTIBLOCK> attachToNeighbors() {
@@ -213,7 +213,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 
 	@Override
 	public boolean isConnected() {
-		return (multiblock != null);
+		return multiblock != null;
 	}
 
 	@Override

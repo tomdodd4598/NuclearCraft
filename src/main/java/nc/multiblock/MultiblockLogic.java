@@ -21,6 +21,8 @@ import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileLogicMultiblockPart;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.multiblock.tile.manager.ITileManager;
+import nc.multiblock.tile.manager.ITileManagerListener;
 import nc.multiblock.tile.port.ITilePort;
 import nc.multiblock.tile.port.ITilePortTarget;
 import nc.multiblock.turbine.Turbine;
@@ -170,6 +172,16 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		for (Int2ObjectMap.Entry<PORT> entry : masterPortMap.int2ObjectEntrySet()) {
 			entry.getValue().setInventoryStackLimit(Math.max(64, entry.getValue().getInventoryStackLimitPerConnection()*targetCountMap.get(entry.getIntKey())));
 			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection()*targetCountMap.get(entry.getIntKey())));
+		}
+	}
+	
+	public <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, LSTNR extends T> void refreshManagers(Class<MANAGER> managerClass) {
+		refreshManagers(managerClass, (Class<MNGR>) managerClass);
+	}
+	
+	private <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, LSTNR extends T> void refreshManagers(Class<MANAGER> managerClass, Class<MNGR> managerClz) {
+		for (MANAGER manager : ((Long2ObjectMap<MANAGER>) getPartMap(managerClz)).values()) {
+			manager.refreshManager();
 		}
 	}
 	

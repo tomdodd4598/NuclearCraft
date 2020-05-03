@@ -1,3 +1,14 @@
+v2o.2.6
+
+* Hopefully fixed shields producing incorrect amounts of heat
+* Hopefully fixed moderators sometimes not being correctly read as active
+
+* Fixed null-pointer crash on components updating
+* Fixed rare crash on toggling fission shields
+
+* Tweaked fission fuel efficiency configs
+* Fixed missing U-238 RTG recipe
+
 v2o.2.5
 
 * Multiblocks won't form if they contain an independent, disconnected part

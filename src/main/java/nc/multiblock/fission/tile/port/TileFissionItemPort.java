@@ -134,11 +134,10 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void markDirty() {
-		refreshPartsFlag = true;
 		super.markDirty();
-	}
+	}*/
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {

@@ -56,6 +56,8 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void resetStats();
 	
+	public boolean isClusterRoot();
+	
 	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		if (!isValidHeatConductor()) return;
 		

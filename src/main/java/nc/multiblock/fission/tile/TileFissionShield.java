@@ -112,6 +112,11 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
+	public boolean isClusterRoot() {
+		return false;
+	}
+	
+	@Override
 	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		IFissionHeatingComponent.super.clusterSearch(id, clusterSearchCache);
 	}

@@ -79,7 +79,7 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		World world = tile.getWorld();
 		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && isActive != state.getValue(ACTIVE)) {
+		if (!world.isRemote && state.getBlock() instanceof BlockFissionShield && isActive != state.getValue(ACTIVE)) {
 			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
 		}
 	}

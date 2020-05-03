@@ -535,7 +535,7 @@ public class NCConfig {
 		propertyFissionThoriumFuelTime.setLanguageKey("gui.nc.config.fission_thorium_fuel_time");
 		Property propertyFissionThoriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_thorium_heat_generation", new int[] {40, 40, 32, 50, 32}, Lang.localise("gui.nc.config.fission_thorium_heat_generation.comment"), 0, 32767);
 		propertyFissionThoriumHeatGeneration.setLanguageKey("gui.nc.config.fission_thorium_heat_generation");
-		Property propertyFissionThoriumEfficiency = config.get(CATEGORY_FISSION, "fission_thorium_efficiency", new double[] {0.6D, 1.25D, 1.25D, 1.25D, 2.5D}, Lang.localise("gui.nc.config.fission_thorium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionThoriumEfficiency = config.get(CATEGORY_FISSION, "fission_thorium_efficiency", new double[] {1.25D, 1.25D, 1.25D, 1.25D, 1.25D}, Lang.localise("gui.nc.config.fission_thorium_efficiency.comment"), 0D, 32767D);
 		propertyFissionThoriumEfficiency.setLanguageKey("gui.nc.config.fission_thorium_efficiency");
 		Property propertyFissionThoriumCriticality = config.get(CATEGORY_FISSION, "fission_thorium_criticality", new int[] {199, 234, 293, 199, 234}, Lang.localise("gui.nc.config.fission_thorium_criticality.comment"), 0, 32767);
 		propertyFissionThoriumCriticality.setLanguageKey("gui.nc.config.fission_thorium_criticality");
@@ -548,7 +548,7 @@ public class NCConfig {
 		propertyFissionUraniumFuelTime.setLanguageKey("gui.nc.config.fission_uranium_fuel_time");
 		Property propertyFissionUraniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_uranium_heat_generation", new int[] {216, 216, 172, 270, 172, 216*3, 216*3, 172*3, 270*3, 172*3, 120, 120, 96, 150, 96, 120*3, 120*3, 96*3, 150*3, 96*3}, Lang.localise("gui.nc.config.fission_uranium_heat_generation.comment"), 0, 32767);
 		propertyFissionUraniumHeatGeneration.setLanguageKey("gui.nc.config.fission_uranium_heat_generation");
-		Property propertyFissionUraniumEfficiency = config.get(CATEGORY_FISSION, "fission_uranium_efficiency", new double[] {0.55D, 1.1D, 1.1D, 1.1D, 2.2D, 0.55D, 1.15D, 1.15D, 1.15D, 2.3D, 0.5D, 1D, 1D, 1D, 2D, 0.5D, 1.05D, 1.05D, 1.05D, 2.1D}, Lang.localise("gui.nc.config.fission_uranium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionUraniumEfficiency = config.get(CATEGORY_FISSION, "fission_uranium_efficiency", new double[] {1.1D, 1.1D, 1.1D, 1.1D, 1.1D, 1.15D, 1.15D, 1.15D, 1.15D, 1.15D, 1D, 1D, 1D, 1D, 1D, 1.05D, 1.05D, 1.05D, 1.05D, 1.05D}, Lang.localise("gui.nc.config.fission_uranium_efficiency.comment"), 0D, 32767D);
 		propertyFissionUraniumEfficiency.setLanguageKey("gui.nc.config.fission_uranium_efficiency");
 		Property propertyFissionUraniumCriticality = config.get(CATEGORY_FISSION, "fission_uranium_criticality", new int[] {66, 78, 98, 66, 78, 66/2, 78/2, 98/2, 66/2, 78/2, 87, 102, 128, 87, 102, 87/2, 102/2, 128/2, 87/2, 102/2}, Lang.localise("gui.nc.config.fission_uranium_criticality.comment"), 0, 32767);
 		propertyFissionUraniumCriticality.setLanguageKey("gui.nc.config.fission_uranium_criticality");
@@ -561,7 +561,7 @@ public class NCConfig {
 		propertyFissionNeptuniumFuelTime.setLanguageKey("gui.nc.config.fission_neptunium_fuel_time");
 		Property propertyFissionNeptuniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_neptunium_heat_generation", new int[] {292, 292, 234, 366, 234, 292*3, 292*3, 234*3, 366*3, 234*3}, Lang.localise("gui.nc.config.fission_neptunium_heat_generation.comment"), 0, 32767);
 		propertyFissionNeptuniumHeatGeneration.setLanguageKey("gui.nc.config.fission_neptunium_heat_generation");
-		Property propertyFissionNeptuniumEfficiency = config.get(CATEGORY_FISSION, "fission_neptunium_efficiency", new double[] {0.55D, 1.1D, 1.1D, 1.1D, 2.2D, 0.55D, 1.15D, 1.15D, 1.15D, 2.3D}, Lang.localise("gui.nc.config.fission_neptunium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionNeptuniumEfficiency = config.get(CATEGORY_FISSION, "fission_neptunium_efficiency", new double[] {1.1D, 1.1D, 1.1D, 1.1D, 1.1D, 1.15D, 1.15D, 1.15D, 1.15D, 1.15D}, Lang.localise("gui.nc.config.fission_neptunium_efficiency.comment"), 0D, 32767D);
 		propertyFissionNeptuniumEfficiency.setLanguageKey("gui.nc.config.fission_neptunium_efficiency");
 		Property propertyFissionNeptuniumCriticality = config.get(CATEGORY_FISSION, "fission_neptunium_criticality", new int[] {60, 70, 88, 60, 70, 60/2, 70/2, 88/2, 60/2, 70/2}, Lang.localise("gui.nc.config.fission_neptunium_criticality.comment"), 0, 32767);
 		propertyFissionNeptuniumCriticality.setLanguageKey("gui.nc.config.fission_neptunium_criticality");
@@ -574,7 +574,7 @@ public class NCConfig {
 		propertyFissionPlutoniumFuelTime.setLanguageKey("gui.nc.config.fission_plutonium_fuel_time");
 		Property propertyFissionPlutoniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_plutonium_heat_generation", new int[] {126, 126, 100, 158, 100, 126*3, 126*3, 100*3, 158*3, 100*3, 182, 182, 146, 228, 146, 182*3, 182*3, 146*3, 228*3, 146*3}, Lang.localise("gui.nc.config.fission_plutonium_heat_generation.comment"), 0, 32767);
 		propertyFissionPlutoniumHeatGeneration.setLanguageKey("gui.nc.config.fission_plutonium_heat_generation");
-		Property propertyFissionPlutoniumEfficiency = config.get(CATEGORY_FISSION, "fission_plutonium_efficiency", new double[] {0.6D, 1.2D, 1.2D, 1.2D, 2.4D, 0.6D, 1.25D, 1.25D, 1.25D, 2.5D, 0.6D, 1.25D, 1.25D, 1.25D, 2.5D, 0.65D, 1.3D, 1.3D, 1.3D, 2.6D}, Lang.localise("gui.nc.config.fission_plutonium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionPlutoniumEfficiency = config.get(CATEGORY_FISSION, "fission_plutonium_efficiency", new double[] {1.2D, 1.2D, 1.2D, 1.2D, 1.2D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.3D, 1.3D, 1.3D, 1.3D, 1.3D}, Lang.localise("gui.nc.config.fission_plutonium_efficiency.comment"), 0D, 32767D);
 		propertyFissionPlutoniumEfficiency.setLanguageKey("gui.nc.config.fission_plutonium_efficiency");
 		Property propertyFissionPlutoniumCriticality = config.get(CATEGORY_FISSION, "fission_plutonium_criticality", new int[] {84, 99, 124, 84, 99, 84/2, 99/2, 124/2, 84/2, 99/2, 71, 84, 105, 71, 84, 71/2, 84/2, 105/2, 71/2, 84/2}, Lang.localise("gui.nc.config.fission_plutonium_criticality.comment"), 0, 32767);
 		propertyFissionPlutoniumCriticality.setLanguageKey("gui.nc.config.fission_plutonium_criticality");
@@ -587,7 +587,7 @@ public class NCConfig {
 		propertyFissionMixedFuelTime.setLanguageKey("gui.nc.config.fission_mixed_fuel_time");
 		Property propertyFissionMixedHeatGeneration = config.get(CATEGORY_FISSION, "fission_mixed_heat_generation", new int[] {132, 132, 106, 166, 106, 192, 192, 154, 240, 154}, Lang.localise("gui.nc.config.fission_mixed_heat_generation.comment"), 0, 32767);
 		propertyFissionMixedHeatGeneration.setLanguageKey("gui.nc.config.fission_mixed_heat_generation");
-		Property propertyFissionMixedEfficiency = config.get(CATEGORY_FISSION, "fission_mixed_efficiency", new double[] {0.5D, 1.05D, 1.05D, 1.05D, 2.1D, 0.55D, 1.15D, 1.15D, 1.15D, 2.3D}, Lang.localise("gui.nc.config.fission_mixed_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionMixedEfficiency = config.get(CATEGORY_FISSION, "fission_mixed_efficiency", new double[] {1.05D, 1.05D, 1.05D, 1.05D, 1.05D, 1.15D, 1.15D, 1.15D, 1.15D, 1.15D}, Lang.localise("gui.nc.config.fission_mixed_efficiency.comment"), 0D, 32767D);
 		propertyFissionMixedEfficiency.setLanguageKey("gui.nc.config.fission_mixed_efficiency");
 		Property propertyFissionMixedCriticality = config.get(CATEGORY_FISSION, "fission_mixed_criticality", new int[] {80, 94, 118, 80, 94, 68, 80, 100, 68, 80}, Lang.localise("gui.nc.config.fission_mixed_criticality.comment"), 0, 32767);
 		propertyFissionMixedCriticality.setLanguageKey("gui.nc.config.fission_mixed_criticality");
@@ -600,7 +600,7 @@ public class NCConfig {
 		propertyFissionAmericiumFuelTime.setLanguageKey("gui.nc.config.fission_americium_fuel_time");
 		Property propertyFissionAmericiumHeatGeneration = config.get(CATEGORY_FISSION, "fission_americium_heat_generation", new int[] {390, 390, 312, 488, 312, 390*3, 390*3, 312*3, 488*3, 312*3}, Lang.localise("gui.nc.config.fission_americium_heat_generation.comment"), 0, 32767);
 		propertyFissionAmericiumHeatGeneration.setLanguageKey("gui.nc.config.fission_americium_heat_generation");
-		Property propertyFissionAmericiumEfficiency = config.get(CATEGORY_FISSION, "fission_americium_efficiency", new double[] {0.65D, 1.35D, 1.35D, 1.35D, 2.7D, 0.7D, 1.4D, 1.4D, 1.4D, 2.8D}, Lang.localise("gui.nc.config.fission_americium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionAmericiumEfficiency = config.get(CATEGORY_FISSION, "fission_americium_efficiency", new double[] {1.35D, 1.35D, 1.35D, 1.35D, 1.35D, 1.4D, 1.4D, 1.4D, 1.4D, 1.4D}, Lang.localise("gui.nc.config.fission_americium_efficiency.comment"), 0D, 32767D);
 		propertyFissionAmericiumEfficiency.setLanguageKey("gui.nc.config.fission_americium_efficiency");
 		Property propertyFissionAmericiumCriticality = config.get(CATEGORY_FISSION, "fission_americium_criticality", new int[] {55, 65, 81, 55, 65, 55/2, 65/2, 81/2, 55/2, 65/2}, Lang.localise("gui.nc.config.fission_americium_criticality.comment"), 0, 32767);
 		propertyFissionAmericiumCriticality.setLanguageKey("gui.nc.config.fission_americium_criticality");
@@ -613,7 +613,7 @@ public class NCConfig {
 		propertyFissionCuriumFuelTime.setLanguageKey("gui.nc.config.fission_curium_fuel_time");
 		Property propertyFissionCuriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_curium_heat_generation", new int[] {384, 384, 308, 480, 308, 384*3, 384*3, 308*3, 480*3, 308*3, 238, 238, 190, 298, 190, 238*3, 238*3, 190*3, 298*3, 190*3, 268, 268, 214, 336, 214, 268*3, 268*3, 214*3, 336*3, 214*3}, Lang.localise("gui.nc.config.fission_curium_heat_generation.comment"), 0, 32767);
 		propertyFissionCuriumHeatGeneration.setLanguageKey("gui.nc.config.fission_curium_heat_generation");
-		Property propertyFissionCuriumEfficiency = config.get(CATEGORY_FISSION, "fission_curium_efficiency", new double[] {0.7D, 1.45D, 1.45D, 1.45D, 2.9D, 0.75D, 1.5D, 1.5D, 1.5D, 3D, 0.75D, 1.5D, 1.5D, 1.5D, 3D, 0.75D, 1.55D, 1.55D, 1.55D, 3.1D, 0.75D, 1.55D, 1.55D, 1.55D, 3.1D, 0.8D, 1.6D, 1.6D, 1.6D, 3.2D}, Lang.localise("gui.nc.config.fission_curium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionCuriumEfficiency = config.get(CATEGORY_FISSION, "fission_curium_efficiency", new double[] {1.45D, 1.45D, 1.45D, 1.45D, 1.45D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.6D, 1.6D, 1.6D, 1.6D, 1.6D}, Lang.localise("gui.nc.config.fission_curium_efficiency.comment"), 0D, 32767D);
 		propertyFissionCuriumEfficiency.setLanguageKey("gui.nc.config.fission_curium_efficiency");
 		Property propertyFissionCuriumCriticality = config.get(CATEGORY_FISSION, "fission_curium_criticality", new int[] {56, 66, 83, 56, 66, 56/2, 66/2, 83/2, 56/2, 66/2, 64, 75, 94, 64, 75, 64/2, 75/2, 94/2, 64/2, 75/2, 61, 72, 90, 61, 72, 61/2, 72/2, 90/2, 61/2, 72/2}, Lang.localise("gui.nc.config.fission_curium_criticality.comment"), 0, 32767);
 		propertyFissionCuriumCriticality.setLanguageKey("gui.nc.config.fission_curium_criticality");
@@ -626,7 +626,7 @@ public class NCConfig {
 		propertyFissionBerkeliumFuelTime.setLanguageKey("gui.nc.config.fission_berkelium_fuel_time");
 		Property propertyFissionBerkeliumHeatGeneration = config.get(CATEGORY_FISSION, "fission_berkelium_heat_generation", new int[] {266, 266, 212, 332, 212, 266*3, 266*3, 212*3, 332*3, 212*3}, Lang.localise("gui.nc.config.fission_berkelium_heat_generation.comment"), 0, 32767);
 		propertyFissionBerkeliumHeatGeneration.setLanguageKey("gui.nc.config.fission_berkelium_heat_generation");
-		Property propertyFissionBerkeliumEfficiency = config.get(CATEGORY_FISSION, "fission_berkelium_efficiency", new double[] {0.8D, 1.65D, 1.65D, 1.65D, 3.3D, 0.85D, 1.7D, 1.7D, 1.7D, 3.4D}, Lang.localise("gui.nc.config.fission_berkelium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionBerkeliumEfficiency = config.get(CATEGORY_FISSION, "fission_berkelium_efficiency", new double[] {1.65D, 1.65D, 1.65D, 1.65D, 1.65D, 1.7D, 1.7D, 1.7D, 1.7D, 1.7D}, Lang.localise("gui.nc.config.fission_berkelium_efficiency.comment"), 0D, 32767D);
 		propertyFissionBerkeliumEfficiency.setLanguageKey("gui.nc.config.fission_berkelium_efficiency");
 		Property propertyFissionBerkeliumCriticality = config.get(CATEGORY_FISSION, "fission_berkelium_criticality", new int[] {62, 73, 91, 62, 73, 62/2, 73/2, 91/2, 62/2, 73/2}, Lang.localise("gui.nc.config.fission_berkelium_criticality.comment"), 0, 32767);
 		propertyFissionBerkeliumCriticality.setLanguageKey("gui.nc.config.fission_berkelium_criticality");
@@ -639,7 +639,7 @@ public class NCConfig {
 		propertyFissionCaliforniumFuelTime.setLanguageKey("gui.nc.config.fission_californium_fuel_time");
 		Property propertyFissionCaliforniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_californium_heat_generation", new int[] {540, 540, 432, 676, 432, 540*3, 540*3, 432*3, 676*3, 432*3, 288, 288, 230, 360, 230, 288*3, 288*3, 230*3, 360*3, 230*3}, Lang.localise("gui.nc.config.fission_californium_heat_generation.comment"), 0, 32767);
 		propertyFissionCaliforniumHeatGeneration.setLanguageKey("gui.nc.config.fission_californium_heat_generation");
-		Property propertyFissionCaliforniumEfficiency = config.get(CATEGORY_FISSION, "fission_californium_efficiency", new double[] {0.85D, 1.75D, 1.75D, 1.75D, 3.5D, 0.9D, 1.8D, 1.8D, 1.8D, 3.6D, 0.9D, 1.8D, 1.8D, 1.8D, 3.6D, 0.9D, 1.85D, 1.85D, 1.85D, 3.7D}, Lang.localise("gui.nc.config.fission_californium_efficiency.comment"), 0D, 32767D);
+		Property propertyFissionCaliforniumEfficiency = config.get(CATEGORY_FISSION, "fission_californium_efficiency", new double[] {1.75D, 1.75D, 1.75D, 1.75D, 1.75D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.85D, 1.85D, 1.85D, 1.85D, 1.85D}, Lang.localise("gui.nc.config.fission_californium_efficiency.comment"), 0D, 32767D);
 		propertyFissionCaliforniumEfficiency.setLanguageKey("gui.nc.config.fission_californium_efficiency");
 		Property propertyFissionCaliforniumCriticality = config.get(CATEGORY_FISSION, "fission_californium_criticality", new int[] {51, 60, 75, 51, 60, 51/2, 60/2, 75/2, 51/2, 60/2, 60, 71, 89, 60, 71, 60/2, 71/2, 89/2, 60/2, 71/2}, Lang.localise("gui.nc.config.fission_californium_criticality.comment"), 0, 32767);
 		propertyFissionCaliforniumCriticality.setLanguageKey("gui.nc.config.fission_californium_criticality");

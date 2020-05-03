@@ -133,6 +133,11 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
+	public boolean isClusterRoot() {
+		return true;
+	}
+	
+	@Override
 	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
@@ -247,7 +252,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
-			boolean shouldRefresh = getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
+			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();
@@ -256,7 +261,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 			//tickIrradiator();
 			//if (irradiatorCount == 0) pushStacks();
 			
-			if (shouldRefresh && isMultiblockAssembled()) {
+			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
 			

@@ -183,6 +183,11 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
+	public boolean isClusterRoot() {
+		return true;
+	}
+	
+	@Override
 	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
@@ -418,7 +423,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
-			boolean shouldRefresh = getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
+			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();
@@ -427,7 +432,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 			//tickVessel();
 			//if (vesselCount == 0) pushFluid();
 			
-			if (shouldRefresh && isMultiblockAssembled()) {
+			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
 

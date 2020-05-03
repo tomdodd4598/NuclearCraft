@@ -646,6 +646,11 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 	}
 	
 	@Override
+	public boolean isClusterRoot() {
+		return false;
+	}
+	
+	@Override
 	public long getHeatStored() {
 		return heat;
 	}

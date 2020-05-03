@@ -39,7 +39,15 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 				}
 			}
 			listenerPosCache.clear();
+			markTileDirty();
 		}
+	}
+	
+	//TODO - Temporary shield manager connections
+	@Override
+	public void refreshManager() {
+		moveListenersFromCache();
+		refreshListeners();
 	}
 	
 	//TODO - temporary managers
@@ -51,8 +59,9 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 			for (TileFissionShield shield : listeners) {
 				if (shield.onManagerRefresh()) refresh = true;
 			}
-			markTileDirty();
-			if (refresh) getMultiblock().refreshFlag = true;
+			if (refresh) {
+				getMultiblock().refreshFlag = true;
+			}
 		//}
 	}
 	
@@ -62,7 +71,7 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		updateBlockState(isShieldingActive());
 		if (!world.isRemote && wasShieldingActive != isShieldingActive()) {
-			this.refreshListeners();
+			refreshListeners();
 		}
 	}
 	
@@ -89,7 +98,7 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 					shield.setMasterManagerPos(pos);
 					shield.refreshMasterManager();
 				}
-				markTileDirty();
+				markDirtyAndNotify();
 				getMultiblock().refreshFlag = true;
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", shieldMap.size())));
 				return true;

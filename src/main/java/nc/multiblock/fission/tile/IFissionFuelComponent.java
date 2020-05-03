@@ -126,7 +126,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 							fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency/(i - 1);
 							fuelComponent.incrementHeatMultiplier();
 							
-							updateModeratorLine(fuelComponent, offPos, dir, moderatorFlux, passiveModeratorCache, passiveInfoCache, activeInfo);
+							updateModeratorLine(fuelComponent, dir, moderatorFlux, passiveModeratorCache, passiveInfoCache, activeInfo);
 							
 							fluxSearchCache.add(fuelComponent);
 						}
@@ -140,7 +140,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 									getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.moderatorLineEfficiencyFactor()*moderatorEfficiency/(i - 1);
 									incrementHeatMultiplier();
 									
-									updateModeratorLine(fluxAcceptor, offPos, dir, moderatorFlux, passiveModeratorCache, passiveInfoCache, activeInfo);
+									updateModeratorLine(fluxAcceptor, dir, moderatorFlux, passiveModeratorCache, passiveInfoCache, activeInfo);
 								}
 							}
 							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
@@ -248,14 +248,13 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	// Don't iterate if there are no fission components
 	public static void addToPassiveModeratorCache(LongSet passiveModeratorCache, LongSet newPassiveModerators, ObjectSet<ModeratorBlockInfo> newPassiveInfo) {
-		if (newPassiveInfo.isEmpty()) {
-			passiveModeratorCache.addAll(newPassiveModerators);
-		}
-		else for (ModeratorBlockInfo info : newPassiveInfo) {
+		LongSet passiveModerators = new LongOpenHashSet(newPassiveModerators);
+		for (ModeratorBlockInfo info : newPassiveInfo) {
+			passiveModerators.remove(info.posLong);
 			info.addToPassiveModeratorCache(passiveModeratorCache);
 		}
+		passiveModeratorCache.addAll(passiveModerators);
 	}
 	
 	public static void onModeratorLineComplete(ObjectSet<ModeratorBlockInfo> newPassiveComponentInfo, EnumFacing dir, int flux) {
@@ -266,13 +265,13 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public default void updateModeratorLine(IFissionFluxSink fluxAcceptor, BlockPos fluxAcceptorPos, EnumFacing dir, int flux, LongSet newPassiveModerators, ObjectSet<ModeratorBlockInfo> newPassiveInfo, ModeratorBlockInfo activeInfo) {
+	public default void updateModeratorLine(IFissionFluxSink fluxAcceptor, EnumFacing dir, int flux, LongSet newPassiveModerators, ObjectSet<ModeratorBlockInfo> newPassiveInfo, ModeratorBlockInfo activeInfo) {
 		fluxAcceptor.refreshIsProcessing(false);
 		if (isFunctional() && fluxAcceptor.isFunctional()) {
 			onModeratorLineComplete(newPassiveInfo, dir, flux);
 			addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, newPassiveModerators, newPassiveInfo);
 			activeInfo.addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
-			getModeratorBlockInfo(fluxAcceptorPos.offset(dir.getOpposite()), dir.getOpposite(), true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
+			getModeratorBlockInfo(fluxAcceptor.getTilePos().offset(dir.getOpposite()), dir.getOpposite(), fluxAcceptor instanceof IFissionFuelComponent).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
 		}
 		else {
 			getModeratorLineCaches()[dir.getIndex()] = new ModeratorLine(newPassiveInfo, flux);
@@ -282,7 +281,6 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		getAdjacentFluxSinks()[dir.getIndex()] = fluxAcceptor;
 	}
 	
-	// No need to create ModeratorLineBlockInfo here, as no new active moderator positions are being found
 	public default void defaultRefreshLocal() {
 		if (!isFunctional()) return;
 		

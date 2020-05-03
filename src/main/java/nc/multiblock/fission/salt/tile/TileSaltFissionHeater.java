@@ -730,6 +730,11 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	}
 	
 	@Override
+	public boolean isClusterRoot() {
+		return false;
+	}
+	
+	@Override
 	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
@@ -821,7 +826,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true, true);
-			boolean shouldRefresh = getMultiblock().isReactorOn && !isProcessing && isProcessing(false, true);
+			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false, true);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
 			if (isProcessing) process();
@@ -830,7 +835,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 			//tickHeater();
 			//if (heaterCount == 0) pushFluid();
 			
-			if (shouldRefresh && isMultiblockAssembled()) {
+			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
 

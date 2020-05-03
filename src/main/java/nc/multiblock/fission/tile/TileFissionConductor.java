@@ -56,6 +56,11 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	public void resetStats() {}
 	
 	@Override
+	public boolean isClusterRoot() {
+		return false;
+	}
+	
+	@Override
 	public long getHeatStored() {
 		return heat;
 	}
