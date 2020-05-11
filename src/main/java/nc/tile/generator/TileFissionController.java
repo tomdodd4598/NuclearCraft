@@ -60,8 +60,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public String problemPos = "";
 	public int problemPosX = 0, problemPosY = 0, problemPosZ = 0;
 	
-	public static final int BASE_CAPACITY = 64000, BASE_MAX_HEAT = 25000;
-	
 	private boolean isActivated = false;
 	public boolean computerActivated = false;
 	
@@ -101,7 +99,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 
 	private TileFissionController(boolean newRules) {
-		super("fission_controller", 1, 1, 0, defaultItemSorptions(1, 1), BASE_CAPACITY, NCRecipes.fission);
+		super("fission_controller", 1, 1, 0, defaultItemSorptions(1, 1), NCConfig.fission_base_capacity, NCRecipes.fission);
 		this.newRules = newRules;
 	}
 	
@@ -345,9 +343,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	public int getMaxHeat() {
-		if (NCMath.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), BASE_MAX_HEAT)) return Integer.MAX_VALUE;
-		if (getLengthX() <= 0 || getLengthY() <= 0 || getLengthZ() <= 0) return BASE_MAX_HEAT;
-		return BASE_MAX_HEAT*getLengthX()*getLengthY()*getLengthZ();
+		if (NCMath.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), NCConfig.fission_base_max_heat)) return Integer.MAX_VALUE;
+		if (getLengthX() <= 0 || getLengthY() <= 0 || getLengthZ() <= 0) return NCConfig.fission_base_max_heat;
+		return NCConfig.fission_base_max_heat*getLengthX()*getLengthY()*getLengthZ();
 	}
 	
 	// Finding Blocks
@@ -775,9 +773,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private int getNewCapacity() {
-		if (NCMath.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), BASE_CAPACITY)) return Integer.MAX_VALUE;
-		if (getLengthX() <= 0 || getLengthY() <= 0 || getLengthZ() <= 0) return BASE_CAPACITY;
-		return BASE_CAPACITY*getLengthX()*getLengthY()*getLengthZ();
+		if (NCMath.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), NCConfig.fission_base_capacity)) return Integer.MAX_VALUE;
+		if (getLengthX() <= 0 || getLengthY() <= 0 || getLengthZ() <= 0) return NCConfig.fission_base_capacity;
+		return NCConfig.fission_base_capacity*getLengthX()*getLengthY()*getLengthZ();
 	}
 	
 	// Set Fuel and Power and Modify Heat
