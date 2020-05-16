@@ -83,6 +83,8 @@ public class NCConfig {
 	public static double[] decay_lifetime;
 	public static int[] decay_power;
 	
+	public static int fission_base_capacity; // Default: 64000
+	public static int fission_base_max_heat; // Default: 25000
 	public static double fission_power; // Default: 1
 	public static double fission_fuel_use; // Default: 1
 	public static double fission_heat_generation; // Default: 1
@@ -453,6 +455,10 @@ public class NCConfig {
 		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 15, 20, 25, 30, 40}, Lang.localise("gui.config.generators.decay_power.comment"), 0, 32767);
 		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
 		
+		Property propertyFissionBaseCapacity = config.get(CATEGORY_FISSION, "fission_base_capacity", 64000, Lang.localise("gui.config.fission.fission_base_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyFissionBaseCapacity.setLanguageKey("gui.config.fission.fission_base_capacity");
+		Property propertyFissionBaseMaxHeat = config.get(CATEGORY_FISSION, "fission_base_max_heat", 25000, Lang.localise("gui.config.fission.fission_base_max_heat.comment"), 1, Integer.MAX_VALUE);
+		propertyFissionBaseMaxHeat.setLanguageKey("gui.config.fission.fission_base_max_heat");
 		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1D, Lang.localise("gui.config.fission.fission_power.comment"), 0D, 255D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");
 		Property propertyFissionFuelUse = config.get(CATEGORY_FISSION, "fission_fuel_use", 1D, Lang.localise("gui.config.fission.fission_fuel_use.comment"), 0.001D, 255D);
@@ -981,6 +987,8 @@ public class NCConfig {
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
 		
 		List<String> propertyOrderFission = new ArrayList<String>();
+		propertyOrderFission.add(propertyFissionBaseCapacity.getName());
+		propertyOrderFission.add(propertyFissionBaseMaxHeat.getName());
 		propertyOrderFission.add(propertyFissionPower.getName());
 		propertyOrderFission.add(propertyFissionFuelUse.getName());
 		propertyOrderFission.add(propertyFissionHeatGeneration.getName());
@@ -1286,6 +1294,8 @@ public class NCConfig {
 			decay_lifetime = readDoubleArrayFromConfig(propertyDecayLifetime);
 			decay_power = readIntegerArrayFromConfig(propertyDecayPower);
 			
+			fission_base_capacity = propertyFissionBaseCapacity.getInt();
+			fission_base_max_heat = propertyFissionBaseMaxHeat.getInt();
 			fission_power = propertyFissionPower.getDouble();
 			fission_fuel_use = propertyFissionFuelUse.getDouble();
 			fission_heat_generation = propertyFissionHeatGeneration.getDouble();
@@ -1579,6 +1589,8 @@ public class NCConfig {
 		propertyDecayLifetime.set(decay_lifetime);
 		propertyDecayPower.set(decay_power);
 		
+		propertyFissionBaseCapacity.set(fission_base_capacity);
+		propertyFissionBaseMaxHeat.set(fission_base_max_heat);
 		propertyFissionPower.set(fission_power);
 		propertyFissionFuelUse.set(fission_fuel_use);
 		propertyFissionHeatGeneration.set(fission_heat_generation);
