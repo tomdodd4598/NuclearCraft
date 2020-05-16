@@ -39,6 +39,7 @@ import nc.util.Lang;
 import nc.util.MaterialHelper;
 import nc.util.NCUtil;
 import nc.util.SoundHelper;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -52,6 +53,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
@@ -65,9 +67,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public double processHeatVariable = 0;
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
 	public int currentEnergyStored = 0, energyChange = 0;
-	
-	public int size = 1;
-	public int complete;
+	public int size = 1, complete = 0;
 	public String problem = RING_INCOMPLETE;
 	
 	public static final String RING_INCOMPLETE = Lang.localise("gui.container.fusion_core.ring_incomplete");
@@ -118,7 +118,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	@Override
 	public void updateGenerator() {
 		if (!world.isRemote) {
-			boolean wasProcessing = isProcessing;
+			boolean wasProcessing = isProcessing, wasHotEnough = isHotEnough();
 			isProcessing = isProcessing();
 			if (structureCount == 0) refreshMultiblock();
 			tickStructureCheck();
@@ -126,15 +126,15 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			double previousHeat = heat;
 			run();
 			if (isHotEnough()) doCooling();
-			else plasma(false);
 			doHeating();
+			if (wasHotEnough && !isHotEnough()) plasma(false);
 			heatChange = 1000*(heat - previousHeat);
 			if (overheat()) return;
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
-				if (isProcessing || recipeInfo == null) {
-					plasma(isProcessing);
+				if (isProcessing) {
+					plasma(true);
 				}
 				updateBlockType();
 				sendUpdateToAllPlayers();
@@ -362,7 +362,9 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	// Setting Blocks
 	
 	private static IBlockState plasmaState() {
-		return FluidRegistry.getFluid("plasma").getBlock().getDefaultState();
+		Fluid plasma = FluidRegistry.getFluid("plasma");
+		Block block = plasma == null ? null : plasma.getBlock();
+		return block == null ? Blocks.AIR.getDefaultState() : block.getDefaultState();
 	}
 	
 	public void plasma(boolean createPlasma) {

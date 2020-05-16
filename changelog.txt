@@ -1,3 +1,10 @@
+v2.18s
+
++ Added configs to modify the base energy storage and heat capacities of fission reactors [thanks to Exaxxion!]
+
+* Hopefully fixed fusion reactors placing and removing plasma too often
+* Fixed possible crash on creating plasma fluid when other mods add their own
+
 v2.18r
 
 + Added configs to modify the tank capacities of exchanger and condenser tubes
