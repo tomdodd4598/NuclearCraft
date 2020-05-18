@@ -947,8 +947,8 @@ tile.nuclearcraft.fluid_mix_239_fluoride.name=熔融MF4-239燃料
 fluid.mix_239_fluoride=熔融MF4-239燃料
 tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=熔融氟锂铍盐-MF4-239燃料
 fluid.mix_239_fluoride_flibe=熔融氟锂铍盐-MF4-239燃料
-tile.nuclearcraft.fluid_mix_239_za.name=熔融MZA-239燃料
-fluid.mix_239_za=熔融MZA-239燃料
+tile.nuclearcraft.fluid_mix_239_za.name=熔融混合锆合金-239燃料
+fluid.mix_239_za=熔融混合锆合金-239燃料
 
 tile.nuclearcraft.fluid_mix_241.name=熔融MIX-241燃料
 fluid.mix_241=熔融MIX-241燃料
@@ -956,8 +956,8 @@ tile.nuclearcraft.fluid_mix_241_fluoride.name=熔融MF4-241燃料
 fluid.mix_241_fluoride=熔融MF4-241燃料
 tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=熔融氟锂铍盐-MF4-241燃料
 fluid.mix_241_fluoride_flibe=熔融氟锂铍盐-MF4-241燃料
-tile.nuclearcraft.fluid_mix_241_za.name=熔融MZA-241燃料
-fluid.mix_241_za=熔融MZA-241燃料
+tile.nuclearcraft.fluid_mix_241_za.name=熔融混合锆合金-241燃料
+fluid.mix_241_za=熔融混合锆合金-241燃料
 
 tile.nuclearcraft.fluid_lea_242.name=熔融低密度 镅-242燃料
 fluid.lea_242=熔融低密度 镅-242燃料
@@ -1192,8 +1192,8 @@ tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭 MF4-239燃�
 fluid.depleted_mix_239_fluoride=熔融枯竭 MF4-239燃料
 tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭 氟锂铍盐-MF4-239燃料
 fluid.depleted_mix_239_fluoride_flibe=熔融枯竭 氟锂铍盐-MF4-239燃料
-tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭 MZA-239燃料
-fluid.depleted_mix_239_za=熔融枯竭 MZA-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭 混合锆合金-239燃料
+fluid.depleted_mix_239_za=熔融枯竭 混合锆合金-239燃料
 
 tile.nuclearcraft.fluid_depleted_mix_241.name=熔融枯竭 MIX-241燃料
 fluid.depleted_mix_241=熔融枯竭 MIX-241燃料
@@ -1201,8 +1201,8 @@ tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭 MF4-241燃�
 fluid.depleted_mix_241_fluoride=熔融枯竭 MF4-241燃料
 tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭 氟锂铍盐-MF4-241燃料
 fluid.depleted_mix_241_fluoride_flibe=熔融枯竭 氟锂铍盐-MF4-241燃料
-tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭 MZA-241燃料
-fluid.depleted_mix_241_za=熔融枯竭 MZA-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭 混合锆合金-241燃料
+fluid.depleted_mix_241_za=熔融枯竭 混合锆合金-241燃料
 
 tile.nuclearcraft.fluid_depleted_lea_242.name=熔融枯竭 低密度 镅-242燃料
 fluid.depleted_lea_242=熔融枯竭 低密度 镅-242燃料
@@ -1891,14 +1891,14 @@ item.nuclearcraft.fuel_plutonium.hep_241_ox.name=高密度 钚-241 氧化物燃�
 item.nuclearcraft.fuel_plutonium.hep_241_ni.name=高密度 钚-241 氮化物燃料丸
 item.nuclearcraft.fuel_plutonium.hep_241_za.name=高密度 钚-241-锆合金燃料丸
 
-item.nuclearcraft.fuel_mixed.mix_239_tr.name=MTRISO-239 燃料颗粒
-item.nuclearcraft.fuel_mixed.mix_239_ox.name=钚铀混合氧化物-239 燃料丸
+item.nuclearcraft.fuel_mixed.mix_239_tr.name=混合TRISO-239 燃料颗粒
+item.nuclearcraft.fuel_mixed.mix_239_ox.name=混合氧化物-239 燃料丸
 item.nuclearcraft.fuel_mixed.mix_239_ni.name=MNI-239 燃料丸
-item.nuclearcraft.fuel_mixed.mix_239_za.name=MZA-239 燃料丸
-item.nuclearcraft.fuel_mixed.mix_241_tr.name=MTRISO-241 燃料颗粒
-item.nuclearcraft.fuel_mixed.mix_241_ox.name=钚铀混合氧化物-241 燃料丸
+item.nuclearcraft.fuel_mixed.mix_239_za.name=混合锆合金-239 燃料丸
+item.nuclearcraft.fuel_mixed.mix_241_tr.name=混合TRISO-241 燃料颗粒
+item.nuclearcraft.fuel_mixed.mix_241_ox.name=混合氧化物-241 燃料丸
 item.nuclearcraft.fuel_mixed.mix_241_ni.name=MNI-241 燃料丸
-item.nuclearcraft.fuel_mixed.mix_241_za.name=MZA-241 燃料丸
+item.nuclearcraft.fuel_mixed.mix_241_za.name=混合锆合金-241 燃料丸
 
 item.nuclearcraft.fuel_americium.lea_242_tr.name=低密度 镅-242 TRISO燃料颗粒
 item.nuclearcraft.fuel_americium.lea_242_ox.name=低密度 镅-242 氧化物燃料丸
@@ -2015,14 +2015,14 @@ item.nuclearcraft.depleted_fuel_plutonium.hep_241_ox.name=枯竭 高密度 钚-2
 item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=枯竭 高密度 钚-241 氮化物燃料丸
 item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=枯竭 高密度 钚-241-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=枯竭 MTRISO-239 燃料颗粒
-item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=枯竭 钚铀混合氧化物-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=枯竭 混合TRISO-239 燃料颗粒
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=枯竭 混合氧化物-239 燃料丸
 item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=枯竭 MNI-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=枯竭 MZA-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=枯竭 MTRISO-241 燃料颗粒
-item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=枯竭 钚铀混合氧化物-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=枯竭 混合锆合金-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=枯竭 混合TRISO-241 燃料颗粒
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=枯竭 混合氧化物-241 燃料丸
 item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=枯竭 MNI-241 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=枯竭 MZA-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=枯竭 混合锆合金-241 燃料丸
 
 item.nuclearcraft.depleted_fuel_americium.lea_242_tr.name=枯竭 低密度 镅-242 TRISO燃料颗粒
 item.nuclearcraft.depleted_fuel_americium.lea_242_ox.name=枯竭 低密度 镅-242 氧化物燃料丸
@@ -2085,7 +2085,7 @@ item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=枯竭 高密度 �
 item.nuclearcraft.depleted_fuel_californium.hecf_251_za.name=枯竭 高密度 锎-251-锆合金燃料丸
 
 item.nuclearcraft.depleted_fuel_ic2.u.name=枯竭 铀 核燃料
-item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭 钚铀混合氧化物 核燃料
+item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭 混合氧化物 核燃料
 
 item.nuclearcraft.boron.10.name=硼-10
 item.nuclearcraft.boron.11.name=硼-11
@@ -2602,7 +2602,7 @@ advancement.nuclearcraft.decay_generator.desc=制作一个衰变产能器
 advancement.nuclearcraft.bin.name=Mr. Dilkington# pun or meme
 advancement.nuclearcraft.bin.desc=制作一个通用垃圾桶
 
-advancement.nuclearcraft.portable_ender_chest.name=欢乐满人间
+advancement.nuclearcraft.portable_ender_chest.name=欢乐满人间# pun or meme
 advancement.nuclearcraft.portable_ender_chest.desc=制作一个便携末影箱
 
 advancement.nuclearcraft.speed_upgrade.name=工作超频
@@ -2774,20 +2774,20 @@ material.magnesium.name=镁
 material.chocolate.name=巧克力
 
 modifier.moldable.name=可塑
-modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料属性槽。//Lindt
+modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料属性槽。# Lindt
 modifier.uplifting.name=振奋
-modifier.uplifting.desc=§oThis Day We Fight!§r\n在你使用你的工具时偶尔恢复生命值。//Megadeth
+modifier.uplifting.desc=§oThis Day We Fight!§r\n在你使用你的工具时偶尔恢复生命值。# Megadeth
 modifier.withering.name=凋零
-modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。//Patti Lather's Book or Hannibal
+modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。# Patti Lather's Book or Hannibal
 
 modifier.moldable_armor.name=可塑
 modifier.moldable_armor.desc=§o瑞士莲§r\n为你的护甲增加额外的材料属性槽。
 modifier.poisonous_armor.name=毒性
-modifier.poisonous_armor.desc=§o这么多人要杀，没多少时间了！§r\n令目标中毒。//Batman & Robin
+modifier.poisonous_armor.desc=§o这么多人要杀，没多少时间了！§r\n令目标中毒。# Batman & Robin
 modifier.uplifting_armor.name=振奋
-modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n在你受伤时偶尔恢复生命值。//LotR Movies
+modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n在你受伤时偶尔恢复生命值。# LotR Movies
 modifier.withering_armor.name=凋零
-modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。//Grim Fandango?
+modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。# Grim Fandango?
 
 message.nuclearcraft.filter=设置过滤器：
 
