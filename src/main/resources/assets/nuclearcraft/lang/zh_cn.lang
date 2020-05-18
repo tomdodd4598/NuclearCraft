@@ -1,4 +1,4 @@
-tile.nuclearcraft.ore.copper.name=Copper Ore
+tile.nuclearcraft.ore.copper.name=铜矿石
 tile.nuclearcraft.ore.tin.name=锡矿石
 tile.nuclearcraft.ore.lead.name=铅矿石
 tile.nuclearcraft.ore.thorium.name=钍矿石
@@ -362,7 +362,7 @@ tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构
 tile.nuclearcraft.condenser_tube_copper.name=铜冷凝管道
 tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳冷凝管道
 tile.nuclearcraft.condenser_tube_thermoconducting.name=热引合金冷凝管道
-tile.nuclearcraft.condenser_tube.fixd=电导电率增加倍率：%s
+tile.nuclearcraft.condenser_tube.fixd=热导率增加倍率：%s
 tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行放置另一个冷凝管道以保留其侧面配置。
 
 tile.nuclearcraft.turbine_controller.name=涡轮机控制器
@@ -394,7 +394,7 @@ tile.nuclearcraft.turbine_dynamo_coil.copper.name=铜涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.copper.desc=必须接触至少一个有效的铍涡轮机发电机线圈。
 tile.nuclearcraft.turbine_dynamo_coil.silver.name=银涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.silver.desc=必须接触至少一个有效的金涡轮机发电机线圈和一个有效的铜涡轮机发电机线圈。
-tile.nuclearcraft.turbine_dynamo_coil.conductivity=电导率增加倍率：
+tile.nuclearcraft.turbine_dynamo_coil.conductivity=热导率增加倍率：
 tile.nuclearcraft.turbine_coil_connector.name=涡轮机发电机线圈连接器
 tile.nuclearcraft.turbine_coil_connector.desc=必须接触至少一个有效的发电机线圈。
 tile.nuclearcraft.turbine_inlet.name=涡轮机流体输入口
