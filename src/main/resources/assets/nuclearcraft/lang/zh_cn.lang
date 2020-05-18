@@ -2559,7 +2559,7 @@ nuclearcraft.multiblock_validation.turbine.bearings_side_square=轴承所在的�
 nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=输入口和输出口必须相对且位于轴承所在的墙壁上以使涡轮机运转
 nuclearcraft.multiblock_validation.turbine.bearings_centre_and_square=轴承组必须是正方形的并且位于相对的两面墙的正中央以使涡轮机运转
 nuclearcraft.multiblock_validation.turbine.shaft_centre=转子轴必须完全连接到轴承以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.space_between_blades=叶片和定子之间必须空着以使涡轮机运转
+nuclearcraft.multiblock_validation.turbine.space_between_blades=叶片和定子之外的部分必须空着以使涡轮机运转
 nuclearcraft.multiblock_validation.turbine.different_type_blades=每个轴上四个面所对应的叶片和定子必须完全相同以使涡轮机运转
 nuclearcraft.multiblock_validation.turbine.missing_blades=每个轴上对应的四个同种叶片和定子必须完全搭建到墙壁以使涡轮机运转
 
