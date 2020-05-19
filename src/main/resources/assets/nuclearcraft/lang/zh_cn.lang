@@ -1961,7 +1961,7 @@ item.nuclearcraft.fuel_californium.hecf_251_ni.name=高密度 锎-251 氮化物�
 item.nuclearcraft.fuel_californium.hecf_251_za.name=高密度 锎-251-锆合金燃料丸
 
 info.nuclearcraft.fission_fuel.desc=裂变反应堆燃料
-info.nuclearcraft.fission_fuel.base_time.desc=基础消耗时间：%s
+info.nuclearcraft.fission_fuel.base_time.desc=基础处理时间：%s
 info.nuclearcraft.fission_fuel.base_heat.desc=基础产热：%s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=基础效能：%s
 info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
@@ -2259,7 +2259,7 @@ entity.nuclearcraft.feral_ghoul.name=野尸鬼
 
 jei.nuclearcraft.chance_output=输出：%s-%s [平均：%s]
 
-jei.nuclearcraft.base_process_time=基础消耗时间：
+jei.nuclearcraft.base_process_time=基础处理时间：
 jei.nuclearcraft.base_process_power=基础耗能：
 jei.nuclearcraft.base_process_radiation=基础辐射：
 
@@ -2269,14 +2269,14 @@ jei.nuclearcraft.irradiator_flux_required=中子通量需求：
 jei.nuclearcraft.irradiator_heat_per_flux=每中子通量产热：
 jei.nuclearcraft.irradiator_process_efficiency=效能提升倍率：
 
-jei.nuclearcraft.pebble_fuel_time=基础消耗时间：
+jei.nuclearcraft.pebble_fuel_time=基础处理时间：
 jei.nuclearcraft.pebble_fuel_heat=基础产热：
 jei.nuclearcraft.pebble_fuel_efficiency=基础效能：
 jei.nuclearcraft.pebble_fuel_criticality=燃料临界值：
 jei.nuclearcraft.pebble_fuel_radiation=燃料辐射：
 jei.nuclearcraft.pebble_fuel_self_priming=自动准备中！
 
-jei.nuclearcraft.solid_fuel_time=基础消耗时间：
+jei.nuclearcraft.solid_fuel_time=基础处理时间：
 jei.nuclearcraft.solid_fuel_heat=基础产热：
 jei.nuclearcraft.solid_fuel_efficiency=基础效能：
 jei.nuclearcraft.solid_fuel_criticality=燃料临界值：
@@ -2285,7 +2285,7 @@ jei.nuclearcraft.solid_fuel_self_priming=自动准备中！
 
 jei.nuclearcraft.fission_heating_heat_per_mb=每mB产热：
 
-jei.nuclearcraft.salt_fuel_time=消耗时间：
+jei.nuclearcraft.salt_fuel_time=处理时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
 jei.nuclearcraft.salt_fuel_efficiency=基础效能：
 jei.nuclearcraft.salt_fuel_criticality=燃料临界值：
@@ -2300,7 +2300,7 @@ jei.nuclearcraft.decay_gen_lifetime=平均寿命：
 jei.nuclearcraft.decay_gen_power=能量产出：
 jei.nuclearcraft.decay_gen_radiation=衰变辐射：
 
-jei.nuclearcraft.salt_fuel_time=消耗时间：
+jei.nuclearcraft.salt_fuel_time=处理时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
 
 jei.nuclearcraft.coolant_heater_rate=冷却液加热速率：
