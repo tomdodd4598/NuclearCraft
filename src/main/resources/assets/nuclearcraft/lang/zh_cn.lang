@@ -1660,7 +1660,7 @@ info.nuclearcraft.approximately=最大
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
-item.nuclearcraft.fission_dust.tbp.name=Protactinium-强化钍粉
+item.nuclearcraft.fission_dust.tbp.name=镤-强化钍粉
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233粉
 
 item.nuclearcraft.uranium.233.name=铀-233
@@ -2185,9 +2185,9 @@ info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=逻辑门�
 
 info.nuclearcraft.multitool.quantum_computer.swap_gate_info=逻辑门目前正在交换量子位%s与%s
 info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待量子位的首列表......
-info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=逻辑门已被设定为切换首列表的量子位%s！
+info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=逻辑门已被设定为交换首列表的量子位%s！
 info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待量子位的次列表......
-info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门已被设定为切换次列表的量子位%s！
+info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门已被设定为交换次列表的量子位%s！
 
 info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=逻辑门正在量子位%3$s的控制下交换量子位%1$s与%2$s
 
