@@ -2260,7 +2260,7 @@ entity.nuclearcraft.feral_ghoul.name=野尸鬼
 jei.nuclearcraft.chance_output=输出：%s-%s [平均：%s]
 
 jei.nuclearcraft.base_process_time=基础处理时间：
-jei.nuclearcraft.base_process_power=基础耗能：
+jei.nuclearcraft.base_process_power=基础功率：
 jei.nuclearcraft.base_process_radiation=基础辐射：
 
 jei.nuclearcraft.collector_production_rate=产出效率：
@@ -2283,7 +2283,7 @@ jei.nuclearcraft.solid_fuel_criticality=燃料临界值：
 jei.nuclearcraft.solid_fuel_radiation=燃料辐射：
 jei.nuclearcraft.solid_fuel_self_priming=自动准备中！
 
-jei.nuclearcraft.fission_heating_heat_per_mb=每mB产热：
+jei.nuclearcraft.fission_heating_heat_per_mb=产热：
 
 jei.nuclearcraft.salt_fuel_time=处理时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
@@ -2503,7 +2503,7 @@ gui.nc.container.turbine_controller.expansion_level=膨胀：
 gui.nc.container.turbine_controller.fluid_rate=输入速率：
 
 gui.nc.container.energy_stored=能量储存：
-gui.nc.container.process_power=耗能：
+gui.nc.container.process_power=功率：
 gui.nc.container.power_gen=能量产出：
 gui.nc.container.speed_multiplier=速度提升倍率：
 gui.nc.container.power_multiplier=能量消耗倍率：
