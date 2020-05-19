@@ -421,7 +421,7 @@ tile.nuclearcraft.nitrogen_collector.desc=恒定产出%s的氮。
 
 tile.nuclearcraft.radiation_scrubber.name=辐射净化仪
 tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。最多以%2%s的效率移除其所在区块中%1$s的辐射值。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射清洗剂”的使用量。
-tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。单独使用时，最多以%2%s的效率移除其所在区块中%1$s的辐射值，though the collective contribution from all scrubbers in the chunk will stack non-linearly。一开始的效率只会线性的叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射清洗剂”的使用量。
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。单独使用时，最多以%2%s的效率移除其所在区块中%1$s的辐射值，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来。一开始的效率只会线性的叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射清洗剂”的使用量。
 nuclearcraft.one_hundred_percent=100%
 
 tile.nuclearcraft.geiger_block.name=盖革计数器方块
