@@ -379,7 +379,7 @@ tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=膨胀系数：%s
 tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转能量。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并保证每个组的叶片都相同。每个叶片最多能处理%s的液体。 
 tile.nuclearcraft.turbine_rotor_stator.name=涡轮机转子定子
 tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=膨胀系数：%s
-tile.nuclearcraft.turbine_rotor_stator.desc=用于增加经过的流体的密度，也即通过压低叶片产生的过高膨胀率来提升涡轮机的效率。必须放置在从转子轴到所对墙壁间的全部位置。
+tile.nuclearcraft.turbine_rotor_stator.desc=用于增加经过的流体的密度，也即通过压低叶片产生的过高膨胀系数来提升涡轮机的效率。必须放置在从转子轴到所对墙壁间的全部位置。
 tile.nuclearcraft.turbine_rotor_bearing.name=涡轮机转子轴承
 tile.nuclearcraft.turbine_rotor_bearing.desc=将转子轴连接到墙壁和发电机。必须覆盖轴两端的全部区域。发电机线圈皆须与轴承位于同一面墙壁，并且在每个末端轴承都应当连接着至少与轴承数量相同的线圈以避免对效能产生不利影响。
 tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=镁涡轮机发电机线圈
@@ -2315,7 +2315,7 @@ jei.nuclearcraft.condenser_condensing_temp=冷凝温度：
 jei.nuclearcraft.condenser_heat_removal_req=排热需求：
 
 jei.nuclearcraft.turbine_energy_density=基础能量密度：
-jei.nuclearcraft.turbine_expansion=流体膨胀：
+jei.nuclearcraft.turbine_expansion=流体膨胀系数：
 
 jei.nuclearcraft.scrubber_process_time=清洗寿命：
 jei.nuclearcraft.scrubber_process_power=能量需求：
@@ -2499,7 +2499,7 @@ gui.nc.container.turbine_controller.turbine=涡轮机
 gui.nc.container.turbine_controller.power=能量输出：
 gui.nc.container.turbine_controller.dynamo_efficiency=发电效能：
 gui.nc.container.turbine_controller.dynamo_coil_count=线圈数量：
-gui.nc.container.turbine_controller.expansion_level=膨胀：
+gui.nc.container.turbine_controller.expansion_level=膨胀系数：
 gui.nc.container.turbine_controller.fluid_rate=输入速率：
 
 gui.nc.container.energy_stored=能量储存：
@@ -2542,7 +2542,7 @@ gui.nc.container.non_config=无
 
 gui.nc.container.shift_clear_multiblock=按住Shift单击以 彻底 清除所有材料
 
-nuclearcraft.multiblock_validation.invalid_block=位于 [%1$d，%2$d，%3$d] 的方块并不是所要求的%4$s
+nuclearcraft.multiblock_validation.invalid_block=位于 [%1$d，%2$d，%3$d] 的方块%4$s并不是所要求的
 nuclearcraft.multiblock_validation.no_controller=必须要有一个控制器以完成多方块结构
 nuclearcraft.multiblock_validation.too_many_controllers=必须要有且仅有一个控制器以完成多方块结构
 
