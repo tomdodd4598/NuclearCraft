@@ -345,7 +345,7 @@ tile.nuclearcraft.salt_fission_heater2.cryotheum.desc=必须接触至少三个�
 
 tile.nuclearcraft.salt_fission_heater.cooling_rate=冷却速率：
 
-tile.nuclearcraft.heat_exchanger_controller.name=热交换机控制器（多方块结构不完整！）
+tile.nuclearcraft.heat_exchanger_controller.name=热交换机控制器（多方块结构未完成！）
 tile.nuclearcraft.heat_exchanger_casing.name=热交换机外壳
 tile.nuclearcraft.heat_exchanger_glass.name=透明热交换机外壳
 tile.nuclearcraft.heat_exchanger_vent.name=热交换机出入口
@@ -358,7 +358,7 @@ tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如�
 tile.nuclearcraft.heat_exchanger_computer_port.name=热交换机电脑接口
 tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电脑来操控热交换机。
 
-tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构不完整！）
+tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构未完成！）
 tile.nuclearcraft.condenser_tube_copper.name=铜冷凝管道
 tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳冷凝管道
 tile.nuclearcraft.condenser_tube_thermoconducting.name=热引合金冷凝管道
@@ -633,7 +633,7 @@ tile.nuclearcraft.fluid_oxygen_difluoride.name=二氟化氧
 fluid.oxygen_difluoride=二氟化氧
 
 tile.nuclearcraft.fluid_corium.name=堆芯熔融物
-tile.nuclearcraft.fluid_corium.desc=裂变反应堆烧毁时流出的有毒熔融物，主要成分是燃料与反应堆的组成部分。
+tile.nuclearcraft.fluid_corium.desc=裂变反应堆烧毁时流出的毒性熔融物，主要成分是燃料与反应堆的组成部分。
 fluid.corium=堆芯熔融物
 
 tile.nuclearcraft.fluid_ice.name=碎冰
@@ -2582,7 +2582,7 @@ nuclearcraft.multiblock_gui.turbine.jei_name=涡轮机
 nuclearcraft.radiation_scrubber.jei_name=辐射净化仪
 
 advancement.nuclearcraft.root.name=核电工艺
-advancement.nuclearcraft.root.desc=核物理，MC风
+advancement.nuclearcraft.root.desc=核与核物理，我的世界风
 
 advancement.nuclearcraft.manufactory.name=工业化进程
 advancement.nuclearcraft.manufactory.desc=制作一个小制造机
@@ -2635,10 +2635,10 @@ advancement.nuclearcraft.solar_panel_basic.desc=制作一个基础太阳能电�
 advancement.nuclearcraft.rtg_uranium.name=温暖绿光
 advancement.nuclearcraft.rtg_uranium.desc=制作一个铀放射性热电发电机
 
-advancement.nuclearcraft.infuser.name=Soaking it Up
+advancement.nuclearcraft.infuser.name=把它注进去
 advancement.nuclearcraft.infuser.desc=制作一个流体注入器
 
-advancement.nuclearcraft.melter.name=Hot和Spicy
+advancement.nuclearcraft.melter.name=又热又辣
 advancement.nuclearcraft.melter.desc=制作一个熔化机
 
 advancement.nuclearcraft.chemical_reactor.name=纯波利亚科夫# pun or meme
@@ -2656,7 +2656,7 @@ advancement.nuclearcraft.enricher.desc=制作一个溶解器
 advancement.nuclearcraft.nuclear_furnace.name=厨房噩梦
 advancement.nuclearcraft.nuclear_furnace.desc=制作一个核熔炉
 
-advancement.nuclearcraft.neptunium.name=甜蜜镎普顿# pun or meme
+advancement.nuclearcraft.neptunium.name=甜蜜“镎”普顿# pun or meme
 advancement.nuclearcraft.neptunium.desc=得到镎
 
 advancement.nuclearcraft.rtg_plutonium.name=恶魔之核
@@ -2746,11 +2746,11 @@ advancement.nuclearcraft.foursmore.desc=制作一块四层饼干巧克力夹棉�
 block.nc.fusion_run=聚变反应堆运行中
 block.nc.turbine_run=涡轮机运行中
 
-player.nc.geiger_tick=Geiger Tick
-player.nc.radaway=Use RadAway
-player.nc.rad_x=Use Rad-X
-player.nc.chems_wear_off=Chems Wear Off
-player.nc.rad_poisoning=Rad Poisoning
+player.nc.geiger_tick=盖革计数刻
+player.nc.radaway=使用抗辐宁
+player.nc.rad_x=使用降辐剂
+player.nc.chems_wear_off=脱下防护服
+player.nc.rad_poisoning=遭辐射中
 
 entity.nc.feral_ghoul_ambient=野尸鬼环绕物
 entity.nc.feral_ghoul_hurt=受伤的野尸鬼
