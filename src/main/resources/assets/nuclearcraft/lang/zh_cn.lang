@@ -842,14 +842,14 @@ fluid.californium_252=熔融锎-252
 tile.nuclearcraft.fluid_californium_252_za.name=熔融锎-252-锆合金
 fluid.californium_252_za=熔融锎-252-锆合金
 
-tile.nuclearcraft.fluid_tbu.name=熔融TBU燃料
-fluid.tbu=熔融TBU燃料
-tile.nuclearcraft.fluid_tbu_fluoride.name=熔融TBU氟化物燃料
-fluid.tbu_fluoride=熔融TBU氟化物燃料
-tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=熔融氟锂铍盐-TBU氟化物燃料
-fluid.tbu_fluoride_flibe=熔融氟锂铍盐-TBU氟化物燃料
-tile.nuclearcraft.fluid_tbu_za.name=熔融TBU-锆合金
-fluid.tbu_za=熔融TBU-锆合金
+tile.nuclearcraft.fluid_tbu.name=熔融钍-增殖铀燃料
+fluid.tbu=熔融钍-增殖铀燃料
+tile.nuclearcraft.fluid_tbu_fluoride.name=熔融钍-增殖铀氟化物燃料
+fluid.tbu_fluoride=熔融钍-增殖铀氟化物燃料
+tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=熔融氟锂铍盐-钍-增殖铀氟化物燃料
+fluid.tbu_fluoride_flibe=熔融氟锂铍盐-钍-增殖铀氟化物燃料
+tile.nuclearcraft.fluid_tbu_za.name=熔融钍-增殖铀-锆合金
+fluid.tbu_za=熔融钍-增殖铀-锆合金
 
 tile.nuclearcraft.fluid_leu_233.name=熔融低密度 铀-233燃料
 fluid.leu_233=熔融低密度 铀-233燃料
@@ -1087,14 +1087,14 @@ fluid.hecf_251_fluoride_flibe=熔融高密度 氟锂铍盐-锎-251氟化物燃�
 tile.nuclearcraft.fluid_hecf_251_za.name=熔融高密度 锎-251-锆合金燃料
 fluid.hecf_251_za=熔融高密度 锎-251-锆合金燃料
 
-tile.nuclearcraft.fluid_depleted_tbu.name=熔融枯竭 TBU燃料
-fluid.depleted_tbu=熔融枯竭 TBU燃料
-tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=熔融枯竭 TBU氟化物燃料
-fluid.depleted_tbu_fluoride=熔融枯竭 TBU氟化物燃料
-tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=熔融枯竭 氟锂铍盐-TBU氟化物燃料
-fluid.depleted_tbu_fluoride_flibe=熔融枯竭 氟锂铍盐-TBU氟化物燃料
-tile.nuclearcraft.fluid_depleted_tbu_za.name=熔融枯竭 TBU-锆合金燃料
-fluid.depleted_tbu_za=熔融枯竭 TBU-锆合金燃料
+tile.nuclearcraft.fluid_depleted_tbu.name=熔融枯竭 钍-增殖铀燃料
+fluid.depleted_tbu=熔融枯竭 钍-增殖铀燃料
+tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=熔融枯竭 钍-增殖铀氟化物燃料
+fluid.depleted_tbu_fluoride=熔融枯竭 钍-增殖铀氟化物燃料
+tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=熔融枯竭 氟锂铍盐-钍-增殖铀氟化物燃料
+fluid.depleted_tbu_fluoride_flibe=熔融枯竭 氟锂铍盐-钍-增殖铀氟化物燃料
+tile.nuclearcraft.fluid_depleted_tbu_za.name=熔融枯竭 钍-增殖铀-锆合金燃料
+fluid.depleted_tbu_za=熔融枯竭 钍-增殖铀-锆合金燃料
 
 tile.nuclearcraft.fluid_depleted_leu_233.name=熔融枯竭 低密度 铀-233燃料
 fluid.depleted_leu_233=熔融枯竭 低密度 铀-233燃料
@@ -1780,8 +1780,8 @@ item.nuclearcraft.californium.252_ox.name=锎-252 氧化物
 item.nuclearcraft.californium.252_ni.name=锎-252 氮化物
 item.nuclearcraft.californium.252_za.name=锎-252-锆合金
 
-item.nuclearcraft.pellet_thorium.tbu.name=TBU
-item.nuclearcraft.pellet_thorium.tbu_c.name=TBU 碳化物
+item.nuclearcraft.pellet_thorium.tbu.name=钍-增殖铀
+item.nuclearcraft.pellet_thorium.tbu_c.name=钍-增殖铀 碳化物
 
 item.nuclearcraft.pellet_uranium.leu_233.name=低密度 铀-233
 item.nuclearcraft.pellet_uranium.leu_233_c.name=低密度 铀-233 碳化物
@@ -1843,10 +1843,10 @@ item.nuclearcraft.pellet_californium.lecf_251_c.name=低密度 锎-251 碳化物
 item.nuclearcraft.pellet_californium.hecf_251.name=高密度 锎-251
 item.nuclearcraft.pellet_californium.hecf_251_c.name=高密度 锎-251 碳化物
 
-item.nuclearcraft.fuel_thorium.tbu_tr.name=TBU TRISO燃料颗粒
-item.nuclearcraft.fuel_thorium.tbu_ox.name=TBU 氧化物燃料丸
-item.nuclearcraft.fuel_thorium.tbu_ni.name=TBU 氮化物燃料丸
-item.nuclearcraft.fuel_thorium.tbu_za.name=TBU-锆合金燃料丸
+item.nuclearcraft.fuel_thorium.tbu_tr.name=钍-增殖铀 TRISO燃料颗粒
+item.nuclearcraft.fuel_thorium.tbu_ox.name=钍-增殖铀 氧化物燃料丸
+item.nuclearcraft.fuel_thorium.tbu_ni.name=钍-增殖铀 氮化物燃料丸
+item.nuclearcraft.fuel_thorium.tbu_za.name=钍-增殖铀-锆合金燃料丸
 
 item.nuclearcraft.fuel_uranium.leu_233_tr.name=低密度 铀-233 TRISO燃料颗粒
 item.nuclearcraft.fuel_uranium.leu_233_ox.name=低密度 铀-233 氧化物燃料丸
@@ -1967,10 +1967,10 @@ info.nuclearcraft.fission_fuel.base_efficiency.desc=基础效能：%s
 info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
 info.nuclearcraft.fission_fuel.self_priming.desc=自动准备中！
 
-item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=枯竭 TBU TRISO燃料颗粒
-item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=枯竭 TBU 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=枯竭 TBU 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=枯竭 TBU-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=枯竭 钍-增殖铀 TRISO燃料颗粒
+item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=枯竭 钍-增殖铀 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=枯竭 钍-增殖铀 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=枯竭 钍-增殖铀-锆合金燃料丸
 
 item.nuclearcraft.depleted_fuel_uranium.leu_233_tr.name=枯竭 低密度 铀-233 TRISO燃料颗粒
 item.nuclearcraft.depleted_fuel_uranium.leu_233_ox.name=枯竭 低密度 铀-233 氧化物燃料丸
