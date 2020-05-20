@@ -30,7 +30,7 @@ info.nuclearcraft.moderator.fixd=裂变反应堆减速剂
 info.nuclearcraft.moderator.flux_factor.fixd=中子通量增加量：%s
 info.nuclearcraft.moderator.efficiency.fixd=效能提升倍率：%s
 
-# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并受到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量之和。如果该线路是反射线路，那么输送量则翻倍，并会再乘以反射器的中子通量增加倍数。末端单元的最终效能等于其获得中子通量的线路的平均效能——一条线路的效能即其上减速剂的平均效能乘以减速剂的个数。
+# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量之和。如果该线路是反射线路，则输送量会翻倍，并会再乘以反射器的中子通量增加倍数。末端单元的最终效能等于其获得中子通量的线路的平均效能——一条线路的效能即其上减速剂的平均效能乘以减速剂的个数。
 
 tile.nuclearcraft.fission_reflector.beryllium_carbon.name=锂-石墨中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
@@ -941,23 +941,23 @@ fluid.hep_241_fluoride_flibe=熔融高密度 氟锂铍盐-钚-241氟化物燃料
 tile.nuclearcraft.fluid_hep_241_za.name=熔融高密度 钚-241-锆合金燃料
 fluid.hep_241_za=熔融高密度 钚-241-锆合金燃料
 
-tile.nuclearcraft.fluid_mix_239.name=熔融MIX-239燃料
-fluid.mix_239=熔融MIX-239燃料
-tile.nuclearcraft.fluid_mix_239_fluoride.name=熔融MF4-239燃料
-fluid.mix_239_fluoride=熔融MF4-239燃料
-tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=熔融氟锂铍盐-MF4-239燃料
-fluid.mix_239_fluoride_flibe=熔融氟锂铍盐-MF4-239燃料
-tile.nuclearcraft.fluid_mix_239_za.name=熔融混合锆合金-239燃料
-fluid.mix_239_za=熔融混合锆合金-239燃料
+tile.nuclearcraft.fluid_mix_239.name=熔融钚铀混合物-239燃料
+fluid.mix_239=熔融钚铀混合物-239燃料
+tile.nuclearcraft.fluid_mix_239_fluoride.name=熔融钚铀混合氟化物-239燃料
+fluid.mix_239_fluoride=熔融钚铀混合氟化物-239燃料
+tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=熔融氟锂铍盐-钚铀混合氟化物-239燃料
+fluid.mix_239_fluoride_flibe=熔融氟锂铍盐-钚铀混合氟化物-239燃料
+tile.nuclearcraft.fluid_mix_239_za.name=熔融钚铀混合锆合金-239燃料
+fluid.mix_239_za=熔融钚铀混合锆合金-239燃料
 
-tile.nuclearcraft.fluid_mix_241.name=熔融MIX-241燃料
-fluid.mix_241=熔融MIX-241燃料
-tile.nuclearcraft.fluid_mix_241_fluoride.name=熔融MF4-241燃料
-fluid.mix_241_fluoride=熔融MF4-241燃料
-tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=熔融氟锂铍盐-MF4-241燃料
-fluid.mix_241_fluoride_flibe=熔融氟锂铍盐-MF4-241燃料
-tile.nuclearcraft.fluid_mix_241_za.name=熔融混合锆合金-241燃料
-fluid.mix_241_za=熔融混合锆合金-241燃料
+tile.nuclearcraft.fluid_mix_241.name=熔融钚铀混合物-241燃料
+fluid.mix_241=熔融钚铀混合物-241燃料
+tile.nuclearcraft.fluid_mix_241_fluoride.name=熔融钚铀混合氟化物-241燃料
+fluid.mix_241_fluoride=熔融钚铀混合氟化物-241燃料
+tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=熔融氟锂铍盐-钚铀混合氟化物-241燃料
+fluid.mix_241_fluoride_flibe=熔融氟锂铍盐-钚铀混合氟化物-241燃料
+tile.nuclearcraft.fluid_mix_241_za.name=熔融钚铀混合锆合金-241燃料
+fluid.mix_241_za=熔融钚铀混合锆合金-241燃料
 
 tile.nuclearcraft.fluid_lea_242.name=熔融低密度 镅-242燃料
 fluid.lea_242=熔融低密度 镅-242燃料
@@ -1186,23 +1186,23 @@ fluid.depleted_hep_241_fluoride_flibe=熔融枯竭 氟锂铍盐-高密度 钚-24
 tile.nuclearcraft.fluid_depleted_hep_241_za.name=熔融枯竭 高密度 钚-241-锆合金燃料
 fluid.depleted_hep_241_za=熔融枯竭 高密度 钚-241-锆合金燃料
 
-tile.nuclearcraft.fluid_depleted_mix_239.name=熔融枯竭 MIX-239燃料
-fluid.depleted_mix_239=熔融枯竭 MIX-239燃料
-tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭 MF4-239燃料
-fluid.depleted_mix_239_fluoride=熔融枯竭 MF4-239燃料
-tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭 氟锂铍盐-MF4-239燃料
-fluid.depleted_mix_239_fluoride_flibe=熔融枯竭 氟锂铍盐-MF4-239燃料
-tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭 混合锆合金-239燃料
-fluid.depleted_mix_239_za=熔融枯竭 混合锆合金-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239.name=熔融枯竭 钚铀混合物-239燃料
+fluid.depleted_mix_239=熔融枯竭 钚铀混合物-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭 钚铀混合氟化物-239燃料
+fluid.depleted_mix_239_fluoride=熔融枯竭 钚铀混合氟化物-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭 氟锂铍盐-钚铀混合氟化物-239燃料
+fluid.depleted_mix_239_fluoride_flibe=熔融枯竭 氟锂铍盐-钚铀混合氟化物-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭 钚铀混合锆合金-239燃料
+fluid.depleted_mix_239_za=熔融枯竭 钚铀混合锆合金-239燃料
 
-tile.nuclearcraft.fluid_depleted_mix_241.name=熔融枯竭 MIX-241燃料
-fluid.depleted_mix_241=熔融枯竭 MIX-241燃料
-tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭 MF4-241燃料
-fluid.depleted_mix_241_fluoride=熔融枯竭 MF4-241燃料
-tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭 氟锂铍盐-MF4-241燃料
-fluid.depleted_mix_241_fluoride_flibe=熔融枯竭 氟锂铍盐-MF4-241燃料
-tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭 混合锆合金-241燃料
-fluid.depleted_mix_241_za=熔融枯竭 混合锆合金-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241.name=熔融枯竭 钚铀混合物-241燃料
+fluid.depleted_mix_241=熔融枯竭 钚铀混合物-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭 钚铀混合氟化物-241燃料
+fluid.depleted_mix_241_fluoride=熔融枯竭 钚铀混合氟化物-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭 氟锂铍盐-钚铀混合氟化物-241燃料
+fluid.depleted_mix_241_fluoride_flibe=熔融枯竭 氟锂铍盐-钚铀混合氟化物-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭 钚铀混合锆合金-241燃料
+fluid.depleted_mix_241_za=熔融枯竭 钚铀混合锆合金-241燃料
 
 tile.nuclearcraft.fluid_depleted_lea_242.name=熔融枯竭 低密度 镅-242燃料
 fluid.depleted_lea_242=熔融枯竭 低密度 镅-242燃料
@@ -1806,10 +1806,10 @@ item.nuclearcraft.pellet_plutonium.lep_241_c.name=低密度 钚-241 碳化物
 item.nuclearcraft.pellet_plutonium.hep_241.name=高密度 钚-241
 item.nuclearcraft.pellet_plutonium.hep_241_c.name=高密度 钚-241 碳化物
 
-item.nuclearcraft.pellet_mixed.mix_239.name=MIX-239
-item.nuclearcraft.pellet_mixed.mix_239_c.name=MIX-239 碳化物
-item.nuclearcraft.pellet_mixed.mix_241.name=MIX-241
-item.nuclearcraft.pellet_mixed.mix_241_c.name=MIX-241 碳化物
+item.nuclearcraft.pellet_mixed.mix_239.name=钚铀混合物-239
+item.nuclearcraft.pellet_mixed.mix_239_c.name=钚铀混合物-239 碳化物
+item.nuclearcraft.pellet_mixed.mix_241.name=钚铀混合物-241
+item.nuclearcraft.pellet_mixed.mix_241_c.name=钚铀混合物-241 碳化物
 
 item.nuclearcraft.pellet_americium.lea_242.name=低密度 镅-242
 item.nuclearcraft.pellet_americium.lea_242_c.name=低密度 镅-242 碳化物
@@ -1892,13 +1892,13 @@ item.nuclearcraft.fuel_plutonium.hep_241_ni.name=高密度 钚-241 氮化物燃�
 item.nuclearcraft.fuel_plutonium.hep_241_za.name=高密度 钚-241-锆合金燃料丸
 
 item.nuclearcraft.fuel_mixed.mix_239_tr.name=混合TRISO-239 燃料颗粒
-item.nuclearcraft.fuel_mixed.mix_239_ox.name=混合氧化物-239 燃料丸
-item.nuclearcraft.fuel_mixed.mix_239_ni.name=MNI-239 燃料丸
-item.nuclearcraft.fuel_mixed.mix_239_za.name=混合锆合金-239 燃料丸
+item.nuclearcraft.fuel_mixed.mix_239_ox.name=钚铀混合氧化物-239 燃料丸
+item.nuclearcraft.fuel_mixed.mix_239_ni.name=钚铀混合氮化物-239 燃料丸
+item.nuclearcraft.fuel_mixed.mix_239_za.name=钚铀混合锆合金-239 燃料丸
 item.nuclearcraft.fuel_mixed.mix_241_tr.name=混合TRISO-241 燃料颗粒
-item.nuclearcraft.fuel_mixed.mix_241_ox.name=混合氧化物-241 燃料丸
-item.nuclearcraft.fuel_mixed.mix_241_ni.name=MNI-241 燃料丸
-item.nuclearcraft.fuel_mixed.mix_241_za.name=混合锆合金-241 燃料丸
+item.nuclearcraft.fuel_mixed.mix_241_ox.name=钚铀混合氧化物-241 燃料丸
+item.nuclearcraft.fuel_mixed.mix_241_ni.name=钚铀混合氮化物-241 燃料丸
+item.nuclearcraft.fuel_mixed.mix_241_za.name=钚铀混合锆合金-241 燃料丸
 
 item.nuclearcraft.fuel_americium.lea_242_tr.name=低密度 镅-242 TRISO燃料颗粒
 item.nuclearcraft.fuel_americium.lea_242_ox.name=低密度 镅-242 氧化物燃料丸
@@ -2016,13 +2016,13 @@ item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=枯竭 高密度 钚-2
 item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=枯竭 高密度 钚-241-锆合金燃料丸
 
 item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=枯竭 混合TRISO-239 燃料颗粒
-item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=枯竭 混合氧化物-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=枯竭 MNI-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=枯竭 混合锆合金-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=枯竭 钚铀混合氧化物-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=枯竭 钚铀混合氮化物-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=枯竭 钚铀混合锆合金-239 燃料丸
 item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=枯竭 混合TRISO-241 燃料颗粒
-item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=枯竭 混合氧化物-241 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=枯竭 MNI-241 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=枯竭 混合锆合金-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=枯竭 钚铀混合氧化物-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=枯竭 钚铀混合氮化物-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=枯竭 钚铀混合锆合金-241 燃料丸
 
 item.nuclearcraft.depleted_fuel_americium.lea_242_tr.name=枯竭 低密度 镅-242 TRISO燃料颗粒
 item.nuclearcraft.depleted_fuel_americium.lea_242_ox.name=枯竭 低密度 镅-242 氧化物燃料丸
@@ -2085,7 +2085,7 @@ item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=枯竭 高密度 �
 item.nuclearcraft.depleted_fuel_californium.hecf_251_za.name=枯竭 高密度 锎-251-锆合金燃料丸
 
 item.nuclearcraft.depleted_fuel_ic2.u.name=枯竭 铀 核燃料
-item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭 混合氧化物 核燃料
+item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭 钚铀混合氧化物 核燃料
 
 item.nuclearcraft.boron.10.name=硼-10
 item.nuclearcraft.boron.11.name=硼-11
@@ -2671,7 +2671,7 @@ advancement.nuclearcraft.salt_mixer.desc=制作一个熔盐混合器
 advancement.nuclearcraft.crystallizer.name=绝命毒师# pun or meme
 advancement.nuclearcraft.crystallizer.desc=制作一个结晶器
 
-advancement.nuclearcraft.centrifuge.name=詹姆斯·邦德# pun or meme
+advancement.nuclearcraft.centrifuge.name=詹姆斯•邦德# pun or meme
 advancement.nuclearcraft.centrifuge.desc=制作一个离心机
 
 advancement.nuclearcraft.rock_crusher.name=滚石# pun or meme
