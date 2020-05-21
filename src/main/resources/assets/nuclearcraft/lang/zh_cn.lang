@@ -2743,21 +2743,21 @@ advancement.nuclearcraft.moresmore.desc=制作一块双层饼干巧克力夹棉�
 advancement.nuclearcraft.foursmore.name=再多一些
 advancement.nuclearcraft.foursmore.desc=制作一块四层饼干巧克力夹棉花糖
 
-block.nc.fusion_run=聚变反应堆运行中
-block.nc.turbine_run=涡轮机运行中
+block.nc.fusion_run=聚变反应堆# 运行中
+block.nc.turbine_run=涡轮机# 运行中
 
-player.nc.geiger_tick=盖革计数刻
+player.nc.geiger_tick=盖革计数器# 计数中
 player.nc.radaway=使用抗辐宁
 player.nc.rad_x=使用降辐剂
-player.nc.chems_wear_off=脱下防护服
-player.nc.rad_poisoning=遭辐射中
+player.nc.chems_wear_off=效果结束
+player.nc.rad_poisoning=遭辐射# 中
 
-entity.nc.feral_ghoul_ambient=野尸鬼环绕物
-entity.nc.feral_ghoul_hurt=受伤的野尸鬼
-entity.nc.feral_ghoul_death=死亡的野尸鬼
-entity.nc.feral_ghoul_step=野尸鬼脚步
-entity.nc.feral_ghoul_fall=掉落的野尸鬼
-entity.nc.feral_ghoul_charge=充电野尸鬼
+entity.nc.feral_ghoul_ambient=野尸鬼# 环绕
+entity.nc.feral_ghoul_hurt=野尸鬼受伤
+entity.nc.feral_ghoul_death=野尸鬼死亡
+entity.nc.feral_ghoul_step=野尸鬼走路
+entity.nc.feral_ghoul_fall=野尸鬼掉落
+entity.nc.feral_ghoul_charge=野尸鬼充能
 
 music.nc.wanderer=Wanderer
 music.nc.end_of_the_world=End of the World
@@ -2793,7 +2793,7 @@ message.nuclearcraft.filter=设置过滤器：
 
 message.nuclearcraft.qubit_id=量子位ID：
 
-message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果消失了......
+message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果结束了......
 message.nuclearcraft.rad_warning=一种金属的恶臭在你的嘴里蔓延，伴随着剧烈的头痛......你正在受到可怕的辐射！使用盖革计数器查看当前辐射的严重程度会是个明智的选择......
 message.nuclearcraft.radaway_cooling_down=你的抗辐宁的剩余时间：
 message.nuclearcraft.rad_x_cooling_down=你的降辐剂的剩余时间：
