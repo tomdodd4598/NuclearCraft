@@ -40,12 +40,21 @@ public class SoundHandler {
 		if (sound == null || !MC.getSoundHandler().isSoundPlaying(sound)) {
 			// No sound playing, start one up - we assume that tile sounds will play until explicitly stopped
 			sound = new PositionedSoundRecord(soundEvent.getSoundName(), SoundCategory.BLOCKS, volume, pitch, true, 0, ISound.AttenuationType.LINEAR, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F) {
+				
 				@Override
 				public float getVolume() {
 					if (this.sound == null) {
 						this.createAccessor(MC.getSoundHandler());
 					}
 					return super.getVolume();
+				}
+				
+				@Override
+				public float getPitch() {
+					if (this.sound == null) {
+						this.createAccessor(MC.getSoundHandler());
+					}
+					return super.getPitch();
 				}
 			};
 			
@@ -82,8 +91,13 @@ public class SoundHandler {
 			return;
 		}
 		
+		// Make sure sound accessor is not null
+		if (resultSound.getSound() == null) {
+			resultSound.createAccessor(MC.getSoundHandler());
+		}
+		
 		// At this point, we've got a known tickable block sound
-		resultSound = new TileSound(event.getSound(), resultSound.getVolume());
+		resultSound = new TileSound(event.getSound(), resultSound.getVolume(), resultSound.getPitch());
 		event.setResultSound(resultSound);
 		
 		// Finally, update our soundMap so that we can actually have a shot at stopping this sound; note that we also
@@ -94,13 +108,14 @@ public class SoundHandler {
 	
 	private static class TileSound implements ITickableSound {
 		
-		private ISound sound;
-		private float volume;
-		private boolean donePlaying = false;
+		private final ISound sound;
+		private final float volume, pitch;
+		private final boolean donePlaying = false;
 		
-		TileSound(ISound sound, float volume) {
+		TileSound(ISound sound, float volume, float pitch) {
 			this.sound = sound;
 			this.volume = volume;
+			this.pitch = pitch;
 		}
 		
 		@Override
@@ -109,11 +124,6 @@ public class SoundHandler {
 		@Override
 		public boolean isDonePlaying() {
 			return donePlaying;
-		}
-		
-		@Override
-		public float getVolume() {
-			return volume;
 		}
 		
 		@Override
@@ -147,8 +157,13 @@ public class SoundHandler {
 		}
 		
 		@Override
+		public float getVolume() {
+			return volume;
+		}
+		
+		@Override
 		public float getPitch() {
-			return sound.getPitch();
+			return pitch;
 		}
 		
 		@Override

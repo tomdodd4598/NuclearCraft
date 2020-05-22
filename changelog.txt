@@ -1,3 +1,7 @@
+v2.18t
+
+* Fixed crash involving fusion and turbine sound effects with Galacticraft installed
+
 v2.18s
 
 + Added configs to modify the base energy storage and heat capacities of fission reactors [thanks to Exaxxion!]
