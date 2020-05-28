@@ -160,8 +160,8 @@ tile.nuclearcraft.fission_shield.boron_silver.name=硼-银辐射中子防护屏
 info.nuclearcraft.fission_shield.heat_per_flux.fixd=单位中子通量产热：%s
 info.nuclearcraft.fission_shield.efficiency.fixd=效能提升倍率：%s
 
-tile.nuclearcraft.fission_redstone_port.name=裂变红石端口（半成品）
-tile.nuclearcraft.fission_computer_port.name=裂变电脑端口（半成品）
+tile.nuclearcraft.fission_redstone_port.name=裂变红石接口（半成品）
+tile.nuclearcraft.fission_computer_port.name=裂变电脑接口（半成品）
 tile.nuclearcraft.fission_computer_port.desc=用于通过[OC]开放式电脑来操控反应堆。
 
 tile.nuclearcraft.fission_irradiator_port.name=裂变中子辐照器端口
