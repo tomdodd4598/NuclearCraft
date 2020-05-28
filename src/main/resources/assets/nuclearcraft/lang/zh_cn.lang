@@ -168,7 +168,7 @@ tile.nuclearcraft.fission_irradiator_port.name=裂变中子辐照器端口
 
 tile.nuclearcraft.fission_cell_port.name=裂变燃料单元端口
 
-tile.nuclearcraft.fission_vessel_port.name=裂变燃料容器接口
+tile.nuclearcraft.fission_vessel_port.name=裂变燃料容器端口
 tile.nuclearcraft.fission_heater_port.name=裂变冷却液加热器端口
 tile.nuclearcraft.fission_heater_port.standard.name=标准裂变冷却液加热器端口
 tile.nuclearcraft.fission_heater_port.iron.name=铁裂变冷却液加热器端口
