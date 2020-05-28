@@ -2355,11 +2355,11 @@ jei.nuclearcraft.coolant_heater.enderium_nak=必须接触至少三个与单元�
 jei.nuclearcraft.coolant_heater.cryotheum_nak=必须接触至少三个有效的燃料容器。
 
 itemGroup.nuclearcraft.main=核电工艺
-itemGroup.nuclearcraft.material=核电工艺|材料
-itemGroup.nuclearcraft.radiation=核电工艺|辐射
-itemGroup.nuclearcraft.machine=核电工艺|机器
-itemGroup.nuclearcraft.multiblock=核电工艺|结构
-itemGroup.nuclearcraft.misc=核电工艺|杂项
+itemGroup.nuclearcraft.material=核电工艺 | 材料
+itemGroup.nuclearcraft.radiation=核电工艺 | 辐射
+itemGroup.nuclearcraft.machine=核电工艺 | 机器
+itemGroup.nuclearcraft.multiblock=核电工艺 | 结构
+itemGroup.nuclearcraft.misc=核电工艺 | 杂项
 
 # Localisation for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=多方块结构有效
