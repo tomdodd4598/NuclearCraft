@@ -420,8 +420,8 @@ tile.nuclearcraft.nitrogen_collector_dense.name=致密氮收集器
 tile.nuclearcraft.nitrogen_collector.desc=恒定产出%s的氮。
 
 tile.nuclearcraft.radiation_scrubber.name=辐射净化仪
-tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。最多以%2%s的效率移除其所在区块中%1$s的辐射值。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射清洗剂”的使用量。
-tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。单独使用时，最多以%2%s的效率移除其所在区块中%1$s的辐射值，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来。一开始的效率只会线性的叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射清洗剂”的使用量。
+tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。最多以%2%s的效率移除其所在区块中%1$s的辐射值。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射净化剂”的使用量。
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射值。其效用取决于附近的空区域之大小。单独使用时，最多以%2%s的效率移除其所在区块中%1$s的辐射值，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来。一开始的效率只会线性的叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射净化剂”的使用量。
 nuclearcraft.one_hundred_percent=100%
 
 tile.nuclearcraft.geiger_block.name=盖革计数器方块
@@ -738,8 +738,8 @@ fluid.potassium_hydroxide_solution=氢氧化钾溶液
 tile.nuclearcraft.fluid_borax_solution.name=硼砂溶液
 fluid.borax_solution=硼砂溶液
 
-tile.nuclearcraft.fluid_irradiated_borax_solution.name=辐射硼砂溶液
-fluid.irradiated_borax_solution=辐射硼砂溶液
+tile.nuclearcraft.fluid_irradiated_borax_solution.name=辐照硼砂溶液
+fluid.irradiated_borax_solution=辐照硼砂溶液
 
 tile.nuclearcraft.fluid_naoh.name=熔融氢氧化钠
 fluid.naoh=熔融氢氧化钠
@@ -2343,7 +2343,7 @@ jei.nuclearcraft.condenser_heat_removal_req=排热需求：
 jei.nuclearcraft.turbine_energy_density=基础能量密度：
 jei.nuclearcraft.turbine_expansion=流体膨胀系数：
 
-jei.nuclearcraft.scrubber_process_time=清洗寿命：
+jei.nuclearcraft.scrubber_process_time=净化寿命：
 jei.nuclearcraft.scrubber_process_power=能量需求：
 jei.nuclearcraft.scrubber_process_efficiency=效能提升倍率：
 
