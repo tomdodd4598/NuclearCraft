@@ -30,7 +30,7 @@ info.nuclearcraft.moderator.fixd=裂变反应堆减速剂
 info.nuclearcraft.moderator.flux_factor.fixd=中子通量增加量：%s
 info.nuclearcraft.moderator.efficiency.fixd=效能提升倍率：%s
 
-# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量之和。如果该线路是反射线路，则输送量会翻倍，并会再乘以反射器的中子通量增加倍数。末端单元的最终效能等于其获得中子通量的线路的平均效能——一条线路的效能即其上减速剂的平均效能乘以减速剂的个数。
+//info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量之和。如果该线路是反射线路，则输送量会翻倍，并会再乘以反射器的中子通量增加倍数。末端单元的最终效能等于其获得中子通量的线路的平均效能——一条线路的效能即其上减速剂的平均效能乘以减速剂的个数。
 
 tile.nuclearcraft.fission_reflector.beryllium_carbon.name=锂-石墨中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
@@ -277,7 +277,7 @@ tile.nuclearcraft.solid_fission_sink.cooling_rate=散热速率：
 
 tile.nuclearcraft.salt_fission_controller.name=熔盐裂变控制器
 tile.nuclearcraft.salt_fission_vessel.name=熔盐裂变燃料容器
-# tile.nuclearcraft.salt_fission_vessel.desc=熔盐核燃料发生裂变和枯竭的地点。潜行放置另一个容器以保留其侧面配置。
+//tile.nuclearcraft.salt_fission_vessel.desc=熔盐核燃料发生裂变和枯竭的地点。潜行放置另一个容器以保留其侧面配置。
 tile.nuclearcraft.salt_fission_heater.standard.name=标准裂变冷却液加热器
 tile.nuclearcraft.salt_fission_heater.standard.desc=必须接触至少一个有效的燃料容器。
 tile.nuclearcraft.salt_fission_heater.iron.name=铁裂变冷却液加热器
@@ -1678,9 +1678,9 @@ item.nuclearcraft.part.empty_sink.name=空散热器
 item.nuclearcraft.part.pyrolytic_carbon.name=热解碳
 
 item.nuclearcraft.upgrade.speed.name=速度升级
-item.nuclearcraft.upgrade.speed_desc=以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会线性地提升速度，并呈指数级地提升能量消耗。# 以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会%s地提升速度，并%s地提升能量消耗。
+item.nuclearcraft.upgrade.speed_desc=以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会线性地提升速度，并呈指数级地提升能量消耗。//以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会%s地提升速度，并%s地提升能量消耗。
 item.nuclearcraft.upgrade.energy.name=能量升级
-item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠——每个能量升级都会线性地减少能量消耗，但是最大的有效能量升级数量等同于速度升级的数量。# 为机器减少能量消耗。可堆叠，但是最大的有效能量升级数量等同于速度升级的速量。每个能量升级都会%s地减少能量消耗。
+item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠——每个能量升级都会线性地减少能量消耗，但是最大的有效能量升级数量等同于速度升级的数量。//为机器减少能量消耗。可堆叠，但是最大的有效能量升级数量等同于速度升级的速量。每个能量升级都会%s地减少能量消耗。
 info.nuclearcraft.approximately=最大
 
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
@@ -2387,7 +2387,7 @@ itemGroup.nuclearcraft.machine=核电工艺 | 机器
 itemGroup.nuclearcraft.multiblock=核电工艺 | 结构
 itemGroup.nuclearcraft.misc=核电工艺 | 杂项
 
-# Localisation for ZeroCore multiblock API
+//Localisation for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=多方块结构有效
 zerocore.api.nc.multiblock.validation.too_few_parts=多方块结构过小
 zerocore.api.nc.multiblock.validation.machine_too_large=多方块结构过大，它最多能在%2$s的尺寸内包含%1$s个方块
@@ -2616,7 +2616,7 @@ advancement.nuclearcraft.manufactory.desc=制作一个小制造机
 advancement.nuclearcraft.separator.name=分离化学
 advancement.nuclearcraft.separator.desc=制作一个分离器
 
-advancement.nuclearcraft.voltaic_pile_basic.name=电力大街# pun or meme
+advancement.nuclearcraft.voltaic_pile_basic.name=电力大街//pun or meme
 advancement.nuclearcraft.voltaic_pile_basic.desc=制作一个基础伏打电堆
 
 advancement.nuclearcraft.electrolyzer.name=噼啪作响的电极
@@ -2625,10 +2625,10 @@ advancement.nuclearcraft.electrolyzer.desc=制作一个电解机
 advancement.nuclearcraft.decay_generator.name=一等能量
 advancement.nuclearcraft.decay_generator.desc=制作一个衰变产能器
 
-advancement.nuclearcraft.bin.name=Mr. Dilkington# pun or meme
+advancement.nuclearcraft.bin.name=Mr. Dilkington//pun or meme
 advancement.nuclearcraft.bin.desc=制作一个通用垃圾桶
 
-advancement.nuclearcraft.portable_ender_chest.name=欢乐满人间# pun or meme
+advancement.nuclearcraft.portable_ender_chest.name=欢乐满人间//pun or meme
 advancement.nuclearcraft.portable_ender_chest.desc=制作一个便携末影箱
 
 advancement.nuclearcraft.speed_upgrade.name=工作超频
@@ -2640,16 +2640,16 @@ advancement.nuclearcraft.energy_upgrade.desc=制作一个能量升级
 advancement.nuclearcraft.machine_interface.name=三维延展
 advancement.nuclearcraft.machine_interface.desc=制作一个机器控制界面
 
-advancement.nuclearcraft.alloy_furnace.name=Smelt up a Storm# pun or meme
+advancement.nuclearcraft.alloy_furnace.name=Smelt up a Storm//pun or meme
 advancement.nuclearcraft.alloy_furnace.desc=制作一个合金炉
 
-advancement.nuclearcraft.fuel_reprocessor.name=Picking up the Pieces# pun or meme
+advancement.nuclearcraft.fuel_reprocessor.name=Picking up the Pieces//pun or meme
 advancement.nuclearcraft.fuel_reprocessor.desc=制作一个燃料再处理机
 
 advancement.nuclearcraft.decay_hastener.name=极限辐射
 advancement.nuclearcraft.decay_hastener.desc=制作一个衰变加速器
 
-advancement.nuclearcraft.lithium_ion_battery_basic.name=埃隆的脚印# pun or meme
+advancement.nuclearcraft.lithium_ion_battery_basic.name=埃隆的脚印//pun or meme
 advancement.nuclearcraft.lithium_ion_battery_basic.desc=制作一个基础锂离子电池
 
 advancement.nuclearcraft.assembler.name=流水线
@@ -2667,10 +2667,10 @@ advancement.nuclearcraft.infuser.desc=制作一个流体注入器
 advancement.nuclearcraft.melter.name=又热又辣
 advancement.nuclearcraft.melter.desc=制作一个熔化机
 
-advancement.nuclearcraft.chemical_reactor.name=纯波利亚科夫# pun or meme
+advancement.nuclearcraft.chemical_reactor.name=纯波利亚科夫//pun or meme
 advancement.nuclearcraft.chemical_reactor.desc=制作一个化学反应器
 
-advancement.nuclearcraft.supercooler.name=Hoth Machine# pun or meme
+advancement.nuclearcraft.supercooler.name=Hoth Machine//pun or meme
 advancement.nuclearcraft.supercooler.desc=制作一个超冷却器
 
 advancement.nuclearcraft.extractor.name=挤压海绵
@@ -2682,7 +2682,7 @@ advancement.nuclearcraft.enricher.desc=制作一个溶解器
 advancement.nuclearcraft.nuclear_furnace.name=厨房噩梦
 advancement.nuclearcraft.nuclear_furnace.desc=制作一个核熔炉
 
-advancement.nuclearcraft.neptunium.name=甜蜜“镎”普顿# pun or meme
+advancement.nuclearcraft.neptunium.name=甜蜜“镎”普顿//pun or meme
 advancement.nuclearcraft.neptunium.desc=得到镎
 
 advancement.nuclearcraft.rtg_plutonium.name=恶魔之核
@@ -2694,13 +2694,13 @@ advancement.nuclearcraft.ingot_former.desc=制作一个冷却器
 advancement.nuclearcraft.salt_mixer.name=混合并叠合
 advancement.nuclearcraft.salt_mixer.desc=制作一个熔盐混合器
 
-advancement.nuclearcraft.crystallizer.name=绝命毒师# pun or meme
+advancement.nuclearcraft.crystallizer.name=绝命毒师//pun or meme
 advancement.nuclearcraft.crystallizer.desc=制作一个结晶器
 
-advancement.nuclearcraft.centrifuge.name=詹姆斯•邦德# pun or meme
+advancement.nuclearcraft.centrifuge.name=詹姆斯•邦德//pun or meme
 advancement.nuclearcraft.centrifuge.desc=制作一个离心机
 
-advancement.nuclearcraft.rock_crusher.name=滚石# pun or meme
+advancement.nuclearcraft.rock_crusher.name=滚石//pun or meme
 advancement.nuclearcraft.rock_crusher.desc=制作一个岩石粉碎机
 
 advancement.nuclearcraft.plutonium.name=临界
@@ -2709,22 +2709,22 @@ advancement.nuclearcraft.plutonium.desc=得到钚
 advancement.nuclearcraft.rtg_americium.name=辐饰
 advancement.nuclearcraft.rtg_americium.desc=制作一个镅放射性热电发电机
 
-advancement.nuclearcraft.pressurizer.name=The Terror of Knowing# pun or meme
+advancement.nuclearcraft.pressurizer.name=The Terror of Knowing//pun or meme
 advancement.nuclearcraft.pressurizer.desc=制作一个压缩机
 
-advancement.nuclearcraft.americium.name=我们信仰物理# pun or meme
+advancement.nuclearcraft.americium.name=我们信仰物理//pun or meme
 advancement.nuclearcraft.americium.desc=得到镅
 
-advancement.nuclearcraft.rtg_californium.name=End of the Line# pun or meme
+advancement.nuclearcraft.rtg_californium.name=End of the Line//pun or meme
 advancement.nuclearcraft.rtg_californium.desc=制作一个锎放射性热电发电机
 
-advancement.nuclearcraft.curium.name=好奇的“锔”里# pun or meme
+advancement.nuclearcraft.curium.name=好奇的“锔”里//pun or meme
 advancement.nuclearcraft.curium.desc=得到锔
 
 advancement.nuclearcraft.berkelium.name=阿拉米达货
 advancement.nuclearcraft.berkelium.desc=得到锫
 
-advancement.nuclearcraft.californium.name=加州梦# pun or meme
+advancement.nuclearcraft.californium.name=加州梦//pun or meme
 advancement.nuclearcraft.californium.desc=得到锎
 
 advancement.nuclearcraft.solid_fission_controller.name=原子分裂
@@ -2751,13 +2751,13 @@ advancement.nuclearcraft.radaway.desc=做一些抗辐宁
 advancement.nuclearcraft.rad_x.name=趋向免疫
 advancement.nuclearcraft.rad_x.desc=做一些降辐剂
 
-advancement.nuclearcraft.rad_shielding.name=Brave Sir Robin# pun or meme
+advancement.nuclearcraft.rad_shielding.name=Brave Sir Robin//pun or meme
 advancement.nuclearcraft.rad_shielding.desc=做一些重型辐射屏蔽板
 
 advancement.nuclearcraft.radiation_scrubber.name=污染控制
 advancement.nuclearcraft.radiation_scrubber.desc=制作一个辐射净化仪
 
-advancement.nuclearcraft.marshmallow.name=The Lansdell Manoeuvre# pun or meme
+advancement.nuclearcraft.marshmallow.name=The Lansdell Manoeuvre//pun or meme
 advancement.nuclearcraft.marshmallow.desc=制作一个棉花糖
 
 advancement.nuclearcraft.smore.name=快来到篝火边！
@@ -2769,16 +2769,16 @@ advancement.nuclearcraft.moresmore.desc=制作一块双层饼干巧克力夹棉�
 advancement.nuclearcraft.foursmore.name=再多一些
 advancement.nuclearcraft.foursmore.desc=制作一块四层饼干巧克力夹棉花糖
 
-block.nc.fusion_run=聚变反应堆# 运行中
-block.nc.turbine_run=涡轮机# 运行中
+block.nc.fusion_run=聚变反应堆//运行中
+block.nc.turbine_run=涡轮机//运行中
 
-player.nc.geiger_tick=盖革计数器# 计数中
+player.nc.geiger_tick=盖革计数器//计数中
 player.nc.radaway=使用抗辐宁
 player.nc.rad_x=使用降辐剂
 player.nc.chems_wear_off=效果结束
-player.nc.rad_poisoning=遭辐射# 中
+player.nc.rad_poisoning=遭辐射//中
 
-entity.nc.feral_ghoul_ambient=野尸鬼# 环绕
+entity.nc.feral_ghoul_ambient=野尸鬼//环绕
 entity.nc.feral_ghoul_hurt=野尸鬼受伤
 entity.nc.feral_ghoul_death=野尸鬼死亡
 entity.nc.feral_ghoul_step=野尸鬼走路
@@ -2800,20 +2800,20 @@ material.magnesium.name=镁
 material.chocolate.name=巧克力
 
 modifier.moldable.name=可塑
-modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料属性槽。# Lindt
+modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料属性槽。//Lindt
 modifier.uplifting.name=振奋
-modifier.uplifting.desc=§oThis Day We Fight!§r\n在你使用你的工具时偶尔恢复生命值。# Megadeth
+modifier.uplifting.desc=§oThis Day We Fight!§r\n在你使用你的工具时偶尔恢复生命值。//Megadeth
 modifier.withering.name=凋零
-modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。# Patti Lather's Book or Hannibal
+modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。//Patti Lather's Book or Hannibal
 
 modifier.moldable_armor.name=可塑
 modifier.moldable_armor.desc=§o瑞士莲§r\n为你的护甲增加额外的材料属性槽。
 modifier.poisonous_armor.name=毒性
-modifier.poisonous_armor.desc=§o这么多人要杀，没多少时间了！§r\n令目标中毒。# Batman & Robin
+modifier.poisonous_armor.desc=§o这么多人要杀，没多少时间了！§r\n令目标中毒。//Batman & Robin
 modifier.uplifting_armor.name=振奋
-modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n在你受伤时偶尔恢复生命值。# LotR Movies
+modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n在你受伤时偶尔恢复生命值。//LotR Movies
 modifier.withering_armor.name=凋零
-modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。# Grim Fandango?
+modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。//Grim Fandango?
 
 message.nuclearcraft.filter=设置过滤器：
 
