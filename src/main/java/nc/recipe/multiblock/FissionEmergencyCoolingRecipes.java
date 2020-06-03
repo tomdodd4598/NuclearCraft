@@ -1,7 +1,6 @@
 package nc.recipe.multiblock;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import nc.recipe.ProcessorRecipeHandler;
 

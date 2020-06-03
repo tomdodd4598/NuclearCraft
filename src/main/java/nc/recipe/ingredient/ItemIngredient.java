@@ -7,18 +7,16 @@ import javax.annotation.Nonnull;
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
-import nc.util.ItemStackHelper;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.recipe.*;
+import nc.util.StackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
 public class ItemIngredient implements IItemIngredient {
 	
 	public ItemStack stack;
-
+	
 	public ItemIngredient(@Nonnull ItemStack stack) {
 		this.stack = stack;
 	}
@@ -50,12 +48,12 @@ public class ItemIngredient implements IItemIngredient {
 	
 	@Override
 	public String getIngredientName() {
-		return ItemStackHelper.stackName(stack);
+		return StackHelper.stackName(stack);
 	}
 	
 	@Override
 	public String getIngredientNamesConcat() {
-		return ItemStackHelper.stackName(stack);
+		return StackHelper.stackName(stack);
 	}
 	
 	@Override
@@ -66,7 +64,7 @@ public class ItemIngredient implements IItemIngredient {
 	@Override
 	public IItemIngredient getFactoredIngredient(int factor) {
 		ItemStack newStack = stack.copy();
-		newStack.setCount(stack.getCount()/factor);
+		newStack.setCount(stack.getCount() / factor);
 		return new ItemIngredient(newStack);
 	}
 	
@@ -74,14 +72,14 @@ public class ItemIngredient implements IItemIngredient {
 	public IngredientMatchResult match(Object object, IngredientSorption type) {
 		if (object instanceof ItemStack) {
 			ItemStack itemstack = (ItemStack) object;
-			if (!itemstack.isItemEqual(stack) || !ItemStackHelper.areItemStackTagsEqual(itemstack, stack)) {
+			if (!itemstack.isItemEqual(stack) || !StackHelper.areItemStackTagsEqual(itemstack, stack)) {
 				return IngredientMatchResult.FAIL;
 			}
 			return new IngredientMatchResult(type.checkStackSize(stack.getCount(), itemstack.getCount()), 0);
 		}
 		else if (object instanceof OreIngredient) {
 			OreIngredient oreStack = (OreIngredient) object;
-			//return (oreStack.matches(this, type));
+			// return (oreStack.matches(this, type));
 			
 			for (ItemStack itemStack : oreStack.cachedStackList) {
 				if (match(itemStack, type).matches()) {

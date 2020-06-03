@@ -1,11 +1,8 @@
 package nc.multiblock.heatExchanger.tile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -23,14 +20,15 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	public void onMachineAssembled(HeatExchanger controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// OpenComputers
@@ -101,21 +99,13 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<>();
 			for (TileHeatExchangerTube tube : getMultiblock().getTubes()) {
-				stats.add(new Object[] {
-						new Object[] {tube.getPos().getX(), tube.getPos().getY(), tube.getPos().getZ()},
-						tube.conductivity,
-						tube.isProcessing,
-						tube.time,
-						tube.recipeInfo != null ? tube.baseProcessTime/tube.getSpeedMultiplier() : 0D,
-						tube.getSpeedMultiplier(),
-						tube.inputTemperature,
-						tube.outputTemperature,
-						tube.flowDir == null ? "null" : tube.flowDir.getName()
-						});
+				stats.add(new Object[] {new Object[] {tube.getPos().getX(), tube.getPos().getY(), tube.getPos().getZ()}, tube.conductivity, tube.isProcessing, tube.time, tube.recipeInfo != null ? tube.baseProcessTime / tube.getSpeedMultiplier() : 0D, tube.getSpeedMultiplier(), tube.inputTemperature, tube.outputTemperature, tube.flowDir == null ? "null" : tube.flowDir.getName()});
 			}
 			return new Object[] {stats.toArray()};
 		}
-		else return new Object[] {};
+		else {
+			return new Object[] {};
+		}
 	}
 	
 	@Callback
@@ -124,20 +114,13 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<>();
 			for (TileCondenserTube condenserTube : getMultiblock().getCondenserTubes()) {
-				stats.add(new Object[] {
-						new Object[] {condenserTube.getPos().getX(), condenserTube.getPos().getY(), condenserTube.getPos().getZ()},
-						condenserTube.conductivity,
-						condenserTube.isProcessing,
-						condenserTube.time,
-						condenserTube.recipeInfo != null ? condenserTube.baseProcessTime/condenserTube.getSpeedMultiplier() : 0D,
-						condenserTube.getSpeedMultiplier(),
-						condenserTube.condensingTemperature,
-						condenserTube.adjacentTemperatures
-						});
+				stats.add(new Object[] {new Object[] {condenserTube.getPos().getX(), condenserTube.getPos().getY(), condenserTube.getPos().getZ()}, condenserTube.conductivity, condenserTube.isProcessing, condenserTube.time, condenserTube.recipeInfo != null ? condenserTube.baseProcessTime / condenserTube.getSpeedMultiplier() : 0D, condenserTube.getSpeedMultiplier(), condenserTube.condensingTemperature, condenserTube.adjacentTemperatures});
 			}
 			return new Object[] {stats.toArray()};
 		}
-		else return new Object[] {};
+		else {
+			return new Object[] {};
+		}
 	}
 	
 	@Callback

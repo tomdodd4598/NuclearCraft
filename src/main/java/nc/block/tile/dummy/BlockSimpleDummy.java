@@ -7,13 +7,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockSimpleDummy extends BlockSimpleTile {
-
+	
 	public BlockSimpleDummy(SimpleTileType type) {
 		super(type);
 	}
 	
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-		if (worldIn.getTileEntity(pos) != null) worldIn.removeTileEntity(pos);
+		if (worldIn.getTileEntity(pos) != null) {
+			worldIn.removeTileEntity(pos);
+		}
 	}
 }

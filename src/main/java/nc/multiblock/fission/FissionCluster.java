@@ -1,7 +1,6 @@
 package nc.multiblock.fission;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.*;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.tile.internal.heat.HeatBuffer;
 
@@ -41,11 +40,15 @@ public class FissionCluster {
 	}
 	
 	public void distributeHeatToComponents() {
-		if (componentMap.isEmpty()) return;
-		long distributedHeat = (long)Math.ceil((double)heatBuffer.getHeatStored()/(double)componentMap.size());
+		if (componentMap.isEmpty()) {
+			return;
+		}
+		long distributedHeat = (long) Math.ceil((double) heatBuffer.getHeatStored() / (double) componentMap.size());
 		for (IFissionComponent component : componentMap.values()) {
 			component.setHeatStored(heatBuffer.removeHeat(distributedHeat, false));
-			if (heatBuffer.getHeatStored() == 0L) return;
+			if (heatBuffer.getHeatStored() == 0L) {
+				return;
+			}
 		}
 		heatBuffer.setHeatStored(0L);
 	}
@@ -59,10 +62,10 @@ public class FissionCluster {
 	}
 	
 	public int getTemperature() {
-		return Math.round(reactor.ambientTemp + (FissionReactor.MAX_TEMP - reactor.ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
+		return Math.round(reactor.ambientTemp + (FissionReactor.MAX_TEMP - reactor.ambientTemp) * (float) heatBuffer.getHeatStored() / heatBuffer.getHeatCapacity());
 	}
 	
 	public float getBurnDamage() {
-		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373)/200F;
+		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373) / 200F;
 	}
 }

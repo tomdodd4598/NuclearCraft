@@ -1,8 +1,9 @@
 package nc.util;
 
+import static nc.config.NCConfig.ctrl_info;
+
 import java.util.List;
 
-import nc.config.NCConfig;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
@@ -21,49 +22,85 @@ public class InfoHelper {
 	}
 	
 	public static void shiftInfo(List list) {
-		list.add(TextFormatting.ITALIC + (NCConfig.ctrl_info ? CTRL_STRING : SHIFT_STRING));
+		list.add(TextFormatting.ITALIC + (ctrl_info ? CTRL_STRING : SHIFT_STRING));
 	}
 	
 	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting fixedColor, String... fixedLines) {
-		for (int i = 0; i < fixedLines.length; i++) infoLine(list, fixedColor, fixedLines[i]);
-		if (infoBelow) shiftInfo(list);
+		for (String fixedLine : fixedLines) {
+			infoLine(list, fixedColor, fixedLine);
+		}
+		if (infoBelow) {
+			shiftInfo(list);
+		}
 	}
 	
 	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting[] fixedColors, String... fixedLines) {
-		for (int i = 0; i < fixedLines.length; i++) infoLine(list, fixedColors[i], fixedLines[i]);
-		if (infoBelow) shiftInfo(list);
+		for (int i = 0; i < fixedLines.length; i++) {
+			infoLine(list, fixedColors[i], fixedLines[i]);
+		}
+		if (infoBelow) {
+			shiftInfo(list);
+		}
 	}
 	
 	public static void infoList(List list, TextFormatting infoColor, String... lines) {
-		for (int i = 0; i < lines.length; i++) infoLine(list, infoColor, lines[i]);
+		for (String line : lines) {
+			infoLine(list, infoColor, line);
+		}
 	}
 	
 	public static void infoList(List list, TextFormatting[] infoColors, String... lines) {
-		for (int i = 0; i < lines.length; i++) infoLine(list, infoColors[i], lines[i]);
+		for (int i = 0; i < lines.length; i++) {
+			infoLine(list, infoColors[i], lines[i]);
+		}
 	}
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, TextFormatting infoColor, String... lines) {
-		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
-		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, infoColor, lines);
-		else if (lines != EMPTY_ARRAY) shiftInfo(list);
+		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) {
+			fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
+		}
+		else if (NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY || lines.length == 1) {
+			infoList(list, infoColor, lines);
+		}
+		else if (lines != EMPTY_ARRAY) {
+			shiftInfo(list);
+		}
 	}
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
-		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
-		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, infoColors, lines);
-		else if (lines != EMPTY_ARRAY) shiftInfo(list);
+		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) {
+			fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
+		}
+		else if (NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY || lines.length == 1) {
+			infoList(list, infoColors, lines);
+		}
+		else if (lines != EMPTY_ARRAY) {
+			shiftInfo(list);
+		}
 	}
 	
 	public static void infoFull(List list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting infoColor, String... lines) {
-		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColors, fixedLines);
-		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, infoColor, lines);
-		else if (lines != EMPTY_ARRAY) shiftInfo(list);
+		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) {
+			fixedInfoList(list, lines != EMPTY_ARRAY, fixedColors, fixedLines);
+		}
+		else if (NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY || lines.length == 1) {
+			infoList(list, infoColor, lines);
+		}
+		else if (lines != EMPTY_ARRAY) {
+			shiftInfo(list);
+		}
 	}
 	
 	public static void infoFull(List list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
-		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColors, fixedLines);
-		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, infoColors, lines);
-		else if (lines != EMPTY_ARRAY) shiftInfo(list);
+		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) {
+			fixedInfoList(list, lines != EMPTY_ARRAY, fixedColors, fixedLines);
+		}
+		else if (NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY || lines.length == 1) {
+			infoList(list, infoColors, lines);
+		}
+		else if (lines != EMPTY_ARRAY) {
+			shiftInfo(list);
+		}
 	}
 	
 	public static void infoFull(List list, TextFormatting infoColor, String... lines) {
@@ -75,17 +112,25 @@ public class InfoHelper {
 	}
 	
 	public static String[] formattedInfo(String tooltip, Object... args) {
-		return FontRenderHelper.formattedString(Lang.localise(tooltip, args), MINIMUM_TEXT_WIDTH /*Math.max(MINIMUM_TEXT_WIDTH, FontRenderHelper.maxSize(tooltip))*/);
+		return FontRenderHelper.formattedString(Lang.localise(tooltip, args), MINIMUM_TEXT_WIDTH /* Math . max ( MINIMUM_TEXT_WIDTH, FontRenderHelper . maxSize ( tooltip ) ) */);
 	}
 	
 	public static String[] buildFixedInfo(String unlocName, String... tooltip) {
-		if (tooltip.length == 0) return standardFixedInfo(unlocName);
-		else return tooltip;
+		if (tooltip.length == 0) {
+			return standardFixedInfo(unlocName);
+		}
+		else {
+			return tooltip;
+		}
 	}
 	
 	public static String[] buildInfo(String unlocName, String... tooltip) {
-		if (tooltip.length == 0) return standardInfo(unlocName);
-		else return tooltip;
+		if (tooltip.length == 0) {
+			return standardInfo(unlocName);
+		}
+		else {
+			return tooltip;
+		}
 	}
 	
 	public static String[] standardFixedInfo(String unlocName) {
@@ -108,9 +153,15 @@ public class InfoHelper {
 		T[] values = enumm.getEnumConstants();
 		String[][] strings = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			if (CollectionHelper.isNull(tooltips, i)) strings[i] = EMPTY_ARRAY;
-			else if (CollectionHelper.isEmpty(tooltips, i)) strings[i] = standardGeneralInfo(unlocNameBase + "." + values[i].getName(), unlocNameBase, desc, des);
-			else strings[i] = tooltips[i];
+			if (CollectionHelper.isNull(tooltips, i)) {
+				strings[i] = EMPTY_ARRAY;
+			}
+			else if (CollectionHelper.isEmpty(tooltips, i)) {
+				strings[i] = standardGeneralInfo(unlocNameBase + "." + values[i].getName(), unlocNameBase, desc, des);
+			}
+			else {
+				strings[i] = tooltips[i];
+			}
 		}
 		return strings;
 	}
@@ -134,7 +185,9 @@ public class InfoHelper {
 	
 	public static String[] getNumberedInfo(String base) {
 		String firstLine = base + 0;
-		if (!Lang.canLocalise(firstLine)) return EMPTY_ARRAY;
+		if (!Lang.canLocalise(firstLine)) {
+			return EMPTY_ARRAY;
+		}
 		String[] info = new String[] {Lang.localise(firstLine)};
 		int line = 1;
 		while (Lang.canLocalise(base + line)) {

@@ -15,7 +15,9 @@ public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		@Override
 		protected boolean checkDynamoCoilValid() {
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-				if (isRotorBearing(pos.offset(dir)) || isCoilConnector(pos.offset(dir))) return true;
+				if (isRotorBearing(pos.offset(dir)) || isCoilConnector(pos.offset(dir))) {
+					return true;
+				}
 			}
 			return false;
 		}
@@ -35,7 +37,9 @@ public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		@Override
 		protected boolean checkDynamoCoilValid() {
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-				if (isDynamoCoil(pos.offset(dir), "magnesium")) return true;
+				if (isDynamoCoil(pos.offset(dir), "magnesium")) {
+					return true;
+				}
 			}
 			return false;
 		}
@@ -51,8 +55,12 @@ public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		protected boolean checkDynamoCoilValid() {
 			byte magnesium = 0;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-				if (isDynamoCoil(pos.offset(dir), "magnesium")) magnesium++;
-				if (magnesium >= 2) return true;
+				if (isDynamoCoil(pos.offset(dir), "magnesium")) {
+					magnesium++;
+				}
+				if (magnesium >= 2) {
+					return true;
+				}
 			}
 			return false;
 		}
@@ -67,7 +75,9 @@ public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		@Override
 		protected boolean checkDynamoCoilValid() {
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-				if (isDynamoCoil(pos.offset(dir), "aluminum")) return true;
+				if (isDynamoCoil(pos.offset(dir), "aluminum")) {
+					return true;
+				}
 			}
 			return false;
 		}
@@ -82,7 +92,9 @@ public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		@Override
 		protected boolean checkDynamoCoilValid() {
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-				if (isDynamoCoil(pos.offset(dir), "beryllium")) return true;
+				if (isDynamoCoil(pos.offset(dir), "beryllium")) {
+					return true;
+				}
 			}
 			return false;
 		}
@@ -98,9 +110,15 @@ public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		protected boolean checkDynamoCoilValid() {
 			boolean gold = false, copper = false;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-				if (!gold && isDynamoCoil(pos.offset(dir), "gold")) gold = true;
-				if (!copper && isDynamoCoil(pos.offset(dir), "copper")) copper = true;
-				if (gold && copper) return true;
+				if (!gold && isDynamoCoil(pos.offset(dir), "gold")) {
+					gold = true;
+				}
+				if (!copper && isDynamoCoil(pos.offset(dir), "copper")) {
+					copper = true;
+				}
+				if (gold && copper) {
+					return true;
+				}
 			}
 			return false;
 		}

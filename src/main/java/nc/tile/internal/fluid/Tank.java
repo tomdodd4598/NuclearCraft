@@ -1,21 +1,16 @@
 package nc.tile.internal.fluid;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.capability.*;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class Tank extends FluidTank {
 	
-	private List<String> allowedFluids;
+	private final List<String> allowedFluids;
 	
 	public Tank(int capacity, List<String> allowedFluids) {
 		super(capacity);
@@ -78,9 +73,7 @@ public class Tank extends FluidTank {
 	/** Ignores fluid amount! */
 	public void setTankCapacity(int newCapacity) {
 		capacity = Math.max(0, newCapacity);
-		/*if (capacity < getFluidAmount()) {
-			setFluidAmount(capacity);
-		}*/
+		/* if (capacity < getFluidAmount()) { setFluidAmount(capacity); } */
 	}
 	
 	public boolean isFull() {
@@ -142,8 +135,8 @@ public class Tank extends FluidTank {
 	
 	public static class TankInfo {
 		
-		private String name;
-		private int amount;
+		private final String name;
+		private final int amount;
 		
 		public TankInfo(Tank tank) {
 			name = tank.getFluidName();

@@ -1,7 +1,6 @@
 package nc.tile.energy;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.inventory.InventoryConnection;
@@ -14,7 +13,7 @@ public abstract class TileEnergySidedInventory extends TileEnergyInventory {
 	public TileEnergySidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, @Nonnull EnergyConnection[] energyConnections) {
 		super(name, size, inventoryConnections, capacity, energyConnections);
 	}
-			
+	
 	public TileEnergySidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
 		super(name, size, inventoryConnections, capacity, maxTransfer, energyConnections);
 	}
@@ -25,7 +24,7 @@ public abstract class TileEnergySidedInventory extends TileEnergyInventory {
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandlerCapability(side);
+				return (T) getItemHandler(side);
 			}
 			return null;
 		}

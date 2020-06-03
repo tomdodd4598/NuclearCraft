@@ -1,51 +1,38 @@
 package nc.multiblock.fission.tile;
 
+import static nc.config.NCConfig.smart_processor_input;
+import static nc.recipe.NCRecipes.fission_irradiator;
 import static nc.util.BlockPosHelper.DEFAULT_NON;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.tile.port.IFissionPortTarget;
-import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
+import nc.multiblock.fission.*;
+import nc.multiblock.fission.tile.port.*;
+import nc.multiblock.fission.tile.port.internal.PortItemHandler;
 import nc.multiblock.network.FissionIrradiatorUpdatePacket;
-import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.NCRecipes;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.RecipeInfo;
+import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.ITileGui;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.InventoryTileWrapper;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
-import nc.tile.inventory.ITileFilteredInventory;
-import nc.tile.inventory.ITileInventory;
+import nc.tile.internal.inventory.*;
+import nc.tile.inventory.*;
 import nc.tile.processor.IItemProcessor;
 import nc.util.NBTHelper;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.*;
 
 public class TileFissionIrradiator extends TileFissionPart implements ITileFilteredInventory, ITileGui<FissionIrradiatorUpdatePacket>, IItemProcessor, IFissionHeatingComponent, IFissionFluxSink, IFissionPortTarget<TileFissionIrradiatorPort, TileFissionIrradiator> {
 	
@@ -55,8 +42,6 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	protected final @Nonnull NonNullList<ItemStack> filterStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
-	
-	protected @Nonnull InventoryTileWrapper invWrapper;
 	
 	protected final int itemInputSize = 1, itemOutputSize = 1;
 	
@@ -79,11 +64,10 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected TileFissionIrradiatorPort masterPort = null;
 	
-	//protected int irradiatorCount;
+	// protected int irradiatorCount;
 	
 	public TileFissionIrradiator() {
 		super(CuboidalPartPositionType.INTERIOR);
-		invWrapper = new InventoryTileWrapper(this);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}
@@ -92,14 +76,15 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionComponent
@@ -178,12 +163,12 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public long getRawHeating() {
-		return (long) Math.min(Long.MAX_VALUE, Math.floor(flux*baseProcessHeatPerFlux));
+		return (long) Math.min(Long.MAX_VALUE, Math.floor(flux * baseProcessHeatPerFlux));
 	}
 	
 	@Override
 	public double getEffectiveHeating() {
-		return flux*baseProcessHeatPerFlux*baseProcessEfficiency;
+		return flux * baseProcessHeatPerFlux * baseProcessEfficiency;
 	}
 	
 	@Override
@@ -217,16 +202,18 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	@Override
 	public void refreshMasterPort() {
 		masterPort = getMultiblock() == null ? null : getMultiblock().getPartMap(TileFissionIrradiatorPort.class).get(masterPortPos.toLong());
-		if (masterPort == null) masterPortPos = DEFAULT_NON;
+		if (masterPort == null) {
+			masterPortPos = DEFAULT_NON;
+		}
 	}
 	
 	@Override
 	public boolean onPortRefresh() {
 		refreshRecipe();
 		refreshActivity();
-		refreshIsProcessing(isFunctional());
+		refreshIsProcessing(true);
 		
-		return isFunctional() ^ readyToProcess(false);
+		return isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
 	}
 	
 	// Ticking
@@ -255,28 +242,32 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false);
 			boolean shouldUpdate = wasProcessing != isProcessing;
 			
-			if (isProcessing) process();
-			else getRadiationSource().setRadiationLevel(0D);
+			if (isProcessing) {
+				process();
+			}
+			else {
+				getRadiationSource().setRadiationLevel(0D);
+			}
 			
-			//tickIrradiator();
-			//if (irradiatorCount == 0) pushStacks();
+			// tickIrradiator();
+			// if (irradiatorCount == 0) pushStacks();
 			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
 			
 			sendUpdateToListeningPlayers();
-			if (shouldUpdate) markDirty();
+			if (shouldUpdate) {
+				markDirty();
+			}
 		}
 	}
 	
-	/*public void tickIrradiator() {
-		irradiatorCount++; irradiatorCount %= NCConfig.machine_update_rate / 2;
-	}*/
+	/* public void tickIrradiator() { irradiatorCount++; irradiatorCount %= machine_update_rate / 2; } */
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = NCRecipes.fission_irradiator.getRecipeInfoFromInputs(getItemInputs(), new ArrayList<>());
+		recipeInfo = fission_irradiator.getRecipeInfoFromInputs(getItemInputs(), new ArrayList<>());
 	}
 	
 	@Override
@@ -319,7 +310,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	public boolean readyToProcess(boolean checkCluster) {
 		return canProcessInputs && isMultiblockAssembled() && !(checkCluster && cluster == null);
 	}
-		
+	
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
 		if (!canProcess) {
@@ -335,12 +326,17 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 				continue;
 			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
-			if (itemProduct.getMaxStackSize(0) <= 0) continue;
-			if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) return false;
+			if (itemProduct.getMaxStackSize(0) <= 0) {
+				continue;
+			}
+			if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) {
+				return false;
+			}
 			else if (!getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				if (!getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 					return false;
-				} else if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
+				}
+				else if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
 					return false;
 				}
 			}
@@ -350,8 +346,10 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	public void process() {
 		time += getSpeedMultiplier();
-		getRadiationSource().setRadiationLevel(baseProcessRadiation*getSpeedMultiplier());
-		while (time >= baseProcessTime) finishProcess();
+		getRadiationSource().setRadiationLevel(baseProcessRadiation * getSpeedMultiplier());
+		while (time >= baseProcessTime) {
+			finishProcess();
+		}
 	}
 	
 	public void finishProcess() {
@@ -360,7 +358,9 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		refreshRecipe();
 		time = Math.max(0D, time - oldProcessTime);
 		refreshActivityOnProduction();
-		if (!canProcessInputs) time = 0;
+		if (!canProcessInputs) {
+			time = 0;
+		}
 		
 		if (getMultiblock() != null) {
 			if (canProcessInputs) {
@@ -375,14 +375,22 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	public void produceProducts() {
-		if (recipeInfo == null) return;
+		if (recipeInfo == null) {
+			return;
+		}
 		IntList itemInputOrder = recipeInfo.getItemInputOrder();
-		if (itemInputOrder == AbstractRecipeHandler.INVALID) return;
+		if (itemInputOrder == AbstractRecipeHandler.INVALID) {
+			return;
+		}
 		
 		for (int i = 0; i < itemInputSize; i++) {
 			int itemIngredientStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
-			if (itemIngredientStackSize > 0) getInventoryStacks().get(i).shrink(itemIngredientStackSize);
-			if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);
+			if (itemIngredientStackSize > 0) {
+				getInventoryStacks().get(i).shrink(itemIngredientStackSize);
+			}
+			if (getInventoryStacks().get(i).getCount() <= 0) {
+				getInventoryStacks().set(i, ItemStack.EMPTY);
+			}
 		}
 		for (int j = 0; j < itemOutputSize; j++) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
@@ -390,10 +398,13 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 				continue;
 			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
-			if (itemProduct.getMaxStackSize(0) <= 0) continue;
+			if (itemProduct.getMaxStackSize(0) <= 0) {
+				continue;
+			}
 			if (getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				getInventoryStacks().set(j + itemInputSize, itemProduct.getNextStack(0));
-			} else if (getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
+			}
+			else if (getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 				int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getNextStackSize(0));
 				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
@@ -482,7 +493,9 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack.isEmpty() || slot >= itemInputSize) return false;
+		if (stack.isEmpty() || slot >= itemInputSize) {
+			return false;
+		}
 		ItemStack filter = getFilterStacks().get(slot);
 		if (!filter.isEmpty() && !stack.isItemEqual(filter)) {
 			return false;
@@ -492,12 +505,14 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean isItemValidForSlotInternal(int slot, ItemStack stack) {
-		if (stack.isEmpty() || slot >= itemInputSize) return false;
-		return NCConfig.smart_processor_input ? NCRecipes.fission_irradiator.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : NCRecipes.fission_irradiator.isValidItemInput(stack);
+		if (stack.isEmpty() || slot >= itemInputSize) {
+			return false;
+		}
+		return smart_processor_input ? fission_irradiator.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : fission_irradiator.isValidItemInput(stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
-		List<ItemStack> inputItemsExcludingSlot = new ArrayList<ItemStack>(getItemInputs());
+		List<ItemStack> inputItemsExcludingSlot = new ArrayList<>(getItemInputs());
 		inputItemsExcludingSlot.remove(slot);
 		return inputItemsExcludingSlot;
 	}
@@ -532,11 +547,6 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public @Nonnull InventoryTileWrapper getInventory() {
-		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventory() : invWrapper;
-	}
-	
-	@Override
 	public ItemOutputSetting getItemOutputSetting(int slot) {
 		return ItemOutputSetting.DEFAULT;
 	}
@@ -563,10 +573,8 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/*if (!canModifyFilter(slot)) {
-			getMultiblock().getLogic().refreshPorts();
-		}*/
-		getInventory().markDirty();
+		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
+		markDirty();
 	}
 	
 	@Override
@@ -624,7 +632,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
-		//nbt.setLong("masterPortPos", masterPortPos.toLong());
+		// nbt.setLong("masterPortPos", masterPortPos.toLong());
 		return nbt;
 	}
 	
@@ -645,7 +653,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");
 		
-		//masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
+		// masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 	}
 	
 	@Override
@@ -668,15 +676,21 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		}
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandlerCapability(side);
+				return (T) getItemHandler(side);
 			}
 			return null;
 		}
 		return super.getCapability(capability, side);
+	}
+	
+	@Override
+	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
+		ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
 	}
 }

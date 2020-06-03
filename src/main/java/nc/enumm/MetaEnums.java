@@ -1,19 +1,20 @@
 package nc.enumm;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.*;
+
 import net.minecraft.util.IStringSerializable;
 
 public class MetaEnums {
 	
 	public static enum OreType implements IStringSerializable, IBlockMetaEnum {
-		COPPER("copper", 0, NCConfig.ore_harvest_levels[0], "pickaxe", 3, 15, 0),
-		TIN("tin", 1, NCConfig.ore_harvest_levels[1], "pickaxe", 3, 15, 0),
-		LEAD("lead", 2, NCConfig.ore_harvest_levels[2], "pickaxe", 3, 15, 0),
-		THORIUM("thorium", 3, NCConfig.ore_harvest_levels[3], "pickaxe", 3, 15, 0),
-		URANIUM("uranium", 4, NCConfig.ore_harvest_levels[4], "pickaxe", 3, 15, 0),
-		BORON("boron", 5, NCConfig.ore_harvest_levels[5], "pickaxe", 3, 15, 0),
-		LITHIUM("lithium", 6, NCConfig.ore_harvest_levels[6], "pickaxe", 3, 15, 0),
-		MAGNESIUM("magnesium", 7, NCConfig.ore_harvest_levels[7], "pickaxe", 3, 15, 0);
+		COPPER("copper", 0, ore_harvest_levels[0], "pickaxe", 3, 15, 0),
+		TIN("tin", 1, ore_harvest_levels[1], "pickaxe", 3, 15, 0),
+		LEAD("lead", 2, ore_harvest_levels[2], "pickaxe", 3, 15, 0),
+		THORIUM("thorium", 3, ore_harvest_levels[3], "pickaxe", 3, 15, 0),
+		URANIUM("uranium", 4, ore_harvest_levels[4], "pickaxe", 3, 15, 0),
+		BORON("boron", 5, ore_harvest_levels[5], "pickaxe", 3, 15, 0),
+		LITHIUM("lithium", 6, ore_harvest_levels[6], "pickaxe", 3, 15, 0),
+		MAGNESIUM("magnesium", 7, ore_harvest_levels[7], "pickaxe", 3, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -238,9 +239,9 @@ public class MetaEnums {
 	}
 	
 	public static enum NeutronSourceType implements IStringSerializable, IBlockMetaEnum {
-		RADIUM_BERYLLIUM("radium_beryllium", 0, NCConfig.fission_source_efficiency[0], 0, "pickaxe", 2, 15, 0),
-		POLONIUM_BERYLLIUM("polonium_beryllium", 1, NCConfig.fission_source_efficiency[1], 0, "pickaxe", 2, 15, 0),
-		CALIFORNIUM("californium", 2, NCConfig.fission_source_efficiency[2], 0, "pickaxe", 2, 15, 0);
+		RADIUM_BERYLLIUM("radium_beryllium", 0, fission_source_efficiency[0], 0, "pickaxe", 2, 15, 0),
+		POLONIUM_BERYLLIUM("polonium_beryllium", 1, fission_source_efficiency[1], 0, "pickaxe", 2, 15, 0),
+		CALIFORNIUM("californium", 2, fission_source_efficiency[2], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -308,8 +309,8 @@ public class MetaEnums {
 	}
 	
 	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum {
-		BERYLLIUM_CARBON("beryllium_carbon", 0, NCConfig.fission_reflector_efficiency[0], NCConfig.fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
-		LEAD_STEEL("lead_steel", 1, NCConfig.fission_reflector_efficiency[1], NCConfig.fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
+		BERYLLIUM_CARBON("beryllium_carbon", 0, fission_reflector_efficiency[0], fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
+		LEAD_STEEL("lead_steel", 1, fission_reflector_efficiency[1], fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -383,7 +384,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum {
-		BORON_SILVER("boron_silver", 0, NCConfig.fission_shield_heat_per_flux[0], NCConfig.fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
+		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -457,22 +458,22 @@ public class MetaEnums {
 	}
 	
 	public static enum HeatSinkType implements IStringSerializable, ICoolingComponentEnum {
-		WATER("water", 0, NCConfig.fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
-		IRON("iron", 1, NCConfig.fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
-		REDSTONE("redstone", 2, NCConfig.fission_sink_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
-		QUARTZ("quartz", 3, NCConfig.fission_sink_cooling_rate[3], 0, "pickaxe", 2, 15, 0),
-		OBSIDIAN("obsidian", 4, NCConfig.fission_sink_cooling_rate[4], 0, "pickaxe", 2, 15, 0),
-		NETHER_BRICK("nether_brick", 5, NCConfig.fission_sink_cooling_rate[5], 0, "pickaxe", 2, 15, 0),
-		GLOWSTONE("glowstone", 6, NCConfig.fission_sink_cooling_rate[6], 0, "pickaxe", 2, 15, 15),
-		LAPIS("lapis", 7, NCConfig.fission_sink_cooling_rate[7], 0, "pickaxe", 2, 15, 0),
-		GOLD("gold", 8, NCConfig.fission_sink_cooling_rate[8], 0, "pickaxe", 2, 15, 0),
-		PRISMARINE("prismarine", 9, NCConfig.fission_sink_cooling_rate[9], 0, "pickaxe", 2, 15, 0),
-		SLIME("slime", 10, NCConfig.fission_sink_cooling_rate[10], 0, "pickaxe", 2, 15, 0),
-		END_STONE("end_stone", 11, NCConfig.fission_sink_cooling_rate[11], 0, "pickaxe", 2, 15, 0),
-		PURPUR("purpur", 12, NCConfig.fission_sink_cooling_rate[12], 0, "pickaxe", 2, 15, 0),
-		DIAMOND("diamond", 13, NCConfig.fission_sink_cooling_rate[13], 0, "pickaxe", 2, 15, 0),
-		EMERALD("emerald", 14, NCConfig.fission_sink_cooling_rate[14], 0, "pickaxe", 2, 15, 0),
-		COPPER("copper", 15, NCConfig.fission_sink_cooling_rate[15], 0, "pickaxe", 2, 15, 0);
+		WATER("water", 0, fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
+		IRON("iron", 1, fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
+		REDSTONE("redstone", 2, fission_sink_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
+		QUARTZ("quartz", 3, fission_sink_cooling_rate[3], 0, "pickaxe", 2, 15, 0),
+		OBSIDIAN("obsidian", 4, fission_sink_cooling_rate[4], 0, "pickaxe", 2, 15, 0),
+		NETHER_BRICK("nether_brick", 5, fission_sink_cooling_rate[5], 0, "pickaxe", 2, 15, 0),
+		GLOWSTONE("glowstone", 6, fission_sink_cooling_rate[6], 0, "pickaxe", 2, 15, 15),
+		LAPIS("lapis", 7, fission_sink_cooling_rate[7], 0, "pickaxe", 2, 15, 0),
+		GOLD("gold", 8, fission_sink_cooling_rate[8], 0, "pickaxe", 2, 15, 0),
+		PRISMARINE("prismarine", 9, fission_sink_cooling_rate[9], 0, "pickaxe", 2, 15, 0),
+		SLIME("slime", 10, fission_sink_cooling_rate[10], 0, "pickaxe", 2, 15, 0),
+		END_STONE("end_stone", 11, fission_sink_cooling_rate[11], 0, "pickaxe", 2, 15, 0),
+		PURPUR("purpur", 12, fission_sink_cooling_rate[12], 0, "pickaxe", 2, 15, 0),
+		DIAMOND("diamond", 13, fission_sink_cooling_rate[13], 0, "pickaxe", 2, 15, 0),
+		EMERALD("emerald", 14, fission_sink_cooling_rate[14], 0, "pickaxe", 2, 15, 0),
+		COPPER("copper", 15, fission_sink_cooling_rate[15], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -541,22 +542,22 @@ public class MetaEnums {
 	}
 	
 	public static enum HeatSinkType2 implements IStringSerializable, ICoolingComponentEnum {
-		TIN("tin", 0, NCConfig.fission_sink_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
-		LEAD("lead", 1, NCConfig.fission_sink_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
-		BORON("boron", 2, NCConfig.fission_sink_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
-		LITHIUM("lithium", 3, NCConfig.fission_sink_cooling_rate[19], 0, "pickaxe", 2, 15, 0),
-		MAGNESIUM("magnesium", 4, NCConfig.fission_sink_cooling_rate[20], 0, "pickaxe", 2, 15, 0),
-		MANGANESE("manganese", 5, NCConfig.fission_sink_cooling_rate[21], 0, "pickaxe", 2, 15, 0),
-		ALUMINUM("aluminum", 6, NCConfig.fission_sink_cooling_rate[22], 0, "pickaxe", 2, 15, 0),
-		SILVER("silver", 7, NCConfig.fission_sink_cooling_rate[23], 0, "pickaxe", 2, 15, 0),
-		FLUORITE("fluorite", 8, NCConfig.fission_sink_cooling_rate[24], 0, "pickaxe", 2, 15, 0),
-		VILLIAUMITE("villiaumite", 9, NCConfig.fission_sink_cooling_rate[25], 0, "pickaxe", 2, 15, 0),
-		CAROBBIITE("carobbiite", 10, NCConfig.fission_sink_cooling_rate[26], 0, "pickaxe", 2, 15, 0),
-		ARSENIC("arsenic", 11, NCConfig.fission_sink_cooling_rate[27], 0, "pickaxe", 2, 15, 0),
-		LIQUID_NITROGEN("liquid_nitrogen", 12, NCConfig.fission_sink_cooling_rate[28], 0, "pickaxe", 2, 15, 0),
-		LIQUID_HELIUM("liquid_helium", 13, NCConfig.fission_sink_cooling_rate[29], 0, "pickaxe", 2, 15, 0),
-		ENDERIUM("enderium", 14, NCConfig.fission_sink_cooling_rate[30], 0, "pickaxe", 2, 15, 0),
-		CRYOTHEUM("cryotheum", 15, NCConfig.fission_sink_cooling_rate[31], 0, "pickaxe", 2, 15, 0);
+		TIN("tin", 0, fission_sink_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
+		LEAD("lead", 1, fission_sink_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
+		BORON("boron", 2, fission_sink_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
+		LITHIUM("lithium", 3, fission_sink_cooling_rate[19], 0, "pickaxe", 2, 15, 0),
+		MAGNESIUM("magnesium", 4, fission_sink_cooling_rate[20], 0, "pickaxe", 2, 15, 0),
+		MANGANESE("manganese", 5, fission_sink_cooling_rate[21], 0, "pickaxe", 2, 15, 0),
+		ALUMINUM("aluminum", 6, fission_sink_cooling_rate[22], 0, "pickaxe", 2, 15, 0),
+		SILVER("silver", 7, fission_sink_cooling_rate[23], 0, "pickaxe", 2, 15, 0),
+		FLUORITE("fluorite", 8, fission_sink_cooling_rate[24], 0, "pickaxe", 2, 15, 0),
+		VILLIAUMITE("villiaumite", 9, fission_sink_cooling_rate[25], 0, "pickaxe", 2, 15, 0),
+		CAROBBIITE("carobbiite", 10, fission_sink_cooling_rate[26], 0, "pickaxe", 2, 15, 0),
+		ARSENIC("arsenic", 11, fission_sink_cooling_rate[27], 0, "pickaxe", 2, 15, 0),
+		LIQUID_NITROGEN("liquid_nitrogen", 12, fission_sink_cooling_rate[28], 0, "pickaxe", 2, 15, 0),
+		LIQUID_HELIUM("liquid_helium", 13, fission_sink_cooling_rate[29], 0, "pickaxe", 2, 15, 0),
+		ENDERIUM("enderium", 14, fission_sink_cooling_rate[30], 0, "pickaxe", 2, 15, 0),
+		CRYOTHEUM("cryotheum", 15, fission_sink_cooling_rate[31], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -625,22 +626,22 @@ public class MetaEnums {
 	}
 	
 	public static enum CoolantHeaterType implements IStringSerializable, ICoolingComponentEnum {
-		STANDARD("standard", 0, NCConfig.fission_heater_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
-		IRON("iron", 1, NCConfig.fission_heater_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
-		REDSTONE("redstone", 2, NCConfig.fission_heater_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
-		QUARTZ("quartz", 3, NCConfig.fission_heater_cooling_rate[3], 0, "pickaxe", 2, 15, 0),
-		OBSIDIAN("obsidian", 4, NCConfig.fission_heater_cooling_rate[4], 0, "pickaxe", 2, 15, 0),
-		NETHER_BRICK("nether_brick", 5, NCConfig.fission_heater_cooling_rate[5], 0, "pickaxe", 2, 15, 0),
-		GLOWSTONE("glowstone", 6, NCConfig.fission_heater_cooling_rate[6], 0, "pickaxe", 2, 15, 15),
-		LAPIS("lapis", 7, NCConfig.fission_heater_cooling_rate[7], 0, "pickaxe", 2, 15, 0),
-		GOLD("gold", 8, NCConfig.fission_heater_cooling_rate[8], 0, "pickaxe", 2, 15, 0),
-		PRISMARINE("prismarine", 9, NCConfig.fission_heater_cooling_rate[9], 0, "pickaxe", 2, 15, 0),
-		SLIME("slime", 10, NCConfig.fission_heater_cooling_rate[10], 0, "pickaxe", 2, 15, 0),
-		END_STONE("end_stone", 11, NCConfig.fission_heater_cooling_rate[11], 0, "pickaxe", 2, 15, 0),
-		PURPUR("purpur", 12, NCConfig.fission_heater_cooling_rate[12], 0, "pickaxe", 2, 15, 0),
-		DIAMOND("diamond", 13, NCConfig.fission_heater_cooling_rate[13], 0, "pickaxe", 2, 15, 0),
-		EMERALD("emerald", 14, NCConfig.fission_heater_cooling_rate[14], 0, "pickaxe", 2, 15, 0),
-		COPPER("copper", 15, NCConfig.fission_heater_cooling_rate[15], 0, "pickaxe", 2, 15, 0);
+		STANDARD("standard", 0, fission_heater_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
+		IRON("iron", 1, fission_heater_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
+		REDSTONE("redstone", 2, fission_heater_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
+		QUARTZ("quartz", 3, fission_heater_cooling_rate[3], 0, "pickaxe", 2, 15, 0),
+		OBSIDIAN("obsidian", 4, fission_heater_cooling_rate[4], 0, "pickaxe", 2, 15, 0),
+		NETHER_BRICK("nether_brick", 5, fission_heater_cooling_rate[5], 0, "pickaxe", 2, 15, 0),
+		GLOWSTONE("glowstone", 6, fission_heater_cooling_rate[6], 0, "pickaxe", 2, 15, 15),
+		LAPIS("lapis", 7, fission_heater_cooling_rate[7], 0, "pickaxe", 2, 15, 0),
+		GOLD("gold", 8, fission_heater_cooling_rate[8], 0, "pickaxe", 2, 15, 0),
+		PRISMARINE("prismarine", 9, fission_heater_cooling_rate[9], 0, "pickaxe", 2, 15, 0),
+		SLIME("slime", 10, fission_heater_cooling_rate[10], 0, "pickaxe", 2, 15, 0),
+		END_STONE("end_stone", 11, fission_heater_cooling_rate[11], 0, "pickaxe", 2, 15, 0),
+		PURPUR("purpur", 12, fission_heater_cooling_rate[12], 0, "pickaxe", 2, 15, 0),
+		DIAMOND("diamond", 13, fission_heater_cooling_rate[13], 0, "pickaxe", 2, 15, 0),
+		EMERALD("emerald", 14, fission_heater_cooling_rate[14], 0, "pickaxe", 2, 15, 0),
+		COPPER("copper", 15, fission_heater_cooling_rate[15], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -709,22 +710,22 @@ public class MetaEnums {
 	}
 	
 	public static enum CoolantHeaterType2 implements IStringSerializable, ICoolingComponentEnum {
-		TIN("tin", 0, NCConfig.fission_heater_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
-		LEAD("lead", 1, NCConfig.fission_heater_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
-		BORON("boron", 2, NCConfig.fission_heater_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
-		LITHIUM("lithium", 3, NCConfig.fission_heater_cooling_rate[19], 0, "pickaxe", 2, 15, 0),
-		MAGNESIUM("magnesium", 4, NCConfig.fission_heater_cooling_rate[20], 0, "pickaxe", 2, 15, 0),
-		MANGANESE("manganese", 5, NCConfig.fission_heater_cooling_rate[21], 0, "pickaxe", 2, 15, 0),
-		ALUMINUM("aluminum", 6, NCConfig.fission_heater_cooling_rate[22], 0, "pickaxe", 2, 15, 0),
-		SILVER("silver", 7, NCConfig.fission_heater_cooling_rate[23], 0, "pickaxe", 2, 15, 0),
-		FLUORITE("fluorite", 8, NCConfig.fission_heater_cooling_rate[24], 0, "pickaxe", 2, 15, 0),
-		VILLIAUMITE("villiaumite", 9, NCConfig.fission_heater_cooling_rate[25], 0, "pickaxe", 2, 15, 0),
-		CAROBBIITE("carobbiite", 10, NCConfig.fission_heater_cooling_rate[26], 0, "pickaxe", 2, 15, 0),
-		ARSENIC("arsenic", 11, NCConfig.fission_heater_cooling_rate[27], 0, "pickaxe", 2, 15, 0),
-		LIQUID_NITROGEN("liquid_nitrogen", 12, NCConfig.fission_heater_cooling_rate[28], 0, "pickaxe", 2, 15, 0),
-		LIQUID_HELIUM("liquid_helium", 13, NCConfig.fission_heater_cooling_rate[29], 0, "pickaxe", 2, 15, 0),
-		ENDERIUM("enderium", 14, NCConfig.fission_heater_cooling_rate[30], 0, "pickaxe", 2, 15, 0),
-		CRYOTHEUM("cryotheum", 15, NCConfig.fission_heater_cooling_rate[31], 0, "pickaxe", 2, 15, 0);
+		TIN("tin", 0, fission_heater_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
+		LEAD("lead", 1, fission_heater_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
+		BORON("boron", 2, fission_heater_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
+		LITHIUM("lithium", 3, fission_heater_cooling_rate[19], 0, "pickaxe", 2, 15, 0),
+		MAGNESIUM("magnesium", 4, fission_heater_cooling_rate[20], 0, "pickaxe", 2, 15, 0),
+		MANGANESE("manganese", 5, fission_heater_cooling_rate[21], 0, "pickaxe", 2, 15, 0),
+		ALUMINUM("aluminum", 6, fission_heater_cooling_rate[22], 0, "pickaxe", 2, 15, 0),
+		SILVER("silver", 7, fission_heater_cooling_rate[23], 0, "pickaxe", 2, 15, 0),
+		FLUORITE("fluorite", 8, fission_heater_cooling_rate[24], 0, "pickaxe", 2, 15, 0),
+		VILLIAUMITE("villiaumite", 9, fission_heater_cooling_rate[25], 0, "pickaxe", 2, 15, 0),
+		CAROBBIITE("carobbiite", 10, fission_heater_cooling_rate[26], 0, "pickaxe", 2, 15, 0),
+		ARSENIC("arsenic", 11, fission_heater_cooling_rate[27], 0, "pickaxe", 2, 15, 0),
+		LIQUID_NITROGEN("liquid_nitrogen", 12, fission_heater_cooling_rate[28], 0, "pickaxe", 2, 15, 0),
+		LIQUID_HELIUM("liquid_helium", 13, fission_heater_cooling_rate[29], 0, "pickaxe", 2, 15, 0),
+		ENDERIUM("enderium", 14, fission_heater_cooling_rate[30], 0, "pickaxe", 2, 15, 0),
+		CRYOTHEUM("cryotheum", 15, fission_heater_cooling_rate[31], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;
@@ -1681,11 +1682,11 @@ public class MetaEnums {
 		private ThoriumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_thorium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_thorium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_thorium_efficiency[id + id/4];
-			criticality = NCConfig.fission_thorium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_thorium_self_priming[id + id/4];
+			fuelTime = fission_thorium_fuel_time[id + id / 4];
+			heatGen = fission_thorium_heat_generation[id + id / 4];
+			efficiency = fission_thorium_efficiency[id + id / 4];
+			criticality = fission_thorium_criticality[id + id / 4];
+			selfPriming = fission_thorium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -1756,11 +1757,11 @@ public class MetaEnums {
 		private UraniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_uranium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_uranium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_uranium_efficiency[id + id/4];
-			criticality = NCConfig.fission_uranium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_uranium_self_priming[id + id/4];
+			fuelTime = fission_uranium_fuel_time[id + id / 4];
+			heatGen = fission_uranium_heat_generation[id + id / 4];
+			efficiency = fission_uranium_efficiency[id + id / 4];
+			criticality = fission_uranium_criticality[id + id / 4];
+			selfPriming = fission_uranium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -1823,11 +1824,11 @@ public class MetaEnums {
 		private NeptuniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_neptunium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_neptunium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_neptunium_efficiency[id + id/4];
-			criticality = NCConfig.fission_neptunium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_neptunium_self_priming[id + id/4];
+			fuelTime = fission_neptunium_fuel_time[id + id / 4];
+			heatGen = fission_neptunium_heat_generation[id + id / 4];
+			efficiency = fission_neptunium_efficiency[id + id / 4];
+			criticality = fission_neptunium_criticality[id + id / 4];
+			selfPriming = fission_neptunium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -1898,11 +1899,11 @@ public class MetaEnums {
 		private PlutoniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_plutonium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_plutonium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_plutonium_efficiency[id + id/4];
-			criticality = NCConfig.fission_plutonium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_plutonium_self_priming[id + id/4];
+			fuelTime = fission_plutonium_fuel_time[id + id / 4];
+			heatGen = fission_plutonium_heat_generation[id + id / 4];
+			efficiency = fission_plutonium_efficiency[id + id / 4];
+			criticality = fission_plutonium_criticality[id + id / 4];
+			selfPriming = fission_plutonium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -1965,11 +1966,11 @@ public class MetaEnums {
 		private MixedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_mixed_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_mixed_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_mixed_efficiency[id + id/4];
-			criticality = NCConfig.fission_mixed_criticality[id + id/4];
-			selfPriming = NCConfig.fission_mixed_self_priming[id + id/4];
+			fuelTime = fission_mixed_fuel_time[id + id / 4];
+			heatGen = fission_mixed_heat_generation[id + id / 4];
+			efficiency = fission_mixed_efficiency[id + id / 4];
+			criticality = fission_mixed_criticality[id + id / 4];
+			selfPriming = fission_mixed_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -2032,11 +2033,11 @@ public class MetaEnums {
 		private AmericiumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_americium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_americium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_americium_efficiency[id + id/4];
-			criticality = NCConfig.fission_americium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_americium_self_priming[id + id/4];
+			fuelTime = fission_americium_fuel_time[id + id / 4];
+			heatGen = fission_americium_heat_generation[id + id / 4];
+			efficiency = fission_americium_efficiency[id + id / 4];
+			criticality = fission_americium_criticality[id + id / 4];
+			selfPriming = fission_americium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -2115,11 +2116,11 @@ public class MetaEnums {
 		private CuriumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_curium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_curium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_curium_efficiency[id + id/4];
-			criticality = NCConfig.fission_curium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_curium_self_priming[id + id/4];
+			fuelTime = fission_curium_fuel_time[id + id / 4];
+			heatGen = fission_curium_heat_generation[id + id / 4];
+			efficiency = fission_curium_efficiency[id + id / 4];
+			criticality = fission_curium_criticality[id + id / 4];
+			selfPriming = fission_curium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -2182,11 +2183,11 @@ public class MetaEnums {
 		private BerkeliumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_berkelium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_berkelium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_berkelium_efficiency[id + id/4];
-			criticality = NCConfig.fission_berkelium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_berkelium_self_priming[id + id/4];
+			fuelTime = fission_berkelium_fuel_time[id + id / 4];
+			heatGen = fission_berkelium_heat_generation[id + id / 4];
+			efficiency = fission_berkelium_efficiency[id + id / 4];
+			criticality = fission_berkelium_criticality[id + id / 4];
+			selfPriming = fission_berkelium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -2257,11 +2258,11 @@ public class MetaEnums {
 		private CaliforniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			fuelTime = NCConfig.fission_californium_fuel_time[id + id/4];
-			heatGen = NCConfig.fission_californium_heat_generation[id + id/4];
-			efficiency = NCConfig.fission_californium_efficiency[id + id/4];
-			criticality = NCConfig.fission_californium_criticality[id + id/4];
-			selfPriming = NCConfig.fission_californium_self_priming[id + id/4];
+			fuelTime = fission_californium_fuel_time[id + id / 4];
+			heatGen = fission_californium_heat_generation[id + id / 4];
+			efficiency = fission_californium_efficiency[id + id / 4];
+			criticality = fission_californium_criticality[id + id / 4];
+			selfPriming = fission_californium_self_priming[id + id / 4];
 		}
 		
 		@Override
@@ -2318,7 +2319,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2360,7 +2361,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2394,7 +2395,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2436,7 +2437,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2470,7 +2471,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2494,7 +2495,7 @@ public class MetaEnums {
 		LEA_242_ZA("lea_242_za", 3),
 		HEA_242_TR("hea_242_tr", 4),
 		HEA_242_OX("hea_242_ox", 5),
-		HEA_242_NI("hea_242_ni" ,6),
+		HEA_242_NI("hea_242_ni", 6),
 		HEA_242_ZA("hea_242_za", 7);
 		
 		private final String name;
@@ -2504,7 +2505,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2554,7 +2555,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2588,7 +2589,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2630,7 +2631,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2658,7 +2659,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2686,7 +2687,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2714,7 +2715,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;
@@ -2743,7 +2744,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;

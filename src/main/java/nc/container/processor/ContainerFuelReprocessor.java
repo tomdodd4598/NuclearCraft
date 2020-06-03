@@ -1,17 +1,16 @@
 package nc.container.processor;
 
-import nc.container.slot.SlotFurnace;
-import nc.container.slot.SlotProcessorInput;
-import nc.container.slot.SlotSpecificInput;
-import nc.recipe.NCRecipes;
+import static nc.recipe.NCRecipes.fuel_reprocessor;
+
+import nc.container.slot.*;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerFuelReprocessor extends ContainerItemProcessor {
-
+	
 	public ContainerFuelReprocessor(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.fuel_reprocessor);
+		super(player, tileEntity, fuel_reprocessor);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 40, 41));
 		
@@ -27,12 +26,12 @@ public class ContainerFuelReprocessor extends ContainerItemProcessor {
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 8 + 18*j, 96 + 18*i));
+				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 96 + 18 * i));
 			}
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 154));
+			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 154));
 		}
 	}
 }

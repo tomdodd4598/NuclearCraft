@@ -11,7 +11,7 @@ public class SlotFiltered extends Slot {
 	protected final ITileFilteredInventory tile;
 	
 	public SlotFiltered(ITileFilteredInventory tile, int index, int x, int y) {
-		super(tile.getInventory(), index, x, y);
+		super(tile, index, x, y);
 		slotIndex = index;
 		this.tile = tile;
 	}
@@ -28,7 +28,9 @@ public class SlotFiltered extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		if (stack.isEmpty()) return false;
+		if (stack.isEmpty()) {
+			return false;
+		}
 		boolean itemValidRaw = isItemValidRaw(stack);
 		
 		if (tile.canModifyFilter(slotIndex)) {

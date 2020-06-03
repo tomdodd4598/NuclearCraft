@@ -1,16 +1,15 @@
 package nc.integration.tconstruct;
 
+import static nc.util.FluidStackHelper.INGOT_VOLUME;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import nc.init.NCItems;
-import nc.util.FluidStackHelper;
 import nc.util.StringHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.nbt.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
@@ -50,9 +49,9 @@ public class TConstructIMC {
 		sendTiCAlloyInfo("lead_platinum", 4, fluid("lead", 3), fluid("platinum", 1));
 		sendTiCAlloyInfo("enderium", 72, fluid("lead_platinum", 72), fluid("ender", 125));
 		
-		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), FluidStackHelper.INGOT_VOLUME);
-		TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), FluidStackHelper.INGOT_VOLUME);
-		TinkerRegistry.registerMelting(new ItemStack(NCItems.gelatin), FluidRegistry.getFluid("gelatin"), FluidStackHelper.INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(NCItems.gelatin), FluidRegistry.getFluid("gelatin"), INGOT_VOLUME);
 		
 		sendTiCSmelteryInfo("cocoa_butter", "cocoaButter", false);
 		sendTiCSmelteryInfo("unsweetened_chocolate", "unsweetenedChocolate", false);

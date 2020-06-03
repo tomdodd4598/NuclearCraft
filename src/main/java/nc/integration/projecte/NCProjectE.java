@@ -1,12 +1,13 @@
 package nc.integration.projecte;
 
+import static nc.util.OreDictHelper.*;
+
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
 import moze_intel.projecte.api.ProjectEAPI;
 import nc.init.NCBlocks;
-import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -45,7 +46,7 @@ public class NCProjectE {
 		addIngotEMCValues("Thermoconducting", 2600);
 		addIngotEMCValues("Zircaloy", 144);
 		addIngotEMCValues("SiliconCarbide", 32);
-		//addIngotEMCValues("SiCSiCCMC");
+		// addIngotEMCValues("SiCSiCCMC");
 		addIngotEMCValues("HSLASteel", 246);
 		
 		addGemEMCValues("Diamond", 8192);
@@ -82,27 +83,29 @@ public class NCProjectE {
 	private static final List<String> BLOCK_BLACKLIST = Lists.newArrayList("Quartz", "NetherQuartz");
 	
 	private static void addEMCValues(String type, long emc) {
-		for (ItemStack stack : OreDictionary.getOres(type, false)) ProjectEAPI.getEMCProxy().registerCustomEMC(stack, emc);
+		for (ItemStack stack : OreDictionary.getOres(type, false)) {
+			ProjectEAPI.getEMCProxy().registerCustomEMC(stack, emc);
+		}
 	}
 	
 	private static void addIngotEMCValues(String type, long emc) {
-		for (String prefix : OreDictHelper.INGOT_VOLUME_TYPES) {
+		for (String prefix : INGOT_VOLUME_TYPES) {
 			addEMCValues(prefix + type, emc);
 		}
 		if (!BLOCK_BLACKLIST.contains(type)) {
-			for (String prefix : OreDictHelper.BLOCK_VOLUME_TYPES) {
-				addEMCValues(prefix + type, emc*9);
+			for (String prefix : BLOCK_VOLUME_TYPES) {
+				addEMCValues(prefix + type, emc * 9);
 			}
 		}
 	}
 	
 	private static void addGemEMCValues(String type, long emc) {
-		for (String prefix : OreDictHelper.GEM_VOLUME_TYPES) {
+		for (String prefix : GEM_VOLUME_TYPES) {
 			addEMCValues(prefix + type, emc);
 		}
 		if (!BLOCK_BLACKLIST.contains(type)) {
-			for (String prefix : OreDictHelper.BLOCK_VOLUME_TYPES) {
-				addEMCValues(prefix + type, emc*9);
+			for (String prefix : BLOCK_VOLUME_TYPES) {
+				addEMCValues(prefix + type, emc * 9);
 			}
 		}
 	}

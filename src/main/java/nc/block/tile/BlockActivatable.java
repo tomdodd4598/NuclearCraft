@@ -6,17 +6,13 @@ import nc.enumm.BlockEnums.ActivatableTileType;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockActivatable extends BlockTile implements IActivatable, ITileType {
 	
@@ -25,7 +21,9 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 	public BlockActivatable(ActivatableTileType type) {
 		super(Material.IRON);
 		setDefaultState(blockState.getBaseState().withProperty(ACTIVE, Boolean.valueOf(false)));
-		if (type.getCreativeTab() != null) setCreativeTab(type.getCreativeTab());
+		if (type.getCreativeTab() != null) {
+			setCreativeTab(type.getCreativeTab());
+		}
 		this.type = type;
 	}
 	
@@ -87,7 +85,7 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.CUTOUT;
 		}
-
+		
 		@Override
 		public boolean isFullCube(IBlockState state) {
 			return false;
@@ -101,12 +99,16 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 		@Override
 		@SideOnly(Side.CLIENT)
 		public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
-			if (!smartRender) return true;
+			if (!smartRender) {
+				return true;
+			}
 			
 			IBlockState otherState = world.getBlockState(pos.offset(side));
 			Block block = otherState.getBlock();
 			
-			if (blockState != otherState) return true;
+			if (blockState != otherState) {
+				return true;
+			}
 			
 			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
 		}

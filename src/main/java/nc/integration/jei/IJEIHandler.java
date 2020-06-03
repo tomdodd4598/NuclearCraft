@@ -1,7 +1,6 @@
 package nc.integration.jei;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
 import nc.recipe.ProcessorRecipeHandler;

@@ -3,8 +3,7 @@ package nc.multiblock.gui.element;
 import nc.gui.element.NCButton;
 import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class MultiblockButton {
 	
@@ -23,7 +22,7 @@ public class MultiblockButton {
 		
 		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
-			isButtonPressed = NCUtil.isModifierKeyDown() && enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
+			isButtonPressed = NCUtil.isModifierKeyDown() && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			return isButtonPressed;
 		}
 	}

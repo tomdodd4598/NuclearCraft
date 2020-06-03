@@ -4,8 +4,7 @@ import nc.container.ContainerTile;
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.ITileGui;
-import nc.tile.processor.IItemProcessor;
-import nc.tile.processor.IUpgradable;
+import nc.tile.processor.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -41,8 +40,8 @@ public abstract class ContainerItemProcessor<PROCESSOR extends IItemProcessor & 
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
-		final boolean hasUpgrades = tile instanceof IUpgradable && ((IUpgradable)tile).hasUpgrades();
-		int upgrades = hasUpgrades ? ((IUpgradable)tile).getNumberOfUpgrades() : 0;
+		final boolean hasUpgrades = tile instanceof IUpgradable && ((IUpgradable) tile).hasUpgrades();
+		int upgrades = hasUpgrades ? ((IUpgradable) tile).getNumberOfUpgrades() : 0;
 		int invStart = tile.getItemInputSize() + tile.getItemOutputSize() + upgrades;
 		int speedUpgradeSlot = tile.getItemInputSize() + tile.getItemOutputSize();
 		int otherUpgradeSlot = tile.getItemInputSize() + tile.getItemOutputSize() + 1;

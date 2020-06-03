@@ -1,7 +1,9 @@
 package nc.multiblock.fission.tile.port;
 
 import static nc.init.NCCoolantFluids.COOLANTS;
+import static nc.recipe.NCRecipes.coolant_heater;
 import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
 
 import java.util.Set;
 
@@ -10,9 +12,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.network.FissionHeaterPortUpdatePacket;
-import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
-import nc.util.FluidStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeaterPort, TileSaltFissionHeater> implements ITileGui<FissionHeaterPortUpdatePacket> {
@@ -22,7 +22,7 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileFissionHeaterPort(String coolantName) {
-		super(TileFissionHeaterPort.class, FluidStackHelper.INGOT_BLOCK_VOLUME, Lists.newArrayList(coolantName), NCRecipes.coolant_heater);
+		super(TileFissionHeaterPort.class, INGOT_BLOCK_VOLUME, Lists.newArrayList(coolantName), coolant_heater);
 		this.coolantName = coolantName;
 		
 		playersToUpdate = new ObjectOpenHashSet<>();

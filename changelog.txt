@@ -1,3 +1,17 @@
+v2o.2.7
+
+* Fixed fission clusters not correctly merging during placement rule checks
+* Fixed fission components in moderator lines not respecting placement rules
+
+* Neutron shields can now act as active moderators in MSRs for the purpose of heater placement rules
+
+* Fixed multiblock ports not correctly handling larger stack sizes
+* Hopefully fixed shield managers forgetting their connected shields
+
+* Huge amounts of code cleaning and formatting
+* Various other minor fixes, changes and refactors
+* Possible other things that I have forgotten
+
 v2o.2.6
 
 * Hopefully fixed shields producing incorrect amounts of heat

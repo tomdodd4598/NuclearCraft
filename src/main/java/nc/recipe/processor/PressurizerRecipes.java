@@ -1,16 +1,13 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.OreDictHelper;
-import nc.util.RegistryHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import nc.util.*;
+import net.minecraft.init.*;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class PressurizerRecipes extends ProcessorRecipeHandler {
@@ -18,7 +15,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 	public PressurizerRecipes() {
 		super("pressurizer", 1, 0, 1, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addRecipe("dustGraphite", "coal", 1D, 1D);
@@ -51,11 +48,14 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		for (String ore : OreDictionary.getOreNames()) {
 			if (ore.startsWith("plate")) {
 				String type = ore.substring(5);
-				if (PLATE_BLACKLIST.contains(type)) continue;
+				if (PLATE_BLACKLIST.contains(type)) {
+					continue;
+				}
 				String ingot = "ingot" + type, gem = "gem" + type;
 				if (OreDictHelper.oreExists(ingot)) {
 					addRecipe(ingot, ore, 1D, 1D);
-				} else if (OreDictHelper.oreExists(gem)) {
+				}
+				else if (OreDictHelper.oreExists(gem)) {
 					addRecipe(gem, ore, 1D, 1D);
 				}
 			}

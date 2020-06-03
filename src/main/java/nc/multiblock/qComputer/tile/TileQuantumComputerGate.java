@@ -1,21 +1,14 @@
 package nc.multiblock.qComputer.tile;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import nc.multiblock.qComputer.QuantumComputer;
-import nc.multiblock.qComputer.QuantumComputerGate;
-import nc.util.Lang;
-import nc.util.NBTHelper;
-import nc.util.NCMath;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.multiblock.qComputer.*;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
 public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
@@ -86,8 +79,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.X(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.X(qc, n);
 		}
 	}
 	
@@ -98,8 +91,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.Y(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.Y(qc, n);
 		}
 	}
 	
@@ -110,8 +103,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.Z(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.Z(qc, n);
 		}
 	}
 	
@@ -122,8 +115,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.H(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.H(qc, n);
 		}
 	}
 	
@@ -134,8 +127,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.S(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.S(qc, n);
 		}
 	}
 	
@@ -146,8 +139,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.Sdg(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.Sdg(qc, n);
 		}
 	}
 	
@@ -158,8 +151,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.T(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.T(qc, n);
 		}
 	}
 	
@@ -170,8 +163,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.Tdg(qc, this, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.Tdg(qc, n);
 		}
 	}
 	
@@ -256,8 +249,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.P(qc, this, angle, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.P(qc, angle, n);
 		}
 	}
 	
@@ -268,8 +261,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.RX(qc, this, angle, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.RX(qc, angle, n);
 		}
 	}
 	
@@ -280,8 +273,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.RY(qc, this, angle, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.RY(qc, angle, n);
 		}
 	}
 	
@@ -292,8 +285,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.RZ(qc, this, angle, n);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.RZ(qc, angle, n);
 		}
 	}
 	
@@ -382,8 +375,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CX(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CX(qc, c, t);
 		}
 	}
 	
@@ -394,8 +387,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CY(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CY(qc, c, t);
 		}
 	}
 	
@@ -406,8 +399,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CZ(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CZ(qc, c, t);
 		}
 	}
 	
@@ -418,8 +411,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CH(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CH(qc, c, t);
 		}
 	}
 	
@@ -430,8 +423,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CS(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CS(qc, c, t);
 		}
 	}
 	
@@ -442,8 +435,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CSdg(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CSdg(qc, c, t);
 		}
 	}
 	
@@ -454,8 +447,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CT(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CT(qc, c, t);
 		}
 	}
 	
@@ -466,8 +459,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CTdg(qc, this, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CTdg(qc, c, t);
 		}
 	}
 	
@@ -572,8 +565,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CP(qc, this, angle, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CP(qc, angle, c, t);
 		}
 	}
 	
@@ -584,8 +577,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CRX(qc, this, angle, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CRX(qc, angle, c, t);
 		}
 	}
 	
@@ -596,8 +589,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CRY(qc, this, angle, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CRY(qc, angle, c, t);
 		}
 	}
 	
@@ -608,8 +601,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.CRZ(qc, this, angle, c, t);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.CRZ(qc, angle, c, t);
 		}
 	}
 	
@@ -625,8 +618,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.Swap(qc, this, i, j);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.Swap(qc, i, j);
 		}
 		
 		@Override
@@ -710,8 +703,8 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 		
 		@Override
-		protected QuantumComputerGate newGate(QuantumComputer qc) {
-			return new QuantumComputerGate.ControlSwap(qc, this, c, i, j);
+		protected QuantumGate newGate(QuantumComputer qc) {
+			return new QuantumGate.ControlSwap(qc, c, i, j);
 		}
 		
 		@Override
@@ -835,7 +828,7 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 		}
 	}
 	
-	protected abstract QuantumComputerGate newGate(QuantumComputer qc);
+	protected abstract QuantumGate newGate(QuantumComputer qc);
 	
 	public abstract TextComponentString gateInfo();
 	

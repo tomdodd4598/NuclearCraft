@@ -4,5 +4,5 @@ import net.minecraft.item.ItemStack;
 
 public interface IBlockMeta {
 	
-	String getMetaName(ItemStack stack);	
+	String getMetaName(ItemStack stack);
 }

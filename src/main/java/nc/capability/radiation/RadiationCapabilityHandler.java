@@ -1,21 +1,13 @@
 package nc.capability.radiation;
 
-import nc.capability.radiation.entity.EntityRadsProvider;
-import nc.capability.radiation.entity.IEntityRads;
-import nc.capability.radiation.resistance.IRadiationResistance;
-import nc.capability.radiation.resistance.RadiationResistanceProvider;
-import nc.capability.radiation.resistance.RadiationResistanceStackProvider;
-import nc.capability.radiation.sink.IRadiationSink;
-import nc.capability.radiation.sink.RadiationSinkProvider;
-import nc.capability.radiation.source.IRadiationSource;
-import nc.capability.radiation.source.RadiationSourceProvider;
-import nc.capability.radiation.source.RadiationSourceStackProvider;
+import nc.capability.radiation.entity.*;
+import nc.capability.radiation.resistance.*;
+import nc.capability.radiation.sink.*;
+import nc.capability.radiation.source.*;
 import nc.init.NCItems;
-import nc.radiation.RadSources;
-import nc.radiation.RadArmor;
+import nc.radiation.*;
 import net.minecraft.client.util.RecipeItemHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -31,7 +23,7 @@ public class RadiationCapabilityHandler {
 			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider());
 		}
 		else if (event.getObject() instanceof EntityLivingBase) {
-			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider((EntityLivingBase)event.getObject()));
+			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider((EntityLivingBase) event.getObject()));
 		}
 	}
 	
@@ -54,7 +46,7 @@ public class RadiationCapabilityHandler {
 		}
 		
 		int packed = RecipeItemHelper.pack(stack);
-		if(RadSources.STACK_MAP.containsKey(packed)) {
+		if (RadSources.STACK_MAP.containsKey(packed)) {
 			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceStackProvider(stack));
 		}
 		if (RadArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(packed)) {

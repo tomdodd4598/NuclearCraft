@@ -14,20 +14,23 @@ public class TileTurbineCoilConnector extends TileTurbineDynamoPart {
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
 	protected boolean checkDynamoCoilValid() {
 		for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-			if (isDynamoCoil(pos.offset(dir), null)) return true;
+			if (isDynamoCoil(pos.offset(dir), null)) {
+				return true;
+			}
 		}
 		return false;
 	}

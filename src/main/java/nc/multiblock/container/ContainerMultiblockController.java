@@ -28,6 +28,8 @@ public class ContainerMultiblockController<MULTIBLOCK extends Multiblock, CONTRO
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		if (controller.getMultiblock() != null) controller.getMultiblock().stopUpdatingPlayer(player);
+		if (controller.getMultiblock() != null) {
+			controller.getMultiblock().stopUpdatingPlayer(player);
+		}
 	}
 }

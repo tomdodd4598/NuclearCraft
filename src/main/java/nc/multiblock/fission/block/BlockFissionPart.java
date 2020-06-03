@@ -2,20 +2,15 @@ package nc.multiblock.fission.block;
 
 import nc.multiblock.block.BlockMultiblockPart;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.tile.IFissionComponent;
-import nc.multiblock.fission.tile.TileFissionPart;
+import nc.multiblock.fission.tile.*;
 import nc.tab.NCTabs;
-import nc.util.BlockHelper;
-import nc.util.DamageSources;
+import nc.util.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
 
 public abstract class BlockFissionPart extends BlockMultiblockPart {
 	
@@ -58,8 +53,8 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 				FissionReactor reactor = part.getMultiblock();
 				if (reactor != null) {
 					float damage;
-					if (part instanceof IFissionComponent && ((IFissionComponent)part).getCluster() != null) {
-						damage = ((IFissionComponent)part).getCluster().getBurnDamage();
+					if (part instanceof IFissionComponent && ((IFissionComponent) part).getCluster() != null) {
+						damage = ((IFissionComponent) part).getCluster().getBurnDamage();
 					}
 					else {
 						damage = reactor.getLogic().getBurnDamage();

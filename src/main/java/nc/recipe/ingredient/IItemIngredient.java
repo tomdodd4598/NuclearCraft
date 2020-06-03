@@ -1,13 +1,10 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import nc.util.ItemStackHelper;
+import nc.util.StackHelper;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -24,7 +21,7 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 	public default List<ItemStack> getInputStackHashingList() {
 		List<ItemStack> list = new ArrayList<>();
 		for (ItemStack stack : getInputStackList()) {
-			int meta = ItemStackHelper.getMetadata(stack);
+			int meta = StackHelper.getMetadata(stack);
 			if (stack != null && !stack.isEmpty() && meta == OreDictionary.WILDCARD_VALUE) {
 				NonNullList<ItemStack> subStacks = NonNullList.create();
 				Item item = stack.getItem();
@@ -38,7 +35,9 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 				}
 				list.addAll(subStacks);
 			}
-			else list.add(stack);
+			else {
+				list.add(stack);
+			}
 		}
 		return list;
 	}

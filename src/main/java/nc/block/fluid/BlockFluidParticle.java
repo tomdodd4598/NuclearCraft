@@ -6,12 +6,9 @@ import javax.annotation.Nonnull;
 
 import nc.fluid.FluidParticle;
 import nc.util.PotionHelper;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.block.material.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -34,6 +31,8 @@ public class BlockFluidParticle extends NCBlockFluid {
 	@Override
 	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
-		if (rand.nextInt(5) < 1) worldIn.setBlockToAir(pos);
+		if (rand.nextInt(5) < 1) {
+			worldIn.setBlockToAir(pos);
+		}
 	}
 }

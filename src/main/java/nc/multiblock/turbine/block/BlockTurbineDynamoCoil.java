@@ -3,29 +3,22 @@ package nc.multiblock.turbine.block;
 import nc.block.IBlockMeta;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
-import nc.util.ItemStackHelper;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import nc.util.StackHelper;
+import net.minecraft.block.properties.*;
+import net.minecraft.block.state.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
 
 public class BlockTurbineDynamoCoil extends BlockTurbinePart implements IBlockMeta {
 	
 	private final static PropertyEnum TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
-
+	
 	public BlockTurbineDynamoCoil() {
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(TYPE, TurbineDynamoCoilType.MAGNESIUM));
@@ -40,24 +33,35 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePart implements IBlockMe
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getStateFromMeta(meta);
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		switch (metadata) {
-		case 0: return new TileTurbineDynamoCoil.Magnesium();
-		case 1: return new TileTurbineDynamoCoil.Beryllium();
-		case 2: return new TileTurbineDynamoCoil.Aluminum();
-		case 3: return new TileTurbineDynamoCoil.Gold();
-		case 4: return new TileTurbineDynamoCoil.Copper();
-		case 5: return new TileTurbineDynamoCoil.Silver();
-		default: return new TileTurbineDynamoCoil.Magnesium();
+			case 0:
+				return new TileTurbineDynamoCoil.Magnesium();
+			case 1:
+				return new TileTurbineDynamoCoil.Beryllium();
+			case 2:
+				return new TileTurbineDynamoCoil.Aluminum();
+			case 3:
+				return new TileTurbineDynamoCoil.Gold();
+			case 4:
+				return new TileTurbineDynamoCoil.Copper();
+			case 5:
+				return new TileTurbineDynamoCoil.Silver();
+			default:
+				return new TileTurbineDynamoCoil.Magnesium();
 		}
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null) {
+			return false;
+		}
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+			return false;
+		}
 		return rightClickOnPart(world, pos, player, hand, facing);
 	}
 	
@@ -95,6 +99,6 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePart implements IBlockMe
 	
 	@Override
 	public String getMetaName(ItemStack stack) {
-		return TurbineDynamoCoilType.values()[ItemStackHelper.getMetadata(stack)].getName();
+		return TurbineDynamoCoilType.values()[StackHelper.getMetadata(stack)].getName();
 	}
 }

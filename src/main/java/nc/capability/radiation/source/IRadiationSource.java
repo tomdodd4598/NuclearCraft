@@ -4,8 +4,7 @@ import nc.Global;
 import nc.capability.ICapability;
 import nc.capability.radiation.IRadiation;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.*;
 
 public interface IRadiationSource extends IRadiation, ICapability<IRadiationSource> {
 	

@@ -1,20 +1,17 @@
 package nc.item;
 
+import static nc.config.NCConfig.*;
+
 import nc.capability.radiation.resistance.IRadiationResistance;
-import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.radiation.RadiationHelper;
-import nc.util.ItemStackHelper;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -34,10 +31,10 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (!NCConfig.radiation_tile_shielding || !player.isSneaking()) {
+		if (!radiation_tile_shielding || !player.isSneaking()) {
 			return actionResult(false, stack);
 		}
-		if (NCConfig.radiation_hardcore_containers <= 0D) {
+		if (radiation_hardcore_containers <= 0D) {
 			if (!world.isRemote) {
 				player.sendMessage(new TextComponentString(NOT_HARDCORE));
 			}
@@ -52,20 +49,22 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		BlockPos pos = raytraceresult.getBlockPos();
 		TileEntity te = world.getTileEntity(pos);
 		EnumFacing side = raytraceresult.sideHit;
-		if (!world.isBlockModifiable(player, pos) || te == null || !te.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null) || (!te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side) && !te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side))) {
+		if (!world.isBlockModifiable(player, pos) || te == null || !te.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null) || !te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side) && !te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
 			return actionResult(false, stack);
 		}
 		IRadiationResistance tile = te.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
-		if (tile == null) return actionResult(false, stack);
+		if (tile == null) {
+			return actionResult(false, stack);
+		}
 		
-		if (NCConfig.radiation_hardcore_containers <= 0D) {
+		if (radiation_hardcore_containers <= 0D) {
 			if (!world.isRemote) {
 				player.sendMessage(new TextComponentString(FAILED_NOT_HARDCORE));
 			}
 			return actionResult(false, stack);
 		}
 		
-		double newResistance = NCConfig.radiation_shielding_level[ItemStackHelper.getMetadata(stack)];
+		double newResistance = radiation_shielding_level[StackHelper.getMetadata(stack)];
 		if (newResistance <= tile.getRadiationResistance()) {
 			if (!world.isRemote) {
 				player.sendMessage(new TextComponentString(INSTALL_FAIL + " " + RadiationHelper.resistanceSigFigs(tile.getRadiationResistance())));

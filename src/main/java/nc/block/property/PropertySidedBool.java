@@ -4,6 +4,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.util.EnumFacing;
 
 public class PropertySidedBool extends PropertyBool {
+	
 	public EnumFacing facing;
 	
 	public PropertySidedBool(String name, EnumFacing facing) {

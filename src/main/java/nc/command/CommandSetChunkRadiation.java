@@ -2,10 +2,7 @@ package nc.command;
 
 import nc.capability.radiation.source.IRadiationSource;
 import nc.radiation.RadiationHelper;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.chunk.Chunk;
 
@@ -40,7 +37,9 @@ public class CommandSetChunkRadiation extends CommandBase {
 			Chunk chunk = sender.getEntityWorld().getChunk(sender.getPosition());
 			if (chunk != null && chunk.isLoaded()) {
 				IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
-				if (chunkSource != null) chunkSource.setRadiationLevel(newRadiation);
+				if (chunkSource != null) {
+					chunkSource.setRadiationLevel(newRadiation);
+				}
 			}
 		}
 		
@@ -72,10 +71,13 @@ public class CommandSetChunkRadiation extends CommandBase {
 			Chunk chunk = sender.getEntityWorld().getChunk(x >> 4, z >> 4);
 			if (chunk != null && chunk.isLoaded()) {
 				IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
-				if (chunkSource != null) chunkSource.setRadiationLevel(newRadiation);
+				if (chunkSource != null) {
+					chunkSource.setRadiationLevel(newRadiation);
+				}
 			}
 		}
-		
-		else throw new WrongUsageException(getUsage(sender), new Object[0]);
+		else {
+			throw new WrongUsageException(getUsage(sender), new Object[0]);
+		}
 	}
 }

@@ -1,12 +1,10 @@
 package nc.tile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import nc.block.property.BlockProperties;
 import nc.capability.radiation.source.IRadiationSource;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneWire;
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,7 +13,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public interface ITile {
+public interface ITile<T extends TileEntity> {
+	
+	public T thisTile();
 	
 	public World getTileWorld();
 	
@@ -50,7 +50,7 @@ public interface ITile {
 	}
 	
 	public default boolean isUsableByPlayer(EntityPlayer player) {
-		return getTileWorld().getTileEntity(getTilePos()) != this ? false : player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
+		return player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
 	}
 	
 	// Redstone

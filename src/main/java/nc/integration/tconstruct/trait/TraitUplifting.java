@@ -27,7 +27,7 @@ public class TraitUplifting extends AbstractTrait {
 	}
 	
 	private static void uplift(EntityLivingBase player) {
-		if(!player.getEntityWorld().isRemote && random.nextInt(2) == 0) {
+		if (!player.getEntityWorld().isRemote && random.nextInt(2) == 0) {
 			player.addPotionEffect(new PotionEffect(PotionHelper.newEffect(10, 3, 81)));
 		}
 	}

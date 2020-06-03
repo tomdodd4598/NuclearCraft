@@ -1,26 +1,16 @@
 package nc.handler;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.*;
 import nc.init.NCSounds;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.ITickableSound;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.Sound;
-import net.minecraft.client.audio.SoundEventAccessor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.client.audio.*;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
@@ -35,25 +25,38 @@ public class SoundHandler {
 	}
 	
 	public static ISound startTileSound(SoundEvent soundEvent, BlockPos pos, float volume, float pitch) {
-		// First, check to see if there's already a sound playing at the desired location
+		// First, check to see if there's already a sound playing at the desired
+		// location
 		ISound sound = soundMap.get(pos.toLong());
 		if (sound == null || !MC.getSoundHandler().isSoundPlaying(sound)) {
-			// No sound playing, start one up - we assume that tile sounds will play until explicitly stopped
+			// No sound playing, start one up - we assume that tile sounds will
+			// play until explicitly stopped
 			sound = new PositionedSoundRecord(soundEvent.getSoundName(), SoundCategory.BLOCKS, volume, pitch, true, 0, ISound.AttenuationType.LINEAR, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F) {
+				
 				@Override
 				public float getVolume() {
-					if (this.sound == null) {
-						this.createAccessor(MC.getSoundHandler());
+					if (sound == null) {
+						createAccessor(MC.getSoundHandler());
 					}
 					return super.getVolume();
+				}
+				
+				@Override
+				public float getPitch() {
+					if (sound == null) {
+						createAccessor(MC.getSoundHandler());
+					}
+					return super.getPitch();
 				}
 			};
 			
 			// Start the sound
 			playSound(sound);
 			
-			// N.B. By the time playSound returns, our expectation is that our wrapping-detector handler has fired
-			// and dealt with any muting interceptions and, CRITICALLY, updated the soundMap with the final ISound.
+			// N.B. By the time playSound returns, our expectation is that our
+			// wrapping-detector handler has fired
+			// and dealt with any muting interceptions and, CRITICALLY, updated
+			// the soundMap with the final ISound.
 			sound = soundMap.get(pos.toLong());
 		}
 		return sound;
@@ -70,7 +73,8 @@ public class SoundHandler {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onTilePlaySound(PlaySoundEvent event) {
-		// Ignore any sound event which is null or is happening in a muffled check
+		// Ignore any sound event which is null or is happening in a muffled
+		// check
 		ISound resultSound = event.getResultSound();
 		if (resultSound == null) {
 			return;
@@ -82,25 +86,33 @@ public class SoundHandler {
 			return;
 		}
 		
+		// Make sure sound accessor is not null
+		if (resultSound.getSound() == null) {
+			resultSound.createAccessor(MC.getSoundHandler());
+		}
+		
 		// At this point, we've got a known tickable block sound
-		resultSound = new TileSound(event.getSound(), resultSound.getVolume());
+		resultSound = new TileSound(event.getSound(), resultSound.getVolume(), resultSound.getPitch());
 		event.setResultSound(resultSound);
 		
-		// Finally, update our soundMap so that we can actually have a shot at stopping this sound; note that we also
-		// need to "un-offset" the sound position so that we build the correct key for the sound map
+		// Finally, update our soundMap so that we can actually have a shot at
+		// stopping this sound; note that we also
+		// need to "un-offset" the sound position so that we build the correct
+		// key for the sound map
 		BlockPos pos = new BlockPos(resultSound.getXPosF() - 0.5F, resultSound.getYPosF() - 0.5F, resultSound.getZPosF() - 0.5F);
 		soundMap.put(pos.toLong(), resultSound);
 	}
 	
 	private static class TileSound implements ITickableSound {
 		
-		private ISound sound;
-		private float volume;
-		private boolean donePlaying = false;
+		private final ISound sound;
+		private final float volume, pitch;
+		private final boolean donePlaying = false;
 		
-		TileSound(ISound sound, float volume) {
+		TileSound(ISound sound, float volume, float pitch) {
 			this.sound = sound;
 			this.volume = volume;
+			this.pitch = pitch;
 		}
 		
 		@Override
@@ -109,11 +121,6 @@ public class SoundHandler {
 		@Override
 		public boolean isDonePlaying() {
 			return donePlaying;
-		}
-		
-		@Override
-		public float getVolume() {
-			return volume;
 		}
 		
 		@Override
@@ -147,8 +154,13 @@ public class SoundHandler {
 		}
 		
 		@Override
+		public float getVolume() {
+			return volume;
+		}
+		
+		@Override
 		public float getPitch() {
-			return sound.getPitch();
+			return pitch;
 		}
 		
 		@Override

@@ -3,9 +3,9 @@ package nc.multiblock.fission.tile;
 import javax.annotation.Nullable;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.*;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 
 public class TileFissionConductor extends TileFissionPart implements IFissionComponent {
 	
@@ -20,14 +20,15 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionComponent
@@ -72,6 +73,11 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	
 	@Override
 	public void onClusterMeltdown() {}
+	
+	@Override
+	public boolean isNullifyingSources(EnumFacing side) {
+		return false;
+	}
 	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {

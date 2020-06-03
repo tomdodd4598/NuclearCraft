@@ -1,17 +1,12 @@
 package nc.handler;
 
+import static nc.config.NCConfig.dungeon_loot;
+
 import nc.Global;
-import nc.config.NCConfig;
 import nc.init.NCItems;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootEntryItem;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraft.world.storage.loot.RandomValueRange;
+import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraft.world.storage.loot.functions.LootFunction;
-import net.minecraft.world.storage.loot.functions.SetCount;
-import net.minecraft.world.storage.loot.functions.SetMetadata;
+import net.minecraft.world.storage.loot.functions.*;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -28,75 +23,69 @@ public class DungeonLootHandler {
 				event.getTable().addPool(pool);
 			}
 			
-			boolean /*addPlating = false, addSolenoids = false, addMachinery = false,*/ addOther = false;
+			boolean /* addPlating = false, addSolenoids = false, addMachinery = false, */ addOther = false;
 			
-			if (NCConfig.dungeon_loot) {
+			if (dungeon_loot) {
 				if (LootTableList.CHESTS_SIMPLE_DUNGEON.equals(event.getName())) {
-					//addPlating = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addMachinery = true;
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_ABANDONED_MINESHAFT.equals(event.getName())) {
-					//addPlating = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_VILLAGE_BLACKSMITH.equals(event.getName())) {
-					//addPlating = true;
-					//addSolenoids = true;
+					// addPlating = true;
+					// addSolenoids = true;
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_STRONGHOLD_LIBRARY.equals(event.getName())) {
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_STRONGHOLD_CROSSING.equals(event.getName())) {
-					//addPlating = true;
-					//addSolenoids = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addSolenoids = true;
+					// addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_STRONGHOLD_CORRIDOR.equals(event.getName())) {
-					//addPlating = true;
-					//addSolenoids = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addSolenoids = true;
+					// addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_IGLOO_CHEST.equals(event.getName())) {
-					//addSolenoids = true;
-					//addMachinery = true;
+					// addSolenoids = true;
+					// addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_DESERT_PYRAMID.equals(event.getName())) {
-					//addSolenoids = true;
+					// addSolenoids = true;
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_NETHER_BRIDGE.equals(event.getName())) {
-					//addPlating = true;
-					//addSolenoids = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addSolenoids = true;
+					// addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_END_CITY_TREASURE.equals(event.getName())) {
-					//addPlating = true;
-					//addSolenoids = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addSolenoids = true;
+					// addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_WOODLAND_MANSION.equals(event.getName())) {
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_JUNGLE_TEMPLE.equals(event.getName())) {
-					//addPlating = true;
-					//addSolenoids = true;
-					//addMachinery = true;
+					// addPlating = true;
+					// addSolenoids = true;
+					// addMachinery = true;
 				}
 			}
 			
-			/*if (addPlating) {
-				pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(0, 3, 3, 6), noCondition, Global.MOD_ID + ":plating"));
-			}
-			
-			if (addSolenoids) {
-				pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(4, 5, 4, 8), noCondition, Global.MOD_ID + ":solenoids"));
-			}
-			
-			if (addMachinery) {
-				pool.addEntry(new LootEntryItem(NCItems.part, 20, 0, lootFunctions(7, 9, 2, 4), noCondition, Global.MOD_ID + ":machinery"));
-			}*/
+			/* if (addPlating) { pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(0, 3, 3, 6), noCondition, Global.MOD_ID + ":plating")); }
+			 * 
+			 * if (addSolenoids) { pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(4, 5, 4, 8), noCondition, Global.MOD_ID + ":solenoids")); }
+			 * 
+			 * if (addMachinery) { pool.addEntry(new LootEntryItem(NCItems.part, 20, 0, lootFunctions(7, 9, 2, 4), noCondition, Global.MOD_ID + ":machinery")); } */
 			
 			if (addOther) {
 				pool.addEntry(new LootEntryItem(NCItems.dominos, 3, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":dominos"));

@@ -1,7 +1,6 @@
 package nc.util;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -17,9 +16,9 @@ public final class KeyPair<L, R> extends Pair<L, R> {
 	}
 	
 	public static <L, R> KeyPair<L, R> of(final L left, final R right) {
-		return new KeyPair<L, R>(left, right);
+		return new KeyPair<>(left, right);
 	}
-
+	
 	@Override
 	public L getLeft() {
 		return left;

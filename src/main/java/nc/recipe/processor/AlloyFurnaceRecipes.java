@@ -1,17 +1,16 @@
 package nc.recipe.processor;
 
 import static nc.util.FissionHelper.FISSION_ORE_DICT;
+import static nc.util.OreDictHelper.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.OreIngredient;
 import nc.util.OreDictHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.init.*;
 
 public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	
@@ -94,43 +93,45 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, NUGGET_VOLUME_TYPES, INGOT_VOLUME_TYPES, BLOCK_VOLUME_TYPES, NUGGET_VOLUME_TYPES, INGOT_VOLUME_TYPES, BLOCK_VOLUME_TYPES);
 	}
 	
 	public void addAlloyIngotDustRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.DUST_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, NUGGET_VOLUME_TYPES, INGOT_VOLUME_TYPES, BLOCK_VOLUME_TYPES, TINYDUST_VOLUME_TYPES, DUST_VOLUME_TYPES, BLOCK_VOLUME_TYPES);
 	}
 	
 	public void addAlloyIngotFuelRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.FUEL_VOLUME_TYPES, OreDictHelper.FUEL_BLOCK_VOLUME_TYPES);
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, NUGGET_VOLUME_TYPES, INGOT_VOLUME_TYPES, BLOCK_VOLUME_TYPES, TINYDUST_VOLUME_TYPES, FUEL_VOLUME_TYPES, FUEL_BLOCK_VOLUME_TYPES);
 	}
 	
 	public void addAlloyIngotGemRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.GEM_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, NUGGET_VOLUME_TYPES, INGOT_VOLUME_TYPES, BLOCK_VOLUME_TYPES, TINYDUST_VOLUME_TYPES, GEM_VOLUME_TYPES, BLOCK_VOLUME_TYPES);
 	}
 	
 	public void addAlloyRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power, List<String> inNuggets1, List<String> inIngots1, List<String> inBlocks1, List<String> inNuggets2, List<String> inIngots2, List<String> inBlocks2) {
 		addRecipe(typeStackList(in1, inIngots1, inSize1), typeStackList(in2, inIngots2, inSize2), oreStack("ingot" + out, outSize), time, power);
-		addRecipe(typeStackList(in1, inNuggets1, inSize1), typeStackList(in2, inNuggets2, inSize2), oreStack("nugget" + out, outSize), time/9D, power);
-		addRecipe(typeStackList(in1, inBlocks1, inSize1), typeStackList(in2, inBlocks2, inSize2), oreStack("block" + out, outSize), time*9D, power);
+		addRecipe(typeStackList(in1, inNuggets1, inSize1), typeStackList(in2, inNuggets2, inSize2), oreStack("nugget" + out, outSize), time / 9D, power);
+		addRecipe(typeStackList(in1, inBlocks1, inSize1), typeStackList(in2, inBlocks2, inSize2), oreStack("block" + out, outSize), time * 9D, power);
 	}
 	
 	public void addAlloyIngotCoalRecipes(String in1, int inSize1, int inSize2, String out, int outSize, double time, double power) {
-		addRecipe(typeStackList(in1, OreDictHelper.INGOT_VOLUME_TYPES, inSize1), typeStackList("", OreDictHelper.COAL_TYPES, inSize2), oreStack("ingot" + out, outSize), time, power);
-		addRecipe(typeStackList(in1, OreDictHelper.NUGGET_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.TINYDUST_VOLUME_TYPES, inSize2), oreStack("nugget" + out, outSize), time/9D, power);
-		addRecipe(typeStackList(in1, OreDictHelper.BLOCK_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.BLOCK_VOLUME_TYPES, inSize2), oreStack("block" + out, outSize), time*9D, power);
+		addRecipe(typeStackList(in1, INGOT_VOLUME_TYPES, inSize1), typeStackList("", COAL_TYPES, inSize2), oreStack("ingot" + out, outSize), time, power);
+		addRecipe(typeStackList(in1, NUGGET_VOLUME_TYPES, inSize1), typeStackList("Coal", TINYDUST_VOLUME_TYPES, inSize2), oreStack("nugget" + out, outSize), time / 9D, power);
+		addRecipe(typeStackList(in1, BLOCK_VOLUME_TYPES, inSize1), typeStackList("Coal", BLOCK_VOLUME_TYPES, inSize2), oreStack("block" + out, outSize), time * 9D, power);
 	}
 	
 	public void addFissionAlloyRecipes() {
-		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
-			addAlloyIngotIngotRecipes(FISSION_ORE_DICT[i], 1, "Zirconium", 1, FISSION_ORE_DICT[i] + "ZA", 1, 1D, 1D);
-			addAlloyIngotIngotRecipes(FISSION_ORE_DICT[i], 1, "Graphite", 1, FISSION_ORE_DICT[i] + "Carbide", 1, 1D, 1D);
+		for (String element : FISSION_ORE_DICT) {
+			addAlloyIngotIngotRecipes(element, 1, "Zirconium", 1, element + "ZA", 1, 1D, 1D);
+			addAlloyIngotIngotRecipes(element, 1, "Graphite", 1, element + "Carbide", 1, 1D, 1D);
 		}
 	}
 	
 	private static ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
 		ArrayList<OreIngredient> list = new ArrayList<>();
-		for (String form : forms) list.add(oreStack(form + type, size));
+		for (String form : forms) {
+			list.add(oreStack(form + type, size));
+		}
 		return list;
 	}
 	

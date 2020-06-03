@@ -1,16 +1,11 @@
 package nc.integration.crafttweaker;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
+import crafttweaker.*;
 import crafttweaker.api.item.IIngredient;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeHelper;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 
 public class AddProcessorRecipe implements IAction {
 	
@@ -24,7 +19,7 @@ public class AddProcessorRecipe implements IAction {
 	public ProcessorRecipe recipe;
 	public boolean inputsAllNull = true, ingredientError, wasNull, wrongSize;
 	public final ProcessorRecipeHandler recipeHandler;
-
+	
 	public AddProcessorRecipe(ProcessorRecipeHandler recipeHandler, List objects) {
 		this.recipeHandler = recipeHandler;
 		
@@ -51,7 +46,8 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				itemIngredients.add(ingredient);
-			} else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize()) {
+			}
+			else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -65,7 +61,8 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				fluidIngredients.add(ingredient);
-			} else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize() + recipeHandler.getItemOutputSize()) {
+			}
+			else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize() + recipeHandler.getItemOutputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -78,7 +75,8 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				itemProducts.add(ingredient);
-			} else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize() + recipeHandler.getItemOutputSize() + recipeHandler.getFluidOutputSize()) {
+			}
+			else if (ingredientCount < recipeHandler.getItemInputSize() + recipeHandler.getFluidInputSize() + recipeHandler.getItemOutputSize() + recipeHandler.getFluidOutputSize()) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
 						ingredientError = true;
@@ -91,7 +89,8 @@ public class AddProcessorRecipe implements IAction {
 					return;
 				}
 				fluidProducts.add(ingredient);
-			} else {
+			}
+			else {
 				extras.add(object);
 			}
 			listCount++;
@@ -111,7 +110,9 @@ public class AddProcessorRecipe implements IAction {
 		this.extras = extras;
 		
 		recipe = recipeHandler.buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, recipeHandler.isShapeless());
-		if (recipe == null) wasNull = true;
+		if (recipe == null) {
+			wasNull = true;
+		}
 	}
 	
 	@Override
@@ -124,7 +125,9 @@ public class AddProcessorRecipe implements IAction {
 	@Override
 	public String describe() {
 		if (inputsAllNull || ingredientError || wasNull || wrongSize) {
-			if (ingredientError || wrongSize) callError();
+			if (ingredientError || wrongSize) {
+				callError();
+			}
 			return String.format("Error: Failed to add %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
 		return String.format("Adding %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));

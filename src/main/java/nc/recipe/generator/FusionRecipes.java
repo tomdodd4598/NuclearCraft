@@ -1,7 +1,6 @@
 package nc.recipe.generator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import nc.recipe.ProcessorRecipeHandler;
 
@@ -13,46 +12,22 @@ public class FusionRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		/*addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME, "deuterium", FluidStackHelper.BUCKET_VOLUME/4, "deuterium", FluidStackHelper.BUCKET_VOLUME/4, "deuterium", FluidStackHelper.BUCKET_VOLUME/4, "deuterium", FluidStackHelper.BUCKET_VOLUME/4, 0);
-		addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "deuterium", FluidStackHelper.BUCKET_VOLUME, "helium3", FluidStackHelper.BUCKET_VOLUME/4, "helium3", FluidStackHelper.BUCKET_VOLUME/4, "helium3", FluidStackHelper.BUCKET_VOLUME/4, "helium3", FluidStackHelper.BUCKET_VOLUME/4, 1);
-		addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "tritium", FluidStackHelper.BUCKET_VOLUME, "helium3", FluidStackHelper.BUCKET_VOLUME/2, "helium3", FluidStackHelper.BUCKET_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 2);
-		addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "helium3", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME/4, "helium", FluidStackHelper.BUCKET_VOLUME/4, "helium", FluidStackHelper.BUCKET_VOLUME/4, "helium", FluidStackHelper.BUCKET_VOLUME/4, 3);
-		addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "lithium6", FluidStackHelper.INGOT_VOLUME, "tritium", FluidStackHelper.BUCKET_VOLUME/2, "tritium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, 4);
-		addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "lithium7", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, 5);
-		addFusionRecipe("hydrogen", FluidStackHelper.BUCKET_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, 6);
-		
-		addFusionRecipe("deuterium", FluidStackHelper.BUCKET_VOLUME, "deuterium", FluidStackHelper.BUCKET_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME/2, "tritium", FluidStackHelper.BUCKET_VOLUME/2, "helium3", FluidStackHelper.BUCKET_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 7);
-		addFusionRecipe("deuterium", FluidStackHelper.BUCKET_VOLUME, "tritium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 8);
-		addFusionRecipe("deuterium", FluidStackHelper.BUCKET_VOLUME, "helium3", FluidStackHelper.BUCKET_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME/2, "hydrogen", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, 9);
-		addFusionRecipe("deuterium", FluidStackHelper.BUCKET_VOLUME, "lithium6", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, 10);
-		addFusionRecipe("deuterium", FluidStackHelper.BUCKET_VOLUME, "lithium7", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 11);
-		addFusionRecipe("deuterium", FluidStackHelper.BUCKET_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 12);
-		
-		addFusionRecipe("tritium", FluidStackHelper.BUCKET_VOLUME, "tritium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, 13);
-		addFusionRecipe("tritium", FluidStackHelper.BUCKET_VOLUME, "helium3", FluidStackHelper.BUCKET_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 14);
-		addFusionRecipe("tritium", FluidStackHelper.BUCKET_VOLUME, "lithium6", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 15);
-		addFusionRecipe("tritium", FluidStackHelper.BUCKET_VOLUME, "lithium7", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, 16);
-		addFusionRecipe("tritium", FluidStackHelper.BUCKET_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "neutron", FluidStackHelper.PARTICLE_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, 17);
-		
-		addFusionRecipe("helium3", FluidStackHelper.BUCKET_VOLUME, "helium3", FluidStackHelper.BUCKET_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME/2, 18);
-		addFusionRecipe("helium3", FluidStackHelper.BUCKET_VOLUME, "lithium6", FluidStackHelper.INGOT_VOLUME, "hydrogen", FluidStackHelper.BUCKET_VOLUME/2, "hydrogen", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, 19);
-		addFusionRecipe("helium3", FluidStackHelper.BUCKET_VOLUME, "lithium7", FluidStackHelper.INGOT_VOLUME, "deuterium", FluidStackHelper.BUCKET_VOLUME/2, "deuterium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME, 20);
-		addFusionRecipe("helium3", FluidStackHelper.BUCKET_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "deuterium", FluidStackHelper.BUCKET_VOLUME/2, "deuterium", FluidStackHelper.BUCKET_VOLUME/2, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, 21);
-		
-		addFusionRecipe("lithium6", FluidStackHelper.INGOT_VOLUME, "lithium6", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, "helium", FluidStackHelper.BUCKET_VOLUME*3/4, 22);
-		addFusionRecipe("lithium6", FluidStackHelper.INGOT_VOLUME, "lithium7", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 23);
-		addFusionRecipe("lithium6", FluidStackHelper.INGOT_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*2, "helium", FluidStackHelper.BUCKET_VOLUME*2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, "neutron", FluidStackHelper.PARTICLE_VOLUME/2, 24);
-		
-		addFusionRecipe("lithium7", FluidStackHelper.INGOT_VOLUME, "lithium7", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "helium", FluidStackHelper.BUCKET_VOLUME*6/4, "neutron", FluidStackHelper.PARTICLE_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, 25);
-		addFusionRecipe("lithium7", FluidStackHelper.INGOT_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*2, "helium", FluidStackHelper.BUCKET_VOLUME*2, "neutron", FluidStackHelper.PARTICLE_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, 26);
-		
-		addFusionRecipe("boron11", FluidStackHelper.INGOT_VOLUME, "boron11", FluidStackHelper.INGOT_VOLUME, "helium", FluidStackHelper.BUCKET_VOLUME*10/4, "helium", FluidStackHelper.BUCKET_VOLUME*10/4, "neutron", FluidStackHelper.PARTICLE_VOLUME, "neutron", FluidStackHelper.PARTICLE_VOLUME, 27);
-		*/
+		/* addFusionRecipe("hydrogen", BUCKET_VOLUME, "hydrogen", BUCKET_VOLUME, "deuterium", BUCKET_VOLUME/4, "deuterium", BUCKET_VOLUME/4, "deuterium", BUCKET_VOLUME/4, "deuterium", BUCKET_VOLUME/4, 0); addFusionRecipe("hydrogen", BUCKET_VOLUME, "deuterium", BUCKET_VOLUME, "helium3", BUCKET_VOLUME/4, "helium3", BUCKET_VOLUME/4, "helium3", BUCKET_VOLUME/4, "helium3", BUCKET_VOLUME/4, 1); addFusionRecipe("hydrogen", BUCKET_VOLUME, "tritium", BUCKET_VOLUME, "helium3", BUCKET_VOLUME/2, "helium3", BUCKET_VOLUME/2, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 2); addFusionRecipe("hydrogen", BUCKET_VOLUME, "helium3", BUCKET_VOLUME, "helium", BUCKET_VOLUME/4, "helium", BUCKET_VOLUME/4, "helium", BUCKET_VOLUME/4, "helium", BUCKET_VOLUME/4, 3); addFusionRecipe("hydrogen", BUCKET_VOLUME, "lithium6", INGOT_VOLUME, "tritium", BUCKET_VOLUME/2, "tritium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, 4); addFusionRecipe("hydrogen", BUCKET_VOLUME, "lithium7", INGOT_VOLUME, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, 5); addFusionRecipe("hydrogen", BUCKET_VOLUME, "boron11", INGOT_VOLUME, "helium", BUCKET_VOLUME*3/4, "helium", BUCKET_VOLUME*3/4, "helium", BUCKET_VOLUME*3/4, "helium", BUCKET_VOLUME*3/4, 6);
+		 * 
+		 * addFusionRecipe("deuterium", BUCKET_VOLUME, "deuterium", BUCKET_VOLUME, "hydrogen", BUCKET_VOLUME/2, "tritium", BUCKET_VOLUME/2, "helium3", BUCKET_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 7); addFusionRecipe("deuterium", BUCKET_VOLUME, "tritium", BUCKET_VOLUME, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 8); addFusionRecipe("deuterium", BUCKET_VOLUME, "helium3", BUCKET_VOLUME, "hydrogen", BUCKET_VOLUME/2, "hydrogen", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, 9); addFusionRecipe("deuterium", BUCKET_VOLUME, "lithium6", INGOT_VOLUME, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, 10); addFusionRecipe("deuterium", BUCKET_VOLUME, "lithium7", INGOT_VOLUME, "helium", BUCKET_VOLUME, "helium", BUCKET_VOLUME, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 11); addFusionRecipe("deuterium", BUCKET_VOLUME, "boron11", INGOT_VOLUME, "helium", BUCKET_VOLUME*6/4, "helium", BUCKET_VOLUME*6/4, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 12);
+		 * 
+		 * addFusionRecipe("tritium", BUCKET_VOLUME, "tritium", BUCKET_VOLUME, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, "neutron", PARTICLE_VOLUME, "neutron", PARTICLE_VOLUME, 13); addFusionRecipe("tritium", BUCKET_VOLUME, "helium3", BUCKET_VOLUME, "hydrogen", BUCKET_VOLUME, "helium", BUCKET_VOLUME, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 14); addFusionRecipe("tritium", BUCKET_VOLUME, "lithium6", INGOT_VOLUME, "helium", BUCKET_VOLUME, "helium", BUCKET_VOLUME, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 15); addFusionRecipe("tritium", BUCKET_VOLUME, "lithium7", INGOT_VOLUME, "helium", BUCKET_VOLUME, "helium", BUCKET_VOLUME, "neutron", PARTICLE_VOLUME, "neutron", PARTICLE_VOLUME, 16); addFusionRecipe("tritium", BUCKET_VOLUME, "boron11", INGOT_VOLUME, "helium", BUCKET_VOLUME*6/4, "helium", BUCKET_VOLUME*6/4, "neutron", PARTICLE_VOLUME, "neutron", PARTICLE_VOLUME, 17);
+		 * 
+		 * addFusionRecipe("helium3", BUCKET_VOLUME, "helium3", BUCKET_VOLUME, "hydrogen", BUCKET_VOLUME, "hydrogen", BUCKET_VOLUME, "helium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME/2, 18); addFusionRecipe("helium3", BUCKET_VOLUME, "lithium6", INGOT_VOLUME, "hydrogen", BUCKET_VOLUME/2, "hydrogen", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME, "helium", BUCKET_VOLUME, 19); addFusionRecipe("helium3", BUCKET_VOLUME, "lithium7", INGOT_VOLUME, "deuterium", BUCKET_VOLUME/2, "deuterium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME, "helium", BUCKET_VOLUME, 20); addFusionRecipe("helium3", BUCKET_VOLUME, "boron11", INGOT_VOLUME, "deuterium", BUCKET_VOLUME/2, "deuterium", BUCKET_VOLUME/2, "helium", BUCKET_VOLUME*6/4, "helium", BUCKET_VOLUME*6/4, 21);
+		 * 
+		 * addFusionRecipe("lithium6", INGOT_VOLUME, "lithium6", INGOT_VOLUME, "helium", BUCKET_VOLUME*3/4, "helium", BUCKET_VOLUME*3/4, "helium", BUCKET_VOLUME*3/4, "helium", BUCKET_VOLUME*3/4, 22); addFusionRecipe("lithium6", INGOT_VOLUME, "lithium7", INGOT_VOLUME, "helium", BUCKET_VOLUME*6/4, "helium", BUCKET_VOLUME*6/4, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 23); addFusionRecipe("lithium6", INGOT_VOLUME, "boron11", INGOT_VOLUME, "helium", BUCKET_VOLUME*2, "helium", BUCKET_VOLUME*2, "neutron", PARTICLE_VOLUME/2, "neutron", PARTICLE_VOLUME/2, 24);
+		 * 
+		 * addFusionRecipe("lithium7", INGOT_VOLUME, "lithium7", INGOT_VOLUME, "helium", BUCKET_VOLUME*6/4, "helium", BUCKET_VOLUME*6/4, "neutron", PARTICLE_VOLUME, "neutron", PARTICLE_VOLUME, 25); addFusionRecipe("lithium7", INGOT_VOLUME, "boron11", INGOT_VOLUME, "helium", BUCKET_VOLUME*2, "helium", BUCKET_VOLUME*2, "neutron", PARTICLE_VOLUME, "neutron", PARTICLE_VOLUME, 26);
+		 * 
+		 * addFusionRecipe("boron11", INGOT_VOLUME, "boron11", INGOT_VOLUME, "helium", BUCKET_VOLUME*10/4, "helium", BUCKET_VOLUME*10/4, "neutron", PARTICLE_VOLUME, "neutron", PARTICLE_VOLUME, 27); */
 	}
 	
-	/*public void addFusionRecipe(String in1, int amountIn1, String in2, int amountIn2, String out1, int amountOut1, String out2, int amountOut2, String out3, int amountOut3, String out4, int amountOut4, int combo) {
-		addRecipe(fluidStack(in1, amountIn1), fluidStack(in2, amountIn2), fluidStack(out1, amountOut1), fluidStack(out2, amountOut2), fluidStack(out3, amountOut3), fluidStack(out4, amountOut4), NCConfig.fusion_fuel_time[combo], NCConfig.fusion_power[combo], NCConfig.fusion_heat_variable[combo], NCConfig.fusion_radiation[combo]);
-	}*/
+	/* public void addFusionRecipe(String in1, int amountIn1, String in2, int amountIn2, String out1, int amountOut1, String out2, int amountOut2, String out3, int amountOut3, String out4, int amountOut4, int combo) { addRecipe(fluidStack(in1, amountIn1), fluidStack(in2, amountIn2), fluidStack(out1, amountOut1), fluidStack(out2, amountOut2), fluidStack(out3, amountOut3), fluidStack(out4, amountOut4), fusion_fuel_time[combo], fusion_power[combo], fusion_heat_variable[combo], fusion_radiation[combo]); } */
 	
 	@Override
 	public List fixExtras(List extras) {
@@ -67,7 +42,7 @@ public class FusionRecipes extends ProcessorRecipeHandler {
 	@Override
 	public List getFactoredExtras(List extras, int factor) {
 		List factored = new ArrayList(extras);
-		factored.set(0, (double)extras.get(0)/factor);
+		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}
 }

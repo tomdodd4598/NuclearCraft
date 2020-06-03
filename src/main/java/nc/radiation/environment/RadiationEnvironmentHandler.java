@@ -1,11 +1,11 @@
 package nc.radiation.environment;
 
+import static nc.config.NCConfig.*;
+
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.*;
 
-import nc.config.NCConfig;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.FourPos;
 import net.minecraft.world.WorldServer;
@@ -20,12 +20,16 @@ public class RadiationEnvironmentHandler {
 	
 	@SubscribeEvent
 	public void updateRadiationEnvironment(TickEvent.WorldTickEvent event) {
-		if (!NCConfig.radiation_enabled_public) return;
+		if (!radiation_enabled_public) {
+			return;
+		}
 		
-		if (event.phase != TickEvent.Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
+		if (event.phase != TickEvent.Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) {
+			return;
+		}
 		int dim = event.world.provider.getDimension();
 		
-		int count = Math.min((1 + NCConfig.radiation_world_chunks_per_tick)/2, ENVIRONMENT.size());
+		int count = Math.min((1 + radiation_world_chunks_per_tick) / 2, ENVIRONMENT.size());
 		Iterator<Entry<FourPos, RadiationEnvironmentInfo>> environmentIter = ENVIRONMENT.entrySet().iterator();
 		Entry<FourPos, RadiationEnvironmentInfo> environmentEntry;
 		
@@ -35,8 +39,12 @@ public class RadiationEnvironmentHandler {
 			if (environmentIter.hasNext()) {
 				environmentEntry = environmentIter.next();
 			}
-			else break;
-			if (environmentEntry == null) break;
+			else {
+				break;
+			}
+			if (environmentEntry == null) {
+				break;
+			}
 			
 			FourPos pos = environmentEntry.getKey();
 			RadiationEnvironmentInfo info = environmentEntry.getValue();
@@ -59,8 +67,12 @@ public class RadiationEnvironmentHandler {
 	
 	public static void addTile(FourPos pos, ITileRadiationEnvironment tile) {
 		RadiationEnvironmentInfo newInfo = new RadiationEnvironmentInfo(pos, tile);
-		if (!ENVIRONMENT.containsKey(pos)) RadiationEnvironmentHandler.ENVIRONMENT.put(pos, newInfo);
-		else RadiationEnvironmentHandler.ENVIRONMENT.get(pos).addToTileMap(tile);
+		if (!ENVIRONMENT.containsKey(pos)) {
+			RadiationEnvironmentHandler.ENVIRONMENT.put(pos, newInfo);
+		}
+		else {
+			RadiationEnvironmentHandler.ENVIRONMENT.get(pos).addToTileMap(tile);
+		}
 	}
 	
 	public static void removeTile(ITileRadiationEnvironment tile) {
@@ -73,7 +85,9 @@ public class RadiationEnvironmentHandler {
 			}
 			else if (tile.getFourPos().getDimension() == infoEntry.getKey().getDimension()) {
 				infoEntry.getValue().tileMap.remove(tile.getFourPos());
-				if (infoEntry.getValue().tileMap.isEmpty()) infoIterator.remove();
+				if (infoEntry.getValue().tileMap.isEmpty()) {
+					infoIterator.remove();
+				}
 			}
 		}
 		
@@ -86,7 +100,9 @@ public class RadiationEnvironmentHandler {
 			}
 			else if (tile.getFourPos().getDimension() == infoEntry.getKey().getDimension()) {
 				infoEntry.getValue().tileMap.remove(tile.getFourPos());
-				if (infoEntry.getValue().tileMap.isEmpty()) backupInfoIterator.remove();
+				if (infoEntry.getValue().tileMap.isEmpty()) {
+					backupInfoIterator.remove();
+				}
 			}
 		}
 	}

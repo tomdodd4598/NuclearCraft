@@ -1,14 +1,14 @@
 package nc.multiblock.fission.tile;
 
+import static nc.config.NCConfig.fission_max_size;
+import static nc.recipe.NCRecipes.fission_reflector;
+
 import javax.annotation.Nonnull;
 
-import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.PartPosition;
+import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionSource;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,14 +61,15 @@ public abstract class TileFissionSource extends TileFissionPart {
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -103,23 +104,25 @@ public abstract class TileFissionSource extends TileFissionPart {
 	
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockFissionSource) {
-			((BlockFissionSource)getBlockType()).setState(isActive, this);
-			//world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+			((BlockFissionSource) getBlockType()).setState(isActive, this);
+			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	
 	public PrimingTargetInfo getPrimingTarget() {
-		if (getPartPosition().getFacing() == null) return null;
+		if (getPartPosition().getFacing() == null) {
+			return null;
+		}
 		EnumFacing facing = getPartPosition().getFacing(), dir = facing.getOpposite();
-		for (int i = NCConfig.fission_min_size; i <= NCConfig.fission_max_size; i++) {
+		for (int i = 1; i <= fission_max_size; i++) {
 			BlockPos offPos = pos.offset(dir, i);
-			ProcessorRecipe blockRecipe = blockRecipe(NCRecipes.fission_reflector, offPos);
+			ProcessorRecipe blockRecipe = blockRecipe(fission_reflector, offPos);
 			if (blockRecipe != null && blockRecipe.getFissionReflectorReflectivity() >= 1D) {
 				return null;
 			}
 			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
 			// First check if source is blocked by a flux sink
-			if (component instanceof IFissionFluxSink && ((IFissionFluxSink)component).isNullifyingSources(facing)) {
+			if (component != null && component.isNullifyingSources(facing)) {
 				return null;
 			}
 			if (component instanceof IFissionFuelComponent) {

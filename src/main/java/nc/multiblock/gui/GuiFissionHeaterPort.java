@@ -2,13 +2,11 @@ package nc.multiblock.gui;
 
 import nc.Global;
 import nc.gui.NCGui;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
+import nc.gui.element.*;
 import nc.multiblock.container.ContainerFissionHeaterPort;
 import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyFilterTankPacket;
-import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.*;
 import nc.tile.internal.fluid.Tank;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
@@ -20,7 +18,7 @@ public class GuiFissionHeaterPort extends NCGui {
 	
 	protected final TileFissionHeaterPort port;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiFissionHeaterPort(EntityPlayer player, TileFissionHeaterPort port) {
 		super(new ContainerFissionHeaterPort(player, port));
 		this.port = port;
@@ -70,9 +68,11 @@ public class GuiFissionHeaterPort extends NCGui {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (port.getWorld().isRemote) {
-			for (int i = 0; i < 2; i++) if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(port.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(port, i) : new EmptyTankPacket(port, i));
-				return;
+			for (int i = 0; i < 2; i++) {
+				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
+					PacketHandler.instance.sendToServer(port.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(port, i) : new EmptyTankPacket(port, i));
+					return;
+				}
 			}
 		}
 	}

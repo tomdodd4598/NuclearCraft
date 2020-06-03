@@ -6,17 +6,13 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.gui.NCGui;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
+import nc.gui.element.*;
 import nc.multiblock.container.ContainerSaltFissionHeater;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyFilterTankPacket;
-import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.*;
 import nc.tile.internal.fluid.Tank;
-import nc.util.Lang;
-import nc.util.NCUtil;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +23,7 @@ public class GuiSaltFissionHeater extends NCGui {
 	
 	protected final TileSaltFissionHeater heater;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiSaltFissionHeater(EntityPlayer player, TileSaltFissionHeater heater) {
 		super(new ContainerSaltFissionHeater(player, heater));
 		this.heater = heater;
@@ -71,10 +67,12 @@ public class GuiSaltFissionHeater extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		
 		if (heater.clusterHeatCapacity >= 0L) {
-			int e = (int) Math.round(74D*heater.clusterHeatStored/heater.clusterHeatCapacity);
+			int e = (int) Math.round(74D * heater.clusterHeatStored / heater.clusterHeatCapacity);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
-		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		else {
+			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		}
 		
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
 		
@@ -83,7 +81,7 @@ public class GuiSaltFissionHeater extends NCGui {
 	}
 	
 	protected int getCookProgressScaled(int pixels) {
-		if (1D/heater.getSpeedMultiplier() < 4D) {
+		if (1D / heater.getSpeedMultiplier() < 4D) {
 			return heater.isProcessing ? pixels : 0;
 		}
 		double i = heater.time, j = 1D;
@@ -104,9 +102,11 @@ public class GuiSaltFissionHeater extends NCGui {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (heater.getWorld().isRemote) {
-			for (int i = 0; i < 2; i++) if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(heater.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(heater, i) : new EmptyTankPacket(heater, i));
-				return;
+			for (int i = 0; i < 2; i++) {
+				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
+					PacketHandler.instance.sendToServer(heater.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(heater, i) : new EmptyTankPacket(heater, i));
+					return;
+				}
 			}
 		}
 	}

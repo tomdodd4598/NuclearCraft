@@ -1,31 +1,21 @@
 package nc.init;
 
-import static nc.config.NCConfig.register_cofh_fluids;
-import static nc.config.NCConfig.register_fluid_blocks;
+import static nc.config.NCConfig.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 
-import nc.Global;
-import nc.ModCheck;
-import nc.NuclearCraft;
-import nc.block.fluid.BlockFluidCoolant;
-import nc.block.fluid.BlockFluidHotCoolant;
-import nc.block.fluid.BlockFluidMolten;
-import nc.block.fluid.NCBlockFluid;
+import nc.*;
+import nc.block.fluid.*;
 import nc.block.item.NCItemBlock;
-import nc.fluid.FluidCoolant;
-import nc.fluid.FluidHotCoolant;
-import nc.fluid.FluidMolten;
+import nc.fluid.*;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCCoolantFluids {

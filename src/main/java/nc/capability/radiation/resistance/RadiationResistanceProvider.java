@@ -1,12 +1,10 @@
 package nc.capability.radiation.resistance;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.*;
 
 public class RadiationResistanceProvider implements ICapabilitySerializable {
 	
@@ -23,7 +21,9 @@ public class RadiationResistanceProvider implements ICapabilitySerializable {
 	
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE) return IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE.cast(radiationResistance);
+		if (capability == IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE) {
+			return IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE.cast(radiationResistance);
+		}
 		return null;
 	}
 	

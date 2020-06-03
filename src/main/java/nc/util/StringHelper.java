@@ -1,8 +1,6 @@
 package nc.util;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class StringHelper {
 	
@@ -21,12 +19,12 @@ public class StringHelper {
 	}
 	
 	public static String removePrefix(String s, int length) {
-		//int fixedLength = Math.min(length, s.length());
+		// int fixedLength = Math.min(length, s.length());
 		return s.substring(length);
 	}
 	
 	public static String removeSuffix(String s, int length) {
-		//int fixedLength = Math.min(length, s.length());
+		// int fixedLength = Math.min(length, s.length());
 		return s.substring(0, s.length() - length);
 	}
 	
@@ -57,7 +55,7 @@ public class StringHelper {
 		StringBuilder out = new StringBuilder("^");
 		for (int i = 0; i < glob.length(); ++i) {
 			final char c = glob.charAt(i);
-			switch(c) {
+			switch (c) {
 				case '*':
 					out.append(".*");
 					break;
@@ -70,7 +68,8 @@ public class StringHelper {
 				case '\\':
 					out.append("\\\\");
 					break;
-				default: out.append(c);
+				default:
+					out.append(c);
 			}
 		}
 		out.append('$');

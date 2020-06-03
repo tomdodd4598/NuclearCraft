@@ -18,7 +18,9 @@ public class UniversalOrePredicate implements Predicate<IBlockState> {
 				BlockStone.EnumType blockstone$enumtype = state.getValue(BlockStone.VARIANT);
 				return blockstone$enumtype.isNatural();
 			}
-			if (state.getBlock() == Blocks.NETHERRACK || state.getBlock() == Blocks.END_STONE) return true;
+			if (state.getBlock() == Blocks.NETHERRACK || state.getBlock() == Blocks.END_STONE) {
+				return true;
+			}
 		}
 		return false;
 	}

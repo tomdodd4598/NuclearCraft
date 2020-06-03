@@ -2,8 +2,7 @@ package nc.multiblock.rtg;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.Multiblock;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.rtg.tile.TileRTG;
@@ -16,7 +15,7 @@ import net.minecraft.world.World;
 
 public class RTGMultiblock extends Multiblock<TileRTG, MultiblockUpdatePacket> {
 	
-public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new ObjectOpenHashSet<>();
+	public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new ObjectOpenHashSet<>();
 	
 	protected final PartSuperMap<TileRTG> partSuperMap = new PartSuperMap<>();
 	
@@ -57,25 +56,25 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 	}
 	
 	@Override
-	protected void onMachineAssembled(boolean wasAssembled) {
-		refreshMultiblock();
+	protected void onMachineAssembled() {
+		onMultiblockFormed();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
-		refreshMultiblock();
+		onMultiblockFormed();
 	}
 	
-	protected void refreshMultiblock() {
+	protected void onMultiblockFormed() {
 		if (!WORLD.isRemote) {
 			long power = 0L;
-			for (TileRTG rtg : getPartMap(TileRTG.class).values()) {
+			for (TileRTG rtg : getParts(TileRTG.class)) {
 				power += rtg.power;
 				rtg.onMultiblockRefresh();
 			}
 			this.power = power;
-			storage.setStorageCapacity(4*power);
-			storage.setMaxTransfer(NCMath.toInt(4*power));
+			storage.setStorageCapacity(4 * power);
+			storage.setMaxTransfer(NCMath.toInt(4 * power));
 			refreshEnergy = true;
 		}
 	}
@@ -113,9 +112,12 @@ public static final ObjectSet<Class<? extends TileRTG>> PART_CLASSES = new Objec
 	
 	@Override
 	protected void onAssimilate(Multiblock assimilated) {
-		refreshMultiblock();
 		if (assimilated instanceof RTGMultiblock) {
-			storage.mergeEnergyStorage(((RTGMultiblock)assimilated).storage);
+			storage.mergeEnergyStorage(((RTGMultiblock) assimilated).storage);
+		}
+		
+		if (isAssembled()) {
+			onMultiblockFormed();
 		}
 	}
 	

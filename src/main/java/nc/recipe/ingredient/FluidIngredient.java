@@ -5,14 +5,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.recipe.*;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidStackHelper;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.Optional;
 
 public class FluidIngredient implements IFluidIngredient {
@@ -73,13 +70,15 @@ public class FluidIngredient implements IFluidIngredient {
 	@Override
 	public IFluidIngredient getFactoredIngredient(int factor) {
 		FluidStack newStack = stack.copy();
-		newStack.amount = stack.amount/factor;
+		newStack.amount = stack.amount / factor;
 		return new FluidIngredient(newStack);
 	}
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption type) {
-		if (object instanceof Tank) object = ((Tank)object).getFluid();
+		if (object instanceof Tank) {
+			object = ((Tank) object).getFluid();
+		}
 		if (object instanceof FluidStack) {
 			FluidStack fluidstack = (FluidStack) object;
 			if (!fluidstack.isFluidEqual(stack) || !FluidStack.areFluidStackTagsEqual(fluidstack, stack)) {

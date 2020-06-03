@@ -1,28 +1,26 @@
 package nc.tile.internal.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
 public class InventoryConnection {
 	
-	private @Nonnull List<ItemSorption> sorptionList;
+	private @Nonnull final List<ItemSorption> sorptionList;
 	private final @Nonnull List<ItemSorption> defaultSorptions;
 	
 	public InventoryConnection(@Nonnull List<ItemSorption> sorptionList) {
-		this.sorptionList = new ArrayList<ItemSorption>(sorptionList);
-		defaultSorptions = new ArrayList<ItemSorption>(sorptionList);
+		this.sorptionList = new ArrayList<>(sorptionList);
+		defaultSorptions = new ArrayList<>(sorptionList);
 	}
 	
 	private InventoryConnection(@Nonnull InventoryConnection connection) {
-		sorptionList = new ArrayList<ItemSorption>(connection.sorptionList);
-		defaultSorptions = new ArrayList<ItemSorption>(connection.defaultSorptions);
+		sorptionList = new ArrayList<>(connection.sorptionList);
+		defaultSorptions = new ArrayList<>(connection.defaultSorptions);
 	}
 	
 	private InventoryConnection copy() {
@@ -79,7 +77,7 @@ public class InventoryConnection {
 		}
 		nbt.setTag("inventoryConnection" + side.getIndex(), connectionTag);
 		return nbt;
-
+		
 	}
 	
 	public final InventoryConnection readFromNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {

@@ -1,7 +1,6 @@
 package nc.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
@@ -26,7 +25,9 @@ public class BlockPosHelper {
 	
 	public BlockPos[] offsets(EnumFacing[] sides, int dist) {
 		BlockPos[] posList = new BlockPos[sides.length];
-		for (int i = 0; i < sides.length; i++) posList[i] = pos.offset(sides[i], dist);
+		for (int i = 0; i < sides.length; i++) {
+			posList[i] = pos.offset(sides[i], dist);
+		}
 		return posList;
 	}
 	
@@ -84,20 +85,20 @@ public class BlockPosHelper {
 	
 	public static EnumFacing[] getHorizontals(EnumFacing dir) {
 		switch (dir) {
-		case DOWN:
-			return HORIZONTALS_Y;
-		case UP:
-			return HORIZONTALS_Y;
-		case NORTH:
-			return HORIZONTALS_Z;
-		case SOUTH:
-			return HORIZONTALS_Z;
-		case WEST:
-			return HORIZONTALS_X;
-		case EAST:
-			return HORIZONTALS_X;
-		default:
-			return HORIZONTALS_Y;
+			case DOWN:
+				return HORIZONTALS_Y;
+			case UP:
+				return HORIZONTALS_Y;
+			case NORTH:
+				return HORIZONTALS_Z;
+			case SOUTH:
+				return HORIZONTALS_Z;
+			case WEST:
+				return HORIZONTALS_X;
+			case EAST:
+				return HORIZONTALS_X;
+			default:
+				return HORIZONTALS_Y;
 		}
 	}
 	
@@ -145,20 +146,20 @@ public class BlockPosHelper {
 	
 	public static EnumFacing[] getAxialDirs(EnumFacing dir) {
 		switch (dir) {
-		case DOWN:
-			return AXIALS_Y;
-		case UP:
-			return AXIALS_Y;
-		case NORTH:
-			return AXIALS_Z;
-		case SOUTH:
-			return AXIALS_Z;
-		case WEST:
-			return AXIALS_X;
-		case EAST:
-			return AXIALS_X;
-		default:
-			return AXIALS_Y;
+			case DOWN:
+				return AXIALS_Y;
+			case UP:
+				return AXIALS_Y;
+			case NORTH:
+				return AXIALS_Z;
+			case SOUTH:
+				return AXIALS_Z;
+			case WEST:
+				return AXIALS_X;
+			case EAST:
+				return AXIALS_X;
+			default:
+				return AXIALS_Y;
 		}
 	}
 	
@@ -254,10 +255,12 @@ public class BlockPosHelper {
 	public static final EnumFacing.Axis[] AXES = new EnumFacing.Axis[] {EnumFacing.Axis.X, EnumFacing.Axis.Y, EnumFacing.Axis.Z};
 	
 	public static int getAxisIndex(@Nonnull EnumFacing.Axis axis) {
-		return axis == EnumFacing.Axis.X ? 0 : (axis == EnumFacing.Axis.Y ? 1 : 2);
+		return axis == EnumFacing.Axis.X ? 0 : axis == EnumFacing.Axis.Y ? 1 : 2;
 	}
 	
-	//public static final EnumFacing.AxisDirection[] AXISDIRS = new EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE, EnumFacing.AxisDirection.NEGATIVE};
+	// public static final EnumFacing.AxisDirection[] AXISDIRS = new
+	// EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE,
+	// EnumFacing.AxisDirection.NEGATIVE};
 	
 	public static int getAxisDirIndex(@Nonnull EnumFacing.AxisDirection dir) {
 		return dir == EnumFacing.AxisDirection.POSITIVE ? 0 : 1;
@@ -265,7 +268,9 @@ public class BlockPosHelper {
 	
 	public List<BlockPos> cuboid(int x1, int y1, int z1, int x2, int y2, int z2) {
 		List<BlockPos> posList = new ArrayList<>();
-		for(BlockPos pos : BlockPos.getAllInBox(position(x1, y1, z1), position(x2, y2, z2))) posList.add(pos);
+		for (BlockPos pos : BlockPos.getAllInBox(position(x1, y1, z1), position(x2, y2, z2))) {
+			posList.add(pos);
+		}
 		return posList;
 	}
 	
@@ -283,6 +288,8 @@ public class BlockPosHelper {
 		else if (pos1.getZ() == pos2.getZ()) {
 			return new BlockPos[] {new BlockPos(pos2.getX(), pos1.getY(), pos1.getZ()), new BlockPos(pos1.getX(), pos2.getY(), pos1.getZ())};
 		}
-		else return new BlockPos[] {pos1, pos2};
+		else {
+			return new BlockPos[] {pos1, pos2};
+		}
 	}
 }

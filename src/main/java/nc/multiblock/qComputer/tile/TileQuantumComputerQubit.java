@@ -1,13 +1,9 @@
 package nc.multiblock.qComputer.tile;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntCollection;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.*;
 import nc.multiblock.network.QuantumComputerQubitRenderPacket;
-import nc.multiblock.qComputer.QuantumComputer;
-import nc.multiblock.qComputer.QuantumComputerGate;
-import nc.util.Lang;
-import nc.util.NBTHelper;
+import nc.multiblock.qComputer.*;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -51,7 +47,7 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart {
 	
 	public final void queueMeasurement() {
 		if (isMultiblockAssembled()) {
-			getMultiblock().getGateQueue().add(new QuantumComputerGate.Measurement(getMultiblock(), new IntOpenHashSet(new int[] {id})));
+			getMultiblock().getGateQueue().add(new QuantumGate.Measurement(getMultiblock(), new IntOpenHashSet(new int[] {id})));
 		}
 	}
 	

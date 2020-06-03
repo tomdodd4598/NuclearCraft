@@ -1,22 +1,17 @@
 package nc.item;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.quantum_angle_precision;
+
 import nc.tile.IMultitoolLogic;
-import nc.util.Lang;
-import nc.util.NCMath;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 public class ItemMultitool extends NCItem {
 	
@@ -44,7 +39,7 @@ public class ItemMultitool extends NCItem {
 						clearNBT(stack);
 					}
 					
-					boolean multitoolUsed = ((IMultitoolLogic)tile).onUseMultitool(stack, player, world, facing, hitX, hitY, hitZ);
+					boolean multitoolUsed = ((IMultitoolLogic) tile).onUseMultitool(stack, player, world, facing, hitX, hitY, hitZ);
 					nbt.setBoolean("multitoolUsed", multitoolUsed);
 					
 					tile.markDirty();
@@ -67,7 +62,7 @@ public class ItemMultitool extends NCItem {
 		if (!world.isRemote && isMultitool(stack)) {
 			NBTTagCompound nbt = stack.getTagCompound();
 			if (!player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
-				double angle = NCMath.roundTo(player.rotationYaw + 360D, 360D/NCConfig.quantum_angle_precision) % 360D;
+				double angle = NCMath.roundTo(player.rotationYaw + 360D, 360D / quantum_angle_precision) % 360D;
 				nbt.setDouble("gateAngle", angle);
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.tool_set_angle", NCMath.decimalPlaces(angle, 5))));
 				return actionResult(true, stack);
@@ -93,7 +88,7 @@ public class ItemMultitool extends NCItem {
 	
 	@Override
 	public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
-		//return world.getTileEntity(pos) instanceof IMultitoolLogic;
+		// return world.getTileEntity(pos) instanceof IMultitoolLogic;
 		return false;
 	}
 }

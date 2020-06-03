@@ -1,8 +1,6 @@
 package nc.multiblock.gui;
 
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
+import nc.multiblock.*;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 

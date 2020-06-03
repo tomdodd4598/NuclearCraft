@@ -3,11 +3,9 @@ package nc.recipe;
 import java.util.List;
 
 import crafttweaker.annotations.ZenRegister;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
-import nc.util.InfoHelper;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -60,12 +58,12 @@ public class ProcessorRecipe implements IRecipe {
 	public boolean isShapeless() {
 		return isShapeless;
 	}
-
+	
 	@Override
 	public RecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
 		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients, itemInputs, fluidInputs, isShapeless);
 	}
-
+	
 	@Override
 	public RecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs) {
 		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, itemProducts, fluidProducts, itemOutputs, fluidOutputs, isShapeless);
@@ -75,7 +73,7 @@ public class ProcessorRecipe implements IRecipe {
 	public RecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
 		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, this.itemIngredients, this.fluidIngredients, itemIngredients, fluidIngredients, isShapeless);
 	}
-
+	
 	@Override
 	public RecipeMatchResult matchProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
 		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
@@ -86,11 +84,11 @@ public class ProcessorRecipe implements IRecipe {
 	// Processors
 	
 	public double getBaseProcessTime(double defaultProcessTime) {
-		return ((double) extras.get(0))*defaultProcessTime;
+		return (double) extras.get(0) * defaultProcessTime;
 	}
 	
 	public double getBaseProcessPower(double defaultProcessPower) {
-		return ((double) extras.get(1))*defaultProcessPower;
+		return (double) extras.get(1) * defaultProcessPower;
 	}
 	
 	public double getBaseProcessRadiation() {
@@ -248,8 +246,8 @@ public class ProcessorRecipe implements IRecipe {
 	}
 	
 	public String getTurbineParticleEffect() {
-		EnumParticleTypes particle = EnumParticleTypes.getByName((String)extras.get(2));
-		return particle == null ? "cloud" : (String)extras.get(2);
+		EnumParticleTypes particle = EnumParticleTypes.getByName((String) extras.get(2));
+		return particle == null ? "cloud" : (String) extras.get(2);
 	}
 	
 	public double getTurbineParticleSpeedMultiplier() {

@@ -1,32 +1,26 @@
 package nc.multiblock.fission.tile.port;
 
+import static nc.config.NCConfig.smart_processor_input;
 import static nc.util.BlockPosHelper.DEFAULT_NON;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.config.NCConfig;
+import nc.multiblock.fission.tile.port.internal.PortItemHandler;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.InventoryTileWrapper;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
-import nc.tile.inventory.ITileFilteredInventory;
-import nc.tile.inventory.ITileInventory;
+import nc.tile.internal.inventory.*;
+import nc.tile.inventory.*;
 import nc.util.NBTHelper;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.*;
 
 public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT, TARGET> & ITileFilteredInventory, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredInventory> extends TileFissionPort<PORT, TARGET> implements ITileFilteredInventory {
 	
@@ -37,7 +31,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 	
-	protected @Nonnull InventoryTileWrapper invWrapper;
 	public int inventoryStackLimit = 64;
 	
 	protected final ProcessorRecipeHandler recipeHandler;
@@ -45,7 +38,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	public TileFissionItemPort(Class<PORT> portClass, String type, ProcessorRecipeHandler recipeHandler) {
 		super(portClass);
 		inventoryName = Global.MOD_ID + ".container.fission_" + type + "_port";
-		invWrapper = new InventoryTileWrapper(this);
 		this.recipeHandler = recipeHandler;
 	}
 	
@@ -74,10 +66,8 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/*if (!canModifyFilter(slot)) {
-			getMultiblock().getLogic().refreshPorts();
-		}*/
-		getInventory().markDirty();
+		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
+		markDirty();
 	}
 	
 	@Override
@@ -112,10 +102,10 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		ItemStack stack = ITileFilteredInventory.super.decrStackSize(slot, amount);
 		if (!world.isRemote) {
 			if (slot < recipeHandler.getItemInputSize()) {
-				refreshPartsFlag = true;
+				refreshTargetsFlag = true;
 			}
 			else if (slot < recipeHandler.getItemInputSize() + recipeHandler.getItemOutputSize()) {
-				refreshPartsFlag = true;
+				refreshTargetsFlag = true;
 			}
 		}
 		return stack;
@@ -126,22 +116,21 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		ITileFilteredInventory.super.setInventorySlotContents(slot, stack);
 		if (!world.isRemote) {
 			if (slot < recipeHandler.getItemInputSize()) {
-				refreshPartsFlag = true;
+				refreshTargetsFlag = true;
 			}
 			else if (slot < recipeHandler.getItemInputSize() + recipeHandler.getItemOutputSize()) {
-				refreshPartsFlag = true;
+				refreshTargetsFlag = true;
 			}
 		}
 	}
 	
-	/*@Override
-	public void markDirty() {
-		super.markDirty();
-	}*/
+	/* @Override public void markDirty() { super.markDirty(); } */
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack.isEmpty() || slot >= recipeHandler.getItemInputSize()) return false;
+		if (stack.isEmpty() || slot >= recipeHandler.getItemInputSize()) {
+			return false;
+		}
 		ItemStack filter = getFilterStacks().get(slot);
 		if (!filter.isEmpty() && !stack.isItemEqual(filter)) {
 			return false;
@@ -151,12 +140,14 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public boolean isItemValidForSlotInternal(int slot, ItemStack stack) {
-		if (stack.isEmpty() || slot >= recipeHandler.getItemInputSize()) return false;
-		return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+		if (stack.isEmpty() || slot >= recipeHandler.getItemInputSize()) {
+			return false;
+		}
+		return smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
-		List<ItemStack> inputItemsExcludingSlot = new ArrayList<ItemStack>(getInventoryStacks().subList(0, recipeHandler.getItemInputSize()));
+		List<ItemStack> inputItemsExcludingSlot = new ArrayList<>(getInventoryStacks().subList(0, recipeHandler.getItemInputSize()));
 		inputItemsExcludingSlot.remove(slot);
 		return inputItemsExcludingSlot;
 	}
@@ -169,7 +160,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public void clearAllSlots() {
 		ITileFilteredInventory.super.clearAllSlots();
-		refreshPartsFlag = true;
+		refreshTargetsFlag = true;
 	}
 	
 	@Override
@@ -180,11 +171,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public void setInventoryConnections(@Nonnull InventoryConnection[] connections) {
 		inventoryConnections = connections;
-	}
-	
-	@Override
-	public @Nonnull InventoryTileWrapper getInventory() {
-		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventory() : invWrapper;
 	}
 	
 	@Override
@@ -262,15 +248,21 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		}
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandlerCapability(side);
+				return (T) getItemHandler(side);
 			}
 			return null;
 		}
 		return super.getCapability(capability, side);
+	}
+	
+	@Override
+	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
+		ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
 	}
 }

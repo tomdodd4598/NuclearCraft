@@ -1,12 +1,12 @@
 package nc.capability.radiation.entity;
 
+import static nc.config.NCConfig.*;
+
 import nc.Global;
 import nc.capability.ICapability;
 import nc.capability.radiation.IRadiation;
-import nc.config.NCConfig;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.*;
 
 public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
@@ -20,22 +20,22 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	public void setTotalRads(double newTotalRads, boolean useImmunity);
 	
 	public default boolean isTotalRadsNegligible() {
-		return getTotalRads() < NCConfig.radiation_lowest_rate;
+		return getTotalRads() < radiation_lowest_rate;
 	}
 	
 	public double getMaxRads();
 	
 	public default double getRadsPercentage() {
-		return Math.min(100D, 100D*getTotalRads()/getMaxRads());
+		return Math.min(100D, 100D * getTotalRads() / getMaxRads());
 	}
 	
 	public default double getRawRadiationLevel() {
-		return getFullRadiationResistance() > 0D ? 0.5D*(getRadiationLevel() + Math.sqrt(getRadiationLevel()*(getRadiationLevel() + 4D*getFullRadiationResistance()))) : getFullRadiationResistance() < 0D ? getRadiationLevel()/(1D - getFullRadiationResistance()) : getRadiationLevel();
+		return getFullRadiationResistance() > 0D ? 0.5D * (getRadiationLevel() + Math.sqrt(getRadiationLevel() * (getRadiationLevel() + 4D * getFullRadiationResistance()))) : getFullRadiationResistance() < 0D ? getRadiationLevel() / (1D - getFullRadiationResistance()) : getRadiationLevel();
 	}
 	
 	@Override
 	public default boolean isRadiationUndetectable() {
-		return getRawRadiationLevel() < NCConfig.radiation_lowest_rate*NCConfig.max_player_rads;
+		return getRawRadiationLevel() < radiation_lowest_rate * max_player_rads;
 	}
 	
 	public double getInternalRadiationResistance();

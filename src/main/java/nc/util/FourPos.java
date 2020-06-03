@@ -30,14 +30,20 @@ public class FourPos {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (obj == null || getClass() != obj.getClass()) return false;
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
 		
 		FourPos fourPos = (FourPos) obj;
 		
-		if (dim != fourPos.dim) return false;
+		if (dim != fourPos.dim) {
+			return false;
+		}
 		return pos != null ? pos.equals(fourPos.pos) : fourPos.pos == null;
-
+		
 	}
 	
 	@Override

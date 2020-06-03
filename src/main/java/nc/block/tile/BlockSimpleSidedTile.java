@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class BlockSimpleSidedTile extends BlockSidedTile implements ITileType {
 	
 	private final SimpleTileType type;
-
+	
 	public BlockSimpleSidedTile(SimpleTileType type) {
 		super(Material.IRON);
 		this.type = type;

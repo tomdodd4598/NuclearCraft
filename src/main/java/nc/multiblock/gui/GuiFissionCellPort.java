@@ -13,7 +13,7 @@ public class GuiFissionCellPort extends NCGui {
 	
 	protected final TileFissionCellPort port;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiFissionCellPort(EntityPlayer player, TileFissionCellPort port) {
 		super(new ContainerFissionCellPort(player, port));
 		this.port = port;

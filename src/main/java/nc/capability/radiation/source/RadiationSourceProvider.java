@@ -1,12 +1,10 @@
 package nc.capability.radiation.source;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.*;
 
 public class RadiationSourceProvider implements ICapabilitySerializable {
 	
@@ -24,7 +22,9 @@ public class RadiationSourceProvider implements ICapabilitySerializable {
 	
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(radiation);
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(radiation);
+		}
 		return null;
 	}
 	

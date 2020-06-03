@@ -15,7 +15,7 @@ public class TraitWithering extends AbstractTrait {
 	
 	@Override
 	public void afterHit(ItemStack tool, EntityLivingBase player, EntityLivingBase target, float damageDealt, boolean wasCritical, boolean wasHit) {
-		if(wasHit && target.isEntityAlive()) {
+		if (wasHit && target.isEntityAlive()) {
 			target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 81));
 		}
 	}

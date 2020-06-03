@@ -14,7 +14,7 @@ public interface ITileFilteredInventory extends ITileFiltered, ITileInventory {
 	
 	public @Nonnull NonNullList<ItemStack> getFilterStacks();
 	
-	//public ItemStack getFilterStack(int slot);
+	// public ItemStack getFilterStack(int slot);
 	
-	//public ItemStack setFilterStack(int slot, ItemStack stack);
+	// public ItemStack setFilterStack(int slot, ItemStack stack);
 }

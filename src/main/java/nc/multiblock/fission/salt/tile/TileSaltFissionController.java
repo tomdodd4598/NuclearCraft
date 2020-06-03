@@ -6,8 +6,7 @@ import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.block.BlockSaltFissionController;
-import nc.multiblock.fission.tile.IFissionController;
-import nc.multiblock.fission.tile.TileFissionPart;
+import nc.multiblock.fission.tile.*;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -36,8 +35,9 @@ public class TileSaltFissionController extends TileFissionPart implements IFissi
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -48,13 +48,15 @@ public class TileSaltFissionController extends TileFissionPart implements IFissi
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		if (getMultiblock() != null) getMultiblock().updateActivity();
+		if (getMultiblock() != null) {
+			getMultiblock().updateActivity();
+		}
 	}
 	
 	@Override
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockSaltFissionController) {
-			((BlockSaltFissionController)getBlockType()).setState(isActive, this);
+			((BlockSaltFissionController) getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

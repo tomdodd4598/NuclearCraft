@@ -1,43 +1,27 @@
 package nc.block;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Nullable;
 
-import nc.enumm.IBlockMetaEnum;
-import nc.enumm.MetaEnums;
+import nc.enumm.*;
 import nc.tab.NCTabs;
 import nc.tile.ITile;
-import nc.util.CollectionHelper;
-import nc.util.ItemStackHelper;
-import nc.util.NCInventoryHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import nc.util.*;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.properties.*;
+import net.minecraft.block.state.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.*;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends Block implements IBlockMeta {
 	
@@ -140,7 +124,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public String getMetaName(ItemStack stack) {
-		return values[ItemStackHelper.getMetadata(stack)].getName();
+		return values[StackHelper.getMetadata(stack)].getName();
 	}
 	
 	public void setMetaHarvestLevels() {
@@ -207,7 +191,9 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (this instanceof ITileEntityProvider) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof ITile) ((ITile)tile).onBlockNeighborChanged(state, world, pos, fromPos);
+			if (tile instanceof ITile) {
+				((ITile) tile).onBlockNeighborChanged(state, world, pos, fromPos);
+			}
 		}
 	}
 	

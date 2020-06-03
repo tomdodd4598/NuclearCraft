@@ -1,37 +1,8 @@
 package nc.network;
 
-import nc.multiblock.network.ClearAllMaterialPacket;
-import nc.multiblock.network.FissionCellPortUpdatePacket;
-import nc.multiblock.network.FissionHeaterPortUpdatePacket;
-import nc.multiblock.network.FissionIrradiatorPortUpdatePacket;
-import nc.multiblock.network.FissionIrradiatorUpdatePacket;
-import nc.multiblock.network.FissionVesselPortUpdatePacket;
-import nc.multiblock.network.HeatExchangerUpdatePacket;
-import nc.multiblock.network.QuantumComputerQubitRenderPacket;
-import nc.multiblock.network.SaltFissionHeaterUpdatePacket;
-import nc.multiblock.network.SaltFissionUpdatePacket;
-import nc.multiblock.network.SaltFissionVesselUpdatePacket;
-import nc.multiblock.network.SolidFissionCellUpdatePacket;
-import nc.multiblock.network.SolidFissionUpdatePacket;
-import nc.multiblock.network.TurbineRenderPacket;
-import nc.multiblock.network.TurbineUpdatePacket;
+import nc.multiblock.network.*;
 import nc.network.config.ConfigUpdatePacket;
-import nc.network.gui.EmptyFilterTankPacket;
-import nc.network.gui.EmptyTankPacket;
-import nc.network.gui.OpenGuiPacket;
-import nc.network.gui.OpenSideConfigGuiPacket;
-import nc.network.gui.OpenTileGuiPacket;
-import nc.network.gui.ResetItemSorptionsPacket;
-import nc.network.gui.ResetTankSorptionsPacket;
-import nc.network.gui.ToggleAlternateComparatorPacket;
-import nc.network.gui.ToggleInputTanksSeparatedPacket;
-import nc.network.gui.ToggleItemOutputSettingPacket;
-import nc.network.gui.ToggleItemSorptionPacket;
-import nc.network.gui.ToggleRedstoneControlPacket;
-import nc.network.gui.ToggleTankOutputSettingPacket;
-import nc.network.gui.ToggleTankSorptionPacket;
-import nc.network.gui.ToggleVoidExcessFluidOutputPacket;
-import nc.network.gui.ToggleVoidUnusableFluidInputPacket;
+import nc.network.gui.*;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.network.render.BlockHighlightUpdatePacket;
 import nc.network.tile.ProcessorUpdatePacket;
@@ -42,14 +13,14 @@ import net.minecraftforge.fml.relauncher.Side;
 public class PacketHandler {
 	
 	public static SimpleNetworkWrapper instance = null;
-
+	
 	public PacketHandler() {}
-
+	
 	public static void registerMessages(String channelName) {
 		instance = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
 		registerMessages();
 	}
-
+	
 	public static void registerMessages() {
 		// SERVER
 		instance.registerMessage(EmptyTankPacket.Handler.class, EmptyTankPacket.class, nextID(), Side.SERVER);

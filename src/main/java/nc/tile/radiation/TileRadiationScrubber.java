@@ -1,28 +1,22 @@
 package nc.tile.radiation;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import static nc.config.NCConfig.*;
+import static nc.recipe.NCRecipes.*;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.*;
+
+import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
-import nc.config.NCConfig;
 import nc.radiation.RadiationHelper;
-import nc.radiation.environment.RadiationEnvironmentHandler;
-import nc.radiation.environment.RadiationEnvironmentInfo;
-import nc.recipe.NCRecipes;
+import nc.radiation.environment.*;
 import nc.recipe.ProcessorRecipe;
 import nc.tile.generator.TileItemFluidGenerator;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.util.FourPos;
-import nc.util.MaterialHelper;
-import nc.util.NCMath;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -39,26 +33,32 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	private int radCheckCount = 0;
 	
 	public TileRadiationScrubber() {
-		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.radiation_scrubber_valid_fluids, maxPower(), NCRecipes.radiation_scrubber);
+		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), radiation_scrubber_valid_fluids, maxPower(), radiation_scrubber);
 		setEnergyConnectionAll(EnergyConnection.IN);
 	}
 	
 	private static int maxPower() {
 		int max = 0;
-		List<ProcessorRecipe> recipes = NCRecipes.radiation_scrubber.getRecipeList();
+		List<ProcessorRecipe> recipes = radiation_scrubber.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null) continue;
+			if (recipe == null) {
+				continue;
+			}
 			max = Math.max(max, recipe.getScrubberProcessPower());
 		}
-		return 20*max;
+		return 20 * max;
 	}
 	
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		if(!world.isRemote) {
-			for (int x = -searchRadius(); x <= searchRadius(); x++) for (int y = -searchRadius(); y <= searchRadius(); y++) for (int z = -searchRadius(); z <= searchRadius(); z++) {
-				RadiationEnvironmentHandler.addTile(getFourPos().add(x, y, z), this);
+		if (!world.isRemote) {
+			for (int x = -radiation_scrubber_radius; x <= radiation_scrubber_radius; x++) {
+				for (int y = -radiation_scrubber_radius; y <= radiation_scrubber_radius; y++) {
+					for (int z = -radiation_scrubber_radius; z <= radiation_scrubber_radius; z++) {
+						RadiationEnvironmentHandler.addTile(getFourPos().add(x, y, z), this);
+					}
+				}
 			}
 		}
 	}
@@ -66,10 +66,12 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing, shouldUpdate = false;
 			isProcessing = isProcessing();
-			if (isProcessing) process();
+			if (isProcessing) {
+				process();
+			}
 			
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -108,17 +110,20 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 		if (!isProcessing) {
 			return 0D;
 		}
-		double rateMult = currentChunkBuffer + NCConfig.radiation_spread_rate*Math.max(0D, (currentChunkLevel - currentChunkBuffer));
-		if (NCConfig.radiation_scrubber_non_linear) {
+		double rateMult = currentChunkBuffer + radiation_spread_rate * Math.max(0D, currentChunkLevel - currentChunkBuffer);
+		if (radiation_scrubber_non_linear) {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
-			if (chunkSource == null || chunkSource.getEffectiveScrubberCount() == 0D) return 0D;
-			return -rateMult*scrubberFraction*chunkSource.getScrubbingFraction()/chunkSource.getEffectiveScrubberCount();
+			if (chunkSource == null || chunkSource.getEffectiveScrubberCount() == 0D) {
+				return 0D;
+			}
+			return -rateMult * scrubberFraction * chunkSource.getScrubbingFraction() / chunkSource.getEffectiveScrubberCount();
 		}
-		return -rateMult*scrubberFraction;
+		return -rateMult * scrubberFraction;
 	}
 	
 	public void tickRadCount() {
-		radCheckCount++; radCheckCount %= NCConfig.machine_update_rate*20;
+		radCheckCount++;
+		radCheckCount %= machine_update_rate * 20;
 	}
 	
 	public boolean shouldRadCheck() {
@@ -144,14 +149,16 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	}
 	
 	public boolean hasSufficientEnergy() {
-		return getEnergyStored() >= (int)baseProcessPower;
+		return getEnergyStored() >= (int) baseProcessPower;
 	}
 	
 	@Override
 	public void process() {
 		time++;
 		getEnergyStorage().changeEnergyStored((int) -baseProcessPower);
-		if (time >= baseProcessTime) finishProcess();
+		if (time >= baseProcessTime) {
+			finishProcess();
+		}
 	}
 	
 	// IC2 Tiers
@@ -180,20 +187,22 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 			Entry<BlockPos, Integer> occlusion = occlusionIterator.next();
 			
 			if (isOcclusive(pos, world, occlusion.getKey())) {
-				newScrubberFraction -= getOcclusionPenalty()/pos.distanceSq(occlusion.getKey());
+				newScrubberFraction -= getOcclusionPenalty() / pos.distanceSq(occlusion.getKey());
 				occlusionCount++;
 				tileCount += Math.max(1D, Math.sqrt(occlusion.getValue()));
 			}
-			else occlusionIterator.remove();
+			else {
+				occlusionIterator.remove();
+			}
 		}
 		
-		scrubberFraction = efficiency*(occlusionCount == 0 ? getMaxScrubberFraction() : Math.max(0D, (newScrubberFraction*occlusionCount)/tileCount));
+		scrubberFraction = efficiency * (occlusionCount == 0 ? getMaxScrubberFraction() : Math.max(0D, newScrubberFraction * occlusionCount / tileCount));
 	}
 	
 	@Override
 	public void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info) {
 		FourPos fourPos = getFourPos(), infoPos = info.pos;
-		if (fourPos.getDimension() == infoPos.getDimension() && !fourPos.equals(infoPos) && !info.tileMap.isEmpty() /*&& isOcclusive(fourPos.getBlockPos(), world, infoPos.getBlockPos())*/) {
+		if (fourPos.getDimension() == infoPos.getDimension() && !fourPos.equals(infoPos) && !info.tileMap.isEmpty() /* && isOcclusive ( fourPos . getBlockPos ( ) , world, infoPos . getBlockPos ( ) ) */) {
 			occlusionMap.put(infoPos.getBlockPos(), Math.max(1, info.tileMap.size()));
 		}
 	}
@@ -224,15 +233,11 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	}
 	
 	public static double getMaxScrubberFraction() {
-		return NCConfig.radiation_scrubber_non_linear ? 1D : NCConfig.radiation_scrubber_fraction;
+		return radiation_scrubber_non_linear ? 1D : radiation_scrubber_fraction;
 	}
 	
 	private static double getOcclusionPenalty() {
-		return getMaxScrubberFraction()/52D;
-	}
-	
-	private static int searchRadius() {
-		return NCConfig.radiation_scrubber_radius;
+		return getMaxScrubberFraction() / 52D;
 	}
 	
 	// Helper
@@ -240,14 +245,18 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	// All opaque blocks plus translucent full blocks are occlusive
 	private static boolean isOcclusive(BlockPos pos, World world, BlockPos otherPos) {
 		IBlockState state = world.getBlockState(otherPos);
-		return pos.distanceSq(otherPos) < NCMath.sq(searchRadius()) && !MaterialHelper.isEmpty(state.getMaterial()) && (state.isOpaqueCube() || !state.getMaterial().isOpaque());
+		return pos.distanceSq(otherPos) < NCMath.sq(radiation_scrubber_radius) && !MaterialHelper.isEmpty(state.getMaterial()) && (state.isOpaqueCube() || !state.getMaterial().isOpaque());
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (!(obj instanceof TileRadiationScrubber)) return false;
-		return getFourPos().equals(((TileRadiationScrubber)obj).getFourPos());
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof TileRadiationScrubber)) {
+			return false;
+		}
+		return getFourPos().equals(((TileRadiationScrubber) obj).getFourPos());
 	}
 	
 	// NBT
@@ -291,7 +300,9 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 		for (String key : nbt.getKeySet()) {
 			if (key.startsWith("occlusion")) {
 				int[] data = nbt.getIntArray(key);
-				if (data.length < 4) continue;
+				if (data.length < 4) {
+					continue;
+				}
 				occlusionMap.put(new BlockPos(data[1], data[2], data[3]), data[0]);
 			}
 		}
@@ -314,6 +325,6 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEfficiency(Context context, Arguments args) {
-		return new Object[] {Math.abs(100D*getRadiationContributionFraction()/getMaxScrubberFraction())};
+		return new Object[] {Math.abs(100D * getRadiationContributionFraction() / getMaxScrubberFraction())};
 	}
 }

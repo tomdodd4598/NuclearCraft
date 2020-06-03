@@ -5,17 +5,14 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.block.IBlockMeta;
-import nc.util.InfoHelper;
-import nc.util.ItemStackHelper;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class ItemBlockMeta extends ItemBlock {
 	
@@ -50,7 +47,7 @@ public class ItemBlockMeta extends ItemBlock {
 	
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		return getTranslationKey() + "." + ((IBlockMeta)block).getMetaName(stack);
+		return getTranslationKey() + "." + ((IBlockMeta) block).getMetaName(stack);
 	}
 	
 	@Override
@@ -62,13 +59,15 @@ public class ItemBlockMeta extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(stack, world, tooltip, flag);
-		int meta = ItemStackHelper.getMetadata(stack);
-		if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {
-			if (fixedColors.length == 1) {
-				InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo[meta], infoColor, info[meta]);
-			}
-			else {
-				InfoHelper.infoFull(tooltip, fixedColors, fixedInfo[meta], infoColor, info[meta]);
+		int meta = StackHelper.getMetadata(stack);
+		if (info.length != 0 && info.length > meta) {
+			if (info[meta].length > 0) {
+				if (fixedColors.length == 1) {
+					InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo[meta], infoColor, info[meta]);
+				}
+				else {
+					InfoHelper.infoFull(tooltip, fixedColors, fixedInfo[meta], infoColor, info[meta]);
+				}
 			}
 		}
 	}

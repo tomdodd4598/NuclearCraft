@@ -5,7 +5,7 @@ import nc.multiblock.qComputer.tile.TileQuantumComputerGate;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 
-public class QuantumComputerGateEnums {
+public class QuantumGateEnums {
 	
 	public static enum SingleType implements IStringSerializable, IBlockMetaEnum {
 		X("x", 0),
@@ -21,8 +21,8 @@ public class QuantumComputerGateEnums {
 		RY("ry", 10),
 		RZ("rz", 11);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private SingleType(String name, int id) {
 			this.name = name;
@@ -71,33 +71,33 @@ public class QuantumComputerGateEnums {
 		
 		public TileEntity getTile() {
 			switch (this) {
-			case X:
-				return new TileQuantumComputerGate.X();
-			case Y:
-				return new TileQuantumComputerGate.Y();
-			case Z:
-				return new TileQuantumComputerGate.Z();
-			case H:
-				return new TileQuantumComputerGate.H();
-			case S:
-				return new TileQuantumComputerGate.S();
-			case Sdg:
-				return new TileQuantumComputerGate.Sdg();
-			case T:
-				return new TileQuantumComputerGate.T();
-			case Tdg:
-				return new TileQuantumComputerGate.Tdg();
-			case P:
-				return new TileQuantumComputerGate.P();
-			case RX:
-				return new TileQuantumComputerGate.RX();
-			case RY:
-				return new TileQuantumComputerGate.RY();
-			case RZ:
-				return new TileQuantumComputerGate.RZ();
+				case X:
+					return new TileQuantumComputerGate.X();
+				case Y:
+					return new TileQuantumComputerGate.Y();
+				case Z:
+					return new TileQuantumComputerGate.Z();
+				case H:
+					return new TileQuantumComputerGate.H();
+				case S:
+					return new TileQuantumComputerGate.S();
+				case Sdg:
+					return new TileQuantumComputerGate.Sdg();
+				case T:
+					return new TileQuantumComputerGate.T();
+				case Tdg:
+					return new TileQuantumComputerGate.Tdg();
+				case P:
+					return new TileQuantumComputerGate.P();
+				case RX:
+					return new TileQuantumComputerGate.RX();
+				case RY:
+					return new TileQuantumComputerGate.RY();
+				case RZ:
+					return new TileQuantumComputerGate.RZ();
 				
-			default:
-				return null;
+				default:
+					return null;
 			}
 		}
 	}
@@ -116,8 +116,8 @@ public class QuantumComputerGateEnums {
 		CRY("cry", 10),
 		CRZ("crz", 11);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private ControlType(String name, int id) {
 			this.name = name;
@@ -166,33 +166,33 @@ public class QuantumComputerGateEnums {
 		
 		public TileEntity getTile() {
 			switch (this) {
-			case CX:
-				return new TileQuantumComputerGate.CX();
-			case CY:
-				return new TileQuantumComputerGate.CY();
-			case CZ:
-				return new TileQuantumComputerGate.CZ();
-			case CH:
-				return new TileQuantumComputerGate.CH();
-			case CS:
-				return new TileQuantumComputerGate.CS();
-			case CSdg:
-				return new TileQuantumComputerGate.CSdg();
-			case CT:
-				return new TileQuantumComputerGate.CT();
-			case CTdg:
-				return new TileQuantumComputerGate.CTdg();
-			case CP:
-				return new TileQuantumComputerGate.CP();
-			case CRX:
-				return new TileQuantumComputerGate.CRX();
-			case CRY:
-				return new TileQuantumComputerGate.CRY();
-			case CRZ:
-				return new TileQuantumComputerGate.CRZ();
+				case CX:
+					return new TileQuantumComputerGate.CX();
+				case CY:
+					return new TileQuantumComputerGate.CY();
+				case CZ:
+					return new TileQuantumComputerGate.CZ();
+				case CH:
+					return new TileQuantumComputerGate.CH();
+				case CS:
+					return new TileQuantumComputerGate.CS();
+				case CSdg:
+					return new TileQuantumComputerGate.CSdg();
+				case CT:
+					return new TileQuantumComputerGate.CT();
+				case CTdg:
+					return new TileQuantumComputerGate.CTdg();
+				case CP:
+					return new TileQuantumComputerGate.CP();
+				case CRX:
+					return new TileQuantumComputerGate.CRX();
+				case CRY:
+					return new TileQuantumComputerGate.CRY();
+				case CRZ:
+					return new TileQuantumComputerGate.CRZ();
 				
-			default:
-				return null;
+				default:
+					return null;
 			}
 		}
 	}
@@ -201,8 +201,8 @@ public class QuantumComputerGateEnums {
 		SWAP("swap", 0),
 		CSWAP("cswap", 1);
 		
-		private String name;
-		private int id;
+		private final String name;
+		private final int id;
 		
 		private SwapType(String name, int id) {
 			this.name = name;
@@ -251,13 +251,13 @@ public class QuantumComputerGateEnums {
 		
 		public TileEntity getTile() {
 			switch (this) {
-			case SWAP:
-				return new TileQuantumComputerGate.Swap();
-			case CSWAP:
-				return new TileQuantumComputerGate.ControlSwap();
+				case SWAP:
+					return new TileQuantumComputerGate.Swap();
+				case CSWAP:
+					return new TileQuantumComputerGate.ControlSwap();
 				
-			default:
-				return null;
+				default:
+					return null;
 			}
 		}
 	}

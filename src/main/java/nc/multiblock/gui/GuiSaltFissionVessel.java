@@ -6,17 +6,13 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.gui.NCGui;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
+import nc.gui.element.*;
 import nc.multiblock.container.ContainerSaltFissionVessel;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyFilterTankPacket;
-import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.*;
 import nc.tile.internal.fluid.Tank;
-import nc.util.Lang;
-import nc.util.NCUtil;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +23,7 @@ public class GuiSaltFissionVessel extends NCGui {
 	
 	protected final TileSaltFissionVessel vessel;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiSaltFissionVessel(EntityPlayer player, TileSaltFissionVessel vessel) {
 		super(new ContainerSaltFissionVessel(player, vessel));
 		this.vessel = vessel;
@@ -71,10 +67,12 @@ public class GuiSaltFissionVessel extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		
 		if (vessel.clusterHeatCapacity >= 0L) {
-			int e = (int) Math.round(74D*vessel.clusterHeatStored/vessel.clusterHeatCapacity);
+			int e = (int) Math.round(74D * vessel.clusterHeatStored / vessel.clusterHeatCapacity);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
-		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		else {
+			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		}
 		
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
 		
@@ -83,7 +81,7 @@ public class GuiSaltFissionVessel extends NCGui {
 	}
 	
 	protected int getCookProgressScaled(int pixels) {
-		if (vessel.baseProcessTime/vessel.getSpeedMultiplier() < 4D) {
+		if (vessel.baseProcessTime / vessel.getSpeedMultiplier() < 4D) {
 			return vessel.isProcessing ? pixels : 0;
 		}
 		double i = vessel.time, j = vessel.baseProcessTime;
@@ -104,9 +102,11 @@ public class GuiSaltFissionVessel extends NCGui {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (vessel.getWorld().isRemote) {
-			for (int i = 0; i < 2; i++) if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(vessel.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(vessel, i) : new EmptyTankPacket(vessel, i));
-				return;
+			for (int i = 0; i < 2; i++) {
+				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
+					PacketHandler.instance.sendToServer(vessel.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(vessel, i) : new EmptyTankPacket(vessel, i));
+					return;
+				}
 			}
 		}
 	}

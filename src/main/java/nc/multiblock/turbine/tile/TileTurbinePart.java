@@ -1,7 +1,6 @@
 package nc.multiblock.turbine.tile;
 
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.TileCuboidalMultiblockPart;
+import nc.multiblock.cuboidal.*;
 import nc.multiblock.turbine.Turbine;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -19,7 +18,9 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 	}
 	
 	public void setIsTurbineOn() {
-		if (getMultiblock() != null) isTurbineOn = getMultiblock().isTurbineOn;
+		if (getMultiblock() != null) {
+			isTurbineOn = getMultiblock().isTurbineOn;
+		}
 	}
 	
 	// NBT

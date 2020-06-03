@@ -1,27 +1,18 @@
 package nc.multiblock.rtg.tile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static nc.config.NCConfig.*;
+
+import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergyEmitter;
-import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.*;
 import nc.ModCheck;
-import nc.config.NCConfig;
-import nc.multiblock.rtg.RTGMultiblock;
-import nc.multiblock.rtg.RTGType;
+import nc.multiblock.rtg.*;
 import nc.multiblock.tile.TileMultiblockPart;
-import nc.tile.energy.IEnergySpread;
-import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
-import nc.util.EnergyHelper;
-import nc.util.NCMath;
+import nc.tile.energy.*;
+import nc.tile.internal.energy.*;
+import nc.util.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -32,28 +23,28 @@ import net.minecraftforge.fml.common.Optional;
 public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnergySpread, IEnergySink, IEnergySource {
 	
 	public static class Uranium extends TileRTG {
-
+		
 		public Uranium() {
 			super(RTGType.URANIUM);
 		}
 	}
 	
 	public static class Plutonium extends TileRTG {
-
+		
 		public Plutonium() {
 			super(RTGType.PLUTONIUM);
 		}
 	}
 	
 	public static class Americium extends TileRTG {
-
+		
 		public Americium() {
 			super(RTGType.AMERICIUM);
 		}
 	}
 	
 	public static class Californium extends TileRTG {
-
+		
 		public Californium() {
 			super(RTGType.CALIFORNIUM);
 		}
@@ -61,11 +52,11 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	
 	private final EnergyStorage backupStorage = new EnergyStorage(1);
 	
-	private @Nonnull EnergyConnection[] energyConnections;
+	private @Nonnull final EnergyConnection[] energyConnections;
 	private boolean[] ignoreSide = new boolean[] {false, false, false, false, false, false};
 	
-	private @Nonnull EnergyTileWrapper[] energySides;
-	private @Nonnull EnergyTileWrapperGT[] energySidesGT;
+	private @Nonnull final EnergyTileWrapper[] energySides;
+	private @Nonnull final EnergyTileWrapperGT[] energySidesGT;
 	
 	private boolean ic2reg = false;
 	
@@ -91,13 +82,14 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	@Override
 	public void onMachineAssembled(RTGMultiblock controller) {
 		doStandardNullControllerResponse(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -108,13 +100,15 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		if (ModCheck.ic2Loaded()) addTileToENet();
+		if (ModCheck.ic2Loaded()) {
+			addTileToENet();
+		}
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			pushEnergy();
 		}
 	}
@@ -135,13 +129,17 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 	}
 	
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 	}
 	
 	@Override
@@ -153,12 +151,12 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	public EnergyConnection[] getEnergyConnections() {
 		return energyConnections;
 	}
-
+	
 	@Override
 	public @Nonnull EnergyTileWrapper[] getEnergySides() {
 		return energySides;
 	}
-
+	
 	@Override
 	public @Nonnull EnergyTileWrapperGT[] getEnergySidesGT() {
 		return energySidesGT;
@@ -181,28 +179,28 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double)NCConfig.rf_per_eu);
+		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double)NCConfig.rf_per_eu);
+		return Math.min(Math.pow(2, 2 * getSinkTier() + 3), (double) getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
 	}
 	
 	/* The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (NCConfig.rf_per_eu * amount), false);
+		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) (NCConfig.rf_per_eu * amount), true);
+		int energyReceived = getEnergyStorage().receiveEnergy((int) (rf_per_eu * amount), true);
 		getEnergyStorage().receiveEnergy(energyReceived, false);
-		return amount - (double)energyReceived/(double)NCConfig.rf_per_eu;
+		return amount - (double) energyReceived / (double) rf_per_eu;
 	}
 	
 	@Override
@@ -265,7 +263,9 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 		super.readAll(nbt);
 		readEnergyConnections(nbt);
 		boolean[] arr = NCMath.bytesToBooleans(nbt.getByteArray("ignoreSide"));
-		if (arr.length == 6) ignoreSide = arr;
+		if (arr.length == 6) {
+			ignoreSide = arr;
+		}
 	}
 	
 	@Override
@@ -277,7 +277,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (!ignoreSide(side) && (capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER))) {
+		if (!ignoreSide(side) && (capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
 			return hasEnergySideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -293,7 +293,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 				return null;
 			}
 			else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
-				if (NCConfig.enable_gtce_eu && hasEnergySideCapability(side)) {
+				if (enable_gtce_eu && hasEnergySideCapability(side)) {
 					return (T) getEnergySideGT(nonNullSide(side));
 				}
 				return null;

@@ -3,19 +3,12 @@ package nc.gui.processor;
 import java.io.IOException;
 
 import nc.container.ContainerTile;
-import nc.container.processor.ContainerChemicalReactor;
-import nc.container.processor.ContainerMachineConfig;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
-import nc.gui.element.NCToggleButton;
+import nc.container.processor.*;
+import nc.gui.element.*;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyTankPacket;
-import nc.network.gui.OpenSideConfigGuiPacket;
-import nc.network.gui.OpenTileGuiPacket;
-import nc.network.gui.ToggleRedstoneControlPacket;
+import nc.network.gui.*;
 import nc.tile.processor.TileFluidProcessor;
-import nc.util.Lang;
-import nc.util.NCUtil;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
@@ -54,10 +47,12 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		if (tile.defaultProcessPower != 0) {
-			int e = (int) Math.round(74D*tile.getEnergyStorage().getEnergyStored()/tile.getEnergyStorage().getMaxEnergyStored());
+			int e = (int) Math.round(74D * tile.getEnergyStorage().getEnergyStored() / tile.getEnergyStorage().getMaxEnergyStored());
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
-		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFFC6C6C6, 0xFF8B8B8B);
+		else {
+			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFFC6C6C6, 0xFF8B8B8B);
+		}
 		
 		drawTexturedModalRect(guiLeft + 70, guiTop + 34, 176, 3, getCookProgressScaled(37), 18);
 		
@@ -92,9 +87,11 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
-			for (int i = 0; i < 4; i++) if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
-				return;
+			for (int i = 0; i < 4; i++) {
+				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
+					PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
+					return;
+				}
 			}
 			if (guiButton.id == 4) {
 				PacketHandler.instance.sendToServer(new OpenSideConfigGuiPacket(tile));
@@ -117,7 +114,9 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 			if (isEscapeKeyDown(keyCode)) {
 				PacketHandler.instance.sendToServer(new OpenTileGuiPacket(tile));
 			}
-			else super.keyTyped(typedChar, keyCode);
+			else {
+				super.keyTyped(typedChar, keyCode);
+			}
 		}
 		
 		@Override

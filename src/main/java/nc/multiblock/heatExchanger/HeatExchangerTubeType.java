@@ -1,11 +1,11 @@
 package nc.multiblock.heatExchanger;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.heat_exchanger_conductivity;
 
 public enum HeatExchangerTubeType {
-	COPPER("copper", NCConfig.heat_exchanger_conductivity[0]),
-	HARD_CARBON("hard_carbon", NCConfig.heat_exchanger_conductivity[1]),
-	THERMOCONDUCTING("thermoconducting", NCConfig.heat_exchanger_conductivity[2]);
+	COPPER("copper", heat_exchanger_conductivity[0]),
+	HARD_CARBON("hard_carbon", heat_exchanger_conductivity[1]),
+	THERMOCONDUCTING("thermoconducting", heat_exchanger_conductivity[2]);
 	
 	private String name;
 	private double conductivity;

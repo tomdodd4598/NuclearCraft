@@ -1,7 +1,6 @@
 package nc.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -19,8 +18,7 @@ public class RecipeTupleGenerator {
 	public void generateMaterialListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
 		do {
 			generateNextMaterialListTuple(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
-		}
-		while (!itemEnd || !fluidEnd);
+		} while (!itemEnd || !fluidEnd);
 	}
 	
 	private void generateNextMaterialListTuple(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
@@ -51,7 +49,9 @@ public class RecipeTupleGenerator {
 				}
 				else {
 					inputNumbers[i] = 0;
-					if (i == itemInputSize - 1) itemEnd = true;
+					if (i == itemInputSize - 1) {
+						itemEnd = true;
+					}
 				}
 			}
 		}
@@ -68,7 +68,9 @@ public class RecipeTupleGenerator {
 				}
 				else {
 					inputNumbers[i + itemInputSize] = 0;
-					if (i == fluidInputSize - 1) fluidEnd = true;
+					if (i == fluidInputSize - 1) {
+						fluidEnd = true;
+					}
 				}
 			}
 		}

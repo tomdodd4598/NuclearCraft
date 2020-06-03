@@ -1,15 +1,14 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.processor_time;
+
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
 import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.NCMath;
-import nc.util.OreDictHelper;
+import nc.util.*;
 
 public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	
@@ -62,12 +61,14 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	
 	public void addDecayRecipes(String input, String output, double radiation) {
 		String inputName = (OreDictHelper.oreExists("ingot" + input) ? "ingot" : "dust") + input;
-		double timeMult = NCMath.roundTo(Z*(radiation >= 1D ? F/Math.log1p(Math.log1p(radiation)) : Math.log1p(Math.log1p(1D/radiation))/F), 5D/NCConfig.processor_time[2]);
+		double timeMult = NCMath.roundTo(Z * (radiation >= 1D ? F / Math.log1p(Math.log1p(radiation)) : Math.log1p(Math.log1p(1D / radiation)) / F), 5D / processor_time[2]);
 		if (DUSTS.contains(output)) {
 			addRecipe(Lists.newArrayList(inputName, inputName + "Oxide", inputName + "Nitride"), "dust" + output, timeMult, 1D, radiation);
 		}
-		else for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
-			addRecipe(inputName + type, "ingot" + output + type, timeMult, 1D, radiation);
+		else {
+			for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
+				addRecipe(inputName + type, "ingot" + output + type, timeMult, 1D, radiation);
+			}
 		}
 	}
 	

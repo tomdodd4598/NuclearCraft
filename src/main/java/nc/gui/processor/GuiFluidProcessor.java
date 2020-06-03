@@ -10,9 +10,7 @@ import nc.gui.element.GuiItemRenderer;
 import nc.init.NCItems;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.processor.TileFluidProcessor;
-import nc.util.Lang;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,14 +24,14 @@ public abstract class GuiFluidProcessor extends NCGui {
 	protected final TileFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
 	protected GuiItemRenderer speedUpgradeRender = null, energyUpgradeRender = null;
-
+	
 	public GuiFluidProcessor(String name, EntityPlayer player, TileFluidProcessor tile, Container inventory) {
 		super(inventory);
 		this.player = player;
 		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
 	}
-
+	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = tile.getDisplayName().getUnformattedText();
@@ -48,7 +46,7 @@ public abstract class GuiFluidProcessor extends NCGui {
 	}
 	
 	protected int getCookProgressScaled(int pixels) {
-		if (tile.baseProcessTime/tile.getSpeedMultiplier() < 4D) {
+		if (tile.baseProcessTime / tile.getSpeedMultiplier() < 4D) {
 			return tile.isProcessing ? pixels : 0;
 		}
 		double i = tile.time, j = tile.baseProcessTime;
@@ -57,17 +55,19 @@ public abstract class GuiFluidProcessor extends NCGui {
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
-		/*if (tile.getWorld().isRemote) {
-			if (guiButton != null) if (guiButton instanceof NCButton) {
-				
-			}
-		}*/
+		/* if (tile.getWorld().isRemote) { if (guiButton != null) if (guiButton instanceof NCButton) {
+		 * 
+		 * } } */
 	}
 	
 	@Override
 	public void drawEnergyTooltip(ITileEnergy tile, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if (this.tile.defaultProcessPower != 0) super.drawEnergyTooltip(tile, mouseX, mouseY, x, y, width, height);
-		else drawNoEnergyTooltip(mouseX, mouseY, x, y, width, height);
+		if (this.tile.defaultProcessPower != 0) {
+			super.drawEnergyTooltip(tile, mouseX, mouseY, x, y, width, height);
+		}
+		else {
+			drawNoEnergyTooltip(mouseX, mouseY, x, y, width, height);
+		}
 	}
 	
 	@Override

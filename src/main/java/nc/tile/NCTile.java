@@ -3,8 +3,7 @@ package nc.tile;
 import javax.annotation.Nullable;
 
 import nc.block.tile.IActivatable;
-import nc.capability.radiation.source.IRadiationSource;
-import nc.capability.radiation.source.RadiationSource;
+import nc.capability.radiation.source.*;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -12,23 +11,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public boolean isAdded = false, isMarkedDirty = false;
 	private boolean isRedstonePowered = false, alternateComparator = false, redstoneControl = false;
 	
-	private IRadiationSource radiation;
+	private final IRadiationSource radiation;
 	
 	public NCTile() {
 		super();
@@ -57,6 +53,11 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	@Override
+	public TileEntity thisTile() {
+		return this;
+	}
+	
+	@Override
 	public World getTileWorld() {
 		return world;
 	}
@@ -70,7 +71,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	public Block getTileBlockType() {
 		return getBlockType();
 	}
-
+	
 	@Override
 	public int getTileBlockMeta() {
 		return getBlockMetadata();
@@ -91,10 +92,11 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		return oldState.getBlock() != newState.getBlock();
 	}
 	
+	/** Override this if your block does not implement IActivatable! */
 	@Override
 	public void setState(boolean isActive, TileEntity tile) {
 		if (getBlockType() instanceof IActivatable) {
-			((IActivatable)getBlockType()).setState(isActive, tile);
+			((IActivatable) getBlockType()).setState(isActive, tile);
 		}
 	}
 	
@@ -150,7 +152,9 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	public void readRadiation(NBTTagCompound nbt) {
-		if (nbt.hasKey("radiationLevel")) getRadiationSource().setRadiationLevel(nbt.getDouble("radiationLevel"));
+		if (nbt.hasKey("radiationLevel")) {
+			getRadiationSource().setRadiationLevel(nbt.getDouble("radiationLevel"));
+		}
 	}
 	
 	@Override
@@ -164,7 +168,9 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		nbt.setBoolean("isRedstonePowered", isRedstonePowered);
 		nbt.setBoolean("alternateComparator", alternateComparator);
 		nbt.setBoolean("redstoneControl", redstoneControl);
-		if (shouldSaveRadiation()) writeRadiation(nbt);
+		if (shouldSaveRadiation()) {
+			writeRadiation(nbt);
+		}
 		return nbt;
 	}
 	
@@ -178,14 +184,12 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		isRedstonePowered = nbt.getBoolean("isRedstonePowered");
 		alternateComparator = nbt.getBoolean("alternateComparator");
 		redstoneControl = nbt.getBoolean("redstoneControl");
-		if (shouldSaveRadiation()) readRadiation(nbt);
+		if (shouldSaveRadiation()) {
+			readRadiation(nbt);
+		}
 	}
 	
-	/*public NBTTagCompound getTileData() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return nbt;
-	}*/
+	/* public NBTTagCompound getTileData() { NBTTagCompound nbt = new NBTTagCompound(); writeToNBT(nbt); return nbt; } */
 	
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
@@ -194,19 +198,19 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		int metadata = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, metadata, nbt);
 	}
-
+	
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
-
+	
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		return nbt;
 	}
-
+	
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
@@ -243,6 +247,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
-		return NCMath.sq(0.92D*16D*FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
+		return NCMath.sq(0.92D * 16D * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
 	}
 }

@@ -1,16 +1,15 @@
 package nc.radiation;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.*;
+
+import java.util.*;
 import java.util.stream.IntStream;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
-import nc.config.NCConfig;
 import nc.util.PotionHelper;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.*;
 
 public class RadPotionEffects {
 	
@@ -24,9 +23,9 @@ public class RadPotionEffects {
 	public static final List<List<PotionEffect>> MOB_EFFECTS_LIST = new ArrayList<>();
 	
 	public static void init() {
-		parseEffects(NCConfig.radiation_player_debuff_lists, PLAYER_RAD_LEVEL_LIST, PLAYER_DEBUFF_LIST, Math.max(NCConfig.radiation_player_tick_rate, 19));
-		parseEffects(NCConfig.radiation_passive_debuff_lists, ENTITY_RAD_LEVEL_LIST, ENTITY_DEBUFF_LIST, Math.max(100/NCConfig.radiation_world_chunks_per_tick, 39));
-		parseEffects(NCConfig.radiation_mob_buff_lists, MOB_RAD_LEVEL_LIST, MOB_EFFECTS_LIST, Math.max(100/NCConfig.radiation_world_chunks_per_tick, 39));
+		parseEffects(radiation_player_debuff_lists, PLAYER_RAD_LEVEL_LIST, PLAYER_DEBUFF_LIST, Math.max(radiation_player_tick_rate, 19));
+		parseEffects(radiation_passive_debuff_lists, ENTITY_RAD_LEVEL_LIST, ENTITY_DEBUFF_LIST, Math.max(100 / radiation_world_chunks_per_tick, 39));
+		parseEffects(radiation_mob_buff_lists, MOB_RAD_LEVEL_LIST, MOB_EFFECTS_LIST, Math.max(100 / radiation_world_chunks_per_tick, 39));
 	}
 	
 	private static void parseEffects(String[] effectsArray, List<Double> radLevelList, List<List<PotionEffect>> potionList, int effectTime) {
@@ -63,8 +62,7 @@ public class RadPotionEffects {
 				if (potion != null) {
 					effectList.add(PotionHelper.newEffect(potion, strength, modifiedTime));
 				}
-			}
-			while (puncPos != -1);
+			} while (puncPos != -1);
 			
 			if (!effectList.isEmpty()) {
 				radLevelListUnordered.add(health);
@@ -98,6 +96,8 @@ public class RadPotionEffects {
 		else if (potionName.equals("blindness") || potionName.equals("minecraft:blindness")) {
 			return effectTime + 25;
 		}
-		else return effectTime;
+		else {
+			return effectTime;
+		}
 	}
 }

@@ -4,14 +4,10 @@ package nc.util;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
+import net.minecraft.nbt.*;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureData;
 
@@ -46,7 +42,8 @@ public class StructureHelper {
 		}
 		if (structureCache.containsKey(entry)) {
 			return true;
-		} else {
+		}
+		else {
 			structureCache.put(entry, false);
 			return false;
 		}
@@ -73,7 +70,9 @@ public class StructureHelper {
 	}
 	
 	public static class StructureCacheEntry {
-		@Nonnull private final String structure;
+		
+		@Nonnull
+		private final String structure;
 		private final int dimension;
 		private final long chunkpos;
 		
@@ -98,14 +97,24 @@ public class StructureHelper {
 		
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
 			
 			StructureCacheEntry that = (StructureCacheEntry) o;
 			
-			if (dimension != that.dimension) return false;
-			if (chunkpos != that.chunkpos) return false;
-			if (!structure.equals(that.structure)) return false;
+			if (dimension != that.dimension) {
+				return false;
+			}
+			if (chunkpos != that.chunkpos) {
+				return false;
+			}
+			if (!structure.equals(that.structure)) {
+				return false;
+			}
 			
 			return true;
 		}
@@ -114,7 +123,7 @@ public class StructureHelper {
 		public int hashCode() {
 			int result = structure.hashCode();
 			result = 31 * result + dimension;
-			result = 31 * result + (int) (chunkpos ^ (chunkpos >>> 32));
+			result = 31 * result + (int) (chunkpos ^ chunkpos >>> 32);
 			return result;
 		}
 	}

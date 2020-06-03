@@ -1,25 +1,17 @@
 package nc.multiblock.heatExchanger;
 
+import static nc.config.NCConfig.*;
+
 import java.lang.reflect.Constructor;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
-import nc.config.NCConfig;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
+import nc.multiblock.*;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.multiblock.heatExchanger.tile.IHeatExchangerController;
-import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
-import nc.multiblock.heatExchanger.tile.TileCondenserTube;
-import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
-import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
-import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
+import nc.multiblock.heatExchanger.tile.*;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -59,7 +51,9 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	
 	@Override
 	public void setLogic(String logicID) {
-		if (logicID.equals(logic.getID())) return;
+		if (logicID.equals(logic.getID())) {
+			return;
+		}
 		logic = getNewLogic(LOGIC_MAP.get(logicID));
 	}
 	
@@ -90,12 +84,12 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	
 	@Override
 	protected int getMinimumInteriorLength() {
-		return NCConfig.heat_exchanger_min_size;
+		return heat_exchanger_min_size;
 	}
 	
 	@Override
 	protected int getMaximumInteriorLength() {
-		return NCConfig.heat_exchanger_max_size;
+		return heat_exchanger_max_size;
 	}
 	
 	@Override
@@ -112,22 +106,38 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	
 	@Override
 	protected void onBlockAdded(ITileMultiblockPart newPart) {
-		if (newPart instanceof IHeatExchangerController) controllers.add((IHeatExchangerController) newPart);
-		if (newPart instanceof TileHeatExchangerVent) vents.add((TileHeatExchangerVent) newPart);
-		if (newPart instanceof TileHeatExchangerTube) tubes.add((TileHeatExchangerTube) newPart);
-		if (newPart instanceof TileCondenserTube) condenserTubes.add((TileCondenserTube) newPart);
+		if (newPart instanceof IHeatExchangerController) {
+			controllers.add((IHeatExchangerController) newPart);
+		}
+		if (newPart instanceof TileHeatExchangerVent) {
+			vents.add((TileHeatExchangerVent) newPart);
+		}
+		if (newPart instanceof TileHeatExchangerTube) {
+			tubes.add((TileHeatExchangerTube) newPart);
+		}
+		if (newPart instanceof TileCondenserTube) {
+			condenserTubes.add((TileCondenserTube) newPart);
+		}
 	}
 	
 	@Override
 	protected void onBlockRemoved(ITileMultiblockPart oldPart) {
-		if (oldPart instanceof IHeatExchangerController) controllers.remove(oldPart);
-		if (oldPart instanceof TileHeatExchangerVent) vents.remove(oldPart);
-		if (oldPart instanceof TileHeatExchangerTube) tubes.remove(oldPart);
-		if (oldPart instanceof TileCondenserTube) condenserTubes.remove(oldPart);
+		if (oldPart instanceof IHeatExchangerController) {
+			controllers.remove(oldPart);
+		}
+		if (oldPart instanceof TileHeatExchangerVent) {
+			vents.remove(oldPart);
+		}
+		if (oldPart instanceof TileHeatExchangerTube) {
+			tubes.remove(oldPart);
+		}
+		if (oldPart instanceof TileCondenserTube) {
+			condenserTubes.remove(oldPart);
+		}
 	}
 	
 	@Override
-	protected void onMachineAssembled(boolean wasAssembled) {
+	protected void onMachineAssembled() {
 		onHeatExchangerFormed();
 	}
 	
@@ -137,12 +147,18 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	protected void onHeatExchangerFormed() {
-		for (IHeatExchangerController contr : controllers) controller = contr;
+		for (IHeatExchangerController contr : controllers) {
+			controller = contr;
+		}
 		setIsHeatExchangerOn();
 		
 		if (!WORLD.isRemote) {
-			for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
-			for (TileCondenserTube condenserTube : condenserTubes) condenserTube.updateAdjacentTemperatures();
+			for (TileHeatExchangerTube tube : tubes) {
+				tube.updateFlowDir();
+			}
+			for (TileCondenserTube condenserTube : condenserTubes) {
+				condenserTube.updateAdjacentTemperatures();
+			}
 			
 			updateHeatExchangerStats();
 		}
@@ -156,7 +172,9 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	@Override
 	protected void onMachineDisassembled() {
 		isHeatExchangerOn = false;
-		if (controller != null) controller.updateBlockState(false);
+		if (controller != null) {
+			controller.updateBlockState(false);
+		}
 		fractionOfTubesActive = efficiency = maxEfficiency = 0D;
 	}
 	
@@ -192,7 +210,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	@Override
 	protected boolean updateServer() {
 		boolean flag = false;
-		//setIsHeatExchangerOn();
+		// setIsHeatExchangerOn();
 		updateHeatExchangerStats();
 		if (logic.onUpdateServer()) {
 			flag = true;
@@ -215,7 +233,9 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	protected boolean isRedstonePowered() {
-		if (controller != null && controller.checkIsRedstonePowered(WORLD, controller.getTilePos())) return true;
+		if (controller != null && controller.checkIsRedstonePowered(WORLD, controller.getTilePos())) {
+			return true;
+		}
 		return false;
 	}
 	
@@ -229,21 +249,25 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 		
 		for (TileHeatExchangerTube tube : tubes) {
 			int[] eff = tube.checkPosition();
-			if (eff[0] > 0) activeCount++;
+			if (eff[0] > 0) {
+				activeCount++;
+			}
 			efficiencyCount += eff[0];
 			maxEfficiencyCount += eff[1];
 		}
 		
 		for (TileCondenserTube condenserTube : condenserTubes) {
 			int eff = condenserTube.checkPosition();
-			if (eff > 0) activeCount++;
+			if (eff > 0) {
+				activeCount++;
+			}
 			efficiencyCount += eff;
 			maxEfficiencyCount += eff;
 		}
 		
-		fractionOfTubesActive = (double)activeCount/numberOfTubes;
-		efficiency = activeCount == 0 ? 0D : (double)efficiencyCount/activeCount;
-		maxEfficiency = (double)maxEfficiencyCount/numberOfTubes;
+		fractionOfTubesActive = (double) activeCount / numberOfTubes;
+		efficiency = activeCount == 0 ? 0D : (double) efficiencyCount / activeCount;
+		maxEfficiency = (double) maxEfficiencyCount / numberOfTubes;
 	}
 	
 	// Client
@@ -293,7 +317,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	public Container getContainer(EntityPlayer player) {
-		return new ContainerHeatExchangerController(player, (TileHeatExchangerController)controller);
+		return new ContainerHeatExchangerController(player, (TileHeatExchangerController) controller);
 	}
 	
 	@Override

@@ -2,22 +2,16 @@
 
 package nc.gui.element;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.*;
 
 public class GuiFluidRenderer {
 	
@@ -51,7 +45,9 @@ public class GuiFluidRenderer {
 	
 	/** Alpha is a byte! */
 	public static void renderGuiTank(FluidTank tank, double x, double y, double zLevel, double width, double height, int alpha) {
-		if (tank == null || tank.getFluid() == null) return;
+		if (tank == null || tank.getFluid() == null) {
+			return;
+		}
 		renderGuiTank(tank.getFluid(), tank.getCapacity(), tank.getFluidAmount(), x, y, zLevel, width, height, alpha);
 	}
 	

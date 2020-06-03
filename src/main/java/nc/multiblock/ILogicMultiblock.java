@@ -17,7 +17,8 @@ public interface ILogicMultiblock<LOGIC extends MultiblockLogic, T extends ITile
 	public default @Nonnull LOGIC getNewLogic(Constructor<? extends LOGIC> constructor) {
 		try {
 			return constructor.newInstance(getLogic());
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return getLogic();

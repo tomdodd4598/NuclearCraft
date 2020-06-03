@@ -37,9 +37,13 @@ public class FissionVesselPortUpdatePacket extends FissionPortUpdatePacket {
 	public void writeMessage(ByteBuf buf) {
 		super.writeMessage(buf);
 		buf.writeByte(tanksInfo.size());
-		for (TankInfo info : tanksInfo) info.writeBuf(buf);
+		for (TankInfo info : tanksInfo) {
+			info.writeBuf(buf);
+		}
 		buf.writeByte(filterTanksInfo.size());
-		for (TankInfo info : filterTanksInfo) info.writeBuf(buf);
+		for (TankInfo info : filterTanksInfo) {
+			info.writeBuf(buf);
+		}
 	}
 	
 	public static class Handler extends TileUpdatePacket.Handler<FissionVesselPortUpdatePacket, ITileGui> {

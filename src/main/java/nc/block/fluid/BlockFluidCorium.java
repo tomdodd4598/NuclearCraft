@@ -6,8 +6,7 @@ import javax.annotation.Nonnull;
 
 import nc.capability.radiation.source.IRadiationSource;
 import nc.fluid.FluidCorium;
-import nc.radiation.RadSources;
-import nc.radiation.RadiationHelper;
+import nc.radiation.*;
 import nc.util.DamageSources;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -33,7 +32,7 @@ public class BlockFluidCorium extends BlockFluidFission {
 		if (chunk.isLoaded()) {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
 			if (chunkSource != null) {
-				RadiationHelper.addToSourceRadiation(chunkSource, RadSources.CORIUM*getQuantaValue(world, pos));
+				RadiationHelper.addToSourceRadiation(chunkSource, RadSources.CORIUM * getQuantaValue(world, pos));
 			}
 		}
 		super.updateTick(world, pos, state, rand);

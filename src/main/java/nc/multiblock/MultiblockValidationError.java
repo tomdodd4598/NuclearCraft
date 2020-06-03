@@ -2,8 +2,7 @@ package nc.multiblock;
 
 import nc.Global;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
 public class MultiblockValidationError {
@@ -11,8 +10,8 @@ public class MultiblockValidationError {
 	public static final MultiblockValidationError VALIDATION_ERROR_TOO_FEW_PARTS = new MultiblockValidationError("zerocore.api.nc.multiblock.validation.too_few_parts", null);
 	
 	public MultiblockValidationError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters) {
-		this._resourceKey = messageFormatStringResourceKey;
-		this._parameters = messageParameters;
+		_resourceKey = messageFormatStringResourceKey;
+		_parameters = messageParameters;
 		this.pos = pos;
 	}
 	
@@ -28,7 +27,9 @@ public class MultiblockValidationError {
 	}
 	
 	public MultiblockValidationError updatedError(World world) {
-		if (pos == null) return this;
+		if (pos == null) {
+			return this;
+		}
 		if (_resourceKey.equals(Global.MOD_ID + ".multiblock_validation.invalid_block")) {
 			return new MultiblockValidationError(_resourceKey, pos, pos.getX(), pos.getY(), pos.getZ(), world.getBlockState(pos).getBlock().getLocalizedName());
 		}

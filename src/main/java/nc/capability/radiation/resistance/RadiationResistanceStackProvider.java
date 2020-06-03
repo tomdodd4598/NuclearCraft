@@ -1,14 +1,12 @@
 package nc.capability.radiation.resistance;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import nc.radiation.RadArmor;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.*;
 
 public class RadiationResistanceStackProvider implements ICapabilityProvider {
 	
@@ -33,7 +31,9 @@ public class RadiationResistanceStackProvider implements ICapabilityProvider {
 	
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE) return IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE.cast(getRadiationResistance());
+		if (capability == IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE) {
+			return IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE.cast(getRadiationResistance());
+		}
 		return null;
 	}
 }

@@ -3,8 +3,7 @@ package nc.recipe.ingredient;
 import java.util.List;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import net.minecraftforge.fml.common.Optional;
 
 public interface IIngredient<T> {

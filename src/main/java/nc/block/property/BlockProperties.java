@@ -1,9 +1,7 @@
 package nc.block.property;
 
 import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.*;
 import net.minecraft.util.EnumFacing;
 
 public class BlockProperties {

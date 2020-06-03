@@ -1,7 +1,6 @@
 package nc.recipe.multiblock;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import nc.recipe.ProcessorRecipeHandler;
 
@@ -13,8 +12,8 @@ public class CondenserRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("exhaust_steam", 800), fluidStack("condensate_water", 50), 40D, 500);
-		addRecipe(fluidStack("low_quality_steam", 800), fluidStack("condensate_water", 25), 20D, 350);
+		addRecipe(fluidStack("exhaust_steam", 16), fluidStack("condensate_water", 1), 1D, 500);
+		addRecipe(fluidStack("low_quality_steam", 32), fluidStack("condensate_water", 1), 1D, 350);
 	}
 	
 	@Override
@@ -28,7 +27,7 @@ public class CondenserRecipes extends ProcessorRecipeHandler {
 	@Override
 	public List getFactoredExtras(List extras, int factor) {
 		List factored = new ArrayList(extras);
-		factored.set(0, (double)extras.get(0)/factor);
+		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}
 }

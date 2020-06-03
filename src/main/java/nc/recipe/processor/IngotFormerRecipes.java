@@ -1,21 +1,16 @@
 package nc.recipe.processor;
 
-import static nc.util.FissionHelper.FISSION_FLUID;
-import static nc.util.FissionHelper.FISSION_ORE_DICT;
+import static nc.util.FissionHelper.*;
+import static nc.util.FluidStackHelper.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.FluidStackHelper;
-import nc.util.OreDictHelper;
-import nc.util.StringHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import nc.util.*;
+import net.minecraft.init.*;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class IngotFormerRecipes extends ProcessorRecipeHandler {
@@ -32,31 +27,31 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
 		addIngotFormingRecipe("lead_platinum", "LeadPlatinum");
 		
-		addRecipe(fluidStack("bas", FluidStackHelper.GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
+		addRecipe(fluidStack("bas", GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		
-		addRecipe(fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), "ingotRedstone", 0.25D, 1D);
-		addRecipe(fluidStack("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME), "ingotGlowstone", 0.25D, 1D);
-		addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), "ingotGraphite", 0.5D, 1D);
+		addRecipe(fluidStack("redstone", REDSTONE_DUST_VOLUME), "ingotRedstone", 0.25D, 1D);
+		addRecipe(fluidStack("glowstone", GLOWSTONE_DUST_VOLUME), "ingotGlowstone", 0.25D, 1D);
+		addRecipe(fluidStack("coal", COAL_DUST_VOLUME), "ingotGraphite", 0.5D, 1D);
 		
-		addRecipe(fluidStack("prismarine", FluidStackHelper.INGOT_VOLUME), "gemPrismarine", 1D, 1D);
-		addRecipe(fluidStack("slime", FluidStackHelper.INGOT_VOLUME), Items.SLIME_BALL, 1D, 1D);
+		addRecipe(fluidStack("prismarine", INGOT_VOLUME), "gemPrismarine", 1D, 1D);
+		addRecipe(fluidStack("slime", INGOT_VOLUME), Items.SLIME_BALL, 1D, 1D);
 		
 		if (OreDictHelper.oreExists("ingotSilicon")) {
-			addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "ingotSilicon", 1D, 1D);
+			addRecipe(fluidStack("silicon", INGOT_VOLUME), "ingotSilicon", 1D, 1D);
 		}
 		else {
-			addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "itemSilicon", 1D, 1D);
+			addRecipe(fluidStack("silicon", INGOT_VOLUME), "itemSilicon", 1D, 1D);
 		}
 		
 		if (OreDictHelper.oreExists("ingotObsidian")) {
-			addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), "ingotObsidian", 0.5D, 1D);
+			addRecipe(fluidStack("obsidian", SEARED_MATERIAL_VOLUME), "ingotObsidian", 0.5D, 1D);
 		}
 		else {
-			addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), "obsidian", 2D, 1D);
+			addRecipe(fluidStack("obsidian", SEARED_BLOCK_VOLUME), "obsidian", 2D, 1D);
 		}
-		addRecipe(fluidStack("nether_brick", FluidStackHelper.SEARED_MATERIAL_VOLUME), "ingotBrickNether", 0.5D, 1D);
-		addRecipe(fluidStack("end_stone", FluidStackHelper.SEARED_BLOCK_VOLUME), "endstone", 2D, 1D);
-		addRecipe(fluidStack("purpur", FluidStackHelper.SEARED_BLOCK_VOLUME), Blocks.PURPUR_BLOCK, 2D, 1D);
+		addRecipe(fluidStack("nether_brick", SEARED_MATERIAL_VOLUME), "ingotBrickNether", 0.5D, 1D);
+		addRecipe(fluidStack("end_stone", SEARED_BLOCK_VOLUME), "endstone", 2D, 1D);
+		addRecipe(fluidStack("purpur", SEARED_BLOCK_VOLUME), Blocks.PURPUR_BLOCK, 2D, 1D);
 		
 		// EnderIO
 		addIngotFormingRecipe("electrical_steel", "ElectricalSteel");
@@ -83,20 +78,20 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("brine", 15), "dustSalt", 0.25D, 0.5D);
 		
 		// Sweets
-		addRecipe(fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), "ingotCocoaButter", 0.5D, 0.5D);
-		addRecipe(fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), "ingotUnsweetenedChocolate", 0.5D, 0.5D);
-		addRecipe(fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), "ingotDarkChocolate", 0.5D, 0.5D);
-		addRecipe(fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), "ingotChocolate", 0.5D, 0.5D);
-		addRecipe(fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), Items.SUGAR, 0.5D, 0.5D);
-		addRecipe(fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), NCItems.gelatin, 0.5D, 0.5D);
-		addRecipe(fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), "ingotMarshmallow", 0.5D, 0.5D);
+		addRecipe(fluidStack("cocoa_butter", INGOT_VOLUME), "ingotCocoaButter", 0.5D, 0.5D);
+		addRecipe(fluidStack("unsweetened_chocolate", INGOT_VOLUME), "ingotUnsweetenedChocolate", 0.5D, 0.5D);
+		addRecipe(fluidStack("dark_chocolate", INGOT_VOLUME), "ingotDarkChocolate", 0.5D, 0.5D);
+		addRecipe(fluidStack("milk_chocolate", INGOT_VOLUME), "ingotChocolate", 0.5D, 0.5D);
+		addRecipe(fluidStack("sugar", INGOT_VOLUME), Items.SUGAR, 0.5D, 0.5D);
+		addRecipe(fluidStack("gelatin", INGOT_VOLUME), NCItems.gelatin, 0.5D, 0.5D);
+		addRecipe(fluidStack("marshmallow", INGOT_VOLUME), "ingotMarshmallow", 0.5D, 0.5D);
 		
 		// Fission Materials
 		addFissionFormingRecipes();
 	}
 	
 	public void addIngotFormingRecipe(String fluid, String metal) {
-		addRecipe(fluidStack(fluid.toLowerCase(Locale.ROOT), FluidStackHelper.INGOT_VOLUME), "ingot" + metal, 1D, 1D);
+		addRecipe(fluidStack(fluid.toLowerCase(Locale.ROOT), INGOT_VOLUME), "ingot" + metal, 1D, 1D);
 	}
 	
 	public void addIngotFormingRecipe(String metal) {
@@ -105,10 +100,10 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	
 	public void addFissionFormingRecipes() {
 		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
-			addRecipe(fluidStack(FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i], 1D, 1D);
-			addRecipe(fluidStack(FISSION_FLUID[i] + "_za", FluidStackHelper.INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i] + "ZA", 1D, 1D);
-			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), "ingotDepleted" + FISSION_ORE_DICT[i], 1D, 1D);
-			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i] + "_za", FluidStackHelper.INGOT_VOLUME), "ingotDepleted" + FISSION_ORE_DICT[i] + "ZA", 1D, 1D);
+			addRecipe(fluidStack(FISSION_FLUID[i], INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i], 1D, 1D);
+			addRecipe(fluidStack(FISSION_FLUID[i] + "_za", INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i] + "ZA", 1D, 1D);
+			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i], INGOT_VOLUME), "ingotDepleted" + FISSION_ORE_DICT[i], 1D, 1D);
+			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i] + "_za", INGOT_VOLUME), "ingotDepleted" + FISSION_ORE_DICT[i] + "ZA", 1D, 1D);
 		}
 	}
 	
@@ -117,12 +112,18 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	public void addIngotFormingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
-			if (CASTING_BLACKLIST.contains(fluidName)) continue;
+			if (CASTING_BLACKLIST.contains(fluidName)) {
+				continue;
+			}
 			String materialName = StringHelper.capitalize(fluidName);
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;
-			if (OreDictHelper.oreExists(ingot)) addRecipe(fluidStack(fluidName, FluidStackHelper.INGOT_VOLUME), ingot, 1D, 1D);
-			else if (OreDictHelper.oreExists(gem)) addRecipe(fluidStack(fluidName, FluidStackHelper.GEM_VOLUME), gem, 1D, 1D);
+			if (OreDictHelper.oreExists(ingot)) {
+				addRecipe(fluidStack(fluidName, INGOT_VOLUME), ingot, 1D, 1D);
+			}
+			else if (OreDictHelper.oreExists(gem)) {
+				addRecipe(fluidStack(fluidName, GEM_VOLUME), gem, 1D, 1D);
+			}
 		}
 	}
 	

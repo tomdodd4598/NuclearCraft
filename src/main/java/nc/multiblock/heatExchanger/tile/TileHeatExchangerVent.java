@@ -1,26 +1,19 @@
 package nc.multiblock.heatExchanger.tile;
 
 import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.config.NCConfig.*;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
+import nc.multiblock.heatExchanger.*;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.util.GasHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,9 +30,9 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.BOTH);
 	
-	private @Nonnull FluidTileWrapper[] fluidSides;
+	private @Nonnull final FluidTileWrapper[] fluidSides;
 	
-	private @Nonnull GasTileWrapper gasWrapper;
+	private @Nonnull final GasTileWrapper gasWrapper;
 	
 	protected int ventCount;
 	
@@ -72,13 +65,16 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			if (ventCount == 0) pushFluid();
+			if (ventCount == 0) {
+				pushFluid();
+			}
 			tickVent();
 		}
 	}
 	
 	public void tickVent() {
-		ventCount++; ventCount %= NCConfig.machine_update_rate / 4;
+		ventCount++;
+		ventCount %= machine_update_rate / 4;
 	}
 	
 	// Fluids
@@ -88,7 +84,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	public List<Tank> getTanks() {
 		return tanks;
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidConnection[] getFluidConnections() {
@@ -99,7 +95,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
 		fluidConnections = connections;
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidTileWrapper[] getFluidSides() {
@@ -113,7 +109,9 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getTankSorption(side, 0).canDrain()) return;
+		if (!getTankSorption(side, 0).canDrain()) {
+			return;
+		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile instanceof TileHeatExchangerTube) {
@@ -131,23 +129,23 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean getInputTanksSeparated() {
 		return false;
 	}
-
+	
 	@Override
 	public void setInputTanksSeparated(boolean separated) {}
-
+	
 	@Override
 	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
-
+	
 	@Override
 	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
-
+	
 	@Override
 	public TankOutputSetting getTankOutputSetting(int tankNumber) {
 		return TankOutputSetting.DEFAULT;
@@ -165,7 +163,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 		writeFluidConnections(nbt);
 		return nbt;
 	}
-		
+	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
@@ -177,12 +175,12 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY)) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
@@ -192,7 +190,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			if (NCConfig.enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}
 			return null;

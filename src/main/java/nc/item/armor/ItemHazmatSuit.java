@@ -41,7 +41,9 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor, IHazma
 	public void damageArmor(EntityLivingBase entity, @Nonnull ItemStack stack, DamageSource source, int damage, int slot) {
 		if (ModCheck.ic2Loaded()) {
 			Potion radiation = Potion.getPotionFromResourceLocation("ic2:radiation");
-			if (radiation != null && entity.isPotionActive(radiation)) entity.removePotionEffect(radiation);
+			if (radiation != null && entity.isPotionActive(radiation)) {
+				entity.removePotionEffect(radiation);
+			}
 		}
 	}
 	

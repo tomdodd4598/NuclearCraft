@@ -26,7 +26,9 @@ public class UnitHelper {
 			testValue = NCMath.magnitudeMult(testValue, 3);
 			testMax = NCMath.magnitudeMult(testMax, 3);
 			minPrefixNumber--;
-			if (NCMath.atLongLimit(testValue, 1000L) || NCMath.atLongLimit(testMax, 1000L)) break;
+			if (NCMath.atLongLimit(testValue, 1000L) || NCMath.atLongLimit(testMax, 1000L)) {
+				break;
+			}
 		}
 		
 		boolean descending = true;
@@ -82,10 +84,10 @@ public class UnitHelper {
 		int prefixNumber = minPrefixNumber;
 		
 		boolean hasMax = max != Double.MIN_VALUE;
-		String slashMaxVal = !hasMax ? "" : " / " + (long)max;
+		String slashMaxVal = !hasMax ? "" : " / " + (long) max;
 		String sign = value < 0D ? "-" : "";
 		if (value == 0D) {
-			return (long)value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
+			return (long) value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 		}
 		value = Math.abs(value);
 		max = !hasMax ? value : max;
@@ -95,21 +97,23 @@ public class UnitHelper {
 			testValue = NCMath.magnitudeMult(testValue, 3);
 			testMax = NCMath.magnitudeMult(testMax, 3);
 			minPrefixNumber--;
-			if (NCMath.atDoubleLimit(testValue, 1000D) || NCMath.atDoubleLimit(testMax, 1000D)) break;
+			if (NCMath.atDoubleLimit(testValue, 1000D) || NCMath.atDoubleLimit(testMax, 1000D)) {
+				break;
+			}
 		}
 		
 		boolean descending = true;
 		int length, maxLengthFixed = Math.max(maxLength, 3);
 		while (prefixNumber < SI_PREFIX.length - 1) {
-			length = NCMath.numberLength((long)value);
+			length = NCMath.numberLength((long) value);
 			if (descending) {
 				if (length > maxLengthFixed) {
 					descending = false;
 					continue;
 				}
-				if ((long)value != 0L) {
-					slashMaxVal = !hasMax ? "" : " / " + (long)max;
-					return sign + (long)value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
+				if ((long) value != 0L) {
+					slashMaxVal = !hasMax ? "" : " / " + (long) max;
+					return sign + (long) value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 				}
 				value = NCMath.magnitudeMult(value, 3);
 				max = NCMath.magnitudeMult(max, 3);
@@ -117,8 +121,8 @@ public class UnitHelper {
 			}
 			else {
 				if (length <= maxLengthFixed) {
-					slashMaxVal = !hasMax ? "" : " / " + (long)max;
-					return sign + (long)value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
+					slashMaxVal = !hasMax ? "" : " / " + (long) max;
+					return sign + (long) value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 				}
 				value = NCMath.magnitudeMult(value, -3);
 				max = NCMath.magnitudeMult(max, -3);
@@ -128,8 +132,8 @@ public class UnitHelper {
 				descending = false;
 			}
 		}
-		slashMaxVal = !hasMax ? "" : " / " + (long)NCMath.magnitudeMult(max, -3);
-		return sign + (long)NCMath.magnitudeMult(value, -3) + slashMaxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
+		slashMaxVal = !hasMax ? "" : " / " + (long) NCMath.magnitudeMult(max, -3);
+		return sign + (long) NCMath.magnitudeMult(value, -3) + slashMaxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}
 	
 	public static String prefix(double value, int maxLength, String unit, int startingPrefix) {
@@ -160,8 +164,10 @@ public class UnitHelper {
 	
 	public static String applyTimeUnit(long ticks, int maxLength, int startUnit) {
 		int i = startUnit;
-		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
-		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT[i];
+		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+			i++;
+		}
+		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT[i];
 	}
 	
 	public static String applyTimeUnit(double ticks, int maxLength, int startUnit) {
@@ -169,8 +175,10 @@ public class UnitHelper {
 			return NCMath.decimalPlaces(ticks, 3) + " ticks";
 		}
 		int i = startUnit;
-		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
-		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT[i];
+		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+			i++;
+		}
+		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT[i];
 	}
 	
 	public static String applyTimeUnitShort(long ticks, int maxLength) {
@@ -183,8 +191,10 @@ public class UnitHelper {
 	
 	public static String applyTimeUnitShort(long ticks, int maxLength, int startUnit) {
 		int i = startUnit;
-		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
-		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT_SHORT[i];
+		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+			i++;
+		}
+		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT_SHORT[i];
 	}
 	
 	public static String applyTimeUnitShort(double ticks, int maxLength, int startUnit) {
@@ -192,7 +202,9 @@ public class UnitHelper {
 			return NCMath.decimalPlaces(ticks, 3) + " t";
 		}
 		int i = startUnit;
-		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
-		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT_SHORT[i];
+		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+			i++;
+		}
+		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT_SHORT[i];
 	}
 }

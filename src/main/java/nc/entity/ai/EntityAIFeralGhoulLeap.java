@@ -45,6 +45,6 @@ public class EntityAIFeralGhoulLeap extends EntityAIBase {
 	@Override
 	public void startExecuting() {
 		ghoul.leap(1.25D);
-		ghoul.playSound(NCSounds.feral_ghoul_charge, 1F, 1F + 0.2F*(ghoul.getRNG().nextFloat() - ghoul.getRNG().nextFloat()));
+		ghoul.playSound(NCSounds.feral_ghoul_charge, 1F, 1F + 0.2F * (ghoul.getRNG().nextFloat() - ghoul.getRNG().nextFloat()));
 	}
 }

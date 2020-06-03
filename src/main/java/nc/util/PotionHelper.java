@@ -1,7 +1,6 @@
 package nc.util;
 
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.*;
 
 public class PotionHelper {
 	

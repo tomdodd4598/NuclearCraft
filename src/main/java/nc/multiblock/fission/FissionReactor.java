@@ -4,23 +4,14 @@ import java.lang.reflect.Constructor;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
+import nc.multiblock.*;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.multiblock.fission.tile.IFissionComponent;
-import nc.multiblock.fission.tile.IFissionController;
-import nc.multiblock.fission.tile.IFissionPart;
-import nc.multiblock.fission.tile.TileFissionMonitor;
+import nc.multiblock.fission.tile.*;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -66,7 +57,9 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	@Override
 	public void setLogic(String logicID) {
-		if (logicID.equals(logic.getID())) return;
+		if (logicID.equals(logic.getID())) {
+			return;
+		}
 		logic = getNewLogic(LOGIC_MAP.get(logicID));
 	}
 	
@@ -81,7 +74,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	public void resetStats() {
 		logic.onResetStats();
-		//isReactorOn = false;
+		// isReactorOn = false;
 		fuelComponentCount = 0;
 		cooling = rawHeating = totalHeatMult = usefulPartCount = 0L;
 		meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = 0D;
@@ -120,8 +113,8 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	}
 	
 	@Override
-	protected void onMachineAssembled(boolean wasAssembled) {
-		logic.onMachineAssembled(wasAssembled);
+	protected void onMachineAssembled() {
+		logic.onMachineAssembled();
 	}
 	
 	@Override
@@ -149,12 +142,12 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
 		}
-		if (getPartMap(IFissionController.class).size() > 1) {
+		if (getPartCount(IFissionController.class) > 1) {
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
 		
-		for (IFissionController contr : getPartMap(IFissionController.class).values()) {
+		for (IFissionController contr : getParts(IFissionController.class)) {
 			controller = contr;
 		}
 		
@@ -175,7 +168,9 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	// Cluster Management
 	
-	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
+	/**
+	 * Only use when the cluster geometry isn't changed and there is no effect on other clusters!
+	 */
 	public void refreshCluster(FissionCluster cluster) {
 		if (cluster != null && clusterMap.containsKey(cluster.getId())) {
 			logic.refreshClusterStats(cluster);
@@ -199,8 +194,14 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	}
 	
 	public void mergeClusters(int assimilatorId, FissionCluster targetCluster) {
-		if (assimilatorId == targetCluster.getId()) return;
+		if (assimilatorId == targetCluster.getId()) {
+			return;
+		}
 		FissionCluster assimilatorCluster = clusterMap.get(assimilatorId);
+		
+		if (targetCluster.connectedToWall) {
+			assimilatorCluster.connectedToWall = true;
+		}
 		
 		for (IFissionComponent component : targetCluster.getComponentMap().values()) {
 			component.setCluster(assimilatorCluster);
@@ -242,7 +243,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 				controller.updateBlockState(isReactorOn);
 				sendUpdateToAllPlayers();
 			}
-			for (TileFissionMonitor monitor : getPartMap(TileFissionMonitor.class).values()) {
+			for (TileFissionMonitor monitor : getParts(TileFissionMonitor.class)) {
 				monitor.updateBlockState(isReactorOn);
 			}
 		}

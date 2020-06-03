@@ -1,15 +1,14 @@
 package nc.multiblock.fission.tile;
 
+import static nc.recipe.NCRecipes.*;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
-import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
-import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
-import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
-import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
-import nc.recipe.NCRecipes;
+import nc.multiblock.fission.salt.tile.*;
+import nc.multiblock.fission.solid.tile.*;
+import nc.multiblock.fission.tile.IFissionFuelComponent.*;
 import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,7 +29,7 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public default void setCluster(@Nullable FissionCluster cluster) {
 		if (cluster == null && getCluster() != null) {
-			//getCluster().getComponentMap().remove(pos.toLong());
+			// getCluster().getComponentMap().remove(pos.toLong());
 		}
 		else if (cluster != null) {
 			cluster.getComponentMap().put(getTilePos().toLong(), this);
@@ -44,22 +43,21 @@ public interface IFissionComponent extends IFissionPart {
 		return getCluster() != null;
 	}
 	
-	/** Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary! */
+	/**
+	 * Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary!
+	 */
 	public boolean isValidHeatConductor();
 	
 	public boolean isFunctional();
-	
-	/** Called during cluster searches! */
-	public default boolean isActiveModerator() {
-		return false;
-	}
 	
 	public void resetStats();
 	
 	public boolean isClusterRoot();
 	
 	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
-		if (!isValidHeatConductor()) return;
+		if (!isValidHeatConductor()) {
+			return;
+		}
 		
 		if (isClusterSearched()) {
 			if (id != null) {
@@ -85,7 +83,9 @@ public interface IFissionComponent extends IFissionPart {
 				continue;
 			}
 			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
-			if (component != null) clusterSearchCache.put(component, id);
+			if (component != null) {
+				clusterSearchCache.put(component, id);
+			}
 		}
 	}
 	
@@ -95,17 +95,30 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void onClusterMeltdown();
 	
-	// Moderator Lines
+	public boolean isNullifyingSources(EnumFacing side);
 	
-	public default ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean activeModeratorPos) {
+	// Moderator Line
+	
+	public default ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPos) {
 		return null;
 	}
 	
-	/** The moderator line does not necessarily have to be active! */
-	public default void onAddedToModeratorCache(ModeratorBlockInfo info) {}
+	/** The moderator line does not necessarily have to be complete! */
+	public default void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
 	
-	/** Called if and only if the moderator line from the fuel component searching in the dir direction is active! */
-	public default void onModeratorLineComplete(ModeratorBlockInfo info, EnumFacing dir, int flux) {}
+	public default boolean isModeratorLineComponent() {
+		return false;
+	}
+	
+	/**
+	 * Called if and only if the moderator line from the fuel component searching in the dir direction is complete!
+	 */
+	public default void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {}
+	
+	/** Called during cluster searches! */
+	public default boolean isActiveModerator() {
+		return false;
+	}
 	
 	// IMultitoolLogic
 	
@@ -127,11 +140,11 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public default boolean isActiveModerator(BlockPos pos) {
 		IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
-		return (component != null && component.isActiveModerator()) || (getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_moderator, pos) != null);
+		return component != null && component.isActiveModerator() || getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(fission_moderator, pos) != null;
 	}
 	
 	public default boolean isActiveReflector(BlockPos pos) {
-		return getMultiblock().activeReflectorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_reflector, pos) != null;
+		return getMultiblock().activeReflectorCache.contains(pos.toLong()) && blockRecipe(fission_reflector, pos) != null;
 	}
 	
 	public default boolean isActiveCell(BlockPos pos) {
@@ -156,6 +169,6 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public default boolean isWall(BlockPos pos) {
 		TileEntity part = getTileWorld().getTileEntity(pos);
-		return part instanceof TileFissionPart && ((TileFissionPart)part).getPartPositionType().isGoodForWall();
+		return part instanceof TileFissionPart && ((TileFissionPart) part).getPartPositionType().isGoodForWall();
 	}
 }

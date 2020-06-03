@@ -21,8 +21,8 @@ public class Matrix {
 		this(c.length);
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				re[i][j] = c[i][2*j];
-				im[i][j] = c[i][2*j+1];
+				re[i][j] = c[i][2 * j];
+				im[i][j] = c[i][2 * j + 1];
 			}
 		}
 	}
@@ -104,8 +104,8 @@ public class Matrix {
 	public Matrix multiply(double a) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
-				this.re[i][j] *= a;
-				this.im[i][j] *= a;
+				re[i][j] *= a;
+				im[i][j] *= a;
 			}
 		}
 		return this;
@@ -172,10 +172,12 @@ public class Matrix {
 		
 		Matrix m = new Matrix(dim);
 		double[] c;
-		int[] length = new int[a.length], count = new int[2*a.length], mult = new int[a.length];
+		int[] length = new int[a.length], count = new int[2 * a.length], mult = new int[a.length];
 		for (int j = 0; j < a.length; j++) {
 			length[j] = a[j].dim;
-			if (j > 0) mul *= a[a.length - j].dim;
+			if (j > 0) {
+				mul *= a[a.length - j].dim;
+			}
 			mult[a.length - j - 1] = mul;
 		}
 		Arrays.fill(count, 0);
@@ -184,14 +186,14 @@ public class Matrix {
 		while (true) {
 			int u = 0, v = 0;
 			for (int j = 0; j < a.length; j++) {
-				u += mult[j]*count[2*j];
-				v += mult[j]*count[2*j + 1];
+				u += mult[j] * count[2 * j];
+				v += mult[j] * count[2 * j + 1];
 			}
 			
 			c = Complex.multiply(a[0].re[count[0]][count[1]], a[0].im[count[0]][count[1]], a[1].re[count[2]][count[3]], a[1].im[count[2]][count[3]]);
 			
 			for (int j = 2; j < a.length; j++) {
-				c = Complex.multiply(c[0], c[1], a[j].re[count[2*j]][count[2*j + 1]], a[j].im[count[2*j]][count[2*j + 1]]);
+				c = Complex.multiply(c[0], c[1], a[j].re[count[2 * j]][count[2 * j + 1]], a[j].im[count[2 * j]][count[2 * j + 1]]);
 			}
 			m.re[u][v] = c[0];
 			m.im[u][v] = c[1];
@@ -199,7 +201,7 @@ public class Matrix {
 			end = true;
 			for (int j = 0; j < count.length; j++) {
 				_j = count.length - j - 1;
-				if (count[_j] < length[_j/2] - 1) {
+				if (count[_j] < length[_j / 2] - 1) {
 					++count[_j];
 					end = false;
 					break;
@@ -215,38 +217,11 @@ public class Matrix {
 		}
 	}
 	
-	/*public static Matrix tensorProduct(Matrix... a) {
-		if (a.length == 0) {
-			return new Matrix(0);
-		}
-		if (a.length == 1) {
-			return a[0];
-		}
-		
-		Matrix m = new Matrix(a[0].dim*a[1].dim);
-		double[] c;
-		for (int u = 0; u < a[0].dim; u++) {
-			for (int v = 0; v < a[0].dim; v++) {
-				for (int i = 0; i < a[1].dim; i++) {
-					for (int j = 0; j < a[1].dim; j++) {
-						c = Complex.multiply(a[0].re[v][u], a[0].im[v][u], a[1].re[j][i], a[1].im[j][i]);
-						m.re[j + a[1].dim*v][i + a[1].dim*u] = c[0];
-						m.im[j + a[1].dim*v][i + a[1].dim*u] = c[1];
-					}
-				}
-			}
-		}
-		
-		if (a.length == 2) return m;
-		else {
-			Matrix[] m_ = new Matrix[a.length - 1];
-			m_[0] = m;
-			for (int i = 1; i < m_.length; i++) {
-				m_[i] = a[i + 1];
-			}
-			return tensorProduct(m_);
-		}
-	}*/
+	/* public static Matrix tensorProduct(Matrix... a) { if (a.length == 0) { return new Matrix(0); } if (a.length == 1) { return a[0]; }
+	 * 
+	 * Matrix m = new Matrix(a[0].dim*a[1].dim); double[] c; for (int u = 0; u < a[0].dim; u++) { for (int v = 0; v < a[0].dim; v++) { for (int i = 0; i < a[1].dim; i++) { for (int j = 0; j < a[1].dim; j++) { c = Complex.multiply(a[0].re[v][u], a[0].im[v][u], a[1].re[j][i], a[1].im[j][i]); m.re[j + a[1].dim*v][i + a[1].dim*u] = c[0]; m.im[j + a[1].dim*v][i + a[1].dim*u] = c[1]; } } } }
+	 * 
+	 * if (a.length == 2) return m; else { Matrix[] m_ = new Matrix[a.length - 1]; m_[0] = m; for (int i = 1; i < m_.length; i++) { m_[i] = a[i + 1]; } return tensorProduct(m_); } } */
 	
 	public Matrix commute(Matrix a) {
 		Matrix c = copy();
@@ -282,6 +257,19 @@ public class Matrix {
 			}
 		}
 		return this;
+	}
+	
+	@Override
+	public String toString() {
+		String s = "", v;
+		for (int i = 0; i < dim; i++) {
+			v = "";
+			for (int j = 0; j < dim; j++) {
+				v = v + ", " + Complex.toString(re[i][j], im[i][j]);
+			}
+			s = s + ", [" + v.substring(2) + "]";
+		}
+		return "[" + s.substring(2) + "]";
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {

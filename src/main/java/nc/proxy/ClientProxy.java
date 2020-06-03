@@ -1,16 +1,12 @@
 package nc.proxy;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import nc.Global;
 import nc.block.fluid.NCBlockFluid;
 import nc.config.NCConfig;
-import nc.handler.RenderHandler;
-import nc.handler.SoundHandler;
-import nc.handler.TooltipHandler;
-import nc.init.NCCoolantFluids;
-import nc.init.NCFissionFluids;
+import nc.handler.*;
+import nc.init.*;
 import nc.model.ModelTexturedFluid;
 import nc.radiation.RadiationRenders;
 import nc.render.ColorRenderer;
@@ -18,22 +14,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
@@ -44,20 +35,20 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		super.preInit(preEvent);
 		
-		//OBJLoader.INSTANCE.addDomain(Global.MOD_ID);
+		// OBJLoader.INSTANCE.addDomain(Global.MOD_ID);
 		
 		NCConfig.clientPreInit();
 		
 		RenderHandler.init();
 	}
-
+	
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		
 		MinecraftForge.EVENT_BUS.register(SoundHandler.class);
 	}
-
+	
 	@Override
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		super.postInit(postEvent);
@@ -73,10 +64,12 @@ public class ClientProxy extends CommonProxy {
 	public World getWorld(int dimensionId) {
 		if (getCurrentClientDimension() != dimensionId) {
 			return null;
-		} else
+		}
+		else {
 			return Minecraft.getMinecraft().world;
+		}
 	}
-
+	
 	@Override
 	public int getCurrentClientDimension() {
 		return Minecraft.getMinecraft().world.provider.getDimension();
@@ -101,23 +94,25 @@ public class ClientProxy extends CommonProxy {
 		Item item = Item.getItemFromBlock(block);
 		ModelBakery.registerItemVariants(item);
 		ModelLoader.setCustomMeshDefinition(item, mapper);
-
-		//ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(block.LEVEL).build());
+		
+		// ModelLoader.setCustomStateMapper(block, new
+		// StateMap.Builder().ignore(block.LEVEL).build());
 		ModelLoader.setCustomStateMapper(block, mapper);
 	}
 	
 	public static class FluidStateMapper extends StateMapperBase implements ItemMeshDefinition {
+		
 		public final ModelResourceLocation location;
-
+		
 		public FluidStateMapper(String name) {
 			location = new ModelResourceLocation(Global.MOD_ID + ":fluids", name);
 		}
-
+		
 		@Override
 		protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 			return location;
 		}
-
+		
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return location;

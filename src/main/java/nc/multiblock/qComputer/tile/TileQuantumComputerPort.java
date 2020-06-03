@@ -1,8 +1,6 @@
 package nc.multiblock.qComputer.tile;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
 import nc.multiblock.qComputer.QuantumComputer;

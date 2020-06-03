@@ -1,20 +1,17 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import crafttweaker.mc1120.item.MCItemStack;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.recipe.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
 public class EmptyItemIngredient implements IItemIngredient {
-
+	
 	public EmptyItemIngredient() {}
 	
 	@Override
@@ -36,7 +33,7 @@ public class EmptyItemIngredient implements IItemIngredient {
 	public List<ItemStack> getOutputStackList() {
 		return new ArrayList<>();
 	}
-
+	
 	@Override
 	public int getMaxStackSize(int ingredientNumber) {
 		return 0;
@@ -51,7 +48,7 @@ public class EmptyItemIngredient implements IItemIngredient {
 	public String getIngredientName() {
 		return "null";
 	}
-
+	
 	@Override
 	public String getIngredientNamesConcat() {
 		return "null";

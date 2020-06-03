@@ -1,14 +1,11 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import nc.config.NCConfig;
 import nc.integration.crafttweaker.ingredient.CTChanceItemIngredient;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -32,9 +29,9 @@ public class ChanceItemIngredient implements IItemIngredient {
 		this.chancePercent = MathHelper.clamp(chancePercent, 0, 100);
 		this.minStackSize = MathHelper.clamp(minStackSize, 0, ingredient.getMaxStackSize(0));
 		
-		meanStackSize = this.minStackSize + (double)(this.ingredient.getMaxStackSize(0) - this.minStackSize)*(double)this.chancePercent/100D;
+		meanStackSize = this.minStackSize + (double) (this.ingredient.getMaxStackSize(0) - this.minStackSize) * (double) this.chancePercent / 100D;
 	}
-
+	
 	@Override
 	public ItemStack getStack() {
 		return ingredient.getStack();
@@ -46,8 +43,9 @@ public class ChanceItemIngredient implements IItemIngredient {
 		for (ItemStack stack : ingredient.getInputStackList()) {
 			for (int i = minStackSize; i <= getMaxStackSize(0); i++) {
 				if (i <= 0) {
-					//stackList.add(null);
-				} else {
+					// stackList.add(null);
+				}
+				else {
 					ItemStack newStack = stack.copy();
 					newStack.setCount(i);
 					stackList.add(newStack);
@@ -62,8 +60,11 @@ public class ChanceItemIngredient implements IItemIngredient {
 		List<ItemStack> stackList = new ArrayList<>();
 		for (int i = minStackSize; i <= getMaxStackSize(0); i++) {
 			if (i == 0) {
-				if (NCConfig.jei_chance_items_include_null) stackList.add(null);
-			} else {
+				if (NCConfig.jei_chance_items_include_null) {
+					stackList.add(null);
+				}
+			}
+			else {
 				ItemStack newStack = getStack().copy();
 				newStack.setCount(i);
 				stackList.add(newStack);
@@ -91,7 +92,7 @@ public class ChanceItemIngredient implements IItemIngredient {
 	public String getIngredientName() {
 		return ingredient.getIngredientName() + " [ " + chancePercent + "%, min: " + minStackSize + " ]";
 	}
-
+	
 	@Override
 	public String getIngredientNamesConcat() {
 		return ingredient.getIngredientNamesConcat() + " [ " + chancePercent + "%, min: " + minStackSize + " ]";
@@ -106,9 +107,9 @@ public class ChanceItemIngredient implements IItemIngredient {
 	
 	@Override
 	public IItemIngredient getFactoredIngredient(int factor) {
-		return new ChanceItemIngredient(ingredient.getFactoredIngredient(factor), chancePercent, minStackSize/factor);
+		return new ChanceItemIngredient(ingredient.getFactoredIngredient(factor), chancePercent, minStackSize / factor);
 	}
-
+	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
 		return ingredient.match(object, sorption);

@@ -1,6 +1,7 @@
 package nc.multiblock.battery;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.battery_capacity;
+
 import nc.multiblock.battery.tile.TileBattery;
 import net.minecraft.tileentity.TileEntity;
 
@@ -24,11 +25,11 @@ public enum BatteryType {
 	}
 	
 	public int getCapacity() {
-		return NCConfig.battery_capacity[id];
+		return battery_capacity[id];
 	}
 	
 	public int getMaxTransfer() {
-		return NCConfig.battery_capacity[id];
+		return battery_capacity[id];
 	}
 	
 	public int getEnergyTier() {
@@ -37,26 +38,26 @@ public enum BatteryType {
 	
 	public TileEntity getTile() {
 		switch (this) {
-		case VOLTAIC_PILE_BASIC:
-			return new TileBattery.VoltaicPileBasic();
-		case VOLTAIC_PILE_ADVANCED:
-			return new TileBattery.VoltaicPileAdvanced();
-		case VOLTAIC_PILE_DU:
-			return new TileBattery.VoltaicPileDU();
-		case VOLTAIC_PILE_ELITE:
-			return new TileBattery.VoltaicPileElite();
+			case VOLTAIC_PILE_BASIC:
+				return new TileBattery.VoltaicPileBasic();
+			case VOLTAIC_PILE_ADVANCED:
+				return new TileBattery.VoltaicPileAdvanced();
+			case VOLTAIC_PILE_DU:
+				return new TileBattery.VoltaicPileDU();
+			case VOLTAIC_PILE_ELITE:
+				return new TileBattery.VoltaicPileElite();
 			
-		case LITHIUM_ION_BATTERY_BASIC:
-			return new TileBattery.LithiumIonBatteryBasic();
-		case LITHIUM_ION_BATTERY_ADVANCED:
-			return new TileBattery.LithiumIonBatteryAdvanced();
-		case LITHIUM_ION_BATTERY_DU:
-			return new TileBattery.LithiumIonBatteryDU();
-		case LITHIUM_ION_BATTERY_ELITE:
-			return new TileBattery.LithiumIonBatteryElite();
-		
-		default:
-			return null;
+			case LITHIUM_ION_BATTERY_BASIC:
+				return new TileBattery.LithiumIonBatteryBasic();
+			case LITHIUM_ION_BATTERY_ADVANCED:
+				return new TileBattery.LithiumIonBatteryAdvanced();
+			case LITHIUM_ION_BATTERY_DU:
+				return new TileBattery.LithiumIonBatteryDU();
+			case LITHIUM_ION_BATTERY_ELITE:
+				return new TileBattery.LithiumIonBatteryElite();
+			
+			default:
+				return null;
 		}
 	}
 }

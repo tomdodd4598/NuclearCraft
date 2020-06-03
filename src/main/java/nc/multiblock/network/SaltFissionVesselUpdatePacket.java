@@ -61,9 +61,13 @@ public class SaltFissionVesselUpdatePacket extends TileUpdatePacket {
 		buf.writeInt(masterPortPos.getY());
 		buf.writeInt(masterPortPos.getZ());
 		buf.writeByte(tanksInfo.size());
-		for (TankInfo info : tanksInfo) info.writeBuf(buf);
+		for (TankInfo info : tanksInfo) {
+			info.writeBuf(buf);
+		}
 		buf.writeByte(filterTanksInfo.size());
-		for (TankInfo info : filterTanksInfo) info.writeBuf(buf);
+		for (TankInfo info : filterTanksInfo) {
+			info.writeBuf(buf);
+		}
 		buf.writeLong(clusterHeatStored);
 		buf.writeLong(clusterHeatCapacity);
 		buf.writeBoolean(isProcessing);

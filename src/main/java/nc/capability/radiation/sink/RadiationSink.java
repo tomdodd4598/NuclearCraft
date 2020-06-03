@@ -9,7 +9,7 @@ public class RadiationSink implements IRadiationSink {
 	private double radiationBuffer = 0D;
 	
 	public RadiationSink(double startRadiation) {
-		this.radiationLevel = startRadiation;
+		radiationLevel = startRadiation;
 	}
 	
 	@Override

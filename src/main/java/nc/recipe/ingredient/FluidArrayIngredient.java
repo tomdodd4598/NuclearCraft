@@ -1,15 +1,12 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IngredientOr;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.recipe.*;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
@@ -61,7 +58,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	@Override
 	public String getIngredientName() {
-		//return ingredientList.get(0).getIngredientName();
+		// return ingredientList.get(0).getIngredientName();
 		return getIngredientNamesConcat();
 	}
 	
@@ -69,7 +66,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	public String getIngredientNamesConcat() {
 		String names = "";
 		for (IFluidIngredient ingredient : ingredientList) {
-			names += (", " + ingredient.getIngredientName());
+			names += ", " + ingredient.getIngredientName();
 		}
 		return "{ " + names.substring(2) + " }";
 	}
@@ -77,7 +74,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	public String getIngredientRecipeString() {
 		String names = "";
 		for (IFluidIngredient ingredient : ingredientList) {
-			names += (", " + ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName());
+			names += ", " + ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName();
 		}
 		return "{ " + names.substring(2) + " }";
 	}

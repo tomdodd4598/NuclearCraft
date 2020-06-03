@@ -2,30 +2,22 @@ package nc.tile.inventory;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.tile.ITile;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.InventoryTileWrapper;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.inventory.*;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.minecraft.util.*;
+import net.minecraftforge.items.*;
 
-public interface ITileInventory extends ITile {
+public interface ITileInventory<T extends TileEntity & ITileInventory> extends ITile<T>, ISidedInventory {
 	
 	// Inventory
 	
@@ -38,19 +30,24 @@ public interface ITileInventory extends ITile {
 	}
 	
 	public default void clearAllSlots() {
-		for (int i = 0; i < getInventoryStacks().size(); i++) clearSlot(i);
+		for (int i = 0; i < getInventoryStacks().size(); i++) {
+			clearSlot(i);
+		}
 	}
 	
 	// IInventory
 	
+	@Override
 	public default boolean hasCustomName() {
 		return false;
 	}
 	
+	@Override
 	public default int getSizeInventory() {
 		return getInventoryStacks().size();
 	}
 	
+	@Override
 	public default boolean isEmpty() {
 		for (ItemStack itemstack : getInventoryStacks()) {
 			if (!itemstack.isEmpty()) {
@@ -60,21 +57,25 @@ public interface ITileInventory extends ITile {
 		return true;
 	}
 	
+	@Override
 	public default ItemStack getStackInSlot(int slot) {
 		return getInventoryStacks().get(slot);
 	}
 	
+	@Override
 	public default ItemStack decrStackSize(int slot, int count) {
 		return ItemStackHelper.getAndSplit(getInventoryStacks(), slot, count);
 	}
 	
+	@Override
 	public default ItemStack removeStackFromSlot(int slot) {
 		return ItemStackHelper.getAndRemove(getInventoryStacks(), slot);
 	}
 	
+	@Override
 	public default void setInventorySlotContents(int slot, ItemStack stack) {
 		ItemStack itemstack = getInventoryStacks().get(slot);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.StackHelper.areItemStackTagsEqual(stack, itemstack);
 		
 		if (stack.getCount() > getInventoryStackLimit()) {
 			stack.setCount(getInventoryStackLimit());
@@ -87,44 +88,61 @@ public interface ITileInventory extends ITile {
 		}
 	}
 	
+	@Override
 	public default boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return true;
 	}
 	
+	@Override
 	public default int getInventoryStackLimit() {
 		return 64;
 	}
 	
+	@Override
 	public default void clear() {
 		getInventoryStacks().clear();
 	}
 	
+	@Override
 	public default void openInventory(EntityPlayer player) {}
 	
+	@Override
 	public default void closeInventory(EntityPlayer player) {}
 	
+	@Override
+	public default boolean isUsableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
+	}
+	
+	@Override
 	public default int getField(int id) {
 		return 0;
 	}
 	
+	@Override
 	public default void setField(int id, int value) {}
 	
+	@Override
 	public default int getFieldCount() {
 		return 0;
 	}
 	
+	@Override
 	public String getName();
 	
 	// ISidedInventory
 	
+	@Override
 	public default int[] getSlotsForFace(EnumFacing side) {
 		return getInventoryConnection(side).getSlotsForFace();
 	}
 	
+	@Override
 	public default boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return getItemSorption(side, slot).canReceive();
 	}
 	
+	@Override
 	public default boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		return getItemSorption(side, slot).canExtract();
 	}
@@ -139,9 +157,7 @@ public interface ITileInventory extends ITile {
 		return getInventoryConnections()[side.getIndex()];
 	}
 	
-	/*public default void setInventoryConnection(@Nonnull EnumFacing side, @Nonnull InventoryConnection connection) {
-		getInventoryConnections()[side.getIndex()] = connection.copy();
-	}*/
+	/* public default void setInventoryConnection(@Nonnull EnumFacing side, @Nonnull InventoryConnection connection) { getInventoryConnections()[side.getIndex()] = connection.copy(); } */
 	
 	public default @Nonnull ItemSorption getItemSorption(@Nonnull EnumFacing side, int slotNumber) {
 		return getInventoryConnections()[side.getIndex()].getItemSorption(slotNumber);
@@ -179,10 +195,6 @@ public interface ITileInventory extends ITile {
 		return false;
 	}
 	
-	// Inventory Wrapper
-	
-	public @Nonnull InventoryTileWrapper getInventory();
-	
 	// Item Distribution
 	
 	public default void pushStacks() {
@@ -194,15 +206,21 @@ public interface ITileInventory extends ITile {
 	public default void pushStacksToSide(@Nonnull EnumFacing side) {
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjInv == null || adjInv.getSlots() < 1) return;
+		if (adjInv == null || adjInv.getSlots() < 1) {
+			return;
+		}
 		
 		for (int i = 0; i < getInventoryStacks().size(); i++) {
-			if (getInventoryStacks().get(i).isEmpty()) continue;
+			if (getInventoryStacks().get(i).isEmpty()) {
+				continue;
+			}
 			
 			ItemStack initialStack = getInventoryStacks().get(i).copy();
 			ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
 			
-			if (inserted.getCount() >= initialStack.getCount()) continue;
+			if (inserted.getCount() >= initialStack.getCount()) {
+				continue;
+			}
 			
 			getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
 			
@@ -264,7 +282,7 @@ public interface ITileInventory extends ITile {
 		return side == null || getInventoryConnection(side).canConnect();
 	}
 	
-	public default IItemHandler getItemHandlerCapability(@Nullable EnumFacing side) {
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(side == null ? new InvWrapper(getInventory()) : new SidedInvWrapper(getInventory(), side));
+	public default IItemHandler getItemHandler(@Nullable EnumFacing side) {
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new ItemHandler(thisTile(), side));
 	}
 }

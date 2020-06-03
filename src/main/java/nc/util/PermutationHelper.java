@@ -1,7 +1,6 @@
 package nc.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PermutationHelper {
 	
@@ -19,10 +18,12 @@ public class PermutationHelper {
 		if (l == r) {
 			output.add(input);
 		}
-		else for (int i = l; i <= r; i++) {
-			input = swap(input, l, i);
-			permute(input, output, l + 1, r);
-			input = swap(input, l, i);
+		else {
+			for (int i = l; i <= r; i++) {
+				input = swap(input, l, i);
+				permute(input, output, l + 1, r);
+				input = swap(input, l, i);
+			}
 		}
 	}
 	
@@ -33,5 +34,5 @@ public class PermutationHelper {
 		copy.set(i, copy.get(j));
 		copy.set(j, temp);
 		return copy;
-	} 
+	}
 }

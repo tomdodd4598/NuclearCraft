@@ -10,6 +10,6 @@ public class ItemBattery extends ItemEnergy {
 	}
 	
 	public ItemBattery(BatteryType type, String... tooltip) {
-		super(type.getCapacity()/4, type.getMaxTransfer()/4, type.getEnergyTier(), EnergyConnection.BOTH, tooltip);
+		super(type.getCapacity() / 4, type.getMaxTransfer() / 4, type.getEnergyTier(), EnergyConnection.BOTH, tooltip);
 	}
 }

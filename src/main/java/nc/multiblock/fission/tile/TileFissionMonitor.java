@@ -36,8 +36,9 @@ public class TileFissionMonitor extends TileFissionPart {
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -47,7 +48,7 @@ public class TileFissionMonitor extends TileFissionPart {
 	
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockFissionMonitor) {
-			((BlockFissionMonitor)getBlockType()).setState(isActive, this);
+			((BlockFissionMonitor) getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
@@ -60,7 +61,7 @@ public class TileFissionMonitor extends TileFissionPart {
 	
 	@Override
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		//TODO
+		// TODO
 		if (player.isSneaking()) {
 			
 		}

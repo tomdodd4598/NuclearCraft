@@ -1,36 +1,23 @@
 package nc.multiblock.fission;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import static nc.config.NCConfig.*;
+
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
-import nc.config.NCConfig;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.init.NCSounds;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.container.ContainerSolidFissionController;
-import nc.multiblock.fission.tile.IFissionComponent;
-import nc.multiblock.fission.tile.IFissionController;
-import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.*;
+import nc.multiblock.container.*;
+import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
-import nc.multiblock.fission.tile.IFissionPart;
-import nc.multiblock.fission.tile.IFissionSpecialComponent;
-import nc.multiblock.fission.tile.TileFissionIrradiator;
-import nc.multiblock.fission.tile.TileFissionShield;
-import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
-import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -46,6 +33,8 @@ import net.minecraft.util.math.BlockPos;
 public class FissionReactorLogic extends MultiblockLogic<FissionReactor, FissionReactorLogic, IFissionPart, FissionUpdatePacket> {
 	
 	public final HeatBuffer heatBuffer = new HeatBuffer(FissionReactor.BASE_MAX_HEAT);
+	
+	public final Long2ObjectMap<IFissionComponent> lineFailCache = new Long2ObjectOpenHashMap<>();
 	
 	public FissionReactorLogic(FissionReactor reactor) {
 		super(reactor);
@@ -74,18 +63,18 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	@Override
 	public int getMinimumInteriorLength() {
-		return NCConfig.fission_min_size;
+		return fission_min_size;
 	}
 	
 	@Override
 	public int getMaximumInteriorLength() {
-		return NCConfig.fission_max_size;
+		return fission_max_size;
 	}
 	
 	// Multiblock Methods
 	
 	@Override
-	public void onMachineAssembled(boolean wasAssembled) {
+	public void onMachineAssembled() {
 		onReactorFormed();
 	}
 	
@@ -95,12 +84,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void onReactorFormed() {
-		for (IFissionController contr : getPartMap(IFissionController.class).values()) {
-			 getReactor().controller = contr;
+		for (IFissionController contr : getParts(IFissionController.class)) {
+			getReactor().controller = contr;
 		}
 		
-		heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*getCapacityMultiplier());
-		getReactor().ambientTemp = 273 + (int) (getWorld().getBiome(getReactor().getMiddleCoord()).getTemperature(getReactor().getMiddleCoord())*20F);
+		heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT * getCapacityMultiplier());
+		getReactor().ambientTemp = 273 + (int) (getWorld().getBiome(getReactor().getMiddleCoord()).getTemperature(getReactor().getMiddleCoord()) * 20F);
 		
 		if (!getWorld().isRemote) {
 			refreshConnections();
@@ -114,15 +103,18 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	@Override
-	public void onMachinePaused() {}
+	public void onMachinePaused() {
+		onReactorBroken();
+	}
 	
 	@Override
 	public void onMachineDisassembled() {
-		getReactor().resetStats();
-		
+		onReactorBroken();
+	}
+	
+	public void onReactorBroken() {
 		if (!getWorld().isRemote) {
 			refreshConnections();
-			//refreshReactor();
 			getReactor().updateActivity();
 		}
 	}
@@ -139,10 +131,17 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void onAssimilate(Multiblock assimilated) {
-		if (!(assimilated instanceof FissionReactor)) return;
-		FissionReactor assimilatedReactor = (FissionReactor) assimilated;
-		heatBuffer.mergeHeatBuffers(assimilatedReactor.getLogic().heatBuffer);
-		onReactorFormed();
+		if (assimilated instanceof FissionReactor) {
+			FissionReactor assimilatedReactor = (FissionReactor) assimilated;
+			heatBuffer.mergeHeatBuffers(assimilatedReactor.getLogic().heatBuffer);
+		}
+		
+		if (getReactor().isAssembled()) {
+			onReactorFormed();
+		}
+		else {
+			onReactorBroken();
+		}
 	}
 	
 	public void onAssimilated(Multiblock assimilator) {}
@@ -152,9 +151,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void refreshReactor() {
-		refreshManagers();
-		refreshFlux();
-		refreshClusters();
+		lineFailCache.clear();
+		do {
+			refreshFlux();
+			refreshClusters();
+		} while (getReactor().refreshFlag);
+		
 		refreshReactorStats();
 	}
 	
@@ -163,17 +165,19 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void refreshFlux() {
-		final ObjectSet<IFissionFuelComponent> primedFailureCache = new ObjectOpenHashSet<>();
+		final Long2ObjectMap<IFissionFuelComponent> primedFailCache = new Long2ObjectOpenHashMap<>();
 		do {
 			getReactor().refreshFlag = false;
-			if (!getReactor().isAssembled()) return;
+			if (!getReactor().isAssembled()) {
+				return;
+			}
 			
 			final ObjectSet<IFissionFuelComponent> primedCache = new ObjectOpenHashSet<>();
-			for (IFissionComponent component : getPartMap(IFissionComponent.class).values()) {
+			for (IFissionComponent component : getParts(IFissionComponent.class)) {
 				if (component instanceof IFissionFuelComponent) {
 					IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
 					fuelComponent.refreshIsProcessing(false);
-					if ((fuelComponent.isFunctional() || fuelComponent.isSelfPriming()) && !primedFailureCache.contains(fuelComponent)) {
+					if ((fuelComponent.isFunctional() || fuelComponent.isSelfPriming()) && !primedFailCache.containsKey(fuelComponent.getTilePos().toLong())) {
 						fuelComponent.tryPriming(getReactor());
 						if (fuelComponent.isPrimed()) {
 							primedCache.add(fuelComponent);
@@ -195,22 +199,32 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			getReactor().activeModeratorCache.clear();
 			getReactor().activeReflectorCache.clear();
 			
-			distributeFlux(primedCache, primedFailureCache);
-		}
-		while (getReactor().refreshFlag);
+			distributeFlux(primedCache, primedFailCache);
+		} while (getReactor().refreshFlag);
 	}
 	
-	public void distributeFlux(final ObjectSet<IFissionFuelComponent> primedCache, final ObjectSet<IFissionFuelComponent> primedFailureCache) {}
+	public void distributeFlux(final ObjectSet<IFissionFuelComponent> primedCache, final Long2ObjectMap<IFissionFuelComponent> primedFailCache) {}
 	
 	public void refreshClusters() {
-		for (IFissionSpecialComponent specialComponent : getPartMap(IFissionSpecialComponent.class).values()) {
-			specialComponent.postClusterSearch();
+		for (IFissionComponent component : getParts(IFissionComponent.class)) {
+			if (component.isModeratorLineComponent() && !component.isFunctional()) {
+				lineFailCache.put(component.getTilePos().toLong(), component);
+				getReactor().refreshFlag = true;
+			}
+			if (component instanceof IFissionSpecialComponent) {
+				((IFissionSpecialComponent) component).postClusterSearch();
+			}
+		}
+		
+		if (getReactor().refreshFlag) {
+			return;
 		}
 		
 		for (FissionCluster cluster : getReactor().clusterMap.values()) {
 			refreshClusterStats(cluster);
 			cluster.recoverHeatFromComponents();
 		}
+		
 		getReactor().sortClusters();
 	}
 	
@@ -219,12 +233,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		cluster.cooling = cluster.rawHeating = cluster.totalHeatMult = 0L;
 		cluster.effectiveHeating = cluster.meanHeatMult = cluster.totalEfficiency = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = cluster.meanHeatingSpeedMultiplier = 0D;
 		
-		cluster.heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*cluster.getComponentMap().size());
+		cluster.heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT * cluster.getComponentMap().size());
 	}
 	
 	public void iterateFluxSearch(IFissionFuelComponent rootFuelComponent) {
 		final ObjectSet<IFissionFuelComponent> fluxSearchCache = new ObjectOpenHashSet<>();
-		rootFuelComponent.fluxSearch(fluxSearchCache);
+		rootFuelComponent.fluxSearch(fluxSearchCache, lineFailCache);
 		
 		do {
 			final Iterator<IFissionFuelComponent> fluxSearchIterator = fluxSearchCache.iterator();
@@ -232,11 +246,10 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			while (fluxSearchIterator.hasNext()) {
 				IFissionFuelComponent fuelComponent = fluxSearchIterator.next();
 				fluxSearchIterator.remove();
-				fuelComponent.fluxSearch(fluxSearchSubCache);
+				fuelComponent.fluxSearch(fluxSearchSubCache, lineFailCache);
 			}
 			fluxSearchCache.addAll(fluxSearchSubCache);
-		}
-		while (!fluxSearchCache.isEmpty());
+		} while (!fluxSearchCache.isEmpty());
 	}
 	
 	public void iterateClusterSearch(IFissionComponent rootComponent) {
@@ -253,12 +266,11 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 				component.clusterSearch(id, clusterSearchSubCache);
 			}
 			clusterSearchCache.putAll(clusterSearchSubCache);
-		}
-		while (!clusterSearchCache.isEmpty());
+		} while (!clusterSearchCache.isEmpty());
 	}
 	
 	public void refreshReactorStats() {
-		
+		getReactor().resetStats();
 	}
 	
 	// Server
@@ -276,26 +288,20 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void updateRedstone() {
-		/*getReactor().comparatorSignal = NCMath.getComparatorSignal(100D/NCConfig.fission_comparator_max_heat*getReactor().heatBuffer.heatStored, getReactor().heatBuffer.heatCapacity, 0D);
-		for (TileSaltFissionRedstonePort redstonePort : getReactor().partSuperMap.get(TileSaltFissionRedstonePort.class).values) {
-			if (redstonePort.comparatorSignal != getReactor().comparatorSignal) {
-				redstonePort.comparatorSignal = getReactor().comparatorSignal;
-				getWorld().updateComparatorOutputLevel(redstonePort.getPos(), null);
-			}
-		}*/
+		/* getReactor().comparatorSignal = NCMath.getComparatorSignal(100D/fission_comparator_max_heat* getReactor().heatBuffer.heatStored, getReactor().heatBuffer.heatCapacity, 0D); for (TileSaltFissionRedstonePort redstonePort : getParts(TileSaltFissionRedstonePort.class)) { if (redstonePort.comparatorSignal != getReactor().comparatorSignal) { redstonePort.comparatorSignal = getReactor().comparatorSignal; getWorld().updateComparatorOutputLevel(redstonePort.getPos(), null); } } */
 	}
 	
 	public void casingMeltdown() {
-		Iterator<IFissionController> controllerIterator = getPartMap(IFissionController.class).values().iterator();
+		Iterator<IFissionController> controllerIterator = getPartIterator(IFissionController.class);
 		while (controllerIterator.hasNext()) {
 			IFissionController controller = controllerIterator.next();
 			controllerIterator.remove();
 			controller.doMeltdown();
 		}
 		
-		//TODO - graphite fires
+		// TODO - graphite fires
 		
-		//TODO - explosions if vents with water are present, melt casing if not
+		// TODO - explosions if vents with water are present, melt casing if not
 		if (getPartMap(TileFissionVent.class).isEmpty()) {
 			
 		}
@@ -303,13 +309,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			
 		}
 		
-		/*IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
-		for (BlockPos blockPos : BlockPos.getAllInBoxMutable(getMinimumCoord(), getMaximumCoord())) {
-			if (rand.nextDouble() < 0.18D) {
-				WORLD.removeTileEntity(blockPos);
-				WORLD.setBlockState(blockPos, corium);
-			}
-		}*/
+		/* IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState(); for (BlockPos blockPos : BlockPos.getAllInBoxMutable(getMinimumCoord(), getMaximumCoord())) { if (rand.nextDouble() < 0.18D) { WORLD.removeTileEntity(blockPos); WORLD.setBlockState(blockPos, corium); } } */
 		
 		getReactor().checkIfMachineIsWhole();
 	}
@@ -318,17 +318,17 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		getReactor().checkIfMachineIsWhole();
 	}
 	
-	//TODO - config
+	// TODO - config
 	public long getHeatDissipation() {
-		return Math.max(1L, heatBuffer.getHeatStored()*getReactor().getExteriorSurfaceArea()/(NCMath.cube(6)*672000L));
+		return Math.max(1L, heatBuffer.getHeatStored() * getReactor().getExteriorSurfaceArea() / (NCMath.cube(6) * 672000L));
 	}
 	
 	public int getTemperature() {
-		return Math.round(getReactor().ambientTemp + (FissionReactor.MAX_TEMP - getReactor().ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
+		return Math.round(getReactor().ambientTemp + (FissionReactor.MAX_TEMP - getReactor().ambientTemp) * (float) heatBuffer.getHeatStored() / heatBuffer.getHeatCapacity());
 	}
 	
 	public float getBurnDamage() {
-		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373)/200F;
+		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373) / 200F;
 	}
 	
 	// Component Logic
@@ -348,12 +348,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void onShieldUpdated(TileFissionShield shield) {
-		if (shield.inActiveModeratorLine) {
+		if (shield.inCompleteModeratorLine) {
 			getReactor().refreshFlag = true;
 		}
 	}
 	
-	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache) {}
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache) {}
 	
 	public IFissionFuelComponent getNextFuelComponent(IFissionFuelComponent fuelComponent, BlockPos pos) {
 		IFissionComponent component = getPartMap(IFissionComponent.class).get(pos.toLong());
@@ -390,10 +390,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	public void onUpdateClient() {}
 	
 	public boolean playFissionSound(IFissionFuelComponent fuelComponent) {
-		if (getReactor().fuelComponentCount <= 0) return true;
-		double soundRate = Math.min(1D, getReactor().meanEfficiency/(14D*NCConfig.fission_max_size));
+		if (getReactor().fuelComponentCount <= 0) {
+			return true;
+		}
+		double soundRate = Math.min(1D, getReactor().meanEfficiency / (14D * fission_max_size));
 		if (rand.nextDouble() < soundRate) {
-			getWorld().playSound(fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D*Math.log1p(Math.sqrt(getReactor().fuelComponentCount))*NCConfig.fission_sound_volume), 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			getWorld().playSound(fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D * Math.log1p(Math.sqrt(getReactor().fuelComponentCount)) * fission_sound_volume), 1F + 0.12F * (rand.nextFloat() - 0.5F), false);
 			return true;
 		}
 		return false;

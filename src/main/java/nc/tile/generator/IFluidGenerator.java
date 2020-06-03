@@ -17,5 +17,5 @@ public interface IFluidGenerator extends IGenerator, ITileFluid {
 	public List<IFluidIngredient> getFluidIngredients();
 	
 	public List<IFluidIngredient> getFluidProducts();
-
+	
 }

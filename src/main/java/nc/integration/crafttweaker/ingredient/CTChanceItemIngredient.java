@@ -3,18 +3,12 @@ package nc.integration.crafttweaker.ingredient;
 import java.util.List;
 
 import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.item.IIngredient;
-import crafttweaker.api.item.IItemCondition;
-import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.item.IItemTransformer;
-import crafttweaker.api.item.IItemTransformerNew;
+import crafttweaker.api.item.*;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.player.IPlayer;
 import nc.integration.crafttweaker.CTHelper;
 import nc.recipe.ingredient.ChanceItemIngredient;
-import stanhebben.zenscript.annotations.Optional;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mods.nuclearcraft.ChanceItemIngredient")
 @ZenRegister

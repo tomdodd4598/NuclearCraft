@@ -3,36 +3,37 @@ package nc.container;
 import javax.annotation.Nullable;
 
 import nc.tile.ITileGui;
-import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.IInventory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.inventory.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class ContainerTile<T extends ITileGui> extends NCContainer {
 	
-	protected final @Nullable IInventory invWrapper;
+	protected final @Nullable IInventory inv;
 	
 	public ContainerTile(T tile) {
 		super();
-		invWrapper = tile instanceof ITileInventory ? ((ITileInventory)tile).getInventory() : null;
+		inv = tile instanceof IInventory ? (IInventory) tile : null;
 	}
 	
 	@Override
 	public void addListener(IContainerListener listener) {
 		super.addListener(listener);
-		if (invWrapper != null) listener.sendAllWindowProperties(this, invWrapper);
+		if (inv != null) {
+			listener.sendAllWindowProperties(this, inv);
+		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
-		if (invWrapper != null) invWrapper.setField(id, data);
+		if (inv != null) {
+			inv.setField(id, data);
+		}
 	}
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return invWrapper == null ? false : invWrapper.isUsableByPlayer(player);
+		return inv == null ? false : inv.isUsableByPlayer(player);
 	}
 }

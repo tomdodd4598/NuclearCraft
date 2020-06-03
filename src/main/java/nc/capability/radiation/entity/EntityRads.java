@@ -25,7 +25,9 @@ public class EntityRads extends PlayerRads {
 	
 	@Override
 	public void readNBT(IEntityRads instance, EnumFacing side, NBTTagCompound nbt) {
-		if (nbt.getDouble("maxRads") > 0) maxRads = nbt.getDouble("maxRads");
+		if (nbt.getDouble("maxRads") > 0) {
+			maxRads = nbt.getDouble("maxRads");
+		}
 		setMaxRads = nbt.getBoolean("setMaxRads");
 		super.readNBT(instance, side, nbt);
 	}
@@ -33,7 +35,7 @@ public class EntityRads extends PlayerRads {
 	@Override
 	public double getMaxRads() {
 		if (!setMaxRads) {
-			maxRads = MAX_RADS_MAP.containsKey(entity.getClass()) ? MAX_RADS_MAP.get(entity.getClass()) : 50D*entity.getMaxHealth();
+			maxRads = MAX_RADS_MAP.containsKey(entity.getClass()) ? MAX_RADS_MAP.get(entity.getClass()) : 50D * entity.getMaxHealth();
 			setMaxRads = true;
 		}
 		return maxRads;

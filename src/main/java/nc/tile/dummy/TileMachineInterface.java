@@ -1,6 +1,7 @@
 package nc.tile.dummy;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.machine_update_rate;
+
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.fluid.ITileFluid;
@@ -14,13 +15,13 @@ import net.minecraft.util.EnumFacing;
 public class TileMachineInterface extends TileDummy<IInterfaceable> implements IBufferable {
 	
 	public TileMachineInterface() {
-		super(IInterfaceable.class, "machine_interface", ITileInventory.inventoryConnectionAll(ItemSorption.BOTH), ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), NCConfig.machine_update_rate, null, ITileFluid.fluidConnectionAll(TankSorption.BOTH));
+		super(IInterfaceable.class, "machine_interface", ITileInventory.inventoryConnectionAll(ItemSorption.BOTH), ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), machine_update_rate, null, ITileFluid.fluidConnectionAll(TankSorption.BOTH));
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			pushEnergy();
 			pushFluid();
 		}

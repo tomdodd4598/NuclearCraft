@@ -1,13 +1,12 @@
 package nc.tile.energyFluid;
 
+import static nc.config.NCConfig.machine_update_rate;
+
 import javax.annotation.Nonnull;
 
-import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.IEnergySpread;
-import nc.tile.energy.ITileEnergy;
-import nc.tile.fluid.IFluidSpread;
-import nc.tile.fluid.ITileFluid;
+import nc.tile.energy.*;
+import nc.tile.fluid.*;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.ItemSorption;
@@ -16,10 +15,8 @@ import nc.util.NCInventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.fluids.capability.*;
+import net.minecraftforge.items.*;
 
 public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterfaceable, IEnergySpread, IFluidSpread {
 	
@@ -43,7 +40,8 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	}
 	
 	public void tickPush() {
-		pushCount++; pushCount %= NCConfig.machine_update_rate;
+		pushCount++;
+		pushCount %= machine_update_rate;
 	}
 	
 	// Item and Fluid Pushing
@@ -51,18 +49,26 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	@Override
 	public void pushStacksToSide(@Nonnull EnumFacing side) {
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (!(tile instanceof IBufferable)) return;
+		if (!(tile instanceof IBufferable)) {
+			return;
+		}
 		
 		IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjInv == null || adjInv.getSlots() < 1) return;
+		if (adjInv == null || adjInv.getSlots() < 1) {
+			return;
+		}
 		
 		for (int i = 0; i < getInventoryStacks().size(); i++) {
-			if (getInventoryStacks().get(i).isEmpty()) continue;
+			if (getInventoryStacks().get(i).isEmpty()) {
+				continue;
+			}
 			
 			ItemStack initialStack = getInventoryStacks().get(i).copy();
 			ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
 			
-			if (inserted.getCount() >= initialStack.getCount()) continue;
+			if (inserted.getCount() >= initialStack.getCount()) {
+				continue;
+			}
 			
 			getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
 			
@@ -74,16 +80,24 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).getTankSorption(0).canDrain()) return;
+		if (!getFluidConnection(side).getTankSorption(0).canDrain()) {
+			return;
+		}
 		
 		TileEntity tile = world.getTileEntity(getPos().offset(side));
-		if (!(tile instanceof IBufferable)) return;
+		if (!(tile instanceof IBufferable)) {
+			return;
+		}
 		
 		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjStorage == null) return;
+		if (adjStorage == null) {
+			return;
+		}
 		
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) return;
+			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) {
+				return;
+			}
 			
 			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 		}

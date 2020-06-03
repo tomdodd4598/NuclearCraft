@@ -3,7 +3,10 @@ package nc.tile.internal.energy;
 import net.minecraft.util.IStringSerializable;
 
 public enum EnergyConnection implements IStringSerializable {
-	IN, OUT, BOTH, NON;
+	IN,
+	OUT,
+	BOTH,
+	NON;
 	
 	public boolean canReceive() {
 		return this == IN || this == BOTH;
@@ -19,44 +22,44 @@ public enum EnergyConnection implements IStringSerializable {
 	
 	public EnergyConnection next(Type type) {
 		switch (type) {
-		case DEFAULT:
-			switch (this) {
-			case IN:
-				return OUT;
-			case OUT:
-				return NON;
-			case NON:
-				return IN;
+			case DEFAULT:
+				switch (this) {
+					case IN:
+						return OUT;
+					case OUT:
+						return NON;
+					case NON:
+						return IN;
+					default:
+						return NON;
+				}
 			default:
-				return NON;
-			}
-		default:
-			switch (this) {
-			case IN:
-				return OUT;
-			case OUT:
-				return NON;
-			case NON:
-				return IN;
-			default:
-				return NON;
-			}
+				switch (this) {
+					case IN:
+						return OUT;
+					case OUT:
+						return NON;
+					case NON:
+						return IN;
+					default:
+						return NON;
+				}
 		}
 	}
-
+	
 	@Override
 	public String getName() {
 		switch (this) {
-		case IN:
-			return "in";
-		case OUT:
-			return "out";
-		case BOTH:
-			return "both";
-		case NON:
-			return "non";
-		default:
-			return "non";
+			case IN:
+				return "in";
+			case OUT:
+				return "out";
+			case BOTH:
+				return "both";
+			case NON:
+				return "non";
+			default:
+				return "non";
 		}
 	}
 	

@@ -1,39 +1,28 @@
 package nc.radiation;
 
+import static nc.config.NCConfig.*;
+
 import org.lwjgl.opengl.GL11;
 
 import nc.Global;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
-import nc.tile.radiation.TileGeigerCounter;
-import nc.tile.radiation.TileRadiationScrubber;
-import nc.util.GuiHelper;
-import nc.util.Lang;
-import nc.util.TextHelper;
-import nc.util.UnitHelper;
+import nc.init.*;
+import nc.tile.radiation.*;
+import nc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public class RadiationRenders {
@@ -48,40 +37,48 @@ public class RadiationRenders {
 	/* Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void addRadiationInfo(RenderGameOverlayEvent.Post event) {
-		if (!NCConfig.radiation_enabled_public) return;
+		if (!radiation_enabled_public) {
+			return;
+		}
 		
-		if(event.getType() != ElementType.HOTBAR) return;
+		if (event.getType() != ElementType.HOTBAR) {
+			return;
+		}
 		final EntityPlayer player = MC.player;
-		if (!RadiationHelper.shouldShowHUD(player)) return;
+		if (!RadiationHelper.shouldShowHUD(player)) {
+			return;
+		}
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-		if (playerRads == null) return;
+		if (playerRads == null) {
+			return;
+		}
 		
 		ScaledResolution res = new ScaledResolution(MC);
-		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
-		String info = playerRads.isImmune() ? (playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1)) : (playerRads.isRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true));
+		int barWidth = (int) (100D * playerRads.getTotalRads() / playerRads.getMaxRads());
+		String info = playerRads.isImmune() ? playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1) : playerRads.isRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true);
 		int infoWidth = MC.fontRenderer.getStringWidth(info);
-		int overlayWidth = (int)Math.round(Math.max(104, infoWidth)*NCConfig.radiation_hud_size);
-		int overlayHeight = (int)Math.round(19*NCConfig.radiation_hud_size);
+		int overlayWidth = (int) Math.round(Math.max(104, infoWidth) * radiation_hud_size);
+		int overlayHeight = (int) Math.round(19 * radiation_hud_size);
 		
-		int xPos = (int)Math.round(NCConfig.radiation_hud_position_cartesian.length >= 2 ? NCConfig.radiation_hud_position_cartesian[0]*res.getScaledWidth() : GuiHelper.getRenderPositionXFromAngle(res, NCConfig.radiation_hud_position, overlayWidth, 3)/NCConfig.radiation_hud_size);
-		int yPos = (int)Math.round(NCConfig.radiation_hud_position_cartesian.length >= 2 ? NCConfig.radiation_hud_position_cartesian[1]*res.getScaledHeight() : GuiHelper.getRenderPositionYFromAngle(res, NCConfig.radiation_hud_position, overlayHeight, 3)/NCConfig.radiation_hud_size);
+		int xPos = (int) Math.round(radiation_hud_position_cartesian.length >= 2 ? radiation_hud_position_cartesian[0] * res.getScaledWidth() : GuiHelper.getRenderPositionXFromAngle(res, radiation_hud_position, overlayWidth, 3) / radiation_hud_size);
+		int yPos = (int) Math.round(radiation_hud_position_cartesian.length >= 2 ? radiation_hud_position_cartesian[1] * res.getScaledHeight() : GuiHelper.getRenderPositionYFromAngle(res, radiation_hud_position, overlayHeight, 3) / radiation_hud_size);
 		
 		MC.getTextureManager().bindTexture(RADS_BAR);
 		
 		GlStateManager.pushMatrix();
 		
-		GlStateManager.scale(NCConfig.radiation_hud_size, NCConfig.radiation_hud_size, 1D);
+		GlStateManager.scale(radiation_hud_size, radiation_hud_size, 1D);
 		
 		drawTexturedModalRect(xPos, yPos, 0, 0, 104, 10);
 		drawTexturedModalRect(xPos + 2 + 100 - barWidth, yPos + 2, 100 - barWidth, 10, barWidth, 6);
 		yPos += 12;
-		if (NCConfig.radiation_hud_text_outline) {
-			MC.fontRenderer.drawString(info, xPos + 1 + (104 - infoWidth)/2, yPos, 0);
-			MC.fontRenderer.drawString(info, xPos - 1 + (104 - infoWidth)/2, yPos, 0);
-			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos + 1, 0);
-			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos - 1, 0);
+		if (radiation_hud_text_outline) {
+			MC.fontRenderer.drawString(info, xPos + 1 + (104 - infoWidth) / 2, yPos, 0);
+			MC.fontRenderer.drawString(info, xPos - 1 + (104 - infoWidth) / 2, yPos, 0);
+			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos + 1, 0);
+			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos - 1, 0);
 		}
-		MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
+		MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
 		
 		GlStateManager.popMatrix();
 	}
@@ -105,11 +102,12 @@ public class RadiationRenders {
 		boolean chunkBorders = false;
 		
 		// Bail fast if rendering is disabled
-		if (!NCConfig.radiation_chunk_boundaries) {
+		if (!radiation_chunk_boundaries) {
 			return;
 		}
 		
-		// Draw the chunk borders if we're either holding a geiger block OR looking at one
+		// Draw the chunk borders if we're either holding a geiger block OR
+		// looking at one
 		for (EnumHand hand : EnumHand.values()) {
 			ItemStack heldItem = MC.player.getHeldItem(hand);
 			if (NCItems.geiger_counter == heldItem.getItem() || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem.getItem()) {
@@ -132,10 +130,10 @@ public class RadiationRenders {
 			double px = TileEntityRendererDispatcher.staticPlayerX;
 			double py = TileEntityRendererDispatcher.staticPlayerY;
 			double pz = TileEntityRendererDispatcher.staticPlayerZ;
-			int chunkX = (int)player.posX >> 4<<4;
-			int chunkZ = (int)player.posZ >> 4<<4;
-			int y = Math.min((int)player.posY-2, player.getEntityWorld().getChunk(chunkX, chunkZ).getLowestHeight());
-			float h = (float)Math.max(32, player.posY - y + 8);
+			int chunkX = (int) player.posX >> 4 << 4;
+			int chunkZ = (int) player.posZ >> 4 << 4;
+			int y = Math.min((int) player.posY - 2, player.getEntityWorld().getChunk(chunkX, chunkZ).getLowestHeight());
+			float h = (float) Math.max(32, player.posY - y + 8);
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder BufferBuilder = tessellator.getBuffer();
 			
@@ -147,7 +145,7 @@ public class RadiationRenders {
 			float r = 255;
 			float g = 0;
 			float b = 0;
-			BufferBuilder.setTranslation(chunkX-px, y+2-py, chunkZ-pz);
+			BufferBuilder.setTranslation(chunkX - px, y + 2 - py, chunkZ - pz);
 			GlStateManager.glLineWidth(5f);
 			BufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
 			BufferBuilder.pos(0, 0, 0).color(r, g, b, .375f).endVertex();

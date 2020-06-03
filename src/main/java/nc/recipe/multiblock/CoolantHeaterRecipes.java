@@ -1,11 +1,10 @@
 package nc.recipe.multiblock;
 
+import static nc.config.NCConfig.fission_heater_cooling_rate;
 import static nc.init.NCCoolantFluids.COOLANTS;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipeHandler;
 
 public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
@@ -17,7 +16,7 @@ public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		for (int i = 0; i < COOLANTS.size(); i++) {
-			addRecipe(fluidStack(COOLANTS.get(i) + "nak", 1), fluidStack(COOLANTS.get(i) + "nak_hot", 1), NCConfig.fission_heater_cooling_rate[i], "jei.nuclearcraft.coolant_heater." + COOLANTS.get(i) + "nak");
+			addRecipe(fluidStack(COOLANTS.get(i) + "nak", 1), fluidStack(COOLANTS.get(i) + "nak_hot", 1), fission_heater_cooling_rate[i], "jei.nuclearcraft.coolant_heater." + COOLANTS.get(i) + "nak");
 		}
 	}
 	
