@@ -2882,7 +2882,7 @@ death.attack.hypothermia=%1$s在超低温中被冻死了
 death.attack.fission_burn=%1$s在裂变反应堆中被烤了
 death.attack.fatal_rads=%1$s受到了致命剂量的辐射
 
-#NuclearCraft Ingame Configs
+# NuclearCraft Ingame Configs
 gui.nc.config.main_title=核电工艺配置
 
 gui.nc.config.category.world_gen=世界生成
@@ -2893,7 +2893,7 @@ gui.nc.config.ore_dims.comment=矿物生成维度的白名单/黑名单。
 gui.nc.config.ore_dims_list_type=白名单/黑名单 (false/true)
 gui.nc.config.ore_dims_list_type.comment=这个维度列表是一个白名单 (false) 还是一个黑名单 (true)？
 gui.nc.config.ore_gen=矿石生成
-gui.nc.config.ore_gen.comment=矿石会在世界中生成吗？顺序：copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
+gui.nc.config.ore_gen.comment=矿石会在世界中生成吗？顺序：铜、锡、铅、钍、铀、硼、锂、镁。
 gui.nc.config.ore_size=区块矿石量
 gui.nc.config.ore_size.comment=Numbers of ore blocks per ore chunk. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_rate=Spawn Rates
