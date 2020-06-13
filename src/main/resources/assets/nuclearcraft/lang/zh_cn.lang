@@ -2113,8 +2113,8 @@ item.nuclearcraft.depleted_fuel_californium.hecf_251_ox.name=枯竭 高密度 �
 item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=枯竭 高密度 锎-251 氮化物燃料丸
 item.nuclearcraft.depleted_fuel_californium.hecf_251_za.name=枯竭 高密度 锎-251-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_ic2.u.name=枯竭 铀 核燃料
-item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭 钚铀混合氧化物 核燃料
+item.nuclearcraft.depleted_fuel_ic2.u.name=枯竭铀核燃料
+item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭钚铀混合氧化物核燃料
 
 item.nuclearcraft.boron.10.name=硼-10
 item.nuclearcraft.boron.11.name=硼-11
@@ -2189,7 +2189,7 @@ info.nuclearcraft.multitool.copy_component_info=将构件信息存入了多功�
 
 info.nuclearcraft.multitool.connect_component_monitor=将构件连接到了显示器！
 
-info.nuclearcraft.multitool.fission.connect_shield_manager=所有%s个防护屏应该都已连接到了管理器！
+info.nuclearcraft.multitool.fission.connect_shield_manager=所有%s个防护屏都已连接到了管理器！
 
 info.nuclearcraft.multitool.quantum_computer.qubit_id=量子位ID：%s
 info.nuclearcraft.multitool.quantum_computer.start_qubit_set=以%s设定了一个新的量子位ID！
@@ -2390,6 +2390,609 @@ itemGroup.nuclearcraft.machine=核电工艺 | 机器
 itemGroup.nuclearcraft.multiblock=核电工艺 | 结构
 itemGroup.nuclearcraft.misc=核电工艺 | 杂项
 
+#NuclearCraft Ingame Configs
+gui.nc.config.main_title=核电工艺配置
+
+gui.nc.config.category.world_gen=世界生成
+gui.nc.config.category.world_gen.tooltip=配置世界生成。
+
+gui.nc.config.ore_dims=维度列表
+gui.nc.config.ore_dims.comment=矿物生成维度的白名单/黑名单。
+gui.nc.config.ore_dims_list_type=白名单/黑名单 (false/true)
+gui.nc.config.ore_dims_list_type.comment=这个维度列表是一个白名单 (false) 还是一个黑名单 (true)？
+gui.nc.config.ore_gen=矿石生成
+gui.nc.config.ore_gen.comment=矿石会在世界中生成吗？顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+gui.nc.config.ore_size=区块矿石量
+gui.nc.config.ore_size.comment=每区块矿石的生成量。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+gui.nc.config.ore_rate=生成率
+gui.nc.config.ore_rate.comment=矿石的生成率。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+gui.nc.config.ore_min_height=最低生成高度
+gui.nc.config.ore_min_height.comment=矿石生成的最低高度。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+gui.nc.config.ore_max_height=最高生成高度
+gui.nc.config.ore_max_height.comment=矿石生成的最高高度。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+gui.nc.config.ore_drops=Enable Extra Ore Drops
+gui.nc.config.ore_drops.comment=Will vanilla ores drop extra resources? 顺序：rhodochrosite, beryllium dust, zirconium dust, fluorite, sulfur, villiaumite, carobbiite.
+gui.nc.config.ore_hide_disabled=Hide Disabled Ores
+gui.nc.config.ore_hide_disabled.comment=Remove disabled ores from the Ore Dictionary and JEI?
+gui.nc.config.ore_harvest_levels=Ore Harvest Levels
+gui.nc.config.ore_harvest_levels.comment=Pickaxe harvest levels of ores. 顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+
+gui.nc.config.wasteland_biome=生成Wasteland生物群系
+gui.nc.config.wasteland_biome.comment=Wasteland生物群系会在主世界中生成吗？
+gui.nc.config.wasteland_biome_weight=Wasteland生物群系生成率
+gui.nc.config.wasteland_biome_weight.comment=Wasteland生物群系的生成率——数值越高，生成率便越高。
+
+gui.nc.config.wasteland_dimension_gen=启用Wasteland维度
+gui.nc.config.wasteland_dimension_gen.comment=Wasteland维度会生成吗？
+gui.nc.config.wasteland_dimension=Wasteland维度ID
+gui.nc.config.wasteland_dimension.comment=设置Wasteland维度的维度ID。
+
+gui.nc.config.mushroom_spread_rate=荧核菇传播速度
+gui.nc.config.mushroom_spread_rate.comment=Glowing Mushroom spread rate.
+gui.nc.config.mushroom_gen=Generate Mushrooms
+gui.nc.config.mushroom_gen.comment=Will glowing mushrooms generate in the nether?
+gui.nc.config.mushroom_gen_size=Mushroom Gen Size
+gui.nc.config.mushroom_gen_size.comment=Determines how many glowing mushrooms will spawn at a time.
+gui.nc.config.mushroom_gen_rate=Mushroom Gen Rate
+gui.nc.config.mushroom_gen_rate.comment=Determines how often glowing mushrooms will spawn.
+
+gui.nc.config.category.processor=Processor Configs
+gui.nc.config.category.processor.tooltip=Configure processors.
+
+gui.nc.config.processor_time=Processing Times
+gui.nc.config.processor_time.comment=Base ticks per process. 顺序：Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.processor_power=Processing Power Use
+gui.nc.config.processor_power.comment=Base RF/t use during processing. 顺序：Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.speed_upgrade_power_laws_fp=Speed Upgrade Power Laws
+gui.nc.config.speed_upgrade_power_laws_fp.comment=Power laws for speed upgrades. 顺序：Processing Time, Processing Power.
+gui.nc.config.speed_upgrade_multipliers_fp=Speed Upgrade Multipliers
+gui.nc.config.speed_upgrade_multipliers_fp.comment=Base multipliers for speed upgrades. 顺序：Processing Time, Processing Power.
+gui.nc.config.energy_upgrade_power_laws_fp=Energy Upgrade Power Laws
+gui.nc.config.energy_upgrade_power_laws_fp.comment=Power laws for energy upgrades. 顺序：Processing Power.
+gui.nc.config.energy_upgrade_multipliers_fp=Energy Upgrade Multipliers
+gui.nc.config.energy_upgrade_multipliers_fp.comment=Base multipliers for energy upgrades. 顺序：Processing Power.
+gui.nc.config.rf_per_eu=工业2的EU与RF的转换率
+gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 Energy Units.
+gui.nc.config.enable_gtce_eu=格雷科技：社区版的EU支持
+gui.nc.config.enable_gtce_eu.comment=如果设定为true，那么格雷科技：社区版的EU可以被核电工艺的机器接收。
+gui.nc.config.enable_mek_gas=Enable Mekanism Gas Support
+gui.nc.config.enable_mek_gas.comment=If true, gas from Mekanism can be handled by NC machines.
+gui.nc.config.machine_update_rate=Machine Update Rate
+gui.nc.config.machine_update_rate.comment=Ticks per machine update - used for various processes such as GUI updates and multiblock structure checks.
+gui.nc.config.processor_passive_rate=Passive Production Rate
+gui.nc.config.processor_passive_rate.comment=Rates at which passive machines produce materials. 顺序：Cobblestone Generator, Infinite Water Source, Nitrogen Collector.
+gui.nc.config.passive_push=Passive Pushing
+gui.nc.config.passive_push.comment=Will passive machines that produce materials automatically push to adjacent inventories and fluid handlers?
+gui.nc.config.cobble_gen_power=Cobble Gen Power Use
+gui.nc.config.cobble_gen_power.comment=RF/t required for Cobblestone Generator to run.
+gui.nc.config.ore_processing=Ore Processing
+gui.nc.config.ore_processing.comment=Can NuclearCraft machines process ores?
+gui.nc.config.manufactory_wood=Manufactory Wood Processing
+gui.nc.config.manufactory_wood.comment=Specify the size of the output stack for Manufactory wood processing recipes. 顺序：Logs->Planks, Planks->Sticks.
+gui.nc.config.rock_crusher_alternate=Rock Crusher Alternate Recipes
+gui.nc.config.rock_crusher_alternate.comment=Use an alternate set of recipes for the Rock Crusher that only produce NC dusts?
+gui.nc.config.gtce_recipe_integration=注册格雷科技：社区版的配方
+gui.nc.config.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. 顺序：Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.gtce_recipe_logging=格雷科技：社区版配方添加
+gui.nc.config.gtce_recipe_logging.comment=添加格雷科技：社区版的附加吗？
+gui.nc.config.smart_processor_input=Smart Processor Input
+gui.nc.config.smart_processor_input.comment=Will a machine's valid inputs depend on the stacks already in its input slots as well as its possible recipes?
+gui.nc.config.passive_permeation=Passive Permeation
+gui.nc.config.passive_permeation.comment=Will passive machines such as Active Coolers and Electromagnets spread their items, fluid and energy to adjacent passive machines?
+gui.nc.config.processor_particles=Processor Particles
+gui.nc.config.processor_particles.comment=Will machines produce particle effects while running?
+
+gui.nc.config.category.generator=Generator Configs
+gui.nc.config.category.generator.tooltip=Configure generators.
+
+gui.nc.config.rtg_power=放射性热电发电机能量产出
+gui.nc.config.rtg_power.comment=RF/t generated. 顺序：Uranium, Plutonium, Americium, Californium.
+gui.nc.config.solar_power=太阳能电池板能量产出
+gui.nc.config.solar_power.comment=RF/t generated. 顺序：Basic, Advanced, DU, Elite.
+gui.nc.config.decay_lifetime=Decay Generator Mean Lifetimes
+gui.nc.config.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. 顺序：Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.decay_power=Decay Generator Power Gen
+gui.nc.config.decay_power.comment=RF/t generated by adjacent radioactive blocks. 顺序：Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.generator_rf_per_eu=RF Use per EU Emitted
+gui.nc.config.generator_rf_per_eu.comment=The RF used per EU emitted for generators.
+
+gui.nc.config.category.energy_storage=Energy Storage Configs
+gui.nc.config.category.energy_storage.tooltip=Configure energy storages.
+
+gui.nc.config.battery_capacity=Battery Capacities
+gui.nc.config.battery_capacity.comment=Maximum RF storable. 顺序：Voltaic Pile [Basic, Advanced, DU, Elite], Lithium Ion Battery [Basic, Advanced, DU, Elite].
+
+gui.nc.config.category.fission=Fission Configs
+gui.nc.config.category.fission.tooltip=Configure aspects of nuclear fission.
+
+gui.nc.config.fission_power=Power Gen Multiplier
+gui.nc.config.fission_power.comment=Modifies the power generated by fission reactors.
+gui.nc.config.fission_fuel_use=Fuel Use Multiplier
+gui.nc.config.fission_fuel_use.comment=Modifies the rate of fuel used by fission reactors.
+gui.nc.config.fission_heat_generation=Heat Gen Multiplier
+gui.nc.config.fission_heat_generation.comment=Modifies the heat generated by fission reactors.
+gui.nc.config.fission_cooling_rate=Cooling Rates
+gui.nc.config.fission_cooling_rate.comment=Base heat removed per tick. 顺序：water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+gui.nc.config.fission_overheat=Enable Meltdowns
+gui.nc.config.fission_overheat.comment=Can fission reactors overheat?
+gui.nc.config.fission_explosions=Enable Explosions
+gui.nc.config.fission_explosions.comment=Will fission reactors explode when they overheat?
+gui.nc.config.fission_meltdown_radiation_multiplier=Meltdown Radiation Multiplier
+gui.nc.config.fission_meltdown_radiation_multiplier.comment=Modifies the radiation leaked by meltdowns.
+gui.nc.config.fission_min_size=Minimum Structure Length
+gui.nc.config.fission_min_size.comment=Minimum side length of fission structures.
+gui.nc.config.fission_max_size=Maximum Structure Length
+gui.nc.config.fission_max_size.comment=Maximum side length of fission structures.
+gui.nc.config.fission_comparator_max_heat=Max Comparator Signal Heat
+gui.nc.config.fission_comparator_max_heat.comment=Percentage heat level of a fission reactor at which a comparator adjacent to the controller will output a full-strength redstone signal.
+gui.nc.config.fission_force_heat_comparator=Force Heat Comparator
+gui.nc.config.fission_force_heat_comparator.comment=If enabled, the controller of a heat-negative or heat-neutral reactor will output a heat-based comparator signal as if it were heat-positive instead of an energy-based one.
+gui.nc.config.fission_sound_volume=Fission Sound Volume
+gui.nc.config.fission_sound_volume.comment=Modifier for the volume of fission sound effects.
+
+gui.nc.config.fission_moderator_extra_power=Moderator Power Modifier
+gui.nc.config.fission_moderator_extra_power.comment=*Only effects new mechanics.* Determines the extra power generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of moderator blocks).
+gui.nc.config.fission_moderator_extra_heat=Moderator Heat Modifier
+gui.nc.config.fission_moderator_extra_heat.comment=*Only effects new mechanics.* Determines the extra heat generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of heat that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of heat (the amount of additional heat scales linearly with the number of moderator blocks).
+gui.nc.config.fission_neutron_reach=Neutron Radiation Reach
+gui.nc.config.fission_neutron_reach.comment=*Only effects new mechanics.* Maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them and their efficiency to increase.
+
+gui.nc.config.fission_thorium_fuel_time=Thorium Fuel Durations
+gui.nc.config.fission_thorium_fuel_time.comment=Base ticks the fuels last. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_heat_generation=Thorium Fuel Heat Gen
+gui.nc.config.fission_thorium_heat_generation.comment=Base heat the fuels produce. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_efficiency=Thorium Fuel Base Efficiencies
+gui.nc.config.fission_thorium_efficiency.comment=Base efficiencies of the fuels. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_criticality=Thorium Fuel Criticality Factors
+gui.nc.config.fission_thorium_criticality.comment=Criticality factors of the fuels. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_radiation=Thorium Fuel Radiation
+gui.nc.config.fission_thorium_radiation.comment=Base radiation the fuels produce while processing. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+
+gui.nc.config.fission_uranium_fuel_time=Uranium Fuel Durations
+gui.nc.config.fission_uranium_fuel_time.comment=Base ticks the fuels last. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+gui.nc.config.fission_uranium_heat_generation=Uranium Fuel Heat Gen
+gui.nc.config.fission_uranium_heat_generation.comment=Base heat the fuels produce. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+gui.nc.config.fission_uranium_efficiency=Uranium Fuel Base Efficiencies
+gui.nc.config.fission_uranium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_uranium_criticality=Uranium Fuel Criticality Factors
+gui.nc.config.fission_uranium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_uranium_radiation=Uranium Fuel Radiation
+gui.nc.config.fission_uranium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+
+gui.nc.config.fission_neptunium_fuel_time=Neptunium Fuel Durations
+gui.nc.config.fission_neptunium_fuel_time.comment=Base ticks the fuels last. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+gui.nc.config.fission_neptunium_heat_generation=Neptunium Fuel Heat Gen
+gui.nc.config.fission_neptunium_heat_generation.comment=Base heat the fuels produce. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+gui.nc.config.fission_neptunium_efficiency=Neptunium Fuel Base Efficiencies
+gui.nc.config.fission_neptunium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_neptunium_criticality=Neptunium Fuel Criticality Factors
+gui.nc.config.fission_neptunium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_neptunium_radiation=Neptunium Fuel Radiation
+gui.nc.config.fission_neptunium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+
+gui.nc.config.fission_plutonium_fuel_time=Plutonium Fuel Durations
+gui.nc.config.fission_plutonium_fuel_time.comment=Base ticks the fuels last. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+gui.nc.config.fission_plutonium_heat_generation=Plutonium Fuel Heat Gen
+gui.nc.config.fission_plutonium_heat_generation.comment=Base heat the fuels produce. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+gui.nc.config.fission_plutonium_efficiency=Plutonium Fuel Base Efficiencies
+gui.nc.config.fission_plutonium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_plutonium_criticality=Plutonium Fuel Criticality Factors
+gui.nc.config.fission_plutonium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_plutonium_radiation=Plutonium Fuel Radiation
+gui.nc.config.fission_plutonium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+
+gui.nc.config.fission_mixed_fuel_time=Mixed Fuel Durations
+gui.nc.config.fission_mixed_fuel_time.comment=Base ticks the fuels last. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+gui.nc.config.fission_mixed_heat_generation=Mixed Fuel Heat Gen
+gui.nc.config.fission_mixed_heat_generation.comment=Base heat the fuels produce. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+gui.nc.config.fission_mixed_efficiency=Mixed Fuel Base Efficiencies
+gui.nc.config.fission_mixed_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_mixed_criticality=Mixed Fuel Criticality Factors
+gui.nc.config.fission_mixed_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_mixed_radiation=Mixed Fuel Radiation
+gui.nc.config.fission_mixed_radiation.comment=Base radiation the fuels produce while processing. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+
+gui.nc.config.fission_americium_fuel_time=Americium Fuel Durations
+gui.nc.config.fission_americium_fuel_time.comment=Base ticks the fuels last. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+gui.nc.config.fission_americium_heat_generation=Americium Fuel Heat Gen
+gui.nc.config.fission_americium_heat_generation.comment=Base heat the fuels produce. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+gui.nc.config.fission_americium_efficiency=Americium Fuel Base Efficiencies
+gui.nc.config.fission_americium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_americium_criticality=Americium Fuel Criticality Factors
+gui.nc.config.fission_americium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_americium_radiation=Americium Fuel Radiation
+gui.nc.config.fission_americium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+
+gui.nc.config.fission_curium_fuel_time=Curium Fuel Durations
+gui.nc.config.fission_curium_fuel_time.comment=Base ticks the fuels last. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+gui.nc.config.fission_curium_heat_generation=Curium Fuel Heat Gen
+gui.nc.config.fission_curium_heat_generation.comment=Base heat the fuels produce. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+gui.nc.config.fission_curium_efficiency=Curium Fuel Base Efficiencies
+gui.nc.config.fission_curium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_curium_criticality=Curium Fuel Criticality Factors
+gui.nc.config.fission_curium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_curium_radiation=Curium Fuel Radiation
+gui.nc.config.fission_curium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+
+gui.nc.config.fission_berkelium_fuel_time=Berkelium Fuel Durations
+gui.nc.config.fission_berkelium_fuel_time.comment=Base ticks the fuels last. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+gui.nc.config.fission_berkelium_heat_generation=Berkelium Fuel Heat Gen
+gui.nc.config.fission_berkelium_heat_generation.comment=Base heat the fuels produce. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+gui.nc.config.fission_berkelium_efficiency=Berkelium Fuel Base Efficiencies
+gui.nc.config.fission_berkelium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_berkelium_criticality=Berkelium Fuel Criticality Factors
+gui.nc.config.fission_berkelium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_berkelium_radiation=Berkelium Fuel Radiation
+gui.nc.config.fission_berkelium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+
+gui.nc.config.fission_californium_fuel_time=Californium Fuel Durations
+gui.nc.config.fission_californium_fuel_time.comment=Base ticks the fuels last. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
+gui.nc.config.fission_californium_heat_generation=Californium Fuel Heat Gen
+gui.nc.config.fission_californium_heat_generation.comment=Base heat the fuels produce. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
+gui.nc.config.fission_californium_efficiency=Californium Fuel Base Efficiencies
+gui.nc.config.fission_californium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_californium_criticality=Californium Fuel Criticality Factors
+gui.nc.config.fission_californium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_californium_radiation=Californium Fuel Radiation
+gui.nc.config.fission_californium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
+
+gui.nc.config.category.fusion=Fusion Configs
+gui.nc.config.category.fusion.tooltip=Configure aspects of nuclear fusion.
+
+gui.nc.config.fusion_base_power=Power Gen Multiplier
+gui.nc.config.fusion_base_power.comment=Modifies the power generated by fusion reactors.
+gui.nc.config.fusion_fuel_use=Fuel Use Multiplier
+gui.nc.config.fusion_fuel_use.comment=Modifies the rate of fuel used by fusion reactors.
+gui.nc.config.fusion_heat_generation=Heat Gen Multiplier
+gui.nc.config.fusion_heat_generation.comment=Modifies the heat generated by fusion reactors while running.
+gui.nc.config.fusion_heating_multiplier=Heating Rate Multiplier
+gui.nc.config.fusion_heating_multiplier.comment=Modifies the heating rate of fusion reactors before running.
+gui.nc.config.fusion_overheat=Enable Meltdowns
+gui.nc.config.fusion_overheat.comment=Can fusion reactors overheat?
+gui.nc.config.fusion_meltdown_radiation_multiplier=Meltdown Radiation Multiplier
+gui.nc.config.fusion_meltdown_radiation_multiplier.comment=Modifies the radiation leaked by meltdowns.
+gui.nc.config.fusion_active_cooling=Enable Fusion Active Cooling
+gui.nc.config.fusion_active_cooling.comment=Can fusion reactors be actively cooled (disable if suffering from lag)?
+gui.nc.config.fusion_active_cooling_rate=Active Cooling Rates
+gui.nc.config.fusion_active_cooling_rate.comment=Base heat removed per tick/mB. 顺序：water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, ender, cryotheum, iron, emerald, copper, tin, magnesium.
+gui.nc.config.fusion_min_size=Minimum Toroid Size
+gui.nc.config.fusion_min_size.comment=Minimum size of fusion toroids.
+gui.nc.config.fusion_max_size=Maximum Toroid Size
+gui.nc.config.fusion_max_size.comment=Maximum size of fusion toroids.
+gui.nc.config.fusion_comparator_max_efficiency=Max Comparator Signal Efficiency
+gui.nc.config.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
+gui.nc.config.fusion_plasma_craziness=Fusion Plasma Fires
+gui.nc.config.fusion_plasma_craziness.comment=Will fusion plasma start fires? Disabling this will reduce lag somewhat.
+gui.nc.config.fusion_sound_volume=Fusion Sound Volume
+gui.nc.config.fusion_sound_volume.comment=Modifier for the volume of fusion sound effects.
+
+gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
+gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
+gui.nc.config.fusion_power=Fusion Fuel Combo Power Gen
+gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
+gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
+gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
+gui.nc.config.fusion_radiation=Fusion Fuel Combo Radiation
+gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
+gui.nc.config.fusion_electromagnet_power=Electromagnet Power
+gui.nc.config.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
+
+gui.nc.config.category.heat_exchanger=Heat Exchanger Configs
+gui.nc.config.category.heat_exchanger.tooltip=Configure aspects of heat exchangers.
+
+gui.nc.config.heat_exchanger_min_size=Minimum Structure Length
+gui.nc.config.heat_exchanger_min_size.comment=Minimum side length of heat exchangers.
+gui.nc.config.heat_exchanger_max_size=Maximum Structure Length
+gui.nc.config.heat_exchanger_max_size.comment=Maximum side length of heat exchangers.
+gui.nc.config.heat_exchanger_conductivity=Tube Conductivity
+gui.nc.config.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. For heat exchanging tubes, heating recipes will be faster by this factor while cooling recipes will be slower by this factor. For condensation tubes, recipes will simply be faster by this factor. 顺序：copper, hard carbon, thermoconducting alloy.
+gui.nc.config.heat_exchanger_coolant_mult=Coolant Heat Multiplier
+gui.nc.config.heat_exchanger_coolant_mult.comment=Multiplier for the heat required to cool hot coolant.
+gui.nc.config.heat_exchanger_alternate_exhaust_recipe=Alternate Exhaust Steam Recipe
+gui.nc.config.heat_exchanger_alternate_exhaust_recipe.comment=Will exhaust steam be heated into standard steam rather than low pressure steam?
+
+gui.nc.config.category.turbine=Turbine Configs
+gui.nc.config.category.turbine.tooltip=Configure aspects of turbines.
+
+gui.nc.config.turbine_min_size=Minimum Structure Length
+gui.nc.config.turbine_min_size.comment=Minimum side length of turbines.
+gui.nc.config.turbine_max_size=Maximum Structure Length
+gui.nc.config.turbine_max_size.comment=Maximum side length of turbines.
+gui.nc.config.turbine_blade_efficiency=Rotor Blade Efficiency
+gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：steel, extreme alloy, SiC-SiC CMC.
+gui.nc.config.turbine_blade_expansion=Rotor Blade Expansion Coefficient
+gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：steel, extreme alloy, SiC-SiC CMC.
+gui.nc.config.turbine_stator_expansion=Rotor Stator Expansion Coefficient
+gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rotor stators multiplies the volume of the fluid in the oncoming flow.
+gui.nc.config.turbine_coil_conductivity=Dynamo Coil Conductivity
+gui.nc.config.turbine_coil_conductivity.comment=Multiplier for the energy generated by this type of dynamo coil. 顺序：magnesium, beryllium, aluminum, gold, copper, silver.
+gui.nc.config.turbine_power_per_mb=Steam Base RF per mB
+gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of steam. 顺序：high pressure, low pressure, standard.
+gui.nc.config.turbine_expansion_level=Steam Expansion Level
+gui.nc.config.turbine_expansion_level.comment=Expansion level for this type of steam's recipe. 顺序：high pressure, low pressure, standard.
+gui.nc.config.turbine_mb_per_blade=Rotor Blade Maximum Process Rate
+gui.nc.config.turbine_mb_per_blade.comment=Maximum mB of fluid processed per tick per rotor blade.
+gui.nc.config.turbine_sound_volume=Turbine Sound Volume
+gui.nc.config.turbine_sound_volume.comment=Modifier for the volume of turbine sound effects.
+
+gui.nc.config.category.accelerator=Accelerator Configs
+gui.nc.config.category.accelerator.tooltip=Configure aspects of particle acceleration.
+
+gui.nc.config.accelerator_electromagnet_power=Superconducting Electromagnet Power
+gui.nc.config.accelerator_electromagnet_power.comment=RF/t required to keep a superconducting electromagnet active.
+gui.nc.config.accelerator_supercooler_coolant=Superconducting Supercooler Coolant
+gui.nc.config.accelerator_supercooler_coolant.comment=mB/t of liquid helium required to keep a superconducting supercooler active.
+
+gui.nc.config.category.quantum=Quantum Configs
+gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
+
+gui.nc.config.quantum_max_qubits=Max Qubits
+gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
+gui.nc.config.quantum_angle_precision=Gate Angle Precision
+gui.nc.config.quantum_angle_precision.comment=Controls the precision allowed for setting the working angle of gates by defining the number of available angles, uniformly distributed from 0 to 360 degrees.
+
+gui.nc.config.category.tool=Tool Configs
+gui.nc.config.category.tool.tooltip=Configure tools.
+
+gui.nc.config.tool_mining_level=Mining Levels
+gui.nc.config.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
+gui.nc.config.tool_durability=Durabilities
+gui.nc.config.tool_durability.comment=Max number of tool uses. 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
+gui.nc.config.tool_speed=Mining Speeds
+gui.nc.config.tool_speed.comment=Determines the rate at which blocks are destroyed (wood = 2.0, stone = 4.0, etc.). 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
+gui.nc.config.tool_attack_damage=Attack Damages
+gui.nc.config.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
+gui.nc.config.tool_enchantability=Enchantabilities
+gui.nc.config.tool_enchantability.comment=Determines the quality of applied enchantments. 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
+gui.nc.config.tool_handle_modifier=TiC Handle Modifiers
+gui.nc.config.tool_handle_modifier.comment=Determines the Tinkers' Construct handle modifiers of the materials. 顺序：硼，高强合金，硬碳，氮化硼。
+
+gui.nc.config.category.armor=Armor Configs
+gui.nc.config.category.armor.tooltip=Configure armor.
+
+gui.nc.config.armor_durability=Durabilities
+gui.nc.config.armor_durability.comment=Durabilities of armor types. 顺序：boron, tough alloy, hard carbon, boron nitride, hazmat.
+gui.nc.config.armor_boron=Boron Armor Protection
+gui.nc.config.armor_boron.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
+gui.nc.config.armor_tough=Tough Alloy Armor Protection
+gui.nc.config.armor_tough.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
+gui.nc.config.armor_hard_carbon=Hard Carbon Armor Protection
+gui.nc.config.armor_hard_carbon.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
+gui.nc.config.armor_boron_nitride=Boron Nitride Armor Protection
+gui.nc.config.armor_boron_nitride.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
+gui.nc.config.armor_hazmat=Hazmat Suit Armor Protection
+gui.nc.config.armor_hazmat.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
+gui.nc.config.armor_enchantability=Enchantabilities
+gui.nc.config.armor_enchantability.comment=Determines the quality of applied enchantments. 顺序：boron, tough alloy, hard carbon, boron nitride, hazmat.
+gui.nc.config.armor_toughness=Toughnesses
+gui.nc.config.armor_toughness.comment=Toughnesses of armor types. 顺序：boron, tough alloy, hard carbon, boron nitride, hazmat.
+
+gui.nc.config.category.entity=Entity Configs
+gui.nc.config.category.entity.tooltip=Configure entities.
+
+gui.nc.config.entity_tracking_range=Entity Tracking Range
+gui.nc.config.entity_tracking_range.comment=The range at which Minecraft will send tracking updates for NC entities.
+
+gui.nc.config.category.radiation=Radiation Configs
+gui.nc.config.category.radiation.tooltip=Configure aspects of nuclear radiation.
+
+gui.nc.config.radiation_enabled=Enable Radiation
+gui.nc.config.radiation_enabled.comment=Will nuclear radiation exist in the world? Note that the game will require a restart for radiation-related items to be shown in JEI after enabling this feature.
+
+gui.nc.config.radiation_world_chunks_per_tick=Radiation World Chunks Per Tick
+gui.nc.config.radiation_world_chunks_per_tick.comment=The maximum number of chunks in which radiation will be updated per tick.
+gui.nc.config.radiation_player_tick_rate=Radiation Player Tick Rate
+gui.nc.config.radiation_player_tick_rate.comment=The number of ticks between each player radiation update.
+
+gui.nc.config.radiation_worlds=World Background Radiation
+gui.nc.config.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'dimID_radiationLevel'.
+gui.nc.config.radiation_biomes=Biome Background Radiation
+gui.nc.config.radiation_biomes.comment=List of biomes and their background radiation levels. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLevel'.
+gui.nc.config.radiation_structures=Structure Background Radiation
+gui.nc.config.radiation_structures.comment=List of structures and their background radiation levels. These values stack with the underlying world or biome's background radiation. Format: 'structureName_radiationLevel'.
+gui.nc.config.radiation_world_limits=World Radiation Limit
+gui.nc.config.radiation_world_limits.comment=List of dimensions and their radiation level limits. Format: 'dimID_radiationLimit'.
+gui.nc.config.radiation_biome_limits=Biome Radiation Limit
+gui.nc.config.radiation_biome_limits.comment=List of biomes and their radiation level limits. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLimit'.
+gui.nc.config.radiation_from_biomes_dims_blacklist=Biome Radiation Dimension Blacklist
+gui.nc.config.radiation_from_biomes_dims_blacklist.comment=List of IDs of dimensions to blacklist for biome background radiation.
+
+gui.nc.config.radiation_ores=Ore Stack Radiation
+gui.nc.config.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Can use Unix-style wildcards for the ore name. Format: 'oreName_radiationLevel'.
+gui.nc.config.radiation_items=Item Stack Radiation
+gui.nc.config.radiation_items.comment=List of items and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
+gui.nc.config.radiation_blocks=Block Stack Radiation
+gui.nc.config.radiation_blocks.comment=List of blocks and their radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
+gui.nc.config.radiation_fluids=Fluid Stack Radiation
+gui.nc.config.radiation_fluids.comment=List of fluids and their radiation levels. Can be used to overwrite default values. If the fluid has a corresponding block, then it will also be given a radiation level. Format: 'fluidName_radiationLevel'.
+gui.nc.config.radiation_foods=Food Radiation and Resistance
+gui.nc.config.radiation_foods.comment=List of foods and the rads and rad resistance gained on consumption. Negative values mean rads and rad resistance will be lost. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel_radiationResistance'.
+
+gui.nc.config.radiation_ores_blacklist=Ore Stack Radiation Blacklist
+gui.nc.config.radiation_ores_blacklist.comment=List of ore dict entries that will be forced not have a radiation level. Can use Unix-style wildcards for the ore name. Format: 'oreName'.
+gui.nc.config.radiation_items_blacklist=Item Stack Radiation Blacklist
+gui.nc.config.radiation_items_blacklist.comment=List of items that will be forced not have a radiation level. Format: 'modid:name:meta'.
+gui.nc.config.radiation_blocks_blacklist=Block Stack Radiation Blacklist
+gui.nc.config.radiation_blocks_blacklist.comment=List of blocks that will be forced not have a radiation level. Format: 'modid:name:meta'.
+gui.nc.config.radiation_fluids_blacklist=Fluid Radiation Blacklist
+gui.nc.config.radiation_fluids_blacklist.comment=List of fluids that will be forced not have a radiation level. Format: 'fluidName'.
+
+gui.nc.config.max_player_rads=Max Player Rads
+gui.nc.config.max_player_rads.comment=The maximum number of rads a player can have before the radiation is fatal.
+gui.nc.config.radiation_player_decay_rate=Player Radiation Decay Rate
+gui.nc.config.radiation_player_decay_rate.comment=The rate at which player radiation decreases over time, as a fraction of the player's current radiation level per tick.
+gui.nc.config.max_entity_rads=Max Entity Rads
+gui.nc.config.max_entity_rads.comment=List of entities and their maximum rad counts. Used to overwrite default values (100 Rad per heart of health). Format: 'modid:name_maxRads'.
+gui.nc.config.radiation_entity_decay_rate=Entity Radiation Decay Rate
+gui.nc.config.radiation_entity_decay_rate.comment=The rate at which entity radiation decreases over time, as a fraction of the entity's current radiation level per tick.
+gui.nc.config.radiation_spread_rate=Chunk Radiation Spread Rate
+gui.nc.config.radiation_spread_rate.comment=Controls the rate at which radiation will spread from chunk to chunk.
+gui.nc.config.radiation_spread_gradient=Chunk Radiation Spread Gradient
+gui.nc.config.radiation_spread_gradient.comment=Controls how high the ratio of radiation levels between chunks must be for radiation to spread between them.
+gui.nc.config.radiation_decay_rate=Chunk Radiation Decay Rate
+gui.nc.config.radiation_decay_rate.comment=Controls the rate at which radiation decreases in a chunk over time.
+gui.nc.config.radiation_lowest_rate=Lowest Radiation Rate
+gui.nc.config.radiation_lowest_rate.comment=The lowest rate of player and chunk irradiation possible in Rad/t - amounts below this are ignored.
+gui.nc.config.radiation_chunk_limit=Chunk Radiation Limit
+gui.nc.config.radiation_chunk_limit.comment=The maximum chunk radiation level possible in Rad/t. A negative value means there is no limit.
+gui.nc.config.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
+gui.nc.config.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
+gui.nc.config.radiation_rain_mult=Radiation Rain Multiplier
+gui.nc.config.radiation_rain_mult.comment=Multiplies the rate of irradiation while in rain.
+gui.nc.config.radiation_swim_mult=Radiation Swimming Multiplier
+gui.nc.config.radiation_swim_mult.comment=Multiplies the rate of irradiation while swimming.
+
+gui.nc.config.radiation_radaway_amount=抗辐宁辐射消除
+gui.nc.config.radiation_radaway_amount.comment=抗辐宁消除的辐射。
+gui.nc.config.radiation_radaway_slow_amount=缓效抗辐宁辐射消除
+gui.nc.config.radiation_radaway_slow_amount.comment=缓效抗辐宁消除的辐射。
+gui.nc.config.radiation_radaway_rate=抗辐宁辐射消除速率
+gui.nc.config.radiation_radaway_rate.comment=抗辐宁消除辐射的速率（单位：Rad/t）。
+gui.nc.config.radiation_radaway_slow_rate=缓效抗辐宁辐射消除速率
+gui.nc.config.radiation_radaway_slow_rate.comment=缓效抗辐宁消除辐射的速率（单位：Rad/t）。
+gui.nc.config.radiation_poison_time=Rad Poisoning Time
+gui.nc.config.radiation_poison_time.comment=The time taken for a dose of radiation poisoning to be added to the player's rad count in ticks.
+gui.nc.config.radiation_radaway_cooldown=抗辐宁冷却时间
+gui.nc.config.radiation_radaway_cooldown.comment=两次服用抗辐宁之间必须等待的时间（单位：t）。
+gui.nc.config.radiation_rad_x_amount=Rad-X Rad Resistance
+gui.nc.config.radiation_rad_x_amount.comment=Controls the amount of rad resistance gained when consuming Rad-X.
+gui.nc.config.radiation_rad_x_lifetime=Rad-X Lifetime
+gui.nc.config.radiation_rad_x_lifetime.comment=The time taken for one dose of Rad-X to wear off in ticks.
+gui.nc.config.radiation_rad_x_cooldown=Rad-X Cooldown Time
+gui.nc.config.radiation_rad_x_cooldown.comment=The time that must be waited between doses of Rad-X in ticks.
+gui.nc.config.radiation_shielding_level=Radiation Shielding Levels
+gui.nc.config.radiation_shielding_level.comment=The rad resistance levels provided by the three levels of shielding. 顺序：light, medium, heavy.
+gui.nc.config.radiation_tile_shielding=Radiation Container Shielding
+gui.nc.config.radiation_tile_shielding.comment=If enabled along with hardcore containers, radiation shielding can be applied to tile entities.
+gui.nc.config.radiation_hazmat_shielding=Radiation Hazmat Shielding
+gui.nc.config.radiation_hazmat_shielding.comment=The rad resistance levels provided by each piece of the hazmat suit. 顺序：headwear, chestpiece, leggings, boots.
+gui.nc.config.radiation_scrubber_fraction=Scrubber Max Removal Rate
+gui.nc.config.radiation_scrubber_fraction.comment=The maximum rate at which a 100% efficiency scrubber will remove radiation as a fraction of the radiation level of the chunk it is in. Only applies when using linear scrubbing mechanics.
+gui.nc.config.radiation_scrubber_radius=Scrubber Search Radius
+gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search for occluding blocks.
+gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
+gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
+gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
+gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
+gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
+gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. 顺序：borax dust, RadAway, Slow-Acting RadAway
+gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
+gui.nc.config.radiation_scrubber_power.comment=The power in RF/t scrubbers need to be supplied to run with these ingredients. 顺序：borax dust, RadAway, Slow-Acting RadAway
+gui.nc.config.radiation_scrubber_efficiency=Scrubber Recipe Efficiency
+gui.nc.config.radiation_scrubber_efficiency.comment=The efficiency multiplier of an active scrubber using these ingredients. 顺序：borax dust, RadAway, Slow-Acting RadAway
+gui.nc.config.radiation_geiger_block_redstone=Geiger Block Comparator Scale
+gui.nc.config.radiation_geiger_block_redstone.comment=The radiation level, as a power of ten, at which the Geiger counter block will emit a full-strength comparator signal.
+
+gui.nc.config.radiation_shielding_default_recipes=默认辐射屏蔽板合成
+gui.nc.config.radiation_shielding_default_recipes.comment=如果设定为true，那么所有的盔甲都可以被与辐射屏蔽板组装在一起。
+gui.nc.config.radiation_shielding_item_blacklist=Radiation Shielding ItemStack Blacklist
+gui.nc.config.radiation_shielding_item_blacklist.comment=List of armor item stacks for which shielding recipes will not be added by default. Format: 'modid:armorName:meta'.
+gui.nc.config.radiation_shielding_custom_stacks=Radiation Shielding ItemStack Whitelist
+gui.nc.config.radiation_shielding_custom_stacks.comment=List of armor item stacks for which shielding recipes will be added. Mostly used when the automated shielding recipes are disabled. Format: 'modid:armorName:meta'.
+gui.nc.config.radiation_shielding_default_levels=Radiation Default Armor Shielding
+gui.nc.config.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Rad resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
+
+gui.nc.config.radiation_hud_size=Radiation HUD Size
+gui.nc.config.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.
+gui.nc.config.radiation_hud_position=Radiation HUD Position
+gui.nc.config.radiation_hud_position.comment=Angle from the centre of the screen at which radiation info appears on the HUD. 0 degrees is the top of the screen, 45 is top-right, etc.
+gui.nc.config.radiation_hud_position_cartesian=HUD Cartesian Position
+gui.nc.config.radiation_hud_position_cartesian.comment=Optional config to specify where the rads overlay should appear on the screen if not wanted on a side or at a corner - if used, this config will be used in place of the angle-based one. Two doubles are required [x, y] which specify how far right (x) and how far down (y) from the top-left corner of the screen the overlay is drawn at.
+gui.nc.config.radiation_hud_text_outline=HUD Text Outline
+gui.nc.config.radiation_hud_text_outline.comment=If enabled, a black outline will surround the radiation counter text underneath the rad bar.
+
+gui.nc.config.radiation_require_counter=Counter Required For Info
+gui.nc.config.radiation_require_counter.comment=If disabled, the rads overlay will show and the ticking will be heard even when a Geiger Counter is not being held.
+gui.nc.config.radiation_chunk_boundaries=Counter/Scrubber Chunk Boundaries
+gui.nc.config.radiation_chunk_boundaries.comment=If enabled, chunk boundaries will be shown while holding or looking at a geiger counter block or radiation scrubber.
+gui.nc.config.radiation_unit_prefixes=Radiation Unit Prefixes
+gui.nc.config.radiation_unit_prefixes.comment=If set to a positive integer, radiation levels will be shown without unit prefixes to this number of significant figures.
+
+gui.nc.config.radiation_badge_durability=Radiation Badge Durability
+gui.nc.config.radiation_badge_durability.comment=Determines the total radiation that a Radiation Badge can be exposed to before disintegrating.
+gui.nc.config.radiation_badge_info_rate=Radiation Badge Info Rate
+gui.nc.config.radiation_badge_info_rate.comment=Determines the amount of exposed radiation after which the Radiation Badge will inform the player of its total exposure level as a fraction of the durability.
+
+gui.nc.config.radiation_hardcore_stacks=Hardcore Stacks
+gui.nc.config.radiation_hardcore_stacks.comment=If enabled, the radioactive stacks in a player's inventory will irradiate the chunk the player is in as well as the player directly.
+gui.nc.config.radiation_hardcore_containers=Hardcore Containers
+gui.nc.config.radiation_hardcore_containers.comment=The radioactive stacks in container blocks will irradiate the chunk the tile entity is in at a rate of this fraction of their base radiation level.
+gui.nc.config.radiation_dropped_items=Radiation From Dropped Items
+gui.nc.config.radiation_dropped_items.comment=Radioactive items dropped on the ground will irradiate the chunk they are in.
+gui.nc.config.radiation_death_persist=Radiation Death Persistence
+gui.nc.config.radiation_death_persist.comment=If enabled, players' rad levels will persist on death.
+gui.nc.config.radiation_death_persist_fraction=Death Persistence Fraction
+gui.nc.config.radiation_death_persist_fraction.comment=Specifies the fraction of the player's rad level that persists if Radiation Death Persistence is enabled.
+gui.nc.config.radiation_death_immunity_time=Post-Death Immunity Time
+gui.nc.config.radiation_death_immunity_time.comment=Number of seconds players will have radiation immunity after death due to radiation.
+
+gui.nc.config.radiation_player_debuff_lists=Player Radiation Effects
+gui.nc.config.radiation_player_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by players. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
+gui.nc.config.radiation_passive_debuff_lists=Passive Entity Radiation Effects
+gui.nc.config.radiation_passive_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by passive entities. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
+gui.nc.config.radiation_mob_buff_lists=Mob Radiation Effects
+gui.nc.config.radiation_mob_buff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by mobs. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
+
+gui.nc.config.radiation_horse_armor=Horse Armor
+gui.nc.config.radiation_horse_armor.comment=If enabled, horses can be equipped with radiation-protective armor.
+
+gui.nc.config.category.registration=注册配置
+gui.nc.config.category.registration.tooltip=配置对内容的添加。
+
+gui.nc.config.register_processor=注册Processors
+gui.nc.config.register_processor.comment=添加processors到游戏中吗？顺序：Nuclear Furnace, Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.register_passive=注册无耗材机器
+gui.nc.config.register_passive.comment=添加无耗材机器到游戏中吗？顺序：造石机、无限水源、氮收集器。
+gui.nc.config.register_battery=注册电池
+gui.nc.config.register_battery.comment=添加电池到游戏中吗？顺序：伏打电堆，锂离子电池。
+gui.nc.config.register_quantum=注册量子计算机
+gui.nc.config.register_quantum.comment=添加量子计算机到游戏中吗？
+gui.nc.config.register_tool=注册工具
+gui.nc.config.register_tool.comment=添加工具到游戏中吗？顺序：硼，高强合金，硬碳，氮化硼。
+gui.nc.config.register_tic_tool=TiC Tool Material Registration
+gui.nc.config.register_tic_tool.comment=Will these materials be registered as tool materials for Tinkers' Construct? 顺序：boron, tough alloy, hard carbon, boron nitride, thorium, uranium, magnesium, chocolate.
+gui.nc.config.register_armor=注册盔甲
+gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：硼，高强合金，硬碳，氮化硼。
+gui.nc.config.register_conarm_armor=ConArm Armor Material Registration
+gui.nc.config.register_conarm_armor.comment=Will these materials be registered as armor materials for Construct's Armory? 顺序：boron, tough alloy, hard carbon, boron nitride, thorium, uranium, magnesium, chocolate.
+gui.nc.config.register_entity=Entity Spawn Registration
+gui.nc.config.register_entity.comment=Will these entities be registered to spawn? 顺序：feral ghoul.
+gui.nc.config.register_fluid_blocks=注册Fluid Blocks
+gui.nc.config.register_fluid_blocks.comment=添加fluid blocks? Keep false if running low on block IDs.
+gui.nc.config.register_cofh_fluids=注册CoFH Fluid Alternatives
+gui.nc.config.register_cofh_fluids.comment=添加alternative Thermal Foundation fluids? It is recommended that this is set to true if no CoFH mods are installed.
+gui.nc.config.register_projecte_emc=注册基础EMC值
+gui.nc.config.register_projecte_emc.comment=为核电工艺的材料添加EMC值吗？
+
+gui.nc.config.category.misc=杂项配置
+gui.nc.config.category.misc.tooltip=配置一些其它的内容。
+
+gui.nc.config.single_creative_tab=单一创造模式标签
+gui.nc.config.single_creative_tab.comment=将所有核电工艺添加的创造模式标签合并到一个大的标签当中吗？
+gui.nc.config.ctrl_info=使用Ctrl键查看更多信息
+gui.nc.config.ctrl_info.comment=使用Ctrl键代替Shift键作为查看更多信息的键位吗？
+gui.nc.config.jei_chance_items_include_null=在JEI中显示产出几率
+gui.nc.config.jei_chance_items_include_null.comment=Will the chance item output cycle in JEI include empty stacks if a possible output stack size is 0? If false, a minimum stack size of 1 shall be shown - although some info about the recipe is lost this way, it looks much neater. This will only effect the outputs in JEI and not the actual functioning of the machines.
+
+gui.nc.config.rare_drops=启用稀有掉落
+gui.nc.config.rare_drops.comment=怪物会掉落稀有掉落物吗？
+gui.nc.config.dungeon_loot=启用战利品生成
+gui.nc.config.dungeon_loot.comment=核电工艺的物品会生成在箱子中吗？
+
+gui.nc.config.ore_dict_raw_material_recipes=Enable Ore Dict Raw Material Recipes
+gui.nc.config.ore_dict_raw_material_recipes.comment=Will Ore Dictionary inputs be used for 'ingot <-> block' crafting and 'dust -> ingot' furnace recipes? If false, the NC ingredient will be used.
+gui.nc.config.ore_dict_priority_bool=启用输出矿词模组优先
+gui.nc.config.ore_dict_priority_bool.comment=输出会被下方的模组列表控制优先级吗？如果设定为false，将会输出同矿词默认的物品。
+gui.nc.config.ore_dict_priority=矿词模组优先
+gui.nc.config.ore_dict_priority.comment=决定输出的优先级：靠前的模组优先级更高。这被用于配置矿词相同模组不同的情况下的输出。如果没有找到合适的模组，将会输出同矿词默认的物品。
+
+gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已......多尴尬啊......多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的方法。
+gui.nc.computer.invalid_method_number=Invalid method number
+gui.nc.computer.number_of_arguments_error=%s arguments used, expected %s
+gui.nc.computer.invalid_argument_error=Invalid argument %s, expected %s
+gui.nc.computer.integer_too_small_error=Number argument %s too small, expected at least %s
+gui.nc.computer.integer_too_large_error=Number argument %s too large, expected %s at most
+
 # Localisation for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=多方块结构有效
 zerocore.api.nc.multiblock.validation.too_few_parts=多方块结构过小
@@ -2508,8 +3111,8 @@ gui.nc.container.fusion_core.incorrect_structure=结构无效
 gui.nc.container.fusion_core.no_problem=正常
 gui.nc.container.fusion_core.size=磁环大小：
 gui.nc.container.fusion_core.energy=能量：
-gui.nc.container.fusion_core.power=能量：
-gui.nc.container.fusion_core.heat=温度：
+gui.nc.container.fusion_core.power=功率：
+gui.nc.container.fusion_core.heat=热量：
 gui.nc.container.fusion_core.temperature=温度：
 gui.nc.container.fusion_core.temperature_change=温度变化：
 gui.nc.container.fusion_core.cooling_rate=主动冷却率：
@@ -2881,606 +3484,3 @@ death.attack.fluid_burn=%1$s被煎了
 death.attack.hypothermia=%1$s在超低温中被冻死了
 death.attack.fission_burn=%1$s在裂变反应堆中被烤了
 death.attack.fatal_rads=%1$s受到了致命剂量的辐射
-
-#NuclearCraft Ingame Configs
-gui.nc.config.main_title=核电工艺配置
-
-gui.nc.config.category.world_gen=世界生成
-gui.nc.config.category.world_gen.tooltip=配置世界生成。
-
-gui.nc.config.ore_dims=维度列表
-gui.nc.config.ore_dims.comment=矿物生成维度的白名单/黑名单。
-gui.nc.config.ore_dims_list_type=白名单/黑名单 (false/true)
-gui.nc.config.ore_dims_list_type.comment=这个维度列表是一个白名单 (false) 还是一个黑名单 (true)？
-gui.nc.config.ore_gen=矿石生成
-gui.nc.config.ore_gen.comment=矿石会在世界中生成吗？顺序：铜，锡，铅，钍，铀，硼，锂，镁。
-gui.nc.config.ore_size=区块矿石量
-gui.nc.config.ore_size.comment=每区块矿石的生成量。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
-gui.nc.config.ore_rate=生成率
-gui.nc.config.ore_rate.comment=矿石的生成率。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
-gui.nc.config.ore_min_height=最低生成高度
-gui.nc.config.ore_min_height.comment=矿石生成的最低高度。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
-gui.nc.config.ore_max_height=最高生成高度
-gui.nc.config.ore_max_height.comment=矿石生成的最高高度。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
-gui.nc.config.ore_drops=Enable Extra Ore Drops
-gui.nc.config.ore_drops.comment=Will vanilla ores drop extra resources? 顺序：rhodochrosite, beryllium dust, zirconium dust, fluorite, sulfur, villiaumite, carobbiite.
-gui.nc.config.ore_hide_disabled=Hide Disabled Ores
-gui.nc.config.ore_hide_disabled.comment=Remove disabled ores from the Ore Dictionary and JEI?
-gui.nc.config.ore_harvest_levels=Ore Harvest Levels
-gui.nc.config.ore_harvest_levels.comment=Pickaxe harvest levels of ores. 顺序：铜，锡，铅，钍，铀，硼，锂，镁。
-
-gui.nc.config.wasteland_biome=生成Wasteland生物群系
-gui.nc.config.wasteland_biome.comment=Wasteland生物群系会在主世界中生成吗？
-gui.nc.config.wasteland_biome_weight=Wasteland生物群系生成率
-gui.nc.config.wasteland_biome_weight.comment=Wasteland生物群系的生成率——数值越高，生成率便越高。
-
-gui.nc.config.wasteland_dimension_gen=启用Wasteland维度
-gui.nc.config.wasteland_dimension_gen.comment=Wasteland维度会生成吗？
-gui.nc.config.wasteland_dimension=Wasteland维度ID
-gui.nc.config.wasteland_dimension.comment=设置Wasteland维度的维度ID。
-
-gui.nc.config.mushroom_spread_rate=Mushroom Spread Rate
-gui.nc.config.mushroom_spread_rate.comment=Glowing Mushroom spread rate.
-gui.nc.config.mushroom_gen=Generate Mushrooms
-gui.nc.config.mushroom_gen.comment=Will glowing mushrooms generate in the nether?
-gui.nc.config.mushroom_gen_size=Mushroom Gen Size
-gui.nc.config.mushroom_gen_size.comment=Determines how many glowing mushrooms will spawn at a time.
-gui.nc.config.mushroom_gen_rate=Mushroom Gen Rate
-gui.nc.config.mushroom_gen_rate.comment=Determines how often glowing mushrooms will spawn.
-
-gui.nc.config.category.processor=Processor Configs
-gui.nc.config.category.processor.tooltip=Configure processors.
-
-gui.nc.config.processor_time=Processing Times
-gui.nc.config.processor_time.comment=Base ticks per process. 顺序：Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
-gui.nc.config.processor_power=Processing Power Use
-gui.nc.config.processor_power.comment=Base RF/t use during processing. 顺序：Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
-gui.nc.config.speed_upgrade_power_laws_fp=Speed Upgrade Power Laws
-gui.nc.config.speed_upgrade_power_laws_fp.comment=Power laws for speed upgrades. 顺序：Processing Time, Processing Power.
-gui.nc.config.speed_upgrade_multipliers_fp=Speed Upgrade Multipliers
-gui.nc.config.speed_upgrade_multipliers_fp.comment=Base multipliers for speed upgrades. 顺序：Processing Time, Processing Power.
-gui.nc.config.energy_upgrade_power_laws_fp=Energy Upgrade Power Laws
-gui.nc.config.energy_upgrade_power_laws_fp.comment=Power laws for energy upgrades. 顺序：Processing Power.
-gui.nc.config.energy_upgrade_multipliers_fp=Energy Upgrade Multipliers
-gui.nc.config.energy_upgrade_multipliers_fp.comment=Base multipliers for energy upgrades. 顺序：Processing Power.
-gui.nc.config.rf_per_eu=工业2的EU与RF的转换率
-gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 Energy Units.
-gui.nc.config.enable_gtce_eu=格雷科技：社区版的EU支持
-gui.nc.config.enable_gtce_eu.comment=如果选择true，那么格雷科技：社区版的EU可以被核电工艺的机器接收。
-gui.nc.config.enable_mek_gas=Enable Mekanism Gas Support
-gui.nc.config.enable_mek_gas.comment=If true, gas from Mekanism can be handled by NC machines.
-gui.nc.config.machine_update_rate=Machine Update Rate
-gui.nc.config.machine_update_rate.comment=Ticks per machine update - used for various processes such as GUI updates and multiblock structure checks.
-gui.nc.config.processor_passive_rate=Passive Production Rate
-gui.nc.config.processor_passive_rate.comment=Rates at which passive machines produce materials. 顺序：Cobblestone Generator, Infinite Water Source, Nitrogen Collector.
-gui.nc.config.passive_push=Passive Pushing
-gui.nc.config.passive_push.comment=Will passive machines that produce materials automatically push to adjacent inventories and fluid handlers?
-gui.nc.config.cobble_gen_power=Cobble Gen Power Use
-gui.nc.config.cobble_gen_power.comment=RF/t required for Cobblestone Generator to run.
-gui.nc.config.ore_processing=Ore Processing
-gui.nc.config.ore_processing.comment=Can NuclearCraft machines process ores?
-gui.nc.config.manufactory_wood=Manufactory Wood Processing
-gui.nc.config.manufactory_wood.comment=Specify the size of the output stack for Manufactory wood processing recipes. 顺序：Logs->Planks, Planks->Sticks.
-gui.nc.config.rock_crusher_alternate=Rock Crusher Alternate Recipes
-gui.nc.config.rock_crusher_alternate.comment=Use an alternate set of recipes for the Rock Crusher that only produce NC dusts?
-gui.nc.config.gtce_recipe_integration=注册格雷科技：社区版的配方
-gui.nc.config.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. 顺序：Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
-gui.nc.config.gtce_recipe_logging=格雷科技：社区版配方添加
-gui.nc.config.gtce_recipe_logging.comment=添加格雷科技：社区版的附加吗？
-gui.nc.config.smart_processor_input=Smart Processor Input
-gui.nc.config.smart_processor_input.comment=Will a machine's valid inputs depend on the stacks already in its input slots as well as its possible recipes?
-gui.nc.config.passive_permeation=Passive Permeation
-gui.nc.config.passive_permeation.comment=Will passive machines such as Active Coolers and Electromagnets spread their items, fluid and energy to adjacent passive machines?
-gui.nc.config.processor_particles=Processor Particles
-gui.nc.config.processor_particles.comment=Will machines produce particle effects while running?
-
-gui.nc.config.category.generator=Generator Configs
-gui.nc.config.category.generator.tooltip=Configure generators.
-
-gui.nc.config.rtg_power=RTG Power Gen
-gui.nc.config.rtg_power.comment=RF/t generated. 顺序：Uranium, Plutonium, Americium, Californium.
-gui.nc.config.solar_power=Solar Panel Power Gen
-gui.nc.config.solar_power.comment=RF/t generated. 顺序：Basic, Advanced, DU, Elite.
-gui.nc.config.decay_lifetime=Decay Generator Mean Lifetimes
-gui.nc.config.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. 顺序：Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
-gui.nc.config.decay_power=Decay Generator Power Gen
-gui.nc.config.decay_power.comment=RF/t generated by adjacent radioactive blocks. 顺序：Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
-gui.nc.config.generator_rf_per_eu=RF Use per EU Emitted
-gui.nc.config.generator_rf_per_eu.comment=The RF used per EU emitted for generators.
-
-gui.nc.config.category.energy_storage=Energy Storage Configs
-gui.nc.config.category.energy_storage.tooltip=Configure energy storages.
-
-gui.nc.config.battery_capacity=Battery Capacities
-gui.nc.config.battery_capacity.comment=Maximum RF storable. 顺序：Voltaic Pile [Basic, Advanced, DU, Elite], Lithium Ion Battery [Basic, Advanced, DU, Elite].
-
-gui.nc.config.category.fission=Fission Configs
-gui.nc.config.category.fission.tooltip=Configure aspects of nuclear fission.
-
-gui.nc.config.fission_power=Power Gen Multiplier
-gui.nc.config.fission_power.comment=Modifies the power generated by fission reactors.
-gui.nc.config.fission_fuel_use=Fuel Use Multiplier
-gui.nc.config.fission_fuel_use.comment=Modifies the rate of fuel used by fission reactors.
-gui.nc.config.fission_heat_generation=Heat Gen Multiplier
-gui.nc.config.fission_heat_generation.comment=Modifies the heat generated by fission reactors.
-gui.nc.config.fission_cooling_rate=Cooling Rates
-gui.nc.config.fission_cooling_rate.comment=Base heat removed per tick. 顺序：water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
-gui.nc.config.fission_overheat=Enable Meltdowns
-gui.nc.config.fission_overheat.comment=Can fission reactors overheat?
-gui.nc.config.fission_explosions=Enable Explosions
-gui.nc.config.fission_explosions.comment=Will fission reactors explode when they overheat?
-gui.nc.config.fission_meltdown_radiation_multiplier=Meltdown Radiation Multiplier
-gui.nc.config.fission_meltdown_radiation_multiplier.comment=Modifies the radiation leaked by meltdowns.
-gui.nc.config.fission_min_size=Minimum Structure Length
-gui.nc.config.fission_min_size.comment=Minimum side length of fission structures.
-gui.nc.config.fission_max_size=Maximum Structure Length
-gui.nc.config.fission_max_size.comment=Maximum side length of fission structures.
-gui.nc.config.fission_comparator_max_heat=Max Comparator Signal Heat
-gui.nc.config.fission_comparator_max_heat.comment=Percentage heat level of a fission reactor at which a comparator adjacent to the controller will output a full-strength redstone signal.
-gui.nc.config.fission_force_heat_comparator=Force Heat Comparator
-gui.nc.config.fission_force_heat_comparator.comment=If enabled, the controller of a heat-negative or heat-neutral reactor will output a heat-based comparator signal as if it were heat-positive instead of an energy-based one.
-gui.nc.config.fission_sound_volume=Fission Sound Volume
-gui.nc.config.fission_sound_volume.comment=Modifier for the volume of fission sound effects.
-
-gui.nc.config.fission_moderator_extra_power=Moderator Power Modifier
-gui.nc.config.fission_moderator_extra_power.comment=*Only effects new mechanics.* Determines the extra power generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of moderator blocks).
-gui.nc.config.fission_moderator_extra_heat=Moderator Heat Modifier
-gui.nc.config.fission_moderator_extra_heat.comment=*Only effects new mechanics.* Determines the extra heat generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of heat that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of heat (the amount of additional heat scales linearly with the number of moderator blocks).
-gui.nc.config.fission_neutron_reach=Neutron Radiation Reach
-gui.nc.config.fission_neutron_reach.comment=*Only effects new mechanics.* Maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them and their efficiency to increase.
-
-gui.nc.config.fission_thorium_fuel_time=Thorium Fuel Durations
-gui.nc.config.fission_thorium_fuel_time.comment=Base ticks the fuels last. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
-gui.nc.config.fission_thorium_heat_generation=Thorium Fuel Heat Gen
-gui.nc.config.fission_thorium_heat_generation.comment=Base heat the fuels produce. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
-gui.nc.config.fission_thorium_efficiency=Thorium Fuel Base Efficiencies
-gui.nc.config.fission_thorium_efficiency.comment=Base efficiencies of the fuels. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
-gui.nc.config.fission_thorium_criticality=Thorium Fuel Criticality Factors
-gui.nc.config.fission_thorium_criticality.comment=Criticality factors of the fuels. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
-gui.nc.config.fission_thorium_radiation=Thorium Fuel Radiation
-gui.nc.config.fission_thorium_radiation.comment=Base radiation the fuels produce while processing. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
-
-gui.nc.config.fission_uranium_fuel_time=Uranium Fuel Durations
-gui.nc.config.fission_uranium_fuel_time.comment=Base ticks the fuels last. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
-gui.nc.config.fission_uranium_heat_generation=Uranium Fuel Heat Gen
-gui.nc.config.fission_uranium_heat_generation.comment=Base heat the fuels produce. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
-gui.nc.config.fission_uranium_efficiency=Uranium Fuel Base Efficiencies
-gui.nc.config.fission_uranium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_uranium_criticality=Uranium Fuel Criticality Factors
-gui.nc.config.fission_uranium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_uranium_radiation=Uranium Fuel Radiation
-gui.nc.config.fission_uranium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
-
-gui.nc.config.fission_neptunium_fuel_time=Neptunium Fuel Durations
-gui.nc.config.fission_neptunium_fuel_time.comment=Base ticks the fuels last. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
-gui.nc.config.fission_neptunium_heat_generation=Neptunium Fuel Heat Gen
-gui.nc.config.fission_neptunium_heat_generation.comment=Base heat the fuels produce. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
-gui.nc.config.fission_neptunium_efficiency=Neptunium Fuel Base Efficiencies
-gui.nc.config.fission_neptunium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_neptunium_criticality=Neptunium Fuel Criticality Factors
-gui.nc.config.fission_neptunium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_neptunium_radiation=Neptunium Fuel Radiation
-gui.nc.config.fission_neptunium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
-
-gui.nc.config.fission_plutonium_fuel_time=Plutonium Fuel Durations
-gui.nc.config.fission_plutonium_fuel_time.comment=Base ticks the fuels last. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
-gui.nc.config.fission_plutonium_heat_generation=Plutonium Fuel Heat Gen
-gui.nc.config.fission_plutonium_heat_generation.comment=Base heat the fuels produce. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
-gui.nc.config.fission_plutonium_efficiency=Plutonium Fuel Base Efficiencies
-gui.nc.config.fission_plutonium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_plutonium_criticality=Plutonium Fuel Criticality Factors
-gui.nc.config.fission_plutonium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_plutonium_radiation=Plutonium Fuel Radiation
-gui.nc.config.fission_plutonium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
-
-gui.nc.config.fission_mixed_fuel_time=Mixed Fuel Durations
-gui.nc.config.fission_mixed_fuel_time.comment=Base ticks the fuels last. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
-gui.nc.config.fission_mixed_heat_generation=Mixed Fuel Heat Gen
-gui.nc.config.fission_mixed_heat_generation.comment=Base heat the fuels produce. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
-gui.nc.config.fission_mixed_efficiency=Mixed Fuel Base Efficiencies
-gui.nc.config.fission_mixed_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_mixed_criticality=Mixed Fuel Criticality Factors
-gui.nc.config.fission_mixed_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_mixed_radiation=Mixed Fuel Radiation
-gui.nc.config.fission_mixed_radiation.comment=Base radiation the fuels produce while processing. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
-
-gui.nc.config.fission_americium_fuel_time=Americium Fuel Durations
-gui.nc.config.fission_americium_fuel_time.comment=Base ticks the fuels last. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
-gui.nc.config.fission_americium_heat_generation=Americium Fuel Heat Gen
-gui.nc.config.fission_americium_heat_generation.comment=Base heat the fuels produce. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
-gui.nc.config.fission_americium_efficiency=Americium Fuel Base Efficiencies
-gui.nc.config.fission_americium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_americium_criticality=Americium Fuel Criticality Factors
-gui.nc.config.fission_americium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_americium_radiation=Americium Fuel Radiation
-gui.nc.config.fission_americium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
-
-gui.nc.config.fission_curium_fuel_time=Curium Fuel Durations
-gui.nc.config.fission_curium_fuel_time.comment=Base ticks the fuels last. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
-gui.nc.config.fission_curium_heat_generation=Curium Fuel Heat Gen
-gui.nc.config.fission_curium_heat_generation.comment=Base heat the fuels produce. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
-gui.nc.config.fission_curium_efficiency=Curium Fuel Base Efficiencies
-gui.nc.config.fission_curium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_curium_criticality=Curium Fuel Criticality Factors
-gui.nc.config.fission_curium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_curium_radiation=Curium Fuel Radiation
-gui.nc.config.fission_curium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
-
-gui.nc.config.fission_berkelium_fuel_time=Berkelium Fuel Durations
-gui.nc.config.fission_berkelium_fuel_time.comment=Base ticks the fuels last. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
-gui.nc.config.fission_berkelium_heat_generation=Berkelium Fuel Heat Gen
-gui.nc.config.fission_berkelium_heat_generation.comment=Base heat the fuels produce. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
-gui.nc.config.fission_berkelium_efficiency=Berkelium Fuel Base Efficiencies
-gui.nc.config.fission_berkelium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_berkelium_criticality=Berkelium Fuel Criticality Factors
-gui.nc.config.fission_berkelium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_berkelium_radiation=Berkelium Fuel Radiation
-gui.nc.config.fission_berkelium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
-
-gui.nc.config.fission_californium_fuel_time=Californium Fuel Durations
-gui.nc.config.fission_californium_fuel_time.comment=Base ticks the fuels last. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
-gui.nc.config.fission_californium_heat_generation=Californium Fuel Heat Gen
-gui.nc.config.fission_californium_heat_generation.comment=Base heat the fuels produce. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
-gui.nc.config.fission_californium_efficiency=Californium Fuel Base Efficiencies
-gui.nc.config.fission_californium_efficiency.comment=Base efficiencies of the fuels. 顺序：
-gui.nc.config.fission_californium_criticality=Californium Fuel Criticality Factors
-gui.nc.config.fission_californium_criticality.comment=Criticality factors of the fuels. 顺序：
-gui.nc.config.fission_californium_radiation=Californium Fuel Radiation
-gui.nc.config.fission_californium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
-
-gui.nc.config.category.fusion=Fusion Configs
-gui.nc.config.category.fusion.tooltip=Configure aspects of nuclear fusion.
-
-gui.nc.config.fusion_base_power=Power Gen Multiplier
-gui.nc.config.fusion_base_power.comment=Modifies the power generated by fusion reactors.
-gui.nc.config.fusion_fuel_use=Fuel Use Multiplier
-gui.nc.config.fusion_fuel_use.comment=Modifies the rate of fuel used by fusion reactors.
-gui.nc.config.fusion_heat_generation=Heat Gen Multiplier
-gui.nc.config.fusion_heat_generation.comment=Modifies the heat generated by fusion reactors while running.
-gui.nc.config.fusion_heating_multiplier=Heating Rate Multiplier
-gui.nc.config.fusion_heating_multiplier.comment=Modifies the heating rate of fusion reactors before running.
-gui.nc.config.fusion_overheat=Enable Meltdowns
-gui.nc.config.fusion_overheat.comment=Can fusion reactors overheat?
-gui.nc.config.fusion_meltdown_radiation_multiplier=Meltdown Radiation Multiplier
-gui.nc.config.fusion_meltdown_radiation_multiplier.comment=Modifies the radiation leaked by meltdowns.
-gui.nc.config.fusion_active_cooling=Enable Fusion Active Cooling
-gui.nc.config.fusion_active_cooling.comment=Can fusion reactors be actively cooled (disable if suffering from lag)?
-gui.nc.config.fusion_active_cooling_rate=Active Cooling Rates
-gui.nc.config.fusion_active_cooling_rate.comment=Base heat removed per tick/mB. 顺序：water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, ender, cryotheum, iron, emerald, copper, tin, magnesium.
-gui.nc.config.fusion_min_size=Minimum Toroid Size
-gui.nc.config.fusion_min_size.comment=Minimum size of fusion toroids.
-gui.nc.config.fusion_max_size=Maximum Toroid Size
-gui.nc.config.fusion_max_size.comment=Maximum size of fusion toroids.
-gui.nc.config.fusion_comparator_max_efficiency=Max Comparator Signal Efficiency
-gui.nc.config.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
-gui.nc.config.fusion_plasma_craziness=Fusion Plasma Fires
-gui.nc.config.fusion_plasma_craziness.comment=Will fusion plasma start fires? Disabling this will reduce lag somewhat.
-gui.nc.config.fusion_sound_volume=Fusion Sound Volume
-gui.nc.config.fusion_sound_volume.comment=Modifier for the volume of fusion sound effects.
-
-gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
-gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
-gui.nc.config.fusion_power=Fusion Fuel Combo Power Gen
-gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
-gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
-gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
-gui.nc.config.fusion_radiation=Fusion Fuel Combo Radiation
-gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
-gui.nc.config.fusion_electromagnet_power=Electromagnet Power
-gui.nc.config.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
-
-gui.nc.config.category.heat_exchanger=Heat Exchanger Configs
-gui.nc.config.category.heat_exchanger.tooltip=Configure aspects of heat exchangers.
-
-gui.nc.config.heat_exchanger_min_size=Minimum Structure Length
-gui.nc.config.heat_exchanger_min_size.comment=Minimum side length of heat exchangers.
-gui.nc.config.heat_exchanger_max_size=Maximum Structure Length
-gui.nc.config.heat_exchanger_max_size.comment=Maximum side length of heat exchangers.
-gui.nc.config.heat_exchanger_conductivity=Tube Conductivity
-gui.nc.config.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. For heat exchanging tubes, heating recipes will be faster by this factor while cooling recipes will be slower by this factor. For condensation tubes, recipes will simply be faster by this factor. 顺序：copper, hard carbon, thermoconducting alloy.
-gui.nc.config.heat_exchanger_coolant_mult=Coolant Heat Multiplier
-gui.nc.config.heat_exchanger_coolant_mult.comment=Multiplier for the heat required to cool hot coolant.
-gui.nc.config.heat_exchanger_alternate_exhaust_recipe=Alternate Exhaust Steam Recipe
-gui.nc.config.heat_exchanger_alternate_exhaust_recipe.comment=Will exhaust steam be heated into standard steam rather than low pressure steam?
-
-gui.nc.config.category.turbine=Turbine Configs
-gui.nc.config.category.turbine.tooltip=Configure aspects of turbines.
-
-gui.nc.config.turbine_min_size=Minimum Structure Length
-gui.nc.config.turbine_min_size.comment=Minimum side length of turbines.
-gui.nc.config.turbine_max_size=Maximum Structure Length
-gui.nc.config.turbine_max_size.comment=Maximum side length of turbines.
-gui.nc.config.turbine_blade_efficiency=Rotor Blade Efficiency
-gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：steel, extreme alloy, SiC-SiC CMC.
-gui.nc.config.turbine_blade_expansion=Rotor Blade Expansion Coefficient
-gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：steel, extreme alloy, SiC-SiC CMC.
-gui.nc.config.turbine_stator_expansion=Rotor Stator Expansion Coefficient
-gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rotor stators multiplies the volume of the fluid in the oncoming flow.
-gui.nc.config.turbine_coil_conductivity=Dynamo Coil Conductivity
-gui.nc.config.turbine_coil_conductivity.comment=Multiplier for the energy generated by this type of dynamo coil. 顺序：magnesium, beryllium, aluminum, gold, copper, silver.
-gui.nc.config.turbine_power_per_mb=Steam Base RF per mB
-gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of steam. 顺序：high pressure, low pressure, standard.
-gui.nc.config.turbine_expansion_level=Steam Expansion Level
-gui.nc.config.turbine_expansion_level.comment=Expansion level for this type of steam's recipe. 顺序：high pressure, low pressure, standard.
-gui.nc.config.turbine_mb_per_blade=Rotor Blade Maximum Process Rate
-gui.nc.config.turbine_mb_per_blade.comment=Maximum mB of fluid processed per tick per rotor blade.
-gui.nc.config.turbine_sound_volume=Turbine Sound Volume
-gui.nc.config.turbine_sound_volume.comment=Modifier for the volume of turbine sound effects.
-
-gui.nc.config.category.accelerator=Accelerator Configs
-gui.nc.config.category.accelerator.tooltip=Configure aspects of particle acceleration.
-
-gui.nc.config.accelerator_electromagnet_power=Superconducting Electromagnet Power
-gui.nc.config.accelerator_electromagnet_power.comment=RF/t required to keep a superconducting electromagnet active.
-gui.nc.config.accelerator_supercooler_coolant=Superconducting Supercooler Coolant
-gui.nc.config.accelerator_supercooler_coolant.comment=mB/t of liquid helium required to keep a superconducting supercooler active.
-
-gui.nc.config.category.quantum=Quantum Configs
-gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
-
-gui.nc.config.quantum_max_qubits=Max Qubits
-gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
-gui.nc.config.quantum_angle_precision=Gate Angle Precision
-gui.nc.config.quantum_angle_precision.comment=Controls the precision allowed for setting the working angle of gates by defining the number of available angles, uniformly distributed from 0 to 360 degrees.
-
-gui.nc.config.category.tool=Tool Configs
-gui.nc.config.category.tool.tooltip=Configure tools.
-
-gui.nc.config.tool_mining_level=Mining Levels
-gui.nc.config.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
-gui.nc.config.tool_durability=Durabilities
-gui.nc.config.tool_durability.comment=Max number of tool uses. 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
-gui.nc.config.tool_speed=Mining Speeds
-gui.nc.config.tool_speed.comment=Determines the rate at which blocks are destroyed (wood = 2.0, stone = 4.0, etc.). 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
-gui.nc.config.tool_attack_damage=Attack Damages
-gui.nc.config.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
-gui.nc.config.tool_enchantability=Enchantabilities
-gui.nc.config.tool_enchantability.comment=Determines the quality of applied enchantments. 顺序：boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
-gui.nc.config.tool_handle_modifier=TiC Handle Modifiers
-gui.nc.config.tool_handle_modifier.comment=Determines the Tinkers' Construct handle modifiers of the materials. 顺序：boron, tough alloy, hard carbon, boron nitride.
-
-gui.nc.config.category.armor=Armor Configs
-gui.nc.config.category.armor.tooltip=Configure armor.
-
-gui.nc.config.armor_durability=Durabilities
-gui.nc.config.armor_durability.comment=Durabilities of armor types. 顺序：boron, tough alloy, hard carbon, boron nitride, hazmat.
-gui.nc.config.armor_boron=Boron Armor Protection
-gui.nc.config.armor_boron.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
-gui.nc.config.armor_tough=Tough Alloy Armor Protection
-gui.nc.config.armor_tough.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
-gui.nc.config.armor_hard_carbon=Hard Carbon Armor Protection
-gui.nc.config.armor_hard_carbon.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
-gui.nc.config.armor_boron_nitride=Boron Nitride Armor Protection
-gui.nc.config.armor_boron_nitride.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
-gui.nc.config.armor_hazmat=Hazmat Suit Armor Protection
-gui.nc.config.armor_hazmat.comment=Effectiveness of individual armor pieces. 顺序：boots, legs, chest, helm.
-gui.nc.config.armor_enchantability=Enchantabilities
-gui.nc.config.armor_enchantability.comment=Determines the quality of applied enchantments. 顺序：boron, tough alloy, hard carbon, boron nitride, hazmat.
-gui.nc.config.armor_toughness=Toughnesses
-gui.nc.config.armor_toughness.comment=Toughnesses of armor types. 顺序：boron, tough alloy, hard carbon, boron nitride, hazmat.
-
-gui.nc.config.category.entity=Entity Configs
-gui.nc.config.category.entity.tooltip=Configure entities.
-
-gui.nc.config.entity_tracking_range=Entity Tracking Range
-gui.nc.config.entity_tracking_range.comment=The range at which Minecraft will send tracking updates for NC entities.
-
-gui.nc.config.category.radiation=Radiation Configs
-gui.nc.config.category.radiation.tooltip=Configure aspects of nuclear radiation.
-
-gui.nc.config.radiation_enabled=Enable Radiation
-gui.nc.config.radiation_enabled.comment=Will nuclear radiation exist in the world? Note that the game will require a restart for radiation-related items to be shown in JEI after enabling this feature.
-
-gui.nc.config.radiation_world_chunks_per_tick=Radiation World Chunks Per Tick
-gui.nc.config.radiation_world_chunks_per_tick.comment=The maximum number of chunks in which radiation will be updated per tick.
-gui.nc.config.radiation_player_tick_rate=Radiation Player Tick Rate
-gui.nc.config.radiation_player_tick_rate.comment=The number of ticks between each player radiation update.
-
-gui.nc.config.radiation_worlds=World Background Radiation
-gui.nc.config.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'dimID_radiationLevel'.
-gui.nc.config.radiation_biomes=Biome Background Radiation
-gui.nc.config.radiation_biomes.comment=List of biomes and their background radiation levels. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLevel'.
-gui.nc.config.radiation_structures=Structure Background Radiation
-gui.nc.config.radiation_structures.comment=List of structures and their background radiation levels. These values stack with the underlying world or biome's background radiation. Format: 'structureName_radiationLevel'.
-gui.nc.config.radiation_world_limits=World Radiation Limit
-gui.nc.config.radiation_world_limits.comment=List of dimensions and their radiation level limits. Format: 'dimID_radiationLimit'.
-gui.nc.config.radiation_biome_limits=Biome Radiation Limit
-gui.nc.config.radiation_biome_limits.comment=List of biomes and their radiation level limits. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLimit'.
-gui.nc.config.radiation_from_biomes_dims_blacklist=Biome Radiation Dimension Blacklist
-gui.nc.config.radiation_from_biomes_dims_blacklist.comment=List of IDs of dimensions to blacklist for biome background radiation.
-
-gui.nc.config.radiation_ores=Ore Stack Radiation
-gui.nc.config.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Can use Unix-style wildcards for the ore name. Format: 'oreName_radiationLevel'.
-gui.nc.config.radiation_items=Item Stack Radiation
-gui.nc.config.radiation_items.comment=List of items and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
-gui.nc.config.radiation_blocks=Block Stack Radiation
-gui.nc.config.radiation_blocks.comment=List of blocks and their radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
-gui.nc.config.radiation_fluids=Fluid Stack Radiation
-gui.nc.config.radiation_fluids.comment=List of fluids and their radiation levels. Can be used to overwrite default values. If the fluid has a corresponding block, then it will also be given a radiation level. Format: 'fluidName_radiationLevel'.
-gui.nc.config.radiation_foods=Food Radiation and Resistance
-gui.nc.config.radiation_foods.comment=List of foods and the rads and rad resistance gained on consumption. Negative values mean rads and rad resistance will be lost. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel_radiationResistance'.
-
-gui.nc.config.radiation_ores_blacklist=Ore Stack Radiation Blacklist
-gui.nc.config.radiation_ores_blacklist.comment=List of ore dict entries that will be forced not have a radiation level. Can use Unix-style wildcards for the ore name. Format: 'oreName'.
-gui.nc.config.radiation_items_blacklist=Item Stack Radiation Blacklist
-gui.nc.config.radiation_items_blacklist.comment=List of items that will be forced not have a radiation level. Format: 'modid:name:meta'.
-gui.nc.config.radiation_blocks_blacklist=Block Stack Radiation Blacklist
-gui.nc.config.radiation_blocks_blacklist.comment=List of blocks that will be forced not have a radiation level. Format: 'modid:name:meta'.
-gui.nc.config.radiation_fluids_blacklist=Fluid Radiation Blacklist
-gui.nc.config.radiation_fluids_blacklist.comment=List of fluids that will be forced not have a radiation level. Format: 'fluidName'.
-
-gui.nc.config.max_player_rads=Max Player Rads
-gui.nc.config.max_player_rads.comment=The maximum number of rads a player can have before the radiation is fatal.
-gui.nc.config.radiation_player_decay_rate=Player Radiation Decay Rate
-gui.nc.config.radiation_player_decay_rate.comment=The rate at which player radiation decreases over time, as a fraction of the player's current radiation level per tick.
-gui.nc.config.max_entity_rads=Max Entity Rads
-gui.nc.config.max_entity_rads.comment=List of entities and their maximum rad counts. Used to overwrite default values (100 Rad per heart of health). Format: 'modid:name_maxRads'.
-gui.nc.config.radiation_entity_decay_rate=Entity Radiation Decay Rate
-gui.nc.config.radiation_entity_decay_rate.comment=The rate at which entity radiation decreases over time, as a fraction of the entity's current radiation level per tick.
-gui.nc.config.radiation_spread_rate=Chunk Radiation Spread Rate
-gui.nc.config.radiation_spread_rate.comment=Controls the rate at which radiation will spread from chunk to chunk.
-gui.nc.config.radiation_spread_gradient=Chunk Radiation Spread Gradient
-gui.nc.config.radiation_spread_gradient.comment=Controls how high the ratio of radiation levels between chunks must be for radiation to spread between them.
-gui.nc.config.radiation_decay_rate=Chunk Radiation Decay Rate
-gui.nc.config.radiation_decay_rate.comment=Controls the rate at which radiation decreases in a chunk over time.
-gui.nc.config.radiation_lowest_rate=Lowest Radiation Rate
-gui.nc.config.radiation_lowest_rate.comment=The lowest rate of player and chunk irradiation possible in Rad/t - amounts below this are ignored.
-gui.nc.config.radiation_chunk_limit=Chunk Radiation Limit
-gui.nc.config.radiation_chunk_limit.comment=The maximum chunk radiation level possible in Rad/t. A negative value means there is no limit.
-gui.nc.config.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
-gui.nc.config.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
-gui.nc.config.radiation_rain_mult=Radiation Rain Multiplier
-gui.nc.config.radiation_rain_mult.comment=Multiplies the rate of irradiation while in rain.
-gui.nc.config.radiation_swim_mult=Radiation Swimming Multiplier
-gui.nc.config.radiation_swim_mult.comment=Multiplies the rate of irradiation while swimming.
-
-gui.nc.config.radiation_radaway_amount=RadAway Rads Removed
-gui.nc.config.radiation_radaway_amount.comment=The total number of rads removed when using RadAway.
-gui.nc.config.radiation_radaway_slow_amount=Slow-Acting RadAway Rads Removed
-gui.nc.config.radiation_radaway_slow_amount.comment=The total number of rads removed when using Slow-Acting RadAway.
-gui.nc.config.radiation_radaway_rate=RadAway Rad Removal Rate
-gui.nc.config.radiation_radaway_rate.comment=The rate at which rads is removed when using RadAway in Rad/t.
-gui.nc.config.radiation_radaway_slow_rate=Slow-Acting RadAway Rad Removal Rate
-gui.nc.config.radiation_radaway_slow_rate.comment=The rate at which rads is removed when using Slow-Acting RadAway in Rad/t.
-gui.nc.config.radiation_poison_time=Rad Poisoning Time
-gui.nc.config.radiation_poison_time.comment=The time taken for a dose of radiation poisoning to be added to the player's rad count in ticks.
-gui.nc.config.radiation_radaway_cooldown=RadAway Cooldown Time
-gui.nc.config.radiation_radaway_cooldown.comment=The time that must be waited between doses of RadAway in ticks.
-gui.nc.config.radiation_rad_x_amount=Rad-X Rad Resistance
-gui.nc.config.radiation_rad_x_amount.comment=Controls the amount of rad resistance gained when consuming Rad-X.
-gui.nc.config.radiation_rad_x_lifetime=Rad-X Lifetime
-gui.nc.config.radiation_rad_x_lifetime.comment=The time taken for one dose of Rad-X to wear off in ticks.
-gui.nc.config.radiation_rad_x_cooldown=Rad-X Cooldown Time
-gui.nc.config.radiation_rad_x_cooldown.comment=The time that must be waited between doses of Rad-X in ticks.
-gui.nc.config.radiation_shielding_level=Radiation Shielding Levels
-gui.nc.config.radiation_shielding_level.comment=The rad resistance levels provided by the three levels of shielding. 顺序：light, medium, heavy.
-gui.nc.config.radiation_tile_shielding=Radiation Container Shielding
-gui.nc.config.radiation_tile_shielding.comment=If enabled along with hardcore containers, radiation shielding can be applied to tile entities.
-gui.nc.config.radiation_hazmat_shielding=Radiation Hazmat Shielding
-gui.nc.config.radiation_hazmat_shielding.comment=The rad resistance levels provided by each piece of the hazmat suit. 顺序：headwear, chestpiece, leggings, boots.
-gui.nc.config.radiation_scrubber_fraction=Scrubber Max Removal Rate
-gui.nc.config.radiation_scrubber_fraction.comment=The maximum rate at which a 100% efficiency scrubber will remove radiation as a fraction of the radiation level of the chunk it is in. Only applies when using linear scrubbing mechanics.
-gui.nc.config.radiation_scrubber_radius=Scrubber Search Radius
-gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search for occluding blocks.
-gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
-gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
-gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
-gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
-gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
-gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. 顺序：borax dust, RadAway, Slow-Acting RadAway
-gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
-gui.nc.config.radiation_scrubber_power.comment=The power in RF/t scrubbers need to be supplied to run with these ingredients. 顺序：borax dust, RadAway, Slow-Acting RadAway
-gui.nc.config.radiation_scrubber_efficiency=Scrubber Recipe Efficiency
-gui.nc.config.radiation_scrubber_efficiency.comment=The efficiency multiplier of an active scrubber using these ingredients. 顺序：borax dust, RadAway, Slow-Acting RadAway
-gui.nc.config.radiation_geiger_block_redstone=Geiger Block Comparator Scale
-gui.nc.config.radiation_geiger_block_redstone.comment=The radiation level, as a power of ten, at which the Geiger counter block will emit a full-strength comparator signal.
-
-gui.nc.config.radiation_shielding_default_recipes=Radiation Shielding Default Recipes
-gui.nc.config.radiation_shielding_default_recipes.comment=If enabled, radiation shielding attachment recipes will be added for all registered armor pieces.
-gui.nc.config.radiation_shielding_item_blacklist=Radiation Shielding ItemStack Blacklist
-gui.nc.config.radiation_shielding_item_blacklist.comment=List of armor item stacks for which shielding recipes will not be added by default. Format: 'modid:armorName:meta'.
-gui.nc.config.radiation_shielding_custom_stacks=Radiation Shielding ItemStack Whitelist
-gui.nc.config.radiation_shielding_custom_stacks.comment=List of armor item stacks for which shielding recipes will be added. Mostly used when the automated shielding recipes are disabled. Format: 'modid:armorName:meta'.
-gui.nc.config.radiation_shielding_default_levels=Radiation Default Armor Shielding
-gui.nc.config.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Rad resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
-
-gui.nc.config.radiation_hud_size=Radiation HUD Size
-gui.nc.config.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.
-gui.nc.config.radiation_hud_position=Radiation HUD Position
-gui.nc.config.radiation_hud_position.comment=Angle from the centre of the screen at which radiation info appears on the HUD. 0 degrees is the top of the screen, 45 is top-right, etc.
-gui.nc.config.radiation_hud_position_cartesian=HUD Cartesian Position
-gui.nc.config.radiation_hud_position_cartesian.comment=Optional config to specify where the rads overlay should appear on the screen if not wanted on a side or at a corner - if used, this config will be used in place of the angle-based one. Two doubles are required [x, y] which specify how far right (x) and how far down (y) from the top-left corner of the screen the overlay is drawn at.
-gui.nc.config.radiation_hud_text_outline=HUD Text Outline
-gui.nc.config.radiation_hud_text_outline.comment=If enabled, a black outline will surround the radiation counter text underneath the rad bar.
-
-gui.nc.config.radiation_require_counter=Counter Required For Info
-gui.nc.config.radiation_require_counter.comment=If disabled, the rads overlay will show and the ticking will be heard even when a Geiger Counter is not being held.
-gui.nc.config.radiation_chunk_boundaries=Counter/Scrubber Chunk Boundaries
-gui.nc.config.radiation_chunk_boundaries.comment=If enabled, chunk boundaries will be shown while holding or looking at a geiger counter block or radiation scrubber.
-gui.nc.config.radiation_unit_prefixes=Radiation Unit Prefixes
-gui.nc.config.radiation_unit_prefixes.comment=If set to a positive integer, radiation levels will be shown without unit prefixes to this number of significant figures.
-
-gui.nc.config.radiation_badge_durability=Radiation Badge Durability
-gui.nc.config.radiation_badge_durability.comment=Determines the total radiation that a Radiation Badge can be exposed to before disintegrating.
-gui.nc.config.radiation_badge_info_rate=Radiation Badge Info Rate
-gui.nc.config.radiation_badge_info_rate.comment=Determines the amount of exposed radiation after which the Radiation Badge will inform the player of its total exposure level as a fraction of the durability.
-
-gui.nc.config.radiation_hardcore_stacks=Hardcore Stacks
-gui.nc.config.radiation_hardcore_stacks.comment=If enabled, the radioactive stacks in a player's inventory will irradiate the chunk the player is in as well as the player directly.
-gui.nc.config.radiation_hardcore_containers=Hardcore Containers
-gui.nc.config.radiation_hardcore_containers.comment=The radioactive stacks in container blocks will irradiate the chunk the tile entity is in at a rate of this fraction of their base radiation level.
-gui.nc.config.radiation_dropped_items=Radiation From Dropped Items
-gui.nc.config.radiation_dropped_items.comment=Radioactive items dropped on the ground will irradiate the chunk they are in.
-gui.nc.config.radiation_death_persist=Radiation Death Persistence
-gui.nc.config.radiation_death_persist.comment=If enabled, players' rad levels will persist on death.
-gui.nc.config.radiation_death_persist_fraction=Death Persistence Fraction
-gui.nc.config.radiation_death_persist_fraction.comment=Specifies the fraction of the player's rad level that persists if Radiation Death Persistence is enabled.
-gui.nc.config.radiation_death_immunity_time=Post-Death Immunity Time
-gui.nc.config.radiation_death_immunity_time.comment=Number of seconds players will have radiation immunity after death due to radiation.
-
-gui.nc.config.radiation_player_debuff_lists=Player Radiation Effects
-gui.nc.config.radiation_player_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by players. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
-gui.nc.config.radiation_passive_debuff_lists=Passive Entity Radiation Effects
-gui.nc.config.radiation_passive_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by passive entities. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
-gui.nc.config.radiation_mob_buff_lists=Mob Radiation Effects
-gui.nc.config.radiation_mob_buff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by mobs. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
-
-gui.nc.config.radiation_horse_armor=Horse Armor
-gui.nc.config.radiation_horse_armor.comment=If enabled, horses can be equipped with radiation-protective armor.
-
-gui.nc.config.category.registration=Registration Configs
-gui.nc.config.category.registration.tooltip=Configure content registration.
-
-gui.nc.config.register_processor=注册Processors
-gui.nc.config.register_processor.comment=添加processors到游戏中吗？顺序：Nuclear Furnace, Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
-gui.nc.config.register_passive=注册Passive Machines
-gui.nc.config.register_passive.comment=添加passive machine到游戏中吗？顺序：Cobblestone Generator, Infinite Water Source, Nitrogen Collector.
-gui.nc.config.register_battery=注册电池
-gui.nc.config.register_battery.comment=添加电池到游戏中吗？顺序：伏打电堆，Lithium Ion Battery.
-gui.nc.config.register_quantum=Quantum Computer Registration
-gui.nc.config.register_quantum.comment=添加quantum computers to the game?
-gui.nc.config.register_tool=注册工具
-gui.nc.config.register_tool.comment=添加工具到游戏中吗？顺序：boron, tough alloy, hard carbon, boron nitride.
-gui.nc.config.register_tic_tool=TiC Tool Material Registration
-gui.nc.config.register_tic_tool.comment=Will these materials be registered as tool materials for Tinkers' Construct? 顺序：boron, tough alloy, hard carbon, boron nitride, thorium, uranium, magnesium, chocolate.
-gui.nc.config.register_armor=注册盔甲
-gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：boron, tough alloy, hard carbon, boron nitride.
-gui.nc.config.register_conarm_armor=ConArm Armor Material Registration
-gui.nc.config.register_conarm_armor.comment=Will these materials be registered as armor materials for Construct's Armory? 顺序：boron, tough alloy, hard carbon, boron nitride, thorium, uranium, magnesium, chocolate.
-gui.nc.config.register_entity=Entity Spawn Registration
-gui.nc.config.register_entity.comment=Will these entities be registered to spawn? 顺序：feral ghoul.
-gui.nc.config.register_fluid_blocks=注册Fluid Blocks
-gui.nc.config.register_fluid_blocks.comment=添加fluid blocks? Keep false if running low on block IDs.
-gui.nc.config.register_cofh_fluids=注册CoFH Fluid Alternatives
-gui.nc.config.register_cofh_fluids.comment=添加alternative Thermal Foundation fluids? It is recommended that this is set to true if no CoFH mods are installed.
-gui.nc.config.register_projecte_emc=注册基础EMC值
-gui.nc.config.register_projecte_emc.comment=为核电工艺的材料添加EMC值吗？
-
-gui.nc.config.category.misc=杂项配置
-gui.nc.config.category.misc.tooltip=配置一些其它的内容。
-
-gui.nc.config.single_creative_tab=单一创造模式标签
-gui.nc.config.single_creative_tab.comment=将所有核电工艺添加的创造模式标签合并到一个大的标签当中吗？
-gui.nc.config.ctrl_info=使用Ctrl键查看更多信息
-gui.nc.config.ctrl_info.comment=使用Ctrl键代替Shift键作为查看更多信息的键位吗？
-gui.nc.config.jei_chance_items_include_null=在JEI中显示产出几率
-gui.nc.config.jei_chance_items_include_null.comment=Will the chance item output cycle in JEI include empty stacks if a possible output stack size is 0? If false, a minimum stack size of 1 shall be shown - although some info about the recipe is lost this way, it looks much neater. This will only effect the outputs in JEI and not the actual functioning of the machines.
-
-gui.nc.config.rare_drops=启用稀有掉落
-gui.nc.config.rare_drops.comment=怪物会掉落稀有掉落物吗？
-gui.nc.config.dungeon_loot=启用战利品生成
-gui.nc.config.dungeon_loot.comment=核电工艺的物品会生成在箱子中吗？
-
-gui.nc.config.ore_dict_raw_material_recipes=Enable Ore Dict Raw Material Recipes
-gui.nc.config.ore_dict_raw_material_recipes.comment=Will Ore Dictionary inputs be used for 'ingot <-> block' crafting and 'dust -> ingot' furnace recipes? If false, the NC ingredient will be used.
-gui.nc.config.ore_dict_priority_bool=启用输出矿词模组优先
-gui.nc.config.ore_dict_priority_bool.comment=输出会被下方的模组列表控制优先级吗？如果设定为false，将会输出同矿词默认的物品。
-gui.nc.config.ore_dict_priority=矿词模组优先
-gui.nc.config.ore_dict_priority.comment=决定输出的优先级：靠前的模组优先级更高。这被用于配置矿词相同模组不同的情况下的输出。如果没有找到合适的模组，将会输出同矿词默认的物品。
-
-gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已......多尴尬啊......多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的方法。
-gui.nc.computer.invalid_method_number=Invalid method number
-gui.nc.computer.number_of_arguments_error=%s arguments used, expected %s
-gui.nc.computer.invalid_argument_error=Invalid argument %s, expected %s
-gui.nc.computer.integer_too_small_error=Number argument %s too small, expected at least %s
-gui.nc.computer.integer_too_large_error=Number argument %s too large, expected %s at most
