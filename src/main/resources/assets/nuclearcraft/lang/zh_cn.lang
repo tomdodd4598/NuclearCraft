@@ -2189,7 +2189,7 @@ info.nuclearcraft.multitool.copy_component_info=将构件信息存入了多功�
 
 info.nuclearcraft.multitool.connect_component_monitor=将构件连接到了显示器！
 
-info.nuclearcraft.multitool.fission.connect_shield_manager=这只是一个测试，不过所有%s个防护屏都已经连接到了管理器！
+info.nuclearcraft.multitool.fission.connect_shield_manager=所有%s个防护屏应该都已连接到了管理器！
 
 info.nuclearcraft.multitool.quantum_computer.qubit_id=量子位ID：%s
 info.nuclearcraft.multitool.quantum_computer.start_qubit_set=以%s设定了一个新的量子位ID！
