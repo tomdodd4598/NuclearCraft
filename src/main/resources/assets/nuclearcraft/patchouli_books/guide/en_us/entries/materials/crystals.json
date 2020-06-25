@@ -7,7 +7,7 @@
         {
             "anchor": "intro",
             "type": "text",
-            "text": "Crystals are usually made by placing the corresponding dust in the Pressurizer. Crushed crystals are made by crushing Andesite, Diorite or Granite in the Rock Crusher"
+            "text": "Crystals are usually made by placing the corresponding dust in the $(l:machines/processors#pressurizer)Pressurizer$(/l). Crushed crystals are made by crushing Andesite, Diorite or Granite in the $(l:machines/processors#rock_crusher)Rock Crusher$(/l)"
         },
         {
             "anchor": "rhondochrosite",
@@ -61,7 +61,7 @@
             "item": "nuclearcraft:gem:5",
             "isCompound": true,
             "formula": "BAs",
-            "text": "Boron Arsenide is made by solidifying Molten Boron Arsenide. More details in the Arsenic Processing Chain"
+            "text": "Boron Arsenide is made by $(l:machines/processors#ingot_former)solidifying$(/l) Molten Boron Arsenide. More details in the Arsenic Processing Chain"
         }
     ]
 }

@@ -6,7 +6,7 @@
         {
             "anchor": "intro",
             "type": "text",
-            "text": "Alloys are made by combining two materials in an alloy furnace$(br)Dust and Ingots can be used to make the alloys, and OreDict substitutions are valid"
+            "text": "Alloys are made by combining two materials in an $(l:machines/processors#alloy_furnace)Alloy Furnace$(/l)$(br)Dust and Ingots can be used to make the alloys, and OreDict substitutions are valid"
         },
         {
             "flag": "!mod:thermalfoundation",

@@ -17,7 +17,7 @@
             "isElement": true,
             "symbol": "C",
             "num": "6",
-            "text": "Graphite is a crystalline form of Carbon. It is made by processing Coal in the Manufactory"
+            "text": "Graphite is a crystalline form of Carbon. It is made by processing Coal in the $(l:machines/processors#manufactory)Manufactory$(/l)"
         },
         {
             "anchor": "silicon",
@@ -27,7 +27,7 @@
             "isElement": true,
             "symbol": "Si",
             "num": "14",
-            "text": "Silicon is made by processing Sand in the Manufactory"
+            "text": "Silicon is made by processing Sand in the $(l:machines/processors#manufactory)Manufactory$(/l)"
         },
         {
             "anchor": "beryllium",
@@ -37,7 +37,7 @@
             "isElement": true,
             "symbol": "Be",
             "num": "4",
-            "text": "Beryllium Dust is made by crusing Andesite"
+            "text": "Beryllium Dust is made by $(l:machines/processors#rock_crusher)crusing$(/l) Andesite"
         },
         {
             "anchor": "zirconium",

@@ -1,5 +1,5 @@
 {
 	"name": "Machines",
-	"description": "",
+	"description": "All the single-block processors, generators, and other things that end in ...ors",
 	"icon": "nuclearcraft:manufactory"
 }
