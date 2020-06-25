@@ -1,0 +1,6 @@
+{
+	"name": "Fission",
+	"description": "Nuclear Fission",
+	"icon": "nuclearcraft:fission_source:2",
+	"parent": "nuclearcraft:multiblocks"
+}
