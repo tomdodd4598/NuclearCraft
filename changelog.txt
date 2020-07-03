@@ -1,3 +1,9 @@
+v2.18v
+
+* Removed minor nuclear wasteland biome decorators causing crash
+
+* Updated Chinese language file [thanks to WuzgXY and team!]
+
 v2.18u
 
 * Removed fluid auto-pushing from machine interfaces as connected machines would not update properly

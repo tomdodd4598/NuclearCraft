@@ -23,13 +23,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BiomeNuclearWasteland extends Biome {
 	
-	public static final String BIOME_REGISTRY_NAME = "nuclear_wasteland";
-	public static final String BIOME_NAME = "Nuclear Wasteland";
-	
 	protected static final IBlockState BEDROCK = Blocks.BEDROCK.getDefaultState();
 	
 	public BiomeNuclearWasteland() {
-		super(new BiomeProperties(BIOME_NAME).setBaseHeight(0.12F).setHeightVariation(0.02F).setTemperature(2F).setWaterColor(0x994C00).setRainDisabled());
+		super(new BiomeProperties("Nuclear Wasteland").setBaseHeight(0.12F).setHeightVariation(0.02F).setTemperature(2F).setWaterColor(0x994C00).setRainDisabled());
 				
 		topBlock = NCBlocks.dry_earth.getDefaultState();
 		fillerBlock = Blocks.SAND.getDefaultState();
