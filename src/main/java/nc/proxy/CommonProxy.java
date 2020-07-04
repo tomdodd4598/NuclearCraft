@@ -8,6 +8,7 @@ import nc.command.CommandHandler;
 import nc.config.NCConfig;
 import nc.handler.*;
 import nc.init.*;
+import nc.integration.hwyla.NCHWLYA;
 import nc.integration.projecte.NCProjectE;
 import nc.integration.tconstruct.*;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
@@ -61,6 +62,7 @@ public class CommonProxy {
 		
 		MultiblockHandler.init();
 		MultiblockLogic.init();
+		PlacementRule.preInit();
 		
 		OreDictHandler.registerOres();
 		
@@ -104,12 +106,18 @@ public class CommonProxy {
 		NCEntities.register();
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		
+		PlacementRule.init();
+		
 		if (ModCheck.tinkersLoaded()) {
 			TConstructExtras.init();
 			
 			if (ModCheck.constructsArmoryLoaded()) {
 				ConArmMaterials.init();
 			}
+		}
+		
+		if (ModCheck.hwylaLoaded()) {
+			NCHWLYA.init();
 		}
 	}
 	
@@ -126,16 +134,16 @@ public class CommonProxy {
 		RadSources.postInit();
 		RadStructures.init();
 		RadEntities.init();
-		// RadBlockEffects.init();
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
-		// RadBiomes.init();
 		
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new ItemUseHandler());
+		
+		PlacementRule.postInit();
 		
 		if (ModCheck.projectELoaded() && NCConfig.register_projecte_emc) {
 			NCProjectE.addEMCValues();
@@ -156,6 +164,8 @@ public class CommonProxy {
 		OreDictHelper.refreshOreDictCache();
 		
 		NCRecipes.refreshRecipeCaches();
+		
+		PlacementRule.refreshTooltipRecipeHandlers();
 		
 		RadSources.refreshRadSources();
 		RadArmor.refreshRadiationArmor();

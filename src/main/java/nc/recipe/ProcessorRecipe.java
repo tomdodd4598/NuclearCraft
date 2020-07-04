@@ -3,6 +3,7 @@ package nc.recipe;
 import java.util.List;
 
 import crafttweaker.annotations.ZenRegister;
+import nc.multiblock.fission.FissionPlacement;
 import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import nc.util.*;
@@ -115,6 +116,12 @@ public class ProcessorRecipe implements IRecipe {
 		return (double) extras.get(2);
 	}
 	
+	// Placement Rule
+	
+	public String getPlacementRuleID() {
+		return (String) extras.get(0);
+	}
+	
 	// Fission Moderator
 	
 	public int getFissionModeratorFluxFactor() {
@@ -213,8 +220,16 @@ public class ProcessorRecipe implements IRecipe {
 		return (int) extras.get(0);
 	}
 	
+	public String getCoolantHeaterPlacementRule() {
+		return (String) extras.get(1);
+	}
+	
 	public String[] getCoolantHeaterJEIInfo() {
-		return InfoHelper.formattedInfo(Lang.localise((String) extras.get(1)));
+		String rule = FissionPlacement.TOOLTIP_MAP.get(getCoolantHeaterPlacementRule());
+		if (rule != null) {
+			return FontRenderHelper.wrapString(rule, InfoHelper.MAXIMUM_TEXT_WIDTH);
+		}
+		return InfoHelper.EMPTY_ARRAY;
 	}
 	
 	// Heat Exchanger

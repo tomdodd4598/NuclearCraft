@@ -4,11 +4,11 @@ public class FontRenderHelper {
 	
 	protected final static int[] CHAR_WIDTHS = new int[] {6, 6, 6, 6, 6, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 6, 7, 6, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 2, 5, 6, 6, 6, 6, 3, 5, 5, 5, 6, 2, 6, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 2, 2, 5, 6, 5, 6, 7, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 4, 6, 6, 3, 6, 6, 6, 6, 6, 5, 6, 6, 2, 6, 5, 3, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 6, 6, 6, 6, 5, 2, 5, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 3, 6, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 2, 6, 6, 8, 9, 9, 6, 6, 6, 8, 8, 6, 8, 8, 8, 8, 8, 6, 6, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 6, 9, 9, 9, 5, 9, 9, 8, 7, 7, 8, 7, 8, 7, 8, 7, 8, 8, 7, 9, 9, 6, 7, 7, 7, 7, 7, 9, 6, 7, 8, 6, 6, 6, 9, 7, 6, 7, 1};
 	
-	public static String[] formattedString(String string, int textWidth) {
-		return wrapFormattedStringToWidth(string, textWidth).split("\n");
+	public static String[] wrapString(String string, int textWidth) {
+		return wrapStringToWidthRaw(string, textWidth).split("\n");
 	}
 	
-	private static String wrapFormattedStringToWidth(String string, int textWidth) {
+	private static String wrapStringToWidthRaw(String string, int textWidth) {
 		int i = sizeStringToWidth(string, textWidth);
 		
 		if (string.length() <= i) {
@@ -20,7 +20,7 @@ public class FontRenderHelper {
 			boolean flag = c0 == ' ' || c0 == '\n';
 			String s1 = getFormatFromString(s) + string.substring(i + (flag ? 1 : 0));
 			
-			return s + "\n" + wrapFormattedStringToWidth(s1, textWidth);
+			return s + "\n" + wrapStringToWidthRaw(s1, textWidth);
 		}
 	}
 	

@@ -36,6 +36,10 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	@Override
 	public void refreshListeners(boolean refreshPosSet) {
 		refreshListenersFlag = false;
+		if (getMultiblock() == null) {
+			return;
+		}
+		
 		boolean refresh = false;
 		LongSet invalidPosSet = new LongOpenHashSet();
 		for (Long pos : listenerPosSet) {
@@ -83,8 +87,8 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 		}
 		else {
 			if (getMultiblock() != null) {
-				Long2ObjectMap<TileFissionShield> shieldMap = getMultiblock().getPartMap(TileFissionShield.class);
-				for (TileFissionShield shield : shieldMap.values()) {
+				listenerPosSet.clear();
+				for (TileFissionShield shield : getMultiblock().getParts(TileFissionShield.class)) {
 					listenerPosSet.add(shield.getPos().toLong());
 					shield.setManagerPos(pos);
 					shield.refreshManager();

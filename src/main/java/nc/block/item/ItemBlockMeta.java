@@ -60,14 +60,12 @@ public class ItemBlockMeta extends ItemBlock {
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(stack, world, tooltip, flag);
 		int meta = StackHelper.getMetadata(stack);
-		if (info.length != 0 && info.length > meta) {
-			if (info[meta].length > 0) {
-				if (fixedColors.length == 1) {
-					InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo[meta], infoColor, info[meta]);
-				}
-				else {
-					InfoHelper.infoFull(tooltip, fixedColors, fixedInfo[meta], infoColor, info[meta]);
-				}
+		if (fixedInfo.length > meta && info.length > meta && (fixedInfo[meta].length > 0 || info[meta].length > 0)) {
+			if (fixedColors.length == 1) {
+				InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo[meta], infoColor, info[meta]);
+			}
+			else {
+				InfoHelper.infoFull(tooltip, fixedColors, fixedInfo[meta], infoColor, info[meta]);
 			}
 		}
 	}

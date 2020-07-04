@@ -23,7 +23,6 @@ public enum PartPosition implements IStringSerializable {
 	EastFace(EnumFacing.EAST, Type.Face),
 	WestFace(EnumFacing.WEST, Type.Face);
 	
-	@SuppressWarnings("hiding")
 	public enum Type {
 		Unknown,
 		Interior,

@@ -6,15 +6,18 @@ import javax.annotation.Nullable;
 
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionSource;
-import nc.util.BlockHelper;
+import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
+import nc.render.BlockHighlightTracker;
+import nc.util.*;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.*;
 
 public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> {
@@ -78,12 +81,27 @@ public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSo
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
+		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
-			return false;
+		
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileFissionSource) {
+			TileFissionSource source = (TileFissionSource) tile;
+			if (!world.isRemote) {
+				PrimingTargetInfo targetInfo = source.getPrimingTarget(true);
+				if (targetInfo == null) {
+					player.sendMessage(new TextComponentString(Lang.localise("nuclearcraft.multiblock.fission_reactor_source.no_target")));
+				}
+				else {
+					BlockPos p = targetInfo.fuelComponent.getTilePos();
+					BlockHighlightTracker.sendPacket((EntityPlayerMP) player, p, 5000);
+					player.sendMessage(new TextComponentString(Lang.localise("nuclearcraft.multiblock.fission_reactor_source.target", p.getX(), p.getY(), p.getZ(), world.getBlockState(p).getBlock().getLocalizedName())));
+				}
+			}
+			return true;
 		}
+		
 		return rightClickOnPart(world, pos, player, hand, facing);
 	}
 	

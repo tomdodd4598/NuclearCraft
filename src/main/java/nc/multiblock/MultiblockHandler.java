@@ -59,6 +59,7 @@ public final class MultiblockHandler {
 		
 		FissionReactor.PART_CLASSES.add(IFissionController.class);
 		FissionReactor.PART_CLASSES.add(IFissionComponent.class);
+		FissionReactor.PART_CLASSES.add(IFissionSpecialComponent.class);
 		FissionReactor.PART_CLASSES.add(TileFissionConductor.class);
 		FissionReactor.PART_CLASSES.add(TileFissionMonitor.class);
 		FissionReactor.PART_CLASSES.add(TileFissionVent.class);

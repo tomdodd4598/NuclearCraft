@@ -22,7 +22,7 @@ public class NCBiomes {
 		@SubscribeEvent
 		public static void onEvent(final RegistryEvent.Register<Biome> event) {
 			final IForgeRegistry<Biome> registry = event.getRegistry();
-			registry.register(new BiomeNuclearWasteland().setRegistryName(Global.MOD_ID, BiomeNuclearWasteland.BIOME_REGISTRY_NAME));
+			registry.register(NUCLEAR_WASTELAND.setRegistryName(Global.MOD_ID, "nuclear_wasteland"));
 		}
 	}
 	

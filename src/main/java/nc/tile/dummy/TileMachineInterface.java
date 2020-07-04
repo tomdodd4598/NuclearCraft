@@ -23,7 +23,6 @@ public class TileMachineInterface extends TileDummy<IInterfaceable> implements I
 		super.update();
 		if (!world.isRemote) {
 			pushEnergy();
-			pushFluid();
 		}
 	}
 	

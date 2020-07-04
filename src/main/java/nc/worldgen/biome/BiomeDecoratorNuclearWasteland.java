@@ -103,7 +103,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		generateGrass(worldIn, biomeIn, random, chunkPos);
 		
 		if (generateFalls) {
-			generateFalls(worldIn, random, chunkPos);
+			// generateFalls(worldIn, random, chunkPos); Disabling due to weird crash.
 		}
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(worldIn, random, chunkPos));
 	}

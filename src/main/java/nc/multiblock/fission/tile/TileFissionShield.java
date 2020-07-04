@@ -4,6 +4,7 @@ import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -22,7 +23,7 @@ import net.minecraft.world.World;
 public abstract class TileFissionShield extends TileFissionPart implements IFissionHeatingComponent, IFissionManagerListener<TileFissionShieldManager, TileFissionShield> {
 	
 	public final double heatPerFlux, efficiency;
-	public boolean isShielding = false, inModeratorLine = false, inCompleteModeratorLine = false, activeModerator = false;
+	public boolean isShielding = false, inCompleteModeratorLine = false, activeModerator = false;
 	protected boolean[] validActiveModeratorPos = new boolean[] {false, false, false, false, false, false};
 	
 	protected FissionCluster cluster = null;
@@ -76,7 +77,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public boolean isValidHeatConductor() {
+	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		return inCompleteModeratorLine;
 	}
 	
@@ -92,7 +93,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	
 	@Override
 	public void resetStats() {
-		inModeratorLine = inCompleteModeratorLine = activeModerator = false;
+		inCompleteModeratorLine = activeModerator = false;
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			validActiveModeratorPos[dir.getIndex()] = false;
 		}
@@ -108,8 +109,8 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
-		IFissionHeatingComponent.super.clusterSearch(id, clusterSearchCache);
+	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		IFissionHeatingComponent.super.clusterSearch(id, clusterSearchCache, componentFailCache, assumedValidCache);
 	}
 	
 	@Override
@@ -151,14 +152,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {
-		inModeratorLine = true;
-	}
-	
-	@Override
-	public boolean isModeratorLineComponent() {
-		return inModeratorLine;
-	}
+	public void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
 	
 	@Override
 	public void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {

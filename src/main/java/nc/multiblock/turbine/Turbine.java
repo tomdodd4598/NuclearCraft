@@ -52,7 +52,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	public boolean isTurbineOn, computerActivated, isProcessing;
-	public double power = 0D, conductivity = 0D;
+	public double power = 0D, conductivity = 0D, rotorEfficiency = 0D, powerBonus = 0D;
 	public double rawPower = 0D, rawLimitPower = 0D, rawMaxPower = 0D;
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
@@ -300,6 +300,8 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		data.setDouble("rawLimitPower", rawLimitPower);
 		data.setDouble("rawMaxPower", rawMaxPower);
 		data.setDouble("conductivity", conductivity);
+		data.setDouble("rotorEfficiency", rotorEfficiency);
+		data.setDouble("powerBonus", powerBonus);
 		data.setString("particleEffect", particleEffect);
 		data.setDouble("particleSpeedMult", particleSpeedMult);
 		data.setFloat("angVel", angVel);
@@ -341,6 +343,8 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		rawLimitPower = data.getDouble("rawLimitPower");
 		rawMaxPower = data.getDouble("rawMaxPower");
 		conductivity = data.getDouble("conductivity");
+		rotorEfficiency = data.getDouble("rotorEfficiency");
+		powerBonus = data.getDouble("powerBonus");
 		particleEffect = data.getString("particleEffect");
 		particleSpeedMult = data.getDouble("particleSpeedMult");
 		angVel = data.getFloat("angVel");
@@ -391,6 +395,8 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		power = message.power;
 		rawPower = message.rawPower;
 		conductivity = message.conductivity;
+		rotorEfficiency = message.rotorEfficiency;
+		powerBonus = message.powerBonus;
 		totalExpansionLevel = message.totalExpansionLevel;
 		idealTotalExpansionLevel = message.idealTotalExpansionLevel;
 		shaftWidth = message.shaftWidth;

@@ -9,14 +9,14 @@ import net.minecraft.util.math.BlockPos;
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isTurbineOn;
-	public double power, rawPower, conductivity, totalExpansionLevel, idealTotalExpansionLevel, bearingTension;
+	public double power, rawPower, conductivity, rotorEfficiency, powerBonus, totalExpansionLevel, idealTotalExpansionLevel, bearingTension;
 	public int energy, capacity, shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite;
 	
 	public TurbineUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, double bearingTension) {
+	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double rotorEfficiency, double powerBonus, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, double bearingTension) {
 		this.pos = pos;
 		this.isTurbineOn = isTurbineOn;
 		energy = energyStorage.getEnergyStored();
@@ -24,6 +24,8 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		this.power = power;
 		this.rawPower = rawPower;
 		this.conductivity = conductivity;
+		this.rotorEfficiency = rotorEfficiency;
+		this.powerBonus = powerBonus;
 		this.totalExpansionLevel = totalExpansionLevel;
 		this.idealTotalExpansionLevel = idealTotalExpansionLevel;
 		this.shaftWidth = shaftWidth;
@@ -45,6 +47,8 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		power = buf.readDouble();
 		rawPower = buf.readDouble();
 		conductivity = buf.readDouble();
+		rotorEfficiency = buf.readDouble();
+		powerBonus = buf.readDouble();
 		totalExpansionLevel = buf.readDouble();
 		idealTotalExpansionLevel = buf.readDouble();
 		shaftWidth = buf.readInt();
@@ -66,6 +70,8 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeDouble(power);
 		buf.writeDouble(rawPower);
 		buf.writeDouble(conductivity);
+		buf.writeDouble(rotorEfficiency);
+		buf.writeDouble(powerBonus);
 		buf.writeDouble(totalExpansionLevel);
 		buf.writeDouble(idealTotalExpansionLevel);
 		buf.writeInt(shaftWidth);

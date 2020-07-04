@@ -1,13 +1,10 @@
 package nc.multiblock.fission.tile;
 
-import static nc.recipe.NCRecipes.*;
-
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.salt.tile.*;
-import nc.multiblock.fission.solid.tile.*;
 import nc.multiblock.fission.tile.IFissionFuelComponent.*;
 import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +43,7 @@ public interface IFissionComponent extends IFissionPart {
 	/**
 	 * Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary!
 	 */
-	public boolean isValidHeatConductor();
+	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache);
 	
 	public boolean isFunctional();
 	
@@ -54,8 +51,8 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public boolean isClusterRoot();
 	
-	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
-		if (!isValidHeatConductor()) {
+	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		if (!isValidHeatConductor(componentFailCache, assumedValidCache)) {
 			return;
 		}
 		
@@ -78,9 +75,12 @@ public interface IFissionComponent extends IFissionPart {
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			BlockPos offPos = getTilePos().offset(dir);
-			if (!getCluster().connectedToWall && isWall(offPos)) {
-				getCluster().connectedToWall = true;
-				continue;
+			if (!getCluster().connectedToWall) {
+				TileEntity part = getTileWorld().getTileEntity(offPos);
+				if (part instanceof TileFissionPart && ((TileFissionPart) part).getPartPositionType().isGoodForWall()) {
+					getCluster().connectedToWall = true;
+					continue;
+				}
 			}
 			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
 			if (component != null) {
@@ -106,10 +106,6 @@ public interface IFissionComponent extends IFissionPart {
 	/** The moderator line does not necessarily have to be complete! */
 	public default void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
 	
-	public default boolean isModeratorLineComponent() {
-		return false;
-	}
-	
 	/**
 	 * Called if and only if the moderator line from the fuel component searching in the dir direction is complete!
 	 */
@@ -134,41 +130,5 @@ public interface IFissionComponent extends IFissionPart {
 			
 		}
 		return IFissionPart.super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
-	}
-	
-	// Helper methods
-	
-	public default boolean isActiveModerator(BlockPos pos) {
-		IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
-		return component != null && component.isActiveModerator() || getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(fission_moderator, pos) != null;
-	}
-	
-	public default boolean isActiveReflector(BlockPos pos) {
-		return getMultiblock().activeReflectorCache.contains(pos.toLong()) && blockRecipe(fission_reflector, pos) != null;
-	}
-	
-	public default boolean isActiveCell(BlockPos pos) {
-		TileSolidFissionCell cell = getMultiblock().getPartMap(TileSolidFissionCell.class).get(pos.toLong());
-		return cell == null ? false : cell.isFunctional();
-	}
-	
-	public default boolean isActiveSink(BlockPos pos, String sinkName) {
-		TileSolidFissionSink sink = getMultiblock().getPartMap(TileSolidFissionSink.class).get(pos.toLong());
-		return sink == null ? false : sink.isFunctional() && sink.sinkName.equals(sinkName);
-	}
-	
-	public default boolean isActiveVessel(BlockPos pos) {
-		TileSaltFissionVessel vessel = getMultiblock().getPartMap(TileSaltFissionVessel.class).get(pos.toLong());
-		return vessel == null ? false : vessel.isFunctional();
-	}
-	
-	public default boolean isActiveHeater(BlockPos pos, String sinkName) {
-		TileSaltFissionHeater heater = getMultiblock().getPartMap(TileSaltFissionHeater.class).get(pos.toLong());
-		return heater == null ? false : heater.isFunctional() && heater.heaterName.equals(sinkName);
-	}
-	
-	public default boolean isWall(BlockPos pos) {
-		TileEntity part = getTileWorld().getTileEntity(pos);
-		return part instanceof TileFissionPart && ((TileFissionPart) part).getPartPositionType().isGoodForWall();
 	}
 }

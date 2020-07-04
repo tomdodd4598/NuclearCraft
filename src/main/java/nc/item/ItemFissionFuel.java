@@ -60,7 +60,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionF
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(stack, world, tooltip, flag);
 		int meta = StackHelper.getMetadata(stack);
-		if (info.length != 0 && info.length > meta && info[meta].length > 0) {
+		if (info.length > meta && info[meta].length > 0) {
 			InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, new TextFormatting[] {TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.DARK_AQUA}, info[meta]);
 		}
 	}

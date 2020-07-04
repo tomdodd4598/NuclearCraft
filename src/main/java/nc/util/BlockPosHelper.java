@@ -210,7 +210,7 @@ public class BlockPosHelper {
 		return Lists.newArrayList(vertexDNW(), vertexDNE(), vertexDSW(), vertexDSE(), vertexUNW(), vertexUNE(), vertexUSW(), vertexUSE());
 	}
 	
-	public static List<EnumFacing[]> vertexDirList() {
+	public static List<EnumFacing[]> vertexDirsList() {
 		return Lists.newArrayList(VERTEX_DNW, VERTEX_DNE, VERTEX_DSW, VERTEX_DSE, VERTEX_UNW, VERTEX_UNE, VERTEX_USW, VERTEX_USE);
 	}
 	
@@ -258,9 +258,7 @@ public class BlockPosHelper {
 		return axis == EnumFacing.Axis.X ? 0 : axis == EnumFacing.Axis.Y ? 1 : 2;
 	}
 	
-	// public static final EnumFacing.AxisDirection[] AXISDIRS = new
-	// EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE,
-	// EnumFacing.AxisDirection.NEGATIVE};
+	public static final EnumFacing.AxisDirection[] AXISDIRS = new EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE, EnumFacing.AxisDirection.NEGATIVE};
 	
 	public static int getAxisDirIndex(@Nonnull EnumFacing.AxisDirection dir) {
 		return dir == EnumFacing.AxisDirection.POSITIVE ? 0 : 1;

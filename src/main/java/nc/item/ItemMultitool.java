@@ -34,10 +34,10 @@ public class ItemMultitool extends NCItem {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof IMultitoolLogic) {
 				if (!world.isRemote) {
-					NBTTagCompound nbt = stack.getTagCompound();
-					if (nbt == null) {
+					if (stack.getTagCompound() == null) {
 						clearNBT(stack);
 					}
+					NBTTagCompound nbt = stack.getTagCompound();
 					
 					boolean multitoolUsed = ((IMultitoolLogic) tile).onUseMultitool(stack, player, world, facing, hitX, hitY, hitZ);
 					nbt.setBoolean("multitoolUsed", multitoolUsed);
