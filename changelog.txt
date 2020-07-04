@@ -1,6 +1,6 @@
 v2.18v
 
-* Removed minor nuclear wasteland biome decorators causing crash
+- Removed minor nuclear wasteland biome decorators causing crash
 
 * Updated Chinese language file [thanks to WuzgXY and team!]
 
