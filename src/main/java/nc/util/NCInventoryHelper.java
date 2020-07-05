@@ -1,7 +1,6 @@
 package nc.util;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -9,13 +8,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.*;
 
 public class NCInventoryHelper {
 	
 	private static final Random RANDOM = new Random();
-
+	
 	public static void dropInventoryItems(World world, BlockPos pos, IInventory inventory, int... slots) {
 		dropInventoryItems(world, pos.getX(), pos.getY(), pos.getZ(), inventory, slots);
 	}
@@ -32,7 +30,8 @@ public class NCInventoryHelper {
 					spawnItemStack(world, x, y, z, itemstack);
 				}
 			}
-		} else {
+		}
+		else {
 			for (int i : slots) {
 				ItemStack itemstack = inventory.getStackInSlot(i);
 				if (!itemstack.isEmpty()) {
@@ -45,11 +44,11 @@ public class NCInventoryHelper {
 	public static void dropInventoryItems(World worldIn, BlockPos pos, List<ItemStack> stacks) {
 		dropInventoryItems(worldIn, pos.getX(), pos.getY(), pos.getZ(), stacks);
 	}
-
+	
 	public static void dropInventoryItems(World worldIn, Entity entityAt, List<ItemStack> stacks) {
 		dropInventoryItems(worldIn, entityAt.posX, entityAt.posY, entityAt.posZ, stacks);
 	}
-
+	
 	private static void dropInventoryItems(World worldIn, double x, double y, double z, List<ItemStack> stacks) {
 		for (int i = 0; i < stacks.size(); ++i) {
 			ItemStack itemstack = stacks.get(i);
@@ -63,7 +62,7 @@ public class NCInventoryHelper {
 		float fx = RANDOM.nextFloat() * 0.8F + 0.1F;
 		float fy = RANDOM.nextFloat() * 0.8F + 0.1F;
 		float fz = RANDOM.nextFloat() * 0.8F + 0.1F;
-
+		
 		while (!stack.isEmpty()) {
 			int split = RANDOM.nextInt(21) + 10;
 			EntityItem entityitem = new EntityItem(world, x + fx, y + fy, z + fz, stack.splitStack(split));
@@ -75,7 +74,9 @@ public class NCInventoryHelper {
 	}
 	
 	public static ItemStack addStackToInventory(IItemHandler inv, ItemStack stack) {
-		if (stack.isEmpty()) return ItemStack.EMPTY;
+		if (stack.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
 		stack = ItemHandlerHelper.insertItemStacked(inv, stack, false);
 		return stack;
 	}

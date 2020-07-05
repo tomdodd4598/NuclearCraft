@@ -3,15 +3,11 @@ package nc.integration.jei;
 import java.util.List;
 
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeHelper;
+import nc.recipe.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -66,18 +62,20 @@ public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstrac
 	
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-		if (drawArrow) arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		if (drawArrow) {
+			arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		}
 	}
 	
 	private boolean staticArrow() {
-		return getProgressArrowTime() < 4 /*|| (NCConfig.factor_recipes && itemInputs.isEmpty() && itemOutputs.isEmpty() && getProgressArrowTime() < 8)*/;
+		return getProgressArrowTime() < 4 /* || (factor_recipes && itemInputs.isEmpty() && itemOutputs.isEmpty() && getProgressArrowTime() < 8) */;
 	}
-
+	
 	@Override
 	public List<String> getTooltipStrings(int mouseX, int mouseY) {
 		return null;
 	}
-
+	
 	@Override
 	public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 		return false;

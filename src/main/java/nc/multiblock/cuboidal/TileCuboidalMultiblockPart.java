@@ -1,10 +1,8 @@
 package nc.multiblock.cuboidal;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
-import nc.multiblock.BlockFacing;
-import nc.multiblock.Multiblock;
+import nc.multiblock.*;
 import nc.multiblock.tile.TileMultiblockPart;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -112,7 +110,7 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 	// Positional helpers
 	
 	public void recalculateOutwardsDirection(BlockPos minCoord, BlockPos maxCoord) {
-		BlockPos myPosition = this.getPos();
+		BlockPos myPosition = getPos();
 		int myX = myPosition.getX();
 		int myY = myPosition.getY();
 		int myZ = myPosition.getZ();
@@ -131,9 +129,15 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		
 		// how many faces are facing outward?
 		
-		if (eastFacing || westFacing) ++facesMatching;
-		if (upFacing || downFacing) ++facesMatching;
-		if (southFacing || northFacing) ++facesMatching;
+		if (eastFacing || westFacing) {
+			++facesMatching;
+		}
+		if (upFacing || downFacing) {
+			++facesMatching;
+		}
+		if (southFacing || northFacing) {
+			++facesMatching;
+		}
 		
 		// what is our position in the multiblock structure?
 		
@@ -180,31 +184,41 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 	///// Validation Helpers (IMultiblockPart)
 	
 	public boolean isGoodForFrame(Multiblock multiblock) {
-		if (positionType.isGoodForFrame()) return true;
+		if (positionType.isGoodForFrame()) {
+			return true;
+		}
 		setStandardLastError(multiblock);
 		return false;
 	}
-
+	
 	public boolean isGoodForSides(Multiblock multiblock) {
-		if (positionType.isGoodForWall()) return true;
+		if (positionType.isGoodForWall()) {
+			return true;
+		}
 		setStandardLastError(multiblock);
 		return false;
 	}
-
+	
 	public boolean isGoodForTop(Multiblock multiblock) {
-		if (positionType.isGoodForWall()) return true;
+		if (positionType.isGoodForWall()) {
+			return true;
+		}
 		setStandardLastError(multiblock);
 		return false;
 	}
-
+	
 	public boolean isGoodForBottom(Multiblock multiblock) {
-		if (positionType.isGoodForWall()) return true;
+		if (positionType.isGoodForWall()) {
+			return true;
+		}
 		setStandardLastError(multiblock);
 		return false;
 	}
-
+	
 	public boolean isGoodForInterior(Multiblock multiblock) {
-		if (positionType.isGoodForInterior()) return true;
+		if (positionType.isGoodForInterior()) {
+			return true;
+		}
 		setStandardLastError(multiblock);
 		return false;
 	}

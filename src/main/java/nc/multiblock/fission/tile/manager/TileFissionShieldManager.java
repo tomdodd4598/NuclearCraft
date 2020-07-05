@@ -1,6 +1,6 @@
 package nc.multiblock.fission.tile.manager;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.*;
 import nc.multiblock.fission.block.manager.BlockFissionShieldManager;
 import nc.multiblock.fission.tile.TileFissionShield;
 import nc.util.Lang;
@@ -28,30 +28,36 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	}
 	
 	@Override
-	public void moveListenersFromCache() {
-		if (!listenerPosCache.isEmpty()) {
-			for (long posLong : listenerPosCache) {
-				TileFissionShield shield = getMultiblock().getPartMap(TileFissionShield.class).get(posLong);
-				if (shield != null) {
-					listeners.add(shield);
-					shield.setMasterManagerPos(pos);
-					shield.refreshMasterManager();
-				}
-			}
-			listenerPosCache.clear();
-		}
+	public void refreshManager() {
+		refreshListeners(true);
 	}
 	
-	//TODO - temporary managers
+	// TODO - temporary managers
 	@Override
-	public void refreshListeners() {
-		refreshPartsFlag = false;
-		//if (isMultiblockAssembled()) {
-			for (TileFissionShield shield : listeners) {
-				shield.onManagerRefresh();
+	public void refreshListeners(boolean refreshPosSet) {
+		refreshListenersFlag = false;
+		if (getMultiblock() == null) {
+			return;
+		}
+		
+		boolean refresh = false;
+		LongSet invalidPosSet = new LongOpenHashSet();
+		for (Long pos : listenerPosSet) {
+			TileFissionShield shield = getMultiblock().getPartMap(TileFissionShield.class).get(pos);
+			if (shield != null) {
+				if (shield.onManagerRefresh(this)) {
+					refresh = true;
+				}
 			}
+			else if (refreshPosSet) {
+				invalidPosSet.add(pos);
+			}
+		}
+		listenerPosSet.removeAll(invalidPosSet);
+		
+		if (refresh) {
 			getMultiblock().refreshFlag = true;
-		//}
+		}
 	}
 	
 	@Override
@@ -60,35 +66,36 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		updateBlockState(isShieldingActive());
 		if (!world.isRemote && wasShieldingActive != isShieldingActive()) {
-			this.refreshListeners();
+			refreshListeners(false);
 		}
 	}
 	
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockFissionShieldManager) {
-			((BlockFissionShieldManager)getBlockType()).setState(isActive, this);
-			//world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+			((BlockFissionShieldManager) getBlockType()).setState(isActive, this);
+			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	
-	//IMultitoolLogic
+	// IMultitoolLogic
 	
 	@Override
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		//TODO
+		// TODO
 		if (player.isSneaking()) {
 			
 		}
 		else {
 			if (getMultiblock() != null) {
-				Long2ObjectMap<TileFissionShield> shieldMap = getMultiblock().getPartMap(TileFissionShield.class);
-				for (TileFissionShield shield : shieldMap.values()) {
-					getListeners().add(shield);
-					shield.setMasterManagerPos(pos);
-					shield.refreshMasterManager();
-					getMultiblock().refreshFlag = true;
+				listenerPosSet.clear();
+				for (TileFissionShield shield : getMultiblock().getParts(TileFissionShield.class)) {
+					listenerPosSet.add(shield.getPos().toLong());
+					shield.setManagerPos(pos);
+					shield.refreshManager();
 				}
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", shieldMap.size())));
+				markDirtyAndNotify();
+				getMultiblock().refreshFlag = true;
+				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", listenerPosSet.size())));
 				return true;
 			}
 		}

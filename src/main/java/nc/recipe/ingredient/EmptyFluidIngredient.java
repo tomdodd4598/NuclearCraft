@@ -1,21 +1,18 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.recipe.*;
 import nc.tile.internal.fluid.Tank;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
 public class EmptyFluidIngredient implements IFluidIngredient {
-
+	
 	public EmptyFluidIngredient() {}
 	
 	@Override
@@ -30,14 +27,14 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	
 	@Override
 	public List<FluidStack> getInputStackHashingList() {
-		return Lists.newArrayList((FluidStack)null);
+		return Lists.newArrayList((FluidStack) null);
 	}
 	
 	@Override
 	public List<FluidStack> getOutputStackList() {
 		return new ArrayList<>();
 	}
-
+	
 	@Override
 	public int getMaxStackSize(int ingredientNumber) {
 		return 0;
@@ -52,7 +49,7 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	public String getIngredientName() {
 		return "null";
 	}
-
+	
 	@Override
 	public String getIngredientNamesConcat() {
 		return "null";
@@ -74,7 +71,7 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 			return IngredientMatchResult.PASS_0;
 		}
 		if (object instanceof Tank) {
-			return new IngredientMatchResult(((Tank)object).getFluid() == null, 0);
+			return new IngredientMatchResult(((Tank) object).getFluid() == null, 0);
 		}
 		return new IngredientMatchResult(object instanceof EmptyFluidIngredient, 0);
 	}

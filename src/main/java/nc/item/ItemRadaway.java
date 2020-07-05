@@ -1,22 +1,17 @@
 package nc.item;
 
+import static nc.config.NCConfig.*;
+
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
 import nc.init.NCSounds;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.*;
+import net.minecraft.item.*;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.*;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
 public class ItemRadaway extends NCItem {
@@ -33,19 +28,27 @@ public class ItemRadaway extends NCItem {
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entity) {
 		if (entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)entity;
-			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return stack;
+			EntityPlayer player = (EntityPlayer) entity;
+			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+				return stack;
+			}
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-			if (playerRads == null) return stack;
+			if (playerRads == null) {
+				return stack;
+			}
 			if (playerRads.canConsumeRadaway()) {
-				world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, NCSounds.radaway, SoundCategory.PLAYERS, 0.5F, 1F);
+				world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, NCSounds.radaway, SoundCategory.PLAYERS, 0.5F, 1F);
 				onRadawayConsumed(stack, world, player);
 				player.addStat(StatList.getObjectUseStats(this));
-				if (player instanceof EntityPlayerMP) CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)player, stack);
+				if (player instanceof EntityPlayerMP) {
+					CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
+				}
 				stack.shrink(1);
 				playerRads.setConsumedMedicine(true);
-				playerRads.setRadawayCooldown(NCConfig.radiation_radaway_cooldown);
-				if (NCConfig.radiation_radaway_cooldown >= 10D) sendCooldownMessage(world, player, playerRads, false);
+				playerRads.setRadawayCooldown(radiation_radaway_cooldown);
+				if (radiation_radaway_cooldown >= 10D) {
+					sendCooldownMessage(world, player, playerRads, false);
+				}
 			}
 			else {
 				playerRads.setConsumedMedicine(false);
@@ -56,17 +59,25 @@ public class ItemRadaway extends NCItem {
 	
 	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
 		if (playerRads.getRadawayCooldown() > 0D) {
-			if (playSound && world.isRemote) player.playSound(NCSounds.chems_wear_off, 0.5F, 1F);
+			if (playSound && world.isRemote) {
+				player.playSound(NCSounds.chems_wear_off, 0.5F, 1F);
+			}
 			player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
 		}
 	}
 	
 	private void onRadawayConsumed(ItemStack stack, World world, EntityPlayer player) {
-		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
+		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+			return;
+		}
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-		if (playerRads == null) return;
-		playerRads.setRadawayBuffer(slow, playerRads.getRadawayBuffer(slow) + (slow ? NCConfig.radiation_radaway_slow_amount : NCConfig.radiation_radaway_amount));
-		if (!slow) playerRads.setRecentRadawayAddition(NCConfig.radiation_radaway_amount);
+		if (playerRads == null) {
+			return;
+		}
+		playerRads.setRadawayBuffer(slow, playerRads.getRadawayBuffer(slow) + (slow ? radiation_radaway_slow_amount : radiation_radaway_amount));
+		if (!slow) {
+			playerRads.setRecentRadawayAddition(radiation_radaway_amount);
+		}
 	}
 	
 	@Override
@@ -82,9 +93,13 @@ public class ItemRadaway extends NCItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return actionResult(false, stack);
+		if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+			return actionResult(false, stack);
+		}
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-		if (playerRads == null) return actionResult(false, stack);
+		if (playerRads == null) {
+			return actionResult(false, stack);
+		}
 		
 		if (!playerRads.canConsumeRadaway()) {
 			playerRads.setConsumedMedicine(false);
@@ -95,6 +110,8 @@ public class ItemRadaway extends NCItem {
 			player.setActiveHand(hand);
 			return actionResult(true, stack);
 		}
-		else return actionResult(false, stack);
+		else {
+			return actionResult(false, stack);
+		}
 	}
 }

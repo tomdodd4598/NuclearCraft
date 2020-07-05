@@ -2,12 +2,8 @@ package nc.multiblock.turbine.tile;
 
 import nc.init.NCBlocks;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.TurbineRotorBladeUtil;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorStatorType;
+import nc.multiblock.turbine.*;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -27,14 +23,15 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -85,6 +82,14 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	@Override
 	public void setRenderRotation(float newRotation) {
 		rotation = newRotation;
+	}
+	
+	@Override
+	public void onBearingFailure(Turbine turbine) {
+		if (turbine.rand.nextDouble() < 0.04D) {
+			world.removeTileEntity(pos);
+			world.setBlockToAir(pos);
+		}
 	}
 	
 	// NBT

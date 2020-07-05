@@ -1,14 +1,11 @@
 package nc.integration.jei;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
 import nc.radiation.RadiationHelper;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import nc.recipe.*;
+import nc.util.*;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProcessor> extends JEIRecipeWrapperAbstract<T> {
@@ -25,7 +22,7 @@ public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProces
 	
 	@Override
 	protected int getProgressArrowTime() {
-		return (int) (getBaseProcessTime()/4D);
+		return (int) (getBaseProcessTime() / 4D);
 	}
 	
 	protected abstract double getBaseProcessTime();
@@ -33,7 +30,9 @@ public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProces
 	protected abstract double getBaseProcessPower();
 	
 	protected double getBaseProcessRadiation() {
-		if (recipe == null) return 0D;
+		if (recipe == null) {
+			return 0D;
+		}
 		return recipe.getBaseProcessRadiation();
 	}
 	
@@ -45,7 +44,9 @@ public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProces
 			tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getBaseProcessTime(), 3));
 			tooltip.add(TextFormatting.LIGHT_PURPLE + BASE_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getBaseProcessPower(), 5, "RF/t"));
 			double radiation = getBaseProcessRadiation();
-			if (radiation > 0D) tooltip.add(TextFormatting.GOLD + BASE_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+			if (radiation > 0D) {
+				tooltip.add(TextFormatting.GOLD + BASE_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+			}
 		}
 		
 		return tooltip;

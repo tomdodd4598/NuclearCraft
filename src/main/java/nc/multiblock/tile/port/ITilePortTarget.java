@@ -1,8 +1,6 @@
 package nc.multiblock.tile.port;
 
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
+import nc.multiblock.*;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileLogicMultiblockPart;
 import net.minecraft.util.math.BlockPos;

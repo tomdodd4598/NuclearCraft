@@ -2,24 +2,19 @@ package nc.init;
 
 import static nc.config.NCConfig.register_cofh_fluids;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import nc.Global;
-import nc.ModCheck;
-import nc.NuclearCraft;
+import nc.*;
 import nc.block.fluid.NCBlockFluid;
 import nc.block.item.NCItemBlock;
 import nc.enumm.FluidType;
-import nc.util.ColorHelper;
-import nc.util.NCUtil;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFluids {
@@ -156,7 +151,8 @@ public class NCFluids {
 			T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
 			V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
 			fluidPairList.add(Pair.of(fluid, block));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

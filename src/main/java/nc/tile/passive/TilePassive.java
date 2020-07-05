@@ -1,8 +1,8 @@
 package nc.tile.passive;
 
-import nc.config.NCConfig;
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.ItemIngredient;
+import static nc.config.NCConfig.*;
+
+import nc.recipe.ingredient.*;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.fluid.IFluidSpread;
 import net.minecraft.init.Blocks;
@@ -20,28 +20,28 @@ public class TilePassive {
 	public static class FusionElectromagnet extends ElectromagnetAbstract {
 		
 		public FusionElectromagnet() {
-			super("fusion", NCConfig.fusion_electromagnet_power);
+			super("fusion", fusion_electromagnet_power);
 		}
 	}
 	
 	public static class AcceleratorElectromagnet extends ElectromagnetAbstract {
 		
 		public AcceleratorElectromagnet() {
-			super("accelerator", NCConfig.accelerator_electromagnet_power);
+			super("accelerator", accelerator_electromagnet_power);
 		}
 	}
 	
 	public static class ElectromagnetSupercooler extends TilePassiveAbstract implements IEnergySpread, IFluidSpread {
 		
 		public ElectromagnetSupercooler() {
-			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, new FluidIngredient("liquid_helium", 1), -NCConfig.accelerator_supercooler_coolant);
+			super("electromagnet_supercooler", -accelerator_electromagnet_power, new FluidIngredient("liquid_helium", 1), -accelerator_supercooler_coolant);
 		}
 	}
 	
 	public static abstract class CobblestoneGeneratorAbstract extends TilePassiveAbstract {
 		
 		public CobblestoneGeneratorAbstract(String type, int rateMult) {
-			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), NCConfig.processor_passive_rate[0]*rateMult, -NCConfig.cobble_gen_power*rateMult);
+			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), processor_passive_rate[0] * rateMult, -cobble_gen_power * rateMult);
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class TilePassive {
 	public static abstract class WaterSourceAbstract extends TilePassiveAbstract {
 		
 		public WaterSourceAbstract(String type, int rateMult) {
-			super("water_source" + type, new FluidIngredient("water", 1), NCConfig.processor_passive_rate[1]*rateMult);
+			super("water_source" + type, new FluidIngredient("water", 1), processor_passive_rate[1] * rateMult);
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class TilePassive {
 	public static abstract class NitrogenCollectorAbstract extends TilePassiveAbstract {
 		
 		public NitrogenCollectorAbstract(String type, int rateMult) {
-			super("nitrogen_collector" + type, new FluidIngredient("nitrogen", 1), NCConfig.processor_passive_rate[2]*rateMult);
+			super("nitrogen_collector" + type, new FluidIngredient("nitrogen", 1), processor_passive_rate[2] * rateMult);
 		}
 	}
 	

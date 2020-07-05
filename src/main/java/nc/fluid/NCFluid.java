@@ -2,8 +2,7 @@ package nc.fluid;
 
 import nc.Global;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.*;
 
 public class NCFluid extends Fluid {
 	
@@ -19,7 +18,7 @@ public class NCFluid extends Fluid {
 		super(fluidName, stillTextureLocation(textureName, canBeStill), flowingTextureLocation(textureName, canBeStill));
 		
 		int fixedColor = color.intValue();
-		if (((fixedColor >> 24) & 0xFF) == 0) {
+		if ((fixedColor >> 24 & 0xFF) == 0) {
 			fixedColor |= 0xFF << 24;
 		}
 		setColor(fixedColor);

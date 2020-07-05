@@ -10,8 +10,7 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.TankOutputSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public abstract class NCToggleButton extends NCButton {
@@ -24,7 +23,9 @@ public abstract class NCToggleButton extends NCButton {
 	@Override
 	public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 		boolean clicked = mouseButton == 0 && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-		if (clicked) isButtonPressed = !isButtonPressed;
+		if (clicked) {
+			isButtonPressed = !isButtonPressed;
+		}
 		return clicked;
 	}
 	
@@ -58,7 +59,12 @@ public abstract class NCToggleButton extends NCButton {
 		}
 		
 		public ResourceLocation getTexture() {
-			if (isButtonPressed) return pressedTexture; else return unpressedTexture;
+			if (isButtonPressed) {
+				return pressedTexture;
+			}
+			else {
+				return unpressedTexture;
+			}
 		}
 	}
 	
@@ -71,12 +77,17 @@ public abstract class NCToggleButton extends NCButton {
 			super(id, x, y, width, height, pressed);
 			this.width = width;
 			this.height = height;
-			unpressedItemRenderer = new GuiItemRenderer(x + (width - 16)/2, y + (height - 16)/2, unpressedAlph, unpressedItem, unpressedItemMeta);
-			pressedItemRenderer = new GuiItemRenderer(x + (width - 16)/2, y + (height - 16)/2, pressedAlph, pressedItem, pressedItemMeta);
+			unpressedItemRenderer = new GuiItemRenderer(x + (width - 16) / 2, y + (height - 16) / 2, unpressedAlph, unpressedItem, unpressedItemMeta);
+			pressedItemRenderer = new GuiItemRenderer(x + (width - 16) / 2, y + (height - 16) / 2, pressedAlph, pressedItem, pressedItemMeta);
 		}
 		
 		public GuiItemRenderer getItemRenderer() {
-			if (isButtonPressed) return pressedItemRenderer; else return unpressedItemRenderer;
+			if (isButtonPressed) {
+				return pressedItemRenderer;
+			}
+			else {
+				return unpressedItemRenderer;
+			}
 		}
 		
 		@Override

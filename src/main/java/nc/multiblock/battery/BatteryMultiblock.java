@@ -2,8 +2,7 @@ package nc.multiblock.battery;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.Multiblock;
 import nc.multiblock.battery.tile.TileBattery;
 import nc.multiblock.network.MultiblockUpdatePacket;
@@ -16,7 +15,7 @@ import net.minecraft.world.World;
 
 public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdatePacket> {
 	
-public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new ObjectOpenHashSet<>();
+	public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new ObjectOpenHashSet<>();
 	
 	protected final PartSuperMap<TileBattery> partSuperMap = new PartSuperMap<>();
 	
@@ -57,19 +56,19 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 	}
 	
 	@Override
-	protected void onMachineAssembled(boolean alreadyAssembled) {
-		refreshMultiblock();
+	protected void onMachineAssembled() {
+		onMultiblockFormed();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
-		refreshMultiblock();
+		onMultiblockFormed();
 	}
 	
-	protected void refreshMultiblock() {
+	protected void onMultiblockFormed() {
 		if (!WORLD.isRemote) {
 			long capacity = 0L;
-			for (TileBattery battery : getPartMap(TileBattery.class).values()) {
+			for (TileBattery battery : getParts(TileBattery.class)) {
 				capacity += battery.capacity;
 				battery.onMultiblockRefresh();
 			}
@@ -112,9 +111,12 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 	
 	@Override
 	protected void onAssimilate(Multiblock assimilated) {
-		refreshMultiblock();
 		if (assimilated instanceof BatteryMultiblock) {
-			storage.mergeEnergyStorage(((BatteryMultiblock)assimilated).storage);
+			storage.mergeEnergyStorage(((BatteryMultiblock) assimilated).storage);
+		}
+		
+		if (isAssembled()) {
+			onMultiblockFormed();
 		}
 	}
 	
@@ -135,7 +137,7 @@ public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new O
 		}
 		comparatorStrength = compStrength;
 		if (shouldUpdate) {
-			for (TileBattery battery : getPartMap(TileBattery.class).values()) {
+			for (TileBattery battery : getParts(TileBattery.class)) {
 				battery.markDirty();
 			}
 		}

@@ -2,8 +2,7 @@ package nc.recipe.processor;
 
 import static nc.util.FissionHelper.FISSION_ORE_DICT;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
@@ -27,8 +26,10 @@ public class SeparatorRecipes extends ProcessorRecipeHandler {
 		addFuelSeparationRecipes("U", "Uranium", 238, 233, 235);
 		addFuelSeparationRecipes("N", "Neptunium", 237, 236);
 		addFuelSeparationRecipes("P", "Plutonium", 242, 239, 241);
-		for (int fissile : new int[] {239, 241}) for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
-			addRecipe(oreStack("ingotMIX" + fissile + type, 9), oreStack("ingotUranium238" + type, 8), oreStack("ingotPlutonium" + fissile + type, 1), 1D, 1D);
+		for (int fissile : new int[] {239, 241}) {
+			for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
+				addRecipe(oreStack("ingotMIX" + fissile + type, 9), oreStack("ingotUranium238" + type, 8), oreStack("ingotPlutonium" + fissile + type, 1), 1D, 1D);
+			}
 		}
 		addFuelSeparationRecipes("A", "Americium", 243, 242);
 		addFuelSeparationRecipes("Cm", "Curium", 246, 243, 245, 247);
@@ -39,16 +40,18 @@ public class SeparatorRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addFuelSeparationRecipes(String fuel, String element, int fertile, int... fissiles) {
-		for (int fissile : fissiles) for (String type : new String[] {"", "Oxide", "Nitride"}) {
-			addRecipe(oreStack("ingotLE" + fuel + fissile + type, 9), oreStack("ingot" + element + fertile + type, 8), oreStack("ingot" + element + fissile + type, 1), 1D, 1D);
-			addRecipe(oreStack("ingotHE" + fuel + fissile + type, 9), oreStack("ingot" + element + fertile + type, 6), oreStack("ingot" + element + fissile + type, 3), 1D, 1D);
+		for (int fissile : fissiles) {
+			for (String type : new String[] {"", "Oxide", "Nitride"}) {
+				addRecipe(oreStack("ingotLE" + fuel + fissile + type, 9), oreStack("ingot" + element + fertile + type, 8), oreStack("ingot" + element + fissile + type, 1), 1D, 1D);
+				addRecipe(oreStack("ingotHE" + fuel + fissile + type, 9), oreStack("ingot" + element + fertile + type, 6), oreStack("ingot" + element + fissile + type, 3), 1D, 1D);
+			}
 		}
 	}
 	
 	public void addFissionAlloyRecipes() {
-		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
-			addRecipe("ingot" + FISSION_ORE_DICT[i] + "ZA", "ingot" + FISSION_ORE_DICT[i], "dustZirconium", 1D, 1D);
-			addRecipe("ingot" + FISSION_ORE_DICT[i] + "Carbide", "ingot" + FISSION_ORE_DICT[i], "dustGraphite", 1D, 1D);
+		for (String element : FISSION_ORE_DICT) {
+			addRecipe("ingot" + element + "ZA", "ingot" + element, "dustZirconium", 1D, 1D);
+			addRecipe("ingot" + element + "Carbide", "ingot" + element, "dustGraphite", 1D, 1D);
 		}
 	}
 	

@@ -3,8 +3,7 @@ package nc.capability.radiation.resistance;
 import nc.Global;
 import nc.capability.ICapability;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.*;
 
 public interface IRadiationResistance extends ICapability<IRadiationResistance> {
 	

@@ -7,12 +7,10 @@ import javax.annotation.Nullable;
 import nc.util.InfoHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class NCItemBlock extends ItemBlock {
 	
@@ -44,7 +42,7 @@ public class NCItemBlock extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
-		if (info.length + fixedInfo.length > 0) {
+		if (fixedInfo.length > 0 || info.length > 0) {
 			if (fixedColors.length == 1) {
 				InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo, infoColor, info);
 			}

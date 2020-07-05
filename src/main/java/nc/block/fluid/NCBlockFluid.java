@@ -2,10 +2,8 @@ package nc.block.fluid;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.BlockFluidClassic;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.world.*;
+import net.minecraftforge.fluids.*;
 
 public class NCBlockFluid extends BlockFluidClassic {
 	
@@ -14,7 +12,7 @@ public class NCBlockFluid extends BlockFluidClassic {
 	
 	public NCBlockFluid(Fluid fluid, Material material) {
 		super(fluid, material);
-		this.name = "fluid_" + fluid.getName();
+		name = "fluid_" + fluid.getName();
 		this.fluid = fluid;
 	}
 	

@@ -8,9 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class OpenGuiPacket implements IMessage {
@@ -36,7 +34,8 @@ public class OpenGuiPacket implements IMessage {
 		try {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 			guiID = buf.readInt();
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 			return;
 		}
@@ -45,7 +44,9 @@ public class OpenGuiPacket implements IMessage {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) return;
+		if (!messageValid) {
+			return;
+		}
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -56,7 +57,9 @@ public class OpenGuiPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(OpenGuiPacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.SERVER) return null;
+			if (!message.messageValid && ctx.side != Side.SERVER) {
+				return null;
+			}
 			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
@@ -65,7 +68,9 @@ public class OpenGuiPacket implements IMessage {
 			EntityPlayerMP player = ctx.getServerHandler().player;
 			FMLNetworkHandler.openGui(player, NuclearCraft.instance, message.guiID, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
 			TileEntity tile = player.getServerWorld().getTileEntity(message.pos);
-			if (tile instanceof ITileGui) ((ITileGui) tile).beginUpdatingPlayer(player);
+			if (tile instanceof ITileGui) {
+				((ITileGui) tile).beginUpdatingPlayer(player);
+			}
 		}
 	}
 }

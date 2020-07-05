@@ -1,42 +1,7 @@
 package nc.enumm;
 
-import nc.block.fluid.BlockFluidAcid;
-import nc.block.fluid.BlockFluidChocolate;
-import nc.block.fluid.BlockFluidCoolant;
-import nc.block.fluid.BlockFluidCorium;
-import nc.block.fluid.BlockFluidCryotheum;
-import nc.block.fluid.BlockFluidFission;
-import nc.block.fluid.BlockFluidFlammable;
-import nc.block.fluid.BlockFluidGas;
-import nc.block.fluid.BlockFluidHotCoolant;
-import nc.block.fluid.BlockFluidHotGas;
-import nc.block.fluid.BlockFluidLiquid;
-import nc.block.fluid.BlockFluidMolten;
-import nc.block.fluid.BlockFluidParticle;
-import nc.block.fluid.BlockFluidPlasma;
-import nc.block.fluid.BlockFluidSaltSolution;
-import nc.block.fluid.BlockFluidSteam;
-import nc.block.fluid.BlockFluidSugar;
-import nc.block.fluid.BlockSuperFluid;
-import nc.block.fluid.NCBlockFluid;
-import nc.fluid.FluidAcid;
-import nc.fluid.FluidChocolate;
-import nc.fluid.FluidCoolant;
-import nc.fluid.FluidCorium;
-import nc.fluid.FluidCryotheum;
-import nc.fluid.FluidFission;
-import nc.fluid.FluidFlammable;
-import nc.fluid.FluidGas;
-import nc.fluid.FluidHotCoolant;
-import nc.fluid.FluidHotGas;
-import nc.fluid.FluidLiquid;
-import nc.fluid.FluidMolten;
-import nc.fluid.FluidParticle;
-import nc.fluid.FluidPlasma;
-import nc.fluid.FluidSaltSolution;
-import nc.fluid.FluidSteam;
-import nc.fluid.FluidSugar;
-import nc.fluid.SuperFluid;
+import nc.block.fluid.*;
+import nc.fluid.*;
 import net.minecraftforge.fluids.Fluid;
 
 public enum FluidType {

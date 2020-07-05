@@ -6,9 +6,7 @@ import nc.tile.internal.fluid.TankOutputSetting;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleTankOutputSettingPacket implements IMessage {
@@ -36,7 +34,8 @@ public class ToggleTankOutputSettingPacket implements IMessage {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 			tank = buf.readInt();
 			setting = buf.readInt();
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 			return;
 		}
@@ -45,7 +44,9 @@ public class ToggleTankOutputSettingPacket implements IMessage {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) return;
+		if (!messageValid) {
+			return;
+		}
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -57,7 +58,9 @@ public class ToggleTankOutputSettingPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ToggleTankOutputSettingPacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.SERVER) return null;
+			if (!message.messageValid && ctx.side != Side.SERVER) {
+				return null;
+			}
 			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
@@ -68,7 +71,9 @@ public class ToggleTankOutputSettingPacket implements IMessage {
 				ITileFluid machine = (ITileFluid) tile;
 				TankOutputSetting setting = TankOutputSetting.values()[message.setting];
 				machine.setTankOutputSetting(message.tank, setting);
-				if (setting == TankOutputSetting.VOID) machine.clearTank(message.tank);
+				if (setting == TankOutputSetting.VOID) {
+					machine.clearTank(message.tank);
+				}
 				machine.markDirtyAndNotify();
 			}
 		}

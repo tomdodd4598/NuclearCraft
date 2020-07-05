@@ -56,7 +56,9 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(baseProcessTime);
 		buf.writeDouble(baseProcessPower);
 		buf.writeByte(tanksInfo.size());
-		for (TankInfo info : tanksInfo) info.writeBuf(buf);
+		for (TankInfo info : tanksInfo) {
+			info.writeBuf(buf);
+		}
 	}
 	
 	public static class Handler extends TileUpdatePacket.Handler<ProcessorUpdatePacket, ITileGui> {

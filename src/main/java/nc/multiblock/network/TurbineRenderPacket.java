@@ -55,7 +55,7 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineRenderPacket, Turbine, TileTurbineController> {
-
+		
 		public Handler() {
 			super(TileTurbineController.class);
 		}

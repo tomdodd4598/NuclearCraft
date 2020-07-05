@@ -6,8 +6,7 @@ import nc.Global;
 import nc.gui.IButtonEnum;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
@@ -22,7 +21,9 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 	@Override
 	public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 		boolean clicked = mouseButton == 0 && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-		if (clicked) toggle(mouseButton);
+		if (clicked) {
+			toggle(mouseButton);
+		}
 		return clicked;
 	}
 	
@@ -56,7 +57,12 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 		}
 		
 		public ResourceLocation getTexture() {
-			if (isButtonPressed) return pressedTexture; else return unpressedTexture;
+			if (isButtonPressed) {
+				return pressedTexture;
+			}
+			else {
+				return unpressedTexture;
+			}
 		}
 		
 		public void setTexturePosition() {
@@ -78,7 +84,9 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 			boolean clicked = (mouseButton == 0 || mouseButton == 1) && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			if (clicked) toggle(mouseButton);
+			if (clicked) {
+				toggle(mouseButton);
+			}
 			return clicked;
 		}
 		
@@ -105,7 +113,9 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 			boolean clicked = (mouseButton == 0 || mouseButton == 1) && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			if (clicked) toggle(mouseButton);
+			if (clicked) {
+				toggle(mouseButton);
+			}
 			return clicked;
 		}
 		
@@ -129,7 +139,9 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 			boolean clicked = (mouseButton == 0 || mouseButton == 1) && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			if (clicked) toggle(mouseButton);
+			if (clicked) {
+				toggle(mouseButton);
+			}
 			return clicked;
 		}
 		
@@ -150,7 +162,9 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 			boolean clicked = (mouseButton == 0 || mouseButton == 1) && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			if (clicked) toggle(mouseButton);
+			if (clicked) {
+				toggle(mouseButton);
+			}
 			return clicked;
 		}
 		

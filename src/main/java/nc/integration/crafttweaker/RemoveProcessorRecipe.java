@@ -1,17 +1,11 @@
 package nc.integration.crafttweaker;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
+import crafttweaker.*;
 import crafttweaker.api.item.IIngredient;
-import nc.recipe.IngredientSorption;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeHelper;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 
 public class RemoveProcessorRecipe implements IAction {
 	
@@ -23,7 +17,7 @@ public class RemoveProcessorRecipe implements IAction {
 	public ProcessorRecipe recipe;
 	public boolean ingredientError, wasNull, wrongSize;
 	public final ProcessorRecipeHandler recipeHandler;
-
+	
 	public RemoveProcessorRecipe(ProcessorRecipeHandler recipeHandler, IngredientSorption type, List<IIngredient> ctIngredients) {
 		this.recipeHandler = recipeHandler;
 		this.type = type;
@@ -52,11 +46,13 @@ public class RemoveProcessorRecipe implements IAction {
 			}
 			fluidIngredients.add(ingredient);
 		}
-
+		
 		this.itemIngredients = itemIngredients;
 		this.fluidIngredients = fluidIngredients;
-		this.recipe = type == IngredientSorption.INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
-		if (recipe == null) wasNull = true;
+		recipe = type == IngredientSorption.INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
+		if (recipe == null) {
+			wasNull = true;
+		}
 	}
 	
 	@Override
@@ -73,13 +69,17 @@ public class RemoveProcessorRecipe implements IAction {
 	@Override
 	public String describe() {
 		if (ingredientError || wasNull || wrongSize) {
-			if (ingredientError || wrongSize) callError();
+			if (ingredientError || wrongSize) {
+				callError();
+			}
 			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == IngredientSorption.INPUT ? "input" : "output"), recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 		}
 		if (type == IngredientSorption.INPUT) {
 			return String.format("Removing %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(recipe));
 		}
-		else return String.format("Removing %s recipes for: %s", recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+		else {
+			return String.format("Removing %s recipes for: %s", recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+		}
 	}
 	
 	public static void callError() {

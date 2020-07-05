@@ -6,20 +6,24 @@ import net.minecraft.nbt.NBTTagCompound;
 public class HeatBuffer {
 	
 	private long heatStored, heatCapacity;
-
+	
 	public HeatBuffer(long capacity) {
 		heatCapacity = capacity;
 	}
 	
 	public long removeHeat(long heat, boolean simulated) {
 		long heatRemoved = Math.min(heatStored, heat);
-		if (!simulated) heatStored -= heatRemoved;
+		if (!simulated) {
+			heatStored -= heatRemoved;
+		}
 		return heatRemoved;
 	}
 	
 	public long addHeat(long heat, boolean simulated) {
 		long heatAdded = Math.min(heatCapacity - heatStored, heat);
-		if (!simulated) heatStored += heatAdded;
+		if (!simulated) {
+			heatStored += heatAdded;
+		}
 		return heatAdded;
 	}
 	
@@ -43,7 +47,7 @@ public class HeatBuffer {
 	/** Ignores heat stored! */
 	public void setHeatCapacity(long newCapacity) {
 		heatCapacity = Math.max(0, newCapacity);
-		//if (newCapacity < heatStored) setHeatStored(newCapacity);
+		// if (newCapacity < heatStored) setHeatStored(newCapacity);
 	}
 	
 	public boolean isFull() {

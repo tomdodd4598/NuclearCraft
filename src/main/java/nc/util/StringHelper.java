@@ -1,8 +1,9 @@
 package nc.util;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
 
 public class StringHelper {
 	
@@ -21,12 +22,12 @@ public class StringHelper {
 	}
 	
 	public static String removePrefix(String s, int length) {
-		//int fixedLength = Math.min(length, s.length());
+		// int fixedLength = Math.min(length, s.length());
 		return s.substring(length);
 	}
 	
 	public static String removeSuffix(String s, int length) {
-		//int fixedLength = Math.min(length, s.length());
+		// int fixedLength = Math.min(length, s.length());
 		return s.substring(0, s.length() - length);
 	}
 	
@@ -57,7 +58,7 @@ public class StringHelper {
 		StringBuilder out = new StringBuilder("^");
 		for (int i = 0; i < glob.length(); ++i) {
 			final char c = glob.charAt(i);
-			switch(c) {
+			switch (c) {
 				case '*':
 					out.append(".*");
 					break;
@@ -70,10 +71,36 @@ public class StringHelper {
 				case '\\':
 					out.append("\\\\");
 					break;
-				default: out.append(c);
+				default:
+					out.append(c);
 			}
 		}
 		out.append('$');
 		return out.toString();
+	}
+	
+	public static final Object2IntMap<String> NUMBER_S2I_MAP = new Object2IntOpenHashMap<>();
+	public static final Int2ObjectMap<String> NUMBER_I2S_MAP = new Int2ObjectOpenHashMap<>();
+	
+	static {
+		NUMBER_S2I_MAP.put("zero", 0);
+		NUMBER_S2I_MAP.put("one", 1);
+		NUMBER_S2I_MAP.put("two", 2);
+		NUMBER_S2I_MAP.put("three", 3);
+		NUMBER_S2I_MAP.put("four", 4);
+		NUMBER_S2I_MAP.put("five", 5);
+		NUMBER_S2I_MAP.put("six", 6);
+		NUMBER_S2I_MAP.put("seven", 7);
+		NUMBER_S2I_MAP.put("eight", 8);
+		NUMBER_S2I_MAP.put("nine", 9);
+		NUMBER_S2I_MAP.put("ten", 10);
+		
+		for (Object2IntMap.Entry<String> entry : NUMBER_S2I_MAP.object2IntEntrySet()) {
+			NUMBER_I2S_MAP.put(entry.getIntValue(), entry.getKey());
+		}
+		
+		for (int i = 0; i <= 10; ++i) {
+			NUMBER_S2I_MAP.put(Integer.toString(i), i);
+		}
 	}
 }

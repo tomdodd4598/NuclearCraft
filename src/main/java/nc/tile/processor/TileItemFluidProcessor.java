@@ -1,36 +1,26 @@
 package nc.tile.processor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.network.tile.ProcessorUpdatePacket;
-import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeInfo;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 import nc.tile.ITileGui;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.fluid.*;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
-import nc.util.ItemStackHelper;
+import nc.util.StackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -83,8 +73,12 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, boolean upgrades) {
 		List<ItemSorption> itemSorptions = new ArrayList<>();
-		for (int i = 0; i < inSize; i++) itemSorptions.add(ItemSorption.IN);
-		for (int i = 0; i < outSize; i++) itemSorptions.add(ItemSorption.OUT);
+		for (int i = 0; i < inSize; i++) {
+			itemSorptions.add(ItemSorption.IN);
+		}
+		for (int i = 0; i < outSize; i++) {
+			itemSorptions.add(ItemSorption.OUT);
+		}
 		if (upgrades) {
 			itemSorptions.add(ItemSorption.IN);
 			itemSorptions.add(ItemSorption.IN);
@@ -94,14 +88,20 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	
 	public static IntList defaultTankCapacities(int capacity, int inSize, int outSize) {
 		IntList tankCapacities = new IntArrayList();
-		for (int i = 0; i < inSize + outSize; i++) tankCapacities.add(capacity);
+		for (int i = 0; i < inSize + outSize; i++) {
+			tankCapacities.add(capacity);
+		}
 		return tankCapacities;
 	}
 	
 	public static List<TankSorption> defaultTankSorptions(int inSize, int outSize) {
 		List<TankSorption> tankSorptions = new ArrayList<>();
-		for (int i = 0; i < inSize; i++) tankSorptions.add(TankSorption.IN);
-		for (int i = 0; i < outSize; i++) tankSorptions.add(TankSorption.OUT);
+		for (int i = 0; i < inSize; i++) {
+			tankSorptions.add(TankSorption.IN);
+		}
+		for (int i = 0; i < outSize; i++) {
+			tankSorptions.add(TankSorption.OUT);
+		}
 		return tankSorptions;
 	}
 	
@@ -129,10 +129,14 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			if (isProcessing) process();
+			if (isProcessing) {
+				process();
+			}
 			else {
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && !isHaltedByRedstone() && (shouldLoseProgress || !canProcessInputs)) loseProgress();
+				if (time > 0 && !isHaltedByRedstone() && (shouldLoseProgress || !canProcessInputs)) {
+					loseProgress();
+				}
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -140,15 +144,21 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				sendUpdateToAllPlayers();
 			}
 			sendUpdateToListeningPlayers();
-			if (shouldUpdate) markDirty();
+			if (shouldUpdate) {
+				markDirty();
+			}
 		}
 	}
 	
 	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 		setState(isProcessing, this);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		if (ModCheck.ic2Loaded()) addTileToENet();
+		if (ModCheck.ic2Loaded()) {
+			addTileToENet();
+		}
 	}
 	
 	@Override
@@ -169,15 +179,15 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	// Processor Stats
 	
 	public int getProcessTime() {
-		return Math.max(1, (int) Math.round(Math.ceil(baseProcessTime/getSpeedMultiplier())));
+		return Math.max(1, (int) Math.round(Math.ceil(baseProcessTime / getSpeedMultiplier())));
 	}
 	
 	public int getProcessPower() {
-		return Math.min(Integer.MAX_VALUE, (int) (baseProcessPower*getPowerMultiplier()));
+		return Math.min(Integer.MAX_VALUE, (int) (baseProcessPower * getPowerMultiplier()));
 	}
 	
 	public int getProcessEnergy() {
-		return getProcessTime()*getProcessPower();
+		return getProcessTime() * getProcessPower();
 	}
 	
 	public boolean setRecipeStats() {
@@ -225,7 +235,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	}
 	
 	public boolean hasSufficientEnergy() {
-		return (time <= resetTime && ((getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified()) || getProcessEnergy() <= getEnergyStored())) || (time > resetTime && getEnergyStored() >= getProcessPower());
+		return time <= resetTime && (getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified() || getProcessEnergy() <= getEnergyStored()) || time > resetTime && getEnergyStored() >= getProcessPower();
 	}
 	
 	public boolean canProduceProducts() {
@@ -235,12 +245,17 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				continue;
 			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
-			if (itemProduct.getMaxStackSize(0) <= 0) continue;
-			if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) return false;
+			if (itemProduct.getMaxStackSize(0) <= 0) {
+				continue;
+			}
+			if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) {
+				return false;
+			}
 			else if (!getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				if (!getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 					return false;
-				} else if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
+				}
+				else if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
 					return false;
 				}
 			}
@@ -251,12 +266,17 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				continue;
 			}
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
-			if (fluidProduct.getStack() == null) return false;
+			if (fluidProduct.getMaxStackSize(0) <= 0) {
+				continue;
+			}
+			if (fluidProduct.getStack() == null) {
+				return false;
+			}
 			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
 				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.DEFAULT && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
+				}
+				else if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.DEFAULT && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -267,8 +287,10 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	public void process() {
 		time += getSpeedMultiplier();
 		getEnergyStorage().changeEnergyStored(-getProcessPower());
-		getRadiationSource().setRadiationLevel(baseProcessRadiation*getSpeedMultiplier());
-		while (time >= baseProcessTime) finishProcess();
+		getRadiationSource().setRadiationLevel(baseProcessRadiation * getSpeedMultiplier());
+		while (time >= baseProcessTime) {
+			finishProcess();
+		}
 	}
 	
 	public void finishProcess() {
@@ -280,26 +302,40 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		if (!canProcessInputs) {
 			time = resetTime = 0;
 			for (int i = 0; i < fluidInputSize; i++) {
-				if (getVoidUnusableFluidInput(i)) getTanks().get(i).setFluid(null);
+				if (getVoidUnusableFluidInput(i)) {
+					getTanks().get(i).setFluid(null);
+				}
 			}
 		}
 	}
 	
 	public void produceProducts() {
-		if (recipeInfo == null) return;
+		if (recipeInfo == null) {
+			return;
+		}
 		IntList itemInputOrder = recipeInfo.getItemInputOrder();
 		IntList fluidInputOrder = recipeInfo.getFluidInputOrder();
-		if (itemInputOrder == AbstractRecipeHandler.INVALID || fluidInputOrder == AbstractRecipeHandler.INVALID) return;
+		if (itemInputOrder == AbstractRecipeHandler.INVALID || fluidInputOrder == AbstractRecipeHandler.INVALID) {
+			return;
+		}
 		
 		for (int i = 0; i < itemInputSize; i++) {
 			int itemIngredientStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
-			if (itemIngredientStackSize > 0) getInventoryStacks().get(i).shrink(itemIngredientStackSize);
-			if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);
+			if (itemIngredientStackSize > 0) {
+				getInventoryStacks().get(i).shrink(itemIngredientStackSize);
+			}
+			if (getInventoryStacks().get(i).getCount() <= 0) {
+				getInventoryStacks().set(i, ItemStack.EMPTY);
+			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
-			if (fluidIngredientStackSize > 0) getTanks().get(i).changeFluidAmount(-fluidIngredientStackSize);
-			if (getTanks().get(i).getFluidAmount() <= 0) getTanks().get(i).setFluidStored(null);
+			if (fluidIngredientStackSize > 0) {
+				getTanks().get(i).changeFluidAmount(-fluidIngredientStackSize);
+			}
+			if (getTanks().get(i).getFluidAmount() <= 0) {
+				getTanks().get(i).setFluidStored(null);
+			}
 		}
 		for (int j = 0; j < itemOutputSize; j++) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
@@ -307,10 +343,13 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				continue;
 			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
-			if (itemProduct.getMaxStackSize(0) <= 0) continue;
+			if (itemProduct.getMaxStackSize(0) <= 0) {
+				continue;
+			}
 			if (getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				getInventoryStacks().set(j + itemInputSize, itemProduct.getNextStack(0));
-			} else if (getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
+			}
+			else if (getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 				int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getNextStackSize(0));
 				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
@@ -321,18 +360,23 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				continue;
 			}
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
+			if (fluidProduct.getMaxStackSize(0) <= 0) {
+				continue;
+			}
 			if (getTanks().get(j + fluidInputSize).isEmpty()) {
 				getTanks().get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
-			} else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+			}
+			else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
 		}
 	}
 	
 	public void loseProgress() {
-		time = MathHelper.clamp(time - 1.5D*getSpeedMultiplier(), 0D, baseProcessTime);
-		if (time < resetTime) resetTime = time;
+		time = MathHelper.clamp(time - 1.5D * getSpeedMultiplier(), 0D, baseProcessTime);
+		if (time < resetTime) {
+			resetTime = time;
+		}
 	}
 	
 	// IProcessor
@@ -366,7 +410,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	public List<Tank> getFluidInputs() {
 		return getTanks().subList(0, fluidInputSize);
 	}
-
+	
 	@Override
 	public List<IItemIngredient> getItemIngredients() {
 		return recipeInfo.getRecipe().getItemIngredients();
@@ -425,7 +469,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	public int getEUSourceTier() {
 		return 1;
 	}
-		
+	
 	@Override
 	public int getEUSinkTier() {
 		return 10;
@@ -478,19 +522,27 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack.isEmpty()) return false;
+		if (stack.isEmpty()) {
+			return false;
+		}
 		if (hasUpgrades) {
 			if (stack.getItem() == NCItems.upgrade) {
-				if (slot == getSpeedUpgradeSlot()) return ItemStackHelper.getMetadata(stack) == 0;
-				else if (slot == getEnergyUpgradeSlot()) return ItemStackHelper.getMetadata(stack) == 1;
+				if (slot == getSpeedUpgradeSlot()) {
+					return StackHelper.getMetadata(stack) == 0;
+				}
+				else if (slot == getEnergyUpgradeSlot()) {
+					return StackHelper.getMetadata(stack) == 1;
+				}
 			}
 		}
-		if (slot >= itemInputSize) return false;
+		if (slot >= itemInputSize) {
+			return false;
+		}
 		return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
-		List<ItemStack> inputItemsExcludingSlot = new ArrayList<ItemStack>(getItemInputs());
+		List<ItemStack> inputItemsExcludingSlot = new ArrayList<>(getItemInputs());
 		inputItemsExcludingSlot.remove(slot);
 		return inputItemsExcludingSlot;
 	}
@@ -531,7 +583,10 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		if (nbt.hasKey("redstoneControl")) {
 			setRedstoneControl(nbt.getBoolean("redstoneControl"));
-		} else setRedstoneControl(true);
+		}
+		else {
+			setRedstoneControl(true);
+		}
 	}
 	
 	// IGui

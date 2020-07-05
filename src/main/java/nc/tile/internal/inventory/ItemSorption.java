@@ -5,7 +5,10 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
 public enum ItemSorption implements IStringSerializable, IButtonEnum {
-	IN, OUT, BOTH, NON;
+	IN,
+	OUT,
+	BOTH,
+	NON;
 	
 	public boolean canReceive() {
 		return this == IN || this == BOTH;
@@ -22,76 +25,76 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 	public ItemSorption next(Type type, boolean reverse) {
 		if (reverse) {
 			switch (type) {
-			case INPUT:
-				switch (this) {
-				case IN:
-					return NON;
-				case NON:
-					return OUT;
-				case OUT:
-					return IN;
+				case INPUT:
+					switch (this) {
+						case IN:
+							return NON;
+						case NON:
+							return OUT;
+						case OUT:
+							return IN;
+						default:
+							return IN;
+					}
+				case OUTPUT:
+					switch (this) {
+						case OUT:
+							return NON;
+						case NON:
+							return OUT;
+						default:
+							return OUT;
+					}
 				default:
-					return IN;
-				}
-			case OUTPUT:
-				switch (this) {
-				case OUT:
-					return NON;
-				case NON:
-					return OUT;
-				default:
-					return OUT;
-				}
-			default:
-				switch (this) {
-				case IN:
-					return NON;
-				case NON:
-					return BOTH;
-				case BOTH:
-					return OUT;
-				case OUT:
-					return IN;
-				default:
-					return NON;
-				}
+					switch (this) {
+						case IN:
+							return NON;
+						case NON:
+							return BOTH;
+						case BOTH:
+							return OUT;
+						case OUT:
+							return IN;
+						default:
+							return NON;
+					}
 			}
 		}
 		else {
 			switch (type) {
-			case INPUT:
-				switch (this) {
-				case IN:
-					return OUT;
-				case OUT:
-					return NON;
-				case NON:
-					return IN;
+				case INPUT:
+					switch (this) {
+						case IN:
+							return OUT;
+						case OUT:
+							return NON;
+						case NON:
+							return IN;
+						default:
+							return IN;
+					}
+				case OUTPUT:
+					switch (this) {
+						case OUT:
+							return NON;
+						case NON:
+							return OUT;
+						default:
+							return OUT;
+					}
 				default:
-					return IN;
-				}
-			case OUTPUT:
-				switch (this) {
-				case OUT:
-					return NON;
-				case NON:
-					return OUT;
-				default:
-					return OUT;
-				}
-			default:
-				switch (this) {
-				case IN:
-					return OUT;
-				case OUT:
-					return BOTH;
-				case BOTH:
-					return NON;
-				case NON:
-					return IN;
-				default:
-					return NON;
-				}
+					switch (this) {
+						case IN:
+							return OUT;
+						case OUT:
+							return BOTH;
+						case BOTH:
+							return NON;
+						case NON:
+							return IN;
+						default:
+							return NON;
+					}
 			}
 		}
 	}
@@ -99,45 +102,45 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 	@Override
 	public String getName() {
 		switch (this) {
-		case IN:
-			return "in";
-		case OUT:
-			return "out";
-		case BOTH:
-			return "both";
-		case NON:
-			return "non";
-		default:
-			return "non";
+			case IN:
+				return "in";
+			case OUT:
+				return "out";
+			case BOTH:
+				return "both";
+			case NON:
+				return "non";
+			default:
+				return "non";
 		}
 	}
 	
 	public TextFormatting getTextColor() {
 		switch (this) {
-		case IN:
-			return TextFormatting.BLUE;
-		case OUT:
-			return TextFormatting.GOLD;
-		case BOTH:
-			return TextFormatting.BOLD;
-		case NON:
-			return TextFormatting.GRAY;
-		default:
-			return TextFormatting.GRAY;
+			case IN:
+				return TextFormatting.BLUE;
+			case OUT:
+				return TextFormatting.GOLD;
+			case BOTH:
+				return TextFormatting.BOLD;
+			case NON:
+				return TextFormatting.GRAY;
+			default:
+				return TextFormatting.GRAY;
 		}
 	}
 	
 	@Override
 	public int getTextureX() {
 		switch (this) {
-		case IN:
-			return 108;
-		case OUT:
-			return 126;
-		case NON:
-			return 144;
-		default:
-			return 144;
+			case IN:
+				return 108;
+			case OUT:
+				return 126;
+			case NON:
+				return 144;
+			default:
+				return 144;
 		}
 	}
 	
@@ -157,6 +160,8 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 	}
 	
 	public static enum Type {
-		DEFAULT, INPUT, OUTPUT;
+		DEFAULT,
+		INPUT,
+		OUTPUT;
 	}
 }

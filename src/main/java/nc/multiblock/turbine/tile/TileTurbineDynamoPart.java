@@ -1,34 +1,29 @@
 package nc.multiblock.turbine.tile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static nc.config.NCConfig.*;
 
-import gregtech.api.capability.GregtechCapabilities;
-import gregtech.api.capability.IEnergyContainer;
+import javax.annotation.*;
+
+import gregtech.api.capability.*;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
-import nc.config.NCConfig;
+import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.energy.*;
 import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
 import nc.tile.passive.ITilePassive;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
@@ -47,59 +42,71 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public final Double conductivity;
 	public boolean isSearched = false, isInValidPosition = false;
 	
-	public TileTurbineDynamoPart(String partName, Double conductivity) {
+	public final PlacementRule<ITurbinePart> placementRule;
+	
+	public TileTurbineDynamoPart(String partName, Double conductivity, PlacementRule<ITurbinePart> placementRule) {
 		super(CuboidalPartPositionType.WALL);
 		this.partName = partName;
 		this.conductivity = conductivity;
+		this.placementRule = placementRule;
 	}
 	
 	@Override
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public void dynamoSearch(ObjectSet<TileTurbineDynamoPart> cache) {
-		if (isSearched || !isDynamoCoilValid()) return;
+	public void dynamoSearch(final ObjectSet<TileTurbineDynamoPart> validCache, final ObjectSet<TileTurbineDynamoPart> searchCache, final Long2ObjectMap<TileTurbineDynamoPart> partFailCache, final Long2ObjectMap<TileTurbineDynamoPart> assumedValidCache) {
+		if (!isDynamoPartValid(partFailCache, assumedValidCache)) {
+			return;
+		}
+		
+		if (isSearched) {
+			return;
+		}
 		
 		isSearched = true;
-		cache.add(this);
+		validCache.add(this);
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			TileTurbineDynamoPart part = getMultiblock().getPartMap(TileTurbineDynamoPart.class).get(getTilePos().offset(dir).toLong());
-			if (part != null) part.dynamoSearch(cache);
+			if (part != null) {
+				searchCache.add(part);
+			}
 		}
 	}
 	
-	public boolean isDynamoCoilValid() {
-		if (isInValidPosition) return true;
-		return isInValidPosition = checkDynamoCoilValid();
-	}
-	
-	protected abstract boolean checkDynamoCoilValid();
-	
-	protected boolean isRotorBearing(BlockPos pos) {
-		return getMultiblock().getPartMap(TileTurbineRotorBearing.class).get(pos.toLong()) != null;
-	}
-	
-	protected boolean isCoilConnector(BlockPos pos) {
-		return isDynamoCoil(pos, "connector");
-	}
-	
-	protected boolean isDynamoCoil(BlockPos pos, String coilName) {
-		TileTurbineDynamoPart part = getMultiblock().getPartMap(TileTurbineDynamoPart.class).get(pos.toLong());
-		return part instanceof TileTurbineDynamoCoil ? part.isInValidPosition && (coilName == null || part.partName.equals(coilName)) : false;
+	public boolean isDynamoPartValid(final Long2ObjectMap<TileTurbineDynamoPart> partFailCache, final Long2ObjectMap<TileTurbineDynamoPart> assumedValidCache) {
+		if (partFailCache.containsKey(pos.toLong())) {
+			return isInValidPosition = false;
+		}
+		else if (placementRule.requiresRecheck()) {
+			isInValidPosition = placementRule.satisfied(this);
+			if (isInValidPosition) {
+				assumedValidCache.put(pos.toLong(), this);
+			}
+			return isInValidPosition;
+		}
+		else if (isInValidPosition) {
+			return true;
+		}
+		return isInValidPosition = placementRule.satisfied(this);
 	}
 	
 	public boolean isSearchRoot() {
+		for (String dep : placementRule.getDependencies()) {
+			if (dep.equals("bearing")) return true;
+		}
 		return false;
 	}
 	
@@ -114,26 +121,33 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		if (ModCheck.ic2Loaded()) addTileToENet();
+		if (ModCheck.ic2Loaded()) {
+			addTileToENet();
+		}
 	}
 	
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 	}
 	
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 	}
 	
 	@Override
 	public EnergyStorage getEnergyStorage() {
-		if (!isInValidPosition || !isMultiblockAssembled()) return backupStorage;
+		if (!isInValidPosition || !isMultiblockAssembled()) {
+			return backupStorage;
+		}
 		return getMultiblock().energyStorage;
-		
 	}
 	
 	@Override
@@ -143,7 +157,9 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	@Override
 	public int getEUSourceTier() {
-		if (!isInValidPosition || !isMultiblockAssembled()) return 1;
+		if (!isInValidPosition || !isMultiblockAssembled()) {
+			return 1;
+		}
 		return EnergyHelper.getEUTier(getMultiblock().power);
 	}
 	
@@ -166,13 +182,25 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	@Override
 	public void pushEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canExtract() || getEnergyStorage().getEnergyStored() == 0) return;
+		if (!getEnergyConnection(side).canExtract() || getEnergyStorage().getEnergyStored() == 0) {
+			return;
+		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileTurbinePart) return;
+		if (tile == null || tile instanceof TileTurbinePart) {
+			return;
+		}
 		
-		if (tile instanceof ITileEnergy) if (!((ITileEnergy)tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
-		if (tile instanceof ITilePassive) if (!((ITilePassive)tile).canPushEnergyTo()) return;
+		if (tile instanceof ITileEnergy) {
+			if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) {
+				return;
+			}
+		}
+		if (tile instanceof ITilePassive) {
+			if (!((ITilePassive) tile).canPushEnergyTo()) {
+				return;
+			}
+		}
 		
 		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 		
@@ -181,19 +209,21 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 			return;
 		}
 		
-		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
+		if (getEnergyStorage().getEnergyStored() < rf_per_eu) {
+			return;
+		}
 		
 		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink)tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getEUSourceTier()) * rf_per_eu), false);
 				return;
 			}
 		}
-		if (NCConfig.enable_gtce_eu && ModCheck.gregtechLoaded()) {
+		if (enable_gtce_eu && ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
-				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
+				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
+				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
 				return;
 			}
 		}
@@ -210,13 +240,13 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double)NCConfig.rf_per_eu);
+		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (NCConfig.rf_per_eu * amount), false);
+		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
 	}
 	
 	@Override
@@ -266,7 +296,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
+		if (capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			return hasEnergySideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -281,7 +311,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 			return null;
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
-			if (NCConfig.enable_gtce_eu && hasEnergySideCapability(side)) {
+			if (enable_gtce_eu && hasEnergySideCapability(side)) {
 				return (T) getEnergySideGT(nonNullSide(side));
 			}
 			return null;

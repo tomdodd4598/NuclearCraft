@@ -13,7 +13,7 @@ public class GuiFissionIrradiatorPort extends NCGui {
 	
 	protected final TileFissionIrradiatorPort port;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiFissionIrradiatorPort(EntityPlayer player, TileFissionIrradiatorPort port) {
 		super(new ContainerFissionIrradiatorPort(player, port));
 		this.port = port;

@@ -1,26 +1,18 @@
 package nc.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import crafttweaker.annotations.ZenRegister;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import nc.Global;
-import nc.ModCheck;
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
+import nc.*;
 import nc.config.NCConfig;
 import nc.integration.gtce.GTCERecipeHelper;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.util.NCMath;
-import nc.util.NCUtil;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import nc.recipe.ingredient.*;
+import nc.util.*;
+import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mods.nuclearcraft.ProcessorRecipeHandler")
 @ZenRegister
@@ -51,13 +43,17 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 			Object object = objects[i];
 			if (i < itemInputSize) {
 				itemInputs.add(object);
-			} else if (i < itemInputSize + fluidInputSize) {
+			}
+			else if (i < itemInputSize + fluidInputSize) {
 				fluidInputs.add(object);
-			} else if (i < itemInputSize + fluidInputSize + itemOutputSize) {
+			}
+			else if (i < itemInputSize + fluidInputSize + itemOutputSize) {
 				itemOutputs.add(object);
-			} else if (i < itemInputSize + fluidInputSize + itemOutputSize + fluidOutputSize) {
+			}
+			else if (i < itemInputSize + fluidInputSize + itemOutputSize + fluidOutputSize) {
 				fluidOutputs.add(object);
-			} else {
+			}
+			else {
 				extras.add(object);
 			}
 		}
@@ -73,7 +69,9 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	public abstract List fixExtras(List extras);
 	
 	public ProcessorRecipe factorRecipe(ProcessorRecipe recipe) {
-		if (recipe == null) return null;
+		if (recipe == null) {
+			return null;
+		}
 		if (recipe.getItemIngredients().size() != 0 || recipe.getItemProducts().size() != 0) {
 			return recipe;
 		}
@@ -88,7 +86,9 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		stackSizes.addAll(getExtraFactors(recipe.getExtras()));
 		
 		int hcf = NCMath.hcf(stackSizes.toIntArray());
-		if (hcf == 1) return recipe;
+		if (hcf == 1) {
+			return recipe;
+		}
 		
 		List<IFluidIngredient> fluidIngredients = new ArrayList<>(), fluidProducts = new ArrayList<>();
 		
@@ -142,30 +142,50 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		for (Object obj : itemInputs) {
 			if (obj != null && isValidItemInputType(obj)) {
 				IItemIngredient input = RecipeHelper.buildItemIngredient(obj);
-				if (input == null) return null;
+				if (input == null) {
+					return null;
+				}
 				itemIngredients.add(input);
-			} else return null;
+			}
+			else {
+				return null;
+			}
 		}
 		for (Object obj : fluidInputs) {
 			if (obj != null && isValidFluidInputType(obj)) {
 				IFluidIngredient input = RecipeHelper.buildFluidIngredient(obj);
-				if (input == null) return null;
+				if (input == null) {
+					return null;
+				}
 				fluidIngredients.add(input);
-			} else return null;
+			}
+			else {
+				return null;
+			}
 		}
 		for (Object obj : itemOutputs) {
 			if (obj != null && isValidItemOutputType(obj)) {
 				IItemIngredient output = RecipeHelper.buildItemIngredient(obj);
-				if (output == null) return null;
+				if (output == null) {
+					return null;
+				}
 				itemProducts.add(output);
-			} else return null;
+			}
+			else {
+				return null;
+			}
 		}
 		for (Object obj : fluidOutputs) {
 			if (obj != null && isValidFluidOutputType(obj)) {
 				IFluidIngredient output = RecipeHelper.buildFluidIngredient(obj);
-				if (output == null) return null;
+				if (output == null) {
+					return null;
+				}
 				fluidProducts.add(output);
-			} else return null;
+			}
+			else {
+				return null;
+			}
 		}
 		if (!isValidRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts)) {
 			NCUtil.getLogger().info(getRecipeName() + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));

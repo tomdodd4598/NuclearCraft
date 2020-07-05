@@ -12,7 +12,9 @@ public class FluidRegHelper {
 	
 	public static boolean fluidsExist(String... names) {
 		for (String name : names) {
-			if (!fluidExists(name)) return false;
+			if (!fluidExists(name)) {
+				return false;
+			}
 		}
 		return true;
 	}

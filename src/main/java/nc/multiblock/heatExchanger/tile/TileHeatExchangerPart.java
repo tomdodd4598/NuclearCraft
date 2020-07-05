@@ -1,7 +1,6 @@
 package nc.multiblock.heatExchanger.tile;
 
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.TileCuboidalMultiblockPart;
+import nc.multiblock.cuboidal.*;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -19,7 +18,9 @@ public abstract class TileHeatExchangerPart extends TileCuboidalMultiblockPart<H
 	}
 	
 	public void setIsHeatExchangerOn() {
-		if (getMultiblock() != null) isHeatExchangerOn = getMultiblock().isHeatExchangerOn;
+		if (getMultiblock() != null) {
+			isHeatExchangerOn = getMultiblock().isHeatExchangerOn;
+		}
 	}
 	
 	// NBT

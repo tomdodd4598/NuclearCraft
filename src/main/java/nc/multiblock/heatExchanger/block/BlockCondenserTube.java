@@ -1,49 +1,43 @@
 package nc.multiblock.heatExchanger.block;
 
-import nc.block.property.ISidedProperty;
-import nc.block.property.PropertySidedEnum;
+import nc.block.property.*;
 import nc.item.ItemMultitool;
-import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
-import nc.multiblock.heatExchanger.HeatExchangerTubeType;
+import nc.multiblock.heatExchanger.*;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.text.*;
+import net.minecraft.world.*;
 
 public class BlockCondenserTube extends BlockHeatExchangerPart implements ISidedProperty<HeatExchangerTubeSetting> {
 	
 	private static EnumFacing placementSide = null;
 	
 	private final HeatExchangerTubeType tubeType;
-
+	
 	public BlockCondenserTube(HeatExchangerTubeType tubeType) {
 		super();
 		this.tubeType = tubeType;
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		switch (tubeType) {
-		case COPPER:
-			return new TileCondenserTube.Copper();
-		case HARD_CARBON:
-			return new TileCondenserTube.HardCarbon();
-		case THERMOCONDUCTING:
-			return new TileCondenserTube.Thermoconducting();
-		default:
-			return null;
+			case COPPER:
+				return new TileCondenserTube.Copper();
+			case HARD_CARBON:
+				return new TileCondenserTube.HardCarbon();
+			case THERMOCONDUCTING:
+				return new TileCondenserTube.Thermoconducting();
+			default:
+				return null;
 		}
 	}
 	
@@ -80,7 +74,9 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements ISided
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (hand != EnumHand.MAIN_HAND || player == null) return false;
+		if (hand != EnumHand.MAIN_HAND || player == null) {
+			return false;
+		}
 		
 		if (ItemMultitool.isMultitool(player.getHeldItem(hand))) {
 			TileEntity tile = world.getTileEntity(pos);
@@ -101,20 +97,24 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements ISided
 	private static TextComponentString getToggleMessage(EntityPlayer player, TileCondenserTube tube, EnumFacing side) {
 		HeatExchangerTubeSetting setting = tube.getTubeSetting(side);
 		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
-		TextFormatting color = setting == HeatExchangerTubeSetting.PRODUCT_OUT ? TextFormatting.LIGHT_PURPLE : (setting == HeatExchangerTubeSetting.INPUT_SPREAD ? TextFormatting.GREEN : (setting == HeatExchangerTubeSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));
+		TextFormatting color = setting == HeatExchangerTubeSetting.PRODUCT_OUT ? TextFormatting.LIGHT_PURPLE : setting == HeatExchangerTubeSetting.INPUT_SPREAD ? TextFormatting.GREEN : setting == HeatExchangerTubeSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY;
 		return new TextComponentString(Lang.localise(message) + " " + color + Lang.localise("nc.block.exchanger_tube_fluid_side." + setting.getName()));
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		placementSide = null;
-		if (placer != null && placer.isSneaking()) placementSide = facing.getOpposite();
+		if (placer != null && placer.isSneaking()) {
+			placementSide = facing.getOpposite();
+		}
 		return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		if (placementSide ==  null) return;
+		if (placementSide == null) {
+			return;
+		}
 		BlockPos from = pos.offset(placementSide);
 		TileEntity tile = world.getTileEntity(pos), otherTile = world.getTileEntity(from);
 		if (tile instanceof TileCondenserTube && otherTile instanceof TileCondenserTube) {

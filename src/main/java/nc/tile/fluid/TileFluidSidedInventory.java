@@ -2,8 +2,7 @@ package nc.tile.fluid;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import nc.tile.internal.fluid.FluidConnection;
@@ -28,7 +27,7 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory {
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandlerCapability(side);
+				return (T) getItemHandler(side);
 			}
 			return null;
 		}

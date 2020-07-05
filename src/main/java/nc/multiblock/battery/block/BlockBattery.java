@@ -3,29 +3,23 @@ package nc.multiblock.battery.block;
 import nc.block.property.ISidedEnergy;
 import nc.block.tile.INBTDrop;
 import nc.item.ItemMultitool;
-import nc.multiblock.battery.BatteryMultiblock;
-import nc.multiblock.battery.BatteryType;
+import nc.multiblock.battery.*;
 import nc.multiblock.battery.tile.TileBattery;
 import nc.multiblock.block.BlockMultiblockPart;
 import nc.tab.NCTabs;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import nc.tile.internal.energy.*;
+import nc.util.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, INBTDrop {
 	
@@ -58,8 +52,9 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND) return false;
+		if (player == null || hand != EnumHand.MAIN_HAND) {
+			return false;
+		}
 		
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
@@ -70,7 +65,7 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 			}
 			else if (!world.isRemote) {
 				EnergyStorage storage = battery.getEnergyStorage();
-				player.sendMessage(new TextComponentString(Lang.localise("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStored(), storage.getMaxEnergyStored(), 5, "RF")));
+				player.sendMessage(new TextComponentString(Lang.localise("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStoredLong(), storage.getMaxEnergyStoredLong(), 5, "RF")));
 			}
 			return true;
 		}
@@ -87,7 +82,7 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
-			BatteryMultiblock multiblock = ((TileBattery)tile).getMultiblock();
+			BatteryMultiblock multiblock = ((TileBattery) tile).getMultiblock();
 			if (multiblock != null) {
 				return multiblock.getComparatorStrength();
 			}
@@ -101,7 +96,7 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 	public ItemStack getNBTDrop(IBlockAccess world, BlockPos pos, IBlockState state) {
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(pos);
-		if(tile instanceof TileBattery) {
+		if (tile instanceof TileBattery) {
 			TileBattery battery = (TileBattery) tile;
 			NBTTagCompound nbt = new NBTTagCompound();
 			battery.writeEnergy(nbt);
@@ -113,7 +108,9 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 	
 	@Override
 	public void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack) {
-		if (player == null || !player.isSneaking()) return;
+		if (player == null || !player.isSneaking()) {
+			return;
+		}
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
 			TileBattery battery = (TileBattery) tile;

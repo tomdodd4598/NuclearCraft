@@ -1,6 +1,7 @@
 package nc.tile.internal.energy;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.rf_per_eu;
+
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -61,18 +62,26 @@ public class EnergyStorage implements IEnergyStorage {
 	@Override
 	public int receiveEnergy(int receive, boolean simulated) {
 		int energyReceived = Math.min(NCMath.toInt(energyCapacity - energyStored), Math.min(maxTransfer, receive));
-		if (energyReceived <= 0) return 0;
+		if (energyReceived <= 0) {
+			return 0;
+		}
 		
-		if (!simulated) changeEnergyStored(energyReceived);
+		if (!simulated) {
+			changeEnergyStored(energyReceived);
+		}
 		return energyReceived;
 	}
 	
 	@Override
 	public int extractEnergy(int extract, boolean simulated) {
 		int energyExtracted = Math.min(NCMath.toInt(energyStored), Math.min(maxTransfer, extract));
-		if (energyExtracted <= 0) return 0;
+		if (energyExtracted <= 0) {
+			return 0;
+		}
 		
-		if (!simulated) changeEnergyStored(-energyExtracted);
+		if (!simulated) {
+			changeEnergyStored(-energyExtracted);
+		}
 		return energyExtracted;
 	}
 	
@@ -87,13 +96,15 @@ public class EnergyStorage implements IEnergyStorage {
 	
 	/** Ignores energy stored! */
 	public void setStorageCapacity(long newCapacity) {
-		energyCapacity = Math.max(newCapacity, NCConfig.rf_per_eu);
-		//cullEnergyStored();
+		energyCapacity = Math.max(newCapacity, rf_per_eu);
+		// cullEnergyStored();
 	}
 	
 	/** Use to remove excess stored energy */
 	public void cullEnergyStored() {
-		if (energyStored > energyCapacity) setEnergyStored(energyCapacity);
+		if (energyStored > energyCapacity) {
+			setEnergyStored(energyCapacity);
+		}
 	}
 	
 	public boolean isFull() {
@@ -110,7 +121,7 @@ public class EnergyStorage implements IEnergyStorage {
 	}
 	
 	public void setMaxTransfer(int newMaxTransfer) {
-		maxTransfer = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
+		maxTransfer = Math.max(newMaxTransfer, rf_per_eu);
 	}
 	
 	// NBT
@@ -121,7 +132,7 @@ public class EnergyStorage implements IEnergyStorage {
 		tag.setLong("capacity", energyCapacity);
 		nbt.setTag(name, tag);
 		return nbt;
-
+		
 	}
 	
 	public final EnergyStorage readFromNBT(NBTTagCompound nbt, String name) {

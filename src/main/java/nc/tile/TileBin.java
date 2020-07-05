@@ -1,17 +1,15 @@
 package nc.tile;
 
+import static nc.config.NCConfig.*;
+
 import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.IEnergyEmitter;
-import ic2.api.energy.tile.IEnergySink;
-import nc.Global;
-import nc.ModCheck;
-import nc.config.NCConfig;
+import ic2.api.energy.tile.*;
+import nc.*;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.internal.energy.EnergyStorageVoid;
-import nc.tile.internal.energy.EnergyStorageVoidGT;
+import nc.tile.internal.energy.*;
 import nc.tile.internal.fluid.TankVoid;
 import nc.util.GasHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,19 +39,25 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		if (ModCheck.ic2Loaded()) addTileToENet();
+		if (ModCheck.ic2Loaded()) {
+			addTileToENet();
+		}
 	}
 	
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 	}
 	
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 	}
 	
 	@Optional.Method(modid = "ic2")
@@ -185,7 +189,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) || capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY || capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			return true;
 		}
 		return super.hasCapability(capability, side);
@@ -200,7 +204,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 			return (T) CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
 		}
 		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			if (NCConfig.enable_mek_gas) {
+			if (enable_mek_gas) {
 				return (T) tank;
 			}
 			return null;
@@ -209,7 +213,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 			return (T) CapabilityEnergy.ENERGY.cast(energyStorage);
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
-			if (NCConfig.enable_gtce_eu) {
+			if (enable_gtce_eu) {
 				return (T) GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(energyStorageGT);
 			}
 			return null;

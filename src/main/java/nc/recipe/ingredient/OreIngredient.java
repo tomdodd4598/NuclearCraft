@@ -1,16 +1,13 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import it.unimi.dsi.fastutil.ints.*;
+import nc.recipe.*;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
@@ -86,13 +83,13 @@ public class OreIngredient implements IItemIngredient {
 	
 	@Override
 	public IItemIngredient getFactoredIngredient(int factor) {
-		return new OreIngredient(oreName, stackSize/factor);
+		return new OreIngredient(oreName, stackSize / factor);
 	}
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption type) {
 		if (object instanceof OreIngredient) {
-			OreIngredient oreStack = (OreIngredient)object;
+			OreIngredient oreStack = (OreIngredient) object;
 			if (oreStack.oreName.equals(oreName) && type.checkStackSize(stackSize, oreStack.stackSize)) {
 				return IngredientMatchResult.PASS_0;
 			}
@@ -101,7 +98,7 @@ public class OreIngredient implements IItemIngredient {
 			return new IngredientMatchResult(oreName.equals(object), 0);
 		}
 		else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
-			ItemStack itemstack = (ItemStack)object;
+			ItemStack itemstack = (ItemStack) object;
 			if (itemstack.isEmpty()) {
 				return IngredientMatchResult.FAIL;
 			}

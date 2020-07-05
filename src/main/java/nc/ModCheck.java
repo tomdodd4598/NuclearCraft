@@ -24,9 +24,12 @@ public class ModCheck {
 	private static boolean commonCapabilitiesLoaded = false;
 	private static boolean gameStagesLoaded = false;
 	private static boolean cubicChunksLoaded = false;
+	private static boolean hwylaLoaded = false;
 	
 	public static void init() {
-		if (initialized) return;
+		if (initialized) {
+			return;
+		}
 		
 		cofhCoreLoaded = Loader.isModLoaded("cofhcore");
 		ic2Loaded = Loader.isModLoaded("ic2");
@@ -46,6 +49,7 @@ public class ModCheck {
 		commonCapabilitiesLoaded = Loader.isModLoaded("commoncapabilities");
 		gameStagesLoaded = Loader.isModLoaded("gamestages");
 		cubicChunksLoaded = Loader.isModLoaded("cubicchunks");
+		hwylaLoaded = Loader.isModLoaded("waila");
 		
 		initialized = true;
 	}
@@ -53,7 +57,7 @@ public class ModCheck {
 	public static boolean cofhCoreLoaded() {
 		return cofhCoreLoaded;
 	}
-
+	
 	public static boolean ic2Loaded() {
 		return ic2Loaded;
 	}
@@ -120,5 +124,9 @@ public class ModCheck {
 	
 	public static boolean cubicChunksLoaded() {
 		return cubicChunksLoaded;
+	}
+	
+	public static boolean hwylaLoaded() {
+		return hwylaLoaded;
 	}
 }

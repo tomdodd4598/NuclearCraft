@@ -3,8 +3,7 @@ package nc.container.generator;
 import nc.container.ContainerTile;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.ITileGui;
-import nc.tile.generator.IItemGenerator;
-import nc.tile.generator.TileItemGenerator;
+import nc.tile.generator.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -37,7 +36,7 @@ public abstract class ContainerItemGenerator<GENERATOR extends IItemGenerator & 
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
-		int otherSlotsSize = tile instanceof TileItemGenerator ? ((TileItemGenerator)tile).getOtherSlotsSize() : 0;
+		int otherSlotsSize = tile instanceof TileItemGenerator ? ((TileItemGenerator) tile).getOtherSlotsSize() : 0;
 		int invStart = tile.getItemInputSize() + tile.getItemOutputSize() + otherSlotsSize;
 		int invEnd = tile.getItemInputSize() + tile.getItemOutputSize() + 36 + otherSlotsSize;
 		if (slot != null && slot.getHasStack()) {

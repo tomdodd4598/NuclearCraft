@@ -4,15 +4,11 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.ISpecialElectricItem;
+import ic2.api.item.*;
 import nc.block.item.NCItemBlock;
-import nc.item.energy.ElectricItemManager;
-import nc.item.energy.IChargableItem;
-import nc.item.energy.ItemEnergyCapabilityProvider;
+import nc.item.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.util.InfoHelper;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -23,11 +19,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList(value = { @Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2") })
+@Optional.InterfaceList(value = {@Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2")})
 public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem, IChargableItem {
 	
-	private int capacity;
-	private int maxTransfer;
+	private final int capacity;
+	private final int maxTransfer;
 	private final EnergyConnection energyConnection;
 	private final int energyTier;
 	
@@ -58,41 +54,47 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("energy")) return false;
+		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("energy")) {
+			return false;
+		}
 		return stack.getTagCompound().getInteger("energy") > 0;
 	}
 	
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1D - MathHelper.clamp((double)getEnergyStored(stack)/capacity, 0D, 1D);
+		return 1D - MathHelper.clamp((double) getEnergyStored(stack) / capacity, 0D, 1D);
 	}
 	
 	@Override
 	public int getEnergyStored(ItemStack stack) {
-		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("energy")) return 0;
+		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("energy")) {
+			return 0;
+		}
 		return stack.getTagCompound().getInteger("energy");
 	}
 	
 	@Override
 	public void setEnergyStored(ItemStack stack, int amount) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("energy")) stack.getTagCompound().setInteger("energy", amount);
+		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("energy")) {
+			stack.getTagCompound().setInteger("energy", amount);
+		}
 	}
-
+	
 	@Override
 	public int getMaxEnergyStored(ItemStack stack) {
 		return capacity;
 	}
-
+	
 	@Override
 	public int getMaxTransfer(ItemStack stack) {
 		return maxTransfer;
 	}
-
+	
 	@Override
 	public boolean canReceive(ItemStack stack) {
 		return energyConnection.canReceive();
 	}
-
+	
 	@Override
 	public boolean canExtract(ItemStack stack) {
 		return energyConnection.canExtract();

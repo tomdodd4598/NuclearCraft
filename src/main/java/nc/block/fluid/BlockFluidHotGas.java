@@ -6,9 +6,7 @@ import javax.annotation.Nonnull;
 
 import nc.fluid.FluidHotGas;
 import nc.util.DamageSources;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.block.material.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -31,6 +29,8 @@ public class BlockFluidHotGas extends NCBlockFluid {
 	@Override
 	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
-		if (isSourceBlock(worldIn, pos)) worldIn.setBlockToAir(pos);
+		if (isSourceBlock(worldIn, pos)) {
+			worldIn.setBlockToAir(pos);
+		}
 	}
 }

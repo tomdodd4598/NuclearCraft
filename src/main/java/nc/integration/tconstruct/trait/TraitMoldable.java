@@ -2,8 +2,7 @@ package nc.integration.tconstruct.trait;
 
 import net.minecraft.nbt.NBTTagCompound;
 import slimeknights.tconstruct.library.traits.AbstractTraitLeveled;
-import slimeknights.tconstruct.library.utils.TagUtil;
-import slimeknights.tconstruct.library.utils.Tags;
+import slimeknights.tconstruct.library.utils.*;
 
 public class TraitMoldable extends AbstractTraitLeveled {
 	

@@ -1,10 +1,10 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.util.FluidStackHelper.BUCKET_VOLUME;
+
+import java.util.*;
 
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.FluidStackHelper;
 
 public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	
@@ -14,10 +14,10 @@ public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("helium", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_helium", 25), 1D, 1D);
-		addRecipe(fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_nitrogen", 25), 0.5D, 0.5D);
-		addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("ice", FluidStackHelper.BUCKET_VOLUME), 0.25D, 0.5D);
-		addRecipe(fluidStack("emergency_coolant_heated", FluidStackHelper.BUCKET_VOLUME), fluidStack("emergency_coolant", FluidStackHelper.BUCKET_VOLUME), 0.5D, 1D);
+		addRecipe(fluidStack("helium", BUCKET_VOLUME * 8), fluidStack("liquid_helium", 25), 1D, 1D);
+		addRecipe(fluidStack("nitrogen", BUCKET_VOLUME * 8), fluidStack("liquid_nitrogen", 25), 0.5D, 0.5D);
+		addRecipe(fluidStack("water", BUCKET_VOLUME / 4), fluidStack("ice", BUCKET_VOLUME / 4), 0.25D, 0.5D);
+		addRecipe(fluidStack("emergency_coolant_heated", BUCKET_VOLUME / 4), fluidStack("emergency_coolant", BUCKET_VOLUME / 4), 0.25D, 1D);
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	@Override
 	public List getFactoredExtras(List extras, int factor) {
 		List factored = new ArrayList(extras);
-		factored.set(0, (double)extras.get(0)/factor);
+		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}
 }

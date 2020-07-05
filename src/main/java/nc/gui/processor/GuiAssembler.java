@@ -3,14 +3,10 @@ package nc.gui.processor;
 import java.io.IOException;
 
 import nc.container.ContainerTile;
-import nc.container.processor.ContainerAssembler;
-import nc.container.processor.ContainerMachineConfig;
-import nc.gui.element.NCButton;
-import nc.gui.element.NCToggleButton;
+import nc.container.processor.*;
+import nc.gui.element.*;
 import nc.network.PacketHandler;
-import nc.network.gui.OpenSideConfigGuiPacket;
-import nc.network.gui.OpenTileGuiPacket;
-import nc.network.gui.ToggleRedstoneControlPacket;
+import nc.network.gui.*;
 import nc.tile.processor.TileItemProcessor;
 import nc.util.Lang;
 import net.minecraft.client.gui.GuiButton;
@@ -46,10 +42,12 @@ public class GuiAssembler extends GuiItemProcessor {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		if (tile.defaultProcessPower != 0) {
-			int e = (int) Math.round(86D*tile.getEnergyStorage().getEnergyStored()/tile.getEnergyStorage().getMaxEnergyStored());
+			int e = (int) Math.round(86D * tile.getEnergyStorage().getEnergyStored() / tile.getEnergyStorage().getMaxEnergyStored());
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 86 - e, 176, 90 + 86 - e, 16, e);
 		}
-		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 86, 0xFFC6C6C6, 0xFF8B8B8B);
+		else {
+			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 86, 0xFFC6C6C6, 0xFF8B8B8B);
+		}
 		
 		drawTexturedModalRect(guiLeft + 84, guiTop + 31, 176, 3, getCookProgressScaled(37), 38);
 		
@@ -95,7 +93,9 @@ public class GuiAssembler extends GuiItemProcessor {
 			if (isEscapeKeyDown(keyCode)) {
 				PacketHandler.instance.sendToServer(new OpenTileGuiPacket(tile));
 			}
-			else super.keyTyped(typedChar, keyCode);
+			else {
+				super.keyTyped(typedChar, keyCode);
+			}
 		}
 		
 		@Override

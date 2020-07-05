@@ -1,9 +1,7 @@
 package nc.multiblock.tile.port;
 
 import it.unimi.dsi.fastutil.objects.ObjectSet;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
+import nc.multiblock.*;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileLogicMultiblockPart;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +19,8 @@ public interface ITilePort<MULTIBLOCK extends Multiblock<T, ? extends Multiblock
 	public void refreshMasterPort();
 	
 	public void refreshTargets();
+	
+	public void setRefreshTargetsFlag(boolean refreshTargetsFlag);
 	
 	public default int getInventoryStackLimitPerConnection() {
 		return 2;

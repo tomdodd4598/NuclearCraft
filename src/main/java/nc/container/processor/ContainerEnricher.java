@@ -1,16 +1,16 @@
 package nc.container.processor;
 
-import nc.container.slot.SlotProcessorInput;
-import nc.container.slot.SlotSpecificInput;
-import nc.recipe.NCRecipes;
+import static nc.recipe.NCRecipes.enricher;
+
+import nc.container.slot.*;
 import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerEnricher extends ContainerItemFluidProcessor {
-
+	
 	public ContainerEnricher(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.enricher);
+		super(player, tileEntity, enricher);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 35));
 		
@@ -19,12 +19,12 @@ public class ContainerEnricher extends ContainerItemFluidProcessor {
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 8 + 18*j, 84 + 18*i));
+				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + 18 * i));
 			}
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 142));
+			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142));
 		}
 	}
 }

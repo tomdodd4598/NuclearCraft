@@ -7,9 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleItemSorptionPacket implements IMessage {
@@ -40,7 +38,8 @@ public class ToggleItemSorptionPacket implements IMessage {
 			side = buf.readInt();
 			slot = buf.readInt();
 			sorption = buf.readInt();
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 			return;
 		}
@@ -49,7 +48,9 @@ public class ToggleItemSorptionPacket implements IMessage {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) return;
+		if (!messageValid) {
+			return;
+		}
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -62,7 +63,9 @@ public class ToggleItemSorptionPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ToggleItemSorptionPacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.SERVER) return null;
+			if (!message.messageValid && ctx.side != Side.SERVER) {
+				return null;
+			}
 			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}

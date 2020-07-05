@@ -4,8 +4,7 @@ import java.util.Set;
 
 import nc.network.PacketHandler;
 import nc.network.tile.TileUpdatePacket;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.*;
 
 public interface ITileGui<PACKET extends TileUpdatePacket> extends ITile {
 	
@@ -27,11 +26,15 @@ public interface ITileGui<PACKET extends TileUpdatePacket> extends ITile {
 	}
 	
 	public default void sendUpdateToListeningPlayers() {
-		for (EntityPlayer player : getPlayersToUpdate()) PacketHandler.instance.sendTo(getGuiUpdatePacket(), (EntityPlayerMP) player);
+		for (EntityPlayer player : getPlayersToUpdate()) {
+			PacketHandler.instance.sendTo(getGuiUpdatePacket(), (EntityPlayerMP) player);
+		}
 	}
 	
 	public default void sendIndividualUpdate(EntityPlayer player) {
-		if (getTileWorld().isRemote) return;
+		if (getTileWorld().isRemote) {
+			return;
+		}
 		PacketHandler.instance.sendTo(getGuiUpdatePacket(), (EntityPlayerMP) player);
 	}
 	

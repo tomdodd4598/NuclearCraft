@@ -1,11 +1,11 @@
 package nc.item.energy;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.rf_per_eu;
+
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import gregtech.api.capability.IElectricItem;
-import nc.config.NCConfig;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.EnergyHelper;
 import net.minecraft.item.ItemStack;
@@ -41,10 +41,14 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long charge(long amount, int chargerTier, boolean ignoreTransferLimit, boolean simulate) {
-		if ((storage.canReceive()) && energyTier >= chargerTier) {
-			if (!ignoreTransferLimit) amount = Math.min(amount, EnergyHelper.getMaxEUFromTier(energyTier));
+		if (storage.canReceive() && energyTier >= chargerTier) {
+			if (!ignoreTransferLimit) {
+				amount = Math.min(amount, EnergyHelper.getMaxEUFromTier(energyTier));
+			}
 			int charged = (int) Math.min(Math.min(amount, getMaxCharge() - getCharge()), Integer.MAX_VALUE);
-			if (!simulate) changeCharge(charged);
+			if (!simulate) {
+				changeCharge(charged);
+			}
 			return charged;
 		}
 		return 0;
@@ -54,9 +58,13 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 	@Optional.Method(modid = "gregtech")
 	public long discharge(long amount, int dischargerTier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
 		if ((storage.canExtract() || !externally) && dischargerTier >= energyTier) {
-			if (!ignoreTransferLimit) amount = Math.min(amount, EnergyHelper.getMaxEUFromTier(energyTier));
+			if (!ignoreTransferLimit) {
+				amount = Math.min(amount, EnergyHelper.getMaxEUFromTier(energyTier));
+			}
 			int discharged = (int) Math.min(Math.min(amount, getCharge()), Integer.MAX_VALUE);
-			if (!simulate) changeCharge(-discharged);
+			if (!simulate) {
+				changeCharge(-discharged);
+			}
 			return discharged;
 		}
 		return 0;
@@ -64,18 +72,18 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 	
 	@Override
 	public long getCharge() {
-		return storage.getEnergyStored()/NCConfig.rf_per_eu;
+		return storage.getEnergyStored() / rf_per_eu;
 	}
 	
 	public void changeCharge(int change) {
-		storage.changeEnergyStored(change*NCConfig.rf_per_eu);
+		storage.changeEnergyStored(change * rf_per_eu);
 		listeners.forEach(listener -> listener.accept(stack, (long) change));
 	}
 	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getMaxCharge() {
-		return storage.getMaxEnergyStored()/NCConfig.rf_per_eu;
+		return storage.getMaxEnergyStored() / rf_per_eu;
 	}
 	
 	@Override

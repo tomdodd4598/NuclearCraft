@@ -2,10 +2,7 @@ package nc.command;
 
 import nc.capability.radiation.entity.IEntityRads;
 import nc.radiation.RadiationHelper;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
@@ -40,10 +37,13 @@ public class CommandSetPlayerRadiation extends CommandBase {
 			EntityPlayer player = args.length == 2 ? getPlayer(server, sender, args[1]) : getCommandSenderAsPlayer(sender);
 			if (player != null) {
 				IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
-				if (playerRads != null) playerRads.setTotalRads(newRadiation, false);
+				if (playerRads != null) {
+					playerRads.setTotalRads(newRadiation, false);
+				}
 			}
 		}
-		
-		else throw new WrongUsageException(getUsage(sender), new Object[0]);
+		else {
+			throw new WrongUsageException(getUsage(sender), new Object[0]);
+		}
 	}
 }

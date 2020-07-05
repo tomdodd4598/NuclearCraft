@@ -28,19 +28,23 @@ public class BushGenerator implements IWorldGenerator {
 	}
 	
 	public void generateNether(Random random, int chunkX, int chunkZ, World world, IBlockState mushroom) {
-		if (!NCConfig.mushroom_gen || NCConfig.mushroom_gen_size <= 0 || NCConfig.mushroom_gen_rate <= 0) return;
+		if (!NCConfig.mushroom_gen || NCConfig.mushroom_gen_size <= 0 || NCConfig.mushroom_gen_rate <= 0) {
+			return;
+		}
 		
-		int genRarity = Math.max(400/NCConfig.mushroom_gen_rate, 1);
+		int genRarity = Math.max(400 / NCConfig.mushroom_gen_rate, 1);
 		
 		int xSpawn, ySpawn, zSpawn;
-
+		
 		int xPos = chunkX * 16 + 8;
 		int zPos = chunkZ * 16 + 8;
 		BlockPos chunkPos = new BlockPos(xPos, 0, zPos);
 		BlockPos position;
-
+		
 		Biome biome = world.getChunk(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
-		if (biome == null) return;
+		if (biome == null) {
+			return;
+		}
 		
 		if (BiomeDictionary.hasType(biome, Type.NETHER)) {
 			if (random.nextInt(genRarity) == 0) {

@@ -211,9 +211,11 @@ tile.nuclearcraft.solid_fission_cell.name=裂变燃料单元
 tile.nuclearcraft.solid_fission_sink.water.name=水裂变散热器
 tile.nuclearcraft.solid_fission_sink.water.desc=必须接触至少一个有效的反应堆单元。
 tile.nuclearcraft.solid_fission_sink.iron.name=铁裂变散热器
+
 tile.nuclearcraft.solid_fission_sink.iron.desc=必须接触至少一个可生效的且与有效单元相邻的减速剂。
 tile.nuclearcraft.solid_fission_sink.redstone.name=红石裂变散热器
 tile.nuclearcraft.solid_fission_sink.redstone.desc=必须接触至少一个有效的反应堆单元和一个可生效的且与有效单元相邻的减速剂。
+
 tile.nuclearcraft.solid_fission_sink.quartz.name=石英裂变散热器
 tile.nuclearcraft.solid_fission_sink.quartz.desc=必须接触至少一个有效的红石散热器。
 tile.nuclearcraft.solid_fission_sink.obsidian.name=黑曜石裂变散热器

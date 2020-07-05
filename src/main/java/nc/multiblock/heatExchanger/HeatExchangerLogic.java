@@ -7,10 +7,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
-import nc.multiblock.heatExchanger.tile.TileCondenserTube;
+import nc.multiblock.*;
+import nc.multiblock.heatExchanger.tile.*;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
@@ -51,29 +49,31 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	// Multiblock Methods
 	
 	@Override
-	public void onMachineAssembled(boolean wasAssembled) {
-		// TODO Auto-generated method stub
-		
+	public void onMachineAssembled() {
+		onExchangerFormed();
 	}
 	
 	@Override
 	public void onMachineRestored() {
-		// TODO Auto-generated method stub
-		
+		onExchangerFormed();
 	}
 	
 	protected void onExchangerFormed() {
+		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void onMachinePaused() {
-		// TODO Auto-generated method stub
-		
+		onExchangerBroken();
 	}
 	
 	@Override
 	public void onMachineDisassembled() {
+		onExchangerBroken();
+	}
+	
+	public void onExchangerBroken() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -83,9 +83,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 		return !containsBlacklistedPart();
 	}
 	
-	public static final List<Pair<Class<? extends IHeatExchangerPart>, String>> EXCHANGER_PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileCondenserTube.class, Global.MOD_ID + ".multiblock_validation.heat_exchanger.prohibit_condenser_tubes")
-			);
+	public static final List<Pair<Class<? extends IHeatExchangerPart>, String>> EXCHANGER_PART_BLACKLIST = Lists.newArrayList(Pair.of(TileCondenserTube.class, Global.MOD_ID + ".multiblock_validation.heat_exchanger.prohibit_condenser_tubes"));
 	
 	@Override
 	public List<Pair<Class<? extends IHeatExchangerPart>, String>> getPartBlacklist() {
@@ -93,8 +91,16 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	}
 	
 	public void onAssimilate(Multiblock assimilated) {
-		if (!(assimilated instanceof HeatExchanger)) return;
-		onExchangerFormed();
+		if (assimilated instanceof HeatExchanger) {
+			
+		}
+		
+		if (getExchanger().isAssembled()) {
+			onExchangerFormed();
+		}
+		else {
+			onExchangerBroken();
+		}
 	}
 	
 	public void onAssimilated(Multiblock assimilator) {}

@@ -1,10 +1,10 @@
 package nc.recipe.generator;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.*;
+import static nc.radiation.RadSources.*;
 
-import nc.config.NCConfig;
-import nc.radiation.RadSources;
+import java.util.*;
+
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
 
@@ -14,20 +14,21 @@ public class DecayGeneratorRecipes extends ProcessorRecipeHandler {
 		super("decay_generator", 1, 0, 1, 0);
 	}
 	
-	// Decay time (minutes) = Sum of natural logs of real decay times (years). Ignore if < 1 yr. If decays to lead, add 5 if past thorium.
+	// Decay time (minutes) = Sum of natural logs of real decay times (years).
+	// Ignore if < 1 yr. If decays to lead, add 5 if past thorium.
 	
 	@Override
 	public void addRecipes() {
-		addRecipe("blockThorium", "blockLead", NCConfig.decay_lifetime[0], NCConfig.decay_power[0], RadSources.THORIUM);
-		addRecipe("blockUranium", "blockUranium238", NCConfig.decay_lifetime[1], NCConfig.decay_power[1], RadSources.URANIUM);
+		addRecipe("blockThorium", "blockLead", decay_lifetime[0], decay_power[0], THORIUM);
+		addRecipe("blockUranium", "blockUranium238", decay_lifetime[1], decay_power[1], URANIUM);
 		
-		addRecipe("blockUranium238", OreDictHelper.oreExists("blockRadium") ? "blockRadium" : "blockLead", NCConfig.decay_lifetime[3], NCConfig.decay_power[3], RadSources.URANIUM_238);
-		addRecipe("blockNeptunium237", OreDictHelper.oreExists("blockBismuth") ? "blockBismuth" : "blockLead", NCConfig.decay_lifetime[4], NCConfig.decay_power[4], RadSources.NEPTUNIUM_237);
-		addRecipe("blockPlutonium242", "blockUranium238", NCConfig.decay_lifetime[5], NCConfig.decay_power[5], RadSources.PLUTONIUM_242);
-		addRecipe("blockAmericium243", "blockLead", NCConfig.decay_lifetime[6], NCConfig.decay_power[6], RadSources.AMERICIUM_243);
-		addRecipe("blockCurium246", "blockPlutonium242", NCConfig.decay_lifetime[7], NCConfig.decay_power[7], RadSources.CURIUM_246);
-		addRecipe("blockBerkelium247", "blockAmericium243", NCConfig.decay_lifetime[8], NCConfig.decay_power[8], RadSources.BERKELIUM_247);
-		addRecipe("blockCalifornium252", "blockLead", NCConfig.decay_lifetime[9], NCConfig.decay_power[9], RadSources.CALIFORNIUM_252);
+		addRecipe("blockUranium238", OreDictHelper.oreExists("blockRadium") ? "blockRadium" : "blockLead", decay_lifetime[3], decay_power[3], URANIUM_238);
+		addRecipe("blockNeptunium237", OreDictHelper.oreExists("blockBismuth") ? "blockBismuth" : "blockLead", decay_lifetime[4], decay_power[4], NEPTUNIUM_237);
+		addRecipe("blockPlutonium242", "blockUranium238", decay_lifetime[5], decay_power[5], PLUTONIUM_242);
+		addRecipe("blockAmericium243", "blockLead", decay_lifetime[6], decay_power[6], AMERICIUM_243);
+		addRecipe("blockCurium246", "blockPlutonium242", decay_lifetime[7], decay_power[7], CURIUM_246);
+		addRecipe("blockBerkelium247", "blockAmericium243", decay_lifetime[8], decay_power[8], BERKELIUM_247);
+		addRecipe("blockCalifornium252", "blockLead", decay_lifetime[9], decay_power[9], CALIFORNIUM_252);
 	}
 	
 	@Override

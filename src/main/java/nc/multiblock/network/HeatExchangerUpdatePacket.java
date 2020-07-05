@@ -47,7 +47,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<HeatExchangerUpdatePacket, HeatExchanger, TileHeatExchangerController> {
-
+		
 		public Handler() {
 			super(TileHeatExchangerController.class);
 		}

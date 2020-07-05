@@ -1,26 +1,22 @@
 package nc.tile.energy;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static nc.config.NCConfig.*;
 
-import gregtech.api.capability.GregtechCapabilities;
-import gregtech.api.capability.IEnergyContainer;
+import javax.annotation.*;
+
+import gregtech.api.capability.*;
 import ic2.api.energy.tile.IEnergySink;
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.tile.ITile;
-import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.energy.*;
 import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
 import nc.tile.passive.ITilePassive;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
 
 public interface ITileEnergy extends ITile {
@@ -42,10 +38,14 @@ public interface ITileEnergy extends ITile {
 	}
 	
 	public default void toggleEnergyConnection(@Nonnull EnumFacing side, @Nonnull EnergyConnection.Type type) {
-		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		if (ModCheck.ic2Loaded()) {
+			removeTileFromENet();
+		}
 		setEnergyConnection(getEnergyConnection(side).next(type), side);
 		markDirtyAndNotify();
-		if (ModCheck.ic2Loaded()) addTileToENet();
+		if (ModCheck.ic2Loaded()) {
+			addTileToENet();
+		}
 	}
 	
 	public default boolean canConnectEnergy(@Nonnull EnumFacing side) {
@@ -54,7 +54,9 @@ public interface ITileEnergy extends ITile {
 	
 	public static EnergyConnection[] energyConnectionAll(@Nonnull EnergyConnection connection) {
 		EnergyConnection[] array = new EnergyConnection[6];
-		for (int i = 0; i < 6; i++) array[i] = connection;
+		for (int i = 0; i < 6; i++) {
+			array[i] = connection;
+		}
 		return array;
 	}
 	
@@ -126,27 +128,35 @@ public interface ITileEnergy extends ITile {
 	
 	public default void pushEnergy() {
 		for (EnumFacing side : EnumFacing.VALUES) {
-			if (getEnergyStorage().getEnergyStored() <= 0) return;
+			if (getEnergyStorage().getEnergyStored() <= 0) {
+				return;
+			}
 			pushEnergyToSide(side);
 		}
 	}
 	
-	/*public default void spreadEnergy() {
-		if (!NCConfig.passive_permeation) return;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			if (getEnergyStorage().getEnergyStored() <= 0) return;
-			spreadEnergyToSide(side);
-		}
-	}*/
+	/* public default void spreadEnergy() { if (!passive_permeation) return; for (EnumFacing side : EnumFacing.VALUES) { if (getEnergyStorage().getEnergyStored() <= 0) return; spreadEnergyToSide(side); } } */
 	
 	public default void pushEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canExtract()) return;
+		if (!getEnergyConnection(side).canExtract()) {
+			return;
+		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null) return;
+		if (tile == null) {
+			return;
+		}
 		
-		if (tile instanceof ITileEnergy) if (!((ITileEnergy)tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
-		if (tile instanceof ITilePassive) if (!((ITilePassive)tile).canPushEnergyTo()) return;
+		if (tile instanceof ITileEnergy) {
+			if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) {
+				return;
+			}
+		}
+		if (tile instanceof ITilePassive) {
+			if (!((ITilePassive) tile).canPushEnergyTo()) {
+				return;
+			}
+		}
 		
 		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 		
@@ -155,37 +165,43 @@ public interface ITileEnergy extends ITile {
 			return;
 		}
 		
-		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
+		if (getEnergyStorage().getEnergyStored() < rf_per_eu) {
+			return;
+		}
 		
 		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink)tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getEUSourceTier()) * rf_per_eu), false);
 				return;
 			}
 		}
-		if (NCConfig.enable_gtce_eu && ModCheck.gregtechLoaded()) {
+		if (enable_gtce_eu && ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
-				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
+				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
+				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
 				return;
 			}
 		}
 	}
 	
 	public default void spreadEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canConnect()) return;
+		if (!getEnergyConnection(side).canConnect()) {
+			return;
+		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		
 		if (tile instanceof IEnergySpread) {
-			if (tile instanceof ITilePassive && !((ITilePassive)tile).canPushEnergyTo()) return;
+			if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushEnergyTo()) {
+				return;
+			}
 			
 			IEnergySpread other = (IEnergySpread) tile;
 			
 			int diff = getEnergyStorage().getEnergyStored() - other.getEnergyStorage().getEnergyStored();
 			if (diff > 1) {
-				getEnergyStorage().extractEnergy(other.getEnergyStorage().receiveEnergy(getEnergyStorage().extractEnergy(diff/2, true), false), false);
+				getEnergyStorage().extractEnergy(other.getEnergyStorage().receiveEnergy(getEnergyStorage().extractEnergy(diff / 2, true), false), false);
 			}
 		}
 	}
@@ -206,13 +222,19 @@ public interface ITileEnergy extends ITile {
 	}
 	
 	public default NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {
-		for (int i = 0; i < 6; i++) nbt.setInteger("energyConnections" + i, getEnergyConnections()[i].ordinal());
+		for (int i = 0; i < 6; i++) {
+			nbt.setInteger("energyConnections" + i, getEnergyConnections()[i].ordinal());
+		}
 		return nbt;
 	}
 	
 	public default void readEnergyConnections(NBTTagCompound nbt) {
-		if (hasConfigurableEnergyConnections()) for (int i = 0; i < 6; i++) {
-			if (nbt.hasKey("energyConnections" + i)) getEnergyConnections()[i] = EnergyConnection.values()[nbt.getInteger("energyConnections" + i)];
+		if (hasConfigurableEnergyConnections()) {
+			for (int i = 0; i < 6; i++) {
+				if (nbt.hasKey("energyConnections" + i)) {
+					getEnergyConnections()[i] = EnergyConnection.values()[nbt.getInteger("energyConnections" + i)];
+				}
+			}
 		}
 	}
 	

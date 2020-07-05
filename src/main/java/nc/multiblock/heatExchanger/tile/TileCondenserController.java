@@ -32,8 +32,9 @@ public class TileCondenserController extends TileHeatExchangerPart implements IH
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -44,7 +45,9 @@ public class TileCondenserController extends TileHeatExchangerPart implements IH
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		if (getMultiblock() != null) getMultiblock().setIsHeatExchangerOn();
+		if (getMultiblock() != null) {
+			getMultiblock().setIsHeatExchangerOn();
+		}
 	}
 	
 	@Override
@@ -55,7 +58,7 @@ public class TileCondenserController extends TileHeatExchangerPart implements IH
 	@Override
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockCondenserController) {
-			((BlockCondenserController)getBlockType()).setState(isActive, this);
+			((BlockCondenserController) getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

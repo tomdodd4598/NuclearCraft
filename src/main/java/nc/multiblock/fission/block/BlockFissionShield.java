@@ -6,20 +6,15 @@ import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionShield;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronShieldType> {
 	
@@ -40,16 +35,16 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionShield) {
 			TileFissionShield shield = (TileFissionShield) tile;
-			return state.withProperty(ACTIVE, shield.isShielding());
+			return state.withProperty(ACTIVE, shield.isShielding);
 		}
 		return state;
 	}
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch(metadata) {
-		case 0:
-			return new TileFissionShield.BoronSilver();
+		switch (metadata) {
+			case 0:
+				return new TileFissionShield.BoronSilver();
 		}
 		return new TileFissionShield.BoronSilver();
 	}
@@ -64,14 +59,18 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionShield) {
 			TileFissionShield shield = (TileFissionShield) tile;
-			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding()), 2);
+			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding), 2);
 		}
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null) {
+			return false;
+		}
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+			return false;
+		}
 		return rightClickOnPart(world, pos, player, hand, facing);
 	}
 	
@@ -79,7 +78,7 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		World world = tile.getWorld();
 		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && isActive != state.getValue(ACTIVE)) {
+		if (!world.isRemote && state.getBlock() instanceof BlockFissionShield && isActive != state.getValue(ACTIVE)) {
 			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
 		}
 	}
@@ -94,13 +93,13 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 	
 	@Override
 	public boolean isFullCube(IBlockState state) {
-		//return state.getValue(ACTIVE);
+		// return state.getValue(ACTIVE);
 		return false;
 	}
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
-		//return state.getValue(ACTIVE);
+		// return state.getValue(ACTIVE);
 		return false;
 	}
 	
@@ -110,7 +109,9 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 		IBlockState otherState = world.getBlockState(pos.offset(side));
 		Block block = otherState.getBlock();
 		
-		if (blockState != otherState) return true;
+		if (blockState != otherState) {
+			return true;
+		}
 		
 		return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
 	}

@@ -4,11 +4,9 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -32,7 +30,8 @@ public class ShapelessFluidRecipe extends ShapelessOreRecipe {
 			IFluidHandlerItem handler = stack.getCount() > 1 ? FluidUtil.getFluidHandler(stack.copy()) : FluidUtil.getFluidHandler(stack);
 			if (handler == null) {
 				ret.set(i, ForgeHooks.getContainerItem(stack));
-			} else {
+			}
+			else {
 				handler.drain(Fluid.BUCKET_VOLUME, true);
 				ret.set(i, handler.getContainer().copy());
 			}

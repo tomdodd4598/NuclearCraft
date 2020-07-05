@@ -2,8 +2,7 @@ package nc.tile.energyFluid;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import nc.tile.internal.energy.EnergyConnection;
@@ -37,7 +36,7 @@ public abstract class TileEnergyFluidSidedInventory extends TileEnergyFluidInven
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandlerCapability(side);
+				return (T) getItemHandler(side);
 			}
 			return null;
 		}

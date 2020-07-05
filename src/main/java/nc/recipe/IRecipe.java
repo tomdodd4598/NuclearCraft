@@ -3,13 +3,11 @@ package nc.recipe;
 import java.util.List;
 
 import crafttweaker.annotations.ZenRegister;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mods.nuclearcraft.IRecipe")
 @ZenRegister
@@ -49,7 +47,7 @@ public interface IRecipe {
 	
 	@ZenMethod
 	public List getExtras();
-
+	
 	public RecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs);
 	
 	public RecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs);

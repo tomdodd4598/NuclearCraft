@@ -1,14 +1,12 @@
 package nc.capability.radiation.source;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import nc.radiation.RadSources;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.*;
 
 public class RadiationSourceStackProvider implements ICapabilityProvider {
 	
@@ -33,17 +31,13 @@ public class RadiationSourceStackProvider implements ICapabilityProvider {
 	
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(getRadiation());
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(getRadiation());
+		}
 		return null;
 	}
 	
-	/*@Override
-	public NBTBase serializeNBT() {
-		return IRadiationSource.CAPABILITY_RADIATION_SOURCE.writeNBT(getRadiation(), null);
-	}
-	
-	@Override
-	public void deserializeNBT(NBTBase nbt) {
-		IRadiationSource.CAPABILITY_RADIATION_SOURCE.readNBT(getRadiation(), null, nbt);
-	}*/
+	/* @Override public NBTBase serializeNBT() { return IRadiationSource.CAPABILITY_RADIATION_SOURCE.writeNBT(getRadiation(), null); }
+	 * 
+	 * @Override public void deserializeNBT(NBTBase nbt) { IRadiationSource.CAPABILITY_RADIATION_SOURCE.readNBT(getRadiation(), null, nbt); } */
 }

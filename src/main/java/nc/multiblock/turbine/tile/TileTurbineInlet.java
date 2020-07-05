@@ -1,26 +1,19 @@
 package nc.multiblock.turbine.tile;
 
 import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.config.NCConfig.enable_mek_gas;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.util.GasHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,9 +29,9 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.IN);
 	
-	private @Nonnull FluidTileWrapper[] fluidSides;
+	private @Nonnull final FluidTileWrapper[] fluidSides;
 	
-	private @Nonnull GasTileWrapper gasWrapper;
+	private @Nonnull final GasTileWrapper gasWrapper;
 	
 	public TileTurbineInlet() {
 		super(CuboidalPartPositionType.WALL);
@@ -70,7 +63,9 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 	@Override
 	@Nonnull
 	public List<Tank> getTanks() {
-		if (!isMultiblockAssembled()) return backupTanks;
+		if (!isMultiblockAssembled()) {
+			return backupTanks;
+		}
 		return getMultiblock().tanks.subList(0, 1);
 	}
 	
@@ -139,7 +134,7 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY)) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -154,7 +149,7 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			if (NCConfig.enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}
 			return null;

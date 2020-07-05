@@ -29,11 +29,11 @@ public class ShapedEnergyRecipe extends ShapedOreRecipe {
 			for (int i = 0; i < inv.getSizeInventory(); i++) {
 				ItemStack stack = inv.getStackInSlot(i);
 				if (stack.getItem() instanceof IChargableItem) {
-					energy += ((IChargableItem)stack.getItem()).getEnergyStored(stack);
+					energy += ((IChargableItem) stack.getItem()).getEnergyStored(stack);
 				}
 			}
 			NBTTagCompound nbt = result.hasTagCompound() ? result.getTagCompound() : new NBTTagCompound();
-			nbt.setInteger("energy", Math.min(energy, ((IChargableItem)result.getItem()).getMaxEnergyStored(result)));
+			nbt.setInteger("energy", Math.min(energy, ((IChargableItem) result.getItem()).getMaxEnergyStored(result)));
 			result.setTagCompound(nbt);
 		}
 		return result;

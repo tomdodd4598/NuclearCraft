@@ -1,9 +1,9 @@
 package nc.recipe.multiblock;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.*;
 
-import nc.config.NCConfig;
+import java.util.*;
+
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
@@ -18,7 +18,7 @@ public class FissionReflectorRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
-			addRecipe(new ItemStack(NCBlocks.fission_reflector, 1, i), NCConfig.fission_reflector_efficiency[i], NCConfig.fission_reflector_reflectivity[i]);
+			addRecipe(new ItemStack(NCBlocks.fission_reflector, 1, i), fission_reflector_efficiency[i], fission_reflector_reflectivity[i]);
 		}
 	}
 	

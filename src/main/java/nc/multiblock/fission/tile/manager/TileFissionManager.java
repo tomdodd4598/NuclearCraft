@@ -1,16 +1,10 @@
 package nc.multiblock.fission.tile.manager;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import javax.annotation.Nullable;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.longs.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.TileFissionPart;
@@ -24,11 +18,8 @@ import net.minecraftforge.common.capabilities.Capability;
 public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANAGER, LISTENER>, LISTENER extends IFissionManagerListener<MANAGER, LISTENER>> extends TileFissionPart implements IFissionManager<MANAGER, LISTENER> {
 	
 	protected final Class<MANAGER> managerClass;
-	protected BlockPos masterManagerPos = DEFAULT_NON;
-	protected MANAGER masterManager = null;
-	protected LongSet listenerPosCache = new LongOpenHashSet();
-	protected ObjectSet<LISTENER> listeners = new ObjectOpenHashSet<>();
-	public boolean refreshPartsFlag = false;
+	protected LongSet listenerPosSet = new LongOpenHashSet();
+	public boolean refreshListenersFlag = false;
 	
 	public TileFissionManager(Class<MANAGER> managerClass) {
 		super(CuboidalPartPositionType.WALL);
@@ -55,32 +46,8 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 	}
 	
 	@Override
-	public ObjectSet<LISTENER> getListeners() {
-		return listeners;
-	}
-	
-	public abstract void moveListenersFromCache();
-	
-	@Override
-	public BlockPos getMasterManagerPos() {
-		return masterManagerPos;
-	}
-	
-	@Override
-	public void setMasterManagerPos(BlockPos pos) {
-		masterManagerPos = pos;
-	}
-	
-	@Override
-	public void clearMasterManager() {
-		masterManager = null;
-		masterManagerPos = DEFAULT_NON;
-	}
-	
-	@Override
-	public void refreshMasterManager() {
-		masterManager = getMultiblock() == null ? null : getMultiblock().getPartMap(managerClass).get(masterManagerPos.toLong());
-		if (masterManager == null) masterManagerPos = DEFAULT_NON;
+	public LongSet getListenerPosSet() {
+		return listenerPosSet;
 	}
 	
 	// Ticking
@@ -89,15 +56,15 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			if (refreshPartsFlag) {
-				refreshListeners();
+			if (refreshListenersFlag) {
+				refreshListeners(false);
 			}
 		}
 	}
 	
 	@Override
 	public void markDirty() {
-		refreshPartsFlag = true;
+		refreshListenersFlag = true;
 		super.markDirty();
 	}
 	
@@ -106,25 +73,12 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setLong("masterManagerPos", masterManagerPos.toLong());
 		
-		BlockPos listenerPos;
-		IntList posCacheArrayX = new IntArrayList(), posCacheArrayY = new IntArrayList(), posCacheArrayZ = new IntArrayList();
-		for (LISTENER listener : listeners) {
-			listenerPos = listener.getTilePos();
-			posCacheArrayX.add(listenerPos.getX());
-			posCacheArrayY.add(listenerPos.getY());
-			posCacheArrayZ.add(listenerPos.getZ());
+		int count = 0;
+		for (long posLong : listenerPosSet) {
+			nbt.setLong("listenerPos" + count, posLong);
+			count++;
 		}
-		for (long posLong : listenerPosCache) {
-			BlockPos pos = BlockPos.fromLong(posLong);
-			posCacheArrayX.add(pos.getX());
-			posCacheArrayY.add(pos.getY());
-			posCacheArrayZ.add(pos.getZ());
-		}
-		nbt.setIntArray("listenerPosCacheX", posCacheArrayX.toIntArray());
-		nbt.setIntArray("listenerPosCacheY", posCacheArrayY.toIntArray());
-		nbt.setIntArray("listenerPosCacheZ", posCacheArrayZ.toIntArray());
 		
 		return nbt;
 	}
@@ -132,12 +86,11 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		masterManagerPos = BlockPos.fromLong(nbt.getLong("masterManagerPos"));
 		
-		listenerPosCache.clear();
-		int[] posCacheArrayX = nbt.getIntArray("listenerPosCacheX"), posCacheArrayY = nbt.getIntArray("listenerPosCacheY"), posCacheArrayZ = nbt.getIntArray("listenerPosCacheZ");
-		for (int i = 0; i < posCacheArrayX.length; i++) {
-			listenerPosCache.add(new BlockPos(posCacheArrayX[i], posCacheArrayY[i], posCacheArrayZ[i]).toLong());
+		for (String key : nbt.getKeySet()) {
+			if (key.startsWith("listenerPos")) {
+				listenerPosSet.add(nbt.getLong(key));
+			}
 		}
 	}
 	
@@ -147,7 +100,7 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		return super.getCapability(capability, side);

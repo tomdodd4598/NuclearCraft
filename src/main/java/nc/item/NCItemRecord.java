@@ -5,17 +5,13 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
-import nc.util.InfoHelper;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemRecord;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class NCItemRecord extends ItemRecord implements IInfoItem {
 	
@@ -37,10 +33,12 @@ public class NCItemRecord extends ItemRecord implements IInfoItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		//super.addInformation(itemStack, player, tooltip, advanced);
-		if (info.length > 0) InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
+		// super.addInformation(itemStack, player, tooltip, advanced);
+		if (info.length > 0) {
+			InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
+		}
 	}
-
+	
 	@Override
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.EPIC;

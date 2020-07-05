@@ -1,14 +1,11 @@
 package nc.render.tile;
 
 import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
-import nc.util.NCMath;
-import nc.util.NCRenderHelper;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import nc.util.*;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public class RenderQuantumComputerQubit extends TileEntitySpecialRenderer<TileQuantumComputerQubit> {
@@ -17,9 +14,9 @@ public class RenderQuantumComputerQubit extends TileEntitySpecialRenderer<TileQu
 	public void render(TileQuantumComputerQubit qubit, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
 		long time = System.currentTimeMillis();
 		boolean up = qubit.measureColor > 0F, down = qubit.measureColor < 0F;
-		float r = (float) NCMath.trapezoidalWave(time*0.12D, 0D) + 6F*(down ? -qubit.measureColor : 0F);
-		float g = (float) NCMath.trapezoidalWave(time*0.12D, 120D);
-		float b = (float) NCMath.trapezoidalWave(time*0.12D, 240D) + 6F*(up ? qubit.measureColor : 0F);
+		float r = (float) NCMath.trapezoidalWave(time * 0.12D, 0D) + 6F * (down ? -qubit.measureColor : 0F);
+		float g = (float) NCMath.trapezoidalWave(time * 0.12D, 120D);
+		float b = (float) NCMath.trapezoidalWave(time * 0.12D, 240D) + 6F * (up ? qubit.measureColor : 0F);
 		
 		if (up) {
 			qubit.measureColor = Math.max(0F, qubit.measureColor - 0.0005F);

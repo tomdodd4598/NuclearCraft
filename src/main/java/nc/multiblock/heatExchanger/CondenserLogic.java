@@ -8,8 +8,7 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.multiblock.Multiblock;
-import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
-import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
+import nc.multiblock.heatExchanger.tile.*;
 
 public class CondenserLogic extends HeatExchangerLogic {
 	
@@ -27,9 +26,7 @@ public class CondenserLogic extends HeatExchangerLogic {
 		return !containsBlacklistedPart();
 	}
 	
-	public static final List<Pair<Class<? extends IHeatExchangerPart>, String>> CONDENSER_PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileHeatExchangerTube.class, Global.MOD_ID + ".multiblock_validation.heat_exchanger.prohibit_exchanger_tubes")
-			);
+	public static final List<Pair<Class<? extends IHeatExchangerPart>, String>> CONDENSER_PART_BLACKLIST = Lists.newArrayList(Pair.of(TileHeatExchangerTube.class, Global.MOD_ID + ".multiblock_validation.heat_exchanger.prohibit_exchanger_tubes"));
 	
 	@Override
 	public List<Pair<Class<? extends IHeatExchangerPart>, String>> getPartBlacklist() {

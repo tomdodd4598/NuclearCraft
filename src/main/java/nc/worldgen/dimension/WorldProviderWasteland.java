@@ -1,13 +1,12 @@
 package nc.worldgen.dimension;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.WorldProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderWasteland extends WorldProvider {
-
+	
 	@Override
 	protected void init() {
 		hasSkyLight = true;
@@ -38,14 +37,14 @@ public class WorldProviderWasteland extends WorldProvider {
 	public IChunkGenerator createChunkGenerator() {
 		return new ChunkGeneratorWasteland(world);
 	}
-
-	/*======================================= Forge Start =========================================*/
-
+	
+	/* ======================================= Forge Start ========================================= */
+	
 	@Override
 	public boolean canDoLightning(Chunk chunk) {
 		return true;
 	}
-
+	
 	@Override
 	public boolean canDoRainSnowIce(Chunk chunk) {
 		return false;
@@ -53,6 +52,6 @@ public class WorldProviderWasteland extends WorldProvider {
 	
 	@Override
 	public boolean canSnowAt(BlockPos pos, boolean checkLight) {
-		return false; 
+		return false;
 	}
 }

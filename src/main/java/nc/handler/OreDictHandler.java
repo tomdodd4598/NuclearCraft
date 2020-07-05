@@ -1,11 +1,8 @@
 package nc.handler;
 
-import nc.init.NCBlocks;
-import nc.init.NCItems;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import nc.init.*;
+import net.minecraft.init.*;
+import net.minecraft.item.*;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class OreDictHandler {
@@ -205,8 +202,10 @@ public class OreDictHandler {
 	}
 	
 	public static void registerOre(Item item, int meta, String... names) {
-		if (meta >= 0) for (String name : names) {
-			OreDictionary.registerOre(name, new ItemStack(item, 1, meta));
+		if (meta >= 0) {
+			for (String name : names) {
+				OreDictionary.registerOre(name, new ItemStack(item, 1, meta));
+			}
 		}
 	}
 	
@@ -224,22 +223,22 @@ public class OreDictHandler {
 	
 	public static void registerIsotopes(Item item, String name, int... types) {
 		for (int i = 0; i < types.length; i++) {
-			registerIsotopeAll(item, 5*i, name + types[i]);
+			registerIsotopeAll(item, 5 * i, name + types[i]);
 		}
 	}
 	
 	public static void registerFuels(Item pellet, Item fuel, Item depleted, String... types) {
 		for (int i = 0; i < types.length; i++) {
-			registerOre(pellet, 2*i, "ingot" + types[i]);
-			registerOre(pellet, 2*i + 1, "ingot" + types[i] + "Carbide");
-			registerOre(fuel, 4*i, "ingot" + types[i] + "TRISO");
-			registerOre(fuel, 4*i + 1, "ingot" + types[i] + "Oxide");
-			registerOre(fuel, 4*i + 2, "ingot" + types[i] + "Nitride");
-			registerOre(fuel, 4*i + 3, "ingot" + types[i] + "ZA");
-			registerOre(depleted, 4*i, "ingotDepleted" + types[i] + "TRISO");
-			registerOre(depleted, 4*i + 1, "ingotDepleted" + types[i] + "Oxide");
-			registerOre(depleted, 4*i + 2, "ingotDepleted" + types[i] + "Nitride");
-			registerOre(depleted, 4*i + 3, "ingotDepleted" + types[i] + "ZA");
+			registerOre(pellet, 2 * i, "ingot" + types[i]);
+			registerOre(pellet, 2 * i + 1, "ingot" + types[i] + "Carbide");
+			registerOre(fuel, 4 * i, "ingot" + types[i] + "TRISO");
+			registerOre(fuel, 4 * i + 1, "ingot" + types[i] + "Oxide");
+			registerOre(fuel, 4 * i + 2, "ingot" + types[i] + "Nitride");
+			registerOre(fuel, 4 * i + 3, "ingot" + types[i] + "ZA");
+			registerOre(depleted, 4 * i, "ingotDepleted" + types[i] + "TRISO");
+			registerOre(depleted, 4 * i + 1, "ingotDepleted" + types[i] + "Oxide");
+			registerOre(depleted, 4 * i + 2, "ingotDepleted" + types[i] + "Nitride");
+			registerOre(depleted, 4 * i + 3, "ingotDepleted" + types[i] + "ZA");
 		}
 	}
 }

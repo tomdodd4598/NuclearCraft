@@ -1,24 +1,17 @@
 package nc.handler;
 
 import nc.entity.EntityFeralGhoul;
-import nc.init.NCArmor;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
-import nc.init.NCTools;
+import nc.init.*;
 import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.render.BlockHighlightHandler;
 import nc.render.entity.RenderFeralGhoul;
-import nc.render.tile.RenderQuantumComputerQubit;
-import nc.render.tile.RenderTurbineRotor;
+import nc.render.tile.*;
 import nc.util.NCUtil;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.client.registry.*;
 
 public class RenderHandler {
 	
@@ -37,17 +30,15 @@ public class RenderHandler {
 	}
 	
 	private static <E extends Entity, R extends Render<E>> void registerEntityRender(Class<E> entityClass, Class<R> renderClass) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, new IRenderFactory<E>() {
-			@Override
-			public R createRenderFor(RenderManager manager) {
-				R render = null;
-				try {
-					render = NCUtil.newInstance(renderClass, manager);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return render;
+		RenderingRegistry.registerEntityRenderingHandler(entityClass, manager -> {
+			R render = null;
+			try {
+				render = NCUtil.newInstance(renderClass, manager);
 			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			return render;
 		});
 	}
 }

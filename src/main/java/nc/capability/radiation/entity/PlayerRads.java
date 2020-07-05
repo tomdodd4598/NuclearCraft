@@ -1,6 +1,7 @@
 package nc.capability.radiation.entity;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.max_player_rads;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
@@ -26,7 +27,7 @@ public class PlayerRads implements IEntityRads {
 	private boolean shouldWarn = false;
 	
 	public PlayerRads() {
-		this.maxRads = NCConfig.max_player_rads;
+		maxRads = max_player_rads;
 	}
 	
 	@Override
@@ -81,7 +82,9 @@ public class PlayerRads implements IEntityRads {
 	
 	@Override
 	public void setTotalRads(double newTotalRads, boolean useImmunity) {
-		if (!useImmunity || !isImmune()) totalRads = MathHelper.clamp(newTotalRads, 0D, maxRads);
+		if (!useImmunity || !isImmune()) {
+			totalRads = MathHelper.clamp(newTotalRads, 0D, maxRads);
+		}
 	}
 	
 	@Override
@@ -146,8 +149,12 @@ public class PlayerRads implements IEntityRads {
 	
 	@Override
 	public void setRadawayBuffer(boolean slow, double newBuffer) {
-		if (slow) radawayBufferSlow = Math.max(newBuffer, 0D);
-		else radawayBuffer = Math.max(newBuffer, 0D);
+		if (slow) {
+			radawayBufferSlow = Math.max(newBuffer, 0D);
+		}
+		else {
+			radawayBuffer = Math.max(newBuffer, 0D);
+		}
 	}
 	
 	@Override

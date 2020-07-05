@@ -3,13 +3,10 @@ package nc.multiblock.fission.tile.port;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 import static nc.util.BlockPosHelper.DEFAULT_NON;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.PartPosition;
+import it.unimi.dsi.fastutil.objects.*;
+import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.TileFissionPart;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +23,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected PORT masterPort = null;
 	protected ObjectSet<TARGET> targets = new ObjectOpenHashSet<>();
-	public boolean refreshPartsFlag = false;
+	public boolean refreshTargetsFlag = false;
 	
 	public Axis axis = Axis.Z;
 	
@@ -48,12 +45,8 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	public void onMachineBroken() {
 		super.onMachineBroken();
 		
-		//TODO - temporary ports
-		/*if (!getWorld().isRemote && !DEFAULT_NON.equals(masterPortPos)) {
-			PORT master = masterPort;
-			clearMasterPort();
-			master.shiftStacks(this);
-		}*/
+		// TODO - temporary ports
+		/* if (!getWorld().isRemote && !DEFAULT_NON.equals(masterPortPos)) { PORT master = masterPort; clearMasterPort(); master.shiftStacks(this); } */
 	}
 	
 	@Override
@@ -94,20 +87,31 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	@Override
 	public void refreshMasterPort() {
 		masterPort = getMultiblock() == null ? null : getMultiblock().getPartMap(portClass).get(masterPortPos.toLong());
-		if (masterPort == null) masterPortPos = DEFAULT_NON;
+		if (masterPort == null) {
+			masterPortPos = DEFAULT_NON;
+		}
 	}
 	
-	//TODO - temporary ports
+	// TODO - temporary ports
 	@Override
 	public void refreshTargets() {
-		refreshPartsFlag = false;
+		refreshTargetsFlag = false;
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
 			for (TARGET part : targets) {
-				refresh = refresh || part.onPortRefresh();
+				if (part.onPortRefresh()) {
+					refresh = true;
+				}
 			}
-			if (refresh) getMultiblock().refreshFlag = true;
+			if (refresh) {
+				getMultiblock().refreshFlag = true;
+			}
 		}
+	}
+	
+	@Override
+	public void setRefreshTargetsFlag(boolean refreshTargetsFlag) {
+		this.refreshTargetsFlag = refreshTargetsFlag;
 	}
 	
 	// Ticking
@@ -116,7 +120,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			if (refreshPartsFlag) {
+			if (refreshTargetsFlag) {
 				refreshTargets();
 			}
 		}
@@ -124,7 +128,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	
 	@Override
 	public void markDirty() {
-		refreshPartsFlag = true;
+		refreshTargetsFlag = true;
 		super.markDirty();
 	}
 	
@@ -133,7 +137,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		//nbt.setLong("masterPortPos", masterPortPos.toLong());
+		// nbt.setLong("masterPortPos", masterPortPos.toLong());
 		nbt.setString("axis", axis.getName());
 		return nbt;
 	}
@@ -141,7 +145,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		//masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
+		// masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 		Axis axis = Axis.byName(nbt.getString("axis"));
 		this.axis = axis == null ? Axis.Z : axis;
 	}
@@ -152,7 +156,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		return super.getCapability(capability, side);

@@ -8,11 +8,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
 public class BlockFissionIrradiator extends BlockFissionPart {
@@ -28,8 +26,12 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null) {
+			return false;
+		}
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+			return false;
+		}
 		
 		if (!world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
@@ -62,15 +64,13 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 			if (tile instanceof TileFissionIrradiator) {
 				TileFissionIrradiator irradiator = (TileFissionIrradiator) tile;
 				dropItems(world, pos, irradiator.getInventoryStacksInternal());
-				//world.updateComparatorOutputLevel(pos, this);
-				//FissionReactor reactor = irradiator.getMultiblock();
-				//world.removeTileEntity(pos);
-				/*if (reactor != null) {
-					reactor.getLogic().refreshPorts();
-				}*/
+				// world.updateComparatorOutputLevel(pos, this);
+				// FissionReactor reactor = irradiator.getMultiblock();
+				// world.removeTileEntity(pos);
+				/* if (reactor != null) { reactor.getLogic().refreshPorts(); } */
 			}
 		}
-		//super.breakBlock(world, pos, state);
+		// super.breakBlock(world, pos, state);
 		world.removeTileEntity(pos);
 	}
 }

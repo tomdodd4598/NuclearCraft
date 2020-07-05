@@ -1,7 +1,6 @@
 package nc.tile.internal.fluid;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 
@@ -10,17 +9,17 @@ import net.minecraft.util.EnumFacing;
 
 public class FluidConnection {
 	
-	private @Nonnull List<TankSorption> sorptionList;
+	private @Nonnull final List<TankSorption> sorptionList;
 	private final @Nonnull List<TankSorption> defaultSorptions;
 	
 	public FluidConnection(@Nonnull List<TankSorption> sorptionList) {
-		this.sorptionList = new ArrayList<TankSorption>(sorptionList);
-		defaultSorptions = new ArrayList<TankSorption>(sorptionList);
+		this.sorptionList = new ArrayList<>(sorptionList);
+		defaultSorptions = new ArrayList<>(sorptionList);
 	}
 	
 	private FluidConnection(@Nonnull FluidConnection connection) {
-		sorptionList = new ArrayList<TankSorption>(connection.sorptionList);
-		defaultSorptions = new ArrayList<TankSorption>(connection.defaultSorptions);
+		sorptionList = new ArrayList<>(connection.sorptionList);
+		defaultSorptions = new ArrayList<>(connection.defaultSorptions);
 	}
 	
 	private FluidConnection copy() {
@@ -67,7 +66,7 @@ public class FluidConnection {
 		}
 		nbt.setTag("fluidConnection" + side.getIndex(), connectionTag);
 		return nbt;
-
+		
 	}
 	
 	public final FluidConnection readFromNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {

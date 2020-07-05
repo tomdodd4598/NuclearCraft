@@ -13,13 +13,14 @@ public class TileFissionGlass extends TileFissionPart {
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 }

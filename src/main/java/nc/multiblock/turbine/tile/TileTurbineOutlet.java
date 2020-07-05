@@ -1,26 +1,19 @@
 package nc.multiblock.turbine.tile;
 
 import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.config.NCConfig.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
 import nc.util.GasHelper;
 import net.minecraft.block.state.IBlockState;
@@ -30,8 +23,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.*;
 
 public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	
@@ -39,9 +31,9 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.OUT);
 	
-	private @Nonnull FluidTileWrapper[] fluidSides;
+	private @Nonnull final FluidTileWrapper[] fluidSides;
 	
-	private @Nonnull GasTileWrapper gasWrapper;
+	private @Nonnull final GasTileWrapper gasWrapper;
 	
 	protected int outletCount;
 	
@@ -74,13 +66,16 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			if (outletCount == 0) pushFluid();
+			if (outletCount == 0) {
+				pushFluid();
+			}
 			tickOutlet();
 		}
 	}
 	
 	public void tickOutlet() {
-		outletCount++; outletCount %= NCConfig.machine_update_rate / 4;
+		outletCount++;
+		outletCount %= machine_update_rate / 4;
 	}
 	
 	// Fluids
@@ -88,7 +83,9 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	@Override
 	@Nonnull
 	public List<Tank> getTanks() {
-		if (!isMultiblockAssembled()) return backupTanks;
+		if (!isMultiblockAssembled()) {
+			return backupTanks;
+		}
 		return getMultiblock().tanks.subList(1, 2);
 	}
 	
@@ -116,15 +113,23 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getTankSorption(side, 0).canDrain() || getTanks().get(0).getFluid() == null) return;
+		if (!getTankSorption(side, 0).canDrain() || getTanks().get(0).getFluid() == null) {
+			return;
+		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileTurbineOutlet) return;
+		if (tile == null || tile instanceof TileTurbineOutlet) {
+			return;
+		}
 		
-		if (tile instanceof ITilePassive && !((ITilePassive)tile).canPushFluidsTo()) return;
+		if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
+			return;
+		}
 		
 		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjStorage == null || getTanks().get(0).getFluid() == null) return;
+		if (adjStorage == null || getTanks().get(0).getFluid() == null) {
+			return;
+		}
 		
 		getTanks().get(0).drain(adjStorage.fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);
 	}
@@ -161,7 +166,7 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 		writeFluidConnections(nbt);
 		return nbt;
 	}
-		
+	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
@@ -172,7 +177,7 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY)) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -187,7 +192,7 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			if (NCConfig.enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}
 			return null;

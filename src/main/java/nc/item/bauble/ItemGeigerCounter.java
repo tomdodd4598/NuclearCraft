@@ -1,21 +1,17 @@
 package nc.item.bauble;
 
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
+import static nc.config.NCConfig.radiation_require_counter;
+
+import baubles.api.*;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
 import nc.item.NCItem;
-import nc.radiation.RadiationHandler;
-import nc.radiation.RadiationHelper;
+import nc.radiation.*;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.text.TextComponentString;
@@ -43,7 +39,7 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 				}
 			}
 		}
-		return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+		return new ActionResult<>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 	}
 	
 	@Override
@@ -59,7 +55,9 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if (!world.isRemote || !NCConfig.radiation_require_counter || !(entity instanceof EntityPlayer)) return;
+		if (!world.isRemote || !radiation_require_counter || !(entity instanceof EntityPlayer)) {
+			return;
+		}
 		EntityPlayer player = (EntityPlayer) entity;
 		if (isStackOnHotbar(stack, player)) {
 			RadiationHandler.playGeigerSound(player);

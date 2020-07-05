@@ -5,23 +5,17 @@ import java.io.IOException;
 import nc.Global;
 import nc.container.processor.ContainerSorptions;
 import nc.gui.NCGui;
-import nc.gui.element.GuiBlockRenderer;
-import nc.gui.element.NCEnumButton;
+import nc.gui.element.*;
 import nc.network.PacketHandler;
-import nc.network.gui.ResetItemSorptionsPacket;
-import nc.network.gui.ToggleItemOutputSettingPacket;
-import nc.network.gui.ToggleItemSorptionPacket;
+import nc.network.gui.*;
 import nc.tile.ITileGui;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.BlockHelper;
-import nc.util.Lang;
-import nc.util.NCUtil;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> extends NCGui {
@@ -49,7 +43,9 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 		if (isEscapeKeyDown(keyCode)) {
 			FMLCommonHandler.instance().showGuiScreen(parent);
 		}
-		else super.keyTyped(typedChar, keyCode);
+		else {
+			super.keyTyped(typedChar, keyCode);
+		}
 	}
 	
 	@Override
@@ -69,7 +65,7 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 		GlStateManager.color(1F, 1F, 1F, 0.75F);
 		IBlockState state = tile.getBlockState(tile.getTilePos());
 		for (int i = 0; i < 6; i++) {
-			GuiBlockRenderer.renderGuiBlock(state, dirs[i], a[i]+1, b[i]+1, zLevel, 16, 16);
+			GuiBlockRenderer.renderGuiBlock(state, dirs[i], a[i] + 1, b[i] + 1, zLevel, 16, 16);
 		}
 		GlStateManager.popMatrix();
 	}
@@ -92,18 +88,20 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getTileWorld().isRemote) {
-			for (int i = 0; i < 6; i++) if (guiButton.id == i) {
-				if (i == 4 && NCUtil.isModifierKeyDown()) {
-					for (int j = 0; j < 6; j++) {
-						tile.setItemSorption(dirs[j], slot, ItemSorption.NON);
-						((NCEnumButton.ItemSorption)buttonList.get(j)).set(ItemSorption.NON);
+			for (int i = 0; i < 6; i++) {
+				if (guiButton.id == i) {
+					if (i == 4 && NCUtil.isModifierKeyDown()) {
+						for (int j = 0; j < 6; j++) {
+							tile.setItemSorption(dirs[j], slot, ItemSorption.NON);
+							((NCEnumButton.ItemSorption) buttonList.get(j)).set(ItemSorption.NON);
+						}
+						PacketHandler.instance.sendToServer(new ResetItemSorptionsPacket(tile, slot, false));
+						return;
 					}
-					PacketHandler.instance.sendToServer(new ResetItemSorptionsPacket(tile, slot, false));
+					tile.toggleItemSorption(dirs[i], slot, sorptionType, false);
+					PacketHandler.instance.sendToServer(new ToggleItemSorptionPacket(tile, dirs[i], slot, tile.getItemSorption(dirs[i], slot)));
 					return;
 				}
-				tile.toggleItemSorption(dirs[i], slot, sorptionType, false);
-				PacketHandler.instance.sendToServer(new ToggleItemSorptionPacket(tile, dirs[i], slot, tile.getItemSorption(dirs[i], slot)));
-				return;
 			}
 		}
 	}
@@ -111,18 +109,20 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 	@Override
 	protected void actionPerformedRight(GuiButton guiButton) {
 		if (tile.getTileWorld().isRemote) {
-			for (int i = 0; i < 6; i++) if (guiButton.id == i) {
-				if (i == 4 && NCUtil.isModifierKeyDown()) {
-					for (int j = 0; j < 6; j++) {
-						ItemSorption sorption = tile.getInventoryConnection(dirs[j]).getDefaultItemSorption(slot);
-						tile.setItemSorption(dirs[j], slot, sorption);
-						((NCEnumButton.ItemSorption)buttonList.get(j)).set(sorption);
+			for (int i = 0; i < 6; i++) {
+				if (guiButton.id == i) {
+					if (i == 4 && NCUtil.isModifierKeyDown()) {
+						for (int j = 0; j < 6; j++) {
+							ItemSorption sorption = tile.getInventoryConnection(dirs[j]).getDefaultItemSorption(slot);
+							tile.setItemSorption(dirs[j], slot, sorption);
+							((NCEnumButton.ItemSorption) buttonList.get(j)).set(sorption);
+						}
+						PacketHandler.instance.sendToServer(new ResetItemSorptionsPacket(tile, slot, true));
+						return;
 					}
-					PacketHandler.instance.sendToServer(new ResetItemSorptionsPacket(tile, slot, true));
-					return;
+					tile.toggleItemSorption(dirs[i], slot, sorptionType, true);
+					PacketHandler.instance.sendToServer(new ToggleItemSorptionPacket(tile, dirs[i], slot, tile.getItemSorption(dirs[i], slot)));
 				}
-				tile.toggleItemSorption(dirs[i], slot, sorptionType, true);
-				PacketHandler.instance.sendToServer(new ToggleItemSorptionPacket(tile, dirs[i], slot, tile.getItemSorption(dirs[i], slot)));
 			}
 		}
 	}

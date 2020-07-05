@@ -3,10 +3,8 @@ package nc.integration.jei.processor;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryProcessor;
+import nc.integration.jei.*;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
 public class SeparatorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Separator> {

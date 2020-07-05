@@ -4,9 +4,7 @@ import io.netty.buffer.ByteBuf;
 import nc.capability.radiation.entity.IEntityRads;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class PlayerRadsUpdatePacket implements IMessage {
@@ -78,16 +76,19 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			radiationImmunityTime = buf.readDouble();
 			radiationImmunityStage = buf.readBoolean();
 			shouldWarn = buf.readBoolean();
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 			return;
 		}
 		messageValid = true;
 	}
-
+	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) return;
+		if (!messageValid) {
+			return;
+		}
 		
 		buf.writeDouble(totalRads);
 		buf.writeDouble(radiationLevel);
@@ -110,19 +111,25 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	}
 	
 	public static class Handler implements IMessageHandler<PlayerRadsUpdatePacket, IMessage> {
-
+		
 		@Override
 		public IMessage onMessage(PlayerRadsUpdatePacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.CLIENT) return null;
+			if (!message.messageValid && ctx.side != Side.CLIENT) {
+				return null;
+			}
 			Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			return null;
 		}
 		
 		void processMessage(PlayerRadsUpdatePacket message) {
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
-			if (player == null || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
+			if (player == null || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+				return;
+			}
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-			if (playerRads == null) return;
+			if (playerRads == null) {
+				return;
+			}
 			playerRads.setTotalRads(message.totalRads, false);
 			playerRads.setRadiationLevel(message.radiationLevel);
 			playerRads.setInternalRadiationResistance(message.internalRadiationResistance);

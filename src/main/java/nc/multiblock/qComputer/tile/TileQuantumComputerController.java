@@ -1,7 +1,6 @@
 package nc.multiblock.qComputer.tile;
 
-import nc.multiblock.qComputer.QuantumComputer;
-import nc.multiblock.qComputer.QuantumComputerGate;
+import nc.multiblock.qComputer.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -41,7 +40,7 @@ public class TileQuantumComputerController extends TileQuantumComputerPart {
 	
 	public final void queueReset() {
 		if (isMultiblockAssembled()) {
-			getMultiblock().getGateQueue().add(new QuantumComputerGate.Reset(getMultiblock()));
+			getMultiblock().getGateQueue().add(new QuantumGate.Reset(getMultiblock()));
 		}
 	}
 	

@@ -25,8 +25,8 @@ public class Vector {
 	
 	public void zero() {
 		for (int i = 0; i < dim; i++) {
-			this.re[i] = 0D;
-			this.im[i] = 0D;
+			re[i] = 0D;
+			im[i] = 0D;
 		}
 	}
 	
@@ -71,6 +71,15 @@ public class Vector {
 			im += c[1];
 		}
 		return new double[] {re, im};
+	}
+	
+	@Override
+	public String toString() {
+		String s = "";
+		for (int i = 0; i < dim; i++) {
+			s = s + ", " + Complex.toString(re[i], im[i]);
+		}
+		return "[" + s.substring(2) + "]";
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {

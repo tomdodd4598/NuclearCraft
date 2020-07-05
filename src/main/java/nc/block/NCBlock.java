@@ -7,23 +7,18 @@ import com.google.common.collect.Lists;
 import nc.block.tile.INBTDrop;
 import nc.tile.ITile;
 import nc.util.NCInventoryHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class NCBlock extends Block {
 	
@@ -51,7 +46,9 @@ public class NCBlock extends Block {
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (this instanceof ITileEntityProvider) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof ITile) ((ITile)tile).onBlockNeighborChanged(state, world, pos, fromPos);
+			if (tile instanceof ITile) {
+				((ITile) tile).onBlockNeighborChanged(state, world, pos, fromPos);
+			}
 		}
 	}
 	
@@ -69,13 +66,17 @@ public class NCBlock extends Block {
 	
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-		if (this instanceof INBTDrop && willHarvest) return true;
+		if (this instanceof INBTDrop && willHarvest) {
+			return true;
+		}
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}
 	
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		if (this instanceof INBTDrop) return Lists.newArrayList(((INBTDrop)this).getNBTDrop(world, pos, state));
+		if (this instanceof INBTDrop) {
+			return Lists.newArrayList(((INBTDrop) this).getNBTDrop(world, pos, state));
+		}
 		return super.getDrops(world, pos, state, fortune);
 	}
 	
@@ -83,7 +84,7 @@ public class NCBlock extends Block {
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		if (this instanceof INBTDrop && stack.hasTagCompound()) {
-			((INBTDrop)this).readStackData(world, pos, placer, stack);
+			((INBTDrop) this).readStackData(world, pos, placer, stack);
 			world.notifyBlockUpdate(pos, state, state, 3);
 		}
 	}
@@ -121,12 +122,16 @@ public class NCBlock extends Block {
 		@Override
 		@SideOnly(Side.CLIENT)
 		public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
-			if (!smartRender) return true;
+			if (!smartRender) {
+				return true;
+			}
 			
 			IBlockState otherState = world.getBlockState(pos.offset(side));
 			Block block = otherState.getBlock();
 			
-			if (blockState != otherState) return true;
+			if (blockState != otherState) {
+				return true;
+			}
 			
 			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
 		}

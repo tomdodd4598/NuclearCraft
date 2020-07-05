@@ -9,8 +9,7 @@ import nc.gui.NCGui;
 import nc.gui.element.GuiItemRenderer;
 import nc.multiblock.container.ContainerSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +19,7 @@ public class GuiSolidFissionCell extends NCGui {
 	
 	protected final TileSolidFissionCell cell;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiSolidFissionCell(EntityPlayer player, TileSolidFissionCell cell) {
 		super(new ContainerSolidFissionCell(player, cell));
 		this.cell = cell;
@@ -60,16 +59,18 @@ public class GuiSolidFissionCell extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		
 		if (cell.clusterHeatCapacity >= 0L) {
-			int e = (int) Math.round(74D*cell.clusterHeatStored/cell.clusterHeatCapacity);
+			int e = (int) Math.round(74D * cell.clusterHeatStored / cell.clusterHeatCapacity);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
-		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		else {
+			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		}
 		
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
 	}
 	
 	protected int getCookProgressScaled(int pixels) {
-		if (cell.baseProcessTime/cell.getSpeedMultiplier() < 4D) {
+		if (cell.baseProcessTime / cell.getSpeedMultiplier() < 4D) {
 			return cell.isProcessing ? pixels : 0;
 		}
 		double i = cell.time, j = cell.baseProcessTime;

@@ -1,11 +1,8 @@
 package nc.multiblock.turbine.tile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -23,14 +20,15 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		// if (getWorld().isRemote) return;
+		// getWorld().setBlockState(getPos(),
+		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// OpenComputers
@@ -145,8 +143,8 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getNumberOfDynamoCoils(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoCoil.class).size() : 0};
+	public Object[] getNumberOfDynamoParts(Context context, Arguments args) {
+		return new Object[] { isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoPart.class).size() : 0 };
 	}
 	
 	@Callback
@@ -154,16 +152,14 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public Object[] getDynamoPartStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<>();
-			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getPartMap(TileTurbineDynamoCoil.class).values()) {
-				stats.add(new Object[] {
-						new Object[] {dynamoCoil.getPos().getX(), dynamoCoil.getPos().getY(), dynamoCoil.getPos().getZ()},
-						dynamoCoil.partName,
-						dynamoCoil.isInValidPosition
-						});
+			for (TileTurbineDynamoPart dynamoPart : getMultiblock().getPartMap(TileTurbineDynamoPart.class).values()) {
+				stats.add(new Object[] { new Object[] { dynamoPart.getPos().getX(), dynamoPart.getPos().getY(), dynamoPart.getPos().getZ() }, dynamoPart.partName, dynamoPart.isInValidPosition });
 			}
 			return new Object[] {stats.toArray()};
 		}
-		else return new Object[] {};
+		else {
+			return new Object[] {};
+		}
 	}
 	
 	@Callback

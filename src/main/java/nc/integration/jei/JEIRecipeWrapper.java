@@ -1,16 +1,13 @@
 package nc.integration.jei;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.*;
+
+import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
-import nc.config.NCConfig;
 import nc.radiation.RadiationHelper;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.util.Lang;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
+import nc.recipe.*;
+import nc.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
@@ -24,14 +21,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[0];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[0]);
+			if (recipe == null) {
+				return processor_time[0];
+			}
+			return recipe.getBaseProcessTime(processor_time[0]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[0];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[0]);
+			if (recipe == null) {
+				return processor_power[0];
+			}
+			return recipe.getBaseProcessPower(processor_power[0]);
 		}
 	}
 	
@@ -43,14 +44,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[1];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[1]);
+			if (recipe == null) {
+				return processor_time[1];
+			}
+			return recipe.getBaseProcessTime(processor_time[1]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[1];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[1]);
+			if (recipe == null) {
+				return processor_power[1];
+			}
+			return recipe.getBaseProcessPower(processor_power[1]);
 		}
 	}
 	
@@ -62,14 +67,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[2];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[2]);
+			if (recipe == null) {
+				return processor_time[2];
+			}
+			return recipe.getBaseProcessTime(processor_time[2]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[2];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[2]);
+			if (recipe == null) {
+				return processor_power[2];
+			}
+			return recipe.getBaseProcessPower(processor_power[2]);
 		}
 	}
 	
@@ -81,14 +90,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[3];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[3]);
+			if (recipe == null) {
+				return processor_time[3];
+			}
+			return recipe.getBaseProcessTime(processor_time[3]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[3];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[3]);
+			if (recipe == null) {
+				return processor_power[3];
+			}
+			return recipe.getBaseProcessPower(processor_power[3]);
 		}
 	}
 	
@@ -100,14 +113,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[4];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[4]);
+			if (recipe == null) {
+				return processor_time[4];
+			}
+			return recipe.getBaseProcessTime(processor_time[4]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[4];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[4]);
+			if (recipe == null) {
+				return processor_power[4];
+			}
+			return recipe.getBaseProcessPower(processor_power[4]);
 		}
 	}
 	
@@ -119,14 +136,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[5];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[5]);
+			if (recipe == null) {
+				return processor_time[5];
+			}
+			return recipe.getBaseProcessTime(processor_time[5]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[5];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[5]);
+			if (recipe == null) {
+				return processor_power[5];
+			}
+			return recipe.getBaseProcessPower(processor_power[5]);
 		}
 	}
 	
@@ -138,14 +159,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[6];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[6]);
+			if (recipe == null) {
+				return processor_time[6];
+			}
+			return recipe.getBaseProcessTime(processor_time[6]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[6];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[6]);
+			if (recipe == null) {
+				return processor_power[6];
+			}
+			return recipe.getBaseProcessPower(processor_power[6]);
 		}
 	}
 	
@@ -157,14 +182,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[7];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[7]);
+			if (recipe == null) {
+				return processor_time[7];
+			}
+			return recipe.getBaseProcessTime(processor_time[7]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[7];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[7]);
+			if (recipe == null) {
+				return processor_power[7];
+			}
+			return recipe.getBaseProcessPower(processor_power[7]);
 		}
 	}
 	
@@ -176,14 +205,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[8];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[8]);
+			if (recipe == null) {
+				return processor_time[8];
+			}
+			return recipe.getBaseProcessTime(processor_time[8]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[8];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[8]);
+			if (recipe == null) {
+				return processor_power[8];
+			}
+			return recipe.getBaseProcessPower(processor_power[8]);
 		}
 	}
 	
@@ -195,14 +228,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[9];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[9]);
+			if (recipe == null) {
+				return processor_time[9];
+			}
+			return recipe.getBaseProcessTime(processor_time[9]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[9];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[9]);
+			if (recipe == null) {
+				return processor_power[9];
+			}
+			return recipe.getBaseProcessPower(processor_power[9]);
 		}
 	}
 	
@@ -214,14 +251,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[10];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[10]);
+			if (recipe == null) {
+				return processor_time[10];
+			}
+			return recipe.getBaseProcessTime(processor_time[10]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[10];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[10]);
+			if (recipe == null) {
+				return processor_power[10];
+			}
+			return recipe.getBaseProcessPower(processor_power[10]);
 		}
 	}
 	
@@ -233,14 +274,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[11];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[11]);
+			if (recipe == null) {
+				return processor_time[11];
+			}
+			return recipe.getBaseProcessTime(processor_time[11]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[11];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[11]);
+			if (recipe == null) {
+				return processor_power[11];
+			}
+			return recipe.getBaseProcessPower(processor_power[11]);
 		}
 	}
 	
@@ -252,14 +297,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[12];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[12]);
+			if (recipe == null) {
+				return processor_time[12];
+			}
+			return recipe.getBaseProcessTime(processor_time[12]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[12];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[12]);
+			if (recipe == null) {
+				return processor_power[12];
+			}
+			return recipe.getBaseProcessPower(processor_power[12]);
 		}
 	}
 	
@@ -271,14 +320,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[13];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[13]);
+			if (recipe == null) {
+				return processor_time[13];
+			}
+			return recipe.getBaseProcessTime(processor_time[13]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[13];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[13]);
+			if (recipe == null) {
+				return processor_power[13];
+			}
+			return recipe.getBaseProcessPower(processor_power[13]);
 		}
 	}
 	
@@ -290,14 +343,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[14];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[14]);
+			if (recipe == null) {
+				return processor_time[14];
+			}
+			return recipe.getBaseProcessTime(processor_time[14]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[14];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[14]);
+			if (recipe == null) {
+				return processor_power[14];
+			}
+			return recipe.getBaseProcessPower(processor_power[14]);
 		}
 	}
 	
@@ -309,14 +366,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[15];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[15]);
+			if (recipe == null) {
+				return processor_time[15];
+			}
+			return recipe.getBaseProcessTime(processor_time[15]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[15];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[15]);
+			if (recipe == null) {
+				return processor_power[15];
+			}
+			return recipe.getBaseProcessPower(processor_power[15]);
 		}
 	}
 	
@@ -328,14 +389,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[16];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[16]);
+			if (recipe == null) {
+				return processor_time[16];
+			}
+			return recipe.getBaseProcessTime(processor_time[16]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[16];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[16]);
+			if (recipe == null) {
+				return processor_power[16];
+			}
+			return recipe.getBaseProcessPower(processor_power[16]);
 		}
 	}
 	
@@ -347,14 +412,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[17];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[17]);
+			if (recipe == null) {
+				return processor_time[17];
+			}
+			return recipe.getBaseProcessTime(processor_time[17]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[17];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[17]);
+			if (recipe == null) {
+				return processor_power[17];
+			}
+			return recipe.getBaseProcessPower(processor_power[17]);
 		}
 	}
 	
@@ -366,14 +435,18 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getBaseProcessTime() {
-			if (recipe == null) return NCConfig.processor_time[18];
-			return recipe.getBaseProcessTime(NCConfig.processor_time[18]);
+			if (recipe == null) {
+				return processor_time[18];
+			}
+			return recipe.getBaseProcessTime(processor_time[18]);
 		}
 		
 		@Override
 		protected double getBaseProcessPower() {
-			if (recipe == null) return NCConfig.processor_power[18];
-			return recipe.getBaseProcessPower(NCConfig.processor_power[18]);
+			if (recipe == null) {
+				return processor_power[18];
+			}
+			return recipe.getBaseProcessPower(processor_power[18]);
 		}
 	}
 	
@@ -385,11 +458,13 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return NCConfig.machine_update_rate;
+			return machine_update_rate;
 		}
 		
 		protected String getCollectorProductionRate() {
-			if (recipe == null) return null;
+			if (recipe == null) {
+				return null;
+			}
 			return recipe.getCollectorProductionRate();
 		}
 		
@@ -415,21 +490,27 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getDecayLifetime()/80D);
+			return (int) (getDecayLifetime() / 80D);
 		}
 		
 		protected double getDecayLifetime() {
-			if (recipe == null) return 1200D;
+			if (recipe == null) {
+				return 1200D;
+			}
 			return recipe.getDecayLifetime();
 		}
 		
 		protected double getDecayPower() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getDecayPower();
 		}
 		
 		protected double getDecayRadiation() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getDecayRadiation();
 		}
 		
@@ -441,7 +522,9 @@ public class JEIRecipeWrapper {
 				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getDecayLifetime(), 3, 1));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPower(), 5, "RF/t"));
 				double radiation = getDecayRadiation();
-				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + BLOCK_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				if (radiation > 0D) {
+					tooltip.add(TextFormatting.GOLD + BLOCK_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				}
 			}
 			
 			return tooltip;
@@ -484,26 +567,34 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getIrradiatorFluxRequired()/8000D);
+			return (int) (getIrradiatorFluxRequired() / 8000D);
 		}
 		
 		protected int getIrradiatorFluxRequired() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getIrradiatorFluxRequired();
 		}
 		
 		protected double getIrradiatorHeatPerFlux() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getIrradiatorHeatPerFlux();
 		}
 		
 		protected double getIrradiatorProcessEfficiency() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getIrradiatorProcessEfficiency();
 		}
 		
 		protected double getIrradiatorBaseProcessRadiation() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getIrradiatorBaseProcessRadiation();
 		}
 		
@@ -514,11 +605,17 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.RED + FLUX_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getIrradiatorFluxRequired(), 5, "N"));
 				double heatPerFlux = getIrradiatorHeatPerFlux();
-				if (heatPerFlux > 0D) tooltip.add(TextFormatting.YELLOW + HEAT_PER_FLUX + " " + TextFormatting.WHITE + UnitHelper.prefix(heatPerFlux, 5, "H/t/N"));
+				if (heatPerFlux > 0D) {
+					tooltip.add(TextFormatting.YELLOW + HEAT_PER_FLUX + " " + TextFormatting.WHITE + UnitHelper.prefix(heatPerFlux, 5, "H/t/N"));
+				}
 				double efficiency = getIrradiatorProcessEfficiency();
-				if (efficiency > 0D) tooltip.add(TextFormatting.LIGHT_PURPLE + EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*efficiency) + "%");
+				if (efficiency > 0D) {
+					tooltip.add(TextFormatting.LIGHT_PURPLE + EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * efficiency) + "%");
+				}
 				double radiation = getIrradiatorBaseProcessRadiation();
-				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				if (radiation > 0D) {
+					tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				}
 			}
 			
 			return tooltip;
@@ -538,36 +635,48 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getFissionFuelTime()/80D);
+			return (int) (getFissionFuelTime() / 80D);
 		}
 		
 		protected int getFissionFuelTime() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getFissionFuelTime();
 		}
 		
 		protected int getFissionFuelHeat() {
-			if (recipe == null) return 0;
+			if (recipe == null) {
+				return 0;
+			}
 			return recipe.getFissionFuelHeat();
 		}
 		
 		protected double getFissionFuelEfficiency() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFissionFuelEfficiency();
 		}
 		
 		protected int getFissionFuelCriticality() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getFissionFuelCriticality();
 		}
 		
 		protected boolean getFissionFuelSelfPriming() {
-			if (recipe == null) return false;
+			if (recipe == null) {
+				return false;
+			}
 			return recipe.getFissionFuelSelfPriming();
 		}
 		
 		protected double getFissionFuelRadiation() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFissionFuelRadiation();
 		}
 		
@@ -576,13 +685,17 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 3));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime() * fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
-				if (getFissionFuelSelfPriming()) tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
+				if (getFissionFuelSelfPriming()) {
+					tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
+				}
 				double radiation = getFissionFuelRadiation();
-				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				if (radiation > 0D) {
+					tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				}
 			}
 			
 			return tooltip;
@@ -604,36 +717,48 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getFissionFuelTime()/80D);
+			return (int) (getFissionFuelTime() / 80D);
 		}
 		
 		protected int getFissionFuelTime() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getFissionFuelTime();
 		}
 		
 		protected int getFissionFuelHeat() {
-			if (recipe == null) return 0;
+			if (recipe == null) {
+				return 0;
+			}
 			return recipe.getFissionFuelHeat();
 		}
 		
 		protected double getFissionFuelEfficiency() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFissionFuelEfficiency();
 		}
 		
 		protected int getFissionFuelCriticality() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getFissionFuelCriticality();
 		}
 		
 		protected boolean getFissionFuelSelfPriming() {
-			if (recipe == null) return false;
+			if (recipe == null) {
+				return false;
+			}
 			return recipe.getFissionFuelSelfPriming();
 		}
 		
 		protected double getFissionFuelRadiation() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFissionFuelRadiation();
 		}
 		
@@ -642,13 +767,17 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 3));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime() * fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
-				if (getFissionFuelSelfPriming()) tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
+				if (getFissionFuelSelfPriming()) {
+					tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
+				}
 				double radiation = getFissionFuelRadiation();
-				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				if (radiation > 0D) {
+					tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				}
 			}
 			
 			return tooltip;
@@ -670,11 +799,13 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return getFissionHeatingHeatPerInputMB()/4;
+			return getFissionHeatingHeatPerInputMB() / 4;
 		}
 		
 		protected int getFissionHeatingHeatPerInputMB() {
-			if (recipe == null) return 64;
+			if (recipe == null) {
+				return 64;
+			}
 			return recipe.getFissionHeatingHeatPerInputMB();
 		}
 		
@@ -700,36 +831,48 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getSaltFissionFuelTime()/80D);
+			return (int) (getSaltFissionFuelTime() / 80D);
 		}
 		
 		protected double getSaltFissionFuelTime() {
-			if (recipe == null) return 1D;
+			if (recipe == null) {
+				return 1D;
+			}
 			return recipe.getSaltFissionFuelTime();
 		}
 		
 		protected int getFissionFuelHeat() {
-			if (recipe == null) return 0;
+			if (recipe == null) {
+				return 0;
+			}
 			return recipe.getFissionFuelHeat();
 		}
 		
 		protected double getFissionFuelEfficiency() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFissionFuelEfficiency();
 		}
 		
 		protected int getFissionFuelCriticality() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getFissionFuelCriticality();
 		}
 		
 		protected boolean getFissionFuelSelfPriming() {
-			if (recipe == null) return false;
+			if (recipe == null) {
+				return false;
+			}
 			return recipe.getFissionFuelSelfPriming();
 		}
 		
 		protected double getFissionFuelRadiation() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFissionFuelRadiation();
 		}
 		
@@ -738,13 +881,17 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getSaltFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 3));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getSaltFissionFuelTime() * fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
-				if (getFissionFuelSelfPriming()) tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
+				if (getFissionFuelSelfPriming()) {
+					tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
+				}
 				double radiation = getFissionFuelRadiation();
-				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				if (radiation > 0D) {
+					tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+				}
 			}
 			
 			return tooltip;
@@ -766,21 +913,27 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getFusionComboTime()/4D);
+			return (int) (getFusionComboTime() / 4D);
 		}
 		
 		protected double getFusionComboTime() {
-			if (recipe == null) return 1D;
+			if (recipe == null) {
+				return 1D;
+			}
 			return recipe.getFusionComboTime();
 		}
 		
 		protected double getFusionComboPower() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getFusionComboPower();
 		}
 		
 		protected double getFusionComboHeatVariable() {
-			if (recipe == null) return 1000D;
+			if (recipe == null) {
+				return 1000D;
+			}
 			return recipe.getFusionComboHeatVariable();
 		}
 		
@@ -789,10 +942,10 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (mouseX >= 73 - 55 && mouseY >= 34 - 30 && mouseX < 73 - 55 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFusionComboTime()/NCConfig.fusion_fuel_use, 3));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(100D*getFusionComboPower()*NCConfig.fusion_base_power, 5, "RF/t"));
-				double optimalTemp = NCMath.round(R*getFusionComboHeatVariable(), 2);
-				tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + (optimalTemp < 20000000D/1000D ? TextFormatting.WHITE : TextFormatting.GOLD) + UnitHelper.prefix(optimalTemp, 5, "K", 2));
+				tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFusionComboTime() / fusion_fuel_use, 3));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(100D * getFusionComboPower() * fusion_base_power, 5, "RF/t"));
+				double optimalTemp = NCMath.round(R * getFusionComboHeatVariable(), 2);
+				tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + (optimalTemp < 20000000D / 1000D ? TextFormatting.WHITE : TextFormatting.GOLD) + UnitHelper.prefix(optimalTemp, 5, "K", 2));
 			}
 			
 			return tooltip;
@@ -817,12 +970,16 @@ public class JEIRecipeWrapper {
 		}
 		
 		protected int getCoolantHeaterCoolingRate() {
-			if (recipe == null) return 40;
+			if (recipe == null) {
+				return 40;
+			}
 			return recipe.getCoolantHeaterCoolingRate();
 		}
 		
 		protected String[] getCoolantHeaterJEIInfo() {
-			if (recipe == null) return null;
+			if (recipe == null) {
+				return null;
+			}
 			return recipe.getCoolantHeaterJEIInfo();
 		}
 		
@@ -833,7 +990,9 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getCoolantHeaterCoolingRate(), 5, "H/t"));
 				if (getCoolantHeaterJEIInfo() != null) {
-					for (String posInfo : getCoolantHeaterJEIInfo()) tooltip.add(TextFormatting.AQUA + posInfo);
+					for (String posInfo : getCoolantHeaterJEIInfo()) {
+						tooltip.add(TextFormatting.AQUA + posInfo);
+					}
 				}
 			}
 			
@@ -851,11 +1010,13 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return recipe != null ? (int) (recipe.getHeatExchangerProcessTime()/400D) : 40;
+			return recipe != null ? (int) (recipe.getHeatExchangerProcessTime() / 400D) : 40;
 		}
 		
 		protected int getHeatExchangerProcessTime() {
-			if (recipe == null) return 16000;
+			if (recipe == null) {
+				return 16000;
+			}
 			return (int) recipe.getHeatExchangerProcessTime();
 		}
 		
@@ -889,16 +1050,20 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getCondenserProcessTime()/2D);
+			return (int) (getCondenserProcessTime() / 2D);
 		}
 		
 		protected double getCondenserProcessTime() {
-			if (recipe == null) return 40D;
+			if (recipe == null) {
+				return 40D;
+			}
 			return recipe.getCondenserProcessTime();
 		}
 		
 		protected int getCondenserCondensingTemperature() {
-			if (recipe == null) return 300;
+			if (recipe == null) {
+				return 300;
+			}
 			return recipe.getCondenserCondensingTemperature();
 		}
 		
@@ -930,12 +1095,16 @@ public class JEIRecipeWrapper {
 		}
 		
 		protected double getTurbinePowerPerMB() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getTurbinePowerPerMB();
 		}
 		
 		protected double getTurbineExpansionLevel() {
-			if (recipe == null) return 1D;
+			if (recipe == null) {
+				return 1D;
+			}
 			return recipe.getTurbineExpansionLevel();
 		}
 		
@@ -945,7 +1114,7 @@ public class JEIRecipeWrapper {
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getTurbinePowerPerMB(), 2) + " RF/mB");
-				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + Math.round(100D*getTurbineExpansionLevel()) + "%");
+				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + Math.round(100D * getTurbineExpansionLevel()) + "%");
 			}
 			
 			return tooltip;
@@ -963,21 +1132,27 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return MathHelper.ceil(getScrubberProcessTime()/120);
+			return MathHelper.ceil(getScrubberProcessTime() / 120);
 		}
 		
 		protected double getScrubberProcessTime() {
-			if (recipe == null) return 1;
+			if (recipe == null) {
+				return 1;
+			}
 			return recipe.getScrubberProcessTime();
 		}
 		
 		protected int getScrubberProcessPower() {
-			if (recipe == null) return 0;
+			if (recipe == null) {
+				return 0;
+			}
 			return recipe.getScrubberProcessPower();
 		}
 		
 		protected double getScrubberProcessEfficiency() {
-			if (recipe == null) return 0D;
+			if (recipe == null) {
+				return 0D;
+			}
 			return recipe.getScrubberProcessEfficiency();
 		}
 		
@@ -988,7 +1163,7 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 69 - 31 && mouseY >= 34 - 30 && mouseX < 69 - 31 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + PROCESS_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getScrubberProcessTime(), 3));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + PROCESS_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getScrubberProcessPower(), 5, "RF/t"));
-				tooltip.add(TextFormatting.RED + PROCESS_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getScrubberProcessEfficiency()) + "%");
+				tooltip.add(TextFormatting.RED + PROCESS_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getScrubberProcessEfficiency()) + "%");
 			}
 			
 			return tooltip;

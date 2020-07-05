@@ -5,8 +5,7 @@ import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.ITileGui;
 import nc.tile.inventory.ITileInventory;
-import nc.tile.processor.IFluidProcessor;
-import nc.tile.processor.IUpgradable;
+import nc.tile.processor.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -42,8 +41,8 @@ public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor 
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
-		final boolean hasUpgrades = tile instanceof IUpgradable && ((IUpgradable)tile).hasUpgrades();
-		int upgrades = hasUpgrades ? ((IUpgradable)tile).getNumberOfUpgrades() : 0;
+		final boolean hasUpgrades = tile instanceof IUpgradable && ((IUpgradable) tile).hasUpgrades();
+		int upgrades = hasUpgrades ? ((IUpgradable) tile).getNumberOfUpgrades() : 0;
 		int invStart = upgrades;
 		int speedUpgradeSlot = 0;
 		int otherUpgradeSlot = 1;
@@ -59,12 +58,12 @@ public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor 
 			}
 			else if (index >= invStart) {
 				if (tile instanceof ITileInventory && hasUpgrades && itemstack1.getItem() == NCItems.upgrade) {
-					if (((ITileInventory)tile).isItemValidForSlot(speedUpgradeSlot, itemstack1)) {
+					if (((ITileInventory) tile).isItemValidForSlot(speedUpgradeSlot, itemstack1)) {
 						if (!mergeItemStack(itemstack1, speedUpgradeSlot, speedUpgradeSlot + 1, false)) {
 							return ItemStack.EMPTY;
 						}
 					}
-					else if (((ITileInventory)tile).isItemValidForSlot(otherUpgradeSlot, itemstack1)) {
+					else if (((ITileInventory) tile).isItemValidForSlot(otherUpgradeSlot, itemstack1)) {
 						if (!mergeItemStack(itemstack1, otherUpgradeSlot, otherUpgradeSlot + 1, false)) {
 							return ItemStack.EMPTY;
 						}

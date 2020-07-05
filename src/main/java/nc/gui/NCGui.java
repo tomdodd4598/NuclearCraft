@@ -9,15 +9,12 @@ import nc.container.slot.SlotFiltered;
 import nc.gui.element.NCButton;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.fluid.Tank;
-import nc.util.Lang;
-import nc.util.SoundHelper;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -46,8 +43,8 @@ public abstract class NCGui extends GuiContainer {
 	protected void renderHoveredToolTip(int x, int y) {
 		Slot slot = getSlotUnderMouse();
 		if (slot != null && mc.player.inventory.getItemStack().isEmpty()) {
-			if (slot instanceof SlotFiltered && ((SlotFiltered)slot).hasStackForRender()) {
-				renderToolTip(((SlotFiltered)slot).getStackForRender(), x, y);
+			if (slot instanceof SlotFiltered && ((SlotFiltered) slot).hasStackForRender()) {
+				renderToolTip(((SlotFiltered) slot).getStackForRender(), x, y);
 			}
 			else if (slot.getHasStack()) {
 				renderToolTip(slot.getStack(), x, y);
@@ -62,10 +59,12 @@ public abstract class NCGui extends GuiContainer {
 		if (mouseButton == 1 || mouseButton == 2) {
 			for (int i = 0; i < buttonList.size(); ++i) {
 				GuiButton guibutton = buttonList.get(i);
-				boolean mousePressed = guibutton instanceof NCButton ? ((NCButton)guibutton).mousePressed(mc, mouseX, mouseY, mouseButton) : false;
+				boolean mousePressed = guibutton instanceof NCButton ? ((NCButton) guibutton).mousePressed(mc, mouseX, mouseY, mouseButton) : false;
 				if (mousePressed) {
 					GuiScreenEvent.ActionPerformedEvent.Pre event = new GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, buttonList);
-					if (MinecraftForge.EVENT_BUS.post(event)) break;
+					if (MinecraftForge.EVENT_BUS.post(event)) {
+						break;
+					}
 					guibutton = event.getButton();
 					selectedButton = guibutton;
 					float soundPitch = 1F;
@@ -95,7 +94,8 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	protected void drawTooltip(List<String> text, int mouseX, int mouseY, int x, int y, int width, int height) {
-		int xPos = x + guiLeft; int yPos = y + guiTop;
+		int xPos = x + guiLeft;
+		int yPos = y + guiTop;
 		if (mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height) {
 			drawHoveringText(text, mouseX, mouseY);
 		}
@@ -118,14 +118,20 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	protected void drawFluidTooltip(Tank tank, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if (!tank.isEmpty()) drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+		if (!tank.isEmpty()) {
+			drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+		}
 	}
 	
 	protected void drawFilteredFluidTooltip(Tank tank, Tank filterTank, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if (tank.isEmpty()) {
-			if (!filterTank.isEmpty()) drawTooltip(fluidFilterInfo(filterTank), mouseX, mouseY, x, y, width, height + 1);
+			if (!filterTank.isEmpty()) {
+				drawTooltip(fluidFilterInfo(filterTank), mouseX, mouseY, x, y, width, height + 1);
+			}
 		}
-		else drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+		else {
+			drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+		}
 	}
 	
 	protected List<String> energyInfo(ITileEnergy tile) {
@@ -150,6 +156,6 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	protected int widthHalf(String string) {
-		return width(string)/2;
+		return width(string) / 2;
 	}
 }

@@ -1,9 +1,9 @@
 package nc.recipe.multiblock;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.*;
 
-import nc.config.NCConfig;
+import java.util.*;
+
 import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
 
@@ -15,9 +15,9 @@ public class FissionModeratorRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe("blockGraphite", NCConfig.fission_moderator_flux_factor[0], NCConfig.fission_moderator_efficiency[0]);
-		addRecipe("blockBeryllium", NCConfig.fission_moderator_flux_factor[1], NCConfig.fission_moderator_efficiency[1]);
-		addRecipe(NCBlocks.heavy_water_moderator, NCConfig.fission_moderator_flux_factor[2], NCConfig.fission_moderator_efficiency[2]);
+		addRecipe("blockGraphite", fission_moderator_flux_factor[0], fission_moderator_efficiency[0]);
+		addRecipe("blockBeryllium", fission_moderator_flux_factor[1], fission_moderator_efficiency[1]);
+		addRecipe(NCBlocks.heavy_water_moderator, fission_moderator_flux_factor[2], fission_moderator_efficiency[2]);
 	}
 	
 	@Override

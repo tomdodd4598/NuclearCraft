@@ -1,17 +1,14 @@
 package nc.model.entity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.model.*;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.entity.*;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class ModelFeralGhoul extends ModelBase {
+	
 	public ModelRenderer bipedRightArm;
 	public ModelRenderer bipedRightLeg;
 	public ModelRenderer bipedHead;
@@ -73,7 +70,9 @@ public class ModelFeralGhoul extends ModelBase {
 		
 		GlStateManager.pushMatrix();
 		
-		if (entityIn.isSneaking()) GlStateManager.translate(0F, 0.2F, 0F);
+		if (entityIn.isSneaking()) {
+			GlStateManager.translate(0F, 0.2F, 0F);
+		}
 		
 		bipedHead.render(scale);
 		bipedLeftLeg.render(scale);
@@ -88,14 +87,14 @@ public class ModelFeralGhoul extends ModelBase {
 	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-		boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
+		boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase) entityIn).getTicksElytraFlying() > 4;
 		
 		bipedHead.setRotationPoint(0F, 3.5F, -2.2F);
 		
 		bipedHead.rotateAngleY = netHeadYaw * 0.017453292F;
 		
 		if (flag) {
-			bipedHead.rotateAngleX = 0.11344640137963141F - (float)(Math.PI / 4D);
+			bipedHead.rotateAngleX = 0.11344640137963141F - (float) (Math.PI / 4D);
 		}
 		else {
 			bipedHead.rotateAngleX = 0.11344640137963141F + headPitch * 0.017453292F;
@@ -108,7 +107,7 @@ public class ModelFeralGhoul extends ModelBase {
 		float f = 1F;
 		
 		if (flag) {
-			f = (float)(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
+			f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
 			f = f / 0.2F;
 			f = f * f * f;
 		}
@@ -117,25 +116,25 @@ public class ModelFeralGhoul extends ModelBase {
 			f = 1F;
 		}
 		
-		bipedRightArm.rotateAngleX = -0.3490658503988659F + MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 2F * limbSwingAmount * 0.5F / f;
+		bipedRightArm.rotateAngleX = -0.3490658503988659F + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2F * limbSwingAmount * 0.5F / f;
 		bipedLeftArm.rotateAngleX = -0.3490658503988659F + MathHelper.cos(limbSwing * 0.6662F) * 2F * limbSwingAmount * 0.5F / f;
 		bipedRightArm.rotateAngleZ = 0.10000736613927509F;
 		bipedLeftArm.rotateAngleZ = -0.10000736613927509F;
 		bipedRightLeg.rotateAngleX = -0.017453292519943295F + MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-		bipedLeftLeg.rotateAngleX = -0.017453292519943295F + MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
+		bipedLeftLeg.rotateAngleX = -0.017453292519943295F + MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / f;
 		bipedRightLeg.rotateAngleY = 0F;
 		bipedLeftLeg.rotateAngleY = 0F;
 		bipedRightLeg.rotateAngleZ = 0.02617993877991494F;
 		bipedLeftLeg.rotateAngleZ = -0.02617993877991494F;
 		
 		if (isRiding) {
-			bipedRightArm.rotateAngleX += -0.3490658503988659F - ((float)Math.PI / 5F);
-			bipedLeftArm.rotateAngleX += -((float)Math.PI / 5F);
+			bipedRightArm.rotateAngleX += -0.3490658503988659F - (float) Math.PI / 5F;
+			bipedLeftArm.rotateAngleX += -((float) Math.PI / 5F);
 			bipedRightLeg.rotateAngleX = -1.4137167F;
-			bipedRightLeg.rotateAngleY = ((float)Math.PI / 10F);
+			bipedRightLeg.rotateAngleY = (float) Math.PI / 10F;
 			bipedRightLeg.rotateAngleZ = 0.07853982F;
 			bipedLeftLeg.rotateAngleX = -1.4137167F;
-			bipedLeftLeg.rotateAngleY = -((float)Math.PI / 10F);
+			bipedLeftLeg.rotateAngleY = -((float) Math.PI / 10F);
 			bipedLeftLeg.rotateAngleZ = -0.07853982F;
 		}
 		
@@ -143,40 +142,40 @@ public class ModelFeralGhoul extends ModelBase {
 		bipedRightArm.rotateAngleZ = 0.10000736613927509F;
 		
 		switch (leftArmPose) {
-		case EMPTY:
-			bipedLeftArm.rotateAngleY = 0.10000736613927509F;
-			break;
-		case BLOCK:
-			bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - 0.9424779F;
-			bipedLeftArm.rotateAngleY = 0.5235988F;
-			break;
-		case ITEM:
-			bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F);
-			bipedLeftArm.rotateAngleY = 0F;
-		default:
-			break;
+			case EMPTY:
+				bipedLeftArm.rotateAngleY = 0.10000736613927509F;
+				break;
+			case BLOCK:
+				bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - 0.9424779F;
+				bipedLeftArm.rotateAngleY = 0.5235988F;
+				break;
+			case ITEM:
+				bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - (float) Math.PI / 10F;
+				bipedLeftArm.rotateAngleY = 0F;
+			default:
+				break;
 		}
 		
 		switch (rightArmPose) {
-		case EMPTY:
-			bipedRightArm.rotateAngleY = -0.10000736613927509F;
-			break;
-		case BLOCK:
-			bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - 0.9424779F;
-			bipedRightArm.rotateAngleY = -0.5235988F;
-			break;
-		case ITEM:
-			bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F);
-			bipedRightArm.rotateAngleY = 0F;
-		default:
-			break;
+			case EMPTY:
+				bipedRightArm.rotateAngleY = -0.10000736613927509F;
+				break;
+			case BLOCK:
+				bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - 0.9424779F;
+				bipedRightArm.rotateAngleY = -0.5235988F;
+				break;
+			case ITEM:
+				bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - (float) Math.PI / 10F;
+				bipedRightArm.rotateAngleY = 0F;
+			default:
+				break;
 		}
 		
 		if (swingProgress > 0F) {
 			EnumHandSide enumhandside = getMainHand(entityIn);
 			ModelRenderer modelrenderer = getArmForSide(enumhandside);
 			float f1 = swingProgress;
-			bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt(f1) * ((float)Math.PI * 2F)) * 0.2F;
+			bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt(f1) * ((float) Math.PI * 2F)) * 0.2F;
 			
 			if (enumhandside == EnumHandSide.LEFT) {
 				bipedBody.rotateAngleY *= -1F;
@@ -193,11 +192,11 @@ public class ModelFeralGhoul extends ModelBase {
 			f1 = f1 * f1;
 			f1 = f1 * f1;
 			f1 = 1F - f1;
-			float f2 = MathHelper.sin(f1 * (float)Math.PI);
-			float f3 = MathHelper.sin(swingProgress * (float)Math.PI) * -(bipedHead.rotateAngleX - 0.7F) * 0.75F;
-			modelrenderer.rotateAngleX = (float)(modelrenderer.rotateAngleX - (f2 * 1.2D + f3));
+			float f2 = MathHelper.sin(f1 * (float) Math.PI);
+			float f3 = MathHelper.sin(swingProgress * (float) Math.PI) * -(bipedHead.rotateAngleX - 0.7F) * 0.75F;
+			modelrenderer.rotateAngleX = (float) (modelrenderer.rotateAngleX - (f2 * 1.2D + f3));
 			modelrenderer.rotateAngleY += bipedBody.rotateAngleY * 2F;
-			modelrenderer.rotateAngleZ += MathHelper.sin(swingProgress * (float)Math.PI) * -0.4F;
+			modelrenderer.rotateAngleZ += MathHelper.sin(swingProgress * (float) Math.PI) * -0.4F;
 		}
 		
 		bipedBody.rotateAngleX = 0.4363323129985824F;
@@ -212,17 +211,7 @@ public class ModelFeralGhoul extends ModelBase {
 		
 		copyModelAngles(bipedHead, bipedHeadwear);
 		
-		/*f = MathHelper.sin(swingProgress * (float)Math.PI);
-		float f1 = MathHelper.sin((1F - (1F - swingProgress) * (1F - swingProgress)) * (float)Math.PI);
-		bipedRightArm.rotateAngleZ = 0F;
-		bipedLeftArm.rotateAngleZ = 0F;
-		bipedRightArm.rotateAngleY = -(0.1F - f * 0.6F);
-		bipedLeftArm.rotateAngleY = 0.1F - f * 0.6F;
-		float f2 = -(float)(Math.PI / 2.25D);
-		bipedRightArm.rotateAngleX = f2;
-		bipedLeftArm.rotateAngleX = f2;
-		bipedRightArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
-		bipedLeftArm.rotateAngleX += f * 1.2F - f1 * 0.4F;*/
+		/* f = MathHelper.sin(swingProgress * (float)Math.PI); float f1 = MathHelper.sin((1F - (1F - swingProgress) * (1F - swingProgress)) * (float)Math.PI); bipedRightArm.rotateAngleZ = 0F; bipedLeftArm.rotateAngleZ = 0F; bipedRightArm.rotateAngleY = -(0.1F - f * 0.6F); bipedLeftArm.rotateAngleY = 0.1F - f * 0.6F; float f2 = -(float)(Math.PI / 2.25D); bipedRightArm.rotateAngleX = f2; bipedLeftArm.rotateAngleX = f2; bipedRightArm.rotateAngleX += f * 1.2F - f1 * 0.4F; bipedLeftArm.rotateAngleX += f * 1.2F - f1 * 0.4F; */
 		bipedRightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
 		bipedLeftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
 		bipedRightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
@@ -234,7 +223,7 @@ public class ModelFeralGhoul extends ModelBase {
 		super.setModelAttributes(model);
 		
 		if (model instanceof ModelFeralGhoul) {
-			ModelFeralGhoul modelFeralGhoul = (ModelFeralGhoul)model;
+			ModelFeralGhoul modelFeralGhoul = (ModelFeralGhoul) model;
 			leftArmPose = modelFeralGhoul.leftArmPose;
 			rightArmPose = modelFeralGhoul.rightArmPose;
 		}
@@ -250,7 +239,7 @@ public class ModelFeralGhoul extends ModelBase {
 	
 	protected EnumHandSide getMainHand(Entity entityIn) {
 		if (entityIn instanceof EntityLivingBase) {
-			EntityLivingBase entitylivingbase = (EntityLivingBase)entityIn;
+			EntityLivingBase entitylivingbase = (EntityLivingBase) entityIn;
 			EnumHandSide enumhandside = entitylivingbase.getPrimaryHand();
 			return entitylivingbase.swingingHand == EnumHand.MAIN_HAND ? enumhandside : enumhandside.opposite();
 		}

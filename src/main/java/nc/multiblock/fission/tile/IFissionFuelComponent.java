@@ -1,13 +1,12 @@
 package nc.multiblock.fission.tile;
 
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
-import nc.config.NCConfig;
+import static nc.config.NCConfig.fission_neutron_reach;
+import static nc.recipe.NCRecipes.*;
+
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.fission.FissionReactor;
-import nc.recipe.NCRecipes;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -46,13 +45,13 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public LongSet[] getPassiveModeratorCaches();
 	
-	public Long[] getActiveModeratorCache();
+	public LongSet[] getActiveModeratorCaches();
 	
-	public ModeratorLineComponentCache[] getModeratorLineComponentCaches();
+	public ModeratorLine[] getModeratorLineCaches();
 	
 	public LongSet[] getPassiveReflectorModeratorCaches();
 	
-	public Long[] getActiveReflectorModeratorCache();
+	public LongSet[] getActiveReflectorModeratorCaches();
 	
 	public LongSet getActiveReflectorCache();
 	
@@ -65,10 +64,10 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 			Double lineEfficiency = getModeratorLineEfficiencies()[dir.getIndex()];
 			if (lineEfficiency != null) {
 				count++;
-				efficiency += (getModeratorLineFluxes()[dir.getIndex()] == 0 ? 0D : lineEfficiency);
+				efficiency += getModeratorLineFluxes()[dir.getIndex()] == 0 ? 0D : lineEfficiency;
 			}
 		}
-		return count == 0 ? 0D : efficiency/count;
+		return count == 0 ? 0D : efficiency / count;
 	}
 	
 	public double getFluxEfficiencyFactor();
@@ -78,97 +77,102 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		return 1D;
 	}
 	
+	@Override
+	public default boolean canSupportActiveModerator(boolean activeModeratorPos) {
+		return activeModeratorPos;
+	}
+	
 	public double getEfficiency();
 	
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
 	public boolean isSelfPriming();
 	
-	public default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
+	public default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (!isFluxSearched() && isProducingFlux()) {
 			setFluxSearched(true);
 		}
-		else return;
+		else {
+			return;
+		}
 		
-		getLogic().distributeFluxFromFuelComponent(this, fluxSearchCache);
+		getLogic().distributeFluxFromFuelComponent(this, fluxSearchCache, componentFailCache, assumedValidCache);
 	}
 	
-	public default void defaultDistributeFlux(final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
+	public default void defaultDistributeFlux(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
 			BlockPos offPos = getTilePos().offset(dir);
-			ModeratorLineBlockInfo activeInfo = getModeratorComponentInfo(offPos, true);
+			ModeratorBlockInfo activeInfo = componentFailCache.containsKey(offPos.toLong()) ? null : getModeratorBlockInfo(offPos, dir, canSupportActiveModerator(true));
+			
 			if (activeInfo != null && !activeInfo.blockingFlux) {
-				final LongSet passiveModeratorCache = new LongOpenHashSet();
-				final ObjectSet<ModeratorLineBlockInfo> passiveComponentInfoCache = new ObjectOpenHashSet<>();
-				int moderatorFlux = activeInfo.fluxFactor;
+				final ModeratorLine line = new ModeratorLine(new ObjectArrayList<>(), this);
+				line.info.add(activeInfo);
+				
+				line.flux = activeInfo.fluxFactor;
 				double moderatorEfficiency = activeInfo.efficiency;
-				for (int i = 2; i <= NCConfig.fission_neutron_reach + 1; i++) {
+				
+				for (int i = 2; i <= fission_neutron_reach + 1; i++) {
 					offPos = getTilePos().offset(dir, i);
-					ModeratorLineBlockInfo info = getModeratorComponentInfo(offPos, false);
+					ModeratorBlockInfo info = componentFailCache.containsKey(offPos.toLong()) ? null : getModeratorBlockInfo(offPos, dir, canSupportActiveModerator(false));
 					if (info != null) {
 						if (info.blockingFlux) {
-							passiveModeratorCache.clear();
-							passiveComponentInfoCache.clear();
 							continue dirLoop;
 						}
-						if (info.component != null) {
-							passiveComponentInfoCache.add(info);
-						}
-						passiveModeratorCache.add(offPos.toLong());
-						moderatorFlux += info.fluxFactor;
+						line.info.add(info);
+						
+						line.flux += info.fluxFactor;
 						moderatorEfficiency += info.efficiency;
 					}
 					else {
 						IFissionFuelComponent fuelComponent = getLogic().getNextFuelComponent(this, offPos);
 						if (fuelComponent != null) {
-							fuelComponent.addFlux(moderatorFlux);
-							fuelComponent.getModeratorLineFluxes()[dir.getOpposite().getIndex()] = moderatorFlux;
-							fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency/(i - 1);
+							line.fluxSink = fuelComponent;
+							fuelComponent.addFlux(line.flux);
+							fuelComponent.getModeratorLineFluxes()[dir.getOpposite().getIndex()] = line.flux;
+							fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency / (i - 1);
 							fuelComponent.incrementHeatMultiplier();
 							
-							updateModeratorLine(fuelComponent, offPos, dir, moderatorFlux, passiveModeratorCache, passiveComponentInfoCache, activeInfo);
+							updateModeratorLine(fuelComponent, dir, line, assumedValidCache);
 							
 							fluxSearchCache.add(fuelComponent);
 						}
 						else {
 							IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
 							if (component instanceof IFissionFluxSink) {
-								IFissionFluxSink fluxAcceptor = (IFissionFluxSink) component;
-								if (fluxAcceptor.isAcceptingFlux(dir.getOpposite())) {
-									fluxAcceptor.addFlux(moderatorFlux);
-									getModeratorLineFluxes()[dir.getIndex()] = moderatorFlux;
-									getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.moderatorLineEfficiencyFactor()*moderatorEfficiency/(i - 1);
+								IFissionFluxSink fluxSink = (IFissionFluxSink) component;
+								if (fluxSink.isAcceptingFlux(dir.getOpposite())) {
+									line.fluxSink = fluxSink;
+									fluxSink.addFlux(line.flux);
+									getModeratorLineFluxes()[dir.getIndex()] = line.flux;
+									getModeratorLineEfficiencies()[dir.getIndex()] = fluxSink.moderatorLineEfficiencyFactor() * moderatorEfficiency / (i - 1);
 									incrementHeatMultiplier();
 									
-									updateModeratorLine(fluxAcceptor, offPos, dir, moderatorFlux, passiveModeratorCache, passiveComponentInfoCache, activeInfo);
+									updateModeratorLine(fluxSink, dir, line, assumedValidCache);
 								}
 							}
-							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
-								ProcessorRecipe recipe = blockRecipe(NCRecipes.fission_reflector, offPos);
+							else if (i - 1 <= fission_neutron_reach / 2) {
+								ProcessorRecipe recipe = RecipeHelper.blockRecipe(fission_reflector, getTileWorld(), offPos);
 								if (recipe != null) {
-									int reflectedFlux = (int) Math.floor(2D*moderatorFlux*recipe.getFissionReflectorReflectivity());
-									addFlux(reflectedFlux);
-									getModeratorLineFluxes()[dir.getIndex()] = reflectedFlux;
-									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency()*moderatorEfficiency/(i - 1);
+									line.reflectorRecipe = recipe;
+									line.flux = (int) Math.floor(2D * line.flux * recipe.getFissionReflectorReflectivity());
+									addFlux(line.flux);
+									getModeratorLineFluxes()[dir.getIndex()] = line.flux;
+									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency() * moderatorEfficiency / (i - 1);
 									incrementHeatMultiplier();
 									
 									if (isFunctional()) {
-										onModeratorLineComplete(passiveComponentInfoCache, reflectedFlux);
-										addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, passiveModeratorCache, passiveComponentInfoCache);
-										activeInfo.addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
+										onModeratorLineComplete(line, dir);
+										addToModeratorCache(line, getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache, assumedValidCache);
 										getMultiblock().activeReflectorCache.add(offPos.toLong());
 									}
 									else {
-										getModeratorLineComponentCaches()[dir.getIndex()] = new ModeratorLineComponentCache(passiveComponentInfoCache, reflectedFlux);
-										addToPassiveModeratorCache(getPassiveReflectorModeratorCaches()[dir.getIndex()], passiveModeratorCache, passiveComponentInfoCache);
-										activeInfo.addToModeratorCache(dir, getActiveReflectorModeratorCache(), getPassiveReflectorModeratorCaches()[dir.getIndex()]);
+										getModeratorLineCaches()[dir.getIndex()] = line;
+										addToModeratorCache(line, dir, getActiveReflectorModeratorCaches(), getPassiveReflectorModeratorCaches(), assumedValidCache);
 										getActiveReflectorCache().add(offPos.toLong());
 									}
 								}
 							}
 						}
-						passiveModeratorCache.clear();
-						passiveComponentInfoCache.clear();
 						continue dirLoop;
 					}
 				}
@@ -176,152 +180,154 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public static class ModeratorLineComponentCache {
+	public static class ModeratorLine {
 		
-		public final ObjectSet<ModeratorLineBlockInfo> infoCache;
-		public final int flux;
+		public final ObjectList<ModeratorBlockInfo> info;
+		public final IFissionFuelComponent fuelComponent;
+		public IFissionFluxSink fluxSink = null;
+		public ProcessorRecipe reflectorRecipe = null;
+		public int flux = 0;
 		
-		public ModeratorLineComponentCache(ObjectSet<ModeratorLineBlockInfo> infoCache, int flux) {
-			this.infoCache = infoCache;
-			this.flux = flux;
+		public ModeratorLine(ObjectList<ModeratorBlockInfo> info, IFissionFuelComponent fuelComponent) {
+			this.info = new ObjectArrayList<>(info);
+			this.fuelComponent = fuelComponent;
+		}
+		
+		public boolean hasValidEndpoint() {
+			return fluxSink != null && fluxSink.isFunctional() || reflectorRecipe != null;
 		}
 	}
 	
-	public default ModeratorLineBlockInfo getModeratorComponentInfo(BlockPos pos, boolean activeModeratorPos) {
+	public default ModeratorBlockInfo getModeratorBlockInfo(BlockPos pos, EnumFacing dir, boolean validActiveModeratorPos) {
 		IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
 		if (component != null) {
-			return component.getModeratorComponentInfo(activeModeratorPos);
+			return component.getModeratorBlockInfo(dir, validActiveModeratorPos);
 		}
 		
-		ProcessorRecipe recipe = blockRecipe(NCRecipes.fission_moderator, pos);
+		ProcessorRecipe recipe = RecipeHelper.blockRecipe(fission_moderator, getTileWorld(), pos);
 		if (recipe != null) {
-			return new ModeratorLineBlockInfo(pos, null, false, activeModeratorPos, recipe.getFissionModeratorFluxFactor(), recipe.getFissionModeratorEfficiency());
+			return new ModeratorBlockInfo(pos, null, false, validActiveModeratorPos, recipe.getFissionModeratorFluxFactor(), recipe.getFissionModeratorEfficiency());
 		}
 		
 		return null;
 	}
 	
-	public static class ModeratorLineBlockInfo {
+	public static class ModeratorBlockInfo {
 		
 		public final long posLong;
 		public final IFissionComponent component;
 		public final boolean blockingFlux;
-		public final boolean validActiveModerator;
+		public boolean validActiveModeratorPos;
 		public final int fluxFactor;
 		public final double efficiency;
 		
-		public ModeratorLineBlockInfo(BlockPos pos, IFissionComponent component, boolean blockingFlux, boolean validActiveModerator, int fluxFactor, double efficiency) {
+		public ModeratorBlockInfo(BlockPos pos, IFissionComponent component, boolean blockingFlux, boolean validActiveModeratorPos, int fluxFactor, double efficiency) {
 			posLong = pos.toLong();
 			this.component = component;
 			this.blockingFlux = blockingFlux;
-			this.validActiveModerator = validActiveModerator;
+			this.validActiveModeratorPos = validActiveModeratorPos;
 			this.fluxFactor = fluxFactor;
 			this.efficiency = efficiency;
 		}
 		
-		public void addToModeratorCache(LongSet activeCache, LongSet passiveCache) {
-			if (component != null) {
-				component.onAddedToModeratorCache(this);
-			}
-			else {
-				(validActiveModerator ? activeCache : passiveCache).add(posLong);
-			}
-		}
-		
-		public void addToModeratorCache(EnumFacing dir, Long[] activeCache, LongSet passiveCache) {
-			if (component != null) {
-				component.onAddedToModeratorCache(this);
-			}
-			else {
-				if (validActiveModerator) activeCache[dir.getIndex()] = posLong;
-				else passiveCache.add(posLong);
-			}
-		}
-		
-		public void addToPassiveModeratorCache(LongSet passiveCache) {
-			if (component != null) {
-				component.onAddedToModeratorCache(this);
-			}
-			else {
-				passiveCache.add(posLong);
-			}
-		}
-		
-		public void onModeratorLineComplete(int flux) {
-			if (component != null) {
-				component.onModeratorLineComplete(this, flux);
-			}
+		public void updateModeratorPosValidity(boolean validActiveModeratorPos) {
+			this.validActiveModeratorPos = this.validActiveModeratorPos || validActiveModeratorPos;
 		}
 	}
 	
-	// Don't iterate if there are no fission components
-	public static void addToPassiveModeratorCache(LongSet passiveModeratorCache, LongSet newPassiveModerators, ObjectSet<ModeratorLineBlockInfo> newPassiveComponentInfo) {
-		if (newPassiveComponentInfo.isEmpty()) {
-			passiveModeratorCache.addAll(newPassiveModerators);
-		}
-		else for (ModeratorLineBlockInfo info : newPassiveComponentInfo) {
-			info.addToPassiveModeratorCache(passiveModeratorCache);
+	/** Adds to the full reactor cache, not the local cache! */
+	public static void addToModeratorCache(ModeratorLine line, LongSet activeCache, LongSet passiveCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		for (ModeratorBlockInfo info : line.info) {
+			addToModeratorCache(info, activeCache, passiveCache, assumedValidCache);
 		}
 	}
 	
-	public static void onModeratorLineComplete(ObjectSet<ModeratorLineBlockInfo> newPassiveComponentInfo, int flux) {
-		for (ModeratorLineBlockInfo info : newPassiveComponentInfo) {
-			info.onModeratorLineComplete(flux);
-		}
-	}
-	
-	public default void updateModeratorLine(IFissionFluxSink fluxAcceptor, BlockPos fluxAcceptorPos, EnumFacing dir, int flux, LongSet newPassiveModerators, ObjectSet<ModeratorLineBlockInfo> newPassiveComponentInfo, ModeratorLineBlockInfo activeInfo) {
-		fluxAcceptor.refreshIsProcessing(false);
-		if (isFunctional() && fluxAcceptor.isFunctional()) {
-			onModeratorLineComplete(newPassiveComponentInfo, flux);
-			addToPassiveModeratorCache(getMultiblock().passiveModeratorCache, newPassiveModerators, newPassiveComponentInfo);
-			activeInfo.addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
-			getModeratorComponentInfo(fluxAcceptorPos.offset(dir.getOpposite()), true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
+	/** Adds to the full reactor cache, not the local cache! */
+	public static void addToModeratorCache(ModeratorBlockInfo info, LongSet activeCache, LongSet passiveCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		if (info.component != null) {
+			assumedValidCache.put(info.posLong, info.component);
+			info.component.onAddedToModeratorCache(info);
 		}
 		else {
-			getModeratorLineComponentCaches()[dir.getIndex()] = new ModeratorLineComponentCache(newPassiveComponentInfo, flux);
-			addToPassiveModeratorCache(getPassiveModeratorCaches()[dir.getIndex()], newPassiveModerators, newPassiveComponentInfo);
-			activeInfo.addToModeratorCache(dir, getActiveModeratorCache(), getPassiveModeratorCaches()[dir.getIndex()]);
+			(info.validActiveModeratorPos ? activeCache : passiveCache).add(info.posLong);
 		}
-		getAdjacentFluxSinks()[dir.getIndex()] = fluxAcceptor;
 	}
 	
-	// No need to create ModeratorLineBlockInfo here, as no new active moderator positions are being found
+	/** Adds to local cache, not the reactor cache! */
+	public static void addToModeratorCache(ModeratorLine line, EnumFacing dir, LongSet[] activeCache, LongSet[] passiveCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		for (ModeratorBlockInfo info : line.info) {
+			addToModeratorCache(info, dir, activeCache, passiveCache, assumedValidCache);
+		}
+	}
+	
+	/** Adds to local cache, not the reactor cache! */
+	public static void addToModeratorCache(ModeratorBlockInfo info, EnumFacing dir, LongSet[] activeCache, LongSet[] passiveCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		if (info.component != null) {
+			assumedValidCache.put(info.posLong, info.component);
+			info.component.onAddedToModeratorCache(info);
+		}
+		else {
+			if (info.validActiveModeratorPos) {
+				activeCache[dir.getIndex()].add(info.posLong);
+			}
+			else {
+				passiveCache[dir.getIndex()].add(info.posLong);
+			}
+		}
+	}
+	
+	public static void onModeratorLineComplete(ModeratorLine line, EnumFacing dir) {
+		for (ModeratorBlockInfo info : line.info) {
+			if (info.component != null) {
+				info.component.onModeratorLineComplete(line, info, dir);
+			}
+		}
+	}
+	
+	public default void updateModeratorLine(IFissionFluxSink fluxSink, EnumFacing dir, ModeratorLine line, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		fluxSink.refreshIsProcessing(false);
+		line.info.get(line.info.size() - 1).updateModeratorPosValidity(fluxSink.canSupportActiveModerator(true));
+		if (isFunctional() && fluxSink.isFunctional()) {
+			onModeratorLineComplete(line, dir);
+			addToModeratorCache(line, getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache, assumedValidCache);
+		}
+		else {
+			getModeratorLineCaches()[dir.getIndex()] = line;
+			addToModeratorCache(line, dir, getActiveModeratorCaches(), getPassiveModeratorCaches(), assumedValidCache);
+		}
+		getAdjacentFluxSinks()[dir.getIndex()] = fluxSink;
+	}
+	
 	public default void defaultRefreshLocal() {
-		if (!isFunctional()) return;
+		if (!isFunctional()) {
+			return;
+		}
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
-			IFissionFluxSink fluxAcceptor = getAdjacentFluxSinks()[dir.getIndex()];
-			if (fluxAcceptor != null && fluxAcceptor.isFunctional()) {
-				ModeratorLineComponentCache componentCache = getModeratorLineComponentCaches()[dir.getIndex()];
-				if (componentCache != null) {
-					onModeratorLineComplete(componentCache.infoCache, componentCache.flux);
-				}
+			ModeratorLine line = getModeratorLineCaches()[dir.getIndex()];
+			if (line != null && line.hasValidEndpoint()) {
+				onModeratorLineComplete(line, dir);
 				getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCaches()[dir.getIndex()]);
-				Long posLong = getActiveModeratorCache()[dir.getIndex()];
-				if (posLong != null) {
-					getMultiblock().activeModeratorCache.add(posLong.longValue());
-				}
+				getMultiblock().activeModeratorCache.addAll(getActiveModeratorCaches()[dir.getIndex()]);
 			}
 			getMultiblock().passiveModeratorCache.addAll(getPassiveReflectorModeratorCaches()[dir.getIndex()]);
-			Long posLong = getActiveReflectorModeratorCache()[dir.getIndex()];
-			if (posLong != null) {
-				getMultiblock().activeModeratorCache.add(posLong.longValue());
-			}
+			getMultiblock().activeModeratorCache.addAll(getActiveReflectorModeratorCaches()[dir.getIndex()]);
 			getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 		}
 	}
 	
 	/** Fix to force adjacent moderators to be active */
-	public default void defaultRefreshModerators() {
-		if (!isFunctional()) return;
+	public default void defaultRefreshModerators(final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		if (!isFunctional()) {
+			return;
+		}
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
-			IFissionFluxSink fluxAcceptor = getAdjacentFluxSinks()[dir.getIndex()];
-			if (fluxAcceptor != null && fluxAcceptor.isFunctional()) {
+			IFissionFluxSink fluxSink = getAdjacentFluxSinks()[dir.getIndex()];
+			if (fluxSink != null && fluxSink.isFunctional()) {
 				BlockPos adjPos = getTilePos().offset(dir);
 				if (getMultiblock().passiveModeratorCache.contains(adjPos.toLong())) {
-					getModeratorComponentInfo(adjPos, true).addToModeratorCache(getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache);
+					addToModeratorCache(getModeratorBlockInfo(adjPos, dir, fluxSink.canSupportActiveModerator(true)), getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache, assumedValidCache);
 				}
 			}
 		}

@@ -6,14 +6,12 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
-import nc.util.ItemStackHelper;
+import nc.util.StackHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiItemRenderer extends Gui {
@@ -33,13 +31,13 @@ public class GuiItemRenderer extends Gui {
 	protected @Nonnull TextureAtlasSprite icon;
 	protected @Nonnull ResourceLocation texture;
 	
-	private int yPosition;
-	private int xPosition;
+	private final int yPosition;
+	private final int xPosition;
 	
 	private float alpha = 1F;
 	
 	public GuiItemRenderer(int x, int y, float alpha, @Nonnull ItemStack stack) {
-		this(x, y, alpha, stack.getItem(), ItemStackHelper.getMetadata(stack));
+		this(x, y, alpha, stack.getItem(), StackHelper.getMetadata(stack));
 	}
 	
 	public GuiItemRenderer(int x, int y, float alpha, @Nonnull Item item, int itemMeta) {
@@ -95,7 +93,7 @@ public class GuiItemRenderer extends Gui {
 	}
 	
 	public void setTexture(@Nonnull ResourceLocation textureName) {
-		this.texture = textureName;
+		texture = textureName;
 	}
 	
 	public static void bindTexture(String string) {

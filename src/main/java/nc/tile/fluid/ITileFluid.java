@@ -2,26 +2,18 @@ package nc.tile.fluid;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.tile.ITile;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.*;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 public interface ITileFluid extends ITile {
@@ -32,7 +24,9 @@ public interface ITileFluid extends ITile {
 	
 	// Tank Logic
 	
-	/** Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption */
+	/**
+	 * Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption
+	 */
 	public default boolean isNextToFill(@Nonnull EnumFacing side, int tankNumber, FluidStack resource) {
 		if (!getInputTanksSeparated()) {
 			return true;
@@ -50,7 +44,9 @@ public interface ITileFluid extends ITile {
 	}
 	
 	public default void clearAllTanks() {
-		for (Tank tank : getTanks()) tank.setFluidStored(null);
+		for (Tank tank : getTanks()) {
+			tank.setFluidStored(null);
+		}
 	}
 	
 	// Fluid Connections
@@ -63,9 +59,7 @@ public interface ITileFluid extends ITile {
 		return getFluidConnections()[side.getIndex()];
 	}
 	
-	/*public default void setFluidConnection(@Nonnull EnumFacing side, @Nonnull FluidConnection connection) {
-		getFluidConnections()[side.getIndex()] = connection.copy();
-	}*/
+	/* public default void setFluidConnection(@Nonnull EnumFacing side, @Nonnull FluidConnection connection) { getFluidConnections()[side.getIndex()] = connection.copy(); } */
 	
 	public default @Nonnull TankSorption getTankSorption(@Nonnull EnumFacing side, int tankNumber) {
 		return getFluidConnections()[side.getIndex()].getTankSorption(tankNumber);
@@ -174,21 +168,14 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	/*public default void spreadFluid() {
-		if (!NCConfig.passive_permeation || getTanks().isEmpty()) {
-			return;
-		}
-		for (EnumFacing side : EnumFacing.VALUES) {
-			spreadFluidToSide(side);
-		}
-	}*/
+	/* public default void spreadFluid() { if (!passive_permeation || getTanks().isEmpty()) { return; } for (EnumFacing side : EnumFacing.VALUES) { spreadFluidToSide(side); } } */
 	
 	public default void pushFluidToSide(@Nonnull EnumFacing side) {
 		if (!getFluidConnection(side).canConnect()) {
 			return;
 		}
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || (tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo())) {
+		if (tile == null || tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
 			return;
 		}
 		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
@@ -196,7 +183,7 @@ public interface ITileFluid extends ITile {
 			return;
 		}
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (!getTankSorption(side, i).canDrain() || getTanks().get(i).getFluid() == null /*|| !getTanks().get(i).canDrain()*/) {
+			if (!getTankSorption(side, i).canDrain() || getTanks().get(i).getFluid() == null /* || !getTanks ( ) . get ( i ) . canDrain ( ) */) {
 				continue;
 			}
 			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
@@ -204,19 +191,23 @@ public interface ITileFluid extends ITile {
 	}
 	
 	public default void spreadFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canConnect()) return;
+		if (!getFluidConnection(side).canConnect()) {
+			return;
+		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		
 		if (tile instanceof IFluidSpread) {
-			if (tile instanceof ITilePassive && !((ITilePassive)tile).canPushFluidsTo()) return;
+			if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
+				return;
+			}
 			
 			IFluidSpread other = (IFluidSpread) tile;
 			
 			for (int i = 0; i < getTanks().size(); i++) {
 				int diff = getTanks().get(i).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 				if (diff > 1) {
-					getTanks().get(i).drain(other.getTanks().get(0).fillInternal(getTanks().get(i).drain(diff/2, false), true), true);
+					getTanks().get(i).drain(other.getTanks().get(0).fillInternal(getTanks().get(i).drain(diff / 2, false), true), true);
 				}
 			}
 		}
@@ -266,7 +257,7 @@ public interface ITileFluid extends ITile {
 		setInputTanksSeparated(nbt.getBoolean("inputTanksSeparated"));
 		for (int i = 0; i < getTanks().size(); i++) {
 			setVoidUnusableFluidInput(i, nbt.getBoolean("voidUnusableFluidInput" + i));
-			int ordinal = nbt.hasKey("voidExcessFluidOutput" + i) ? (nbt.getBoolean("voidExcessFluidOutput" + i) ? 1 : 0) : nbt.getInteger("tankOutputSetting" + i);
+			int ordinal = nbt.hasKey("voidExcessFluidOutput" + i) ? nbt.getBoolean("voidExcessFluidOutput" + i) ? 1 : 0 : nbt.getInteger("tankOutputSetting" + i);
 			setTankOutputSetting(i, TankOutputSetting.values()[ordinal]);
 		}
 	}

@@ -1,37 +1,30 @@
 package nc.tile.energyFluid;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import nc.Global;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.InventoryTileWrapper;
-import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public abstract class TileEnergyFluidInventory extends TileEnergyFluid implements ITileInventory {
 	
-	private @Nonnull String inventoryName;
+	private @Nonnull final String inventoryName;
 	
-	private @Nonnull NonNullList<ItemStack> inventoryStacks;
+	private @Nonnull final NonNullList<ItemStack> inventoryStacks;
 	
 	private @Nonnull InventoryConnection[] inventoryConnections;
 	
-	private @Nonnull InventoryTileWrapper invWrapper;
-	
-	private @Nonnull List<ItemOutputSetting> itemOutputSettings;
+	private @Nonnull final List<ItemOutputSetting> itemOutputSettings;
 	
 	public TileEnergyFluidInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
 		this(name, size, inventoryConnections, capacity, capacity, energyConnections, fluidCapacity, allowedFluids, fluidConnections);
@@ -46,9 +39,10 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
-		invWrapper = new InventoryTileWrapper(this);
 		itemOutputSettings = new ArrayList<>();
-		for (int i = 0; i < size; i++) itemOutputSettings.add(ItemOutputSetting.DEFAULT);
+		for (int i = 0; i < size; i++) {
+			itemOutputSettings.add(ItemOutputSetting.DEFAULT);
+		}
 	}
 	
 	public TileEnergyFluidInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
@@ -56,9 +50,10 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
-		invWrapper = new InventoryTileWrapper(this);
 		itemOutputSettings = new ArrayList<>();
-		for (int i = 0; i < size; i++) itemOutputSettings.add(ItemOutputSetting.DEFAULT);
+		for (int i = 0; i < size; i++) {
+			itemOutputSettings.add(ItemOutputSetting.DEFAULT);
+		}
 	}
 	
 	// Inventory
@@ -81,11 +76,6 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	@Override
 	public void setInventoryConnections(@Nonnull InventoryConnection[] connections) {
 		inventoryConnections = connections;
-	}
-	
-	@Override
-	public @Nonnull InventoryTileWrapper getInventory() {
-		return invWrapper;
 	}
 	
 	@Override
@@ -131,7 +121,7 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandlerCapability(null);
+				return (T) getItemHandler(null);
 			}
 			return null;
 		}

@@ -1,11 +1,11 @@
 package nc.tile.internal.fluid;
 
+import nc.multiblock.tile.port.ITilePort;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.processor.IProcessor;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.*;
 
 public class FluidTileWrapper implements IFluidHandler {
 	
@@ -27,8 +27,11 @@ public class FluidTileWrapper implements IFluidHandler {
 		int amount = tile.fill(side, resource, doFill);
 		if (doFill && amount != 0) {
 			if (tile instanceof IProcessor) {
-				((IProcessor)tile).refreshRecipe();
-				((IProcessor)tile).refreshActivity();
+				((IProcessor) tile).refreshRecipe();
+				((IProcessor) tile).refreshActivity();
+			}
+			if (tile instanceof ITilePort) {
+				((ITilePort) tile).setRefreshTargetsFlag(true);
 			}
 		}
 		return amount;
@@ -37,8 +40,13 @@ public class FluidTileWrapper implements IFluidHandler {
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		FluidStack stack = tile.drain(side, resource, doDrain);
-		if (doDrain && (stack != null && stack.amount != 0)) {
-			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
+		if (doDrain && stack != null && stack.amount != 0) {
+			if (tile instanceof IProcessor) {
+				((IProcessor) tile).refreshActivity();
+			}
+			if (tile instanceof ITilePort) {
+				((ITilePort) tile).setRefreshTargetsFlag(true);
+			}
 		}
 		return stack;
 	}
@@ -46,8 +54,13 @@ public class FluidTileWrapper implements IFluidHandler {
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		FluidStack stack = tile.drain(side, maxDrain, doDrain);
-		if (doDrain && (stack != null && stack.amount != 0)) {
-			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
+		if (doDrain && stack != null && stack.amount != 0) {
+			if (tile instanceof IProcessor) {
+				((IProcessor) tile).refreshActivity();
+			}
+			if (tile instanceof ITilePort) {
+				((ITilePort) tile).setRefreshTargetsFlag(true);
+			}
 		}
 		return stack;
 	}

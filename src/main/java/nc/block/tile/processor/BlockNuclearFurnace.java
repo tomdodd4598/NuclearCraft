@@ -1,7 +1,6 @@
 package nc.block.tile.processor;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+import static nc.block.property.BlockProperties.*;
 
 import java.util.Random;
 
@@ -11,29 +10,20 @@ import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.util.BlockHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.*;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockNuclearFurnace extends Block implements ITileEntityProvider, IActivatable {
 	
@@ -63,7 +53,9 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_HORIZONTAL).getIndex();
-		if (state.getValue(ACTIVE).booleanValue()) i |= 8;
+		if (state.getValue(ACTIVE).booleanValue()) {
+			i |= 8;
+		}
 		return i;
 	}
 	
@@ -85,8 +77,12 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
-		if (world.isRemote) return true;
+		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+			return false;
+		}
+		if (world.isRemote) {
+			return true;
+		}
 		
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity instanceof TileNuclearFurnace) {
@@ -111,7 +107,9 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("incomplete-switch")
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-		if (!state.getValue(ACTIVE)) return;
+		if (!state.getValue(ACTIVE)) {
+			return;
+		}
 		EnumFacing facing = state.getValue(FACING_HORIZONTAL);
 		double d0 = pos.getX() + 0.5D;
 		double d1 = pos.getY() + rand.nextDouble() * 0.4D;
@@ -146,7 +144,7 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = world.getTileEntity(pos);
 		if (tileentity instanceof TileNuclearFurnace) {
-			InventoryHelper.dropInventoryItems(world, pos, ((TileNuclearFurnace)tileentity).getInventory());
+			InventoryHelper.dropInventoryItems(world, pos, (TileNuclearFurnace) tileentity);
 			world.updateComparatorOutputLevel(pos, this);
 		}
 		super.breakBlock(world, pos, state);

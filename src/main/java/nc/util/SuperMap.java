@@ -3,9 +3,7 @@ package nc.util;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 
 public abstract class SuperMap<KEY, T, M extends Map<KEY, ? extends T>> {
 	
@@ -37,6 +35,7 @@ public abstract class SuperMap<KEY, T, M extends Map<KEY, ? extends T>> {
 	}
 	
 	public static class SuperMapEntry<KEY, T> {
+		
 		private final Class<T> key;
 		private final Map<KEY, T> value;
 		

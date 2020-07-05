@@ -1,17 +1,16 @@
 package nc.container.processor;
 
-import nc.container.slot.SlotFurnace;
-import nc.container.slot.SlotProcessorInput;
-import nc.container.slot.SlotSpecificInput;
-import nc.recipe.NCRecipes;
+import static nc.recipe.NCRecipes.manufactory;
+
+import nc.container.slot.*;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerManufactory extends ContainerItemProcessor {
-
+	
 	public ContainerManufactory(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.manufactory);
+		super(player, tileEntity, manufactory);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		
@@ -22,12 +21,12 @@ public class ContainerManufactory extends ContainerItemProcessor {
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 8 + 18*j, 84 + 18*i));
+				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + 18 * i));
 			}
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 142));
+			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142));
 		}
 	}
 }

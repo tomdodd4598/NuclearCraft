@@ -10,15 +10,17 @@ public class WorldHelper {
 	
 	public static TileEntity getTileClient(int dimension, int x, int y, int z) {
 		World world = NuclearCraft.proxy.getWorld(dimension);
-		if (world == null)
+		if (world == null) {
 			return null;
+		}
 		return world.getTileEntity(new BlockPos(x, y, z));
 	}
 	
 	public static TileEntity getTileServer(int dimension, int x, int y, int z) {
 		World world = getWorld(dimension);
-		if (world == null)
+		if (world == null) {
 			return null;
+		}
 		return world.getTileEntity(new BlockPos(x, y, z));
 	}
 	
@@ -27,7 +29,9 @@ public class WorldHelper {
 	}
 	
 	public static TileEntity getLoadedTile(World world, BlockPos pos) {
-		if(world.isBlockLoaded(pos)) return world.getTileEntity(pos);
+		if (world.isBlockLoaded(pos)) {
+			return world.getTileEntity(pos);
+		}
 		return null;
 	}
 }

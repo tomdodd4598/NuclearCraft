@@ -9,14 +9,13 @@ import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public abstract class NCButton extends GuiButton {
 	
 	protected boolean isButtonPressed;
-
+	
 	public NCButton(int id, int x, int y, int width, int height) {
 		super(id, x, y, width, height, "");
 	}
@@ -27,7 +26,7 @@ public abstract class NCButton extends GuiButton {
 	}
 	
 	public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
-		isButtonPressed = mouseButton == 0 && enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
+		isButtonPressed = mouseButton == 0 && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		return isButtonPressed;
 	}
 	
@@ -63,7 +62,12 @@ public abstract class NCButton extends GuiButton {
 		}
 		
 		public ResourceLocation getTexture() {
-			if (isButtonPressed) return pressedTexture; else return unpressedTexture;
+			if (isButtonPressed) {
+				return pressedTexture;
+			}
+			else {
+				return unpressedTexture;
+			}
 		}
 	}
 	
@@ -76,7 +80,7 @@ public abstract class NCButton extends GuiButton {
 			super(id, x, y, width, height);
 			this.width = width;
 			this.height = height;
-			itemRenderer = new GuiItemRenderer(x + (width - 16)/2, y + (height - 16)/2, alph, item, itemMeta);
+			itemRenderer = new GuiItemRenderer(x + (width - 16) / 2, y + (height - 16) / 2, alph, item, itemMeta);
 		}
 		
 		@Override
@@ -108,7 +112,7 @@ public abstract class NCButton extends GuiButton {
 		
 		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
-			isButtonPressed = mouseButton == 0 && NCUtil.isModifierKeyDown() && enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
+			isButtonPressed = mouseButton == 0 && NCUtil.isModifierKeyDown() && enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			return isButtonPressed;
 		}
 	}

@@ -9,8 +9,7 @@ import nc.gui.NCGui;
 import nc.gui.element.GuiItemRenderer;
 import nc.multiblock.container.ContainerFissionIrradiator;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +19,7 @@ public class GuiFissionIrradiator extends NCGui {
 	
 	protected final TileFissionIrradiator irradiator;
 	protected final ResourceLocation gui_textures;
-
+	
 	public GuiFissionIrradiator(EntityPlayer player, TileFissionIrradiator irradiator) {
 		super(new ContainerFissionIrradiator(player, irradiator));
 		this.irradiator = irradiator;
@@ -60,16 +59,18 @@ public class GuiFissionIrradiator extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		
 		if (irradiator.clusterHeatCapacity >= 0L) {
-			int e = (int) Math.round(74D*irradiator.clusterHeatStored/irradiator.clusterHeatCapacity);
+			int e = (int) Math.round(74D * irradiator.clusterHeatStored / irradiator.clusterHeatCapacity);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
-		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		else {
+			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
+		}
 		
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
 	}
 	
 	protected int getCookProgressScaled(int pixels) {
-		if (irradiator.baseProcessTime/irradiator.getSpeedMultiplier() < 4D) {
+		if (irradiator.baseProcessTime / irradiator.getSpeedMultiplier() < 4D) {
 			return irradiator.isProcessing ? pixels : 0;
 		}
 		double i = irradiator.time, j = irradiator.baseProcessTime;

@@ -7,11 +7,8 @@ import javax.annotation.Nonnull;
 import nc.config.NCConfig;
 import nc.fluid.FluidPlasma;
 import nc.tile.passive.TilePassive;
-import nc.util.DamageSources;
-import nc.util.MaterialHelper;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialLiquid;
+import nc.util.*;
+import net.minecraft.block.material.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -44,7 +41,7 @@ public class BlockFluidPlasma extends NCBlockFluid {
 			if (mat != Material.FIRE && MaterialHelper.isReplaceable(mat) && !mat.isLiquid()) {
 				if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
 					worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
-					//super.updateTick(worldIn, pos, state, rand);
+					// super.updateTick(worldIn, pos, state, rand);
 					return;
 				}
 			}

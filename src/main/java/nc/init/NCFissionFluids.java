@@ -2,20 +2,16 @@ package nc.init;
 
 import static nc.config.NCConfig.register_fluid_blocks;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import nc.Global;
-import nc.NuclearCraft;
-import nc.block.fluid.BlockFluidFission;
-import nc.block.fluid.NCBlockFluid;
+import nc.*;
+import nc.block.fluid.*;
 import nc.block.item.NCItemBlock;
 import nc.fluid.FluidFission;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFissionFluids {
@@ -56,7 +52,8 @@ public class NCFissionFluids {
 		addIsotopeFluids("californium_252", 0x430B0E);
 		
 		addFuelFluids("tbu", 0x272727);
-		//fluidList.add(new FluidFission("tbu_za", FluidFission.getZAColor(0x272727)));
+		// fluidList.add(new FluidFission("tbu_za",
+		// FluidFission.getZAColor(0x272727)));
 		
 		addFuelFluids("leu_233", 0x1D321B);
 		addFuelFluids("heu_233", 0x123B0D);
@@ -93,7 +90,8 @@ public class NCFissionFluids {
 		addFuelFluids("hecf_251", 0x460215);
 		
 		addFuelFluids("depleted_tbu", 0x1D3826);
-		//fluidList.add(new FluidFission("depleted_tbu_za", FluidFission.getZAColor(0x1D3826)));
+		// fluidList.add(new FluidFission("depleted_tbu_za",
+		// FluidFission.getZAColor(0x1D3826)));
 		
 		addFuelFluids("depleted_leu_233", 0x5C5C53);
 		addFuelFluids("depleted_heu_233", 0x34484B);
@@ -132,14 +130,16 @@ public class NCFissionFluids {
 	
 	private static void addIsotopeFluids(String name, int color) {
 		fluidList.add(new FluidFission(name, color));
-		//fluidList.add(new FluidFission(name + "_za", FluidFission.getZAColor(color)));
+		// fluidList.add(new FluidFission(name + "_za",
+		// FluidFission.getZAColor(color)));
 	}
 	
 	private static void addFuelFluids(String name, int color) {
 		fluidList.add(new FluidFission(name, color));
 		fluidList.add(new FluidFission(name + "_fluoride", FluidFission.getFluorideColor(color)));
 		fluidList.add(new FluidFission(name + "_fluoride_flibe", FluidFission.getFLIBEColor(color)));
-		//fluidList.add(new FluidFission(name + "_za", FluidFission.getZAColor(color)));
+		// fluidList.add(new FluidFission(name + "_za",
+		// FluidFission.getZAColor(color)));
 	}
 	
 	public static void register() {

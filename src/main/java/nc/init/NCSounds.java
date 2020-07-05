@@ -1,10 +1,8 @@
 package nc.init;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCSounds {
@@ -20,11 +18,11 @@ public class NCSounds {
 	public static SoundEvent chems_wear_off;
 	public static SoundEvent rad_poisoning;
 	
-	//public static SoundEvent feral_ghoul_ambient;
-	//public static SoundEvent feral_ghoul_hurt;
+	// public static SoundEvent feral_ghoul_ambient;
+	// public static SoundEvent feral_ghoul_hurt;
 	public static SoundEvent feral_ghoul_death;
-	//public static SoundEvent feral_ghoul_step;
-	//public static SoundEvent feral_ghoul_fall;
+	// public static SoundEvent feral_ghoul_step;
+	// public static SoundEvent feral_ghoul_fall;
 	public static SoundEvent feral_ghoul_charge;
 	
 	public static SoundEvent wanderer;
@@ -42,11 +40,11 @@ public class NCSounds {
 		chems_wear_off = register("player.nc.chems_wear_off");
 		rad_poisoning = register("player.nc.rad_poisoning");
 		
-		//feral_ghoul_ambient = register("entity.nc.feral_ghoul_ambient");
-		//feral_ghoul_hurt = register("entity.nc.feral_ghoul_hurt");
+		// feral_ghoul_ambient = register("entity.nc.feral_ghoul_ambient");
+		// feral_ghoul_hurt = register("entity.nc.feral_ghoul_hurt");
 		feral_ghoul_death = register("entity.nc.feral_ghoul_death");
-		//feral_ghoul_step = register("entity.nc.feral_ghoul_step");
-		//feral_ghoul_fall = register("entity.nc.feral_ghoul_fall");
+		// feral_ghoul_step = register("entity.nc.feral_ghoul_step");
+		// feral_ghoul_fall = register("entity.nc.feral_ghoul_fall");
 		feral_ghoul_charge = register("entity.nc.feral_ghoul_charge");
 		
 		wanderer = register("music.nc.wanderer");

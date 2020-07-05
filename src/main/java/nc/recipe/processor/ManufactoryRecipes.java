@@ -1,19 +1,16 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-import java.util.List;
+import static nc.config.NCConfig.*;
+
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeHelper;
-import nc.util.ItemStackHelper;
-import nc.util.OreDictHelper;
+import nc.recipe.*;
+import nc.util.*;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.init.*;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -25,7 +22,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 	public ManufactoryRecipes() {
 		super("manufactory", 1, 0, 1, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addRecipe("coal", "dustCoal", 0.5D, 1D);
@@ -49,7 +46,9 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 			addRecipe("sand", "ingotSilicon", 1D, 1D);
 			addRecipe("ingotSilicon", "itemSilicon", 0.5D, 0.5D);
 		}
-		else addRecipe("sand", "itemSilicon", 1D, 1D);
+		else {
+			addRecipe("sand", "itemSilicon", 1D, 1D);
+		}
 		
 		addRecipe("obsidian", oreStack("dustObsidian", 4), 2D, 1D);
 		addRecipe("cobblestone", Blocks.SAND, 1D, 1D);
@@ -81,7 +80,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("sandstone", oreStack("dustSaltpeter", 2), 1D, 1D);
 		
 		// Advanced Rocketry
-		if (NCConfig.ore_processing) {
+		if (ore_processing) {
 			addRecipe("oreDilithium", oreStack("dustDilithium", 2), 1.25D, 1D);
 			addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		}
@@ -91,9 +90,11 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("crystalCertusQuartz", "dustCertusQuartz", 0.5D, 1D);
 		addRecipe("crystalFluix", "dustFluix", 0.5D, 1D);
 		
-		if (NCConfig.ore_processing) addMetalProcessingRecipes();
+		if (ore_processing) {
+			addMetalProcessingRecipes();
+		}
 		
-		addRecipe("plankWood", new ItemStack(Items.STICK, NCConfig.manufactory_wood[1]), 0.25D, 0.5D);
+		addRecipe("plankWood", new ItemStack(Items.STICK, manufactory_wood[1]), 0.25D, 0.5D);
 		addLogRecipes();
 	}
 	
@@ -103,7 +104,9 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		for (String ingot : OreDictionary.getOreNames()) {
 			if (ingot.startsWith("ingot")) {
 				String type = ingot.substring(5);
-				if (BLACKLIST.contains(type)) continue;
+				if (BLACKLIST.contains(type)) {
+					continue;
+				}
 				String ore = "ore" + type, dust = "dust" + type;
 				if (OreDictHelper.oreExists(dust)) {
 					addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
@@ -119,7 +122,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		for (ItemStack logWood : OreDictionary.getOres("logWood", false)) {
 			Block logBlock = Block.getBlockFromItem(logWood.getItem());
 			
-			if (ItemStackHelper.getMetadata(logWood) == OreDictionary.WILDCARD_VALUE) {
+			if (StackHelper.getMetadata(logWood) == OreDictionary.WILDCARD_VALUE) {
 				NonNullList<ItemStack> logVariants = NonNullList.create();
 				logBlock.getSubBlocks(logBlock.getCreativeTab(), logVariants);
 				
@@ -128,16 +131,17 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 					ItemStack plankWood = CraftingManager.findMatchingResult(fakeCrafter, null);
 					
 					if (!plankWood.isEmpty()) {
-						plankWood.setCount(NCConfig.manufactory_wood[0]);
+						plankWood.setCount(manufactory_wood[0]);
 						addRecipe(log, plankWood, 0.5D, 0.5D);
 					}
 				}
-			} else {
+			}
+			else {
 				fakeCrafter.setInventorySlotContents(0, logWood);
 				ItemStack plankWood = CraftingManager.findMatchingResult(fakeCrafter, null);
 				
 				if (!plankWood.isEmpty()) {
-					plankWood.setCount(NCConfig.manufactory_wood[0]);
+					plankWood.setCount(manufactory_wood[0]);
 					addRecipe(logWood, plankWood, 0.5D, 0.5D);
 				}
 			}

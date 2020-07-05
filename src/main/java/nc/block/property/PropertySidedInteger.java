@@ -4,6 +4,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.util.EnumFacing;
 
 public class PropertySidedInteger extends PropertyInteger {
+	
 	public EnumFacing facing;
 	
 	public PropertySidedInteger(String name, int min, int max, EnumFacing facing) {

@@ -1,35 +1,25 @@
 package nc.multiblock;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.FissionReactorLogic;
+import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.fission.solid.SolidFuelFissionLogic;
-import nc.multiblock.heatExchanger.CondenserLogic;
-import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.HeatExchangerLogic;
+import nc.multiblock.heatExchanger.*;
 import nc.multiblock.network.MultiblockUpdatePacket;
-import nc.multiblock.tile.ITileLogicMultiblockPart;
-import nc.multiblock.tile.ITileMultiblockPart;
+import nc.multiblock.tile.*;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.multiblock.tile.port.ITilePort;
-import nc.multiblock.tile.port.ITilePortTarget;
-import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.TurbineLogic;
+import nc.multiblock.tile.manager.*;
+import nc.multiblock.tile.port.*;
+import nc.multiblock.turbine.*;
 import nc.tile.ITileFiltered;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.util.BlockPosHelper;
-import nc.util.SuperMap;
+import nc.util.*;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -51,6 +41,14 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		multiblock = oldLogic.multiblock;
 	}
 	
+	public abstract String getID();
+	
+	protected World getWorld() {
+		return multiblock.WORLD;
+	}
+	
+	// Multiblock Parts
+	
 	public SuperMap<Long, T, Long2ObjectMap<? extends T>> getPartSuperMap() {
 		return multiblock.getPartSuperMap();
 	}
@@ -59,10 +57,18 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		return getPartSuperMap().get(type);
 	}
 	
-	public abstract String getID();
+	// Multiblock Part Helpers
 	
-	protected World getWorld() {
-		return multiblock.WORLD;
+	public <TYPE extends T> int getPartCount(Class<TYPE> type) {
+		return getPartMap(type).size();
+	}
+	
+	public <TYPE extends T> Collection<TYPE> getParts(Class<TYPE> type) {
+		return getPartMap(type).values();
+	}
+	
+	public <TYPE extends T> Iterator<TYPE> getPartIterator(Class<TYPE> type) {
+		return getParts(type).iterator();
 	}
 	
 	// Multiblock Size Limits
@@ -79,7 +85,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	public void onBlockRemoved(ITileMultiblockPart oldPart) {}
 	
-	public abstract void onMachineAssembled(boolean wasAssembled);
+	public abstract void onMachineAssembled();
 	
 	public abstract void onMachineRestored();
 	
@@ -168,8 +174,18 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		}
 		
 		for (Int2ObjectMap.Entry<PORT> entry : masterPortMap.int2ObjectEntrySet()) {
-			entry.getValue().setInventoryStackLimit(Math.max(64, entry.getValue().getInventoryStackLimitPerConnection()*targetCountMap.get(entry.getIntKey())));
-			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection()*targetCountMap.get(entry.getIntKey())));
+			entry.getValue().setInventoryStackLimit(Math.max(64, entry.getValue().getInventoryStackLimitPerConnection() * targetCountMap.get(entry.getIntKey())));
+			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection() * targetCountMap.get(entry.getIntKey())));
+		}
+	}
+	
+	public <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, LSTNR extends T> void refreshManagers(Class<MANAGER> managerClass) {
+		refreshManagers(managerClass, (Class<MNGR>) managerClass);
+	}
+	
+	private <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, LSTNR extends T> void refreshManagers(Class<MANAGER> managerClass, Class<MNGR> managerClz) {
+		for (MANAGER manager : ((Long2ObjectMap<MANAGER>) getPartMap(managerClz)).values()) {
+			manager.refreshManager();
 		}
 	}
 	
@@ -227,7 +243,8 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	public static void init() {
 		try {
 			FissionReactor.LOGIC_MAP.put("", FissionReactorLogic.class.getConstructor(FissionReactorLogic.class));
-			//FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic.class);
+			// FissionReactor.LOGIC_MAP.put("pebble_bed",
+			// PebbleBedFissionLogic.class);
 			FissionReactor.LOGIC_MAP.put("solid_fuel", SolidFuelFissionLogic.class.getConstructor(FissionReactorLogic.class));
 			FissionReactor.LOGIC_MAP.put("molten_salt", MoltenSaltFissionLogic.class.getConstructor(FissionReactorLogic.class));
 			
@@ -236,7 +253,8 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 			
 			Turbine.LOGIC_MAP.put("turbine", TurbineLogic.class.getConstructor(TurbineLogic.class));
 			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

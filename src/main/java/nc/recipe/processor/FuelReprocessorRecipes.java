@@ -1,18 +1,16 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.OreDictHelper;
-import nc.util.RegistryHelper;
+import nc.util.*;
 
 public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 	
 	public FuelReprocessorRecipes() {
 		super("fuel_reprocessor", 1, 0, 6, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addReprocessingRecipes("TBU", "Uranium233", 1, "Uranium238", 5, "Neptunium236", 1, "Neptunium237", 1);

@@ -1,31 +1,20 @@
 package nc.radiation;
 
+import static nc.config.NCConfig.*;
+
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
-import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
-import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
-import nc.config.NCConfig;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
-import nc.util.OreDictHelper;
-import nc.util.RegistryHelper;
-import nc.util.StringHelper;
+import nc.init.*;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.item.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RadSources {
@@ -42,7 +31,9 @@ public class RadSources {
 	public static final Int2DoubleMap FOOD_RESISTANCE_MAP = new Int2DoubleOpenHashMap();
 	
 	public static void addToOreMap(String ore, double radiation) {
-		if (ORE_BLACKLIST.contains(ore)) return;
+		if (ORE_BLACKLIST.contains(ore)) {
+			return;
+		}
 		if (StringHelper.isGlob(ore)) {
 			OreDictHelper.putWildcard(ORE_MAP, ore, radiation);
 		}
@@ -53,12 +44,16 @@ public class RadSources {
 	
 	public static void addToStackMap(ItemStack stack, double radiation) {
 		int packed = RecipeItemHelper.pack(stack);
-		if (packed == 0 || STACK_BLACKLIST.contains(packed)) return;
+		if (packed == 0 || STACK_BLACKLIST.contains(packed)) {
+			return;
+		}
 		STACK_MAP.put(packed, radiation);
 	}
 	
 	public static void addToFluidMap(String fluidName, double radiation) {
-		if (FLUID_BLACKLIST.contains(fluidName)) return;
+		if (FLUID_BLACKLIST.contains(fluidName)) {
+			return;
+		}
 		FLUID_MAP.put(fluidName, radiation);
 		
 		Fluid fluid = FluidRegistry.getFluid(fluidName);
@@ -72,24 +67,26 @@ public class RadSources {
 	
 	public static void addToFoodMaps(ItemStack stack, double radiation, double resistance) {
 		int packed = RecipeItemHelper.pack(stack);
-		if (packed == 0) return;
+		if (packed == 0) {
+			return;
+		}
 		FOOD_RAD_MAP.put(packed, radiation);
 		FOOD_RESISTANCE_MAP.put(packed, resistance);
 	}
 	
 	public static final double INGOT = 1D;
-	public static final double NUGGET = 1D/9D;
-	public static final double HALF = 1D/2D;
-	public static final double THIRD = 1D/3D;
-	public static final double SMALL = 1D/4D;
+	public static final double NUGGET = 1D / 9D;
+	public static final double HALF = 1D / 2D;
+	public static final double THIRD = 1D / 3D;
+	public static final double SMALL = 1D / 4D;
 	public static final double DOUBLE = 2D;
 	public static final double TRIPLE = 3D;
 	public static final double QUAD = 4D;
 	public static final double FIVE = 5D;
 	public static final double SIX = 6D;
 	public static final double BLOCK = 9D;
-	public static final double SLAB = 9D/2D;
-	public static final double FLUID = 125D/18D;
+	public static final double SLAB = 9D / 2D;
+	public static final double FLUID = 125D / 18D;
 	
 	public static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "dustImpure", "dustPure", "plate", "blockSheetmetal");
 	public static final List<String> MATERIAL_NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
@@ -107,7 +104,7 @@ public class RadSources {
 	public static final List<String> ORE_PREFIXES = Lists.newArrayList("ore");
 	
 	public static void init() {
-		for (String ore : NCConfig.radiation_ores_blacklist) {
+		for (String ore : radiation_ores_blacklist) {
 			if (StringHelper.isGlob(ore)) {
 				OreDictHelper.addWildcard(ORE_BLACKLIST, ore);
 			}
@@ -115,15 +112,19 @@ public class RadSources {
 				ORE_BLACKLIST.add(ore);
 			}
 		}
-		for (String item : NCConfig.radiation_items_blacklist) {
+		for (String item : radiation_items_blacklist) {
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(item);
-			if (stack != null) STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
+			if (stack != null) {
+				STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
+			}
 		}
-		for (String block : NCConfig.radiation_blocks_blacklist) {
+		for (String block : radiation_blocks_blacklist) {
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(block);
-			if (stack != null) STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
+			if (stack != null) {
+				STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
+			}
 		}
-		for (String fluid : NCConfig.radiation_fluids_blacklist) {
+		for (String fluid : radiation_fluids_blacklist) {
 			FLUID_BLACKLIST.add(fluid);
 		}
 		
@@ -215,26 +216,26 @@ public class RadSources {
 		putFuel(LECf_251, DEPLETED_LECf_251, "LECf251", "lecf_251");
 		putFuel(HECf_251, DEPLETED_HECf_251, "HECf251", "hecf_251");
 		
-		put(URANIUM_238*4D, "plateDU");
-		put(URANIUM_238*16D, NCBlocks.solar_panel_du, NCBlocks.voltaic_pile_du, NCBlocks.lithium_ion_battery_du);
-		put(URANIUM_238*12D, new ItemStack(NCItems.rad_shielding, 1, 2));
+		put(URANIUM_238 * 4D, "plateDU");
+		put(URANIUM_238 * 16D, NCBlocks.solar_panel_du, NCBlocks.voltaic_pile_du, NCBlocks.lithium_ion_battery_du);
+		put(URANIUM_238 * 12D, new ItemStack(NCItems.rad_shielding, 1, 2));
 		
-		put(URANIUM_238/4D, NCBlocks.rtg_uranium);
-		put(PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
-		put(AMERICIUM_241/4D, NCBlocks.rtg_americium);
-		put(CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
+		put(URANIUM_238 / 4D, NCBlocks.rtg_uranium);
+		put(PLUTONIUM_238 / 4D, NCBlocks.rtg_plutonium);
+		put(AMERICIUM_241 / 4D, NCBlocks.rtg_americium);
+		put(CALIFORNIUM_250 / 4D, NCBlocks.rtg_californium);
 		
-		put(RADIUM/4D, new ItemStack(NCBlocks.fission_source, 1, 0));
-		put(POLONIUM/4D, new ItemStack(NCBlocks.fission_source, 1, 1));
-		put(CALIFORNIUM_252/4D, new ItemStack(NCBlocks.fission_source, 1, 2));
+		put(RADIUM / 4D, new ItemStack(NCBlocks.fission_source, 1, 0));
+		put(POLONIUM / 4D, new ItemStack(NCBlocks.fission_source, 1, 1));
+		put(CALIFORNIUM_252 / 4D, new ItemStack(NCBlocks.fission_source, 1, 2));
 		
-		put(TRITIUM/256D, NCBlocks.tritium_lamp);
+		put(TRITIUM / 256D, NCBlocks.tritium_lamp);
 		
-		put(CAESIUM_137/4D, "dustIrradiatedBorax");
+		put(CAESIUM_137 / 4D, "dustIrradiatedBorax");
 		
 		if (ModCheck.gregtechLoaded()) {
 			for (String prefix : ORE_PREFIXES) {
-				put(17D*THORIUM/4D, prefix + "Monazite");
+				put(17D * THORIUM / 4D, prefix + "Monazite");
 			}
 		}
 		
@@ -249,45 +250,63 @@ public class RadSources {
 		putFluid(PLUTONIUM, "plutonium", "blutonium");
 		putFluid(URANIUM_238, "cyanite");
 		
-		putFluid(CAESIUM_137/4D, "irradiated_borax_solution");
+		putFluid(CAESIUM_137 / 4D, "irradiated_borax_solution");
 		
 		// Custom and Stack Entries
 		
-		for (String oreInfo : NCConfig.radiation_ores) {
+		for (String oreInfo : radiation_ores) {
 			int scorePos = oreInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
+			if (scorePos == -1) {
+				continue;
+			}
 			addToOreMap(oreInfo.substring(0, scorePos), Double.parseDouble(oreInfo.substring(scorePos + 1)));
 		}
-		for (String itemInfo : NCConfig.radiation_items) {
+		for (String itemInfo : radiation_items) {
 			int scorePos = itemInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
+			if (scorePos == -1) {
+				continue;
+			}
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
-			if (stack != null) addToStackMap(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
+			if (stack != null) {
+				addToStackMap(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
+			}
 		}
-		for (String blockInfo : NCConfig.radiation_blocks) {
+		for (String blockInfo : radiation_blocks) {
 			int scorePos = blockInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
+			if (scorePos == -1) {
+				continue;
+			}
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
-			if (stack != null) addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
+			if (stack != null) {
+				addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
+			}
 		}
-		for (String fluidInfo : NCConfig.radiation_fluids) {
+		for (String fluidInfo : radiation_fluids) {
 			int scorePos = fluidInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
+			if (scorePos == -1) {
+				continue;
+			}
 			addToFluidMap(fluidInfo.substring(0, scorePos), Double.parseDouble(fluidInfo.substring(scorePos + 1)));
 		}
 		
 		// Food Entries
 		
-		for (String itemInfo : NCConfig.radiation_foods) {
+		for (String itemInfo : radiation_foods) {
 			int scorePos = itemInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
+			if (scorePos == -1) {
+				continue;
+			}
 			double resistance = Double.parseDouble(itemInfo.substring(scorePos + 1));
 			itemInfo = itemInfo.substring(0, scorePos);
 			scorePos = itemInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
+			if (scorePos == -1) {
+				continue;
+			}
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
 			double rads = Double.parseDouble(itemInfo.substring(scorePos + 1));
-			if (stack != null && (rads != 0D || resistance != 0D) && stack.getItem() instanceof ItemFood) addToFoodMaps(stack, rads, resistance);
+			if (stack != null && (rads != 0D || resistance != 0D) && stack.getItem() instanceof ItemFood) {
+				addToFoodMaps(stack, rads, resistance);
+			}
 		}
 	}
 	
@@ -306,19 +325,45 @@ public class RadSources {
 	}
 	
 	public static void putMaterial(double radiation, String... ores) {
-		for (String ore : ores) for (String suffix : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
-			for (String prefix : MATERIAL_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
-			for (String prefix : MATERIAL_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
-			for (String prefix : MATERIAL_HALF_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*HALF);
-			for (String prefix : MATERIAL_THIRD_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*THIRD);
-			for (String prefix : MATERIAL_SMALL_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SMALL);
-			for (String prefix : MATERIAL_DOUBLE_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*DOUBLE);
-			for (String prefix : MATERIAL_TRIPLE_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*TRIPLE);
-			for (String prefix : MATERIAL_QUAD_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*QUAD);
-			for (String prefix : MATERIAL_FIVE_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*FIVE);
-			for (String prefix : MATERIAL_SIX_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SIX);
-			for (String prefix : MATERIAL_BLOCK_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*BLOCK);
-			for (String prefix : MATERIAL_SLAB_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SLAB);
+		for (String ore : ores) {
+			for (String suffix : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
+				for (String prefix : MATERIAL_INGOT_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * INGOT);
+				}
+				for (String prefix : MATERIAL_NUGGET_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * NUGGET);
+				}
+				for (String prefix : MATERIAL_HALF_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * HALF);
+				}
+				for (String prefix : MATERIAL_THIRD_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * THIRD);
+				}
+				for (String prefix : MATERIAL_SMALL_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * SMALL);
+				}
+				for (String prefix : MATERIAL_DOUBLE_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * DOUBLE);
+				}
+				for (String prefix : MATERIAL_TRIPLE_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * TRIPLE);
+				}
+				for (String prefix : MATERIAL_QUAD_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * QUAD);
+				}
+				for (String prefix : MATERIAL_FIVE_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * FIVE);
+				}
+				for (String prefix : MATERIAL_SIX_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * SIX);
+				}
+				for (String prefix : MATERIAL_BLOCK_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * BLOCK);
+				}
+				for (String prefix : MATERIAL_SLAB_NAME_LIST) {
+					addToOreMap(prefix + ore + suffix, radiation * SLAB);
+				}
+			}
 		}
 	}
 	
@@ -327,7 +372,7 @@ public class RadSources {
 			putMaterial(radiation, ore + suffix);
 		}
 		for (String suffix : new String[] {"", "_za", "_fluoride", "_fluoride_flibe"}) {
-			addToFluidMap(fluid + suffix, radiation*FLUID);
+			addToFluidMap(fluid + suffix, radiation * FLUID);
 		}
 	}
 	
@@ -337,30 +382,38 @@ public class RadSources {
 			addToOreMap("ingotDepleted" + ore + suffix, depletedRadiation);
 		}
 		for (String suffix : new String[] {"", "_za", "_fluoride", "_fluoride_flibe"}) {
-			addToFluidMap(fluid + suffix, fuelRadiation*FLUID);
-			addToFluidMap("depleted_" + fluid + suffix, depletedRadiation*FLUID);
+			addToFluidMap(fluid + suffix, fuelRadiation * FLUID);
+			addToFluidMap("depleted_" + fluid + suffix, depletedRadiation * FLUID);
 		}
 	}
 	
 	public static void put(double radiation, String... ores) {
-		for (String ore : ores) addToOreMap(ore, radiation);
+		for (String ore : ores) {
+			addToOreMap(ore, radiation);
+		}
 	}
 	
 	public static void put(double radiation, ItemStack... stacks) {
-		for (ItemStack stack : stacks) addToStackMap(stack, radiation);
+		for (ItemStack stack : stacks) {
+			addToStackMap(stack, radiation);
+		}
 	}
 	
 	public static void put(double radiation, Item... items) {
-		for (Item item : items) addToStackMap(new ItemStack(item), radiation);
+		for (Item item : items) {
+			addToStackMap(new ItemStack(item), radiation);
+		}
 	}
 	
 	public static void put(double radiation, Block... blocks) {
-		for (Block block : blocks) addToStackMap(new ItemStack(block), radiation);
+		for (Block block : blocks) {
+			addToStackMap(new ItemStack(block), radiation);
+		}
 	}
 	
 	public static void putFluid(double radiation, String... fluids) {
 		for (String fluid : fluids) {
-			addToFluidMap(fluid, radiation*FLUID);
+			addToFluidMap(fluid, radiation * FLUID);
 		}
 	}
 	
@@ -375,7 +428,7 @@ public class RadSources {
 	
 	public static final double BISMUTH = 4.975E-20D;
 	public static final double RADIUM = 0.000625;
-	public static final double POLONIUM = 2.64D/9D;
+	public static final double POLONIUM = 2.64D / 9D;
 	
 	public static final double THORIUM = 0.0000000000715D;
 	public static final double URANIUM = 0.000000000385D;
@@ -415,11 +468,11 @@ public class RadSources {
 	// Fuels
 	
 	public static double getFuelRadiation(double rad1, double amount1, double rad2, double amount2) {
-		return (rad1*amount1 + rad2*amount2)*INGOT/9D;
+		return (rad1 * amount1 + rad2 * amount2) * INGOT / 9D;
 	}
 	
 	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4) {
-		return (rad1*amount1 + rad2*amount2 + rad3*amount3 + rad4*amount4)*INGOT/9D;
+		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4) * INGOT / 9D;
 	}
 	
 	public static final double TBU = getFuelRadiation(THORIUM, 8.5D, URANIUM_233, 0.5D);
@@ -494,42 +547,42 @@ public class RadSources {
 	public static final double DEPLETED_LECf_251 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2);
 	public static final double DEPLETED_HECf_251 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 1);
 	
-	public static final double TBU_FISSION = (TBU + DEPLETED_TBU + CAESIUM_137)/64D;
+	public static final double TBU_FISSION = (TBU + DEPLETED_TBU + CAESIUM_137) / 64D;
 	
-	public static final double LEU_233_FISSION = (LEU_233 + DEPLETED_LEU_233 + CAESIUM_137)/64D;
-	public static final double HEU_233_FISSION = (HEU_233 + DEPLETED_HEU_233 + CAESIUM_137)/64D;
-	public static final double LEU_235_FISSION = (LEU_235 + DEPLETED_LEU_235 + CAESIUM_137)/64D;
-	public static final double HEU_235_FISSION = (HEU_235 + DEPLETED_HEU_235 + CAESIUM_137)/64D;
+	public static final double LEU_233_FISSION = (LEU_233 + DEPLETED_LEU_233 + CAESIUM_137) / 64D;
+	public static final double HEU_233_FISSION = (HEU_233 + DEPLETED_HEU_233 + CAESIUM_137) / 64D;
+	public static final double LEU_235_FISSION = (LEU_235 + DEPLETED_LEU_235 + CAESIUM_137) / 64D;
+	public static final double HEU_235_FISSION = (HEU_235 + DEPLETED_HEU_235 + CAESIUM_137) / 64D;
 	
-	public static final double LEN_236_FISSION = (LEN_236 + DEPLETED_LEN_236 + CAESIUM_137)/64D;
-	public static final double HEN_236_FISSION = (HEN_236 + DEPLETED_HEN_236 + CAESIUM_137)/64D;
+	public static final double LEN_236_FISSION = (LEN_236 + DEPLETED_LEN_236 + CAESIUM_137) / 64D;
+	public static final double HEN_236_FISSION = (HEN_236 + DEPLETED_HEN_236 + CAESIUM_137) / 64D;
 	
-	public static final double LEP_239_FISSION = (LEP_239 + DEPLETED_LEP_239 + CAESIUM_137)/64D;
-	public static final double HEP_239_FISSION = (HEP_239 + DEPLETED_HEP_239 + CAESIUM_137)/64D;
-	public static final double LEP_241_FISSION = (LEP_241 + DEPLETED_LEP_241 + CAESIUM_137)/64D;
-	public static final double HEP_241_FISSION = (HEP_241 + DEPLETED_HEP_241 + CAESIUM_137)/64D;
+	public static final double LEP_239_FISSION = (LEP_239 + DEPLETED_LEP_239 + CAESIUM_137) / 64D;
+	public static final double HEP_239_FISSION = (HEP_239 + DEPLETED_HEP_239 + CAESIUM_137) / 64D;
+	public static final double LEP_241_FISSION = (LEP_241 + DEPLETED_LEP_241 + CAESIUM_137) / 64D;
+	public static final double HEP_241_FISSION = (HEP_241 + DEPLETED_HEP_241 + CAESIUM_137) / 64D;
 	
-	public static final double MIX_239_FISSION = (MIX_239 + DEPLETED_MIX_239 + CAESIUM_137)/64D;
-	public static final double MIX_241_FISSION = (MIX_241 + DEPLETED_MIX_241 + CAESIUM_137)/64D;
+	public static final double MIX_239_FISSION = (MIX_239 + DEPLETED_MIX_239 + CAESIUM_137) / 64D;
+	public static final double MIX_241_FISSION = (MIX_241 + DEPLETED_MIX_241 + CAESIUM_137) / 64D;
 	
-	public static final double LEA_242_FISSION = (LEA_242 + DEPLETED_LEA_242 + CAESIUM_137)/64D;
-	public static final double HEA_242_FISSION = (HEA_242 + DEPLETED_HEA_242 + CAESIUM_137)/64D;
+	public static final double LEA_242_FISSION = (LEA_242 + DEPLETED_LEA_242 + CAESIUM_137) / 64D;
+	public static final double HEA_242_FISSION = (HEA_242 + DEPLETED_HEA_242 + CAESIUM_137) / 64D;
 	
-	public static final double LECm_243_FISSION = (LECm_243 + DEPLETED_LECm_243 + CAESIUM_137)/64D;
-	public static final double HECm_243_FISSION = (HECm_243 + DEPLETED_HECm_243 + CAESIUM_137)/64D;
-	public static final double LECm_245_FISSION = (LECm_245 + DEPLETED_LECm_245 + CAESIUM_137)/64D;
-	public static final double HECm_245_FISSION = (HECm_245 + DEPLETED_HECm_245 + CAESIUM_137)/64D;
-	public static final double LECm_247_FISSION = (LECm_247 + DEPLETED_LECm_247 + CAESIUM_137)/64D;
-	public static final double HECm_247_FISSION = (HECm_247 + DEPLETED_HECm_247 + CAESIUM_137)/64D;
+	public static final double LECm_243_FISSION = (LECm_243 + DEPLETED_LECm_243 + CAESIUM_137) / 64D;
+	public static final double HECm_243_FISSION = (HECm_243 + DEPLETED_HECm_243 + CAESIUM_137) / 64D;
+	public static final double LECm_245_FISSION = (LECm_245 + DEPLETED_LECm_245 + CAESIUM_137) / 64D;
+	public static final double HECm_245_FISSION = (HECm_245 + DEPLETED_HECm_245 + CAESIUM_137) / 64D;
+	public static final double LECm_247_FISSION = (LECm_247 + DEPLETED_LECm_247 + CAESIUM_137) / 64D;
+	public static final double HECm_247_FISSION = (HECm_247 + DEPLETED_HECm_247 + CAESIUM_137) / 64D;
 	
-	public static final double LEB_248_FISSION = (LEB_248 + DEPLETED_LEB_248 + CAESIUM_137)/64D;
-	public static final double HEB_248_FISSION = (HEB_248 + DEPLETED_HEB_248 + CAESIUM_137)/64D;
+	public static final double LEB_248_FISSION = (LEB_248 + DEPLETED_LEB_248 + CAESIUM_137) / 64D;
+	public static final double HEB_248_FISSION = (HEB_248 + DEPLETED_HEB_248 + CAESIUM_137) / 64D;
 	
-	public static final double LECf_249_FISSION = (LECf_249 + DEPLETED_LECf_249 + CAESIUM_137)/64D;
-	public static final double HECf_249_FISSION = (HECf_249 + DEPLETED_HECf_249 + CAESIUM_137)/64D;
-	public static final double LECf_251_FISSION = (LECf_251 + DEPLETED_LECf_251 + CAESIUM_137)/64D;
-	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251 + CAESIUM_137)/64D;
+	public static final double LECf_249_FISSION = (LECf_249 + DEPLETED_LECf_249 + CAESIUM_137) / 64D;
+	public static final double HECf_249_FISSION = (HECf_249 + DEPLETED_HECf_249 + CAESIUM_137) / 64D;
+	public static final double LECf_251_FISSION = (LECf_251 + DEPLETED_LECf_251 + CAESIUM_137) / 64D;
+	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251 + CAESIUM_137) / 64D;
 	
-	public static final double PROTACTINIUM_233 = 13.54/9D;
+	public static final double PROTACTINIUM_233 = 13.54 / 9D;
 	public static final double TBP = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
 }

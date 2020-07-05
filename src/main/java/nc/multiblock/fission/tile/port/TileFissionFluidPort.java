@@ -1,26 +1,18 @@
 package nc.multiblock.fission.tile.port;
 
+import static nc.config.NCConfig.enable_mek_gas;
 import static nc.util.BlockPosHelper.DEFAULT_NON;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.tile.fluid.ITileFilteredFluid;
-import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.fluid.*;
+import nc.tile.internal.fluid.*;
 import nc.util.GasHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -72,9 +64,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	@Override
 	public void onFilterChanged(int tank) {
-		/*if (!canModifyFilter(tank)) {
-			getMultiblock().getLogic().refreshPorts();
-		}*/
+		/* if (!canModifyFilter(tank)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -83,11 +73,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 		return getFilterTanks().get(0).getFluidName().hashCode();
 	}
 	
-	@Override
-	public void markDirty() {
-		refreshPartsFlag = true;
-		super.markDirty();
-	}
+	/* @Override public void markDirty() { super.markDirty(); } */
 	
 	// Fluids
 	
@@ -120,7 +106,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	public @Nonnull FluidTileWrapper[] getFluidSides() {
 		return fluidSides;
 	}
-
+	
 	@Override
 	public @Nonnull GasTileWrapper getGasWrapper() {
 		return gasWrapper;
@@ -130,15 +116,15 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	public boolean getInputTanksSeparated() {
 		return false;
 	}
-
+	
 	@Override
 	public void setInputTanksSeparated(boolean separated) {}
-
+	
 	@Override
 	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
-
+	
 	@Override
 	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 	
@@ -190,12 +176,12 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY)) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
@@ -205,7 +191,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			if (NCConfig.enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}
 			return null;

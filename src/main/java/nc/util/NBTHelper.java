@@ -2,16 +2,16 @@ package nc.util;
 
 import java.util.List;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntCollection;
+import it.unimi.dsi.fastutil.ints.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.*;
 
 public class NBTHelper {
 	
 	public static NBTTagCompound saveAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
-		if (lists.length == 0) return tag;
+		if (lists.length == 0) {
+			return tag;
+		}
 		NBTTagList nbttaglist = new NBTTagList();
 		
 		int i = 0;
@@ -19,7 +19,7 @@ public class NBTHelper {
 			for (ItemStack stack : list) {
 				if (!stack.isEmpty()) {
 					NBTTagCompound nbttagcompound = new NBTTagCompound();
-					nbttagcompound.setByte("Slot", (byte)i);
+					nbttagcompound.setByte("Slot", (byte) i);
 					stack.writeToNBT(nbttagcompound);
 					nbttaglist.appendTag(nbttagcompound);
 				}
@@ -33,7 +33,9 @@ public class NBTHelper {
 	}
 	
 	public static void loadAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
-		if (lists.length == 0) return;
+		if (lists.length == 0) {
+			return;
+		}
 		NBTTagList nbttaglist = tag.getTagList("Items", 10);
 		
 		int n = 0, offset = 0;

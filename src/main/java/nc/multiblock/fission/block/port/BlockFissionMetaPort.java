@@ -4,25 +4,21 @@ import static nc.block.property.BlockProperties.AXIS_ALL;
 
 import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.fission.block.BlockFissionMetaPart;
-import nc.multiblock.fission.tile.port.IFissionPortTarget;
-import nc.multiblock.fission.tile.port.TileFissionPort;
+import nc.multiblock.fission.tile.port.*;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 public abstract class BlockFissionMetaPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>, T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockFissionMetaPart<T> {
 	
 	protected final Class<PORT> portClass;
-
+	
 	public BlockFissionMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property) {
 		super(enumm, property);
 		this.portClass = portClass;
@@ -57,8 +53,12 @@ public abstract class BlockFissionMetaPort<PORT extends TileFissionPort<PORT, TA
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null) {
+			return false;
+		}
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+			return false;
+		}
 		return rightClickOnPart(world, pos, player, hand, facing);
 	}
 }

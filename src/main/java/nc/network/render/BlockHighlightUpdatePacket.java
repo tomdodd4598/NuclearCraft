@@ -4,9 +4,7 @@ import io.netty.buffer.ByteBuf;
 import nc.NuclearCraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockHighlightUpdatePacket implements IMessage {
@@ -40,16 +38,19 @@ public class BlockHighlightUpdatePacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			readMessage(buf);
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 			return;
 		}
 		messageValid = true;
 	}
-
+	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) return;
+		if (!messageValid) {
+			return;
+		}
 		writeMessage(buf);
 	}
 	
@@ -57,7 +58,9 @@ public class BlockHighlightUpdatePacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(BlockHighlightUpdatePacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.CLIENT) return null;
+			if (!message.messageValid && ctx.side != Side.CLIENT) {
+				return null;
+			}
 			Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			return null;
 		}

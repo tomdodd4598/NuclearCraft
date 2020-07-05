@@ -1,22 +1,22 @@
 package nc.multiblock.turbine;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.*;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 
 public class TurbineRotorBladeUtil {
 	
 	public enum TurbineRotorBladeType implements IStringSerializable, IRotorBladeType {
-		STEEL("steel", NCConfig.turbine_blade_efficiency[0], NCConfig.turbine_blade_expansion[0]),
-		EXTREME("extreme", NCConfig.turbine_blade_efficiency[1], NCConfig.turbine_blade_expansion[1]),
-		SIC_SIC_CMC("sic_sic_cmc", NCConfig.turbine_blade_efficiency[2], NCConfig.turbine_blade_expansion[2]);
+		STEEL("steel", turbine_blade_efficiency[0], turbine_blade_expansion[0]),
+		EXTREME("extreme", turbine_blade_efficiency[1], turbine_blade_expansion[1]),
+		SIC_SIC_CMC("sic_sic_cmc", turbine_blade_efficiency[2], turbine_blade_expansion[2]);
 		
-		private String name;
-		private double efficiency;
-		private double expansion;
+		private final String name;
+		private final double efficiency;
+		private final double expansion;
 		
 		private TurbineRotorBladeType(String name, double efficiency, double expansion) {
 			this.name = name;
@@ -70,6 +70,8 @@ public class TurbineRotorBladeUtil {
 		public float getRenderRotation();
 		
 		public void setRenderRotation(float newRotation);
+		
+		public void onBearingFailure(Turbine turbine);
 	}
 	
 	public interface IBlockRotorBlade {
@@ -82,7 +84,7 @@ public class TurbineRotorBladeUtil {
 		Y("y"),
 		Z("z");
 		
-		private String name;
+		private final String name;
 		
 		private TurbinePartDir(String name) {
 			this.name = name;

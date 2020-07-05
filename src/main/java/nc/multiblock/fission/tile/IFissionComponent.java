@@ -2,14 +2,10 @@ package nc.multiblock.fission.tile;
 
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
-import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
-import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
-import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
-import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorLineBlockInfo;
-import nc.recipe.NCRecipes;
+import nc.multiblock.fission.tile.IFissionFuelComponent.*;
 import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,7 +26,7 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public default void setCluster(@Nullable FissionCluster cluster) {
 		if (cluster == null && getCluster() != null) {
-			//getCluster().getComponentMap().remove(pos.toLong());
+			// getCluster().getComponentMap().remove(pos.toLong());
 		}
 		else if (cluster != null) {
 			cluster.getComponentMap().put(getTilePos().toLong(), this);
@@ -44,15 +40,21 @@ public interface IFissionComponent extends IFissionPart {
 		return getCluster() != null;
 	}
 	
-	/** Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary! */
-	public boolean isValidHeatConductor();
+	/**
+	 * Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary!
+	 */
+	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache);
 	
 	public boolean isFunctional();
 	
 	public void resetStats();
 	
-	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
-		if (!isValidHeatConductor()) return;
+	public boolean isClusterRoot();
+	
+	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		if (!isValidHeatConductor(componentFailCache, assumedValidCache)) {
+			return;
+		}
 		
 		if (isClusterSearched()) {
 			if (id != null) {
@@ -73,12 +75,17 @@ public interface IFissionComponent extends IFissionPart {
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			BlockPos offPos = getTilePos().offset(dir);
-			if (!getCluster().connectedToWall && isWall(offPos)) {
-				getCluster().connectedToWall = true;
-				continue;
+			if (!getCluster().connectedToWall) {
+				TileEntity part = getTileWorld().getTileEntity(offPos);
+				if (part instanceof TileFissionPart && ((TileFissionPart) part).getPartPositionType().isGoodForWall()) {
+					getCluster().connectedToWall = true;
+					continue;
+				}
 			}
 			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
-			if (component != null) clusterSearchCache.put(component, id);
+			if (component != null) {
+				clusterSearchCache.put(component, id);
+			}
 		}
 	}
 	
@@ -88,15 +95,26 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void onClusterMeltdown();
 	
-	// Moderator Lines
+	public boolean isNullifyingSources(EnumFacing side);
 	
-	public default ModeratorLineBlockInfo getModeratorComponentInfo(boolean activeModeratorPos) {
+	// Moderator Line
+	
+	public default ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPos) {
 		return null;
 	}
 	
-	public default void onAddedToModeratorCache(ModeratorLineBlockInfo info) {}
+	/** The moderator line does not necessarily have to be complete! */
+	public default void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
 	
-	public default void onModeratorLineComplete(ModeratorLineBlockInfo info, int flux) {}
+	/**
+	 * Called if and only if the moderator line from the fuel component searching in the dir direction is complete!
+	 */
+	public default void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {}
+	
+	/** Called during cluster searches! */
+	public default boolean isActiveModerator() {
+		return false;
+	}
 	
 	// IMultitoolLogic
 	
@@ -112,40 +130,5 @@ public interface IFissionComponent extends IFissionPart {
 			
 		}
 		return IFissionPart.super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
-	}
-	
-	// Helper methods
-	
-	public default boolean isActiveModerator(BlockPos pos) {
-		return getMultiblock().activeModeratorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_moderator, pos) != null;
-	}
-	
-	public default boolean isActiveReflector(BlockPos pos) {
-		return getMultiblock().activeReflectorCache.contains(pos.toLong()) && blockRecipe(NCRecipes.fission_reflector, pos) != null;
-	}
-	
-	public default boolean isActiveCell(BlockPos pos) {
-		TileSolidFissionCell cell = getMultiblock().getPartMap(TileSolidFissionCell.class).get(pos.toLong());
-		return cell == null ? false : cell.isFunctional();
-	}
-	
-	public default boolean isActiveSink(BlockPos pos, String sinkName) {
-		TileSolidFissionSink sink = getMultiblock().getPartMap(TileSolidFissionSink.class).get(pos.toLong());
-		return sink == null ? false : sink.isFunctional() && sink.sinkName.equals(sinkName);
-	}
-	
-	public default boolean isActiveVessel(BlockPos pos) {
-		TileSaltFissionVessel vessel = getMultiblock().getPartMap(TileSaltFissionVessel.class).get(pos.toLong());
-		return vessel == null ? false : vessel.isFunctional();
-	}
-	
-	public default boolean isActiveHeater(BlockPos pos, String sinkName) {
-		TileSaltFissionHeater heater = getMultiblock().getPartMap(TileSaltFissionHeater.class).get(pos.toLong());
-		return heater == null ? false : heater.isFunctional() && heater.heaterName.equals(sinkName);
-	}
-	
-	public default boolean isWall(BlockPos pos) {
-		TileEntity part = getTileWorld().getTileEntity(pos);
-		return part instanceof TileFissionPart && ((TileFissionPart)part).getPartPositionType().isGoodForWall();
 	}
 }

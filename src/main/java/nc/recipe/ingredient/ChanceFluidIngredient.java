@@ -1,13 +1,10 @@
 package nc.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import nc.integration.crafttweaker.ingredient.CTChanceFluidIngredient;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import nc.util.NCMath;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
@@ -34,16 +31,17 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 		this.stackDiff = Math.max(1, stackDiff);
 		this.minStackSize = MathHelper.clamp(minStackSize, 0, ingredient.getMaxStackSize(0));
 		
-		int sizeIncrSteps = (ingredient.getMaxStackSize(0) - this.minStackSize)/this.stackDiff;
-		int sizeShift = ingredient.getMaxStackSize(0) - this.minStackSize - sizeIncrSteps*this.stackDiff;
+		int sizeIncrSteps = (ingredient.getMaxStackSize(0) - this.minStackSize) / this.stackDiff;
+		int sizeShift = ingredient.getMaxStackSize(0) - this.minStackSize - sizeIncrSteps * this.stackDiff;
 		
-		//this.ingredient.setMaxStackSize(this.ingredient.getMaxStackSize(0) + sizeShift);
+		// this.ingredient.setMaxStackSize(this.ingredient.getMaxStackSize(0) +
+		// sizeShift);
 		this.minStackSize += sizeShift;
 		this.sizeIncrSteps = sizeIncrSteps;
 		
-		meanStackSize = this.minStackSize + (double)(this.ingredient.getMaxStackSize(0) - this.minStackSize)*(double)this.chancePercent/100D;
+		meanStackSize = this.minStackSize + (double) (this.ingredient.getMaxStackSize(0) - this.minStackSize) * (double) this.chancePercent / 100D;
 	}
-
+	
 	@Override
 	public FluidStack getStack() {
 		return ingredient.getStack();
@@ -89,14 +87,14 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	
 	@Override
 	public int getNextStackSize(int ingredientNumber) {
-		return minStackSize + stackDiff*NCMath.getBinomial(sizeIncrSteps, chancePercent);
+		return minStackSize + stackDiff * NCMath.getBinomial(sizeIncrSteps, chancePercent);
 	}
 	
 	@Override
 	public String getIngredientName() {
 		return ingredient.getIngredientName() + " [ " + chancePercent + "%, diff: " + stackDiff + ", min: " + minStackSize + " ]";
 	}
-
+	
 	@Override
 	public String getIngredientNamesConcat() {
 		return ingredient.getIngredientNamesConcat() + " [ " + chancePercent + "%, diff: " + stackDiff + ", min: " + minStackSize + " ]";
@@ -112,9 +110,9 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	
 	@Override
 	public IFluidIngredient getFactoredIngredient(int factor) {
-		return new ChanceFluidIngredient(ingredient.getFactoredIngredient(factor), chancePercent, stackDiff/factor, minStackSize/factor);
+		return new ChanceFluidIngredient(ingredient.getFactoredIngredient(factor), chancePercent, stackDiff / factor, minStackSize / factor);
 	}
-
+	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
 		return ingredient.match(object, sorption);

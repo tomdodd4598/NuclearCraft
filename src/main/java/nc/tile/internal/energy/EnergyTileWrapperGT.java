@@ -1,7 +1,8 @@
 package nc.tile.internal.energy;
 
+import static nc.config.NCConfig.rf_per_eu;
+
 import gregtech.api.capability.IEnergyContainer;
-import nc.config.NCConfig;
 import nc.tile.energy.ITileEnergy;
 import nc.util.EnergyHelper;
 import net.minecraft.util.EnumFacing;
@@ -18,16 +19,18 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 		this.tile = tile;
 		this.side = side;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long acceptEnergyFromNetwork(EnumFacing side, long voltage, long amperage) {
-		if (tile.getEnergyStored() >= tile.getMaxEnergyStored() || !tile.canReceiveEnergy(side)) return 0L;
-		long amperesAccepted = Math.min(1L + MathHelper.floor((double)(tile.getMaxEnergyStored() - tile.getEnergyStored())/(double)NCConfig.rf_per_eu)/voltage, Math.min(amperage, getInputAmperage()));
-		tile.getEnergyStorage().changeEnergyStored((int)Math.min(voltage*amperesAccepted*NCConfig.rf_per_eu, Integer.MAX_VALUE));
+		if (tile.getEnergyStored() >= tile.getMaxEnergyStored() || !tile.canReceiveEnergy(side)) {
+			return 0L;
+		}
+		long amperesAccepted = Math.min(1L + MathHelper.floor((double) (tile.getMaxEnergyStored() - tile.getEnergyStored()) / (double) rf_per_eu) / voltage, Math.min(amperage, getInputAmperage()));
+		tile.getEnergyStorage().changeEnergyStored((int) Math.min(voltage * amperesAccepted * rf_per_eu, Integer.MAX_VALUE));
 		return amperesAccepted;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public boolean inputsEnergy(EnumFacing side) {
@@ -39,27 +42,27 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 	public boolean outputsEnergy(EnumFacing side) {
 		return tile.canExtractEnergy(side);
 	}
-
+	
 	@Override
 	public long changeEnergy(long differenceAmount) {
-		int amount = (int)Math.min(differenceAmount, Integer.MAX_VALUE);
-		int energyReceived = tile.getEnergyStorage().receiveEnergy(NCConfig.rf_per_eu*amount, true);
+		int amount = (int) Math.min(differenceAmount, Integer.MAX_VALUE);
+		int energyReceived = tile.getEnergyStorage().receiveEnergy(rf_per_eu * amount, true);
 		tile.receiveEnergy(energyReceived, side, false);
-		return amount - energyReceived/NCConfig.rf_per_eu;
+		return amount - energyReceived / rf_per_eu;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getEnergyStored() {
-		return tile.getEnergyStored()/NCConfig.rf_per_eu;
+		return tile.getEnergyStored() / rf_per_eu;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getEnergyCapacity() {
-		return tile.getMaxEnergyStored()/NCConfig.rf_per_eu;
+		return tile.getMaxEnergyStored() / rf_per_eu;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getInputAmperage() {
@@ -69,9 +72,9 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getOutputAmperage() {
-		return tile.getEnergyStored()/NCConfig.rf_per_eu < 1 ? 0L : 1L;
+		return tile.getEnergyStored() / rf_per_eu < 1 ? 0L : 1L;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getInputVoltage() {

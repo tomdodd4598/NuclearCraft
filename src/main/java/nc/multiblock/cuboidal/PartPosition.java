@@ -1,18 +1,13 @@
 package nc.multiblock.cuboidal;
 
-/*
- * A multiblock library for making irregularly-shaped multiblock machines
+/* A multiblock library for making irregularly-shaped multiblock machines
  *
- * Original author: Erogenous Beef
- * https://github.com/erogenousbeef/BeefCore
+ * Original author: Erogenous Beef https://github.com/erogenousbeef/BeefCore
  *
- * Ported to Minecraft 1.9 by ZeroNoRyouki
- * https://github.com/ZeroNoRyouki/ZeroCore
- */
+ * Ported to Minecraft 1.9 by ZeroNoRyouki https://github.com/ZeroNoRyouki/ZeroCore */
 
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 
 public enum PartPosition implements IStringSerializable {
 	Unknown(null, Type.Unknown),
@@ -28,7 +23,6 @@ public enum PartPosition implements IStringSerializable {
 	EastFace(EnumFacing.EAST, Type.Face),
 	WestFace(EnumFacing.WEST, Type.Face);
 	
-	@SuppressWarnings("hiding")
 	public enum Type {
 		Unknown,
 		Interior,
@@ -37,38 +31,38 @@ public enum PartPosition implements IStringSerializable {
 	}
 	
 	public boolean isFace() {
-		return this._type == Type.Face;
+		return _type == Type.Face;
 	}
-
+	
 	public boolean isFrame() {
-		return this._type == Type.Frame;
+		return _type == Type.Frame;
 	}
-
+	
 	public EnumFacing getFacing() {
-		return this._facing;
+		return _facing;
 	}
-
+	
 	public Type getType() {
-		return this._type;
+		return _type;
 	}
-
+	
 	public static PropertyEnum createProperty(String name) {
-
+		
 		return PropertyEnum.create(name, PartPosition.class);
 	}
-
+	
 	@Override
 	public String getName() {
-
-		return this.toString();
+		
+		return toString();
 	}
-
+	
 	PartPosition(EnumFacing facing, Type type) {
-
-		this._facing = facing;
-		this._type = type;
+		
+		_facing = facing;
+		_type = type;
 	}
-
+	
 	private EnumFacing _facing;
 	private Type _type;
 }
