@@ -311,7 +311,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					return count == amount / 2;
 				}
 				else {
-					loop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
+					loop: for (EnumFacing[] axialDirs : PosHelper.axialDirsList()) {
 						for (EnumFacing dir : axialDirs) {
 							if (!satisfied(tile, dir)) {
 								continue loop;
@@ -339,7 +339,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					}
 					if (count != amount) return false;
 					
-					loop: for (EnumFacing[] vertexDirs : BlockPosHelper.vertexDirsList()) {
+					loop: for (EnumFacing[] vertexDirs : PosHelper.vertexDirsList()) {
 						for (EnumFacing dir : vertexDirs) {
 							if (!dirs[dir.getIndex()]) {
 								continue loop;
@@ -350,7 +350,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					return false;
 				}
 				else {
-					loop: for (EnumFacing[] vertexDirs : BlockPosHelper.vertexDirsList()) {
+					loop: for (EnumFacing[] vertexDirs : PosHelper.vertexDirsList()) {
 						for (EnumFacing dir : vertexDirs) {
 							if (!satisfied(tile, dir)) {
 								continue loop;

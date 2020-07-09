@@ -1,6 +1,6 @@
 package nc.multiblock.fission.tile;
 
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import javax.annotation.Nullable;
 
@@ -12,7 +12,7 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.block.BlockFissionShield;
 import nc.multiblock.fission.tile.IFissionFuelComponent.*;
 import nc.multiblock.fission.tile.manager.*;
-import nc.util.BlockPosHelper;
+import nc.util.PosHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -98,8 +98,8 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 			validActiveModeratorPos[dir.getIndex()] = false;
 		}
 		flux = 0;
-		for (Axis axis : BlockPosHelper.AXES) {
-			activeModeratorLines[BlockPosHelper.getAxisIndex(axis)] = null;
+		for (Axis axis : PosHelper.AXES) {
+			activeModeratorLines[PosHelper.getAxisIndex(axis)] = null;
 		}
 	}
 	
@@ -160,7 +160,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 		if (validActiveModeratorPos[dir.getIndex()]) {
 			activeModerator = true;
 		}
-		int index = BlockPosHelper.getAxisIndex(dir.getAxis());
+		int index = PosHelper.getAxisIndex(dir.getAxis());
 		if (activeModeratorLines[index] == null) {
 			flux += getLineFluxContribution(line, thisInfo);
 			activeModeratorLines[index] = line;

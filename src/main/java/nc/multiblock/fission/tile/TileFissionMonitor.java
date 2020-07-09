@@ -1,7 +1,7 @@
 package nc.multiblock.fission.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;

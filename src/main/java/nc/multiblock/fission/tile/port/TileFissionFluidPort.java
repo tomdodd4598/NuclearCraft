@@ -1,7 +1,7 @@
 package nc.multiblock.fission.tile.port;
 
 import static nc.config.NCConfig.enable_mek_gas;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 

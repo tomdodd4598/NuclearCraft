@@ -129,7 +129,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		Int2IntMap targetCountMap = new Int2IntOpenHashMap();
 		for (PORT port : portMap.values()) {
 			int filter = port.getFilterID();
-			if (BlockPosHelper.DEFAULT_NON.equals(port.getMasterPortPos()) && !masterPortMap.containsKey(filter)) {
+			if (PosHelper.DEFAULT_NON.equals(port.getMasterPortPos()) && !masterPortMap.containsKey(filter)) {
 				masterPortMap.put(filter, port);
 				targetCountMap.put(filter, 0);
 			}

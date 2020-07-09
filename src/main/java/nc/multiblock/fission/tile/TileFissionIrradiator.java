@@ -2,7 +2,7 @@ package nc.multiblock.fission.tile;
 
 import static nc.config.NCConfig.smart_processor_input;
 import static nc.recipe.NCRecipes.fission_irradiator;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 

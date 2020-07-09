@@ -6,13 +6,16 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.vecmath.Vector3f;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.doubles.*;
+import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.handler.SoundHandler.SoundInfo;
+import nc.init.NCBlocks;
 import nc.multiblock.*;
 import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
@@ -25,6 +28,7 @@ import nc.recipe.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.util.NCMath;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -70,6 +74,12 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public float angVel = 0F, rotorAngle = 0F;
 	public long prevRenderTime = 0L;
 	public Iterable<MutableBlockPos>[] inputPlane = new Iterable[4];
+	
+	public BlockPos[] bladePosArray = null;
+	public Vector3f[] renderPosArray = null;
+	public float[] bladeAngleArray = null;
+	public IBlockState[] rotorStateArray = null;
+	public IntList bladeDepths = null, statorDepths = null;
 	
 	public Turbine(World world) {
 		super(world);
@@ -233,7 +243,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		}
 	}
 	
-	protected TurbinePartDir getBladeDir(PlaneDir planeDir) {
+	public TurbinePartDir getBladeDir(PlaneDir planeDir) {
 		switch (flowDir.getAxis()) {
 			case Y:
 				switch (planeDir) {
@@ -261,7 +271,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		}
 	}
 	
-	protected enum PlaneDir {
+	public enum PlaneDir {
 		U,
 		V;
 	}
@@ -424,6 +434,37 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		recipeInputRateFP = message.recipeInputRateFP;
 		
 		logic.onRenderPacket(message);
+	}
+	
+	protected TurbineFormPacket getFormPacket() {
+		return logic.getFormPacket();
+	}
+	
+	public void onFormPacket(TurbineFormPacket message) {
+		bladePosArray = message.bladePosArray;
+		renderPosArray = message.renderPosArray;
+		bladeAngleArray = message.bladeAngleArray;
+		
+		rotorStateArray = new IBlockState[1 + 4 * getFlowLength()];
+		rotorStateArray[4 * getFlowLength()] = NCBlocks.turbine_rotor_shaft.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, getShaftDir());
+		
+		for (int i = 0; i < bladePosArray.length; i++) {
+			BlockPos pos = bladePosArray[i];
+			ITurbineRotorBlade thisBlade = getBlade(pos);
+			rotorStateArray[i] = thisBlade == null ? WORLD.getBlockState(pos).getBlock().getDefaultState() : thisBlade.getRenderState();
+		}
+		
+		bladeDepths = new IntArrayList();
+		statorDepths = new IntArrayList();
+		
+		for (int i = 0; i < getFlowLength(); i++) {
+			if (getBlade(bladePosArray[i]).getBladeType() == TurbineRotorStatorType.STATOR) {
+				statorDepths.add(i);
+			}
+			else {
+				bladeDepths.add(i);
+			}
+		}
 	}
 	
 	public ContainerTurbineController getContainer(EntityPlayer player) {

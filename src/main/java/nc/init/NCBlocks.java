@@ -199,7 +199,7 @@ public class NCBlocks {
 		
 		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.MATERIAL), "supercold_ice");
 		
-		heavy_water_moderator = withName(new NCBlock(Material.IRON), "heavy_water_moderator");
+		heavy_water_moderator = withName(new NCBlock(Material.IRON).setCreativeTab(NCTabs.MISC), "heavy_water_moderator");
 		
 		if (register_processor[0]) {
 			nuclear_furnace = withName(new BlockNuclearFurnace(), "nuclear_furnace");

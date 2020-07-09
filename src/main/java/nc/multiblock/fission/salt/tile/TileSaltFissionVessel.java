@@ -2,7 +2,7 @@ package nc.multiblock.fission.salt.tile;
 
 import static nc.config.NCConfig.*;
 import static nc.recipe.NCRecipes.*;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
 
 import java.util.*;

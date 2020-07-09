@@ -8,7 +8,7 @@ import nc.network.PacketHandler;
 import nc.network.config.ConfigUpdatePacket;
 import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.*;
@@ -96,8 +96,7 @@ public class NCConfig {
 	public static double[] fission_irradiator_heat_per_flux;
 	public static double[] fission_irradiator_efficiency;
 	public static int fission_cooling_efficiency_leniency;
-	public static double[] fission_sparsity_penalty_params; // Multiplier and
-															 // threshold
+	public static double[] fission_sparsity_penalty_params; // Multiplier and threshold
 	public static boolean fission_overheat;
 	public static boolean fission_explosions;
 	public static double fission_meltdown_radiation_multiplier;
@@ -209,6 +208,8 @@ public class NCConfig {
 	public static double turbine_tension_throughput_factor;
 	public static double turbine_power_bonus_multiplier;
 	public static double turbine_sound_volume;
+	public static double turbine_render_blade_width;
+	public static double turbine_render_rotor_expansion;
 	
 	public static double accelerator_electromagnet_power;
 	public static double accelerator_supercooler_coolant;
@@ -731,6 +732,10 @@ public class NCConfig {
 		propertyTurbinePowerBonusMultiplier.setLanguageKey("gui.nc.config.turbine_power_bonus_multiplier");
 		Property propertyTurbineSoundVolume = config.get(CATEGORY_TURBINE, "turbine_sound_volume", 1D, Lang.localise("gui.nc.config.turbine_sound_volume.comment"), 0D, 15D);
 		propertyTurbineSoundVolume.setLanguageKey("gui.nc.config.turbine_sound_volume");
+		Property propertyTurbineRenderBladeWidth = config.get(CATEGORY_TURBINE, "turbine_render_blade_width", NCMath.SQRT2, Lang.localise("gui.nc.config.turbine_render_blade_width.comment"), 0.01D, 4D);
+		propertyTurbineRenderBladeWidth.setLanguageKey("gui.nc.config.turbine_render_blade_width");
+		Property propertyTurbineRenderRotorExpansion = config.get(CATEGORY_TURBINE, "turbine_render_rotor_expansion", 4D, Lang.localise("gui.nc.config.turbine_render_rotor_expansion.comment"), 1D, 15D);
+		propertyTurbineRenderRotorExpansion.setLanguageKey("gui.nc.config.turbine_render_rotor_expansion");
 		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 1000D, Lang.localise("gui.nc.config.accelerator_electromagnet_power.comment"), 0D, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.nc.config.accelerator_electromagnet_power");
@@ -1169,6 +1174,8 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineTensionThroughputFactor.getName());
 		propertyOrderTurbine.add(propertyTurbinePowerBonusMultiplier.getName());
 		propertyOrderTurbine.add(propertyTurbineSoundVolume.getName());
+		propertyOrderTurbine.add(propertyTurbineRenderBladeWidth.getName());
+		propertyOrderTurbine.add(propertyTurbineRenderRotorExpansion.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<>();
@@ -1487,6 +1494,8 @@ public class NCConfig {
 			turbine_tension_throughput_factor = propertyTurbineTensionThroughputFactor.getDouble();
 			turbine_power_bonus_multiplier = propertyTurbinePowerBonusMultiplier.getDouble();
 			turbine_sound_volume = propertyTurbineSoundVolume.getDouble();
+			turbine_render_blade_width = propertyTurbineRenderBladeWidth.getDouble();
+			turbine_render_rotor_expansion = propertyTurbineRenderRotorExpansion.getDouble();
 			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getDouble();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getDouble();
@@ -1802,6 +1811,8 @@ public class NCConfig {
 		propertyTurbineTensionThroughputFactor.set(turbine_tension_throughput_factor);
 		propertyTurbinePowerBonusMultiplier.set(turbine_power_bonus_multiplier);
 		propertyTurbineSoundVolume.set(turbine_sound_volume);
+		propertyTurbineRenderBladeWidth.set(turbine_render_blade_width);
+		propertyTurbineRenderRotorExpansion.set(turbine_render_rotor_expansion);
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);

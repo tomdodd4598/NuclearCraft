@@ -1,7 +1,7 @@
 package nc.multiblock.fission.tile.port;
 
 import static nc.block.property.BlockProperties.AXIS_ALL;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import javax.annotation.*;
 

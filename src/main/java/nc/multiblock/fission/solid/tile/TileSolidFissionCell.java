@@ -2,7 +2,7 @@ package nc.multiblock.fission.solid.tile;
 
 import static nc.config.NCConfig.*;
 import static nc.recipe.NCRecipes.solid_fission;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 

@@ -1,5 +1,7 @@
 package nc.multiblock.cuboidal;
 
+import javax.vecmath.Vector3f;
+
 import nc.multiblock.*;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
@@ -459,6 +461,12 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 			default:
 				return getExtremeInteriorCoord(true, true, true);
 		}
+	}
+	
+	public Vector3f getMiddleInteriorPlaneCoord(EnumFacing normal, int depth, int minUCushion, int minVCushion, int maxUCushion, int maxVCushion) {
+		BlockPos min = getMinimumInteriorPlaneCoord(normal, depth, minUCushion, minVCushion);
+		BlockPos max = getMaximumInteriorPlaneCoord(normal, depth, maxUCushion, maxVCushion);
+		return new Vector3f((min.getX() + max.getX()) / 2F, (min.getY() + max.getY()) / 2F, (min.getZ() + max.getZ()) / 2F);
 	}
 	
 	public Iterable<MutableBlockPos> getInteriorPlaneMinX(int depth, int minUCushion, int minVCushion, int maxUCushion, int maxVCushion) {

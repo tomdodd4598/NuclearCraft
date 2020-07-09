@@ -57,8 +57,19 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 		if (!isRenderer || !isMultiblockAssembled()) {
 			return Block.FULL_BLOCK_AABB.offset(pos);
 		}
-		return new AxisAlignedBB(pos.add(getMultiblock().getMinX() - pos.getX(), getMultiblock().getMinY() - pos.getY(), getMultiblock().getMinZ() - pos.getZ()), pos.add(getMultiblock().getMaxX() - pos.getX(), getMultiblock().getMaxY() - pos.getY(), getMultiblock().getMaxZ() - pos.getZ()));
+		return new AxisAlignedBB(getMultiblock().getMinimumCoord(), getMultiblock().getMaximumCoord());
 		// return INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return super.getMaxRenderDistanceSquared();
+	}
+	
+	@Override
+	public boolean hasFastRenderer() {
+		return super.hasFastRenderer();
 	}
 	
 	@Override

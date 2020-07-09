@@ -1,9 +1,12 @@
 package nc.render.tile;
 
-import nc.init.NCBlocks;
+import javax.vecmath.Vector3f;
+
+import nc.config.NCConfig;
 import nc.multiblock.turbine.*;
+import nc.multiblock.turbine.Turbine.PlaneDir;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
-import nc.multiblock.turbine.tile.*;
+import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.util.NCMath;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -36,34 +39,20 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		}
 		
 		Turbine turbine = controller.getMultiblock();
-		if (turbine == null) {
-			return;
-		}
+		if (turbine == null) return;
 		
 		EnumFacing dir = turbine.flowDir;
-		if (dir == null) {
-			return;
-		}
-		
-		IBlockState shaftState = NCBlocks.turbine_rotor_shaft.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, turbine.getShaftDir());
-		
-		boolean[] isStatorSet = new boolean[turbine.getFlowLength()];
-		for (TileTurbineRotorStator stator : turbine.getPartMap(TileTurbineRotorStator.class).values()) {
-			isStatorSet[dir.getAxisDirection() == AxisDirection.POSITIVE ? turbine.getFlowLength() - stator.getDepth() - 1 : stator.getDepth()] = true;
-		}
+		if (dir == null) return;
 		
 		BlockRendererDispatcher renderer = MC.getBlockRendererDispatcher();
-		// brightness =
-		// tile.getWorld().getLightBrightness(turbine.getMinimumInteriorPlaneCoord(dir,
-		// turbine.getFlowLength()/2, turbine.bladeLength - 1,
-		// turbine.bladeLength - 1));
+		
+		// brightness = tile.getWorld().getLightBrightness(turbine.getMinimumInteriorPlaneCoord(dir, turbine.getFlowLength()/2, bladeLength - 1,bladeLength - 1));
 		brightness[count] = controller.getWorld().getLightBrightness(turbine.getExtremeInteriorCoord(NCMath.getBit(count, 0) == 1, NCMath.getBit(count, 1) == 1, NCMath.getBit(count, 2) == 1));
 		count++;
 		count %= 8;
 		float bright = (brightness[0] + brightness[1] + brightness[2] + brightness[3] + brightness[4] + brightness[5] + brightness[6] + brightness[7]) / 8F;
-		MC.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		
-		GlStateManager.pushMatrix();
+		MC.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0, 15 * 16);
 		
@@ -73,77 +62,104 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		double rY = -turbine.getMaxY() + pos.getY() + (dir.getAxis() == Axis.Y ? 0D : r);
 		double rZ = -turbine.getMaxZ() + pos.getZ() + (dir.getAxis() == Axis.Z ? 0D : r);
 		
-		double scale = r / Math.sqrt(r * r + NCMath.sq(turbine.shaftWidth) / 4D);
+		int flowLength = turbine.getFlowLength(), bladeLength = turbine.bladeLength, shaftWidth = turbine.shaftWidth;
+		double scale = r / Math.sqrt(r * r + NCMath.sq(shaftWidth) / 4D);
 		
+		// Enter rotated frame
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(posX - rX, posY - rY, posZ - rZ);
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
-		long systemTime = Minecraft.getSystemTime();
-		if (!MC.isGamePaused()) {
-			turbine.rotorAngle = (turbine.rotorAngle + (systemTime - turbine.prevRenderTime) * turbine.angVel) % 360F;
+		{
+			long systemTime = Minecraft.getSystemTime();
+			if (!MC.isGamePaused()) turbine.rotorAngle = (turbine.rotorAngle + (systemTime - turbine.prevRenderTime) * turbine.angVel) % 360F;
+			turbine.prevRenderTime = systemTime;
+			GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		}
-		turbine.prevRenderTime = systemTime;
-		GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
-		for (TileTurbineRotorShaft shaft : turbine.getPartMap(TileTurbineRotorShaft.class).values()) {
-			if (!shaft.render || isStatorSet[shaft.depth]) {
-				continue;
-			}
-			GlStateManager.pushMatrix();
-			pos = shaft.getPos();
-			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
-			GlStateManager.rotate(-90F, 0F, 1F, 0F);
-			renderer.renderBlockBrightness(shaftState, bright);
-			GlStateManager.popMatrix();
+		if (turbine.rotorStateArray == null) return;
+		IBlockState shaftState = turbine.rotorStateArray[turbine.bladePosArray.length];
+		
+		for (int depth : turbine.bladeDepths) {
+			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, NCConfig.turbine_render_blade_width, depth);
 		}
 		
-		for (TileTurbineRotorBlade blade : turbine.getPartMap(TileTurbineRotorBlade.class).values()) {
-			GlStateManager.pushMatrix();
-			pos = blade.bladePos();
-			TurbinePartDir bladeDir = blade.getDir();
-			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
-			GlStateManager.translate(0.5D, 0.5D, 0.5D);
-			GlStateManager.rotate(blade.getRenderRotation() * (dir.getAxisDirection() == AxisDirection.POSITIVE ^ dir.getAxis() == Axis.X ? 1F : -1F), bladeDir == TurbinePartDir.X ? 1F : 0F, bladeDir == TurbinePartDir.Y ? 1F : 0F, bladeDir == TurbinePartDir.Z ? 1F : 0F);
-			GlStateManager.translate(-0.5D, -0.5D, -0.5D);
-			GlStateManager.rotate(-90F, 0F, 1F, 0F);
-			renderer.renderBlockBrightness(blade.getRenderState(), bright);
-			GlStateManager.popMatrix();
-		}
+		// Leave rotated frame
 		GlStateManager.popMatrix();
 		
+		// Enter stationary frame
 		GlStateManager.pushMatrix();
 		pos = controller.getPos();
 		GlStateManager.translate(posX - rX, posY - rY, posZ - rZ);
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
-		for (TileTurbineRotorShaft shaft : turbine.getPartMap(TileTurbineRotorShaft.class).values()) {
-			if (!shaft.render || !isStatorSet[shaft.depth]) {
-				continue;
-			}
-			GlStateManager.pushMatrix();
-			pos = shaft.getPos();
-			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
-			GlStateManager.rotate(-90F, 0F, 1F, 0F);
-			renderer.renderBlockBrightness(shaftState, bright);
-			GlStateManager.popMatrix();
+		for (int depth : turbine.statorDepths) {
+			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, NCConfig.turbine_render_blade_width, depth);
 		}
 		
-		for (TileTurbineRotorStator stator : turbine.getPartMap(TileTurbineRotorStator.class).values()) {
+		GlStateManager.popMatrix();
+	}
+	
+	public void renderRotor(Turbine turbine, BlockRendererDispatcher renderer, float bright, IBlockState shaftState, EnumFacing flowDir, int flowLength, int bladeLength, int shaftWidth, double bladeWidth, int depth) {
+		double depthScale = Math.pow(NCConfig.turbine_render_rotor_expansion, (double) (1 + depth - flowLength) / (double) flowLength);
+		
+		GlStateManager.pushMatrix();
+		
+		Vector3f renderPos = turbine.renderPosArray[4 * flowLength * shaftWidth + depth];
+		GlStateManager.translate(renderPos.x + 0.5D, renderPos.y + 0.5D, renderPos.z + 0.5D);
+		GlStateManager.scale(flowDir.getAxis() == Axis.X ? 1D : depthScale, flowDir.getAxis() == Axis.Y ? 1D : depthScale, flowDir.getAxis() == Axis.Z ? 1D : depthScale);
+		GlStateManager.translate(-renderPos.x - 0.5D, -renderPos.y - 0.5D, -renderPos.z - 0.5D);
+		
+		renderShaft(turbine, renderer, bright, shaftState, flowDir, flowLength, shaftWidth, depth);
+		for (int j : new int[] { 0, flowLength, 2 * flowLength, 3 * flowLength }) {
+			renderBlades(turbine, renderer, bright, flowDir, flowLength, bladeLength, shaftWidth, bladeWidth, j, depth);
+		}
+		
+		GlStateManager.popMatrix();
+	}
+	
+	public void renderShaft(Turbine turbine, BlockRendererDispatcher renderer, float bright, IBlockState shaftState, EnumFacing flowDir, int flowLength, int shaftWidth, int depth) {
+		GlStateManager.pushMatrix();
+		
+		Vector3f renderPos = turbine.renderPosArray[4 * flowLength * shaftWidth + depth];
+		GlStateManager.translate(renderPos.x + 0.5D, renderPos.y + 0.5D, renderPos.z + 0.5D);
+		GlStateManager.scale(flowDir.getAxis() == Axis.X ? 1D : shaftWidth, flowDir.getAxis() == Axis.Y ? 1D : shaftWidth, flowDir.getAxis() == Axis.Z ? 1D : shaftWidth);
+		
+		GlStateManager.translate(-0.5D, -0.5D, -0.5D);
+		GlStateManager.rotate(-90F, 0F, 1F, 0F);
+		
+		renderer.renderBlockBrightness(shaftState, bright);
+		
+		GlStateManager.popMatrix();
+	}
+	
+	public void renderBlades(Turbine turbine, BlockRendererDispatcher renderer, float bright, EnumFacing flowDir, int flowLength, int bladeLength, int shaftWidth, double bladeWidth, int jMult, int depth) {
+		Vector3f renderPos;
+		IBlockState rotorState;
+		TurbinePartDir bladeDir;
+		PlaneDir planeDir;
+		
+		int i = jMult + depth;
+		
+		for (int w = 0; w < shaftWidth; w++) {
 			GlStateManager.pushMatrix();
-			pos = stator.bladePos();
-			TurbinePartDir bladeDir = stator.getDir();
-			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
-			GlStateManager.translate(0.5D, 0.5D, 0.5D);
-			GlStateManager.rotate(stator.getRenderRotation() * (dir.getAxisDirection() == AxisDirection.POSITIVE ^ dir.getAxis() == Axis.X ? 1F : -1F), bladeDir == TurbinePartDir.X ? 1F : 0F, bladeDir == TurbinePartDir.Y ? 1F : 0F, bladeDir == TurbinePartDir.Z ? 1F : 0F);
+			
+			renderPos = turbine.renderPosArray[w + i * shaftWidth];
+			rotorState = turbine.rotorStateArray[i];
+			bladeDir = rotorState.getValue(TurbineRotorBladeUtil.DIR);
+			planeDir = (i < flowLength || i >= 3 * flowLength) ? PlaneDir.V : PlaneDir.U;
+			
+			GlStateManager.translate(renderPos.x + 0.5D, renderPos.y + 0.5D, renderPos.z + 0.5D);
+			GlStateManager.scale(flowDir.getAxis() == Axis.X ? 1D : (turbine.getBladeDir(planeDir) == TurbinePartDir.X ? bladeLength : bladeWidth), flowDir.getAxis() == Axis.Y ? 1D : (turbine.getBladeDir(planeDir) == TurbinePartDir.Y ? bladeLength : bladeWidth), flowDir.getAxis() == Axis.Z ? 1D : (turbine.getBladeDir(planeDir) == TurbinePartDir.Z ? bladeLength : bladeWidth));
+			GlStateManager.rotate(turbine.bladeAngleArray[i] * (flowDir.getAxisDirection() == AxisDirection.POSITIVE ^ flowDir.getAxis() == Axis.X ? 1F : -1F), bladeDir == TurbinePartDir.X ? 1F : 0F, bladeDir == TurbinePartDir.Y ? 1F : 0F, bladeDir == TurbinePartDir.Z ? 1F : 0F);
+			
 			GlStateManager.translate(-0.5D, -0.5D, -0.5D);
 			GlStateManager.rotate(-90F, 0F, 1F, 0F);
-			renderer.renderBlockBrightness(stator.getRenderState(), bright);
+			
+			renderer.renderBlockBrightness(rotorState, bright);
+			
 			GlStateManager.popMatrix();
 		}
-		GlStateManager.popMatrix();
-		
-		GlStateManager.popMatrix();
 	}
 }
