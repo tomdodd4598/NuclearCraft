@@ -15,6 +15,12 @@
             "text": "Pulverises, saws, crushes... This is the most versatile machine, and will be one of the first you will make"
         },
         {
+            "anchor": "nuclear_furnace",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:nuclear_furnace",
+            "text": "Similar to a regular furnace, but it uses THE POWER OF RADIOACTIVITY to smelt stuff."
+        },
+        {
             "anchor": "separator",
             "type": "machines/single_machine",
             "block": "nuclearcraft:separator",
@@ -42,7 +48,7 @@
             "anchor": "fluid_infuser",
             "type": "machines/single_machine",
             "block": "nuclearcraft:infuser",
-            "text": "Infuses a fluid into an item"
+            "text": "Infuses a fluid into an item, opposite of $(l:machines/processors#fluid_enricher)Fluid Enricher$(/l)"
         },
         {
             "anchor": "melter",
@@ -85,6 +91,36 @@
             "type": "machines/single_machine",
             "block": "nuclearcraft:chemical_reactor",
             "text": "Overpowered squeezer, capable of turning piles of dust into crystals"
+        },
+        {
+            "anchor": "salt_mixer",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:salt_mixer",
+            "text": "Mixes fluids together"
+        },
+        {
+            "anchor": "crystallizer",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:crystallizer",
+            "text": "Evaporates the water from solutions to form solids"
+        },
+        {
+            "anchor": "fluid_enricher",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:enricher",
+            "text": "Mixes items into fluids, opposite of $(l:machines/processors#fluid_infuser)Fluid Infuser$(/l)"
+        },
+        {
+            "anchor": "fluid_extractor",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:extractor",
+            "text": "Extracts fluids from items"
+        },
+        {
+            "anchor": "centrifuge",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:centrifuge",
+            "text": "Very spinny. Seperates fluids through the use of centrifugal force"
         },
         {
             "anchor": "rock_crusher",
