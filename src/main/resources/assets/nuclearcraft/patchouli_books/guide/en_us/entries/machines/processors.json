@@ -6,7 +6,7 @@
         {
             "anchor": "intro",
             "type": "text",
-            "text": "These machines process, well, almost anything! Some are very hot, others are very cold, but they all require energy, and transform stuff into other stuff"
+            "text": "These machines process, well, almost anything! Some are very hot, others are very cold, most require energy, but they all transform stuff into other stuff"
         },
         {
             "anchor": "manufactory",
@@ -18,7 +18,7 @@
             "anchor": "nuclear_furnace",
             "type": "machines/single_machine",
             "block": "nuclearcraft:nuclear_furnace",
-            "text": "Similar to a regular furnace, but it uses THE POWER OF RADIOACTIVITY to smelt stuff."
+            "text": "Similar to a regular furnace, but it uses THE POWER OF RADIOACTIVITY to smelt stuff. Requires a nuclear fuel source to function."
         },
         {
             "anchor": "separator",
@@ -78,7 +78,7 @@
             "anchor": "ingot_former",
             "type": "machines/single_machine",
             "block": "nuclearcraft:ingot_former",
-            "text": "Forms ingots from their molten counterparts"
+            "text": "Forms ingots from their molten counterparts. Does not require energy"
         },
         {
             "anchor": "pressurizer",

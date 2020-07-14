@@ -1,12 +1,12 @@
 {
-    "name": "Generators",
+    "name": "Generators & Collectors",
     "icon": "nuclearcraft:rtg_uranium",
     "category": "nuclearcraft:machines",
     "pages": [
         {
             "anchor": "intro",
             "type": "text",
-            "text": "These blocks generate energy, items, and fluids, without needing any continuous input"
+            "text": "These blocks generate energy, items, or fluids, without needing any continuous input"
         },
         {
             "anchor": "rtg",
