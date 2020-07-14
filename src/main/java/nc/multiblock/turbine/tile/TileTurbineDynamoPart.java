@@ -7,8 +7,10 @@ import javax.annotation.*;
 import gregtech.api.capability.*;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
+import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.energy.ITileEnergy;
@@ -19,7 +21,7 @@ import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
@@ -40,10 +42,13 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public final Double conductivity;
 	public boolean isSearched = false, isInValidPosition = false;
 	
-	public TileTurbineDynamoPart(String partName, Double conductivity) {
+	public final PlacementRule<ITurbinePart> placementRule;
+	
+	public TileTurbineDynamoPart(String partName, Double conductivity, PlacementRule<ITurbinePart> placementRule) {
 		super(CuboidalPartPositionType.WALL);
 		this.partName = partName;
 		this.conductivity = conductivity;
+		this.placementRule = placementRule;
 	}
 	
 	@Override
@@ -61,45 +66,47 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 		// getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public void dynamoSearch(ObjectSet<TileTurbineDynamoPart> cache) {
-		if (isSearched || !isDynamoCoilValid()) {
+	public void dynamoSearch(final ObjectSet<TileTurbineDynamoPart> validCache, final ObjectSet<TileTurbineDynamoPart> searchCache, final Long2ObjectMap<TileTurbineDynamoPart> partFailCache, final Long2ObjectMap<TileTurbineDynamoPart> assumedValidCache) {
+		if (!isDynamoPartValid(partFailCache, assumedValidCache)) {
+			return;
+		}
+		
+		if (isSearched) {
 			return;
 		}
 		
 		isSearched = true;
-		cache.add(this);
+		validCache.add(this);
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			TileTurbineDynamoPart part = getMultiblock().getPartMap(TileTurbineDynamoPart.class).get(getTilePos().offset(dir).toLong());
 			if (part != null) {
-				part.dynamoSearch(cache);
+				searchCache.add(part);
 			}
 		}
 	}
 	
-	public boolean isDynamoCoilValid() {
-		if (isInValidPosition) {
+	public boolean isDynamoPartValid(final Long2ObjectMap<TileTurbineDynamoPart> partFailCache, final Long2ObjectMap<TileTurbineDynamoPart> assumedValidCache) {
+		if (partFailCache.containsKey(pos.toLong())) {
+			return isInValidPosition = false;
+		}
+		else if (placementRule.requiresRecheck()) {
+			isInValidPosition = placementRule.satisfied(this);
+			if (isInValidPosition) {
+				assumedValidCache.put(pos.toLong(), this);
+			}
+			return isInValidPosition;
+		}
+		else if (isInValidPosition) {
 			return true;
 		}
-		return isInValidPosition = checkDynamoCoilValid();
-	}
-	
-	protected abstract boolean checkDynamoCoilValid();
-	
-	protected boolean isRotorBearing(BlockPos pos) {
-		return getMultiblock().getPartMap(TileTurbineRotorBearing.class).get(pos.toLong()) != null;
-	}
-	
-	protected boolean isCoilConnector(BlockPos pos) {
-		return isDynamoCoil(pos, "connector");
-	}
-	
-	protected boolean isDynamoCoil(BlockPos pos, String coilName) {
-		TileTurbineDynamoPart part = getMultiblock().getPartMap(TileTurbineDynamoPart.class).get(pos.toLong());
-		return part instanceof TileTurbineDynamoCoil ? part.isInValidPosition && (coilName == null || part.partName.equals(coilName)) : false;
+		return isInValidPosition = placementRule.satisfied(this);
 	}
 	
 	public boolean isSearchRoot() {
+		for (String dep : placementRule.getDependencies()) {
+			if (dep.equals("bearing")) return true;
+		}
 		return false;
 	}
 	
@@ -141,7 +148,6 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 			return backupStorage;
 		}
 		return getMultiblock().energyStorage;
-		
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ public class NCInfo {
 		return list.toArray(new String[list.size()]);
 	}
 	
-	// Fission Heat Sinks
+	// Fission Cooling
 	
 	private static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingFixedInfo(T[] values, String name) {
 		String[][] info = new String[values.length][];
@@ -57,7 +57,7 @@ public class NCInfo {
 		return coolingFixedInfo(MetaEnums.CoolantHeaterType2.values(), "salt_fission_heater");
 	}
 	
-	public static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingInfo(T[] values, String name) {
+	/*public static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingInfo(T[] values, String name) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = InfoHelper.formattedInfo(coolingInfoString(values[i], name));
@@ -83,7 +83,7 @@ public class NCInfo {
 	
 	public static String[][] coolantHeaterInfo2() {
 		return coolingInfo(MetaEnums.CoolantHeaterType2.values(), "salt_fission_heater2");
-	}
+	}*/
 	
 	// Fission Neutron Sources
 	
@@ -156,22 +156,22 @@ public class NCInfo {
 		return info;
 	}
 	
-	public static String[][] dynamoCoilInfo() {
+	/*public static String[][] dynamoCoilInfo() {
 		String[][] info = new String[TurbineDynamoCoilType.values().length][];
 		info[0] = new String[] {};
 		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
 			info[i] = InfoHelper.formattedInfo(coiInfoString(i));
 		}
 		return info;
-	}
+	}*/
 	
 	private static String coilConductivityString(int meta) {
 		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.decimalPlaces(100D * TurbineDynamoCoilType.values()[meta].getConductivity(), 1) + "%";
 	}
 	
-	private static String coiInfoString(int meta) {
+	/*private static String coiInfoString(int meta) {
 		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + TurbineDynamoCoilType.values()[meta].name().toLowerCase(Locale.ROOT) + ".desc");
-	}
+	}*/
 	
 	// Speed Upgrade
 	

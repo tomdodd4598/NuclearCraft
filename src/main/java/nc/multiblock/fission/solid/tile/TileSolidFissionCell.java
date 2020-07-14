@@ -2,7 +2,7 @@ package nc.multiblock.fission.solid.tile;
 
 import static nc.config.NCConfig.*;
 import static nc.recipe.NCRecipes.solid_fission;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 
@@ -123,7 +123,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public boolean isValidHeatConductor() {
+	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		return isProcessing;
 	}
 	
@@ -137,7 +137,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		/* primed = */ fluxSearched = false;
 		flux = heatMult = 0;
 		undercoolingLifetimeFactor = 1D;
-		sourceEfficiency = null;
+		// sourceEfficiency = null;
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			moderatorLineFluxes[dir.getIndex()] = 0;
 			moderatorLineEfficiencies[dir.getIndex()] = null;
@@ -161,12 +161,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
+	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		refreshRecipe();
 		refreshActivity();
 		refreshIsProcessing(false);
 		
-		IFissionFuelComponent.super.clusterSearch(id, clusterSearchCache);
+		IFissionFuelComponent.super.clusterSearch(id, clusterSearchCache, componentFailCache, assumedValidCache);
 	}
 	
 	@Override
@@ -589,6 +589,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 				}
 			}
 			else {
+				sourceEfficiency = null;
 				getMultiblock().refreshFlag = true;
 			}
 		}

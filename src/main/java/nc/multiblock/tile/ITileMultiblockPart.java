@@ -1,13 +1,9 @@
 package nc.multiblock.tile;
 
-import java.util.*;
-
-import com.google.common.collect.Lists;
+import java.util.Set;
 
 import nc.multiblock.Multiblock;
-import nc.recipe.*;
 import nc.tile.IMultitoolLogic;
-import nc.util.StackHelper;
 
 /* A multiblock library for making irregularly-shaped multiblock machines
  *
@@ -16,7 +12,6 @@ import nc.util.StackHelper;
  * Ported to Minecraft 1.9 by ZeroNoRyouki https://github.com/ZeroNoRyouki/ZeroCore */
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 
 /**
  * Basic interface for a multiblock machine part. Preferably, you should derive from MultiblockTileEntityBase, which does all the hard work for you.
@@ -185,11 +180,4 @@ public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock> extends IMul
 	 * Called after a block is added and the multiblock has incorporated the part's saved multiblock game-data into itself. Generally, you should clear the saved data here.
 	 */
 	void onMultiblockDataAssimilated();
-	
-	// Helper methods
-	
-	public default ProcessorRecipe blockRecipe(ProcessorRecipeHandler recipeHandler, BlockPos pos) {
-		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(getTileWorld().getBlockState(pos))), new ArrayList<>());
-		return recipeInfo == null ? null : recipeInfo.getRecipe();
-	}
 }

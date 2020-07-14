@@ -199,7 +199,7 @@ public class NCBlocks {
 		
 		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.MATERIAL), "supercold_ice");
 		
-		heavy_water_moderator = withName(new NCBlock(Material.IRON), "heavy_water_moderator");
+		heavy_water_moderator = withName(new NCBlock(Material.IRON).setCreativeTab(NCTabs.MISC), "heavy_water_moderator");
 		
 		if (register_processor[0]) {
 			nuclear_furnace = withName(new BlockNuclearFurnace(), "nuclear_furnace");
@@ -519,13 +519,13 @@ public class NCBlocks {
 		
 		registerBlock(solid_fission_controller);
 		registerBlock(solid_fission_cell);
-		registerBlock(solid_fission_sink, new ItemBlockMeta(solid_fission_sink, MetaEnums.HeatSinkType.class, TextFormatting.BLUE, NCInfo.heatSinkFixedInfo(), TextFormatting.AQUA, NCInfo.heatSinkInfo()));
-		registerBlock(solid_fission_sink2, new ItemBlockMeta(solid_fission_sink2, MetaEnums.HeatSinkType2.class, TextFormatting.BLUE, NCInfo.heatSinkFixedInfo2(), TextFormatting.AQUA, NCInfo.heatSinkInfo2()));
+		registerBlock(solid_fission_sink, new ItemBlockMeta(solid_fission_sink, MetaEnums.HeatSinkType.class, TextFormatting.BLUE, NCInfo.heatSinkFixedInfo(), TextFormatting.AQUA, new String[][] {}));
+		registerBlock(solid_fission_sink2, new ItemBlockMeta(solid_fission_sink2, MetaEnums.HeatSinkType2.class, TextFormatting.BLUE, NCInfo.heatSinkFixedInfo2(), TextFormatting.AQUA, new String[][] {}));
 		
 		registerBlock(salt_fission_controller);
 		registerBlock(salt_fission_vessel);
-		registerBlock(salt_fission_heater, new ItemBlockMeta(salt_fission_heater, MetaEnums.CoolantHeaterType.class, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo(), TextFormatting.AQUA, NCInfo.coolantHeaterInfo()));
-		registerBlock(salt_fission_heater2, new ItemBlockMeta(salt_fission_heater2, MetaEnums.CoolantHeaterType2.class, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo2(), TextFormatting.AQUA, NCInfo.coolantHeaterInfo2()));
+		registerBlock(salt_fission_heater, new ItemBlockMeta(salt_fission_heater, MetaEnums.CoolantHeaterType.class, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo(), TextFormatting.AQUA, new String[][] {}));
+		registerBlock(salt_fission_heater2, new ItemBlockMeta(salt_fission_heater2, MetaEnums.CoolantHeaterType2.class, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo2(), TextFormatting.AQUA, new String[][] {}));
 		
 		registerBlock(heat_exchanger_controller);
 		registerBlock(heat_exchanger_casing);
@@ -550,7 +550,7 @@ public class NCBlocks {
 		registerBlock(turbine_rotor_blade_sic_sic_cmc, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * turbine_blade_efficiency[2]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * turbine_blade_expansion[2]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
 		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D * turbine_stator_expansion) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
 		registerBlock(turbine_rotor_bearing);
-		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, NCInfo.dynamoCoilInfo()));
+		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, new String[][] {}));
 		registerBlock(turbine_coil_connector);
 		registerBlock(turbine_inlet);
 		registerBlock(turbine_outlet);

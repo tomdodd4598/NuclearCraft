@@ -2,6 +2,7 @@ package nc.multiblock.fission.tile;
 
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,7 +45,7 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	}
 	
 	@Override
-	public boolean isValidHeatConductor() {
+	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		return true;
 	}
 	

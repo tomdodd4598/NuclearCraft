@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 
 public class NCTabs {
 	
-	public static final CreativeTabs NUCLEARCRAFT = single_creative_tab ? new TabNuclearCraft() : CreativeTabs.MISC;
+	private static final CreativeTabs NUCLEARCRAFT = single_creative_tab ? new TabNuclearCraft() : CreativeTabs.MISC;
 	
 	public static final CreativeTabs MATERIAL = single_creative_tab ? NUCLEARCRAFT : new TabMaterial();
 	public static final CreativeTabs MACHINE = single_creative_tab ? NUCLEARCRAFT : new TabMachine();

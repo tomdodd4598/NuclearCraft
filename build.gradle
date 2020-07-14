@@ -52,6 +52,11 @@ repositories {
 		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
 	}
 	maven {
+		// tterrag
+		name 'tterrag Maven'
+		url "https://maven.tterrag.com/"
+	}
+	maven {
 		// General
 		name = "mcmoddev"
 		url = "https://maven.mcmoddev.com"
@@ -106,6 +111,8 @@ dependencies {
 		transitive = false
 	}
 	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"
+	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}"
+	deobfCompile "hwyla:Hwyla:${hwyla_version}"
 }
 
 processResources {

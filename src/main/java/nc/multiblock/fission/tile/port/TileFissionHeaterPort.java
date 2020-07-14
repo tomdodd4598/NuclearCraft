@@ -2,7 +2,7 @@ package nc.multiblock.fission.tile.port;
 
 import static nc.init.NCCoolantFluids.COOLANTS;
 import static nc.recipe.NCRecipes.coolant_heater;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
 
 import java.util.Set;

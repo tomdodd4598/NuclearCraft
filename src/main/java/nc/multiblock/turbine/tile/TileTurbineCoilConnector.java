@@ -1,13 +1,11 @@
 package nc.multiblock.turbine.tile;
 
-import nc.multiblock.turbine.Turbine;
-import nc.util.BlockPosHelper;
-import net.minecraft.util.EnumFacing;
+import nc.multiblock.turbine.*;
 
 public class TileTurbineCoilConnector extends TileTurbineDynamoPart {
 	
 	public TileTurbineCoilConnector() {
-		super("connector", null);
+		super("connector", null, TurbinePlacement.RULE_MAP.get("connector"));
 	}
 	
 	@Override
@@ -23,15 +21,5 @@ public class TileTurbineCoilConnector extends TileTurbineDynamoPart {
 		// if (getWorld().isRemote) return;
 		// getWorld().setBlockState(getPos(),
 		// getWorld().getBlockState(getPos()), 2);
-	}
-	
-	@Override
-	protected boolean checkDynamoCoilValid() {
-		for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
-			if (isDynamoCoil(pos.offset(dir), null)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

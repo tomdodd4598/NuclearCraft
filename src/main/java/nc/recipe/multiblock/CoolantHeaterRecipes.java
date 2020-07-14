@@ -16,15 +16,16 @@ public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		for (int i = 0; i < COOLANTS.size(); i++) {
-			addRecipe(fluidStack(COOLANTS.get(i) + "nak", 1), fluidStack(COOLANTS.get(i) + "nak_hot", 1), fission_heater_cooling_rate[i], "jei.nuclearcraft.coolant_heater." + COOLANTS.get(i) + "nak");
+			String ruleName = (COOLANTS.get(i).equals("") ? "standard_" : COOLANTS.get(i)) + "heater";
+			addRecipe(fluidStack(COOLANTS.get(i) + "nak", 1), fluidStack(COOLANTS.get(i) + "nak_hot", 1), fission_heater_cooling_rate[i], ruleName);
 		}
 	}
 	
 	@Override
 	public List fixExtras(List extras) {
 		List fixed = new ArrayList(2);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 40);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof String ? (String) extras.get(1) : 300);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 0);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof String ? (String) extras.get(1) : "");
 		return fixed;
 	}
 }

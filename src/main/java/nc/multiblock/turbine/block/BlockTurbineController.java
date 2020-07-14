@@ -13,7 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
 public class BlockTurbineController extends BlockTurbinePart {
@@ -81,6 +81,19 @@ public class BlockTurbineController extends BlockTurbinePart {
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
+	}
+	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		/*TileEntity tile = source.getTileEntity(pos);
+		if (tile instanceof TileTurbineController) {
+			TileTurbineController controller = (TileTurbineController) tile;
+			if (!controller.isRenderer || !controller.isMultiblockAssembled()) {
+				return FULL_BLOCK_AABB;
+			}
+			return new AxisAlignedBB(controller.getMultiblock().getMinimumCoord().subtract(pos), controller.getMultiblock().getMaximumCoord().subtract(pos));
+		}*/
+		return FULL_BLOCK_AABB;
 	}
 	
 	@Override

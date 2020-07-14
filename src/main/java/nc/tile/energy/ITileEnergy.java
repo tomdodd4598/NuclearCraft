@@ -6,6 +6,7 @@ import javax.annotation.*;
 
 import gregtech.api.capability.*;
 import ic2.api.energy.tile.IEnergySink;
+import mcjty.lib.api.power.IBigPower;
 import nc.ModCheck;
 import nc.tile.ITile;
 import nc.tile.internal.energy.*;
@@ -19,7 +20,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
 
-public interface ITileEnergy extends ITile {
+@Optional.Interface(iface = "mcjty.lib.api.power.IBigPower", modid = "theoneprobe")
+public interface ITileEnergy extends ITile, IBigPower {
 	
 	// Storage
 	
@@ -242,5 +244,19 @@ public interface ITileEnergy extends ITile {
 	
 	public default boolean hasEnergySideCapability(@Nullable EnumFacing side) {
 		return side == null || getEnergyConnection(side).canConnect();
+	}
+	
+	// TOP
+	
+	@Override
+	@Optional.Method(modid = "theoneprobe")
+	public default long getStoredPower() {
+		return getEnergyStorage().getEnergyStoredLong();
+	}
+	
+	@Override
+	@Optional.Method(modid = "theoneprobe")
+	public default long getCapacity() {
+		return getEnergyStorage().getMaxEnergyStoredLong();
 	}
 }

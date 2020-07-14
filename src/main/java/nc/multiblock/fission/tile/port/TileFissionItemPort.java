@@ -1,7 +1,7 @@
 package nc.multiblock.fission.tile.port;
 
 import static nc.config.NCConfig.smart_processor_input;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 

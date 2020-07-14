@@ -103,7 +103,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			if (!source.getIsRedstonePowered()) {
 				continue;
 			}
-			PrimingTargetInfo targetInfo = source.getPrimingTarget();
+			PrimingTargetInfo targetInfo = source.getPrimingTarget(false);
 			if (targetInfo == null) {
 				continue;
 			}
@@ -137,7 +137,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshClusters() {
 		for (TileSaltFissionVessel vessel : getParts(TileSaltFissionVessel.class)) {
-			refreshFuelComponentModerators(vessel);
+			refreshFuelComponentModerators(vessel, assumedValidCache);
 		}
 		
 		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
@@ -366,8 +366,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	// Component Logic
 	
 	@Override
-	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache) {
-		fuelComponent.defaultDistributeFlux(fluxSearchCache, lineFailCache);
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		fuelComponent.defaultDistributeFlux(fluxSearchCache, lineFailCache, assumedValidCache);
 	}
 	
 	@Override
@@ -381,8 +381,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent) {
-		fuelComponent.defaultRefreshModerators();
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		fuelComponent.defaultRefreshModerators(assumedValidCache);
 	}
 	
 	@Override

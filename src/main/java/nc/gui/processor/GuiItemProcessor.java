@@ -64,7 +64,7 @@ public abstract class GuiItemProcessor extends NCGui {
 	
 	@Override
 	public List<String> energyInfo(ITileEnergy tile) {
-		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 5, "RF");
+		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStoredLong(), tile.getEnergyStorage().getMaxEnergyStoredLong(), 5, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 5, "RF/t");
 		
 		String speedMultiplier = "x" + NCMath.decimalPlaces(this.tile.getSpeedMultiplier(), 2);

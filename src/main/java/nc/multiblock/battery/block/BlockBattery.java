@@ -52,10 +52,7 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND) {
+		if (player == null || hand != EnumHand.MAIN_HAND) {
 			return false;
 		}
 		
@@ -68,7 +65,7 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 			}
 			else if (!world.isRemote) {
 				EnergyStorage storage = battery.getEnergyStorage();
-				player.sendMessage(new TextComponentString(Lang.localise("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStored(), storage.getMaxEnergyStored(), 5, "RF")));
+				player.sendMessage(new TextComponentString(Lang.localise("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStoredLong(), storage.getMaxEnergyStoredLong(), 5, "RF")));
 			}
 			return true;
 		}

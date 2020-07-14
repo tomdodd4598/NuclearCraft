@@ -143,8 +143,8 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getNumberOfDynamoCoils(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoCoil.class).size() : 0};
+	public Object[] getNumberOfDynamoParts(Context context, Arguments args) {
+		return new Object[] { isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoPart.class).size() : 0 };
 	}
 	
 	@Callback
@@ -152,8 +152,8 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public Object[] getDynamoPartStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<>();
-			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getPartMap(TileTurbineDynamoCoil.class).values()) {
-				stats.add(new Object[] {new Object[] {dynamoCoil.getPos().getX(), dynamoCoil.getPos().getY(), dynamoCoil.getPos().getZ()}, dynamoCoil.partName, dynamoCoil.isInValidPosition});
+			for (TileTurbineDynamoPart dynamoPart : getMultiblock().getPartMap(TileTurbineDynamoPart.class).values()) {
+				stats.add(new Object[] { new Object[] { dynamoPart.getPos().getX(), dynamoPart.getPos().getY(), dynamoPart.getPos().getZ() }, dynamoPart.partName, dynamoPart.isInValidPosition });
 			}
 			return new Object[] {stats.toArray()};
 		}

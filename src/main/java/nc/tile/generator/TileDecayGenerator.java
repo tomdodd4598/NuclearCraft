@@ -5,8 +5,6 @@ import static nc.recipe.NCRecipes.decay_generator;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
-
 import nc.recipe.*;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.*;
@@ -23,7 +21,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	Random rand = new Random();
 	public int tickCount;
 	
-	protected RecipeInfo<ProcessorRecipe>[] recipes = new RecipeInfo[6];
+	protected ProcessorRecipe[] recipes = new ProcessorRecipe[6];
 	
 	protected int generatorCount;
 	
@@ -79,15 +77,15 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public double getRadiation() {
 		double radiation = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
-			if (getDecayRecipeInfo(side) != null) {
-				radiation += getDecayRecipeInfo(side).getRecipe().getDecayRadiation();
+			if (getDecayRecipe(side) != null) {
+				radiation += getDecayRecipe(side).getDecayRadiation();
 			}
 		}
 		return machine_update_rate * radiation;
 	}
 	
 	public double decayGen(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) {
+		if (getDecayRecipe(side) == null) {
 			return 0D;
 		}
 		ItemStack stack = getOutput(side);
@@ -99,7 +97,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 			if (block == null) {
 				return 0D;
 			}
-			getWorld().setBlockState(getPos().offset(side), block);
+			getWorld().setBlockState(pos.offset(side), block);
 			refreshRecipe(side);
 		}
 		return getRecipePower(side);
@@ -114,8 +112,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public void refreshRecipe(EnumFacing side) {
-		List<ItemStack> input = Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
-		recipes[side.getIndex()] = decay_generator.getRecipeInfoFromInputs(input, new ArrayList<>());
+		recipes[side.getIndex()] = RecipeHelper.blockRecipe(decay_generator, world, pos.offset(side));
 	}
 	
 	// IC2
@@ -132,29 +129,29 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	// Recipe from BlockPos
 	
-	public RecipeInfo<ProcessorRecipe> getDecayRecipeInfo(EnumFacing side) {
+	public ProcessorRecipe getDecayRecipe(EnumFacing side) {
 		return recipes[side.getIndex()];
 	}
 	
 	public double getRecipeLifetime(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) {
+		if (getDecayRecipe(side) == null) {
 			return 1200D;
 		}
-		return getDecayRecipeInfo(side).getRecipe().getDecayLifetime();
+		return getDecayRecipe(side).getDecayLifetime();
 	}
 	
 	public double getRecipePower(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) {
+		if (getDecayRecipe(side) == null) {
 			return 0D;
 		}
-		return getDecayRecipeInfo(side).getRecipe().getDecayPower();
+		return getDecayRecipe(side).getDecayPower();
 	}
 	
 	public ItemStack getOutput(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) {
+		if (getDecayRecipe(side) == null) {
 			return ItemStack.EMPTY;
 		}
-		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipeInfo(side).getRecipe().getItemProducts(), 0);
+		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipe(side).getItemProducts(), 0);
 		return output != null ? output : ItemStack.EMPTY;
 	}
 }

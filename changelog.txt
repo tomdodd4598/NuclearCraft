@@ -1,3 +1,48 @@
+v2o.3.2
+
+* Remade turbine render rotor
+
++ Added support for The One Probe to display large energy storages correctly
+* Fixed heavy water moderator not having a creative tab
+* Minor refactors and texture changes
+
+v2o.3.1
+
+* Fixed crash during load with QMD and/or Trinity also installed
+
+v2o.3.0
+
++ Added configurable fission and turbine dynamo placement rules
++ Added placement rule API for addons to introduce their own placement rules, parsers and tooltip generators
+
+* Tweaked default fission placement rules and cooling rates (be careful updating!)
+* Fixed exact placement rules not consistently being correctly checked
+* Incorporated moderator-component search method into new universal caching technique
+
+* Right-clicking on neutron sources now highlight the cell/vessel they are targeting
+* Fixed exploit where cell/vessel neutron source efficiency could be reset by removing sources after priming
+
+* Modified turbine steam throughput bonus to be linear rather than logarithmic
+* Modified turbine dynamo search to be iterative like the fission cluster search
+* Fixed coil connectors not correctly supporting magnesium coils
++ Added rotor efficiency and steam throughput bonus to turbine controller GUI
+
+* Tweaked RTG power generation
+* Fixed integer overflow on reading large energy storages
+* Removed fluid auto-pushing from machine interfaces as connected machines would not update properly
+
+* Fixed possible null-pointer multitool crash
+- Removed minor nuclear wasteland biome decorators causing crash
+
+* Fixed stat and radiation info being added to tooltips too late
+
+* Updated Forge
+* Updated Chinese language file [thanks to WuzgXY!]
+
+* Various other minor fixes, changes and refactors
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2o.2.7
 
 * Fixed fission clusters not correctly merging during placement rule checks

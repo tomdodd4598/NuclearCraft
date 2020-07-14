@@ -16,6 +16,8 @@ import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.*;
 
 public class RecipeHelper {
@@ -535,6 +537,11 @@ public class RecipeHelper {
 			hash = 31L * hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
 		}
 		return hash;
+	}
+	
+	public static ProcessorRecipe blockRecipe(ProcessorRecipeHandler recipeHandler, World world, BlockPos pos) {
+		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(pos))), new ArrayList<>());
+		return recipeInfo == null ? null : recipeInfo.getRecipe();
 	}
 	
 	public static InventoryCrafting fakeCrafter(int width, int height) {

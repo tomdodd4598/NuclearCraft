@@ -2,7 +2,7 @@ package nc.multiblock.fission.tile;
 
 import static nc.config.NCConfig.smart_processor_input;
 import static nc.recipe.NCRecipes.fission_irradiator;
-import static nc.util.BlockPosHelper.DEFAULT_NON;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 
@@ -11,6 +11,7 @@ import javax.annotation.*;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -100,7 +101,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public boolean isValidHeatConductor() {
+	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		return isProcessing;
 	}
 	
@@ -123,12 +124,12 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
+	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		refreshRecipe();
 		refreshActivity();
 		refreshIsProcessing(false);
 		
-		IFissionFluxSink.super.clusterSearch(id, clusterSearchCache);
+		IFissionFluxSink.super.clusterSearch(id, clusterSearchCache, componentFailCache, assumedValidCache);
 	}
 	
 	@Override

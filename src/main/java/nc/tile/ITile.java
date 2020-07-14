@@ -1,5 +1,7 @@
 package nc.tile;
 
+import java.util.List;
+
 import javax.annotation.*;
 
 import nc.block.property.BlockProperties;
@@ -107,5 +109,11 @@ public interface ITile<T extends TileEntity> {
 	/** Use when the capability provider side argument must be non-null */
 	public default @Nonnull EnumFacing nonNullSide(@Nullable EnumFacing side) {
 		return side == null ? EnumFacing.DOWN : side;
+	}
+	
+	// HWYLA
+	
+	public default @Nonnull List<String> addToHWYLATooltip(List<String> tooltip) {
+		return tooltip;
 	}
 }

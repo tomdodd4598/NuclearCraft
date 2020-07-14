@@ -9,7 +9,7 @@ import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionSource;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -109,14 +109,14 @@ public abstract class TileFissionSource extends TileFissionPart {
 		}
 	}
 	
-	public PrimingTargetInfo getPrimingTarget() {
+	public PrimingTargetInfo getPrimingTarget(boolean simulate) {
 		if (getPartPosition().getFacing() == null) {
 			return null;
 		}
 		EnumFacing facing = getPartPosition().getFacing(), dir = facing.getOpposite();
 		for (int i = 1; i <= fission_max_size; i++) {
 			BlockPos offPos = pos.offset(dir, i);
-			ProcessorRecipe blockRecipe = blockRecipe(fission_reflector, offPos);
+			ProcessorRecipe blockRecipe = RecipeHelper.blockRecipe(fission_reflector, world, offPos);
 			if (blockRecipe != null && blockRecipe.getFissionReflectorReflectivity() >= 1D) {
 				return null;
 			}
@@ -127,7 +127,10 @@ public abstract class TileFissionSource extends TileFissionPart {
 			}
 			if (component instanceof IFissionFuelComponent) {
 				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
-				if (fuelComponent.isAcceptingFlux(facing)) {
+				if (simulate) {
+					return new PrimingTargetInfo(fuelComponent, false);
+				}
+				else if (fuelComponent.isAcceptingFlux(facing)) {
 					double oldSourceEfficiency = fuelComponent.getSourceEfficiency();
 					fuelComponent.setSourceEfficiency(efficiency, true);
 					return new PrimingTargetInfo(fuelComponent, oldSourceEfficiency != fuelComponent.getSourceEfficiency());
