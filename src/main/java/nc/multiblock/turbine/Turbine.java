@@ -11,13 +11,11 @@ import javax.vecmath.Vector3f;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.doubles.*;
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.handler.SoundHandler.SoundInfo;
-import nc.init.NCBlocks;
 import nc.multiblock.*;
-import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.network.*;
 import nc.multiblock.tile.ITileMultiblockPart;
@@ -29,9 +27,7 @@ import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.util.NCMath;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
@@ -226,8 +222,9 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	/* ========================================= Modified Kurtchekov stuff! ========================================= */
 	
 	protected ITurbineRotorBlade getBlade(BlockPos pos) {
-		TileEntity tile = WORLD.getTileEntity(pos);
-		return tile instanceof ITurbineRotorBlade ? (ITurbineRotorBlade) tile : null;
+		long posLong = pos.toLong();
+		TileTurbineRotorBlade blade = getPartMap(TileTurbineRotorBlade.class).get(posLong);
+		return blade == null ? getPartMap(TileTurbineRotorStator.class).get(posLong) : blade;
 	}
 	
 	public TurbinePartDir getShaftDir() {
@@ -398,24 +395,6 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	
 	@Override
 	public void onPacket(TurbineUpdatePacket message) {
-		isTurbineOn = message.isTurbineOn;
-		energyStorage.setEnergyStored(message.energy);
-		energyStorage.setStorageCapacity(message.capacity);
-		energyStorage.setMaxTransfer(message.capacity);
-		power = message.power;
-		rawPower = message.rawPower;
-		conductivity = message.conductivity;
-		rotorEfficiency = message.rotorEfficiency;
-		powerBonus = message.powerBonus;
-		totalExpansionLevel = message.totalExpansionLevel;
-		idealTotalExpansionLevel = message.idealTotalExpansionLevel;
-		shaftWidth = message.shaftWidth;
-		bladeLength = message.bladeLength;
-		noBladeSets = message.noBladeSets;
-		dynamoCoilCount = message.dynamoCoilCount;
-		dynamoCoilCountOpposite = message.dynamoCoilCountOpposite;
-		bearingTension = message.bearingTension;
-		
 		logic.onPacket(message);
 	}
 	
@@ -424,59 +403,19 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	}
 	
 	public void onRenderPacket(TurbineRenderPacket message) {
-		particleEffect = message.particleEffect;
-		particleSpeedMult = message.particleSpeedMult;
-		angVel = message.angVel;
-		boolean wasProcessing = isProcessing;
-		isProcessing = message.isProcessing;
-		refreshSoundInfo = refreshSoundInfo || wasProcessing != isProcessing;
-		recipeInputRate = message.recipeInputRate;
-		recipeInputRateFP = message.recipeInputRateFP;
-		
 		logic.onRenderPacket(message);
 	}
 	
-	protected TurbineFormPacket getFormPacket() {
+	public TurbineFormPacket getFormPacket() {
 		return logic.getFormPacket();
 	}
 	
 	public void onFormPacket(TurbineFormPacket message) {
-		bladePosArray = message.bladePosArray;
-		renderPosArray = message.renderPosArray;
-		bladeAngleArray = message.bladeAngleArray;
-		
-		rotorStateArray = new IBlockState[1 + 4 * getFlowLength()];
-		rotorStateArray[4 * getFlowLength()] = NCBlocks.turbine_rotor_shaft.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, getShaftDir());
-		
-		for (int i = 0; i < bladePosArray.length; i++) {
-			BlockPos pos = bladePosArray[i];
-			ITurbineRotorBlade thisBlade = getBlade(pos);
-			rotorStateArray[i] = thisBlade == null ? WORLD.getBlockState(pos).getBlock().getDefaultState() : thisBlade.getRenderState();
-		}
-		
-		bladeDepths = new IntArrayList();
-		statorDepths = new IntArrayList();
-		
-		for (int i = 0; i < getFlowLength(); i++) {
-			if (getBlade(bladePosArray[i]).getBladeType() == TurbineRotorStatorType.STATOR) {
-				statorDepths.add(i);
-			}
-			else {
-				bladeDepths.add(i);
-			}
-		}
-	}
-	
-	public ContainerTurbineController getContainer(EntityPlayer player) {
-		return logic.getContainer(player);
+		logic.onFormPacket(message);
 	}
 	
 	@Override
 	public void clearAllMaterial() {
-		for (Tank tank : tanks) {
-			tank.setFluidStored(null);
-		}
-		
 		logic.clearAllMaterial();
 		
 		super.clearAllMaterial();

@@ -3,12 +3,14 @@ package nc.multiblock.fission.solid.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.Global;
+import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.solid.block.BlockSolidFissionController;
 import nc.multiblock.fission.tile.*;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -38,6 +40,11 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 		// if (getWorld().isRemote) return;
 		// getWorld().setBlockState(getPos(),
 		// getWorld().getBlockState(getPos()), 2);
+	}
+	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerSolidFissionController(player, this);
 	}
 	
 	@Override

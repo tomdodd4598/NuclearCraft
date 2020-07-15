@@ -16,7 +16,6 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.multiblock.Multiblock;
-import nc.multiblock.container.*;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.tile.*;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
@@ -29,7 +28,6 @@ import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -455,11 +453,6 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			heatingOutputRateFP = packet.heatingOutputRateFP;
 			reservedEffectiveHeat = packet.reservedEffectiveHeat;
 		}
-	}
-	
-	@Override
-	public ContainerMultiblockController<FissionReactor, IFissionController> getContainer(EntityPlayer player) {
-		return new ContainerSolidFissionController(player, getReactor().controller);
 	}
 	
 	@Override

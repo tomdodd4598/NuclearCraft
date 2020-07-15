@@ -91,7 +91,7 @@ tile.nuclearcraft.pressurizer.desc=Processes items under immense pressure.
 tile.nuclearcraft.chemical_reactor.name=Chemical Reactor
 tile.nuclearcraft.chemical_reactor.desc=Houses reactions between fluids.
 
-tile.nuclearcraft.salt_mixer.name=Salt Mixer
+tile.nuclearcraft.salt_mixer.name=Fluid Mixer
 tile.nuclearcraft.salt_mixer.desc=Blends fluids together.
 
 tile.nuclearcraft.crystallizer.name=Crystallizer
@@ -2332,9 +2332,9 @@ gui.nc.config.category.processor=Processor Configs
 gui.nc.config.category.processor.tooltip=Configure processors.
 
 gui.nc.config.processor_time=Processing Times
-gui.nc.config.processor_time.comment=Base ticks per process. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.processor_time.comment=Base ticks per process. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Fluid Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.processor_power=Processing Power Use
-gui.nc.config.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Fluid Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.speed_upgrade_power_laws_fp=Speed Upgrade Power Laws
 gui.nc.config.speed_upgrade_power_laws_fp.comment=Power laws for speed upgrades. Order: Processing Time, Processing Power.
 gui.nc.config.speed_upgrade_multipliers_fp=Speed Upgrade Multipliers
@@ -2364,7 +2364,7 @@ gui.nc.config.manufactory_wood.comment=Specify the size of the output stack for 
 gui.nc.config.rock_crusher_alternate=Rock Crusher Alternate Recipes
 gui.nc.config.rock_crusher_alternate.comment=Use an alternate set of recipes for the Rock Crusher that only produce NC dusts?
 gui.nc.config.gtce_recipe_integration=Register GTCE Recipes
-gui.nc.config.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Fluid Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.gtce_recipe_logging=GTCE Recipe Logging
 gui.nc.config.gtce_recipe_logging.comment=Will GTCE recipe additions be logged?
 gui.nc.config.smart_processor_input=Smart Processor Input
@@ -2832,7 +2832,7 @@ gui.nc.config.category.registration=Registration Configs
 gui.nc.config.category.registration.tooltip=Configure content registration.
 
 gui.nc.config.register_processor=Register Processors
-gui.nc.config.register_processor.comment=Register processors to the game? Order: Nuclear Furnace, Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.register_processor.comment=Register processors to the game? Order: Nuclear Furnace, Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Fluid Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.register_passive=Register Passive Machines
 gui.nc.config.register_passive.comment=Register passive machine to the game? Order: Cobblestone Generator, Infinite Water Source, Nitrogen Collector.
 gui.nc.config.register_battery=Register Batteries
@@ -2939,7 +2939,7 @@ nuclearcraft.container.assembler=Assembler
 nuclearcraft.container.ingot_former=Ingot Former
 nuclearcraft.container.pressurizer=Pressurizer
 nuclearcraft.container.chemical_reactor=Chemical Reactor
-nuclearcraft.container.salt_mixer=Salt Mixer
+nuclearcraft.container.salt_mixer=Fluid Mixer
 nuclearcraft.container.crystallizer=Crystallizer
 nuclearcraft.container.enricher=Fluid Enricher
 nuclearcraft.container.extractor=Fluid Extractor
@@ -3195,7 +3195,7 @@ advancement.nuclearcraft.ingot_former.name=Ceramic Mold
 advancement.nuclearcraft.ingot_former.desc=Craft an Ingot Former
 
 advancement.nuclearcraft.salt_mixer.name=Blend and Fold
-advancement.nuclearcraft.salt_mixer.desc=Craft a Salt Mixer
+advancement.nuclearcraft.salt_mixer.desc=Craft a Fluid Mixer
 
 advancement.nuclearcraft.crystallizer.name=Breaking Bad
 advancement.nuclearcraft.crystallizer.desc=Craft a Crystallizer

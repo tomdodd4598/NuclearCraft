@@ -2,10 +2,12 @@ package nc.multiblock.heatExchanger.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -35,6 +37,11 @@ public class TileHeatExchangerController extends TileHeatExchangerPart implement
 		// if (getWorld().isRemote) return;
 		// getWorld().setBlockState(getPos(),
 		// getWorld().getBlockState(getPos()), 2);
+	}
+	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerHeatExchangerController(player, this);
 	}
 	
 	@Override

@@ -3,14 +3,10 @@ package nc.multiblock.turbine.tile;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileTurbineRotorShaft extends TileTurbinePart {
-	
-	public boolean render = false;
-	public int depth = 0;
 	
 	public TileTurbineRotorShaft() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -34,22 +30,5 @@ public class TileTurbineRotorShaft extends TileTurbinePart {
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		return oldState.getBlock() != newSate.getBlock();
-	}
-	
-	// NBT
-	
-	@Override
-	public NBTTagCompound writeAll(NBTTagCompound nbt) {
-		super.writeAll(nbt);
-		nbt.setBoolean("render", render);
-		nbt.setInteger("depth", depth);
-		return nbt;
-	}
-	
-	@Override
-	public void readAll(NBTTagCompound nbt) {
-		super.readAll(nbt);
-		render = nbt.getBoolean("render");
-		depth = nbt.getInteger("depth");
 	}
 }

@@ -58,11 +58,14 @@ public class ItemRadaway extends NCItem {
 	}
 	
 	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
-		if (playerRads.getRadawayCooldown() > 0D) {
+		if (playerRads.getRadawayCooldown() > 0D && playerRads.getMessageCooldownTime() <= 0) {
 			if (playSound && world.isRemote) {
 				player.playSound(NCSounds.chems_wear_off, 0.5F, 1F);
 			}
-			player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
+			if (!world.isRemote) {
+				playerRads.setMessageCooldownTime(20);
+				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
+			}
 		}
 	}
 	

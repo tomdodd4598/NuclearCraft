@@ -35,8 +35,6 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		super.preInit(preEvent);
 		
-		// OBJLoader.INSTANCE.addDomain(Global.MOD_ID);
-		
 		NCConfig.clientPreInit();
 		
 		RenderHandler.init();

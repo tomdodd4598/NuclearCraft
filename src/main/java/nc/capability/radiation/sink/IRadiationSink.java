@@ -12,8 +12,4 @@ public interface IRadiationSink extends IRadiation, ICapability<IRadiationSink> 
 	public static Capability<IRadiationSink> CAPABILITY_RADIATION_SINK = null;
 	
 	public static final ResourceLocation CAPABILITY_RADIATION_SINK_NAME = new ResourceLocation(Global.MOD_ID, "capability_radiation_sink");
-	
-	public double getRadiationBuffer();
-	
-	public void setRadiationBuffer(double newBuffer);
 }

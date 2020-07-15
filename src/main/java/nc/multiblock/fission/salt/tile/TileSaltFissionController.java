@@ -3,12 +3,14 @@ package nc.multiblock.fission.salt.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.Global;
+import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.block.BlockSaltFissionController;
 import nc.multiblock.fission.tile.*;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -38,6 +40,11 @@ public class TileSaltFissionController extends TileFissionPart implements IFissi
 		// if (getWorld().isRemote) return;
 		// getWorld().setBlockState(getPos(),
 		// getWorld().getBlockState(getPos()), 2);
+	}
+	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerSaltFissionController(player, this);
 	}
 	
 	@Override

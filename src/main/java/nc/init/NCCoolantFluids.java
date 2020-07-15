@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCCoolantFluids {
 	
-	private static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<>();
+	public static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<>();
 	public static List<Fluid> fluidList = new ArrayList<>();
 	
 	public static final List<String> COOLANTS = Lists.newArrayList("");

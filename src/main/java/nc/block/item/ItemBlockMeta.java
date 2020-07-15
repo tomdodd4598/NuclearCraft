@@ -60,7 +60,7 @@ public class ItemBlockMeta extends ItemBlock {
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(stack, world, tooltip, flag);
 		int meta = StackHelper.getMetadata(stack);
-		if (fixedInfo.length > meta && info.length > meta && (fixedInfo[meta].length > 0 || info[meta].length > 0)) {
+		if (fixedInfo.length > meta && info.length > meta) {
 			if (fixedColors.length == 1) {
 				InfoHelper.infoFull(tooltip, fixedColors[0], fixedInfo[meta], infoColor, info[meta]);
 			}

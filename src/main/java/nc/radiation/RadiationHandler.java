@@ -109,6 +109,8 @@ public class RadiationHandler {
 				playerRads.resetRecentPoisonAddition();
 			}
 			
+			playerRads.setMessageCooldownTime(playerRads.getMessageCooldownTime() - radiation_player_tick_rate);
+			
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative()) {

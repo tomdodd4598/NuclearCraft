@@ -1,3 +1,23 @@
+v2o.3.3
+
+* Turbine throughput bonus is now proportional to rotor length and the square root of blade area
+* Tweaked turbine local expansion calculation to use geometric interpolation
+
+* Fixed broken tooltips on blocks/items with metadata
+
++ Added config to enable fission heat damage (disabled by default as it affects collision bounding boxes)
++ Added configs to tweak the turbine rotor render and particles
+
+* Massively reduced lag when building large turbines
+* Fixed turbines not saving their NBT data correctly
+* Fixed occasional crash when trying to render turbine rotor
+
+* Blocks now drop installed radiation shielding when broken
+* Fixed message spam when trying to consume Radaway/Rad-X or failing to install radiation shielding
+
+* Renamed Salt Mixer to Fluid Mixer
+* Other minor bug fixes and refactors
+
 v2o.3.2
 
 * Remade turbine render rotor

@@ -6,22 +6,22 @@ import com.google.common.collect.Lists;
 
 import nc.gui.NCGui;
 import nc.multiblock.Multiblock;
+import nc.multiblock.tile.IMultiblockGuiPart;
 import nc.util.Lang;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class GuiMultiblockController<MULTIBLOCK extends Multiblock> extends NCGui {
+public abstract class GuiMultiblock<MULTIBLOCK extends Multiblock, TILE extends IMultiblockGuiPart<MULTIBLOCK>> extends NCGui {
 	
+	protected final TILE tile;
 	protected MULTIBLOCK multiblock;
-	protected BlockPos controllerPos;
 	
-	public GuiMultiblockController(MULTIBLOCK multiblock, BlockPos controllerPos, Container container) {
-		super(container);
-		this.multiblock = multiblock;
-		this.controllerPos = controllerPos;
+	public GuiMultiblock(EntityPlayer player, TILE tile) {
+		super(tile.getContainer(player));
+		this.tile = tile;
+		this.multiblock = tile.getMultiblock();
 	}
 	
 	@Override

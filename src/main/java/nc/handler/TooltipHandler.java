@@ -112,7 +112,7 @@ public class TooltipHandler {
 		
 		double resistance = 0D;
 		if (armorResistance != null) {
-			resistance += armorResistance.getRadiationResistance();
+			resistance += armorResistance.getTotalRadResistance();
 		}
 		if (nbt) {
 			resistance += stack.getTagCompound().getDouble("ncRadiationResistance");

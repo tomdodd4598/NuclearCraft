@@ -2,11 +2,14 @@ package nc.multiblock.turbine.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.block.BlockTurbineController;
+import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
@@ -42,6 +45,11 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	}
 	
 	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerTurbineController(player, this);
+	}
+	
+	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
@@ -58,18 +66,32 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 			return Block.FULL_BLOCK_AABB.offset(pos);
 		}
 		return new AxisAlignedBB(getMultiblock().getMinimumCoord(), getMultiblock().getMaximumCoord());
-		// return INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	public double getDistanceSq(double x, double y, double z) {
+		double dX, dY, dZ;
+		if (!isRenderer || !isMultiblockAssembled()) {
+			dX = pos.getX() + 0.5D - x;
+			dY = pos.getY() + 0.5D - y;
+			dZ = pos.getZ() + 0.5D - z;
+		}
+		else {
+			dX = getMultiblock().getMiddleX() + 0.5D - x;
+			dY = getMultiblock().getMiddleY() + 0.5D - y;
+			dZ = getMultiblock().getMiddleZ() + 0.5D - z;
+		}
+		return dX * dX + dY * dY + dZ * dZ;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
-		return super.getMaxRenderDistanceSquared();
-	}
-	
-	@Override
-	public boolean hasFastRenderer() {
-		return super.hasFastRenderer();
+		double defaultDistSq = super.getMaxRenderDistanceSquared();
+		if (!isRenderer || !isMultiblockAssembled()) {
+			return defaultDistSq;
+		}
+		return defaultDistSq + (NCMath.sq(getMultiblock().getExteriorLengthX()) + NCMath.sq(getMultiblock().getExteriorLengthY()) + NCMath.sq(getMultiblock().getExteriorLengthZ())) / 4D;
 	}
 	
 	@Override

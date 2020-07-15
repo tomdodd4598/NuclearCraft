@@ -44,6 +44,8 @@ public class PacketHandler {
 		
 		instance.registerMessage(ClearAllMaterialPacket.Handler.class, ClearAllMaterialPacket.class, nextID(), Side.SERVER);
 		
+		instance.registerMessage(TurbineResendFormPacket.Handler.class, TurbineResendFormPacket.class, nextID(), Side.SERVER);
+		
 		// CLIENT
 		instance.registerMessage(ConfigUpdatePacket.Handler.class, ConfigUpdatePacket.class, nextID(), Side.CLIENT);
 		

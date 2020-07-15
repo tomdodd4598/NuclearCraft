@@ -23,6 +23,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected double recentRadawayAddition;
 	protected double radXCooldown;
 	protected double recentRadXAddition;
+	protected int messageCooldownTime;
 	protected double recentPoisonAddition;
 	protected double radiationImmunityTime;
 	protected boolean radiationImmunityStage;
@@ -47,6 +48,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		recentRadawayAddition = playerRads.getRecentRadawayAddition();
 		radXCooldown = playerRads.getRadXCooldown();
 		recentRadXAddition = playerRads.getRecentRadXAddition();
+		messageCooldownTime = playerRads.getMessageCooldownTime();
 		recentPoisonAddition = playerRads.getRecentPoisonAddition();
 		radiationImmunityTime = playerRads.getRadiationImmunityTime();
 		radiationImmunityStage = playerRads.getRadiationImmunityStage();
@@ -72,6 +74,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			recentRadawayAddition = buf.readDouble();
 			radXCooldown = buf.readDouble();
 			recentRadXAddition = buf.readDouble();
+			messageCooldownTime = buf.readInt();
 			recentPoisonAddition = buf.readDouble();
 			radiationImmunityTime = buf.readDouble();
 			radiationImmunityStage = buf.readBoolean();
@@ -104,6 +107,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeDouble(recentRadawayAddition);
 		buf.writeDouble(radXCooldown);
 		buf.writeDouble(recentRadXAddition);
+		buf.writeInt(messageCooldownTime);
 		buf.writeDouble(recentPoisonAddition);
 		buf.writeDouble(radiationImmunityTime);
 		buf.writeBoolean(radiationImmunityStage);
@@ -126,10 +130,10 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			if (player == null || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 				return;
 			}
+			
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-			if (playerRads == null) {
-				return;
-			}
+			if (playerRads == null) return;
+			
 			playerRads.setTotalRads(message.totalRads, false);
 			playerRads.setRadiationLevel(message.radiationLevel);
 			playerRads.setInternalRadiationResistance(message.internalRadiationResistance);
@@ -144,6 +148,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setRecentRadawayAddition(message.recentRadawayAddition);
 			playerRads.setRadXCooldown(message.radXCooldown);
 			playerRads.setRecentRadXAddition(message.recentRadXAddition);
+			playerRads.setMessageCooldownTime(message.messageCooldownTime);
 			playerRads.setRecentPoisonAddition(message.recentPoisonAddition);
 			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
 			playerRads.setRadiationImmunityStage(message.radiationImmunityStage);

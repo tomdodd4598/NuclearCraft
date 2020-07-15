@@ -21,6 +21,7 @@ public class PlayerRads implements IEntityRads {
 	private double recentRadawayAddition = 0D;
 	private double radXCooldown = 0D;
 	private double recentRadXAddition = 0D;
+	private int messageCooldownTime = 0;
 	private double recentPoisonAddition = 0D;
 	private double radiationImmunityTime = 0D;
 	private boolean radiationImmunityStage = false;
@@ -46,6 +47,7 @@ public class PlayerRads implements IEntityRads {
 		nbt.setDouble("recentRadawayAddition", recentRadawayAddition);
 		nbt.setDouble("radXCooldown", radXCooldown);
 		nbt.setDouble("recentRadXAddition", recentRadXAddition);
+		nbt.setInteger("messageCooldownTime", messageCooldownTime);
 		nbt.setDouble("recentPoisonAddition", recentPoisonAddition);
 		nbt.setDouble("radiationImmunityTime", radiationImmunityTime);
 		nbt.setBoolean("radiationImmunityStage", radiationImmunityStage);
@@ -69,6 +71,7 @@ public class PlayerRads implements IEntityRads {
 		recentRadawayAddition = nbt.getDouble("recentRadawayAddition");
 		radXCooldown = nbt.getDouble("radXCooldown");
 		recentRadXAddition = nbt.getDouble("recentRadXAddition");
+		messageCooldownTime = nbt.getInteger("messageCooldownTime");
 		recentPoisonAddition = nbt.getDouble("recentPoisonAddition");
 		radiationImmunityTime = nbt.getDouble("radiationImmunityTime");
 		radiationImmunityStage = nbt.getBoolean("radiationImmunityStage");
@@ -235,6 +238,16 @@ public class PlayerRads implements IEntityRads {
 	@Override
 	public void resetRecentRadXAddition() {
 		recentRadXAddition = 0D;
+	}
+	
+	@Override
+	public int getMessageCooldownTime() {
+		return messageCooldownTime;
+	}
+	
+	@Override
+	public void setMessageCooldownTime(int messageTime) {
+		messageCooldownTime = Math.max(messageTime, 0);
 	}
 	
 	@Override

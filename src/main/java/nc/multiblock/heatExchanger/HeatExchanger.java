@@ -9,15 +9,12 @@ import javax.annotation.Nonnull;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.*;
-import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.heatExchanger.tile.*;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.util.NCMath;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -314,10 +311,6 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 		fractionOfTubesActive = message.fractionOfTubesActive;
 		efficiency = message.efficiency;
 		maxEfficiency = message.maxEfficiency;
-	}
-	
-	public Container getContainer(EntityPlayer player) {
-		return new ContainerHeatExchangerController(player, (TileHeatExchangerController) controller);
 	}
 	
 	@Override

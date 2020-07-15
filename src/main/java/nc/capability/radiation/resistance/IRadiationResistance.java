@@ -12,7 +12,15 @@ public interface IRadiationResistance extends ICapability<IRadiationResistance> 
 	
 	public static final ResourceLocation CAPABILITY_RADIATION_RESISTANCE_NAME = new ResourceLocation(Global.MOD_ID, "capability_default_radiation_resistance");
 	
-	public double getRadiationResistance();
+	public default double getTotalRadResistance() {
+		return getBaseRadResistance() + getShieldingRadResistance();
+	}
 	
-	public void setRadiationResistance(double newResistance);
+	public double getBaseRadResistance();
+	
+	public void setBaseRadResistance(double newResistance);
+	
+	public double getShieldingRadResistance();
+	
+	public void setShieldingRadResistance(double newResistance);
 }

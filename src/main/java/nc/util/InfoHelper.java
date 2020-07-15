@@ -14,8 +14,8 @@ public class InfoHelper {
 	public static final String SHIFT_STRING = Lang.localise("gui.nc.inventory.shift_for_info");
 	public static final String CTRL_STRING = Lang.localise("gui.nc.inventory.ctrl_for_info");
 	
-	public static final String[] EMPTY_ARRAY = {};
-	public static final String[][] EMPTY_ARRAYS = {};
+	public static final String[] EMPTY_ARRAY = {}, NULL_ARRAY = { null };
+	public static final String[][] EMPTY_ARRAYS = {}, NULL_ARRAYS = { null };
 	
 	public static void infoLine(List list, TextFormatting fixedColor, String line) {
 		list.add(fixedColor + line);
@@ -104,15 +104,15 @@ public class InfoHelper {
 	}
 	
 	public static boolean showFixedInfo(String[] fixedLines, String... lines) {
-		return !Arrays.equals(fixedLines, EMPTY_ARRAY) && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY);
+		return !Arrays.equals(fixedLines, EMPTY_ARRAY) && !Arrays.equals(fixedLines, NULL_ARRAY) && (!NCUtil.isInfoKeyDown() || Arrays.equals(lines, EMPTY_ARRAY));
 	}
 	
 	public static boolean showInfo(String[] fixedLines, String... lines) {
-		return NCUtil.isInfoKeyDown() && !Arrays.equals(lines, EMPTY_ARRAY) || lines.length == 1;
+		return (NCUtil.isInfoKeyDown() || lines.length == 1) && !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY);
 	}
 	
 	public static boolean showShiftInfo(String[] fixedLines, String... lines) {
-		return !Arrays.equals(lines, EMPTY_ARRAY);
+		return !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY);
 	}
 	
 	public static void infoFull(List list, TextFormatting infoColor, String... lines) {
@@ -129,7 +129,7 @@ public class InfoHelper {
 	
 	public static String[] buildFixedInfo(String unlocName, String... tooltip) {
 		if (tooltip.length == 0) {
-			return standardFixedInfo(unlocName);
+			return standardFixedInfo(unlocName, unlocName);
 		}
 		else {
 			return tooltip;
@@ -138,19 +138,11 @@ public class InfoHelper {
 	
 	public static String[] buildInfo(String unlocName, String... tooltip) {
 		if (tooltip.length == 0) {
-			return standardInfo(unlocName);
+			return standardInfo(unlocName, unlocName);
 		}
 		else {
 			return tooltip;
 		}
-	}
-	
-	public static String[] standardFixedInfo(String unlocName) {
-		return standardFixedInfo(unlocName, unlocName);
-	}
-	
-	public static String[] standardInfo(String unlocName) {
-		return standardInfo(unlocName, unlocName);
 	}
 	
 	public static <T extends Enum<T> & IStringSerializable> String[][] buildFixedInfo(String unlocNameBase, Class<T> enumm, String[]... tooltips) {
@@ -165,10 +157,9 @@ public class InfoHelper {
 		T[] values = enumm.getEnumConstants();
 		String[][] strings = new String[values.length][];
 		
-		if (tooltips != EMPTY_ARRAYS && Arrays.deepEquals(tooltips, EMPTY_ARRAYS)) {
-			String[] arr = new String[] {};
+		if (Arrays.equals(tooltips, NULL_ARRAYS)) {
 			for (int i = 0; i < values.length; i++) {
-				strings[i] = arr;
+				strings[i] = NULL_ARRAY;
 			}
 			return strings;
 		}
