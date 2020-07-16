@@ -50,7 +50,7 @@ tile.nuclearcraft.fertile_isotope.californium.name=锎-252块
 tile.nuclearcraft.supercold_ice.name=超冷冰
 
 tile.nuclearcraft.nuclear_furnace.name=核熔炉
-tile.nuclearcraft.nuclear_furnace.desc=使用铀锭和铀粉快速烧炼物品的熔炉。
+tile.nuclearcraft.nuclear_furnace.desc=使用放射性元素的能量快速烧制物品的熔炉。
 
 tile.nuclearcraft.manufactory.name=小制造机
 tile.nuclearcraft.manufactory.desc=一个有用的小机器。
@@ -91,7 +91,7 @@ tile.nuclearcraft.pressurizer.desc=以巨大的压力压缩材料。
 tile.nuclearcraft.chemical_reactor.name=化学反应器
 tile.nuclearcraft.chemical_reactor.desc=为流体间的反应提供场所。
 
-tile.nuclearcraft.salt_mixer.name=熔盐混合器
+tile.nuclearcraft.salt_mixer.name=流体混合器
 tile.nuclearcraft.salt_mixer.desc=混合流体。
 
 tile.nuclearcraft.crystallizer.name=结晶器
@@ -287,7 +287,7 @@ tile.nuclearcraft.heat_exchanger_glass.name=透明热交换机外壳
 tile.nuclearcraft.heat_exchanger_vent.name=热交换机出入口
 tile.nuclearcraft.heat_exchanger_vent.desc=用于热交换流体的输入输出。由 [接收] 管道接收 [推动] 管道的内容物。
 tile.nuclearcraft.heat_exchanger_tube_copper.name=铜热交换管道
-tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=硬碳热交换管道
+tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=硬碳合金热交换管道
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=热引合金热交换管道
 tile.nuclearcraft.heat_exchanger_tube.fixd=导电率增加倍率：%s
 tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如果正在加热/冷却并且与另一个正在冷却/加热的热交换管道相邻，那么其将会以与另一个管道的配方温差成正比的速率接收更多的热量/被以该速率提取热量。如果被冷却的流体的输出温度低于被加热的流体的输出温度，则相邻的管道流向不得平行。潜行放置另一个热交换管道以保留其侧面配置。
@@ -296,7 +296,7 @@ tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电
 
 tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构未完成！）
 tile.nuclearcraft.condenser_tube_copper.name=铜冷凝管道
-tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳冷凝管道
+tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳合金冷凝管道
 tile.nuclearcraft.condenser_tube_thermoconducting.name=热引合金冷凝管道
 tile.nuclearcraft.condenser_tube.fixd=热导率增加倍率：%s
 tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行放置另一个冷凝管道以保留其侧面配置。
@@ -506,8 +506,8 @@ fluid.ferroboron=熔融硼铁合金
 tile.nuclearcraft.fluid_tough.name=熔融高强合金
 fluid.tough=熔融高强合金
 
-tile.nuclearcraft.fluid_hard_carbon.name=熔融硬碳
-fluid.hard_carbon=熔融硬碳
+tile.nuclearcraft.fluid_hard_carbon.name=熔融硬碳合金
+fluid.hard_carbon=熔融硬碳合金
 
 tile.nuclearcraft.fluid_coal.name=液态煤炭
 fluid.coal=液态煤炭
@@ -1560,12 +1560,12 @@ item.nuclearcraft.gem_dust.end_stone.name=末地石粉
 
 item.nuclearcraft.alloy.bronze.name=青铜锭
 item.nuclearcraft.alloy.tough.name=高强合金锭
-item.nuclearcraft.alloy.hard_carbon.name=硬碳锭
+item.nuclearcraft.alloy.hard_carbon.name=硬碳合金锭
 item.nuclearcraft.alloy.magnesium_diboride.name=二硼化镁锭
 item.nuclearcraft.alloy.lithium_manganese_dioxide.name=锂二氧化锰锭
 item.nuclearcraft.alloy.steel.name=钢锭
 item.nuclearcraft.alloy.ferroboron.name=硼铁合金锭
-item.nuclearcraft.alloy.shibuichi.name=胧银锭
+item.nuclearcraft.alloy.shibuichi.name=胧银合金锭
 item.nuclearcraft.alloy.tin_silver.name=锡银合金锭
 item.nuclearcraft.alloy.lead_platinum.name=铅铂合金锭
 item.nuclearcraft.alloy.extreme.name=极限合金锭
@@ -2066,13 +2066,13 @@ item.nuclearcraft.hoe_tough.name=高强合金锄
 item.nuclearcraft.spaxelhoe_tough.name=高强合金斫石锄
 item.nuclearcraft.spaxelhoe_tough.desc=高强合金制成的一个有多种用途的集成工具。
 
-item.nuclearcraft.sword_hard_carbon.name=硬碳剑
-item.nuclearcraft.pickaxe_hard_carbon.name=硬碳镐
-item.nuclearcraft.shovel_hard_carbon.name=硬碳锹
-item.nuclearcraft.axe_hard_carbon.name=硬碳斧
-item.nuclearcraft.hoe_hard_carbon.name=硬碳锄
-item.nuclearcraft.spaxelhoe_hard_carbon.name=硬碳斫石锄
-item.nuclearcraft.spaxelhoe_hard_carbon.desc=硬碳制成的一个有多种用途的集成工具。
+item.nuclearcraft.sword_hard_carbon.name=硬碳合金剑
+item.nuclearcraft.pickaxe_hard_carbon.name=硬碳合金镐
+item.nuclearcraft.shovel_hard_carbon.name=硬碳合金锹
+item.nuclearcraft.axe_hard_carbon.name=硬碳合金斧
+item.nuclearcraft.hoe_hard_carbon.name=硬碳合金锄
+item.nuclearcraft.spaxelhoe_hard_carbon.name=硬碳合金斫石锄
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=硬碳合金制成的一个有多种用途的集成工具。
 
 item.nuclearcraft.sword_boron_nitride.name=氮化硼剑
 item.nuclearcraft.pickaxe_boron_nitride.name=氮化硼镐
@@ -2092,10 +2092,10 @@ item.nuclearcraft.chest_tough.name=高强合金胸甲
 item.nuclearcraft.legs_tough.name=高强合金护腿
 item.nuclearcraft.boots_tough.name=高强合金靴子
 
-item.nuclearcraft.helm_hard_carbon.name=硬碳头盔
-item.nuclearcraft.chest_hard_carbon.name=硬碳胸甲
-item.nuclearcraft.legs_hard_carbon.name=硬碳护腿
-item.nuclearcraft.boots_hard_carbon.name=硬碳靴子
+item.nuclearcraft.helm_hard_carbon.name=硬碳合金头盔
+item.nuclearcraft.chest_hard_carbon.name=硬碳合金胸甲
+item.nuclearcraft.legs_hard_carbon.name=硬碳合金护腿
+item.nuclearcraft.boots_hard_carbon.name=硬碳合金靴子
 
 item.nuclearcraft.helm_boron_nitride.name=氮化硼头盔
 item.nuclearcraft.chest_boron_nitride.name=氮化硼胸甲
@@ -2335,9 +2335,9 @@ gui.nc.config.category.processor=机器配置
 gui.nc.config.category.processor.tooltip=配置与机器相关的一些内容。
 
 gui.nc.config.processor_time=基础处理时间
-gui.nc.config.processor_time.comment=每个机器的基础处理时间（单位：t）。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，熔盐混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
+gui.nc.config.processor_time.comment=每个机器的基础处理时间（单位：t）。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，流体混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
 gui.nc.config.processor_power=基础能量消耗
-gui.nc.config.processor_power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，熔盐混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
+gui.nc.config.processor_power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，流体混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
 gui.nc.config.speed_upgrade_power_laws_fp=速度升级功率
 gui.nc.config.speed_upgrade_power_laws_fp.comment=速度升级的功率设定。顺序：处理时间，功率，
 gui.nc.config.speed_upgrade_multipliers_fp=速度升级倍率
@@ -2367,7 +2367,7 @@ gui.nc.config.manufactory_wood.comment=调整木头处理时的产量。顺序�
 gui.nc.config.rock_crusher_alternate=岩石粉碎机其它配方
 gui.nc.config.rock_crusher_alternate.comment=使用另一套只产出核电工艺的粉的岩石粉碎机的配方替代默认的吗？
 gui.nc.config.gtce_recipe_integration=注册[GTCE]格雷科技：社区版的配方
-gui.nc.config.gtce_recipe_integration.comment=如果设定为 (true) ，核电工艺的相关配方也会被加入至对应的机器里。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，熔盐混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
+gui.nc.config.gtce_recipe_integration.comment=如果设定为 (true) ，核电工艺的相关配方也会被加入至对应的机器里。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，流体混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
 gui.nc.config.gtce_recipe_logging=[GTCE]格雷科技：社区版配方添加
 gui.nc.config.gtce_recipe_logging.comment=添加[GTCE]格雷科技：社区版的附加配方吗？
 gui.nc.config.smart_processor_input=机器智能自动输入
@@ -2479,7 +2479,7 @@ gui.nc.config.heat_exchanger_min_size.comment=热交换结构的最小边长。
 gui.nc.config.heat_exchanger_max_size=最大结构边长
 gui.nc.config.heat_exchanger_max_size.comment=热交换结构的最大边长。
 gui.nc.config.heat_exchanger_conductivity=管道热导率
-gui.nc.config.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. For heat exchanging tubes, heating recipes will be faster by this factor while cooling recipes will be slower by this factor. For condensation tubes, recipes will simply be faster by this factor. 顺序：铜，硬碳，热导合金。
+gui.nc.config.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. For heat exchanging tubes, heating recipes will be faster by this factor while cooling recipes will be slower by this factor. For condensation tubes, recipes will simply be faster by this factor. 顺序：铜，硬碳合金，热导合金。
 gui.nc.config.heat_exchanger_coolant_mult=Coolant Heat Multiplier
 gui.nc.config.heat_exchanger_coolant_mult.comment=Multiplier for the heat required to cool hot coolant.
 gui.nc.config.heat_exchanger_alternate_exhaust_recipe=Alternate Exhaust Steam Recipe
@@ -2521,37 +2521,37 @@ gui.nc.config.category.tool=工具配置
 gui.nc.config.category.tool.tooltip=配置工具。
 
 gui.nc.config.tool_mining_level=挖掘等级
-gui.nc.config.tool_mining_level.comment=挖掘等级的配置（木头=0，石头=1，以此类推）。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳，硬碳斫石锄，氮化硼，氮化硼斫石锄。
+gui.nc.config.tool_mining_level.comment=挖掘等级的配置（木头=0，石头=1，以此类推）。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳合金，硬碳合金斫石锄，氮化硼，氮化硼斫石锄。
 gui.nc.config.tool_durability=耐久度
-gui.nc.config.tool_durability.comment=使用次数的上限。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳，硬碳斫石锄，氮化硼，氮化硼斫石锄。
+gui.nc.config.tool_durability.comment=使用次数的上限。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳合金，硬碳合金斫石锄，氮化硼，氮化硼斫石锄。
 gui.nc.config.tool_speed=挖掘速度
-gui.nc.config.tool_speed.comment=不同方块的挖掘速度（木头=2.0，石头=4.0，以此类推）。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳，硬碳斫石锄，氮化硼，氮化硼斫石锄。
+gui.nc.config.tool_speed.comment=不同方块的挖掘速度（木头=2.0，石头=4.0，以此类推）。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳合金，硬碳合金斫石锄，氮化硼，氮化硼斫石锄。
 gui.nc.config.tool_attack_damage=攻击伤害
-gui.nc.config.tool_attack_damage.comment=每一击造成的伤害（木头=0.0，石头=1.0，以此类推）。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳，硬碳斫石锄，氮化硼，氮化硼斫石锄。
-gui.nc.config.tool_enchantability=可附魔性
-gui.nc.config.tool_enchantability.comment=附魔的品质。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳，硬碳斫石锄，氮化硼，氮化硼斫石锄。
+gui.nc.config.tool_attack_damage.comment=每一击造成的伤害（木头=0.0，石头=1.0，以此类推）。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳合金，硬碳合金斫石锄，氮化硼，氮化硼斫石锄。
+gui.nc.config.tool_enchantability=附魔能力
+gui.nc.config.tool_enchantability.comment=附魔的品质。顺序：硼，硼斫石锄，高强合金，高强合金斫石锄，硬碳合金，硬碳合金斫石锄，氮化硼，氮化硼斫石锄。
 gui.nc.config.tool_handle_modifier=[TiC2]匠魂2材料属性
-gui.nc.config.tool_handle_modifier.comment=材料的材料属性。顺序：硼，高强合金，硬碳，氮化硼。
+gui.nc.config.tool_handle_modifier.comment=材料的材料属性。顺序：硼，高强合金，硬碳合金，氮化硼。
 
 gui.nc.config.category.armor=盔甲配置
 gui.nc.config.category.armor.tooltip=配置盔甲。
 
 gui.nc.config.armor_durability=耐久度
-gui.nc.config.armor_durability.comment=盔甲的耐久度。顺序：硼，高强合金，硬碳，氮化硼，防护服。
+gui.nc.config.armor_durability.comment=盔甲的耐久度。顺序：硼，高强合金，硬碳合金，氮化硼，防护服。
 gui.nc.config.armor_boron=硼盔甲护甲值
 gui.nc.config.armor_boron.comment=不同部位盔甲的有效护甲值。顺序：靴子，护腿，胸甲，头盔。
 gui.nc.config.armor_tough=高强合金盔甲护甲值
 gui.nc.config.armor_tough.comment=不同部位盔甲的有效护甲值。顺序：靴子，护腿，胸甲，头盔。
-gui.nc.config.armor_hard_carbon=硬碳盔甲护甲值
+gui.nc.config.armor_hard_carbon=硬碳合金盔甲护甲值
 gui.nc.config.armor_hard_carbon.comment=不同部位盔甲的有效护甲值。顺序：靴子，护腿，胸甲，头盔。
 gui.nc.config.armor_boron_nitride=氮化硼盔甲护甲值
 gui.nc.config.armor_boron_nitride.comment=不同部位盔甲的有效护甲值。顺序：靴子，护腿，胸甲，头盔。
 gui.nc.config.armor_hazmat=防护服护甲值
 gui.nc.config.armor_hazmat.comment=不同部位盔甲的有效护甲值。顺序：靴子，护腿，上衣，头罩。
 gui.nc.config.armor_enchantability=附魔能力
-gui.nc.config.armor_enchantability.comment=附魔的品质。顺序：硼，高强合金，硬碳，氮化硼，防护服。
+gui.nc.config.armor_enchantability.comment=附魔的品质。顺序：硼，高强合金，硬碳合金，氮化硼，防护服。
 gui.nc.config.armor_toughness=韧性
-gui.nc.config.armor_toughness.comment=盔甲的韧性。顺序：硼，高强合金，硬碳，氮化硼，防护服。
+gui.nc.config.armor_toughness.comment=盔甲的韧性。顺序：硼，高强合金，硬碳合金，氮化硼，防护服。
 
 gui.nc.config.category.entity=实体配置
 gui.nc.config.category.entity.tooltip=配置实体
@@ -2726,7 +2726,7 @@ gui.nc.config.category.registration=注册配置
 gui.nc.config.category.registration.tooltip=配置对内容的添加。
 
 gui.nc.config.register_processor=注册单方块机器
-gui.nc.config.register_processor.comment=添加单方块机器到游戏中吗？顺序：核熔炉，小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，熔盐混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
+gui.nc.config.register_processor.comment=添加单方块机器到游戏中吗？顺序：核熔炉，小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，流体混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
 gui.nc.config.register_passive=注册无耗材机器
 gui.nc.config.register_passive.comment=添加无耗材机器到游戏中吗？顺序：造石机、无限水源、氮收集器。
 gui.nc.config.register_battery=注册电池
@@ -2734,13 +2734,13 @@ gui.nc.config.register_battery.comment=添加电池到游戏中吗？顺序：�
 gui.nc.config.register_quantum=注册量子计算机
 gui.nc.config.register_quantum.comment=添加量子计算机到游戏中吗？
 gui.nc.config.register_tool=注册工具
-gui.nc.config.register_tool.comment=添加工具到游戏中吗？顺序：硼，高强合金，硬碳，氮化硼。
+gui.nc.config.register_tool.comment=添加工具到游戏中吗？顺序：硼，高强合金，硬碳合金，氮化硼。
 gui.nc.config.register_tic_tool=注册[TiC2]匠魂2材料
-gui.nc.config.register_tic_tool.comment=下列材料会被注册为[TiC2]匠魂2的材料吗？顺序：硼，高强合金，硬碳，氮化硼，钍，铀，镁，巧克力。
+gui.nc.config.register_tic_tool.comment=下列材料会被注册为[TiC2]匠魂2的材料吗？顺序：硼，高强合金，硬碳合金，氮化硼，钍，铀，镁，巧克力。
 gui.nc.config.register_armor=注册盔甲
-gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：硼，高强合金，硬碳，氮化硼。
+gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：硼，高强合金，硬碳合金，氮化硼。
 gui.nc.config.register_conarm_armor=注册[ConArm]匠魂兵工厂材料
-gui.nc.config.register_conarm_armor.comment=下列材料会被注册为[ConArm]匠魂兵工厂的材料吗？顺序：硼，高强合金，硬碳，氮化硼，钍，铀，镁，巧克力。
+gui.nc.config.register_conarm_armor.comment=下列材料会被注册为[ConArm]匠魂兵工厂的材料吗？顺序：硼，高强合金，硬碳合金，氮化硼，钍，铀，镁，巧克力。
 gui.nc.config.register_entity=注册实体生成
 gui.nc.config.register_entity.comment=下列实体会生成吗？顺序：野尸鬼。
 gui.nc.config.register_fluid_blocks=注册可被放置的流体
@@ -2845,7 +2845,7 @@ nuclearcraft.container.assembler=组合机
 nuclearcraft.container.ingot_former=冷却器
 nuclearcraft.container.pressurizer=压缩机
 nuclearcraft.container.chemical_reactor=化学反应器
-nuclearcraft.container.salt_mixer=熔盐混合器
+nuclearcraft.container.salt_mixer=流体混合器
 nuclearcraft.container.crystallizer=结晶器
 nuclearcraft.container.enricher=溶解器
 nuclearcraft.container.extractor=流体提取器
@@ -3110,7 +3110,7 @@ advancement.nuclearcraft.ingot_former.name=陶瓷模子
 advancement.nuclearcraft.ingot_former.desc=制作一个冷却器
 
 advancement.nuclearcraft.salt_mixer.name=混合并叠合
-advancement.nuclearcraft.salt_mixer.desc=制作一个熔盐混合器
+advancement.nuclearcraft.salt_mixer.desc=制作一个流体混合器
 
 advancement.nuclearcraft.crystallizer.name=绝命毒师
 # pun or meme
@@ -3225,7 +3225,7 @@ music.nc.hyperspace=Hyperspace
 
 material.boron.name=硼
 material.tough.name=高强合金
-material.hard_carbon.name=硬碳
+material.hard_carbon.name=硬碳合金
 material.boron_nitride.name=氮化硼
 material.thorium.name=钍
 material.uranium.name=铀
