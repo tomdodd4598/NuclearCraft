@@ -90,7 +90,7 @@
             "anchor": "chemical_reactor",
             "type": "machines/single_machine",
             "block": "nuclearcraft:chemical_reactor",
-            "text": "Overpowered squeezer, capable of turning piles of dust into crystals"
+            "text": "2 fluids react together to make 2 new fluids"
         },
         {
             "anchor": "salt_mixer",

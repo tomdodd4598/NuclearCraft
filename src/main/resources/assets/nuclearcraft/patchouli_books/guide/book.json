@@ -1,5 +1,5 @@
 {
-	"name": "tom.nuclearcraft.guide_book.name",
-	"landing_text": "tom.nuclearcraft.guide_book.desc",
+	"name": "nc.guide_book.name",
+	"landing_text": "nc.guide_book.desc",
 	"version": 1
 }
