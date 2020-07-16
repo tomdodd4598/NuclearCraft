@@ -1,0 +1,11 @@
+{
+    "name": "球床裂变反应堆",
+    "icon": "nuclearcraft:pebblebed_fission_controller",
+    "category": "nuclearcraft:fission",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

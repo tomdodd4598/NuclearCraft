@@ -1,0 +1,11 @@
+{
+    "name": "涡轮机",
+    "icon": "nuclearcraft:turbine_controller",
+    "category": "nuclearcraft:multiblocks",
+    "pages": [
+        {
+            "type": "text",
+            "text": "涡轮机利用转子与发电机线圈，进行低压与高压蒸汽的转化来获取能量。"
+        }
+    ]
+}

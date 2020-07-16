@@ -1,0 +1,11 @@
+{
+    "name": "介绍",
+    "icon": "nuclearcraft:depleted_fuel_uranium:9",
+    "category": "nuclearcraft:basics",
+    "pages": [
+        {
+            "type": "text",
+            "text": "核电工艺是由tomdodd4598制作的一个模组。"
+        }
+    ]
+}

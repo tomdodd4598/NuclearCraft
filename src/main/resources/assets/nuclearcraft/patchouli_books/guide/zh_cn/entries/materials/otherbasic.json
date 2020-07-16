@@ -1,0 +1,111 @@
+{
+    "name": "其它基础材料",
+    "category": "nuclearcraft:materials",
+    "icon": "nuclearcraft:dust:8",
+    "pages":
+    [
+        {
+            "anchor": "intro",
+            "type": "text",
+            "text": "这些材料并不会在世界中自然生成，但是可以通过别的处理获得。"
+        },
+        {
+            "anchor": "graphite",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:8",
+            "dust": "nuclearcraft:dust:8",
+            "isElement": true,
+            "symbol": "C",
+            "num": "6",
+            "text": "石墨是碳的晶体形式。它由煤在$(l:machines/processors#manufactory)小制造机$(/l)中的处理产生。"
+        },
+        {
+            "anchor": "silicon",
+            "type": "materials/material",
+            "singleItem": true,
+            "item": "nuclearcraft:gem:6",
+            "isElement": true,
+            "symbol": "Si",
+            "num": "14",
+            "text": "硅由沙子在$(l:machines/processors#manufactory)小制造机$(/l)中的处理产生。"
+        },
+        {
+            "anchor": "beryllium",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:9",
+            "dust": "nuclearcraft:dust:9",
+            "isElement": true,
+            "symbol": "Be",
+            "num": "4",
+            "text": "铍粉由安山岩在$(l:machines/processors#rock_crusher)岩石粉碎机$(/l)中的处理产生。"
+        },
+        {
+            "anchor": "zirconium",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:10",
+            "dust": "nuclearcraft:dust:10",
+            "isElement": true,
+            "symbol": "Zr",
+            "num": "40",
+            "text": "锆粉由闪长岩在$(l:machines/processors#rock_crusher)岩石粉碎机$(/l)中的处理产生。"
+        },
+        {
+            "anchor": "aluminum",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:12",
+            "dust": "nuclearcraft:dust:12",
+            "isElement": true,
+            "symbol": "Al",
+            "num": "13",
+            "text": "银铝处理链中会有更多的信息。"
+        },
+        {
+            "anchor": "silver",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:13",
+            "dust": "nuclearcraft:dust:13",
+            "isElement": true,
+            "symbol": "Ag",
+            "num": "47",
+            "text": "银铝处理链中会有更多的信息。"
+        },
+        {
+            "anchor": "manganese",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:11",
+            "dust": "nuclearcraft:dust:11",
+            "isElement": true,
+            "symbol": "Mn",
+            "num": "25",
+            "text": "锰锭由氧化锰烧制而成。"
+        },
+        {
+            "anchor": "manganese oxide",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:14",
+            "dust": "nuclearcraft:dust:14",
+            "isCompound": true,
+            "formula": "MnO",
+            "text": "氧化锰粉由菱锰粉烧制而成。锰处理链中会有更多的信息。"
+        },
+        {
+            "anchor": "manganese dioxide",
+            "type": "materials/material",
+            "ingot": "nuclearcraft:ingot:15",
+            "dust": "nuclearcraft:dust:15",
+            "isCompound": true,
+            "formula": "MnO2",
+            "text": "二氧化锰由氧化锰在$(l:machines/processors#fluid_infuser)流体注入器$(/l)中的氧的注入而成。锰处理链中会有更多的信息。"
+        },
+        {
+            "anchor": "arsenic",
+            "type": "materials/material",
+            "singleItem": true,
+            "item": "nuclearcraft:gem_dust:10",
+            "isElement": true,
+            "symbol": "As",
+            "num": "33",
+            "text": "砷粉由闪长岩在$(l:machines/processors#rock_crusher)岩石粉碎机$(/l)中的处理产生。砷处理链中会有更多的信息。"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "name": "热交换机",
+    "icon": "nuclearcraft:heat_exchanger_controller",
+    "category": "nuclearcraft:multiblocks",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

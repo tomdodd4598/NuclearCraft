@@ -1,5 +1,5 @@
 {
-	"name": "Guide to Radioisotopes",
-	"landing_text": "Welcome to the official guide for NuclearCraft: Overhauled",
+	"name": "tom.nuclearcraft.guide_book.name",
+	"landing_text": "tom.nuclearcraft.guide_book.desc",
 	"version": 1
 }

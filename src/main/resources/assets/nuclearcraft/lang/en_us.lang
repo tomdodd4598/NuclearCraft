@@ -3556,3 +3556,6 @@ nc.sf.copper_coil0=%s copper dynamo coil
 nc.sf.copper_coil1=%s copper dynamo coils
 nc.sf.silver_coil0=%s silver dynamo coil
 nc.sf.silver_coil1=%s silver dynamo coils
+
+tom.nuclearcraft.guide_book.name=Guide to Radioisotopes
+tom.nuclearcraft.guide_book.desc=Welcome to the official guide for NuclearCraft: Overhauled

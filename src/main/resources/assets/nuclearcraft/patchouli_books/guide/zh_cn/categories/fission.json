@@ -1,0 +1,6 @@
+{
+	"name": "裂变",
+	"description": "核裂变",
+	"icon": "nuclearcraft:fission_source:2",
+	"parent": "nuclearcraft:multiblocks"
+}
