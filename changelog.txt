@@ -7,12 +7,13 @@ v2o.3.4
 
 + Added ore dict interchangeability between NC and HarvestCraft chocolate and cocoa powder
 
-* Increased plasma fluid temperature
++ Started WIP Patchouli guide book
 
 * Updated Chinese language file [thanks to WuzgXY!]
 * Fixed buggy tooltips on heat sinks and coolant heaters
 * Fixed localisation of speed and energy upgrade tooltips
 
+* Increased plasma fluid temperature
 * Other minor changes
 
 v2o.3.3
