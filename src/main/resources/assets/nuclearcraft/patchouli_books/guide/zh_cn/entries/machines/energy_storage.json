@@ -1,0 +1,32 @@
+{
+    "name": "能量储存",
+    "icon": "nuclearcraft:lithium_ion_battery_elite",
+    "category": "nuclearcraft:machines",
+    "pages": [
+        {
+            "anchor": "intro",
+            "type": "text",
+            "text": "这些方块能够储存能量。如果两个相同种类的方块被放置在一起，它们将会共享能量的储存空间。"
+        },
+        {
+            "anchor": "voltaic_pile",
+            "type": "machines/4_tier_machine",
+            "header": "伏打电堆",
+            "tier1": "nuclearcraft:voltaic_pile_basic",
+            "tier2": "nuclearcraft:voltaic_pile_advanced",
+            "tier3": "nuclearcraft:voltaic_pile_du",
+            "tier4": "nuclearcraft:voltaic_pile_elite",
+            "text": ""
+        },
+        {
+            "anchor": "lithium_ion_battery",
+            "type": "machines/4_tier_machine",
+            "header": "锂离子电池",
+            "tier1": "nuclearcraft:lithium_ion_battery_basic",
+            "tier2": "nuclearcraft:lithium_ion_battery_advanced",
+            "tier3": "nuclearcraft:lithium_ion_battery_du",
+            "tier4": "nuclearcraft:lithium_ion_battery_elite",
+            "text": ""
+        }
+    ]
+}

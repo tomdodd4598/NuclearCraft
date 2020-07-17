@@ -1,0 +1,132 @@
+{
+    "name": "Processors",
+    "icon": "nuclearcraft:manufactory",
+    "category": "nuclearcraft:machines",
+    "pages": [
+        {
+            "anchor": "intro",
+            "type": "text",
+            "text": "These machines process, well, almost anything! Some are very hot, others are very cold, most require energy, but they all transform stuff into other stuff"
+        },
+        {
+            "anchor": "manufactory",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:manufactory",
+            "text": "Pulverises, saws, crushes... This is the most versatile machine, and will be one of the first you will make"
+        },
+        {
+            "anchor": "nuclear_furnace",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:nuclear_furnace",
+            "text": "Similar to a regular furnace, but it uses THE POWER OF RADIOACTIVITY to smelt stuff. Requires a nuclear fuel source to function."
+        },
+        {
+            "anchor": "separator",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:separator",
+            "text": "Reverse crafting table, in case you made too many of one fuel"
+        },
+        {
+            "anchor": "decay_hastener",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:decay_hastener",
+            "text": "Speeds up the decay of radioactive materials"
+        },
+        {
+            "anchor": "fuel_reprocessor",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:fuel_reprocessor",
+            "text": "Processes depleted fuel into new, more exciting (and more radioactive!) isotopes"
+        },
+        {
+            "anchor": "alloy_furnace",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:alloy_furnace",
+            "text": "Smelts 2 metals together"
+        },
+        {
+            "anchor": "fluid_infuser",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:infuser",
+            "text": "Infuses a fluid into an item, opposite of $(l:machines/processors#fluid_enricher)Fluid Enricher$(/l)"
+        },
+        {
+            "anchor": "melter",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:melter",
+            "text": "Turns solids into liquids"
+        },
+        {
+            "anchor": "supercooler",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:supercooler",
+            "text": "A very, very powerful freezer"
+        },
+        {
+            "anchor": "electrolyzer",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:electrolyzer",
+            "text": "Uses the power of electricity to seperate molecules"
+        },
+        {
+            "anchor": "assembler",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:assembler",
+            "text": "Combines multiple items into more complex components"
+        },
+        {
+            "anchor": "ingot_former",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:ingot_former",
+            "text": "Forms ingots from their molten counterparts. Does not require energy"
+        },
+        {
+            "anchor": "pressurizer",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:pressurizer",
+            "text": "Overpowered squeezer, capable of turning piles of dust into crystals"
+        },
+        {
+            "anchor": "chemical_reactor",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:chemical_reactor",
+            "text": "2 fluids react together to make 2 new fluids"
+        },
+        {
+            "anchor": "salt_mixer",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:salt_mixer",
+            "text": "Mixes fluids together"
+        },
+        {
+            "anchor": "crystallizer",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:crystallizer",
+            "text": "Evaporates the water from solutions to form solids"
+        },
+        {
+            "anchor": "fluid_enricher",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:enricher",
+            "text": "Mixes items into fluids, opposite of $(l:machines/processors#fluid_infuser)Fluid Infuser$(/l)"
+        },
+        {
+            "anchor": "fluid_extractor",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:extractor",
+            "text": "Extracts fluids from items"
+        },
+        {
+            "anchor": "centrifuge",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:centrifuge",
+            "text": "Very spinny. Seperates fluids through the use of centrifugal force"
+        },
+        {
+            "anchor": "rock_crusher",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:rock_crusher",
+            "text": "Crushes rocks and seperates their dust"
+        }
+    ]
+}

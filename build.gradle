@@ -24,7 +24,7 @@ repositories {
 		url = "http://dvs1.progwml6.com/files/maven/"
 	}
 	maven {
-		// CraftTweaker
+		// CraftTweaker & Patchouli
 		name = "blamejared"
 		url = "http://maven.blamejared.com/"
 	}
@@ -110,6 +110,7 @@ dependencies {
 	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6") {
 		transitive = false
 	}
+	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}"
 	deobfCompile "hwyla:Hwyla:${hwyla_version}"
 }

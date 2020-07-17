@@ -1,0 +1,11 @@
+{
+    "name": "熔盐反应堆",
+    "icon": "nuclearcraft:salt_fission_controller",
+    "category": "nuclearcraft:fission",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

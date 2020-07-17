@@ -1,0 +1,11 @@
+{
+    "name": "Solid Fuel Fission Reactors",
+    "icon": "nuclearcraft:solid_fission_controller",
+    "category": "nuclearcraft:fission",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

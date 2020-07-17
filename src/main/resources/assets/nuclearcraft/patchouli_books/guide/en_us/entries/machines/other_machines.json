@@ -1,0 +1,24 @@
+{
+    "name": "Other 'Machines'",
+    "icon": "nuclearcraft:bin",
+    "category": "nuclearcraft:machines",
+    "pages": [
+        {
+            "anchor": "intro",
+            "type": "text",
+            "text": "These are machine-like blocks that help in building a clean and efficient factory"
+        },
+        {
+            "anchor": "machine_interface",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:machine_interface",
+            "text": "Extends a machine through one of its faces, in case you run out of room"
+        },
+        {
+            "anchor": "bin",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:bin",
+            "text": "A black hole in a box. Destroys everything inserted, including but not limited to: items, fluids, energy, ..."
+        }
+    ]
+}

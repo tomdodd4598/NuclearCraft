@@ -1,0 +1,11 @@
+{
+    "name": "固态燃料裂变反应堆",
+    "icon": "nuclearcraft:solid_fission_controller",
+    "category": "nuclearcraft:fission",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

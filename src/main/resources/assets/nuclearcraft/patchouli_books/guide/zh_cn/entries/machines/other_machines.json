@@ -1,0 +1,24 @@
+{
+    "name": "其它“机器”",
+    "icon": "nuclearcraft:bin",
+    "category": "nuclearcraft:machines",
+    "pages": [
+        {
+            "anchor": "intro",
+            "type": "text",
+            "text": "这些是长得像机器的方块，有助于你建立起一个干净、整洁而又高效率的工厂。"
+        },
+        {
+            "anchor": "machine_interface",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:machine_interface",
+            "text": "以与机器接触的一面为媒介扩展机器的互动范围，以防空间不够而无法操控到机器。"
+        },
+        {
+            "anchor": "bin",
+            "type": "machines/single_machine",
+            "block": "nuclearcraft:bin",
+            "text": "盒中黑洞，摧毁一切导入之物，包括但不限于：物品、流体、能量......"
+        }
+    ]
+}

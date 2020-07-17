@@ -3351,6 +3351,11 @@ death.attack.hypothermia=%1$s died as a result of extreme hypothermia
 death.attack.fission_burn=%1$s was fried by a fission reactor
 death.attack.fatal_rads=%1$s died due to fatal radiation poisoning
 
+# Guide Book
+
+nc.guide_book.name=Guide to Radioisotopes
+nc.guide_book.desc=Welcome to the official guide for NuclearCraft: Overhauled
+
 # String Formatting
 
 nc.sf.plural_rule=%d == 1 ? 0 : 1

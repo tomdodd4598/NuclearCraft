@@ -1,0 +1,11 @@
+{
+    "name": "聚变反应堆",
+    "icon": "nuclearcraft:fusion_controller",
+    "category": "nuclearcraft:multiblocks",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "name": "产能器 & 收集器",
+    "icon": "nuclearcraft:rtg_uranium",
+    "category": "nuclearcraft:machines",
+    "pages": [
+        {
+            "anchor": "intro",
+            "type": "text",
+            "text": "这些方块产出能量、方块以及流体，而不需要任何的输入。"
+        },
+        {
+            "anchor": "rtg",
+            "type": "machines/4_tier_machine",
+            "header": "放射性热电发电机",
+            "tier1": "nuclearcraft:rtg_uranium",
+            "tier2": "nuclearcraft:rtg_plutonium",
+            "tier3": "nuclearcraft:rtg_americium",
+            "tier4": "nuclearcraft:rtg_californium",
+            "text": "放射性热电发电机，通过放射性元素的衰变来产生能量。"
+        },
+        {
+            "anchor": "solar_panel",
+            "type": "machines/4_tier_machine",
+            "header": "太阳能电池板",
+            "tier1": "nuclearcraft:solar_panel_basic",
+            "tier2": "nuclearcraft:solar_panel_advanced",
+            "tier3": "nuclearcraft:solar_panel_du",
+            "tier4": "nuclearcraft:solar_panel_elite",
+            "text": "白天产能。"
+        },
+        {
+            "anchor": "cobblestone_generator",
+            "type": "machines/3_tier_machine",
+            "header": "造石机",
+            "tier1": "nuclearcraft:cobblestone_generator",
+            "tier2": "nuclearcraft:cobblestone_generator_compact",
+            "tier3": "nuclearcraft:cobblestone_generator_dense",
+            "text": "将熔岩与水混合在一起来产出圆石。"
+        },
+        {
+            "anchor": "water_source",
+            "type": "machines/3_tier_machine",
+            "header": "无限水源",
+            "tier1": "nuclearcraft:water_source",
+            "tier2": "nuclearcraft:water_source_compact",
+            "tier3": "nuclearcraft:water_source_dense",
+            "text": "使用无限水源之魔力来产出水。"
+        },
+        {
+            "anchor": "nitrogen_collector",
+            "type": "machines/3_tier_machine",
+            "header": "氮收集器",
+            "tier1": "nuclearcraft:nitrogen_collector",
+            "tier2": "nuclearcraft:nitrogen_collector_compact",
+            "tier3": "nuclearcraft:nitrogen_collector_dense",
+            "text": "从空气中分离出氮。"
+        }
+    ]
+}
