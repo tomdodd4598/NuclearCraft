@@ -57,7 +57,7 @@ public class InfoHelper {
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, TextFormatting infoColor, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
-			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY), fixedColor, fixedLines);
+			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColor, fixedLines);
 		}
 		else if (showInfo(fixedLines, lines)) {
 			infoList(list, infoColor, lines);
@@ -69,7 +69,7 @@ public class InfoHelper {
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
-			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY), fixedColor, fixedLines);
+			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColor, fixedLines);
 		}
 		else if (showInfo(fixedLines, lines)) {
 			infoList(list, infoColors, lines);
@@ -81,7 +81,7 @@ public class InfoHelper {
 	
 	public static void infoFull(List list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting infoColor, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
-			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY), fixedColors, fixedLines);
+			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColors, fixedLines);
 		}
 		else if (showInfo(fixedLines, lines)) {
 			infoList(list, infoColor, lines);
@@ -93,7 +93,7 @@ public class InfoHelper {
 	
 	public static void infoFull(List list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
-			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY), fixedColors, fixedLines);
+			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColors, fixedLines);
 		}
 		else if (showInfo(fixedLines, lines)) {
 			infoList(list, infoColors, lines);

@@ -24,4 +24,8 @@ public class TileTurbineGlass extends TileTurbinePart {
 		// getWorld().getBlockState(getPos()), 2);
 	}
 	
+	@Override
+	public boolean isTransparent() {
+		return true;
+	}
 }

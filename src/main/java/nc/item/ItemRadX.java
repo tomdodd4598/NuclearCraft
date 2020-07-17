@@ -40,7 +40,9 @@ public class ItemRadX extends NCItem {
 				if (player instanceof EntityPlayerMP) {
 					CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
 				}
-				stack.shrink(1);
+				if (!player.isCreative()) {
+					stack.shrink(1);
+				}
 				playerRads.setConsumedMedicine(true);
 				playerRads.setRadXCooldown(radiation_rad_x_cooldown);
 				if (radiation_rad_x_cooldown >= 10D) {

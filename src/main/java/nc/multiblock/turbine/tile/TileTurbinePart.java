@@ -1,12 +1,11 @@
 package nc.multiblock.turbine.tile;
 
+import nc.multiblock.Multiblock;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.turbine.Turbine;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine> implements ITurbinePart {
-	
-	public boolean isTurbineOn;
 	
 	public TileTurbinePart(CuboidalPartPositionType positionType) {
 		super(Turbine.class, positionType);
@@ -17,24 +16,55 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 		return new Turbine(world);
 	}
 	
-	public void setIsTurbineOn() {
-		if (getMultiblock() != null) {
-			isTurbineOn = getMultiblock().isTurbineOn;
+	public boolean isTransparent() {
+		return false;
+	}
+	
+	@Override
+	public boolean isGoodForFrame(Multiblock multiblock) {
+		if (getPartPositionType().isGoodForFrame()) {
+			if (isTransparent() && getMultiblock() != null) {
+				getMultiblock().shouldRenderRotor = true;
+			}
+			return true;
 		}
-	}
-	
-	// NBT
-	
-	@Override
-	public NBTTagCompound writeAll(NBTTagCompound nbt) {
-		super.writeAll(nbt);
-		nbt.setBoolean("isTurbineOn", isTurbineOn);
-		return nbt;
+		setStandardLastError(multiblock);
+		return false;
 	}
 	
 	@Override
-	public void readAll(NBTTagCompound nbt) {
-		super.readAll(nbt);
-		isTurbineOn = nbt.getBoolean("isTurbineOn");
+	public boolean isGoodForSides(Multiblock multiblock) {
+		if (getPartPositionType().isGoodForWall()) {
+			if (isTransparent() && getMultiblock() != null) {
+				getMultiblock().shouldRenderRotor = true;
+			}
+			return true;
+		}
+		setStandardLastError(multiblock);
+		return false;
+	}
+	
+	@Override
+	public boolean isGoodForTop(Multiblock multiblock) {
+		if (getPartPositionType().isGoodForWall()) {
+			if (isTransparent() && getMultiblock() != null) {
+				getMultiblock().shouldRenderRotor = true;
+			}
+			return true;
+		}
+		setStandardLastError(multiblock);
+		return false;
+	}
+	
+	@Override
+	public boolean isGoodForBottom(Multiblock multiblock) {
+		if (getPartPositionType().isGoodForWall()) {
+			if (isTransparent() && getMultiblock() != null) {
+				getMultiblock().shouldRenderRotor = true;
+			}
+			return true;
+		}
+		setStandardLastError(multiblock);
+		return false;
 	}
 }

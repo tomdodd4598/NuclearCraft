@@ -17,6 +17,9 @@ out
 build
 .gradle
 
+# forge
+forge-1.12.2-14.23.5.2847-mdk.zip
+
 # other
 eclipse
 run

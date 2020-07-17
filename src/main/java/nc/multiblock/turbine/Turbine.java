@@ -71,6 +71,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public long prevRenderTime = 0L;
 	public Iterable<MutableBlockPos>[] inputPlane = new Iterable[4];
 	
+	public boolean shouldRenderRotor = false;
 	public BlockPos[] bladePosArray = null;
 	public Vector3f[] renderPosArray = null;
 	public float[] bladeAngleArray = null;
@@ -163,6 +164,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	
 	@Override
 	protected boolean isMachineWhole(Multiblock multiblock) {
+		shouldRenderRotor = false;
 		return setLogic(multiblock) && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
 	}
 	

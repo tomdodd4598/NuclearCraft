@@ -1,3 +1,20 @@
+v2o.3.4
+
+* Fixed player radiation stats being lost on leaving The End
+* RadAway and Rad-X is no longer consumed in creative mode
+
+* Turbine rotor will not render if the casing is entirely opaque
+
++ Added ore dict interchangeability between NC and HarvestCraft chocolate and cocoa powder
+
+* Increased plasma fluid temperature
+
+* Updated Chinese language file [thanks to WuzgXY!]
+* Fixed buggy tooltips on heat sinks and coolant heaters
+* Fixed localisation of speed and energy upgrade tooltips
+
+* Other minor changes
+
 v2o.3.3
 
 * Turbine throughput bonus is now proportional to rotor length and the square root of blade area

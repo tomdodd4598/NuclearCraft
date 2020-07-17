@@ -41,6 +41,22 @@ public class PlayerRespawnHandler {
 				}
 			}
 			else {
+				newRads.setConsumedMedicine(oldRads.getConsumedMedicine());
+				newRads.setExternalRadiationResistance(oldRads.getExternalRadiationResistance());
+				newRads.setInternalRadiationResistance(oldRads.getInternalRadiationResistance());
+				newRads.setPoisonBuffer(oldRads.getPoisonBuffer());
+				newRads.setRadawayBuffer(false, oldRads.getRadawayBuffer(false));
+				newRads.setRadawayBuffer(true, oldRads.getRadawayBuffer(true));
+				newRads.setRadawayCooldown(oldRads.getRadawayCooldown());
+				newRads.setRadiationImmunityStage(oldRads.getRadiationImmunityStage());
+				newRads.setRadiationImmunityTime(oldRads.getRadiationImmunityTime());
+				newRads.setRadXCooldown(oldRads.getRadXCooldown());
+				newRads.setRadXUsed(oldRads.getRadXUsed());
+				newRads.setRadXWoreOff(oldRads.getRadXWoreOff());
+				newRads.setRecentPoisonAddition(oldRads.getRecentPoisonAddition());
+				newRads.setRecentRadawayAddition(oldRads.getRecentRadawayAddition());
+				newRads.setRecentRadXAddition(oldRads.getRecentRadXAddition());
+				newRads.setShouldWarn(oldRads.getShouldWarn());
 				newRads.setTotalRads(oldRads.getTotalRads(), false);
 			}
 		}

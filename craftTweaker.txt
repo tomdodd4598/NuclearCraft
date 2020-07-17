@@ -233,8 +233,8 @@ mods.nuclearcraft.ChemicalReactor.removeRecipeWithInput(ILiquidStack fluidInput1
 mods.nuclearcraft.ChemicalReactor.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2);
 
 
-Salt Mixer:
------------
+Fluid Mixer:
+------------
 
 mods.nuclearcraft.SaltMixer.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 

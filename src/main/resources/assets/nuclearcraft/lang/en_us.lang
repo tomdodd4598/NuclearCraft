@@ -1607,10 +1607,9 @@ item.nuclearcraft.part.empty_sink.name=Empty Heat Sink
 item.nuclearcraft.part.pyrolytic_carbon.name=Pyrolytic Carbon
 
 item.nuclearcraft.upgrade.speed.name=Speed Upgrade
-item.nuclearcraft.upgrade.speed_desc=Increases the processing speed of machines at the cost of additional processing power. These upgrades can be stacked - the speed will increase %s with each additional upgrade while the power use will increase %s.
+item.nuclearcraft.upgrade.speed_desc=Increases the processing speed of machines at the cost of additional processing power. These upgrades can be stacked - the speed will %s each additional upgrade while the power use will %s.
 item.nuclearcraft.upgrade.energy.name=Energy Upgrade
-item.nuclearcraft.upgrade.energy_desc=Decreases the processing power of machines. These upgrades can be stacked, but the maximum number that will have an effect is equal to the number of installed speed upgrades. The power use will decrease %s with each additional upgrade.
-info.nuclearcraft.approximately=approximately
+item.nuclearcraft.upgrade.energy_desc=Decreases the processing power of machines. These upgrades can be stacked, but the maximum number that will have an effect is equal to the number of installed speed upgrades. The power use will %s each additional upgrade.
 
 item.nuclearcraft.fission_dust.bismuth.name=Bismuth Dust
 item.nuclearcraft.fission_dust.radium.name=Radium Dust
@@ -3556,3 +3555,27 @@ nc.sf.copper_coil0=%s copper dynamo coil
 nc.sf.copper_coil1=%s copper dynamo coils
 nc.sf.silver_coil0=%s silver dynamo coil
 nc.sf.silver_coil1=%s silver dynamo coils
+
+nc.sf.power_adverb0=be constant
+nc.sf.power_adverb1=%s linearly
+nc.sf.power_adverb2=%s quadratically
+nc.sf.power_adverb3=%s cubically
+nc.sf.power_adverb4=%s quartically
+nc.sf.power_adverb5=%s quintically
+nc.sf.power_adverb6=%s sextically
+nc.sf.power_adverb7=%s septically
+nc.sf.power_adverb8=%s octically
+nc.sf.power_adverb9=%s nonically
+nc.sf.power_adverb10=%s decically
+nc.sf.power_adverb11=%s undecically
+nc.sf.power_adverb12=%s duodecically
+nc.sf.power_adverb13=%s tredecically
+nc.sf.power_adverb14=%s quattuordecically
+nc.sf.power_adverb15=%s quindecically
+
+nc.sf.increase=increase
+nc.sf.decrease=decrease
+nc.sf.increase_approximately=increase approximately
+nc.sf.decrease_approximately=decrease approximately
+nc.sf.power_adverb_preposition=%1$s %2$s
+nc.sf.with=with

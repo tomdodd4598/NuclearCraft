@@ -1,0 +1,112 @@
+Move onAdded tile methods to onLoad()?
+Refactor old tile entity hierarchy - modularise item/fluid/energy handling
+Modularise processor classes
+
+Add input/output config to all ports and vents
+
+Replace casing emergency cooling with cluster/port based version (no placement rules)
+
+Finish fission meltdown mechanics
+Add melting logic to non-fuel components
+Graphite/beryllium fires, heavy water evaporation, etc.
+Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
+
+Hot SFRs/MSRs heat up more quickly/slowly & produce more/less radiation? (https://discordapp.com/channels/425461908712325130/425461908716519425/645399574109749279)
+
+Show potential (pre-primed) stats if reactor is idle
+
+Keep clusters running even when multiblock is invalidated
+
+Link managers to listeners with multitool (default behaviour: act on all listeners)
+
+Multiblock monitors: show cluster information, side configurations, etc.
+
+Patchouli documentation
+___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------
+
+SiC–SiC ceramic matrix composite for top-tier turbine blades, made by melt infiltration (MI) of silicon, following chemical vapor infiltration (CVI) of carbon into SiC fibre, formed from SiC gas phase via laser-driven chemical vapor deposition (LCVD)
+___________________________________________________________________________________________________________________________
+
+1.15: Cherenkov radiation (configurable)?
+___________________________________________________________________________________________________________________________
+
+1.15: Item stack NBT support in NC recipes (also allow for NBT 'wildcards')
+___________________________________________________________________________________________________________________________
+
+Tool that highlights side settings and opens up GUI for side settings of individual multiblock part
+OR highlights side settings of one type of part on looking at the multiblock - toggle through part types with sneak-right click?
+Tool to check multiblock part tanks and highlight render side configurations?
+Right click on rendered cube to open up GUI for that part's side settings
+GUI of orientable, layered planes of multiblock to configure sides: https://discordapp.com/channels/425461908712325130/542891718622838787/571550775067803648
+___________________________________________________________________________________________________________________________
+
+1.15: Add sound effects from Exile to machines
+___________________________________________________________________________________________________________________________
+
+Dimension dependent radiation spread rate, use overworld rate if entry doesn't exist
+
+OC support for side configurations
+___________________________________________________________________________________________________________________________
+
+Multiblock Electrolyser
+
+Girdler process for deuterium extraction: https://en.wikipedia.org/wiki/Girdler_sulfide_process
+Add generic reaction tower for slow chemical recipes
+
+Girdler process requires two towers:
+H2S + [preheated water OR steam?] + energy -> deuterium-enriched H2S + deuterium-depleted water
+deuterium-enriched H2S + water -> H2S + deuterium-enriched water
+
+Fractional distillation: deuterium-enriched water -> heavy water + water
+
+1.15: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
+1.15: Tiered machines: basic -> advanced -> DU -> elite? https://discordapp.com/channels/425461908712325130/425471153067524098/651401188054401025
+___________________________________________________________________________________________________________________________
+
+Fission Reactor Mechanics Cell/vessel heat [to heat sinks -> casing] / [to coolant heaters]
+
+1.15: Specialised fuel-making machine
+
+Pebble-bed Reactor that produces energy directly
+
+1.15: MSR split: NaK coolant for thermal, PbBi coolant for fast?
+___________________________________________________________________________________________________________________________
+
+Heat Exchanger: make heat flow maths realistic: https://en.wikipedia.org/wiki/Countercurrent_exchange
+Implement LMTD for parallel-flow exchangers and condensers? (https://en.wikipedia.org/wiki/Logarithmic_mean_temperature_difference)
+Implement heat transfer coefficient as percentage for each tube material
+Add powered 'heat pump', placed between tube lines, to move heat from cold -> hot?
+
+Add condenser controller, split mechanics like the fission reactor
+
+Decay pool to preheat condensate water from radioactive isotopes? (https://discordapp.com/channels/425461908712325130/425470889354723350/574303555465510912)
+
+1.15: Give dynamo depth for 3D coil puzzle?
+___________________________________________________________________________________________________________________________
+
+Fusion Reactor: https://discordapp.com/channels/425461908712325130/425471153067524098/621412674948825134
+Allow for variable lining thickness? https://discordapp.com/channels/425461908712325130/425471153067524098/635267993294733312
+Change Fusion Reactor to produce steam instead of energy: Water -> High Pressure Steam from Heating Blanket in Electromagnet Ring
+New reactivity curve: R = z*(T/(1.5*h))^(-1.5)*exp(-1.5*h/T), z ≡ 200/9*sqrt(6)*exp(1.5) ≈ 243.952253514146, T = temperature (kK), h = optimal temperature (kK)
+Superconducting e-magnets can be used instead for an efficiency bonus?
+
+___________________________________________________________________________________________________________________________
+
+[Only if QMD does not update]
+
+1.15: Add Synchrotron modules that use radiation - one per corner:
+
+1.15: Add Collider Controller - electron/positron/proton input on corner
+1.15: Particles need to be fired in opposite directions to work
+1.15: Add multiblock collider experiments - one per corner:
+
+1.15: Particles implemented as new material type, similar to Mek gases
+___________________________________________________________________________________________________________________________
+
+1.15: Inertial Confinement Fusion - synchrotron radiation as laser -> heat molten salt coolant
+
+1.15: Focus Fusion -> direct energy production?
+___________________________________________________________________________________________________________________________
+
+1.15: Hawking Generator - form black hole and power with matter -> Hawking radiation produced for energy

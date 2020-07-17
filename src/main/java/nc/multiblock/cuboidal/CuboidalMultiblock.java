@@ -273,6 +273,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public int getInteriorLength(EnumFacing dir) {
+		if (dir == null) {
+			return getInteriorLengthY();
+		}
+		
 		switch (dir) {
 			case DOWN:
 				return getInteriorLengthY();
@@ -355,6 +359,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public Iterable<MutableBlockPos> getWallMin(EnumFacing.Axis axis) {
+		if (axis == null) {
+			return BlockPos.getAllInBoxMutable(getExtremeCoord(false, false, false), getExtremeCoord(false, false, false));
+		}
+		
 		switch (axis) {
 			case X:
 				return getWallMinX();
@@ -368,6 +376,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public Iterable<MutableBlockPos> getWallMax(EnumFacing.Axis axis) {
+		if (axis == null) {
+			return BlockPos.getAllInBoxMutable(getExtremeCoord(true, true, true), getExtremeCoord(true, true, true));
+		}
+		
 		switch (axis) {
 			case X:
 				return getWallMaxX();
@@ -381,6 +393,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public boolean isInMinWall(EnumFacing.Axis axis, BlockPos pos) {
+		if (axis == null) {
+			return false;
+		}
+		
 		switch (axis) {
 			case X:
 				return pos.getX() == getMinX();
@@ -394,6 +410,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public boolean isInMaxWall(EnumFacing.Axis axis, BlockPos pos) {
+		if (axis == null) {
+			return false;
+		}
+		
 		switch (axis) {
 			case X:
 				return pos.getX() == getMaxX();
@@ -407,6 +427,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public boolean isInWall(EnumFacing side, BlockPos pos) {
+		if (side == null) {
+			return false;
+		}
+		
 		switch (side) {
 			case DOWN:
 				return pos.getY() == getMinY();
@@ -426,6 +450,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public BlockPos getMinimumInteriorPlaneCoord(EnumFacing normal, int depth, int uCushion, int vCushion) {
+		if (normal == null) {
+			return getExtremeInteriorCoord(false, false, false);
+		}
+		
 		switch (normal) {
 			case DOWN:
 				return getExtremeInteriorCoord(false, false, false).offset(EnumFacing.UP, depth).offset(EnumFacing.SOUTH, uCushion).offset(EnumFacing.EAST, vCushion);
@@ -445,6 +473,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public BlockPos getMaximumInteriorPlaneCoord(EnumFacing normal, int depth, int uCushion, int vCushion) {
+		if (normal == null) {
+			return getExtremeInteriorCoord(false, false, false);
+		}
+		
 		switch (normal) {
 			case DOWN:
 				return getExtremeInteriorCoord(true, false, true).offset(EnumFacing.UP, depth).offset(EnumFacing.NORTH, uCushion).offset(EnumFacing.WEST, vCushion);
@@ -494,6 +526,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	}
 	
 	public Iterable<MutableBlockPos> getInteriorPlane(EnumFacing normal, int depth, int minUCushion, int minVCushion, int maxUCushion, int maxVCushion) {
+		if (normal == null) {
+			return BlockPos.getAllInBoxMutable(getExtremeInteriorCoord(false, false, false), getExtremeInteriorCoord(false, false, false));
+		}
+		
 		switch (normal) {
 			case DOWN:
 				return getInteriorPlaneMinY(depth, minUCushion, minVCushion, maxUCushion, maxVCushion);
