@@ -1607,12 +1607,9 @@ item.nuclearcraft.part.empty_sink.name=空散热器
 item.nuclearcraft.part.pyrolytic_carbon.name=热解碳
 
 item.nuclearcraft.upgrade.speed.name=速度升级
-item.nuclearcraft.upgrade.speed_desc=以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会线性地提升速度，并呈指数级地提升能量消耗。
-# 以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会%s地提升速度，并%s地提升能量消耗。
+item.nuclearcraft.upgrade.speed_desc=以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会%s速度，并%s能量消耗。
 item.nuclearcraft.upgrade.energy.name=能量升级
-item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠——每个能量升级都会线性地减少能量消耗，但是最大的有效能量升级数量等同于速度升级的数量。
-# 为机器减少能量消耗。可堆叠，但是最大的有效能量升级数量等同于速度升级的速量。每个能量升级都会%s地减少能量消耗。
-info.nuclearcraft.approximately=最大
+item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠——每个能量升级都会%s能量消耗，但是最大的有效能量升级数量等同于速度升级的数量。
 
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
@@ -3492,3 +3489,30 @@ nc.sf.copper_coil0=%s铜发电机线圈
 nc.sf.copper_coil1=%s铜发电机线圈
 nc.sf.silver_coil0=%s银发电机线圈
 nc.sf.silver_coil1=%s银发电机线圈
+
+nc.sf.power_adverb0=持续地
+nc.sf.power_adverb1=线性地%s
+nc.sf.power_adverb2=平方地%s
+nc.sf.power_adverb3=立方地%s
+nc.sf.power_adverb4=四次方地%s
+nc.sf.power_adverb5=五次方地%s
+nc.sf.power_adverb6=六次方地%s
+nc.sf.power_adverb7=七次方地%s
+nc.sf.power_adverb8=八次方地%s
+nc.sf.power_adverb9=九次方地%s
+nc.sf.power_adverb10=十次方地%s
+nc.sf.power_adverb11=十一次方地%s
+nc.sf.power_adverb12=十二次方地%s
+nc.sf.power_adverb13=十三次方地%s
+nc.sf.power_adverb14=十四次方地%s
+nc.sf.power_adverb15=十五次方地%s
+
+nc.sf.increase=提升
+nc.sf.decrease=降低
+nc.sf.increase_approximately=近似地提升
+nc.sf.decrease_approximately=近似地降低
+nc.sf.power_adverb_preposition=%2$s%1$s 
+nc.sf.with=与
+
+tom.nuclearcraft.guide_book.name=同位素之书
+tom.nuclearcraft.guide_book.desc=欢迎来到核电工艺：重制版的官方指导！
