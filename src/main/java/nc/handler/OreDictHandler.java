@@ -1,6 +1,8 @@
 package nc.handler;
 
+import nc.ModCheck;
 import nc.init.*;
+import nc.util.RegistryHelper;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.OreDictionary;
@@ -183,11 +185,11 @@ public class OreDictHandler {
 		
 		OreDictionary.registerOre("dustWheat", NCItems.flour);
 		OreDictionary.registerOre("dyeBrown", NCItems.cocoa_solids);
-		OreDictionary.registerOre("dustCocoa", NCItems.cocoa_solids);
+		OreDictionary.registerOre("foodCocoapowder", NCItems.cocoa_solids);
 		OreDictionary.registerOre("ingotCocoaButter", NCItems.cocoa_butter);
 		OreDictionary.registerOre("ingotUnsweetenedChocolate", NCItems.unsweetened_chocolate);
 		OreDictionary.registerOre("ingotDarkChocolate", NCItems.dark_chocolate);
-		OreDictionary.registerOre("ingotChocolate", NCItems.milk_chocolate);
+		OreDictionary.registerOre("foodChocolatebar", NCItems.milk_chocolate);
 		OreDictionary.registerOre("ingotMarshmallow", NCItems.marshmallow);
 		
 		OreDictionary.registerOre("record", NCItems.record_wanderer);
@@ -199,6 +201,15 @@ public class OreDictHandler {
 		OreDictionary.registerOre("coal", Items.COAL);
 		OreDictionary.registerOre("charcoal", new ItemStack(Items.COAL, 1, 1));
 		OreDictionary.registerOre("wool", new ItemStack(Blocks.WOOL, 1, OreDictionary.WILDCARD_VALUE));
+		
+		// Entry Mergers
+		for (ItemStack stack : OreDictionary.getOres("foodCocoapowder", false)) {
+			OreDictionary.registerOre("dustCocoa", stack);
+		}
+		
+		for (ItemStack stack : OreDictionary.getOres("foodChocolatebar", false)) {
+			OreDictionary.registerOre("ingotChocolate", stack);
+		}
 	}
 	
 	public static void registerOre(Item item, int meta, String... names) {

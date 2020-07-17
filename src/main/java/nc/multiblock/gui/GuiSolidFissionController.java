@@ -5,24 +5,25 @@ import java.util.*;
 import nc.Global;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.solid.SolidFuelFissionLogic;
+import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiSolidFissionController extends GuiLogicMultiblockController<FissionReactor, SolidFuelFissionLogic> {
+public class GuiSolidFissionController extends GuiLogicMultiblock<FissionReactor, SolidFuelFissionLogic, IFissionController> {
 	
 	protected final ResourceLocation gui_texture;
 	
 	int outputRateWidth = 0;
 	
-	public GuiSolidFissionController(FissionReactor multiblock, BlockPos controllerPos, Container container) {
-		super(multiblock, controllerPos, container);
+	public GuiSolidFissionController(EntityPlayer player, IFissionController controller) {
+		super(player, controller);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "solid_fission_controller" + ".png");
 		xSize = 176;
 		ySize = 114;
@@ -106,7 +107,7 @@ public class GuiSolidFissionController extends GuiLogicMultiblockController<Fiss
 	protected void actionPerformed(GuiButton guiButton) {
 		if (multiblock.WORLD.isRemote) {
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
 			}
 		}
 	}

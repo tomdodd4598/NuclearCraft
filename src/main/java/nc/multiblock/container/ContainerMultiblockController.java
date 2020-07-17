@@ -1,22 +1,22 @@
 package nc.multiblock.container;
 
 import nc.multiblock.Multiblock;
-import nc.multiblock.tile.IMultiblockController;
+import nc.multiblock.tile.IMultiblockGuiPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMultiblockController<MULTIBLOCK extends Multiblock, CONTROLLER extends IMultiblockController<MULTIBLOCK>> extends Container {
+public class ContainerMultiblockController<MULTIBLOCK extends Multiblock, TILE extends IMultiblockGuiPart<MULTIBLOCK>> extends Container {
 	
-	protected final CONTROLLER controller;
+	protected final TILE tile;
 	
-	public ContainerMultiblockController(EntityPlayer player, CONTROLLER controller) {
-		this.controller = controller;
-		controller.getMultiblock().beginUpdatingPlayer(player);
+	public ContainerMultiblockController(EntityPlayer player, TILE tile) {
+		this.tile = tile;
+		tile.getMultiblock().beginUpdatingPlayer(player);
 	}
 	
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
+	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
 	
@@ -28,8 +28,8 @@ public class ContainerMultiblockController<MULTIBLOCK extends Multiblock, CONTRO
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		if (controller.getMultiblock() != null) {
-			controller.getMultiblock().stopUpdatingPlayer(player);
+		if (tile.getMultiblock() != null) {
+			tile.getMultiblock().stopUpdatingPlayer(player);
 		}
 	}
 }

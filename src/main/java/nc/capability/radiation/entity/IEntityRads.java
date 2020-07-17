@@ -98,6 +98,10 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	public void resetRecentRadXAddition();
 	
+	public int getMessageCooldownTime();
+	
+	public void setMessageCooldownTime(int messageTime);
+	
 	public double getRecentPoisonAddition();
 	
 	public void setRecentPoisonAddition(double newRecentPoisonAddition);

@@ -91,28 +91,20 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	
 	@Override
 	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
-		
 		if (SyncReason.FullSync == syncReason) {
-			
-			// We can't directly initialize a multiblock yet, so we cache the
-			// data here until
-			// we receive a validate() call, which creates the multiblock and
-			// hands off the cached data.
+			// We can't directly initialize a multiblock controller yet, so we cache the data here until
+			// we receive a validate() call, which creates the controller and hands off the cached data.
 			if (data.hasKey("multiblockData")) {
 				this.cachedMultiblockData = data.getCompoundTag("multiblockData");
 			}
-			
-		}
-		else {
-			
+		} else {
 			if (data.hasKey("multiblockData")) {
 				NBTTagCompound tag = data.getCompoundTag("multiblockData");
-				if (isConnected()) {
+				if(isConnected()) {
 					getMultiblock().syncDataFrom(tag, syncReason);
 				}
 				else {
-					// This part hasn't been added to a machine yet, so cache
-					// the data.
+					// This part hasn't been added to a machine yet, so cache the data.
 					this.cachedMultiblockData = tag;
 				}
 			}
@@ -126,16 +118,16 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 			
 			if (isMultiblockSaveDelegate() && isConnected()) {
 				NBTTagCompound multiblockData = new NBTTagCompound();
-				this.multiblock.syncDataTo(multiblockData, syncReason);
+				multiblock.syncDataTo(multiblockData, syncReason);
 				data.setTag("multiblockData", multiblockData);
 			}
 			
 		}
 		else {
 			
-			if (this.isMultiblockSaveDelegate() && isConnected()) {
+			if (isMultiblockSaveDelegate() && isConnected()) {
 				NBTTagCompound tag = new NBTTagCompound();
-				getMultiblock().syncDataTo(tag, syncReason);
+				multiblock.syncDataTo(tag, syncReason);
 				data.setTag("multiblockData", tag);
 			}
 			
@@ -295,7 +287,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	}
 	
 	public boolean isMultiblockAssembled() {
-		return getMultiblock() != null && getMultiblock().isAssembled();
+		return multiblock != null && multiblock.isAssembled();
 	}
 	
 	// Validator standard errors
@@ -305,7 +297,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 			throw nullControllerError();
 		}
 		
-		if (getMultiblock() == null) {
+		if (multiblock == null) {
 			nullControllerWarn();
 			onAttached(controller);
 		}
@@ -343,9 +335,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	 */
 	protected void markMultiblockForRenderUpdate() {
 		
-		MULTIBLOCK multiblock = this.getMultiblock();
-		
-		if (null != multiblock) {
+		if (multiblock != null) {
 			multiblock.markMultiblockForRenderUpdate();
 		}
 	}

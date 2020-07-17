@@ -100,6 +100,7 @@ public class NCConfig {
 	public static boolean fission_overheat;
 	public static boolean fission_explosions;
 	public static double fission_meltdown_radiation_multiplier;
+	public static boolean fission_heat_damage;
 	public static int fission_min_size; // Default: 1
 	public static int fission_max_size; // Default: 24
 	public static int fission_comparator_max_temp;
@@ -208,8 +209,10 @@ public class NCConfig {
 	public static double turbine_tension_throughput_factor;
 	public static double turbine_power_bonus_multiplier;
 	public static double turbine_sound_volume;
+	public static double turbine_particles;
 	public static double turbine_render_blade_width;
 	public static double turbine_render_rotor_expansion;
+	public static double turbine_render_rotor_speed;
 	
 	public static double accelerator_electromagnet_power;
 	public static double accelerator_supercooler_coolant;
@@ -268,8 +271,6 @@ public class NCConfig {
 	public static double radiation_lowest_rate;
 	public static double radiation_chunk_limit;
 	
-	// public static String[] radiation_block_effects;
-	// public static double radiation_block_effect_limit;
 	public static int radiation_block_effect_max_rate;
 	public static double radiation_rain_mult;
 	public static double radiation_swim_mult;
@@ -529,6 +530,8 @@ public class NCConfig {
 		propertyFissionExplosions.setLanguageKey("gui.nc.config.fission_explosions");
 		Property propertyFissionMeltdownRadiationMultiplier = config.get(CATEGORY_FISSION, "fission_meltdown_radiation_multiplier", 1D, Lang.localise("gui.nc.config.fission_meltdown_radiation_multiplier.comment"), 0D, 255D);
 		propertyFissionMeltdownRadiationMultiplier.setLanguageKey("gui.nc.config.fission_meltdown_radiation_multiplier");
+		Property propertyFissionHeatDamage = config.get(CATEGORY_FISSION, "fission_heat_damage", false, Lang.localise("gui.nc.config.fission_heat_damage.comment"));
+		propertyFissionHeatDamage.setLanguageKey("gui.nc.config.fission_heat_damage");
 		Property propertyFissionMinSize = config.get(CATEGORY_FISSION, "fission_min_size", 1, Lang.localise("gui.nc.config.fission_min_size.comment"), 1, 255);
 		propertyFissionMinSize.setLanguageKey("gui.nc.config.fission_min_size");
 		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, Lang.localise("gui.nc.config.fission_max_size.comment"), 1, 255);
@@ -732,10 +735,14 @@ public class NCConfig {
 		propertyTurbinePowerBonusMultiplier.setLanguageKey("gui.nc.config.turbine_power_bonus_multiplier");
 		Property propertyTurbineSoundVolume = config.get(CATEGORY_TURBINE, "turbine_sound_volume", 1D, Lang.localise("gui.nc.config.turbine_sound_volume.comment"), 0D, 15D);
 		propertyTurbineSoundVolume.setLanguageKey("gui.nc.config.turbine_sound_volume");
+		Property propertyTurbineParticles = config.get(CATEGORY_TURBINE, "turbine_particles", 0.025D, Lang.localise("gui.nc.config.turbine_particles.comment"), 0D, 1D);
+		propertyTurbineParticles.setLanguageKey("gui.nc.config.turbine_particles");
 		Property propertyTurbineRenderBladeWidth = config.get(CATEGORY_TURBINE, "turbine_render_blade_width", NCMath.SQRT2, Lang.localise("gui.nc.config.turbine_render_blade_width.comment"), 0.01D, 4D);
 		propertyTurbineRenderBladeWidth.setLanguageKey("gui.nc.config.turbine_render_blade_width");
 		Property propertyTurbineRenderRotorExpansion = config.get(CATEGORY_TURBINE, "turbine_render_rotor_expansion", 4D, Lang.localise("gui.nc.config.turbine_render_rotor_expansion.comment"), 1D, 15D);
 		propertyTurbineRenderRotorExpansion.setLanguageKey("gui.nc.config.turbine_render_rotor_expansion");
+		Property propertyTurbineRenderRotorSpeed = config.get(CATEGORY_TURBINE, "turbine_render_rotor_speed", 1D, Lang.localise("gui.nc.config.turbine_render_rotor_speed.comment"), 0D, 15D);
+		propertyTurbineRenderRotorSpeed.setLanguageKey("gui.nc.config.turbine_render_rotor_speed");
 		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 1000D, Lang.localise("gui.nc.config.accelerator_electromagnet_power.comment"), 0D, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.nc.config.accelerator_electromagnet_power");
@@ -1060,6 +1067,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionOverheat.getName());
 		propertyOrderFission.add(propertyFissionExplosions.getName());
 		propertyOrderFission.add(propertyFissionMeltdownRadiationMultiplier.getName());
+		propertyOrderFission.add(propertyFissionHeatDamage.getName());
 		propertyOrderFission.add(propertyFissionMinSize.getName());
 		propertyOrderFission.add(propertyFissionMaxSize.getName());
 		propertyOrderFission.add(propertyFissionComparatorMaxTemp.getName());
@@ -1174,8 +1182,10 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineTensionThroughputFactor.getName());
 		propertyOrderTurbine.add(propertyTurbinePowerBonusMultiplier.getName());
 		propertyOrderTurbine.add(propertyTurbineSoundVolume.getName());
+		propertyOrderTurbine.add(propertyTurbineParticles.getName());
 		propertyOrderTurbine.add(propertyTurbineRenderBladeWidth.getName());
 		propertyOrderTurbine.add(propertyTurbineRenderRotorExpansion.getName());
+		propertyOrderTurbine.add(propertyTurbineRenderRotorSpeed.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<>();
@@ -1386,6 +1396,7 @@ public class NCConfig {
 			fission_overheat = propertyFissionOverheat.getBoolean();
 			fission_explosions = propertyFissionExplosions.getBoolean();
 			fission_meltdown_radiation_multiplier = propertyFissionMeltdownRadiationMultiplier.getDouble();
+			fission_heat_damage = propertyFissionHeatDamage.getBoolean();
 			fission_min_size = propertyFissionMinSize.getInt();
 			fission_max_size = propertyFissionMaxSize.getInt();
 			fission_comparator_max_temp = propertyFissionComparatorMaxTemp.getInt();
@@ -1494,8 +1505,10 @@ public class NCConfig {
 			turbine_tension_throughput_factor = propertyTurbineTensionThroughputFactor.getDouble();
 			turbine_power_bonus_multiplier = propertyTurbinePowerBonusMultiplier.getDouble();
 			turbine_sound_volume = propertyTurbineSoundVolume.getDouble();
+			turbine_particles = propertyTurbineParticles.getDouble();
 			turbine_render_blade_width = propertyTurbineRenderBladeWidth.getDouble();
 			turbine_render_rotor_expansion = propertyTurbineRenderRotorExpansion.getDouble();
+			turbine_render_rotor_speed = propertyTurbineRenderRotorSpeed.getDouble();
 			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getDouble();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getDouble();
@@ -1703,6 +1716,7 @@ public class NCConfig {
 		propertyFissionOverheat.set(fission_overheat);
 		propertyFissionExplosions.set(fission_explosions);
 		propertyFissionMeltdownRadiationMultiplier.set(fission_meltdown_radiation_multiplier);
+		propertyFissionHeatDamage.set(fission_heat_damage);
 		propertyFissionMinSize.set(fission_min_size);
 		propertyFissionMaxSize.set(fission_max_size);
 		propertyFissionComparatorMaxTemp.set(fission_comparator_max_temp);
@@ -1811,8 +1825,10 @@ public class NCConfig {
 		propertyTurbineTensionThroughputFactor.set(turbine_tension_throughput_factor);
 		propertyTurbinePowerBonusMultiplier.set(turbine_power_bonus_multiplier);
 		propertyTurbineSoundVolume.set(turbine_sound_volume);
+		propertyTurbineParticles.set(turbine_particles);
 		propertyTurbineRenderBladeWidth.set(turbine_render_blade_width);
 		propertyTurbineRenderRotorExpansion.set(turbine_render_rotor_expansion);
+		propertyTurbineRenderRotorSpeed.set(turbine_render_rotor_speed);
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);

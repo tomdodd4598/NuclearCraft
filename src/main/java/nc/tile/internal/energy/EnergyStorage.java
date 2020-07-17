@@ -118,6 +118,7 @@ public class EnergyStorage implements IEnergyStorage {
 	public void mergeEnergyStorage(EnergyStorage other) {
 		setStorageCapacity(getMaxEnergyStoredLong() + other.getMaxEnergyStoredLong());
 		setEnergyStored(getEnergyStoredLong() + other.getEnergyStoredLong());
+		other.setEnergyStored(0);
 	}
 	
 	public void setMaxTransfer(int newMaxTransfer) {

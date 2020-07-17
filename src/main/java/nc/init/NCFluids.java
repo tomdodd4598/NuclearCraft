@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFluids {
 	
-	private static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<>();
+	public static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<>();
 	
 	public static void init() {
 		addFluidPair(FluidType.GAS, "oxygen", 0x7E8CC8);

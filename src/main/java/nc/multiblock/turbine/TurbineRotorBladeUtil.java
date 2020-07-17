@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class TurbineRotorBladeUtil {
 	
-	public enum TurbineRotorBladeType implements IStringSerializable, IRotorBladeType {
+	public enum TurbineRotorBladeType implements IRotorBladeType {
 		STEEL("steel", turbine_blade_efficiency[0], turbine_blade_expansion[0]),
 		EXTREME("extreme", turbine_blade_efficiency[1], turbine_blade_expansion[1]),
 		SIC_SIC_CMC("sic_sic_cmc", turbine_blade_efficiency[2], turbine_blade_expansion[2]);
@@ -34,21 +34,57 @@ public class TurbineRotorBladeUtil {
 			return getName();
 		}
 		
+		@Override
 		public double getEfficiency() {
 			return efficiency;
 		}
 		
+		@Override
 		public double getExpansionCoefficient() {
 			return expansion;
 		}
 	}
 	
-	public enum TurbineRotorStatorType implements IRotorBladeType {
-		STATOR;
+	public interface IRotorBladeType extends IStringSerializable {
+		
+		public double getEfficiency();
+		
+		public double getExpansionCoefficient();
 	}
 	
-	public interface IRotorBladeType {
+	public enum TurbineRotorStatorType implements IRotorStatorType {
+		STATOR("stator", turbine_stator_expansion);
 		
+		private final String name;
+		private final double expansion;
+		
+		private TurbineRotorStatorType(String name, double expansion) {
+			this.name = name;
+			this.expansion = expansion;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public double getExpansionCoefficient() {
+			return expansion;
+		}
+	}
+	
+	public interface IRotorStatorType extends IRotorBladeType {
+		
+		@Override
+		public default double getEfficiency() {
+			return -1D;
+		}
 	}
 	
 	public interface ITurbineRotorBlade {
@@ -62,14 +98,6 @@ public class TurbineRotorBladeUtil {
 		public IRotorBladeType getBladeType();
 		
 		public IBlockState getRenderState();
-		
-		public int getDepth();
-		
-		public void setDepth(int newDepth);
-		
-		public float getRenderRotation();
-		
-		public void setRenderRotation(float newRotation);
 		
 		public void onBearingFailure(Turbine turbine);
 	}

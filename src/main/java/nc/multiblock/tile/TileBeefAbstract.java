@@ -231,22 +231,11 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		NetworkUpdate // update from the other side
 	}
 	
-	public void readRadiation(NBTTagCompound data) {
-		if (data.hasKey("radiationLevel")) {
-			getRadiationSource().setRadiationLevel(data.getDouble("radiationLevel"));
-		}
-	}
-	
-	public NBTTagCompound writeRadiation(NBTTagCompound data) {
-		data.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
-		return data;
-	}
-	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
-		syncDataTo(super.writeToNBT(data), SyncReason.FullSync);
 		writeAll(data);
+		syncDataTo(data, SyncReason.FullSync);
 		return data;
 	}
 	
@@ -260,11 +249,16 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		return data;
 	}
 	
+	public NBTTagCompound writeRadiation(NBTTagCompound data) {
+		data.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
+		return data;
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
-		syncDataFrom(data, SyncReason.FullSync);
 		readAll(data);
+		syncDataFrom(data, SyncReason.FullSync);
 	}
 	
 	public void readAll(NBTTagCompound data) {
@@ -276,34 +270,31 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		}
 	}
 	
+	public void readRadiation(NBTTagCompound data) {
+		if (data.hasKey("radiationLevel")) {
+			getRadiationSource().setRadiationLevel(data.getDouble("radiationLevel"));
+		}
+	}
+	
 	@Override
 	public void handleUpdateTag(NBTTagCompound data) {
-		super.handleUpdateTag(data);
-		syncDataFrom(data, SyncReason.NetworkUpdate);
+		readFromNBT(data);
 	}
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound data = super.getUpdateTag();
-		writeAll(data);
-		syncDataTo(data, SyncReason.NetworkUpdate);
-		return data;
+		return writeToNBT(new NBTTagCompound());
 	}
 	
 	@Override
 	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readAll(packet.getNbtCompound());
-		syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
+		readFromNBT(packet.getNbtCompound());
 	}
 	
 	@Nullable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound data = new NBTTagCompound();
-		writeAll(data);
-		int metadata = getBlockMetadata();
-		syncDataTo(data, SyncReason.NetworkUpdate);
-		return new SPacketUpdateTileEntity(pos, metadata, data);
+		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), writeToNBT(new NBTTagCompound()));
 	}
 	
 	/**
@@ -331,6 +322,6 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
-		return NCMath.sq(0.92D * 16D * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
+		return NCMath.sq(16D * FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
 	}
 }

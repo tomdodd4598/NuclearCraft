@@ -5,30 +5,42 @@ import net.minecraft.util.EnumFacing;
 
 public class RadiationResistance implements IRadiationResistance {
 	
-	private double radiationResistance = 0D;
+	private double baseRadResistance = 0D, shieldingRadResistance = 0D;
 	
-	public RadiationResistance(double radiationResistance) {
-		this.radiationResistance = radiationResistance;
+	public RadiationResistance(double baseRadResistance) {
+		this.baseRadResistance = baseRadResistance;
 	}
 	
 	@Override
 	public NBTTagCompound writeNBT(IRadiationResistance instance, EnumFacing side, NBTTagCompound nbt) {
-		nbt.setDouble("radiationResistance", getRadiationResistance());
+		nbt.setDouble("radiationResistance", getBaseRadResistance());
+		nbt.setDouble("shieldingRadResistance", getShieldingRadResistance());
 		return nbt;
 	}
 	
 	@Override
 	public void readNBT(IRadiationResistance instance, EnumFacing side, NBTTagCompound nbt) {
-		setRadiationResistance(nbt.getDouble("radiationResistance"));
+		setBaseRadResistance(nbt.getDouble("radiationResistance"));
+		setShieldingRadResistance(nbt.getDouble("shieldingRadResistance"));
 	}
 	
 	@Override
-	public double getRadiationResistance() {
-		return radiationResistance;
+	public double getBaseRadResistance() {
+		return baseRadResistance;
 	}
 	
 	@Override
-	public void setRadiationResistance(double newResistance) {
-		radiationResistance = Math.max(newResistance, 0D);
+	public void setBaseRadResistance(double newResistance) {
+		baseRadResistance = Math.max(newResistance, 0D);
+	}
+	
+	@Override
+	public double getShieldingRadResistance() {
+		return shieldingRadResistance;
+	}
+	
+	@Override
+	public void setShieldingRadResistance(double newResistance) {
+		shieldingRadResistance = Math.max(newResistance, 0D);
 	}
 }

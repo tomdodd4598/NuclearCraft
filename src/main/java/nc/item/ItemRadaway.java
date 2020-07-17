@@ -43,7 +43,9 @@ public class ItemRadaway extends NCItem {
 				if (player instanceof EntityPlayerMP) {
 					CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
 				}
-				stack.shrink(1);
+				if (!player.isCreative()) {
+					stack.shrink(1);
+				}
 				playerRads.setConsumedMedicine(true);
 				playerRads.setRadawayCooldown(radiation_radaway_cooldown);
 				if (radiation_radaway_cooldown >= 10D) {
@@ -58,11 +60,14 @@ public class ItemRadaway extends NCItem {
 	}
 	
 	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
-		if (playerRads.getRadawayCooldown() > 0D) {
+		if (playerRads.getRadawayCooldown() > 0D && playerRads.getMessageCooldownTime() <= 0) {
 			if (playSound && world.isRemote) {
 				player.playSound(NCSounds.chems_wear_off, 0.5F, 1F);
 			}
-			player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
+			if (!world.isRemote) {
+				playerRads.setMessageCooldownTime(20);
+				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
+			}
 		}
 	}
 	

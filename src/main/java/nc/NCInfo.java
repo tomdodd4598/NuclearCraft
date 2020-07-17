@@ -175,20 +175,26 @@ public class NCInfo {
 	
 	// Speed Upgrade
 	
-	public static final String[] POLY_POWER = new String[] {"linearly", "quadratically", "cubicly", "quarticly", "quinticly", "sexticly", "septicly", "octicly", "nonicly", "decicly", "undecicly", "duodecicly", "tredecicly", "quattuordecicly", "quindecicly"};
-	
 	public static String[][] upgradeInfo() {
 		String[][] info = new String[MetaEnums.UpgradeType.values().length][];
 		for (int i = 0; i < MetaEnums.UpgradeType.values().length; i++) {
 			info[i] = InfoHelper.EMPTY_ARRAY;
 		}
-		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", powerString(speed_upgrade_power_laws[0]), powerString(speed_upgrade_power_laws[1])));
-		info[1] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.energy_desc", powerString(energy_upgrade_power_laws[0])));
+		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", powerAdverb(speed_upgrade_power_laws[0], "increase", "with"), powerAdverb(speed_upgrade_power_laws[1], "increase", "")));
+		info[1] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.energy_desc", powerAdverb(energy_upgrade_power_laws[0], "decrease", "with")));
 		return info;
 	}
 	
-	private static String powerString(double power) {
-		return (power == (int) power ? "" : Lang.localise("info.nuclearcraft.approximately" + " ")) + POLY_POWER[(int) Math.round(power) - 1];
+	private static String powerAdverb(double power, String verb, String preposition) {
+		if (power != (int) power) {
+			verb += "_approximately";
+		}
+		verb = Lang.localise("nc.sf." + verb);
+		
+		int p = (int) Math.round(power);
+		
+		preposition = "nc.sf." + preposition;
+		return Lang.canLocalise(preposition) ? Lang.localise("nc.sf.power_adverb_preposition", Lang.localise("nc.sf.power_adverb" + p, verb), Lang.localise(preposition)) : Lang.localise("nc.sf.power_adverb" + p, verb);
 	}
 	
 	// Extra Ore Drops

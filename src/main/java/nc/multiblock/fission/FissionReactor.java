@@ -9,13 +9,11 @@ import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.*;
-import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -314,10 +312,6 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		sparsityEfficiencyMult = message.sparsityEfficiencyMult;
 		
 		logic.onPacket(message);
-	}
-	
-	public ContainerMultiblockController<FissionReactor, IFissionController> getContainer(EntityPlayer player) {
-		return logic.getContainer(player);
 	}
 	
 	@Override

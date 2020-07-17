@@ -12,8 +12,6 @@ import net.minecraft.world.World;
 public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineRotorBlade {
 	
 	protected TurbinePartDir dir = TurbinePartDir.Y;
-	protected int depth = 0;
-	protected float rotation = 0F;
 	
 	public TileTurbineRotorStator() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -65,26 +63,6 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	}
 	
 	@Override
-	public int getDepth() {
-		return depth;
-	}
-	
-	@Override
-	public void setDepth(int newDepth) {
-		depth = newDepth;
-	}
-	
-	@Override
-	public float getRenderRotation() {
-		return rotation;
-	}
-	
-	@Override
-	public void setRenderRotation(float newRotation) {
-		rotation = newRotation;
-	}
-	
-	@Override
 	public void onBearingFailure(Turbine turbine) {
 		if (turbine.rand.nextDouble() < 0.04D) {
 			world.removeTileEntity(pos);
@@ -98,8 +76,6 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setInteger("bladeDir", dir.ordinal());
-		nbt.setInteger("posDepth", depth);
-		nbt.setFloat("renderRotation", rotation);
 		return nbt;
 	}
 	
@@ -107,7 +83,5 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		dir = TurbinePartDir.values()[nbt.getInteger("bladeDir")];
-		depth = nbt.getInteger("posDepth");
-		rotation = nbt.getFloat("renderRotation");
 	}
 }

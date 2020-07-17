@@ -74,7 +74,7 @@ public class RadiationHandler {
 				playerRads.setRadiationImmunityStage(default_rad_immunity ^ GameStageHelper.hasAnyOf(player, rad_immunity_stages));
 			}
 			
-			if (!player.isCreative() && playerRads.isFatal()) {
+			if (!player.isCreative() && !player.isSpectator() && playerRads.isFatal()) {
 				player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 			}
 			
@@ -109,9 +109,11 @@ public class RadiationHandler {
 				playerRads.resetRecentPoisonAddition();
 			}
 			
+			playerRads.setMessageCooldownTime(playerRads.getMessageCooldownTime() - radiation_player_tick_rate);
+			
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (!player.isCreative()) {
+			if (!player.isCreative() && !player.isSpectator()) {
 				if (playerRads.isFatal()) {
 					player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
@@ -178,7 +180,7 @@ public class RadiationHandler {
 			
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
-			if (!player.isCreative() && !playerRads.isImmune()) {
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
 				RadiationHelper.applyPotionEffects(player, playerRads, RadPotionEffects.PLAYER_RAD_LEVEL_LIST, RadPotionEffects.PLAYER_DEBUFF_LIST);
 			}
 		}

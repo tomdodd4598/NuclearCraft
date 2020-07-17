@@ -326,24 +326,24 @@ public class GuiHandler implements IGuiHandler {
 						return new GuiRockCrusher(player, (RockCrusher) tile);
 					}
 				case 100:
-					// if (tile instanceof TileFissionController) return new
-					// GuiFissionController(player, (TileFissionController)
-					// tile);
+					/*if (tile instanceof TileFissionController) {
+						return new GuiFissionController(player, (TileFissionController) tile);
+					}*/
 				case 101:
 					if (tile instanceof TileSolidFissionController) {
-						return new GuiSolidFissionController(((TileSolidFissionController) tile).getMultiblock(), tile.getPos(), ((TileSolidFissionController) tile).getMultiblock().getContainer(player));
+						return new GuiSolidFissionController(player, (TileSolidFissionController) tile);
 					}
 				case 102:
 					if (tile instanceof TileSaltFissionController) {
-						return new GuiSaltFissionController(((TileSaltFissionController) tile).getMultiblock(), tile.getPos(), ((TileSaltFissionController) tile).getMultiblock().getContainer(player));
+						return new GuiSaltFissionController(player, ((TileSaltFissionController) tile));
 					}
 				case 103:
 					if (tile instanceof TileHeatExchangerController) {
-						return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), tile.getPos(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
+						return new GuiHeatExchangerController(player, ((TileHeatExchangerController) tile));
 					}
 				case 104:
 					if (tile instanceof TileTurbineController) {
-						return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), tile.getPos(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
+						return new GuiTurbineController(player, ((TileTurbineController) tile));
 					}
 				case 200:
 					if (tile instanceof TileFissionIrradiator) {

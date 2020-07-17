@@ -13,7 +13,6 @@ import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.init.NCSounds;
 import nc.multiblock.*;
-import nc.multiblock.container.*;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
@@ -25,7 +24,6 @@ import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import nc.util.NCMath;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -426,10 +424,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	public void onPacket(FissionUpdatePacket message) {
 		heatBuffer.setHeatStored(message.heatStored);
 		heatBuffer.setHeatCapacity(message.heatCapacity);
-	}
-	
-	public ContainerMultiblockController<FissionReactor, IFissionController> getContainer(EntityPlayer player) {
-		return new ContainerSolidFissionController(player, getReactor().controller);
 	}
 	
 	public void clearAllMaterial() {}

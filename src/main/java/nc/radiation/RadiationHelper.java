@@ -175,7 +175,7 @@ public class RadiationHelper {
 		double resistance = 0D;
 		IRadiationResistance providerResistance = getRadiationResistance(provider);
 		if (providerResistance != null) {
-			resistance = providerResistance.getRadiationResistance();
+			resistance = providerResistance.getTotalRadResistance();
 		}
 		
 		double radiation = rawRadiation <= 0D ? 0D : NCMath.sq(rawRadiation) / (rawRadiation + resistance);
@@ -250,7 +250,7 @@ public class RadiationHelper {
 		double resistance = 0D;
 		IRadiationResistance armorResistance = getRadiationResistance(armor);
 		if (armorResistance != null) {
-			resistance += armorResistance.getRadiationResistance();
+			resistance += armorResistance.getTotalRadResistance();
 		}
 		if (armor.hasTagCompound() && armor.getTagCompound().hasKey("ncRadiationResistance")) {
 			resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
