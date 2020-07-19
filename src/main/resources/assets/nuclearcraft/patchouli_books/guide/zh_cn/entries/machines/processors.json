@@ -66,7 +66,7 @@
             "anchor": "electrolyzer",
             "type": "machines/single_machine",
             "block": "nuclearcraft:electrolyzer",
-            "text": "使用电能分解电子。"
+            "text": "使用电能分解分子。"
         },
         {
             "anchor": "assembler",
