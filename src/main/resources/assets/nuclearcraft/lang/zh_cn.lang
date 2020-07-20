@@ -2718,6 +2718,8 @@ gui.nc.config.radiation_passive_debuff_lists.comment=Lists of potion effects exp
 gui.nc.config.radiation_mob_buff_lists=怪物辐射效果
 gui.nc.config.radiation_mob_buff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by mobs. 格式：'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
 
+###############################################################################
+
 gui.nc.config.radiation_horse_armor=马铠
 gui.nc.config.radiation_horse_armor.comment=如果设定为 (true) ，那么马铠也可以被与辐射屏蔽板组装在一起。
 
