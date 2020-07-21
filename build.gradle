@@ -111,6 +111,7 @@ dependencies {
 
 processResources {
 	exclude '**/Thumbs.db'
+	exclude '**/resources/assets/base/'
 	
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
