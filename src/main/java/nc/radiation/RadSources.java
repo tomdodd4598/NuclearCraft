@@ -1,20 +1,41 @@
 package nc.radiation;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.radiation_blocks;
+import static nc.config.NCConfig.radiation_blocks_blacklist;
+import static nc.config.NCConfig.radiation_fluids;
+import static nc.config.NCConfig.radiation_fluids_blacklist;
+import static nc.config.NCConfig.radiation_foods;
+import static nc.config.NCConfig.radiation_items;
+import static nc.config.NCConfig.radiation_items_blacklist;
+import static nc.config.NCConfig.radiation_ores;
+import static nc.config.NCConfig.radiation_ores_blacklist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
+import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
-import nc.init.*;
-import nc.util.*;
+import nc.init.NCBlocks;
+import nc.init.NCItems;
+import nc.util.OreDictHelper;
+import nc.util.RegistryHelper;
+import nc.util.StringHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
-import net.minecraft.item.*;
-import net.minecraftforge.fluids.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RadSources {
@@ -29,6 +50,27 @@ public class RadSources {
 	
 	public static final Int2DoubleMap FOOD_RAD_MAP = new Int2DoubleOpenHashMap();
 	public static final Int2DoubleMap FOOD_RESISTANCE_MAP = new Int2DoubleOpenHashMap();
+	
+	public static final List<Runnable> RUNNABLES = new ArrayList<>();
+	
+	public static void addToOreBlacklist(String ore) {
+		if (StringHelper.isGlob(ore)) {
+			OreDictHelper.addWildcard(ORE_BLACKLIST, ore);
+		}
+		else {
+			ORE_BLACKLIST.add(ore);
+		}
+	}
+	
+	public static void addToStackBlacklist(ItemStack stack) {
+		if (stack != null) {
+			STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
+		}
+	}
+	
+	public static void addToFluidBlacklist(String fluidName) {
+		FLUID_BLACKLIST.add(fluidName);
+	}
 	
 	public static void addToOreMap(String ore, double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) {
@@ -105,27 +147,16 @@ public class RadSources {
 	
 	public static void init() {
 		for (String ore : radiation_ores_blacklist) {
-			if (StringHelper.isGlob(ore)) {
-				OreDictHelper.addWildcard(ORE_BLACKLIST, ore);
-			}
-			else {
-				ORE_BLACKLIST.add(ore);
-			}
+			addToOreBlacklist(ore);
 		}
 		for (String item : radiation_items_blacklist) {
-			ItemStack stack = RegistryHelper.itemStackFromRegistry(item);
-			if (stack != null) {
-				STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
-			}
+			addToStackBlacklist(RegistryHelper.itemStackFromRegistry(item));
 		}
 		for (String block : radiation_blocks_blacklist) {
-			ItemStack stack = RegistryHelper.blockStackFromRegistry(block);
-			if (stack != null) {
-				STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
-			}
+			addToStackBlacklist(RegistryHelper.blockStackFromRegistry(block));
 		}
 		for (String fluid : radiation_fluids_blacklist) {
-			FLUID_BLACKLIST.add(fluid);
+			addToFluidBlacklist(fluid);
 		}
 		
 		if (ModCheck.gregtechLoaded()) {
@@ -216,7 +247,7 @@ public class RadSources {
 		putFuel(LECf_251, DEPLETED_LECf_251, "LECf251", "lecf_251");
 		putFuel(HECf_251, DEPLETED_HECf_251, "HECf251", "hecf_251");
 		
-		put(URANIUM_238 * 4D, "plateDU");
+		putOre(URANIUM_238 * 4D, "plateDU");
 		put(URANIUM_238 * 16D, NCBlocks.solar_panel_du, NCBlocks.voltaic_pile_du, NCBlocks.lithium_ion_battery_du);
 		put(URANIUM_238 * 12D, new ItemStack(NCItems.rad_shielding, 1, 2));
 		
@@ -231,11 +262,11 @@ public class RadSources {
 		
 		put(TRITIUM / 256D, NCBlocks.tritium_lamp);
 		
-		put(CAESIUM_137 / 4D, "dustIrradiatedBorax");
+		putOre(CAESIUM_137 / 4D, "dustIrradiatedBorax");
 		
 		if (ModCheck.gregtechLoaded()) {
 			for (String prefix : ORE_PREFIXES) {
-				put(17D * THORIUM / 4D, prefix + "Monazite");
+				putOre(17D * THORIUM / 4D, prefix + "Monazite");
 			}
 		}
 		
@@ -307,6 +338,10 @@ public class RadSources {
 			if (stack != null && (rads != 0D || resistance != 0D) && stack.getItem() instanceof ItemFood) {
 				addToFoodMaps(stack, rads, resistance);
 			}
+		}
+		
+		for (Runnable runnable : RUNNABLES) {
+			runnable.run();
 		}
 	}
 	
@@ -387,7 +422,7 @@ public class RadSources {
 		}
 	}
 	
-	public static void put(double radiation, String... ores) {
+	public static void putOre(double radiation, String... ores) {
 		for (String ore : ores) {
 			addToOreMap(ore, radiation);
 		}

@@ -25,6 +25,7 @@ public class ModCheck {
 	private static boolean gameStagesLoaded = false;
 	private static boolean cubicChunksLoaded = false;
 	private static boolean hwylaLoaded = false;
+	private static boolean patchouliLoaded = false;
 	
 	public static void init() {
 		if (initialized) {
@@ -50,6 +51,7 @@ public class ModCheck {
 		gameStagesLoaded = Loader.isModLoaded("gamestages");
 		cubicChunksLoaded = Loader.isModLoaded("cubicchunks");
 		hwylaLoaded = Loader.isModLoaded("waila");
+		patchouliLoaded = Loader.isModLoaded("patchouli");
 		
 		initialized = true;
 	}
@@ -128,5 +130,9 @@ public class ModCheck {
 	
 	public static boolean hwylaLoaded() {
 		return hwylaLoaded;
+	}
+	
+	public static boolean patchouliLoaded() {
+		return patchouliLoaded;
 	}
 }

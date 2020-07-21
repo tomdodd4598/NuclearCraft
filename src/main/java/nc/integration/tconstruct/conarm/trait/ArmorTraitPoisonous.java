@@ -9,7 +9,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorTraitPoisonous extends AbstractArmorTrait {
+public class ArmorTraitPoisonous extends AbstractArmorTrait implements IArmorTraitNC {
 	
 	public ArmorTraitPoisonous() {
 		super("poisonous", 0xFFFFFF);

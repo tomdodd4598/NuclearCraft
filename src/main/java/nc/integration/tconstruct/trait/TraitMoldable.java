@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import slimeknights.tconstruct.library.traits.AbstractTraitLeveled;
 import slimeknights.tconstruct.library.utils.*;
 
-public class TraitMoldable extends AbstractTraitLeveled {
+public class TraitMoldable extends AbstractTraitLeveled implements ITraitNC {
 	
 	public TraitMoldable(int levels) {
 		super("moldable", String.valueOf(levels), 0x62230E, 3, 1);

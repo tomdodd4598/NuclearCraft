@@ -1,23 +1,84 @@
 package nc.integration.crafttweaker;
 
-import static nc.recipe.NCRecipes.*;
+import static nc.recipe.NCRecipes.alloy_furnace;
+import static nc.recipe.NCRecipes.assembler;
+import static nc.recipe.NCRecipes.centrifuge;
+import static nc.recipe.NCRecipes.chemical_reactor;
+import static nc.recipe.NCRecipes.condenser;
+import static nc.recipe.NCRecipes.crystallizer;
+import static nc.recipe.NCRecipes.decay_generator;
+import static nc.recipe.NCRecipes.decay_hastener;
+import static nc.recipe.NCRecipes.electrolyzer;
+import static nc.recipe.NCRecipes.enricher;
+import static nc.recipe.NCRecipes.extractor;
+import static nc.recipe.NCRecipes.fission_heating;
+import static nc.recipe.NCRecipes.fission_irradiator;
+import static nc.recipe.NCRecipes.fission_moderator;
+import static nc.recipe.NCRecipes.fission_reflector;
+import static nc.recipe.NCRecipes.fuel_reprocessor;
+import static nc.recipe.NCRecipes.fusion;
+import static nc.recipe.NCRecipes.heat_exchanger;
+import static nc.recipe.NCRecipes.infuser;
+import static nc.recipe.NCRecipes.ingot_former;
+import static nc.recipe.NCRecipes.manufactory;
+import static nc.recipe.NCRecipes.melter;
+import static nc.recipe.NCRecipes.pebble_fission;
+import static nc.recipe.NCRecipes.pressurizer;
+import static nc.recipe.NCRecipes.radiation_block_mutation;
+import static nc.recipe.NCRecipes.radiation_block_purification;
+import static nc.recipe.NCRecipes.radiation_scrubber;
+import static nc.recipe.NCRecipes.rock_crusher;
+import static nc.recipe.NCRecipes.salt_fission;
+import static nc.recipe.NCRecipes.salt_mixer;
+import static nc.recipe.NCRecipes.separator;
+import static nc.recipe.NCRecipes.solid_fission;
+import static nc.recipe.NCRecipes.supercooler;
+import static nc.recipe.NCRecipes.turbine;
 
 import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.entity.IEntityLivingBase;
-import crafttweaker.api.item.*;
 import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.item.IngredientStack;
+import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.oredict.IOreDictEntry;
+import crafttweaker.mc1120.util.CraftTweakerPlatformUtils;
+import nc.Global;
+import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.radiation.*;
-import nc.recipe.*;
-import nc.recipe.ingredient.*;
+import nc.enumm.MetaEnums;
+import nc.init.NCBlocks;
+import nc.multiblock.PlacementRule;
+import nc.multiblock.fission.FissionPlacement;
+import nc.multiblock.fission.block.BlockFissionPart;
+import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
+import nc.multiblock.fission.tile.IFissionPart;
+import nc.radiation.RadSources;
+import nc.radiation.RadiationHelper;
+import nc.recipe.IngredientSorption;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.OreIngredient;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.RecipeItemHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import stanhebben.zenscript.annotations.*;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import stanhebben.zenscript.annotations.Optional;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenExpansion;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 public class NCCraftTweaker {
 	
@@ -791,7 +852,6 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	// TODO
 	@ZenClass("mods.nuclearcraft.SaltFission")
 	@ZenRegister
 	public static class SaltFissionMethods {
@@ -1046,34 +1106,96 @@ public class NCCraftTweaker {
 			}
 			else if (ingredient instanceof IItemStack) {
 				ItemStack stack = CTHelper.getItemStack((IItemStack) ingredient);
-				if (stack.isEmpty()) {
-					return 0D;
-				}
-				return RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack)) * stack.getCount();
+				return stack.isEmpty() ? 0D : RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack)) * stack.getCount();
 			}
 			else if (ingredient instanceof IOreDictEntry) {
-				String oreName = ((IOreDictEntry) ingredient).getName();
-				int amount = ((IOreDictEntry) ingredient).getAmount();
-				return RadSources.ORE_MAP.getDouble(oreName) * amount;
+				IOreDictEntry ore = (IOreDictEntry) ingredient;
+				return RadSources.ORE_MAP.getDouble(ore.getName()) * ore.getAmount();
 			}
 			else if (ingredient instanceof IngredientStack) {
-				IItemIngredient ing = CTHelper.buildOreIngredientArray(ingredient, true);
-				if (ing instanceof OreIngredient) {
-					String oreName = ((OreIngredient) ing).oreName;
-					int amount = ((OreIngredient) ing).stackSize;
-					return RadSources.ORE_MAP.getDouble(oreName) * amount;
+				IItemIngredient i = CTHelper.buildOreIngredientArray(ingredient, true);
+				if (i instanceof OreIngredient) {
+					OreIngredient ore = (OreIngredient) i;
+					return RadSources.ORE_MAP.getDouble(ore.oreName) * ore.stackSize;
 				}
 				else {
-					ItemStack stack = ing.getStack();
-					if (stack == null || stack.isEmpty()) {
-						return 0D;
-					}
-					return RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack)) * stack.getCount();
+					ItemStack stack = i.getStack();
+					return stack == null || stack.isEmpty() ? 0D : RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack)) * stack.getCount();
 				}
+			}
+			else if (ingredient instanceof ILiquidStack) {
+				FluidStack stack = CTHelper.getFluidStack((ILiquidStack) ingredient);
+				return stack == null ? 0D : RadiationHelper.getRadiationFromFluid(stack, 1D);
 			}
 			else {
 				return 0D;
 			}
+		}
+		
+		@ZenMethod
+		public static void addToRadiationBlacklist(IIngredient ingredient) {
+			if (ingredient == null) {
+				return;
+			}
+			else if (ingredient instanceof IItemStack) {
+				RadSources.RUNNABLES.add(() -> RadSources.addToStackBlacklist(CTHelper.getItemStack((IItemStack) ingredient)));
+			}
+			else if (ingredient instanceof IOreDictEntry) {
+				RadSources.RUNNABLES.add(() -> RadSources.addToOreBlacklist(((IOreDictEntry) ingredient).getName()));
+			}
+			else if (ingredient instanceof IngredientStack) {
+				IItemIngredient i = CTHelper.buildOreIngredientArray(ingredient, true);
+				if (i instanceof OreIngredient) {
+					RadSources.RUNNABLES.add(() -> RadSources.addToOreBlacklist(((OreIngredient) i).oreName));
+				}
+				else if (i.getStack() != null) {
+					RadSources.RUNNABLES.add(() -> RadSources.addToStackBlacklist(i.getStack()));
+				}
+			}
+			else if (ingredient instanceof ILiquidStack) {
+				FluidStack stack = CTHelper.getFluidStack((ILiquidStack) ingredient);
+				if (stack != null && stack.getFluid() != null) {
+					RadSources.RUNNABLES.add(() -> RadSources.addToFluidBlacklist(stack.getFluid().getName()));
+				}
+			}
+		}
+		
+		@ZenMethod
+		public static void setRadiationLevel(IIngredient ingredient, double radiation) {
+			if (ingredient == null) {
+				return;
+			}
+			else if (ingredient instanceof IItemStack) {
+				RadSources.RUNNABLES.add(() -> RadSources.addToStackMap(CTHelper.getItemStack((IItemStack) ingredient), radiation));
+			}
+			else if (ingredient instanceof IOreDictEntry) {
+				RadSources.RUNNABLES.add(() -> RadSources.addToOreMap(((IOreDictEntry) ingredient).getName(), radiation));
+			}
+			else if (ingredient instanceof IngredientStack) {
+				IItemIngredient i = CTHelper.buildOreIngredientArray(ingredient, true);
+				if (i instanceof OreIngredient) {
+					RadSources.RUNNABLES.add(() -> RadSources.addToOreMap(((OreIngredient) i).oreName, radiation));
+				}
+				else if (i.getStack() != null) {
+					RadSources.RUNNABLES.add(() -> RadSources.addToStackMap(i.getStack(), radiation));
+				}
+			}
+			else if (ingredient instanceof ILiquidStack) {
+				FluidStack stack = CTHelper.getFluidStack((ILiquidStack) ingredient);
+				if (stack != null && stack.getFluid() != null) {
+					RadSources.RUNNABLES.add(() -> RadSources.addToFluidMap(stack.getFluid().getName(), radiation));
+				}
+			}
+		}
+		
+		@ZenMethod
+		public static void setMaterialRadiationLevel(String oreSuffix, double radiation) {
+			RadSources.RUNNABLES.add(() -> RadSources.putMaterial(radiation, oreSuffix));
+		}
+		
+		@ZenMethod
+		public static void setFoodRadiationStats(IItemStack food, double radiation, double resistance) {
+			RadSources.RUNNABLES.add(() -> RadSources.addToFoodMaps(CTHelper.getItemStack(food), radiation, resistance));
 		}
 		
 		@ZenMethod

@@ -11,8 +11,13 @@ import net.minecraft.world.World;
 
 public abstract class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade {
 	
-	public final TurbineRotorBladeType bladeType;
+	public IRotorBladeType bladeType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
+	
+	/** Don't use this constructor! */
+	public TileTurbineRotorBlade() {
+		super(CuboidalPartPositionType.INTERIOR);
+	}
 	
 	public static class Steel extends TileTurbineRotorBlade {
 		
@@ -50,9 +55,8 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 		}
 	}
 	
-	private TileTurbineRotorBlade(TurbineRotorBladeType bladeType) {
-		super(CuboidalPartPositionType.INTERIOR);
-		
+	public TileTurbineRotorBlade(IRotorBladeType bladeType) {
+		this();
 		this.bladeType = bladeType;
 	}
 	
@@ -110,6 +114,12 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		if (bladeType != null) {
+			nbt.setString("bladeName", bladeType.getName());
+			nbt.setDouble("bladeEfficiency", bladeType.getEfficiency());
+			nbt.setDouble("bladeExpansionCoefficient", bladeType.getExpansionCoefficient());
+		}
+		
 		nbt.setInteger("bladeDir", dir.ordinal());
 		return nbt;
 	}
@@ -117,6 +127,30 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (bladeType == null && nbt.hasKey("bladeName") && nbt.hasKey("bladeEfficiency") && nbt.hasKey("bladeExpansionCoefficient")) {
+			bladeType = new IRotorBladeType() {
+				
+				final String name = nbt.getString("bladeName");
+				final double efficiency = nbt.getDouble("bladeEfficiency"), expansionCoefficient = nbt.getDouble("bladeExpansionCoefficient");
+				
+				@Override
+				public String getName() {
+					return name;
+				}
+				
+				@Override
+				public double getEfficiency() {
+					return efficiency;
+				}
+				
+				@Override
+				public double getExpansionCoefficient() {
+					return expansionCoefficient;
+				}
+				
+			};
+		}
+		
 		dir = TurbinePartDir.values()[nbt.getInteger("bladeDir")];
 	}
 }

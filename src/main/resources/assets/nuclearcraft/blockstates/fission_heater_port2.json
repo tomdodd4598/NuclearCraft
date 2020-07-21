@@ -1,11 +1,7 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "nuclearcraft:wall_part",
-		"textures": {
-			"side": "nuclearcraft:blocks/fission/port/side",
-			"top": "nuclearcraft:blocks/fission/port/top"
-		}
+		"model": "nuclearcraft:fission_port"
 	},
 	"variants": {
 		"axis": {
@@ -16,98 +12,82 @@
 		"type": {
 			"tin": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/tin",
-					"out": "nuclearcraft:blocks/fission/port/heater/tin"
+					"front": "nuclearcraft:blocks/fission/port/heater/tin"
 				}
 			},
 			"lead": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/lead",
-					"out": "nuclearcraft:blocks/fission/port/heater/lead"
+					"front": "nuclearcraft:blocks/fission/port/heater/lead"
 				}
 			},
 			"boron": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/boron",
-					"out": "nuclearcraft:blocks/fission/port/heater/boron"
+					"front": "nuclearcraft:blocks/fission/port/heater/boron"
 				}
 			},
 			"lithium": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/lithium",
-					"out": "nuclearcraft:blocks/fission/port/heater/lithium"
+					"front": "nuclearcraft:blocks/fission/port/heater/lithium"
 				}
 			},
 			"magnesium": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/magnesium",
-					"out": "nuclearcraft:blocks/fission/port/heater/magnesium"
+					"front": "nuclearcraft:blocks/fission/port/heater/magnesium"
 				}
 			},
 			"manganese": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/manganese",
-					"out": "nuclearcraft:blocks/fission/port/heater/manganese"
+					"front": "nuclearcraft:blocks/fission/port/heater/manganese"
 				}
 			},
 			"aluminum": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/aluminum",
-					"out": "nuclearcraft:blocks/fission/port/heater/aluminum"
+					"front": "nuclearcraft:blocks/fission/port/heater/aluminum"
 				}
 			},
 			"silver": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/silver",
-					"out": "nuclearcraft:blocks/fission/port/heater/silver"
+					"front": "nuclearcraft:blocks/fission/port/heater/silver"
 				}
 			},
 			"fluorite": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/fluorite",
-					"out": "nuclearcraft:blocks/fission/port/heater/fluorite"
+					"front": "nuclearcraft:blocks/fission/port/heater/fluorite"
 				}
 			},
 			"villiaumite": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/villiaumite",
-					"out": "nuclearcraft:blocks/fission/port/heater/villiaumite"
+					"front": "nuclearcraft:blocks/fission/port/heater/villiaumite"
 				}
 			},
 			"carobbiite": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/carobbiite",
-					"out": "nuclearcraft:blocks/fission/port/heater/carobbiite"
+					"front": "nuclearcraft:blocks/fission/port/heater/carobbiite"
 				}
 			},
 			"arsenic": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/arsenic",
-					"out": "nuclearcraft:blocks/fission/port/heater/arsenic"
+					"front": "nuclearcraft:blocks/fission/port/heater/arsenic"
 				}
 			},
 			"liquid_nitrogen": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/liquid_nitrogen",
-					"out": "nuclearcraft:blocks/fission/port/heater/liquid_nitrogen"
+					"front": "nuclearcraft:blocks/fission/port/heater/liquid_nitrogen"
 				}
 			},
 			"liquid_helium": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/liquid_helium",
-					"out": "nuclearcraft:blocks/fission/port/heater/liquid_helium"
+					"front": "nuclearcraft:blocks/fission/port/heater/liquid_helium"
 				}
 			},
 			"enderium": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/enderium",
-					"out": "nuclearcraft:blocks/fission/port/heater/enderium"
+					"front": "nuclearcraft:blocks/fission/port/heater/enderium"
 				}
 			},
 			"cryotheum": {
 				"textures": {
-					"in": "nuclearcraft:blocks/fission/port/heater/cryotheum",
-					"out": "nuclearcraft:blocks/fission/port/heater/cryotheum"
+					"front": "nuclearcraft:blocks/fission/port/heater/cryotheum"
 				}
 			}
 		}

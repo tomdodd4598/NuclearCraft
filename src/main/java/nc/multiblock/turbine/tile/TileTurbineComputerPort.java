@@ -36,7 +36,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_turbine";
+		return "nc_turbine";
 	}
 	
 	@Callback

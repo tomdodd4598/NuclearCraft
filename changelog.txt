@@ -1,9 +1,14 @@
 v2o.3.4
 
++ Added CT methods to add custom fission reactor and turbine multiblock components
++ Added and improved CT methods for getting and setting radiation levels
+
 * Fixed player radiation stats being lost on leaving The End
 * RadAway and Rad-X is no longer consumed in creative mode
+* Previously installed radiation shielding is recovered from blocks on installing a better one
 
 * Turbine rotor will not render if the casing is entirely opaque
++ Added more accurate selection bounding boxes to blades and stators [thanks to dizzyd!]
 
 + Added ore dict interchangeability between NC and HarvestCraft chocolate and cocoa powder
 
@@ -14,7 +19,7 @@ v2o.3.4
 * Fixed localisation of speed and energy upgrade tooltips
 
 * Increased plasma fluid temperature
-* Other minor changes
+* Other minor changes and refactors
 
 v2o.3.3
 

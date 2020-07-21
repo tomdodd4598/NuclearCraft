@@ -63,9 +63,9 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected final Set<EntityPlayer> playersToUpdate;
 	
-	public final String heaterName, coolantName;
+	public String heaterName, coolantName;
 	
 	protected FissionCluster cluster = null;
 	protected long heat = 0L;
@@ -76,16 +76,23 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected TileFissionHeaterPort masterPort = null;
 	
-	public TileSaltFissionHeater(String heaterName, String coolantName) {
+	/** Don't use this constructor! */
+	public TileSaltFissionHeater() {
 		super(CuboidalPartPositionType.INTERIOR);
-		this.heaterName = heaterName;
-		this.coolantName = coolantName;
-		tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, Lists.newArrayList(coolantName)), new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
-		filterTanks = Lists.newArrayList(new Tank(1000, Lists.newArrayList(coolantName)), new Tank(1000, new ArrayList<>()));
+		tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, null), new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
+		filterTanks = Lists.newArrayList(new Tank(1000, null), new Tank(1000, new ArrayList<>()));
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
+	}
+	
+	public TileSaltFissionHeater(String heaterName, String coolantName) {
+		this();
+		this.heaterName = heaterName;
+		this.coolantName = coolantName;
+		tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
+		filterTanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 	}
 	
 	protected TileSaltFissionHeater(String heaterName, int coolantID) {
@@ -922,6 +929,9 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		nbt.setString("heaterName", heaterName);
+		nbt.setString("coolantName", coolantName);
+		
 		writeTanks(nbt);
 		writeHeaterSettings(nbt);
 		
@@ -940,6 +950,13 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (nbt.hasKey("heaterName")) heaterName = nbt.getString("heaterName");
+		if (nbt.hasKey("coolantName")) {
+			coolantName = nbt.getString("coolantName");
+			tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
+			filterTanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
+		}
+		
 		readTanks(nbt);
 		readHeaterSettings(nbt);
 		

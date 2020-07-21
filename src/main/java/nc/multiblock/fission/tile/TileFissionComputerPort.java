@@ -35,7 +35,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_salt_fission_reactor";
+		return "nc_salt_fission_reactor";
 	}
 	
 	@Callback

@@ -2,23 +2,55 @@ package nc.proxy;
 
 import java.util.Locale;
 
-import nc.*;
+import nc.Global;
+import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.command.CommandHandler;
 import nc.config.NCConfig;
-import nc.handler.*;
-import nc.init.*;
+import nc.handler.CapabilityHandler;
+import nc.handler.DropHandler;
+import nc.handler.DungeonLootHandler;
+import nc.handler.EntityHandler;
+import nc.handler.ItemUseHandler;
+import nc.handler.OreDictHandler;
+import nc.handler.PlayerRespawnHandler;
+import nc.init.NCArmor;
+import nc.init.NCBlocks;
+import nc.init.NCCoolantFluids;
+import nc.init.NCEntities;
+import nc.init.NCFissionFluids;
+import nc.init.NCFluids;
+import nc.init.NCItems;
+import nc.init.NCSounds;
+import nc.init.NCTiles;
+import nc.init.NCTools;
+import nc.integration.crafttweaker.CTRegistration;
+import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
 import nc.integration.hwyla.NCHWLYA;
 import nc.integration.projecte.NCProjectE;
-import nc.integration.tconstruct.*;
+import nc.integration.tconstruct.TConstructExtras;
+import nc.integration.tconstruct.TConstructIMC;
+import nc.integration.tconstruct.TConstructMaterials;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
-import nc.multiblock.*;
+import nc.multiblock.MultiblockHandler;
+import nc.multiblock.MultiblockLogic;
+import nc.multiblock.MultiblockRegistry;
+import nc.multiblock.PlacementRule;
 import nc.network.PacketHandler;
-import nc.radiation.*;
+import nc.radiation.RadArmor;
+import nc.radiation.RadBiomes;
+import nc.radiation.RadEntities;
+import nc.radiation.RadPotionEffects;
+import nc.radiation.RadSources;
+import nc.radiation.RadStructures;
+import nc.radiation.RadWorlds;
+import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
-import nc.util.*;
+import nc.util.GasHelper;
+import nc.util.OreDictHelper;
+import nc.util.StructureHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
@@ -27,8 +59,14 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.library.materials.Material;
@@ -81,6 +119,10 @@ public class CommonProxy {
 				ConArmMaterials.preInit();
 			}
 		}
+		
+		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
+			info.preInit();
+		}
 	}
 	
 	public void init(FMLInitializationEvent event) {
@@ -100,8 +142,7 @@ public class CommonProxy {
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new BushGenerator(), 100);
-		// GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(),
-		// 10);
+		// GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
 		
 		NCEntities.register();
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
@@ -118,6 +159,10 @@ public class CommonProxy {
 		
 		if (ModCheck.hwylaLoaded()) {
 			NCHWLYA.init();
+		}
+		
+		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
+			info.init();
 		}
 	}
 	
@@ -147,6 +192,10 @@ public class CommonProxy {
 		
 		if (ModCheck.projectELoaded() && NCConfig.register_projecte_emc) {
 			NCProjectE.addEMCValues();
+		}
+		
+		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
+			info.postInit();
 		}
 	}
 	
@@ -178,7 +227,7 @@ public class CommonProxy {
 	}
 	
 	public int getCurrentClientDimension() {
-		return -8954;
+		return Integer.MIN_VALUE;
 	}
 	
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {

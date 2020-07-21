@@ -2,16 +2,53 @@ package nc.recipe;
 
 import java.util.List;
 
-import nc.radiation.RadBlockEffects.*;
+import nc.integration.crafttweaker.CTRegistration;
+import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
+import nc.radiation.RadBlockEffects.RadiationBlockMutation;
+import nc.radiation.RadBlockEffects.RadiationBlockPurification;
 import nc.radiation.RadSources;
-import nc.recipe.generator.*;
-import nc.recipe.multiblock.*;
-import nc.recipe.other.*;
-import nc.recipe.processor.*;
-import nc.recipe.vanilla.*;
+import nc.recipe.generator.DecayGeneratorRecipes;
+import nc.recipe.generator.FusionRecipes;
+import nc.recipe.multiblock.CondenserRecipes;
+import nc.recipe.multiblock.CoolantHeaterRecipes;
+import nc.recipe.multiblock.FissionEmergencyCoolingRecipes;
+import nc.recipe.multiblock.FissionHeatingRecipes;
+import nc.recipe.multiblock.FissionIrradiatorRecipes;
+import nc.recipe.multiblock.FissionModeratorRecipes;
+import nc.recipe.multiblock.FissionReflectorRecipes;
+import nc.recipe.multiblock.HeatExchangerRecipes;
+import nc.recipe.multiblock.PebbleFissionRecipes;
+import nc.recipe.multiblock.SaltFissionRecipes;
+import nc.recipe.multiblock.SolidFissionRecipes;
+import nc.recipe.multiblock.TurbineRecipes;
+import nc.recipe.other.CollectorRecipes;
+import nc.recipe.other.RadiationScrubberRecipes;
+import nc.recipe.processor.AlloyFurnaceRecipes;
+import nc.recipe.processor.AssemblerRecipes;
+import nc.recipe.processor.CentrifugeRecipes;
+import nc.recipe.processor.ChemicalReactorRecipes;
+import nc.recipe.processor.CrystallizerRecipes;
+import nc.recipe.processor.DecayHastenerRecipes;
+import nc.recipe.processor.ElectrolyzerRecipes;
+import nc.recipe.processor.EnricherRecipes;
+import nc.recipe.processor.ExtractorRecipes;
+import nc.recipe.processor.FuelReprocessorRecipes;
+import nc.recipe.processor.InfuserRecipes;
+import nc.recipe.processor.IngotFormerRecipes;
+import nc.recipe.processor.ManufactoryRecipes;
+import nc.recipe.processor.MelterRecipes;
+import nc.recipe.processor.PressurizerRecipes;
+import nc.recipe.processor.RockCrusherRecipes;
+import nc.recipe.processor.SaltMixerRecipes;
+import nc.recipe.processor.SeparatorRecipes;
+import nc.recipe.processor.SupercoolerRecipes;
+import nc.recipe.vanilla.CraftingRecipeHandler;
+import nc.recipe.vanilla.FurnaceFuelHandler;
+import nc.recipe.vanilla.FurnaceRecipeHandler;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCRecipes {
@@ -105,6 +142,10 @@ public class NCRecipes {
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
+		
+		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
+			info.recipeInit();
+		}
 		
 		initialized = true;
 	}

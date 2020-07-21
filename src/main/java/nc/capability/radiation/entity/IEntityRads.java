@@ -123,4 +123,8 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	public boolean getShouldWarn();
 	
 	public void setShouldWarn(boolean shouldWarn);
+	
+	public boolean getGiveGuidebook();
+	
+	public void setGiveGuidebook(boolean giveGuidebook);
 }

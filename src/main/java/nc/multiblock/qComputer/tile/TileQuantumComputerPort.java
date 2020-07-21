@@ -26,7 +26,7 @@ public class TileQuantumComputerPort extends TileQuantumComputerPart implements 
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_quantum_computer";
+		return "nc_quantum_computer";
 	}
 	
 	@Callback

@@ -99,8 +99,7 @@ public class BlockHelper {
 		}
 	}
 	
-	// Accessing machine tanks - taken from net.minecraftforge.fluids.FluidUtil
-	// and modified to correctly handle ITileFluids
+	// Accessing machine tanks - taken from net.minecraftforge.fluids.FluidUtil and modified to correctly handle ITileFluids
 	public static boolean accessTanks(EntityPlayer player, EnumHand hand, EnumFacing facing, ITileFluid tile) {
 		if (player == null || tile == null) {
 			return false;

@@ -352,7 +352,7 @@ mods.nuclearcraft.FissionHeating.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
 
-Molten Salt Fission (KINDA BROKEN!):
+Molten Salt Fission:
 ------------------------------------
 
 mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
@@ -454,7 +454,16 @@ IEntityLivingBase::getRadiationLevel();
 Miscellaneous:
 --------------
 
-mods.nuclearcraft.Radiation.getRadiationLevel(IIngredient itemInput);
+Note: `setMaterialRadiationLevel(...)` can accept Unix-style wildcards.
+
+mods.nuclearcraft.Radiation.getRadiationLevel(IIngredient ingredient);
+
+mods.nuclearcraft.Radiation.addToRadiationBlacklist(IIngredient ingredient);
+
+mods.nuclearcraft.Radiation.setRadiationLevel(IIngredient ingredient, double radiation);
+mods.nuclearcraft.Radiation.setMaterialRadiationLevel(String oreSuffix, double radiation);
+
+mods.nuclearcraft.Radiation.setFoodRadiationStats(IItemStack food, double radiation, double resistance);
 
 mods.nuclearcraft.Radiation.setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames);
 
@@ -490,6 +499,21 @@ Recipe::getItemIngredient(int index);
 Recipe::getFluidIngredient(int index);
 Recipe::getItemProduct(int index);
 Recipe::getFluidProduct(int index);
+___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------
 
+ Registration Methods
+#====================#
+
+Note A: These methods must use the `preinit` loader!
+
+Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack!
+
+mods.nuclearcraft.Registration.registerFissionSink(String sinkID, int coolingRate, String placementRule);
+mods.nuclearcraft.Registration.registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);
+
+mods.nuclearcraft.Registration.registerTurbineCoil(String coilID, double conductivity, String placementRule);
+mods.nuclearcraft.Registration.registerTurbineBlade(String bladeID, double efficiency, double expansionCoefficient);
+mods.nuclearcraft.Registration.registerTurbineStator(String statorID, double expansionCoefficient);
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
