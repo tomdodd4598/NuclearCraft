@@ -115,7 +115,7 @@
             "item1": "nuclearcraft:ingot:10#7,nuclearcraft:dust:10#7",
             "item2": "nuclearcraft:ingot:1,nuclearcraft:dust:1",
             "result": "nuclearcraft:alloy:12#8",
-            "text": "7 锆 + 1 锡 = 8 锆合金"
+            "text": "7 锆 + 1 锡 = 8 锆锡合金"
         },
         {
             "anchor": "SiC_alloy",
