@@ -26,3 +26,5 @@ src/main/resources/assets/base/
 # other
 eclipse
 run
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
