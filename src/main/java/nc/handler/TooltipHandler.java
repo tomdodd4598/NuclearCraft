@@ -24,8 +24,8 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class TooltipHandler {
 	
-	@SubscribeEvent(priority = EventPriority.HIGH)
 	@SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void addAdditionalTooltips(ItemTooltipEvent event) {
 		List<String> tooltip = event.getToolTip();
 		ItemStack stack = event.getItemStack();
