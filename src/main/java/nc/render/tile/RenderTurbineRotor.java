@@ -41,7 +41,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		if (turbine == null) return;
 		
 		int flowLength = turbine.getFlowLength(), bladeLength = turbine.bladeLength, shaftWidth = turbine.shaftWidth;
-		if (turbine.rotorStateArray == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
+		if (turbine.rotorStateArray == null || turbine.bladeDepths == null || turbine.statorDepths == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
 			PacketHandler.instance.sendToServer(new TurbineResendFormPacket(controller.getPos()));
 			return;
 		}
