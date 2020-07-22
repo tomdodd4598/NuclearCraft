@@ -98,7 +98,7 @@ tile.nuclearcraft.crystallizer.name=结晶器
 tile.nuclearcraft.crystallizer.desc=沉淀溶液以获取固体。
 
 tile.nuclearcraft.enricher.name=溶解器
-tile.nuclearcraft.enricher.desc=将溶剂溶于溶液。
+tile.nuclearcraft.enricher.desc=将溶质溶于溶剂。
 
 tile.nuclearcraft.extractor.name=流体提取机
 tile.nuclearcraft.extractor.desc=从材料中提取流体。
@@ -3291,7 +3291,7 @@ death.attack.fatal_rads=%1$s受到了致命剂量的辐射
 
 # 字符串
 
-nc.sf.plural_rule=%d == 0
+nc.sf.plural_rule=0
 
 nc.sf.zero=零个
 nc.sf.one=一个
@@ -3419,7 +3419,7 @@ nc.sf.gold_coil0=%s金发电机线圈
 nc.sf.copper_coil0=%s铜发电机线圈
 nc.sf.silver_coil0=%s银发电机线圈
 
-nc.sf.power_adverb0=持续地
+nc.sf.power_adverb0=保持恒定
 nc.sf.power_adverb1=线性地%s
 nc.sf.power_adverb2=平方地%s
 nc.sf.power_adverb3=立方地%s
