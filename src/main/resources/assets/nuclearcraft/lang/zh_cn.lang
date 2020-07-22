@@ -1547,6 +1547,7 @@ item.nuclearcraft.gem_dust.rhodochrosite.name=菱锰粉
 item.nuclearcraft.gem_dust.quartz.name=石英粉
 item.nuclearcraft.gem_dust.obsidian.name=黑曜石粉
 item.nuclearcraft.gem_dust.boron_nitride.name=白石墨
+#####Hexagonal Boron Nitride目前只用作立方氮化硼的半成品，虽然有白石墨的别称，但是我觉得还是写作学名【六方氮化硼】以显示和立方氮化硼的关系好一点&&&&&
 item.nuclearcraft.gem_dust.fluorite.name=氟石粉
 item.nuclearcraft.gem_dust.sulfur.name=硫磺
 item.nuclearcraft.gem_dust.sulfur.desc=挖掘煤矿石时掉落。
@@ -1564,13 +1565,19 @@ item.nuclearcraft.alloy.lithium_manganese_dioxide.name=锂二氧化锰锭
 item.nuclearcraft.alloy.steel.name=钢锭
 item.nuclearcraft.alloy.ferroboron.name=硼铁合金锭
 item.nuclearcraft.alloy.shibuichi.name=胧银合金锭
+#####shibuichi是日本的一种合金 假名写作<しぶいち>汉字写作<四分一> 学名就叫【四分之一银】合金，由四分之一的银和四分之三的铜组成
+胧银的说法我只在一些搞莳绘的那边见过 我怀疑是商家嫌弃四分之一银合金的名字逼格不高生造出来的。&&&&&
 item.nuclearcraft.alloy.tin_silver.name=锡银合金锭
 item.nuclearcraft.alloy.lead_platinum.name=铅铂合金锭
 item.nuclearcraft.alloy.extreme.name=极限合金锭
 item.nuclearcraft.alloy.thermoconducting.name=热引合金锭
+#####Thermoconducting Alloy翻译成热引合金感觉不太符合中文习惯，感觉可以沿用重制前的【导热合金】的说法&&&&&
 item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
 item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅陶瓷复合材料
+######SiC-SiC Ceramic Matrix Composite单个的碳化硅陶瓷是单相陶瓷材料 并不是cmc复合陶瓷材料 这边作者写的是SiC-SiC CMC
+我觉得作者应该指的是70年代时候Naslain教授发明的化学气相渗透工艺生产的CMC-SiC系材料，CMC-SiC系材料有C/SiC（碳纤维增韧碳化硅型）
+和SiC/SiC（碳化硅纤维增韧碳化硅型）两种，作者的SiC-SiC CMC应该就是【碳化硅纤维增韧型碳化硅复合陶瓷基材料】。&&&&&
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
@@ -1594,11 +1601,16 @@ item.nuclearcraft.part.wire_copper.name=铜螺线管
 item.nuclearcraft.part.wire_magnesium_diboride.name=二硼化镁螺线管
 item.nuclearcraft.part.bioplastic.name=生物塑料
 item.nuclearcraft.part.servo.name=伺服驱动器
+#####Servomechanism很多时候指的不是单独的伺服驱动器，而是一整套【伺服系统】，又称【随动系统】。狭义定义是被控制量（系统的输出量）是机械位移
+或位移速度、加速度的反馈控制系统，其作用是使输出的机械位移（或转角）准确地跟踪输入的位移（或转角）。广义定义是用来精确地跟随或复现某个过程的反馈控制系统。
+&&&&&
 item.nuclearcraft.part.motor.name=电动马达
 item.nuclearcraft.part.actuator.name=线性执行器
 item.nuclearcraft.part.chassis.name=机器框架
+#####chassis一般用于汽车上表示汽车的底盘或者仪器的机架，我也不知道为什么会用在这里，如果硬要翻译的话我会翻译成【机器底座】&&&&&
 item.nuclearcraft.part.empty_frame.name=空框架
 item.nuclearcraft.part.steel_frame.name=钢框架
+#####这边虽然作者描述写的是chassis但是代码里名字实际上是steel_frame，我觉得保持【钢框架】就很好&&&&&
 item.nuclearcraft.part.plate_extreme.name=极限板
 item.nuclearcraft.part.sic_fiber.name=碳化硅纤维
 item.nuclearcraft.part.empty_sink.name=空散热器
@@ -1613,6 +1625,8 @@ item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
 item.nuclearcraft.fission_dust.tbp.name=镤-强化钍粉
+#####Protactinium-Enriched Thorium Dust中的Enriched在核工程中应该是指富集（enrichment）的意思，表示这里的钍已经被富集了（为啥中子辐照一下就富集了.jpg）
+所以我觉得整个单词应该翻译成【镤-富集钍粉】&&&&&
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233粉
 
 item.nuclearcraft.uranium.233.name=铀-233
@@ -1914,6 +1928,8 @@ item.nuclearcraft.fuel_californium.hecf_251_za.name=高浓度 锎-251-锆合金�
 
 info.nuclearcraft.fission_fuel.desc=裂变反应堆燃料
 info.nuclearcraft.fission_fuel.base_time.desc=基础处理时间：%s
+#####Base depletion time这里的depletion我感觉是衰竭、耗尽、贫化的意思，比处理更合适这里的语境，
+整个单词可以翻译成【基础衰变时间】、【基础衰竭时间】等。&&&&&
 info.nuclearcraft.fission_fuel.base_heat.desc=基础产热：%s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=基础效能：%s
 info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
@@ -2052,6 +2068,7 @@ item.nuclearcraft.axe_boron.name=硼斧
 item.nuclearcraft.hoe_boron.name=硼锄
 item.nuclearcraft.spaxelhoe_boron.name=硼斫石锄
 item.nuclearcraft.spaxelhoe_boron.desc=硼制成的一个有多种用途的集成工具。
+#####A universal tool made up of all of the standard Boron tools.我感觉翻译成【一把由所有标准硼工具组装而成的通用工具】比较好，【修改优先度很低，仅供参考】&&&&&
 
 item.nuclearcraft.sword_tough.name=高强合金剑
 item.nuclearcraft.pickaxe_tough.name=高强合金镐
