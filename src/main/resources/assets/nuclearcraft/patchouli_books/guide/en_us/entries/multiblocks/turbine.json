@@ -1,7 +1,8 @@
 {
     "name": "Turbine",
     "icon": "nuclearcraft:turbine_controller",
-    "category": "nuclearcraft:turbine",
+    "category": "nuclearcraft:multiblocks",
+	"sortnum": 2,
     "pages": [
         {
             "type": "text",

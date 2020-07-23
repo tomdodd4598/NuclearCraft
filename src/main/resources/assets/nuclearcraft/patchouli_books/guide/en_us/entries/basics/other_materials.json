@@ -1,7 +1,8 @@
 {
-    "name": "Other Basic Materials",
-    "category": "nuclearcraft:materials",
+    "name": "Other Materials",
     "icon": "nuclearcraft:dust:8",
+	"category": "nuclearcraft:basics_",
+	"sortnum": 4,
     "pages":
     [
         {

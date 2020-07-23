@@ -1,7 +1,8 @@
 {
-    "name": "Molten Salt Reactor",
+    "name": "Molten Salt Reactor (WIP)",
     "icon": "nuclearcraft:salt_fission_controller",
     "category": "nuclearcraft:fission",
+	"sortnum": 2,
     "pages": [
         {
             "type": "text",

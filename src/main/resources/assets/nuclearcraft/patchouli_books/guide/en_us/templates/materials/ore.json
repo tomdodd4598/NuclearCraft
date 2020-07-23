@@ -16,7 +16,7 @@
         },
         {
             "type": "item",
-            "item": "#ingot",
+            "item": "#dust",
             "framed": true,
             "link_recipe": true,
             "x": 50,
@@ -24,7 +24,7 @@
         },
         {
             "type": "item",
-            "item": "#dust",
+            "item": "#ingot",
             "framed": true,
             "link_recipe": true,
             "x": 70,

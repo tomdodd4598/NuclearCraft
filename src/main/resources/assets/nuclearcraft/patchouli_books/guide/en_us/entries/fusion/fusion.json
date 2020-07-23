@@ -1,7 +1,8 @@
 {
-    "name": "Tokamak Reactor",
+    "name": "Tokamak Reactor (WIP)",
     "icon": "nuclearcraft:tokamak_fusion_controller",
     "category": "nuclearcraft:fusion",
+	"sortnum": 0,
     "pages": [
         {
             "type": "text",

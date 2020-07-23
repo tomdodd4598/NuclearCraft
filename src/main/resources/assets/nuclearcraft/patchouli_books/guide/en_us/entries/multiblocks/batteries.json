@@ -1,12 +1,13 @@
 {
-    "name": "Energy Storage",
-    "icon": "nuclearcraft:lithium_ion_battery_elite",
-    "category": "nuclearcraft:machines",
+    "name": "Batteries",
+    "icon": "nuclearcraft:lithium_ion_battery_basic",
+    "category": "nuclearcraft:multiblocks",
+	"sortnum": 1,
     "pages": [
         {
             "anchor": "intro",
             "type": "text",
-            "text": "These blocks store energy. If two of the same type are placed next to each other, they will share their stored energy"
+            "text": "These blocks are used to store energy. They will form multiblocks if placed adjacent to each other. Right-click with a multitool to configure a side."
         },
         {
             "anchor": "voltaic_pile",

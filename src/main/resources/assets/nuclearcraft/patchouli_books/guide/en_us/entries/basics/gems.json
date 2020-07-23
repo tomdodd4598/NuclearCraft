@@ -1,7 +1,8 @@
 {
-    "name": "Crystals",
-    "category": "nuclearcraft:materials",
+    "name": "Gems and Crystals",
     "icon": "nuclearcraft:gem:0",
+	"category": "nuclearcraft:basics_",
+	"sortnum": 3,
     "pages":
     [
         {

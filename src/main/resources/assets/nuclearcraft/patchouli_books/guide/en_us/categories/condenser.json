@@ -1,7 +1,0 @@
-{
-	"name": "Condenser (WIP)",
-	"description": "",
-	"icon": "nuclearcraft:condenser_controller",
-	"parent": "nuclearcraft:heat_exchanger",
-	"sortnum": 0
-}

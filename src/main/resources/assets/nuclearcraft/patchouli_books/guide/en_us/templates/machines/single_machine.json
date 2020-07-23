@@ -2,7 +2,7 @@
     "components": [
         {
             "type": "header",
-            "text": "#block->iname",
+            "text": "#header",
             "x": -1,
             "y": -1
         },

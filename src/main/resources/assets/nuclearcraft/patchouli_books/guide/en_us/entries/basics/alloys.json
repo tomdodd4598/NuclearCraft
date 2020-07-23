@@ -1,7 +1,8 @@
 {
     "name": "Alloys",
-    "category": "nuclearcraft:materials",
     "icon": "nuclearcraft:alloy:10",
+	"category": "nuclearcraft:basics_",
+	"sortnum": 2,
     "pages": [
         {
             "anchor": "intro",
