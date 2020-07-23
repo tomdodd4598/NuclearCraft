@@ -1,6 +1,6 @@
 {
-	"name": "Introduction to NuclearCraft",
-	"description": "NuclearCraft is a tech mod focused on power generation using nuclear power.",
-	"icon": "nuclearcraft:fuel_uranium:9",
+	"name": "Introduction",
+	"description": "A journey of many isotopes begins with a single tree.",
+	"icon": "nuclearcraft:fuel_uranium:11",
 	"sortnum": 0
 }

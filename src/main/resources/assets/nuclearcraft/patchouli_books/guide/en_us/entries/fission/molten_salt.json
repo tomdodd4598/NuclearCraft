@@ -1,6 +1,6 @@
 {
-    "name": "Solid Fuel Fission Reactors",
-    "icon": "nuclearcraft:solid_fission_controller",
+    "name": "Molten Salt Reactor",
+    "icon": "nuclearcraft:salt_fission_controller",
     "category": "nuclearcraft:fission",
     "pages": [
         {

@@ -1,7 +1,7 @@
 {
-    "name": "Heat Exchangers",
+    "name": "Heat Exchanger",
     "icon": "nuclearcraft:heat_exchanger_controller",
-    "category": "nuclearcraft:multiblocks",
+    "category": "nuclearcraft:heat_exchanger",
     "pages": [
         {
             "type": "text",

@@ -1,11 +1,11 @@
 {
     "name": "The Basics",
-    "icon": "nuclearcraft:depleted_fuel_uranium:9",
+    "icon": "nuclearcraft:ingot:4",
     "category": "nuclearcraft:introduction",
     "pages": [
         {
             "type": "text",
-            "text": "NuclearCraft is a mod made by Turbodiesel4598"
+            "text": "NuclearCraft (NC) is a tech mod focused on nuclear power generation."
         }
     ]
 }

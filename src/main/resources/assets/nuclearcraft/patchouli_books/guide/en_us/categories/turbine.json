@@ -1,0 +1,7 @@
+{
+	"name": "Turbine",
+	"description": "Ashes to ashes, steam to steam.",
+	"icon": "nuclearcraft:heat_exchanger_controller",
+	"parent": "nuclearcraft:multiblocks",
+	"sortnum": 3
+}

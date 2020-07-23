@@ -1,0 +1,11 @@
+{
+    "name": "Tokamak Reactor",
+    "icon": "nuclearcraft:tokamak_fusion_controller",
+    "category": "nuclearcraft:fusion",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

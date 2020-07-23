@@ -1,5 +1,7 @@
 {
 	"name": "nc.guide_book.name",
 	"landing_text": "nc.guide_book.desc",
-	"version": 1
+	"version": 1,
+	"show_progress": false,
+	"creative_tab": "nuclearcraft.misc"
 }

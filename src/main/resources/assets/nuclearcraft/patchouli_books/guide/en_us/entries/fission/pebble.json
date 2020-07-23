@@ -1,6 +1,6 @@
 {
-    "name": "Molten Salt Reactors",
-    "icon": "nuclearcraft:salt_fission_controller",
+    "name": "Pebble-Bed Reactor",
+    "icon": "nuclearcraft:pebble_fission_controller",
     "category": "nuclearcraft:fission",
     "pages": [
         {
