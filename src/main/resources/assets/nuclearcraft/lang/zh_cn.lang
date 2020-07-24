@@ -28,16 +28,16 @@ tile.nuclearcraft.heavy_water_moderator.name=重水减速剂
 
 info.nuclearcraft.moderator.fixd=裂变反应堆减速剂
 info.nuclearcraft.moderator.flux_factor.fixd=中子通量增加量：%s
-info.nuclearcraft.moderator.efficiency.fixd=效能提升倍率：%s
+info.nuclearcraft.moderator.efficiency.fixd=效能倍率：%s
 
-# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。如果该线路是反射线路，则输送量会翻倍，并会再乘以反射器的中子通量增加倍数。末端单元的最终效能等于其获得中子通量的线路的平均效能——一条线路的效能即其上减速剂的平均效能乘以减速剂的数量。
+# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
 
 tile.nuclearcraft.fission_reflector.beryllium_carbon.name=锂-石墨中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
 
 info.nuclearcraft.reflector.fixd=裂变反应堆反射器
-info.nuclearcraft.reflector.efficiency.fixd=效能提升倍率：%s
-info.nuclearcraft.reflector.reflectivity.fixd=中子通量增加倍数：%s
+info.nuclearcraft.reflector.efficiency.fixd=效能倍率：%s
+info.nuclearcraft.reflector.reflectivity.fixd=反射系数：%s
 
 tile.nuclearcraft.fertile_isotope.uranium.name=铀-238块
 tile.nuclearcraft.fertile_isotope.neptunium.name=镎-237块
@@ -62,7 +62,7 @@ tile.nuclearcraft.decay_hastener.name=衰变加速器
 tile.nuclearcraft.decay_hastener.desc=强制加速放射性物质进行衰变。
 
 tile.nuclearcraft.fuel_reprocessor.name=燃料再处理机
-tile.nuclearcraft.fuel_reprocessor.desc=从枯竭的燃料中获取材料。
+tile.nuclearcraft.fuel_reprocessor.desc=从衰竭核燃料中获取材料。
 
 tile.nuclearcraft.alloy_furnace.name=合金炉
 tile.nuclearcraft.alloy_furnace.desc=将金属熔为合金。
@@ -119,13 +119,13 @@ tile.nuclearcraft.rtg_uranium.name=铀放射性热电发电机
 tile.nuclearcraft.rtg_plutonium.name=钚放射性热电发电机
 tile.nuclearcraft.rtg_americium.name=镅放射性热电发电机
 tile.nuclearcraft.rtg_californium.name=锎放射性热电发电机
-tile.nuclearcraft.rtg.desc=持续产出%s。
+tile.nuclearcraft.rtg.desc=恒定产出%s。
 
 tile.nuclearcraft.solar_panel_basic.name=基础太阳能电池板
 tile.nuclearcraft.solar_panel_advanced.name=高级太阳能电池板
 tile.nuclearcraft.solar_panel_du.name=贫铀太阳能电池板
 tile.nuclearcraft.solar_panel_elite.name=精英太阳能电池板
-tile.nuclearcraft.solar_panel.desc=白天持续产出%s。
+tile.nuclearcraft.solar_panel.desc=白天恒定产出%s。
 
 tile.nuclearcraft.decay_generator.name=衰变产能器
 tile.nuclearcraft.decay_generator.desc=以与这个方块直接接触的放射性方块衰变产生的热量发电，一定时间后方块将会衰变为放射性更低的方块，此时产能量会下降。
@@ -139,7 +139,7 @@ tile.nuclearcraft.lithium_ion_battery_basic.name=基础锂离子电池块
 tile.nuclearcraft.lithium_ion_battery_advanced.name=高级锂离子电池块
 tile.nuclearcraft.lithium_ion_battery_du.name=贫铀锂离子电池块
 tile.nuclearcraft.lithium_ion_battery_elite.name=精英锂离子电池块
-tile.nuclearcraft.energy_storage.desc=右击以查看当前存储的能量，手持多功能工具右击以调整该面的能量输入输出设置。潜行放置会保留其设置。
+tile.nuclearcraft.energy_storage.desc=右击以查看当前存储的能量，手持多功能工具右击以调整该面的能量输入输出设置。潜行以已存在的锂离子电池块为基础放置另一个锂离子电池块以复制其侧面配置。
 
 tile.nuclearcraft.fission_casing.name=裂变反应堆外壳
 tile.nuclearcraft.fission_glass.name=透明裂变反应堆外壳
@@ -153,12 +153,12 @@ tile.nuclearcraft.fission_source.radium_beryllium.name=镭-铍裂变中子源
 tile.nuclearcraft.fission_source.polonium_beryllium.name=钋-铍裂变中子源
 tile.nuclearcraft.fission_source.californium.name=锎-252裂变中子源
 
-info.nuclearcraft.fission_source.efficiency.fixd=效能提升倍率：%s
+info.nuclearcraft.fission_source.efficiency.fixd=效能倍率：%s
 
 tile.nuclearcraft.fission_shield.boron_silver.name=硼-银辐射中子防护屏
 
 info.nuclearcraft.fission_shield.heat_per_flux.fixd=单位中子通量产热：%s
-info.nuclearcraft.fission_shield.efficiency.fixd=效能提升倍率：%s
+info.nuclearcraft.fission_shield.efficiency.fixd=效能倍率：%s
 
 tile.nuclearcraft.fission_redstone_port.name=裂变红石接口（半成品）
 tile.nuclearcraft.fission_computer_port.name=裂变电脑接口（半成品）
@@ -245,7 +245,7 @@ tile.nuclearcraft.solid_fission_sink.cooling_rate=散热速率：
 
 tile.nuclearcraft.salt_fission_controller.name=熔盐裂变控制器
 tile.nuclearcraft.salt_fission_vessel.name=熔盐裂变燃料容器
-# tile.nuclearcraft.salt_fission_vessel.desc=熔盐核燃料发生裂变和枯竭的地方。潜行放置另一个容器以保留其侧面配置。
+# tile.nuclearcraft.salt_fission_vessel.desc=熔盐核燃料发生裂变并衰竭的地方。潜行以已存在的容器为基础放置另一个容器以复制其侧面配置。
 tile.nuclearcraft.salt_fission_heater.standard.name=标准裂变冷却液加热器
 tile.nuclearcraft.salt_fission_heater.iron.name=铁裂变冷却液加热器
 tile.nuclearcraft.salt_fission_heater.redstone.name=红石裂变冷却液加热器
@@ -289,8 +289,8 @@ tile.nuclearcraft.heat_exchanger_vent.desc=用于热交换流体的输入输出�
 tile.nuclearcraft.heat_exchanger_tube_copper.name=铜热交换管道
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=硬碳合金热交换管道
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=热引合金热交换管道
-tile.nuclearcraft.heat_exchanger_tube.fixd=导电率增加倍率：%s
-tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如果正在加热/冷却并且与另一个正在冷却/加热的热交换管道相邻，那么其将会以与另一个管道的配方温差成正比的速率接收更多的热量/被以该速率提取热量。如果被冷却的流体的输出温度低于被加热的流体的输出温度，则相邻的管道流向不得平行。潜行放置另一个热交换管道以保留其侧面配置。
+tile.nuclearcraft.heat_exchanger_tube.fixd=导热倍率：%s
+tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如果正在加热/冷却并且与另一个正在冷却/加热的热交换管道相邻，那么其将会以与另一个管道的配方温差成正比的速率接收更多的热量/被以该速率提取热量。如果被冷却的流体的输出温度低于被加热的流体的输出温度，则相邻的管道流向不得平行。潜行以已存在的热交换管道为基础放置另一个热交换管道以复制其侧面配置。
 tile.nuclearcraft.heat_exchanger_computer_port.name=热交换机电脑接口
 tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电脑来操控热交换机。
 
@@ -298,9 +298,8 @@ tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构
 tile.nuclearcraft.condenser_tube_copper.name=铜冷凝管道
 tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳合金冷凝管道
 tile.nuclearcraft.condenser_tube_thermoconducting.name=热引合金冷凝管道
-tile.nuclearcraft.condenser_tube.fixd=热导率增加倍率：%s
-tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行放置另一个冷凝管道以保留其侧面配置。
-
+tile.nuclearcraft.condenser_tube.fixd=导热倍率：%s
+tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行以已存在的冷凝管道为基础放置另一个冷凝管道以复制其侧面配置。
 tile.nuclearcraft.turbine_controller.name=涡轮机控制器
 tile.nuclearcraft.turbine_controller.desc=涡轮机的心脏——一面墙壁上必须要有一个以使涡轮机运转。
 tile.nuclearcraft.turbine_casing.name=涡轮机外壳
@@ -309,10 +308,10 @@ tile.nuclearcraft.turbine_rotor_shaft.name=涡轮机转子轴
 tile.nuclearcraft.turbine_rotor_shaft.desc=将叶片连接到发电机以将产生的动能转换为电能。必须被以涡轮机的中心为轴放置。
 tile.nuclearcraft.turbine_rotor_blade_steel.name=钢涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_extreme.name=极限合金涡轮机转子叶片
-tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅陶瓷复合材料涡轮机转子叶片
-tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=效能提升倍率：%s
+tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料涡轮机转子叶片
+tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=效能倍率：%s
 tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=膨胀系数：%s
-tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转能量。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并保证每个组的叶片都相同。每个叶片最多能处理%s的液体。
+tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转动能。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并保证每个组的叶片都相同。每个叶片最多能处理%s的液体。
 tile.nuclearcraft.turbine_rotor_stator.name=涡轮机转子定子
 tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=膨胀系数：%s
 tile.nuclearcraft.turbine_rotor_stator.desc=用于增加经过的流体的密度，也即通过压低叶片产生的过高膨胀系数来提升涡轮机的效率。必须放置在从转子轴到所对墙壁间的全部位置。
@@ -324,7 +323,7 @@ tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=铝涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.gold.name=金涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.copper.name=铜涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.silver.name=银涡轮机发电机线圈
-tile.nuclearcraft.turbine_dynamo_coil.conductivity=传导率增加倍率：
+tile.nuclearcraft.turbine_dynamo_coil.conductivity=导电倍率：
 tile.nuclearcraft.turbine_coil_connector.name=涡轮机发电机线圈连接器
 tile.nuclearcraft.turbine_inlet.name=涡轮机流体输入口
 tile.nuclearcraft.turbine_outlet.name=涡轮机流体输出口
@@ -349,8 +348,8 @@ tile.nuclearcraft.nitrogen_collector_dense.name=致密氮收集器
 tile.nuclearcraft.nitrogen_collector.desc=恒定产出%s的氮。
 
 tile.nuclearcraft.radiation_scrubber.name=辐射净化仪
-tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射量。其效用取决于附近的空区域的大小。最多以%2$s的效率移除其所在区块中%1$s的辐射。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射净化剂”的使用量。
-tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射量。其效用取决于附近的空区域的大小。单独使用时，最多以%2$s的效率移除其所在区块中%1$s的辐射，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来。一开始的效率只会线性地叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射净化剂”的使用量。
+tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。最多以%2$s的效率移除其所在区块中%1$s的辐射。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射净化剂”的使用量。
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。单独使用时，最多以%2$s的效率移除其所在区块中%1$s的辐射，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来。一开始的效率只会线性地叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射净化剂”的使用量。
 nuclearcraft.one_hundred_percent=100%
 
 tile.nuclearcraft.geiger_block.name=盖革计数器方块
@@ -518,8 +517,8 @@ fluid.fluorine=氟
 tile.nuclearcraft.fluid_nitrogen.name=氮
 fluid.nitrogen=氮
 
-tile.nuclearcraft.fluid_fluoromethane.name=氟代甲烷
-fluid.fluoromethane=氟代甲烷
+tile.nuclearcraft.fluid_fluoromethane.name=氟甲烷
+fluid.fluoromethane=氟甲烷
 
 tile.nuclearcraft.fluid_ammonia.name=氨
 fluid.ammonia=氨
@@ -676,8 +675,8 @@ fluid.naoh=熔融氢氧化钠
 tile.nuclearcraft.fluid_koh.name=熔融氢氧化钾
 fluid.koh=熔融氢氧化钾
 
-tile.nuclearcraft.fluid_arsenic.name=砒霜升华物
-fluid.arsenic=砒霜升华物
+tile.nuclearcraft.fluid_arsenic.name=砷蒸汽
+fluid.arsenic=砷蒸汽
 
 tile.nuclearcraft.fluid_bas.name=熔融砷化硼
 fluid.bas=熔融砷化硼
@@ -694,8 +693,8 @@ fluid.manganese_dioxide=熔融二氧化锰
 tile.nuclearcraft.fluid_alugentum.name=熔融银铝
 fluid.alugentum=熔融银铝
 
-tile.nuclearcraft.fluid_alumina.name=熔融铝土
-fluid.alumina=熔融铝土
+tile.nuclearcraft.fluid_alumina.name=熔融铁矾土
+fluid.alumina=熔融铁矾土
 
 tile.nuclearcraft.fluid_thorium.name=熔融钍
 fluid.thorium=熔融钍
@@ -1495,7 +1494,6 @@ fluid.cryotheum_nak_hot=热共晶钠钾-凛冰混合物
 item.nuclearcraft.rads=辐射：
 item.nuclearcraft.rad_resist=辐射抗性：
 item.nuclearcraft.food_rads=食物效果：
-
 item.nuclearcraft.ingot.copper.name=铜锭
 item.nuclearcraft.ingot.tin.name=锡锭
 item.nuclearcraft.ingot.lead.name=铅锭
@@ -1548,7 +1546,7 @@ item.nuclearcraft.gem_dust.diamond.name=钻石粉
 item.nuclearcraft.gem_dust.rhodochrosite.name=菱锰粉
 item.nuclearcraft.gem_dust.quartz.name=石英粉
 item.nuclearcraft.gem_dust.obsidian.name=黑曜石粉
-item.nuclearcraft.gem_dust.boron_nitride.name=白石墨
+item.nuclearcraft.gem_dust.boron_nitride.name=六方氮化硼
 item.nuclearcraft.gem_dust.fluorite.name=氟石粉
 item.nuclearcraft.gem_dust.sulfur.name=硫磺
 item.nuclearcraft.gem_dust.sulfur.desc=挖掘煤矿石时掉落。
@@ -1572,7 +1570,7 @@ item.nuclearcraft.alloy.extreme.name=极限合金锭
 item.nuclearcraft.alloy.thermoconducting.name=热引合金锭
 item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
-item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅陶瓷复合材料
+item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
@@ -1595,7 +1593,7 @@ item.nuclearcraft.part.plate_elite.name=精英板
 item.nuclearcraft.part.wire_copper.name=铜螺线管
 item.nuclearcraft.part.wire_magnesium_diboride.name=二硼化镁螺线管
 item.nuclearcraft.part.bioplastic.name=生物塑料
-item.nuclearcraft.part.servo.name=伺服驱动器
+item.nuclearcraft.part.servo.name=伺服系统
 item.nuclearcraft.part.motor.name=电动马达
 item.nuclearcraft.part.actuator.name=线性执行器
 item.nuclearcraft.part.chassis.name=机器框架
@@ -1614,7 +1612,7 @@ item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠—
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
-item.nuclearcraft.fission_dust.tbp.name=镤-强化钍粉
+item.nuclearcraft.fission_dust.tbp.name=镤-富集钍粉
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233粉
 
 item.nuclearcraft.uranium.233.name=铀-233
@@ -1915,7 +1913,7 @@ item.nuclearcraft.fuel_californium.hecf_251_ni.name=高浓度 锎-251 氮化物�
 item.nuclearcraft.fuel_californium.hecf_251_za.name=高浓度 锎-251-锆合金燃料丸
 
 info.nuclearcraft.fission_fuel.desc=裂变反应堆燃料
-info.nuclearcraft.fission_fuel.base_time.desc=基础处理时间：%s
+info.nuclearcraft.fission_fuel.base_time.desc=基础衰竭时间：%s
 info.nuclearcraft.fission_fuel.base_heat.desc=基础产热：%s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=基础效能：%s
 info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
@@ -2053,7 +2051,7 @@ item.nuclearcraft.shovel_boron.name=硼锹
 item.nuclearcraft.axe_boron.name=硼斧
 item.nuclearcraft.hoe_boron.name=硼锄
 item.nuclearcraft.spaxelhoe_boron.name=硼斫石锄
-item.nuclearcraft.spaxelhoe_boron.desc=硼制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_boron.desc=一把由所有标准硼工具组装而成的通用工具。
 
 item.nuclearcraft.sword_tough.name=高强合金剑
 item.nuclearcraft.pickaxe_tough.name=高强合金镐
@@ -2061,7 +2059,7 @@ item.nuclearcraft.shovel_tough.name=高强合金锹
 item.nuclearcraft.axe_tough.name=高强合金斧
 item.nuclearcraft.hoe_tough.name=高强合金锄
 item.nuclearcraft.spaxelhoe_tough.name=高强合金斫石锄
-item.nuclearcraft.spaxelhoe_tough.desc=高强合金制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_tough.desc=一把由所有标准高强合金工具组装而成的通用工具。
 
 item.nuclearcraft.sword_hard_carbon.name=硬碳合金剑
 item.nuclearcraft.pickaxe_hard_carbon.name=硬碳合金镐
@@ -2069,7 +2067,7 @@ item.nuclearcraft.shovel_hard_carbon.name=硬碳合金锹
 item.nuclearcraft.axe_hard_carbon.name=硬碳合金斧
 item.nuclearcraft.hoe_hard_carbon.name=硬碳合金锄
 item.nuclearcraft.spaxelhoe_hard_carbon.name=硬碳合金斫石锄
-item.nuclearcraft.spaxelhoe_hard_carbon.desc=硬碳合金制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=一把由所有标准硬碳合金工具组装而成的通用工具。
 
 item.nuclearcraft.sword_boron_nitride.name=氮化硼剑
 item.nuclearcraft.pickaxe_boron_nitride.name=氮化硼镐
@@ -2077,7 +2075,7 @@ item.nuclearcraft.shovel_boron_nitride.name=氮化硼锹
 item.nuclearcraft.axe_boron_nitride.name=氮化硼斧
 item.nuclearcraft.hoe_boron_nitride.name=氮化硼锄
 item.nuclearcraft.spaxelhoe_boron_nitride.name=氮化硼斫石锄
-item.nuclearcraft.spaxelhoe_boron_nitride.desc=氮化硼制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=一把由所有标准氮化硼工具组装而成的通用工具。
 
 item.nuclearcraft.helm_boron.name=硼头盔
 item.nuclearcraft.chest_boron.name=硼胸甲
@@ -2273,7 +2271,7 @@ jei.nuclearcraft.turbine_expansion=流体膨胀系数：
 
 jei.nuclearcraft.scrubber_process_time=净化寿命：
 jei.nuclearcraft.scrubber_process_power=能量需求：
-jei.nuclearcraft.scrubber_process_efficiency=效能提升倍率：
+jei.nuclearcraft.scrubber_process_efficiency=净化仪效能：
 
 itemGroup.nuclearcraft.main=核电工艺
 itemGroup.nuclearcraft.material=核电工艺 | 材料
@@ -2492,9 +2490,9 @@ gui.nc.config.turbine_min_size.comment=涡轮机结构的最小边长。
 gui.nc.config.turbine_max_size=最大结构边长
 gui.nc.config.turbine_max_size.comment=涡轮机结构的最大边长。
 gui.nc.config.turbine_blade_efficiency=转子叶片效能
-gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅陶瓷复合材料。
+gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅纤维增韧型碳化硅陶瓷基复合材料。
 gui.nc.config.turbine_blade_expansion=转子叶片膨胀系数
-gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅陶瓷复合材料。
+gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅纤维增韧型碳化硅陶瓷基复合材料。
 gui.nc.config.turbine_stator_expansion=转子定子膨胀系数
 gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rotor stators multiplies the volume of the fluid in the oncoming flow.
 gui.nc.config.turbine_coil_conductivity=发电机线圈传导率
@@ -3215,8 +3213,8 @@ entity.nc.feral_ghoul_ambient=野尸鬼
 # 环绕
 entity.nc.feral_ghoul_hurt=野尸鬼受伤
 entity.nc.feral_ghoul_death=野尸鬼死亡
-entity.nc.feral_ghoul_step=野尸鬼走路
-entity.nc.feral_ghoul_fall=野尸鬼掉落
+entity.nc.feral_ghoul_step=野尸鬼行走
+entity.nc.feral_ghoul_fall=野尸鬼摔落
 entity.nc.feral_ghoul_charge=野尸鬼充能
 
 music.nc.wanderer=Wanderer
@@ -3253,7 +3251,7 @@ modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n
 # LotR Movies
 modifier.withering_armor.name=凋零
 modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。
-# Grim Fandango?
+# Grim Fandango
 
 message.nuclearcraft.filter=设置过滤器：
 
@@ -3360,20 +3358,20 @@ nc.sf.boron_sink0=%s有效的硼散热器
 nc.sf.lithium_sink0=%s有效的锂散热器
 nc.sf.magnesium_sink0=%s有效的镁散热器
 nc.sf.manganese_sink0=%s有效的锰散热器
-nc.sf.aluminum_sink1=%s有效的铝散热器
-nc.sf.silver_sink1=%s有效的银散热器
-nc.sf.fluorite_sink1=%s有效的氟石散热器
-nc.sf.villiaumite_sink1=%s有效的氟盐散热器
-nc.sf.carobbiite_sink1=%s有效的方氟钾石散热器
-nc.sf.arsenic_sink1=%s有效的砷散热器
-nc.sf.liquid_nitrogen_sink1=%s有效的液氮散热器
-nc.sf.liquid_helium_sink1=%s有效的液氦散热器
-nc.sf.enderium_sink1=%s有效的末影散热器
-nc.sf.cryotheum_sink1=%s有效的凛冰散热器
+nc.sf.aluminum_sink0=%s有效的铝散热器
+nc.sf.silver_sink0=%s有效的银散热器
+nc.sf.fluorite_sink0=%s有效的氟石散热器
+nc.sf.villiaumite_sink0=%s有效的氟盐散热器
+nc.sf.carobbiite_sink0=%s有效的方氟钾石散热器
+nc.sf.arsenic_sink0=%s有效的砷散热器
+nc.sf.liquid_nitrogen_sink0=%s有效的液氮散热器
+nc.sf.liquid_helium_sink0=%s有效的液氦散热器
+nc.sf.enderium_sink0=%s有效的末影散热器
+nc.sf.cryotheum_sink0=%s有效的凛冰散热器
 
 nc.sf.any_heater0=%s任意种类的加热器
 nc.sf.any_heater1=任意%s加热器
-nc.sf.standard_heater1=%s有效的标准加热器
+nc.sf.standard_heater0=%s有效的标准加热器
 nc.sf.iron_heater0=%s有效的铁加热器
 nc.sf.redstone_heater0=%s有效的红石加热器
 nc.sf.quartz_heater0=%s有效的石英加热器
@@ -3408,7 +3406,6 @@ nc.sf.cryotheum_heater0=%s有效的凛冰加热器
 
 nc.sf.bearing0=%s有效的转子轴承
 nc.sf.connector0=%s有效的线圈连接器
-nc.sf.connector1=%s有效的线圈连接器
 
 nc.sf.any_coil0=%s任意种类的发电机线圈
 nc.sf.any_coil1=任意%s发电机线圈
