@@ -308,7 +308,11 @@ tile.nuclearcraft.turbine_rotor_shaft.name=涡轮机转子轴
 tile.nuclearcraft.turbine_rotor_shaft.desc=将叶片连接到发电机以将产生的动能转换为电能。必须被以涡轮机的中心为轴放置。
 tile.nuclearcraft.turbine_rotor_blade_steel.name=钢涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_extreme.name=极限合金涡轮机转子叶片
+<<<<<<< HEAD
 tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅陶瓷复合材料涡轮机转子叶片
+=======
+tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料涡轮机转子叶片
+>>>>>>> pr_2
 tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=效能倍率：%s
 tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=膨胀系数：%s
 tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转动能。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并保证每个组的叶片都相同。每个叶片最多能处理%s的液体。
@@ -1546,8 +1550,12 @@ item.nuclearcraft.gem_dust.diamond.name=钻石粉
 item.nuclearcraft.gem_dust.rhodochrosite.name=菱锰粉
 item.nuclearcraft.gem_dust.quartz.name=石英粉
 item.nuclearcraft.gem_dust.obsidian.name=黑曜石粉
+<<<<<<< HEAD
 item.nuclearcraft.gem_dust.boron_nitride.name=白石墨
 #####Hexagonal Boron Nitride目前只用作立方氮化硼的半成品，虽然有白石墨的别称，但是我觉得还是写作学名【六方氮化硼】以显示和立方氮化硼的关系好一点&&&&&
+=======
+item.nuclearcraft.gem_dust.boron_nitride.name=六方氮化硼
+>>>>>>> pr_2
 item.nuclearcraft.gem_dust.fluorite.name=氟石粉
 item.nuclearcraft.gem_dust.sulfur.name=硫磺
 item.nuclearcraft.gem_dust.sulfur.desc=挖掘煤矿石时掉落。
@@ -1574,10 +1582,14 @@ item.nuclearcraft.alloy.thermoconducting.name=热引合金锭
 #####Thermoconducting Alloy翻译成热引合金感觉不太符合中文习惯，感觉可以沿用重制前的【导热合金】的说法&&&&&
 item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
+<<<<<<< HEAD
 item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅陶瓷复合材料
 ######SiC-SiC Ceramic Matrix Composite单个的碳化硅陶瓷是单相陶瓷材料 并不是cmc复合陶瓷材料 这边作者写的是SiC-SiC CMC
 我觉得作者应该指的是70年代时候Naslain教授发明的化学气相渗透工艺生产的CMC-SiC系材料，CMC-SiC系材料有C/SiC（碳纤维增韧碳化硅型）
 和SiC/SiC（碳化硅纤维增韧碳化硅型）两种，作者的SiC-SiC CMC应该就是【碳化硅纤维增韧型碳化硅复合陶瓷基材料】。&&&&&
+=======
+item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料
+>>>>>>> pr_2
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
@@ -1600,10 +1612,14 @@ item.nuclearcraft.part.plate_elite.name=精英板
 item.nuclearcraft.part.wire_copper.name=铜螺线管
 item.nuclearcraft.part.wire_magnesium_diboride.name=二硼化镁螺线管
 item.nuclearcraft.part.bioplastic.name=生物塑料
+<<<<<<< HEAD
 item.nuclearcraft.part.servo.name=伺服驱动器
 #####Servomechanism很多时候指的不是单独的伺服驱动器，而是一整套【伺服系统】，又称【随动系统】。狭义定义是被控制量（系统的输出量）是机械位移
 或位移速度、加速度的反馈控制系统，其作用是使输出的机械位移（或转角）准确地跟踪输入的位移（或转角）。广义定义是用来精确地跟随或复现某个过程的反馈控制系统。
 &&&&&
+=======
+item.nuclearcraft.part.servo.name=伺服系统
+>>>>>>> pr_2
 item.nuclearcraft.part.motor.name=电动马达
 item.nuclearcraft.part.actuator.name=线性执行器
 item.nuclearcraft.part.chassis.name=机器框架
@@ -1624,9 +1640,13 @@ item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠—
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
+<<<<<<< HEAD
 item.nuclearcraft.fission_dust.tbp.name=镤-强化钍粉
 #####Protactinium-Enriched Thorium Dust中的Enriched在核工程中应该是指富集（enrichment）的意思，表示这里的钍已经被富集了（为啥中子辐照一下就富集了.jpg）
 所以我觉得整个单词应该翻译成【镤-富集钍粉】&&&&&
+=======
+item.nuclearcraft.fission_dust.tbp.name=镤-富集钍粉
+>>>>>>> pr_2
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233粉
 
 item.nuclearcraft.uranium.233.name=铀-233
@@ -1927,9 +1947,13 @@ item.nuclearcraft.fuel_californium.hecf_251_ni.name=高浓度 锎-251 氮化物�
 item.nuclearcraft.fuel_californium.hecf_251_za.name=高浓度 锎-251-锆合金燃料丸
 
 info.nuclearcraft.fission_fuel.desc=裂变反应堆燃料
+<<<<<<< HEAD
 info.nuclearcraft.fission_fuel.base_time.desc=基础处理时间：%s
 #####Base depletion time这里的depletion我感觉是衰竭、耗尽、贫化的意思，比处理更合适这里的语境，
 整个单词可以翻译成【基础衰变时间】、【基础衰竭时间】等。&&&&&
+=======
+info.nuclearcraft.fission_fuel.base_time.desc=基础衰竭时间：%s
+>>>>>>> pr_2
 info.nuclearcraft.fission_fuel.base_heat.desc=基础产热：%s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=基础效能：%s
 info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
@@ -2067,8 +2091,12 @@ item.nuclearcraft.shovel_boron.name=硼锹
 item.nuclearcraft.axe_boron.name=硼斧
 item.nuclearcraft.hoe_boron.name=硼锄
 item.nuclearcraft.spaxelhoe_boron.name=硼斫石锄
+<<<<<<< HEAD
 item.nuclearcraft.spaxelhoe_boron.desc=硼制成的一个有多种用途的集成工具。
 #####A universal tool made up of all of the standard Boron tools.我感觉翻译成【一把由所有标准硼工具组装而成的通用工具】比较好，【修改优先度很低，仅供参考】&&&&&
+=======
+item.nuclearcraft.spaxelhoe_boron.desc=一把由所有标准硼工具组装而成的通用工具。
+>>>>>>> pr_2
 
 item.nuclearcraft.sword_tough.name=高强合金剑
 item.nuclearcraft.pickaxe_tough.name=高强合金镐
@@ -2076,7 +2104,7 @@ item.nuclearcraft.shovel_tough.name=高强合金锹
 item.nuclearcraft.axe_tough.name=高强合金斧
 item.nuclearcraft.hoe_tough.name=高强合金锄
 item.nuclearcraft.spaxelhoe_tough.name=高强合金斫石锄
-item.nuclearcraft.spaxelhoe_tough.desc=高强合金制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_tough.desc=一把由所有标准高强合金工具组装而成的通用工具。
 
 item.nuclearcraft.sword_hard_carbon.name=硬碳合金剑
 item.nuclearcraft.pickaxe_hard_carbon.name=硬碳合金镐
@@ -2084,7 +2112,7 @@ item.nuclearcraft.shovel_hard_carbon.name=硬碳合金锹
 item.nuclearcraft.axe_hard_carbon.name=硬碳合金斧
 item.nuclearcraft.hoe_hard_carbon.name=硬碳合金锄
 item.nuclearcraft.spaxelhoe_hard_carbon.name=硬碳合金斫石锄
-item.nuclearcraft.spaxelhoe_hard_carbon.desc=硬碳合金制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=一把由所有标准硬碳合金工具组装而成的通用工具。
 
 item.nuclearcraft.sword_boron_nitride.name=氮化硼剑
 item.nuclearcraft.pickaxe_boron_nitride.name=氮化硼镐
@@ -2092,7 +2120,7 @@ item.nuclearcraft.shovel_boron_nitride.name=氮化硼锹
 item.nuclearcraft.axe_boron_nitride.name=氮化硼斧
 item.nuclearcraft.hoe_boron_nitride.name=氮化硼锄
 item.nuclearcraft.spaxelhoe_boron_nitride.name=氮化硼斫石锄
-item.nuclearcraft.spaxelhoe_boron_nitride.desc=氮化硼制成的一个有多种用途的集成工具。
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=一把由所有标准氮化硼工具组装而成的通用工具。
 
 item.nuclearcraft.helm_boron.name=硼头盔
 item.nuclearcraft.chest_boron.name=硼胸甲
@@ -2607,9 +2635,9 @@ gui.nc.config.turbine_min_size.comment=涡轮机结构的最小边长。
 gui.nc.config.turbine_max_size=最大结构边长
 gui.nc.config.turbine_max_size.comment=涡轮机结构的最大边长。
 gui.nc.config.turbine_blade_efficiency=转子叶片效能
-gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅陶瓷复合材料。
+gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅纤维增韧型碳化硅陶瓷基复合材料。
 gui.nc.config.turbine_blade_expansion=转子叶片膨胀系数
-gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅陶瓷复合材料。
+gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅纤维增韧型碳化硅陶瓷基复合材料。
 gui.nc.config.turbine_stator_expansion=转子定子膨胀系数
 gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rotor stators multiplies the volume of the fluid in the oncoming flow.
 gui.nc.config.turbine_coil_conductivity=发电机线圈传导率
@@ -3330,7 +3358,11 @@ entity.nc.feral_ghoul_ambient=野尸鬼
 # 环绕
 entity.nc.feral_ghoul_hurt=野尸鬼受伤
 entity.nc.feral_ghoul_death=野尸鬼死亡
+<<<<<<< HEAD
 entity.nc.feral_ghoul_step=野尸鬼走路
+=======
+entity.nc.feral_ghoul_step=野尸鬼行走
+>>>>>>> pr_2
 entity.nc.feral_ghoul_fall=野尸鬼摔落
 entity.nc.feral_ghoul_charge=野尸鬼充能
 
@@ -3368,7 +3400,7 @@ modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n
 # LotR Movies
 modifier.withering_armor.name=凋零
 modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。
-# Grim Fandango?
+# Grim Fandango
 
 message.nuclearcraft.filter=设置过滤器：
 
