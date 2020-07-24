@@ -19,7 +19,7 @@
             "tier4": "nuclearcraft:solar_panel_elite",
             "text": "Only generates energy during the day."
         },
-		 {
+		{
             "anchor": "decay_generator",
             "type": "machines/single_machine",
             "header": "Decay Generator",
