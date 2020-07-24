@@ -1,3 +1,7 @@
+Tweak turbine coil and blade stats?
+
+Revert to original conductor mechanics, i.e. used ot connect clusters to casing, but not to each other?
+
 Move onAdded tile methods to onLoad()?
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
 Modularise processor classes

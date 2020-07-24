@@ -2,7 +2,7 @@
     "parent": "nuclearcraft:block/wall_part",
 	"textures": {
         "side": "nuclearcraft:blocks/fission/port/side",
-        "top": "nuclearcraft:blocks/fission/port/side",
+        "top": "nuclearcraft:blocks/fission/port/top",
         "in": "#front",
         "out": "#front"
     }

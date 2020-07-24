@@ -6,6 +6,7 @@ import static nc.recipe.NCRecipes.fission_reflector;
 import javax.annotation.Nonnull;
 
 import nc.enumm.MetaEnums;
+import nc.multiblock.BlockFacing;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionSource;
@@ -110,10 +111,14 @@ public abstract class TileFissionSource extends TileFissionPart {
 	}
 	
 	public PrimingTargetInfo getPrimingTarget(boolean simulate) {
-		if (getPartPosition().getFacing() == null) {
-			return null;
+		EnumFacing facing = getPartPosition().getFacing();
+		if (facing == null) {
+			facing = this.facing;
+			if (facing == null) {
+				return null;
+			}
 		}
-		EnumFacing facing = getPartPosition().getFacing(), dir = facing.getOpposite();
+		EnumFacing dir = facing.getOpposite();
 		for (int i = 1; i <= fission_max_size; i++) {
 			BlockPos offPos = pos.offset(dir, i);
 			ProcessorRecipe blockRecipe = RecipeHelper.blockRecipe(fission_reflector, world, offPos);

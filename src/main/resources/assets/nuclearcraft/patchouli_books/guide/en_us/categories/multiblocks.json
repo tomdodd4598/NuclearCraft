@@ -1,5 +1,6 @@
 {
 	"name": "Multiblocks",
-	"description": "",
-	"icon": "nuclearcraft:solid_fission_controller"
+	"description": "Think big, build big.",
+	"icon": "nuclearcraft:multitool",
+	"sortnum": 2
 }

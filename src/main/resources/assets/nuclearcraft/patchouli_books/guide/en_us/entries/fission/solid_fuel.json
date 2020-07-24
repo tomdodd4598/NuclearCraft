@@ -1,0 +1,12 @@
+{
+    "name": "Solid Fuel Reactor",
+    "icon": "nuclearcraft:solid_fission_controller",
+    "category": "nuclearcraft:fission",
+	"sortnum": 1,
+    "pages": [
+        {
+            "type": "text",
+            "text": "The solid fuel fission reactor generates heat from the self-sustained nuclear reaction of solid fission fuel, which is transferred to water or other available coolant."
+        }
+    ]
+}
