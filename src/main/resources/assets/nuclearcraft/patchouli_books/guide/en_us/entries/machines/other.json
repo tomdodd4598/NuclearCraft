@@ -1,27 +1,27 @@
 {
-    "name": "Other Machines",
-    "icon": "nuclearcraft:bin",
-    "category": "nuclearcraft:machines",
+	"name": "Other Machines",
+	"icon": "nuclearcraft:bin",
+	"category": "nuclearcraft:machines",
 	"sortnum": 3,
-    "pages": [
-        {
-            "anchor": "intro",
-            "type": "text",
-            "text": "These are machine-like blocks that help in building a clean, efficient, nuclear-oriented factory."
-        },
-        {
-            "anchor": "machine_interface",
-            "type": "machines/single_machine",
+	"pages": [
+		{
+			"anchor": "intro",
+			"type": "text",
+			"text": "These are machine-like blocks that help in building a clean, efficient, nuclear-oriented factory."
+		},
+		{
+			"anchor": "machine_interface",
+			"type": "blocks/1",
 			"header": "Machine Interface",
-            "block": "nuclearcraft:machine_interface",
-            "text": "Extends a processor on one of its sides. Use if you have ran out of room for pipes or cables."
-        },
-        {
-            "anchor": "bin",
-            "type": "machines/single_machine",
+			"block": "nuclearcraft:machine_interface",
+			"text": "Extends a processor on one of its sides. Use if you have ran out of room for pipes or cables."
+		},
+		{
+			"anchor": "bin",
+			"type": "blocks/1",
 			"header": "Universal Bin",
-            "block": "nuclearcraft:bin",
-            "text": "Effectively a black hole in a box, it destroys all materials and energy fed to it."
-        }
-    ]
+			"block": "nuclearcraft:bin",
+			"text": "Effectively a black hole in a box, it destroys all materials and energy fed to it."
+		}
+	]
 }

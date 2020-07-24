@@ -1,0 +1,21 @@
+{
+	"name": "General Info",
+	"icon": "nuclearcraft:fission_casing",
+	"category": "nuclearcraft:fission",
+	"sortnum": 0,
+	"pages": [
+		{
+			"anchor": "intro",
+			"type": "text",
+			"text": "Fission reactors generates heat from the self-sustained nuclear reaction of fission fuel. This heat is ultimately transformed into useful energy, and the way this is achieved depends on the type of reactor being built."
+		},
+		{
+			"anchor": "decay_generator",
+			"type": "blocks/2",
+			"header": "Reactor Casing",
+			"block1": "nuclearcraft:fission_casing",
+			"block2": "nuclearcraft:fission_glass",
+			"text": "The reactor's interior components are contained within a cuboidal structure. The edges must consist of reactor casing, while reactor glass can be used instead of casing for the walls. When the multiblock forms, the casing blocks on the edges will be given a new frame texture, and this will be reversed when the multiblock is broken."
+		}
+	]
+}
