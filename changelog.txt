@@ -1,3 +1,14 @@
+v2o.3.5
+
+* Fixed fission neutron sources not finding their targets while the multiblock is broken
+* Fixed wrong texture on top and bottom of fission ports
+
+* Hopefully fixed turbine rotor render crashes
+
+* Fixed crash on loading with Chinese localisation [thanks to WuzgXY!]
+
+* Continued Patchouli guide book documentation
+
 v2o.3.4
 
 + Added CT methods to add custom fission reactor and turbine multiblock components
