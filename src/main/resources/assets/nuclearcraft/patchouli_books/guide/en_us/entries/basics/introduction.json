@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "This guide will $(l)not$() cover details such as recipes, component stats and placement rules, as they can vary between modpacks and are shown in JEI and the tooltips of the relevant items and blocks."
+			"text": "This guide will $(l)not$() cover the details of various pieces of information such as recipes, component stats and placement rules, as they can vary between different configuration settings, in particular different mod packs. They will instead be shown in JEI and the tooltips of the relevant items and blocks."
 		}
 	]
 }

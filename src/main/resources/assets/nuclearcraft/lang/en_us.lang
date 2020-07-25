@@ -207,7 +207,7 @@ tile.nuclearcraft.fission_heater_port2.cryotheum.name=Cryotheum Fission Coolant 
 tile.nuclearcraft.fission_shield_manager.name=Fission Neutron Shield Manager (WIP)
 
 tile.nuclearcraft.solid_fission_controller.name=Solid Fuel Fission Controller
-tile.nuclearcraft.solid_fission_cell.name=Fission Fuel Cell
+tile.nuclearcraft.solid_fission_cell.name=Solid Fuel Fission Fuel Cell
 tile.nuclearcraft.solid_fission_sink.water.name=Water Fission Heat Sink
 tile.nuclearcraft.solid_fission_sink.iron.name=Iron Fission Heat Sink
 tile.nuclearcraft.solid_fission_sink.redstone.name=Redstone Fission Heat Sink
@@ -244,7 +244,7 @@ tile.nuclearcraft.solid_fission_sink2.cryotheum.name=Cryotheum Fission Heat Sink
 tile.nuclearcraft.solid_fission_sink.cooling_rate=Cooling Rate:
 
 tile.nuclearcraft.salt_fission_controller.name=Molten Salt Fission Controller
-tile.nuclearcraft.salt_fission_vessel.name=Fission Fuel Vessel
+tile.nuclearcraft.salt_fission_vessel.name=Molten Salt Fission Fuel Vessel
 # tile.nuclearcraft.salt_fission_vessel.desc=Where the molten salt nuclear fuel fissions and depletes. Place against another vessel while sneaking to copy across its side configuration.
 tile.nuclearcraft.salt_fission_heater.standard.name=Standard Fission Coolant Heater
 tile.nuclearcraft.salt_fission_heater.iron.name=Iron Fission Coolant Heater
