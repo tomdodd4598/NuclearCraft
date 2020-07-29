@@ -2159,8 +2159,7 @@ item.nuclearcraft.rad_shielding.install_success=成功安装屏蔽板！容器�
 
 item.nuclearcraft.radiation_badge.name=辐射徽章
 item.nuclearcraft.radiation_badge.desc=佩戴时，每当玩家获得%s的辐射量都会发出警示，在到达%s后便会破损.
-item.nuclearcraft.radiation_badge.exposure=你的辐射徽章已被暴露于
-#####Your Radiation Badge has been exposed to 我觉得已被暴露于xxxRad/t不符合中文习惯，可以改成【你的辐射徽章累计辐射值：】xxxRad&&&&&
+item.nuclearcraft.radiation_badge.exposure=你的辐射徽章目前的辐射值已达
 item.nuclearcraft.radiation_badge.broken=你的辐射徽章彻底损坏了......
 
 item.nuclearcraft.radaway.name=抗辐宁
@@ -2181,8 +2180,7 @@ item.nuclearcraft.graham_cracker.name=全麦饼干
 
 item.nuclearcraft.roasted_cocoa_beans.name=焙烤可可豆
 item.nuclearcraft.ground_cocoa_nibs.name=碎可可
-item.nuclearcraft.cocoa_butter.name=固化可可浆
-#####cocoa butter是【可可脂】的意思，可可浆是cocoa luquor&&&&&
+item.nuclearcraft.cocoa_butter.name=可可脂
 item.nuclearcraft.cocoa_solids.name=可可粉
 item.nuclearcraft.unsweetened_chocolate.name=无糖巧克力
 item.nuclearcraft.dark_chocolate.name=黑巧克力
@@ -2217,46 +2215,36 @@ jei.nuclearcraft.base_process_time=基础处理时间：
 jei.nuclearcraft.base_process_power=基础功率：
 jei.nuclearcraft.base_process_radiation=基础辐射：
 
-jei.nuclearcraft.collector_production_rate=产出效率：
-#####Production rate可以直接翻译为【产量】&&&&&
+jei.nuclearcraft.collector_production_rate=产量：
 
 jei.nuclearcraft.irradiator_flux_required=中子通量需求：
-jei.nuclearcraft.irradiator_heat_per_flux=每中子通量产热：
-#####如果希望看起来更专业可以改为【单位中子通量产热】&&&&&
+jei.nuclearcraft.irradiator_heat_per_flux=单位中子通量产热：
 jei.nuclearcraft.irradiator_process_efficiency=效能提升倍率：
 
-jei.nuclearcraft.pebble_fuel_time=基础处理时间：
-#####参考固态裂变堆应统一为【基础衰竭时间】&&&&&
+jei.nuclearcraft.pebble_fuel_time=基础衰竭时间：
 jei.nuclearcraft.pebble_fuel_heat=基础产热：
 jei.nuclearcraft.pebble_fuel_efficiency=基础效能：
 jei.nuclearcraft.pebble_fuel_criticality=燃料临界值：
 jei.nuclearcraft.pebble_fuel_radiation=燃料辐射：
-jei.nuclearcraft.pebble_fuel_self_priming=自动准备中！
-#####统一为【强中子射源】&&&&&
+jei.nuclearcraft.pebble_fuel_self_priming=强中子射源！
 
-jei.nuclearcraft.solid_fuel_time=基础处理时间：
-#####【基础衰竭时间】&&&&&
+jei.nuclearcraft.solid_fuel_time=基础衰竭时间：
 jei.nuclearcraft.solid_fuel_heat=基础产热：
 jei.nuclearcraft.solid_fuel_efficiency=基础效能：
 jei.nuclearcraft.solid_fuel_criticality=燃料临界值：
 jei.nuclearcraft.solid_fuel_radiation=燃料辐射：
-jei.nuclearcraft.solid_fuel_self_priming=自动准备中！
-#####【强中子射源】&&&&&
+jei.nuclearcraft.solid_fuel_self_priming=强中子射源！
 
-jei.nuclearcraft.fission_heating_heat_per_mb=产热：
-#####Heat per input mB:这个出现在固态裂变加热配方中表示每输入1mB输入液需要多少H的热量，可以翻译为【单位热容】或【单位热量需求】&&&&&
+jei.nuclearcraft.fission_heating_heat_per_mb=单位热容：
 
-jei.nuclearcraft.salt_fuel_time=处理时间：
-#####【基础衰竭时间】&&&&&
+jei.nuclearcraft.salt_fuel_time=基础衰竭时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
 jei.nuclearcraft.salt_fuel_efficiency=基础效能：
 jei.nuclearcraft.salt_fuel_criticality=燃料临界值：
 jei.nuclearcraft.salt_fuel_radiation=燃料辐射：
-jei.nuclearcraft.salt_fuel_self_priming=自动准备中！
-#####【强中子射源】&&&&&
+jei.nuclearcraft.salt_fuel_self_priming=强中子射源！
 
 jei.nuclearcraft.fusion_time=基础连续时间：
-#####不懂但是感觉怪怪的，至少把时间改成寿命吧&&&&&
 jei.nuclearcraft.fusion_power=基础能量上限：
 jei.nuclearcraft.fusion_temp=最佳温度：
 
@@ -2271,14 +2259,10 @@ jei.nuclearcraft.coolant_heater_rate=冷却液加热速率：
 #####这个Cooling rate理论上和冷却/散热速率是一样的，为什么要写成加热速率&&&&&
 
 jei.nuclearcraft.exchanger_fluid_temp=温度：
-jei.nuclearcraft.exchanger_heating_provided=温度提供：
-#####Heating表示加热的动作，参考游戏内配方的单位为H/t，可以改成【提供加热速率：】
-jei.nuclearcraft.exchanger_cooling_provided=冷却提供：
-#####同理，【提供冷却速率】&&&&&
-jei.nuclearcraft.exchanger_heating_required=温度需求：
-#####同理，但游戏内配方没有H/t的单位，应该为总热量，故【需求加热量】&&&&&
-jei.nuclearcraft.exchanger_cooling_required=冷却需求：
-#####同理，【需求冷却量】&&&&&
+jei.nuclearcraft.exchanger_heating_provided=加热速率提供：
+jei.nuclearcraft.exchanger_cooling_provided=冷却速率提供：
+jei.nuclearcraft.exchanger_heating_required=加热量需求：
+jei.nuclearcraft.exchanger_cooling_required=冷却量需求：
 
 jei.nuclearcraft.condenser_condensing_temp=冷凝温度：
 jei.nuclearcraft.condenser_heat_removal_req=排热需求：
@@ -2291,11 +2275,11 @@ jei.nuclearcraft.scrubber_process_power=能量需求：
 jei.nuclearcraft.scrubber_process_efficiency=净化仪效能：
 
 itemGroup.nuclearcraft.main=核电工艺
-itemGroup.nuclearcraft.material=核电工艺 | 材料
-itemGroup.nuclearcraft.radiation=核电工艺 | 辐射
-itemGroup.nuclearcraft.machine=核电工艺 | 机器
-itemGroup.nuclearcraft.multiblock=核电工艺 | 结构
-itemGroup.nuclearcraft.misc=核电工艺 | 杂项
+itemGroup.nuclearcraft.material=核电工艺丨材料
+itemGroup.nuclearcraft.radiation=核电工艺丨辐射
+itemGroup.nuclearcraft.machine=核电工艺丨机器
+itemGroup.nuclearcraft.multiblock=核电工艺丨结构
+itemGroup.nuclearcraft.misc=核电工艺丨杂项
 
 # 核电工艺游戏内配置文件
 gui.nc.config.main_title=核电工艺配置
@@ -2934,7 +2918,6 @@ nc.block.salt_heater_fluid_side.default=默认
 nc.block.salt_heater_fluid_side.disabled=禁用
 nc.block.salt_heater_fluid_side.hot_coolant_out=热冷却液输出
 nc.block.salt_heater_fluid_side.coolant_spread=冷却液分配
-#####分配一般用distribution; allocation; assignment; distribute等来表示，spread可以表示使液体摊开、扩散开的意思&&&&&
 
 nc.block.salt_vessel_fluid_side.default=默认
 nc.block.salt_vessel_fluid_side.disabled=禁用
@@ -3011,8 +2994,7 @@ gui.nc.container.solid_fission_cell.cell=裂变燃料单元：
 gui.nc.container.solid_fission_cell.heat_stored=集群热量等级：
 
 gui.nc.container.salt_fission_controller.reactor=熔盐反应堆
-gui.nc.container.salt_fission_controller.heating_speed_multiplier=平均加热速度提升倍率：
-#####Mean Heating Speed:看起来没有提升倍率的意思&&&&&
+gui.nc.container.salt_fission_controller.heating_speed_multiplier=平均加热速率：
 
 gui.nc.container.salt_fission_vessel.vessel=裂变燃料容器
 gui.nc.container.salt_fission_vessel.heat_stored=集群热量等级：
@@ -3249,8 +3231,7 @@ advancement.nuclearcraft.plutonium.desc=得到钚
 advancement.nuclearcraft.rtg_americium.name=辐饰
 advancement.nuclearcraft.rtg_americium.desc=制作一个镅放射性热电发电机
 
-advancement.nuclearcraft.pressurizer.name=The Terror of Knowing
-#####【得知（真相）的恐怖】，出自David Bowie & Freddy Mercury演唱的Under Pressure，[00:58.95]&&&&&
+advancement.nuclearcraft.pressurizer.name=得知真相之恐怖
 # pun or meme
 advancement.nuclearcraft.pressurizer.desc=制作一个压缩机
 
@@ -3259,7 +3240,6 @@ advancement.nuclearcraft.americium.name=我们信仰物理
 advancement.nuclearcraft.americium.desc=得到镅
 
 advancement.nuclearcraft.rtg_californium.name=End of the Line
-#####End of the Line为美国惯用语，表示【尽头】、【极限】、【穷途末路】等
 # pun or meme
 advancement.nuclearcraft.rtg_californium.desc=制作一个锎放射性热电发电机
 
@@ -3305,10 +3285,7 @@ advancement.nuclearcraft.rad_shielding.desc=做一些重型辐射屏蔽板
 advancement.nuclearcraft.radiation_scrubber.name=污染控制
 advancement.nuclearcraft.radiation_scrubber.desc=制作一个辐射净化仪
 
-advancement.nuclearcraft.marshmallow.name=The Lansdell Manoeuvre
-#####【兰斯戴尔的捭阖之术】亨利·兰斯戴尔（Henry Lansdell）是英国探险家，曾经常前往当时亚洲罕为人知的地区探险和考察，并将这些经历发表在Harper's Magazine等杂志上。
-猜测历史上兰斯戴尔曾经用棉花糖与土著交易是化解被土著所困的境地或达成某种政治目的，因此用作棉花糖的成就。Manoeuvre是法语单词引入英文，通常指政治上的小花招。对应
-中文中的捭阖之术。&&&&&
+advancement.nuclearcraft.marshmallow.name=兰斯戴尔的捭阖之术
 # pun or meme
 advancement.nuclearcraft.marshmallow.desc=制作一个棉花糖
 
@@ -3360,23 +3337,20 @@ modifier.moldable.name=可塑
 modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料属性槽。
 # Lindt
 modifier.uplifting.name=振奋
-modifier.uplifting.desc=§oThis Day We Fight!§r\n在你使用你的工具时偶尔恢复生命值。
-#####与下边振奋联动，请结合参考，若振奋系列均出自指环王，那么This Day We Fight!出自Aragorn在演讲下边的振奋台词之前的
-An hour of wolves and shattered shields when the Age of Men comes crashing down, but it is not this day! This day we fight!
-在指环王中被翻译成【今天我们奋战】&&&&&
-# Megadeth
+modifier.uplifting.desc=§o今天我们奋战！§r\n在你使用你的工具时偶尔恢复生命值。
+# Megadeth or LotR Movies
 modifier.withering.name=凋零
 modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。
 # Patti Lather's Book or Hannibal
 
 modifier.moldable_armor.name=可塑
-modifier.moldable_armor.desc=§o瑞士莲§r\n为你的护甲增加额外的材料属性槽。
+modifier.moldable_armor.desc=§o瑞士莲。§r\n为你的护甲增加额外的材料属性槽。
 modifier.poisonous_armor.name=毒性
 modifier.poisonous_armor.desc=§o这么多人要杀，没多少时间了！§r\n令目标中毒。
 # Batman & Robin
 modifier.uplifting_armor.name=振奋
 modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n在你受伤时偶尔恢复生命值。
-#####本句出自The Lord of the Rings: The Return of the King，原句为I bid you stand, Men of the West!!!，常见翻译为“我命令你们坚持住,西方的人类!”&&&&&
+# 我命令你们坚持住，西方的人类！
 # LotR Movies
 modifier.withering_armor.name=凋零
 modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。
@@ -3454,7 +3428,6 @@ nc.sf.placement_rule.adjacent.at_most_along_axes=在同几条线上的最多%1$s
 nc.sf.placement_rule.adjacent.no=完全%1$s
 
 nc.sf.placement_rule.adjacent.ambiguity0prev=!同一条线&&!同几条线&&!同一个垂直处
-#####编程语言中！表示非，&&表示并且，||表示或者，不确定这里为何在描述中出现&&&&&
 nc.sf.placement_rule.adjacent.ambiguity0last=同一条线||同几条线||同一个垂直处
 nc.sf.placement_rule.adjacent.ambiguity1prev=在同一||在同几
 
