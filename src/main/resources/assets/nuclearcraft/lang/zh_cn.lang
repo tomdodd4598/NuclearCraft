@@ -2255,8 +2255,7 @@ jei.nuclearcraft.decay_gen_radiation=衰变辐射：
 jei.nuclearcraft.salt_fuel_time=处理时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
 
-jei.nuclearcraft.coolant_heater_rate=冷却液加热速率：
-#####这个Cooling rate理论上和冷却/散热速率是一样的，为什么要写成加热速率&&&&&
+jei.nuclearcraft.coolant_heater_rate=冷却速率：
 
 jei.nuclearcraft.exchanger_fluid_temp=温度：
 jei.nuclearcraft.exchanger_heating_provided=加热速率提供：
@@ -2426,7 +2425,6 @@ gui.nc.config.fission_moderator_extra_heat=减速剂产热调整
 gui.nc.config.fission_moderator_extra_heat.comment=*只影响新结构*决定每个与燃料单元接触的减速剂的额外产热。该值等于六个完全包围一个燃料单元的减速剂额外产热与被完全包围的燃料单元产热的倍率。 每个减速剂贡献六分之一的额外产热（额外产热随减速剂数量增加而线性提升）。
 gui.nc.config.fission_neutron_reach=中子辐射最大长度
 gui.nc.config.fission_neutron_reach.comment=*只影响新结构*两个燃料单元之间最大能够产生中子通量提升和效能提升的有效减速剂数量。
-
 
 gui.nc.config.fission_thorium_fuel_time=Thorium Fuel Durations
 gui.nc.config.fission_thorium_fuel_time.comment=Base ticks the fuels last. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
