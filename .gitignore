@@ -28,3 +28,5 @@ eclipse/
 run/*
 !run/scripts/
 !run/resources/
+*.suo
+/.vs
