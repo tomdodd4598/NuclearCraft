@@ -4,7 +4,9 @@ import static nc.config.NCConfig.*;
 
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
+import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
+import nc.init.NCItems;
 import nc.radiation.RadiationHelper;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +19,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	
@@ -76,8 +79,18 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 			return actionResult(false, stack);
 		}
 		
+		if (!player.isCreative()) {
+			stack.shrink(1);
+			
+			for (int i = MetaEnums.RadShieldingType.values().length; i > 0; i--) {
+				if (resistance.getShieldingRadResistance() >= NCConfig.radiation_shielding_level[i - 1]) {
+					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(NCItems.rad_shielding, 1, i - 1));
+					break;
+				}
+			}
+		}
+		
 		resistance.setShieldingRadResistance(newResistance);
-		stack.shrink(1);
 		tile.markDirty();
 		
 		if (!world.isRemote) {

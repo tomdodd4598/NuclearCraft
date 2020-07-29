@@ -3,8 +3,7 @@ package nc;
 public class Global {
 	
 	public static final String MOD_ID = "nuclearcraft";
-	public static final String MOD_SHORT_ID = "nc";
-	public static final String MOD_NAME = "NuclearCraft";
+	public static final String MOD_NAME = "NuclearCraft: Overhauled";
 	public static final String VERSION = "@VERSION@";
 	public static final String DEPENDENCIES = "after:tconstruct;after:conarm;after:openterraingenerator;after:alchemistry;after:harvestcraft";
 	

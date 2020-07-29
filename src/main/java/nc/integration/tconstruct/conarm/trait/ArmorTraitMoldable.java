@@ -1,10 +1,11 @@
 package nc.integration.tconstruct.conarm.trait;
 
+import c4.conarm.lib.traits.AbstractArmorTraitLeveled;
 import net.minecraft.nbt.NBTTagCompound;
-import slimeknights.tconstruct.library.traits.AbstractTraitLeveled;
-import slimeknights.tconstruct.library.utils.*;
+import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.utils.Tags;
 
-public class ArmorTraitMoldable extends AbstractTraitLeveled {
+public class ArmorTraitMoldable extends AbstractArmorTraitLeveled implements IArmorTraitNC {
 	
 	public ArmorTraitMoldable(int levels) {
 		super("moldable_armor", String.valueOf(levels), 0x62230E, 3, 1);

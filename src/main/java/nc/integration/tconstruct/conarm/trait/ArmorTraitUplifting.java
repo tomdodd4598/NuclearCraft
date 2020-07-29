@@ -10,7 +10,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorTraitUplifting extends AbstractArmorTrait {
+public class ArmorTraitUplifting extends AbstractArmorTrait implements IArmorTraitNC {
 	
 	public ArmorTraitUplifting() {
 		super("uplifting", TextFormatting.LIGHT_PURPLE);

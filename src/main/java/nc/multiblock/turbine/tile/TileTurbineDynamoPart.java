@@ -1,21 +1,30 @@
 package nc.multiblock.turbine.tile;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
+import static nc.config.NCConfig.rf_per_eu;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import gregtech.api.capability.*;
+import gregtech.api.capability.GregtechCapabilities;
+import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.*;
+import ic2.api.energy.tile.IEnergyAcceptor;
+import ic2.api.energy.tile.IEnergySink;
+import ic2.api.energy.tile.IEnergySource;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.fission.FissionPlacement;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.TurbinePlacement;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.*;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.energy.EnergyTileWrapper;
+import nc.tile.internal.energy.EnergyTileWrapperGT;
 import nc.tile.passive.ITilePassive;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +32,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.*;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
@@ -38,17 +48,25 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	protected boolean ic2reg = false;
 	
-	public final String partName;
-	public final Double conductivity;
+	public String partName;
+	public Double conductivity;
+	
 	public boolean isSearched = false, isInValidPosition = false;
 	
-	public final PlacementRule<ITurbinePart> placementRule;
+	public String ruleID;
+	public PlacementRule<ITurbinePart> placementRule;
 	
-	public TileTurbineDynamoPart(String partName, Double conductivity, PlacementRule<ITurbinePart> placementRule) {
+	/** Don't use this constructor! */
+	public TileTurbineDynamoPart() {
+		super(CuboidalPartPositionType.WALL);
+	}
+	
+	public TileTurbineDynamoPart(String partName, Double conductivity, String ruleID) {
 		super(CuboidalPartPositionType.WALL);
 		this.partName = partName;
 		this.conductivity = conductivity;
-		this.placementRule = placementRule;
+		this.ruleID = ruleID;
+		this.placementRule = TurbinePlacement.RULE_MAP.get(ruleID);
 	}
 	
 	@Override
@@ -278,6 +296,10 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		nbt.setString("partName", partName);
+		if (conductivity != null) nbt.setDouble("conductivity", conductivity);
+		nbt.setString("ruleID", ruleID);
+		
 		writeEnergy(nbt);
 		writeEnergyConnections(nbt);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
@@ -287,6 +309,13 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (nbt.hasKey("partName")) partName = nbt.getString("partName");
+		if (nbt.hasKey("conductivity")) conductivity = nbt.getDouble("conductivity");
+		if (nbt.hasKey("ruleID")) {
+			ruleID = nbt.getString("ruleID");
+			placementRule = TurbinePlacement.RULE_MAP.get(ruleID);
+		}
+		
 		readEnergy(nbt);
 		readEnergyConnections(nbt);
 		isInValidPosition = nbt.getBoolean("isInValidPosition");

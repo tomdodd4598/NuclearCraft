@@ -28,6 +28,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected double radiationImmunityTime;
 	protected boolean radiationImmunityStage;
 	protected boolean shouldWarn;
+	protected boolean giveGuidebook;
 	
 	public PlayerRadsUpdatePacket() {
 		messageValid = false;
@@ -53,6 +54,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		radiationImmunityTime = playerRads.getRadiationImmunityTime();
 		radiationImmunityStage = playerRads.getRadiationImmunityStage();
 		shouldWarn = playerRads.getShouldWarn();
+		giveGuidebook = playerRads.getGiveGuidebook();
 		
 		messageValid = true;
 	}
@@ -79,6 +81,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			radiationImmunityTime = buf.readDouble();
 			radiationImmunityStage = buf.readBoolean();
 			shouldWarn = buf.readBoolean();
+			giveGuidebook = buf.readBoolean();
 		}
 		catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
@@ -112,6 +115,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeDouble(radiationImmunityTime);
 		buf.writeBoolean(radiationImmunityStage);
 		buf.writeBoolean(shouldWarn);
+		buf.writeBoolean(giveGuidebook);
 	}
 	
 	public static class Handler implements IMessageHandler<PlayerRadsUpdatePacket, IMessage> {
@@ -153,6 +157,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
 			playerRads.setRadiationImmunityStage(message.radiationImmunityStage);
 			playerRads.setShouldWarn(message.shouldWarn);
+			playerRads.setGiveGuidebook(message.giveGuidebook);
 		}
 	}
 }

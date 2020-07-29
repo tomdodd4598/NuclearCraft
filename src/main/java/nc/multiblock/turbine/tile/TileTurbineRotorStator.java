@@ -11,10 +11,16 @@ import net.minecraft.world.World;
 
 public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineRotorBlade {
 	
+	public IRotorStatorType statorType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
 	
 	public TileTurbineRotorStator() {
 		super(CuboidalPartPositionType.INTERIOR);
+	}
+	
+	public TileTurbineRotorStator(IRotorStatorType statorType) {
+		this();
+		this.statorType = statorType;
 	}
 	
 	@Override
@@ -75,6 +81,11 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		if (statorType != null) {
+			nbt.setString("statorName", statorType.getName());
+			nbt.setDouble("statorExpansionCoefficient", statorType.getExpansionCoefficient());
+		}
+		
 		nbt.setInteger("bladeDir", dir.ordinal());
 		return nbt;
 	}
@@ -82,6 +93,25 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (statorType == null && nbt.hasKey("statorName") && nbt.hasKey("statorExpansionCoefficient")) {
+			statorType = new IRotorStatorType() {
+				
+				final String name = nbt.getString("bladeName");
+				final double expansionCoefficient = nbt.getDouble("bladeExpansionCoefficient");
+				
+				@Override
+				public String getName() {
+					return name;
+				}
+				
+				@Override
+				public double getExpansionCoefficient() {
+					return expansionCoefficient;
+				}
+				
+			};
+		}
+		
 		dir = TurbinePartDir.values()[nbt.getInteger("bladeDir")];
 	}
 }

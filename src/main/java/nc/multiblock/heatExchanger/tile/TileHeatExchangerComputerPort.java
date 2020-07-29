@@ -36,7 +36,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_heat_exchanger";
+		return "nc_heat_exchanger";
 	}
 	
 	@Callback

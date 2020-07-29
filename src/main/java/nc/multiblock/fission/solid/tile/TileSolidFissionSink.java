@@ -14,24 +14,31 @@ import net.minecraft.util.EnumFacing;
 
 public abstract class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
-	public final String sinkName;
-	public final int coolingRate;
+	public String sinkName;
+	public int coolingRate;
 	
-	public final PlacementRule<IFissionPart> placementRule;
+	public String ruleID;
+	public PlacementRule<IFissionPart> placementRule;
 	
 	private FissionCluster cluster = null;
 	private long heat = 0L;
 	public boolean isInValidPosition = false;
 	
-	public TileSolidFissionSink(String sinkName, int coolingRate, PlacementRule<IFissionPart> placementRule) {
+	/** Don't use this constructor! */
+	public TileSolidFissionSink() {
 		super(CuboidalPartPositionType.INTERIOR);
+	}
+	
+	public TileSolidFissionSink(String sinkName, int coolingRate, String ruleID) {
+		this();
 		this.sinkName = sinkName;
 		this.coolingRate = coolingRate;
-		this.placementRule = placementRule;
+		this.ruleID = ruleID;
+		this.placementRule = FissionPlacement.RULE_MAP.get(ruleID);
 	}
 	
 	protected TileSolidFissionSink(String sinkName, int coolingID) {
-		this(sinkName, fission_sink_cooling_rate[coolingID], FissionPlacement.RULE_MAP.get(sinkName + "_sink"));
+		this(sinkName, fission_sink_cooling_rate[coolingID], sinkName + "_sink");
 	}
 	
 	public static class Water extends TileSolidFissionSink {
@@ -344,6 +351,10 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		nbt.setString("sinkName", sinkName);
+		nbt.setInteger("coolingRate", coolingRate);
+		nbt.setString("ruleID", ruleID);
+		
 		nbt.setLong("clusterHeat", heat);
 		return nbt;
 	}
@@ -351,6 +362,13 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (nbt.hasKey("sinkName")) sinkName = nbt.getString("sinkName");
+		if (nbt.hasKey("coolingRate")) coolingRate = nbt.getInteger("coolingRate");
+		if (nbt.hasKey("ruleID")) {
+			ruleID = nbt.getString("ruleID");
+			placementRule = FissionPlacement.RULE_MAP.get(ruleID);
+		}
+		
 		heat = nbt.getLong("clusterHeat");
 	}
 }

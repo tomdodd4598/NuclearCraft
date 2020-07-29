@@ -338,6 +338,7 @@ public class NCConfig {
 	public static boolean register_cofh_fluids;
 	public static boolean register_projecte_emc;
 	
+	public static boolean give_guidebook;
 	public static boolean single_creative_tab;
 	public static boolean ctrl_info;
 	public static boolean jei_chance_items_include_null;
@@ -968,6 +969,8 @@ public class NCConfig {
 		Property propertyRegisterProjectEEMC = config.get(CATEGORY_REGISTRATION, "register_projecte_emc", true, Lang.localise("gui.nc.config.register_projecte_emc.comment"));
 		propertyRegisterProjectEEMC.setLanguageKey("gui.nc.config.register_projecte_emc");
 		
+		Property propertyGiveGuidebook = config.get(CATEGORY_MISC, "give_guidebook", true, Lang.localise("gui.nc.config.give_guidebook.comment"));
+		propertyGiveGuidebook.setLanguageKey("gui.nc.config.give_guidebook");
 		Property propertySingleCreativeTab = config.get(CATEGORY_MISC, "single_creative_tab", false, Lang.localise("gui.nc.config.single_creative_tab.comment"));
 		propertySingleCreativeTab.setLanguageKey("gui.nc.config.single_creative_tab");
 		Property propertyCtrlInfo = config.get(CATEGORY_MISC, "ctrl_info", false, Lang.localise("gui.nc.config.ctrl_info.comment"));
@@ -1315,6 +1318,7 @@ public class NCConfig {
 		config.setCategoryPropertyOrder(CATEGORY_REGISTRATION, propertyOrderRegistration);
 		
 		List<String> propertyOrderMisc = new ArrayList<>();
+		propertyOrderMisc.add(propertyGiveGuidebook.getName());
 		propertyOrderMisc.add(propertySingleCreativeTab.getName());
 		propertyOrderMisc.add(propertyCtrlInfo.getName());
 		propertyOrderMisc.add(propertyJEIChanceItemsIncludeNull.getName());
@@ -1636,6 +1640,7 @@ public class NCConfig {
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			register_projecte_emc = propertyRegisterProjectEEMC.getBoolean();
 			
+			give_guidebook = propertyGiveGuidebook.getBoolean();
 			single_creative_tab = propertySingleCreativeTab.getBoolean();
 			ctrl_info = propertyCtrlInfo.getBoolean();
 			jei_chance_items_include_null = propertyJEIChanceItemsIncludeNull.getBoolean();
@@ -1954,6 +1959,7 @@ public class NCConfig {
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		propertyRegisterProjectEEMC.set(register_projecte_emc);
 		
+		propertyGiveGuidebook.set(give_guidebook);
 		propertySingleCreativeTab.set(single_creative_tab);
 		propertyCtrlInfo.set(ctrl_info);
 		propertyJEIChanceItemsIncludeNull.set(jei_chance_items_include_null);

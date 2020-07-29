@@ -1,5 +1,5 @@
 # eclipse
-bin
+bin/
 *.launch
 .settings
 .metadata
@@ -14,12 +14,19 @@ out
 .idea
 
 # gradle
-build
+build/
 .gradle
 
 # forge
 forge-1.12.2-14.23.5.2847-mdk.zip
 
+# contenttweaker
+src/main/resources/assets/base/
+
 # other
-eclipse
-run
+eclipse/
+run/*
+!run/scripts/
+!run/resources/
+*.suo
+/.vs

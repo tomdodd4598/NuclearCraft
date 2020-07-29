@@ -1,3 +1,7 @@
+Tweak turbine coil and blade stats?
+
+Revert to original conductor mechanics, i.e. used ot connect clusters to casing, but not to each other?
+
 Move onAdded tile methods to onLoad()?
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
 Modularise processor classes
@@ -21,6 +25,10 @@ Link managers to listeners with multitool (default behaviour: act on all listene
 
 Multiblock monitors: show cluster information, side configurations, etc.
 
+Dimension dependent radiation spread rate, use overworld rate if entry doesn't exist
+
+OC support for side configurations
+
 Patchouli documentation
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
@@ -42,11 +50,6 @@ GUI of orientable, layered planes of multiblock to configure sides: https://disc
 ___________________________________________________________________________________________________________________________
 
 1.15: Add sound effects from Exile to machines
-___________________________________________________________________________________________________________________________
-
-Dimension dependent radiation spread rate, use overworld rate if entry doesn't exist
-
-OC support for side configurations
 ___________________________________________________________________________________________________________________________
 
 Multiblock Electrolyser

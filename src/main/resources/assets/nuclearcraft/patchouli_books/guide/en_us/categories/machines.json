@@ -1,5 +1,6 @@
 {
 	"name": "Machines",
-	"description": "All the single-block processors, generators, and other things that end in ...ors",
-	"icon": "nuclearcraft:manufactory"
+	"description": "Summaries for all the single-block devices.",
+	"icon": "nuclearcraft:manufactory",
+	"sortnum": 1
 }

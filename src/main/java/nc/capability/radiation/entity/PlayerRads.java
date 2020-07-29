@@ -9,23 +9,24 @@ import net.minecraft.util.math.MathHelper;
 public class PlayerRads implements IEntityRads {
 	
 	protected double maxRads = 0D;
-	private double totalRads = 0D;
-	private double radiationLevel = 0D;
-	private double internalRadiationResistance = 0D, externalRadiationResistance = 0D;
-	private boolean radXUsed = false;
-	private boolean radXWoreOff = false;
-	private double radawayBuffer = 0D, radawayBufferSlow = 0D;
-	private double poisonBuffer = 0D;
-	private boolean consumed = false;
-	private double radawayCooldown = 0D;
-	private double recentRadawayAddition = 0D;
-	private double radXCooldown = 0D;
-	private double recentRadXAddition = 0D;
-	private int messageCooldownTime = 0;
-	private double recentPoisonAddition = 0D;
-	private double radiationImmunityTime = 0D;
-	private boolean radiationImmunityStage = false;
-	private boolean shouldWarn = false;
+	protected double totalRads = 0D;
+	protected double radiationLevel = 0D;
+	protected double internalRadiationResistance = 0D, externalRadiationResistance = 0D;
+	protected boolean radXUsed = false;
+	protected boolean radXWoreOff = false;
+	protected double radawayBuffer = 0D, radawayBufferSlow = 0D;
+	protected double poisonBuffer = 0D;
+	protected boolean consumed = false;
+	protected double radawayCooldown = 0D;
+	protected double recentRadawayAddition = 0D;
+	protected double radXCooldown = 0D;
+	protected double recentRadXAddition = 0D;
+	protected int messageCooldownTime = 0;
+	protected double recentPoisonAddition = 0D;
+	protected double radiationImmunityTime = 0D;
+	protected boolean radiationImmunityStage = false;
+	protected boolean shouldWarn = false;
+	protected boolean giveGuidebook = true;
 	
 	public PlayerRads() {
 		maxRads = max_player_rads;
@@ -52,6 +53,7 @@ public class PlayerRads implements IEntityRads {
 		nbt.setDouble("radiationImmunityTime", radiationImmunityTime);
 		nbt.setBoolean("radiationImmunityStage", radiationImmunityStage);
 		nbt.setBoolean("shouldWarn", shouldWarn);
+		nbt.setBoolean("giveGuidebook", giveGuidebook);
 		return nbt;
 	}
 	
@@ -76,6 +78,9 @@ public class PlayerRads implements IEntityRads {
 		radiationImmunityTime = nbt.getDouble("radiationImmunityTime");
 		radiationImmunityStage = nbt.getBoolean("radiationImmunityStage");
 		shouldWarn = nbt.getBoolean("shouldWarn");
+		if (nbt.hasKey("giveGuidebook")) {
+			giveGuidebook = nbt.getBoolean("giveGuidebook");
+		}
 	}
 	
 	@Override
@@ -293,5 +298,15 @@ public class PlayerRads implements IEntityRads {
 	@Override
 	public void setShouldWarn(boolean shouldWarn) {
 		this.shouldWarn = shouldWarn;
+	}
+	
+	@Override
+	public boolean getGiveGuidebook() {
+		return giveGuidebook;
+	}
+	
+	@Override
+	public void setGiveGuidebook(boolean giveGuidebook) {
+		this.giveGuidebook = giveGuidebook;
 	}
 }

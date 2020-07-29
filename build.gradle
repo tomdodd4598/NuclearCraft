@@ -19,22 +19,18 @@ repositories {
 		url = "https://minecraft.curseforge.com/api/maven/"
 	}
 	maven {
-		// JEI & TiC
 		name = "progwml6"
 		url = "http://dvs1.progwml6.com/files/maven/"
 	}
 	maven {
-		// CraftTweaker & Patchouli
 		name = "blamejared"
 		url = "http://maven.blamejared.com/"
 	}
 	maven {
-		// IC2
 		name = "ic2"
 		url = "http://maven.ic2.player.to/"
 	}
 	maven {
-		// OpenComputers
 		name = "cil"
 		url = "http://maven.cil.li/"
 	}
@@ -47,22 +43,18 @@ repositories {
 		url = "http://chickenbones.net/maven/"
 	}
 	maven {
-		// CyclopsMC
 		name = "CyclopsMC"
 		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
 	}
 	maven {
-		// tterrag
 		name 'tterrag Maven'
 		url "https://maven.tterrag.com/"
 	}
 	maven {
-		// General
 		name = "mcmoddev"
 		url = "https://maven.mcmoddev.com"
 	}
 	maven {
-		// Fallbacks
 		name = "ModMaven"
 		url = "https://modmaven.k-4u.nl"
 	}
@@ -97,6 +89,8 @@ dependencies {
 	deobfCompile "cofh:RedstoneFlux:1.12-+:universal"
 	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
 	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
+	deobfCompile "base:base:${b_a_s_e_version}"
+	deobfCompile "contenttweaker:ContentTweaker:${contenttweaker_version}"
 	deobfCompile "slimeknights.mantle:Mantle:${mantle_version}"
 	deobfCompile "slimeknights:TConstruct:${tic_version}"
 	deobfCompile "constructs-armory:conarm:${conarm_version}"
@@ -117,6 +111,7 @@ dependencies {
 
 processResources {
 	exclude '**/Thumbs.db'
+	exclude '**/assets/base/**'
 	
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version

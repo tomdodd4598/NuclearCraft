@@ -9,9 +9,9 @@ import net.minecraft.util.math.BlockPos;
 
 public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMultiblock> extends TileMultiblockPart<MULTIBLOCK> {
 	
-	private final CuboidalPartPositionType positionType;
-	private PartPosition position;
-	private BlockFacing outwardFacings;
+	protected final CuboidalPartPositionType positionType;
+	protected PartPosition position;
+	protected BlockFacing outwardFacings;
 	
 	public TileCuboidalMultiblockPart(Class<MULTIBLOCK> tClass, CuboidalPartPositionType positionType) {
 		super(tClass);

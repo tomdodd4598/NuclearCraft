@@ -150,11 +150,11 @@ public class OreDictHelper {
 	
 	// Wildcard Helper
 	
-	public static void addWildcard(Set<String> set, String ore) {
+	public static void addWildcard(Collection<String> collection, String ore) {
 		ore = StringHelper.regex(ore);
 		for (String o : OreDictionary.getOreNames()) {
 			if (o.matches(ore)) {
-				set.add(o);
+				collection.add(o);
 			}
 		}
 	}

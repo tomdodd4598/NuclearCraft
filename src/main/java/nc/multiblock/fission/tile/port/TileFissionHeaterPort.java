@@ -14,18 +14,26 @@ import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.network.FissionHeaterPortUpdatePacket;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing.Axis;
 
 public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeaterPort, TileSaltFissionHeater> implements ITileGui<FissionHeaterPortUpdatePacket> {
 	
-	protected final String coolantName;
+	protected String coolantName;
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected final Set<EntityPlayer> playersToUpdate;
 	
-	public TileFissionHeaterPort(String coolantName) {
-		super(TileFissionHeaterPort.class, INGOT_BLOCK_VOLUME, Lists.newArrayList(coolantName), coolant_heater);
-		this.coolantName = coolantName;
+	/** Don't use this constructor! */
+	public TileFissionHeaterPort() {
+		super(TileFissionHeaterPort.class, INGOT_BLOCK_VOLUME, null, coolant_heater);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
+	}
+	
+	public TileFissionHeaterPort(String coolantName) {
+		this();
+		this.coolantName = coolantName;
+		tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 	}
 	
 	protected TileFissionHeaterPort(int coolant) {
@@ -304,6 +312,24 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 		}
 		for (int i = 0; i < getFilterTanks().size(); i++) {
 			getFilterTanks().get(i).readInfo(message.filterTanksInfo.get(i));
+		}
+	}
+	
+	// NBT
+	
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		nbt.setString("coolantName", coolantName);
+		return nbt;
+	}
+	
+	@Override
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		if (nbt.hasKey("coolantName")) {
+			coolantName = nbt.getString("coolantName");
+			tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 		}
 	}
 }

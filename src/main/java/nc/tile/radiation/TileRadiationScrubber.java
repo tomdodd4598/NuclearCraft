@@ -313,7 +313,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_radiation_scrubber";
+		return "nc_radiation_scrubber";
 	}
 	
 	@Callback

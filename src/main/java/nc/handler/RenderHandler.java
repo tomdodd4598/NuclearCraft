@@ -37,7 +37,7 @@ public class RenderHandler {
 		NCTools.registerRenders();
 		NCArmor.registerRenders();
 		
-		MinecraftForge.EVENT_BUS.register(new TextureStichHandler());
+		// MinecraftForge.EVENT_BUS.register(new TextureStichHandler());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTurbineController.class, new RenderTurbineRotor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumComputerQubit.class, new RenderQuantumComputerQubit());

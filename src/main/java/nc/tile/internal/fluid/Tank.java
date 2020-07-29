@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class Tank extends FluidTank {
 	
-	private final List<String> allowedFluids;
+	private List<String> allowedFluids;
 	
 	public Tank(int capacity, List<String> allowedFluids) {
 		super(capacity);
@@ -26,6 +26,21 @@ public class Tank extends FluidTank {
 	
 	public boolean canFillFluidType(Fluid fluid) {
 		return fluid != null && (allowedFluids == null || allowedFluids.contains(fluid.getName()));
+	}
+	
+	public void setAllowedFluids(List<String> allowedFluids) {
+		if (allowedFluids == null) {
+			this.allowedFluids = null;
+		}
+		else {
+			if (this.allowedFluids == null) {
+				this.allowedFluids = new ArrayList<>();
+			}
+			else {
+				this.allowedFluids.clear();
+			}
+			this.allowedFluids.addAll(allowedFluids);
+		}
 	}
 	
 	// Tank Methods

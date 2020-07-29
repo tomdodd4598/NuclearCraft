@@ -5,7 +5,7 @@ import nc.multiblock.turbine.*;
 public class TileTurbineCoilConnector extends TileTurbineDynamoPart {
 	
 	public TileTurbineCoilConnector() {
-		super("connector", null, TurbinePlacement.RULE_MAP.get("connector"));
+		super("connector", null, "connector");
 	}
 	
 	@Override

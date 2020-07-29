@@ -8,7 +8,7 @@ import net.minecraftforge.common.DimensionManager;
 
 public class NCWorlds {
 	
-	public static final String WASTELAND_DIM_NAME = Global.MOD_SHORT_ID + "_wasteland";
+	public static final String WASTELAND_DIM_NAME = "nc_wasteland";
 	public static final int WASTELAND_DIM_ID = wasteland_dimension;
 	public static final DimensionType WASTELAND_DIM_TYPE = DimensionType.register(WASTELAND_DIM_NAME, "_" + WASTELAND_DIM_NAME, WASTELAND_DIM_ID, WorldProviderWasteland.class, false);
 	public static final WorldProvider WASTELAND_WORLD_PROVIDER = new WorldProviderWasteland();

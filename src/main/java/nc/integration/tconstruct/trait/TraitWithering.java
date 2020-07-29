@@ -7,7 +7,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 
-public class TraitWithering extends AbstractTrait {
+public class TraitWithering extends AbstractTrait implements ITraitNC {
 	
 	public TraitWithering() {
 		super("withering", TextFormatting.DARK_GRAY);

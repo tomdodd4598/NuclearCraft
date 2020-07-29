@@ -5,12 +5,17 @@ import nc.multiblock.turbine.*;
 
 public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 	
-	public TileTurbineDynamoCoil(String coilName, Double conductivity, PlacementRule<ITurbinePart> placementRule) {
-		super(coilName, conductivity, placementRule);
+	/** Don't use this constructor! */
+	public TileTurbineDynamoCoil() {
+		super();
+	}
+	
+	public TileTurbineDynamoCoil(String coilName, Double conductivity, String ruleID) {
+		super(coilName, conductivity, ruleID);
 	}
 	
 	private TileTurbineDynamoCoil(TurbineDynamoCoilType coilType) {
-		this(coilType.getName(), coilType.getConductivity(), TurbinePlacement.RULE_MAP.get(coilType.getName() + "_coil"));
+		this(coilType.getName(), coilType.getConductivity(), coilType.getName() + "_coil");
 	}
 	
 	public static class Magnesium extends TileTurbineDynamoCoil {

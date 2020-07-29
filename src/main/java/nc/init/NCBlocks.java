@@ -389,8 +389,7 @@ public class NCBlocks {
 			quantum_computer_gate_swap = withName(new BlockQuantumComputerGate.Swap(), "quantum_computer_gate_swap");
 			
 			quantum_computer_connector = withName(new BlockQuantumComputerConnector(), "quantum_computer_connector");
-			// quantum_computer_port = withName(new BlockQuantumComputerPort(),
-			// "quantum_computer_port");
+			// quantum_computer_port = withName(new BlockQuantumComputerPort(), "quantum_computer_port");
 		}
 	}
 	

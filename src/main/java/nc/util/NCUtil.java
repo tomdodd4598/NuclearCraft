@@ -8,6 +8,7 @@ import org.apache.logging.log4j.*;
 import org.lwjgl.input.Keyboard;
 
 import nc.Global;
+import net.minecraft.launchwrapper.Launch;
 
 public class NCUtil {
 	

@@ -10,7 +10,9 @@ import com.google.common.collect.Lists;
 import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.source.IRadiationSource;
+import nc.config.NCConfig;
 import nc.entity.EntityFeralGhoul;
+import nc.init.NCItems;
 import nc.init.NCSounds;
 import nc.network.PacketHandler;
 import nc.network.radiation.PlayerRadsUpdatePacket;
@@ -36,6 +38,9 @@ import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.items.ItemHandlerHelper;
+import vazkii.patchouli.common.item.ItemModBook;
+import vazkii.patchouli.common.item.PatchouliItems;
 
 public class RadiationHandler {
 	
@@ -68,6 +73,13 @@ public class RadiationHandler {
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) {
 				return;
+			}
+			
+			if (NCConfig.give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
+				boolean success = player.inventory.addItemStackToInventory(ItemModBook.forBook("nuclearcraft:guide"));
+				if (success) {
+					playerRads.setGiveGuidebook(false);
+				}
 			}
 			
 			if (ModCheck.gameStagesLoaded()) {

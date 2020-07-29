@@ -10,7 +10,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorTraitWithering extends AbstractArmorTrait {
+public class ArmorTraitWithering extends AbstractArmorTrait implements IArmorTraitNC {
 	
 	public ArmorTraitWithering() {
 		super("withering", TextFormatting.DARK_GRAY);

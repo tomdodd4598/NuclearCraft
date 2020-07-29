@@ -1,22 +1,13 @@
 {
-    "name": "Generators & Collectors",
-    "icon": "nuclearcraft:rtg_uranium",
+    "name": "Generators",
+    "icon": "nuclearcraft:solar_panel_basic",
     "category": "nuclearcraft:machines",
+	"sortnum": 1,
     "pages": [
         {
             "anchor": "intro",
             "type": "text",
-            "text": "These blocks generate energy, items, or fluids, without needing any continuous input"
-        },
-        {
-            "anchor": "rtg",
-            "type": "machines/4_tier_machine",
-            "header": "RTGs",
-            "tier1": "nuclearcraft:rtg_uranium",
-            "tier2": "nuclearcraft:rtg_plutonium",
-            "tier3": "nuclearcraft:rtg_americium",
-            "tier4": "nuclearcraft:rtg_californium",
-            "text": "Radioisotope Thermoelectric Generators. Uses the heat produced by radioactive decay to generate energy"
+            "text": "These blocks generate energy in relatively small quantities, but are also relatively easy to set up."
         },
         {
             "anchor": "solar_panel",
@@ -26,34 +17,14 @@
             "tier2": "nuclearcraft:solar_panel_advanced",
             "tier3": "nuclearcraft:solar_panel_du",
             "tier4": "nuclearcraft:solar_panel_elite",
-            "text": "Generates energy only during the day"
+            "text": "Only generates energy during the day."
         },
-        {
-            "anchor": "cobblestone_generator",
-            "type": "machines/3_tier_machine",
-            "header": "Cobblestone Generators",
-            "tier1": "nuclearcraft:cobblestone_generator",
-            "tier2": "nuclearcraft:cobblestone_generator_compact",
-            "tier3": "nuclearcraft:cobblestone_generator_dense",
-            "text": "Combines lava and water to generate cobblestone"
-        },
-        {
-            "anchor": "water_source",
-            "type": "machines/3_tier_machine",
-            "header": "Water Sources",
-            "tier1": "nuclearcraft:water_source",
-            "tier2": "nuclearcraft:water_source_compact",
-            "tier3": "nuclearcraft:water_source_dense",
-            "text": "Uses the magic of infinite water sources to generate water"
-        },
-        {
-            "anchor": "nitrogen_collector",
-            "type": "machines/3_tier_machine",
-            "header": "Nitrogen Collectors",
-            "tier1": "nuclearcraft:nitrogen_collector",
-            "tier2": "nuclearcraft:nitrogen_collector_compact",
-            "tier3": "nuclearcraft:nitrogen_collector_dense",
-            "text": "Seperates out the nitrogen from the air"
+		{
+            "anchor": "decay_generator",
+            "type": "machines/single_machine",
+            "header": "Decay Generator",
+            "block": "nuclearcraft:decay_generator",
+            "text": "Generates energy from the decay of adjacent radioactive blocks."
         }
     ]
 }

@@ -14,6 +14,7 @@ public class EntityRads extends PlayerRads {
 	public EntityRads(EntityLivingBase entity) {
 		super();
 		this.entity = entity;
+		giveGuidebook = false;
 	}
 	
 	@Override

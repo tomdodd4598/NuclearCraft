@@ -62,7 +62,7 @@ public class TileGeigerCounter extends NCTile implements SimpleComponent {
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_geiger_counter";
+		return "nc_geiger_counter";
 	}
 	
 	@Callback

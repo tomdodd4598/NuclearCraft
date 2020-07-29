@@ -10,7 +10,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 
-public class TraitUplifting extends AbstractTrait {
+public class TraitUplifting extends AbstractTrait implements ITraitNC {
 	
 	public TraitUplifting() {
 		super("uplifting", TextFormatting.LIGHT_PURPLE);
