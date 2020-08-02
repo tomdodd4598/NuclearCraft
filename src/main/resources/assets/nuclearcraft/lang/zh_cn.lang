@@ -207,7 +207,7 @@ tile.nuclearcraft.fission_heater_port2.cryotheum.name=凛冰裂变冷却液加�
 tile.nuclearcraft.fission_shield_manager.name=裂变中子防护屏管理器（半成品）
 
 tile.nuclearcraft.solid_fission_controller.name=固态燃料裂变控制器
-tile.nuclearcraft.solid_fission_cell.name=裂变燃料单元
+tile.nuclearcraft.solid_fission_cell.name=固态裂变燃料单元
 tile.nuclearcraft.solid_fission_sink.water.name=水裂变散热器
 tile.nuclearcraft.solid_fission_sink.iron.name=铁裂变散热器
 tile.nuclearcraft.solid_fission_sink.redstone.name=红石裂变散热器
