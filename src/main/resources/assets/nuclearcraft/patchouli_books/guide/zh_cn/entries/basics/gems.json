@@ -53,7 +53,7 @@
 			"dust": "nuclearcraft:gem_dust:4",
 			"isCompound": true,
 			"formula": "BN",
-			"text": "压缩六方氮化硼可以获得立方氮化硼，而六方氮化硼又由氮化硼溶液结晶而来$(/l)$(br)更多信息请参考氮化硼处理链 "
+			"text": "压缩六方氮化硼可以获得立方氮化硼，而六方氮化硼又由氮化硼溶液结晶而来$(/l)$(br2)更多信息请参考氮化硼处理链 "
 		},
 		{
 			"anchor": "boron arsenide",
@@ -62,7 +62,7 @@
 			"item": "nuclearcraft:gem:5",
 			"isCompound": true,
 			"formula": "BAs",
-			"text": "$(l:machines/processors#ingot_former)固化$(/l)熔融砷化硼可以获得砷化硼$(/l)$(br)更多信息请参考砷处理链"
+			"text": "$(l:machines/processors#ingot_former)固化$(/l)熔融砷化硼可以获得砷化硼$(/l)$(br2)更多信息请参考砷处理链"
 		}
 	]
 }

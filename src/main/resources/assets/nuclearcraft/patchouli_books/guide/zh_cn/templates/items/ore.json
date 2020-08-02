@@ -2,7 +2,7 @@
 	"components": [
 		{
 			"type": "header",
-			"text": "#anchor->fcapital",
+			"text": "#header",
 			"x": -1,
 			"y": -1
 		},
@@ -32,7 +32,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Symbol: $(l)#symbol#$()$(br)Atomic Number: $(l)#num#$()",
+			"text": "元素符号： $(l)#symbol#$()$(br)原子序数 $(l)#num#$()",
 			"x": 0,
 			"y": 40
 		}

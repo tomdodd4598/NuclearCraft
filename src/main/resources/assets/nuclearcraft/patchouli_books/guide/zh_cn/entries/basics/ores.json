@@ -11,6 +11,7 @@
 		},
 		{
 			"anchor": "copper",
+			"header": "铜",
 			"type": "items/ore",
 			"symbol": "Cu",
 			"num": "29",
@@ -20,6 +21,7 @@
 		},
 		{
 			"anchor": "tin",
+			"header": "锡",
 			"type": "items/ore",
 			"symbol": "Sn",
 			"num": "50",
@@ -29,6 +31,7 @@
 		},
 		{
 			"anchor": "lead",
+			"header": "铅",
 			"type": "items/ore",
 			"symbol": "Pb",
 			"num": "82",
@@ -38,6 +41,7 @@
 		},
 		{
 			"anchor": "thorium",
+			"header": "钍",
 			"type": "items/ore",
 			"symbol": "Th",
 			"num": "90",
@@ -47,6 +51,7 @@
 		},
 		{
 			"anchor": "uranium",
+			"header": "铀",
 			"type": "items/ore",
 			"symbol": "U",
 			"num": "92",
@@ -56,6 +61,7 @@
 		},
 		{
 			"anchor": "boron",
+			"header": "硼",
 			"type": "items/ore",
 			"symbol": "B",
 			"num": "5",
@@ -65,6 +71,7 @@
 		},
 		{
 			"anchor": "lithium",
+			"header": "锂",
 			"type": "items/ore",
 			"symbol": "Li",
 			"num": "3",
@@ -74,6 +81,7 @@
 		},
 		{
 			"anchor": "magnesium",
+			"header": "镁",
 			"type": "items/ore",
 			"symbol": "Mg",
 			"num": "29",

@@ -2,7 +2,7 @@
 	"components": [
 		{
 			"type": "header",
-			"text": "#anchor->fcapital",
+			"text": "#header",
 			"x": -1,
 			"y": -1
 		},
@@ -35,14 +35,14 @@
 		},
 		{
 			"type": "text",
-			"text": "Symbol: $(l)#symbol#$()$(br)Atomic Number: $(l)#num#$()",
+			"text": "元素符号： $(l)#symbol#$()$(br)原子序数 $(l)#num#$()",
 			"guard": "#isElement",
 			"x": 0,
 			"y": 40
 		},
 		{
 			"type": "text",
-			"text": "Formula: $(l)#formula#$()",
+			"text": "分子式：$(l)#formula#$()",
 			"guard": "#isCompound",
 			"x": 0,
 			"y": 40

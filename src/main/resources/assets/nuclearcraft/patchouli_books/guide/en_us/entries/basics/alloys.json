@@ -50,7 +50,7 @@
 			"item1": "nuclearcraft:ingot:6,nuclearcraft:dust:6",
 			"item2": "nuclearcraft:ingot:15,nuclearcraft:dust:15",
 			"result": "nuclearcraft:alloy:4#2",
-			"text": "1 Magnesium Dioxide and 1 Lithium make 2"
+			"text": "1 Manganese Dioxide and 1 Lithium make 2"
 		},
 		{
 			"flag": "!mod:thermalfoundation",

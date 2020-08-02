@@ -3541,5 +3541,8 @@ nc.sf.decrease_approximately=近似地降低
 nc.sf.power_adverb_preposition=%2$s%1$s 
 nc.sf.with=与
 
-tom.nuclearcraft.guide_book.name=同位素之书
-tom.nuclearcraft.guide_book.desc=欢迎来到核电工艺：重制版的官方指导！
+# 指导手册
+
+nc.guide_book.name=核电工艺手册
+nc.guide_book.edition=重制版
+nc.guide_book.desc=核电工艺：重制版的官方指导手册。
