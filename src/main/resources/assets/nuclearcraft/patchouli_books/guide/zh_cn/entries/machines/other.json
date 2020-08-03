@@ -1,5 +1,5 @@
 {
-	"name": "其他机器",
+	"name": "其它“机器”",
 	"icon": "nuclearcraft:bin",
 	"category": "nuclearcraft:machines",
 	"sortnum": 3,
@@ -7,21 +7,21 @@
 		{
 			"anchor": "intro",
 			"type": "text",
-			"text": "这些长得像机器的方块有助于建立起一个整洁且高效的核工厂。"
+			"text": "这些是长得像机器的方块，有助于你建立起一个干净、整洁而又高效率的工厂。"
 		},
 		{
 			"anchor": "machine_interface",
 			"type": "blocks/1",
 			"header": "机器控制界面",
 			"block": "nuclearcraft:machine_interface",
-			"text": "在机器的某一个面上拓展这个机器。在没有足够放下管道和线缆的空间时使用。"
+			"text": "以与机器接触的一面为媒介扩展机器的互动范围，以防空间不够而无法操控到机器。"
 		},
 		{
 			"anchor": "bin",
 			"type": "blocks/1",
 			"header": "Universal Bin",
 			"block": "nuclearcraft:bin",
-			"text": "盒中黑洞，摧毁一切被送进盒中的物体，无论是物品、流体还是能量。"
+			"text": "盒中黑洞，摧毁一切导入之物，包括但不限于：物品、流体、能量......"
 		}
 	]
 }

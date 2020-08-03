@@ -7,7 +7,7 @@
 		{
 			"anchor": "intro",
 			"type": "text",
-			"text": "这是所有会自然生成在核电工艺中的矿石的清单。矿石可以在$(l:machines/processors#manufactory)小制造机$(/l)中被制成对应的粉，粉也可以被烧制成对应的锭。锭仍然可以在小制造机中被制成对应的粉。 "
+			"text": "这是所有会自然生成在核电工艺中的矿石的清单。矿石可以在$(l:machines/processors#manufactory)小制造机$(/l)中被制成对应的粉，粉也可以被烧制成对应的锭，锭仍然可以在小制造机中被制成对应的粉。"
 		},
 		{
 			"anchor": "copper",
