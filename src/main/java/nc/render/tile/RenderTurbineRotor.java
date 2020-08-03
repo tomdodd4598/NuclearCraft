@@ -42,7 +42,14 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		
 		int flowLength = turbine.getFlowLength(), bladeLength = turbine.bladeLength, shaftWidth = turbine.shaftWidth;
 		if (turbine.rotorStateArray == null || turbine.bladeDepths == null || turbine.statorDepths == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
-			PacketHandler.instance.sendToServer(new TurbineResendFormPacket(controller.getPos()));
+			resendForm(controller);
+			return;
+		}
+		
+		IBlockState shaftState = turbine.rotorStateArray[4 * flowLength];
+		
+		if (shaftState == null) {
+			resendForm(controller);
 			return;
 		}
 		
@@ -77,8 +84,6 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		}
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
-		
-		IBlockState shaftState = turbine.rotorStateArray[4 * flowLength];
 		
 		for (int depth : turbine.bladeDepths) {
 			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, NCConfig.turbine_render_blade_width, depth);
@@ -161,5 +166,9 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			
 			GlStateManager.popMatrix();
 		}
+	}
+	
+	public void resendForm(TileTurbineController controller) {
+		PacketHandler.instance.sendToServer(new TurbineResendFormPacket(controller.getPos()));
 	}
 }

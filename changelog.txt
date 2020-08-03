@@ -1,3 +1,7 @@
+v2o.3.7
+
+* Hopefully fixed even more turbine rotor render crashes
+
 v2o.3.6
 
 * Hopefully fixed more turbine rotor render crashes
