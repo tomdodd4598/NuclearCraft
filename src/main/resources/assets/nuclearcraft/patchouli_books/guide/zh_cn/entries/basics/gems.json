@@ -8,7 +8,7 @@
 		{
 			"anchor": "intro",
 			"type": "text",
-			"text": "晶体通常可以通过在$(l:machines/processors#pressurizer)压缩机$(/l)中放入对应的粉处理获得。 晶体粉由$(l:machines/processors#rock_crusher)岩石粉碎机$(/l)粉碎安山岩、闪长岩与花岗岩获得。"
+			"text": "晶体通常可以通过在$(l:machines/processors#pressurizer)压缩机$(/l)中放入对应的粉处理获得。晶体粉由$(l:machines/processors#rock_crusher)岩石粉碎机$(/l)粉碎安山岩、闪长岩与花岗岩获得。"
 		},
 		{
 			"anchor": "rhondochrosite",
