@@ -1,3 +1,7 @@
+v2o.3.6
+
+* Hopefully fixed more turbine rotor render crashes
+
 v2o.3.5
 
 * Fixed fission neutron sources not finding their targets while the multiblock is broken
@@ -5,7 +9,7 @@ v2o.3.5
 
 * Hopefully fixed turbine rotor render crashes
 
-* Fixed crash on loading with Chinese localisation [thanks to WuzgXY!]
+* Fixed crash on loading with Chinese localisation [thanks to ghostbird03!]
 
 * Continued Patchouli guide book documentation
 

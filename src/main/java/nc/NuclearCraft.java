@@ -40,6 +40,7 @@ public class NuclearCraft {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		proxy.postInit(postEvent);
+		NCConfig.postInit();
 	}
 	
 	@EventHandler

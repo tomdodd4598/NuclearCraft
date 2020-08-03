@@ -1,22 +1,34 @@
 package nc.config;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import nc.*;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import nc.Global;
+import nc.ModCheck;
+import nc.multiblock.PlacementRule;
+import nc.multiblock.fission.FissionPlacement;
+import nc.multiblock.fission.tile.IFissionPart;
+import nc.multiblock.turbine.TurbinePlacement;
+import nc.multiblock.turbine.tile.ITurbinePart;
 import nc.network.PacketHandler;
 import nc.network.config.ConfigUpdatePacket;
 import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.*;
+import nc.util.Lang;
+import nc.util.NCMath;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.*;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class NCConfig {
@@ -39,6 +51,7 @@ public class NCConfig {
 	public static final String CATEGORY_RADIATION = "radiation";
 	public static final String CATEGORY_REGISTRATION = "registration";
 	public static final String CATEGORY_MISC = "misc";
+	public static final String CATEGORY_OUTPUT = "output";
 	
 	public static int[] ore_dims;
 	public static boolean ore_dims_list_type;
@@ -369,25 +382,17 @@ public class NCConfig {
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
 		config = new Configuration(configFile);
-		syncFromFiles();
+		syncConfig(true, true);
 		
 		MinecraftForge.EVENT_BUS.register(new ServerConfigEventHandler());
 	}
 	
+	public static void postInit() {
+		outputConfigInfo();
+	}
+	
 	public static void clientPreInit() {
 		MinecraftForge.EVENT_BUS.register(new ClientConfigEventHandler());
-	}
-	
-	public static void syncFromFiles() {
-		syncConfig(true, true);
-	}
-	
-	public static void syncFromGui() {
-		syncConfig(false, true);
-	}
-	
-	public static void syncFromFields() {
-		syncConfig(false, false);
 	}
 	
 	private static void syncConfig(boolean loadFromFile, boolean setFromConfig) {
@@ -1981,6 +1986,28 @@ public class NCConfig {
 		}
 	}
 	
+	private static void outputConfigInfo() {
+		List<String> fissionPlacement = new ArrayList<>();
+		for (Object2ObjectMap.Entry<String, PlacementRule<IFissionPart>> entry : FissionPlacement.RULE_MAP.object2ObjectEntrySet()) {
+			if (!entry.getKey().isEmpty()) fissionPlacement.add(entry.getKey());
+		}
+		
+		List<String> turbinePlacement = new ArrayList<>();
+		for (Object2ObjectMap.Entry<String, PlacementRule<ITurbinePart>> entry : TurbinePlacement.RULE_MAP.object2ObjectEntrySet()) {
+			if (!entry.getKey().isEmpty()) turbinePlacement.add(entry.getKey());
+		}
+		
+		Property propertyOutputFissionPlacement = config.get(CATEGORY_OUTPUT, "output_fission_placement", fissionPlacement.toArray(new String[fissionPlacement.size()]), Lang.localise("gui.nc.config.output_fission_placement.comment"));
+		propertyOutputFissionPlacement.setLanguageKey("gui.nc.config.output_fission_placement");
+		
+		Property propertyOutputTurbinePlacement = config.get(CATEGORY_OUTPUT, "output_turbine_placement", turbinePlacement.toArray(new String[turbinePlacement.size()]), Lang.localise("gui.nc.config.output_turbine_placement.comment"));
+		propertyOutputTurbinePlacement.setLanguageKey("gui.nc.config.output_turbine_placement");
+		
+		if (config.hasChanged()) {
+			config.save();
+		}
+	}
+	
 	private static boolean[] readBooleanArrayFromConfig(Property property) {
 		int currentLength = property.getBooleanList().length;
 		int defaultLength = property.getDefaults().length;
@@ -2078,7 +2105,7 @@ public class NCConfig {
 		@SubscribeEvent(priority = EventPriority.LOWEST)
 		public void onEvent(OnConfigChangedEvent event) {
 			if (event.getModID().equals(Global.MOD_ID)) {
-				syncFromGui();
+				syncConfig(false, true);
 			}
 		}
 	}

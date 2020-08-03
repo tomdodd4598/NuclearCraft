@@ -78,7 +78,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		}
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
-		IBlockState shaftState = turbine.rotorStateArray[turbine.bladePosArray.length];
+		IBlockState shaftState = turbine.rotorStateArray[4 * flowLength];
 		
 		for (int depth : turbine.bladeDepths) {
 			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, NCConfig.turbine_render_blade_width, depth);

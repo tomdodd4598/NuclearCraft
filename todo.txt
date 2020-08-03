@@ -1,6 +1,10 @@
+Have scrubber show chunk boundaries when held
+
+Neutron shields should not act as active moderators for MSRs
+
 Tweak turbine coil and blade stats?
 
-Revert to original conductor mechanics, i.e. used ot connect clusters to casing, but not to each other?
+Complete printing of registered multiblock component stats and rules to config file
 
 Move onAdded tile methods to onLoad()?
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
@@ -10,12 +14,16 @@ Add input/output config to all ports and vents
 
 Replace casing emergency cooling with cluster/port based version (no placement rules)
 
+Adjacent MSR vessels connect to share flux, shared criticality factor is sum of vessel criticality factors
+
 Finish fission meltdown mechanics
 Add melting logic to non-fuel components
 Graphite/beryllium fires, heavy water evaporation, etc.
 Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
 
 Hot SFRs/MSRs heat up more quickly/slowly & produce more/less radiation? (https://discordapp.com/channels/425461908712325130/425461908716519425/645399574109749279)
+
+Fuel decay heat and neutron poison (https://discordapp.com/channels/425461908712325130/425470889354723350/738167468283002932)
 
 Show potential (pre-primed) stats if reactor is idle
 
@@ -66,8 +74,6 @@ Fractional distillation: deuterium-enriched water -> heavy water + water
 1.15: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
 1.15: Tiered machines: basic -> advanced -> DU -> elite? https://discordapp.com/channels/425461908712325130/425471153067524098/651401188054401025
 ___________________________________________________________________________________________________________________________
-
-Fission Reactor Mechanics Cell/vessel heat [to heat sinks -> casing] / [to coolant heaters]
 
 1.15: Specialised fuel-making machine
 
