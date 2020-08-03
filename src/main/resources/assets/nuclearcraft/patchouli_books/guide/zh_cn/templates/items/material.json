@@ -35,7 +35,7 @@
 		},
 		{
 			"type": "text",
-			"text": "元素符号： $(l)#symbol#$()$(br)原子序数 $(l)#num#$()",
+			"text": "元素符号：$(l)#symbol#$()$(br)原子序数：$(l)#num#$()",
 			"guard": "#isElement",
 			"x": 0,
 			"y": 40
