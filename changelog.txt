@@ -1,5 +1,7 @@
 v2o.3.7
 
+* Updated Chinese Patchouli localisation [thanks to WuzgXY and ghostbird03!]
+
 * Hopefully fixed even more turbine rotor render crashes
 
 v2o.3.6
