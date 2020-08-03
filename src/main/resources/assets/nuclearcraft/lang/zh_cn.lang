@@ -32,7 +32,7 @@ info.nuclearcraft.moderator.efficiency.fixd=效能倍率：%s
 
 # info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多%s个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多%s个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
 
-tile.nuclearcraft.fission_reflector.beryllium_carbon.name=锂-石墨中子反射器
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-石墨中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
 
 info.nuclearcraft.reflector.fixd=裂变反应堆反射器
@@ -207,7 +207,7 @@ tile.nuclearcraft.fission_heater_port2.cryotheum.name=凛冰裂变冷却液加�
 tile.nuclearcraft.fission_shield_manager.name=裂变中子防护屏管理器（半成品）
 
 tile.nuclearcraft.solid_fission_controller.name=固态燃料裂变控制器
-tile.nuclearcraft.solid_fission_cell.name=裂变燃料单元
+tile.nuclearcraft.solid_fission_cell.name=固态裂变燃料单元
 tile.nuclearcraft.solid_fission_sink.water.name=水裂变散热器
 tile.nuclearcraft.solid_fission_sink.iron.name=铁裂变散热器
 tile.nuclearcraft.solid_fission_sink.redstone.name=红石裂变散热器
@@ -2159,7 +2159,7 @@ item.nuclearcraft.rad_shielding.install_success=成功安装屏蔽板！容器�
 
 item.nuclearcraft.radiation_badge.name=辐射徽章
 item.nuclearcraft.radiation_badge.desc=佩戴时，每当玩家获得%s的辐射量都会发出警示，在到达%s后便会破损.
-item.nuclearcraft.radiation_badge.exposure=你的辐射徽章已被暴露于
+item.nuclearcraft.radiation_badge.exposure=你的辐射徽章目前的辐射值已达
 item.nuclearcraft.radiation_badge.broken=你的辐射徽章彻底损坏了......
 
 item.nuclearcraft.radaway.name=抗辐宁
@@ -2180,7 +2180,7 @@ item.nuclearcraft.graham_cracker.name=全麦饼干
 
 item.nuclearcraft.roasted_cocoa_beans.name=焙烤可可豆
 item.nuclearcraft.ground_cocoa_nibs.name=碎可可
-item.nuclearcraft.cocoa_butter.name=固化可可浆
+item.nuclearcraft.cocoa_butter.name=可可脂
 item.nuclearcraft.cocoa_solids.name=可可粉
 item.nuclearcraft.unsweetened_chocolate.name=无糖巧克力
 item.nuclearcraft.dark_chocolate.name=黑巧克力
@@ -2215,34 +2215,34 @@ jei.nuclearcraft.base_process_time=基础处理时间：
 jei.nuclearcraft.base_process_power=基础功率：
 jei.nuclearcraft.base_process_radiation=基础辐射：
 
-jei.nuclearcraft.collector_production_rate=产出效率：
+jei.nuclearcraft.collector_production_rate=产量：
 
 jei.nuclearcraft.irradiator_flux_required=中子通量需求：
-jei.nuclearcraft.irradiator_heat_per_flux=每中子通量产热：
+jei.nuclearcraft.irradiator_heat_per_flux=单位中子通量产热：
 jei.nuclearcraft.irradiator_process_efficiency=效能提升倍率：
 
-jei.nuclearcraft.pebble_fuel_time=基础处理时间：
+jei.nuclearcraft.pebble_fuel_time=基础衰竭时间：
 jei.nuclearcraft.pebble_fuel_heat=基础产热：
 jei.nuclearcraft.pebble_fuel_efficiency=基础效能：
 jei.nuclearcraft.pebble_fuel_criticality=燃料临界值：
 jei.nuclearcraft.pebble_fuel_radiation=燃料辐射：
-jei.nuclearcraft.pebble_fuel_self_priming=自动准备中！
+jei.nuclearcraft.pebble_fuel_self_priming=强中子射源！
 
-jei.nuclearcraft.solid_fuel_time=基础处理时间：
+jei.nuclearcraft.solid_fuel_time=基础衰竭时间：
 jei.nuclearcraft.solid_fuel_heat=基础产热：
 jei.nuclearcraft.solid_fuel_efficiency=基础效能：
 jei.nuclearcraft.solid_fuel_criticality=燃料临界值：
 jei.nuclearcraft.solid_fuel_radiation=燃料辐射：
-jei.nuclearcraft.solid_fuel_self_priming=自动准备中！
+jei.nuclearcraft.solid_fuel_self_priming=强中子射源！
 
-jei.nuclearcraft.fission_heating_heat_per_mb=产热：
+jei.nuclearcraft.fission_heating_heat_per_mb=单位热容：
 
-jei.nuclearcraft.salt_fuel_time=处理时间：
+jei.nuclearcraft.salt_fuel_time=基础衰竭时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
 jei.nuclearcraft.salt_fuel_efficiency=基础效能：
 jei.nuclearcraft.salt_fuel_criticality=燃料临界值：
 jei.nuclearcraft.salt_fuel_radiation=燃料辐射：
-jei.nuclearcraft.salt_fuel_self_priming=自动准备中！
+jei.nuclearcraft.salt_fuel_self_priming=强中子射源！
 
 jei.nuclearcraft.fusion_time=基础连续时间：
 jei.nuclearcraft.fusion_power=基础能量上限：
@@ -2255,13 +2255,13 @@ jei.nuclearcraft.decay_gen_radiation=衰变辐射：
 jei.nuclearcraft.salt_fuel_time=处理时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
 
-jei.nuclearcraft.coolant_heater_rate=冷却液加热速率：
+jei.nuclearcraft.coolant_heater_rate=冷却速率：
 
 jei.nuclearcraft.exchanger_fluid_temp=温度：
-jei.nuclearcraft.exchanger_heating_provided=温度提供：
-jei.nuclearcraft.exchanger_cooling_provided=冷却提供：
-jei.nuclearcraft.exchanger_heating_required=温度需求：
-jei.nuclearcraft.exchanger_cooling_required=冷却需求：
+jei.nuclearcraft.exchanger_heating_provided=加热速率提供：
+jei.nuclearcraft.exchanger_cooling_provided=冷却速率提供：
+jei.nuclearcraft.exchanger_heating_required=加热量需求：
+jei.nuclearcraft.exchanger_cooling_required=冷却量需求：
 
 jei.nuclearcraft.condenser_condensing_temp=冷凝温度：
 jei.nuclearcraft.condenser_heat_removal_req=排热需求：
@@ -2274,11 +2274,11 @@ jei.nuclearcraft.scrubber_process_power=能量需求：
 jei.nuclearcraft.scrubber_process_efficiency=净化仪效能：
 
 itemGroup.nuclearcraft.main=核电工艺
-itemGroup.nuclearcraft.material=核电工艺 | 材料
-itemGroup.nuclearcraft.radiation=核电工艺 | 辐射
-itemGroup.nuclearcraft.machine=核电工艺 | 机器
-itemGroup.nuclearcraft.multiblock=核电工艺 | 结构
-itemGroup.nuclearcraft.misc=核电工艺 | 杂项
+itemGroup.nuclearcraft.material=核电工艺丨材料
+itemGroup.nuclearcraft.radiation=核电工艺丨辐射
+itemGroup.nuclearcraft.machine=核电工艺丨机器
+itemGroup.nuclearcraft.multiblock=核电工艺丨结构
+itemGroup.nuclearcraft.misc=核电工艺丨杂项
 
 # 核电工艺游戏内配置文件
 gui.nc.config.main_title=核电工艺配置
@@ -2421,11 +2421,109 @@ gui.nc.config.fission_sound_volume.comment=调整能听到裂变音效的范围�
 ###############################################################################
 
 gui.nc.config.fission_moderator_extra_power=减速剂功率调整
-gui.nc.config.fission_moderator_extra_power.comment=*Only effects new mechanics.*Determines the extra power generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of moderator blocks).
 gui.nc.config.fission_moderator_extra_heat=减速剂产热调整
-gui.nc.config.fission_moderator_extra_heat.comment=*Only effects new mechanics.*Determines the extra heat generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of heat that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of heat (the amount of additional heat scales linearly with the number of moderator blocks).
+gui.nc.config.fission_moderator_extra_heat.comment=*只影响新结构*决定每个与燃料单元接触的减速剂的额外产热。该值等于六个完全包围一个燃料单元的减速剂额外产热与被完全包围的燃料单元产热的倍率。 每个减速剂贡献六分之一的额外产热（额外产热随减速剂数量增加而线性提升）。
 gui.nc.config.fission_neutron_reach=中子辐射最大长度
-gui.nc.config.fission_neutron_reach.comment=*Only effects new mechanics.*为了能让中子辐照的效果共享以及效能的提升，两个单元之间减速剂的最大数量。
+gui.nc.config.fission_neutron_reach.comment=*只影响新结构*两个燃料单元之间最大能够产生中子通量提升和效能提升的有效减速剂数量。
+
+gui.nc.config.fission_thorium_fuel_time=Thorium Fuel Durations
+gui.nc.config.fission_thorium_fuel_time.comment=Base ticks the fuels last. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_heat_generation=Thorium Fuel Heat Gen
+gui.nc.config.fission_thorium_heat_generation.comment=Base heat the fuels produce. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_efficiency=Thorium Fuel Base Efficiencies
+gui.nc.config.fission_thorium_efficiency.comment=Base efficiencies of the fuels. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_criticality=Thorium Fuel Criticality Factors
+gui.nc.config.fission_thorium_criticality.comment=Criticality factors of the fuels. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_radiation=Thorium Fuel Radiation
+gui.nc.config.fission_thorium_radiation.comment=Base radiation the fuels produce while processing. 顺序：TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+
+gui.nc.config.fission_uranium_fuel_time=Uranium Fuel Durations
+gui.nc.config.fission_uranium_fuel_time.comment=Base ticks the fuels last. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+gui.nc.config.fission_uranium_heat_generation=Uranium Fuel Heat Gen
+gui.nc.config.fission_uranium_heat_generation.comment=Base heat the fuels produce. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+gui.nc.config.fission_uranium_efficiency=Uranium Fuel Base Efficiencies
+gui.nc.config.fission_uranium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_uranium_criticality=Uranium Fuel Criticality Factors
+gui.nc.config.fission_uranium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_uranium_radiation=Uranium Fuel Radiation
+gui.nc.config.fission_uranium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+
+gui.nc.config.fission_neptunium_fuel_time=Neptunium Fuel Durations
+gui.nc.config.fission_neptunium_fuel_time.comment=Base ticks the fuels last. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+gui.nc.config.fission_neptunium_heat_generation=Neptunium Fuel Heat Gen
+gui.nc.config.fission_neptunium_heat_generation.comment=Base heat the fuels produce. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+gui.nc.config.fission_neptunium_efficiency=Neptunium Fuel Base Efficiencies
+gui.nc.config.fission_neptunium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_neptunium_criticality=Neptunium Fuel Criticality Factors
+gui.nc.config.fission_neptunium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_neptunium_radiation=Neptunium Fuel Radiation
+gui.nc.config.fission_neptunium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+
+gui.nc.config.fission_plutonium_fuel_time=Plutonium Fuel Durations
+gui.nc.config.fission_plutonium_fuel_time.comment=Base ticks the fuels last. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+gui.nc.config.fission_plutonium_heat_generation=Plutonium Fuel Heat Gen
+gui.nc.config.fission_plutonium_heat_generation.comment=Base heat the fuels produce. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+gui.nc.config.fission_plutonium_efficiency=Plutonium Fuel Base Efficiencies
+gui.nc.config.fission_plutonium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_plutonium_criticality=Plutonium Fuel Criticality Factors
+gui.nc.config.fission_plutonium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_plutonium_radiation=Plutonium Fuel Radiation
+gui.nc.config.fission_plutonium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+
+gui.nc.config.fission_mixed_fuel_time=Mixed Fuel Durations
+gui.nc.config.fission_mixed_fuel_time.comment=Base ticks the fuels last. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+gui.nc.config.fission_mixed_heat_generation=Mixed Fuel Heat Gen
+gui.nc.config.fission_mixed_heat_generation.comment=Base heat the fuels produce. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+gui.nc.config.fission_mixed_efficiency=Mixed Fuel Base Efficiencies
+gui.nc.config.fission_mixed_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_mixed_criticality=Mixed Fuel Criticality Factors
+gui.nc.config.fission_mixed_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_mixed_radiation=Mixed Fuel Radiation
+gui.nc.config.fission_mixed_radiation.comment=Base radiation the fuels produce while processing. 顺序：MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+
+gui.nc.config.fission_americium_fuel_time=Americium Fuel Durations
+gui.nc.config.fission_americium_fuel_time.comment=Base ticks the fuels last. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+gui.nc.config.fission_americium_heat_generation=Americium Fuel Heat Gen
+gui.nc.config.fission_americium_heat_generation.comment=Base heat the fuels produce. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+gui.nc.config.fission_americium_efficiency=Americium Fuel Base Efficiencies
+gui.nc.config.fission_americium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_americium_criticality=Americium Fuel Criticality Factors
+gui.nc.config.fission_americium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_americium_radiation=Americium Fuel Radiation
+gui.nc.config.fission_americium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+
+gui.nc.config.fission_curium_fuel_time=Curium Fuel Durations
+gui.nc.config.fission_curium_fuel_time.comment=Base ticks the fuels last. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+gui.nc.config.fission_curium_heat_generation=Curium Fuel Heat Gen
+gui.nc.config.fission_curium_heat_generation.comment=Base heat the fuels produce. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+gui.nc.config.fission_curium_efficiency=Curium Fuel Base Efficiencies
+gui.nc.config.fission_curium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_curium_criticality=Curium Fuel Criticality Factors
+gui.nc.config.fission_curium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_curium_radiation=Curium Fuel Radiation
+gui.nc.config.fission_curium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+
+gui.nc.config.fission_berkelium_fuel_time=Berkelium Fuel Durations
+gui.nc.config.fission_berkelium_fuel_time.comment=Base ticks the fuels last. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+gui.nc.config.fission_berkelium_heat_generation=Berkelium Fuel Heat Gen
+gui.nc.config.fission_berkelium_heat_generation.comment=Base heat the fuels produce. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+gui.nc.config.fission_berkelium_efficiency=Berkelium Fuel Base Efficiencies
+gui.nc.config.fission_berkelium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_berkelium_criticality=Berkelium Fuel Criticality Factors
+gui.nc.config.fission_berkelium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_berkelium_radiation=Berkelium Fuel Radiation
+gui.nc.config.fission_berkelium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+
+gui.nc.config.fission_californium_fuel_time=Californium Fuel Durations
+gui.nc.config.fission_californium_fuel_time.comment=Base ticks the fuels last. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
+gui.nc.config.fission_californium_heat_generation=Californium Fuel Heat Gen
+gui.nc.config.fission_californium_heat_generation.comment=Base heat the fuels produce. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
+gui.nc.config.fission_californium_efficiency=Californium Fuel Base Efficiencies
+gui.nc.config.fission_californium_efficiency.comment=Base efficiencies of the fuels. 顺序：
+gui.nc.config.fission_californium_criticality=Californium Fuel Criticality Factors
+gui.nc.config.fission_californium_criticality.comment=Criticality factors of the fuels. 顺序：
+gui.nc.config.fission_californium_radiation=Californium Fuel Radiation
+gui.nc.config.fission_californium_radiation.comment=Base radiation the fuels produce while processing. 顺序：LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
 
 gui.nc.config.category.fusion=聚变配置
 gui.nc.config.category.fusion.tooltip=配置与核聚变相关的内容。
@@ -2782,6 +2880,8 @@ gui.nc.computer.integer_too_large_error=参数数量%s过大，预计需要最�
 gui.nc.config.generator_rf_per_eu=RF与EU的转换率
 gui.nc.config.generator_rf_per_eu.comment=产能时RF与EU的转换率。
 
+gui.nc.config.fission_moderator_extra_power.comment=<重制版中无效>*只影响新结构*决定每个与反应堆燃料单元接触的减速剂产生的额外功率。该值等于六个减速剂的总额外产能与被这六个减速剂完全包围的燃料单元的产能比值。 每个减速剂贡献六分之一的总额外产能（额外产能倍率线性提升）。
+
 gui.nc.config.category.accelerator=加速器配置
 gui.nc.config.category.accelerator.tooltip=配置与粒子加速相关的内容。
 
@@ -2892,7 +2992,7 @@ gui.nc.container.solid_fission_cell.cell=裂变燃料单元：
 gui.nc.container.solid_fission_cell.heat_stored=集群热量等级：
 
 gui.nc.container.salt_fission_controller.reactor=熔盐反应堆
-gui.nc.container.salt_fission_controller.heating_speed_multiplier=平均加热速度提升倍率：
+gui.nc.container.salt_fission_controller.heating_speed_multiplier=平均加热速率：
 
 gui.nc.container.salt_fission_vessel.vessel=裂变燃料容器
 gui.nc.container.salt_fission_vessel.heat_stored=集群热量等级：
@@ -3129,7 +3229,7 @@ advancement.nuclearcraft.plutonium.desc=得到钚
 advancement.nuclearcraft.rtg_americium.name=辐饰
 advancement.nuclearcraft.rtg_americium.desc=制作一个镅放射性热电发电机
 
-advancement.nuclearcraft.pressurizer.name=The Terror of Knowing
+advancement.nuclearcraft.pressurizer.name=得知真相之恐怖
 # pun or meme
 advancement.nuclearcraft.pressurizer.desc=制作一个压缩机
 
@@ -3183,7 +3283,7 @@ advancement.nuclearcraft.rad_shielding.desc=做一些重型辐射屏蔽板
 advancement.nuclearcraft.radiation_scrubber.name=污染控制
 advancement.nuclearcraft.radiation_scrubber.desc=制作一个辐射净化仪
 
-advancement.nuclearcraft.marshmallow.name=The Lansdell Manoeuvre
+advancement.nuclearcraft.marshmallow.name=兰斯戴尔的捭阖之术
 # pun or meme
 advancement.nuclearcraft.marshmallow.desc=制作一个棉花糖
 
@@ -3235,19 +3335,20 @@ modifier.moldable.name=可塑
 modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料属性槽。
 # Lindt
 modifier.uplifting.name=振奋
-modifier.uplifting.desc=§oThis Day We Fight!§r\n在你使用你的工具时偶尔恢复生命值。
-# Megadeth
+modifier.uplifting.desc=§o今天我们奋战！§r\n在你使用你的工具时偶尔恢复生命值。
+# Megadeth or LotR Movies
 modifier.withering.name=凋零
 modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。
 # Patti Lather's Book or Hannibal
 
 modifier.moldable_armor.name=可塑
-modifier.moldable_armor.desc=§o瑞士莲§r\n为你的护甲增加额外的材料属性槽。
+modifier.moldable_armor.desc=§o瑞士莲。§r\n为你的护甲增加额外的材料属性槽。
 modifier.poisonous_armor.name=毒性
 modifier.poisonous_armor.desc=§o这么多人要杀，没多少时间了！§r\n令目标中毒。
 # Batman & Robin
 modifier.uplifting_armor.name=振奋
 modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n在你受伤时偶尔恢复生命值。
+# 我命令你们坚持住，西方的人类！
 # LotR Movies
 modifier.withering_armor.name=凋零
 modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。
@@ -3440,5 +3541,8 @@ nc.sf.decrease_approximately=近似地降低
 nc.sf.power_adverb_preposition=%2$s%1$s 
 nc.sf.with=与
 
-tom.nuclearcraft.guide_book.name=同位素之书
-tom.nuclearcraft.guide_book.desc=欢迎来到核电工艺：重制版的官方指导！
+# 指导手册
+
+nc.guide_book.name=核电工艺手册
+nc.guide_book.edition=重制版
+nc.guide_book.desc=核电工艺：重制版的官方指导手册。

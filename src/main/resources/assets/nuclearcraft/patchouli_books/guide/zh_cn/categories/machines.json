@@ -1,5 +1,6 @@
 {
 	"name": "机器",
-	"description": "所有的单方块处理器、产能器、收集器，以及其它的机器",
-	"icon": "nuclearcraft:manufactory"
+	"description": "单方块设备综述。",
+	"icon": "nuclearcraft:machine_interface",
+	"sortnum": 1
 }
