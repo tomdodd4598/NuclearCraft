@@ -1,5 +1,6 @@
 {
 	"name": "结构",
-	"description": "",
-	"icon": "nuclearcraft:solid_fission_controller"
+	"description": "高瞻远瞩，大功毕成。",
+	"icon": "nuclearcraft:multitool",
+	"sortnum": 2
 }

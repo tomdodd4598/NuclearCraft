@@ -1,6 +1,7 @@
 {
 	"name": "裂变",
-	"description": "核裂变",
-	"icon": "nuclearcraft:fission_source:2",
-	"parent": "nuclearcraft:multiblocks"
+	"description": "核裂变能，禁忌之果...",
+	"icon": "nuclearcraft:solid_fission_controller",
+	"parent": "nuclearcraft:multiblocks",
+	"sortnum": 0
 }
