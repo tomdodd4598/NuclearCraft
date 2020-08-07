@@ -300,6 +300,7 @@ tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳合金冷凝管道
 tile.nuclearcraft.condenser_tube_thermoconducting.name=热引合金冷凝管道
 tile.nuclearcraft.condenser_tube.fixd=导热倍率：%s
 tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行以已存在的冷凝管道为基础放置另一个冷凝管道以复制其侧面配置。
+
 tile.nuclearcraft.turbine_controller.name=涡轮机控制器
 tile.nuclearcraft.turbine_controller.desc=涡轮机的心脏——一面墙壁上必须要有一个以使涡轮机运转。
 tile.nuclearcraft.turbine_casing.name=涡轮机外壳
@@ -356,7 +357,7 @@ tile.nuclearcraft.geiger_block.name=盖革计数器方块
 tile.nuclearcraft.geiger_block.desc=检测其所在区块的辐射值。
 
 tile.nuclearcraft.glowing_mushroom.name=荧核菇
-tile.nuclearcraft.wasteland_earth.name=辐射土壤
+tile.nuclearcraft.wasteland_earth.name=荒芜土壤
 
 tile.nuclearcraft.tritium_lamp.name=氚灯
 tile.nuclearcraft.tritium_lantern.name=氚灯笼
@@ -1494,6 +1495,7 @@ fluid.cryotheum_nak_hot=热共晶钠钾-凛冰混合物
 item.nuclearcraft.rads=辐射：
 item.nuclearcraft.rad_resist=辐射抗性：
 item.nuclearcraft.food_rads=食物效果：
+
 item.nuclearcraft.ingot.copper.name=铜锭
 item.nuclearcraft.ingot.tin.name=锡锭
 item.nuclearcraft.ingot.lead.name=铅锭
@@ -2280,7 +2282,6 @@ itemGroup.nuclearcraft.machine=核电工艺丨机器
 itemGroup.nuclearcraft.multiblock=核电工艺丨结构
 itemGroup.nuclearcraft.misc=核电工艺丨杂项
 
-# 核电工艺游戏内配置文件
 gui.nc.config.main_title=核电工艺配置
 
 gui.nc.config.category.world_gen=世界生成
@@ -2307,15 +2308,15 @@ gui.nc.config.ore_hide_disabled.comment=从矿词和JEI中移除被禁用了的�
 gui.nc.config.ore_harvest_levels=矿石挖掘等级
 gui.nc.config.ore_harvest_levels.comment=要求的挖掘等级。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
 
-gui.nc.config.wasteland_biome=生成Wasteland生物群系
-gui.nc.config.wasteland_biome.comment=Wasteland生物群系会在主世界中生成吗？
-gui.nc.config.wasteland_biome_weight=Wasteland生物群系生成率
-gui.nc.config.wasteland_biome_weight.comment=Wasteland生物群系的生成率——数值越高，生成率便越高。
+gui.nc.config.wasteland_biome=生成废土生物群系
+gui.nc.config.wasteland_biome.comment=废土生物群系会在主世界中生成吗？
+gui.nc.config.wasteland_biome_weight=废土生物群系生成率
+gui.nc.config.wasteland_biome_weight.comment=废土生物群系的生成率——数值越高，生成率便越高。
 
-gui.nc.config.wasteland_dimension_gen=启用Wasteland维度
-gui.nc.config.wasteland_dimension_gen.comment=Wasteland维度会生成吗？
-gui.nc.config.wasteland_dimension=Wasteland维度ID
-gui.nc.config.wasteland_dimension.comment=设置Wasteland维度的维度ID。
+gui.nc.config.wasteland_dimension_gen=启用废土维度
+gui.nc.config.wasteland_dimension_gen.comment=废土维度会生成吗？
+gui.nc.config.wasteland_dimension=废土维度ID
+gui.nc.config.wasteland_dimension.comment=设置废土维度的维度ID。
 
 gui.nc.config.mushroom_spread_rate=荧核菇传播速度
 gui.nc.config.mushroom_spread_rate.comment=荧核菇的传播速度。
