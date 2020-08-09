@@ -5,7 +5,7 @@
 	"sortnum": 3,
 	"pages": [
 		{
-			"anchor": "rtg",
+			"anchor": "multitool",
 			"type": "items/1",
 			"header": "多功能工具",
 			"item": "nuclearcraft:multitool",
