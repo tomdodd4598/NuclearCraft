@@ -507,7 +507,7 @@ ________________________________________________________________________________
 
 Note A: These methods must use the `preinit` loader!
 
-Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack!
+Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack. Make sure to use a new `nuclearcraft` sub-directory rather than the generated `contenttweaker` one!
 
 mods.nuclearcraft.Registration.registerFissionSink(String sinkID, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);

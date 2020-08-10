@@ -86,7 +86,15 @@ public class RadiationHandler {
 				playerRads.setRadiationImmunityStage(default_rad_immunity ^ GameStageHelper.hasAnyOf(player, rad_immunity_stages));
 			}
 			
-			if (!player.isCreative() && !player.isSpectator() && playerRads.isFatal()) {
+			String idString = event.player.getUniqueID().toString();
+			for (String uuid : radiation_immune_players) {
+				if (idString.equals(uuid)) {
+					playerRads.setRadiationImmunityStage(true);
+					break;
+				}
+			}
+			
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune() && playerRads.isFatal()) {
 				player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 			}
 			
@@ -125,7 +133,7 @@ public class RadiationHandler {
 			
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (!player.isCreative() && !player.isSpectator()) {
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
 				if (playerRads.isFatal()) {
 					player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
@@ -336,7 +344,7 @@ public class RadiationHandler {
 					}
 				}
 				
-				if (i == chunkStart) {
+				if (radiation_check_blocks && i == chunkStart) {
 					int packed = RecipeItemHelper.pack(StackHelper.blockStateToStack(world.getBlockState(randomChunkPos)));
 					if (RadSources.STACK_MAP.containsKey(packed)) {
 						RadiationHelper.addToSourceBuffer(chunkSource, RadSources.STACK_MAP.get(packed));

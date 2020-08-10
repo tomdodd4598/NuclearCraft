@@ -42,10 +42,8 @@ public class PlayerRespawnHandler {
 			if (event.isWasDeath()) {
 				if (radiation_death_persist) {
 					newRads.setTotalRads(oldRads.getTotalRads() * radiation_death_persist_fraction % oldRads.getMaxRads(), false);
-					newRads.setRadiationImmunityTime(oldRads.getTotalRads() * radiation_death_immunity_time * 20D / oldRads.getMaxRads());
 				}
-				
-				newRads.setGiveGuidebook(oldRads.getGiveGuidebook());
+				newRads.setRadiationImmunityTime(radiation_death_immunity_time * 20D);
 			}
 			else {
 				newRads.setConsumedMedicine(oldRads.getConsumedMedicine());
@@ -65,8 +63,9 @@ public class PlayerRespawnHandler {
 				newRads.setRecentRadXAddition(oldRads.getRecentRadXAddition());
 				newRads.setShouldWarn(oldRads.getShouldWarn());
 				newRads.setTotalRads(oldRads.getTotalRads(), false);
-				newRads.setGiveGuidebook(oldRads.getGiveGuidebook());
 			}
+			
+			newRads.setGiveGuidebook(oldRads.getGiveGuidebook());
 		}
 	}
 	

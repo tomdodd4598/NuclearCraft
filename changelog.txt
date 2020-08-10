@@ -2,7 +2,15 @@ v2o.3.7
 
 * Updated Chinese Patchouli localisation [thanks to WuzgXY and ghostbird03!]
 
+* Tweaked turbine throughput bonus (ask in Discord server for subtle details)
+* Tweaked default turbine coil efficiencies
+
+* Fixed crash when shift-clicking items in the vessel and heater port GUIs
 * Hopefully fixed even more turbine rotor render crashes
+
++ Added config to give players total radiation immunity
++ Added config to disable chunk radiation non-TE block contributions
+* Fixed radiation immunity not being applied when radiation death persistence is disabled
 
 v2o.3.6
 

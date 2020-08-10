@@ -10,19 +10,32 @@ import javax.vecmath.Vector3f;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.doubles.*;
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
+import nc.config.NCConfig;
 import nc.handler.SoundHandler.SoundInfo;
-import nc.multiblock.*;
+import nc.multiblock.ILogicMultiblock;
+import nc.multiblock.Multiblock;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.multiblock.network.*;
+import nc.multiblock.network.TurbineFormPacket;
+import nc.multiblock.network.TurbineRenderPacket;
+import nc.multiblock.network.TurbineUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
-import nc.multiblock.turbine.tile.*;
-import nc.recipe.*;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
+import nc.multiblock.turbine.tile.ITurbineController;
+import nc.multiblock.turbine.tile.ITurbinePart;
+import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
+import nc.multiblock.turbine.tile.TileTurbineRotorStator;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.util.NCMath;
@@ -32,7 +45,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.*;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacket> implements ILogicMultiblock<TurbineLogic, ITurbinePart> {
 	
@@ -56,7 +70,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public double rawPower = 0D, rawLimitPower = 0D, rawMaxPower = 0D;
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
-	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D, maxBladeExpansionCoefficient = 1D, bearingTension = 0D;
+	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D, minBladeExpansionCoefficient = Double.MAX_VALUE, maxBladeExpansionCoefficient = 1D, minStatorExpansionCoefficient = 1D, maxStatorExpansionCoefficient = Double.MIN_VALUE, effectiveMaxLength = NCConfig.turbine_max_size, bearingTension = 0D;
 	public DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
 	
 	@SideOnly(Side.CLIENT)
@@ -230,6 +244,9 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	}
 	
 	public TurbinePartDir getShaftDir() {
+		if (flowDir == null) {
+			return TurbinePartDir.Y;
+		}
 		switch (flowDir.getAxis()) {
 			case Y:
 				return TurbinePartDir.Y;
@@ -243,6 +260,9 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	}
 	
 	public TurbinePartDir getBladeDir(PlaneDir planeDir) {
+		if (flowDir == null) {
+			return TurbinePartDir.Y;
+		}
 		switch (flowDir.getAxis()) {
 			case Y:
 				switch (planeDir) {
@@ -326,7 +346,11 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		data.setDouble("idealTotalExpansionLevel", idealTotalExpansionLevel);
 		data.setDouble("basePowerPerMB", basePowerPerMB);
 		data.setDouble("recipeInputRateFP", recipeInputRateFP);
+		data.setDouble("minBladeExpansionCoefficient", minBladeExpansionCoefficient);
 		data.setDouble("maxBladeExpansionCoefficient", maxBladeExpansionCoefficient);
+		data.setDouble("minStatorExpansionCoefficient", minStatorExpansionCoefficient);
+		data.setDouble("maxStatorExpansionCoefficient", maxStatorExpansionCoefficient);
+		data.setDouble("effectiveMaxLength", effectiveMaxLength);
 		data.setDouble("bearingTension", bearingTension);
 		data.setInteger("expansionLevelsSize", expansionLevels.size());
 		for (int i = 0; i < expansionLevels.size(); i++) {
@@ -369,7 +393,11 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		idealTotalExpansionLevel = data.getDouble("idealTotalExpansionLevel");
 		basePowerPerMB = data.getDouble("basePowerPerMB");
 		recipeInputRateFP = data.getDouble("recipeInputRateFP");
+		minBladeExpansionCoefficient = data.getDouble("minBladeExpansionCoefficient");
 		maxBladeExpansionCoefficient = data.getDouble("maxBladeExpansionCoefficient");
+		minStatorExpansionCoefficient = data.getDouble("minStatorExpansionCoefficient");
+		maxStatorExpansionCoefficient = data.getDouble("maxStatorExpansionCoefficient");
+		effectiveMaxLength = data.getDouble("effectiveMaxLength");
 		bearingTension = data.getDouble("bearingTension");
 		expansionLevels = new DoubleArrayList();
 		if (data.hasKey("expansionLevelsSize")) {

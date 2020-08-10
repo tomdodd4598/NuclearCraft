@@ -106,11 +106,10 @@ public class RadiationRenders {
 			return;
 		}
 		
-		// Draw the chunk borders if we're either holding a geiger block OR
-		// looking at one
 		for (EnumHand hand : EnumHand.values()) {
-			ItemStack heldItem = MC.player.getHeldItem(hand);
-			if (NCItems.geiger_counter == heldItem.getItem() || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem.getItem()) {
+			ItemStack heldStack = MC.player.getHeldItem(hand);
+			Item heldItem = heldStack.getItem();
+			if (NCItems.geiger_counter == heldItem || Item.getItemFromBlock(NCBlocks.geiger_block) == heldItem || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem) {
 				chunkBorders = true;
 				break;
 			}
@@ -118,7 +117,7 @@ public class RadiationRenders {
 		
 		if (!chunkBorders && MC.objectMouseOver != null && MC.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
 			TileEntity te = MC.world.getTileEntity(MC.objectMouseOver.getBlockPos());
-			if (!chunkBorders && (te instanceof TileGeigerCounter || te instanceof TileRadiationScrubber)) {
+			if (te instanceof TileGeigerCounter || te instanceof TileRadiationScrubber) {
 				chunkBorders = true;
 			}
 		}
