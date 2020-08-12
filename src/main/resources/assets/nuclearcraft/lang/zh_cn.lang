@@ -2661,6 +2661,9 @@ gui.nc.config.category.radiation.tooltip=配置与核辐射相关的内容。
 gui.nc.config.radiation_enabled=启用辐射
 gui.nc.config.radiation_enabled.comment=启用核辐射吗？注意：启用后需要重启客户端以在JEI中查看与辐射相关的全部内容。
 
+gui.config.radiation.radiation_immune_players=玩家辐射免疫
+gui.config.radiation.radiation_immune_players.comment=被给予永久辐射免疫的玩家的UUID列表。
+
 gui.nc.config.radiation_world_chunks_per_tick=Radiation World Chunks Per Tick
 gui.nc.config.radiation_world_chunks_per_tick.comment=The maximum number of chunks in which radiation will be updated per tick.
 gui.nc.config.radiation_player_tick_rate=Radiation Player Tick Rate
@@ -2669,9 +2672,9 @@ gui.nc.config.radiation_player_tick_rate.comment=The number of ticks between eac
 gui.nc.config.radiation_worlds=世界背景辐射
 gui.nc.config.radiation_worlds.comment=各个维度的背景辐射。格式：'维度ID_辐射'。
 gui.nc.config.radiation_biomes=生物群系背景辐射
-gui.nc.config.radiation_biomes.comment=各个生物群系的背景辐射。这些值与世界背景辐射。格式：'模组ID:生物群系名称_辐射'。
+gui.nc.config.radiation_biomes.comment=各个生物群系的背景辐射。这些值与世界背景辐射堆叠在一起。格式：'模组ID:生物群系名称_辐射'。
 gui.nc.config.radiation_structures=结构背景辐射
-gui.nc.config.radiation_structures.comment=各个结构的背景辐射。These values stack with the underlying world or biome's background radiation. 格式：'结构名称_辐射'。
+gui.nc.config.radiation_structures.comment=各个结构的背景辐射。这些值与世界背景辐射或生物群系背景辐射堆叠在一起。格式：'结构名称_辐射'。
 gui.nc.config.radiation_world_limits=World Radiation Limit
 gui.nc.config.radiation_world_limits.comment=List of dimensions and their radiation level limits. 格式：'dimID_radiationLimit'.
 gui.nc.config.radiation_biome_limits=Biome Radiation Limit
@@ -2717,6 +2720,8 @@ gui.nc.config.radiation_lowest_rate=最低辐射率
 gui.nc.config.radiation_lowest_rate.comment=玩家的自身辐射与背景辐射的最低值，低于这个值的辐射率将被视为0（单位：Rad/t）。
 gui.nc.config.radiation_chunk_limit=区块辐射上限
 gui.nc.config.radiation_chunk_limit.comment=一个区块最大的辐射率（单位：Rad/t）。值为负时没有上限。
+gui.nc.config.radiation_check_blocks=方块辐射提供
+gui.nc.config.radiation_check_blocks.comment=非方块实体应当对区块辐射作贡献吗？
 gui.nc.config.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
 gui.nc.config.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
 gui.nc.config.radiation_rain_mult=下雨时辐射倍率
@@ -3544,6 +3549,6 @@ nc.sf.with=与
 
 # 指导手册
 
-nc.guide_book.name=核电工艺手册
+nc.guide_book.name=核电工艺手册（未完成）
 nc.guide_book.edition=重制版
-nc.guide_book.desc=核电工艺：重制版的官方指导手册。
+nc.guide_book.desc=核电工艺：重制版的官方未完成指导手册。
