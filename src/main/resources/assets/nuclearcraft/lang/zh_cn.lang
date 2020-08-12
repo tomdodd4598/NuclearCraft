@@ -2123,24 +2123,24 @@ info.nuclearcraft.multitool.quantum_computer.remove_qubit=将ID为%s的量子位
 info.nuclearcraft.multitool.quantum_computer.add_qubit=将ID为%s的量子位拷贝入了多功能工具!
 
 info.nuclearcraft.multitool.quantum_computer.single_gate_info=逻辑门已经成功地将量子位%s设为了目标
-info.nuclearcraft.multitool.quantum_computer.start_target_set=逻辑门正在等待目标量子位的设定......
+info.nuclearcraft.multitool.quantum_computer.start_target_set=逻辑门正在等待目标量子位的设定……
 info.nuclearcraft.multitool.quantum_computer.finish_target_set=逻辑门现在的目标量子位是%s！
 
 info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=逻辑门目前正在以%2$s的工作角度将量子位%1$s作为目标
-info.nuclearcraft.multitool.quantum_computer.start_angle=逻辑门正在等待工作角度的设置......
+info.nuclearcraft.multitool.quantum_computer.start_angle=逻辑门正在等待工作角度的设置……
 info.nuclearcraft.multitool.quantum_computer.tool_set_angle=将工作角度%s度存入了多功能工具！
 info.nuclearcraft.multitool.quantum_computer.finish_angle=逻辑门正在以%s度工作！
 
 info.nuclearcraft.multitool.quantum_computer.control_gate_info=逻辑门目前正在以%2$s作为量子控制位将量子位%1$s作为目标
-info.nuclearcraft.multitool.quantum_computer.start_control_set=逻辑门正在等待量子控制位的设置......
+info.nuclearcraft.multitool.quantum_computer.start_control_set=逻辑门正在等待量子控制位的设置……
 info.nuclearcraft.multitool.quantum_computer.finish_control_set=逻辑门正在量子位%s的控制下！
 
 info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=逻辑门目前正在以%3$s作为量子控制位、以%2$s的工作角度将量子位%1$s作为目标
 
 info.nuclearcraft.multitool.quantum_computer.swap_gate_info=逻辑门目前正在交换量子位%s与%s
-info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待量子位的首列表......
+info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待量子位的首列表……
 info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=逻辑门已被设定为交换首列表的量子位%s！
-info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待量子位的次列表......
+info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待量子位的次列表……
 info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门已被设定为交换次列表的量子位%s！
 
 info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=逻辑门正在量子位%3$s的控制下交换量子位%1$s与%2$s
@@ -2162,7 +2162,7 @@ item.nuclearcraft.rad_shielding.install_success=成功安装屏蔽板！容器�
 item.nuclearcraft.radiation_badge.name=辐射徽章
 item.nuclearcraft.radiation_badge.desc=佩戴时，每当玩家获得%s的辐射量都会发出警示，在到达%s后便会破损.
 item.nuclearcraft.radiation_badge.exposure=你的辐射徽章目前的辐射值已达
-item.nuclearcraft.radiation_badge.broken=你的辐射徽章彻底损坏了......
+item.nuclearcraft.radiation_badge.broken=你的辐射徽章彻底损坏了……
 
 item.nuclearcraft.radaway.name=抗辐宁
 item.nuclearcraft.radaway.desc=以%3$s的速率移除%1$s（%2$s）的辐射量。
@@ -2557,13 +2557,13 @@ gui.nc.config.fusion_sound_volume=Fusion Sound Volume
 gui.nc.config.fusion_sound_volume.comment=Modifier for the volume of fusion sound effects.
 
 gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
-gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_power=Fusion Fuel Combo Power Gen
-gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
-gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_radiation=Fusion Fuel Combo Radiation
-gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_electromagnet_power=Electromagnet Power
 gui.nc.config.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
 
@@ -2870,7 +2870,7 @@ gui.nc.config.ore_dict_priority_bool.comment=输出会被下方的模组列表�
 gui.nc.config.ore_dict_priority=矿词模组优先
 gui.nc.config.ore_dict_priority.comment=决定输出的优先级：靠前的模组优先级更高。这被用于配置矿词相同模组不同的情况下的输出。如果没有找到合适的模组，将会输出同矿词默认的物品。
 
-gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已......多尴尬啊......多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的方法。
+gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已……多尴尬啊……多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的方法。
 gui.nc.computer.invalid_method_number=无效方法值
 gui.nc.computer.number_of_arguments_error=已使用参数共%s个，预计%s个
 gui.nc.computer.invalid_argument_error=无效参数共%s个，预计%s个
@@ -2903,7 +2903,7 @@ zerocore.api.nc.multiblock.validation.invalid_part_for_bottom=位于 [%1$d, %2$d
 zerocore.api.nc.multiblock.validation.invalid_part_for_top=位于 [%1$d, %2$d, %3$d] 的方块不能作为机器顶层的一部分
 zerocore.api.nc.multiblock.validation.invalid_part_for_sides=位于 [%1$d, %2$d, %3$d] 的方块不能作为机器边缘的一部分
 zerocore.api.nc.multiblock.validation.invalid_part_for_interior=位于 [%1$d, %2$d, %3$d] 的方块不能作为机器内部的一部分
-zerocore.api.nc.multiblock.validation.invalid_logic=这个多方块结构并不是一个有效的结构——它丢失了一个逻辑核心，你已......多尴尬啊......多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的逻辑。
+zerocore.api.nc.multiblock.validation.invalid_logic=这个多方块结构并不是一个有效的结构——它丢失了一个逻辑核心，你已……多尴尬啊……多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的逻辑。
 
 nc.block.vent_toggle=切换出入口为
 nc.block.fission_vent_mode.input=输入
@@ -3359,8 +3359,8 @@ message.nuclearcraft.filter=设置过滤器：
 
 message.nuclearcraft.qubit_id=量子位ID：
 
-message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果结束了......
-message.nuclearcraft.rad_warning=一种金属的恶臭在你的嘴里蔓延，伴随着剧烈的头痛......你正在受到可怕的辐射！使用盖革计数器查看当前辐射的严重程度会是个明智的选择......
+message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果结束了……
+message.nuclearcraft.rad_warning=一种金属的恶臭在你的嘴里蔓延，伴随着剧烈的头痛……你正在受到可怕的辐射！使用盖革计数器查看当前辐射的严重程度会是个明智的选择……
 message.nuclearcraft.radaway_cooling_down=你的抗辐宁效果的剩余冷却时间：
 message.nuclearcraft.rad_x_cooling_down=你的降辐剂的剩余冷却时间：
 message.nuclearcraft.scrubber_removal_rate=主动背景辐射消除速率：
