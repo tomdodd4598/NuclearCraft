@@ -1,13 +1,22 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "nuclearcraft:fission_port",
+		"model": "nuclearcraft:fission_port_overlayed",
 		"textures": {
-			"front": "nuclearcraft:blocks/heater_port_extreme"
+			"front": "nuclearcraft:blocks/heater_port_extreme",
+			"overlay": "nuclearcraft:blocks/fission/port/heater/off"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"overlay": "nuclearcraft:blocks/fission/port/heater/on"
+				}
+			}
+		},
 		"axis": {
 			"x": {"y": 90},
 			"y": {"x": 90},
