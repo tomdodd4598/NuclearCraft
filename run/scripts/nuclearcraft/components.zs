@@ -1,4 +1,4 @@
-#loader preinit
+#loader nc_preinit
 
 mods.nuclearcraft.Registration.registerFissionSink("extreme", 210, "exactly one sic_sic_cmc sink");
 mods.nuclearcraft.Registration.registerFissionSink("sic_sic_cmc", 215, "exactly one lead sink");

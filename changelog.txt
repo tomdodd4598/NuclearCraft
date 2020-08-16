@@ -11,6 +11,9 @@ v2o.3.7
 + Added config to give players total radiation immunity
 + Added config to disable chunk radiation non-TE block contributions
 * Fixed radiation immunity not being applied when radiation death persistence is disabled
+* Fixed CT radiation methods being called too late
+
+* CT scripts can now be stored in the "resources/nuclearcraft/scripts/" directory
 
 v2o.3.6
 

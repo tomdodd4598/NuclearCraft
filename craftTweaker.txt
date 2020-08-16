@@ -454,7 +454,9 @@ IEntityLivingBase::getRadiationLevel();
 Miscellaneous:
 --------------
 
-Note: `setMaterialRadiationLevel(...)` can accept Unix-style wildcards.
+Note A: The radiation setting and blacklisting methods must use the `nc_pre_recipe_event` loader!
+
+Note B: `setMaterialRadiationLevel(...)` can accept Unix-style wildcards.
 
 mods.nuclearcraft.Radiation.getRadiationLevel(IIngredient ingredient);
 
@@ -505,7 +507,7 @@ ________________________________________________________________________________
  Registration Methods
 #====================#
 
-Note A: These methods must use the `preinit` loader!
+Note A: These methods must use the `nc_preinit` loader!
 
 Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack. Make sure to use a new `nuclearcraft` sub-directory rather than the generated `contenttweaker` one!
 
