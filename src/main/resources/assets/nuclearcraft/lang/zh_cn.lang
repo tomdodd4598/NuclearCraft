@@ -2209,7 +2209,7 @@ item.nuclearcraft.record_hyperspace.name=唱片
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=原制作者：Riku Nuottajärvi
 
-entity.nuclearcraft.feral_ghoul.name=野尸鬼
+entity.nuclearcraft.feral_ghoul.name=狂尸鬼
 
 jei.nuclearcraft.chance_output=输出：%s-%s [平均：%s]
 
@@ -2845,7 +2845,7 @@ gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：硼�
 gui.nc.config.register_conarm_armor=注册[ConArm]匠魂兵工厂材料
 gui.nc.config.register_conarm_armor.comment=下列材料会被注册为[ConArm]匠魂兵工厂的材料吗？顺序：硼，高强合金，硬碳合金，氮化硼，钍，铀，镁，巧克力。
 gui.nc.config.register_entity=注册实体生成
-gui.nc.config.register_entity.comment=下列实体会生成吗？顺序：野尸鬼。
+gui.nc.config.register_entity.comment=下列实体会生成吗？顺序：狂尸鬼。
 gui.nc.config.register_fluid_blocks=注册可被放置的流体
 gui.nc.config.register_fluid_blocks.comment=添加可被放置的流体吗？请在方块ID不多的情况下尽可能设定为 (false) 。
 gui.nc.config.register_cofh_fluids=注册与CoFH相关的流体
@@ -3302,26 +3302,21 @@ advancement.nuclearcraft.moresmore.desc=制作一块双层饼干巧克力夹棉�
 advancement.nuclearcraft.foursmore.name=再多一些
 advancement.nuclearcraft.foursmore.desc=制作一块四层饼干巧克力夹棉花糖
 
-block.nc.fusion_run=聚变反应堆
-# 运行中
-block.nc.turbine_run=涡轮机
-# 运行中
+block.nc.fusion_run=聚变反应堆：运行
+block.nc.turbine_run=涡轮机：运行
 
-player.nc.geiger_tick=盖革计数器
-# 计数中
-player.nc.radaway=使用抗辐宁
-player.nc.rad_x=使用降辐剂
-player.nc.chems_wear_off=效果结束
-player.nc.rad_poisoning=遭辐射
-# 中
+player.nc.geiger_tick=盖革计数器：计数
+player.nc.radaway=抗辐宁：被服用
+player.nc.rad_x=降辐剂：被服用
+player.nc.chems_wear_off=辐射抑制效果结束
+player.nc.rad_poisoning=辐射中
 
-entity.nc.feral_ghoul_ambient=野尸鬼
-# 环绕
-entity.nc.feral_ghoul_hurt=野尸鬼受伤
-entity.nc.feral_ghoul_death=野尸鬼死亡
-entity.nc.feral_ghoul_step=野尸鬼行走
-entity.nc.feral_ghoul_fall=野尸鬼摔落
-entity.nc.feral_ghoul_charge=野尸鬼充能
+entity.nc.feral_ghoul_ambient=狂尸鬼：环绕
+entity.nc.feral_ghoul_hurt=狂尸鬼：受伤
+entity.nc.feral_ghoul_death=狂尸鬼：死亡
+entity.nc.feral_ghoul_step=狂尸鬼：行走
+entity.nc.feral_ghoul_fall=狂尸鬼：摔落
+entity.nc.feral_ghoul_charge=狂尸鬼：充能
 
 music.nc.wanderer=Wanderer
 music.nc.end_of_the_world=End of the World
