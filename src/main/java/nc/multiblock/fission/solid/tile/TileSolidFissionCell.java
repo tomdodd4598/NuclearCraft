@@ -795,7 +795,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public void toggleCellSetting(@Nonnull EnumFacing side) {
 		setCellSetting(side, getCellSetting(side).next());
 		refreshInventoryConnections(side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public void refreshInventoryConnections(@Nonnull EnumFacing side) {
@@ -837,7 +837,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	

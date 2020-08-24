@@ -5,10 +5,10 @@
 	},
 	"variants": {
 		"active=false,type=boron_silver": {
-			"model": "nuclearcraft:fission_shield_boron_silver_off"
+			"model": "nuclearcraft:fission_shield/boron_silver_off"
 		},
 		"active=true,type=boron_silver": {
-			"model": "nuclearcraft:fission_shield_boron_silver_on"
+			"model": "nuclearcraft:fission_shield/boron_silver_on"
 		}
 	}
 }

@@ -2,6 +2,8 @@ package nc.recipe;
 
 import java.util.List;
 
+import crafttweaker.CraftTweakerAPI;
+import nc.ModCheck;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
 import nc.radiation.RadBlockEffects.RadiationBlockMutation;
@@ -97,6 +99,10 @@ public class NCRecipes {
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (initialized) {
 			return;
+		}
+		
+		if (ModCheck.craftTweakerLoaded()) {
+			CraftTweakerAPI.tweaker.loadScript(false, "nc_pre_recipe_event");
 		}
 		
 		RadSources.init();

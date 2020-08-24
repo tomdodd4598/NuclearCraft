@@ -2908,6 +2908,11 @@ nc.block.fission_vent_mode.input=INPUT
 nc.block.fission_vent_mode.output=OUTPUT
 nc.block.vent_toggle.mode=mode!
 
+nc.block.port_toggle=Toggled port to
+nc.block.fission_port_mode.input=INPUT
+nc.block.fission_port_mode.output=OUTPUT
+nc.block.port_toggle.mode=mode!
+
 nc.block.fluid_toggle=Toggled side to
 nc.block.fluid_toggle_opposite=Toggled opposite side to
 
@@ -2997,6 +3002,8 @@ gui.nc.container.salt_fission_vessel.vessel=Fission Fuel Vessel
 gui.nc.container.salt_fission_vessel.heat_stored=Cluster Heat Level:
 gui.nc.container.salt_fission_heater.heater=Fission Coolant Heater
 gui.nc.container.salt_fission_heater.heat_stored=Cluster Heat Level:
+
+gui.nc.container.fission_heater_port.name=Fission Coolant Heater Port
 
 gui.nc.container.fusion_core.reactor=Fusion Reactor
 gui.nc.container.fusion_core.ring_incomplete=Ring Incomplete

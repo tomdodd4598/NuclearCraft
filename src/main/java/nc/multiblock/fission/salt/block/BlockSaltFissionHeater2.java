@@ -5,18 +5,23 @@ import nc.enumm.MetaEnums;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionMetaPart;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
-import nc.util.*;
+import nc.util.FluidStackHelper;
+import nc.util.Lang;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.*;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.*;
-import net.minecraft.world.*;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType2> /* implements ISidedProperty< SaltFissionHeaterSetting> */ {
+public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType2> {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType2.class);
 	
@@ -26,8 +31,6 @@ public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.Cool
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		// return new BlockStateContainer(this, TYPE, DOWN, UP, NORTH, SOUTH,
-		// WEST, EAST);
 		return new BlockStateContainer(this, TYPE);
 	}
 	

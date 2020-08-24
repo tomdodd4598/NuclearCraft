@@ -64,16 +64,9 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasShieldingActive = isShieldingActive();
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		updateBlockState(isShieldingActive());
+		setActivity(isShieldingActive());
 		if (!world.isRemote && wasShieldingActive != isShieldingActive()) {
 			refreshListeners(false);
-		}
-	}
-	
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockFissionShieldManager) {
-			((BlockFissionShieldManager) getBlockType()).setState(isActive, this);
-			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	
@@ -93,7 +86,7 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 					shield.setManagerPos(pos);
 					shield.refreshManager();
 				}
-				markDirtyAndNotify();
+				markDirty();
 				getMultiblock().refreshFlag = true;
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", listenerPosSet.size())));
 				return true;

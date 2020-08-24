@@ -1,0 +1,6 @@
+{
+    "parent": "nuclearcraft:block/fission_heater_port_off",
+	"textures": {
+		"front": "nuclearcraft:blocks/fission/port/heater/magnesium"
+    }
+}

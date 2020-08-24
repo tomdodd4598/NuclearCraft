@@ -2,7 +2,6 @@ package nc.init;
 
 import nc.Global;
 import nc.enumm.MetaEnums;
-import nc.integration.crafttweaker.CTRegistration;
 import nc.multiblock.battery.tile.TileBattery;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
@@ -146,7 +145,6 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionHeaterPort.LiquidHelium.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.LIQUID_HELIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionHeaterPort.Enderium.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.ENDERIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionHeaterPort.Cryotheum.class, Global.MOD_ID + ":fission_heater_port_" + MetaEnums.CoolantHeaterType2.CRYOTHEUM.getName());
-		GameRegistry.registerTileEntity(CTRegistration.TileHeaterPort.class, Global.MOD_ID + ":fission_heater_port_ct");
 		
 		GameRegistry.registerTileEntity(TileFissionShieldManager.class, Global.MOD_ID + ":fission_shield_manager");
 		
@@ -185,7 +183,6 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileSolidFissionSink.LiquidHelium.class, Global.MOD_ID + ":solid_fission_sink_" + MetaEnums.HeatSinkType2.LIQUID_HELIUM.getName());
 		GameRegistry.registerTileEntity(TileSolidFissionSink.Enderium.class, Global.MOD_ID + ":solid_fission_sink_" + MetaEnums.HeatSinkType2.ENDERIUM.getName());
 		GameRegistry.registerTileEntity(TileSolidFissionSink.Cryotheum.class, Global.MOD_ID + ":solid_fission_sink_" + MetaEnums.HeatSinkType2.CRYOTHEUM.getName());
-		GameRegistry.registerTileEntity(CTRegistration.TileSink.class, Global.MOD_ID + ":solid_fission_sink_ct");
 		
 		GameRegistry.registerTileEntity(TileSaltFissionController.class, Global.MOD_ID + ":salt_fission_controller");
 		GameRegistry.registerTileEntity(TileSaltFissionVessel.class, Global.MOD_ID + ":salt_fission_vessel");
@@ -222,7 +219,6 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileSaltFissionHeater.LiquidHelium.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.LIQUID_HELIUM.getName());
 		GameRegistry.registerTileEntity(TileSaltFissionHeater.Enderium.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.ENDERIUM.getName());
 		GameRegistry.registerTileEntity(TileSaltFissionHeater.Cryotheum.class, Global.MOD_ID + ":salt_fission_heater_" + MetaEnums.CoolantHeaterType2.CRYOTHEUM.getName());
-		GameRegistry.registerTileEntity(CTRegistration.TileHeater.class, Global.MOD_ID + ":salt_fission_heater_ct");
 		
 		GameRegistry.registerTileEntity(TileHeatExchangerController.class, Global.MOD_ID + ":heat_exchanger_controller");
 		GameRegistry.registerTileEntity(TileHeatExchangerCasing.class, Global.MOD_ID + ":heat_exchanger_casing");
@@ -242,14 +238,17 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineCasing.class, Global.MOD_ID + ":turbine_casing");
 		GameRegistry.registerTileEntity(TileTurbineGlass.class, Global.MOD_ID + ":turbine_glass");
 		GameRegistry.registerTileEntity(TileTurbineRotorShaft.class, Global.MOD_ID + ":turbine_rotor_shaft");
-		GameRegistry.registerTileEntity(TileTurbineRotorBlade.class, Global.MOD_ID + ":turbine_rotor_blade");
+		
+		GameRegistry.registerTileEntity(TileTurbineRotorBlade.class, Global.MOD_ID + ":turbine_rotor_blade_");
 		GameRegistry.registerTileEntity(TileTurbineRotorBlade.Steel.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.STEEL.toString());
 		GameRegistry.registerTileEntity(TileTurbineRotorBlade.Extreme.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.EXTREME.toString());
 		GameRegistry.registerTileEntity(TileTurbineRotorBlade.SicSicCMC.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.SIC_SIC_CMC.toString());
-		GameRegistry.registerTileEntity(CTRegistration.TileBlade.class, Global.MOD_ID + ":turbine_rotor_blade_ct");
-		GameRegistry.registerTileEntity(TileTurbineRotorStator.class, Global.MOD_ID + ":turbine_rotor_stator");
-		GameRegistry.registerTileEntity(CTRegistration.TileStator.class, Global.MOD_ID + ":turbine_rotor_stator_ct");
+		
+		GameRegistry.registerTileEntity(TileTurbineRotorStator.class, Global.MOD_ID + ":turbine_rotor_stator_");
+		GameRegistry.registerTileEntity(TileTurbineRotorStator.Standard.class, Global.MOD_ID + ":turbine_rotor_stator_standard");
+		
 		GameRegistry.registerTileEntity(TileTurbineRotorBearing.class, Global.MOD_ID + ":turbine_rotor_bearing");
+		
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.class, Global.MOD_ID + ":turbine_dynamo_coil");
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Magnesium.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.MAGNESIUM.toString());
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Beryllium.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.BERYLLIUM.toString());
@@ -257,7 +256,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Gold.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.GOLD.toString());
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Copper.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.COPPER.toString());
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Silver.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.SILVER.toString());
-		GameRegistry.registerTileEntity(CTRegistration.TileCoil.class, Global.MOD_ID + ":turbine_dynamo_coil_ct");
+		
 		GameRegistry.registerTileEntity(TileTurbineCoilConnector.class, Global.MOD_ID + ":turbine_coil_connector");
 		GameRegistry.registerTileEntity(TileTurbineInlet.class, Global.MOD_ID + ":turbine_inlet");
 		GameRegistry.registerTileEntity(TileTurbineOutlet.class, Global.MOD_ID + ":turbine_outlet");
@@ -285,16 +284,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileBattery.LithiumIonBatteryDU.class, Global.MOD_ID + ":lithium_ion_battery_du");
 		GameRegistry.registerTileEntity(TileBattery.LithiumIonBatteryElite.class, Global.MOD_ID + ":lithium_ion_battery_elite");
 		
-		// GameRegistry.registerTileEntity(TileBuffer.class, Global.MOD_ID +
-		// ":buffer");
 		GameRegistry.registerTileEntity(TileBin.class, Global.MOD_ID + ":bin");
-		
-		// GameRegistry.registerTileEntity(TilePassive.FusionElectromagnet.class,
-		// Global.MOD_ID + ":fusion_electromagnet");
-		// GameRegistry.registerTileEntity(TilePassive.AcceleratorElectromagnet.class,
-		// Global.MOD_ID + ":accelerator_electromagnet");
-		// GameRegistry.registerTileEntity(TilePassive.ElectromagnetSupercooler.class,
-		// Global.MOD_ID + ":electromagnet_supercooler");
 		
 		GameRegistry.registerTileEntity(TilePassive.CobblestoneGenerator.class, Global.MOD_ID + ":cobblestone_generator");
 		GameRegistry.registerTileEntity(TilePassive.CobblestoneGeneratorCompact.class, Global.MOD_ID + ":cobblestone_generator_compact");

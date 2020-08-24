@@ -273,7 +273,11 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void refreshActivity() {
+		boolean wasReady = readyToProcess(false);
 		canProcessInputs = canProcessInputs();
+		if (getMultiblock() != null && !wasReady && readyToProcess(false)) {
+			getMultiblock().refreshFlag = true;
+		}
 	}
 	
 	@Override
@@ -574,7 +578,6 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	

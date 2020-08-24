@@ -97,16 +97,9 @@ public abstract class TileFissionSource extends TileFissionPart {
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasRedstonePowered = getIsRedstonePowered();
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		updateBlockState(getIsRedstonePowered());
+		setActivity(getIsRedstonePowered());
 		if (!world.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
 			getLogic().onSourceUpdated(this);
-		}
-	}
-	
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockFissionSource) {
-			((BlockFissionSource) getBlockType()).setState(isActive, this);
-			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	

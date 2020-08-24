@@ -2,14 +2,20 @@ package nc.multiblock.network;
 
 import javax.vecmath.Vector3f;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import io.netty.buffer.ByteBuf;
+import nc.multiblock.Multiblock.AssemblyState;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.TileTurbineController;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class TurbineFormPacket extends MultiblockUpdatePacket {
 	
-	public boolean nullArray;
+	public AssemblyState assemblyState;
+	public EnumFacing flowDir;
+	public boolean nullData;
 	public BlockPos[] bladePosArray;
 	public Vector3f[] renderPosArray;
 	public float[] bladeAngleArray;
@@ -18,9 +24,19 @@ public class TurbineFormPacket extends MultiblockUpdatePacket {
 		messageValid = false;
 	}
 	
-	public TurbineFormPacket(BlockPos pos, BlockPos[] bladePosArray, Vector3f[] renderPosArray, float[] bladeAngleArray) {
+	public TurbineFormPacket(BlockPos pos, AssemblyState assemblyState, EnumFacing flowDir, BlockPos[] bladePosArray, Vector3f[] renderPosArray, float[] bladeAngleArray) {
 		this.pos = pos;
-		nullArray = bladePosArray == null || renderPosArray == null || bladeAngleArray == null;
+		this.assemblyState = assemblyState;
+		this.flowDir = flowDir;
+		
+		nullData = flowDir == null || bladePosArray == null || renderPosArray == null || bladeAngleArray == null;
+		if (!nullData && ArrayUtils.contains(bladePosArray, null)) {
+			nullData = true;
+		}
+		if (!nullData && ArrayUtils.contains(renderPosArray, null)) {
+			nullData = true;
+		}
+		
 		this.bladePosArray = bladePosArray;
 		this.renderPosArray = renderPosArray;
 		this.bladeAngleArray = bladeAngleArray;
@@ -31,8 +47,12 @@ public class TurbineFormPacket extends MultiblockUpdatePacket {
 	@Override
 	public void readMessage(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		nullArray = buf.readBoolean();
-		if (!nullArray) {
+		byte b = buf.readByte();
+		assemblyState = b == 0 ? AssemblyState.Assembled : (b == 1 ? AssemblyState.Disassembled : AssemblyState.Paused);
+		
+		nullData = buf.readBoolean();
+		if (!nullData) {
+			flowDir = EnumFacing.byIndex(buf.readInt());
 			bladePosArray = new BlockPos[buf.readInt()];
 			for (int i = 0; i < bladePosArray.length; i++) {
 				bladePosArray[i] = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
@@ -53,8 +73,11 @@ public class TurbineFormPacket extends MultiblockUpdatePacket {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		buf.writeBoolean(nullArray);
-		if (!nullArray) {
+		buf.writeByte(assemblyState == AssemblyState.Assembled ? 0 : (assemblyState == AssemblyState.Disassembled ? 1 : 2));
+		
+		buf.writeBoolean(nullData);
+		if (!nullData) {
+			buf.writeInt(flowDir.getIndex());
 			buf.writeInt(bladePosArray.length);
 			for (BlockPos rotorPos : bladePosArray) {
 				buf.writeInt(rotorPos.getX());

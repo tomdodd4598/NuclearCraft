@@ -278,7 +278,6 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	@Override
 	public void onOrphaned(MULTIBLOCK multiblock, int oldSize, int newSize) {
 		markDirty();
-		getWorld().markChunkDirty(pos, this);
 	}
 	
 	@Override

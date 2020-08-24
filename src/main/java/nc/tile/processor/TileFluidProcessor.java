@@ -145,8 +145,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		if (ModCheck.ic2Loaded()) {
 			removeTileFromENet();
 		}
-		setState(isProcessing, this);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+		setActivity(isProcessing);
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}

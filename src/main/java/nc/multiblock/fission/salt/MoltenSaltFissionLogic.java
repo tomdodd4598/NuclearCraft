@@ -385,7 +385,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public boolean isShieldActiveModerator(TileFissionShield shield, boolean activeModeratorPos) {
-		return activeModeratorPos;
+		//return activeModeratorPos;
+		return super.isShieldActiveModerator(shield, activeModeratorPos);
 	}
 	
 	@Override

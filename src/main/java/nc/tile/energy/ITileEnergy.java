@@ -44,7 +44,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 			removeTileFromENet();
 		}
 		setEnergyConnection(getEnergyConnection(side).next(type), side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -136,8 +136,6 @@ public interface ITileEnergy extends ITile, IBigPower {
 			pushEnergyToSide(side);
 		}
 	}
-	
-	/* public default void spreadEnergy() { if (!passive_permeation) return; for (EnumFacing side : EnumFacing.VALUES) { if (getEnergyStorage().getEnergyStored() <= 0) return; spreadEnergyToSide(side); } } */
 	
 	public default void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (!getEnergyConnection(side).canExtract()) {

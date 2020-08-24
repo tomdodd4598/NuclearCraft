@@ -8,6 +8,8 @@ import javax.annotation.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.block.port.BlockFissionMetaPort;
+import nc.multiblock.fission.block.port.BlockFissionPort;
 import nc.multiblock.fission.tile.TileFissionPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,9 +46,6 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		
-		// TODO - temporary ports
-		/* if (!getWorld().isRemote && !DEFAULT_NON.equals(masterPortPos)) { PORT master = masterPort; clearMasterPort(); master.shiftStacks(this); } */
 	}
 	
 	@Override

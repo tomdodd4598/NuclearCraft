@@ -1,45 +1,80 @@
 package nc.multiblock.turbine;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.turbine_max_size;
+import static nc.config.NCConfig.turbine_mb_per_blade;
+import static nc.config.NCConfig.turbine_min_size;
+import static nc.config.NCConfig.turbine_power_bonus_multiplier;
+import static nc.config.NCConfig.turbine_sound_volume;
+import static nc.config.NCConfig.turbine_tension_throughput_factor;
+import static nc.config.NCConfig.turbine_throughput_efficiency_leniency;
 import static nc.recipe.NCRecipes.turbine;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.vecmath.Vector3f;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unimi.dsi.fastutil.doubles.*;
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
+import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.handler.SoundHandler.SoundInfo;
-import nc.init.*;
-import nc.multiblock.*;
-import nc.multiblock.network.*;
+import nc.init.NCBlocks;
+import nc.init.NCSounds;
+import nc.multiblock.Multiblock;
+import nc.multiblock.MultiblockLogic;
+import nc.multiblock.network.TurbineFormPacket;
+import nc.multiblock.network.TurbineRenderPacket;
+import nc.multiblock.network.TurbineUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.Turbine.PlaneDir;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorStatorType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
 import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
-import nc.multiblock.turbine.tile.*;
+import nc.multiblock.turbine.tile.ITurbineController;
+import nc.multiblock.turbine.tile.ITurbinePart;
+import nc.multiblock.turbine.tile.TileTurbineDynamoPart;
+import nc.multiblock.turbine.tile.TileTurbineInlet;
+import nc.multiblock.turbine.tile.TileTurbineOutlet;
+import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
+import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
+import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
+import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.network.PacketHandler;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.*;
-import nc.util.*;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankSorption;
+import nc.util.MaterialHelper;
+import nc.util.NCMath;
+import nc.util.NCUtil;
+import nc.util.SoundHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
-import net.minecraft.util.EnumFacing.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.EnumFacing.AxisDirection;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.*;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbinePart, TurbineUpdatePacket> {
 	
@@ -81,15 +116,15 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@Override
 	public void onMachineAssembled() {
-		onTurbineFormed();
+		onTurbineFormed(true);
 	}
 	
 	@Override
 	public void onMachineRestored() {
-		onTurbineFormed();
+		onTurbineFormed(true);
 	}
 	
-	protected void onTurbineFormed() {
+	protected void onTurbineFormed(boolean sendPacket) {
 		for (ITurbineController contr : getParts(ITurbineController.class)) {
 			getTurbine().controller = contr;
 		}
@@ -175,7 +210,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			if (getTurbine().controller != null) {
-				if (getTurbine().shouldRenderRotor) {
+				if (sendPacket && getTurbine().shouldRenderRotor) {
 					PacketHandler.instance.sendToAll(getTurbine().getFormPacket());
 				}
 				getTurbine().sendUpdateToListeningPlayers();
@@ -267,7 +302,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		
 		getTurbine().isTurbineOn = getTurbine().isProcessing = false;
 		if (getTurbine().controller != null) {
-			getTurbine().controller.updateBlockState(false);
+			getTurbine().controller.setActivity(false);
 		}
 		getTurbine().power = getTurbine().rawPower = getTurbine().rawLimitPower = getTurbine().rawMaxPower = getTurbine().conductivity = getTurbine().rotorEfficiency = 0D;
 		getTurbine().angVel = getTurbine().rotorAngle = 0F;
@@ -591,7 +626,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 				else if (currentBladeType == null) {
 					currentBladeType = thisBladeType;
 				}
-				else if (currentBladeType != thisBladeType) {
+				else if (!currentBladeType.eq(thisBladeType)) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
@@ -608,7 +643,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
 				}
-				else if (currentBladeType != thisBladeType) {
+				else if (!currentBladeType.eq(thisBladeType)) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
@@ -625,7 +660,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
 				}
-				else if (currentBladeType != thisBladeType) {
+				else if (!currentBladeType.eq(thisBladeType)) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
@@ -642,7 +677,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
 				}
-				else if (currentBladeType != thisBladeType) {
+				else if (!currentBladeType.eq(thisBladeType)) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
@@ -691,7 +726,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (getTurbine().isAssembled()) {
-			onTurbineFormed();
+			onTurbineFormed(true);
 		}
 		else {
 			// onTurbineBroken();
@@ -790,7 +825,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().isTurbineOn = (isRedstonePowered() || getTurbine().computerActivated) && getTurbine().isAssembled();
 		if (getTurbine().isTurbineOn != oldIsTurbineOn) {
 			if (getTurbine().controller != null) {
-				getTurbine().controller.updateBlockState(getTurbine().isTurbineOn);
+				getTurbine().controller.setActivity(getTurbine().isTurbineOn);
 				getTurbine().sendUpdateToAllPlayers();
 			}
 		}
@@ -963,7 +998,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@Override
 	public void onUpdateClient() {
-		if (getTurbine().shouldRenderRotor) {
+		if (getTurbine().shouldRenderRotor && getTurbine().flowDir != null) {
 			updateParticles();
 		}
 		updateSounds();
@@ -1157,24 +1192,35 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	public TurbineFormPacket getFormPacket() {
-		if (getTurbine().bladePosArray == null || getTurbine().bladeAngleArray == null) {
+		if (getTurbine().bladePosArray == null || ArrayUtils.contains(getTurbine().bladePosArray, null) || getTurbine().bladeAngleArray == null) {
 			areBladesValid(getTurbine());
-			onTurbineFormed();
+			onTurbineFormed(false);
 		}
-		else if (getTurbine().renderPosArray == null) {
-			onTurbineFormed();
+		else if (getTurbine().renderPosArray == null || ArrayUtils.contains(getTurbine().renderPosArray, null)) {
+			onTurbineFormed(false);
 		}
 		
-		return new TurbineFormPacket(getTurbine().controller.getTilePos(), getTurbine().bladePosArray, getTurbine().renderPosArray, getTurbine().bladeAngleArray);
+		return new TurbineFormPacket(getTurbine().controller.getTilePos(), getTurbine().assemblyState, getTurbine().flowDir, getTurbine().bladePosArray, getTurbine().renderPosArray, getTurbine().bladeAngleArray);
 	}
 	
 	public void onFormPacket(TurbineFormPacket message) {
-		if (message.nullArray) {
+		if (getTurbine().assemblyState != message.assemblyState) {
+			for (ITurbineController controller : getParts(ITurbineController.class)) {
+				controller.setIsRenderer(false);
+			}
+			NCUtil.getLogger().error("The assembly state of the turbine at " + getTurbine().getMiddleCoord().toString() + " is different between the server and client(s). It is recommended that the multiblock is completely disassambled and rebuilt if these errors continue!");
+			return;
+		}
+		
+		if (message.nullData) {
+			getTurbine().flowDir = null;
 			getTurbine().bladePosArray = null;
 			getTurbine().renderPosArray = null;
 			getTurbine().bladeAngleArray = null;
 			return;
 		}
+		
+		getTurbine().flowDir = message.flowDir;
 		
 		getTurbine().bladePosArray = message.bladePosArray;
 		getTurbine().renderPosArray = message.renderPosArray;

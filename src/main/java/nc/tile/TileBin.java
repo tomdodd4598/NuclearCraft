@@ -1,17 +1,21 @@
 package nc.tile;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
+import static nc.config.NCConfig.enable_mek_gas;
 
 import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.*;
-import nc.*;
+import ic2.api.energy.tile.IEnergyEmitter;
+import ic2.api.energy.tile.IEnergySink;
+import nc.Global;
+import nc.ModCheck;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.internal.energy.*;
+import nc.tile.internal.energy.EnergyStorageVoid;
+import nc.tile.internal.energy.EnergyStorageVoidGT;
 import nc.tile.internal.fluid.TankVoid;
-import nc.util.GasHelper;
+import nc.util.CapabilityHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -189,7 +193,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY || capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY || capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			return true;
 		}
 		return super.hasCapability(capability, side);
@@ -203,7 +207,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return (T) CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas) {
 				return (T) tank;
 			}

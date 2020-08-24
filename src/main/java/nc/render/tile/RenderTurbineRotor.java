@@ -30,12 +30,12 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 	
 	@Override
 	public boolean isGlobalRenderer(TileTurbineController tile) {
-		return tile.isRenderer && tile.isMultiblockAssembled();
+		return tile.isRenderer() && tile.isMultiblockAssembled();
 	}
 	
 	@Override
 	public void render(TileTurbineController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
-		if (!controller.isRenderer || !controller.isMultiblockAssembled()) return;
+		if (!controller.isRenderer() || !controller.isMultiblockAssembled()) return;
 		
 		Turbine turbine = controller.getMultiblock();
 		if (turbine == null) return;

@@ -12,7 +12,7 @@ import nc.multiblock.fission.tile.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
+public class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
 	public String sinkName;
 	public int coolingRate;

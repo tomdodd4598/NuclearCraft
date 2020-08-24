@@ -28,6 +28,7 @@ public class TileGeigerCounter extends NCTile implements SimpleComponent {
 			comparatorStrength = compStrength;
 			if (shouldUpdate) {
 				markDirty();
+				updateComparatorOutputLevel();
 			}
 		}
 	}

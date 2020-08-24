@@ -1,95 +1,360 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "nuclearcraft:fission_port"
+		"model": "nuclearcraft:fission_heater_port_off"
 	},
 	"variants": {
-		"axis": {
-			"x": {"y": 90},
-			"y": {"x": 90},
-			"z": {}
+		"active=false,axis=x,type=standard": {
+			"model": "nuclearcraft:fission_heater_port/standard_off",
+			"y": 90
 		},
-		"type": {
-			"standard": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/standard"
-				}
-			},
-			"iron": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/iron"
-				}
-			},
-			"redstone": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/redstone"
-				}
-			},
-			"quartz": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/quartz"
-				}
-			},
-			"obsidian": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/obsidian"
-				}
-			},
-			"nether_brick": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/nether_brick"
-				}
-			},
-			"glowstone": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/glowstone"
-				}
-			},
-			"lapis": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/lapis"
-				}
-			},
-			"gold": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/gold"
-				}
-			},
-			"prismarine": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/prismarine"
-				}
-			},
-			"slime": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/slime"
-				}
-			},
-			"end_stone": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/end_stone"
-				}
-			},
-			"purpur": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/purpur"
-				}
-			},
-			"diamond": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/diamond"
-				}
-			},
-			"emerald": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/emerald"
-				}
-			},
-			"copper": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/copper"
-				}
-			}
+		"active=true,axis=x,type=standard": {
+			"model": "nuclearcraft:fission_heater_port/standard_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=standard": {
+			"model": "nuclearcraft:fission_heater_port/standard_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=standard": {
+			"model": "nuclearcraft:fission_heater_port/standard_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=standard": {
+			"model": "nuclearcraft:fission_heater_port/standard_off"
+		},
+		"active=true,axis=z,type=standard": {
+			"model": "nuclearcraft:fission_heater_port/standard_on"
+		},
+		"active=false,axis=x,type=iron": {
+			"model": "nuclearcraft:fission_heater_port/iron_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=iron": {
+			"model": "nuclearcraft:fission_heater_port/iron_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=iron": {
+			"model": "nuclearcraft:fission_heater_port/iron_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=iron": {
+			"model": "nuclearcraft:fission_heater_port/iron_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=iron": {
+			"model": "nuclearcraft:fission_heater_port/iron_off"
+		},
+		"active=true,axis=z,type=iron": {
+			"model": "nuclearcraft:fission_heater_port/iron_on"
+		},
+		"active=false,axis=x,type=redstone": {
+			"model": "nuclearcraft:fission_heater_port/redstone_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=redstone": {
+			"model": "nuclearcraft:fission_heater_port/redstone_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=redstone": {
+			"model": "nuclearcraft:fission_heater_port/redstone_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=redstone": {
+			"model": "nuclearcraft:fission_heater_port/redstone_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=redstone": {
+			"model": "nuclearcraft:fission_heater_port/redstone_off"
+		},
+		"active=true,axis=z,type=redstone": {
+			"model": "nuclearcraft:fission_heater_port/redstone_on"
+		},
+		"active=false,axis=x,type=quartz": {
+			"model": "nuclearcraft:fission_heater_port/quartz_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=quartz": {
+			"model": "nuclearcraft:fission_heater_port/quartz_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=quartz": {
+			"model": "nuclearcraft:fission_heater_port/quartz_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=quartz": {
+			"model": "nuclearcraft:fission_heater_port/quartz_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=quartz": {
+			"model": "nuclearcraft:fission_heater_port/quartz_off"
+		},
+		"active=true,axis=z,type=quartz": {
+			"model": "nuclearcraft:fission_heater_port/quartz_on"
+		},
+		"active=false,axis=x,type=obsidian": {
+			"model": "nuclearcraft:fission_heater_port/obsidian_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=obsidian": {
+			"model": "nuclearcraft:fission_heater_port/obsidian_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=obsidian": {
+			"model": "nuclearcraft:fission_heater_port/obsidian_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=obsidian": {
+			"model": "nuclearcraft:fission_heater_port/obsidian_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=obsidian": {
+			"model": "nuclearcraft:fission_heater_port/obsidian_off"
+		},
+		"active=true,axis=z,type=obsidian": {
+			"model": "nuclearcraft:fission_heater_port/obsidian_on"
+		},
+		"active=false,axis=x,type=nether_brick": {
+			"model": "nuclearcraft:fission_heater_port/nether_brick_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=nether_brick": {
+			"model": "nuclearcraft:fission_heater_port/nether_brick_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=nether_brick": {
+			"model": "nuclearcraft:fission_heater_port/nether_brick_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=nether_brick": {
+			"model": "nuclearcraft:fission_heater_port/nether_brick_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=nether_brick": {
+			"model": "nuclearcraft:fission_heater_port/nether_brick_off"
+		},
+		"active=true,axis=z,type=nether_brick": {
+			"model": "nuclearcraft:fission_heater_port/nether_brick_on"
+		},
+		"active=false,axis=x,type=glowstone": {
+			"model": "nuclearcraft:fission_heater_port/glowstone_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=glowstone": {
+			"model": "nuclearcraft:fission_heater_port/glowstone_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=glowstone": {
+			"model": "nuclearcraft:fission_heater_port/glowstone_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=glowstone": {
+			"model": "nuclearcraft:fission_heater_port/glowstone_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=glowstone": {
+			"model": "nuclearcraft:fission_heater_port/glowstone_off"
+		},
+		"active=true,axis=z,type=glowstone": {
+			"model": "nuclearcraft:fission_heater_port/glowstone_on"
+		},
+		"active=false,axis=x,type=lapis": {
+			"model": "nuclearcraft:fission_heater_port/lapis_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=lapis": {
+			"model": "nuclearcraft:fission_heater_port/lapis_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=lapis": {
+			"model": "nuclearcraft:fission_heater_port/lapis_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=lapis": {
+			"model": "nuclearcraft:fission_heater_port/lapis_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=lapis": {
+			"model": "nuclearcraft:fission_heater_port/lapis_off"
+		},
+		"active=true,axis=z,type=lapis": {
+			"model": "nuclearcraft:fission_heater_port/lapis_on"
+		},
+		"active=false,axis=x,type=gold": {
+			"model": "nuclearcraft:fission_heater_port/gold_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=gold": {
+			"model": "nuclearcraft:fission_heater_port/gold_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=gold": {
+			"model": "nuclearcraft:fission_heater_port/gold_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=gold": {
+			"model": "nuclearcraft:fission_heater_port/gold_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=gold": {
+			"model": "nuclearcraft:fission_heater_port/gold_off"
+		},
+		"active=true,axis=z,type=gold": {
+			"model": "nuclearcraft:fission_heater_port/gold_on"
+		},
+		"active=false,axis=x,type=prismarine": {
+			"model": "nuclearcraft:fission_heater_port/prismarine_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=prismarine": {
+			"model": "nuclearcraft:fission_heater_port/prismarine_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=prismarine": {
+			"model": "nuclearcraft:fission_heater_port/prismarine_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=prismarine": {
+			"model": "nuclearcraft:fission_heater_port/prismarine_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=prismarine": {
+			"model": "nuclearcraft:fission_heater_port/prismarine_off"
+		},
+		"active=true,axis=z,type=prismarine": {
+			"model": "nuclearcraft:fission_heater_port/prismarine_on"
+		},
+		"active=false,axis=x,type=slime": {
+			"model": "nuclearcraft:fission_heater_port/slime_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=slime": {
+			"model": "nuclearcraft:fission_heater_port/slime_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=slime": {
+			"model": "nuclearcraft:fission_heater_port/slime_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=slime": {
+			"model": "nuclearcraft:fission_heater_port/slime_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=slime": {
+			"model": "nuclearcraft:fission_heater_port/slime_off"
+		},
+		"active=true,axis=z,type=slime": {
+			"model": "nuclearcraft:fission_heater_port/slime_on"
+		},
+		"active=false,axis=x,type=end_stone": {
+			"model": "nuclearcraft:fission_heater_port/end_stone_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=end_stone": {
+			"model": "nuclearcraft:fission_heater_port/end_stone_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=end_stone": {
+			"model": "nuclearcraft:fission_heater_port/end_stone_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=end_stone": {
+			"model": "nuclearcraft:fission_heater_port/end_stone_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=end_stone": {
+			"model": "nuclearcraft:fission_heater_port/end_stone_off"
+		},
+		"active=true,axis=z,type=end_stone": {
+			"model": "nuclearcraft:fission_heater_port/end_stone_on"
+		},
+		"active=false,axis=x,type=purpur": {
+			"model": "nuclearcraft:fission_heater_port/purpur_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=purpur": {
+			"model": "nuclearcraft:fission_heater_port/purpur_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=purpur": {
+			"model": "nuclearcraft:fission_heater_port/purpur_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=purpur": {
+			"model": "nuclearcraft:fission_heater_port/purpur_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=purpur": {
+			"model": "nuclearcraft:fission_heater_port/purpur_off"
+		},
+		"active=true,axis=z,type=purpur": {
+			"model": "nuclearcraft:fission_heater_port/purpur_on"
+		},
+		"active=false,axis=x,type=diamond": {
+			"model": "nuclearcraft:fission_heater_port/diamond_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=diamond": {
+			"model": "nuclearcraft:fission_heater_port/diamond_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=diamond": {
+			"model": "nuclearcraft:fission_heater_port/diamond_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=diamond": {
+			"model": "nuclearcraft:fission_heater_port/diamond_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=diamond": {
+			"model": "nuclearcraft:fission_heater_port/diamond_off"
+		},
+		"active=true,axis=z,type=diamond": {
+			"model": "nuclearcraft:fission_heater_port/diamond_on"
+		},
+		"active=false,axis=x,type=emerald": {
+			"model": "nuclearcraft:fission_heater_port/emerald_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=emerald": {
+			"model": "nuclearcraft:fission_heater_port/emerald_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=emerald": {
+			"model": "nuclearcraft:fission_heater_port/emerald_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=emerald": {
+			"model": "nuclearcraft:fission_heater_port/emerald_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=emerald": {
+			"model": "nuclearcraft:fission_heater_port/emerald_off"
+		},
+		"active=true,axis=z,type=emerald": {
+			"model": "nuclearcraft:fission_heater_port/emerald_on"
+		},
+		"active=false,axis=x,type=copper": {
+			"model": "nuclearcraft:fission_heater_port/copper_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=copper": {
+			"model": "nuclearcraft:fission_heater_port/copper_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=copper": {
+			"model": "nuclearcraft:fission_heater_port/copper_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=copper": {
+			"model": "nuclearcraft:fission_heater_port/copper_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=copper": {
+			"model": "nuclearcraft:fission_heater_port/copper_off"
+		},
+		"active=true,axis=z,type=copper": {
+			"model": "nuclearcraft:fission_heater_port/copper_on"
 		}
 	}
 }

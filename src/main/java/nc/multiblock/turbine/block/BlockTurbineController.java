@@ -1,22 +1,29 @@
 package nc.multiblock.turbine.block;
 
-import static nc.block.property.BlockProperties.*;
+import static nc.block.property.BlockProperties.ACTIVE;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
+import nc.block.tile.IActivatable;
+import nc.block.tile.IDynamicState;
 import nc.init.NCBlocks;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.*;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.util.math.*;
-import net.minecraft.world.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
-public class BlockTurbineController extends BlockTurbinePart {
+public class BlockTurbineController extends BlockTurbinePart implements IActivatable {
 	
 	public BlockTurbineController() {
 		super();
@@ -85,30 +92,11 @@ public class BlockTurbineController extends BlockTurbinePart {
 	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		/*TileEntity tile = source.getTileEntity(pos);
-		if (tile instanceof TileTurbineController) {
-			TileTurbineController controller = (TileTurbineController) tile;
-			if (!controller.isRenderer || !controller.isMultiblockAssembled()) {
-				return FULL_BLOCK_AABB;
-			}
-			return new AxisAlignedBB(controller.getMultiblock().getMinimumCoord().subtract(pos), controller.getMultiblock().getMaximumCoord().subtract(pos));
-		}*/
 		return FULL_BLOCK_AABB;
 	}
 	
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
 		return side != null;
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == NCBlocks.turbine_controller) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

@@ -1,42 +1,54 @@
 package nc.tile.processor;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.block.tile.processor.BlockNuclearFurnace;
-import nc.capability.radiation.source.*;
+import nc.capability.radiation.source.IRadiationSource;
+import nc.capability.radiation.source.RadiationSource;
 import nc.network.tile.TileUpdatePacket;
 import nc.radiation.RadSources;
 import nc.tile.ITileGui;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energyFluid.IBufferable;
-import nc.tile.internal.inventory.*;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.*;
+import nc.util.OreDictHelper;
+import nc.util.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.*;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.util.datafix.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
-import net.minecraft.util.math.*;
-import net.minecraft.util.text.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.*;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui, IInterfaceable, IBufferable {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui, IInterfaceable {
 	
 	private final NonNullList<ItemStack> furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
 	
@@ -73,7 +85,6 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 		furnaceItemStacks.set(index, stack);
 		
 		if (!flag) {
-			// totalCookTime = getCookTime(stack);
 			totalCookTime = getCookTime();
 			cookTime = 0;
 			markDirty();
@@ -214,8 +225,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 			
 			if (flag != isBurning()) {
 				flag1 = true;
-				setState(isBurning(), this);
-				world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+				setActivity(isBurning());
 			}
 			
 			if (flag1) {
@@ -415,22 +425,8 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		if (getBlockType() instanceof BlockNuclearFurnace) {
-			((BlockNuclearFurnace) getBlockType()).setState(isActive, tile);
-		}
-	}
-	
-	@Override
 	public void markTileDirty() {
 		markDirty();
-	}
-	
-	@Override
-	public void markDirtyAndNotify() {
-		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 	}
 	
 	@Override

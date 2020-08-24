@@ -42,13 +42,13 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	// Disassembled -> Assembled; Assembled -> Disassembled OR Paused; Paused ->
 	// Assembled
-	protected enum AssemblyState {
+	public enum AssemblyState {
 		Disassembled,
 		Assembled,
 		Paused
 	}
 	
-	protected AssemblyState assemblyState;
+	public AssemblyState assemblyState;
 	
 	protected ObjectOpenHashSet<ITileMultiblockPart> connectedParts;
 	
@@ -1147,8 +1147,9 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		
 		BlockPos rc = this.getReferenceCoord();
 		
-		if (this.WORLD != null && rc != null) {
-			WorldHelper.notifyBlockUpdate(this.WORLD, rc, null, null);
+		if (WORLD != null && rc != null) {
+			IBlockState state = WORLD.getBlockState(rc);
+			WORLD.notifyBlockUpdate(rc, state, state, 3);
 		}
 	}
 	

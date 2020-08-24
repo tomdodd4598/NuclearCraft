@@ -274,6 +274,11 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 		return coolantName.hashCode();
 	}
 	
+	@Override
+	public boolean hasConfigurableFluidConnections() {
+		return true;
+	}
+	
 	// Ticking
 	
 	@Override

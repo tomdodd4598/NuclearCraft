@@ -7,3 +7,5 @@
 #mods.nuclearcraft.Manufactory.addRecipe(<minecraft:magma_cream>*5, null);
 
 #mods.nuclearcraft.SolidFission.addRecipe(<minecraft:magma_cream>*4 | <minecraft:diamond>*2, mods.nuclearcraft.ChanceItemIngredient.create(<ore:ingotSilver>*4, 50, 2), 100, 125, 1.15, 99, true, 0.005);
+
+#mods.nuclearcraft.DecayHastener.removeRecipeWithInput(<ore:ingotUranium235> | <ore:ingotUranium235Oxide> | <ore:ingotUranium235Nitride>);

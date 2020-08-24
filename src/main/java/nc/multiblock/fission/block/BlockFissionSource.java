@@ -1,26 +1,34 @@
 package nc.multiblock.fission.block;
 
-import static nc.block.property.BlockProperties.*;
+import static nc.block.property.BlockProperties.ACTIVE;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 import javax.annotation.Nullable;
 
+import nc.block.tile.IActivatable;
+import nc.block.tile.IDynamicState;
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.render.BlockHighlightTracker;
-import nc.util.*;
+import nc.util.BlockHelper;
+import nc.util.Lang;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.*;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.*;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
-public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> {
+public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> implements IActivatable {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronSourceType.class);
 	
@@ -108,14 +116,5 @@ public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSo
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
 		return side != null;
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && isActive != state.getValue(ACTIVE)) {
-			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-		}
 	}
 }

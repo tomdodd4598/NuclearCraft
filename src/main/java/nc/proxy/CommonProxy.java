@@ -1,7 +1,14 @@
 package nc.proxy;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
+
+import crafttweaker.CraftTweakerAPI;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
@@ -32,6 +39,7 @@ import nc.integration.tconstruct.TConstructExtras;
 import nc.integration.tconstruct.TConstructIMC;
 import nc.integration.tconstruct.TConstructMaterials;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
+import nc.item.ItemMultitool;
 import nc.multiblock.MultiblockHandler;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.MultiblockRegistry;
@@ -49,7 +57,10 @@ import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.GasHelper;
+import nc.util.IOHelper;
+import nc.util.NCUtil;
 import nc.util.OreDictHelper;
+import nc.util.StringHelper;
 import nc.util.StructureHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
@@ -75,6 +86,16 @@ public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
+		
+		if (ModCheck.craftTweakerLoaded()) {
+			try {
+				manageScriptAddons();
+			} catch (IOException e) {
+				NCUtil.getLogger().catching(e);
+			}
+			
+			CraftTweakerAPI.tweaker.loadScript(false, "nc_preinit");
+		}
 		
 		NCSounds.init();
 		
@@ -148,6 +169,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		
 		PlacementRule.init();
+		
+		ItemMultitool.registerRightClickLogic();
 		
 		if (ModCheck.tinkersLoaded()) {
 			TConstructExtras.init();
@@ -242,6 +265,105 @@ public class CommonProxy {
 	
 	public void initFluidColors() {
 		
+	}
+	
+	// CT
+	
+	public void manageScriptAddons() throws IOException {
+		if (ModCheck.contentTweakerLoaded()) {
+			File nc = new File("resources/nuclearcraft");
+			if (!nc.exists()) {
+				nc.mkdirs();
+			}
+			for (String s : new String[] {"addons", "blockstates", "lang", "models/block", "models/item", "scripts", "textures/blocks", "textures/items"}) {
+				File f = new File("resources/nuclearcraft/" + s);
+				if (!f.exists()) {
+					f.mkdirs();
+				}
+			}
+			
+			File addons = new File("resources/nuclearcraft/addons");
+			for (File f : addons.listFiles()) {
+				if (f.isDirectory()) {
+					copyAddons(f);
+				}
+			}
+		}
+		
+		File from = new File("resources/nuclearcraft/scripts");
+		if (from.exists() && from.isDirectory()) {
+			File to = new File("scripts/nuclearcraft");
+			if (!to.exists()) {
+				to.mkdirs();
+			}
+			FileUtils.copyDirectory(from, to);
+		}
+	}
+	
+	public void copyAddons(File dir) throws IOException {
+		for (File f : dir.listFiles()) {
+			if (f.isDirectory()) {
+				if (f.getName().equals("addons")) {
+					copyAddons(f);
+				}
+				
+				for (String s : new String[] {"blockstates", "models", "textures"}) {
+ 					if (f.getName().equals(s)) {
+ 						FileUtils.copyDirectory(f, new File("resources/nuclearcraft/" + s));
+ 					}
+				}
+ 				
+ 				if (f.getName().equals("lang")) {
+ 					copyLangs(dir, f);
+				}
+ 				
+ 				if (f.getName().equals("scripts")) {
+ 					copyScripts(dir, f);
+ 				}
+			}
+		}
+	}
+	
+	public static final Object2BooleanMap<String> LANG_REFRESH_MAP = new Object2BooleanOpenHashMap<String>();
+	
+	public void copyLangs(File addonDir, File langDir) throws IOException {
+		for (File f : langDir.listFiles()) {
+			String name = f.getName().toLowerCase();
+			if (!f.isDirectory() && name.endsWith(".lang")) {
+				String type = StringHelper.removeSuffix(name, 5);
+				File lang = new File("resources/nuclearcraft/lang/" + type + ".lang");
+				
+				boolean refreshed = LANG_REFRESH_MAP.getBoolean(type);
+				if (!refreshed) {
+					LANG_REFRESH_MAP.put(type, true);
+					
+					File original = new File("resources/nuclearcraft/lang/" + type + ".original");
+					
+					if (original.exists()) {
+						FileUtils.copyFile(original, lang);
+					}
+					else {
+						if (!lang.exists()) {
+							lang.createNewFile();
+						}
+						FileUtils.copyFile(lang, original);
+					}
+				}
+				
+				if (lang.exists()) {
+					String s = System.lineSeparator();
+					IOHelper.appendFile(lang, f, (lang.length() == 0 ? "" : (s + s)) + "# " + addonDir.getName() + s + s);
+				}
+			}
+		}
+	}
+	
+	public void copyScripts(File addonDir, File scriptDir) throws IOException {
+		File target = new File("resources/nuclearcraft/scripts/" + addonDir.getName());
+		if (!target.exists()) {
+			target.mkdirs();
+		}
+		FileUtils.copyDirectory(scriptDir, target);
 	}
 	
 	// TiC

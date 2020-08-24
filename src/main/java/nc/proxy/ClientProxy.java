@@ -9,7 +9,6 @@ import nc.config.NCConfig;
 import nc.handler.RenderHandler;
 import nc.handler.SoundHandler;
 import nc.handler.TooltipHandler;
-import nc.init.NCBlocks;
 import nc.init.NCCoolantFluids;
 import nc.init.NCFissionFluids;
 import nc.model.ModelTexturedFluid;
@@ -135,7 +134,7 @@ public class ClientProxy extends CommonProxy {
 			fluidList.addAll(NCFissionFluids.fluidList);
 			
 			for (Fluid fluid : fluidList) {
-				if (fluid.getBlock() != null && NCBlockFluid.class.isAssignableFrom(fluid.getBlock().getClass())) {
+				if (fluid.getBlock() instanceof NCBlockFluid) {
 					NCBlockFluid fluidBlock = (NCBlockFluid) fluid.getBlock();
 					Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
 					Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);

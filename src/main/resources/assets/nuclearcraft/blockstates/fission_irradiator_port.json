@@ -3,11 +3,19 @@
 	"defaults": {
 		"model": "nuclearcraft:fission_port",
 		"textures": {
-			"front": "nuclearcraft:blocks/fission/port/irradiator"
+			"front": "nuclearcraft:blocks/fission/port/irradiator_in"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "nuclearcraft:blocks/fission/port/irradiator_out"
+				}
+			}
+		},
 		"axis": {
 			"x": {"y": 90},
 			"y": {"x": 90},

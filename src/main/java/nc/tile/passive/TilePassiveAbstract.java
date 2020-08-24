@@ -1,6 +1,10 @@
 package nc.tile.passive;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
+import static nc.config.NCConfig.enable_mek_gas;
+import static nc.config.NCConfig.machine_update_rate;
+import static nc.config.NCConfig.passive_push;
+import static nc.config.NCConfig.rf_per_eu;
 
 import javax.annotation.Nullable;
 
@@ -10,7 +14,10 @@ import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.*;
+import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
@@ -18,7 +25,9 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.*;
+import nc.util.CapabilityHelper;
+import nc.util.EnergyHelper;
+import nc.util.GasHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +35,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
@@ -124,8 +134,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		if (ModCheck.ic2Loaded()) {
 			removeTileFromENet();
 		}
-		setState(isActive, this);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+		setActivity(isActive);
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -376,7 +385,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return fluidRate != 0 && hasFluidSideCapability(side);
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return enable_mek_gas && fluidRate != 0 && hasFluidSideCapability(side);
 		}
 		else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
@@ -408,7 +417,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && fluidRate != 0 && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

@@ -1001,7 +1001,7 @@ public class NCConfig {
 		propertyOreDictRawMaterialRecipes.setLanguageKey("gui.nc.config.ore_dict_raw_material_recipes");
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_MISC, "ore_dict_priority_bool", true, Lang.localise("gui.nc.config.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.nc.config.ore_dict_priority_bool");
-		Property propertyOreDictPriority = config.get(CATEGORY_MISC, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.nc.config.ore_dict_priority.comment"));
+		Property propertyOreDictPriority = config.get(CATEGORY_MISC, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "libvulpes", "advancedrocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.nc.config.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.nc.config.ore_dict_priority");
 		Property propertyHWYLAEnabled = config.get(CATEGORY_MISC, "hwyla_enabled", true, Lang.localise("gui.nc.config.hwyla_enabled.comment"));
 		propertyHWYLAEnabled.setLanguageKey("gui.nc.config.hwyla_enabled");

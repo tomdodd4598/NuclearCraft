@@ -1,15 +1,19 @@
 package nc.multiblock.turbine.tile;
 
-import nc.init.NCBlocks;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.turbine.*;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
+import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.TurbineRotorBladeUtil;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
+import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade {
+public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade {
 	
 	public IRotorBladeType bladeType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
@@ -24,11 +28,6 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 		public Steel() {
 			super(TurbineRotorBladeType.STEEL);
 		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return NCBlocks.turbine_rotor_blade_steel.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
 	}
 	
 	public static class Extreme extends TileTurbineRotorBlade {
@@ -36,22 +35,12 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 		public Extreme() {
 			super(TurbineRotorBladeType.EXTREME);
 		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return NCBlocks.turbine_rotor_blade_extreme.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
 	}
 	
 	public static class SicSicCMC extends TileTurbineRotorBlade {
 		
 		public SicSicCMC() {
 			super(TurbineRotorBladeType.SIC_SIC_CMC);
-		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return NCBlocks.turbine_rotor_blade_sic_sic_cmc.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
 		}
 	}
 	
@@ -64,15 +53,11 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -93,6 +78,14 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 	@Override
 	public void setDir(TurbinePartDir newDir) {
 		dir = newDir;
+	}
+	
+	@Override
+	public IBlockState getRenderState() {
+		if (getBlockType() instanceof BlockTurbineRotorBlade) {
+			return getBlockType().getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
+		}
+		return getBlockType().getDefaultState();
 	}
 	
 	@Override

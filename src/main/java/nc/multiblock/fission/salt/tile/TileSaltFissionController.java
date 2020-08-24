@@ -61,14 +61,6 @@ public class TileSaltFissionController extends TileFissionPart implements IFissi
 	}
 	
 	@Override
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockSaltFissionController) {
-			((BlockSaltFissionController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
-	}
-	
-	@Override
 	public void doMeltdown() {
 		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		world.removeTileEntity(pos);

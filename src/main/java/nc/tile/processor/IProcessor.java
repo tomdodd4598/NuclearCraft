@@ -2,11 +2,11 @@ package nc.tile.processor;
 
 import java.util.List;
 
-import nc.recipe.*;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energyFluid.IBufferable;
 
-public abstract interface IProcessor extends IInterfaceable, IBufferable {
+public abstract interface IProcessor extends IInterfaceable {
 	
 	public void refreshRecipe();
 	

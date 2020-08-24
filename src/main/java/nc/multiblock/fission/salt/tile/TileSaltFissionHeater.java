@@ -3,34 +3,52 @@ package nc.multiblock.fission.salt.tile;
 import static nc.config.NCConfig.enable_mek_gas;
 import static nc.init.NCCoolantFluids.COOLANTS;
 import static nc.recipe.NCRecipes.coolant_heater;
-import static nc.util.PosHelper.DEFAULT_NON;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
+import static nc.util.PosHelper.DEFAULT_NON;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.*;
+import nc.multiblock.fission.FissionCluster;
+import nc.multiblock.fission.FissionPlacement;
+import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
-import nc.multiblock.fission.tile.*;
+import nc.multiblock.fission.tile.IFissionComponent;
+import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
-import nc.multiblock.fission.tile.port.*;
+import nc.multiblock.fission.tile.IFissionPart;
+import nc.multiblock.fission.tile.TileFissionPart;
+import nc.multiblock.fission.tile.port.IFissionPortTarget;
+import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.multiblock.network.SaltFissionHeaterUpdatePacket;
-import nc.recipe.*;
+import nc.recipe.AbstractRecipeHandler;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.ITileGui;
-import nc.tile.fluid.*;
-import nc.tile.internal.fluid.*;
+import nc.tile.fluid.ITileFilteredFluid;
+import nc.tile.fluid.ITileFluid;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.FluidTileWrapper;
+import nc.tile.internal.fluid.GasTileWrapper;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.processor.IFluidProcessor;
-import nc.util.GasHelper;
+import nc.util.CapabilityHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +56,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public abstract class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidProcessor, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
+public class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidProcessor, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
 	
 	protected final @Nonnull List<Tank> tanks;
 	protected final @Nonnull List<Tank> filterTanks;
@@ -723,7 +741,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public void toggleHeaterSetting(@Nonnull EnumFacing side) {
 		setHeaterSetting(side, getHeaterSetting(side).next());
 		refreshFluidConnections(side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public void refreshFluidConnections(@Nonnull EnumFacing side) {
@@ -829,7 +847,6 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -996,7 +1013,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -1010,7 +1027,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

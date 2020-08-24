@@ -6,6 +6,7 @@ import nc.multiblock.turbine.TurbineRotorBladeUtil;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
 import nc.multiblock.turbine.tile.TileTurbineRotorStator;
+import nc.util.NCUtil;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -47,7 +48,7 @@ public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockR
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileTurbineRotorStator();
+		return new TileTurbineRotorStator.Standard();
 	}
 	
 	@Override

@@ -53,7 +53,7 @@ public class StackHelper {
 		}
 		int meta = getMetadata(stack);
 		Item item = stack.getItem();
-		if (!ItemBlock.class.isAssignableFrom(item.getClass())) {
+		if (!(item instanceof ItemBlock)) {
 			return null;
 		}
 		ItemBlock itemBlock = (ItemBlock) item;

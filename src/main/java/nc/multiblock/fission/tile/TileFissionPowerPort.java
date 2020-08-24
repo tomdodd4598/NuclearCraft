@@ -1,30 +1,46 @@
 package nc.multiblock.fission.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
+import static nc.config.NCConfig.rf_per_eu;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import gregtech.api.capability.*;
+import gregtech.api.capability.GregtechCapabilities;
+import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.*;
+import ic2.api.energy.tile.IEnergyAcceptor;
+import ic2.api.energy.tile.IEnergySink;
+import ic2.api.energy.tile.IEnergySource;
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.block.BlockFissionPowerPort;
 import nc.multiblock.turbine.tile.TileTurbinePart;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.*;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.energy.EnergyTileWrapper;
+import nc.tile.internal.energy.EnergyTileWrapperGT;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.util.EnergyHelper;
+import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.*;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
@@ -55,9 +71,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -68,8 +81,9 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public void update() {
 		super.update();
-		if (!world.isRemote) {
-			pushEnergy();
+		EnumFacing facing = getPartPosition().getFacing();
+		if (!world.isRemote && facing != null && getEnergyStored() > 0 && getEnergyConnection(facing).canExtract()) {
+			pushEnergyToSide(facing);
 		}
 	}
 	
@@ -220,6 +234,41 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 			EnergyNet.instance.removeTile(this);
 			ic2reg = false;
 		}
+	}
+	
+	@Override
+	public boolean hasConfigurableEnergyConnections() {
+		return true;
+	}
+	
+	// IMultitoolLogic
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (player.isSneaking()) {
+			
+		}
+		else {
+			if (getMultiblock() != null) {
+				if (getEnergyConnection(facing) != EnergyConnection.OUT) {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setEnergyConnection(EnergyConnection.OUT, side);
+					}
+					setActivity(false);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				else {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setEnergyConnection(EnergyConnection.IN, side);
+					}
+					setActivity(true);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				markDirtyAndNotify(true);
+				return true;
+			}
+		}
+		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT

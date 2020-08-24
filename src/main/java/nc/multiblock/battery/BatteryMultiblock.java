@@ -139,6 +139,7 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 		if (shouldUpdate) {
 			for (TileBattery battery : getParts(TileBattery.class)) {
 				battery.markDirty();
+				battery.updateComparatorOutputLevel();
 			}
 		}
 		return shouldUpdate;

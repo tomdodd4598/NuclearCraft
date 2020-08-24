@@ -74,7 +74,7 @@ public interface ITileFluid extends ITile {
 			return;
 		}
 		getFluidConnection(side).toggleTankSorption(tankNumber, type, reverse);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public default boolean canConnectFluid(@Nonnull EnumFacing side) {
@@ -168,22 +168,23 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	/* public default void spreadFluid() { if (!passive_permeation || getTanks().isEmpty()) { return; } for (EnumFacing side : EnumFacing.VALUES) { spreadFluidToSide(side); } } */
-	
 	public default void pushFluidToSide(@Nonnull EnumFacing side) {
 		if (!getFluidConnection(side).canConnect()) {
 			return;
 		}
+		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null || tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
 			return;
 		}
+		
 		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 		if (adjStorage == null) {
 			return;
 		}
+		
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (!getTankSorption(side, i).canDrain() || getTanks().get(i).getFluid() == null /* || !getTanks ( ) . get ( i ) . canDrain ( ) */) {
+			if (!getTankSorption(side, i).canDrain() || getTanks().get(i).getFluid() == null) {
 				continue;
 			}
 			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
@@ -196,7 +197,6 @@ public interface ITileFluid extends ITile {
 		}
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		
 		if (tile instanceof IFluidSpread) {
 			if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
 				return;

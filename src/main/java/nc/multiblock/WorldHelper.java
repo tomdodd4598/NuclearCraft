@@ -25,31 +25,6 @@ public final class WorldHelper {
 		return position.getZ() >> 4;
 	}
 	
-	/**
-	 * force a block update at the given position
-	 * 
-	 * @param world
-	 * the world to update
-	 * @param position
-	 * the position of the block begin updated
-	 * @param oldState
-	 * the old state of the block begin updated. if null, the current state will be retrieved from the world
-	 * @param newState
-	 * the new state for the block begin updated. if null, the final value of oldState will be used
-	 */
-	public static void notifyBlockUpdate(World world, BlockPos position, IBlockState oldState, IBlockState newState) {
-		
-		if (null == oldState) {
-			oldState = world.getBlockState(position);
-		}
-		
-		if (null == newState) {
-			newState = oldState;
-		}
-		
-		world.notifyBlockUpdate(position, oldState, newState, 3);
-	}
-	
 	public static long getChunkXZHashFromBlock(int blockX, int blockZ) {
 		return ChunkPos.asLong(WorldHelper.getChunkXFromBlock(blockX), WorldHelper.getChunkZFromBlock(blockZ));
 	}

@@ -2,20 +2,30 @@ package nc.tile.inventory;
 
 import java.util.List;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import mekanism.common.base.ILogisticalTransporter;
+import nc.ModCheck;
 import nc.tile.ITile;
-import nc.tile.internal.inventory.*;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemHandler;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.util.CapabilityHelper;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraftforge.items.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public interface ITileInventory<T extends TileEntity & ITileInventory> extends ITile<T>, ISidedInventory {
 	
@@ -172,7 +182,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 			return;
 		}
 		getInventoryConnection(side).toggleItemSorption(slotNumber, type, reverse);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public default boolean canConnectInventory(@Nonnull EnumFacing side) {
@@ -204,28 +214,42 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 	}
 	
 	public default void pushStacksToSide(@Nonnull EnumFacing side) {
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjInv == null || adjInv.getSlots() < 1) {
+		if (!getInventoryConnection(side).canConnect()) {
 			return;
 		}
 		
-		for (int i = 0; i < getInventoryStacks().size(); i++) {
-			if (getInventoryStacks().get(i).isEmpty()) {
-				continue;
+		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		if (tile == null) {
+			return;
+		}
+		
+		/*if (ModCheck.mekanismLoaded() && tile.hasCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite())) {
+			ILogisticalTransporter lt = tile.getCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite());
+		}*/
+		
+		if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite())) {
+			IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+			if (adjInv == null || adjInv.getSlots() < 1) {
+				return;
 			}
 			
-			ItemStack initialStack = getInventoryStacks().get(i).copy();
-			ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
-			
-			if (inserted.getCount() >= initialStack.getCount()) {
-				continue;
-			}
-			
-			getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
-			
-			if (getInventoryStacks().get(i).getCount() <= 0) {
-				getInventoryStacks().set(i, ItemStack.EMPTY);
+			for (int i = 0; i < getInventoryStacks().size(); i++) {
+				if (!getItemSorption(side, i).canExtract() || getInventoryStacks().get(i).isEmpty()) {
+					continue;
+				}
+				
+				ItemStack initialStack = getInventoryStacks().get(i).copy();
+				ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
+				
+				if (inserted.getCount() >= initialStack.getCount()) {
+					continue;
+				}
+				
+				getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
+				
+				if (getInventoryStacks().get(i).getCount() <= 0) {
+					getInventoryStacks().set(i, ItemStack.EMPTY);
+				}
 			}
 		}
 	}

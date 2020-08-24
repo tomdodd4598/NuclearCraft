@@ -1,20 +1,25 @@
 package nc.multiblock.fission.salt.block;
 
-import static nc.block.property.BlockProperties.*;
+import static nc.block.property.BlockProperties.ACTIVE;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.NuclearCraft;
+import nc.block.tile.IActivatable;
+import nc.block.tile.IDynamicState;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.*;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockSaltFissionController extends BlockFissionPart {
+public class BlockSaltFissionController extends BlockFissionPart implements IActivatable {
 	
 	public BlockSaltFissionController() {
 		super();
@@ -77,16 +82,5 @@ public class BlockSaltFissionController extends BlockFissionPart {
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockSaltFissionController) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

@@ -1,25 +1,37 @@
 package nc.multiblock.heatExchanger.tile;
 
 import static nc.config.NCConfig.enable_mek_gas;
-import static nc.recipe.NCRecipes.*;
+import static nc.recipe.NCRecipes.condenser;
+import static nc.recipe.NCRecipes.condenser_valid_fluids;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.heatExchanger.*;
-import nc.recipe.*;
+import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
+import nc.multiblock.heatExchanger.HeatExchangerTubeType;
+import nc.recipe.AbstractRecipeHandler;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.*;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.FluidTileWrapper;
+import nc.tile.internal.fluid.GasTileWrapper;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
-import nc.util.GasHelper;
+import nc.util.CapabilityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +40,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.*;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileCondenserTube extends TileHeatExchangerPart implements IFluidProcessor {
 	
@@ -387,7 +400,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	public void toggleTubeSetting(@Nonnull EnumFacing side) {
 		setTubeSetting(side, getTubeSetting(side).next());
 		refreshFluidConnections(side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public void refreshFluidConnections(@Nonnull EnumFacing side) {
@@ -602,7 +615,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -616,7 +629,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

@@ -1,6 +1,14 @@
-v2o.3.7
+v2o.4.0
+
++ Added CT script addon loader and merger system!
++ Put all script addons into "resources/nuclearcraft/addons/" to have them loaded!
++ See the GitHub repository for examples of the script addon format
 
 * Updated Chinese Patchouli localisation [thanks to WuzgXY and ghostbird03!]
+
++ Added input and output settings for all fission ports
+
+* Shields can no longer act as active moderators in MSRs
 
 * Tweaked turbine throughput bonus (ask in Discord server for subtle details)
 * Tweaked default turbine coil efficiencies
@@ -13,7 +21,14 @@ v2o.3.7
 * Fixed radiation immunity not being applied when radiation death persistence is disabled
 * Fixed CT radiation methods being called too late
 
-* CT scripts can now be stored in the "resources/nuclearcraft/scripts/" directory
+* Large refactoring and improvement of tile entity block update logic
+* Fixed some models not correctly updating on the client-side
+
+* Fixed CT input recipe removal methods not correctly removing recipes with matching array ingredients
+
+* Various other minor fixes, changes and refactors
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
 
 v2o.3.6
 

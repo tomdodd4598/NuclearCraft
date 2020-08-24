@@ -1,11 +1,12 @@
-Add input/output config to all ports and vents
+Add config to disable IC2 support (pre-overhaul and overhaul)
+Try to wrap IC2 energy interfaces into ITileEnergy (overhaul only)
 
 Adjacent MSR vessels with same filter connect to share flux, shared criticality factor is sum of vessel criticality factors
 
 Replace casing emergency cooling with cluster/port based version (no placement rules)
 Emergency cooling JEI and CT support
 
-Complete printing of registered multiblock component stats and rules to config file
+Complete printing of registered multiblock component stats and rules to separate nuclearcraft_info.cfg file
 
 Finish fission meltdown mechanics
 Add melting logic to non-fuel components
@@ -25,10 +26,16 @@ Multiblock monitors: show cluster information, meltdown locations, side configur
 Move onAdded tile methods to onLoad()?
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
 Modularise processor classes
+Add interface for blocks which can change state, only call notifyBlockUpdate in onDataPacket if blockType instanceof interface
 
 OC support for side configurations
 
 Patchouli documentation
+
+Sorption colours:
+Items: 007FFF, FF7F00
+Fluids: 007F7F, FF0000
+Energy: 007FBF, FF3F00
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
 

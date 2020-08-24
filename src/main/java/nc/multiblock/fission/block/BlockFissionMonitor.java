@@ -1,21 +1,29 @@
 package nc.multiblock.fission.block;
 
-import static nc.block.property.BlockProperties.*;
+import static nc.block.property.BlockProperties.ACTIVE;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
+import nc.block.tile.IActivatable;
+import nc.block.tile.IDynamicState;
 import nc.item.ItemMultitool;
-import nc.multiblock.fission.*;
-import nc.multiblock.fission.tile.*;
+import nc.multiblock.fission.FissionCluster;
+import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.tile.IFissionComponent;
+import nc.multiblock.fission.tile.TileFissionMonitor;
 import nc.render.BlockHighlightTracker;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.*;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFissionMonitor extends BlockFissionPart {
+public class BlockFissionMonitor extends BlockFissionPart implements IActivatable {
 	
 	public BlockFissionMonitor() {
 		super();
@@ -87,16 +95,5 @@ public class BlockFissionMonitor extends BlockFissionPart {
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockFissionMonitor) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

@@ -1,0 +1,18 @@
+tile.nuclearcraft.solid_fission_sink_extreme.name=Extreme Alloy Fission Heat Sink
+tile.nuclearcraft.solid_fission_sink_sic_sic_cmc.name=SiC-SiC CMC Fission Heat Sink
+
+tile.nuclearcraft.salt_fission_heater_extreme.name=Extreme Alloy Fission Coolant Heater
+tile.nuclearcraft.salt_fission_heater_sic_sic_cmc.name=SiC-SiC CMC Fission Coolant Heater
+
+tile.nuclearcraft.fission_heater_port_extreme.name=Extreme Alloy Fission Coolant Heater Port
+tile.nuclearcraft.fission_heater_port_sic_sic_cmc.name=SiC-SiC CMC Fission Coolant Heater Port
+
+nc.sf.extreme_sink0=%s valid extreme alloy sink
+nc.sf.extreme_sink1=%s valid extreme alloy sinks
+nc.sf.sic_sic_cmc_sink0=%s valid SiC-SiC CMC sink
+nc.sf.sic_sic_cmc_sink1=%s valid SiC-SiC CMC sinks
+
+nc.sf.extreme_heater0=%s functional extreme alloy heater
+nc.sf.extreme_heater1=%s functional extreme alloy heaters
+nc.sf.sic_sic_cmc_heater0=%s functional SiC-SiC CMC heater
+nc.sf.sic_sic_cmc_heater1=%s functional SiC-SiC CMC heaters

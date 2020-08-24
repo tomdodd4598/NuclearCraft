@@ -1,12 +1,15 @@
 package nc.recipe.ingredient;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IngredientOr;
-import it.unimi.dsi.fastutil.ints.*;
-import nc.recipe.*;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import nc.recipe.IngredientMatchResult;
+import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
@@ -99,9 +102,22 @@ public class ItemArrayIngredient implements IItemIngredient {
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
-		for (int i = 0; i < ingredientList.size(); i++) {
-			if (ingredientList.get(i).match(object, sorption).matches()) {
-				return new IngredientMatchResult(true, i);
+		if (object instanceof ItemArrayIngredient) {
+			loop: for (IItemIngredient ingredient : ingredientList) {
+				for (IItemIngredient ingr : ((ItemArrayIngredient) object).ingredientList) {
+					if (ingredient.match(ingr, sorption).matches()) {
+						continue loop;
+					}
+				}
+				return IngredientMatchResult.FAIL;
+			}
+			return IngredientMatchResult.PASS_0;
+		}
+		else {
+			for (int i = 0; i < ingredientList.size(); i++) {
+				if (ingredientList.get(i).match(object, sorption).matches()) {
+					return new IngredientMatchResult(true, i);
+				}
 			}
 		}
 		return IngredientMatchResult.FAIL;

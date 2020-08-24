@@ -67,7 +67,4 @@ public class GasHelper {
 		}
 		return new GasStack(gas, fluidStack.amount);
 	}
-	
-	@CapabilityInject(IGasHandler.class)
-	public static Capability<IGasHandler> GAS_HANDLER_CAPABILITY = null;
 }

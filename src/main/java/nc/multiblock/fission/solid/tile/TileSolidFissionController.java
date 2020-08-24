@@ -61,14 +61,6 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockSolidFissionController) {
-			((BlockSolidFissionController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
-	}
-	
-	@Override
 	public void doMeltdown() {
 		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		world.removeTileEntity(pos);

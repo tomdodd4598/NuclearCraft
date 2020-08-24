@@ -1,41 +1,66 @@
 package nc.multiblock.fission.salt.tile;
 
-import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.*;
-import static nc.util.PosHelper.DEFAULT_NON;
+import static nc.config.NCConfig.enable_mek_gas;
+import static nc.config.NCConfig.fission_fuel_time_multiplier;
+import static nc.config.NCConfig.fission_meltdown_radiation_multiplier;
+import static nc.recipe.NCRecipes.salt_fission;
+import static nc.recipe.NCRecipes.salt_fission_valid_fluids;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
+import static nc.util.PosHelper.DEFAULT_NON;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
-import nc.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import nc.Global;
+import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.*;
+import nc.multiblock.fission.FissionCluster;
+import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
-import nc.multiblock.fission.tile.*;
-import nc.multiblock.fission.tile.port.*;
+import nc.multiblock.fission.tile.IFissionComponent;
+import nc.multiblock.fission.tile.IFissionFluxSink;
+import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.fission.tile.TileFissionPart;
+import nc.multiblock.fission.tile.port.IFissionPortTarget;
+import nc.multiblock.fission.tile.port.TileFissionVesselPort;
 import nc.multiblock.network.SaltFissionVesselUpdatePacket;
 import nc.radiation.RadiationHelper;
-import nc.recipe.*;
+import nc.recipe.AbstractRecipeHandler;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.ITileGui;
-import nc.tile.fluid.*;
+import nc.tile.fluid.ITileFilteredFluid;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.generator.IFluidGenerator;
-import nc.tile.internal.fluid.*;
-import nc.util.*;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.FluidTileWrapper;
+import nc.tile.internal.fluid.GasTileWrapper;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
+import nc.tile.internal.fluid.TankSorption;
+import nc.util.CapabilityHelper;
+import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -703,7 +728,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	public void toggleVesselSetting(@Nonnull EnumFacing side) {
 		setVesselSetting(side, getVesselSetting(side).next());
 		refreshFluidConnections(side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public void refreshFluidConnections(@Nonnull EnumFacing side) {
@@ -822,7 +847,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -994,7 +1018,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -1008,7 +1032,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

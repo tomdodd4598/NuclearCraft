@@ -54,13 +54,6 @@ public class CTRegistration {
 	
 	public static final List<RegistrationInfo> INFO_LIST = new ArrayList<>();
 	
-	public static class TileSink extends TileSolidFissionSink {
-		
-		public TileSink(String sinkName, int coolingRate, String ruleID) {
-			super(sinkName, coolingRate, ruleID);
-		}
-	}
-	
 	@ZenMethod
 	public static void registerFissionSink(String sinkID, int cooling, String rule) {
 		
@@ -68,7 +61,7 @@ public class CTRegistration {
 				new BlockFissionPart() {
 					@Override
 					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileSink(sinkID, cooling, sinkID + "_sink");
+						return new TileSolidFissionSink(sinkID, cooling, sinkID + "_sink");
 					}
 					
 					@Override
@@ -84,28 +77,14 @@ public class CTRegistration {
 		INFO_LIST.add(new FissionSinkRegistrationInfo(sink, sinkID, cooling, rule));
 	}
 	
-	public static class TileHeaterPort extends TileFissionHeaterPort {
-		
-		public TileHeaterPort(String coolantName) {
-			super(coolantName);
-		}
-	}
-	
-	public static class TileHeater extends TileSaltFissionHeater {
-		
-		public TileHeater(String heaterName, String coolantName) {
-			super(heaterName, coolantName);
-		}
-	}
-	
 	@ZenMethod
 	public static void registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 		
 		Block port = NCBlocks.withName(
-				new BlockFissionFluidPort(TileHeaterPort.class, 303) {
+				new BlockFissionFluidPort(TileFissionHeaterPort.class, 303) {
 					@Override
 					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileHeaterPort(fluidInput);
+						return new TileFissionHeaterPort(fluidInput);
 					}
 				},
 				"fission_heater_port_" + heaterID);
@@ -114,7 +93,7 @@ public class CTRegistration {
 				new BlockFissionPart() {
 					@Override
 					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileHeater(heaterID, fluidInput);
+						return new TileSaltFissionHeater(heaterID, fluidInput);
 					}
 					
 					@Override
@@ -153,13 +132,6 @@ public class CTRegistration {
 		INFO_LIST.add(new FissionHeaterRegistrationInfo(heater, heaterID, fluidInput, inputAmount, fluidOutput, outputAmount, cooling, rule));
 	}
 	
-	public static class TileCoil extends TileTurbineDynamoCoil {
-		
-		public TileCoil(String partName, double conductivity, String ruleID) {
-			super(partName, conductivity, ruleID);
-		}
-	}
-	
 	@ZenMethod
 	public static void registerTurbineCoil(String coilID, double conductivity, String rule) {
 		
@@ -167,7 +139,7 @@ public class CTRegistration {
 				new BlockTurbinePart() {
 					@Override
 					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileCoil(coilID, conductivity, coilID + "_coil");
+						return new TileTurbineDynamoCoil(coilID, conductivity, coilID + "_coil");
 					}
 					
 					@Override
@@ -181,21 +153,6 @@ public class CTRegistration {
 				"turbine_dynamo_coil_" + coilID);
 		
 		INFO_LIST.add(new TurbineCoilRegistrationInfo(coil, coilID, conductivity, rule));
-	}
-	
-	public static class TileBlade extends TileTurbineRotorBlade {
-		
-		final Block bladeBlock;
-		
-		public TileBlade(IRotorBladeType bladeType, Block bladeBlock) {
-			super(bladeType);
-			this.bladeBlock = bladeBlock;
-		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return bladeBlock.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
 	}
 	
 	@ZenMethod
@@ -224,32 +181,12 @@ public class CTRegistration {
 				new BlockTurbineRotorBlade(null) {
 					@Override
 					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileBlade(bladeType, this);
+						return new TileTurbineRotorBlade(bladeType);
 					}
 				},
 				"turbine_rotor_blade_" + bladeID);
 		
 		INFO_LIST.add(new TurbineBladeRegistrationInfo(blade, efficiency, expansionCoefficient));
-	}
-	
-	public static class TileStator extends TileTurbineRotorStator {
-		
-		final Block bladeBlock;
-		
-		public TileStator(IRotorStatorType statorType, Block bladeBlock) {
-			super(statorType);
-			this.bladeBlock = bladeBlock;
-		}
-		
-		@Override
-		public IRotorBladeType getBladeType() {
-			return statorType;
-		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return bladeBlock.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
 	}
 	
 	@ZenMethod
@@ -273,7 +210,7 @@ public class CTRegistration {
 				new BlockTurbineRotorStator() {
 					@Override
 					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileBlade(statorType, this);
+						return new TileTurbineRotorStator(statorType);
 					}
 				},
 				"turbine_rotor_stator_" + statorID);

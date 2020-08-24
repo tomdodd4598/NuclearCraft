@@ -238,11 +238,11 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		isReactorOn = isAssembled() && logic.isReactorOn();
 		if (isReactorOn != wasReactorOn) {
 			if (controller != null) {
-				controller.updateBlockState(isReactorOn);
+				controller.setActivity(isReactorOn);
 				sendUpdateToAllPlayers();
 			}
 			for (TileFissionMonitor monitor : getParts(TileFissionMonitor.class)) {
-				monitor.updateBlockState(isReactorOn);
+				monitor.setActivity(isReactorOn);
 			}
 		}
 	}

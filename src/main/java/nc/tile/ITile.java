@@ -2,11 +2,14 @@ package nc.tile;
 
 import java.util.List;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import nc.block.property.BlockProperties;
+import nc.block.tile.IActivatable;
 import nc.capability.radiation.source.IRadiationSource;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -45,7 +48,16 @@ public interface ITile<T extends TileEntity> {
 		return true;
 	}
 	
-	public void setState(boolean isActive, TileEntity tile);
+	public default void setActivity(boolean isActive) {
+		setState(isActive, thisTile());
+	}
+	
+	@Deprecated
+	public default void setState(boolean isActive, TileEntity tile) {
+		if (getTileBlockType() instanceof IActivatable) {
+			((IActivatable) getTileBlockType()).setActivity(isActive, tile);
+		}
+	}
 	
 	public default void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		refreshIsRedstonePowered(world, pos);
@@ -102,7 +114,32 @@ public interface ITile<T extends TileEntity> {
 	
 	public void markTileDirty();
 	
-	public void markDirtyAndNotify();
+	public default void notifyBlockUpdate() {
+		IBlockState state = getTileWorld().getBlockState(getTilePos());
+		getTileWorld().notifyBlockUpdate(getTilePos(), state, state, 3);
+	}
+	
+	public default void notifyNeighborsOfStateChange() {
+		getTileWorld().notifyNeighborsOfStateChange(getTilePos(), getTileBlockType(), true);
+	}
+	
+	/** Call after markDirty if comparators might need to know about the changes made to the TE */
+	public default void updateComparatorOutputLevel() {
+		getTileWorld().updateComparatorOutputLevel(getTilePos(), getTileBlockType());
+	}
+	
+	public default void markDirtyAndNotify(boolean notifyNeighbors) {
+		markTileDirty();
+		notifyBlockUpdate();
+		if (notifyNeighbors) {
+			notifyNeighborsOfStateChange();
+		}
+	}
+	
+	@Deprecated
+	public default void markDirtyAndNotify() {
+		markDirtyAndNotify(true);
+	}
 	
 	// Capabilities
 	

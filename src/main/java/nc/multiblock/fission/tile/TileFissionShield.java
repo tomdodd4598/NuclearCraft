@@ -230,7 +230,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 		isShielding = manager.isShieldingActive();
 		if (wasShielding != isShielding) {
 			if (!world.isRemote) {
-				updateBlockState(isShielding);
+				setActivity(isShielding);
 			}
 			return true;
 		}
@@ -249,16 +249,9 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasShielding = isShielding;
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		updateBlockState(isShielding);
+		setActivity(isShielding);
 		if (!world.isRemote && wasShielding != isShielding) {
 			getLogic().onShieldUpdated(this);
-		}
-	}
-	
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockFissionShield) {
-			((BlockFissionShield) getBlockType()).setState(isActive, this);
-			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	
