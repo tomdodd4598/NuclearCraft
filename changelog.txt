@@ -1,3 +1,13 @@
+v2.18x
+
++ Added config to disable IC2 EU support
+
+v2.18w
+
++ Added config to give players total radiation immunity
+
+* Fixed radiation immunity not being applied when radiation death persistence is disabled
+
 v2.18v
 
 - Removed minor nuclear wasteland biome decorators causing crash
