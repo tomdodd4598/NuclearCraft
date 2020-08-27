@@ -3,13 +3,14 @@ package nc.multiblock.fission.tile.port;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 import static nc.util.PosHelper.DEFAULT_NON;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import it.unimi.dsi.fastutil.objects.*;
-import nc.multiblock.cuboidal.*;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.cuboidal.PartPosition;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.block.port.BlockFissionMetaPort;
-import nc.multiblock.fission.block.port.BlockFissionPort;
 import nc.multiblock.fission.tile.TileFissionPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -64,7 +65,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	
 	@Override
 	public ObjectSet<TARGET> getTargets() {
-		return targets;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getTargets() : targets;
 	}
 	
 	@Override
@@ -97,7 +98,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 		refreshTargetsFlag = false;
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
-			for (TARGET part : targets) {
+			for (TARGET part : getTargets()) {
 				if (part.onPortRefresh()) {
 					refresh = true;
 				}

@@ -1,42 +1,14 @@
 package nc.tile.passive;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.cobble_gen_power;
+import static nc.config.NCConfig.processor_passive_rate;
 
-import nc.recipe.ingredient.*;
-import nc.tile.energy.IEnergySpread;
-import nc.tile.fluid.IFluidSpread;
+import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class TilePassive {
-	
-	public static abstract class ElectromagnetAbstract extends TilePassiveAbstract implements IEnergySpread {
-		
-		public ElectromagnetAbstract(String name, double energyChange) {
-			super(name + "_electromagnet", -energyChange);
-		}
-	}
-	
-	public static class FusionElectromagnet extends ElectromagnetAbstract {
-		
-		public FusionElectromagnet() {
-			super("fusion", fusion_electromagnet_power);
-		}
-	}
-	
-	public static class AcceleratorElectromagnet extends ElectromagnetAbstract {
-		
-		public AcceleratorElectromagnet() {
-			super("accelerator", accelerator_electromagnet_power);
-		}
-	}
-	
-	public static class ElectromagnetSupercooler extends TilePassiveAbstract implements IEnergySpread, IFluidSpread {
-		
-		public ElectromagnetSupercooler() {
-			super("electromagnet_supercooler", -accelerator_electromagnet_power, new FluidIngredient("liquid_helium", 1), -accelerator_supercooler_coolant);
-		}
-	}
 	
 	public static abstract class CobblestoneGeneratorAbstract extends TilePassiveAbstract {
 		

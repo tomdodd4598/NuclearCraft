@@ -2246,6 +2246,8 @@ jei.nuclearcraft.salt_fuel_criticality=Fuel criticality:
 jei.nuclearcraft.salt_fuel_radiation=Fuel radiation:
 jei.nuclearcraft.salt_fuel_self_priming=Self-priming!
 
+jei.nuclearcraft.fission_emergency_cooling_per_mb=Cooling per input mB:
+
 jei.nuclearcraft.fusion_time=Base combo lifetime:
 jei.nuclearcraft.fusion_power=Base max power:
 jei.nuclearcraft.fusion_temp=Optimal temperature:
@@ -2343,7 +2345,9 @@ gui.nc.config.energy_upgrade_power_laws_fp.comment=Power laws for energy upgrade
 gui.nc.config.energy_upgrade_multipliers_fp=Energy Upgrade Multipliers
 gui.nc.config.energy_upgrade_multipliers_fp.comment=Base multipliers for energy upgrades. Order: Processing Power.
 gui.nc.config.rf_per_eu=RF per IC2 EU
-gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 Energy Units.
+gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 and GTCE Energy Units.
+gui.nc.config.enable_ic2_eu=Enable IC2 EU Support
+gui.nc.config.enable_ic2_eu.comment=If true, energy from IC2 can be accepted and emitted by NC machines.
 gui.nc.config.enable_gtce_eu=Enable GTCE EU Support
 gui.nc.config.enable_gtce_eu.comment=If true, energy from GTCE can be accepted and emitted by NC machines.
 gui.nc.config.enable_mek_gas=Enable Mekanism Gas Support
@@ -2769,7 +2773,7 @@ gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search f
 gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
 gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
 gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
-gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
+gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for their efficiencies. It is recommended that you only modify these if you know what you are doing.
 gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
 gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. Order: borax dust, RadAway, Slow-Acting RadAway
 gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
@@ -3115,6 +3119,7 @@ nuclearcraft.fission_moderator.jei_name=Fission Moderators
 nuclearcraft.fission_reflector.jei_name=Fission Reflectors
 nuclearcraft.fission_heating.jei_name=Solid Fuel Fission Heating
 nuclearcraft.multiblock_gui.salt_fission.jei_name=Molten Salt Fission
+nuclearcraft.fission_emergency_cooling.jei_name=MSR Emergency Cooling
 nuclearcraft.multiblock_gui.coolant_heater.jei_name=Molten Salt Cooling
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Heat Exchanger Tube
 nuclearcraft.multiblock_gui.condenser.jei_name=Condensation Tube

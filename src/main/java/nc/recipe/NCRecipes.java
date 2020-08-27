@@ -101,10 +101,6 @@ public class NCRecipes {
 			return;
 		}
 		
-		if (ModCheck.craftTweakerLoaded()) {
-			CraftTweakerAPI.tweaker.loadScript(false, "nc_pre_recipe_event");
-		}
-		
 		RadSources.init();
 		
 		manufactory = new ManufactoryRecipes();

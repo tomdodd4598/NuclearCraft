@@ -9,11 +9,13 @@ import com.google.common.collect.Lists;
 
 import mekanism.common.base.ILogisticalTransporter;
 import nc.ModCheck;
+import nc.multiblock.tile.port.ITilePort;
 import nc.tile.ITile;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemHandler;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.processor.IProcessor;
 import nc.util.CapabilityHelper;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -233,22 +235,35 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 				return;
 			}
 			
+			boolean pushed = false;
+			
 			for (int i = 0; i < getInventoryStacks().size(); i++) {
 				if (!getItemSorption(side, i).canExtract() || getInventoryStacks().get(i).isEmpty()) {
 					continue;
 				}
 				
 				ItemStack initialStack = getInventoryStacks().get(i).copy();
-				ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
+				ItemStack remaining = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
 				
-				if (inserted.getCount() >= initialStack.getCount()) {
+				if (remaining.getCount() >= initialStack.getCount()) {
 					continue;
 				}
 				
-				getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
+				pushed = true;
+				
+				getInventoryStacks().get(i).shrink(initialStack.getCount() - remaining.getCount());
 				
 				if (getInventoryStacks().get(i).getCount() <= 0) {
 					getInventoryStacks().set(i, ItemStack.EMPTY);
+				}
+			}
+			
+			if (pushed) {
+				if (this instanceof IProcessor) {
+					((IProcessor) this).refreshActivity();
+				}
+				if (this instanceof ITilePort) {
+					((ITilePort) this).setRefreshTargetsFlag(true);
 				}
 			}
 		}

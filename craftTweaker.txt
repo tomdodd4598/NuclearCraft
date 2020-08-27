@@ -353,12 +353,21 @@ mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput
 
 
 Molten Salt Fission:
-------------------------------------
+--------------------
 
 mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SaltFission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.SaltFission.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Fission Emergency Cooling:
+--------------------------
+
+mods.nuclearcraft.FissionEmergencyCooling.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double coolingPerInputMB);
+
+mods.nuclearcraft.FissionEmergencyCooling.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.FissionEmergencyCooling.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
 
 Fusion (NOT YET IMPLEMENTED!):
@@ -454,9 +463,7 @@ IEntityLivingBase::getRadiationLevel();
 Miscellaneous:
 --------------
 
-Note A: The radiation setting and blacklisting methods must use the `nc_pre_recipe_event` loader!
-
-Note B: `setMaterialRadiationLevel(...)` can accept Unix-style wildcards.
+Note: `setMaterialRadiationLevel(...)` can accept Unix-style wildcards.
 
 mods.nuclearcraft.Radiation.getRadiationLevel(IIngredient ingredient);
 

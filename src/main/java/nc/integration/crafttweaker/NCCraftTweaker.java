@@ -1,39 +1,6 @@
 package nc.integration.crafttweaker;
 
-import static nc.recipe.NCRecipes.alloy_furnace;
-import static nc.recipe.NCRecipes.assembler;
-import static nc.recipe.NCRecipes.centrifuge;
-import static nc.recipe.NCRecipes.chemical_reactor;
-import static nc.recipe.NCRecipes.condenser;
-import static nc.recipe.NCRecipes.crystallizer;
-import static nc.recipe.NCRecipes.decay_generator;
-import static nc.recipe.NCRecipes.decay_hastener;
-import static nc.recipe.NCRecipes.electrolyzer;
-import static nc.recipe.NCRecipes.enricher;
-import static nc.recipe.NCRecipes.extractor;
-import static nc.recipe.NCRecipes.fission_heating;
-import static nc.recipe.NCRecipes.fission_irradiator;
-import static nc.recipe.NCRecipes.fission_moderator;
-import static nc.recipe.NCRecipes.fission_reflector;
-import static nc.recipe.NCRecipes.fuel_reprocessor;
-import static nc.recipe.NCRecipes.fusion;
-import static nc.recipe.NCRecipes.heat_exchanger;
-import static nc.recipe.NCRecipes.infuser;
-import static nc.recipe.NCRecipes.ingot_former;
-import static nc.recipe.NCRecipes.manufactory;
-import static nc.recipe.NCRecipes.melter;
-import static nc.recipe.NCRecipes.pebble_fission;
-import static nc.recipe.NCRecipes.pressurizer;
-import static nc.recipe.NCRecipes.radiation_block_mutation;
-import static nc.recipe.NCRecipes.radiation_block_purification;
-import static nc.recipe.NCRecipes.radiation_scrubber;
-import static nc.recipe.NCRecipes.rock_crusher;
-import static nc.recipe.NCRecipes.salt_fission;
-import static nc.recipe.NCRecipes.salt_mixer;
-import static nc.recipe.NCRecipes.separator;
-import static nc.recipe.NCRecipes.solid_fission;
-import static nc.recipe.NCRecipes.supercooler;
-import static nc.recipe.NCRecipes.turbine;
+import static nc.recipe.NCRecipes.*;
 
 import com.google.common.collect.Lists;
 
@@ -879,6 +846,36 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeAllRecipes() {
 			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(salt_fission));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.FissionEmergencyCooling")
+	@ZenRegister
+	public static class FissionEmergencyCooling {
+		
+		@ZenMethod
+		public static ProcessorRecipeHandler getRecipeHandler() {
+			return fission_emergency_cooling;
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, int coolingPerInputMB) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(fission_emergency_cooling, Lists.newArrayList(input, output, coolingPerInputMB)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(fission_emergency_cooling, IngredientSorption.INPUT, Lists.newArrayList(input)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(fission_emergency_cooling, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(fission_emergency_cooling));
 		}
 	}
 	

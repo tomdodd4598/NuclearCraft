@@ -196,6 +196,12 @@ public class ProcessorRecipe implements IRecipe {
 		return (int) extras.get(0);
 	}
 	
+	// Fission Emergency Cooling
+	
+	public double getEmergencyCoolingHeatPerInputMB() {
+		return (double) extras.get(0);
+	}
+	
 	// Fusion
 	
 	public double getFusionComboTime() {

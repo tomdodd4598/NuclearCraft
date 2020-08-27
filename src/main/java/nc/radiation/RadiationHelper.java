@@ -240,6 +240,16 @@ public class RadiationHelper {
 		for (ItemStack armor : entity.getArmorInventoryList()) {
 			resistance += getArmorRadResistance(armor);
 		}
+		
+		if (ModCheck.baublesLoaded() && entity.hasCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null)) {
+			IBaublesItemHandler baublesHandler = entity.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
+			if (baublesHandler != null) {
+				for (int i = 0; i < baublesHandler.getSlots(); i++) {
+					resistance += getArmorRadResistance(baublesHandler.getStackInSlot(i));
+				}
+			}
+		}
+		
 		return resistance;
 	}
 	

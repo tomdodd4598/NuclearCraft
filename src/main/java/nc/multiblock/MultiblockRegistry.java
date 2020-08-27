@@ -27,7 +27,12 @@ public final class MultiblockRegistry {
 	 * The part being loaded.
 	 */
 	public void onPartAdded(final World world, final ITileMultiblockPart part) {
-		getMultiblockRegistry(world).onPartAdded(part);
+		if (world == null) {
+			FMLLog.warning("Attempted to add a new multiblock part to a null world! Ignoring...");
+		}
+		else {
+			getMultiblockRegistry(world).onPartAdded(part);
+		}
 	}
 	
 	/**
@@ -57,7 +62,7 @@ public final class MultiblockRegistry {
 			_registries.get(world).addDeadMultiblock(multiblock);
 		}
 		else {
-			FMLLog.warning("Multiblock %d in world %s marked as dead, but that world is not tracked! Multiblock is being ignored.", multiblock.hashCode(), world);
+			FMLLog.warning("Multiblock %d in world %s marked as dead, but that world is not tracked! Multiblock is being ignored...", multiblock.hashCode(), world);
 		}
 	}
 	
@@ -71,9 +76,14 @@ public final class MultiblockRegistry {
 	 */
 	public void addDirtyMultiblock(final World world, final Multiblock multiblock) {
 		if (!_registries.containsKey(world)) {
-			FMLLog.warning("Adding a dirty multiblock to a world that has no registered multiblocks! Creating new registry...");
-			// throw new IllegalArgumentException("Adding a dirty multiblock to
-			// a world that has no registered multiblocks!");
+			if (world == null) {
+				FMLLog.warning("Attempted to add a dirty multiblock to a null world! Ignoring...");
+				return;
+			}
+			else {
+				FMLLog.warning("Adding a dirty multiblock to a world that has no registered multiblocks! Creating new registry...");
+			}
+			// throw new IllegalArgumentException("Adding a dirty multiblock to a world that has no registered multiblocks!");
 		}
 		getMultiblockRegistry(world).addDirtyMultiblock(multiblock);
 	}

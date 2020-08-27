@@ -9,12 +9,15 @@ import javax.annotation.Nullable;
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.EnergyNet;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionPlacement;
@@ -31,6 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -196,57 +200,6 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 		return energySidesGT;
 	}
 	
-	// Energy Pushing
-	
-	@Override
-	public void pushEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canExtract() || getEnergyStorage().getEnergyStored() == 0) {
-			return;
-		}
-		
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileTurbinePart) {
-			return;
-		}
-		
-		if (tile instanceof ITileEnergy) {
-			if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) {
-				return;
-			}
-		}
-		if (tile instanceof ITilePassive) {
-			if (!((ITilePassive) tile).canPushEnergyTo()) {
-				return;
-			}
-		}
-		
-		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-		
-		if (adjStorage != null && getEnergyStorage().canExtract()) {
-			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true), false), false);
-			return;
-		}
-		
-		if (getEnergyStorage().getEnergyStored() < rf_per_eu) {
-			return;
-		}
-		
-		if (ModCheck.ic2Loaded()) {
-			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getEUSourceTier()) * rf_per_eu), false);
-				return;
-			}
-		}
-		if (enable_gtce_eu && ModCheck.gregtechLoaded()) {
-			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
-			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
-				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
-				return;
-			}
-		}
-	}
-	
 	// IC2 Energy
 	
 	@Override
@@ -276,8 +229,8 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
+		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			ic2reg = true;
 		}
 	}
@@ -286,7 +239,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
 		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			ic2reg = false;
 		}
 	}

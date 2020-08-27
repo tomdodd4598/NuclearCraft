@@ -25,43 +25,21 @@ public class FluidTileWrapper implements IFluidHandler {
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
 		int amount = tile.fill(side, resource, doFill);
-		if (doFill && amount != 0) {
-			if (tile instanceof IProcessor) {
-				((IProcessor) tile).refreshRecipe();
-				((IProcessor) tile).refreshActivity();
-			}
-			if (tile instanceof ITilePort) {
-				((ITilePort) tile).setRefreshTargetsFlag(true);
-			}
-		}
+		tile.onWrapperFill(amount, doFill);
 		return amount;
 	}
 	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		FluidStack stack = tile.drain(side, resource, doDrain);
-		if (doDrain && stack != null && stack.amount != 0) {
-			if (tile instanceof IProcessor) {
-				((IProcessor) tile).refreshActivity();
-			}
-			if (tile instanceof ITilePort) {
-				((ITilePort) tile).setRefreshTargetsFlag(true);
-			}
-		}
+		tile.onWrapperDrain(stack, doDrain);
 		return stack;
 	}
 	
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		FluidStack stack = tile.drain(side, maxDrain, doDrain);
-		if (doDrain && stack != null && stack.amount != 0) {
-			if (tile instanceof IProcessor) {
-				((IProcessor) tile).refreshActivity();
-			}
-			if (tile instanceof ITilePort) {
-				((ITilePort) tile).setRefreshTargetsFlag(true);
-			}
-		}
+		tile.onWrapperDrain(stack, doDrain);
 		return stack;
 	}
 }

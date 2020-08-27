@@ -1,23 +1,30 @@
 package nc.tile.energy;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
+import static nc.config.NCConfig.enable_ic2_eu;
+import static nc.config.NCConfig.rf_per_eu;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import gregtech.api.capability.*;
+import gregtech.api.capability.GregtechCapabilities;
+import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.tile.IEnergySink;
 import mcjty.lib.api.power.IBigPower;
 import nc.ModCheck;
 import nc.tile.ITile;
-import nc.tile.internal.energy.*;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.energy.EnergyTileWrapper;
+import nc.tile.internal.energy.EnergyTileWrapperGT;
 import nc.tile.passive.ITilePassive;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.energy.*;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "mcjty.lib.api.power.IBigPower", modid = "theoneprobe")
@@ -169,7 +176,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 			return;
 		}
 		
-		if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded() && enable_ic2_eu) {
 			if (tile instanceof IEnergySink) {
 				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getEUSourceTier()) * rf_per_eu), false);
 				return;
@@ -181,27 +188,6 @@ public interface ITileEnergy extends ITile, IBigPower {
 				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
 				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
 				return;
-			}
-		}
-	}
-	
-	public default void spreadEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canConnect()) {
-			return;
-		}
-		
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		
-		if (tile instanceof IEnergySpread) {
-			if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushEnergyTo()) {
-				return;
-			}
-			
-			IEnergySpread other = (IEnergySpread) tile;
-			
-			int diff = getEnergyStorage().getEnergyStored() - other.getEnergyStorage().getEnergyStored();
-			if (diff > 1) {
-				getEnergyStorage().extractEnergy(other.getEnergyStorage().receiveEnergy(getEnergyStorage().extractEnergy(diff / 2, true), false), false);
 			}
 		}
 	}

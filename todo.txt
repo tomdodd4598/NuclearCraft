@@ -1,17 +1,8 @@
-Add config to disable IC2 support (pre-overhaul and overhaul)
 Try to wrap IC2 energy interfaces into ITileEnergy (overhaul only)
 
 Adjacent MSR vessels with same filter connect to share flux, shared criticality factor is sum of vessel criticality factors
 
-Replace casing emergency cooling with cluster/port based version (no placement rules)
-Emergency cooling JEI and CT support
-
 Complete printing of registered multiblock component stats and rules to separate nuclearcraft_info.cfg file
-
-Finish fission meltdown mechanics
-Add melting logic to non-fuel components
-Graphite/beryllium fires, heavy water evaporation, etc.
-Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
 
 Fuel decay heat and neutron poison (https://discordapp.com/channels/425461908712325130/425470889354723350/738167468283002932)
 
@@ -22,6 +13,13 @@ Keep clusters running even when multiblock is invalidated
 Link managers to listeners with multitool (default behaviour: act on all listeners)
 
 Multiblock monitors: show cluster information, meltdown locations, side configurations, etc.
+
+Finish fission meltdown mechanics
+Add melting logic to non-fuel components
+Graphite/beryllium fires, heavy water evaporation, etc.
+Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
+
+Replace casing emergency cooling with cluster/port based version (no placement rules)?
 
 Move onAdded tile methods to onLoad()?
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling

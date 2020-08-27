@@ -9,6 +9,7 @@ v2o.4.0
 + Added input and output settings for all fission ports
 
 * Shields can no longer act as active moderators in MSRs
++ Added JEI and CT support for MSR emergency cooling recipes
 
 * Tweaked turbine throughput bonus (ask in Discord server for subtle details)
 * Tweaked default turbine coil efficiencies
@@ -18,14 +19,20 @@ v2o.4.0
 
 + Added config to give players total radiation immunity
 + Added config to disable chunk radiation non-TE block contributions
+* Baubles with rad resistance now contribute to the total armour rad resistance
 * Fixed radiation immunity not being applied when radiation death persistence is disabled
-* Fixed CT radiation methods being called too late
 
 * Large refactoring and improvement of tile entity block update logic
 * Fixed some models not correctly updating on the client-side
 
++ Added config to disable IC2 EU support
+
+* Fixed CT radiation level methods not working consistently
 * Fixed CT input recipe removal methods not correctly removing recipes with matching array ingredients
 
+* Prevented crash on pistons moving multiblock components with Quark installed
+
+- Removed many unused classes and interfaces
 * Various other minor fixes, changes and refactors
 * Possible other things that I have forgotten
 - Removed Paulobrine and Herobrian

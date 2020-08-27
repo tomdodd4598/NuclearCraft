@@ -5,7 +5,7 @@ import nc.tile.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.EnergyHelper;
 
-public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable, IEnergySpread {
+public abstract class TilePassiveGenerator extends TileEnergy implements ITileEnergy, IInterfaceable {
 	
 	public final int power;
 	

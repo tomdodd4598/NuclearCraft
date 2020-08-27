@@ -1,27 +1,40 @@
 package nc.multiblock.battery.tile;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
+import static nc.config.NCConfig.rf_per_eu;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.EnergyNet;
-import ic2.api.energy.tile.*;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.tile.IEnergyAcceptor;
+import ic2.api.energy.tile.IEnergyEmitter;
+import ic2.api.energy.tile.IEnergySink;
+import ic2.api.energy.tile.IEnergySource;
 import nc.ModCheck;
-import nc.multiblock.battery.*;
+import nc.config.NCConfig;
+import nc.multiblock.battery.BatteryMultiblock;
+import nc.multiblock.battery.BatteryType;
 import nc.multiblock.tile.TileMultiblockPart;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.*;
-import nc.tile.internal.energy.*;
+import nc.tile.energy.ITileEnergy;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.energy.EnergyTileWrapper;
+import nc.tile.internal.energy.EnergyTileWrapperGT;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implements IEnergySpread, IEnergySink, IEnergySource, IInterfaceable {
+public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implements ITileEnergy, IEnergySink, IEnergySource, IInterfaceable {
 	
 	public static class VoltaicPileBasic extends TileBattery {
 		
@@ -146,7 +159,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	@Override
 	public void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (!ignoreSide(side)) {
-			IEnergySpread.super.pushEnergyToSide(side);
+			ITileEnergy.super.pushEnergyToSide(side);
 		}
 	}
 	
@@ -248,8 +261,8 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
+		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			ic2reg = true;
 		}
 	}
@@ -258,7 +271,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
 		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			ic2reg = false;
 		}
 	}

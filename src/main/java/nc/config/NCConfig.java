@@ -71,6 +71,7 @@ public class NCConfig {
 	public static double[] energy_upgrade_power_laws;
 	public static double[] energy_upgrade_multipliers;
 	public static int rf_per_eu;
+	public static boolean enable_ic2_eu;
 	public static boolean enable_gtce_eu;
 	public static boolean enable_mek_gas;
 	public static int machine_update_rate;
@@ -118,6 +119,7 @@ public class NCConfig {
 	public static int fission_max_size; // Default: 24
 	public static int fission_comparator_max_temp;
 	public static int fission_neutron_reach;
+	public static double fission_emergency_cooling_multiplier;
 	public static double fission_sound_volume;
 	
 	public static int[] fission_thorium_fuel_time;
@@ -457,6 +459,8 @@ public class NCConfig {
 		propertyEnergyUpgradeMultipliers.setLanguageKey("gui.nc.config.energy_upgrade_multipliers_fp");
 		Property propertyRFPerEU = config.get(CATEGORY_PROCESSOR, "rf_per_eu", 16, Lang.localise("gui.nc.config.rf_per_eu.comment"), 1, 2000);
 		propertyRFPerEU.setLanguageKey("gui.nc.config.rf_per_eu");
+		Property propertyEnableIC2EU = config.get(CATEGORY_PROCESSOR, "enable_ic2_eu", true, Lang.localise("gui.nc.config.enable_ic2_eu.comment"));
+		propertyEnableIC2EU.setLanguageKey("gui.nc.config.enable_ic2_eu");
 		Property propertyEnableGTCEEU = config.get(CATEGORY_PROCESSOR, "enable_gtce_eu", true, Lang.localise("gui.nc.config.enable_gtce_eu.comment"));
 		propertyEnableGTCEEU.setLanguageKey("gui.nc.config.enable_gtce_eu");
 		Property propertyEnableMekGas = config.get(CATEGORY_PROCESSOR, "enable_mek_gas", true, Lang.localise("gui.nc.config.enable_mek_gas.comment"));
@@ -549,6 +553,8 @@ public class NCConfig {
 		propertyFissionComparatorMaxTemp.setLanguageKey("gui.nc.config.fission_comparator_max_temp");
 		Property propertyFissionNeutronReach = config.get(CATEGORY_FISSION, "fission_neutron_reach", 4, Lang.localise("gui.nc.config.fission_neutron_reach.comment"), 1, 255);
 		propertyFissionNeutronReach.setLanguageKey("gui.nc.config.fission_neutron_reach");
+		Property propertyFissionEmergencyCoolingMultiplier = config.get(CATEGORY_FISSION, "fission_emergency_cooling_multiplier", 1D, Lang.localise("gui.nc.config.fission_emergency_cooling_multiplier.comment"), 0.001D, 255D);
+		propertyFissionEmergencyCoolingMultiplier.setLanguageKey("gui.nc.config.fission_emergency_cooling_multiplier");
 		Property propertyFissionSoundVolume = config.get(CATEGORY_FISSION, "fission_sound_volume", 1D, Lang.localise("gui.nc.config.fission_sound_volume.comment"), 0D, 15D);
 		propertyFissionSoundVolume.setLanguageKey("gui.nc.config.fission_sound_volume");
 		
@@ -1036,6 +1042,7 @@ public class NCConfig {
 		propertyOrderProcessor.add(propertyEnergyUpgradePowerLaws.getName());
 		propertyOrderProcessor.add(propertyEnergyUpgradeMultipliers.getName());
 		propertyOrderProcessor.add(propertyRFPerEU.getName());
+		propertyOrderProcessor.add(propertyEnableIC2EU.getName());
 		propertyOrderProcessor.add(propertyEnableGTCEEU.getName());
 		propertyOrderProcessor.add(propertyEnableMekGas.getName());
 		propertyOrderProcessor.add(propertyMachineUpdateRate.getName());
@@ -1089,6 +1096,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionMaxSize.getName());
 		propertyOrderFission.add(propertyFissionComparatorMaxTemp.getName());
 		propertyOrderFission.add(propertyFissionNeutronReach.getName());
+		propertyOrderFission.add(propertyFissionEmergencyCoolingMultiplier.getName());
 		propertyOrderFission.add(propertyFissionSoundVolume.getName());
 		
 		propertyOrderFission.add(propertyFissionThoriumFuelTime.getName());
@@ -1372,6 +1380,7 @@ public class NCConfig {
 			energy_upgrade_power_laws = readDoubleArrayFromConfig(propertyEnergyUpgradePowerLaws);
 			energy_upgrade_multipliers = readDoubleArrayFromConfig(propertyEnergyUpgradeMultipliers);
 			rf_per_eu = propertyRFPerEU.getInt();
+			enable_ic2_eu = propertyEnableIC2EU.getBoolean();
 			enable_gtce_eu = propertyEnableGTCEEU.getBoolean();
 			enable_mek_gas = propertyEnableMekGas.getBoolean();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
@@ -1419,6 +1428,7 @@ public class NCConfig {
 			fission_max_size = propertyFissionMaxSize.getInt();
 			fission_comparator_max_temp = propertyFissionComparatorMaxTemp.getInt();
 			fission_neutron_reach = propertyFissionNeutronReach.getInt();
+			fission_emergency_cooling_multiplier = propertyFissionEmergencyCoolingMultiplier.getDouble();
 			fission_sound_volume = propertyFissionSoundVolume.getDouble();
 			
 			fission_thorium_fuel_time = readIntegerArrayFromConfig(propertyFissionThoriumFuelTime);
@@ -1692,6 +1702,7 @@ public class NCConfig {
 		propertyEnergyUpgradePowerLaws.set(energy_upgrade_power_laws);
 		propertyEnergyUpgradeMultipliers.set(energy_upgrade_multipliers);
 		propertyRFPerEU.set(rf_per_eu);
+		propertyEnableIC2EU.set(enable_ic2_eu);
 		propertyEnableGTCEEU.set(enable_gtce_eu);
 		propertyEnableMekGas.set(enable_mek_gas);
 		propertyMachineUpdateRate.set(machine_update_rate);
@@ -1739,6 +1750,7 @@ public class NCConfig {
 		propertyFissionMaxSize.set(fission_max_size);
 		propertyFissionComparatorMaxTemp.set(fission_comparator_max_temp);
 		propertyFissionNeutronReach.set(fission_neutron_reach);
+		propertyFissionEmergencyCoolingMultiplier.set(fission_emergency_cooling_multiplier);
 		propertyFissionSoundVolume.set(fission_sound_volume);
 		
 		propertyFissionThoriumFuelTime.set(fission_thorium_fuel_time);

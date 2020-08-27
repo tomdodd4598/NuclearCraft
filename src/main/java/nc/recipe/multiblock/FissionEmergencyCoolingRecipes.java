@@ -2,6 +2,7 @@ package nc.recipe.multiblock;
 
 import java.util.*;
 
+import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipeHandler;
 
 public class FissionEmergencyCoolingRecipes extends ProcessorRecipeHandler {
@@ -12,11 +13,13 @@ public class FissionEmergencyCoolingRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("emergency_coolant", 1), fluidStack("emergency_coolant_heated", 1));
+		addRecipe(fluidStack("emergency_coolant", 1), fluidStack("emergency_coolant_heated", 1), NCConfig.fission_emergency_cooling_multiplier);
 	}
 	
 	@Override
 	public List fixExtras(List extras) {
-		return new ArrayList(0);
+		List fixed = new ArrayList(1);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		return fixed;
 	}
 }

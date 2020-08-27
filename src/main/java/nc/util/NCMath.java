@@ -299,6 +299,10 @@ public class NCMath {
 		return (int) clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 	
+	public static int toInt(double value) {
+		return (int) clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
 	public static int getComparatorSignal(double var, double max, double leeway) {
 		return var <= leeway ? 0 : var >= max - leeway ? 15 : (int) (1D + 14D * var / max);
 	}

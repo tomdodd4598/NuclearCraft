@@ -325,7 +325,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public void produceProducts() {
 		ProcessorRecipe recipe = emergencyCoolingRecipeInfo.getRecipe();
-		int usedInput = NCMath.toInt(Math.min(tanks.get(0).getFluidAmount(), Math.min(heatBuffer.getHeatStored(), FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
+		int usedInput = NCMath.toInt(Math.min((double)tanks.get(0).getFluidAmount()/recipe.getEmergencyCoolingHeatPerInputMB(), Math.min(heatBuffer.getHeatStored(), FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
 		
 		tanks.get(0).changeFluidAmount(-usedInput);
 		if (tanks.get(0).getFluidAmount() <= 0) {
@@ -343,7 +343,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			}
 		}
 		
-		heatBuffer.changeHeatStored(-usedInput);
+		heatBuffer.changeHeatStored((long) (-usedInput*recipe.getEmergencyCoolingHeatPerInputMB()));
 	}
 	
 	public long getNetClusterHeating() {

@@ -905,6 +905,82 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.salt_fuel_radiation");
 	}
 	
+	public static class CoolantHeater extends JEIRecipeWrapperAbstract<CoolantHeater> {
+		
+		public CoolantHeater(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return 20;
+		}
+		
+		protected int getCoolantHeaterCoolingRate() {
+			if (recipe == null) {
+				return 40;
+			}
+			return recipe.getCoolantHeaterCoolingRate();
+		}
+		
+		protected String[] getCoolantHeaterJEIInfo() {
+			if (recipe == null) {
+				return null;
+			}
+			return recipe.getCoolantHeaterJEIInfo();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<>();
+			
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getCoolantHeaterCoolingRate(), 5, "H/t"));
+				if (getCoolantHeaterJEIInfo() != null) {
+					for (String posInfo : getCoolantHeaterJEIInfo()) {
+						tooltip.add(TextFormatting.AQUA + posInfo);
+					}
+				}
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String COOLING = Lang.localise("jei.nuclearcraft.coolant_heater_rate");
+	}
+	
+	public static class FissionEmergencyCooling extends JEIRecipeWrapperAbstract<FissionEmergencyCooling> {
+		
+		public FissionEmergencyCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return (int) (16D / getEmergencyCoolingHeatPerInputMB());
+		}
+		
+		public double getEmergencyCoolingHeatPerInputMB() {
+			if (recipe == null) {
+				return 1D;
+			}
+			return recipe.getEmergencyCoolingHeatPerInputMB();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<>();
+			
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.BLUE + COOLING_PER_MB + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getEmergencyCoolingHeatPerInputMB(), 2) + " H/mB");
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String COOLING_PER_MB = Lang.localise("jei.nuclearcraft.fission_emergency_cooling_per_mb");
+	}
+	
 	public static class Fusion extends JEIRecipeWrapperAbstract<Fusion> {
 		
 		public Fusion(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
@@ -956,50 +1032,6 @@ public class JEIRecipeWrapper {
 		private static final String COMBO_TIME = Lang.localise("jei.nuclearcraft.fusion_time");
 		private static final String COMBO_POWER = Lang.localise("jei.nuclearcraft.fusion_power");
 		private static final String COMBO_TEMP = Lang.localise("jei.nuclearcraft.fusion_temp");
-	}
-	
-	public static class CoolantHeater extends JEIRecipeWrapperAbstract<CoolantHeater> {
-		
-		public CoolantHeater(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
-		}
-		
-		@Override
-		protected int getProgressArrowTime() {
-			return 20;
-		}
-		
-		protected int getCoolantHeaterCoolingRate() {
-			if (recipe == null) {
-				return 40;
-			}
-			return recipe.getCoolantHeaterCoolingRate();
-		}
-		
-		protected String[] getCoolantHeaterJEIInfo() {
-			if (recipe == null) {
-				return null;
-			}
-			return recipe.getCoolantHeaterJEIInfo();
-		}
-		
-		@Override
-		public List<String> getTooltipStrings(int mouseX, int mouseY) {
-			List<String> tooltip = new ArrayList<>();
-			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getCoolantHeaterCoolingRate(), 5, "H/t"));
-				if (getCoolantHeaterJEIInfo() != null) {
-					for (String posInfo : getCoolantHeaterJEIInfo()) {
-						tooltip.add(TextFormatting.AQUA + posInfo);
-					}
-				}
-			}
-			
-			return tooltip;
-		}
-		
-		private static final String COOLING = Lang.localise("jei.nuclearcraft.coolant_heater_rate");
 	}
 	
 	public static class HeatExchanger extends JEIRecipeWrapperAbstract<HeatExchanger> {

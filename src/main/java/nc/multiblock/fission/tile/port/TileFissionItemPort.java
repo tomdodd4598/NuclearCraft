@@ -312,7 +312,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
-		ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
+		//ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(this, side));
 	}
 }

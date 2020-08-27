@@ -46,7 +46,7 @@ public class BlockFluidPlasma extends NCBlockFluid {
 				}
 			}
 		}
-		if (rand.nextInt(4) == 0) {
+		/*if (rand.nextInt(4) == 0) {
 			TileEntity tile = worldIn.getTileEntity(offPos);
 			if (tile instanceof TilePassive.FusionElectromagnet) {
 				TilePassive.FusionElectromagnet magnet = (TilePassive.FusionElectromagnet) tile;
@@ -55,7 +55,7 @@ public class BlockFluidPlasma extends NCBlockFluid {
 					return;
 				}
 			}
-		}
+		}*/
 		super.updateTick(worldIn, pos, state, rand);
 	}
 }

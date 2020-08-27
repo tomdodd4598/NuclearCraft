@@ -72,6 +72,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -84,16 +85,18 @@ import slimeknights.tconstruct.library.materials.Material;
 
 public class CommonProxy {
 	
+	public void onConstruction(FMLConstructionEvent constructionEvent) {
+		try {
+			manageScriptAddons();
+		} catch (IOException e) {
+			NCUtil.getLogger().catching(e);
+		}
+	}
+	
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
 		
 		if (ModCheck.craftTweakerLoaded()) {
-			try {
-				manageScriptAddons();
-			} catch (IOException e) {
-				NCUtil.getLogger().catching(e);
-			}
-			
 			CraftTweakerAPI.tweaker.loadScript(false, "nc_preinit");
 		}
 		
@@ -156,6 +159,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
+		RadSources.refreshRadSources(false);
 		RadArmor.init();
 		
 		NCBiomes.initBiomeManagerAndDictionary();
@@ -239,7 +243,7 @@ public class CommonProxy {
 		
 		PlacementRule.refreshTooltipRecipeHandlers();
 		
-		RadSources.refreshRadSources();
+		RadSources.refreshRadSources(true);
 		RadArmor.refreshRadiationArmor();
 	}
 	
@@ -270,12 +274,8 @@ public class CommonProxy {
 	// CT
 	
 	public void manageScriptAddons() throws IOException {
-		if (ModCheck.contentTweakerLoaded()) {
-			File nc = new File("resources/nuclearcraft");
-			if (!nc.exists()) {
-				nc.mkdirs();
-			}
-			for (String s : new String[] {"addons", "blockstates", "lang", "models/block", "models/item", "scripts", "textures/blocks", "textures/items"}) {
+		if (new File("resources/nuclearcraft").exists()) {
+			for (String s : new String[] {"addons", "blockstates", "lang", "models/block", "models/item", "textures/blocks", "textures/items"}) {
 				File f = new File("resources/nuclearcraft/" + s);
 				if (!f.exists()) {
 					f.mkdirs();
@@ -288,28 +288,25 @@ public class CommonProxy {
 					copyAddons(f);
 				}
 			}
-		}
-		
-		File from = new File("resources/nuclearcraft/scripts");
-		if (from.exists() && from.isDirectory()) {
-			File to = new File("scripts/nuclearcraft");
-			if (!to.exists()) {
-				to.mkdirs();
-			}
-			FileUtils.copyDirectory(from, to);
+			
+			/*File from = new File("resources/nuclearcraft/scripts");
+			if (from.exists() && from.isDirectory()) {
+				FileUtils.copyDirectory(from, new File("scripts/nuclearcraft"));
+			}*/
 		}
 	}
 	
 	public void copyAddons(File dir) throws IOException {
+		if (dir.getName().toLowerCase().endsWith(".disabled")) {
+			return;
+		}
+		
 		for (File f : dir.listFiles()) {
 			if (f.isDirectory()) {
-				if (f.getName().equals("addons")) {
-					copyAddons(f);
-				}
-				
 				for (String s : new String[] {"blockstates", "models", "textures"}) {
  					if (f.getName().equals(s)) {
  						FileUtils.copyDirectory(f, new File("resources/nuclearcraft/" + s));
+ 						break;
  					}
 				}
  				
@@ -317,9 +314,17 @@ public class CommonProxy {
  					copyLangs(dir, f);
 				}
  				
- 				if (f.getName().equals("scripts")) {
- 					copyScripts(dir, f);
+ 				else if (f.getName().equals("scripts")) {
+ 					FileUtils.copyDirectory(f, new File("scripts/nuclearcraft/" + dir.getName()));
  				}
+ 				
+ 				else if (f.getName().equals("contenttweaker")) {
+ 					FileUtils.copyDirectory(f, new File("resources/contenttweaker"));
+ 				}
+ 				
+ 				else if (f.getName().equals("addons")) {
+					copyAddons(f);
+				}
 			}
 		}
 	}
@@ -356,14 +361,6 @@ public class CommonProxy {
 				}
 			}
 		}
-	}
-	
-	public void copyScripts(File addonDir, File scriptDir) throws IOException {
-		File target = new File("resources/nuclearcraft/scripts/" + addonDir.getName());
-		if (!target.exists()) {
-			target.mkdirs();
-		}
-		FileUtils.copyDirectory(scriptDir, target);
 	}
 	
 	// TiC

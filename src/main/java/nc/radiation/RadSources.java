@@ -349,14 +349,16 @@ public class RadSources {
 		ORE_MAP.entrySet().forEach(ent -> OreDictionary.getOres(ent.getKey(), false).forEach(s -> addToStackMap(s, ent.getValue())));
 	}
 	
-	public static void refreshRadSources() {
+	public static void refreshRadSources(boolean postInit) {
 		STACK_BLACKLIST.clear();
 		STACK_MAP.clear();
 		FOOD_RAD_MAP.clear();
 		FOOD_RESISTANCE_MAP.clear();
 		
 		init();
-		postInit();
+		if (postInit) {
+			postInit();
+		}
 	}
 	
 	public static void putMaterial(double radiation, String... ores) {
