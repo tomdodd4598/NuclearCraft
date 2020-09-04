@@ -350,6 +350,7 @@ public class NCConfig {
 	public static boolean[] register_tool;
 	public static boolean[] register_tic_tool;
 	public static boolean[] register_armor;
+	public static boolean[] register_food_melting_recipes;
 	public static boolean[] register_conarm_armor;
 	public static boolean[] register_entity;
 	public static boolean register_fluid_blocks;
@@ -974,6 +975,8 @@ public class NCConfig {
 		propertyRegisterQuantum.setLanguageKey("gui.nc.config.register_quantum");
 		Property propertyRegisterTool = config.get(CATEGORY_REGISTRATION, "register_tool", new boolean[] {true, true, true, true}, Lang.localise("gui.nc.config.register_tool.comment"));
 		propertyRegisterTool.setLanguageKey("gui.nc.config.register_tool");
+		Property propertyRegisterFoodMeltingRecipes = config.get(CATEGORY_REGISTRATION, "register_food_melting_recipes", new boolean[] {true, true, true}, Lang.localise("gui.nc.config.register_food_melting_recipes.comment"));
+		propertyRegisterFoodMeltingRecipes.setLanguageKey("gui.nc.config.register_food_melting_recipes");
 		Property propertyRegisterTiCTool = config.get(CATEGORY_REGISTRATION, "register_tic_tool", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.register_tic_tool.comment"));
 		propertyRegisterTiCTool.setLanguageKey("gui.nc.config.register_tic_tool");
 		Property propertyRegisterArmor = config.get(CATEGORY_REGISTRATION, "register_armor", new boolean[] {true, true, true, true}, Lang.localise("gui.nc.config.register_armor.comment"));
@@ -1330,6 +1333,7 @@ public class NCConfig {
 		propertyOrderRegistration.add(propertyRegisterBattery.getName());
 		propertyOrderRegistration.add(propertyRegisterQuantum.getName());
 		propertyOrderRegistration.add(propertyRegisterTool.getName());
+		propertyOrderRegistration.add(propertyRegisterFoodMeltingRecipes.getName());
 		propertyOrderRegistration.add(propertyRegisterTiCTool.getName());
 		propertyOrderRegistration.add(propertyRegisterArmor.getName());
 		propertyOrderRegistration.add(propertyRegisterConarmArmor.getName());
@@ -1655,6 +1659,7 @@ public class NCConfig {
 			register_battery = readBooleanArrayFromConfig(propertyRegisterBattery);
 			register_quantum = propertyRegisterQuantum.getBoolean();
 			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
+			register_food_melting_recipes = readBooleanArrayFromConfig(propertyRegisterFoodMeltingRecipes);
 			register_tic_tool = readBooleanArrayFromConfig(propertyRegisterTiCTool);
 			register_armor = readBooleanArrayFromConfig(propertyRegisterArmor);
 			register_conarm_armor = readBooleanArrayFromConfig(propertyRegisterConarmArmor);
@@ -1977,6 +1982,7 @@ public class NCConfig {
 		propertyRegisterBattery.set(register_battery);
 		propertyRegisterQuantum.set(register_quantum);
 		propertyRegisterTool.set(register_tool);
+		propertyRegisterFoodMeltingRecipes.set(register_food_melting_recipes);
 		propertyRegisterTiCTool.set(register_tic_tool);
 		propertyRegisterArmor.set(register_armor);
 		propertyRegisterConarmArmor.set(register_conarm_armor);

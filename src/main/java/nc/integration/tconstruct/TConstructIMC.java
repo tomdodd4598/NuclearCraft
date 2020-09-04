@@ -1,5 +1,6 @@
 package nc.integration.tconstruct;
 
+import static nc.config.NCConfig.*;
 import static nc.util.FluidStackHelper.INGOT_VOLUME;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -49,9 +50,15 @@ public class TConstructIMC {
 		sendTiCAlloyInfo("lead_platinum", 4, fluid("lead", 3), fluid("platinum", 1));
 		sendTiCAlloyInfo("enderium", 72, fluid("lead_platinum", 72), fluid("ender", 125));
 		
-		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), INGOT_VOLUME);
-		TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), INGOT_VOLUME);
-		TinkerRegistry.registerMelting(new ItemStack(NCItems.gelatin), FluidRegistry.getFluid("gelatin"), INGOT_VOLUME);
+    if (register_food_melting_recipes[0]) {
+  		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), INGOT_VOLUME);
+    }
+    if (register_food_melting_recipes[1]) {
+	  	TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), INGOT_VOLUME);
+    }
+    if (register_food_melting_recipes[2]) {
+		  TinkerRegistry.registerMelting(new ItemStack(NCItems.gelatin), FluidRegistry.getFluid("gelatin"), INGOT_VOLUME);
+    }
 		
 		sendTiCSmelteryInfo("cocoa_butter", "cocoaButter", false);
 		sendTiCSmelteryInfo("unsweetened_chocolate", "unsweetenedChocolate", false);
