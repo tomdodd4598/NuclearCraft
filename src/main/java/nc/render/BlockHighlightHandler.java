@@ -1,4 +1,4 @@
-/* All credit goes to McJty: 'highlightBlock' comes from XNet: mcjty.xnet.RenderWorldLastEventHandler.renderHilightedBlock, 'renderBlockOutline' comes from McJtyLib: mcjty.lib.client.BlockOutlineRenderer.renderHighLightedBlocksOutline, the other methods comes from XNet: mcjty.xnet.ClientInfo. */
+/** All credit goes to McJty: 'highlightBlock' comes from XNet: mcjty.xnet.RenderWorldLastEventHandler.renderHilightedBlock, 'renderBlockOutline' comes from McJtyLib: mcjty.lib.client.BlockOutlineRenderer.renderHighLightedBlocksOutline, the other methods comes from XNet: mcjty.xnet.ClientInfo. */
 
 package nc.render;
 

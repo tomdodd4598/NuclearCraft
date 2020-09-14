@@ -9,7 +9,6 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
-import nc.multiblock.fission.block.BlockFissionShield;
 import nc.multiblock.fission.tile.IFissionFuelComponent.*;
 import nc.multiblock.fission.tile.manager.*;
 import nc.util.PosHelper;
@@ -61,7 +60,6 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	// IFissionComponent
@@ -239,11 +237,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	
 	// Ticking
 	
-	@Override
-	public void onAdded() {
-		world.neighborChanged(pos, getBlockType(), pos);
-		super.onAdded();
-	}
+	/* @Override public void onLoad() { world.neighborChanged(pos, getBlockType(), pos); super.onLoad(); } */
 	
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {

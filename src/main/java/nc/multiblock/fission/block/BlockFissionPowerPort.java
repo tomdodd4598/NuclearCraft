@@ -1,19 +1,15 @@
 package nc.multiblock.fission.block;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_ALL;
+import static nc.block.property.BlockProperties.*;
 
 import nc.block.tile.IActivatable;
-import nc.block.tile.IDynamicState;
 import nc.multiblock.fission.tile.TileFissionPowerPort;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 

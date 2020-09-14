@@ -80,7 +80,7 @@ public class ProcessorRecipe implements IRecipe {
 		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
 	}
 	
-	/* ================================== Recipe Extras ===================================== */
+	// Recipe Extras
 	
 	// Processors
 	

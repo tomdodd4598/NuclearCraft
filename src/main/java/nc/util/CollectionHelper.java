@@ -9,7 +9,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class CollectionHelper {
 	
-	/* Lists */
+	// Lists
 	
 	public static <T> List<T> asList(T[] array) {
 		List<T> list = new ArrayList<>();
@@ -87,7 +87,7 @@ public class CollectionHelper {
 		return result;
 	}
 	
-	/* Sets */
+	// Sets
 	
 	public static <T> Set<T> asSet(T[] array) {
 		Set<T> set = new ObjectOpenHashSet<>();
@@ -125,7 +125,7 @@ public class CollectionHelper {
 		return tSet;
 	}
 	
-	/* NCInfo */
+	// NCInfo
 	
 	public static <T> boolean isEmpty(T[][] arrays, int arrayNo) {
 		if (arrays.length <= arrayNo) {
@@ -144,8 +144,6 @@ public class CollectionHelper {
 			return arrays[arrayNo] == null;
 		}
 	}
-	
-	/* ****** */
 	
 	public static int sum(int[] numberArray) {
 		int result = 0;

@@ -1,9 +1,10 @@
 package nc.recipe.ingredient;
 
+import static nc.config.NCConfig.jei_chance_items_include_null;
+
 import java.util.*;
 
 import it.unimi.dsi.fastutil.ints.*;
-import nc.config.NCConfig;
 import nc.integration.crafttweaker.ingredient.CTChanceItemIngredient;
 import nc.recipe.*;
 import nc.util.NCMath;
@@ -60,7 +61,7 @@ public class ChanceItemIngredient implements IItemIngredient {
 		List<ItemStack> stackList = new ArrayList<>();
 		for (int i = minStackSize; i <= getMaxStackSize(0); i++) {
 			if (i == 0) {
-				if (NCConfig.jei_chance_items_include_null) {
+				if (jei_chance_items_include_null) {
 					stackList.add(null);
 				}
 			}

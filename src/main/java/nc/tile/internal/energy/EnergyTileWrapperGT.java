@@ -26,7 +26,7 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 		if (tile.getEnergyStored() >= tile.getMaxEnergyStored() || !tile.canReceiveEnergy(side)) {
 			return 0L;
 		}
-		long amperesAccepted = Math.min(1L + MathHelper.floor((double) (tile.getMaxEnergyStored() - tile.getEnergyStored()) / (double) rf_per_eu) / voltage, Math.min(amperage, getInputAmperage()));
+		long amperesAccepted = Math.min(1L + MathHelper.floor((tile.getMaxEnergyStored() - tile.getEnergyStored()) / (double) rf_per_eu) / voltage, Math.min(amperage, getInputAmperage()));
 		tile.getEnergyStorage().changeEnergyStored((int) Math.min(voltage * amperesAccepted * rf_per_eu, Integer.MAX_VALUE));
 		return amperesAccepted;
 	}
@@ -78,12 +78,12 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getInputVoltage() {
-		return EnergyHelper.getMaxEUFromTier(tile.getEUSinkTier());
+		return EnergyHelper.getMaxEUFromTier(tile.getSinkTier());
 	}
 	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getOutputVoltage() {
-		return EnergyHelper.getMaxEUFromTier(tile.getEUSourceTier());
+		return EnergyHelper.getMaxEUFromTier(tile.getSourceTier());
 	}
 }

@@ -269,15 +269,11 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionComponent
@@ -362,8 +358,10 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("sinkName")) sinkName = nbt.getString("sinkName");
-		if (nbt.hasKey("coolingRate")) coolingRate = nbt.getInteger("coolingRate");
+		if (nbt.hasKey("sinkName"))
+			sinkName = nbt.getString("sinkName");
+		if (nbt.hasKey("coolingRate"))
+			coolingRate = nbt.getInteger("coolingRate");
 		if (nbt.hasKey("ruleID")) {
 			ruleID = nbt.getString("ruleID");
 			placementRule = FissionPlacement.RULE_MAP.get(ruleID);

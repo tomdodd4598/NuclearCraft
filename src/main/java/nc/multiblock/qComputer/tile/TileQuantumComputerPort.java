@@ -2,7 +2,6 @@ package nc.multiblock.qComputer.tile;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
 import nc.multiblock.qComputer.QuantumComputer;
 import net.minecraftforge.fml.common.Optional;
 

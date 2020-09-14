@@ -1,51 +1,37 @@
 package nc.tile.processor;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.capability.radiation.source.IRadiationSource;
-import nc.capability.radiation.source.RadiationSource;
+import nc.capability.radiation.source.*;
 import nc.network.tile.TileUpdatePacket;
 import nc.radiation.RadSources;
 import nc.tile.ITileGui;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
-import nc.util.OreDictHelper;
-import nc.util.StackHelper;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.init.*;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.util.*;
+import net.minecraft.util.datafix.*;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.math.*;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui, IInterfaceable {
@@ -165,6 +151,16 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	@SideOnly(Side.CLIENT)
 	public static boolean isBurning(IInventory inventory) {
 		return inventory.getField(0) > 0;
+	}
+	
+	@Override
+	public void onLoad() {
+		if (world.isRemote) {
+			world.markBlockRangeForRenderUpdate(pos, pos);
+			refreshIsRedstonePowered(world, pos);
+			markDirty();
+			updateComparatorOutputLevel();
+		}
 	}
 	
 	@Override

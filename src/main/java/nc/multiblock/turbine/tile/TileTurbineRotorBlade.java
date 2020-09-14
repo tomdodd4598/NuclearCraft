@@ -1,12 +1,8 @@
 package nc.multiblock.turbine.tile;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.TurbineRotorBladeUtil;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
+import nc.multiblock.turbine.*;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,8 +57,8 @@ public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRo
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override

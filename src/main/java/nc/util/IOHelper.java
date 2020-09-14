@@ -1,10 +1,6 @@
 package nc.util;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class IOHelper {
 	

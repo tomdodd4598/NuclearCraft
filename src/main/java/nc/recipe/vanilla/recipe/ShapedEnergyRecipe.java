@@ -3,6 +3,7 @@ package nc.recipe.vanilla.recipe;
 import javax.annotation.Nonnull;
 
 import nc.item.energy.IChargableItem;
+import nc.tile.internal.energy.EnergyStorage;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,7 +34,8 @@ public class ShapedEnergyRecipe extends ShapedOreRecipe {
 				}
 			}
 			NBTTagCompound nbt = result.hasTagCompound() ? result.getTagCompound() : new NBTTagCompound();
-			nbt.setInteger("energy", Math.min(energy, ((IChargableItem) result.getItem()).getMaxEnergyStored(result)));
+			IChargableItem item = (IChargableItem) result.getItem();
+			new EnergyStorage(item.getMaxEnergyStored(result), item.getMaxTransfer(result), energy).writeToNBT(nbt, "energyStorage");
 			result.setTagCompound(nbt);
 		}
 		return result;

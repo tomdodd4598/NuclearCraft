@@ -5,7 +5,6 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.block.BlockTurbineController;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -39,9 +38,6 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override

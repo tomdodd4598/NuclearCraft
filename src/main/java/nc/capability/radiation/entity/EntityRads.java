@@ -1,7 +1,6 @@
 package nc.capability.radiation.entity;
 
-import static nc.radiation.RadEntities.MAX_RADS_MAP;
-
+import nc.radiation.RadEntities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -36,7 +35,7 @@ public class EntityRads extends PlayerRads {
 	@Override
 	public double getMaxRads() {
 		if (!setMaxRads) {
-			maxRads = MAX_RADS_MAP.containsKey(entity.getClass()) ? MAX_RADS_MAP.get(entity.getClass()) : 50D * entity.getMaxHealth();
+			maxRads = RadEntities.MAX_RADS_MAP.containsKey(entity.getClass()) ? RadEntities.MAX_RADS_MAP.get(entity.getClass()) : 50D * entity.getMaxHealth();
 			setMaxRads = true;
 		}
 		return maxRads;

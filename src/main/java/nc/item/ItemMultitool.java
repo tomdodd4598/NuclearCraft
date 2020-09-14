@@ -2,27 +2,19 @@ package nc.item;
 
 import static nc.config.NCConfig.quantum_angle_precision;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import nc.tile.IMultitoolLogic;
-import nc.util.Lang;
-import nc.util.NCMath;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class ItemMultitool extends NCItem {
 	
@@ -34,6 +26,7 @@ public class ItemMultitool extends NCItem {
 		maxStackSize = 1;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isFull3D() {
 		return true;
@@ -104,6 +97,7 @@ public class ItemMultitool extends NCItem {
 	public static void registerRightClickLogic() {
 		MULTITOOL_RIGHT_CLICK_LOGIC.add(new MultitoolRightClickLogic() {
 			
+			@Override
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
 				NBTTagCompound nbt = heldItem.getTagCompound();
 				if (!player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
@@ -118,6 +112,7 @@ public class ItemMultitool extends NCItem {
 		
 		MULTITOOL_RIGHT_CLICK_LOGIC.add(new MultitoolRightClickLogic() {
 			
+			@Override
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
 				NBTTagCompound nbt = heldItem.getTagCompound();
 				if (player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
@@ -140,6 +135,7 @@ public class ItemMultitool extends NCItem {
 		
 		MULTITOOL_RIGHT_CLICK_LOGIC.add(new MultitoolRightClickLogic() {
 			
+			@Override
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
 				heldItem.getTagCompound().removeTag("multitoolUsed");
 				return null;

@@ -1,80 +1,46 @@
 package nc.multiblock.turbine;
 
-import static nc.config.NCConfig.turbine_max_size;
-import static nc.config.NCConfig.turbine_mb_per_blade;
-import static nc.config.NCConfig.turbine_min_size;
-import static nc.config.NCConfig.turbine_power_bonus_multiplier;
-import static nc.config.NCConfig.turbine_sound_volume;
-import static nc.config.NCConfig.turbine_tension_throughput_factor;
-import static nc.config.NCConfig.turbine_throughput_efficiency_leniency;
-import static nc.recipe.NCRecipes.turbine;
+import static nc.config.NCConfig.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.vecmath.Vector3f;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
-import it.unimi.dsi.fastutil.doubles.DoubleList;
+import it.unimi.dsi.fastutil.doubles.*;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
-import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.handler.SoundHandler.SoundInfo;
-import nc.init.NCBlocks;
-import nc.init.NCSounds;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.network.TurbineFormPacket;
-import nc.multiblock.network.TurbineRenderPacket;
-import nc.multiblock.network.TurbineUpdatePacket;
+import nc.init.*;
+import nc.multiblock.*;
+import nc.multiblock.Multiblock.AssemblyState;
+import nc.multiblock.network.*;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.Turbine.PlaneDir;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorStatorType;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.ITurbineRotorBlade;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
-import nc.multiblock.turbine.tile.ITurbineController;
-import nc.multiblock.turbine.tile.ITurbinePart;
-import nc.multiblock.turbine.tile.TileTurbineDynamoPart;
-import nc.multiblock.turbine.tile.TileTurbineInlet;
-import nc.multiblock.turbine.tile.TileTurbineOutlet;
-import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
-import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
-import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
-import nc.multiblock.turbine.tile.TileTurbineRotorStator;
+import nc.multiblock.turbine.tile.*;
 import nc.network.PacketHandler;
+import nc.recipe.NCRecipes;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankSorption;
-import nc.util.MaterialHelper;
-import nc.util.NCMath;
-import nc.util.NCUtil;
-import nc.util.SoundHelper;
+import nc.tile.internal.fluid.*;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumFacing.AxisDirection;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbinePart, TurbineUpdatePacket> {
 	
@@ -391,7 +357,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 				dirMaxZ = true;
 			}
 			else {
-				notInAWall = true; // If the bearing is not at any of those positions, that means our bearing isn't part of the wall at all
+				// If the bearing is not at any of those positions, that means our bearing isn't part of the wall at all
+				notInAWall = true;
 			}
 		}
 		
@@ -750,7 +717,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().rawLimitPower = getRawLimitProcessPower(getTurbine().recipeInputRate);
 		getTurbine().rawMaxPower = getRawLimitProcessPower(getMaxRecipeRateMultiplier());
 		
-		if (canProcessInputs()) {
+		boolean canProcess = canProcessInputs();
+		if (canProcess) {
 			getTurbine().isProcessing = true;
 			produceProducts();
 			getTurbine().rawPower = getNewRawProcessPower(previousRawPower, getTurbine().rawLimitPower, true);
@@ -762,7 +730,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		getTurbine().power = getTurbine().rawPower * getTurbine().conductivity * getTurbine().rotorEfficiency * getExpansionIdealityMultiplier(getTurbine().idealTotalExpansionLevel, getTurbine().totalExpansionLevel) * getThroughputEfficiency() * getTurbine().powerBonus;
-		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (NCConfig.turbine_render_rotor_speed * getTurbine().rawPower / getTurbine().rawMaxPower);
+		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (turbine_render_rotor_speed * getTurbine().rawPower / getTurbine().rawMaxPower);
 		
 		if (wasProcessing != getTurbine().isProcessing && getTurbine().controller != null) {
 			if (getTurbine().shouldRenderRotor) {
@@ -798,26 +766,29 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		Iterator<TileTurbineRotorBearing> bearingIterator = getPartIterator(TileTurbineRotorBearing.class);
 		while (bearingIterator.hasNext()) {
 			TileTurbineRotorBearing bearing = bearingIterator.next();
-			bearingIterator.remove();
 			bearing.onBearingFailure(getTurbine());
 		}
 		
 		Iterator<TileTurbineRotorBlade> bladeIterator = getPartIterator(TileTurbineRotorBlade.class);
 		while (bladeIterator.hasNext()) {
 			TileTurbineRotorBlade blade = bladeIterator.next();
-			bladeIterator.remove();
 			blade.onBearingFailure(getTurbine());
 		}
 		
 		Iterator<TileTurbineRotorStator> statorIterator = getPartIterator(TileTurbineRotorStator.class);
 		while (statorIterator.hasNext()) {
 			TileTurbineRotorStator stator = statorIterator.next();
-			statorIterator.remove();
 			stator.onBearingFailure(getTurbine());
 		}
 		
 		getTurbine().bearingTension = 0D;
+		
 		getTurbine().checkIfMachineIsWhole();
+		
+		if (getTurbine().controller != null) {
+			getTurbine().sendUpdateToAllPlayers();
+			PacketHandler.instance.sendToAll(getTurbine().getRenderPacket());
+		}
 	}
 	
 	public void setIsTurbineOn() {
@@ -839,11 +810,13 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected void refreshRecipe() {
-		getTurbine().recipeInfo = turbine.getRecipeInfoFromInputs(new ArrayList<>(), getTurbine().tanks.subList(0, 1));
+		getTurbine().recipeInfo = NCRecipes.turbine.getRecipeInfoFromInputs(new ArrayList<>(), getTurbine().tanks.subList(0, 1));
 	}
 	
 	protected boolean canProcessInputs() {
 		if (!setRecipeStats() || !getTurbine().isTurbineOn) {
+			getTurbine().recipeInputRate = 0;
+			getTurbine().recipeInputRateFP = 0D;
 			return false;
 		}
 		return canProduceProducts();
@@ -932,7 +905,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	public double getEffectiveInertia(boolean increasing) {
 		int bearingCount = getPartCount(TileTurbineRotorBearing.class);
 		double mult = (Math.min(1D, (1D + 2D * getTurbine().dynamoCoilCount) / bearingCount) + Math.min(1D, (1D + 2D * getTurbine().dynamoCoilCountOpposite) / bearingCount)) / 2D;
-		return getTurbine().inertia * Math.sqrt(increasing ? mult : 1D/mult);
+		return getTurbine().inertia * Math.sqrt(increasing ? mult : 1D / mult);
 	}
 	
 	public void setRotorEfficiency() {
@@ -980,15 +953,15 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().effectiveMaxLength = getMaximumInteriorLength();
 		}
 		else if (getTurbine().minStatorExpansionCoefficient >= 1) {
-			getTurbine().effectiveMaxLength = NCMath.clamp(Math.log(getTurbine().idealTotalExpansionLevel)/Math.log(getTurbine().minBladeExpansionCoefficient), 1D, getMaximumInteriorLength());
+			getTurbine().effectiveMaxLength = NCMath.clamp(Math.log(getTurbine().idealTotalExpansionLevel) / Math.log(getTurbine().minBladeExpansionCoefficient), 1D, getMaximumInteriorLength());
 		}
 		else {
-			getTurbine().effectiveMaxLength = NCMath.clamp((Math.log(getTurbine().idealTotalExpansionLevel) - getMaximumInteriorLength()*Math.log(getTurbine().minStatorExpansionCoefficient))/(Math.log(getTurbine().minBladeExpansionCoefficient) - Math.log(getTurbine().minStatorExpansionCoefficient)), 1D, getMaximumInteriorLength());
+			getTurbine().effectiveMaxLength = NCMath.clamp((Math.log(getTurbine().idealTotalExpansionLevel) - getMaximumInteriorLength() * Math.log(getTurbine().minStatorExpansionCoefficient)) / (Math.log(getTurbine().minBladeExpansionCoefficient) - Math.log(getTurbine().minStatorExpansionCoefficient)), 1D, getMaximumInteriorLength());
 		}
 	}
 	
 	public void setInputRatePowerBonus() {
-		double rate = (double) Math.min(getTurbine().recipeInputRate, getMaxRecipeRateMultiplier());
+		double rate = Math.min(getTurbine().recipeInputRate, getMaxRecipeRateMultiplier());
 		double lengthBonus = rate / (turbine_mb_per_blade * getTurbine().getBladeArea() * getTurbine().effectiveMaxLength);
 		double areaBonus = Math.sqrt(2D * rate / (turbine_mb_per_blade * getTurbine().getFlowLength() * getMaximumInteriorLength() * getTurbine().effectiveMaxLength));
 		getTurbine().powerBonus = 1D + turbine_power_bonus_multiplier * Math.pow(lengthBonus * areaBonus, 2D / 3D);
@@ -1017,7 +990,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			for (Iterable<MutableBlockPos> iter : getTurbine().inputPlane) {
 				if (iter != null) {
 					for (BlockPos pos : iter) {
-						if (rand.nextDouble() < NCConfig.turbine_particles * getTurbine().recipeInputRateFP / getMaxRecipeRateMultiplier()) {
+						if (rand.nextDouble() < turbine_particles * getTurbine().recipeInputRateFP / getMaxRecipeRateMultiplier()) {
 							double[] spawnPos = particleSpawnPos(pos);
 							if (spawnPos != null) {
 								getWorld().spawnParticle(EnumParticleTypes.getByName(getTurbine().particleEffect), false, spawnPos[0], spawnPos[1], spawnPos[2], speedX, speedY, speedZ);
@@ -1108,7 +1081,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			// If this machine isn't playing sounds, go ahead and play them
 			for (SoundInfo activeSound : getTurbine().activeSounds) {
 				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
-					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((0.125D + getTurbine().angVel * 0.25D/NCConfig.turbine_render_rotor_speed) * turbine_sound_volume), SoundHelper.getPitch(4F * getTurbine().angVel/NCConfig.turbine_render_rotor_speed - 2F));
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((0.125D + getTurbine().angVel * 0.25D / turbine_render_rotor_speed) * turbine_sound_volume), SoundHelper.getPitch(4F * getTurbine().angVel / turbine_render_rotor_speed - 2F));
 				}
 			}
 			
@@ -1152,11 +1125,16 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@Override
 	public TurbineUpdatePacket getUpdatePacket() {
-		return new TurbineUpdatePacket(getTurbine().controller.getTilePos(), getTurbine().isTurbineOn, getTurbine().energyStorage, getTurbine().power, getTurbine().rawPower, getTurbine().conductivity, getTurbine().rotorEfficiency, getTurbine().powerBonus, getTurbine().totalExpansionLevel, getTurbine().idealTotalExpansionLevel, getTurbine().shaftWidth, getTurbine().bladeLength, getTurbine().noBladeSets, getTurbine().dynamoCoilCount, getTurbine().dynamoCoilCountOpposite, getTurbine().bearingTension);
+		return new TurbineUpdatePacket(getTurbine().controller.getTilePos(), getTurbine().assemblyState, getTurbine().isTurbineOn, getTurbine().energyStorage, getTurbine().power, getTurbine().rawPower, getTurbine().conductivity, getTurbine().rotorEfficiency, getTurbine().powerBonus, getTurbine().totalExpansionLevel, getTurbine().idealTotalExpansionLevel, getTurbine().shaftWidth, getTurbine().bladeLength, getTurbine().noBladeSets, getTurbine().dynamoCoilCount, getTurbine().dynamoCoilCountOpposite, getTurbine().bearingTension);
 	}
 	
 	@Override
 	public void onPacket(TurbineUpdatePacket message) {
+		if (getTurbine().assemblyState != message.assemblyState) {
+			getTurbine().checkIfMachineIsWhole();
+		}
+		
+		getTurbine().assemblyState = message.assemblyState;
 		getTurbine().isTurbineOn = message.isTurbineOn;
 		getTurbine().energyStorage.setEnergyStored(message.energy);
 		getTurbine().energyStorage.setStorageCapacity(message.capacity);
@@ -1174,6 +1152,10 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().dynamoCoilCount = message.dynamoCoilCount;
 		getTurbine().dynamoCoilCountOpposite = message.dynamoCoilCountOpposite;
 		getTurbine().bearingTension = message.bearingTension;
+		
+		if (!getTurbine().isTurbineOn || message.assemblyState != AssemblyState.Assembled) {
+			stopSounds();
+		}
 	}
 	
 	public TurbineRenderPacket getRenderPacket() {
@@ -1186,7 +1168,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().angVel = message.angVel;
 		boolean wasProcessing = getTurbine().isProcessing;
 		getTurbine().isProcessing = message.isProcessing;
-		if (wasProcessing != getTurbine().isProcessing) getTurbine().refreshSoundInfo = true;
+		if (wasProcessing != getTurbine().isProcessing)
+			getTurbine().refreshSoundInfo = true;
 		getTurbine().recipeInputRate = message.recipeInputRate;
 		getTurbine().recipeInputRateFP = message.recipeInputRateFP;
 	}

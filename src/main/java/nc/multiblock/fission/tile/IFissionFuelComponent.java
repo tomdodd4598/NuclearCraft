@@ -1,7 +1,6 @@
 package nc.multiblock.fission.tile;
 
 import static nc.config.NCConfig.fission_neutron_reach;
-import static nc.recipe.NCRecipes.*;
 
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
@@ -151,7 +150,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 								}
 							}
 							else if (i - 1 <= fission_neutron_reach / 2) {
-								ProcessorRecipe recipe = RecipeHelper.blockRecipe(fission_reflector, getTileWorld(), offPos);
+								ProcessorRecipe recipe = RecipeHelper.blockRecipe(NCRecipes.fission_reflector, getTileWorld(), offPos);
 								if (recipe != null) {
 									line.reflectorRecipe = recipe;
 									line.flux = (int) Math.floor(2D * line.flux * recipe.getFissionReflectorReflectivity());
@@ -204,7 +203,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 			return component.getModeratorBlockInfo(dir, validActiveModeratorPos);
 		}
 		
-		ProcessorRecipe recipe = RecipeHelper.blockRecipe(fission_moderator, getTileWorld(), pos);
+		ProcessorRecipe recipe = RecipeHelper.blockRecipe(NCRecipes.fission_moderator, getTileWorld(), pos);
 		if (recipe != null) {
 			return new ModeratorBlockInfo(pos, null, false, validActiveModeratorPos, recipe.getFissionModeratorFluxFactor(), recipe.getFissionModeratorEfficiency());
 		}

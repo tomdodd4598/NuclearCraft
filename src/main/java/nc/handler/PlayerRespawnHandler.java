@@ -4,12 +4,10 @@ import static nc.config.NCConfig.*;
 
 import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.items.ItemHandlerHelper;
 import vazkii.patchouli.common.item.ItemModBook;
 
 public class PlayerRespawnHandler {
@@ -81,7 +79,7 @@ public class PlayerRespawnHandler {
 			return;
 		}
 		
-		if (NCConfig.give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
+		if (give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
 			boolean success = player.inventory.addItemStackToInventory(ItemModBook.forBook("nuclearcraft:guide"));
 			if (success) {
 				playerRads.setGiveGuidebook(false);

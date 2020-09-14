@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.electrolyzer;
-
 import nc.container.slot.SlotSpecificInput;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerElectrolyzer extends ContainerFluidProcessor {
 	
 	public ContainerElectrolyzer(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(player, tileEntity, electrolyzer);
+		super(player, tileEntity, NCRecipes.electrolyzer);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 76, SPEED_UPGRADE));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 76, ENERGY_UPGRADE));

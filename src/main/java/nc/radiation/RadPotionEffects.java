@@ -62,7 +62,8 @@ public class RadPotionEffects {
 				if (potion != null) {
 					effectList.add(PotionHelper.newEffect(potion, strength, modifiedTime));
 				}
-			} while (puncPos != -1);
+			}
+			while (puncPos != -1);
 			
 			if (!effectList.isEmpty()) {
 				radLevelListUnordered.add(health);

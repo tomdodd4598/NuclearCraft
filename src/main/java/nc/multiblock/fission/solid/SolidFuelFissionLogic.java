@@ -2,7 +2,6 @@ package nc.multiblock.fission.solid;
 
 import static nc.block.property.BlockProperties.*;
 import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.*;
 
 import java.util.*;
 
@@ -34,7 +33,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
-	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, fission_heating_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_heating_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
 	
 	public RecipeInfo<ProcessorRecipe> heatingRecipeInfo;
 	
@@ -275,7 +274,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void refreshRecipe() {
-		heatingRecipeInfo = fission_heating.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
+		heatingRecipeInfo = NCRecipes.fission_heating.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
 	}
 	
 	public boolean canProcessInputs() {

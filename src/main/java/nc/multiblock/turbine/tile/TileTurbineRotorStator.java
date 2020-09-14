@@ -1,6 +1,5 @@
 package nc.multiblock.turbine.tile;
 
-import nc.init.NCBlocks;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
@@ -44,8 +43,8 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override

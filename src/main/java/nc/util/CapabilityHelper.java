@@ -5,8 +5,7 @@ import org.cyclops.commoncapabilities.api.capability.work.IWorker;
 
 import mekanism.api.gas.IGasHandler;
 import mekanism.common.base.ILogisticalTransporter;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.*;
 
 public class CapabilityHelper {
 	

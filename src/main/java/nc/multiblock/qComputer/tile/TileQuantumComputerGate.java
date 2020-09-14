@@ -6,12 +6,12 @@ import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
-public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
+public abstract class TileQuantumComputerGate extends TileQuantumComputerPart implements ITickable {
 	
 	protected final String gateID;
 	protected String toolMode = "";
@@ -816,7 +816,6 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart {
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!pulsed && getIsRedstonePowered()) {
 			if (isMultiblockAssembled()) {
 				getMultiblock().getGateQueue().add(newGate(getMultiblock()));

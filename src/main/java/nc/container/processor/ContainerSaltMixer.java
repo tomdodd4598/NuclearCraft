@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.salt_mixer;
-
 import nc.container.slot.SlotSpecificInput;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerSaltMixer extends ContainerFluidProcessor {
 	
 	public ContainerSaltMixer(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(player, tileEntity, salt_mixer);
+		super(player, tileEntity, NCRecipes.salt_mixer);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, SPEED_UPGRADE));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 64, ENERGY_UPGRADE));

@@ -1,4 +1,30 @@
+v2o.4.1
+
+* Fixed battery blocks not correctly retaining and removing energy from their multiblocks
+
+* Changed CT script directory for script addons
+* Previously constructed script addons will be deleted before reconstruction to avoid crashes on game load
++ Added in-game command to reconstruct script addons for testing purposes
+
+* Moved config info output to separate "nuclearcraft.info" file
+
+* Fixed desync between client and server on turbine bearing failures
+* Fixed custom turbine recipes crashing the game
++ Added support for turbine casing in dynamo part placement rules
+
+* Fixed inconsistent thresholds for levels above which to show non-zero radiation levels
+
+* Fixed potential energy storage integer overflow error when adding recipes with large energy costs
+
+* Tweaked ore textures
+
+* Moved all first-tick TE logic into proper method
+* Various other minor fixes, changes and refactors
+
 v2o.4.0
+
+* It is recommended that you backup your worlds before updating to this version!
+* Existing fission ports may have to be broken and replaced!
 
 + Added CT script addon loader and merger system!
 + Put all script addons into "resources/nuclearcraft/addons/" to have them loaded!

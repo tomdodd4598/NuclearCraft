@@ -1,27 +1,21 @@
 package nc.block.tile.processor;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+import static nc.block.property.BlockProperties.*;
 
 import java.util.Random;
 
-import nc.block.tile.BlockSidedTile;
-import nc.block.tile.IActivatable;
-import nc.block.tile.IDynamicState;
-import nc.block.tile.ITileType;
+import nc.block.tile.*;
 import nc.enumm.BlockEnums.ProcessorType;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockProcessor extends BlockSidedTile implements IActivatable, ITileType {
 	

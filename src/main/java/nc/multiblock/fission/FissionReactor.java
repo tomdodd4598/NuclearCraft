@@ -166,9 +166,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	// Cluster Management
 	
-	/**
-	 * Only use when the cluster geometry isn't changed and there is no effect on other clusters!
-	 */
+	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
 	public void refreshCluster(FissionCluster cluster) {
 		if (cluster != null && clusterMap.containsKey(cluster.getId())) {
 			logic.refreshClusterStats(cluster);

@@ -1,5 +1,7 @@
 package nc.integration.gtce;
 
+import static nc.config.NCConfig.gtce_recipe_logging;
+
 import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,7 +10,6 @@ import gregtech.api.items.metaitem.MetaItem.MetaValueItem;
 import gregtech.api.recipes.*;
 import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
-import nc.config.NCConfig;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.util.*;
@@ -152,8 +153,8 @@ public class GTCERecipeHelper {
 		}
 		
 		List<RecipeBuilder<?>> builders = new ArrayList<>(); // Holds all the
-															 // recipe
-															 // variants
+																// recipe
+																// variants
 		builders.add(builder);
 		
 		for (IItemIngredient input : recipe.getItemIngredients()) {
@@ -164,9 +165,9 @@ public class GTCERecipeHelper {
 			}
 			else {
 				List<String> ingredientOreList = new ArrayList<>(); // Hold the
-																	 // different
-																	 // oreDict
-																	 // names
+																	// different
+																	// oreDict
+																	// names
 				List<RecipeBuilder<?>> newBuilders = new ArrayList<>();
 				for (ItemStack inputVariant : input.getInputStackList()) {
 					if (inputVariant.isEmpty()) {
@@ -175,7 +176,7 @@ public class GTCERecipeHelper {
 					Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
 					
 					if (!variantOreList.isEmpty()) { // This variant has oreDict
-													 // entries
+														// entries
 						if (ingredientOreList.containsAll(variantOreList)) {
 							continue;
 						}
@@ -243,7 +244,7 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		if (built && NCConfig.gtce_recipe_logging) {
+		if (built && gtce_recipe_logging) {
 			NCUtil.getLogger().info("Injected GTCE " + recipeMap.unlocalizedName + " recipe: " + RecipeHelper.getRecipeString(recipe));
 		}
 	}

@@ -10,11 +10,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public abstract class TileEnergySidedInventory extends TileEnergyInventory {
 	
-	public TileEnergySidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, @Nonnull EnergyConnection[] energyConnections) {
+	public TileEnergySidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, long capacity, @Nonnull EnergyConnection[] energyConnections) {
 		super(name, size, inventoryConnections, capacity, energyConnections);
 	}
 	
-	public TileEnergySidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
+	public TileEnergySidedInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
 		super(name, size, inventoryConnections, capacity, maxTransfer, energyConnections);
 	}
 	

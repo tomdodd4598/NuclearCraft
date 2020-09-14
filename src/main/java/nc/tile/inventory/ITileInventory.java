@@ -2,32 +2,22 @@ package nc.tile.inventory;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
-import mekanism.common.base.ILogisticalTransporter;
-import nc.ModCheck;
 import nc.multiblock.tile.port.ITilePort;
 import nc.tile.ITile;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemHandler;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.inventory.*;
 import nc.tile.processor.IProcessor;
-import nc.util.CapabilityHelper;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraft.util.*;
+import net.minecraftforge.items.*;
 
 public interface ITileInventory<T extends TileEntity & ITileInventory> extends ITile<T>, ISidedInventory {
 	
@@ -169,8 +159,6 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 		return getInventoryConnections()[side.getIndex()];
 	}
 	
-	/* public default void setInventoryConnection(@Nonnull EnumFacing side, @Nonnull InventoryConnection connection) { getInventoryConnections()[side.getIndex()] = connection.copy(); } */
-	
 	public default @Nonnull ItemSorption getItemSorption(@Nonnull EnumFacing side, int slotNumber) {
 		return getInventoryConnections()[side.getIndex()].getItemSorption(slotNumber);
 	}
@@ -225,9 +213,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 			return;
 		}
 		
-		/*if (ModCheck.mekanismLoaded() && tile.hasCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite())) {
-			ILogisticalTransporter lt = tile.getCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite());
-		}*/
+		/* if (ModCheck.mekanismLoaded() && tile.hasCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite())) { ILogisticalTransporter lt = tile.getCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite()); } */
 		
 		if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite())) {
 			IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());

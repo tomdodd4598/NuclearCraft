@@ -6,7 +6,6 @@ import nc.Global;
 import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.solid.block.BlockSolidFissionController;
 import nc.multiblock.fission.tile.*;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
@@ -37,9 +36,6 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override

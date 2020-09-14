@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.pressurizer;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerPressurizer extends ContainerItemProcessor {
 	
 	public ContainerPressurizer(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, pressurizer);
+		super(player, tileEntity, NCRecipes.pressurizer);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		

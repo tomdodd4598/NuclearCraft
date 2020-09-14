@@ -27,9 +27,7 @@ public interface ITileFluid extends ITile {
 	
 	// Tank Logic
 	
-	/**
-	 * Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption
-	 */
+	/** Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption */
 	public default boolean isNextToFill(@Nonnull EnumFacing side, int tankNumber, FluidStack resource) {
 		if (!getInputTanksSeparated()) {
 			return true;
@@ -61,8 +59,6 @@ public interface ITileFluid extends ITile {
 	public default @Nonnull FluidConnection getFluidConnection(@Nonnull EnumFacing side) {
 		return getFluidConnections()[side.getIndex()];
 	}
-	
-	/* public default void setFluidConnection(@Nonnull EnumFacing side, @Nonnull FluidConnection connection) { getFluidConnections()[side.getIndex()] = connection.copy(); } */
 	
 	public default @Nonnull TankSorption getTankSorption(@Nonnull EnumFacing side, int tankNumber) {
 		return getFluidConnections()[side.getIndex()].getTankSorption(tankNumber);

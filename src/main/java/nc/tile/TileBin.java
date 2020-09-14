@@ -1,21 +1,15 @@
 package nc.tile;
 
-import static nc.config.NCConfig.enable_gtce_eu;
-import static nc.config.NCConfig.enable_mek_gas;
+import static nc.config.NCConfig.*;
 
 import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergyEmitter;
-import ic2.api.energy.tile.IEnergySink;
-import nc.Global;
-import nc.ModCheck;
-import nc.config.NCConfig;
+import ic2.api.energy.event.*;
+import ic2.api.energy.tile.*;
+import nc.*;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.internal.energy.EnergyStorageVoid;
-import nc.tile.internal.energy.EnergyStorageVoidGT;
+import nc.tile.internal.energy.*;
 import nc.tile.internal.fluid.TankVoid;
 import nc.util.CapabilityHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +24,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2")})
+@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2")
 public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfaceable {
 	
 	private final EnergyStorageVoid energyStorage = new EnergyStorageVoid();
@@ -44,8 +38,8 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -69,7 +63,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
+		if (!world.isRemote && enable_ic2_eu && !ic2reg) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			ic2reg = true;
 		}
@@ -77,7 +71,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	
 	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
+		if (!world.isRemote && ic2reg) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			ic2reg = false;
 		}

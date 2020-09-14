@@ -34,7 +34,7 @@ public class RadiationRenders {
 	private static final String IMMUNE = Lang.localise("hud.nuclearcraft.rad_immune");
 	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune_for");
 	
-	/* Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
+	/** Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void addRadiationInfo(RenderGameOverlayEvent.Post event) {
 		if (!radiation_enabled_public) {
@@ -95,7 +95,7 @@ public class RadiationRenders {
 		tessellator.draw();
 	}
 	
-	/* Thanks to dizzyd for this method! */
+	/** Thanks to dizzyd for this method! */
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		// Overlay renderer for the geiger counter and radiation scrubber blocks
@@ -122,7 +122,7 @@ public class RadiationRenders {
 			}
 		}
 		
-		/* Logic below taken with minor changes from BluSunrize's Immersive Engineering: blusunrize.immersiveengineering.client.ClientEventHandler */
+		// Logic below taken with minor changes from BluSunrize's Immersive Engineering: blusunrize.immersiveengineering.client.ClientEventHandler
 		
 		if (chunkBorders) {
 			EntityPlayer player = MC.player;

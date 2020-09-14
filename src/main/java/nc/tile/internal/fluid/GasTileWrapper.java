@@ -1,9 +1,7 @@
 package nc.tile.internal.fluid;
 
 import mekanism.api.gas.*;
-import nc.multiblock.tile.port.ITilePort;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.processor.IProcessor;
 import nc.util.GasHelper;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;

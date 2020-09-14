@@ -3,7 +3,6 @@ package nc.multiblock.turbine.tile;
 import nc.multiblock.Multiblock;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.turbine.Turbine;
-import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine> implements ITurbinePart {
 	

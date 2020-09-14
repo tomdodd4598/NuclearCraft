@@ -2294,11 +2294,11 @@ gui.nc.config.ore_dims.comment=List of IDs of dimensions to whitelist/blacklist 
 gui.nc.config.ore_dims_list_type=Whitelist/Blacklist (false/true)
 gui.nc.config.ore_dims_list_type.comment=Is the dimension list a whitelist (false) or a blacklist (true)?
 gui.nc.config.ore_gen=Generate Ores
-gui.nc.config.ore_gen.comment=Will ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
+gui.nc.config.ore_gen.comment=Will these ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_size=Chunk Sizes
 gui.nc.config.ore_size.comment=Numbers of ore blocks per ore chunk. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_rate=Spawn Rates
-gui.nc.config.ore_rate.comment=Rates at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
+gui.nc.config.ore_rate.comment=Rates at which ores generate (uses a vanilla-style ore generator). Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_min_height=Minimum Gen Heights
 gui.nc.config.ore_min_height.comment=Minimum heights at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_max_height=Maximum Gen Heights
@@ -3352,6 +3352,10 @@ commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radi
 commands.nuclearcraft.set_world_radiation.usage=/nc_set_world_radiation <radiation_level>
 commands.nuclearcraft.set_player_radiation.usage=/nc_set_world_radiation <radiation_level> [player]
 
+commands.nuclearcraft.reconstruct_script_addons.usage=/nc_reload_script_addons ["syntax"]
+commands.nuclearcraft.reconstruct_script_addons.success=Successfully reconstructed script addons!
+commands.nuclearcraft.reconstruct_script_addons.fail=An error occurred while attempting to reconstruct script addons...
+
 message.nuclearcraft.radiation_config_info=Radiation is enabled on this server!
 message.nuclearcraft.radiation_config_info_jei=Radiation is enabled on this server! It is recommended that it is enabled on the client side too, along with a restart, in order to see all radiation-related items in JEI!
 
@@ -3415,8 +3419,8 @@ nc.sf.placement_rule.adjacent.ambiguity0prev=!common axis&&!common axes&&!common
 nc.sf.placement_rule.adjacent.ambiguity0last=common axis||common axes||common vertex
 nc.sf.placement_rule.adjacent.ambiguity1prev=share a common||share common
 
-nc.sf.casing0=%s reactor casing
-nc.sf.casing1=%s reactor casing
+nc.sf.reactor_casing0=%s reactor casing
+nc.sf.reactor_casing1=%s reactor casing
 nc.sf.cell0=%s functional fuel cell
 nc.sf.cell1=%s functional fuel cells
 nc.sf.vessel0=%s functional fuel vessel
@@ -3560,6 +3564,8 @@ nc.sf.enderium_heater1=%s functional enderium heaters
 nc.sf.cryotheum_heater0=%s functional cryotheum heater
 nc.sf.cryotheum_heater1=%s functional cryotheum heaters
 
+nc.sf.turbine_casing0=%s turbine casing
+nc.sf.turbine_casing1=%s turbine casing
 nc.sf.bearing0=%s rotor bearing
 nc.sf.connector0=%s valid coil connector
 nc.sf.connector1=%s valid coil connectors

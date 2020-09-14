@@ -473,7 +473,6 @@ public class CraftingRecipeHandler {
 			}
 			
 			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_connector, 8), new Object[] {"ESE", "SPS", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			/* if (ModCheck.openComputersLoaded()) { addShapedOreRecipe(NCBlocks.quantum_computer_port, new Object[] {"EME", "CFC", "EPE", 'E', "ingotExtreme", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'F', "steelFrame"}); } */
 		}
 	}
 	

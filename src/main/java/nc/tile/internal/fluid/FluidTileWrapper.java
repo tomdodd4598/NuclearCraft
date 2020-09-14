@@ -1,8 +1,6 @@
 package nc.tile.internal.fluid;
 
-import nc.multiblock.tile.port.ITilePort;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.processor.IProcessor;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.*;

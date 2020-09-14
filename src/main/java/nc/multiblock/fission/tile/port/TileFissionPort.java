@@ -3,24 +3,21 @@ package nc.multiblock.fission.tile.port;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 import static nc.util.PosHelper.DEFAULT_NON;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.PartPosition;
+import it.unimi.dsi.fastutil.objects.*;
+import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.TileFissionPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>> extends TileFissionPart implements IFissionPort<PORT, TARGET> {
+public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>> extends TileFissionPart implements ITickable, IFissionPort<PORT, TARGET> {
 	
 	protected final Class<PORT> portClass;
 	protected BlockPos masterPortPos = DEFAULT_NON;
@@ -118,7 +115,6 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			if (refreshTargetsFlag) {
 				refreshTargets();

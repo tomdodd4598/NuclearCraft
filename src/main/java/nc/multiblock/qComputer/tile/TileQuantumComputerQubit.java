@@ -7,12 +7,12 @@ import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class TileQuantumComputerQubit extends TileQuantumComputerPart {
+public class TileQuantumComputerQubit extends TileQuantumComputerPart implements ITickable {
 	
 	public int id = -1;
 	public boolean redstone = false, pulsed = false;
@@ -35,7 +35,6 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart {
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!pulsed && getIsRedstonePowered()) {
 			queueMeasurement();
 			pulsed = true;

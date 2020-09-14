@@ -1,47 +1,28 @@
 package nc.multiblock.turbine.tile;
 
 import static nc.config.NCConfig.enable_gtce_eu;
-import static nc.config.NCConfig.rf_per_eu;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
-import gregtech.api.capability.IEnergyContainer;
-import ic2.api.energy.EnergyNet;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.*;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.FissionPlacement;
-import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.TurbinePlacement;
+import nc.multiblock.turbine.*;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
-import nc.tile.passive.ITilePassive;
+import nc.tile.internal.energy.*;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public abstract class TileTurbineDynamoPart extends TileTurbinePart implements ITileEnergy, IEnergySource {
+@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")
+public abstract class TileTurbineDynamoPart extends TileTurbinePart implements ITickable, ITileEnergy, IEnergySource {
 	
 	protected final EnergyStorage backupStorage = new EnergyStorage(1);
 	
@@ -77,15 +58,11 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	public void dynamoSearch(final ObjectSet<TileTurbineDynamoPart> validCache, final ObjectSet<TileTurbineDynamoPart> searchCache, final Long2ObjectMap<TileTurbineDynamoPart> partFailCache, final Long2ObjectMap<TileTurbineDynamoPart> assumedValidCache) {
@@ -127,22 +104,22 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	public boolean isSearchRoot() {
 		for (String dep : placementRule.getDependencies()) {
-			if (dep.equals("bearing")) return true;
+			if (dep.equals("bearing"))
+				return true;
 		}
 		return false;
 	}
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			pushEnergy();
 		}
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -178,19 +155,6 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	}
 	
 	@Override
-	public int getEUSourceTier() {
-		if (!isInValidPosition || !isMultiblockAssembled()) {
-			return 1;
-		}
-		return EnergyHelper.getEUTier(getMultiblock().power);
-	}
-	
-	@Override
-	public int getEUSinkTier() {
-		return 1;
-	}
-	
-	@Override
 	public @Nonnull EnergyTileWrapper[] getEnergySides() {
 		return energySides;
 	}
@@ -203,45 +167,44 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	// IC2 Energy
 	
 	@Override
+	public boolean getIC2Reg() {
+		return ic2reg;
+	}
+	
+	@Override
+	public void setIC2Reg(boolean ic2reg) {
+		this.ic2reg = ic2reg;
+	}
+	
+	@Override
+	public int getSinkTier() {
+		return 1;
+	}
+	
+	@Override
+	public int getSourceTier() {
+		if (!isInValidPosition || !isMultiblockAssembled()) {
+			return 1;
+		}
+		return EnergyHelper.getEUTier(getMultiblock().power);
+	}
+	
+	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection(side).canExtract();
+		return ITileEnergy.super.emitsEnergyTo(receiver, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+		return ITileEnergy.super.getOfferedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		return getEUSourceTier();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-			ic2reg = true;
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			ic2reg = false;
-		}
+		ITileEnergy.super.drawEnergy(amount);
 	}
 	
 	// NBT
@@ -250,10 +213,10 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("partName", partName);
-		if (conductivity != null) nbt.setDouble("conductivity", conductivity);
+		if (conductivity != null)
+			nbt.setDouble("conductivity", conductivity);
 		nbt.setString("ruleID", ruleID);
 		
-		writeEnergy(nbt);
 		writeEnergyConnections(nbt);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
 		return nbt;
@@ -262,14 +225,15 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("partName")) partName = nbt.getString("partName");
-		if (nbt.hasKey("conductivity")) conductivity = nbt.getDouble("conductivity");
+		if (nbt.hasKey("partName"))
+			partName = nbt.getString("partName");
+		if (nbt.hasKey("conductivity"))
+			conductivity = nbt.getDouble("conductivity");
 		if (nbt.hasKey("ruleID")) {
 			ruleID = nbt.getString("ruleID");
 			placementRule = TurbinePlacement.RULE_MAP.get(ruleID);
 		}
 		
-		readEnergy(nbt);
 		readEnergyConnections(nbt);
 		isInValidPosition = nbt.getBoolean("isInValidPosition");
 	}

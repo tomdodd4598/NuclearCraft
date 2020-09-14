@@ -1,38 +1,30 @@
 package nc.multiblock.heatExchanger.tile;
 
 import static nc.block.property.BlockProperties.AXIS_ALL;
-import static nc.config.NCConfig.enable_mek_gas;
-import static nc.config.NCConfig.machine_update_rate;
+import static nc.config.NCConfig.*;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
+import nc.multiblock.heatExchanger.*;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.util.CapabilityHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITileFluid {
+public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITickable, ITileFluid {
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(128000, null));
 	
@@ -71,7 +63,6 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITil
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			if (ventCount == 0) {
 				pushFluid();

@@ -1,10 +1,8 @@
 package nc.tile.passive;
 
-import static nc.config.NCConfig.cobble_gen_power;
-import static nc.config.NCConfig.processor_passive_rate;
+import static nc.config.NCConfig.*;
 
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.ItemIngredient;
+import nc.recipe.ingredient.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 

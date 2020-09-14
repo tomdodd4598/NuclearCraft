@@ -72,7 +72,7 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addCoolantNAKRecipe("enderium", INGOT_VOLUME);
 		addCoolantNAKRecipe("cryotheum", EUM_DUST_VOLUME);
 		
-		/* ========================================= Fission Materials ========================================= */
+		// Fission Materials
 		
 		// addRecipe(fluidStack("uranium_238", INGOT_VOLUME), fluidStack("uranium_235", NUGGET_VOLUME), fluidStack("uranium", NUGGET_VOLUME*10), 10D/9D, 1D);
 		

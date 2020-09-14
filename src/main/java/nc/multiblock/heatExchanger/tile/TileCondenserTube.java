@@ -1,34 +1,21 @@
 package nc.multiblock.heatExchanger.tile;
 
 import static nc.config.NCConfig.enable_mek_gas;
-import static nc.recipe.NCRecipes.condenser;
-import static nc.recipe.NCRecipes.condenser_valid_fluids;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
-import nc.multiblock.heatExchanger.HeatExchangerTubeType;
-import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.RecipeInfo;
+import nc.multiblock.heatExchanger.*;
+import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
 import nc.util.CapabilityHelper;
@@ -40,12 +27,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.*;
 
 public class TileCondenserTube extends TileHeatExchangerPart implements IFluidProcessor {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, condenser_valid_fluids.get(0)), new Tank(64000, new ArrayList<>()));
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.condenser_valid_fluids.get(0)), new Tank(64000, new ArrayList<>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -106,15 +92,11 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	public void onMachineAssembled(HeatExchanger controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	public int checkPosition() {
@@ -166,8 +148,8 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
@@ -177,35 +159,26 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	
 	@Override
 	public void update() {
-		super.update();
-		updateTube();
-	}
-	
-	public void updateTube() {
 		if (!world.isRemote) {
 			setIsHeatExchangerOn();
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			// tickTube();
 			if (isProcessing) {
 				process();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			/* if (tubeCount == 0) { pushFluid(); refreshRecipe(); refreshActivity(); } */
 			if (shouldUpdate) {
 				markDirty();
 			}
 		}
 	}
 	
-	/* public void tickTube() { tubeCount++; tubeCount %= machine_update_rate / 4; } */
-	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = condenser.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
+		recipeInfo = NCRecipes.condenser.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
 	}
 	
 	@Override

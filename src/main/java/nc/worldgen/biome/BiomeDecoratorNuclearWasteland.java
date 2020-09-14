@@ -73,9 +73,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		lapisGen = new WorldGenMinable(Blocks.LAPIS_ORE.getDefaultState(), lapisSize, new UniversalOrePredicate());
 	}
 	
-	/**
-	 * This is the function where ore generation and things like flowers are generated.
-	 */
+	/** This is the function where ore generation and things like flowers are generated. */
 	@Override
 	public void decorate(World worldIn, Random random, Biome biome, BlockPos pos) {
 		if (decorating) {
@@ -88,9 +86,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		}
 	}
 	
-	/**
-	 * This is where things like trees are generated.
-	 */
+	/** This is where things like trees are generated. */
 	@Override
 	protected void genDecorations(Biome biomeIn, World worldIn, Random random) {
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Pre(worldIn, random, chunkPos));
@@ -163,7 +159,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		}
 	}
 	
-	private static void generateFalls(World worldIn, Random random, BlockPos chunkPos) {
+	/*private static void generateFalls(World worldIn, Random random, BlockPos chunkPos) {
 		if (TerrainGen.decorate(worldIn, random, chunkPos, DecorateBiomeEvent.Decorate.EventType.LAKE_WATER)) {
 			for (int k5 = 0; k5 < 50; ++k5) {
 				int i10 = random.nextInt(16) + 8;
@@ -187,7 +183,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 				new WorldGenLiquids(Blocks.FLOWING_LAVA).generate(worldIn, random, blockpos3);
 			}
 		}
-	}
+	}*/
 	
 	private static void generate(World worldIn, Random random, BlockPos chunkPos, EventType eventType, WorldGenerator generator, int countPerChunk) {
 		if (TerrainGen.decorate(worldIn, random, chunkPos, eventType)) {
@@ -199,9 +195,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		}
 	}
 	
-	/**
-	 * Generates ores in the current chunk
-	 */
+	/** Generates ores in the current chunk */
 	@Override
 	protected void generateOres(World worldIn, Random random) {
 		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(worldIn, random, chunkPos));

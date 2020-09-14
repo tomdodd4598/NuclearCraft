@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.melter;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerMelter extends ContainerItemFluidProcessor {
 	
 	public ContainerMelter(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, melter);
+		super(player, tileEntity, NCRecipes.melter);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		

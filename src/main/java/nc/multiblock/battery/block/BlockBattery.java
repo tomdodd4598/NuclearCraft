@@ -1,32 +1,25 @@
 package nc.multiblock.battery.block;
 
 import nc.block.property.ISidedEnergy;
-import nc.block.tile.IDynamicState;
-import nc.block.tile.INBTDrop;
+import nc.block.tile.*;
 import nc.item.ItemMultitool;
-import nc.multiblock.battery.BatteryMultiblock;
-import nc.multiblock.battery.BatteryType;
+import nc.multiblock.battery.*;
 import nc.multiblock.battery.tile.TileBattery;
 import nc.multiblock.block.BlockMultiblockPart;
 import nc.tab.NCTabs;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import nc.tile.internal.energy.*;
+import nc.util.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 public class BlockBattery extends BlockMultiblockPart implements IDynamicState, ISidedEnergy, INBTDrop {
 	
@@ -104,9 +97,24 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
-			TileBattery battery = (TileBattery) tile;
 			NBTTagCompound nbt = new NBTTagCompound();
-			battery.writeEnergy(nbt);
+			
+			TileBattery battery = (TileBattery) tile;
+			BatteryMultiblock multiblock = battery.getMultiblock();
+			
+			if (multiblock != null) {
+				EnergyStorage storage = multiblock.getEnergyStorage();
+				if (multiblock.getPartCount(TileBattery.class) < 2) {
+					storage.writeToNBT(nbt, "energyStorage");
+				}
+				else {
+					double fraction = (double) multiblock.getEnergyStorage().getEnergyStoredLong() / (double) multiblock.getEnergyStorage().getMaxEnergyStoredLong();
+					long energy = (long) (fraction * battery.capacity);
+					new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity), energy).writeToNBT(nbt, "energyStorage");
+					storage.changeEnergyStored(-energy);
+				}
+			}
+			
 			battery.writeEnergyConnections(nbt);
 			stack.setTagCompound(nbt);
 		}
@@ -115,14 +123,19 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 	
 	@Override
 	public void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack) {
-		if (player == null || !player.isSneaking()) {
+		if (player == null || !stack.hasTagCompound()) {
 			return;
 		}
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
+			NBTTagCompound nbt = stack.getTagCompound();
 			TileBattery battery = (TileBattery) tile;
-			battery.readEnergy(stack.getTagCompound());
-			battery.readEnergyConnections(stack.getTagCompound());
+			
+			battery.waitingEnergy += new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity)).readFromNBT(nbt, "energyStorage").getEnergyStoredLong();
+			
+			if (player.isSneaking()) {
+				battery.readEnergyConnections(nbt);
+			}
 		}
 	}
 }

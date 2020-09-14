@@ -1,10 +1,6 @@
 package nc.tile.passive;
 
-import static nc.config.NCConfig.enable_gtce_eu;
-import static nc.config.NCConfig.enable_mek_gas;
-import static nc.config.NCConfig.machine_update_rate;
-import static nc.config.NCConfig.passive_push;
-import static nc.config.NCConfig.rf_per_eu;
+import static nc.config.NCConfig.*;
 
 import javax.annotation.Nullable;
 
@@ -14,10 +10,7 @@ import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.recipe.ingredient.ItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
@@ -25,9 +18,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.CapabilityHelper;
-import nc.util.EnergyHelper;
-import nc.util.GasHelper;
+import nc.util.*;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,8 +26,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
@@ -91,17 +81,15 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	@Override
 	public void update() {
-		boolean wasActive = isActive;
-		boolean shouldUpdate = false;
-		super.update();
 		if (!world.isRemote) {
+			boolean wasActive = isActive, shouldUpdate = false;
 			energyBool = changeEnergy(false);
 			itemBool = changeStack(false);
 			fluidBool = changeFluid(false);
 			isActive = isRunning(energyBool, itemBool, fluidBool);
 			if (wasActive != isActive) {
 				shouldUpdate = true;
-				updateBlockType();
+				setActivity(isActive);
 			}
 			if (tickCount == 0) {
 				if (passive_push) {
@@ -128,16 +116,6 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	public void tickCount() {
 		tickCount++;
 		tickCount %= machine_update_rate;
-	}
-	
-	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) {
-			removeTileFromENet();
-		}
-		setActivity(isActive);
-		if (ModCheck.ic2Loaded()) {
-			addTileToENet();
-		}
 	}
 	
 	protected boolean changeEnergy(boolean simulateChange) {
@@ -333,13 +311,13 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	// IC2 EU
 	
 	@Override
-	public int getEUSourceTier() {
-		return EnergyHelper.getEUTier(energyRate);
+	public int getSinkTier() {
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
-		return 10;
+	public int getSourceTier() {
+		return EnergyHelper.getEUTier(energyRate);
 	}
 	
 	// NBT

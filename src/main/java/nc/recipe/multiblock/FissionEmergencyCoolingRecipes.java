@@ -1,8 +1,9 @@
 package nc.recipe.multiblock;
 
+import static nc.config.NCConfig.fission_emergency_cooling_multiplier;
+
 import java.util.*;
 
-import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipeHandler;
 
 public class FissionEmergencyCoolingRecipes extends ProcessorRecipeHandler {
@@ -13,7 +14,7 @@ public class FissionEmergencyCoolingRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("emergency_coolant", 1), fluidStack("emergency_coolant_heated", 1), NCConfig.fission_emergency_cooling_multiplier);
+		addRecipe(fluidStack("emergency_coolant", 1), fluidStack("emergency_coolant_heated", 1), fission_emergency_cooling_multiplier);
 	}
 	
 	@Override

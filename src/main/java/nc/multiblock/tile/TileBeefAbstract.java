@@ -2,10 +2,8 @@ package nc.multiblock.tile;
 
 import javax.annotation.Nullable;
 
-import nc.block.tile.IActivatable;
 import nc.block.tile.IDynamicState;
-import nc.capability.radiation.source.IRadiationSource;
-import nc.capability.radiation.source.RadiationSource;
+import nc.capability.radiation.source.*;
 import nc.tile.ITile;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
@@ -16,24 +14,18 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
-/**
- * A base class for modded tile entities
+/** A base class for modded tile entities
  *
- * Partially ported from TileCoFHBase https://github.com/CoFH/CoFHCore/blob/master/src/main/java/cofh/core/block/TileCoFHBase.java
- */
-public abstract class TileBeefAbstract extends TileEntity implements ITile, ITickable {
+ * Partially ported from TileCoFHBase https://github.com/CoFH/CoFHCore/blob/master/src/main/java/cofh/core/block/TileCoFHBase.java */
+public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	
-	public boolean isAdded = false;
 	private boolean isRedstonePowered = false, alternateComparator = false, redstoneControl = false;
 	
 	private final IRadiationSource radiation;
@@ -44,14 +36,7 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 	}
 	
 	@Override
-	public void update() {
-		if (!isAdded) {
-			onAdded();
-			isAdded = true;
-		}
-	}
-	
-	public void onAdded() {
+	public void onLoad() {
 		if (world.isRemote) {
 			world.markBlockRangeForRenderUpdate(pos, pos);
 			refreshIsRedstonePowered(world, pos);
@@ -168,52 +153,44 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		return super.getCapability(capability, side);
 	}
 	
-	/* GUI management */
+	// GUI management
 	
-	/**
-	 * Check if the tile entity has a GUI or not Override in derived classes to return true if your tile entity got a GUI
-	 */
+	/** Check if the tile entity has a GUI or not Override in derived classes to return true if your tile entity got a GUI */
 	public boolean canOpenGui(World world, BlockPos posistion, IBlockState state) {
 		return false;
 	}
 	
-	/**
-	 * Open the specified GUI
+	/** Open the specified GUI
 	 *
 	 * @param player
-	 * the player currently interacting with your block/tile entity
+	 *            the player currently interacting with your block/tile entity
 	 * @param guiId
-	 * the GUI to open
-	 * @return true if the GUI was opened, false otherwise
-	 */
+	 *            the GUI to open
+	 * @return true if the GUI was opened, false otherwise */
 	public boolean openGui(Object mod, EntityPlayer player, int guiId) {
 		
 		player.openGui(mod, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 	
-	/**
-	 * Returns a Server side Container to be displayed to the user.
+	/** Returns a Server side Container to be displayed to the user.
 	 *
 	 * @param guiId
-	 * the GUI ID mumber
+	 *            the GUI ID mumber
 	 * @param player
-	 * the player currently interacting with your block/tile entity
-	 * @return A GuiScreen/Container to be displayed to the user, null if none.
-	 */
+	 *            the player currently interacting with your block/tile entity
+	 * @return A GuiScreen/Container to be displayed to the user, null if none. */
 	public Object getServerGuiElement(int guiId, EntityPlayer player) {
 		return null;
 	}
 	
-	/**
-	 * Returns a Container to be displayed to the user. On the client side, this needs to return a instance of GuiScreen On the server side, this needs to return a instance of Container
+	/** Returns a Container to be displayed to the user. On the client side, this needs to return a instance of GuiScreen On the server side, this needs to return a instance of Container
 	 *
 	 * @param guiId
-	 * the GUI ID mumber
+	 *            the GUI ID mumber
 	 * @param player
-	 * the player currently interacting with your block/tile entity
-	 * @return A GuiScreen/Container to be displayed to the user, null if none.
-	 */
+	 *            the player currently interacting with your block/tile entity
+	 * @return A GuiScreen/Container to be displayed to the user, null if none. */
 	public Object getClientGuiElement(int guiId, EntityPlayer player) {
 		return null;
 	}
@@ -294,24 +271,20 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		}
 	}
 	
-	/**
-	 * Sync tile entity data from the given NBT compound
+	/** Sync tile entity data from the given NBT compound
 	 * 
 	 * @param data
-	 * the data
+	 *            the data
 	 * @param syncReason
-	 * the reason why the synchronization is necessary
-	 */
+	 *            the reason why the synchronization is necessary */
 	protected abstract void syncDataFrom(NBTTagCompound data, SyncReason syncReason);
 	
-	/**
-	 * Sync tile entity data to the given NBT compound
+	/** Sync tile entity data to the given NBT compound
 	 * 
 	 * @param data
-	 * the data
+	 *            the data
 	 * @param syncReason
-	 * the reason why the synchronization is necessary
-	 */
+	 *            the reason why the synchronization is necessary */
 	protected abstract void syncDataTo(NBTTagCompound data, SyncReason syncReason);
 	
 	// TESR

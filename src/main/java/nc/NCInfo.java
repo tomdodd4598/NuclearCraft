@@ -2,7 +2,7 @@ package nc;
 
 import static nc.config.NCConfig.*;
 
-import java.util.*;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
@@ -16,8 +16,6 @@ import net.minecraft.util.IStringSerializable;
 public class NCInfo {
 	
 	// Fission Fuel
-	
-	/* public static <T extends Enum<T> & IFissionFuelEnum> String[][] fissionFuelInfo(T[] values) { String[][] info = new String[values.length][]; for (int i = 0; i < values.length; i++) { List<String> list = Lists.newArrayList( Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(values[i].getBaseTime()* fission_fuel_time_multiplier, 3)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(values[i].getBaseHeat(), 5, "H/t")), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", Math.round(100D*values[i].getBaseEfficiency()) + "%"), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.criticality.desc", values[i].getCriticality() + " N/t") ); if (values[i].getSelfPriming()) { list.add(Lang.localise("item." + Global.MOD_ID + ".fission_fuel.self_priming.desc")); } info[i] = list.toArray(new String[list.size()]); } return info; } */
 	
 	public static String[] fissionFuelInfo(ProcessorRecipe fuelInfo) {
 		List<String> list = Lists.newArrayList(Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime() * fission_fuel_time_multiplier, 3)), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", Math.round(100D * fuelInfo.getFissionFuelEfficiency()) + "%"), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t"));
@@ -56,34 +54,6 @@ public class NCInfo {
 	public static String[][] coolantHeaterFixedInfo2() {
 		return coolingFixedInfo(MetaEnums.CoolantHeaterType2.values(), "salt_fission_heater");
 	}
-	
-	/*public static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingInfo(T[] values, String name) {
-		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
-			info[i] = InfoHelper.formattedInfo(coolingInfoString(values[i], name));
-		}
-		return info;
-	}
-	
-	private static <T extends Enum<T> & IStringSerializable> String coolingInfoString(T type, String name) {
-		return Lang.localise("tile." + Global.MOD_ID + "." + name + "." + type.getName() + ".desc");
-	}
-	
-	public static String[][] heatSinkInfo() {
-		return coolingInfo(MetaEnums.HeatSinkType.values(), "solid_fission_sink");
-	}
-	
-	public static String[][] heatSinkInfo2() {
-		return coolingInfo(MetaEnums.HeatSinkType2.values(), "solid_fission_sink2");
-	}
-	
-	public static String[][] coolantHeaterInfo() {
-		return coolingInfo(MetaEnums.CoolantHeaterType.values(), "salt_fission_heater");
-	}
-	
-	public static String[][] coolantHeaterInfo2() {
-		return coolingInfo(MetaEnums.CoolantHeaterType2.values(), "salt_fission_heater2");
-	}*/
 	
 	// Fission Neutron Sources
 	
@@ -156,22 +126,9 @@ public class NCInfo {
 		return info;
 	}
 	
-	/*public static String[][] dynamoCoilInfo() {
-		String[][] info = new String[TurbineDynamoCoilType.values().length][];
-		info[0] = new String[] {};
-		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
-			info[i] = InfoHelper.formattedInfo(coiInfoString(i));
-		}
-		return info;
-	}*/
-	
 	private static String coilConductivityString(int meta) {
 		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.decimalPlaces(100D * TurbineDynamoCoilType.values()[meta].getConductivity(), 1) + "%";
 	}
-	
-	/*private static String coiInfoString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + TurbineDynamoCoilType.values()[meta].name().toLowerCase(Locale.ROOT) + ".desc");
-	}*/
 	
 	// Speed Upgrade
 	

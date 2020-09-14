@@ -1,21 +1,20 @@
 package nc.multiblock.container;
 
-import static nc.recipe.NCRecipes.solid_fission;
-
 import nc.container.generator.ContainerFilteredItemGenerator;
 import nc.container.slot.*;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
+import nc.recipe.NCRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerSolidFissionCell extends ContainerFilteredItemGenerator<TileSolidFissionCell> {
 	
 	public ContainerSolidFissionCell(EntityPlayer player, TileSolidFissionCell cell) {
-		super(player, cell, solid_fission);
+		super(player, cell, NCRecipes.solid_fission);
 		
 		cell.beginUpdatingPlayer(player);
 		
-		addSlotToContainer(new SlotFiltered.ProcessorInput(cell, solid_fission, 0, 56, 35));
+		addSlotToContainer(new SlotFiltered.ProcessorInput(cell, NCRecipes.solid_fission, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnace(player, cell, 1, 116, 35));
 		

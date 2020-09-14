@@ -1,10 +1,10 @@
 package nc.recipe.generator;
 
 import static nc.config.NCConfig.*;
-import static nc.radiation.RadSources.*;
 
 import java.util.*;
 
+import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
 
@@ -19,16 +19,16 @@ public class DecayGeneratorRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe("blockThorium", "blockLead", decay_lifetime[0], decay_power[0], THORIUM);
-		addRecipe("blockUranium", "blockUranium238", decay_lifetime[1], decay_power[1], URANIUM);
+		addRecipe("blockThorium", "blockLead", decay_lifetime[0], decay_power[0], RadSources.THORIUM);
+		addRecipe("blockUranium", "blockUranium238", decay_lifetime[1], decay_power[1], RadSources.URANIUM);
 		
-		addRecipe("blockUranium238", OreDictHelper.oreExists("blockRadium") ? "blockRadium" : "blockLead", decay_lifetime[3], decay_power[3], URANIUM_238);
-		addRecipe("blockNeptunium237", OreDictHelper.oreExists("blockBismuth") ? "blockBismuth" : "blockLead", decay_lifetime[4], decay_power[4], NEPTUNIUM_237);
-		addRecipe("blockPlutonium242", "blockUranium238", decay_lifetime[5], decay_power[5], PLUTONIUM_242);
-		addRecipe("blockAmericium243", "blockLead", decay_lifetime[6], decay_power[6], AMERICIUM_243);
-		addRecipe("blockCurium246", "blockPlutonium242", decay_lifetime[7], decay_power[7], CURIUM_246);
-		addRecipe("blockBerkelium247", "blockAmericium243", decay_lifetime[8], decay_power[8], BERKELIUM_247);
-		addRecipe("blockCalifornium252", "blockLead", decay_lifetime[9], decay_power[9], CALIFORNIUM_252);
+		addRecipe("blockUranium238", OreDictHelper.oreExists("blockRadium") ? "blockRadium" : "blockLead", decay_lifetime[3], decay_power[3], RadSources.URANIUM_238);
+		addRecipe("blockNeptunium237", OreDictHelper.oreExists("blockBismuth") ? "blockBismuth" : "blockLead", decay_lifetime[4], decay_power[4], RadSources.NEPTUNIUM_237);
+		addRecipe("blockPlutonium242", "blockUranium238", decay_lifetime[5], decay_power[5], RadSources.PLUTONIUM_242);
+		addRecipe("blockAmericium243", "blockLead", decay_lifetime[6], decay_power[6], RadSources.AMERICIUM_243);
+		addRecipe("blockCurium246", "blockPlutonium242", decay_lifetime[7], decay_power[7], RadSources.CURIUM_246);
+		addRecipe("blockBerkelium247", "blockAmericium243", decay_lifetime[8], decay_power[8], RadSources.BERKELIUM_247);
+		addRecipe("blockCalifornium252", "blockLead", decay_lifetime[9], decay_power[9], RadSources.CALIFORNIUM_252);
 	}
 	
 	@Override

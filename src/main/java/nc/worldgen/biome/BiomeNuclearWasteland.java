@@ -47,9 +47,7 @@ public class BiomeNuclearWasteland extends Biome {
 		return getModdedBiomeFoliageColor(0x994C00);
 	}
 	
-	/**
-	 * Allocate a new BiomeDecorator for this BiomeGenBase
-	 */
+	/** Allocate a new BiomeDecorator for this BiomeGenBase */
 	@Override
 	public BiomeDecorator createBiomeDecorator() {
 		BiomeDecorator biomeDecorator = new BiomeDecoratorNuclearWasteland();

@@ -573,7 +573,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		gate(control(rz(angle), list(c), list(t)));
 	}
 	
-	/* Don't know how to optimise this! */
+	// Don't know how to optimise this!
 	public void cswap(IntSet c_, IntList i_, IntList j_) {
 		if (c_.isEmpty()) {
 			swap(i_, j_);

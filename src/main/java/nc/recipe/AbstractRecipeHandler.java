@@ -1,7 +1,5 @@
 package nc.recipe;
 
-import static nc.util.PermutationHelper.permutations;
-
 import java.util.*;
 
 import javax.annotation.Nullable;
@@ -134,8 +132,8 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 			RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
 			
 			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
-				for (List<ItemStack> items : permutations(materials.getLeft())) {
-					for (List<FluidStack> fluids : permutations(materials.getRight())) {
+				for (List<ItemStack> items : PermutationHelper.permutations(materials.getLeft())) {
+					for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
 						recipeCache.put(RecipeHelper.hashMaterials(items, fluids), recipe);
 					}
 				}
@@ -321,7 +319,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 		return false;
 	}
 	
-	/* ================================== Recipe Ingredients ===================================== */
+	// Recipe Ingredients
 	
 	public static OreIngredient oreStack(String oreType, int stackSize) {
 		if (!OreDictHelper.oreExists(oreType)) {

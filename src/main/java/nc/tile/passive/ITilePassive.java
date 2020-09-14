@@ -3,8 +3,9 @@ package nc.tile.passive;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.inventory.ITileInventory;
+import net.minecraft.util.ITickable;
 
-public interface ITilePassive extends ITileEnergy, ITileInventory, ITileFluid {
+public interface ITilePassive extends ITickable, ITileEnergy, ITileInventory, ITileFluid {
 	
 	public double getEnergyRate();
 	

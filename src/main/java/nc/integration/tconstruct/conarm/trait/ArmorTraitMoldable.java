@@ -2,8 +2,7 @@ package nc.integration.tconstruct.conarm.trait;
 
 import c4.conarm.lib.traits.AbstractArmorTraitLeveled;
 import net.minecraft.nbt.NBTTagCompound;
-import slimeknights.tconstruct.library.utils.TagUtil;
-import slimeknights.tconstruct.library.utils.Tags;
+import slimeknights.tconstruct.library.utils.*;
 
 public class ArmorTraitMoldable extends AbstractArmorTraitLeveled implements IArmorTraitNC {
 	

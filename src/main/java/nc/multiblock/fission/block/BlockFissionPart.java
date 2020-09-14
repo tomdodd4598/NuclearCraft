@@ -1,6 +1,7 @@
 package nc.multiblock.fission.block;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.fission_heat_damage;
+
 import nc.multiblock.block.BlockMultiblockPart;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.*;
@@ -27,7 +28,7 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 		
 		@Override
 		public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-			return NCConfig.fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
+			return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
 		}
 		
 		@Override
@@ -38,7 +39,7 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return NCConfig.fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
+		return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
 	}
 	
 	@Override
@@ -47,7 +48,7 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 	}
 	
 	public static void onEntityCollisionWithFissionReactor(World world, BlockPos pos, Entity entity) {
-		if (NCConfig.fission_heat_damage && entity instanceof EntityLivingBase) {
+		if (fission_heat_damage && entity instanceof EntityLivingBase) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileFissionPart) {
 				TileFissionPart part = (TileFissionPart) tile;

@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.fuel_reprocessor;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerFuelReprocessor extends ContainerItemProcessor {
 	
 	public ContainerFuelReprocessor(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, fuel_reprocessor);
+		super(player, tileEntity, NCRecipes.fuel_reprocessor);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 40, 41));
 		

@@ -14,8 +14,8 @@ public class InfoHelper {
 	public static final String SHIFT_STRING = Lang.localise("gui.nc.inventory.shift_for_info");
 	public static final String CTRL_STRING = Lang.localise("gui.nc.inventory.ctrl_for_info");
 	
-	public static final String[] EMPTY_ARRAY = {}, NULL_ARRAY = { null };
-	public static final String[][] EMPTY_ARRAYS = {}, NULL_ARRAYS = { null };
+	public static final String[] EMPTY_ARRAY = {}, NULL_ARRAY = {null};
+	public static final String[][] EMPTY_ARRAYS = {}, NULL_ARRAYS = {null};
 	
 	public static void infoLine(List list, TextFormatting fixedColor, String line) {
 		list.add(fixedColor + line);

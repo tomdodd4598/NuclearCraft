@@ -1,8 +1,9 @@
 package nc.worldgen.decoration;
 
+import static nc.config.NCConfig.*;
+
 import java.util.Random;
 
-import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -28,11 +29,11 @@ public class BushGenerator implements IWorldGenerator {
 	}
 	
 	public void generateNether(Random random, int chunkX, int chunkZ, World world, IBlockState mushroom) {
-		if (!NCConfig.mushroom_gen || NCConfig.mushroom_gen_size <= 0 || NCConfig.mushroom_gen_rate <= 0) {
+		if (!mushroom_gen || mushroom_gen_size <= 0 || mushroom_gen_rate <= 0) {
 			return;
 		}
 		
-		int genRarity = Math.max(400 / NCConfig.mushroom_gen_rate, 1);
+		int genRarity = Math.max(400 / mushroom_gen_rate, 1);
 		
 		int xSpawn, ySpawn, zSpawn;
 		

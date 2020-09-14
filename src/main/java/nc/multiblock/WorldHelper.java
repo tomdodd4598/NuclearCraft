@@ -1,13 +1,10 @@
 package nc.multiblock;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.*;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
+/** Chunk and block update helpers */
 public final class WorldHelper {
-	
-	/* Chunk and block update helpers */
 	
 	public static int getChunkXFromBlock(int blockX) {
 		return blockX >> 4;

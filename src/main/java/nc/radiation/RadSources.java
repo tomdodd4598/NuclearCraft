@@ -1,41 +1,20 @@
 package nc.radiation;
 
-import static nc.config.NCConfig.radiation_blocks;
-import static nc.config.NCConfig.radiation_blocks_blacklist;
-import static nc.config.NCConfig.radiation_fluids;
-import static nc.config.NCConfig.radiation_fluids_blacklist;
-import static nc.config.NCConfig.radiation_foods;
-import static nc.config.NCConfig.radiation_items;
-import static nc.config.NCConfig.radiation_items_blacklist;
-import static nc.config.NCConfig.radiation_ores;
-import static nc.config.NCConfig.radiation_ores_blacklist;
+import static nc.config.NCConfig.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
-import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
-import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
-import nc.util.OreDictHelper;
-import nc.util.RegistryHelper;
-import nc.util.StringHelper;
+import nc.init.*;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.item.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RadSources {

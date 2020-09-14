@@ -108,8 +108,8 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
@@ -120,11 +120,6 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	
 	@Override
 	public void update() {
-		super.update();
-		updateProcessor();
-	}
-	
-	public void updateProcessor() {
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
@@ -140,23 +135,13 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
-				updateBlockType();
+				setActivity(isProcessing);
 				sendUpdateToAllPlayers();
 			}
 			sendUpdateToListeningPlayers();
 			if (shouldUpdate) {
 				markDirty();
 			}
-		}
-	}
-	
-	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) {
-			removeTileFromENet();
-		}
-		setActivity(isProcessing);
-		if (ModCheck.ic2Loaded()) {
-			addTileToENet();
 		}
 	}
 	
@@ -203,8 +188,9 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity(IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
-		getEnergyStorage().setMaxTransfer(IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
+		int capacity = IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier());
+		getEnergyStorage().setStorageCapacity(capacity);
+		getEnergyStorage().setMaxTransfer(capacity);
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft
@@ -465,13 +451,13 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	// IC2 Tiers
 	
 	@Override
-	public int getEUSourceTier() {
-		return 1;
+	public int getSinkTier() {
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
-		return 10;
+	public int getSourceTier() {
+		return 1;
 	}
 	
 	// ITileInventory

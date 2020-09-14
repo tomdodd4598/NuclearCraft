@@ -1,8 +1,6 @@
 package nc.handler;
 
-import nc.ModCheck;
 import nc.init.*;
-import nc.util.RegistryHelper;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.OreDictionary;

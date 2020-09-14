@@ -326,9 +326,7 @@ public class GuiHandler implements IGuiHandler {
 						return new GuiRockCrusher(player, (RockCrusher) tile);
 					}
 				case 100:
-					/*if (tile instanceof TileFissionController) {
-						return new GuiFissionController(player, (TileFissionController) tile);
-					}*/
+					/* if (tile instanceof TileFissionController) { return new GuiFissionController(player, (TileFissionController) tile); } */
 				case 101:
 					if (tile instanceof TileSolidFissionController) {
 						return new GuiSolidFissionController(player, (TileSolidFissionController) tile);

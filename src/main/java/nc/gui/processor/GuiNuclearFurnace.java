@@ -21,9 +21,7 @@ public class GuiNuclearFurnace extends NCGui {
 		this.furnace = furnace;
 	}
 	
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
-	 */
+	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = furnace.getDisplayName().getUnformattedText();

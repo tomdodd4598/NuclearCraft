@@ -22,16 +22,16 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.InterfaceList(value = {@Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2")})
 public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem, IChargableItem {
 	
-	private final int capacity;
+	private final long capacity;
 	private final int maxTransfer;
 	private final EnergyConnection energyConnection;
 	private final int energyTier;
 	
-	public ItemBlockEnergy(Block block, int capacity, int energyTier, EnergyConnection connection, String... tooltip) {
-		this(block, capacity, capacity, energyTier, connection, tooltip);
+	public ItemBlockEnergy(Block block, long capacity, int energyTier, EnergyConnection connection, String... tooltip) {
+		this(block, capacity, NCMath.toInt(capacity), energyTier, connection, tooltip);
 	}
 	
-	public ItemBlockEnergy(Block block, int capacity, int maxTransfer, int energyTier, EnergyConnection connection, String... tooltip) {
+	public ItemBlockEnergy(Block block, long capacity, int maxTransfer, int energyTier, EnergyConnection connection, String... tooltip) {
 		super(block, tooltip);
 		this.capacity = capacity;
 		this.maxTransfer = maxTransfer;
@@ -54,10 +54,11 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("energy")) {
+		NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+		if (nbt == null || !nbt.hasKey("energy")) {
 			return false;
 		}
-		return stack.getTagCompound().getInteger("energy") > 0;
+		return nbt.getLong("energy") > 0;
 	}
 	
 	@Override
@@ -66,22 +67,7 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	}
 	
 	@Override
-	public int getEnergyStored(ItemStack stack) {
-		if (stack.getTagCompound() == null || !stack.getTagCompound().hasKey("energy")) {
-			return 0;
-		}
-		return stack.getTagCompound().getInteger("energy");
-	}
-	
-	@Override
-	public void setEnergyStored(ItemStack stack, int amount) {
-		if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("energy")) {
-			stack.getTagCompound().setInteger("energy", amount);
-		}
-	}
-	
-	@Override
-	public int getMaxEnergyStored(ItemStack stack) {
+	public long getMaxEnergyStored(ItemStack stack) {
 		return capacity;
 	}
 	
@@ -112,9 +98,6 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
-		if (nbt != null && nbt.hasKey("energy") && nbt.hasKey("capacity") && nbt.hasKey("maxTransfer")) {
-			return new ItemEnergyCapabilityProvider(stack, nbt, energyTier);
-		}
-		return new ItemEnergyCapabilityProvider(stack, getEnergyStored(stack), capacity, maxTransfer, energyTier);
+		return new ItemEnergyCapabilityProvider(stack, capacity, maxTransfer, getEnergyStored(stack), energyConnection, energyTier);
 	}
 }

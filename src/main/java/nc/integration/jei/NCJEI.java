@@ -1,147 +1,28 @@
 package nc.integration.jei;
 
-import static nc.config.NCConfig.ore_gen;
-import static nc.config.NCConfig.ore_hide_disabled;
-import static nc.config.NCConfig.radiation_enabled_public;
-import static nc.config.NCConfig.register_passive;
-import static nc.config.NCConfig.register_processor;
-import static nc.recipe.NCRecipes.alloy_furnace;
-import static nc.recipe.NCRecipes.assembler;
-import static nc.recipe.NCRecipes.centrifuge;
-import static nc.recipe.NCRecipes.chemical_reactor;
-import static nc.recipe.NCRecipes.collector;
-import static nc.recipe.NCRecipes.condenser;
-import static nc.recipe.NCRecipes.coolant_heater;
-import static nc.recipe.NCRecipes.crystallizer;
-import static nc.recipe.NCRecipes.decay_generator;
-import static nc.recipe.NCRecipes.decay_hastener;
-import static nc.recipe.NCRecipes.electrolyzer;
-import static nc.recipe.NCRecipes.enricher;
-import static nc.recipe.NCRecipes.extractor;
-import static nc.recipe.NCRecipes.fission_emergency_cooling;
-import static nc.recipe.NCRecipes.fission_heating;
-import static nc.recipe.NCRecipes.fission_irradiator;
-import static nc.recipe.NCRecipes.fission_moderator;
-import static nc.recipe.NCRecipes.fission_reflector;
-import static nc.recipe.NCRecipes.fuel_reprocessor;
-import static nc.recipe.NCRecipes.heat_exchanger;
-import static nc.recipe.NCRecipes.infuser;
-import static nc.recipe.NCRecipes.ingot_former;
-import static nc.recipe.NCRecipes.manufactory;
-import static nc.recipe.NCRecipes.melter;
-import static nc.recipe.NCRecipes.pebble_fission;
-import static nc.recipe.NCRecipes.pressurizer;
-import static nc.recipe.NCRecipes.radiation_scrubber;
-import static nc.recipe.NCRecipes.rock_crusher;
-import static nc.recipe.NCRecipes.salt_fission;
-import static nc.recipe.NCRecipes.salt_mixer;
-import static nc.recipe.NCRecipes.separator;
-import static nc.recipe.NCRecipes.solid_fission;
-import static nc.recipe.NCRecipes.supercooler;
-import static nc.recipe.NCRecipes.turbine;
+import static nc.config.NCConfig.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.*;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import nc.ModCheck;
-import nc.container.processor.ContainerAlloyFurnace;
-import nc.container.processor.ContainerAssembler;
-import nc.container.processor.ContainerCentrifuge;
-import nc.container.processor.ContainerChemicalReactor;
-import nc.container.processor.ContainerCrystallizer;
-import nc.container.processor.ContainerDecayHastener;
-import nc.container.processor.ContainerElectrolyzer;
-import nc.container.processor.ContainerEnricher;
-import nc.container.processor.ContainerExtractor;
-import nc.container.processor.ContainerFuelReprocessor;
-import nc.container.processor.ContainerInfuser;
-import nc.container.processor.ContainerIngotFormer;
-import nc.container.processor.ContainerManufactory;
-import nc.container.processor.ContainerMelter;
-import nc.container.processor.ContainerPressurizer;
-import nc.container.processor.ContainerRockCrusher;
-import nc.container.processor.ContainerSaltMixer;
-import nc.container.processor.ContainerSeparator;
-import nc.container.processor.ContainerSupercooler;
+import nc.container.processor.*;
 import nc.enumm.MetaEnums;
-import nc.gui.processor.GuiAlloyFurnace;
-import nc.gui.processor.GuiAssembler;
-import nc.gui.processor.GuiCentrifuge;
-import nc.gui.processor.GuiChemicalReactor;
-import nc.gui.processor.GuiCrystallizer;
-import nc.gui.processor.GuiDecayHastener;
-import nc.gui.processor.GuiElectrolyzer;
-import nc.gui.processor.GuiEnricher;
-import nc.gui.processor.GuiExtractor;
-import nc.gui.processor.GuiFuelReprocessor;
-import nc.gui.processor.GuiInfuser;
-import nc.gui.processor.GuiIngotFormer;
-import nc.gui.processor.GuiManufactory;
-import nc.gui.processor.GuiMelter;
-import nc.gui.processor.GuiPressurizer;
-import nc.gui.processor.GuiRockCrusher;
-import nc.gui.processor.GuiSaltMixer;
-import nc.gui.processor.GuiSeparator;
-import nc.gui.processor.GuiSupercooler;
-import nc.init.NCArmor;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
+import nc.gui.processor.*;
+import nc.init.*;
 import nc.integration.jei.generator.DecayGeneratorCategory;
-import nc.integration.jei.multiblock.CondenserCategory;
-import nc.integration.jei.multiblock.CoolantHeaterCategory;
-import nc.integration.jei.multiblock.FissionEmergencyCoolingCategory;
-import nc.integration.jei.multiblock.FissionHeatingCategory;
-import nc.integration.jei.multiblock.FissionIrradiatorCategory;
-import nc.integration.jei.multiblock.FissionModeratorCategory;
-import nc.integration.jei.multiblock.FissionReflectorCategory;
-import nc.integration.jei.multiblock.HeatExchangerCategory;
-import nc.integration.jei.multiblock.PebbleFissionCategory;
-import nc.integration.jei.multiblock.SaltFissionCategory;
-import nc.integration.jei.multiblock.SolidFissionCategory;
-import nc.integration.jei.multiblock.TurbineCategory;
-import nc.integration.jei.other.CollectorCategory;
-import nc.integration.jei.other.RadiationScrubberCategory;
-import nc.integration.jei.processor.AlloyFurnaceCategory;
-import nc.integration.jei.processor.AssemblerCategory;
-import nc.integration.jei.processor.CentrifugeCategory;
-import nc.integration.jei.processor.ChemicalReactorCategory;
-import nc.integration.jei.processor.CrystallizerCategory;
-import nc.integration.jei.processor.DecayHastenerCategory;
-import nc.integration.jei.processor.ElectrolyzerCategory;
-import nc.integration.jei.processor.EnricherCategory;
-import nc.integration.jei.processor.ExtractorCategory;
-import nc.integration.jei.processor.FuelReprocessorCategory;
-import nc.integration.jei.processor.InfuserCategory;
-import nc.integration.jei.processor.IngotFormerCategory;
-import nc.integration.jei.processor.ManufactoryCategory;
-import nc.integration.jei.processor.MelterCategory;
-import nc.integration.jei.processor.PressurizerCategory;
-import nc.integration.jei.processor.RockCrusherCategory;
-import nc.integration.jei.processor.SaltMixerCategory;
-import nc.integration.jei.processor.SeparatorCategory;
-import nc.integration.jei.processor.SupercoolerCategory;
-import nc.multiblock.container.ContainerFissionIrradiator;
-import nc.multiblock.container.ContainerSaltFissionHeater;
-import nc.multiblock.container.ContainerSaltFissionVessel;
-import nc.multiblock.container.ContainerSolidFissionCell;
-import nc.multiblock.gui.GuiFissionIrradiator;
-import nc.multiblock.gui.GuiSaltFissionHeater;
-import nc.multiblock.gui.GuiSaltFissionVessel;
-import nc.multiblock.gui.GuiSolidFissionCell;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.util.NCUtil;
-import nc.util.StackHelper;
+import nc.integration.jei.multiblock.*;
+import nc.integration.jei.other.*;
+import nc.integration.jei.processor.*;
+import nc.multiblock.container.*;
+import nc.multiblock.gui.*;
+import nc.recipe.*;
+import nc.util.*;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 
 @JEIPlugin
 public class NCJEI implements IModPlugin {
@@ -322,8 +203,6 @@ public class NCJEI implements IModPlugin {
 		}
 	}
 	
-	/* private static <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) { if (block == null) return; for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(block, 1, i)); } */
-	
 	private static <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Item item) {
 		if (item == null) {
 			return;
@@ -334,40 +213,40 @@ public class NCJEI implements IModPlugin {
 	}
 	
 	public enum JEIHandler implements IJEIHandler {
-		MANUFACTORY(manufactory, NCBlocks.manufactory, "manufactory", JEIRecipeWrapper.Manufactory.class, 1),
-		SEPARATOR(separator, NCBlocks.separator, "separator", JEIRecipeWrapper.Separator.class, 2),
-		DECAY_HASTENER(decay_hastener, NCBlocks.decay_hastener, "decay_hastener", JEIRecipeWrapper.DecayHastener.class, 3),
-		FUEL_REPROCESSOR(fuel_reprocessor, NCBlocks.fuel_reprocessor, "fuel_reprocessor", JEIRecipeWrapper.FuelReprocessor.class, 4),
-		ALLOY_FURNACE(alloy_furnace, NCBlocks.alloy_furnace, "alloy_furnace", JEIRecipeWrapper.AlloyFurnace.class, 5),
-		INFUSER(infuser, NCBlocks.infuser, "infuser", JEIRecipeWrapper.Infuser.class, 6),
-		MELTER(melter, NCBlocks.melter, "melter", JEIRecipeWrapper.Melter.class, 7),
-		SUPERCOOLER(supercooler, NCBlocks.supercooler, "supercooler", JEIRecipeWrapper.Supercooler.class, 8),
-		ELECTROLYZER(electrolyzer, NCBlocks.electrolyzer, "electrolyzer", JEIRecipeWrapper.Electrolyzer.class, 9),
-		ASSEMBLER(assembler, NCBlocks.assembler, "assembler", JEIRecipeWrapper.Assembler.class, 10),
-		INGOT_FORMER(ingot_former, NCBlocks.ingot_former, "ingot_former", JEIRecipeWrapper.IngotFormer.class, 11),
-		PRESSURIZER(pressurizer, NCBlocks.pressurizer, "pressurizer", JEIRecipeWrapper.Pressurizer.class, 12),
-		CHEMICAL_REACTOR(chemical_reactor, NCBlocks.chemical_reactor, "chemical_reactor", JEIRecipeWrapper.ChemicalReactor.class, 13),
-		SALT_MIXER(salt_mixer, NCBlocks.salt_mixer, "salt_mixer", JEIRecipeWrapper.SaltMixer.class, 14),
-		CRYSTALLIZER(crystallizer, NCBlocks.crystallizer, "crystallizer", JEIRecipeWrapper.Crystallizer.class, 15),
-		ENRICHER(enricher, NCBlocks.enricher, "enricher", JEIRecipeWrapper.Enricher.class, 16),
-		EXTRACTOR(extractor, NCBlocks.extractor, "extractor", JEIRecipeWrapper.Extractor.class, 17),
-		CENTRIFUGE(centrifuge, NCBlocks.centrifuge, "centrifuge", JEIRecipeWrapper.Centrifuge.class, 18),
-		ROCK_CRUSHER(rock_crusher, NCBlocks.rock_crusher, "rock_crusher", JEIRecipeWrapper.RockCrusher.class, 19),
-		COLLECTOR(collector, registeredCollectors(), "collector", JEIRecipeWrapper.Collector.class),
-		DECAY_GENERATOR(decay_generator, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
-		FISSION_MODERATOR(fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
-		FISSION_REFLECTOR(fission_reflector, NCBlocks.fission_reflector, "fission_reflector", JEIRecipeWrapper.FissionReflector.class),
-		FISSION_IRRADIATOR(fission_irradiator, NCBlocks.fission_irradiator, "fission_irradiator", JEIRecipeWrapper.FissionIrradiator.class),
-		PEBBLE_FISSION(pebble_fission, Lists.newArrayList(), "pebble_fission", JEIRecipeWrapper.PebbleFission.class),
-		SOLID_FISSION(solid_fission, Lists.newArrayList(NCBlocks.solid_fission_controller, NCBlocks.solid_fission_cell), "solid_fission", JEIRecipeWrapper.SolidFission.class),
-		FISSION_HEATING(fission_heating, NCBlocks.fission_vent, "fission_heating", JEIRecipeWrapper.FissionHeating.class),
-		SALT_FISSION(salt_fission, Lists.newArrayList(NCBlocks.salt_fission_controller, NCBlocks.salt_fission_vessel), "salt_fission", JEIRecipeWrapper.SaltFission.class),
-		COOLANT_HEATER(coolant_heater, coolantHeaters(), "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
-		FISSION_EMERGENCY_COOLING(fission_emergency_cooling, NCBlocks.fission_vent, "fission_emergency_cooling", JEIRecipeWrapper.FissionEmergencyCooling.class),
-		HEAT_EXCHANGER(heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
-		CONDENSER(condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class),
-		TURBINE(turbine, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
-		RADIATION_SCRUBBER(radiation_scrubber, NCBlocks.radiation_scrubber, "radiation_scrubber", JEIRecipeWrapper.RadiationScrubber.class);
+		MANUFACTORY(NCRecipes.manufactory, NCBlocks.manufactory, "manufactory", JEIRecipeWrapper.Manufactory.class, 1),
+		SEPARATOR(NCRecipes.separator, NCBlocks.separator, "separator", JEIRecipeWrapper.Separator.class, 2),
+		DECAY_HASTENER(NCRecipes.decay_hastener, NCBlocks.decay_hastener, "decay_hastener", JEIRecipeWrapper.DecayHastener.class, 3),
+		FUEL_REPROCESSOR(NCRecipes.fuel_reprocessor, NCBlocks.fuel_reprocessor, "fuel_reprocessor", JEIRecipeWrapper.FuelReprocessor.class, 4),
+		ALLOY_FURNACE(NCRecipes.alloy_furnace, NCBlocks.alloy_furnace, "alloy_furnace", JEIRecipeWrapper.AlloyFurnace.class, 5),
+		INFUSER(NCRecipes.infuser, NCBlocks.infuser, "infuser", JEIRecipeWrapper.Infuser.class, 6),
+		MELTER(NCRecipes.melter, NCBlocks.melter, "melter", JEIRecipeWrapper.Melter.class, 7),
+		SUPERCOOLER(NCRecipes.supercooler, NCBlocks.supercooler, "supercooler", JEIRecipeWrapper.Supercooler.class, 8),
+		ELECTROLYZER(NCRecipes.electrolyzer, NCBlocks.electrolyzer, "electrolyzer", JEIRecipeWrapper.Electrolyzer.class, 9),
+		ASSEMBLER(NCRecipes.assembler, NCBlocks.assembler, "assembler", JEIRecipeWrapper.Assembler.class, 10),
+		INGOT_FORMER(NCRecipes.ingot_former, NCBlocks.ingot_former, "ingot_former", JEIRecipeWrapper.IngotFormer.class, 11),
+		PRESSURIZER(NCRecipes.pressurizer, NCBlocks.pressurizer, "pressurizer", JEIRecipeWrapper.Pressurizer.class, 12),
+		CHEMICAL_REACTOR(NCRecipes.chemical_reactor, NCBlocks.chemical_reactor, "chemical_reactor", JEIRecipeWrapper.ChemicalReactor.class, 13),
+		SALT_MIXER(NCRecipes.salt_mixer, NCBlocks.salt_mixer, "salt_mixer", JEIRecipeWrapper.SaltMixer.class, 14),
+		CRYSTALLIZER(NCRecipes.crystallizer, NCBlocks.crystallizer, "crystallizer", JEIRecipeWrapper.Crystallizer.class, 15),
+		ENRICHER(NCRecipes.enricher, NCBlocks.enricher, "enricher", JEIRecipeWrapper.Enricher.class, 16),
+		EXTRACTOR(NCRecipes.extractor, NCBlocks.extractor, "extractor", JEIRecipeWrapper.Extractor.class, 17),
+		CENTRIFUGE(NCRecipes.centrifuge, NCBlocks.centrifuge, "centrifuge", JEIRecipeWrapper.Centrifuge.class, 18),
+		ROCK_CRUSHER(NCRecipes.rock_crusher, NCBlocks.rock_crusher, "rock_crusher", JEIRecipeWrapper.RockCrusher.class, 19),
+		COLLECTOR(NCRecipes.collector, registeredCollectors(), "collector", JEIRecipeWrapper.Collector.class),
+		DECAY_GENERATOR(NCRecipes.decay_generator, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
+		FISSION_MODERATOR(NCRecipes.fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
+		FISSION_REFLECTOR(NCRecipes.fission_reflector, NCBlocks.fission_reflector, "fission_reflector", JEIRecipeWrapper.FissionReflector.class),
+		FISSION_IRRADIATOR(NCRecipes.fission_irradiator, NCBlocks.fission_irradiator, "fission_irradiator", JEIRecipeWrapper.FissionIrradiator.class),
+		PEBBLE_FISSION(NCRecipes.pebble_fission, Lists.newArrayList(), "pebble_fission", JEIRecipeWrapper.PebbleFission.class),
+		SOLID_FISSION(NCRecipes.solid_fission, Lists.newArrayList(NCBlocks.solid_fission_controller, NCBlocks.solid_fission_cell), "solid_fission", JEIRecipeWrapper.SolidFission.class),
+		FISSION_HEATING(NCRecipes.fission_heating, NCBlocks.fission_vent, "fission_heating", JEIRecipeWrapper.FissionHeating.class),
+		SALT_FISSION(NCRecipes.salt_fission, Lists.newArrayList(NCBlocks.salt_fission_controller, NCBlocks.salt_fission_vessel), "salt_fission", JEIRecipeWrapper.SaltFission.class),
+		COOLANT_HEATER(NCRecipes.coolant_heater, coolantHeaters(), "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
+		FISSION_EMERGENCY_COOLING(NCRecipes.fission_emergency_cooling, NCBlocks.fission_vent, "fission_emergency_cooling", JEIRecipeWrapper.FissionEmergencyCooling.class),
+		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
+		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class),
+		TURBINE(NCRecipes.turbine, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
+		RADIATION_SCRUBBER(NCRecipes.radiation_scrubber, NCBlocks.radiation_scrubber, "radiation_scrubber", JEIRecipeWrapper.RadiationScrubber.class);
 		
 		private final ProcessorRecipeHandler recipeHandler;
 		private final Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;

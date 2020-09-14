@@ -1,6 +1,6 @@
 package nc.capability.radiation;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.radiation_lowest_rate;
 
 public interface IRadiation {
 	
@@ -10,9 +10,5 @@ public interface IRadiation {
 	
 	public default boolean isRadiationNegligible() {
 		return getRadiationLevel() < radiation_lowest_rate;
-	}
-	
-	public default boolean isRadiationUndetectable() {
-		return getRadiationLevel() < radiation_lowest_rate * max_player_rads;
 	}
 }

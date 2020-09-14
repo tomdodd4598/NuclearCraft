@@ -2,53 +2,31 @@ package nc.multiblock.fission.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 import static nc.config.NCConfig.enable_gtce_eu;
-import static nc.config.NCConfig.rf_per_eu;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
-import gregtech.api.capability.IEnergyContainer;
-import ic2.api.energy.EnergyNet;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergySource;
+import ic2.api.energy.tile.*;
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.block.BlockFissionPowerPort;
-import nc.multiblock.turbine.tile.TileTurbinePart;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
-import nc.tile.internal.fluid.TankSorption;
-import nc.tile.passive.ITilePassive;
-import nc.util.EnergyHelper;
+import nc.tile.internal.energy.*;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy, IEnergySource {
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
+public class TileFissionPowerPort extends TileFissionPart implements ITickable, ITileEnergy, IEnergySink, IEnergySource {
 	
 	protected final EnergyStorage backupStorage = new EnergyStorage(1);
 	
@@ -84,7 +62,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	
 	@Override
 	public void update() {
-		super.update();
 		EnumFacing facing = getPartPosition().getFacing();
 		if (!world.isRemote && facing != null && getEnergyStored() > 0 && getEnergyConnection(facing).canExtract()) {
 			pushEnergyToSide(facing);
@@ -92,8 +69,8 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -126,16 +103,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	}
 	
 	@Override
-	public int getEUSourceTier() {
-		return getMultiblock() != null ? getLogic().getPowerPortEUSourceTier() : 1;
-	}
-	
-	@Override
-	public int getEUSinkTier() {
-		return 1;
-	}
-	
-	@Override
 	public @Nonnull EnergyTileWrapper[] getEnergySides() {
 		return energySides;
 	}
@@ -148,45 +115,59 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	// IC2 Energy
 	
 	@Override
+	public boolean getIC2Reg() {
+		return ic2reg;
+	}
+	
+	@Override
+	public void setIC2Reg(boolean ic2reg) {
+		this.ic2reg = ic2reg;
+	}
+	
+	@Override
+	public int getSinkTier() {
+		return getMultiblock() != null ? getLogic().getPowerPortEUSinkTier() : 1;
+	}
+	
+	@Override
+	public int getSourceTier() {
+		return getMultiblock() != null ? getLogic().getPowerPortEUSourceTier() : 1;
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
+		return ITileEnergy.super.acceptsEnergyFrom(emitter, side);
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double getDemandedEnergy() {
+		return ITileEnergy.super.getDemandedEnergy();
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
+		return ITileEnergy.super.injectEnergy(directionFrom, amount, voltage);
+	}
+	
+	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection(side).canExtract();
+		return ITileEnergy.super.emitsEnergyTo(receiver, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+		return ITileEnergy.super.getOfferedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		return getEUSourceTier();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
-			ic2reg = true;
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			ic2reg = false;
-		}
+		ITileEnergy.super.drawEnergy(amount);
 	}
 	
 	@Override
@@ -229,7 +210,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		writeEnergy(nbt);
 		writeEnergyConnections(nbt);
 		return nbt;
 	}
@@ -237,7 +217,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		readEnergy(nbt);
 		readEnergyConnections(nbt);
 	}
 	

@@ -2,7 +2,6 @@ package nc.util;
 
 import it.unimi.dsi.fastutil.objects.*;
 import mekanism.api.gas.*;
-import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fluids.*;
 
 public class GasHelper {

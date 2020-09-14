@@ -1,26 +1,20 @@
 package nc.multiblock.heatExchanger.block;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_ALL;
+import static nc.block.property.BlockProperties.*;
 
 import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
 import nc.block.tile.IActivatable;
-import nc.block.tile.IDynamicState;
-import nc.init.NCBlocks;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 public class BlockHeatExchangerController extends BlockHeatExchangerPart implements IActivatable {
 	

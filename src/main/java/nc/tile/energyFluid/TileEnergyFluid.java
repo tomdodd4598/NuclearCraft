@@ -2,26 +2,19 @@ package nc.tile.energyFluid;
 
 import static nc.config.NCConfig.enable_mek_gas;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import nc.ModCheck;
 import nc.tile.energy.TileEnergy;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.util.CapabilityHelper;
+import nc.tile.internal.fluid.*;
+import nc.util.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -41,19 +34,19 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid {
 	private final List<Boolean> voidUnusableFluidInputs;
 	private final List<TankOutputSetting> tankOutputSettings;
 	
-	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
+	public TileEnergyFluid(long capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		this(capacity, NCMath.toInt(capacity), energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, fluidCapacity, allowedFluidsLists, fluidConnections);
+	public TileEnergyFluid(long capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		this(capacity, NCMath.toInt(capacity), energyConnections, fluidCapacity, allowedFluidsLists, fluidConnections);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+	public TileEnergyFluid(long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
 		this(capacity, maxTransfer, energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+	public TileEnergyFluid(long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		super(capacity, maxTransfer, energyConnections);
 		tanks = new ArrayList<>();
 		voidUnusableFluidInputs = new ArrayList<>();

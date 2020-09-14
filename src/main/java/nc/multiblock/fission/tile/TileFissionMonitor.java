@@ -5,7 +5,6 @@ import static nc.util.PosHelper.DEFAULT_NON;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.block.BlockFissionMonitor;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

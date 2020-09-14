@@ -1,67 +1,30 @@
 package nc.proxy;
 
-import java.io.File;
+import static nc.config.NCConfig.register_projecte_emc;
+
 import java.io.IOException;
 import java.util.Locale;
 
-import org.apache.commons.io.FileUtils;
-
 import crafttweaker.CraftTweakerAPI;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import nc.Global;
-import nc.ModCheck;
+import nc.*;
 import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.command.CommandHandler;
-import nc.config.NCConfig;
-import nc.handler.CapabilityHandler;
-import nc.handler.DropHandler;
-import nc.handler.DungeonLootHandler;
-import nc.handler.EntityHandler;
-import nc.handler.ItemUseHandler;
-import nc.handler.OreDictHandler;
-import nc.handler.PlayerRespawnHandler;
-import nc.init.NCArmor;
-import nc.init.NCBlocks;
-import nc.init.NCCoolantFluids;
-import nc.init.NCEntities;
-import nc.init.NCFissionFluids;
-import nc.init.NCFluids;
-import nc.init.NCItems;
-import nc.init.NCSounds;
-import nc.init.NCTiles;
-import nc.init.NCTools;
+import nc.handler.*;
+import nc.init.*;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
 import nc.integration.hwyla.NCHWLYA;
 import nc.integration.projecte.NCProjectE;
-import nc.integration.tconstruct.TConstructExtras;
-import nc.integration.tconstruct.TConstructIMC;
-import nc.integration.tconstruct.TConstructMaterials;
+import nc.integration.tconstruct.*;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
 import nc.item.ItemMultitool;
-import nc.multiblock.MultiblockHandler;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.MultiblockRegistry;
-import nc.multiblock.PlacementRule;
+import nc.multiblock.*;
 import nc.network.PacketHandler;
-import nc.radiation.RadArmor;
-import nc.radiation.RadBiomes;
-import nc.radiation.RadEntities;
-import nc.radiation.RadPotionEffects;
-import nc.radiation.RadSources;
-import nc.radiation.RadStructures;
-import nc.radiation.RadWorlds;
-import nc.radiation.RadiationHandler;
+import nc.radiation.*;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
-import nc.util.GasHelper;
-import nc.util.IOHelper;
-import nc.util.NCUtil;
-import nc.util.OreDictHelper;
-import nc.util.StringHelper;
-import nc.util.StructureHelper;
+import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
@@ -70,15 +33,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.library.materials.Material;
@@ -87,8 +43,9 @@ public class CommonProxy {
 	
 	public void onConstruction(FMLConstructionEvent constructionEvent) {
 		try {
-			manageScriptAddons();
-		} catch (IOException e) {
+			ScriptAddonHandler.init();
+		}
+		catch (IOException e) {
 			NCUtil.getLogger().catching(e);
 		}
 	}
@@ -217,7 +174,7 @@ public class CommonProxy {
 		
 		PlacementRule.postInit();
 		
-		if (ModCheck.projectELoaded() && NCConfig.register_projecte_emc) {
+		if (ModCheck.projectELoaded() && register_projecte_emc) {
 			NCProjectE.addEMCValues();
 		}
 		
@@ -269,98 +226,6 @@ public class CommonProxy {
 	
 	public void initFluidColors() {
 		
-	}
-	
-	// CT
-	
-	public void manageScriptAddons() throws IOException {
-		if (new File("resources/nuclearcraft").exists()) {
-			for (String s : new String[] {"addons", "blockstates", "lang", "models/block", "models/item", "textures/blocks", "textures/items"}) {
-				File f = new File("resources/nuclearcraft/" + s);
-				if (!f.exists()) {
-					f.mkdirs();
-				}
-			}
-			
-			File addons = new File("resources/nuclearcraft/addons");
-			for (File f : addons.listFiles()) {
-				if (f.isDirectory()) {
-					copyAddons(f);
-				}
-			}
-			
-			/*File from = new File("resources/nuclearcraft/scripts");
-			if (from.exists() && from.isDirectory()) {
-				FileUtils.copyDirectory(from, new File("scripts/nuclearcraft"));
-			}*/
-		}
-	}
-	
-	public void copyAddons(File dir) throws IOException {
-		if (dir.getName().toLowerCase().endsWith(".disabled")) {
-			return;
-		}
-		
-		for (File f : dir.listFiles()) {
-			if (f.isDirectory()) {
-				for (String s : new String[] {"blockstates", "models", "textures"}) {
- 					if (f.getName().equals(s)) {
- 						FileUtils.copyDirectory(f, new File("resources/nuclearcraft/" + s));
- 						break;
- 					}
-				}
- 				
- 				if (f.getName().equals("lang")) {
- 					copyLangs(dir, f);
-				}
- 				
- 				else if (f.getName().equals("scripts")) {
- 					FileUtils.copyDirectory(f, new File("scripts/nuclearcraft/" + dir.getName()));
- 				}
- 				
- 				else if (f.getName().equals("contenttweaker")) {
- 					FileUtils.copyDirectory(f, new File("resources/contenttweaker"));
- 				}
- 				
- 				else if (f.getName().equals("addons")) {
-					copyAddons(f);
-				}
-			}
-		}
-	}
-	
-	public static final Object2BooleanMap<String> LANG_REFRESH_MAP = new Object2BooleanOpenHashMap<String>();
-	
-	public void copyLangs(File addonDir, File langDir) throws IOException {
-		for (File f : langDir.listFiles()) {
-			String name = f.getName().toLowerCase();
-			if (!f.isDirectory() && name.endsWith(".lang")) {
-				String type = StringHelper.removeSuffix(name, 5);
-				File lang = new File("resources/nuclearcraft/lang/" + type + ".lang");
-				
-				boolean refreshed = LANG_REFRESH_MAP.getBoolean(type);
-				if (!refreshed) {
-					LANG_REFRESH_MAP.put(type, true);
-					
-					File original = new File("resources/nuclearcraft/lang/" + type + ".original");
-					
-					if (original.exists()) {
-						FileUtils.copyFile(original, lang);
-					}
-					else {
-						if (!lang.exists()) {
-							lang.createNewFile();
-						}
-						FileUtils.copyFile(lang, original);
-					}
-				}
-				
-				if (lang.exists()) {
-					String s = System.lineSeparator();
-					IOHelper.appendFile(lang, f, (lang.length() == 0 ? "" : (s + s)) + "# " + addonDir.getName() + s + s);
-				}
-			}
-		}
 	}
 	
 	// TiC

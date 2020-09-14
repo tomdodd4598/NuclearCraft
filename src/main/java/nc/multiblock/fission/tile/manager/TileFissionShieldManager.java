@@ -1,7 +1,6 @@
 package nc.multiblock.fission.tile.manager;
 
 import it.unimi.dsi.fastutil.longs.*;
-import nc.multiblock.fission.block.manager.BlockFissionShieldManager;
 import nc.multiblock.fission.tile.TileFissionShield;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;

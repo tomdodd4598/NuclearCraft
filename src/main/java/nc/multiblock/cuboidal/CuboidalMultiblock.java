@@ -18,9 +18,7 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 		super(world);
 	}
 	
-	/**
-	 * @return True if the machine is "whole" and should be assembled. False otherwise.
-	 */
+	/** @return True if the machine is "whole" and should be assembled. False otherwise. */
 	@Override
 	protected boolean isMachineWhole(Multiblock multiblock) {
 		
