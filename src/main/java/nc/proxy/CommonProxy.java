@@ -95,10 +95,10 @@ public class CommonProxy {
 		if (ModCheck.tinkersLoaded()) {
 			TConstructIMC.sendIMCs();
 			TConstructMaterials.init();
-			
-			if (ModCheck.constructsArmoryLoaded()) {
-				ConArmMaterials.preInit();
-			}
+		}
+		
+		if (ModCheck.constructsArmoryLoaded()) {
+			ConArmMaterials.preInit();
 		}
 		
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
@@ -133,12 +133,8 @@ public class CommonProxy {
 		
 		ItemMultitool.registerRightClickLogic();
 		
-		if (ModCheck.tinkersLoaded()) {
-			TConstructExtras.init();
-			
-			if (ModCheck.constructsArmoryLoaded()) {
-				ConArmMaterials.init();
-			}
+		if (ModCheck.constructsArmoryLoaded()) {
+			ConArmMaterials.init();
 		}
 		
 		if (ModCheck.hwylaLoaded()) {

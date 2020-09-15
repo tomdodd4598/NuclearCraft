@@ -754,7 +754,7 @@ public class NCConfig {
 		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 0.125D, Lang.localise("gui.nc.config.accelerator_supercooler_coolant.comment"), 0D, Integer.MAX_VALUE);
 		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.nc.config.accelerator_supercooler_coolant");
 		
-		Property propertyQuantumMaxQubits = config.get(CATEGORY_QUANTUM, "quantum_max_qubits", 7, Lang.localise("gui.nc.config.quantum_max_qubits.comment"), 1, 10);
+		Property propertyQuantumMaxQubits = config.get(CATEGORY_QUANTUM, "quantum_max_qubits", 7, Lang.localise("gui.nc.config.quantum_max_qubits.comment"), 1, 14);
 		propertyQuantumMaxQubits.setLanguageKey("gui.nc.config.quantum_max_qubits");
 		Property propertyQuantumAnglePrecision = config.get(CATEGORY_QUANTUM, "quantum_angle_precision", 16, Lang.localise("gui.nc.config.quantum_angle_precision.comment"), 2, 5760);
 		propertyQuantumAnglePrecision.setLanguageKey("gui.nc.config.quantum_angle_precision");
