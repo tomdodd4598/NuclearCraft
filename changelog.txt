@@ -11,7 +11,6 @@ v2o.4.2
 * Fixed TiC smeltery recipes not being removable via CraftTweaker
 
 * Changed helium-3, boron and lithium isotope fluid registry names to be consistent with other fluid isotopes
-* Fixed crash with QMD 0.9.4
 * Minor localisation fixes
 
 v2o.4.1
