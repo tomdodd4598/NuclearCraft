@@ -2,10 +2,8 @@ package nc.recipe;
 
 import java.util.List;
 
-import nc.ModCheck;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
-import nc.integration.tconstruct.TConstructExtras;
 import nc.radiation.RadBlockEffects.*;
 import nc.radiation.RadSources;
 import nc.recipe.generator.*;
@@ -112,10 +110,6 @@ public class NCRecipes {
 		
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
 			info.recipeInit();
-		}
-		
-		if (ModCheck.tinkersLoaded()) {
-			TConstructExtras.init();
 		}
 		
 		initialized = true;

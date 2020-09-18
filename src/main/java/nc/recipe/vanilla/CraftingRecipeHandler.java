@@ -270,8 +270,8 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.solid_fission_sink2, 1, 14), new Object[] {" E ", "ESE", " E ", 'S', "emptyHeatSink", 'E', "ingotEnderium"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.solid_fission_sink2, 1, 15), new Object[] {" C ", "CSC", " C ", 'S', "emptyHeatSink", 'C', "dustCryotheum"});
 		
-		addShapedOreRecipe(NCBlocks.salt_fission_controller, new Object[] {"PEP", "HFH", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'H', "ingotHardCarbon", 'F', "steelFrame"});
-		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_vessel, 4), new Object[] {"PEP", "ZFZ", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'Z', "ingotZircaloy", 'F', "steelFrame"});
+		addShapedOreRecipe(NCBlocks.salt_fission_controller, new Object[] {"PMP", "EFE", "PMP", 'P', "plateElite", 'E', "ingotExtreme", 'M', "ingotZirconiumMolybdenum", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_vessel, 4), new Object[] {"PMP", "ZFZ", "PMP", 'P', "plateElite", 'M', "ingotZirconiumMolybdenum", 'Z', "ingotZircaloy", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 8, 0), new Object[] {"PEP", "TFT", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'T', "ingotThermoconducting", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 1), new Object[] {" I ", "IHI", " I ", 'H', new ItemStack(NCBlocks.salt_fission_heater, 1, 0), 'I', "ingotIron"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 2), new Object[] {"RRR", "RHR", "RRR", 'H', new ItemStack(NCBlocks.salt_fission_heater, 1, 0), 'R', "dustRedstone"});

@@ -36,10 +36,10 @@ public class GTCERecipeHelper {
 				break;
 			case "decay_hastener":
 				return;
-			case "fuel_reprocessor":
+			/*case "fuel_reprocessor":
 				recipeMap = RecipeMaps.CENTRIFUGE_RECIPES;
 				builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 60);
-				break;
+				break;*/
 			case "alloy_furnace":
 				recipeMap = RecipeMaps.ALLOY_SMELTER_RECIPES;
 				builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 10);

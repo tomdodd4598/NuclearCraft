@@ -155,6 +155,11 @@ public class RadSources {
 		putMaterial(POLONIUM, "Polonium");
 		putMaterial(TBP, "TBP");
 		putMaterial(PROTACTINIUM_233, "Protactinium233");
+		putMaterial(STRONTIUM_90, "Strontium90");
+		putMaterial(RUTHENIUM_106, "Ruthenium106");
+		putMaterial(CAESIUM_137, "Caesium137");
+		putMaterial(PROMETHIUM_147, "Promethium147");
+		putMaterial(EUROPIUM_155, "Europium155");
 		
 		putMaterial(THORIUM, "Thorium");
 		putMaterial(URANIUM, "Uranium", "Yellorium");
@@ -252,13 +257,23 @@ public class RadSources {
 		putFluid(FUSION, "plasma");
 		putFluid(TRITIUM, "tritium");
 		
-		putFluid(CAESIUM_137, "caesium_137");
 		putFluid(CORIUM, "corium");
 		
 		putFluid(THORIUM, "thorium");
 		putFluid(URANIUM, "uranium", "yellorium");
 		putFluid(PLUTONIUM, "plutonium", "blutonium");
 		putFluid(URANIUM_238, "cyanite");
+		
+		putFluid(BISMUTH, "bismuth");
+		putFluid(RADIUM, "radium");
+		putFluid(POLONIUM, "polonium");
+		putFluid(PROTACTINIUM_233, "protactinium_233");
+		putFluid(TBP, "tbp");
+		putFluid(STRONTIUM_90, "strontium_90");
+		putFluid(RUTHENIUM_106, "ruthenium_106");
+		putFluid(CAESIUM_137, "caesium_137");
+		putFluid(PROMETHIUM_147, "promethium_147");
+		putFluid(EUROPIUM_155, "europium_155");
 		
 		putFluid(CAESIUM_137 / 4D, "irradiated_borax_solution");
 		
@@ -439,16 +454,22 @@ public class RadSources {
 	public static final double NEUTRON = 0.00505D;
 	public static final double TRITIUM = 0.0115D;
 	
-	public static final double CAESIUM_137 = 0.033D;
 	public static final double CORIUM = 0.0000165D;
-	
-	public static final double BISMUTH = 4.975E-20D;
-	public static final double RADIUM = 0.000625;
-	public static final double POLONIUM = 2.64D / 9D;
 	
 	public static final double THORIUM = 0.0000000000715D;
 	public static final double URANIUM = 0.000000000385D;
 	public static final double PLUTONIUM = 0.000042D;
+	
+	public static final double BISMUTH = 4.975E-20D;
+	public static final double RADIUM = 0.000625;
+	public static final double POLONIUM = 2.64D / 9D;
+	public static final double PROTACTINIUM_233 = 13.54 / 9D;
+	public static final double TBP = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
+	public static final double STRONTIUM_90 = 0.0345D;
+	public static final double RUTHENIUM_106 = 0.98D;
+	public static final double CAESIUM_137 = 0.033D;
+	public static final double PROMETHIUM_147 = 0.38D;
+	public static final double EUROPIUM_155 = 0.21D;
 	
 	// Isotopes
 	
@@ -598,7 +619,4 @@ public class RadSources {
 	public static final double HECf_249_FISSION = (HECf_249 + DEPLETED_HECf_249 + CAESIUM_137) / 64D;
 	public static final double LECf_251_FISSION = (LECf_251 + DEPLETED_LECf_251 + CAESIUM_137) / 64D;
 	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251 + CAESIUM_137) / 64D;
-	
-	public static final double PROTACTINIUM_233 = 13.54 / 9D;
-	public static final double TBP = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
 }

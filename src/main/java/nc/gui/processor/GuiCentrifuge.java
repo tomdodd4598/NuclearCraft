@@ -33,11 +33,13 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 	}
 	
 	public void renderButtonTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(tile.getTanks().get(0), mouseX, mouseY, 50, 41, 16, 16);
-		drawFluidTooltip(tile.getTanks().get(1), mouseX, mouseY, 106, 31, 16, 16);
-		drawFluidTooltip(tile.getTanks().get(2), mouseX, mouseY, 126, 31, 16, 16);
-		drawFluidTooltip(tile.getTanks().get(3), mouseX, mouseY, 106, 51, 16, 16);
-		drawFluidTooltip(tile.getTanks().get(4), mouseX, mouseY, 126, 51, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(0), mouseX, mouseY, 40, 41, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(1), mouseX, mouseY, 96, 31, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(2), mouseX, mouseY, 116, 31, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(3), mouseX, mouseY, 136, 31, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(4), mouseX, mouseY, 96, 51, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(5), mouseX, mouseY, 116, 51, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(6), mouseX, mouseY, 136, 51, 16, 16);
 		
 		drawTooltip(Lang.localise("gui.nc.container.machine_side_config"), mouseX, mouseY, 27, 75, 18, 18);
 		drawTooltip(Lang.localise("gui.nc.container.redstone_control"), mouseX, mouseY, 47, 75, 18, 18);
@@ -55,7 +57,7 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 86, 0xFFC6C6C6, 0xFF8B8B8B);
 		}
 		
-		drawTexturedModalRect(guiLeft + 68, guiTop + 30, 176, 3, getCookProgressScaled(37), 38);
+		drawTexturedModalRect(guiLeft + 58, guiTop + 30, 176, 3, getCookProgressScaled(37), 38);
 		
 		drawUpgradeRenderers();
 		
@@ -63,11 +65,13 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 	}
 	
 	protected void drawBackgroundExtras() {
-		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(0), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(1), guiLeft + 106, guiTop + 31, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(2), guiLeft + 126, guiTop + 31, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(3), guiLeft + 106, guiTop + 51, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(4), guiLeft + 126, guiTop + 51, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(0), guiLeft + 40, guiTop + 41, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(1), guiLeft + 96, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(2), guiLeft + 116, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(3), guiLeft + 136, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(4), guiLeft + 96, guiTop + 51, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(5), guiLeft + 116, guiTop + 51, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(6), guiLeft + 136, guiTop + 51, zLevel, 16, 16);
 	}
 	
 	@Override
@@ -77,29 +81,31 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 	}
 	
 	public void initButtons() {
-		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 50, guiTop + 41, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 106, guiTop + 31, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 126, guiTop + 31, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(3, guiLeft + 106, guiTop + 51, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(4, guiLeft + 126, guiTop + 51, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 40, guiTop + 41, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 96, guiTop + 31, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 116, guiTop + 31, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(3, guiLeft + 136, guiTop + 31, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(4, guiLeft + 96, guiTop + 51, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(5, guiLeft + 116, guiTop + 51, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(6, guiLeft + 136, guiTop + 51, 16, 16));
 		
-		buttonList.add(new NCButton.MachineConfig(5, guiLeft + 27, guiTop + 75));
-		buttonList.add(new NCToggleButton.RedstoneControl(6, guiLeft + 47, guiTop + 75, tile));
+		buttonList.add(new NCButton.MachineConfig(7, guiLeft + 27, guiTop + 75));
+		buttonList.add(new NCToggleButton.RedstoneControl(8, guiLeft + 47, guiTop + 75, tile));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 7; i++) {
 				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 					PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
 					return;
 				}
 			}
-			if (guiButton.id == 5) {
+			if (guiButton.id == 7) {
 				PacketHandler.instance.sendToServer(new OpenSideConfigGuiPacket(tile));
 			}
-			else if (guiButton.id == 6) {
+			else if (guiButton.id == 8) {
 				tile.setRedstoneControl(!tile.getRedstoneControl());
 				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
 			}
@@ -124,11 +130,13 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 		
 		@Override
 		public void renderButtonTooltips(int mouseX, int mouseY) {
-			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.nc.container.input_tank_config"), mouseX, mouseY, 49, 40, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 105, 30, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 125, 30, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 105, 50, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 125, 50, 18, 18);
+			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.nc.container.input_tank_config"), mouseX, mouseY, 39, 40, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 95, 30, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 115, 30, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 135, 30, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 95, 50, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 115, 50, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 135, 50, 18, 18);
 			drawTooltip(TextFormatting.DARK_BLUE + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 131, 75, 18, 18);
 			drawTooltip(TextFormatting.YELLOW + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 151, 75, 18, 18);
 		}
@@ -141,13 +149,15 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 		
 		@Override
 		public void initButtons() {
-			buttonList.add(new NCButton.SorptionConfig.FluidInput(0, guiLeft + 49, guiTop + 40));
-			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(1, guiLeft + 105, guiTop + 30));
-			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(2, guiLeft + 125, guiTop + 30));
-			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(3, guiLeft + 105, guiTop + 50));
-			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(4, guiLeft + 125, guiTop + 50));
-			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(5, guiLeft + 131, guiTop + 75));
-			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(6, guiLeft + 151, guiTop + 75));
+			buttonList.add(new NCButton.SorptionConfig.FluidInput(0, guiLeft + 39, guiTop + 40));
+			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(1, guiLeft + 95, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(2, guiLeft + 115, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(3, guiLeft + 135, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(4, guiLeft + 95, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(5, guiLeft + 115, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.FluidOutputSmall(6, guiLeft + 135, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(7, guiLeft + 131, guiTop + 75));
+			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(8, guiLeft + 151, guiTop + 75));
 		}
 		
 		@Override
@@ -169,9 +179,15 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output(this, tile, 4));
 				}
 				else if (guiButton.id == 5) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output(this, tile, 5));
 				}
 				else if (guiButton.id == 6) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output(this, tile, 6));
+				}
+				else if (guiButton.id == 7) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 0));
+				}
+				else if (guiButton.id == 8) {
 					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 1));
 				}
 			}

@@ -763,6 +763,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	protected void bearingFailure() {
 		makeRotorVisible();
 		
+		getTurbine().bearingTension = 0D;
+		
 		Iterator<TileTurbineRotorBearing> bearingIterator = getPartIterator(TileTurbineRotorBearing.class);
 		while (bearingIterator.hasNext()) {
 			TileTurbineRotorBearing bearing = bearingIterator.next();
@@ -780,8 +782,6 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			TileTurbineRotorStator stator = statorIterator.next();
 			stator.onBearingFailure(getTurbine());
 		}
-		
-		getTurbine().bearingTension = 0D;
 		
 		getTurbine().checkIfMachineIsWhole();
 		

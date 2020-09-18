@@ -7,10 +7,10 @@ import nc.radiation.RadSources;
 import net.minecraft.tileentity.TileEntity;
 
 public enum RTGType {
-	URANIUM(0, RadSources.URANIUM_238 / 8D),
-	PLUTONIUM(1, RadSources.PLUTONIUM_238 / 8D),
-	AMERICIUM(2, RadSources.AMERICIUM_241 / 8D),
-	CALIFORNIUM(3, RadSources.CALIFORNIUM_250 / 8D);
+	URANIUM(0, RadSources.URANIUM_238),
+	PLUTONIUM(1, RadSources.PLUTONIUM_238),
+	AMERICIUM(2, RadSources.AMERICIUM_241),
+	CALIFORNIUM(3, RadSources.CALIFORNIUM_250);
 	
 	private int id;
 	private double radiation;
@@ -25,7 +25,7 @@ public enum RTGType {
 	}
 	
 	public double getRadiation() {
-		return radiation;
+		return radiation / 8D;
 	}
 	
 	public TileEntity getTile() {

@@ -922,7 +922,8 @@ public class MetaEnums {
 		ZIRCALOY("zircaloy", 12),
 		SILICON_CARBIDE("silicon_carbide", 13),
 		SIC_SIC_CMC("sic_sic_cmc", 14),
-		HSLA_STEEL("hsla_steel", 15);
+		HSLA_STEEL("hsla_steel", 15),
+		ZIRCONIUM_MOLYBDENUM("zirconium_molybdenum", 16);
 		
 		private final String name;
 		private final int id;
@@ -1061,7 +1062,13 @@ public class MetaEnums {
 		RADIUM("radium", 1),
 		POLONIUM("polonium", 2),
 		TBP("tbp", 3),
-		PROTACTINIUM_233("protactinium_233", 4);
+		PROTACTINIUM_233("protactinium_233", 4),
+		STRONTIUM_90("strontium_90", 5),
+		MOLYBDENUM("molybdenum", 6),
+		RUTHENIUM_106("ruthenium_106", 7),
+		CAESIUM_137("caesium_137", 8),
+		PROMETHIUM_147("promethium_147", 9),
+		EUROPIUM_155("europium_155", 10);
 		
 		private final String name;
 		private final int id;

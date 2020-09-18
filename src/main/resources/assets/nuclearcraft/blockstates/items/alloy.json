@@ -85,6 +85,11 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/alloy/hsla_steel"
 				}
+			},
+			"zirconium_molybdenum": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/zirconium_molybdenum"
+				}
 			}
 		}
 	}

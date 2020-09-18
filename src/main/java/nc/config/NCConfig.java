@@ -482,13 +482,13 @@ public class NCConfig {
 		Property propertyProcessorParticles = config.get(CATEGORY_PROCESSOR, "processor_particles", true, Lang.localise("gui.nc.config.processor_particles.comment"));
 		propertyProcessorParticles.setLanguageKey("gui.nc.config.processor_particles");
 		
-		Property propertyRTGPower = config.get(CATEGORY_GENERATOR, "rtg_power", new int[] {1, 25, 10, 250}, Lang.localise("gui.nc.config.rtg_power.comment"), 1, Integer.MAX_VALUE);
+		Property propertyRTGPower = config.get(CATEGORY_GENERATOR, "rtg_power", new int[] {1, 40, 10, 200}, Lang.localise("gui.nc.config.rtg_power.comment"), 1, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.nc.config.rtg_power");
 		Property propertySolarPower = config.get(CATEGORY_GENERATOR, "solar_power", new int[] {5, 20, 80, 320}, Lang.localise("gui.nc.config.solar_power.comment"), 1, Integer.MAX_VALUE);
 		propertySolarPower.setLanguageKey("gui.nc.config.solar_power");
-		Property propertyDecayLifetime = config.get(CATEGORY_GENERATOR, "decay_lifetime", new double[] {62.4D * 1200D, 20.4D * 1200D, 36.6D * 1200D, 39.6D * 1200D, 35.5D * 1200D, 12.8D * 1200D, 52.8D * 1200D, 8.5D * 1200D, 7.2D * 1200D, 65.2D * 1200D}, Lang.localise("gui.nc.config.decay_lifetime.comment"), 1D, 16777215D);
+		Property propertyDecayLifetime = config.get(CATEGORY_GENERATOR, "decay_lifetime", new double[] {12000D / 0.75D, 12000D / 1.2D, 1200D, 12000D / 2.2D, 12000D / 3D, 12000D / 18D, 12000D / 28D, 12000D / 80D, 12000D / 1000D}, Lang.localise("gui.nc.config.decay_lifetime.comment"), 1D, 16777215D);
 		propertyDecayLifetime.setLanguageKey("gui.nc.config.decay_lifetime");
-		Property propertyDecayPower = config.get(CATEGORY_GENERATOR, "decay_power", new double[] {4D, 4D, 0.75D, 0.25D, 0.5D, 0.75D, 1D, 1.25D, 1.5D, 2D}, Lang.localise("gui.nc.config.decay_power.comment"), 0D, 32767D);
+		Property propertyDecayPower = config.get(CATEGORY_GENERATOR, "decay_power", new double[] {0.75D, 1.2D, 1D, 2.2D, 3D, 18D, 28D, 80D, 1000D}, Lang.localise("gui.nc.config.decay_power.comment"), 0D, 32767D);
 		propertyDecayPower.setLanguageKey("gui.nc.config.decay_power");
 		
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 6400000, 25600000, 102400000, 32000000, 128000000, 512000000, 2048000000}, Lang.localise("gui.nc.config.battery_capacity.comment"), 1, Integer.MAX_VALUE);

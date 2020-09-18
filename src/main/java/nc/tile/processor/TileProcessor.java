@@ -30,7 +30,7 @@ public class TileProcessor {
 	public static class FuelReprocessor extends TileItemProcessor {
 		
 		public FuelReprocessor() {
-			super("fuel_reprocessor", 1, 6, defaultItemSorptions(1, 6, true), processor_time[3], processor_power[3], false, NCRecipes.fuel_reprocessor, 4, 12);
+			super("fuel_reprocessor", 1, 8, defaultItemSorptions(1, 8, true), processor_time[3], processor_power[3], false, NCRecipes.fuel_reprocessor, 4, 12);
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class TileProcessor {
 	public static class Centrifuge extends TileFluidProcessor {
 		
 		public Centrifuge() {
-			super("centrifuge", 1, 4, defaultItemSorptions(true), defaultTankCapacities(16000, 1, 4), defaultTankSorptions(1, 4), NCRecipes.centrifuge_valid_fluids, processor_time[17], processor_power[17], false, NCRecipes.centrifuge, 18, 12);
+			super("centrifuge", 1, 6, defaultItemSorptions(true), defaultTankCapacities(16000, 1, 6), defaultTankSorptions(1, 6), NCRecipes.centrifuge_valid_fluids, processor_time[17], processor_power[17], false, NCRecipes.centrifuge, 18, 12);
 		}
 	}
 	

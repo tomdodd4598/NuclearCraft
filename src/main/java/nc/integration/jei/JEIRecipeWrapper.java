@@ -85,7 +85,7 @@ public class JEIRecipeWrapper {
 	public static class FuelReprocessor extends JEIRecipeWrapperProcessor<FuelReprocessor> {
 		
 		public FuelReprocessor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 39, 30, 176, 3, 37, 38, 58, 30, 57, 30, 37, 38);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 29, 30, 176, 3, 37, 38, 48, 30, 47, 30, 37, 38);
 		}
 		
 		@Override
@@ -407,7 +407,7 @@ public class JEIRecipeWrapper {
 	public static class Centrifuge extends JEIRecipeWrapperProcessor<Centrifuge> {
 		
 		public Centrifuge(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 49, 30, 176, 3, 37, 38, 68, 30, 67, 30, 37, 38);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 39, 30, 176, 3, 37, 38, 58, 30, 57, 30, 37, 38);
 		}
 		
 		@Override
@@ -490,7 +490,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getDecayLifetime() / 80D);
+			return (int) (getDecayLifetime() / 4D);
 		}
 		
 		protected double getDecayLifetime() {
@@ -1020,7 +1020,7 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 55 && mouseY >= 34 - 30 && mouseX < 73 - 55 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFusionComboTime() / fusion_fuel_use, 3));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(100D * getFusionComboPower() * fusion_base_power, 5, "RF/t"));
-				double optimalTemp = NCMath.round(R * getFusionComboHeatVariable(), 2);
+				double optimalTemp = R * getFusionComboHeatVariable();
 				tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + (optimalTemp < 20000000D / 1000D ? TextFormatting.WHITE : TextFormatting.GOLD) + UnitHelper.prefix(optimalTemp, 5, "K", 2));
 			}
 			

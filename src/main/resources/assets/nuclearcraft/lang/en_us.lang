@@ -436,8 +436,8 @@ fluid.deuterium=Deuterium
 tile.nuclearcraft.fluid_tritium.name=Tritium
 fluid.tritium=Tritium
 
-tile.nuclearcraft.fluid_helium3.name=Helium-3
-fluid.helium3=Helium-3
+tile.nuclearcraft.fluid_helium_3.name=Helium-3
+fluid.helium_3=Helium-3
 
 tile.nuclearcraft.fluid_helium.name=Helium
 fluid.helium=Helium
@@ -488,17 +488,17 @@ tile.nuclearcraft.fluid_plasma.name=Plasma
 tile.nuclearcraft.fluid_plasma.desc=Produced in active fusion reactors. May cause an explosion and fire when coming into contact with an unpowered fusion electromagnet.
 fluid.plasma=Plasma
 
-tile.nuclearcraft.fluid_lithium6.name=Molten Lithium-6
-fluid.lithium6=Molten Lithium-6
+tile.nuclearcraft.fluid_lithium_6.name=Molten Lithium-6
+fluid.lithium_6=Molten Lithium-6
 
-tile.nuclearcraft.fluid_lithium7.name=Molten Lithium-7
-fluid.lithium7=Molten Lithium-7
+tile.nuclearcraft.fluid_lithium_7.name=Molten Lithium-7
+fluid.lithium_7=Molten Lithium-7
 
-tile.nuclearcraft.fluid_boron10.name=Molten Boron-10
-fluid.boron10=Molten Boron-10
+tile.nuclearcraft.fluid_boron_10.name=Molten Boron-10
+fluid.boron_10=Molten Boron-10
 
-tile.nuclearcraft.fluid_boron11.name=Molten Boron-11
-fluid.boron11=Molten Boron-11
+tile.nuclearcraft.fluid_boron_11.name=Molten Boron-11
+fluid.boron_11=Molten Boron-11
 
 tile.nuclearcraft.fluid_ferroboron.name=Molten Ferroboron
 fluid.ferroboron=Molten Ferroboron
@@ -696,6 +696,24 @@ fluid.alugentum=Molten Alugentum
 
 tile.nuclearcraft.fluid_alumina.name=Molten Alumina
 fluid.alumina=Molten Alumina
+
+tile.nuclearcraft.fluid_strontium_90.name=Molten Strontium-90
+fluid.strontium_90=Molten Strontium-90
+
+tile.nuclearcraft.fluid_molybdenum.name=Molten Molybdenum
+fluid.molybdenum=Molten Molybdenum
+
+tile.nuclearcraft.fluid_ruthenium_106.name=Molten Ruthenium-106
+fluid.ruthenium_106=Molten Ruthenium-106
+
+tile.nuclearcraft.fluid_caesium_137.name=Molten Caesium-137
+fluid.caesium_137=Molten Caesium-137
+
+tile.nuclearcraft.fluid_promethium_147.name=Molten Promethium-147
+fluid.promethium_147=Molten Promethium-147
+
+tile.nuclearcraft.fluid_europium_155.name=Molten Europium-155
+fluid.europium_155=Molten Europium-155
 
 tile.nuclearcraft.fluid_thorium.name=Molten Thorium
 fluid.thorium=Molten Thorium
@@ -1559,21 +1577,22 @@ item.nuclearcraft.gem_dust.arsenic.name=Crushed Arsenic
 item.nuclearcraft.gem_dust.end_stone.name=Crushed End Stone
 
 item.nuclearcraft.alloy.bronze.name=Bronze Ingot
-item.nuclearcraft.alloy.tough.name=Tough Alloy
-item.nuclearcraft.alloy.hard_carbon.name=Hard Carbon Alloy
-item.nuclearcraft.alloy.magnesium_diboride.name=Magnesium Diboride Alloy
-item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy
+item.nuclearcraft.alloy.tough.name=Tough Alloy Ingot
+item.nuclearcraft.alloy.hard_carbon.name=Hard Carbon Alloy Ingot
+item.nuclearcraft.alloy.magnesium_diboride.name=Magnesium Diboride Alloy Ingot
+item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy Ingot
 item.nuclearcraft.alloy.steel.name=Steel Ingot
-item.nuclearcraft.alloy.ferroboron.name=Ferroboron Alloy
-item.nuclearcraft.alloy.shibuichi.name=Shibuichi Alloy
-item.nuclearcraft.alloy.tin_silver.name=Tin Silver Alloy
-item.nuclearcraft.alloy.lead_platinum.name=Lead Platinum Alloy
-item.nuclearcraft.alloy.extreme.name=Extreme Alloy
-item.nuclearcraft.alloy.thermoconducting.name=Thermoconducting Alloy
+item.nuclearcraft.alloy.ferroboron.name=Ferroboron Alloy Ingot
+item.nuclearcraft.alloy.shibuichi.name=Shibuichi Alloy Ingot
+item.nuclearcraft.alloy.tin_silver.name=Tin Silver Alloy Ingot
+item.nuclearcraft.alloy.lead_platinum.name=Lead Platinum Alloy Ingot
+item.nuclearcraft.alloy.extreme.name=Extreme Alloy Ingot
+item.nuclearcraft.alloy.thermoconducting.name=Thermoconducting Alloy Ingot
 item.nuclearcraft.alloy.zircaloy.name=Zircaloy Ingot
 item.nuclearcraft.alloy.silicon_carbide.name=Silicon Carbide Ingot
-item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC Ceramic Matrix Composite
+item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC Ceramic Matrix Composite Ingot
 item.nuclearcraft.alloy.hsla_steel.name=HSLA Steel Ingot
+item.nuclearcraft.alloy.zirconium_molybdenum.name=Zirconium-Molybdenum Alloy Ingot
 
 item.nuclearcraft.compound.calcium_sulfate.name=Calcium Sulfate
 item.nuclearcraft.compound.crystal_binder.name=Crystal Binder
@@ -1616,6 +1635,12 @@ item.nuclearcraft.fission_dust.radium.name=Radium Dust
 item.nuclearcraft.fission_dust.polonium.name=Polonium Dust
 item.nuclearcraft.fission_dust.tbp.name=Protactinium-Enriched Thorium Dust
 item.nuclearcraft.fission_dust.protactinium_233.name=Protactinium-233 Dust
+item.nuclearcraft.fission_dust.strontium_90.name=Strontium-90 Dust
+item.nuclearcraft.fission_dust.molybdenum.name=Molybdenum Dust
+item.nuclearcraft.fission_dust.ruthenium_106.name=Ruthenium-106 Dust
+item.nuclearcraft.fission_dust.caesium_137.name=Caesium-137 Dust
+item.nuclearcraft.fission_dust.promethium_147.name=Promethium-147 Dust
+item.nuclearcraft.fission_dust.europium_155.name=Europium-155 Dust
 
 item.nuclearcraft.uranium.233.name=Uranium-233
 item.nuclearcraft.uranium.233_c.name=Uranium-233 Carbide
@@ -2385,9 +2410,9 @@ gui.nc.config.rtg_power.comment=RF/t generated. Order: Uranium, Plutonium, Ameri
 gui.nc.config.solar_power=Solar Panel Power Gen
 gui.nc.config.solar_power.comment=RF/t generated. Order: Basic, Advanced, DU, Elite.
 gui.nc.config.decay_lifetime=Decay Generator Mean Lifetimes
-gui.nc.config.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. Order: Thorium, Uranium, Uranium-238, Neptunium-237, Plutonium-242, Americium-243, Curium-246, Berkelium-247, Californium-252.
 gui.nc.config.decay_power=Decay Generator Power Gen
-gui.nc.config.decay_power.comment=RF/t generated by adjacent radioactive blocks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.decay_power.comment=RF/t generated by adjacent radioactive blocks. Order: Thorium, Uranium, Uranium-238, Neptunium-237, Plutonium-242, Americium-243, Curium-246, Berkelium-247, Californium-252.
 gui.nc.config.generator_rf_per_eu=RF Use per EU Emitted
 gui.nc.config.generator_rf_per_eu.comment=The RF used per EU emitted for generators.
 

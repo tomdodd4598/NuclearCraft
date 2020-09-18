@@ -4,7 +4,9 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.Locale;
 
+import nc.init.NCItems;
 import nc.util.OreDictHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import slimeknights.mantle.util.RecipeMatch;
@@ -26,6 +28,10 @@ public class TConstructExtras {
 		registerTableCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "ingotGraphite"), TinkerSmeltery.castIngot, "coal", COAL_DUST_VOLUME);
 		registerTableCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "coal"), TinkerSmeltery.castGem, "coal", COAL_DUST_VOLUME);
 		registerBasinCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "blockCoal"), null, "coal", COAL_BLOCK_VOLUME);
+		
+		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(NCItems.gelatin), FluidRegistry.getFluid("gelatin"), INGOT_VOLUME);
 	}
 	
 	private static void registerGemSmelteryRecipes(String name) {

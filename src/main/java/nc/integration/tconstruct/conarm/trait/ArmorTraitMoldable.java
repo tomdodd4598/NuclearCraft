@@ -7,7 +7,7 @@ import slimeknights.tconstruct.library.utils.*;
 public class ArmorTraitMoldable extends AbstractArmorTraitLeveled implements IArmorTraitNC {
 	
 	public ArmorTraitMoldable(int levels) {
-		super("moldable_armor", String.valueOf(levels), 0x62230E, 3, 1);
+		super("moldable", String.valueOf(levels), 0x62230E, 3, 1);
 	}
 	
 	@Override

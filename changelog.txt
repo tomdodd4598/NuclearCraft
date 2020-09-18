@@ -1,3 +1,19 @@
+v2o.4.2
+
++ Added fission waste products
++ Added extra output slots and tanks to the reprocessor and centrifuge
+- Removed GTCE machine recipe support for the reprocessor
++ Added zirconium-molybdenum alloy to be used in MSR component recipes
+
+* Tweaked RTG outputs using new radiation scaling function
+* Also tweaked decay hastener and decay generator recipe stats
+
+* Fixed TiC smeltery recipes not being removable via CraftTweaker
+
+* Changed helium-3, boron and lithium isotope fluid registry names to be consistent with other fluid isotopes
+* Fixed crash with QMD 0.9.4
+* Minor localisation fixes
+
 v2o.4.1
 
 * Fixed battery blocks not correctly retaining and removing energy from their multiblocks

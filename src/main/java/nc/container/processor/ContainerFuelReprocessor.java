@@ -11,17 +11,19 @@ public class ContainerFuelReprocessor extends ContainerItemProcessor {
 	public ContainerFuelReprocessor(EntityPlayer player, TileItemProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.fuel_reprocessor);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 40, 41));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 30, 41));
 		
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 96, 31));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 116, 31));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 3, 136, 31));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 4, 96, 51));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 5, 116, 51));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 6, 136, 51));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 86, 31));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 106, 31));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 3, 126, 31));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 4, 146, 31));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 5, 86, 51));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 6, 106, 51));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 7, 126, 51));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 8, 146, 51));
 		
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 7, 132, 76, SPEED_UPGRADE));
-		addSlotToContainer(new SlotSpecificInput(tileEntity, 8, 152, 76, ENERGY_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 9, 132, 76, SPEED_UPGRADE));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 10, 152, 76, ENERGY_UPGRADE));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

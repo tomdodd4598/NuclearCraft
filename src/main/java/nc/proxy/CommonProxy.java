@@ -93,7 +93,6 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new NCRecipes());
 		
 		if (ModCheck.tinkersLoaded()) {
-			TConstructIMC.sendIMCs();
 			TConstructMaterials.init();
 		}
 		
@@ -132,6 +131,11 @@ public class CommonProxy {
 		PlacementRule.init();
 		
 		ItemMultitool.registerRightClickLogic();
+		
+		if (ModCheck.tinkersLoaded()) {
+			TConstructExtras.init();
+			TConstructIMC.init();
+		}
 		
 		if (ModCheck.constructsArmoryLoaded()) {
 			ConArmMaterials.init();
