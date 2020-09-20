@@ -1592,6 +1592,7 @@ item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
 item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
+item.nuclearcraft.alloy.zirconium_molybdenum.name=锆钼合金锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
 item.nuclearcraft.compound.crystal_binder.name=水晶粘合剂
