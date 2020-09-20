@@ -436,7 +436,7 @@ fluid.deuterium=氘
 tile.nuclearcraft.fluid_tritium.name=氚
 fluid.tritium=氚
 
-tile.nuclearcraft.fluid_helium3.name=氦-3
+tile.nuclearcraft.fluid_helium_3.name=氦-3
 fluid.helium3=氦-3
 
 tile.nuclearcraft.fluid_helium.name=氦
@@ -488,17 +488,17 @@ tile.nuclearcraft.fluid_plasma.name=等离子体
 tile.nuclearcraft.fluid_plasma.desc=从聚变反应堆中产生。当与未充能的聚变电磁铁发生接触时可能导致火焰与爆炸。
 fluid.plasma=等离子体
 
-tile.nuclearcraft.fluid_lithium6.name=熔融锂-6
-fluid.lithium6=熔融锂-6
+tile.nuclearcraft.fluid_lithium_6.name=熔融锂-6
+fluid.lithium_6=熔融锂-6
 
-tile.nuclearcraft.fluid_lithium7.name=熔融锂-7
-fluid.lithium7=熔融锂-7
+tile.nuclearcraft.fluid_lithium_7.name=熔融锂-7
+fluid.lithium_7=熔融锂-7
 
-tile.nuclearcraft.fluid_boron10.name=熔融硼-10
-fluid.boron10=熔融硼-10
+tile.nuclearcraft.fluid_boron_10.name=熔融硼-10
+fluid.boron_10=熔融硼-10
 
-tile.nuclearcraft.fluid_boron11.name=熔融硼-11
-fluid.boron11=熔融硼-11
+tile.nuclearcraft.fluid_boron_11.name=熔融硼-11
+fluid.boron_11=熔融硼-11
 
 tile.nuclearcraft.fluid_ferroboron.name=熔融硼铁合金
 fluid.ferroboron=熔融硼铁合金
@@ -696,6 +696,24 @@ fluid.alugentum=熔融银铝
 
 tile.nuclearcraft.fluid_alumina.name=熔融铁矾土
 fluid.alumina=熔融铁矾土
+
+tile.nuclearcraft.fluid_strontium_90.name=熔融锶-90
+fluid.strontium_90=熔融锶-90
+
+tile.nuclearcraft.fluid_molybdenum.name=熔融钼
+fluid.molybdenum=熔融钼
+
+tile.nuclearcraft.fluid_ruthenium_106.name=熔融钌-106
+fluid.ruthenium_106=熔融钌-106
+
+tile.nuclearcraft.fluid_caesium_137.name=熔融铯-137
+fluid.caesium_137=熔融铯-137
+
+tile.nuclearcraft.fluid_promethium_147.name=熔融钷-147
+fluid.promethium_147=熔融钷-147
+
+tile.nuclearcraft.fluid_europium_155.name=熔融铕-155
+fluid.europium_155=熔融铕-155
 
 tile.nuclearcraft.fluid_thorium.name=熔融钍
 fluid.thorium=熔融钍
@@ -1574,6 +1592,7 @@ item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
 item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
+item.nuclearcraft.alloy.zirconium_molybdenum.name=锆钼合金锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
 item.nuclearcraft.compound.crystal_binder.name=水晶粘合剂
@@ -1616,6 +1635,12 @@ item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
 item.nuclearcraft.fission_dust.tbp.name=镤-富集钍粉
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233粉
+item.nuclearcraft.fission_dust.strontium_90.name=锶-90粉
+item.nuclearcraft.fission_dust.molybdenum.name=钼粉
+item.nuclearcraft.fission_dust.ruthenium_106.name=钌-106粉
+item.nuclearcraft.fission_dust.caesium_137.name=铯-137粉
+item.nuclearcraft.fission_dust.promethium_147.name=钷-147粉
+item.nuclearcraft.fission_dust.europium_155.name=铕-155粉
 
 item.nuclearcraft.uranium.233.name=铀-233
 item.nuclearcraft.uranium.233_c.name=铀-233 碳化物
@@ -2246,6 +2271,8 @@ jei.nuclearcraft.salt_fuel_criticality=燃料临界值：
 jei.nuclearcraft.salt_fuel_radiation=燃料辐射：
 jei.nuclearcraft.salt_fuel_self_priming=强中子射源！
 
+jei.nuclearcraft.fission_emergency_cooling_per_mb=每mB输入提供冷却:
+
 jei.nuclearcraft.fusion_time=基础连续时间：
 jei.nuclearcraft.fusion_power=基础能量上限：
 jei.nuclearcraft.fusion_temp=最佳温度：
@@ -2343,7 +2370,9 @@ gui.nc.config.energy_upgrade_power_laws_fp.comment=能量升级的功率设定�
 gui.nc.config.energy_upgrade_multipliers_fp=能量升级倍率
 gui.nc.config.energy_upgrade_multipliers_fp.comment=能量升级的基础倍率。顺序：功率。
 gui.nc.config.rf_per_eu=[IC2]工业2的EU与RF的转换率
-gui.nc.config.rf_per_eu.comment=[IC2]工业2的能量单位与红石通量的比值。
+gui.nc.config.rf_per_eu.comment=[IC2]工业2和[GTCE]格雷科技：社区版的能量单位与红石通量的比值。
+gui.nc.config.enable_ic2_eu=启用[IC2]工业2的EU支持。
+gui.nc.config.enable_ic2_eu.comment=若设定为真（True），[IC2]工业2的能量将会被核电工艺的机器接受或发出。
 gui.nc.config.enable_gtce_eu=[GTCE]格雷科技：社区版的EU支持
 gui.nc.config.enable_gtce_eu.comment=如果设定为 (true) ，那么[GTCE]格雷科技：社区版的EU可以被核电工艺的机器接收。
 gui.nc.config.enable_mek_gas=启用[Mek]通用机械的气体
@@ -2381,9 +2410,9 @@ gui.nc.config.rtg_power.comment=放射性热电发电机的能量产出（单位
 gui.nc.config.solar_power=太阳能电池板能量产出
 gui.nc.config.solar_power.comment=太阳能电池板的能量产出（单位：RF/t）。顺序：基础，高级，贫铀，精英。
 gui.nc.config.decay_lifetime=衰变产能器平均寿命
-gui.nc.config.decay_lifetime.comment=与衰变产能器接触的放射性方块的平均寿命。顺序：钍，铀，枯竭钍，枯竭铀，枯竭镎，枯竭钚，枯竭镅，枯竭锔，枯竭锫，枯竭锎。
+gui.nc.config.decay_lifetime.comment=与衰变产能器接触的放射性方块的平均寿命。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
 gui.nc.config.decay_power=衰变产能器能量产出
-gui.nc.config.decay_power.comment=与衰变产能器接触的放射性方块的能量产出。顺序：钍，铀，枯竭钍，枯竭铀，枯竭镎，枯竭钚，枯竭镅，枯竭锔，枯竭锫，枯竭锎。
+gui.nc.config.decay_power.comment=与衰变产能器接触的放射性方块的能量产出。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
 
 gui.nc.config.category.energy_storage=能量储存配置
 gui.nc.config.category.energy_storage.tooltip=配置对能量的储存。
@@ -2760,7 +2789,7 @@ gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search f
 gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
 gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
 gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
-gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
+gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for their efficiencies. It is recommended that you only modify these if you know what you are doing.
 gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
 gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. 顺序：borax dust, RadAway, Slow-Acting RadAway
 gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
@@ -2915,6 +2944,11 @@ nc.block.fission_vent_mode.input=输入
 nc.block.fission_vent_mode.output=输出
 nc.block.vent_toggle.mode=模式！
 
+nc.block.port_toggle=切换端口为
+nc.block.fission_port_mode.input=输入
+nc.block.fission_port_mode.output=输出
+nc.block.port_toggle.mode=模式!
+
 nc.block.fluid_toggle=将本面模式切换为：
 nc.block.fluid_toggle_opposite=将反面模式切换为：
 
@@ -3004,6 +3038,8 @@ gui.nc.container.salt_fission_vessel.vessel=裂变燃料容器
 gui.nc.container.salt_fission_vessel.heat_stored=集群热量等级：
 gui.nc.container.salt_fission_heater.heater=裂变冷却液加热器
 gui.nc.container.salt_fission_heater.heat_stored=集群热量等级：
+
+gui.nc.container.fission_heater_port.name=裂变冷却液加热器端口
 
 gui.nc.container.fusion_core.reactor=聚变反应堆
 gui.nc.container.fusion_core.ring_incomplete=磁环未完成
@@ -3115,6 +3151,7 @@ nuclearcraft.fission_moderator.jei_name=裂变减速剂
 nuclearcraft.fission_reflector.jei_name=裂变反射器
 nuclearcraft.fission_heating.jei_name=固态燃料裂变加热
 nuclearcraft.multiblock_gui.salt_fission.jei_name=熔盐裂变
+nuclearcraft.fission_emergency_cooling.jei_name=熔盐反应堆紧急冷却
 nuclearcraft.multiblock_gui.coolant_heater.jei_name=熔盐冷却
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=热交换管道
 nuclearcraft.multiblock_gui.condenser.jei_name=冷凝管道
@@ -3373,6 +3410,10 @@ commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radi
 commands.nuclearcraft.set_world_radiation.usage=/nc_set_world_radiation <辐射量>
 commands.nuclearcraft.set_player_radiation.usage=/nc_set_world_radiation <辐射量> [玩家]
 
+commands.nuclearcraft.reconstruct_script_addons.usage=/nc_reload_script_addons ["syntax"]
+commands.nuclearcraft.reconstruct_script_addons.success=重新构建脚本插件成功！
+commands.nuclearcraft.reconstruct_script_addons.fail=在尝试重新构建脚本插件时出现了一个错误……
+
 message.nuclearcraft.radiation_config_info=服务端启用了关于辐射的设定！
 message.nuclearcraft.radiation_config_info_jei=服务端启用了关于辐射的设定！建议客户端一并启用，以查看与辐射相关的全部内容！
 
@@ -3430,7 +3471,7 @@ nc.sf.placement_rule.adjacent.ambiguity0prev=!同一条线&&!同几条线&&!同�
 nc.sf.placement_rule.adjacent.ambiguity0last=同一条线||同几条线||同一个垂直处
 nc.sf.placement_rule.adjacent.ambiguity1prev=在同一||在同几
 
-nc.sf.casing0=%s反应堆外壳
+nc.sf.reactor_casing0=%s反应堆外壳
 nc.sf.cell0=%s有效的燃料单元
 nc.sf.vessel0=%s有效的燃料容器
 nc.sf.moderator0=%s可生效的且与有效单元相邻的减速剂
@@ -3506,6 +3547,7 @@ nc.sf.liquid_helium_heater0=%s有效的液氦加热器
 nc.sf.enderium_heater0=%s有效的末影加热器
 nc.sf.cryotheum_heater0=%s有效的凛冰加热器
 
+nc.sf.turbine_casing0=%s 涡轮机外壳
 nc.sf.bearing0=%s有效的转子轴承
 nc.sf.connector0=%s有效的线圈连接器
 
