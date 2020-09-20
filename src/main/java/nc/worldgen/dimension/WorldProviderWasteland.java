@@ -38,7 +38,7 @@ public class WorldProviderWasteland extends WorldProvider {
 		return new ChunkGeneratorWasteland(world);
 	}
 	
-	/* ======================================= Forge Start ========================================= */
+	// Forge Start
 	
 	@Override
 	public boolean canDoLightning(Chunk chunk) {

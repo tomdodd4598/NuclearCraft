@@ -2,7 +2,7 @@ package nc.tile;
 
 import javax.annotation.Nullable;
 
-import nc.block.tile.IActivatable;
+import nc.block.tile.IDynamicState;
 import nc.capability.radiation.source.*;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
@@ -19,9 +19,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.*;
 
-public abstract class NCTile extends TileEntity implements ITickable, ITile {
+public abstract class NCTile extends TileEntity implements ITile {
 	
-	public boolean isAdded = false, isMarkedDirty = false;
 	private boolean isRedstonePowered = false, alternateComparator = false, redstoneControl = false;
 	
 	private final IRadiationSource radiation;
@@ -32,23 +31,12 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	@Override
-	public void update() {
-		if (!isAdded) {
-			onAdded();
-			isAdded = true;
-		}
-		if (isMarkedDirty) {
-			markDirty();
-			isMarkedDirty = false;
-		}
-	}
-	
-	public void onAdded() {
+	public void onLoad() {
 		if (world.isRemote) {
 			world.markBlockRangeForRenderUpdate(pos, pos);
-			world.getChunk(pos).markDirty();
 			refreshIsRedstonePowered(world, pos);
 			markDirty();
+			updateComparatorOutputLevel();
 		}
 	}
 	
@@ -92,24 +80,17 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		return oldState.getBlock() != newState.getBlock();
 	}
 	
-	/** Override this if your block does not implement IActivatable! */
-	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		if (getBlockType() instanceof IActivatable) {
-			((IActivatable) getBlockType()).setState(isActive, tile);
-		}
-	}
-	
 	@Override
 	public final void markTileDirty() {
 		markDirty();
 	}
 	
 	@Override
-	public void markDirtyAndNotify() {
-		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+	public void markDirty() {
+		if (world != null) {
+			getBlockMetadata();
+			world.markChunkDirty(pos, this);
+		}
 	}
 	
 	// Redstone
@@ -146,17 +127,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	// NBT
 	
-	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
-		nbt.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
-		return nbt;
-	}
-	
-	public void readRadiation(NBTTagCompound nbt) {
-		if (nbt.hasKey("radiationLevel")) {
-			getRadiationSource().setRadiationLevel(nbt.getDouble("radiationLevel"));
-		}
-	}
-	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -171,6 +141,11 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		if (shouldSaveRadiation()) {
 			writeRadiation(nbt);
 		}
+		return nbt;
+	}
+	
+	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
+		nbt.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
 		return nbt;
 	}
 	
@@ -189,32 +164,37 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		}
 	}
 	
-	/* public NBTTagCompound getTileData() { NBTTagCompound nbt = new NBTTagCompound(); writeToNBT(nbt); return nbt; } */
-	
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		int metadata = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, metadata, nbt);
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
+	public void readRadiation(NBTTagCompound nbt) {
+		if (nbt.hasKey("radiationLevel")) {
+			getRadiationSource().setRadiationLevel(nbt.getDouble("radiationLevel"));
+		}
 	}
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return nbt;
+		return writeToNBT(new NBTTagCompound());
 	}
 	
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
 	}
+	
+	@Nullable
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), writeToNBT(new NBTTagCompound()));
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+		readFromNBT(packet.getNbtCompound());
+		if (getBlockType() instanceof IDynamicState) {
+			notifyBlockUpdate();
+		}
+	}
+	
+	// Capabilities
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {

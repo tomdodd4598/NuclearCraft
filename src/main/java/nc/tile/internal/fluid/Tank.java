@@ -88,7 +88,6 @@ public class Tank extends FluidTank {
 	/** Ignores fluid amount! */
 	public void setTankCapacity(int newCapacity) {
 		capacity = Math.max(0, newCapacity);
-		/* if (capacity < getFluidAmount()) { setFluidAmount(capacity); } */
 	}
 	
 	public boolean isFull() {

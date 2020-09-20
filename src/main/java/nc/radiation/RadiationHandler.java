@@ -1,7 +1,6 @@
 package nc.radiation;
 
 import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.*;
 
 import java.util.*;
 
@@ -10,9 +9,7 @@ import com.google.common.collect.Lists;
 import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.source.IRadiationSource;
-import nc.config.NCConfig;
 import nc.entity.EntityFeralGhoul;
-import nc.init.NCItems;
 import nc.init.NCSounds;
 import nc.network.PacketHandler;
 import nc.network.radiation.PlayerRadsUpdatePacket;
@@ -38,9 +35,7 @@ import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.items.ItemHandlerHelper;
 import vazkii.patchouli.common.item.ItemModBook;
-import vazkii.patchouli.common.item.PatchouliItems;
 
 public class RadiationHandler {
 	
@@ -64,7 +59,8 @@ public class RadiationHandler {
 			playGeigerSound(event.player);
 		}
 		
-		if (event.phase != TickEvent.Phase.START || (event.player.world.getTotalWorldTime() + event.player.getUniqueID().hashCode()) % radiation_player_tick_rate != 0) {
+		UUID playerUUID = event.player.getUniqueID();
+		if (event.phase != TickEvent.Phase.START || (event.player.world.getTotalWorldTime() + playerUUID.hashCode()) % radiation_player_tick_rate != 0) {
 			return;
 		}
 		
@@ -75,7 +71,7 @@ public class RadiationHandler {
 				return;
 			}
 			
-			if (NCConfig.give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
+			if (give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
 				boolean success = player.inventory.addItemStackToInventory(ItemModBook.forBook("nuclearcraft:guide"));
 				if (success) {
 					playerRads.setGiveGuidebook(false);
@@ -86,7 +82,15 @@ public class RadiationHandler {
 				playerRads.setRadiationImmunityStage(default_rad_immunity ^ GameStageHelper.hasAnyOf(player, rad_immunity_stages));
 			}
 			
-			if (!player.isCreative() && !player.isSpectator() && playerRads.isFatal()) {
+			String uuidString = playerUUID.toString();
+			for (String uuid : radiation_immune_players) {
+				if (uuidString.equals(uuid)) {
+					playerRads.setRadiationImmunityStage(true);
+					break;
+				}
+			}
+			
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune() && playerRads.isFatal()) {
 				player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 			}
 			
@@ -125,7 +129,7 @@ public class RadiationHandler {
 			
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (!player.isCreative() && !player.isSpectator()) {
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
 				if (playerRads.isFatal()) {
 					player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
@@ -193,7 +197,7 @@ public class RadiationHandler {
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
 			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
-				RadiationHelper.applyPotionEffects(player, playerRads, RadPotionEffects.PLAYER_RAD_LEVEL_LIST, RadPotionEffects.PLAYER_DEBUFF_LIST);
+				RadiationHelper.applyPotionEffects(player, playerRads, 1, RadPotionEffects.PLAYER_RAD_LEVEL_LIST, RadPotionEffects.PLAYER_DEBUFF_LIST);
 			}
 		}
 		else {
@@ -287,7 +291,7 @@ public class RadiationHandler {
 							}
 							
 							if (entityLiving instanceof IMob) {
-								RadiationHelper.applyPotionEffects(entityLiving, entityRads, RadPotionEffects.MOB_RAD_LEVEL_LIST, RadPotionEffects.MOB_EFFECTS_LIST);
+								RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.MOB_RAD_LEVEL_LIST, RadPotionEffects.MOB_EFFECTS_LIST);
 							}
 							else {
 								if (entityRads.isFatal()) {
@@ -299,7 +303,7 @@ public class RadiationHandler {
 									}
 								}
 								else {
-									RadiationHelper.applyPotionEffects(entityLiving, entityRads, RadPotionEffects.ENTITY_RAD_LEVEL_LIST, RadPotionEffects.ENTITY_DEBUFF_LIST);
+									RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.ENTITY_RAD_LEVEL_LIST, RadPotionEffects.ENTITY_DEBUFF_LIST);
 								}
 							}
 							entityRads.setRadiationLevel(entityRads.getRadiationLevel() * Math.pow(1D - radiation_decay_rate, tickMult));
@@ -336,7 +340,7 @@ public class RadiationHandler {
 					}
 				}
 				
-				if (i == chunkStart) {
+				if (radiation_check_blocks && i == chunkStart) {
 					int packed = RecipeItemHelper.pack(StackHelper.blockStateToStack(world.getBlockState(randomChunkPos)));
 					if (RadSources.STACK_MAP.containsKey(packed)) {
 						RadiationHelper.addToSourceBuffer(chunkSource, RadSources.STACK_MAP.get(packed));
@@ -428,7 +432,7 @@ public class RadiationHandler {
 			
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<ProcessorRecipe> mutationInfo = radiation_block_mutation.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutation.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 				if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
 					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
 					if (output != null) {
@@ -448,7 +452,7 @@ public class RadiationHandler {
 			IBlockState state = world.getBlockState(randomChunkPos);
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<ProcessorRecipe> mutationInfo = radiation_block_purification.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_purification.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 				if (mutationInfo != null && radiation < mutationInfo.getRecipe().getBlockMutationThreshold()) {
 					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
 					if (output != null) {
@@ -467,7 +471,7 @@ public class RadiationHandler {
 	private static double getBlockMutationThreshold() {
 		if (block_mutation_threshold == null) {
 			double threshold = Double.MAX_VALUE;
-			for (ProcessorRecipe recipe : radiation_block_mutation.getRecipeList()) {
+			for (ProcessorRecipe recipe : NCRecipes.radiation_block_mutation.getRecipeList()) {
 				if (recipe != null) {
 					threshold = Math.min(threshold, recipe.getBlockMutationThreshold());
 				}
@@ -482,7 +486,7 @@ public class RadiationHandler {
 	private static double getBlockPurificationThreshold() {
 		if (block_purification_threshold == null) {
 			double threshold = 0D;
-			for (ProcessorRecipe recipe : radiation_block_purification.getRecipeList()) {
+			for (ProcessorRecipe recipe : NCRecipes.radiation_block_purification.getRecipeList()) {
 				if (recipe != null) {
 					threshold = Math.max(threshold, recipe.getBlockMutationThreshold());
 				}
@@ -494,7 +498,7 @@ public class RadiationHandler {
 	
 	public static void playGeigerSound(EntityPlayer player) {
 		IEntityRads entityRads = RadiationHelper.getEntityRadiation(player);
-		if (entityRads == null || entityRads.isRadiationUndetectable()) {
+		if (entityRads == null || entityRads.isRawRadiationNegligible()) {
 			return;
 		}
 		

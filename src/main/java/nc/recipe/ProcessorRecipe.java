@@ -80,7 +80,7 @@ public class ProcessorRecipe implements IRecipe {
 		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
 	}
 	
-	/* ================================== Recipe Extras ===================================== */
+	// Recipe Extras
 	
 	// Processors
 	
@@ -194,6 +194,12 @@ public class ProcessorRecipe implements IRecipe {
 	
 	public int getFissionHeatingHeatPerInputMB() {
 		return (int) extras.get(0);
+	}
+	
+	// Fission Emergency Cooling
+	
+	public double getEmergencyCoolingHeatPerInputMB() {
+		return (double) extras.get(0);
 	}
 	
 	// Fusion

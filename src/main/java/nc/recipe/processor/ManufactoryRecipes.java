@@ -116,7 +116,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		}
 	}
 	
-	/* Originally from KingLemming's Thermal Expansion: cofh.thermalexpansion.util.managers.machine.SawmillManager */
+	/** Originally from KingLemming's Thermal Expansion: cofh.thermalexpansion.util.managers.machine.SawmillManager */
 	public void addLogRecipes() {
 		InventoryCrafting fakeCrafter = RecipeHelper.fakeCrafter(3, 3);
 		for (ItemStack logWood : OreDictionary.getOres("logWood", false)) {

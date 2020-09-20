@@ -14,7 +14,7 @@ import nc.tile.energy.TileEnergy;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
-import nc.util.GasHelper;
+import nc.util.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -34,19 +34,19 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid {
 	private final List<Boolean> voidUnusableFluidInputs;
 	private final List<TankOutputSetting> tankOutputSettings;
 	
-	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
+	public TileEnergyFluid(long capacity, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		this(capacity, NCMath.toInt(capacity), energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileEnergyFluid(int capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		this(capacity, capacity, energyConnections, fluidCapacity, allowedFluidsLists, fluidConnections);
+	public TileEnergyFluid(long capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		this(capacity, NCMath.toInt(capacity), energyConnections, fluidCapacity, allowedFluidsLists, fluidConnections);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+	public TileEnergyFluid(long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, int fluidCapacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
 		this(capacity, maxTransfer, energyConnections, new IntArrayList(new int[] {fluidCapacity}), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+	public TileEnergyFluid(long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
 		super(capacity, maxTransfer, energyConnections);
 		tanks = new ArrayList<>();
 		voidUnusableFluidInputs = new ArrayList<>();
@@ -141,7 +141,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid {
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -155,7 +155,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid {
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

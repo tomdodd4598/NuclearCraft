@@ -4,7 +4,6 @@ import static nc.config.NCConfig.*;
 
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
-import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.init.NCItems;
 import nc.radiation.RadiationHelper;
@@ -18,8 +17,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.*;
 
 public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	
@@ -28,7 +26,7 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	}
 	
 	private static final String NOT_HARDCORE = Lang.localise("item.nuclearcraft.rad_shielding.not_hardcore");
-	private static final String FAILED_NOT_HARDCORE = Lang.localise("item.nuclearcraft.rad_shielding.failed_not_hardcore");
+	// private static final String FAILED_NOT_HARDCORE = Lang.localise("item.nuclearcraft.rad_shielding.failed_not_hardcore");
 	private static final String INSTALL_FAIL = Lang.localise("item.nuclearcraft.rad_shielding.install_fail");
 	private static final String INSTALL_SUCCESS = Lang.localise("item.nuclearcraft.rad_shielding.install_success");
 	
@@ -46,7 +44,8 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		
 		if (radiation_hardcore_containers <= 0D) {
 			if (!world.isRemote) {
-				if (playerRads != null) playerRads.setMessageCooldownTime(20);
+				if (playerRads != null)
+					playerRads.setMessageCooldownTime(20);
 				player.sendMessage(new TextComponentString(NOT_HARDCORE));
 			}
 			return actionResult(false, stack);
@@ -73,7 +72,8 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		double newResistance = radiation_shielding_level[StackHelper.getMetadata(stack)];
 		if (newResistance <= resistance.getShieldingRadResistance()) {
 			if (!world.isRemote) {
-				if (playerRads != null) playerRads.setMessageCooldownTime(20);
+				if (playerRads != null)
+					playerRads.setMessageCooldownTime(20);
 				player.sendMessage(new TextComponentString(INSTALL_FAIL + " " + RadiationHelper.resistanceSigFigs(resistance.getShieldingRadResistance())));
 			}
 			return actionResult(false, stack);
@@ -83,7 +83,7 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 			stack.shrink(1);
 			
 			for (int i = MetaEnums.RadShieldingType.values().length; i > 0; i--) {
-				if (resistance.getShieldingRadResistance() >= NCConfig.radiation_shielding_level[i - 1]) {
+				if (resistance.getShieldingRadResistance() >= radiation_shielding_level[i - 1]) {
 					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(NCItems.rad_shielding, 1, i - 1));
 					break;
 				}

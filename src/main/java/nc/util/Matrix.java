@@ -217,12 +217,6 @@ public class Matrix {
 		}
 	}
 	
-	/* public static Matrix tensorProduct(Matrix... a) { if (a.length == 0) { return new Matrix(0); } if (a.length == 1) { return a[0]; }
-	 * 
-	 * Matrix m = new Matrix(a[0].dim*a[1].dim); double[] c; for (int u = 0; u < a[0].dim; u++) { for (int v = 0; v < a[0].dim; v++) { for (int i = 0; i < a[1].dim; i++) { for (int j = 0; j < a[1].dim; j++) { c = Complex.multiply(a[0].re[v][u], a[0].im[v][u], a[1].re[j][i], a[1].im[j][i]); m.re[j + a[1].dim*v][i + a[1].dim*u] = c[0]; m.im[j + a[1].dim*v][i + a[1].dim*u] = c[1]; } } } }
-	 * 
-	 * if (a.length == 2) return m; else { Matrix[] m_ = new Matrix[a.length - 1]; m_[0] = m; for (int i = 1; i < m_.length; i++) { m_[i] = a[i + 1]; } return tensorProduct(m_); } } */
-	
 	public Matrix commute(Matrix a) {
 		Matrix c = copy();
 		return multiply(a).subtract(a.copy().multiply(c));

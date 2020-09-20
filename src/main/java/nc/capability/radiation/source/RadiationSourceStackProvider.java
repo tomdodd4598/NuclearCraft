@@ -36,8 +36,4 @@ public class RadiationSourceStackProvider implements ICapabilityProvider {
 		}
 		return null;
 	}
-	
-	/* @Override public NBTBase serializeNBT() { return IRadiationSource.CAPABILITY_RADIATION_SOURCE.writeNBT(getRadiation(), null); }
-	 * 
-	 * @Override public void deserializeNBT(NBTBase nbt) { IRadiationSource.CAPABILITY_RADIATION_SOURCE.readNBT(getRadiation(), null, nbt); } */
 }

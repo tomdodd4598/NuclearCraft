@@ -5,7 +5,8 @@ import static nc.config.NCConfig.*;
 import javax.annotation.*;
 
 import gregtech.api.capability.*;
-import ic2.api.energy.tile.IEnergySink;
+import ic2.api.energy.event.*;
+import ic2.api.energy.tile.*;
 import mcjty.lib.api.power.IBigPower;
 import nc.ModCheck;
 import nc.tile.ITile;
@@ -17,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
 
@@ -44,7 +46,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 			removeTileFromENet();
 		}
 		setEnergyConnection(getEnergyConnection(side).next(type), side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -94,15 +96,61 @@ public interface ITileEnergy extends ITile, IBigPower {
 	
 	// IC2 EU
 	
-	public abstract int getEUSourceTier();
+	public abstract boolean getIC2Reg();
 	
-	public abstract int getEUSinkTier();
-	
-	@Optional.Method(modid = "ic2")
-	public void addTileToENet();
+	public abstract void setIC2Reg(boolean ic2reg);
 	
 	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet();
+	public default void addTileToENet() {
+		if (!getTileWorld().isRemote && enable_ic2_eu && !getIC2Reg() && this instanceof IEnergyTile) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) this));
+			setIC2Reg(true);
+		}
+	}
+	
+	@Optional.Method(modid = "ic2")
+	public default void removeTileFromENet() {
+		if (!getTileWorld().isRemote && getIC2Reg() && this instanceof IEnergyTile) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) this));
+			setIC2Reg(false);
+		}
+	}
+	
+	public abstract int getSinkTier();
+	
+	public abstract int getSourceTier();
+	
+	@Optional.Method(modid = "ic2")
+	public default boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
+		return getEnergyConnection(side).canReceive();
+	}
+	
+	@Optional.Method(modid = "ic2")
+	public default double getDemandedEnergy() {
+		return Math.min(Math.pow(2, 2 * getSinkTier() + 3), (double) getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+	}
+	
+	@Optional.Method(modid = "ic2")
+	public default double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
+		int energyReceived = getEnergyStorage().receiveEnergy((int) (rf_per_eu * amount), true);
+		getEnergyStorage().receiveEnergy(energyReceived, false);
+		return amount - (double) energyReceived / (double) rf_per_eu;
+	}
+	
+	@Optional.Method(modid = "ic2")
+	public default boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
+		return getEnergyConnection(side).canExtract();
+	}
+	
+	@Optional.Method(modid = "ic2")
+	public default double getOfferedEnergy() {
+		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+	}
+	
+	@Optional.Method(modid = "ic2")
+	public default void drawEnergy(double amount) {
+		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
+	}
 	
 	// Energy Wrappers
 	
@@ -137,8 +185,6 @@ public interface ITileEnergy extends ITile, IBigPower {
 		}
 	}
 	
-	/* public default void spreadEnergy() { if (!passive_permeation) return; for (EnumFacing side : EnumFacing.VALUES) { if (getEnergyStorage().getEnergyStored() <= 0) return; spreadEnergyToSide(side); } } */
-	
 	public default void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (!getEnergyConnection(side).canExtract()) {
 			return;
@@ -171,39 +217,18 @@ public interface ITileEnergy extends ITile, IBigPower {
 			return;
 		}
 		
-		if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded() && enable_ic2_eu) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getEUSourceTier()) * rf_per_eu), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getSourceTier()) * rf_per_eu), false);
 				return;
 			}
 		}
 		if (enable_gtce_eu && ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
+				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getSourceTier()));
 				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
 				return;
-			}
-		}
-	}
-	
-	public default void spreadEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canConnect()) {
-			return;
-		}
-		
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		
-		if (tile instanceof IEnergySpread) {
-			if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushEnergyTo()) {
-				return;
-			}
-			
-			IEnergySpread other = (IEnergySpread) tile;
-			
-			int diff = getEnergyStorage().getEnergyStored() - other.getEnergyStorage().getEnergyStored();
-			if (diff > 1) {
-				getEnergyStorage().extractEnergy(other.getEnergyStorage().receiveEnergy(getEnergyStorage().extractEnergy(diff / 2, true), false), false);
 			}
 		}
 	}
@@ -211,16 +236,12 @@ public interface ITileEnergy extends ITile, IBigPower {
 	// NBT
 	
 	public default NBTTagCompound writeEnergy(NBTTagCompound nbt) {
-		nbt.setInteger("energy", getEnergyStorage().getEnergyStored());
-		nbt.setInteger("capacity", getEnergyStorage().getMaxEnergyStored());
-		nbt.setInteger("maxTransfer", getEnergyStorage().getMaxTransfer());
+		getEnergyStorage().writeToNBT(nbt, "energyStorage");
 		return nbt;
 	}
 	
 	public default void readEnergy(NBTTagCompound nbt) {
-		getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
-		getEnergyStorage().setStorageCapacity(nbt.getInteger("capacity"));
-		getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
+		getEnergyStorage().readFromNBT(nbt, "energyStorage");
 	}
 	
 	public default NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {

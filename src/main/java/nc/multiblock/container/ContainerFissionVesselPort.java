@@ -42,7 +42,7 @@ public class ContainerFissionVesselPort extends ContainerTile<TileFissionVesselP
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
-		int invStart = 2, invEnd = 38;
+		int invStart = 0, invEnd = 36;
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();

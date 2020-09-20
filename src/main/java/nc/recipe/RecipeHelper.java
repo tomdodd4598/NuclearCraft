@@ -544,6 +544,14 @@ public class RecipeHelper {
 		return recipeInfo == null ? null : recipeInfo.getRecipe();
 	}
 	
+	public static double getDecayTimeMultiplier(double baseRads, double radiation, double scaleFactor) {
+		return radiation > baseRads ? (Math.log1p(baseRads / scaleFactor) / Math.log1p(radiation / scaleFactor)) : (1D + (Math.log1p(scaleFactor / radiation) / Math.log1p(scaleFactor / baseRads) - 1D) * (baseRads / scaleFactor) * (Math.log1p(scaleFactor / baseRads) / Math.log1p(baseRads / scaleFactor)));
+	}
+	
+	public static double getDecayPowerMultiplier(double baseRads, double radiation, double scaleFactor) {
+		return getDecayTimeMultiplier(baseRads, 1D / radiation, scaleFactor);
+	}
+	
 	public static InventoryCrafting fakeCrafter(int width, int height) {
 		return new FakeCrafting(width, height);
 	}

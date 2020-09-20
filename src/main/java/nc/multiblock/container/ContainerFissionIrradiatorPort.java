@@ -1,10 +1,9 @@
 package nc.multiblock.container;
 
-import static nc.recipe.NCRecipes.fission_irradiator;
-
 import nc.container.ContainerTile;
 import nc.container.slot.*;
 import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
+import nc.recipe.NCRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,7 @@ public class ContainerFissionIrradiatorPort extends ContainerTile<TileFissionIrr
 		
 		port.beginUpdatingPlayer(player);
 		
-		addSlotToContainer(new SlotFiltered.ProcessorInput(port, fission_irradiator, 0, 44, 35));
+		addSlotToContainer(new SlotFiltered.ProcessorInput(port, NCRecipes.fission_irradiator, 0, 44, 35));
 		
 		addSlotToContainer(new SlotFurnace(player, port, 1, 116, 35));
 		
@@ -60,7 +59,7 @@ public class ContainerFissionIrradiatorPort extends ContainerTile<TileFissionIrr
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if (index >= invStart) {
-				if (fission_irradiator.isValidItemInput(itemstack1)) {
+				if (NCRecipes.fission_irradiator.isValidItemInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
 						return ItemStack.EMPTY;
 					}

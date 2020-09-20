@@ -67,6 +67,7 @@ public class NCBlock extends Block {
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (this instanceof INBTDrop && willHarvest) {
+			onBlockHarvested(world, pos, state, player);
 			return true;
 		}
 		return super.removedByPlayer(state, world, pos, player, willHarvest);

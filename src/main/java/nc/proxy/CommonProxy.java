@@ -1,56 +1,30 @@
 package nc.proxy;
 
+import static nc.config.NCConfig.register_projecte_emc;
+
+import java.io.IOException;
 import java.util.Locale;
 
-import nc.Global;
-import nc.ModCheck;
+import crafttweaker.CraftTweakerAPI;
+import nc.*;
 import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.command.CommandHandler;
-import nc.config.NCConfig;
-import nc.handler.CapabilityHandler;
-import nc.handler.DropHandler;
-import nc.handler.DungeonLootHandler;
-import nc.handler.EntityHandler;
-import nc.handler.ItemUseHandler;
-import nc.handler.OreDictHandler;
-import nc.handler.PlayerRespawnHandler;
-import nc.init.NCArmor;
-import nc.init.NCBlocks;
-import nc.init.NCCoolantFluids;
-import nc.init.NCEntities;
-import nc.init.NCFissionFluids;
-import nc.init.NCFluids;
-import nc.init.NCItems;
-import nc.init.NCSounds;
-import nc.init.NCTiles;
-import nc.init.NCTools;
+import nc.handler.*;
+import nc.init.*;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
 import nc.integration.hwyla.NCHWLYA;
 import nc.integration.projecte.NCProjectE;
-import nc.integration.tconstruct.TConstructExtras;
-import nc.integration.tconstruct.TConstructIMC;
-import nc.integration.tconstruct.TConstructMaterials;
+import nc.integration.tconstruct.*;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
-import nc.multiblock.MultiblockHandler;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.MultiblockRegistry;
-import nc.multiblock.PlacementRule;
+import nc.item.ItemMultitool;
+import nc.multiblock.*;
 import nc.network.PacketHandler;
-import nc.radiation.RadArmor;
-import nc.radiation.RadBiomes;
-import nc.radiation.RadEntities;
-import nc.radiation.RadPotionEffects;
-import nc.radiation.RadSources;
-import nc.radiation.RadStructures;
-import nc.radiation.RadWorlds;
-import nc.radiation.RadiationHandler;
+import nc.radiation.*;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
-import nc.util.GasHelper;
-import nc.util.OreDictHelper;
-import nc.util.StructureHelper;
+import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
@@ -59,22 +33,29 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.library.materials.Material;
 
 public class CommonProxy {
 	
+	public void onConstruction(FMLConstructionEvent constructionEvent) {
+		try {
+			ScriptAddonHandler.init();
+		}
+		catch (IOException e) {
+			NCUtil.getLogger().catching(e);
+		}
+	}
+	
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
+		
+		if (ModCheck.craftTweakerLoaded()) {
+			CraftTweakerAPI.tweaker.loadScript(false, "nc_preinit");
+		}
 		
 		NCSounds.init();
 		
@@ -112,12 +93,11 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new NCRecipes());
 		
 		if (ModCheck.tinkersLoaded()) {
-			TConstructIMC.sendIMCs();
 			TConstructMaterials.init();
-			
-			if (ModCheck.constructsArmoryLoaded()) {
-				ConArmMaterials.preInit();
-			}
+		}
+		
+		if (ModCheck.constructsArmoryLoaded()) {
+			ConArmMaterials.preInit();
 		}
 		
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
@@ -135,6 +115,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
+		RadSources.refreshRadSources(false);
 		RadArmor.init();
 		
 		NCBiomes.initBiomeManagerAndDictionary();
@@ -149,12 +130,15 @@ public class CommonProxy {
 		
 		PlacementRule.init();
 		
+		ItemMultitool.registerRightClickLogic();
+		
 		if (ModCheck.tinkersLoaded()) {
 			TConstructExtras.init();
-			
-			if (ModCheck.constructsArmoryLoaded()) {
-				ConArmMaterials.init();
-			}
+			TConstructIMC.init();
+		}
+		
+		if (ModCheck.constructsArmoryLoaded()) {
+			ConArmMaterials.init();
 		}
 		
 		if (ModCheck.hwylaLoaded()) {
@@ -190,7 +174,7 @@ public class CommonProxy {
 		
 		PlacementRule.postInit();
 		
-		if (ModCheck.projectELoaded() && NCConfig.register_projecte_emc) {
+		if (ModCheck.projectELoaded() && register_projecte_emc) {
 			NCProjectE.addEMCValues();
 		}
 		
@@ -216,7 +200,7 @@ public class CommonProxy {
 		
 		PlacementRule.refreshTooltipRecipeHandlers();
 		
-		RadSources.refreshRadSources();
+		RadSources.refreshRadSources(true);
 		RadArmor.refreshRadiationArmor();
 	}
 	

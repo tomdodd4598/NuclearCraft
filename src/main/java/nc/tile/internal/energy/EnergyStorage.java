@@ -28,13 +28,13 @@ public class EnergyStorage implements IEnergyStorage {
 	// Forge Energy
 	
 	@Override
-	public int getEnergyStored() {
-		return NCMath.toInt(Math.min(energyStored, energyCapacity));
+	public final int getEnergyStored() {
+		return NCMath.toInt(getEnergyStoredLong());
 	}
 	
 	@Override
-	public int getMaxEnergyStored() {
-		return NCMath.toInt(energyCapacity);
+	public final int getMaxEnergyStored() {
+		return NCMath.toInt(getMaxEnergyStoredLong());
 	}
 	
 	public int getMaxTransfer() {
@@ -42,7 +42,7 @@ public class EnergyStorage implements IEnergyStorage {
 	}
 	
 	public long getEnergyStoredLong() {
-		return energyStored;
+		return Math.min(energyStored, energyCapacity);
 	}
 	
 	public long getMaxEnergyStoredLong() {
@@ -100,6 +100,10 @@ public class EnergyStorage implements IEnergyStorage {
 		// cullEnergyStored();
 	}
 	
+	public void setMaxTransfer(int newMaxTransfer) {
+		maxTransfer = Math.max(newMaxTransfer, rf_per_eu);
+	}
+	
 	/** Use to remove excess stored energy */
 	public void cullEnergyStored() {
 		if (energyStored > energyCapacity) {
@@ -119,10 +123,6 @@ public class EnergyStorage implements IEnergyStorage {
 		setStorageCapacity(getMaxEnergyStoredLong() + other.getMaxEnergyStoredLong());
 		setEnergyStored(getEnergyStoredLong() + other.getEnergyStoredLong());
 		other.setEnergyStored(0);
-	}
-	
-	public void setMaxTransfer(int newMaxTransfer) {
-		maxTransfer = Math.max(newMaxTransfer, rf_per_eu);
 	}
 	
 	// NBT

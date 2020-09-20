@@ -2123,24 +2123,24 @@ info.nuclearcraft.multitool.quantum_computer.remove_qubit=将ID为%s的量子位
 info.nuclearcraft.multitool.quantum_computer.add_qubit=将ID为%s的量子位拷贝入了多功能工具!
 
 info.nuclearcraft.multitool.quantum_computer.single_gate_info=逻辑门已经成功地将量子位%s设为了目标
-info.nuclearcraft.multitool.quantum_computer.start_target_set=逻辑门正在等待目标量子位的设定......
+info.nuclearcraft.multitool.quantum_computer.start_target_set=逻辑门正在等待目标量子位的设定……
 info.nuclearcraft.multitool.quantum_computer.finish_target_set=逻辑门现在的目标量子位是%s！
 
 info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=逻辑门目前正在以%2$s的工作角度将量子位%1$s作为目标
-info.nuclearcraft.multitool.quantum_computer.start_angle=逻辑门正在等待工作角度的设置......
+info.nuclearcraft.multitool.quantum_computer.start_angle=逻辑门正在等待工作角度的设置……
 info.nuclearcraft.multitool.quantum_computer.tool_set_angle=将工作角度%s度存入了多功能工具！
 info.nuclearcraft.multitool.quantum_computer.finish_angle=逻辑门正在以%s度工作！
 
 info.nuclearcraft.multitool.quantum_computer.control_gate_info=逻辑门目前正在以%2$s作为量子控制位将量子位%1$s作为目标
-info.nuclearcraft.multitool.quantum_computer.start_control_set=逻辑门正在等待量子控制位的设置......
+info.nuclearcraft.multitool.quantum_computer.start_control_set=逻辑门正在等待量子控制位的设置……
 info.nuclearcraft.multitool.quantum_computer.finish_control_set=逻辑门正在量子位%s的控制下！
 
 info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=逻辑门目前正在以%3$s作为量子控制位、以%2$s的工作角度将量子位%1$s作为目标
 
 info.nuclearcraft.multitool.quantum_computer.swap_gate_info=逻辑门目前正在交换量子位%s与%s
-info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待量子位的首列表......
+info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待量子位的首列表……
 info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=逻辑门已被设定为交换首列表的量子位%s！
-info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待量子位的次列表......
+info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待量子位的次列表……
 info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门已被设定为交换次列表的量子位%s！
 
 info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=逻辑门正在量子位%3$s的控制下交换量子位%1$s与%2$s
@@ -2162,7 +2162,7 @@ item.nuclearcraft.rad_shielding.install_success=成功安装屏蔽板！容器�
 item.nuclearcraft.radiation_badge.name=辐射徽章
 item.nuclearcraft.radiation_badge.desc=佩戴时，每当玩家获得%s的辐射量都会发出警示，在到达%s后便会破损.
 item.nuclearcraft.radiation_badge.exposure=你的辐射徽章目前的辐射值已达
-item.nuclearcraft.radiation_badge.broken=你的辐射徽章彻底损坏了......
+item.nuclearcraft.radiation_badge.broken=你的辐射徽章彻底损坏了……
 
 item.nuclearcraft.radaway.name=抗辐宁
 item.nuclearcraft.radaway.desc=以%3$s的速率移除%1$s（%2$s）的辐射量。
@@ -2209,7 +2209,7 @@ item.nuclearcraft.record_hyperspace.name=唱片
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=原制作者：Riku Nuottajärvi
 
-entity.nuclearcraft.feral_ghoul.name=野尸鬼
+entity.nuclearcraft.feral_ghoul.name=狂尸鬼
 
 jei.nuclearcraft.chance_output=输出：%s-%s [平均：%s]
 
@@ -2557,13 +2557,13 @@ gui.nc.config.fusion_sound_volume=Fusion Sound Volume
 gui.nc.config.fusion_sound_volume.comment=Modifier for the volume of fusion sound effects.
 
 gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
-gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_power=Fusion Fuel Combo Power Gen
-gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
-gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_radiation=Fusion Fuel Combo Radiation
-gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，......，氘 - 硼-11，......，硼-11 - 硼-11。
+gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_electromagnet_power=Electromagnet Power
 gui.nc.config.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
 
@@ -2661,6 +2661,9 @@ gui.nc.config.category.radiation.tooltip=配置与核辐射相关的内容。
 gui.nc.config.radiation_enabled=启用辐射
 gui.nc.config.radiation_enabled.comment=启用核辐射吗？注意：启用后需要重启客户端以在JEI中查看与辐射相关的全部内容。
 
+gui.config.radiation.radiation_immune_players=玩家辐射免疫
+gui.config.radiation.radiation_immune_players.comment=被给予永久辐射免疫的玩家的UUID列表。
+
 gui.nc.config.radiation_world_chunks_per_tick=Radiation World Chunks Per Tick
 gui.nc.config.radiation_world_chunks_per_tick.comment=The maximum number of chunks in which radiation will be updated per tick.
 gui.nc.config.radiation_player_tick_rate=Radiation Player Tick Rate
@@ -2669,9 +2672,9 @@ gui.nc.config.radiation_player_tick_rate.comment=The number of ticks between eac
 gui.nc.config.radiation_worlds=世界背景辐射
 gui.nc.config.radiation_worlds.comment=各个维度的背景辐射。格式：'维度ID_辐射'。
 gui.nc.config.radiation_biomes=生物群系背景辐射
-gui.nc.config.radiation_biomes.comment=各个生物群系的背景辐射。这些值与世界背景辐射。格式：'模组ID:生物群系名称_辐射'。
+gui.nc.config.radiation_biomes.comment=各个生物群系的背景辐射。这些值与世界背景辐射堆叠在一起。格式：'模组ID:生物群系名称_辐射'。
 gui.nc.config.radiation_structures=结构背景辐射
-gui.nc.config.radiation_structures.comment=各个结构的背景辐射。These values stack with the underlying world or biome's background radiation. 格式：'结构名称_辐射'。
+gui.nc.config.radiation_structures.comment=各个结构的背景辐射。这些值与世界背景辐射或生物群系背景辐射堆叠在一起。格式：'结构名称_辐射'。
 gui.nc.config.radiation_world_limits=World Radiation Limit
 gui.nc.config.radiation_world_limits.comment=List of dimensions and their radiation level limits. 格式：'dimID_radiationLimit'.
 gui.nc.config.radiation_biome_limits=Biome Radiation Limit
@@ -2717,6 +2720,8 @@ gui.nc.config.radiation_lowest_rate=最低辐射率
 gui.nc.config.radiation_lowest_rate.comment=玩家的自身辐射与背景辐射的最低值，低于这个值的辐射率将被视为0（单位：Rad/t）。
 gui.nc.config.radiation_chunk_limit=区块辐射上限
 gui.nc.config.radiation_chunk_limit.comment=一个区块最大的辐射率（单位：Rad/t）。值为负时没有上限。
+gui.nc.config.radiation_check_blocks=方块辐射提供
+gui.nc.config.radiation_check_blocks.comment=非方块实体应当对区块辐射作贡献吗？
 gui.nc.config.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
 gui.nc.config.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
 gui.nc.config.radiation_rain_mult=下雨时辐射倍率
@@ -2840,7 +2845,7 @@ gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：硼�
 gui.nc.config.register_conarm_armor=注册[ConArm]匠魂兵工厂材料
 gui.nc.config.register_conarm_armor.comment=下列材料会被注册为[ConArm]匠魂兵工厂的材料吗？顺序：硼，高强合金，硬碳合金，氮化硼，钍，铀，镁，巧克力。
 gui.nc.config.register_entity=注册实体生成
-gui.nc.config.register_entity.comment=下列实体会生成吗？顺序：野尸鬼。
+gui.nc.config.register_entity.comment=下列实体会生成吗？顺序：狂尸鬼。
 gui.nc.config.register_fluid_blocks=注册可被放置的流体
 gui.nc.config.register_fluid_blocks.comment=添加可被放置的流体吗？请在方块ID不多的情况下尽可能设定为 (false) 。
 gui.nc.config.register_cofh_fluids=注册与CoFH相关的流体
@@ -2870,7 +2875,7 @@ gui.nc.config.ore_dict_priority_bool.comment=输出会被下方的模组列表�
 gui.nc.config.ore_dict_priority=矿词模组优先
 gui.nc.config.ore_dict_priority.comment=决定输出的优先级：靠前的模组优先级更高。这被用于配置矿词相同模组不同的情况下的输出。如果没有找到合适的模组，将会输出同矿词默认的物品。
 
-gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已......多尴尬啊......多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的方法。
+gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已……多尴尬啊……多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的方法。
 gui.nc.computer.invalid_method_number=无效方法值
 gui.nc.computer.number_of_arguments_error=已使用参数共%s个，预计%s个
 gui.nc.computer.invalid_argument_error=无效参数共%s个，预计%s个
@@ -2903,7 +2908,7 @@ zerocore.api.nc.multiblock.validation.invalid_part_for_bottom=位于 [%1$d, %2$d
 zerocore.api.nc.multiblock.validation.invalid_part_for_top=位于 [%1$d, %2$d, %3$d] 的方块不能作为机器顶层的一部分
 zerocore.api.nc.multiblock.validation.invalid_part_for_sides=位于 [%1$d, %2$d, %3$d] 的方块不能作为机器边缘的一部分
 zerocore.api.nc.multiblock.validation.invalid_part_for_interior=位于 [%1$d, %2$d, %3$d] 的方块不能作为机器内部的一部分
-zerocore.api.nc.multiblock.validation.invalid_logic=这个多方块结构并不是一个有效的结构——它丢失了一个逻辑核心，你已......多尴尬啊......多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的逻辑。
+zerocore.api.nc.multiblock.validation.invalid_logic=这个多方块结构并不是一个有效的结构——它丢失了一个逻辑核心，你已……多尴尬啊……多尴尬啊！来GitHub库，清空你的脑袋，我们会找到你失去的逻辑。
 
 nc.block.vent_toggle=切换出入口为
 nc.block.fission_vent_mode.input=输入
@@ -3297,26 +3302,21 @@ advancement.nuclearcraft.moresmore.desc=制作一块双层饼干巧克力夹棉�
 advancement.nuclearcraft.foursmore.name=再多一些
 advancement.nuclearcraft.foursmore.desc=制作一块四层饼干巧克力夹棉花糖
 
-block.nc.fusion_run=聚变反应堆
-# 运行中
-block.nc.turbine_run=涡轮机
-# 运行中
+block.nc.fusion_run=聚变反应堆：运行
+block.nc.turbine_run=涡轮机：运行
 
-player.nc.geiger_tick=盖革计数器
-# 计数中
-player.nc.radaway=使用抗辐宁
-player.nc.rad_x=使用降辐剂
-player.nc.chems_wear_off=效果结束
-player.nc.rad_poisoning=遭辐射
-# 中
+player.nc.geiger_tick=盖革计数器：计数
+player.nc.radaway=抗辐宁：被服用
+player.nc.rad_x=降辐剂：被服用
+player.nc.chems_wear_off=辐射抑制效果结束
+player.nc.rad_poisoning=辐射中
 
-entity.nc.feral_ghoul_ambient=野尸鬼
-# 环绕
-entity.nc.feral_ghoul_hurt=野尸鬼受伤
-entity.nc.feral_ghoul_death=野尸鬼死亡
-entity.nc.feral_ghoul_step=野尸鬼行走
-entity.nc.feral_ghoul_fall=野尸鬼摔落
-entity.nc.feral_ghoul_charge=野尸鬼充能
+entity.nc.feral_ghoul_ambient=狂尸鬼：环绕
+entity.nc.feral_ghoul_hurt=狂尸鬼：受伤
+entity.nc.feral_ghoul_death=狂尸鬼：死亡
+entity.nc.feral_ghoul_step=狂尸鬼：行走
+entity.nc.feral_ghoul_fall=狂尸鬼：摔落
+entity.nc.feral_ghoul_charge=狂尸鬼：充能
 
 music.nc.wanderer=Wanderer
 music.nc.end_of_the_world=End of the World
@@ -3359,8 +3359,8 @@ message.nuclearcraft.filter=设置过滤器：
 
 message.nuclearcraft.qubit_id=量子位ID：
 
-message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果结束了......
-message.nuclearcraft.rad_warning=一种金属的恶臭在你的嘴里蔓延，伴随着剧烈的头痛......你正在受到可怕的辐射！使用盖革计数器查看当前辐射的严重程度会是个明智的选择......
+message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果结束了……
+message.nuclearcraft.rad_warning=一种金属的恶臭在你的嘴里蔓延，伴随着剧烈的头痛……你正在受到可怕的辐射！使用盖革计数器查看当前辐射的严重程度会是个明智的选择……
 message.nuclearcraft.radaway_cooling_down=你的抗辐宁效果的剩余冷却时间：
 message.nuclearcraft.rad_x_cooling_down=你的降辐剂的剩余冷却时间：
 message.nuclearcraft.scrubber_removal_rate=主动背景辐射消除速率：
@@ -3544,6 +3544,6 @@ nc.sf.with=与
 
 # 指导手册
 
-nc.guide_book.name=核电工艺手册
+nc.guide_book.name=核电工艺手册（未完成）
 nc.guide_book.edition=重制版
-nc.guide_book.desc=核电工艺：重制版的官方指导手册。
+nc.guide_book.desc=核电工艺：重制版的官方未完成指导手册。

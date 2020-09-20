@@ -1,8 +1,9 @@
 package nc.render.tile;
 
+import static nc.config.NCConfig.*;
+
 import javax.vecmath.Vector3f;
 
-import nc.config.NCConfig;
 import nc.multiblock.network.TurbineResendFormPacket;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.Turbine.PlaneDir;
@@ -30,24 +31,34 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 	
 	@Override
 	public boolean isGlobalRenderer(TileTurbineController tile) {
-		return tile.isRenderer && tile.isMultiblockAssembled();
+		return tile.isRenderer() && tile.isMultiblockAssembled();
 	}
 	
 	@Override
 	public void render(TileTurbineController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
-		if (!controller.isRenderer || !controller.isMultiblockAssembled()) return;
+		if (!controller.isRenderer() || !controller.isMultiblockAssembled())
+			return;
 		
 		Turbine turbine = controller.getMultiblock();
-		if (turbine == null) return;
+		if (turbine == null)
+			return;
 		
 		int flowLength = turbine.getFlowLength(), bladeLength = turbine.bladeLength, shaftWidth = turbine.shaftWidth;
-		if (turbine.rotorStateArray == null || turbine.bladeDepths == null || turbine.statorDepths == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
-			PacketHandler.instance.sendToServer(new TurbineResendFormPacket(controller.getPos()));
+		if (turbine.renderPosArray == null || turbine.bladeAngleArray == null || turbine.rotorStateArray == null || turbine.bladeDepths == null || turbine.statorDepths == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
+			resendForm(controller);
+			return;
+		}
+		
+		IBlockState shaftState = turbine.rotorStateArray[4 * flowLength];
+		
+		if (shaftState == null) {
+			resendForm(controller);
 			return;
 		}
 		
 		EnumFacing dir = turbine.flowDir;
-		if (dir == null) return;
+		if (dir == null)
+			return;
 		
 		BlockRendererDispatcher renderer = MC.getBlockRendererDispatcher();
 		
@@ -72,16 +83,15 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
 		{
 			long systemTime = Minecraft.getSystemTime();
-			if (!MC.isGamePaused()) turbine.rotorAngle = (turbine.rotorAngle + (systemTime - turbine.prevRenderTime) * turbine.angVel) % 360F;
+			if (!MC.isGamePaused())
+				turbine.rotorAngle = (turbine.rotorAngle + (systemTime - turbine.prevRenderTime) * turbine.angVel) % 360F;
 			turbine.prevRenderTime = systemTime;
 			GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		}
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
-		IBlockState shaftState = turbine.rotorStateArray[turbine.bladePosArray.length];
-		
 		for (int depth : turbine.bladeDepths) {
-			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, NCConfig.turbine_render_blade_width, depth);
+			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, turbine_render_blade_width, depth);
 		}
 		
 		// Leave rotated frame
@@ -95,14 +105,14 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
 		for (int depth : turbine.statorDepths) {
-			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, NCConfig.turbine_render_blade_width, depth);
+			renderRotor(turbine, renderer, bright, shaftState, dir, flowLength, bladeLength, shaftWidth, turbine_render_blade_width, depth);
 		}
 		
 		GlStateManager.popMatrix();
 	}
 	
 	public void renderRotor(Turbine turbine, BlockRendererDispatcher renderer, float bright, IBlockState shaftState, EnumFacing flowDir, int flowLength, int bladeLength, int shaftWidth, double bladeWidth, int depth) {
-		double depthScale = Math.pow(NCConfig.turbine_render_rotor_expansion, (double) (1 + depth - flowLength) / (double) flowLength);
+		double depthScale = Math.pow(turbine_render_rotor_expansion, (double) (1 + depth - flowLength) / (double) flowLength);
 		
 		GlStateManager.pushMatrix();
 		
@@ -112,7 +122,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.translate(-renderPos.x - 0.5D, -renderPos.y - 0.5D, -renderPos.z - 0.5D);
 		
 		renderShaft(turbine, renderer, bright, shaftState, flowDir, flowLength, shaftWidth, depth);
-		for (int j : new int[] { 0, flowLength, 2 * flowLength, 3 * flowLength }) {
+		for (int j : new int[] {0, flowLength, 2 * flowLength, 3 * flowLength}) {
 			renderBlades(turbine, renderer, bright, flowDir, flowLength, bladeLength, shaftWidth, bladeWidth, j, depth);
 		}
 		
@@ -161,5 +171,9 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			
 			GlStateManager.popMatrix();
 		}
+	}
+	
+	public void resendForm(TileTurbineController controller) {
+		PacketHandler.instance.sendToServer(new TurbineResendFormPacket(controller.getPos()));
 	}
 }

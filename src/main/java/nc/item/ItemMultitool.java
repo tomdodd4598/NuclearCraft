@@ -2,6 +2,8 @@ package nc.item;
 
 import static nc.config.NCConfig.quantum_angle_precision;
 
+import java.util.*;
+
 import nc.tile.IMultitoolLogic;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +14,22 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class ItemMultitool extends NCItem {
 	
+	/** List of all multitool right-click logic. Earlier entries are prioritised! */
+	public static final List<MultitoolRightClickLogic> MULTITOOL_RIGHT_CLICK_LOGIC = new LinkedList<>();
+	
 	public ItemMultitool(String... tooltip) {
 		super(tooltip);
+		maxStackSize = 1;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isFull3D() {
+		return true;
 	}
 	
 	public static boolean isMultitool(ItemStack stack) {
@@ -60,28 +73,12 @@ public class ItemMultitool extends NCItem {
 			stack.setTagCompound(new NBTTagCompound());
 		}
 		if (!world.isRemote && isMultitool(stack)) {
-			NBTTagCompound nbt = stack.getTagCompound();
-			if (!player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
-				double angle = NCMath.roundTo(player.rotationYaw + 360D, 360D / quantum_angle_precision) % 360D;
-				nbt.setDouble("gateAngle", angle);
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.tool_set_angle", NCMath.decimalPlaces(angle, 5))));
-				return actionResult(true, stack);
-			}
-			else if (player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
-				RayTraceResult raytraceresult = rayTrace(world, player, false);
-				if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
-					return actionResult(false, stack);
-				}
-				
-				BlockPos pos = raytraceresult.getBlockPos();
-				TileEntity tile = world.getTileEntity(pos);
-				if (!(tile instanceof IMultitoolLogic)) {
-					clearNBT(stack);
-					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.clear_info")));
-					return actionResult(true, stack);
+			for (MultitoolRightClickLogic logic : MULTITOOL_RIGHT_CLICK_LOGIC) {
+				ActionResult<ItemStack> result = logic.onRightClick(this, world, player, hand, stack);
+				if (result != null) {
+					return result;
 				}
 			}
-			stack.getTagCompound().removeTag("multitoolUsed");
 		}
 		return super.onItemRightClick(world, player, hand);
 	}
@@ -90,5 +87,59 @@ public class ItemMultitool extends NCItem {
 	public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
 		// return world.getTileEntity(pos) instanceof IMultitoolLogic;
 		return false;
+	}
+	
+	public abstract static class MultitoolRightClickLogic {
+		
+		public abstract ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem);
+	}
+	
+	public static void registerRightClickLogic() {
+		MULTITOOL_RIGHT_CLICK_LOGIC.add(new MultitoolRightClickLogic() {
+			
+			@Override
+			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
+				NBTTagCompound nbt = heldItem.getTagCompound();
+				if (!player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
+					double angle = NCMath.roundTo(player.rotationYaw + 360D, 360D / quantum_angle_precision) % 360D;
+					nbt.setDouble("gateAngle", angle);
+					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.tool_set_angle", NCMath.decimalPlaces(angle, 5))));
+					return itemMultitool.actionResult(true, heldItem);
+				}
+				return null;
+			}
+		});
+		
+		MULTITOOL_RIGHT_CLICK_LOGIC.add(new MultitoolRightClickLogic() {
+			
+			@Override
+			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
+				NBTTagCompound nbt = heldItem.getTagCompound();
+				if (player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
+					RayTraceResult raytraceresult = itemMultitool.rayTrace(world, player, false);
+					if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
+						return itemMultitool.actionResult(false, heldItem);
+					}
+					
+					BlockPos pos = raytraceresult.getBlockPos();
+					TileEntity tile = world.getTileEntity(pos);
+					if (!(tile instanceof IMultitoolLogic)) {
+						clearNBT(heldItem);
+						player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.clear_info")));
+						return itemMultitool.actionResult(true, heldItem);
+					}
+				}
+				return null;
+			}
+		});
+		
+		MULTITOOL_RIGHT_CLICK_LOGIC.add(new MultitoolRightClickLogic() {
+			
+			@Override
+			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
+				heldItem.getTagCompound().removeTag("multitoolUsed");
+				return null;
+			}
+		});
 	}
 }

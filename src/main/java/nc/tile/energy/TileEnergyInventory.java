@@ -8,6 +8,7 @@ import nc.Global;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
+import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
@@ -24,11 +25,11 @@ public abstract class TileEnergyInventory extends TileEnergy implements ITileInv
 	
 	private @Nonnull final List<ItemOutputSetting> itemOutputSettings;
 	
-	public TileEnergyInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, @Nonnull EnergyConnection[] energyConnections) {
-		this(name, size, inventoryConnections, capacity, capacity, energyConnections);
+	public TileEnergyInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, long capacity, @Nonnull EnergyConnection[] energyConnections) {
+		this(name, size, inventoryConnections, capacity, NCMath.toInt(capacity), energyConnections);
 	}
 	
-	public TileEnergyInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
+	public TileEnergyInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
 		super(capacity, maxTransfer, energyConnections);
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);

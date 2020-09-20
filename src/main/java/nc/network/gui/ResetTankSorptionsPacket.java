@@ -78,7 +78,7 @@ public class ResetTankSorptionsPacket implements IMessage {
 						machine.setTankSorption(side, message.tank, TankSorption.NON);
 					}
 				}
-				machine.markDirtyAndNotify();
+				machine.markDirtyAndNotify(true);
 			}
 		}
 	}

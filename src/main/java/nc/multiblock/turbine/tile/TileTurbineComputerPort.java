@@ -4,7 +4,6 @@ import java.util.*;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import net.minecraftforge.fml.common.Optional;
@@ -20,15 +19,11 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// OpenComputers
@@ -144,7 +139,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfDynamoParts(Context context, Arguments args) {
-		return new Object[] { isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoPart.class).size() : 0 };
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoPart.class).size() : 0};
 	}
 	
 	@Callback
@@ -153,7 +148,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<>();
 			for (TileTurbineDynamoPart dynamoPart : getMultiblock().getPartMap(TileTurbineDynamoPart.class).values()) {
-				stats.add(new Object[] { new Object[] { dynamoPart.getPos().getX(), dynamoPart.getPos().getY(), dynamoPart.getPos().getZ() }, dynamoPart.partName, dynamoPart.isInValidPosition });
+				stats.add(new Object[] {new Object[] {dynamoPart.getPos().getX(), dynamoPart.getPos().getY(), dynamoPart.getPos().getZ()}, dynamoPart.partName, dynamoPart.isInValidPosition});
 			}
 			return new Object[] {stats.toArray()};
 		}

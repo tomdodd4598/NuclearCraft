@@ -146,10 +146,10 @@ mods.nuclearcraft.DecayHastener.removeRecipeWithOutput(IIngredient itemOutput);
 Fuel Reprocessor:
 -----------------
 
-mods.nuclearcraft.FuelReprocessor.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.FuelReprocessor.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6, IIngredient itemOutput7, IIngredient itemOutput8, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
 mods.nuclearcraft.FuelReprocessor.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.FuelReprocessor.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6);
+mods.nuclearcraft.FuelReprocessor.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6, IIngredient itemOutput7, IIngredient itemOutput8);
 
 
 Alloy Furnace:
@@ -272,10 +272,10 @@ mods.nuclearcraft.Extractor.removeRecipeWithOutput(IIngredient itemOutput, ILiqu
 Centrifuge:
 -----------
 
-mods.nuclearcraft.Centrifuge.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.Centrifuge.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, ILiquidStack fluidOutput5, ILiquidStack fluidOutput6, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
 mods.nuclearcraft.Centrifuge.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.Centrifuge.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
+mods.nuclearcraft.Centrifuge.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, ILiquidStack fluidOutput5, ILiquidStack fluidOutput6);
 
 
 Rock Crusher:
@@ -353,12 +353,21 @@ mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput
 
 
 Molten Salt Fission:
-------------------------------------
+--------------------
 
 mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SaltFission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.SaltFission.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Fission Emergency Cooling:
+--------------------------
+
+mods.nuclearcraft.FissionEmergencyCooling.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double coolingPerInputMB);
+
+mods.nuclearcraft.FissionEmergencyCooling.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.FissionEmergencyCooling.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
 
 Fusion (NOT YET IMPLEMENTED!):
@@ -505,9 +514,9 @@ ________________________________________________________________________________
  Registration Methods
 #====================#
 
-Note A: These methods must use the `preinit` loader!
+Note A: These methods must use the `nc_preinit` loader!
 
-Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack!
+Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack. Make sure to use a new `nuclearcraft` sub-directory rather than the generated `contenttweaker` one!
 
 mods.nuclearcraft.Registration.registerFissionSink(String sinkID, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);

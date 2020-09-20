@@ -5,7 +5,6 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -34,9 +33,6 @@ public class TileHeatExchangerController extends TileHeatExchangerPart implement
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -60,13 +56,5 @@ public class TileHeatExchangerController extends TileHeatExchangerPart implement
 	@Override
 	public int[] weakSidesToCheck(World world, BlockPos pos) {
 		return new int[] {2, 3, 4, 5};
-	}
-	
-	@Override
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockHeatExchangerController) {
-			((BlockHeatExchangerController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
 	}
 }

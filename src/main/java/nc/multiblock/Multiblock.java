@@ -28,11 +28,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLLog;
 
-/**
- * This class contains the base logic for "multiblocks". Conceptually, they are meta-TileEntities. They govern the logic for an associated group of TileEntities.
+/** This class contains the base logic for "multiblocks". Conceptually, they are meta-TileEntities. They govern the logic for an associated group of TileEntities.
  * 
- * Subordinate TileEntities implement the IMultiblockPart class and, generally, should not have an update() loop.
- */
+ * Subordinate TileEntities implement the IMultiblockPart class and, generally, should not have an update() loop. */
 public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> {
 	
 	public static final short DIMENSION_UNBOUNDED = -1;
@@ -42,41 +40,31 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	// Disassembled -> Assembled; Assembled -> Disassembled OR Paused; Paused ->
 	// Assembled
-	protected enum AssemblyState {
+	public enum AssemblyState {
 		Disassembled,
 		Assembled,
 		Paused
 	}
 	
-	protected AssemblyState assemblyState;
+	public AssemblyState assemblyState;
 	
 	protected ObjectOpenHashSet<ITileMultiblockPart> connectedParts;
 	
 	public Random rand = new Random();
 	
-	/**
-	 * This is a deterministically-picked coordinate that identifies this multiblock uniquely in its dimension. Currently, this is the coord with the lowest X, Y and Z coordinates, in that order of evaluation. i.e. If something has a lower X but higher Y/Z coordinates, it will still be the reference. If something has the same X but a lower Y coordinate, it will be the reference. Etc.
-	 */
+	/** This is a deterministically-picked coordinate that identifies this multiblock uniquely in its dimension. Currently, this is the coord with the lowest X, Y and Z coordinates, in that order of evaluation. i.e. If something has a lower X but higher Y/Z coordinates, it will still be the reference. If something has the same X but a lower Y coordinate, it will be the reference. Etc. */
 	private BlockPos referenceCoord;
 	
-	/**
-	 * Minimum bounding box coordinate. Blocks do not necessarily exist at this coord if your machine is not a cube/rectangular prism.
-	 */
+	/** Minimum bounding box coordinate. Blocks do not necessarily exist at this coord if your machine is not a cube/rectangular prism. */
 	private BlockPos minimumCoord;
 	
-	/**
-	 * Maximum bounding box coordinate. Blocks do not necessarily exist at this coord if your machine is not a cube/rectangular prism.
-	 */
+	/** Maximum bounding box coordinate. Blocks do not necessarily exist at this coord if your machine is not a cube/rectangular prism. */
 	private BlockPos maximumCoord;
 	
-	/**
-	 * Set to true whenever a part is removed from this multiblock.
-	 */
+	/** Set to true whenever a part is removed from this multiblock. */
 	private boolean shouldCheckForDisconnections;
 	
-	/**
-	 * Set whenever we validate the multiblock
-	 */
+	/** Set whenever we validate the multiblock */
 	private MultiblockValidationError lastValidationError;
 	
 	protected boolean debugMode;
@@ -110,31 +98,25 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return debugMode;
 	}
 	
-	/**
-	 * Call when a block with cached save-delegate data is added to the multiblock. The part will be notified that the data has been used after this call completes.
+	/** Call when a block with cached save-delegate data is added to the multiblock. The part will be notified that the data has been used after this call completes.
 	 * 
 	 * @param part
-	 * The NBT tag containing this multiblock's data.
-	 */
+	 *            The NBT tag containing this multiblock's data. */
 	public abstract void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data);
 	
-	/**
-	 * Check if a block is being tracked by this machine.
+	/** Check if a block is being tracked by this machine.
 	 * 
 	 * @param blockCoord
-	 * Coordinate to check.
-	 * @return True if the tile entity at blockCoord is being tracked by this machine, false otherwise.
-	 */
+	 *            Coordinate to check.
+	 * @return True if the tile entity at blockCoord is being tracked by this machine, false otherwise. */
 	public boolean hasBlock(BlockPos blockCoord) {
 		return connectedParts.contains(blockCoord);
 	}
 	
-	/**
-	 * Attach a new part to this machine.
+	/** Attach a new part to this machine.
 	 * 
 	 * @param part
-	 * The part to add.
-	 */
+	 *            The part to add. */
 	public void attachBlock(ITileMultiblockPart part) {
 		// IMultiblockPart candidate;
 		BlockPos coord = part.getTilePos();
@@ -214,48 +196,34 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		REGISTRY.addDirtyMultiblock(WORLD, this);
 	}
 	
-	/**
-	 * Called when a new part is added to the machine. Good time to register things into lists.
+	/** Called when a new part is added to the machine. Good time to register things into lists.
 	 * 
 	 * @param newPart
-	 * The part being added.
-	 */
+	 *            The part being added. */
 	protected abstract void onBlockAdded(ITileMultiblockPart newPart);
 	
-	/**
-	 * Called when a part is removed from the machine. Good time to clean up lists.
+	/** Called when a part is removed from the machine. Good time to clean up lists.
 	 * 
 	 * @param oldPart
-	 * The part being removed.
-	 */
+	 *            The part being removed. */
 	protected abstract void onBlockRemoved(ITileMultiblockPart oldPart);
 	
-	/**
-	 * Called when a machine is assembled from a disassembled state.
-	 */
+	/** Called when a machine is assembled from a disassembled state. */
 	protected abstract void onMachineAssembled();
 	
-	/**
-	 * Called when a machine is restored to the assembled state from a paused state.
-	 */
+	/** Called when a machine is restored to the assembled state from a paused state. */
 	protected abstract void onMachineRestored();
 	
-	/**
-	 * Called when a machine is paused from an assembled state This generally only happens due to chunk-loads and other "system" events.
-	 */
+	/** Called when a machine is paused from an assembled state This generally only happens due to chunk-loads and other "system" events. */
 	protected abstract void onMachinePaused();
 	
-	/**
-	 * Called when a machine is disassembled from an assembled state. This happens due to user or in-game actions (e.g. explosions)
-	 */
+	/** Called when a machine is disassembled from an assembled state. This happens due to user or in-game actions (e.g. explosions) */
 	protected abstract void onMachineDisassembled();
 	
-	/**
-	 * Callback whenever a part is removed (or will very shortly be removed) from a multiblock. Do housekeeping/callbacks, also nulls min/max coords.
+	/** Callback whenever a part is removed (or will very shortly be removed) from a multiblock. Do housekeeping/callbacks, also nulls min/max coords.
 	 * 
 	 * @param part
-	 * The part being removed.
-	 */
+	 *            The part being removed. */
 	private void onDetachBlock(ITileMultiblockPart part) {
 		// Strip out this part
 		part.onDetached(this);
@@ -271,14 +239,12 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		shouldCheckForDisconnections = true;
 	}
 	
-	/**
-	 * Call to detach a block from this machine. Generally, this should be called when the tile entity is being released, e.g. on block destruction.
+	/** Call to detach a block from this machine. Generally, this should be called when the tile entity is being released, e.g. on block destruction.
 	 * 
 	 * @param part
-	 * The part to detach from this machine.
+	 *            The part to detach from this machine.
 	 * @param chunkUnloading
-	 * Is this entity detaching due to the chunk unloading? If true, the multiblock will be paused instead of broken.
-	 */
+	 *            Is this entity detaching due to the chunk unloading? If true, the multiblock will be paused instead of broken. */
 	public void detachBlock(ITileMultiblockPart part, boolean chunkUnloading) {
 		if (chunkUnloading && this.assemblyState == AssemblyState.Assembled) {
 			this.assemblyState = AssemblyState.Paused;
@@ -307,74 +273,56 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 	}
 	
-	/**
-	 * Helper method so we don't check for a whole machine until we have enough blocks to actually assemble it. This isn't as simple as xmax*ymax*zmax for non-cubic machines or for machines with hollow/complex interiors.
+	/** Helper method so we don't check for a whole machine until we have enough blocks to actually assemble it. This isn't as simple as xmax*ymax*zmax for non-cubic machines or for machines with hollow/complex interiors.
 	 * 
-	 * @return The minimum number of blocks connected to the machine for it to be assembled.
-	 */
+	 * @return The minimum number of blocks connected to the machine for it to be assembled. */
 	protected abstract int getMinimumNumberOfBlocksForAssembledMachine();
 	
-	/**
-	 * Returns the maximum X dimension size of the machine, or -1 (DIMENSION_UNBOUNDED) to disable dimension checking in X. (This is not recommended.)
+	/** Returns the maximum X dimension size of the machine, or -1 (DIMENSION_UNBOUNDED) to disable dimension checking in X. (This is not recommended.)
 	 * 
-	 * @return The maximum X dimension size of the machine, or -1
-	 */
+	 * @return The maximum X dimension size of the machine, or -1 */
 	protected abstract int getMaximumXSize();
 	
-	/**
-	 * Returns the maximum Z dimension size of the machine, or -1 (DIMENSION_UNBOUNDED) to disable dimension checking in Z. (This is not recommended.)
+	/** Returns the maximum Z dimension size of the machine, or -1 (DIMENSION_UNBOUNDED) to disable dimension checking in Z. (This is not recommended.)
 	 * 
-	 * @return The maximum Z dimension size of the machine, or -1
-	 */
+	 * @return The maximum Z dimension size of the machine, or -1 */
 	protected abstract int getMaximumZSize();
 	
-	/**
-	 * Returns the maximum Y dimension size of the machine, or -1 (DIMENSION_UNBOUNDED) to disable dimension checking in Y. (This is not recommended.)
+	/** Returns the maximum Y dimension size of the machine, or -1 (DIMENSION_UNBOUNDED) to disable dimension checking in Y. (This is not recommended.)
 	 * 
-	 * @return The maximum Y dimension size of the machine, or -1
-	 */
+	 * @return The maximum Y dimension size of the machine, or -1 */
 	protected abstract int getMaximumYSize();
 	
-	/**
-	 * Returns the minimum X dimension size of the machine. Must be at least 1, because nothing else makes sense.
+	/** Returns the minimum X dimension size of the machine. Must be at least 1, because nothing else makes sense.
 	 * 
-	 * @return The minimum X dimension size of the machine
-	 */
+	 * @return The minimum X dimension size of the machine */
 	protected int getMinimumXSize() {
 		return 1;
 	}
 	
-	/**
-	 * Returns the minimum Y dimension size of the machine. Must be at least 1, because nothing else makes sense.
+	/** Returns the minimum Y dimension size of the machine. Must be at least 1, because nothing else makes sense.
 	 * 
-	 * @return The minimum Y dimension size of the machine
-	 */
+	 * @return The minimum Y dimension size of the machine */
 	protected int getMinimumYSize() {
 		return 1;
 	}
 	
-	/**
-	 * Returns the minimum Z dimension size of the machine. Must be at least 1, because nothing else makes sense.
+	/** Returns the minimum Z dimension size of the machine. Must be at least 1, because nothing else makes sense.
 	 * 
-	 * @return The minimum Z dimension size of the machine
-	 */
+	 * @return The minimum Z dimension size of the machine */
 	protected int getMinimumZSize() {
 		return 1;
 	}
 	
-	/**
-	 * @return the last validation error encountered when trying to assemble the multiblock, or null if there is no error.
-	 */
+	/** @return the last validation error encountered when trying to assemble the multiblock, or null if there is no error. */
 	public MultiblockValidationError getLastError() {
 		return this.lastValidationError;
 	}
 	
-	/**
-	 * Set a validation error
+	/** Set a validation error
 	 * 
 	 * @param error
-	 * the error
-	 */
+	 *            the error */
 	public void setLastError(MultiblockValidationError error) {
 		if (null == error) {
 			throw new IllegalArgumentException("The validation error can't be null");
@@ -383,28 +331,22 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		this.lastValidationError = error;
 	}
 	
-	/**
-	 * Set a validation error
+	/** Set a validation error
 	 * 
 	 * @param messageFormatStringResourceKey
-	 * a translation key for a message or a message format string
+	 *            a translation key for a message or a message format string
 	 * @param messageParameters
-	 * optional parameters for a message format string
-	 */
+	 *            optional parameters for a message format string */
 	public void setLastError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters) {
 		this.lastValidationError = new MultiblockValidationError(messageFormatStringResourceKey, pos, messageParameters);
 	}
 	
-	/**
-	 * Checks if a machine is whole. If not, set a validation error using IMultiblockValidator.
-	 */
+	/** Checks if a machine is whole. If not, set a validation error using IMultiblockValidator. */
 	protected abstract boolean isMachineWhole(Multiblock multiblock);
 	
-	/**
-	 * Check if the machine is whole or not. If the machine was not whole, but now is, assemble the machine. If the machine was whole, but no longer is, disassemble the machine.
+	/** Check if the machine is whole or not. If the machine was not whole, but now is, assemble the machine. If the machine was whole, but no longer is, disassemble the machine.
 	 * 
-	 * @return
-	 */
+	 * @return */
 	public void checkIfMachineIsWhole() {
 		AssemblyState oldState = this.assemblyState;
 		
@@ -421,9 +363,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		// Else Paused, do nothing
 	}
 	
-	/**
-	 * Called when a machine becomes "whole" and should begin functioning as a game-logically finished machine. Calls onMachineAssembled on all attached parts.
-	 */
+	/** Called when a machine becomes "whole" and should begin functioning as a game-logically finished machine. Calls onMachineAssembled on all attached parts. */
 	private void assembleMachine(AssemblyState oldState) {
 		for (ITileMultiblockPart part : connectedParts) {
 			part.onMachineAssembled(this);
@@ -438,9 +378,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 	}
 	
-	/**
-	 * Called when the machine needs to be disassembled. It is not longer "whole" and should not be functional, usually as a result of a block being removed. Calls onMachineBroken on all attached parts.
-	 */
+	/** Called when the machine needs to be disassembled. It is not longer "whole" and should not be functional, usually as a result of a block being removed. Calls onMachineBroken on all attached parts. */
 	private void disassembleMachine() {
 		for (ITileMultiblockPart part : connectedParts) {
 			part.onMachineBroken();
@@ -450,12 +388,10 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		onMachineDisassembled();
 	}
 	
-	/**
-	 * Assimilate another multiblock into this multiblock. Acquire all of the other multiblock's blocks and attach them to this one.
+	/** Assimilate another multiblock into this multiblock. Acquire all of the other multiblock's blocks and attach them to this one.
 	 * 
 	 * @param other
-	 * The multiblock to merge into this one.
-	 */
+	 *            The multiblock to merge into this one. */
 	public void assimilate(Multiblock other) {
 		BlockPos otherReferenceCoord = other.getReferenceCoord();
 		if (otherReferenceCoord != null && getReferenceCoord().compareTo(otherReferenceCoord) >= 0) {
@@ -484,12 +420,10 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		other.onAssimilated(this);
 	}
 	
-	/**
-	 * Called when this machine is consumed by another multiblock. Essentially, forcibly tear down this object.
+	/** Called when this machine is consumed by another multiblock. Essentially, forcibly tear down this object.
 	 * 
 	 * @param otherMultiblock
-	 * The multiblock consuming this multiblock.
-	 */
+	 *            The multiblock consuming this multiblock. */
 	private void _onAssimilated(Multiblock otherMultiblock) {
 		if (referenceCoord != null) {
 			if (this.WORLD.isBlockLoaded(this.referenceCoord)) {
@@ -504,27 +438,21 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		connectedParts.clear();
 	}
 	
-	/**
-	 * Callback. Called after this multiblock assimilates all the blocks from another multiblock. Use this to absorb that multiblock's game data.
+	/** Callback. Called after this multiblock assimilates all the blocks from another multiblock. Use this to absorb that multiblock's game data.
 	 * 
 	 * @param assimilated
-	 * The multiblock whose uniqueness was added to our own.
-	 */
+	 *            The multiblock whose uniqueness was added to our own. */
 	protected abstract void onAssimilate(Multiblock assimilated);
 	
-	/**
-	 * Callback. Called after this multiblock is assimilated into another multiblock. All blocks have been stripped out of this object and handed over to the other multiblock. This is intended primarily for cleanup.
+	/** Callback. Called after this multiblock is assimilated into another multiblock. All blocks have been stripped out of this object and handed over to the other multiblock. This is intended primarily for cleanup.
 	 * 
 	 * @param assimilator
-	 * The multiblock which has assimilated this multiblock.
-	 */
+	 *            The multiblock which has assimilated this multiblock. */
 	protected abstract void onAssimilated(Multiblock assimilator);
 	
-	/**
-	 * Driver for the update loop. If the machine is assembled, runs the game logic update method.
+	/** Driver for the update loop. If the machine is assembled, runs the game logic update method.
 	 * 
-	 * @see nc.multiblock.Multiblock#updateServer()
-	 */
+	 * @see nc.multiblock.Multiblock#updateServer() */
 	public final void updateMultiblockEntity() {
 		if (connectedParts.isEmpty()) {
 			// This shouldn't happen, but just in case...
@@ -542,38 +470,36 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 		else if (updateServer()) {
 			// If this returns true, the server has changed its internal data.
-			// If our chunks are loaded (they should be), we must mark our
-			// chunks as dirty.
-			if (minimumCoord != null && maximumCoord != null && this.WORLD.isAreaLoaded(this.minimumCoord, this.maximumCoord)) {
-				
-				int minChunkX = WorldHelper.getChunkXFromBlock(this.minimumCoord);
-				int minChunkZ = WorldHelper.getChunkZFromBlock(this.minimumCoord);
-				int maxChunkX = WorldHelper.getChunkXFromBlock(this.maximumCoord);
-				int maxChunkZ = WorldHelper.getChunkZFromBlock(this.maximumCoord);
-				
-				for (int x = minChunkX; x <= maxChunkX; x++) {
-					for (int z = minChunkZ; z <= maxChunkZ; z++) {
-						// Ensure that we save our data, even if the our save
-						// delegate is in has no TEs.
-						Chunk chunkToSave = this.WORLD.getChunk(x, z);
-						chunkToSave.markDirty();
-					}
-				}
-			}
+			// If our chunks are loaded (they should be), we must mark our chunks as dirty.
+			markChunksDirty();
 		}
 		// Else: Server, but no need to save data.
 	}
 	
-	/**
-	 * The server-side update loop! Use this similarly to a TileEntity's update loop. You do not need to call your superclass' update() if you're directly derived from MultiblockBase. This is a callback. Note that this will only be called when the machine is assembled.
+	public void markChunksDirty() {
+		if (minimumCoord != null && maximumCoord != null && this.WORLD.isAreaLoaded(this.minimumCoord, this.maximumCoord)) {
+			
+			int minChunkX = WorldHelper.getChunkXFromBlock(this.minimumCoord);
+			int minChunkZ = WorldHelper.getChunkZFromBlock(this.minimumCoord);
+			int maxChunkX = WorldHelper.getChunkXFromBlock(this.maximumCoord);
+			int maxChunkZ = WorldHelper.getChunkZFromBlock(this.maximumCoord);
+			
+			for (int x = minChunkX; x <= maxChunkX; x++) {
+				for (int z = minChunkZ; z <= maxChunkZ; z++) {
+					// Ensure that we save our data, even if the our save delegate is in has no TEs.
+					Chunk chunkToSave = this.WORLD.getChunk(x, z);
+					chunkToSave.markDirty();
+				}
+			}
+		}
+	}
+	
+	/** The server-side update loop! Use this similarly to a TileEntity's update loop. You do not need to call your superclass' update() if you're directly derived from MultiblockBase. This is a callback. Note that this will only be called when the machine is assembled.
 	 * 
-	 * @return True if the multiblock should save data, i.e. its internal game state has changed. False otherwise.
-	 */
+	 * @return True if the multiblock should save data, i.e. its internal game state has changed. False otherwise. */
 	protected abstract boolean updateServer();
 	
-	/**
-	 * Client-side update loop. Generally, this shouldn't do anything, but if you want to do some interpolation or something, do it here.
-	 */
+	/** Client-side update loop. Generally, this shouldn't do anything, but if you want to do some interpolation or something, do it here. */
 	protected abstract void updateClient();
 	
 	// Validation helpers
@@ -583,87 +509,75 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return false;
 	}
 	
-	/**
-	 * The "frame" consists of the outer edges of the machine, plus the corners.
+	/** The "frame" consists of the outer edges of the machine, plus the corners.
 	 * 
 	 * @param world
-	 * World object for the world in which this multiblock is located.
+	 *            World object for the world in which this multiblock is located.
 	 * @param x
-	 * X coordinate of the block being tested
+	 *            X coordinate of the block being tested
 	 * @param y
-	 * Y coordinate of the block being tested
+	 *            Y coordinate of the block being tested
 	 * @param z
-	 * Z coordinate of the block being tested
-	 */
+	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForFrame(World world, int x, int y, int z, Multiblock multiblock) {
 		return standardLastError(x, y, z, multiblock);
 	}
 	
-	/**
-	 * The top consists of the top face, minus the edges.
+	/** The top consists of the top face, minus the edges.
 	 * 
 	 * @param world
-	 * World object for the world in which this multiblock is located.
+	 *            World object for the world in which this multiblock is located.
 	 * @param x
-	 * X coordinate of the block being tested
+	 *            X coordinate of the block being tested
 	 * @param y
-	 * Y coordinate of the block being tested
+	 *            Y coordinate of the block being tested
 	 * @param z
-	 * Z coordinate of the block being tested
-	 */
+	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForTop(World world, int x, int y, int z, Multiblock multiblock) {
 		return standardLastError(x, y, z, multiblock);
 	}
 	
-	/**
-	 * The bottom consists of the bottom face, minus the edges.
+	/** The bottom consists of the bottom face, minus the edges.
 	 * 
 	 * @param world
-	 * World object for the world in which this multiblock is located.
+	 *            World object for the world in which this multiblock is located.
 	 * @param x
-	 * X coordinate of the block being tested
+	 *            X coordinate of the block being tested
 	 * @param y
-	 * Y coordinate of the block being tested
+	 *            Y coordinate of the block being tested
 	 * @param z
-	 * Z coordinate of the block being tested
-	 */
+	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForBottom(World world, int x, int y, int z, Multiblock multiblock) {
 		return standardLastError(x, y, z, multiblock);
 	}
 	
-	/**
-	 * The sides consists of the N/E/S/W-facing faces, minus the edges.
+	/** The sides consists of the N/E/S/W-facing faces, minus the edges.
 	 * 
 	 * @param world
-	 * World object for the world in which this multiblock is located.
+	 *            World object for the world in which this multiblock is located.
 	 * @param x
-	 * X coordinate of the block being tested
+	 *            X coordinate of the block being tested
 	 * @param y
-	 * Y coordinate of the block being tested
+	 *            Y coordinate of the block being tested
 	 * @param z
-	 * Z coordinate of the block being tested
-	 */
+	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForSides(World world, int x, int y, int z, Multiblock multiblock) {
 		return standardLastError(x, y, z, multiblock);
 	}
 	
-	/**
-	 * The interior is any block that does not touch blocks outside the machine.
+	/** The interior is any block that does not touch blocks outside the machine.
 	 * 
 	 * @param world
-	 * World object for the world in which this multiblock is located.
+	 *            World object for the world in which this multiblock is located.
 	 * @param x
-	 * X coordinate of the block being tested
+	 *            X coordinate of the block being tested
 	 * @param y
-	 * Y coordinate of the block being tested
+	 *            Y coordinate of the block being tested
 	 * @param z
-	 * Z coordinate of the block being tested
-	 */
+	 *            Z coordinate of the block being tested */
 	protected abstract boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock);
 	
-	/**
-	 * @return The reference coordinate, the block with the lowest x, y, z coordinates, evaluated in that order.
-	 */
+	/** @return The reference coordinate, the block with the lowest x, y, z coordinates, evaluated in that order. */
 	public BlockPos getReferenceCoord() {
 		if (referenceCoord == null) {
 			selectNewReferenceCoord();
@@ -671,33 +585,27 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return referenceCoord;
 	}
 	
-	/**
-	 * @return The number of blocks connected to this multiblock.
-	 */
+	/** @return The number of blocks connected to this multiblock. */
 	public int getNumConnectedBlocks() {
 		return connectedParts.size();
 	}
 	
-	/* Data synchronization */
+	// Data synchronization
 	
-	/**
-	 * Sync multiblock data from the given NBT compound
+	/** Sync multiblock data from the given NBT compound
 	 * 
 	 * @param data
-	 * the data
+	 *            the data
 	 * @param syncReason
-	 * the reason why the synchronization is necessary
-	 */
+	 *            the reason why the synchronization is necessary */
 	public abstract void syncDataFrom(NBTTagCompound data, TileBeefAbstract.SyncReason syncReason);
 	
-	/**
-	 * Sync multiblock data to the given NBT compound
+	/** Sync multiblock data to the given NBT compound
 	 * 
 	 * @param data
-	 * the data
+	 *            the data
 	 * @param syncReason
-	 * the reason why the synchronization is necessary
-	 */
+	 *            the reason why the synchronization is necessary */
 	public abstract void syncDataTo(NBTTagCompound data, TileBeefAbstract.SyncReason syncReason);
 	
 	public NBTTagCompound writeStacks(NonNullList<ItemStack> stacks, NBTTagCompound data) {
@@ -731,9 +639,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		storage.readFromNBT(data, string);
 	}
 	
-	/**
-	 * Force this multiblock to recalculate its minimum and maximum coordinates from the list of connected parts.
-	 */
+	/** Force this multiblock to recalculate its minimum and maximum coordinates from the list of connected parts. */
 	public void recalculateMinMaxCoords() {
 		
 		int minX, minY, minZ, maxX, maxY, maxZ;
@@ -776,9 +682,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		this.maximumCoord = new BlockPos(maxX, maxY, maxZ);
 	}
 	
-	/**
-	 * @return The minimum bounding-box coordinate containing this machine's blocks.
-	 */
+	/** @return The minimum bounding-box coordinate containing this machine's blocks. */
 	public BlockPos getMinimumCoord() {
 		if (minimumCoord == null) {
 			recalculateMinMaxCoords();
@@ -786,9 +690,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return minimumCoord;
 	}
 	
-	/**
-	 * @return The maximum bounding-box coordinate containing this machine's blocks.
-	 */
+	/** @return The maximum bounding-box coordinate containing this machine's blocks. */
 	public BlockPos getMaximumCoord() {
 		if (maximumCoord == null) {
 			recalculateMinMaxCoords();
@@ -840,36 +742,28 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return new BlockPos(getMiddleX(), getMiddleY(), getMiddleZ());
 	}
 	
-	/**
-	 * Called when the save delegate's tile entity is being asked for its description packet
+	/** Called when the save delegate's tile entity is being asked for its description packet
 	 * 
 	 * @param data
-	 * A fresh compound tag to write your multiblock data into
-	 */
+	 *            A fresh compound tag to write your multiblock data into */
 	// public abstract void formatDescriptionPacket(NBTTagCompound data);
 	
-	/**
-	 * Called when the save delegate's tile entity receiving a description packet
+	/** Called when the save delegate's tile entity receiving a description packet
 	 * 
 	 * @param data
-	 * A compound tag containing multiblock data to import
-	 */
+	 *            A compound tag containing multiblock data to import */
 	// public abstract void decodeDescriptionPacket(NBTTagCompound data);
 	
-	/**
-	 * @return True if this multiblock has no associated blocks, false otherwise
-	 */
+	/** @return True if this multiblock has no associated blocks, false otherwise */
 	public boolean isEmpty() {
 		return connectedParts.isEmpty();
 	}
 	
-	/**
-	 * Tests whether this multiblock should consume the other multiblock and become the new multiblock master when the two multiblocks are adjacent. Assumes both multiblocks are the same type.
+	/** Tests whether this multiblock should consume the other multiblock and become the new multiblock master when the two multiblocks are adjacent. Assumes both multiblocks are the same type.
 	 * 
 	 * @param otherMultiblock
-	 * The other multiblock.
-	 * @return True if this multiblock should consume the other, false otherwise.
-	 */
+	 *            The other multiblock.
+	 * @return True if this multiblock should consume the other, false otherwise. */
 	public boolean shouldConsume(Multiblock otherMultiblock) {
 		if (!otherMultiblock.getClass().equals(getClass())) {
 			throw new IllegalArgumentException("Attempting to merge two multiblocks with different master classes - this should never happen!");
@@ -938,9 +832,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return sb.toString();
 	}
 	
-	/**
-	 * Checks all of the parts in the multiblock. If any are dead or do not exist in the world, they are removed.
-	 */
+	/** Checks all of the parts in the multiblock. If any are dead or do not exist in the world, they are removed. */
 	private void auditParts() {
 		ObjectOpenHashSet<ITileMultiblockPart> deadParts = new ObjectOpenHashSet<>();
 		for (ITileMultiblockPart part : connectedParts) {
@@ -954,11 +846,9 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		FMLLog.warning("[%s] Multiblock found %d dead parts during an audit, %d parts remain attached", this.WORLD.isRemote ? "CLIENT" : "SERVER", deadParts.size(), this.connectedParts.size());
 	}
 	
-	/**
-	 * Called when this machine may need to check for blocks that are no longer physically connected to the reference coordinate.
+	/** Called when this machine may need to check for blocks that are no longer physically connected to the reference coordinate.
 	 * 
-	 * @return
-	 */
+	 * @return */
 	public Set<ITileMultiblockPart> checkForDisconnections() {
 		if (!this.shouldCheckForDisconnections) {
 			return null;
@@ -1039,7 +929,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			visitedParts++;
 			
 			nearbyParts = part.getNeighboringParts(); // Chunk-safe on server,
-														 // but not on client
+														// but not on client
 			for (ITileMultiblockPart nearbyPart : nearbyParts) {
 				// Ignore different machines
 				if (nearbyPart.getMultiblock() != this) {
@@ -1081,11 +971,9 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return removedParts;
 	}
 	
-	/**
-	 * Detach all parts. Return a set of all parts which still have a valid tile entity. Chunk-safe.
+	/** Detach all parts. Return a set of all parts which still have a valid tile entity. Chunk-safe.
 	 * 
-	 * @return A set of all parts which still have a valid tile entity.
-	 */
+	 * @return A set of all parts which still have a valid tile entity. */
 	public Set<ITileMultiblockPart> detachAllBlocks() {
 		if (WORLD == null) {
 			return new ObjectOpenHashSet<>();
@@ -1103,9 +991,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return detachedParts;
 	}
 	
-	/**
-	 * @return True if this multiblock machine is considered assembled and ready to go.
-	 */
+	/** @return True if this multiblock machine is considered assembled and ready to go. */
 	public boolean isAssembled() {
 		return this.assemblyState == AssemblyState.Assembled;
 	}
@@ -1136,31 +1022,28 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 	}
 	
-	/**
-	 * Marks the reference coord dirty & updateable.
+	/** Marks the reference coord dirty & updateable.
 	 * 
 	 * On the server, this will mark the for a data-update, so that nearby clients will receive an updated description packet from the server after a short time. The block's chunk will also be marked dirty and the block's chunk will be saved to disk the next time chunks are saved.
 	 * 
-	 * On the client, this will mark the block for a rendering update.
-	 */
+	 * On the client, this will mark the block for a rendering update. */
 	protected void markReferenceCoordForUpdate() {
 		
 		BlockPos rc = this.getReferenceCoord();
 		
-		if (this.WORLD != null && rc != null) {
-			WorldHelper.notifyBlockUpdate(this.WORLD, rc, null, null);
+		if (WORLD != null && rc != null) {
+			IBlockState state = WORLD.getBlockState(rc);
+			WORLD.notifyBlockUpdate(rc, state, state, 3);
 		}
 	}
 	
-	/**
-	 * Marks the reference coord dirty.
+	/** Marks the reference coord dirty.
 	 * 
 	 * On the server, this marks the reference coord's chunk as dirty; the block (and chunk) will be saved to disk the next time chunks are saved. This does NOT mark it dirty for a description-packet update.
 	 * 
 	 * On the client, does nothing.
 	 * 
-	 * @see Multiblock#markReferenceCoordForUpdate()
-	 */
+	 * @see Multiblock#markReferenceCoordForUpdate() */
 	protected void markReferenceCoordDirty() {
 		if (WORLD == null || WORLD.isRemote) {
 			return;
@@ -1175,9 +1058,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		WORLD.markChunkDirty(referenceCoord, saveTe);
 	}
 	
-	/**
-	 * Marks the whole multiblock for a render update on the client. On the server, this does nothing
-	 */
+	/** Marks the whole multiblock for a render update on the client. On the server, this does nothing */
 	public void markMultiblockForRenderUpdate() {
 		this.WORLD.markBlockRangeForRenderUpdate(this.getMinimumCoord(), this.getMaximumCoord());
 	}

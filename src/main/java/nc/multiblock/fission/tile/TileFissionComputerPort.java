@@ -2,7 +2,6 @@ package nc.multiblock.fission.tile;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.tile.*;
@@ -19,15 +18,11 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// OpenComputers
@@ -94,17 +89,17 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	
 	/* @Callback
 	 * 
-	 * @Optional.Method(modid = "opencomputers") public Object[] getNetHeatingRate(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().getNetHeatingRate(false) : 0D}; }
+	 * @Optional.Method(modid = "opencomputers") public Object[] getNetHeatingRate(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().getNetHeatingRate(false) : 0D}; } */
+	
+	/* @Callback
 	 * 
-	 * @Callback
+	 * @Optional.Method(modid = "opencomputers") public Object[] getRawEfficiency(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().rawEfficiency : 0D}; } */
+	
+	/* @Callback
 	 * 
-	 * @Optional.Method(modid = "opencomputers") public Object[] getRawEfficiency(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().rawEfficiency : 0D}; }
-	 * 
-	 * @Callback
-	 * 
-	 * @Optional.Method(modid = "opencomputers") public Object[] getHeatMultiplier(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().heatMult : 0D}; }
-	 * 
-	 * @Callback
+	 * @Optional.Method(modid = "opencomputers") public Object[] getHeatMultiplier(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().heatMult : 0D}; } */
+	
+	/* @Callback
 	 * 
 	 * @Optional.Method(modid = "opencomputers") public Object[] getCoolingEfficiency(Context context, Arguments args) { return new Object[] {isMultiblockAssembled() ? getMultiblock().coolingEfficiency : 0D}; } */
 	
@@ -120,13 +115,6 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionHeater.class).size() : 0};
 	}
 	
-	// TODO
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getNumberOfModerators(Context context, Arguments args) {
-		return new Object[] { /* isMultiblockAssembled() ? getMultiblock().getModerators().size() : 0 */ };
-	}
-	
 	/* @Callback
 	 * 
 	 * @Optional.Method(modid = "opencomputers") public Object[] getVesselStats(Context context, Arguments args) { if (isMultiblockAssembled()) { List<Object[]> stats = new ArrayList<>(); for (TileSaltFissionVessel vessel : getMultiblock().getVessels()) { stats.add(new Object[] { new Object[] {vessel.getPos().getX(), vessel.getPos().getY(), vessel.getPos().getZ()}, vessel.isProcessing, vessel.time, vessel.recipeInfo != null ? vessel.baseProcessTime/vessel.getSpeedMultiplier() : 0D, vessel.getProcessHeat(), vessel.getEfficiency(), vessel.getHeatMultiplier() }); } return new Object[] {stats.toArray()}; } else return new Object[] {}; } */
@@ -138,13 +126,13 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	// TODO
 	/* @Callback
 	 * 
-	 * @Optional.Method(modid = "opencomputers") public Object[] getModeratorStats(Context context, Arguments args) { if (isMultiblockAssembled()) { List<Object[]> stats = new ArrayList<>(); for (TileSaltFissionModerator moderator : getMultiblock().getModerators()) { stats.add(new Object[] { new Object[] {moderator.getPos().getX(), moderator.getPos().getY(), moderator.getPos().getZ()}, moderator.isInValidPosition, moderator.isInModerationLine }); } return new Object[] {stats.toArray()}; } else return new Object[] {}; } */
+	 * @Optional.Method(modid = "opencomputers") public Object[] getModeratorStats(Context context, Arguments args) { if (isMultiblockAssembled()) { List<Object[]> stats = new ArrayList<>(); for (TileSaltFissionModerator moderator : getMultiblock().getModerators()) { stats.add( new Object[] { new Object[] {moderator.getPos().getX(), moderator.getPos().getY(), moderator.getPos().getZ()}, moderator.isInValidPosition, moderator.isInModerationLine }); } return new Object[] {stats.toArray()}; } else return new Object[] {}; } */
 	
 	/* @Callback
 	 * 
-	 * @Optional.Method(modid = "opencomputers") public Object[] activate(Context context, Arguments args) { if (isMultiblockAssembled()) { getMultiblock().computerActivated = true; getMultiblock().setIsReactorOn(); } return new Object[] {}; }
-	 * 
-	 * @Callback
+	 * @Optional.Method(modid = "opencomputers") public Object[] activate(Context context, Arguments args) { if (isMultiblockAssembled()) { getMultiblock().computerActivated = true; getMultiblock().setIsReactorOn(); } return new Object[] {}; } */
+	
+	/* @Callback
 	 * 
 	 * @Optional.Method(modid = "opencomputers") public Object[] deactivate(Context context, Arguments args) { if (isMultiblockAssembled()) { getMultiblock().computerActivated = false; getMultiblock().setIsReactorOn(); } return new Object[] {}; } */
 	

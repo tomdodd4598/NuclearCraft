@@ -154,7 +154,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			assumedValidCache.clear();
 			refreshFlux();
 			refreshClusters();
-		} while (getReactor().refreshFlag);
+		}
+		while (getReactor().refreshFlag);
 		
 		refreshReactorStats();
 	}
@@ -199,7 +200,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			getReactor().activeReflectorCache.clear();
 			
 			distributeFlux(primedCache, primedFailCache);
-		} while (getReactor().refreshFlag);
+		}
+		while (getReactor().refreshFlag);
 	}
 	
 	public void distributeFlux(final ObjectSet<IFissionFuelComponent> primedCache, final Long2ObjectMap<IFissionFuelComponent> primedFailCache) {}
@@ -249,7 +251,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 				fuelComponent.fluxSearch(fluxSearchSubCache, componentFailCache, assumedValidCache);
 			}
 			fluxSearchCache.addAll(fluxSearchSubCache);
-		} while (!fluxSearchCache.isEmpty());
+		}
+		while (!fluxSearchCache.isEmpty());
 	}
 	
 	public void iterateClusterSearch(IFissionComponent rootComponent) {
@@ -266,7 +269,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 				component.clusterSearch(id, clusterSearchSubCache, componentFailCache, assumedValidCache);
 			}
 			clusterSearchCache.putAll(clusterSearchSubCache);
-		} while (!clusterSearchCache.isEmpty());
+		}
+		while (!clusterSearchCache.isEmpty());
 	}
 	
 	public void refreshReactorStats() {
@@ -288,7 +292,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void updateRedstone() {
-		/* getReactor().comparatorSignal = NCMath.getComparatorSignal(100D/fission_comparator_max_heat* getReactor().heatBuffer.heatStored, getReactor().heatBuffer.heatCapacity, 0D); for (TileSaltFissionRedstonePort redstonePort : getParts(TileSaltFissionRedstonePort.class)) { if (redstonePort.comparatorSignal != getReactor().comparatorSignal) { redstonePort.comparatorSignal = getReactor().comparatorSignal; getWorld().updateComparatorOutputLevel(redstonePort.getPos(), null); } } */
+		
 	}
 	
 	public void casingMeltdown() {
@@ -308,8 +312,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		else {
 			
 		}
-		
-		/* IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState(); for (BlockPos blockPos : BlockPos.getAllInBoxMutable(getMinimumCoord(), getMaximumCoord())) { if (rand.nextDouble() < 0.18D) { WORLD.removeTileEntity(blockPos); WORLD.setBlockState(blockPos, corium); } } */
 		
 		getReactor().checkIfMachineIsWhole();
 	}
@@ -377,6 +379,10 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public int getPowerPortEUSourceTier() {
+		return 1;
+	}
+	
+	public int getPowerPortEUSinkTier() {
 		return 1;
 	}
 	

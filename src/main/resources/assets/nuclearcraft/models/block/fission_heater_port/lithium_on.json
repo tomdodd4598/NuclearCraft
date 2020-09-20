@@ -1,0 +1,6 @@
+{
+    "parent": "nuclearcraft:block/fission_heater_port_on",
+	"textures": {
+		"front": "nuclearcraft:blocks/fission/port/heater/lithium"
+    }
+}

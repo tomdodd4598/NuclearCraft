@@ -16,7 +16,7 @@ import net.minecraft.util.text.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType> /* implements ISidedProperty< SaltFissionHeaterSetting> */ {
+public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType> {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType.class);
 	
@@ -26,7 +26,6 @@ public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.Coola
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		// return new BlockStateContainer(this, TYPE, DOWN, UP, NORTH, SOUTH, WEST, EAST);
 		return new BlockStateContainer(this, TYPE);
 	}
 	
@@ -106,5 +105,5 @@ public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.Coola
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
-	}	
+	}
 }

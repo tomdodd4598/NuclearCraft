@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.rock_crusher;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerRockCrusher extends ContainerItemProcessor {
 	
 	public ContainerRockCrusher(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, rock_crusher);
+		super(player, tileEntity, NCRecipes.rock_crusher);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 38, 35));
 		

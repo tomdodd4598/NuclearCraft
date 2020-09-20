@@ -3,6 +3,7 @@ package nc.multiblock.fission.solid.block;
 import static nc.block.property.BlockProperties.*;
 
 import nc.NuclearCraft;
+import nc.block.tile.IActivatable;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
 import nc.util.BlockHelper;
@@ -14,7 +15,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockSolidFissionController extends BlockFissionPart {
+public class BlockSolidFissionController extends BlockFissionPart implements IActivatable {
 	
 	public BlockSolidFissionController() {
 		super();
@@ -77,16 +78,5 @@ public class BlockSolidFissionController extends BlockFissionPart {
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockSolidFissionController) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

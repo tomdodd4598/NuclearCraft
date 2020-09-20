@@ -1,0 +1,18 @@
+{
+	"parent": "nuclearcraft:block/cube_overlayed",
+	"textures": {
+		"particle": "#side",
+		"down": "#top",
+		"up": "#top",
+		"north": "#out",
+		"east": "#side",
+		"south": "#in",
+		"west": "#side",
+		"down_overlay": "#top_overlay",
+		"up_overlay": "#top_overlay",
+		"north_overlay": "#out_overlay",
+		"east_overlay": "#side_overlay",
+		"south_overlay": "#in_overlay",
+		"west_overlay": "#side_overlay"
+	}
+}

@@ -55,9 +55,7 @@ public abstract class GuiItemFluidProcessor extends NCGui {
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
-		/* if (tile.getWorld().isRemote) { if (guiButton != null) if (guiButton instanceof NCButton) {
-		 * 
-		 * } } */
+		
 	}
 	
 	@Override

@@ -75,7 +75,7 @@ public class ToggleTankSorptionPacket implements IMessage {
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.setTankSorption(EnumFacing.byIndex(message.side), message.tank, TankSorption.values()[message.sorption]);
-				machine.markDirtyAndNotify();
+				machine.markDirtyAndNotify(true);
 			}
 		}
 	}

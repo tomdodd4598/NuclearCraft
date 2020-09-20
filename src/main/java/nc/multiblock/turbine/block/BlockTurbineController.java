@@ -5,7 +5,7 @@ import static nc.block.property.BlockProperties.*;
 import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
-import nc.init.NCBlocks;
+import nc.block.tile.IActivatable;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
@@ -16,7 +16,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
 
-public class BlockTurbineController extends BlockTurbinePart {
+public class BlockTurbineController extends BlockTurbinePart implements IActivatable {
 	
 	public BlockTurbineController() {
 		super();
@@ -85,30 +85,11 @@ public class BlockTurbineController extends BlockTurbinePart {
 	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		/*TileEntity tile = source.getTileEntity(pos);
-		if (tile instanceof TileTurbineController) {
-			TileTurbineController controller = (TileTurbineController) tile;
-			if (!controller.isRenderer || !controller.isMultiblockAssembled()) {
-				return FULL_BLOCK_AABB;
-			}
-			return new AxisAlignedBB(controller.getMultiblock().getMinimumCoord().subtract(pos), controller.getMultiblock().getMaximumCoord().subtract(pos));
-		}*/
 		return FULL_BLOCK_AABB;
 	}
 	
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
 		return side != null;
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == NCBlocks.turbine_controller) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

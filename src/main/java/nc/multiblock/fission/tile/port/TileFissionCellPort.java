@@ -1,6 +1,5 @@
 package nc.multiblock.fission.tile.port;
 
-import static nc.recipe.NCRecipes.solid_fission;
 import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.Set;
@@ -8,6 +7,7 @@ import java.util.Set;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.network.FissionCellPortUpdatePacket;
+import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -16,7 +16,7 @@ public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileFissionCellPort() {
-		super(TileFissionCellPort.class, "cell", solid_fission);
+		super(TileFissionCellPort.class, "cell", NCRecipes.solid_fission);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}

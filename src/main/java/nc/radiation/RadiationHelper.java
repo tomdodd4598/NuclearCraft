@@ -240,6 +240,16 @@ public class RadiationHelper {
 		for (ItemStack armor : entity.getArmorInventoryList()) {
 			resistance += getArmorRadResistance(armor);
 		}
+		
+		if (ModCheck.baublesLoaded() && entity.hasCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null)) {
+			IBaublesItemHandler baublesHandler = entity.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
+			if (baublesHandler != null) {
+				for (int i = 0; i < baublesHandler.getSlots(); i++) {
+					resistance += getArmorRadResistance(baublesHandler.getStackInSlot(i));
+				}
+			}
+		}
+		
 		return resistance;
 	}
 	
@@ -358,7 +368,7 @@ public class RadiationHelper {
 	
 	// Entity Symptoms
 	
-	public static void applyPotionEffects(EntityLivingBase entity, IEntityRads entityRads, List<Double> radLevelList, List<List<PotionEffect>> potionList) {
+	public static void applyPotionEffects(EntityLivingBase entity, IEntityRads entityRads, int durationMult, List<Double> radLevelList, List<List<PotionEffect>> potionList) {
 		if (radLevelList.isEmpty() || radLevelList.size() != potionList.size()) {
 			return;
 		}
@@ -368,7 +378,7 @@ public class RadiationHelper {
 			final int j = radLevelList.size() - 1 - i;
 			if (radPercentage >= radLevelList.get(j)) {
 				for (PotionEffect potionEffect : potionList.get(j)) {
-					entity.addPotionEffect(new PotionEffect(potionEffect));
+					entity.addPotionEffect(new PotionEffect(potionEffect.getPotion(), potionEffect.getDuration() * durationMult, potionEffect.getAmplifier(), potionEffect.getIsAmbient(), potionEffect.doesShowParticles()));
 				}
 				break;
 			}

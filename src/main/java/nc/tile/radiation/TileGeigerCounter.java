@@ -4,21 +4,20 @@ import static nc.config.NCConfig.radiation_geiger_block_redstone;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.radiation.RadiationHelper;
 import nc.tile.NCTile;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileGeigerCounter extends NCTile implements SimpleComponent {
+public class TileGeigerCounter extends NCTile implements ITickable, SimpleComponent {
 	
 	public int comparatorStrength = 0;
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			boolean shouldUpdate = false;
 			int compStrength = getComparatorStrength();
@@ -28,6 +27,7 @@ public class TileGeigerCounter extends NCTile implements SimpleComponent {
 			comparatorStrength = compStrength;
 			if (shouldUpdate) {
 				markDirty();
+				updateComparatorOutputLevel();
 			}
 		}
 	}

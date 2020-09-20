@@ -183,7 +183,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					WORLD.removeTileEntity(controller.getPos());
 					WORLD.setBlockToAir(controller.getPos());
 				}
-				NCUtil.getLogger().fatal("The quantum computer at " + (controller == null ? "[]" : controller.getPos().toString()) + " has caused the game to run out of heap memory! The controller has been destroyed and so the multiblock has been disabled. It is HIGHLY recommended that the maximum qubit limit is lowered in the configs!");
+				NCUtil.getLogger().fatal("The quantum computer at " + getMiddleCoord().toString() + " has caused the game to run out of heap memory! The controller has been destroyed and so the multiblock has been disabled. It is HIGHLY recommended that the maximum qubit limit is lowered in the configs!");
 				e.printStackTrace();
 				return false;
 			}
@@ -257,6 +257,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	protected void markQubitsDirty() {
 		for (TileQuantumComputerQubit qubit : getQubits()) {
 			qubit.markDirty();
+			qubit.updateComparatorOutputLevel();
 		}
 	}
 	
@@ -572,7 +573,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		gate(control(rz(angle), list(c), list(t)));
 	}
 	
-	/* Don't know how to optimise this! */
+	// Don't know how to optimise this!
 	public void cswap(IntSet c_, IntList i_, IntList j_) {
 		if (c_.isEmpty()) {
 			swap(i_, j_);

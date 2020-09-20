@@ -15,9 +15,7 @@ public class MultiblockValidationError {
 		this.pos = pos;
 	}
 	
-	/**
-	 * @return the position of the last validation error encountered when trying to assemble the multiblock, or null if there is no position.
-	 */
+	/** @return the position of the last validation error encountered when trying to assemble the multiblock, or null if there is no position. */
 	public BlockPos getErrorPos() {
 		return pos;
 	}

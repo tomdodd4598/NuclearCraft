@@ -23,7 +23,10 @@ public class DungeonLootHandler {
 				event.getTable().addPool(pool);
 			}
 			
-			boolean /* addPlating = false, addSolenoids = false, addMachinery = false, */ addOther = false;
+			// boolean addPlating = false;
+			// boolean addSolenoids = false;
+			// boolean addMachinery = false;
+			boolean addOther = false;
 			
 			if (dungeon_loot) {
 				if (LootTableList.CHESTS_SIMPLE_DUNGEON.equals(event.getName())) {

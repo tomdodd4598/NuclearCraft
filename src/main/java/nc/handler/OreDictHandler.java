@@ -1,8 +1,6 @@
 package nc.handler;
 
-import nc.ModCheck;
 import nc.init.*;
-import nc.util.RegistryHelper;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.OreDictionary;
@@ -117,6 +115,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotSiliconCarbide", new ItemStack(NCItems.alloy, 1, 13));
 		OreDictionary.registerOre("ingotSiCSiCCMC", new ItemStack(NCItems.alloy, 1, 14));
 		OreDictionary.registerOre("ingotHSLASteel", new ItemStack(NCItems.alloy, 1, 15));
+		OreDictionary.registerOre("ingotZirconiumMolybdenum", new ItemStack(NCItems.alloy, 1, 16));
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
@@ -153,6 +152,12 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustPolonium", new ItemStack(NCItems.fission_dust, 1, 2));
 		OreDictionary.registerOre("dustTBP", new ItemStack(NCItems.fission_dust, 1, 3));
 		OreDictionary.registerOre("dustProtactinium233", new ItemStack(NCItems.fission_dust, 1, 4));
+		OreDictionary.registerOre("dustStrontium90", new ItemStack(NCItems.fission_dust, 1, 5));
+		OreDictionary.registerOre("dustMolybdenum", new ItemStack(NCItems.fission_dust, 1, 6));
+		OreDictionary.registerOre("dustRuthenium106", new ItemStack(NCItems.fission_dust, 1, 7));
+		OreDictionary.registerOre("dustCaesium137", new ItemStack(NCItems.fission_dust, 1, 8));
+		OreDictionary.registerOre("dustPromethium147", new ItemStack(NCItems.fission_dust, 1, 9));
+		OreDictionary.registerOre("dustEuropium155", new ItemStack(NCItems.fission_dust, 1, 10));
 		
 		registerIsotopes(NCItems.uranium, "Uranium", 233, 235, 238);
 		registerIsotopes(NCItems.neptunium, "Neptunium", 236, 237);

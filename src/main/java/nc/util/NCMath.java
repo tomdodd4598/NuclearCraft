@@ -22,6 +22,15 @@ public class NCMath {
 		}
 	}
 	
+	public static double clamp(double num, double min, double max) {
+		if (num < min) {
+			return min;
+		}
+		else {
+			return num > max ? max : num;
+		}
+	}
+	
 	public static int sq(int number) {
 		return number * number;
 	}
@@ -72,10 +81,6 @@ public class NCMath {
 			out[i] = arr[i] != 0;
 		}
 		return out;
-	}
-	
-	public static double round(double value, int decimal) {
-		return roundTo(value, Math.pow(10D, -decimal));
 	}
 	
 	public static int kroneckerDelta(int... indices) {
@@ -287,6 +292,10 @@ public class NCMath {
 	}
 	
 	public static int toInt(long value) {
+		return (int) clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static int toInt(double value) {
 		return (int) clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 	

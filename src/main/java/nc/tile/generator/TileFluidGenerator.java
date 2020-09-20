@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import nc.ModCheck;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.energy.ITileEnergy;
@@ -91,32 +90,13 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
 			isProcessing = isProcessing();
 			hasConsumed = hasConsumed();
-		}
-	}
-	
-	@Override
-	public void update() {
-		super.update();
-		updateGenerator();
-	}
-	
-	public abstract void updateGenerator();
-	
-	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) {
-			removeTileFromENet();
-		}
-		setState(isProcessing, this);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		if (ModCheck.ic2Loaded()) {
-			addTileToENet();
 		}
 	}
 	

@@ -18,7 +18,8 @@ public class RecipeTupleGenerator {
 	public void generateMaterialListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
 		do {
 			generateNextMaterialListTuple(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
-		} while (!itemEnd || !fluidEnd);
+		}
+		while (!itemEnd || !fluidEnd);
 	}
 	
 	private void generateNextMaterialListTuple(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {

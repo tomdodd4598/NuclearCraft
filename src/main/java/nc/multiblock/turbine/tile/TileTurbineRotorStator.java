@@ -1,9 +1,9 @@
 package nc.multiblock.turbine.tile;
 
-import nc.init.NCBlocks;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
+import nc.multiblock.turbine.block.BlockTurbineRotorStator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -14,8 +14,16 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	public IRotorStatorType statorType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
 	
+	/** Don't use this constructor! */
 	public TileTurbineRotorStator() {
 		super(CuboidalPartPositionType.INTERIOR);
+	}
+	
+	public static class Standard extends TileTurbineRotorStator {
+		
+		public Standard() {
+			super(TurbineRotorStatorType.STATOR);
+		}
 	}
 	
 	public TileTurbineRotorStator(IRotorStatorType statorType) {
@@ -27,20 +35,16 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override
@@ -60,12 +64,15 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	
 	@Override
 	public IRotorBladeType getBladeType() {
-		return TurbineRotorStatorType.STATOR;
+		return statorType;
 	}
 	
 	@Override
 	public IBlockState getRenderState() {
-		return NCBlocks.turbine_rotor_stator.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
+		if (getBlockType() instanceof BlockTurbineRotorStator) {
+			return getBlockType().getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
+		}
+		return getBlockType().getDefaultState();
 	}
 	
 	@Override
@@ -96,8 +103,8 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 		if (statorType == null && nbt.hasKey("statorName") && nbt.hasKey("statorExpansionCoefficient")) {
 			statorType = new IRotorStatorType() {
 				
-				final String name = nbt.getString("bladeName");
-				final double expansionCoefficient = nbt.getDouble("bladeExpansionCoefficient");
+				final String name = nbt.getString("statorName");
+				final double expansionCoefficient = nbt.getDouble("statorExpansionCoefficient");
 				
 				@Override
 				public String getName() {

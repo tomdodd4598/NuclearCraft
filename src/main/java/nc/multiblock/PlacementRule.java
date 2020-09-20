@@ -74,7 +74,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	public static <T extends ITileMultiblockPart> PlacementRule<T> parse(String string, List<RuleParser<T>> parsers) {
 		for (RuleParser<T> parser : parsers) {
 			PlacementRule<T> rule = parser.parseRule(string);
-			if (rule != null) return rule;
+			if (rule != null)
+				return rule;
 		}
 		throw new IllegalArgumentException("The placement rule string \"" + string + "\" could not be parsed!");
 	}
@@ -95,7 +96,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			String pattern = string.contains("&&") ? "&&" : "||";
 			for (String s : string.split(Pattern.quote(pattern))) {
 				PlacementRule<T> rule = partialParse(s);
-				if (rule == null) return null;
+				if (rule == null)
+					return null;
 				rules.add(rule);
 			}
 			
@@ -143,7 +145,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		@Override
 		public boolean isCycle(Object2BooleanMap<String> boolMap) {
 			for (boolean b : boolMap.values()) {
-				if (b) return true;
+				if (b)
+					return true;
 			}
 			return false;
 		}
@@ -151,7 +154,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		@Override
 		public boolean satisfied(T tile) {
 			for (PlacementRule<T> rule : subRules) {
-				if (!rule.satisfied(tile)) return false;
+				if (!rule.satisfied(tile))
+					return false;
 			}
 			return true;
 		}
@@ -174,7 +178,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 				return false;
 			}
 			for (boolean b : boolMap.values()) {
-				if (!b) return false;
+				if (!b)
+					return false;
 			}
 			return true;
 		}
@@ -182,7 +187,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		@Override
 		public boolean satisfied(T tile) {
 			for (PlacementRule<T> rule : subRules) {
-				if (rule.satisfied(tile)) return true;
+				if (rule.satisfied(tile))
+					return true;
 			}
 			return false;
 		}
@@ -282,32 +288,40 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			byte count = 0;
 			if (adjType == AdjacencyType.STANDARD) {
 				for (EnumFacing dir : EnumFacing.VALUES) {
-					if (satisfied(tile, dir)) count++;
+					if (satisfied(tile, dir))
+						count++;
 					
 					if (countType == CountType.AT_LEAST) {
-						if (count >= amount) return true;
+						if (count >= amount)
+							return true;
 					}
-					else if (count > amount) return false;
+					else if (count > amount)
+						return false;
 				}
 				return countType == CountType.AT_MOST || (countType == CountType.EXACTLY && count == amount);
 			}
 			else if (adjType == AdjacencyType.AXIAL) {
 				if (countType == CountType.EXACTLY) {
-					boolean[] dirs = new boolean[] { false, false, false, false, false, false };
+					boolean[] dirs = new boolean[] {false, false, false, false, false, false};
 					for (EnumFacing dir : EnumFacing.VALUES) {
 						if (satisfied(tile, dir)) {
 							count++;
-							if (count > amount) return false;
+							if (count > amount)
+								return false;
 							
 							dirs[dir.getIndex()] = true;
 						}
 					}
-					if (count != amount) return false;
+					if (count != amount)
+						return false;
 					
 					count = 0;
-					if (dirs[0] && dirs[1]) count++;
-					if (dirs[2] && dirs[3]) count++;
-					if (dirs[4] && dirs[5]) count++;
+					if (dirs[0] && dirs[1])
+						count++;
+					if (dirs[2] && dirs[3])
+						count++;
+					if (dirs[4] && dirs[5])
+						count++;
 					return count == amount / 2;
 				}
 				else {
@@ -319,25 +333,29 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 						}
 						count++;
 						if (countType == CountType.AT_LEAST) {
-							if (count >= amount / 2) return true;
+							if (count >= amount / 2)
+								return true;
 						}
-						else if (count > amount / 2) return false;
+						else if (count > amount / 2)
+							return false;
 					}
 					return countType == CountType.AT_MOST;
 				}
 			}
 			else {
 				if (countType == CountType.EXACTLY) {
-					boolean[] dirs = new boolean[] { false, false, false, false, false, false };
+					boolean[] dirs = new boolean[] {false, false, false, false, false, false};
 					for (EnumFacing dir : EnumFacing.VALUES) {
 						if (satisfied(tile, dir)) {
 							count++;
-							if (count > amount) return false;
+							if (count > amount)
+								return false;
 							
 							dirs[dir.getIndex()] = true;
 						}
 					}
-					if (count != amount) return false;
+					if (count != amount)
+						return false;
 					
 					loop: for (EnumFacing[] vertexDirs : PosHelper.vertexDirsList()) {
 						for (EnumFacing dir : vertexDirs) {
@@ -372,7 +390,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		VERTEX;
 		
 		public String tooltipSubstring(int amount) {
-			switch(this) {
+			switch (this) {
 				case STANDARD:
 					return "";
 				case AXIAL:
@@ -395,7 +413,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		}
 		
 		public String tooltipSubstring(int amount) {
-			switch(this) {
+			switch (this) {
 				case AT_LEAST:
 					return "at_least";
 				case EXACTLY:
@@ -430,7 +448,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			
 			while (!vertexStack.isEmpty()) {
 				Vertex<String> v = vertexStack.pop();
-				if (v == null) continue;
+				if (v == null)
+					continue;
 				
 				if (vertexMap.containsKey(v.data)) {
 					if (vertexMap.get(v.data).parent == null) {
@@ -458,7 +477,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 						if (!cycleMap.containsKey(s) || !get(s).isCycle(cycleMap.get(s))) {
 							finished.add(s);
 						}
-						else break;
+						else
+							break;
 					}
 				}
 				
@@ -479,7 +499,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			
 			while (!stack.isEmpty()) {
 				Vertex<String> v = vertexMap.get(stack.pop());
-				if (v == null) continue;
+				if (v == null)
+					continue;
 				
 				Object2BooleanMap<String> boolMap = cycleMap.get(v.data);
 				
@@ -513,7 +534,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 								if (!cycleMap.containsKey(s) || !get(s).isCycle(cycleMap.get(s))) {
 									finished.add(s);
 								}
-								else break;
+								else
+									break;
 							}
 						}
 						else {
@@ -584,7 +606,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			else if (subTooltips.size() == 1) {
 				return subTooltips.get(0);
 			}
-			else return "?";
+			else
+				return "?";
 		}
 		
 		protected List<String> p_patterns = null, l_patterns = null;
@@ -618,7 +641,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 							break;
 						}
 					}
-					if (!p) continue;
+					if (!p)
+						continue;
 				}
 				
 				String[] l_split = l_splits.get(i);
@@ -669,7 +693,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					boolean[] p_inv = p_invs.get(i);
 					for (int j = 0; j < p_inv.length; j++) {
 						p_inv[j] = p_split[j].startsWith("!");
-						if (p_inv[j]) p_split[j] = p_split[j].substring(1);
+						if (p_inv[j])
+							p_split[j] = p_split[j].substring(1);
 					}
 				}
 				else {
@@ -690,7 +715,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					boolean[] l_inv = l_invs.get(i);
 					for (int j = 0; j < l_invs.get(i).length; j++) {
 						l_inv[j] = l_split[j].startsWith("!");
-						if (l_inv[j]) l_split[j] = l_split[j].substring(1);
+						if (l_inv[j])
+							l_split[j] = l_split[j].substring(1);
 					}
 				}
 				else {

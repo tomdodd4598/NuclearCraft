@@ -75,7 +75,7 @@ public class ToggleItemSorptionPacket implements IMessage {
 			if (tile instanceof ITileInventory) {
 				ITileInventory machine = (ITileInventory) tile;
 				machine.setItemSorption(EnumFacing.byIndex(message.side), message.slot, ItemSorption.values()[message.sorption]);
-				machine.markDirtyAndNotify();
+				machine.markDirtyAndNotify(true);
 			}
 		}
 	}

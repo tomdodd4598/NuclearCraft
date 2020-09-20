@@ -598,14 +598,14 @@ public class NCBlocks {
 	
 	public static void registerRenders() {
 		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
-			registerRender(ore, i, MetaEnums.OreType.values()[i].getName());
+			registerRender(ore, i, "type=" + MetaEnums.OreType.values()[i].getName());
 		}
 		for (int i = 0; i < MetaEnums.IngotType.values().length; i++) {
-			registerRender(ingot_block, i, MetaEnums.IngotType.values()[i].getName());
+			registerRender(ingot_block, i, "type=" + MetaEnums.IngotType.values()[i].getName());
 		}
 		
 		for (int i = 0; i < MetaEnums.FertileIsotopeType.values().length; i++) {
-			registerRender(fertile_isotope, i, MetaEnums.FertileIsotopeType.values()[i].getName());
+			registerRender(fertile_isotope, i, "type=" + MetaEnums.FertileIsotopeType.values()[i].getName());
 		}
 		
 		registerRender(supercold_ice);
@@ -708,16 +708,16 @@ public class NCBlocks {
 		registerRender(fission_conductor);
 		registerRender(fission_monitor);
 		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
-			registerRender(fission_reflector, i, MetaEnums.NeutronReflectorType.values()[i].getName());
+			registerRender(fission_reflector, i, "type=" + MetaEnums.NeutronReflectorType.values()[i].getName());
 		}
 		registerRender(fission_power_port);
 		registerRender(fission_vent);
 		registerRender(fission_irradiator);
 		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_source), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_source.getRegistryName().getPath()), "active=false,facing=south,type=" + MetaEnums.NeutronSourceType.values()[i].getName()));
+			registerRender(fission_source, i, "active=false,facing=south,type=" + MetaEnums.NeutronSourceType.values()[i].getName());
 		}
 		for (int i = 0; i < MetaEnums.NeutronShieldType.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_shield), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_shield.getRegistryName().getPath()), "active=true,type=" + MetaEnums.NeutronShieldType.values()[i].getName()));
+			registerRender(fission_shield, i, "active=true,type=" + MetaEnums.NeutronShieldType.values()[i].getName());
 		}
 		registerRender(fission_computer_port);
 		
@@ -727,10 +727,10 @@ public class NCBlocks {
 		
 		registerRender(fission_vessel_port);
 		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_heater_port), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_heater_port.getRegistryName().getPath()), "axis=z,type=" + MetaEnums.CoolantHeaterType.values()[i].getName()));
+			registerRender(fission_heater_port, i, "active=false,axis=z,type=" + MetaEnums.CoolantHeaterType.values()[i].getName());
 		}
 		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_heater_port2), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_heater_port2.getRegistryName().getPath()), "axis=z,type=" + MetaEnums.CoolantHeaterType2.values()[i].getName()));
+			registerRender(fission_heater_port2, i, "active=false,axis=z,type=" + MetaEnums.CoolantHeaterType2.values()[i].getName());
 		}
 		
 		registerRender(fission_shield_manager);
@@ -738,19 +738,19 @@ public class NCBlocks {
 		registerRender(solid_fission_controller);
 		registerRender(solid_fission_cell);
 		for (int i = 0; i < MetaEnums.HeatSinkType.values().length; i++) {
-			registerRender(solid_fission_sink, i, MetaEnums.HeatSinkType.values()[i].getName());
+			registerRender(solid_fission_sink, i, "type=" + MetaEnums.HeatSinkType.values()[i].getName());
 		}
 		for (int i = 0; i < MetaEnums.HeatSinkType2.values().length; i++) {
-			registerRender(solid_fission_sink2, i, MetaEnums.HeatSinkType2.values()[i].getName());
+			registerRender(solid_fission_sink2, i, "type=" + MetaEnums.HeatSinkType2.values()[i].getName());
 		}
 		
 		registerRender(salt_fission_controller);
 		registerRender(salt_fission_vessel);
 		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
-			registerRender(salt_fission_heater, i, MetaEnums.CoolantHeaterType.values()[i].getName());
+			registerRender(salt_fission_heater, i, "type=" + MetaEnums.CoolantHeaterType.values()[i].getName());
 		}
 		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
-			registerRender(salt_fission_heater2, i, MetaEnums.CoolantHeaterType2.values()[i].getName());
+			registerRender(salt_fission_heater2, i, "type=" + MetaEnums.CoolantHeaterType2.values()[i].getName());
 		}
 		
 		registerRender(heat_exchanger_controller);
@@ -777,7 +777,7 @@ public class NCBlocks {
 		registerRender(turbine_rotor_stator);
 		registerRender(turbine_rotor_bearing);
 		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
-			registerRender(turbine_dynamo_coil, i, TurbineDynamoCoilType.values()[i].getName());
+			registerRender(turbine_dynamo_coil, i, "type=" + TurbineDynamoCoilType.values()[i].getName());
 		}
 		registerRender(turbine_coil_connector);
 		registerRender(turbine_inlet);
@@ -816,13 +816,13 @@ public class NCBlocks {
 			registerRender(quantum_computer_qubit);
 			
 			for (int i = 0; i < QuantumGateEnums.SingleType.values().length; i++) {
-				registerRender(quantum_computer_gate_single, i, QuantumGateEnums.SingleType.values()[i].getName());
+				registerRender(quantum_computer_gate_single, i, "type=" + QuantumGateEnums.SingleType.values()[i].getName());
 			}
 			for (int i = 0; i < QuantumGateEnums.ControlType.values().length; i++) {
-				registerRender(quantum_computer_gate_control, i, QuantumGateEnums.ControlType.values()[i].getName());
+				registerRender(quantum_computer_gate_control, i, "type=" + QuantumGateEnums.ControlType.values()[i].getName());
 			}
 			for (int i = 0; i < QuantumGateEnums.SwapType.values().length; i++) {
-				registerRender(quantum_computer_gate_swap, i, QuantumGateEnums.SwapType.values()[i].getName());
+				registerRender(quantum_computer_gate_swap, i, "type=" + QuantumGateEnums.SwapType.values()[i].getName());
 			}
 			
 			registerRender(quantum_computer_connector);
@@ -869,7 +869,7 @@ public class NCBlocks {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 	}
 	
-	public static void registerRender(Block block, int meta, String type) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, block.getRegistryName().getPath()), "type=" + type));
+	public static void registerRender(Block block, int meta, String variant) {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, block.getRegistryName().getPath()), variant));
 	}
 }

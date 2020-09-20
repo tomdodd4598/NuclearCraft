@@ -1,9 +1,8 @@
 package nc.multiblock.fission.tile.port;
 
 import static nc.init.NCCoolantFluids.COOLANTS;
-import static nc.recipe.NCRecipes.coolant_heater;
-import static nc.util.PosHelper.DEFAULT_NON;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.Set;
 
@@ -12,10 +11,10 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.network.FissionHeaterPortUpdatePacket;
+import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing.Axis;
 
 public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeaterPort, TileSaltFissionHeater> implements ITileGui<FissionHeaterPortUpdatePacket> {
 	
@@ -25,7 +24,7 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	
 	/** Don't use this constructor! */
 	public TileFissionHeaterPort() {
-		super(TileFissionHeaterPort.class, INGOT_BLOCK_VOLUME, null, coolant_heater);
+		super(TileFissionHeaterPort.class, INGOT_BLOCK_VOLUME, null, NCRecipes.coolant_heater);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}
@@ -272,6 +271,11 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	@Override
 	public int getFilterID() {
 		return coolantName.hashCode();
+	}
+	
+	@Override
+	public boolean hasConfigurableFluidConnections() {
+		return true;
 	}
 	
 	// Ticking

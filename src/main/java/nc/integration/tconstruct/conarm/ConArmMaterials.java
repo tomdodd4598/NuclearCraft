@@ -47,7 +47,7 @@ public class ConArmMaterials extends ArmorMaterials {
 			return;
 		}
 		
-		TConstructHelper.addMaterialStats(material, new CoreMaterialStats((float) NCMath.round(0.5D * durability, 1), (float) fullSetProtection), new PlatesMaterialStats((float) modifier, (float) NCMath.round(0.25D * modifier * durability, 1), (float) Math.min(5D, NCMath.round(toughness / modifier, 1))), new TrimMaterialStats((float) NCMath.round(0.4D * modifier * fullSetProtection, 1)));
+		TConstructHelper.addMaterialStats(material, new CoreMaterialStats((float) NCMath.roundTo(0.5D * durability, 0.1D), (float) fullSetProtection), new PlatesMaterialStats((float) modifier, (float) NCMath.roundTo(0.25D * modifier * durability, 0.1D), (float) Math.min(5D, NCMath.roundTo(toughness / modifier, 0.1D))), new TrimMaterialStats((float) NCMath.roundTo(0.4D * modifier * fullSetProtection, 0.1D)));
 	}
 	
 	private static void addArmorMaterial(String materialName, int armorNumber, int[] protectionArray) {

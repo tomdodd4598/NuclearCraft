@@ -8,7 +8,7 @@ import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.network.PacketHandler;
 import nc.network.gui.*;
 import nc.tile.internal.fluid.Tank;
-import nc.util.NCUtil;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,7 +34,7 @@ public class GuiFissionHeaterPort extends NCGui {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = port.getMultiblock() != null && port.getMultiblock().isReactorOn ? -1 : 15641088;
-		String s = port.getDisplayName().getUnformattedText();
+		String s = Lang.localise("gui.nc.container.fission_heater_port.name");
 		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
 	}
 	

@@ -1,7 +1,6 @@
 package nc.multiblock.fission.solid.tile;
 
 import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.solid_fission;
 import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
@@ -20,7 +19,6 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.port.*;
-import nc.multiblock.fission.tile.port.internal.PortItemHandler;
 import nc.multiblock.network.SolidFissionCellUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.*;
@@ -99,15 +97,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionFuelComponent
@@ -381,8 +375,8 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	// Processing
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshMasterPort();
 			refreshRecipe();
@@ -395,11 +389,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public void update() {
-		super.update();
-		updateCell();
-	}
-	
-	public void updateCell() {
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
@@ -413,9 +402,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 				getRadiationSource().setRadiationLevel(0D);
 			}
 			
-			// tickCell();
-			// if (cellCount == 0) pushStacks();
-			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
@@ -427,11 +413,9 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		}
 	}
 	
-	/* public void tickCell() { cellCount++; cellCount %= machine_update_rate / 2; } */
-	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = solid_fission.getRecipeInfoFromInputs(getItemInputs(hasConsumed), new ArrayList<>());
+		recipeInfo = NCRecipes.solid_fission.getRecipeInfoFromInputs(getItemInputs(hasConsumed), new ArrayList<>());
 		consumeInputs();
 	}
 	
@@ -726,7 +710,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		if (stack.isEmpty() || slot >= itemInputSize) {
 			return false;
 		}
-		return smart_processor_input ? solid_fission.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : solid_fission.isValidItemInput(stack);
+		return smart_processor_input ? NCRecipes.solid_fission.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : NCRecipes.solid_fission.isValidItemInput(stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
@@ -795,7 +779,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public void toggleCellSetting(@Nonnull EnumFacing side) {
 		setCellSetting(side, getCellSetting(side).next());
 		refreshInventoryConnections(side);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public void refreshInventoryConnections(@Nonnull EnumFacing side) {
@@ -837,7 +821,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -979,7 +962,8 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
-		ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
+		// ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
+		// return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
+		return ITileFilteredInventory.super.getItemHandler(side);
 	}
 }

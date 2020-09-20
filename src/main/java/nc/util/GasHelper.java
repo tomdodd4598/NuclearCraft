@@ -2,7 +2,6 @@ package nc.util;
 
 import it.unimi.dsi.fastutil.objects.*;
 import mekanism.api.gas.*;
-import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.fluids.*;
 
 public class GasHelper {
@@ -67,7 +66,4 @@ public class GasHelper {
 		}
 		return new GasStack(gas, fluidStack.amount);
 	}
-	
-	@CapabilityInject(IGasHandler.class)
-	public static Capability<IGasHandler> GAS_HANDLER_CAPABILITY = null;
 }

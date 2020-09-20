@@ -9,7 +9,7 @@ public class Vertex<T> {
 	
 	public T data;
 	public Vertex<T> parent;
-	public final List<Vertex<T>> children = new ArrayList<Vertex<T>>();
+	public final List<Vertex<T>> children = new ArrayList<>();
 	
 	protected Vertex(T data, Vertex<T> parent) {
 		this.data = data;
@@ -41,7 +41,7 @@ public class Vertex<T> {
 	/** Will be cut off if/when there is a cycle. */
 	public List<T> getPath(boolean rootStart) {
 		ObjectSet<Vertex<T>> set = new ObjectOpenHashSet<>();
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 		Vertex<T> v = this;
 		while (v != null && !set.contains(v)) {
 			set.add(v);
@@ -58,7 +58,8 @@ public class Vertex<T> {
 		ObjectSet<Vertex<T>> set = new ObjectOpenHashSet<>();
 		Vertex<T> v = this;
 		while (v != null) {
-			if (set.contains(v)) return true;
+			if (set.contains(v))
+				return true;
 			set.add(v);
 			v = v.parent;
 		}

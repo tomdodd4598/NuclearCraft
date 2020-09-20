@@ -1,7 +1,6 @@
 package nc.tile.generator;
 
 import static nc.config.NCConfig.machine_update_rate;
-import static nc.recipe.NCRecipes.decay_generator;
 
 import java.util.*;
 
@@ -12,11 +11,11 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
+public class TileDecayGenerator extends TileEnergy implements ITickable, IInterfaceable {
 	
 	Random rand = new Random();
 	public int tickCount;
@@ -30,7 +29,8 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	@Override
-	public void onAdded() {
+	public void onLoad() {
+		super.onLoad();
 		for (EnumFacing side : EnumFacing.VALUES) {
 			refreshRecipe(side);
 		}
@@ -38,7 +38,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			tickGenerator();
 			if (generatorCount == 0) {
@@ -56,7 +55,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	private static int maxPower() {
 		double max = 0D;
-		List<ProcessorRecipe> recipes = decay_generator.getRecipeList();
+		List<ProcessorRecipe> recipes = NCRecipes.decay_generator.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) {
 				continue;
@@ -112,19 +111,19 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public void refreshRecipe(EnumFacing side) {
-		recipes[side.getIndex()] = RecipeHelper.blockRecipe(decay_generator, world, pos.offset(side));
+		recipes[side.getIndex()] = RecipeHelper.blockRecipe(NCRecipes.decay_generator, world, pos.offset(side));
 	}
 	
 	// IC2
 	
 	@Override
-	public int getEUSourceTier() {
-		return EnergyHelper.getEUTier(maxPower());
+	public int getSinkTier() {
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
-		return 10;
+	public int getSourceTier() {
+		return EnergyHelper.getEUTier(maxPower());
 	}
 	
 	// Recipe from BlockPos

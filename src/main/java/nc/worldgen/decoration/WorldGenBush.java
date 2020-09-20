@@ -1,8 +1,9 @@
 package nc.worldgen.decoration;
 
+import static nc.config.NCConfig.mushroom_gen_size;
+
 import java.util.Random;
 
-import nc.config.NCConfig;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +26,7 @@ public class WorldGenBush implements IWorldGenerator {
 	public void generateBush(Random random, World world, BlockPos pos) {
 		BlockBush block = (BlockBush) bush.getBlock();
 		
-		for (int i = 0; i < NCConfig.mushroom_gen_size; ++i) {
+		for (int i = 0; i < mushroom_gen_size; ++i) {
 			BlockPos blockpos = pos.add(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
 			
 			if (world.isAirBlock(blockpos) && (!world.provider.hasSkyLight() || blockpos.getY() < world.getHeight() - 1) && block.canBlockStay(world, blockpos, bush)) {

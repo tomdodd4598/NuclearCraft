@@ -1,39 +1,52 @@
 package nc.multiblock.fission.block.port;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.block.property.BlockProperties.*;
 
+import nc.block.tile.IActivatable;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.tile.port.*;
 import nc.util.PosHelper;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.*;
 
-public abstract class BlockFissionPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>> extends BlockFissionPart {
+public abstract class BlockFissionPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>> extends BlockFissionPart implements IActivatable {
 	
 	protected final Class<PORT> portClass;
 	
 	public BlockFissionPort(Class<PORT> portClass) {
 		super();
 		this.portClass = portClass;
-		setDefaultState(blockState.getBaseState().withProperty(AXIS_ALL, EnumFacing.Axis.Z));
+		setDefaultState(blockState.getBaseState().withProperty(AXIS_ALL, EnumFacing.Axis.Z).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, AXIS_ALL);
+		return new BlockStateContainer(this, AXIS_ALL, ACTIVE);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(AXIS_ALL, PosHelper.AXES[meta]);
+		EnumFacing.Axis axis = PosHelper.AXES[meta & 3];
+		return getDefaultState().withProperty(AXIS_ALL, axis).withProperty(ACTIVE, Boolean.valueOf((meta & 4) > 0));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(AXIS_ALL).ordinal();
+		int i = state.getValue(AXIS_ALL).ordinal();
+		if (state.getValue(ACTIVE).booleanValue()) {
+			i |= 4;
+		}
+		return i;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 	
 	@Override

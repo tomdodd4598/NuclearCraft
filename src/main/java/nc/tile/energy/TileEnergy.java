@@ -1,22 +1,22 @@
 package nc.tile.energy;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
 
 import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.*;
 import nc.ModCheck;
 import nc.tile.NCTile;
 import nc.tile.internal.energy.*;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
 public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergySink, IEnergySource {
 	
 	private final @Nonnull EnergyStorage storage;
@@ -28,11 +28,11 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	
 	private boolean ic2reg = false;
 	
-	public TileEnergy(int capacity, @Nonnull EnergyConnection[] energyConnections) {
-		this(capacity, capacity, energyConnections);
+	public TileEnergy(long capacity, @Nonnull EnergyConnection[] energyConnections) {
+		this(capacity, NCMath.toInt(capacity), energyConnections);
 	}
 	
-	public TileEnergy(int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
+	public TileEnergy(long capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
 		super();
 		storage = new EnergyStorage(capacity, maxTransfer);
 		this.energyConnections = energyConnections;
@@ -41,8 +41,8 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -87,72 +87,49 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	// IC2 Energy
 	
 	@Override
+	public boolean getIC2Reg() {
+		return ic2reg;
+	}
+	
+	@Override
+	public void setIC2Reg(boolean ic2reg) {
+		this.ic2reg = ic2reg;
+	}
+	
+	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-		return getEnergyConnection(side).canReceive();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection(side).canExtract();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+		return ITileEnergy.super.acceptsEnergyFrom(emitter, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSinkTier() + 3), (double) getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
-	}
-	
-	/* The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
+		return ITileEnergy.super.getDemandedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) (rf_per_eu * amount), true);
-		getEnergyStorage().receiveEnergy(energyReceived, false);
-		return amount - (double) energyReceived / (double) rf_per_eu;
+		return ITileEnergy.super.injectEnergy(directionFrom, amount, voltage);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		return getEUSourceTier();
+	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
+		return ITileEnergy.super.emitsEnergyTo(receiver, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public int getSinkTier() {
-		return getEUSinkTier();
+	public double getOfferedEnergy() {
+		return ITileEnergy.super.getOfferedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
-			ic2reg = true;
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
-			ic2reg = false;
-		}
+	public void drawEnergy(double amount) {
+		ITileEnergy.super.drawEnergy(amount);
 	}
 	
 	// NBT

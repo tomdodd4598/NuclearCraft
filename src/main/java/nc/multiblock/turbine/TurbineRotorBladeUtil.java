@@ -50,6 +50,10 @@ public class TurbineRotorBladeUtil {
 		public double getEfficiency();
 		
 		public double getExpansionCoefficient();
+		
+		public default boolean eq(IRotorBladeType other) {
+			return other != null && getName().equals(other.getName()) && getEfficiency() == other.getEfficiency() && getExpansionCoefficient() == other.getExpansionCoefficient();
+		}
 	}
 	
 	public enum TurbineRotorStatorType implements IRotorStatorType {

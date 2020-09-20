@@ -27,31 +27,25 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		return positionType;
 	}
 	
-	/**
-	 * Get the position of the part in the formed multiblock
+	/** Get the position of the part in the formed multiblock
 	 *
-	 * @return the position of the part
-	 */
+	 * @return the position of the part */
 	@Nonnull
 	public PartPosition getPartPosition() {
 		return position;
 	}
 	
-	/**
-	 * Get the outward facing of the part in the formed multiblock
+	/** Get the outward facing of the part in the formed multiblock
 	 *
-	 * @return the outward facing of the part. A face is "set" in the BlockFacings object if that face is facing outward
-	 */
+	 * @return the outward facing of the part. A face is "set" in the BlockFacings object if that face is facing outward */
 	@Nonnull
 	public BlockFacing getOutwardsDir() {
 		return outwardFacings;
 	}
 	
-	/**
-	 * Return the single direction this part is facing if the part is in one side of the multiblock
+	/** Return the single direction this part is facing if the part is in one side of the multiblock
 	 *
-	 * @return the direction toward with the part is facing or null if the part is not in one side of the multiblock
-	 */
+	 * @return the direction toward with the part is facing or null if the part is not in one side of the multiblock */
 	@Nullable
 	public EnumFacing getOutwardFacing() {
 		EnumFacing facing = null != this.position ? this.position.getFacing() : null;
@@ -65,11 +59,9 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		return facing;
 	}
 	
-	/**
-	 * Return the single direction this part is facing based on it's position in the multiblock
+	/** Return the single direction this part is facing based on it's position in the multiblock
 	 *
-	 * @return the direction toward with the part is facing or null if the part is not in one side of the multiblock
-	 */
+	 * @return the direction toward with the part is facing or null if the part is not in one side of the multiblock */
 	@Nullable
 	public EnumFacing getOutwardFacingFromWorldPosition() {
 		BlockFacing facings = null;

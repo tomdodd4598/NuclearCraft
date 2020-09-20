@@ -1,9 +1,8 @@
 package nc.multiblock.turbine.tile;
 
-import nc.multiblock.PlacementRule;
-import nc.multiblock.turbine.*;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 
-public abstract class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
+public class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 	
 	/** Don't use this constructor! */
 	public TileTurbineDynamoCoil() {

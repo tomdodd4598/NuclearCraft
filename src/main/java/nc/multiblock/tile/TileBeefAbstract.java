@@ -2,7 +2,7 @@ package nc.multiblock.tile;
 
 import javax.annotation.Nullable;
 
-import nc.block.tile.IActivatable;
+import nc.block.tile.IDynamicState;
 import nc.capability.radiation.source.*;
 import nc.tile.ITile;
 import nc.util.NCMath;
@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
@@ -21,14 +21,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.*;
 
-/**
- * A base class for modded tile entities
+/** A base class for modded tile entities
  *
- * Partially ported from TileCoFHBase https://github.com/CoFH/CoFHCore/blob/master/src/main/java/cofh/core/block/TileCoFHBase.java
- */
-public abstract class TileBeefAbstract extends TileEntity implements ITile, ITickable {
+ * Partially ported from TileCoFHBase https://github.com/CoFH/CoFHCore/blob/master/src/main/java/cofh/core/block/TileCoFHBase.java */
+public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	
-	public boolean isAdded = false, isMarkedDirty = false;
 	private boolean isRedstonePowered = false, alternateComparator = false, redstoneControl = false;
 	
 	private final IRadiationSource radiation;
@@ -39,23 +36,12 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 	}
 	
 	@Override
-	public void update() {
-		if (!isAdded) {
-			onAdded();
-			isAdded = true;
-		}
-		if (isMarkedDirty) {
-			markDirty();
-			isMarkedDirty = false;
-		}
-	}
-	
-	public void onAdded() {
+	public void onLoad() {
 		if (world.isRemote) {
 			world.markBlockRangeForRenderUpdate(pos, pos);
-			world.getChunk(pos).markDirty();
 			refreshIsRedstonePowered(world, pos);
 			markDirty();
+			updateComparatorOutputLevel();
 		}
 	}
 	
@@ -104,24 +90,17 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		return entityplayer.getDistanceSq(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D) <= 64D;
 	}
 	
-	/** Override this if your block does not implement IActivatable! */
-	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		if (getBlockType() instanceof IActivatable) {
-			((IActivatable) getBlockType()).setState(isActive, tile);
-		}
-	}
-	
-	@Override
-	public void markDirtyAndNotify() {
-		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-	}
-	
 	@Override
 	public final void markTileDirty() {
 		markDirty();
+	}
+	
+	@Override
+	public void markDirty() {
+		if (world != null) {
+			getBlockMetadata();
+			world.markChunkDirty(pos, this);
+		}
 	}
 	
 	// Redstone
@@ -174,57 +153,49 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		return super.getCapability(capability, side);
 	}
 	
-	/* GUI management */
+	// GUI management
 	
-	/**
-	 * Check if the tile entity has a GUI or not Override in derived classes to return true if your tile entity got a GUI
-	 */
+	/** Check if the tile entity has a GUI or not Override in derived classes to return true if your tile entity got a GUI */
 	public boolean canOpenGui(World world, BlockPos posistion, IBlockState state) {
 		return false;
 	}
 	
-	/**
-	 * Open the specified GUI
+	/** Open the specified GUI
 	 *
 	 * @param player
-	 * the player currently interacting with your block/tile entity
+	 *            the player currently interacting with your block/tile entity
 	 * @param guiId
-	 * the GUI to open
-	 * @return true if the GUI was opened, false otherwise
-	 */
+	 *            the GUI to open
+	 * @return true if the GUI was opened, false otherwise */
 	public boolean openGui(Object mod, EntityPlayer player, int guiId) {
 		
 		player.openGui(mod, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 	
-	/**
-	 * Returns a Server side Container to be displayed to the user.
+	/** Returns a Server side Container to be displayed to the user.
 	 *
 	 * @param guiId
-	 * the GUI ID mumber
+	 *            the GUI ID mumber
 	 * @param player
-	 * the player currently interacting with your block/tile entity
-	 * @return A GuiScreen/Container to be displayed to the user, null if none.
-	 */
+	 *            the player currently interacting with your block/tile entity
+	 * @return A GuiScreen/Container to be displayed to the user, null if none. */
 	public Object getServerGuiElement(int guiId, EntityPlayer player) {
 		return null;
 	}
 	
-	/**
-	 * Returns a Container to be displayed to the user. On the client side, this needs to return a instance of GuiScreen On the server side, this needs to return a instance of Container
+	/** Returns a Container to be displayed to the user. On the client side, this needs to return a instance of GuiScreen On the server side, this needs to return a instance of Container
 	 *
 	 * @param guiId
-	 * the GUI ID mumber
+	 *            the GUI ID mumber
 	 * @param player
-	 * the player currently interacting with your block/tile entity
-	 * @return A GuiScreen/Container to be displayed to the user, null if none.
-	 */
+	 *            the player currently interacting with your block/tile entity
+	 * @return A GuiScreen/Container to be displayed to the user, null if none. */
 	public Object getClientGuiElement(int guiId, EntityPlayer player) {
 		return null;
 	}
 	
-	/* TileEntity synchronization */
+	// NBT
 	
 	public enum SyncReason {
 		FullSync, // full sync from storage
@@ -277,18 +248,13 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 	}
 	
 	@Override
-	public void handleUpdateTag(NBTTagCompound data) {
-		readFromNBT(data);
-	}
-	
-	@Override
 	public NBTTagCompound getUpdateTag() {
 		return writeToNBT(new NBTTagCompound());
 	}
 	
 	@Override
-	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
+	public void handleUpdateTag(NBTTagCompound data) {
+		super.handleUpdateTag(data);
 	}
 	
 	@Nullable
@@ -297,24 +263,28 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile, ITic
 		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), writeToNBT(new NBTTagCompound()));
 	}
 	
-	/**
-	 * Sync tile entity data from the given NBT compound
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+		readFromNBT(packet.getNbtCompound());
+		if (getBlockType() instanceof IDynamicState) {
+			notifyBlockUpdate();
+		}
+	}
+	
+	/** Sync tile entity data from the given NBT compound
 	 * 
 	 * @param data
-	 * the data
+	 *            the data
 	 * @param syncReason
-	 * the reason why the synchronization is necessary
-	 */
+	 *            the reason why the synchronization is necessary */
 	protected abstract void syncDataFrom(NBTTagCompound data, SyncReason syncReason);
 	
-	/**
-	 * Sync tile entity data to the given NBT compound
+	/** Sync tile entity data to the given NBT compound
 	 * 
 	 * @param data
-	 * the data
+	 *            the data
 	 * @param syncReason
-	 * the reason why the synchronization is necessary
-	 */
+	 *            the reason why the synchronization is necessary */
 	protected abstract void syncDataTo(NBTTagCompound data, SyncReason syncReason);
 	
 	// TESR

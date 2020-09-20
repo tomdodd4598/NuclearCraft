@@ -2,7 +2,6 @@ package nc.worldgen.dimension;
 
 import static nc.config.NCConfig.*;
 
-import nc.Global;
 import net.minecraft.world.*;
 import net.minecraftforge.common.DimensionManager;
 

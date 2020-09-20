@@ -4,6 +4,7 @@ import static nc.block.property.BlockProperties.*;
 
 import javax.annotation.Nullable;
 
+import nc.block.tile.IActivatable;
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
@@ -20,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.*;
 
-public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> {
+public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> implements IActivatable {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronSourceType.class);
 	
@@ -108,14 +109,5 @@ public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSo
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
 		return side != null;
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && isActive != state.getValue(ACTIVE)) {
-			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-		}
 	}
 }

@@ -81,17 +81,15 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	@Override
 	public void update() {
-		boolean wasActive = isActive;
-		boolean shouldUpdate = false;
-		super.update();
 		if (!world.isRemote) {
+			boolean wasActive = isActive, shouldUpdate = false;
 			energyBool = changeEnergy(false);
 			itemBool = changeStack(false);
 			fluidBool = changeFluid(false);
 			isActive = isRunning(energyBool, itemBool, fluidBool);
 			if (wasActive != isActive) {
 				shouldUpdate = true;
-				updateBlockType();
+				setActivity(isActive);
 			}
 			if (tickCount == 0) {
 				if (passive_push) {
@@ -118,17 +116,6 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	public void tickCount() {
 		tickCount++;
 		tickCount %= machine_update_rate;
-	}
-	
-	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) {
-			removeTileFromENet();
-		}
-		setState(isActive, this);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		if (ModCheck.ic2Loaded()) {
-			addTileToENet();
-		}
 	}
 	
 	protected boolean changeEnergy(boolean simulateChange) {
@@ -324,13 +311,13 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	// IC2 EU
 	
 	@Override
-	public int getEUSourceTier() {
-		return EnergyHelper.getEUTier(energyRate);
+	public int getSinkTier() {
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
-		return 10;
+	public int getSourceTier() {
+		return EnergyHelper.getEUTier(energyRate);
 	}
 	
 	// NBT
@@ -376,7 +363,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return fluidRate != 0 && hasFluidSideCapability(side);
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return enable_mek_gas && fluidRate != 0 && hasFluidSideCapability(side);
 		}
 		else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
@@ -408,7 +395,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && fluidRate != 0 && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

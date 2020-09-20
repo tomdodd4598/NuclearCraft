@@ -4,7 +4,6 @@ import java.util.*;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import net.minecraftforge.fml.common.Optional;
@@ -20,15 +19,11 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	public void onMachineAssembled(HeatExchanger controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// OpenComputers

@@ -1,0 +1,7 @@
+{
+    "parent": "nuclearcraft:block/fission_port_overlayed",
+	"textures": {
+		"front": "#front",
+		"overlay": "nuclearcraft:blocks/fission/port/heater/off"
+    }
+}

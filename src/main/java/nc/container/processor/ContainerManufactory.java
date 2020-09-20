@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.manufactory;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerManufactory extends ContainerItemProcessor {
 	
 	public ContainerManufactory(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, manufactory);
+		super(player, tileEntity, NCRecipes.manufactory);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		

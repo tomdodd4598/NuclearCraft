@@ -1,7 +1,8 @@
 package nc.network.config;
 
+import static nc.config.NCConfig.onConfigPacket;
+
 import io.netty.buffer.ByteBuf;
-import nc.config.NCConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
@@ -65,7 +66,7 @@ public class ConfigUpdatePacket implements IMessage {
 		}
 		
 		protected void processMessage(ConfigUpdatePacket message) {
-			NCConfig.onConfigPacket(message);
+			onConfigPacket(message);
 		}
 	}
 }

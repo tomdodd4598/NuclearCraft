@@ -2,7 +2,6 @@ package nc.multiblock.fission.salt;
 
 import static nc.block.property.BlockProperties.*;
 import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.*;
 
 import java.util.*;
 
@@ -35,7 +34,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
-	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, fission_emergency_cooling_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_emergency_cooling_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
 	
 	public RecipeInfo<ProcessorRecipe> emergencyCoolingRecipeInfo;
 	
@@ -295,7 +294,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void refreshRecipe() {
-		emergencyCoolingRecipeInfo = fission_emergency_cooling.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
+		emergencyCoolingRecipeInfo = NCRecipes.fission_emergency_cooling.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
 	}
 	
 	public boolean canProcessInputs() {
@@ -325,7 +324,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public void produceProducts() {
 		ProcessorRecipe recipe = emergencyCoolingRecipeInfo.getRecipe();
-		int usedInput = NCMath.toInt(Math.min(tanks.get(0).getFluidAmount(), Math.min(heatBuffer.getHeatStored(), FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
+		int usedInput = NCMath.toInt(Math.min(tanks.get(0).getFluidAmount() / recipe.getEmergencyCoolingHeatPerInputMB(), Math.min(heatBuffer.getHeatStored(), FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
 		
 		tanks.get(0).changeFluidAmount(-usedInput);
 		if (tanks.get(0).getFluidAmount() <= 0) {
@@ -343,7 +342,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			}
 		}
 		
-		heatBuffer.changeHeatStored(-usedInput);
+		heatBuffer.changeHeatStored((long) (-usedInput * recipe.getEmergencyCoolingHeatPerInputMB()));
 	}
 	
 	public long getNetClusterHeating() {
@@ -385,7 +384,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public boolean isShieldActiveModerator(TileFissionShield shield, boolean activeModeratorPos) {
-		return activeModeratorPos;
+		// return activeModeratorPos;
+		return super.isShieldActiveModerator(shield, activeModeratorPos);
 	}
 	
 	@Override

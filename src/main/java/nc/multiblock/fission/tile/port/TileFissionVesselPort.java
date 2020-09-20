@@ -1,14 +1,14 @@
 package nc.multiblock.fission.tile.port;
 
-import static nc.recipe.NCRecipes.*;
-import static nc.util.PosHelper.DEFAULT_NON;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import nc.multiblock.network.FissionVesselPortUpdatePacket;
+import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -17,7 +17,7 @@ public class TileFissionVesselPort extends TileFissionFluidPort<TileFissionVesse
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileFissionVesselPort() {
-		super(TileFissionVesselPort.class, INGOT_BLOCK_VOLUME, salt_fission_valid_fluids.get(0), salt_fission);
+		super(TileFissionVesselPort.class, INGOT_BLOCK_VOLUME, NCRecipes.salt_fission_valid_fluids.get(0), NCRecipes.salt_fission);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}

@@ -1,16 +1,15 @@
 package nc.multiblock.container;
 
-import static nc.recipe.NCRecipes.coolant_heater;
-
 import nc.container.processor.ContainerFluidProcessor;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
+import nc.recipe.NCRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerSaltFissionHeater extends ContainerFluidProcessor<TileSaltFissionHeater> {
 	
 	public ContainerSaltFissionHeater(EntityPlayer player, TileSaltFissionHeater heater) {
-		super(player, heater, coolant_heater);
+		super(player, heater, NCRecipes.coolant_heater);
 		
 		heater.beginUpdatingPlayer(player);
 		

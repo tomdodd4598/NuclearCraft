@@ -160,9 +160,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator {
 		}
 	}
 	
-	/**
-	 * Generates the chunk at the specified position, from scratch
-	 */
+	/** Generates the chunk at the specified position, from scratch */
 	@Override
 	public Chunk generateChunk(int x, int z) {
 		rand.setSeed(x * 341873128712L + z * 132897987541L);
@@ -325,9 +323,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator {
 		BlockFalling.fallInstantly = false;
 	}
 	
-	/**
-	 * Called to generate additional structures after initial worldgen, used by ocean monuments
-	 */
+	/** Called to generate additional structures after initial worldgen, used by ocean monuments */
 	@Override
 	public boolean generateStructures(Chunk chunkIn, int x, int z) {
 		return false;
@@ -367,9 +363,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator {
 		}
 	}
 	
-	/**
-	 * Recreates data about structures intersecting given chunk (used for example by getPossibleCreatures), without placing any blocks. When called for the first time before any chunk is generated - also initializes the internal state needed by getPossibleCreatures.
-	 */
+	/** Recreates data about structures intersecting given chunk (used for example by getPossibleCreatures), without placing any blocks. When called for the first time before any chunk is generated - also initializes the internal state needed by getPossibleCreatures. */
 	@Override
 	public void recreateStructures(Chunk chunkIn, int x, int z) {
 		if (mapFeaturesEnabled) {

@@ -5,17 +5,18 @@ import static nc.config.NCConfig.*;
 import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.EnergyNet;
+import ic2.api.energy.event.*;
 import ic2.api.energy.tile.*;
 import nc.*;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.internal.energy.*;
 import nc.tile.internal.fluid.TankVoid;
-import nc.util.GasHelper;
+import nc.util.CapabilityHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -23,7 +24,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2")})
+@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2")
 public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfaceable {
 	
 	private final EnergyStorageVoid energyStorage = new EnergyStorageVoid();
@@ -37,8 +38,8 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -62,16 +63,16 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
+		if (!world.isRemote && enable_ic2_eu && !ic2reg) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			ic2reg = true;
 		}
 	}
 	
 	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
+		if (!world.isRemote && ic2reg) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			ic2reg = false;
 		}
 	}
@@ -189,7 +190,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY || capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY || capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			return true;
 		}
 		return super.hasCapability(capability, side);
@@ -203,7 +204,7 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return (T) CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas) {
 				return (T) tank;
 			}

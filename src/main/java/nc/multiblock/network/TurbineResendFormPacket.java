@@ -67,7 +67,9 @@ public class TurbineResendFormPacket implements IMessage {
 			}
 			if (tile instanceof ITurbinePart) {
 				Turbine turbine = ((ITurbinePart) tile).getMultiblock();
-				PacketHandler.instance.sendTo(turbine.getFormPacket(), player);
+				if (turbine != null) {
+					PacketHandler.instance.sendTo(turbine.getFormPacket(), player);
+				}
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package nc.recipe;
 
+import static nc.config.NCConfig.*;
+
 import java.util.*;
 
 import javax.annotation.*;
@@ -8,7 +10,6 @@ import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.*;
-import nc.config.NCConfig;
 import nc.integration.gtce.GTCERecipeHelper;
 import nc.recipe.ingredient.*;
 import nc.util.*;
@@ -57,13 +58,13 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 				extras.add(object);
 			}
 		}
-		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, fixExtras(extras), isShapeless);
+		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
 		
 		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName) && recipe != null) {
 			GTCERecipeHelper.addGTCERecipe(recipeName, recipe);
 		}
 		
-		addRecipe(NCConfig.factor_recipes ? factorRecipe(recipe) : recipe);
+		addRecipe(factor_recipes ? factorRecipe(recipe) : recipe);
 	}
 	
 	public abstract List fixExtras(List extras);
@@ -113,7 +114,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	private static final Object2BooleanMap<String> GTCE_INTEGRATION = new Object2BooleanOpenHashMap<>();
 	
 	public static void initGTCEIntegration() {
-		boolean[] arr = NCConfig.gtce_recipe_integration;
+		boolean[] arr = gtce_recipe_integration;
 		GTCE_INTEGRATION.put("manufactory", arr[0]);
 		GTCE_INTEGRATION.put("separator", arr[1]);
 		GTCE_INTEGRATION.put("decay_hastener", arr[2]);
@@ -190,7 +191,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		if (!isValidRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts)) {
 			NCUtil.getLogger().info(getRecipeName() + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
-		return new ProcessorRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
+		return new ProcessorRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixExtras(extras), shapeless);
 	}
 	
 	public boolean isValidRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {

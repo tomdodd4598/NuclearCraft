@@ -1,9 +1,7 @@
 package nc.tile.internal.fluid;
 
 import mekanism.api.gas.*;
-import nc.multiblock.tile.port.ITilePort;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.processor.IProcessor;
 import nc.util.GasHelper;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
@@ -28,15 +26,7 @@ public class GasTileWrapper implements ITubeConnection, IGasHandler {
 	@Optional.Method(modid = "mekanism")
 	public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
 		int amount = tile.fill(side, GasHelper.getFluidFromGas(stack), doTransfer);
-		if (doTransfer && amount != 0) {
-			if (tile instanceof IProcessor) {
-				((IProcessor) tile).refreshRecipe();
-				((IProcessor) tile).refreshActivity();
-			}
-			if (tile instanceof ITilePort) {
-				((ITilePort) tile).setRefreshTargetsFlag(true);
-			}
-		}
+		tile.onWrapperReceiveGas(amount, doTransfer);
 		return amount;
 	}
 	
@@ -44,14 +34,7 @@ public class GasTileWrapper implements ITubeConnection, IGasHandler {
 	@Optional.Method(modid = "mekanism")
 	public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
 		GasStack stack = GasHelper.getGasFromFluid(tile.drain(side, amount, doTransfer));
-		if (doTransfer && stack != null && stack.amount != 0) {
-			if (tile instanceof IProcessor) {
-				((IProcessor) tile).refreshActivity();
-			}
-			if (tile instanceof ITilePort) {
-				((ITilePort) tile).setRefreshTargetsFlag(true);
-			}
-		}
+		tile.onWrapperDrawGas(stack, doTransfer);
 		return stack;
 	}
 	

@@ -1,11 +1,12 @@
 package nc.entity;
 
+import static nc.config.NCConfig.register_entity;
+
 import java.util.Calendar;
 
 import javax.annotation.Nullable;
 
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
 import nc.entity.ai.EntityAIFeralGhoulLeap;
 import nc.init.NCSounds;
 import nc.radiation.*;
@@ -119,7 +120,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	
 	@Override
 	public void onUpdate() {
-		if (!NCConfig.register_entity[0]) {
+		if (!register_entity[0]) {
 			setDead();
 			return;
 		}
