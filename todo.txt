@@ -1,5 +1,3 @@
-New turbine penalty: "So perhaps there should be a second part of the penalty, i.e. like the fission one as Quantum suggests, with the leniency based on how small the turbine can be given that minimum number of rows"
-
 Adjacent MSR vessels with same filter form bundle to share flux, shared criticality factor is sum of single vessel criticality factors
 
 Take number of available open faces of vessel bundle into account when calculating the heat multiplier (and efficiency)

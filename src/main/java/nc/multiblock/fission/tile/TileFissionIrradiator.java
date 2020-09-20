@@ -335,7 +335,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	public void process() {
 		time += getSpeedMultiplier();
-		getRadiationSource().setRadiationLevel(baseProcessRadiation * getSpeedMultiplier());
+		getRadiationSource().setRadiationLevel(baseProcessRadiation * getSpeedMultiplier() / RecipeStats.getFissionMaxModeratorLineFlux());
 		while (time >= baseProcessTime) {
 			finishProcess();
 		}

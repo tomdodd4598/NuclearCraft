@@ -274,8 +274,10 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().angVel = getTurbine().rotorAngle = 0F;
 		getTurbine().flowDir = null;
 		getTurbine().shaftWidth = getTurbine().inertia = getTurbine().bladeLength = getTurbine().noBladeSets = getTurbine().recipeInputRate = 0;
-		getTurbine().totalExpansionLevel = getTurbine().idealTotalExpansionLevel = getTurbine().maxBladeExpansionCoefficient = getTurbine().minStatorExpansionCoefficient = 1D;
+		getTurbine().totalExpansionLevel = getTurbine().idealTotalExpansionLevel = 1D;
 		getTurbine().minBladeExpansionCoefficient = Double.MAX_VALUE;
+		getTurbine().maxBladeExpansionCoefficient = 1D;
+		getTurbine().minStatorExpansionCoefficient = 1D;
 		getTurbine().maxStatorExpansionCoefficient = Double.MIN_VALUE;
 		getTurbine().particleEffect = "cloud";
 		getTurbine().particleSpeedMult = 1D / 23.2D;
@@ -848,7 +850,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().recipeInputRate = Math.min(getTurbine().tanks.get(0).getFluidAmount(), (int) (turbine_tension_throughput_factor * getMaxRecipeRateMultiplier()));
 		recipeInputRateDiff = Math.abs(recipeInputRateDiff - getTurbine().recipeInputRate);
 		
-		double roundingFactor = Math.max(0D, 2D * Math.log1p(getTurbine().recipeInputRate / (1 + recipeInputRateDiff)));
+		double roundingFactor = Math.max(0D, 1.5D * Math.log1p(getTurbine().recipeInputRate / (1D + recipeInputRateDiff)));
 		getTurbine().recipeInputRateFP = (roundingFactor * getTurbine().recipeInputRateFP + getTurbine().recipeInputRate) / (1D + roundingFactor);
 		
 		if (!getTurbine().tanks.get(1).isEmpty()) {
@@ -943,20 +945,18 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	public double getThroughputEfficiency() {
-		double leniencyMult = Math.max(turbine_throughput_efficiency_leniency, getTurbine().idealTotalExpansionLevel <= 1D || getTurbine().maxBladeExpansionCoefficient <= 1D ? Double.MAX_VALUE : Math.ceil(Math.log(getTurbine().idealTotalExpansionLevel) / Math.log(getTurbine().maxBladeExpansionCoefficient)));
-		double absoluteLeniency = getTurbine().getBladeArea() * leniencyMult * turbine_mb_per_blade;
-		return getMaxRecipeRateMultiplier() == 0 ? 1D : Math.min(1D, (getTurbine().recipeInputRateFP + absoluteLeniency) / getMaxRecipeRateMultiplier());
+		double effectiveMinLength = getTurbine().idealTotalExpansionLevel <= 1D || getTurbine().maxBladeExpansionCoefficient <= 1D ? getMaximumInteriorLength() : Math.ceil(Math.log(getTurbine().idealTotalExpansionLevel) / Math.log(getTurbine().maxBladeExpansionCoefficient));
+		double absoluteLeniency = effectiveMinLength * getTurbine().getMinimumBladeArea() * turbine_mb_per_blade;
+		double throughputRatio = getMaxRecipeRateMultiplier() == 0 ? 1D : Math.min(1D, (getTurbine().recipeInputRateFP + absoluteLeniency) / getMaxRecipeRateMultiplier());
+		return throughputRatio >= turbine_throughput_leniency_params[1] ? 1D : (1D - turbine_throughput_leniency_params[0]) * Math.sin(throughputRatio * Math.PI / (2D * turbine_throughput_leniency_params[1])) + turbine_throughput_leniency_params[0];
 	}
 	
 	public void setEffectiveMaxLength() {
-		if (getTurbine().minBladeExpansionCoefficient <= 1) {
+		if (getTurbine().minBladeExpansionCoefficient <= 1D || getTurbine().minStatorExpansionCoefficient >= 1D) {
 			getTurbine().effectiveMaxLength = getMaximumInteriorLength();
 		}
-		else if (getTurbine().minStatorExpansionCoefficient >= 1) {
-			getTurbine().effectiveMaxLength = NCMath.clamp(Math.log(getTurbine().idealTotalExpansionLevel) / Math.log(getTurbine().minBladeExpansionCoefficient), 1D, getMaximumInteriorLength());
-		}
 		else {
-			getTurbine().effectiveMaxLength = NCMath.clamp((Math.log(getTurbine().idealTotalExpansionLevel) - getMaximumInteriorLength() * Math.log(getTurbine().minStatorExpansionCoefficient)) / (Math.log(getTurbine().minBladeExpansionCoefficient) - Math.log(getTurbine().minStatorExpansionCoefficient)), 1D, getMaximumInteriorLength());
+			getTurbine().effectiveMaxLength = NCMath.toInt(Math.ceil(NCMath.clamp((Math.log(getTurbine().idealTotalExpansionLevel) - getMaximumInteriorLength() * Math.log(getTurbine().minStatorExpansionCoefficient)) / (Math.log(getTurbine().minBladeExpansionCoefficient) - Math.log(getTurbine().minStatorExpansionCoefficient)), 1D, getMaximumInteriorLength())));
 		}
 	}
 	
@@ -1191,7 +1191,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			for (ITurbineController controller : getParts(ITurbineController.class)) {
 				controller.setIsRenderer(false);
 			}
-			NCUtil.getLogger().error("The assembly state of the turbine at " + getTurbine().getMiddleCoord().toString() + " is different between the server and client(s). It is recommended that the multiblock is completely disassambled and rebuilt if these errors continue!");
+			NCUtil.getLogger().error("The assembly state of the turbine at " + getTurbine().getMiddleCoord().toString() + " is different between the server and client(s). It is recommended that the multiblock is completely disassambled and rebuilt if these errors continually appear!");
 			return;
 		}
 		

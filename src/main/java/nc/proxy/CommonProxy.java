@@ -22,7 +22,7 @@ import nc.multiblock.*;
 import nc.network.PacketHandler;
 import nc.radiation.*;
 import nc.radiation.environment.RadiationEnvironmentHandler;
-import nc.recipe.NCRecipes;
+import nc.recipe.*;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
@@ -171,6 +171,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new ItemUseHandler());
+		
+		RecipeStats.init();
 		
 		PlacementRule.postInit();
 		

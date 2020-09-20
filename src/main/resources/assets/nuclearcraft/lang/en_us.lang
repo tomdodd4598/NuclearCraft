@@ -2247,6 +2247,7 @@ jei.nuclearcraft.collector_production_rate=Production rate:
 jei.nuclearcraft.irradiator_flux_required=Flux required:
 jei.nuclearcraft.irradiator_heat_per_flux=Heat gen per flux:
 jei.nuclearcraft.irradiator_process_efficiency=Efficiency contribution:
+jei.nuclearcraft.radiation_per_flux=Radiation per flux:
 
 jei.nuclearcraft.pebble_fuel_time=Base depletion time:
 jei.nuclearcraft.pebble_fuel_heat=Base heat gen:

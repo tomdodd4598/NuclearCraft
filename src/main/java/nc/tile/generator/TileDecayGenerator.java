@@ -2,7 +2,7 @@ package nc.tile.generator;
 
 import static nc.config.NCConfig.machine_update_rate;
 
-import java.util.*;
+import java.util.Random;
 
 import nc.recipe.*;
 import nc.tile.dummy.IInterfaceable;
@@ -25,7 +25,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	protected int generatorCount;
 	
 	public TileDecayGenerator() {
-		super(maxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
+		super(2 * RecipeStats.getDecayGeneratorMaxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 	}
 	
 	@Override
@@ -53,18 +53,6 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 		generatorCount %= machine_update_rate;
 	}
 	
-	private static int maxPower() {
-		double max = 0D;
-		List<ProcessorRecipe> recipes = NCRecipes.decay_generator.getRecipeList();
-		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null) {
-				continue;
-			}
-			max = Math.max(max, recipe.getDecayPower());
-		}
-		return (int) (machine_update_rate * max);
-	}
-	
 	public int getGenerated() {
 		double power = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
@@ -77,7 +65,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 		double radiation = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			if (getDecayRecipe(side) != null) {
-				radiation += getDecayRecipe(side).getDecayRadiation();
+				radiation += getDecayRecipe(side).getDecayGeneratorRadiation();
 			}
 		}
 		return machine_update_rate * radiation;
@@ -123,7 +111,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	
 	@Override
 	public int getSourceTier() {
-		return EnergyHelper.getEUTier(maxPower());
+		return EnergyHelper.getEUTier(RecipeStats.getDecayGeneratorMaxPower());
 	}
 	
 	// Recipe from BlockPos
@@ -136,14 +124,14 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 		if (getDecayRecipe(side) == null) {
 			return 1200D;
 		}
-		return getDecayRecipe(side).getDecayLifetime();
+		return getDecayRecipe(side).getDecayGeneratorLifetime();
 	}
 	
 	public double getRecipePower(EnumFacing side) {
 		if (getDecayRecipe(side) == null) {
 			return 0D;
 		}
-		return getDecayRecipe(side).getDecayPower();
+		return getDecayRecipe(side).getDecayGeneratorPower();
 	}
 	
 	public ItemStack getOutput(EnumFacing side) {

@@ -2,7 +2,7 @@ package nc.tile.radiation;
 
 import static nc.config.NCConfig.*;
 
-import java.util.*;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 
@@ -31,20 +31,8 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	private int radCheckCount = 0;
 	
 	public TileRadiationScrubber() {
-		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.radiation_scrubber_valid_fluids, maxPower(), NCRecipes.radiation_scrubber);
+		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.radiation_scrubber_valid_fluids, NCMath.toInt(20 * RecipeStats.getScrubberMaxProcessPower()), NCRecipes.radiation_scrubber);
 		setEnergyConnectionAll(EnergyConnection.IN);
-	}
-	
-	private static int maxPower() {
-		int max = 0;
-		List<ProcessorRecipe> recipes = NCRecipes.radiation_scrubber.getRecipeList();
-		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null) {
-				continue;
-			}
-			max = Math.max(max, recipe.getScrubberProcessPower());
-		}
-		return 20 * max;
 	}
 	
 	@Override

@@ -47,7 +47,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
-		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeHandler, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
+		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(processorID, 1D, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
@@ -164,7 +164,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public void setCapacityFromSpeed() {
-		int capacity = IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier());
+		int capacity = IProcessor.getCapacity(processorID, getSpeedMultiplier(), getPowerMultiplier());
 		getEnergyStorage().setStorageCapacity(capacity);
 		getEnergyStorage().setMaxTransfer(capacity);
 	}

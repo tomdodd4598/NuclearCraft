@@ -211,7 +211,7 @@ public class NCConfig {
 	public static double[] turbine_power_per_mb;
 	public static double[] turbine_expansion_level;
 	public static int turbine_mb_per_blade;
-	public static double turbine_throughput_efficiency_leniency;
+	public static double[] turbine_throughput_leniency_params;
 	public static double turbine_tension_throughput_factor;
 	public static double turbine_power_bonus_multiplier;
 	public static double turbine_sound_volume;
@@ -732,8 +732,8 @@ public class NCConfig {
 		propertyTurbineExpansionLevel.setLanguageKey("gui.nc.config.turbine_expansion_level");
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.nc.config.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.nc.config.turbine_mb_per_blade");
-		Property propertyTurbineThroughputEfficiencyLeniency = config.get(CATEGORY_TURBINE, "turbine_throughput_efficiency_leniency", 1D, Lang.localise("gui.nc.config.turbine_throughput_efficiency_leniency.comment"), 0D, 255D);
-		propertyTurbineThroughputEfficiencyLeniency.setLanguageKey("gui.nc.config.turbine_throughput_efficiency_leniency");
+		Property propertyTurbineThroughputLeniencyParams = config.get(CATEGORY_TURBINE, "turbine_throughput_leniency_params", new double[] {0.5D, 0.75D}, Lang.localise("gui.nc.config.turbine_throughput_leniency_params.comment"), 0D, 1D);
+		propertyTurbineThroughputLeniencyParams.setLanguageKey("gui.nc.config.turbine_throughput_leniency_params");
 		Property propertyTurbineTensionThroughputFactor = config.get(CATEGORY_TURBINE, "turbine_tension_throughput_factor", 2D, Lang.localise("gui.nc.config.turbine_tension_throughput_factor.comment"), 1D, 255D);
 		propertyTurbineTensionThroughputFactor.setLanguageKey("gui.nc.config.turbine_tension_throughput_factor");
 		Property propertyTurbinePowerBonusMultiplier = config.get(CATEGORY_TURBINE, "turbine_power_bonus_multiplier", 1D, Lang.localise("gui.nc.config.turbine_power_bonus_multiplier.comment"), 0D, 255D);
@@ -1193,7 +1193,7 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
 		propertyOrderTurbine.add(propertyTurbineExpansionLevel.getName());
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
-		propertyOrderTurbine.add(propertyTurbineThroughputEfficiencyLeniency.getName());
+		propertyOrderTurbine.add(propertyTurbineThroughputLeniencyParams.getName());
 		propertyOrderTurbine.add(propertyTurbineTensionThroughputFactor.getName());
 		propertyOrderTurbine.add(propertyTurbinePowerBonusMultiplier.getName());
 		propertyOrderTurbine.add(propertyTurbineSoundVolume.getName());
@@ -1519,7 +1519,7 @@ public class NCConfig {
 			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
 			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
-			turbine_throughput_efficiency_leniency = propertyTurbineThroughputEfficiencyLeniency.getDouble();
+			turbine_throughput_leniency_params = readDoubleArrayFromConfig(propertyTurbineThroughputLeniencyParams);
 			turbine_tension_throughput_factor = propertyTurbineTensionThroughputFactor.getDouble();
 			turbine_power_bonus_multiplier = propertyTurbinePowerBonusMultiplier.getDouble();
 			turbine_sound_volume = propertyTurbineSoundVolume.getDouble();
@@ -1841,7 +1841,7 @@ public class NCConfig {
 		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
 		propertyTurbineExpansionLevel.set(turbine_expansion_level);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
-		propertyTurbineThroughputEfficiencyLeniency.set(turbine_throughput_efficiency_leniency);
+		propertyTurbineThroughputLeniencyParams.set(turbine_throughput_leniency_params);
 		propertyTurbineTensionThroughputFactor.set(turbine_tension_throughput_factor);
 		propertyTurbinePowerBonusMultiplier.set(turbine_power_bonus_multiplier);
 		propertyTurbineSoundVolume.set(turbine_sound_volume);
@@ -2005,13 +2005,13 @@ public class NCConfig {
 			fissionPlacement.add(entry.getKey() + " -> " + entry.getValue());
 		}
 		
+		Property propertyFissionPlacement = info.get(CATEGORY_OUTPUT, "fission_placement", fissionPlacement.toArray(new String[fissionPlacement.size()]));
+		propertyFissionPlacement.setLanguageKey("gui.nc.config.fission_placement");
+		
 		List<String> turbinePlacement = new ArrayList<>();
 		for (Object2ObjectMap.Entry<String, String> entry : TurbinePlacement.RULE_MAP_RAW.object2ObjectEntrySet()) {
 			turbinePlacement.add(entry.getKey() + " -> " + entry.getValue());
 		}
-		
-		Property propertyFissionPlacement = info.get(CATEGORY_OUTPUT, "fission_placement", fissionPlacement.toArray(new String[fissionPlacement.size()]));
-		propertyFissionPlacement.setLanguageKey("gui.nc.config.fission_placement");
 		
 		Property propertyTurbinePlacement = info.get(CATEGORY_OUTPUT, "turbine_placement", turbinePlacement.toArray(new String[turbinePlacement.size()]));
 		propertyTurbinePlacement.setLanguageKey("gui.nc.config.turbine_placement");

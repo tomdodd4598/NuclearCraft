@@ -490,28 +490,28 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getDecayLifetime() / 4D);
+			return (int) (getDecayGeneratorLifetime() / 4D);
 		}
 		
-		protected double getDecayLifetime() {
+		protected double getDecayGeneratorLifetime() {
 			if (recipe == null) {
 				return 1200D;
 			}
-			return recipe.getDecayLifetime();
+			return recipe.getDecayGeneratorLifetime();
 		}
 		
-		protected double getDecayPower() {
+		protected double getDecayGeneratorPower() {
 			if (recipe == null) {
 				return 0D;
 			}
-			return recipe.getDecayPower();
+			return recipe.getDecayGeneratorPower();
 		}
 		
-		protected double getDecayRadiation() {
+		protected double getDecayGeneratorRadiation() {
 			if (recipe == null) {
 				return 0D;
 			}
-			return recipe.getDecayRadiation();
+			return recipe.getDecayGeneratorRadiation();
 		}
 		
 		@Override
@@ -519,9 +519,9 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getDecayLifetime(), 3, 1));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPower(), 5, "RF/t"));
-				double radiation = getDecayRadiation();
+				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getDecayGeneratorLifetime(), 3, 1));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayGeneratorPower(), 5, "RF/t"));
+				double radiation = getDecayGeneratorRadiation();
 				if (radiation > 0D) {
 					tooltip.add(TextFormatting.GOLD + BLOCK_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 				}
@@ -614,7 +614,7 @@ public class JEIRecipeWrapper {
 				}
 				double radiation = getIrradiatorBaseProcessRadiation();
 				if (radiation > 0D) {
-					tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+					tooltip.add(TextFormatting.GOLD + RADIATION_PER_FLUX + " " + RadiationHelper.getRadiationTextColor(radiation) + UnitHelper.prefix(radiation / RecipeStats.getFissionMaxModeratorLineFlux(), 3, "Rad/t/N"));
 				}
 			}
 			
@@ -624,7 +624,7 @@ public class JEIRecipeWrapper {
 		private static final String FLUX_REQUIRED = Lang.localise("jei.nuclearcraft.irradiator_flux_required");
 		private static final String HEAT_PER_FLUX = Lang.localise("jei.nuclearcraft.irradiator_heat_per_flux");
 		private static final String EFFICIENCY = Lang.localise("jei.nuclearcraft.irradiator_process_efficiency");
-		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.base_process_radiation");
+		private static final String RADIATION_PER_FLUX = Lang.localise("jei.nuclearcraft.radiation_per_flux");
 	}
 	
 	public static class PebbleFission extends JEIRecipeWrapperAbstract<PebbleFission> {

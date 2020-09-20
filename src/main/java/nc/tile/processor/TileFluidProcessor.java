@@ -48,7 +48,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
-		super(name, upgrades ? 2 : 0, ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeHandler, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
+		super(name, upgrades ? 2 : 0, ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(processorID, 1D, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		
@@ -179,7 +179,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public void setCapacityFromSpeed() {
-		int capacity = IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier());
+		int capacity = IProcessor.getCapacity(processorID, getSpeedMultiplier(), getPowerMultiplier());
 		getEnergyStorage().setStorageCapacity(capacity);
 		getEnergyStorage().setMaxTransfer(capacity);
 	}

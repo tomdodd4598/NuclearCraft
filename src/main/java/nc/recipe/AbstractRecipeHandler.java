@@ -2,7 +2,7 @@ package nc.recipe;
 
 import java.util.*;
 
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -23,9 +23,9 @@ import stanhebben.zenscript.annotations.*;
 @ZenRegister
 public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
-	protected List<RECIPE> recipeList = new ArrayList<>();
+	protected @Nonnull List<RECIPE> recipeList = new ArrayList<>();
 	
-	protected Long2ObjectMap<RECIPE> recipeCache = new Long2ObjectOpenHashMap<>();
+	protected @Nonnull Long2ObjectMap<RECIPE> recipeCache = new Long2ObjectOpenHashMap<>();
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);

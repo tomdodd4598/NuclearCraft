@@ -22,10 +22,14 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.*;
+import vazkii.patchouli.common.item.ItemModBook;
 
 public class CraftingRecipeHandler {
 	
 	public static void registerCraftingRecipes() {
+		addShapelessOreRecipe(ItemModBook.forBook("nuclearcraft:guide"), new Object[] {Items.BOOK, "ingotUranium"});
+		addShapelessOreRecipe(Items.BOOK, new Object[] {ItemModBook.forBook("nuclearcraft:guide")});
+		
 		for (int i = 0; i < IngotType.values().length; i++) {
 			String type = StringHelper.capitalize(IngotType.values()[i].getName());
 			if (!ore_dict_raw_material_recipes) {

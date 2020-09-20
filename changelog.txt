@@ -1,3 +1,17 @@
+v2o.4.3
+
++ Script addons no longer have to be manually unzipped
++ Added logging of script addons being constructed
+
+* Modified turbine throughput leniency and power bonuses
+
+* Fixed irradiator producing too much radiation
+
+* Fixed Patchouli guide not being given to players with radiation disabled
++ Added backup crafting recipe for the Patchouli guide
+
+* Updated default fission fuel radiation levels to take new waste products into account
+
 v2o.4.2
 
 + Added fission waste products

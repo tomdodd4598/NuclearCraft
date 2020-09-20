@@ -56,7 +56,13 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public double rawPower = 0D, rawLimitPower = 0D, rawMaxPower = 0D;
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
-	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D, minBladeExpansionCoefficient = Double.MAX_VALUE, maxBladeExpansionCoefficient = 1D, minStatorExpansionCoefficient = 1D, maxStatorExpansionCoefficient = Double.MIN_VALUE, effectiveMaxLength = turbine_max_size, bearingTension = 0D;
+	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D;
+	public double minBladeExpansionCoefficient = Double.MAX_VALUE;
+	public double maxBladeExpansionCoefficient = 1D;
+	public double minStatorExpansionCoefficient = 1D;
+	public double maxStatorExpansionCoefficient = Double.MIN_VALUE;
+	public int effectiveMaxLength = turbine_max_size;
+	public double bearingTension = 0D;
 	public DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
 	
 	@SideOnly(Side.CLIENT)
@@ -221,6 +227,14 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		return bladeLength + shaftWidth / 2D;
 	}
 	
+	public int getMinimumBladeArea() {
+		return 4 * Math.max(1, getMinimumInteriorLength() - 2);
+	}
+	
+	public int getMinimumBladeVolume() {
+		return getBladeArea() * getMinimumInteriorLength();
+	}
+	
 	// Modified Kurtchekov stuff!
 	
 	protected ITurbineRotorBlade getBlade(BlockPos pos) {
@@ -336,7 +350,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		data.setDouble("maxBladeExpansionCoefficient", maxBladeExpansionCoefficient);
 		data.setDouble("minStatorExpansionCoefficient", minStatorExpansionCoefficient);
 		data.setDouble("maxStatorExpansionCoefficient", maxStatorExpansionCoefficient);
-		data.setDouble("effectiveMaxLength", effectiveMaxLength);
+		data.setInteger("effectiveMaxLength", effectiveMaxLength);
 		data.setDouble("bearingTension", bearingTension);
 		data.setInteger("expansionLevelsSize", expansionLevels.size());
 		for (int i = 0; i < expansionLevels.size(); i++) {
@@ -383,7 +397,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		maxBladeExpansionCoefficient = data.getDouble("maxBladeExpansionCoefficient");
 		minStatorExpansionCoefficient = data.getDouble("minStatorExpansionCoefficient");
 		maxStatorExpansionCoefficient = data.getDouble("maxStatorExpansionCoefficient");
-		effectiveMaxLength = data.getDouble("effectiveMaxLength");
+		effectiveMaxLength = data.getInteger("effectiveMaxLength");
 		bearingTension = data.getDouble("bearingTension");
 		expansionLevels = new DoubleArrayList();
 		if (data.hasKey("expansionLevelsSize")) {

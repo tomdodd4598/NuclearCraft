@@ -51,11 +51,7 @@ public class RadiationHandler {
 	
 	@SubscribeEvent
 	public void updatePlayerRadiation(TickEvent.PlayerTickEvent event) {
-		if (!radiation_enabled_public) {
-			return;
-		}
-		
-		if (!radiation_require_counter && event.phase == TickEvent.Phase.START && event.side == Side.CLIENT) {
+		if (radiation_enabled_public && !radiation_require_counter && event.phase == TickEvent.Phase.START && event.side == Side.CLIENT) {
 			playGeigerSound(event.player);
 		}
 		
@@ -76,6 +72,10 @@ public class RadiationHandler {
 				if (success) {
 					playerRads.setGiveGuidebook(false);
 				}
+			}
+			
+			if (!radiation_enabled_public) {
+				return;
 			}
 			
 			if (ModCheck.gameStagesLoaded()) {
@@ -201,6 +201,10 @@ public class RadiationHandler {
 			}
 		}
 		else {
+			if (!radiation_enabled_public) {
+				return;
+			}
+			
 			EntityPlayer player = event.player;
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) {
@@ -424,7 +428,7 @@ public class RadiationHandler {
 	}
 	
 	private static void mutateTerrain(World world, Chunk chunk, double radiation) {
-		long j = Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + radiation / getBlockMutationThreshold()));
+		long j = Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + radiation / RecipeStats.getBlockMutationThreshold()));
 		while (j > 0) {
 			j--;
 			BlockPos randomChunkPos = newRandomPosInChunk(chunk);
@@ -445,7 +449,7 @@ public class RadiationHandler {
 			}
 		}
 		
-		j = radiation == 0D ? radiation_block_effect_max_rate : Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + getBlockPurificationThreshold() / radiation));
+		j = radiation == 0D ? radiation_block_effect_max_rate : Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + RecipeStats.getBlockPurificationThreshold() / radiation));
 		while (j > 0) {
 			j--;
 			BlockPos randomChunkPos = newRandomPosInChunk(chunk);
@@ -464,36 +468,6 @@ public class RadiationHandler {
 				}
 			}
 		}
-	}
-	
-	private static Double block_mutation_threshold = null;
-	
-	private static double getBlockMutationThreshold() {
-		if (block_mutation_threshold == null) {
-			double threshold = Double.MAX_VALUE;
-			for (ProcessorRecipe recipe : NCRecipes.radiation_block_mutation.getRecipeList()) {
-				if (recipe != null) {
-					threshold = Math.min(threshold, recipe.getBlockMutationThreshold());
-				}
-			}
-			block_mutation_threshold = new Double(threshold);
-		}
-		return block_mutation_threshold.doubleValue();
-	}
-	
-	private static Double block_purification_threshold = null;
-	
-	private static double getBlockPurificationThreshold() {
-		if (block_purification_threshold == null) {
-			double threshold = 0D;
-			for (ProcessorRecipe recipe : NCRecipes.radiation_block_purification.getRecipeList()) {
-				if (recipe != null) {
-					threshold = Math.max(threshold, recipe.getBlockMutationThreshold());
-				}
-			}
-			block_purification_threshold = new Double(threshold);
-		}
-		return block_purification_threshold.doubleValue();
 	}
 	
 	public static void playGeigerSound(EntityPlayer player) {
