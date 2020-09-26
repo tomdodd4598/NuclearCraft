@@ -1,0 +1,3630 @@
+tile.nuclearcraft.ore.copper.name=Minerai de cuivre
+tile.nuclearcraft.ore.tin.name=Minerai d'étain
+tile.nuclearcraft.ore.lead.name=Minerai de plomb
+tile.nuclearcraft.ore.thorium.name=Minerai de thorium
+tile.nuclearcraft.ore.uranium.name=Minerai d'uranium
+tile.nuclearcraft.ore.boron.name=Minerai de bore
+tile.nuclearcraft.ore.lithium.name=Minerai de lithium
+tile.nuclearcraft.ore.magnesium.name=Minerai de magnésium
+
+tile.nuclearcraft.ingot_block.copper.name=Bloc de cuivre
+tile.nuclearcraft.ingot_block.tin.name=Bloc d'étain
+tile.nuclearcraft.ingot_block.lead.name=Bloc de plomb
+tile.nuclearcraft.ingot_block.thorium.name=Bloc de thorium
+tile.nuclearcraft.ingot_block.uranium.name=Bloc d'uranium
+tile.nuclearcraft.ingot_block.boron.name=Bloc de bore
+tile.nuclearcraft.ingot_block.lithium.name=Bloc de lithium
+tile.nuclearcraft.ingot_block.magnesium.name=Bloc de magnésium
+tile.nuclearcraft.ingot_block.graphite.name=Bloc de graphite
+tile.nuclearcraft.ingot_block.beryllium.name=Bloc de béryllium
+tile.nuclearcraft.ingot_block.zirconium.name=Bloc de zirconium
+tile.nuclearcraft.ingot_block.manganese.name=Bloc de manganèse
+tile.nuclearcraft.ingot_block.aluminum.name=Bloc d'aluminium
+tile.nuclearcraft.ingot_block.silver.name=Bloc d'argent
+tile.nuclearcraft.ingot_block.manganese_oxide.name=Bloc d'oxyde de manganèse
+tile.nuclearcraft.ingot_block.manganese_dioxide.name=Bloc de dioxyde de manganèse
+
+tile.nuclearcraft.heavy_water_moderator.name=Modérateur à eau lourde
+
+info.nuclearcraft.moderator.fixd=Modérateur de neutrons
+info.nuclearcraft.moderator.flux_factor.fixd=Facteur de flux: %s
+info.nuclearcraft.moderator.efficiency.fixd=Multiplicateur d'efficacité: %s
+
+# info.nuclearcraft.moderator.desc=Les modérateurs sont le milieu par lequel une cellule/cuve de réacteur à fission envoie un flux de neutrons à un autre ou à lui-même. Une ligne de modération se compose SOIT de modérateurs collimatés au maximum %s avec une cellule/cuve à un point d'extrémité et une cellule/cuve à l'autre OU de modérateurs collimatés au maximum %s avec une cellule/cuve à un point d'extrémité et un réflecteur de neutrons à l'autre. Les modérateurs ne sont considérés comme "actifs" que s'ils font partie d'une ligne ET sont adjacents à au moins une cellule/cuve à un point final fonctionnel. Une cellule/cuve amorcée ou fonctionnelle envoie un flux le long de la ligne, soit pour être accepté par l'autre cellule/cuve, soit pour être renvoyé par le réflecteur. Le flux total envoyé est la somme des facteurs de flux des modérateurs dans la ligne. Il est doublé dans le cas de la réflexion et multiplié par le facteur de réflectivité du réflecteur. Enfin, l'efficacité totale des cellules aux extrémités de la ligne est multipliée par l'efficacité moyenne des lignes dont elle reçoit le flux - l'efficacité d'une ligne est le multiplicateur de l'efficacité moyenne des modérateurs dans la ligne.
+
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=Réflecteur de neutrons en béryllium et carbone
+tile.nuclearcraft.fission_reflector.lead_steel.name=Réflecteur de neutrons en plomb et acier
+
+info.nuclearcraft.reflector.fixd=Réflecteur de neutrons du réacteur
+info.nuclearcraft.reflector.efficiency.fixd=Multiplicateur d'efficacité: %s
+info.nuclearcraft.reflector.reflectivity.fixd=Facteur de réflection: %s
+
+tile.nuclearcraft.fertile_isotope.uranium.name=Bloc d'uranium 238
+tile.nuclearcraft.fertile_isotope.neptunium.name=Bloc de neptunium 237
+tile.nuclearcraft.fertile_isotope.plutonium.name=Bloc de plutonium 242
+tile.nuclearcraft.fertile_isotope.americium.name=Bloc d'américium 243
+tile.nuclearcraft.fertile_isotope.curium.name=Bloc de curium 246
+tile.nuclearcraft.fertile_isotope.berkelium.name=Bloc de berkélium 247
+tile.nuclearcraft.fertile_isotope.californium.name=Bloc de californium 252
+
+tile.nuclearcraft.supercold_ice.name=Glace refroidie
+
+tile.nuclearcraft.nuclear_furnace.name=Four nucléaire
+tile.nuclearcraft.nuclear_furnace.desc=Fond les objets très rapidement en utilisant des lingots ou de la poussière d'uranium comme combustible.
+
+tile.nuclearcraft.manufactory.name=Fabrique
+tile.nuclearcraft.manufactory.desc=Une machine utile qui permet de nombreuses choses.
+
+tile.nuclearcraft.separator.name=Séparateur
+tile.nuclearcraft.separator.desc=Décompose les matériaux en leurs constituants.
+
+tile.nuclearcraft.decay_hastener.name=Accélérateur de désintégration
+tile.nuclearcraft.decay_hastener.desc=Force les composants radioactif à se désintégrer.
+
+tile.nuclearcraft.fuel_reprocessor.name=Retraiteur de combustible atomique
+tile.nuclearcraft.fuel_reprocessor.desc=Extrait des matériaux à partir de combustible atomique épuisé.
+
+tile.nuclearcraft.alloy_furnace.name=Four à alliage
+tile.nuclearcraft.alloy_furnace.desc=Fond des métaux basiques pour former des alliages.
+
+tile.nuclearcraft.infuser.name=Infuseur de fluide
+tile.nuclearcraft.infuser.desc=Améliore les matériaux avec des fluides.
+
+tile.nuclearcraft.melter.name=Four à fusion
+tile.nuclearcraft.melter.desc=Fond les matériaux.
+
+tile.nuclearcraft.supercooler.name=Surfondeur
+tile.nuclearcraft.supercooler.desc=Refroidit les fluides afin de les surfondre.
+
+tile.nuclearcraft.electrolyzer.name=Electrolyseur
+tile.nuclearcraft.electrolyzer.desc=Divise les composés en leurs composants.
+
+tile.nuclearcraft.assembler.name=Assembleur
+tile.nuclearcraft.assembler.desc=Assemble des composants pour former un produit.
+
+tile.nuclearcraft.ingot_former.name=Moule à lingots
+tile.nuclearcraft.ingot_former.desc=Modèle le métal fondu en lingot et gemmes.
+
+tile.nuclearcraft.pressurizer.name=Pressuriseur
+tile.nuclearcraft.pressurizer.desc=Soumet les objets à une pression immense.
+
+tile.nuclearcraft.chemical_reactor.name=Réacteur chimique
+tile.nuclearcraft.chemical_reactor.desc=Abrite les réactions entre les fluides.
+
+tile.nuclearcraft.salt_mixer.name=Mélangeur
+tile.nuclearcraft.salt_mixer.desc=Mélange les fluides.
+
+tile.nuclearcraft.crystallizer.name=Cristalliseur
+tile.nuclearcraft.crystallizer.desc=Cristallise les solutions.
+
+tile.nuclearcraft.enricher.name=Enrichisseur de fluides
+tile.nuclearcraft.enricher.desc=Enrichi les fluides avec des matériaux.
+
+tile.nuclearcraft.extractor.name=Extracteur de fluide
+tile.nuclearcraft.extractor.desc=Extrait les fluides à partir des matériaux.
+
+tile.nuclearcraft.centrifuge.name=Centrifugeuse
+tile.nuclearcraft.centrifuge.desc=Sépare les isotopes contenus dans les fluides.
+
+tile.nuclearcraft.rock_crusher.name=Pulverisateur de rochers
+tile.nuclearcraft.rock_crusher.desc=Pulvérise les rochers pour produire de la poussière de minéraux.
+
+tile.nuclearcraft.machine_interface.name=Interface de machine
+tile.nuclearcraft.machine_interface.desc=Permet d'accéder aux machines directement adjacentes.
+
+tile.nuclearcraft.bin.name=Corbeille universelle
+tile.nuclearcraft.bin.desc=Annhile les objets, les fluides et l'énergie.
+
+tile.nuclearcraft.rtg_uranium.name=GTR à uranium
+tile.nuclearcraft.rtg_plutonium.name=GTR à plutonium
+tile.nuclearcraft.rtg_americium.name=GTR à américium
+tile.nuclearcraft.rtg_californium.name=GTR à californium
+tile.nuclearcraft.rtg.desc=Produit %s constamment.
+
+tile.nuclearcraft.solar_panel_basic.name=Panneau solaire basique
+tile.nuclearcraft.solar_panel_advanced.name=Panneau solaire avancé
+tile.nuclearcraft.solar_panel_du.name=Panneau solaire DU
+tile.nuclearcraft.solar_panel_elite.name=Panneau solaire élite
+tile.nuclearcraft.solar_panel.desc=Produit %s constamment lors de la journée.
+
+tile.nuclearcraft.decay_generator.name=Générateur à désintégration
+tile.nuclearcraft.decay_generator.desc=Produit de l'énergie à partir de la décomposition de blocs radioactifs adjacents: après un certain temps, les blocs se décomposeronts et produiront moins d'énergie.
+
+tile.nuclearcraft.voltaic_pile_basic.name=Pile voltaïque basique
+tile.nuclearcraft.voltaic_pile_advanced.name=Pile voltaïque avancée
+tile.nuclearcraft.voltaic_pile_du.name=Pile voltaïque DU
+tile.nuclearcraft.voltaic_pile_elite.name=Pile voltaïque élite
+
+tile.nuclearcraft.lithium_ion_battery_basic.name=Accumulateur lithium-ion basique
+tile.nuclearcraft.lithium_ion_battery_advanced.name=Accumulateur lithium-ion avancé
+tile.nuclearcraft.lithium_ion_battery_du.name=Accumulateur lithium-ion DU
+tile.nuclearcraft.lithium_ion_battery_elite.name=Accumulateur lithium-ion élite
+tile.nuclearcraft.energy_storage.desc=Clique droit un côté pour lire les niveaux d'énergie et clique droit avec un multi-outil pour placer une connection énergétique. S'accroupir en le plaçant permet de maintenir la configuration des connections énergétiques.
+
+tile.nuclearcraft.fission_casing.name=Caisson du réacteur à fission
+tile.nuclearcraft.fission_glass.name=Vitre du réacteur à fission
+tile.nuclearcraft.fission_conductor.name=Connecteur du réacteur à fission
+tile.nuclearcraft.fission_monitor.name=Moniteur du réacteur à fission
+tile.nuclearcraft.fission_power_port.name=Prise du courant de réacteur à fission
+tile.nuclearcraft.fission_vent.name=Prise de la chaudière du réacteur à fission
+tile.nuclearcraft.fission_irradiator.name=Irradieur à neutrons
+
+tile.nuclearcraft.fission_source.radium_beryllium.name=Source de neutrons Ra-Be
+tile.nuclearcraft.fission_source.polonium_beryllium.name=Source de neutrons Po-Be
+tile.nuclearcraft.fission_source.californium.name=Source de neutrons Cf-252
+
+info.nuclearcraft.fission_source.efficiency.fixd=Multiplicateur d'efficacité: %s
+
+tile.nuclearcraft.fission_shield.boron_silver.name=Bouclier à neutrons bore-argent
+
+info.nuclearcraft.fission_shield.heat_per_flux.fixd=Génération de chaleur par flux: %s
+info.nuclearcraft.fission_shield.efficiency.fixd=Multiplicateur d'éfficacité: %s
+
+tile.nuclearcraft.fission_redstone_port.name=Prise de redstone du réacteur à fission
+tile.nuclearcraft.fission_computer_port.name=Prise d'ordinateur du réacteur à fission
+tile.nuclearcraft.fission_computer_port.desc=Utilisé pour accéder au réacteur via OpenComputers
+
+tile.nuclearcraft.fission_irradiator_port.name=Interface des irradieurs à neutrons
+
+tile.nuclearcraft.fission_cell_port.name=Interface de la cellule de combustible
+
+tile.nuclearcraft.fission_vessel_port.name=Interface de la cuve à combustible
+tile.nuclearcraft.fission_heater_port.name=Interface de refroidisseur liquide
+tile.nuclearcraft.fission_heater_port.standard.name=Interface de refroidisseur liquide standard
+tile.nuclearcraft.fission_heater_port.iron.name=Interface de refroidisseur à fer liquide
+tile.nuclearcraft.fission_heater_port.redstone.name=Interface de refroidisseur à redstone liquide
+tile.nuclearcraft.fission_heater_port.quartz.name=Interface de refroidisseur à quartz liquide
+tile.nuclearcraft.fission_heater_port.obsidian.name=Interface de refroidisseur à obsidienne liquide
+tile.nuclearcraft.fission_heater_port.nether_brick.name=Interface de refroidisseur à briques du nether liquide
+tile.nuclearcraft.fission_heater_port.glowstone.name=Interface de refroidisseur à pierre lumineuse liquide
+tile.nuclearcraft.fission_heater_port.lapis.name=Interface de refroidisseur à lapis liquide
+tile.nuclearcraft.fission_heater_port.gold.name=Interface de refroidisseur à or liquide
+tile.nuclearcraft.fission_heater_port.prismarine.name=Interface de refroidisseur à prismarine liquide
+tile.nuclearcraft.fission_heater_port.slime.name=Interface de refroidisseur à slime liquide
+tile.nuclearcraft.fission_heater_port.end_stone.name=Interface de refroidisseur à pierre de l'end liquide
+tile.nuclearcraft.fission_heater_port.purpur.name=Interface de refroidisseur à purpur liquide
+tile.nuclearcraft.fission_heater_port.diamond.name=Interface de refroidisseur à diamant liquide
+tile.nuclearcraft.fission_heater_port.emerald.name=Interface de refroidisseur à émeraude liquide
+tile.nuclearcraft.fission_heater_port.copper.name=Interface de refroidisseur à cuivre liquide
+tile.nuclearcraft.fission_heater_port2.name=Interface de refroidisseur liquide
+tile.nuclearcraft.fission_heater_port2.tin.name=Interface de refroidisseur à étain liquide
+tile.nuclearcraft.fission_heater_port2.lead.name=Interface de refroidisseur à plomb liquide
+tile.nuclearcraft.fission_heater_port2.boron.name=Interface de refroidisseur à bore liquide
+tile.nuclearcraft.fission_heater_port2.lithium.name=Interface de refroidisseur à lithium liquide
+tile.nuclearcraft.fission_heater_port2.magnesium.name=Interface de refroidisseur à magnésium liquide
+tile.nuclearcraft.fission_heater_port2.manganese.name=Interface de refroidisseur à manganèse liquide
+tile.nuclearcraft.fission_heater_port2.aluminum.name=Interface de refroidisseur à aluminium liquide
+tile.nuclearcraft.fission_heater_port2.silver.name=Interface de refroidisseur à argent liquide
+tile.nuclearcraft.fission_heater_port2.fluorite.name=Interface de refroidisseur à fluorite liquide
+tile.nuclearcraft.fission_heater_port2.villiaumite.name=Interface de refroidisseur à villiaumite liquide
+tile.nuclearcraft.fission_heater_port2.carobbiite.name=Interface de refroidisseur à carobbiite liquide
+tile.nuclearcraft.fission_heater_port2.arsenic.name=Interface de refroidisseur à arsenic liquide
+tile.nuclearcraft.fission_heater_port2.liquid_nitrogen.name=Interface de refroidisseur à azote liquide
+tile.nuclearcraft.fission_heater_port2.liquid_helium.name=Interface de refroidisseur à hélium liquide
+tile.nuclearcraft.fission_heater_port2.enderium.name=Interface de refroidisseur à endérium liquide
+tile.nuclearcraft.fission_heater_port2.cryotheum.name=Interface de refroidisseur à cryothéum liquide
+
+tile.nuclearcraft.fission_shield_manager.name=Interface de contrôle du bouclier à neutrons
+
+tile.nuclearcraft.solid_fission_controller.name=Interface de contrôle du réacteur à fission solide
+tile.nuclearcraft.solid_fission_cell.name=Cellule de fission
+tile.nuclearcraft.solid_fission_sink.water.name=Refroidisseur à eau
+tile.nuclearcraft.solid_fission_sink.iron.name=Refroidisseur à fer
+tile.nuclearcraft.solid_fission_sink.redstone.name=Refroidisseur à redstone
+tile.nuclearcraft.solid_fission_sink.quartz.name=Refroidisseur à quartz
+tile.nuclearcraft.solid_fission_sink.obsidian.name=Refroidisseur à obsidienne
+tile.nuclearcraft.solid_fission_sink.nether_brick.name=Refroidisseur à brique du nether
+tile.nuclearcraft.solid_fission_sink.glowstone.name=Refroidisseur à pierre lumineuse
+tile.nuclearcraft.solid_fission_sink.lapis.name=Refroidisseur à lapis
+tile.nuclearcraft.solid_fission_sink.gold.name=Refroidisseur à or
+tile.nuclearcraft.solid_fission_sink.prismarine.name=Refroidisseur à prismarine
+tile.nuclearcraft.solid_fission_sink.slime.name=Refroidisseur à slime
+tile.nuclearcraft.solid_fission_sink.end_stone.name=Refroidisseur à pierre de l'end
+tile.nuclearcraft.solid_fission_sink.purpur.name=Refroidisseur à purpur
+tile.nuclearcraft.solid_fission_sink.diamond.name=Refroidisseur à diamant
+tile.nuclearcraft.solid_fission_sink.emerald.name=Refroidisseur à émeraude
+tile.nuclearcraft.solid_fission_sink.copper.name=Refroidisseur à cuivre
+tile.nuclearcraft.solid_fission_sink2.tin.name=Refroidisseur à étain
+tile.nuclearcraft.solid_fission_sink2.lead.name=Refroidisseur à plomb
+tile.nuclearcraft.solid_fission_sink2.boron.name=Refroidisseur à bore
+tile.nuclearcraft.solid_fission_sink2.lithium.name=Refroidisseur à lithium
+tile.nuclearcraft.solid_fission_sink2.magnesium.name=Refroidisseur à magnésium
+tile.nuclearcraft.solid_fission_sink2.manganese.name=Refroidisseur à manganèse
+tile.nuclearcraft.solid_fission_sink2.aluminum.name=Refroidisseur à aluminium
+tile.nuclearcraft.solid_fission_sink2.silver.name=Refroidisseur à argent
+tile.nuclearcraft.solid_fission_sink2.fluorite.name=Refroidisseur à fluorite
+tile.nuclearcraft.solid_fission_sink2.villiaumite.name=Refroidisseur à villiaumite
+tile.nuclearcraft.solid_fission_sink2.carobbiite.name=Refroidisseur à carobbiite
+tile.nuclearcraft.solid_fission_sink2.arsenic.name=Refroidisseur à arsenic
+tile.nuclearcraft.solid_fission_sink2.liquid_nitrogen.name=Refroidisseur à azote
+tile.nuclearcraft.solid_fission_sink2.liquid_helium.name=Refroidisseur à hélium
+tile.nuclearcraft.solid_fission_sink2.enderium.name=Refroidisseur à endérium
+tile.nuclearcraft.solid_fission_sink2.cryotheum.name=Refroidisseur à cryothéum
+
+tile.nuclearcraft.solid_fission_sink.cooling_rate=Vitesse de refroidissement:
+
+tile.nuclearcraft.salt_fission_controller.name=Interface de contrôle du réacteur à fission liquide
+tile.nuclearcraft.salt_fission_vessel.name=Cuve à combustible de fission
+# tile.nuclearcraft.salt_fission_vessel.desc=Le combustible liquide subit une fission et s'appauvrit ici. S'accroupir et le placer adjacent à une autre cuve pour copier les configurations des côtés.
+tile.nuclearcraft.salt_fission_heater.standard.name=Refroidisseur liquide standard
+tile.nuclearcraft.salt_fission_heater.iron.name=Refroidisseur à fer liquide
+tile.nuclearcraft.salt_fission_heater.redstone.name=Refroidisseur à redstone liquide
+tile.nuclearcraft.salt_fission_heater.quartz.name=Refroidisseur à quartz liquide
+tile.nuclearcraft.salt_fission_heater.obsidian.name=Refroidisseur à obsidienne liquide
+tile.nuclearcraft.salt_fission_heater.nether_brick.name=Refroidisseur à brique du nether liquide
+tile.nuclearcraft.salt_fission_heater.glowstone.name=Refroidisseur à pierre lumineuse liquide
+tile.nuclearcraft.salt_fission_heater.lapis.name=Refroidisseur à lapis liquide
+tile.nuclearcraft.salt_fission_heater.gold.name=Refroidisseur à or liquide
+tile.nuclearcraft.salt_fission_heater.prismarine.name=Refroidisseur à prismarine liquide
+tile.nuclearcraft.salt_fission_heater.slime.name=Refroidisseur à slime liquide
+tile.nuclearcraft.salt_fission_heater.end_stone.name=Refroidisseur à pierre de l'end liquide
+tile.nuclearcraft.salt_fission_heater.purpur.name=Refroidisseur à purpur liquide
+tile.nuclearcraft.salt_fission_heater.diamond.name=Refroidisseur à diamant liquide
+tile.nuclearcraft.salt_fission_heater.emerald.name=Refroidisseur à émeraude liquide
+tile.nuclearcraft.salt_fission_heater.copper.name=Refroidisseur à cuivre liquide
+tile.nuclearcraft.salt_fission_heater2.tin.name=Refroidisseur à étain liquide
+tile.nuclearcraft.salt_fission_heater2.lead.name=Refroidisseur à plomb liquide
+tile.nuclearcraft.salt_fission_heater2.boron.name=Refroidisseur à bore liquide
+tile.nuclearcraft.salt_fission_heater2.lithium.name=Refroidisseur à lithium liquide
+tile.nuclearcraft.salt_fission_heater2.magnesium.name=Refroidisseur à magnésium liquide
+tile.nuclearcraft.salt_fission_heater2.manganese.name=Refroidisseur à manganèse liquide
+tile.nuclearcraft.salt_fission_heater2.aluminum.name=Refroidisseur à aluminium liquide
+tile.nuclearcraft.salt_fission_heater2.silver.name=Refroidisseur à argent liquide
+tile.nuclearcraft.salt_fission_heater2.fluorite.name=Refroidisseur à fluorite liquide
+tile.nuclearcraft.salt_fission_heater2.villiaumite.name=Refroidisseur à villaumite liquide
+tile.nuclearcraft.salt_fission_heater2.carobbiite.name=Refroidisseur à carobbiite liqude
+tile.nuclearcraft.salt_fission_heater2.arsenic.name=Refroidisseur à arsenic liquide
+tile.nuclearcraft.salt_fission_heater2.liquid_nitrogen.name=Refroidisseur à azote liquide
+tile.nuclearcraft.salt_fission_heater2.liquid_helium.name=Refroidisseur à hélium liquide
+tile.nuclearcraft.salt_fission_heater2.enderium.name=Refroidisseur à endérium liquide
+tile.nuclearcraft.salt_fission_heater2.cryotheum.name=Refroidisseur à cryothéum liquide
+
+tile.nuclearcraft.salt_fission_heater.cooling_rate=Vitesse de refroidissement
+
+tile.nuclearcraft.heat_exchanger_controller.name=(WIP)
+tile.nuclearcraft.heat_exchanger_casing.name=(WIP)
+tile.nuclearcraft.heat_exchanger_glass.name=(WIP)
+tile.nuclearcraft.heat_exchanger_vent.name=(WIP)
+tile.nuclearcraft.heat_exchanger_vent.desc=(WIP)
+tile.nuclearcraft.heat_exchanger_tube_copper.name=(WIP)
+tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=(WIP)
+tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=(WIP)
+tile.nuclearcraft.heat_exchanger_tube.fixd=(WIP)
+tile.nuclearcraft.heat_exchanger_tube.desc=(WIP)
+tile.nuclearcraft.heat_exchanger_computer_port.name=(WIP)
+tile.nuclearcraft.heat_exchanger_computer_port.desc=(WIP)
+
+tile.nuclearcraft.condenser_controller.name=(WIP)
+tile.nuclearcraft.condenser_tube_copper.name=(WIP)
+tile.nuclearcraft.condenser_tube_hard_carbon.name=(WIP)
+tile.nuclearcraft.condenser_tube_thermoconducting.name=(WIP)
+tile.nuclearcraft.condenser_tube.fixd=(WIP)
+tile.nuclearcraft.condenser_tube.desc=(WIP)
+
+tile.nuclearcraft.turbine_controller.name=Contrôleur de turbine
+tile.nuclearcraft.turbine_controller.desc=Le coeur de la turbine - il est nécessaire d'en placer un dans le mur pour former une turbine
+tile.nuclearcraft.turbine_casing.name=Caisson de turbine
+tile.nuclearcraft.turbine_glass.name=Vitre de turbine
+tile.nuclearcraft.turbine_rotor_shaft.name=Axe de rotor de turbine
+tile.nuclearcraft.turbine_rotor_shaft.desc=Connecte les aubes du rotor à la dynamo pour convertir l'énergie cinétique produite en énergie électrique. Doit être placé sous forme de cuboïde, de manière axiale, le long du centre de l'intérieur de la turbine
+tile.nuclearcraft.turbine_rotor_blade_steel.name=Aube de rotor de turbine en acier
+tile.nuclearcraft.turbine_rotor_blade_extreme.name=Aube de rotor de turbine en alliage extrême
+tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=Aube de rotor de turbine en composite à matrice céramique SiC-SiC
+tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=Multiplicateur d'efficacité: %s
+tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=Coefficient d'expansion: %s
+tile.nuclearcraft.turbine_rotor_blade.desc=Convertit l'énergie de l'écoulement des fluides en énergie cinétique vers l'axe du rotor. Le coefficient d'expansion est plus grand que 1, donc le volume d'écoulement des fluides augmentera à chaque passage dans un groupe d'aunes. Doit être placée dans des groupes complet de quatres aunes coplanaires allant de l'axe au mur de la turbine. Chaque aune permet d'utiliser jusqu'à %s de fluide.
+tile.nuclearcraft.turbine_rotor_stator.name=Stator de la turbine
+tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=Coefficient d'expansion: %s
+tile.nuclearcraft.turbine_rotor_stator.desc=Augmente la densité de l'écoulement des fluides, ce qui peut augmenter l'efficacité de la turbine en compensant la surexpansion générée par les groupes d'aunes. Doit être placée dans des groupes complet de quatres aunes coplanaires allant de l'axe au mur de la turbine.
+tile.nuclearcraft.turbine_rotor_bearing.name=Support de rotor
+tile.nuclearcraft.turbine_rotor_bearing.desc=Connecte l'axe du rotor aux murs de la turbine et aux dynamos. Doit couvrir complètement les extrémités de l'axe. Les dynamos sont connectés aux supports; connecter au moins autant de dynamos que de supports a chaque extrémité évitera les pertes d'efficacité.
+tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=Dynamo de magnésium
+tile.nuclearcraft.turbine_dynamo_coil.beryllium.name=Dynamo de béryllium
+tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=Dynamo d'aluminium
+tile.nuclearcraft.turbine_dynamo_coil.gold.name=Dynamo d'or
+tile.nuclearcraft.turbine_dynamo_coil.copper.name=Dynamo de cuivre
+tile.nuclearcraft.turbine_dynamo_coil.silver.name=Dynamo d'argent
+tile.nuclearcraft.turbine_dynamo_coil.conductivity=Multiplicateur de connectivité:
+tile.nuclearcraft.turbine_coil_connector.name=Connecteur de dynamo
+tile.nuclearcraft.turbine_inlet.name=Entrée de fluide de la turbine
+tile.nuclearcraft.turbine_outlet.name=Sortie de fluide de la turbine
+tile.nuclearcraft.turbine_computer_port.name=Prise d'ordinateur de la turbine
+tile.nuclearcraft.turbine_computer_port.desc=Utilisé pour accéder à la turbine via OpenComputers
+
+tile.nuclearcraft.cobblestone_generator.name=Générateur de pierres
+tile.nuclearcraft.cobblestone_generator_compact.name=Générateur de pierres compact
+tile.nuclearcraft.cobblestone_generator_dense.name=Générateur de pierres dense
+tile.nuclearcraft.cobblestone_generator_req_power=Produit %s constanment si alimenté par %s.
+tile.nuclearcraft.cobblestone_generator_no_req_power=Produit %s constanment.
+nuclearcraft.cobblestone=Pierres
+
+tile.nuclearcraft.water_source.name=Source d'eau infinie
+tile.nuclearcraft.water_source_compact.name=Source d'eau infinie compacte
+tile.nuclearcraft.water_source_dense.name=Source d'eau infinie dense
+tile.nuclearcraft.water_source.desc=Produit %s d'eau constanment.
+
+tile.nuclearcraft.nitrogen_collector.name=Collecteur d'azote
+tile.nuclearcraft.nitrogen_collector_compact.name=Collecteur d'azote compacte
+tile.nuclearcraft.nitrogen_collector_dense.name=Collecteur d'azote dense
+tile.nuclearcraft.nitrogen_collector.desc=Produit %s d'azote constanment.
+
+tile.nuclearcraft.radiation_scrubber.name=Épurateur de radiations
+tile.nuclearcraft.radiation_scrubber.desc=Réduit le niveau de radiation dans le tronçon où il est placé. Son efficacité dépend de la quantité d'escpaces vides autour, épurant un maximum de %s de radiation dans le tronçon à %s d'efficacité. La contribution collective de tous les épurateurs d'un tronçon s'additionnent linéairement. L'efficacité et la consommation d'énergie dépend de l'agent épurateur utilisé.
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=Réduit le niveau de radiation dans le tronçon où il est placé. Son efficacité dépend de la quantité d'escpaces vides autour. Seul, il épure un maximum de %s de radiation dans le tronçon à %s d'efficacité. Cependant, la contribution collective de tous les épurateurs d'un tronçon ne s'additionnent pas linéairement. Le niveau de radiation baissera tout d'abord avec un semblant de linéarité, puis de manière doublement exponantielle et asymptote tendant vers le maximum d'épurateurs dans un tronçon. L'efficacité et la consommation d'énergie dépend de l'agent épurateur utilisé.
+nuclearcraft.one_hundred_percent=100%
+
+tile.nuclearcraft.geiger_block.name=Compteur Geiger en bloc
+tile.nuclearcraft.geiger_block.desc=Indique le niveau de radiation du tronçon où il est placé.
+
+tile.nuclearcraft.glowing_mushroom.name=Champignon fluorescent
+tile.nuclearcraft.wasteland_earth.name=Terre désolée
+
+tile.nuclearcraft.tritium_lamp.name=Lampe de tritium
+tile.nuclearcraft.tritium_lantern.name=Lanterne de tritium
+
+tile.nuclearcraft.quantum_computer_controller.name=Contrôleur d'ordinateur quantique
+tile.nuclearcraft.quantum_computer_qubit.name=Qubit
+
+tile.nuclearcraft.quantum_computer_gate_single.x.name=Porte quantique Pauli-X
+tile.nuclearcraft.quantum_computer_gate_single.x.desc=Effectue une rotation du qubit visé de 180 degrés autour de l'axe X de la sphère de Bloch
+tile.nuclearcraft.quantum_computer_gate_single.y.name=Porte quantique Pauli-Y
+tile.nuclearcraft.quantum_computer_gate_single.y.desc=Effectue une rotation du qubit visé de 180 degrés autour de l'axe Y de la sphère de Bloch
+tile.nuclearcraft.quantum_computer_gate_single.z.name=Porte quantique Pauli-Y
+tile.nuclearcraft.quantum_computer_gate_single.z.desc=Effectue une rotation du qubit visé de 180 degrés autour de l'axe Z de la sphère de Bloch
+tile.nuclearcraft.quantum_computer_gate_single.h.name=Porte quantique de Hadamard
+tile.nuclearcraft.quantum_computer_gate_single.h.desc=Effectue une transformation de Hadamard sur le qubit visé
+tile.nuclearcraft.quantum_computer_gate_single.s.name=Porte quantique S
+tile.nuclearcraft.quantum_computer_gate_single.s.desc=Effectue une rotation de 90 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_single.sdg.name=Porte quantique S inversée
+tile.nuclearcraft.quantum_computer_gate_single.sdg.desc=Effectue une rotation de 270 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_single.t.name=Porte quantique T
+tile.nuclearcraft.quantum_computer_gate_single.t.desc=Effectue une rotation de 45 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_single.tdg.name=Porte quantique T inversée
+tile.nuclearcraft.quantum_computer_gate_single.tdg.desc=Effectue une rotation de 315 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_single.p.name=Porte quantique de phase
+tile.nuclearcraft.quantum_computer_gate_single.p.desc=Effectue une rotation d'une valeur choisie la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_single.rx.name=Porte quantique de rotation X
+tile.nuclearcraft.quantum_computer_gate_single.rx.desc=Effectue une rotation du qubit visé autour de l'axe spatial X
+tile.nuclearcraft.quantum_computer_gate_single.ry.name=Porte quantique de rotation Y
+tile.nuclearcraft.quantum_computer_gate_single.ry.desc=Effectue une rotation du qubit visé autour de l'axe spatial Y
+tile.nuclearcraft.quantum_computer_gate_single.rz.name=Porte quantique de rotation Z
+tile.nuclearcraft.quantum_computer_gate_single.rz.desc=Effectue une rotation du qubit visé autour de l'axe spatial Z
+
+tile.nuclearcraft.quantum_computer_gate_control.cx.name=Porte quantique Pauli-X contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.cx.desc=Effectue une rotation contrôlée du qubit visé de 180 degrés autour de l'axe X de la sphère de Bloch
+tile.nuclearcraft.quantum_computer_gate_control.cy.name=Porte quantique Pauli-Y contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.cy.desc=Effectue une rotation contrôlée du qubit visé de 180 degrés autour de l'axe Y de la sphère de Bloch
+tile.nuclearcraft.quantum_computer_gate_control.cz.name=Porte quantique Pauli-Z contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.cz.desc=Effectue une rotation contrôlée du qubit visé de 180 degrés autour de l'axe Z de la sphère de Bloch
+tile.nuclearcraft.quantum_computer_gate_control.ch.name=Porte quantique de Hadamard contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.ch.desc=Effectue une transformation contrôlée de Hadamard sur le qubit visé
+tile.nuclearcraft.quantum_computer_gate_control.cs.name=Porte quantique S contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.cs.desc=Effectue une rotation contrôlée de 90 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_control.csdg.name=Porte quantique S inversée contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.csdg.desc=Effectue une rotation contrôlée de 270 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_control.ct.name=Porte quantique T contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.ct.desc=Effectue une rotation contrôlée de 45 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_control.ctdg.name=Porte quantique T inversée contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.ctdg.desc=Effectue une rotation contrôlée de 315 degrés la phase de la valeur réelle  des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_control.cp.name=Porte quantique de pahse contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.cp.desc=Effectue une rotation contrôlée d'une valeur choisie la phase de la valeur réelle des composantes des qubits visés
+tile.nuclearcraft.quantum_computer_gate_control.crx.name=Porte quantique de rotation X contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.crx.desc=Effectue une rotation contrôlée du qubit visé autour de l'axe spatial X
+tile.nuclearcraft.quantum_computer_gate_control.cry.name=Porte quantique de rotation Y contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.cry.desc=Effectue une rotation contrôlée du qubit visé autour de l'axe spatial Y
+tile.nuclearcraft.quantum_computer_gate_control.crz.name=Porte quantique de rotation Z contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_control.crz.desc=Effectue une rotation contrôlée du qubit visé autour de l'axe spatial Z
+
+tile.nuclearcraft.quantum_computer_gate_swap.swap.name=Porte quantique swap
+tile.nuclearcraft.quantum_computer_gate_swap.swap.desc=Effectue un échange entre deux qubits
+tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=Porte quantique swap contrôlée par ordinateur
+tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=Effectue un échange contrôlé entre deux qubits
+
+tile.nuclearcraft.quantum_computer_connector.name=Connecteur d'ordinateur quantique
+tile.nuclearcraft.quantum_computer_port.name=Prise d'ordinateur de l'ordinateur quantique
+tile.nuclearcraft.quantum_computer_port.desc=Utilisé pour acceder à l'ordinateur quantique via OpenComputers
+
+tile.nuclearcraft.fluid_oxygen.name=Oxygène
+fluid.oxygen=Oxygène
+
+tile.nuclearcraft.fluid_hydrogen.name=Hydrogène
+fluid.hydrogen=Hydrogène
+
+tile.nuclearcraft.fluid_deuterium.name=Deutérium
+fluid.deuterium=Deutérium
+
+tile.nuclearcraft.fluid_tritium.name=Tritium
+fluid.tritium=Tritium
+
+tile.nuclearcraft.fluid_helium_3.name=Hélium 3
+fluid.helium_3=Hélium 3
+
+tile.nuclearcraft.fluid_helium.name=Hélium
+fluid.helium=Hélium
+
+tile.nuclearcraft.fluid_steam.name=Vapeur d'eau
+fluid.steam=Vapeur d'eau
+
+tile.nuclearcraft.fluid_high_pressure_steam.name=Vapeur d'eau haute pression
+fluid.high_pressure_steam=Vapeur d'eau haute pression
+
+tile.nuclearcraft.fluid_exhaust_steam.name=Vapeur d'échappement
+fluid.exhaust_steam=Vapeur d'échappement
+
+tile.nuclearcraft.fluid_low_pressure_steam.name=Vapeur d'eau basse pression
+fluid.low_pressure_steam=Vapeur d'eau basse pression
+
+tile.nuclearcraft.fluid_low_quality_steam.name=Vapeur d'eau de basse qualité
+fluid.low_quality_steam=Vapeur d'eau de basse qualité
+
+tile.nuclearcraft.fluid_preheated_water.name=Eau préchauffée
+fluid.preheated_water=Eau préchauffée
+
+tile.nuclearcraft.fluid_condensate_water.name=Eau condensée
+fluid.condensate_water=Eau condensée
+
+tile.nuclearcraft.fluid_liquid_helium.name=Hélium liquide
+fluid.liquid_helium=Hélium liquide
+
+tile.nuclearcraft.fluid_liquid_nitrogen.name=Azote liquide
+fluid.liquid_nitrogen=Azote liquide
+
+tile.nuclearcraft.fluid_heavy_water.name=Eau lourde
+fluid.heavy_water=Eau lourde
+
+tile.nuclearcraft.fluid_ender.name=Ender fondu
+fluid.ender=Ender fondu
+
+tile.nuclearcraft.fluid_lead_platinum.name=Plomb platine fondu
+fluid.lead_platinum=Plomb platine fondu
+
+tile.nuclearcraft.fluid_enderium.name=Endérium fondu
+fluid.enderium=Endérium fondu
+
+tile.nuclearcraft.fluid_cryotheum.name=Cryothéum fondu
+fluid.cryotheum=Cryothéum fondu
+
+tile.nuclearcraft.fluid_plasma.name=Plasma
+tile.nuclearcraft.fluid_plasma.desc=Produit dans les réacteurs à fusion actifs. Peut causer une explosion et du feu si'il rentre en contact avec un électroaimant non alimenté.
+fluid.plasma=Plasma
+
+tile.nuclearcraft.fluid_lithium_6.name=Lithium 6 fondu
+fluid.lithium_6=Lithium 6 fondu
+
+tile.nuclearcraft.fluid_lithium_7.name=Lithium 7 fondu
+fluid.lithium_7=Lithium 7 fondu
+
+tile.nuclearcraft.fluid_boron_10.name=Bore 10 fondu
+fluid.boron_10=Bore 10 fondu
+
+tile.nuclearcraft.fluid_boron_11.name=Bore 11 fondu
+fluid.boron_11=Bore 11 fondu
+
+tile.nuclearcraft.fluid_ferroboron.name=Alliage fondu de fer et de bore
+fluid.ferroboron=Alliage fondu de fer et de bore
+
+tile.nuclearcraft.fluid_tough.name=Alliage dur fondu
+fluid.tough=Alliage dur fondu
+
+tile.nuclearcraft.fluid_hard_carbon.name=Carbone dur fondu
+fluid.hard_carbon=Carbone dur fondu
+
+tile.nuclearcraft.fluid_coal.name=Charbon liquéfié
+fluid.coal=Charbon liquéfié
+
+tile.nuclearcraft.fluid_fluorine.name=Fluor
+fluid.fluorine=Fluor
+
+tile.nuclearcraft.fluid_nitrogen.name=Azote
+fluid.nitrogen=Azote
+
+tile.nuclearcraft.fluid_fluoromethane.name=Fluorure de méthyle
+fluid.fluoromethane=Fluorure de méthyle
+
+tile.nuclearcraft.fluid_ammonia.name=Ammoniac
+fluid.ammonia=Ammoniac
+
+tile.nuclearcraft.fluid_ethanol.name=Ethanol
+fluid.ethanol=Ethanol
+
+tile.nuclearcraft.fluid_ethene.name=Ethylène
+fluid.ethene=Ethylène
+
+tile.nuclearcraft.fluid_methanol.name=Méthanol
+fluid.methanol=Méthanol
+
+tile.nuclearcraft.fluid_boric_acid.name=Acide borique
+fluid.boric_acid=Acide borique
+
+tile.nuclearcraft.fluid_diborane.name=Diborane
+fluid.diborane=Diborane
+
+tile.nuclearcraft.fluid_radaway.name=RadAway liquide
+fluid.radaway=RadAway liquide
+
+tile.nuclearcraft.fluid_radaway_slow.name=RadAway lent liquide
+fluid.radaway_slow=RadAway lent liquide
+
+tile.nuclearcraft.fluid_redstone_ethanol.name=Ethanol infusé à la redstone
+fluid.redstone_ethanol=Ethanol infusé à la redstone
+
+tile.nuclearcraft.fluid_beryllium.name=Béryllium fondu
+fluid.beryllium=Béryllium fondu
+
+tile.nuclearcraft.fluid_lif.name=Fluorure de lithium fondue
+fluid.lif=Fluorure de lithium fondue
+
+tile.nuclearcraft.fluid_bef2.name=Fluorure de béryllium fondue
+fluid.bef2=Fluorure de béryllium fondue
+
+tile.nuclearcraft.fluid_flibe.name=Solution de FLiBe fondue
+fluid.flibe=Solution de FLiBe fondue
+
+tile.nuclearcraft.fluid_boron_nitride_solution.name=Solution de nitrure de bore
+fluid.boron_nitride_solution=Solution de nitrure de bore
+
+tile.nuclearcraft.fluid_sulfur.name=Soufre fondu
+fluid.sulfur=Soufre fondu
+
+tile.nuclearcraft.fluid_sulfur_dioxide.name=Dioxyde de soufre
+fluid.sulfur_dioxide=Dioxyde de soufre
+
+tile.nuclearcraft.fluid_sulfur_trioxide.name=Trioxyde de soufre
+fluid.sulfur_trioxide=Trioxyde de soufre
+
+tile.nuclearcraft.fluid_sulfuric_acid.name=Acide sulfurique
+fluid.sulfuric_acid=Acide sulfurique
+
+tile.nuclearcraft.fluid_fluorite_water.name=Eau enrichie en fluorite
+fluid.fluorite_water=Eau enrichie en fluorite
+
+tile.nuclearcraft.fluid_calcium_sulfate_solution.name=Solution de sulfate de calcium
+fluid.calcium_sulfate_solution=Solution de sulfate de calcium
+
+tile.nuclearcraft.fluid_hydrofluoric_acid.name=Acide fluorhydrique
+fluid.hydrofluoric_acid=Acide fluorhydrique
+
+tile.nuclearcraft.fluid_oxygen_difluoride.name=Difluorure d'oxygène
+fluid.oxygen_difluoride=Difluorure d'oxygène
+
+tile.nuclearcraft.fluid_corium.name=Corium
+tile.nuclearcraft.fluid_corium.desc=Une mixture toxique de combustible et de composants fondus. Est produite lors d'une défaillance d'un réacteur.
+fluid.corium=Corium
+
+tile.nuclearcraft.fluid_ice.name=Glace pilée
+fluid.ice=Glace pilée
+
+tile.nuclearcraft.fluid_slurry_ice.name=Glace en supension
+fluid.slurry_ice=Glace en supension
+
+tile.nuclearcraft.fluid_chocolate_liquor.name=Liqueur de cacao
+fluid.chocolate_liquor=Liqueur de cacao
+
+tile.nuclearcraft.fluid_cocoa_butter.name=Beurre de cacao
+fluid.cocoa_butter=Beurre de cacao
+
+tile.nuclearcraft.fluid_unsweetened_chocolate.name=Chocolat de cuisson fondu
+fluid.unsweetened_chocolate=Chocolat de cuisson fondu
+
+tile.nuclearcraft.fluid_dark_chocolate.name=Chocolat noir fondu
+fluid.dark_chocolate=Chocolat noir fondu
+
+tile.nuclearcraft.fluid_milk_chocolate.name=Chocolat au lait fondu
+fluid.milk_chocolate=Chocolat au lait fondu
+
+tile.nuclearcraft.fluid_sugar.name=Sucre fondu
+fluid.sugar=Sucre fondu
+
+tile.nuclearcraft.fluid_gelatin.name=Gélatine fondue
+fluid.gelatin=Gélatine fondue
+
+tile.nuclearcraft.fluid_hydrated_gelatin.name=Gelaitne hydrogénée
+fluid.hydrated_gelatin=Gelaitne hydrogénée
+
+tile.nuclearcraft.fluid_milk.name=Lait
+fluid.milk=Lait
+
+tile.nuclearcraft.fluid_marshmallow.name=Guimauve fondue
+fluid.marshmallow=Guimauve fondue
+
+tile.nuclearcraft.fluid_carbon_dioxide.name=Dioxyde de carbone
+fluid.carbon_dioxide=Dioxyde de carbone
+
+tile.nuclearcraft.fluid_carbon_monoxide.name=Monoxyde de carbone
+fluid.carbon_monoxide=Monoxyde de carbone
+
+tile.nuclearcraft.fluid_sodium.name=Sodium fondu
+fluid.sodium=Sodium fondu
+
+tile.nuclearcraft.fluid_potassium.name=Potassium fondu
+fluid.potassium=Potassium fondu
+
+tile.nuclearcraft.fluid_nak.name=Alliage eutectique NaK
+fluid.nak=Alliage eutectique NaK
+
+tile.nuclearcraft.fluid_nak_hot.name=Alliage eutectique NaK chaud
+fluid.nak_hot=Alliage eutectique NaK chaud
+
+tile.nuclearcraft.fluid_emergency_coolant.name=Liquide de refroidissement d'urgence
+tile.nuclearcraft.fluid_emergency_coolant.desc=Utilisé pour réduire l'excès de chaleur lors d'une défaillance d'un réacteur
+fluid.emergency_coolant=Liquide de refroidissement d'urgence
+
+tile.nuclearcraft.fluid_emergency_coolant_heated.name=Liquide de refroidissement d'urgence chaud
+fluid.emergency_coolant_heated=Liquide de refroidissement d'urgence chaud
+
+tile.nuclearcraft.fluid_sodium_fluoride_solution.name=Solution de fluorure de sodium
+fluid.sodium_fluoride_solution=Solution de fluorure de sodium
+
+tile.nuclearcraft.fluid_potassium_fluoride_solution.name=Solution de fluorure de potassium
+fluid.potassium_fluoride_solution=Solution de fluorure de potassium
+
+tile.nuclearcraft.fluid_sodium_hydroxide_solution.name=Solution d'hydroxyde de sodium
+fluid.sodium_hydroxide_solution=Solution d'hydroxyde de sodium
+
+tile.nuclearcraft.fluid_potassium_hydroxide_solution.name=Solution d'hydroxyde de potassium
+fluid.potassium_hydroxide_solution=Solution d'hydroxyde de potassium
+
+tile.nuclearcraft.fluid_borax_solution.name=Solution de borax
+fluid.borax_solution=Solution de borax
+
+tile.nuclearcraft.fluid_irradiated_borax_solution.name=Solution de borax irradié
+fluid.irradiated_borax_solution=Solution de borax irradié
+
+tile.nuclearcraft.fluid_naoh.name=Hydroxyde de sodium fondu
+fluid.naoh=Hydroxyde de sodium fondu
+
+tile.nuclearcraft.fluid_koh.name=Hydroxyde de potassium fondu
+fluid.koh=Hydroxyde de potassium fondu
+
+tile.nuclearcraft.fluid_arsenic.name=Arsenic sublimé
+fluid.arsenic=Arsenic sublimé
+
+tile.nuclearcraft.fluid_bas.name=Arséniure de bore fondue
+fluid.bas=Arséniure de bore fondue
+
+tile.nuclearcraft.fluid_sic_vapor.name=Vapeur de carbure de silicium
+fluid.sic_vapor=Vapeur de carbure de silicium
+
+tile.nuclearcraft.fluid_zirconium.name=Zirconium fondu
+fluid.zirconium=Zirconium fondu
+
+tile.nuclearcraft.fluid_manganese_dioxide.name=Dioxyde de manganèse fondu
+fluid.manganese_dioxide=Dioxyde de manganèse fondu
+
+tile.nuclearcraft.fluid_alugentum.name=Alugentum fondu
+fluid.alugentum=Alugentum fondu
+
+tile.nuclearcraft.fluid_alumina.name=Alumine fondue
+fluid.alumina=Alumine fondue
+
+tile.nuclearcraft.fluid_strontium_90.name=Strontium 90 fondu
+fluid.strontium_90=Strontium 90 fondu
+
+tile.nuclearcraft.fluid_molybdenum.name=Molybdène fondu
+fluid.molybdenum=Molybdène fondu
+
+tile.nuclearcraft.fluid_ruthenium_106.name=Ruthénium 106 fondu
+fluid.ruthenium_106=Ruthénium 106 fondu
+
+tile.nuclearcraft.fluid_caesium_137.name=Césium 137 fondu
+fluid.caesium_137=Césium 137 fondu
+
+tile.nuclearcraft.fluid_promethium_147.name=Prométhium 147 fondu
+fluid.promethium_147=Prométhium 147 fondu
+
+tile.nuclearcraft.fluid_europium_155.name=Europium 155 fondu
+fluid.europium_155=Europium 155 fondu
+
+tile.nuclearcraft.fluid_thorium.name=Thorium fondu
+fluid.thorium=Thorium fondu
+tile.nuclearcraft.fluid_uranium.name=Uranium fondu
+fluid.uranium=Uranium fondu
+
+tile.nuclearcraft.fluid_uranium_233.name=Uranium 233 fondu
+fluid.uranium_233=Uranium 233 fondu
+tile.nuclearcraft.fluid_uranium_233_za.name=Alliage fondu d'uranium 233 et de zirconium
+fluid.uranium_233_za=Alliage fondu d'uranium 233 et de zirconium
+tile.nuclearcraft.fluid_uranium_235.name=Uranium 235 fondu
+fluid.uranium_235=Uranium 235 fondu
+tile.nuclearcraft.fluid_uranium_235_za.name=Alliage fondu d'uranium 235 et de zirconium
+fluid.uranium_235_za=Alliage fondu d'uranium 235 et de zirconium
+tile.nuclearcraft.fluid_uranium_238.name=Uranium 238 fondu
+fluid.uranium_238=Uranium 238 fondu
+tile.nuclearcraft.fluid_uranium_238_za.name=Alliage fondu d'uranium 238 et de zirconium
+fluid.uranium_238_za=Alliage fondu d'uranium 238 et de zirconium
+
+tile.nuclearcraft.fluid_neptunium_236.name=Neptunium 236 fondu
+fluid.neptunium_236=Neptunium 236 fondu
+tile.nuclearcraft.fluid_neptunium_236_za.name=Alliage fondu de neptunium 236 et de zirconium
+fluid.neptunium_236_za=Alliage fondu de neptunium 236 et de zirconium
+tile.nuclearcraft.fluid_neptunium_237.name=Neptunium 237 fondu
+fluid.neptunium_237=Neptunium 237 fondu
+tile.nuclearcraft.fluid_neptunium_237_za.name=Alliage fondu de neptunium 237 et de zirconium
+fluid.neptunium_237_za=Alliage fondu de neptunium 237 et de zirconium
+
+tile.nuclearcraft.fluid_plutonium_238.name=Plutonium 238 fondu
+fluid.plutonium_238=Plutonium 238 fondu
+tile.nuclearcraft.fluid_plutonium_238_za.name=Alliage fondu de plutonium 238 et de zirconium
+fluid.plutonium_238_za=Alliage fondu de plutonium 238 et de zirconium
+tile.nuclearcraft.fluid_plutonium_239.name=Plutonium 239 fondu
+fluid.plutonium_239=Plutonium 239 fondu
+tile.nuclearcraft.fluid_plutonium_239_za.name=Alliage fondu de plutonium 239 et de zirconium
+fluid.plutonium_239_za=Alliage fondu de plutonium 239 et de zirconium
+tile.nuclearcraft.fluid_plutonium_241.name=Plutonium 241 fondu
+fluid.plutonium_241=Plutonium 241 fondu
+tile.nuclearcraft.fluid_plutonium_241_za.name=Alliage fondu de plutonium 241 et de zirconium
+fluid.plutonium_241_za=Alliage fondu de plutonium 241 et de zirconium
+tile.nuclearcraft.fluid_plutonium_242.name=Plutonium 242 fondu
+fluid.plutonium_242=Plutonium 242 fondu
+tile.nuclearcraft.fluid_plutonium_242_za.name=Alliage fondu de plutonium 242 et de zirconium
+fluid.plutonium_242_za=Alliage fondu de plutonium 242 et de zirconium
+
+tile.nuclearcraft.fluid_americium_241.name=Américium 241 fondu
+fluid.americium_241=Américium 241 fondu
+tile.nuclearcraft.fluid_americium_241_za.name=Alliage fondu d'américium 241 et de zirconium
+fluid.americium_241_za=Alliage fondu d'américium 241 et de zirconium
+tile.nuclearcraft.fluid_americium_242.name=Américium 242 fondu
+fluid.americium_242=Américium 242 fondu
+tile.nuclearcraft.fluid_americium_242_za.name=Alliage fondu d'américium 242 et de zirconium
+fluid.americium_242_za=Alliage fondu d'américium 242 et de zirconium
+tile.nuclearcraft.fluid_americium_243.name=Américium 243 fondu
+fluid.americium_243=Américium 243 fondu
+tile.nuclearcraft.fluid_americium_243_za.name=Alliage fondu d'américium 243 et de zirconium
+fluid.americium_243_za=Alliage fondu d'américium 243 et de zirconium
+
+tile.nuclearcraft.fluid_curium_243.name=Curium 243 fondu
+fluid.curium_243=Curium 243 fondu
+tile.nuclearcraft.fluid_curium_243_za.name=Alliage fondu de curium 243 et de zirconium
+fluid.curium_243_za=Alliage fondu de curium 243 et de zirconium
+tile.nuclearcraft.fluid_curium_245.name=Curium 245 fondu
+fluid.curium_245=Curium 245 fondu
+tile.nuclearcraft.fluid_curium_245_za.name=Alliage fondu de curium 245 et de zirconium
+fluid.curium_245_za=Alliage fondu de curium 245 et de zirconium
+tile.nuclearcraft.fluid_curium_246.name=Curium 246 fondu
+fluid.curium_246=Curium 246 fondu
+tile.nuclearcraft.fluid_curium_246_za.name=Alliage fondu de curium 246 et de zirconium
+fluid.curium_246_za=Alliage fondu de curium 246 et de zirconium
+tile.nuclearcraft.fluid_curium_247.name=Curium 247 fondu
+fluid.curium_247=Curium 247 fondu
+tile.nuclearcraft.fluid_curium_247_za.name=Alliage fondu de curium 247 et de zirconium
+fluid.curium_247_za=Alliage fondu de curium 247 et de zirconium
+
+tile.nuclearcraft.fluid_berkelium_247.name=Berkélium 247 fondu
+fluid.berkelium_247=Berkélium 247 fondu
+tile.nuclearcraft.fluid_berkelium_247_za.name=Alliage fondu de berkélium 247 et de zirconium
+fluid.berkelium_247_za=Alliage fondu de berkélium 247 et de zirconium
+tile.nuclearcraft.fluid_berkelium_248.name=Berkélium 248 fondu
+fluid.berkelium_248=Berkélium 248 fondu
+tile.nuclearcraft.fluid_berkelium_248_za.name=Alliage fondu de berkélium 248 et de zirconium
+fluid.berkelium_248_za=Alliage fondu de berkélium 248 et de zirconium
+
+tile.nuclearcraft.fluid_californium_249.name=Californium 249 fondu
+fluid.californium_249=Californium 249 fondu
+tile.nuclearcraft.fluid_californium_249_za.name=Alliage fondu de californium 249 et de zirconium
+fluid.californium_249_za=Alliage fondu de californium 249 et de zirconium
+tile.nuclearcraft.fluid_californium_250.name=Californium 250 fondu
+fluid.californium_250=Californium 250 fondu
+tile.nuclearcraft.fluid_californium_250_za.name=Alliage fondu de californium 250 et de zirconium
+fluid.californium_250_za=Alliage fondu de californium 250 et de zirconium
+tile.nuclearcraft.fluid_californium_251.name=Californium 251 fondu
+fluid.californium_251=Californium 251 fondu
+tile.nuclearcraft.fluid_californium_251_za.name=Alliage fondu de californium 251 et de zirconium
+fluid.californium_251_za=Alliage fondu de californium 251 et de zirconium
+tile.nuclearcraft.fluid_californium_252.name=Californium 252 fondu
+fluid.californium_252=Californium 252 fondu
+tile.nuclearcraft.fluid_californium_252_za.name=Alliage fondu de californium 252 et de zirconium
+fluid.californium_252_za=Alliage fondu de californium 252 et de zirconium
+
+tile.nuclearcraft.fluid_tbu.name=UIT fondu combustible
+fluid.tbu=UIT fondu combustible
+tile.nuclearcraft.fluid_tbu_fluoride.name=Fluorure d'UIT fondu combustible
+fluid.tbu_fluoride=Fluorure d'UIT fondu combustible
+tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=Solution de FLiBe au fluorure d'UIT fondu combustible
+fluid.tbu_fluoride_flibe=Solution de FLiBe au fluorure d'UIT fondu combustible
+tile.nuclearcraft.fluid_tbu_za.name=Alliage fondu combustible d'UIT et de zirconium
+fluid.tbu_za=Alliage fondu combustible d'UIT et de zirconium
+
+tile.nuclearcraft.fluid_leu_233.name=UFE 233 fondu combustible
+fluid.leu_233=UFE 233 fondu combustible
+tile.nuclearcraft.fluid_leu_233_fluoride.name=Fluorure d'UFE 233 fondu combustible
+fluid.leu_233_fluoride=Fluorure d'UFE 233 fondu combustible
+tile.nuclearcraft.fluid_leu_233_fluoride_flibe.name=Solution de FLiBe au fluorure d'UFE 233 fondu combustible
+fluid.leu_233_fluoride_flibe=Solution de FLiBe au fluorure d'UFE 233 fondu combustible
+tile.nuclearcraft.fluid_leu_233_za.name=Alliage fondu combustible d'UFE 233 et de zirconium
+fluid.leu_233_za=Alliage fondu combustible d'UFE 233 et de zirconium
+
+tile.nuclearcraft.fluid_heu_233.name=UHE 233 fondu combustible
+fluid.heu_233=UHE 233 fondu combustible
+tile.nuclearcraft.fluid_heu_233_fluoride.name=Fluorure d'UHE 233 fondu combustible
+fluid.heu_233_fluoride=Fluorure d'UHE 233 fondu combustible
+tile.nuclearcraft.fluid_heu_233_fluoride_flibe.name=Solution de FLiBe au fluorure d'UHE 233 fondu combustible
+fluid.heu_233_fluoride_flibe=Solution de FLiBe au fluorure d'UHE 233 fondu combustible
+tile.nuclearcraft.fluid_heu_233_za.name=Alliage fondu combustible d'UHE 233 et de zirconium
+fluid.heu_233_za=Alliage fondu combustible d'UHE 233 et de zirconium
+
+tile.nuclearcraft.fluid_leu_235.name=UFE 235 fondu combustible
+fluid.leu_235=UFE 235 fondu combustible
+tile.nuclearcraft.fluid_leu_235_fluoride.name=Fluorure d'UFE 235 fondu combustible
+fluid.leu_235_fluoride=Fluorure d'UFE 235 fondu combustible
+tile.nuclearcraft.fluid_leu_235_fluoride_flibe.name=Solution de FLiBe au fluorure d'UFE 235 fondu combustible
+fluid.leu_235_fluoride_flibe=Solution de FLiBe au fluorure d'UFE 235 fondu combustible
+tile.nuclearcraft.fluid_leu_235_za.name=Alliage fondu combustible d'UFE 235 et de zirconium
+fluid.leu_235_za=Alliage fondu combustible d'UFE 235 et de zirconium
+
+tile.nuclearcraft.fluid_heu_235.name=UHE 235 fondu combustible
+fluid.heu_235=UHE 235 fondu combustible
+tile.nuclearcraft.fluid_heu_235_fluoride.name=Fluorure d'UHE 235 fondu combustible
+fluid.heu_235_fluoride=Fluorure d'UHE 235 fondu combustible
+tile.nuclearcraft.fluid_heu_235_fluoride_flibe.name=Solution de FLiBe au fluorure d'UHE 235 fondu combustible
+fluid.heu_235_fluoride_flibe=Solution de FLiBe au fluorure d'UHE 235 fondu combustible
+tile.nuclearcraft.fluid_heu_235_za.name=Alliage fondu combustible d'UHE 235 et de zirconium
+fluid.heu_235_za=Alliage fondu combustible d'UHE 235 et de zirconium
+
+tile.nuclearcraft.fluid_len_236.name=NFE 236 fondu combustible
+fluid.len_236=NFE 236 fondu combustible
+tile.nuclearcraft.fluid_len_236_fluoride.name=Fluorure de NFE 236 fondu combustible
+fluid.len_236_fluoride=Fluorure de NFE 236 fondu combustible
+tile.nuclearcraft.fluid_len_236_fluoride_flibe.name=Solution de FLiBe au fluorure de NFE 236 fondu combustible
+fluid.len_236_fluoride_flibe=Solution de FLiBe au fluorure de NFE 236 fondu combustible
+tile.nuclearcraft.fluid_len_236_za.name=Alliage fondu combustible de NFE 236 et de zirconium
+fluid.len_236_za=Alliage fondu combustible de NFE 236 et de zirconium
+
+tile.nuclearcraft.fluid_hen_236.name=NHE 236 fondu combustible
+fluid.hen_236=NHE 236 fondu combustible
+tile.nuclearcraft.fluid_hen_236_fluoride.name=Fluorure de NHE 236 fondu combustible
+fluid.hen_236_fluoride=Fluorure de NHE 236 fondu combustible
+tile.nuclearcraft.fluid_hen_236_fluoride_flibe.name=Solution de FLiBe au fluorure de NHE 236 fondu combustible
+fluid.hen_236_fluoride_flibe=Solution de FLiBe au fluorure de NHE 236 fondu combustible
+tile.nuclearcraft.fluid_hen_236_za.name=Alliage fondu combustible de NHE 236 et de zirconium
+fluid.hen_236_za=Alliage fondu combustible de NHE 236 et de zirconium
+
+tile.nuclearcraft.fluid_lep_239.name=PFE 239 fondu combustible
+fluid.lep_239=PFE 239 fondu combustible
+tile.nuclearcraft.fluid_lep_239_fluoride.name=Fluorure de PFE 239 fondu combustible
+fluid.lep_239_fluoride=Fluorure de PFE 239 fondu combustible
+tile.nuclearcraft.fluid_lep_239_fluoride_flibe.name=Solution de FLiBe au fluorure de PFE 239 fondu combustible
+fluid.lep_239_fluoride_flibe=Solution de FLiBe au fluorure de PFE 239 fondu combustible
+tile.nuclearcraft.fluid_lep_239_za.name=Alliage fondu combustible de PFE 239 et de zirconium
+fluid.lep_239_za=Alliage fondu combustible de PFE 239 et de zirconium
+
+tile.nuclearcraft.fluid_hep_239.name=PHE 239 fondu combustible
+fluid.hep_239=PHE 239 fondu combustible
+tile.nuclearcraft.fluid_hep_239_fluoride.name=Fluorure de PHE 239 fondu combustible
+fluid.hep_239_fluoride=Fluorure de PHE 239 fondu combustible
+tile.nuclearcraft.fluid_hep_239_fluoride_flibe.name=Solution de FLiBe au fluorure de PHE 239 fondu combustible
+fluid.hep_239_fluoride_flibe=Solution de FLiBe au fluorure de PHE 239 fondu combustible
+tile.nuclearcraft.fluid_hep_239_za.name=Alliage fondu combustible de PHE 239 et de zirconium
+fluid.hep_239_za=Alliage fondu combustible de PHE 239 et de zirconium
+
+tile.nuclearcraft.fluid_lep_241.name=PFE 241 fondu combustible
+fluid.lep_241=PFE 241 fondu combustible
+tile.nuclearcraft.fluid_lep_241_fluoride.name=Fluorure de PFE 241 fondu combustible
+fluid.lep_241_fluoride=Fluorure de PFE 241 fondu combustible
+tile.nuclearcraft.fluid_lep_241_fluoride_flibe.name=Solution de FLiBe au fluorure de PFE 241 fondu combustible
+fluid.lep_241_fluoride_flibe=Solution de FLiBe au fluorure de PFE 241 fondu combustible
+tile.nuclearcraft.fluid_lep_241_za.name=Alliage fondu combustible de PFE 241 et de zirconium
+fluid.lep_241_za=Alliage fondu combustible de PFE 241 et de zirconium
+
+tile.nuclearcraft.fluid_hep_241.name=PHE 241 fondu combustible
+fluid.hep_241=PHE 241 fondu combustible
+tile.nuclearcraft.fluid_hep_241_fluoride.name=Fluorure de PHE 241 fondu combustible
+fluid.hep_241_fluoride=Fluorure de PHE 241 fondu combustible
+tile.nuclearcraft.fluid_hep_241_fluoride_flibe.name=Solution de FLiBe au fluorure de PHE 241 fondu combustible
+fluid.hep_241_fluoride_flibe=Solution de FLiBe au fluorure de PHE 241 fondu combustible
+tile.nuclearcraft.fluid_hep_241_za.name=Alliage fondu combustible de PHE 241 et de zirconium
+fluid.hep_241_za=Alliage fondu combustible de PHE 241 et de zirconium
+
+tile.nuclearcraft.fluid_mix_239.name=MIX 239 fondu combustible
+fluid.mix_239=MIX 239 fondu combustible
+tile.nuclearcraft.fluid_mix_239_fluoride.name=Fluorure de MIX 239 fondu combustible
+fluid.mix_239_fluoride=Fluorure de MIX 239 fondu combustible
+tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=Solution de FLiBe au fluorure de MIX 239 fondu combustible
+fluid.mix_239_fluoride_flibe=Solution de FLiBe au fluorure de MIX 239 fondu combustible
+tile.nuclearcraft.fluid_mix_239_za.name=Alliage fondu combustible de MIX 239 et de zirconium
+fluid.mix_239_za=Alliage fondu combustible de MIX 239 et de zirconium
+
+tile.nuclearcraft.fluid_mix_241.name=MIX 241 fondu combustible
+fluid.mix_241=MIX 241 fondu combustible
+tile.nuclearcraft.fluid_mix_241_fluoride.name=Fluorure de MIX 241 fondu combustible
+fluid.mix_241_fluoride=Fluorure de MIX 241 fondu combustible
+tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=Solution de FLiBe au fluorure de MIX 241 fondu combustible
+fluid.mix_241_fluoride_flibe=Solution de FLiBe au fluorure de MIX 241 fondu combustible
+tile.nuclearcraft.fluid_mix_241_za.name=Alliage fondu combustible de MIX 241 et de zirconium
+fluid.mix_241_za=Alliage fondu combustible de MIX 241 et de zirconium
+
+tile.nuclearcraft.fluid_lea_242.name=AFE 242 fondu combustible
+fluid.lea_242=AFE 242 fondu combustible
+tile.nuclearcraft.fluid_lea_242_fluoride.name=Fluorure d'AFE 242 fondu combustible
+fluid.lea_242_fluoride=Fluorure d'AFE 242 fondu combustible
+tile.nuclearcraft.fluid_lea_242_fluoride_flibe.name=Solution de FLiBe au fluorure d'AFE 242 fondu combustible
+fluid.lea_242_fluoride_flibe=Solution de FLiBe au fluorure d'AFE 242 fondu combustible
+tile.nuclearcraft.fluid_lea_242_za.name=Alliage fondu combustible d'AFE 242 et de zirconium
+fluid.lea_242_za=Alliage fondu combustible d'AFE 242 et de zirconium
+
+tile.nuclearcraft.fluid_hea_242.name=AHE 242 fondu combustible
+fluid.hea_242=AHE 242 fondu combustible
+tile.nuclearcraft.fluid_hea_242_fluoride.name=Fluorure d'AHE 242 fondu combustible
+fluid.hea_242_fluoride=Fluorure d'AHE 242 fondu combustible
+tile.nuclearcraft.fluid_hea_242_fluoride_flibe.name=Solution de FLiBe au fluorure d'AHE 242 fondu combustible
+fluid.hea_242_fluoride_flibe=Solution de FLiBe au fluorure d'AHE 242 fondu combustible
+tile.nuclearcraft.fluid_hea_242_za.name=Alliage fondu combustible d'AHE 242 et de zirconium
+fluid.hea_242_za=Alliage fondu combustible d'AHE 242 et de zirconium
+
+tile.nuclearcraft.fluid_lecm_243.name=CmFE 243 fondu combustible
+fluid.lecm_243=CmFE 243 fondu combustible
+tile.nuclearcraft.fluid_lecm_243_fluoride.name=Fluorure de CmFE 243 fondu combustible
+fluid.lecm_243_fluoride=Fluorure de CmFE 243 fondu combustible
+tile.nuclearcraft.fluid_lecm_243_fluoride_flibe.name=Solution de FLiBe au fluorure de CmFE 243 fondu combustible
+fluid.lecm_243_fluoride_flibe=Solution de FLiBe au fluorure de CmFE 243 fondu combustible
+tile.nuclearcraft.fluid_lecm_243_za.name=Alliage fondu combustible de CmFE 243 et de zirconium
+fluid.lecm_243_za=Alliage fondu combustible de CmFE 243 et de zirconium
+
+tile.nuclearcraft.fluid_hecm_243.name=CmHE 243 fondu combustible
+fluid.hecm_243=CmHE 243 fondu combustible
+tile.nuclearcraft.fluid_hecm_243_fluoride.name=Fluorure de CmHE 243 fondu combustible
+fluid.hecm_243_fluoride=Fluorure de CmHE 243 fondu combustible
+tile.nuclearcraft.fluid_hecm_243_fluoride_flibe.name=Solution de FLiBe au fluorure de CmHE 243 fondu combustible
+fluid.hecm_243_fluoride_flibe=Solution de FLiBe au fluorure de CmHE 243 fondu combustible
+tile.nuclearcraft.fluid_hecm_243_za.name=Alliage fondu combustible de CmHE 243 et de zirconium
+fluid.hecm_243_za=Alliage fondu combustible de CmHE 243 et de zirconium
+
+tile.nuclearcraft.fluid_lecm_245.name=CmFE 245 fondu combustible
+fluid.lecm_245=CmFE 245 fondu combustible
+tile.nuclearcraft.fluid_lecm_245_fluoride.name=Fluorure de CmFE 245 fondu combustible
+fluid.lecm_245_fluoride=Fluorure de CmFE 245 fondu combustible
+tile.nuclearcraft.fluid_lecm_245_fluoride_flibe.name=Solution de FLiBe au fluorure de CmFE 245 fondu combustible
+fluid.lecm_245_fluoride_flibe=Solution de FLiBe au fluorure de CmFE 245 fondu combustible
+tile.nuclearcraft.fluid_lecm_245_za.name=Alliage fondu combustible de CmFE 245 et de zirconium
+fluid.lecm_245_za=Alliage fondu combustible de CmFE 245 et de zirconium
+
+tile.nuclearcraft.fluid_hecm_245.name=CmHE 245 fondu combustible
+fluid.hecm_245=CmHE 245 fondu combustible
+tile.nuclearcraft.fluid_hecm_245_fluoride.name=Fluorure de CmHE 245 fondu combustible
+fluid.hecm_245_fluoride=Fluorure de CmHE 245 fondu combustible
+tile.nuclearcraft.fluid_hecm_245_fluoride_flibe.name=Solution de FLiBe au fluorure de CmHE 245 fondu combustible
+fluid.hecm_245_fluoride_flibe=Solution de FLiBe au fluorure de CmHE 245 fondu combustible
+tile.nuclearcraft.fluid_hecm_245_za.name=Alliage fondu combustible de CmHE 245 et de zirconium
+fluid.hecm_245_za=Alliage fondu combustible de CmHE 245 et de zirconium
+
+tile.nuclearcraft.fluid_lecm_247.name=CmFE 247 fondu combustible
+fluid.lecm_247=CmFE 247 fondu combustible
+tile.nuclearcraft.fluid_lecm_247_fluoride.name=Fluorure de CmFE 247 fondu combustible
+fluid.lecm_247_fluoride=Fluorure de CmFE 247 fondu combustible
+tile.nuclearcraft.fluid_lecm_247_fluoride_flibe.name=Solution de FLiBe au fluorure de CmFE 247 fondu combustible
+fluid.lecm_247_fluoride_flibe=Solution de FLiBe au fluorure de CmFE 247 fondu combustible
+tile.nuclearcraft.fluid_lecm_247_za.name=Alliage fondu combustible de CmFE 247 et de zirconium
+fluid.lecm_247_za=Alliage fondu combustible de CmFE 247 et de zirconium
+tile.nuclearcraft.fluid_lecm_247_za.name=Alliage fondu combustible de CmFE 247 et de zirconium
+fluid.lecm_247_za=Alliage fondu combustible de CmFE 247 et de zirconium
+
+tile.nuclearcraft.fluid_hecm_247.name=CmHE 247 fondu combustible
+fluid.hecm_247=CmHE 247 fondu combustible
+tile.nuclearcraft.fluid_hecm_247_fluoride.name=Fluorure de CmHE 247 fondu combustible
+fluid.hecm_247_fluoride=Fluorure de CmHE 247 fondu combustible
+tile.nuclearcraft.fluid_hecm_247_fluoride_flibe.name=Solution de FLiBe au fluorure de CmHE 247 fondu combustible
+fluid.hecm_247_fluoride_flibe=Solution de FLiBe au fluorure de CmHE 247 fondu combustible
+tile.nuclearcraft.fluid_hecm_247_za.name=Alliage fondu combustible de CmHE 247 et de zirconium
+fluid.hecm_247_za=Alliage fondu combustible de CmHE 247 et de zirconium
+
+tile.nuclearcraft.fluid_leb_248.name=BFE 248 fondu combustible
+fluid.leb_248=BFE 248 fondu combustible
+tile.nuclearcraft.fluid_leb_248_fluoride.name=Fluorure de BFE 248 fondu combustible
+fluid.leb_248_fluoride=Fluorure de BFE 248 fondu combustible
+tile.nuclearcraft.fluid_leb_248_fluoride_flibe.name=Solution de FLiBe au fluorure de BFE 248 fondu combustible
+fluid.leb_248_fluoride_flibe=Solution de FLiBe au fluorure de BFE 248 fondu combustible
+tile.nuclearcraft.fluid_leb_248_za.name=Alliage fondu combustible de BFE 248 et de zirconium
+fluid.leb_248_za=Alliage fondu combustible de BFE 248 et de zirconium
+
+tile.nuclearcraft.fluid_heb_248.name=BHE 248 fondu combustible
+fluid.heb_248=BHE 248 fondu combustible
+tile.nuclearcraft.fluid_heb_248_fluoride.name=Fluorure de BHE 248 fondu combustible
+fluid.heb_248_fluoride=Fluorure de BHE 248 fondu combustible
+tile.nuclearcraft.fluid_heb_248_fluoride_flibe.name=Solution de FLiBe au fluorure de BHE 248 fondu combustible
+fluid.heb_248_fluoride_flibe=Solution de FLiBe au fluorure de BHE 248 fondu combustible
+tile.nuclearcraft.fluid_heb_248_za.name=Alliage fondu combustible de BHE 248 et de zirconium
+fluid.heb_248_za=Alliage fondu combustible de BHE 248 et de zirconium
+
+tile.nuclearcraft.fluid_lecf_249.name=CfFE 249 fondu combustible
+fluid.lecf_249=CfFE 249 fondu combustible
+tile.nuclearcraft.fluid_lecf_249_fluoride.name=Fluorure de CfFE 249 fondu combustible
+fluid.lecf_249_fluoride=Fluorure de CfFE 249 fondu combustible
+tile.nuclearcraft.fluid_lecf_249_fluoride_flibe.name=Solution de FLiBe au fluorure de CfFE 249 fondu combustible
+fluid.lecf_249_fluoride_flibe=Solution de FLiBe au fluorure de CfFE 249 fondu combustible
+tile.nuclearcraft.fluid_lecf_249_za.name=Alliage fondu combustible de CfFE 249 et de zirconium
+fluid.lecf_249_za=Alliage fondu combustible de CfFE 249 et de zirconium
+
+tile.nuclearcraft.fluid_hecf_249.name=CfHE 249 fondu combustible
+fluid.hecf_249=CfHE 249 fondu combustible
+tile.nuclearcraft.fluid_hecf_249_fluoride.name=Fluorure de CfHE 249 fondu combustible
+fluid.hecf_249_fluoride=Fluorure de CfHE 249 fondu combustible
+tile.nuclearcraft.fluid_hecf_249_fluoride_flibe.name=Solution de FLiBe au fluorure de CfHE 249 fondu combustible
+fluid.hecf_249_fluoride_flibe=Solution de FLiBe au fluorure de CfHE 249 fondu combustible
+tile.nuclearcraft.fluid_hecf_249_za.name=Alliage fondu combustible de CfHE 249 et de zirconium
+fluid.hecf_249_za=Alliage fondu combustible de CfHE 249 et de zirconium
+
+tile.nuclearcraft.fluid_lecf_251.name=CfFE 251 fondu combustible
+fluid.lecf_251=CfFE 251 fondu combustible
+tile.nuclearcraft.fluid_lecf_251_fluoride.name=Fluorure de CfFE 251 fondu combustible
+fluid.lecf_251_fluoride=Fluorure de CfFE 251 fondu combustible
+tile.nuclearcraft.fluid_lecf_251_fluoride_flibe.name=Solution de FLiBe au fluorure de CfFE 251 fondu combustible
+fluid.lecf_251_fluoride_flibe=Solution de FLiBe au fluorure de CfFE 251 fondu combustible
+tile.nuclearcraft.fluid_lecf_251_za.name=Alliage fondu combustible de CfFE 251 et de zirconium
+fluid.lecf_251_za=Alliage fondu combustible de CfFE 251 et de zirconium
+
+tile.nuclearcraft.fluid_hecf_251.name=CfHE 251 fondu combustible
+fluid.hecf_251=CfHE 251 fondu combustible
+tile.nuclearcraft.fluid_hecf_251_fluoride.name=Fluorure de CfHE 251 fondu combustible
+fluid.hecf_251_fluoride=Fluorure de CfHE 251 fondu combustible
+tile.nuclearcraft.fluid_hecf_251_fluoride_flibe.name=Solution de FLiBe au fluorure de CfHE 251 fondu combustible
+fluid.hecf_251_fluoride_flibe=Solution de FLiBe au fluorure de CfHE 251 fondu combustible
+tile.nuclearcraft.fluid_hecf_251_za.name=Alliage fondu combustible de CfHE 251 et de zirconium
+fluid.hecf_251_za=Alliage fondu combustible de CfHE 251 et de zirconium
+
+tile.nuclearcraft.fluid_depleted_tbu.name=UIT appauvri fondu combustible
+fluid.depleted_tbu=UIT appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=Fluorure d'UIT appauvri fondu combustible
+fluid.depleted_tbu_fluoride=Fluorure d'UIT appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=Solution de FLiBe au fluorure d'UIT appauvri fondu combustible
+fluid.depleted_tbu_fluoride_flibe=Solution de FLiBe au fluorure d'UIT appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_tbu_za.name=Alliage fondu combustible d'UIT appauvri et de zirconium
+fluid.depleted_tbu_za=Alliage fondu combustible d'UIT appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_leu_233.name=UFE 233 appauvri fondu combustible
+fluid.depleted_leu_233=UFE 233 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride.name=Fluorure d'UFE 233 appauvri fondu combustible
+fluid.depleted_leu_233_fluoride=Fluorure d'UFE 233 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride_flibe.name=Solution de FLiBe au fluorure d'UFE 233 appauvri fondu combustible
+fluid.depleted_leu_233_fluoride_flibe=Solution de FLiBe au fluorure d'UFE 233 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leu_233_za.name=Alliage fondu combustible d'UFE 233 appauvri et de zirconium
+fluid.depleted_leu_233_za=Alliage fondu combustible d'UFE 233 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_heu_233.name=UHE 233 appauvri fondu combustible
+fluid.depleted_heu_233=UHE 233 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride.name=Fluorure d'UHE 233 appauvri fondu combustible
+fluid.depleted_heu_233_fluoride=Fluorure d'UHE 233 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride_flibe.name=Solution de FLiBe au fluorure d'UHE 233 appauvri fondu combustible
+fluid.depleted_heu_233_fluoride_flibe=Solution de FLiBe au fluorure d'UHE 233 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heu_233_za.name=Alliage fondu combustible d'UHE 233 appauvri et de zirconium
+fluid.depleted_heu_233_za=Alliage fondu combustible d'UHE 233 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_leu_235.name=UFE 235 appauvri fondu combustible
+fluid.depleted_leu_235=UFE 235 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride.name=Fluorure d'UFE 235 appauvri fondu combustible
+fluid.depleted_leu_235_fluoride=Fluorure d'UFE 235 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride_flibe.name=Solution de FLiBe au fluorure d'UFE 235 appauvri fondu combustible
+fluid.depleted_leu_235_fluoride_flibe=Solution de FLiBe au fluorure d'UFE 235 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leu_235_za.name=Alliage fondu combustible d'UFE 235 appauvri et de zirconium
+fluid.depleted_leu_235_za=Alliage fondu combustible d'UFE 235 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_heu_235.name=UHE 235 appauvri fondu combustible
+fluid.depleted_heu_235=UHE 235 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride.name=Fluorure d'UHE 235 appauvri fondu combustible
+fluid.depleted_heu_235_fluoride=Fluorure d'UHE 235 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride_flibe.name=Solution de FLiBe au fluorure d'UHE 235 appauvri fondu combustible
+fluid.depleted_heu_235_fluoride_flibe=Solution de FLiBe au fluorure d'UHE 235 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heu_235_za.name=Alliage fondu combustible d'UHE 235 appauvri et de zirconium
+fluid.depleted_heu_235_za=Alliage fondu combustible d'UHE 235 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_len_236.name=NFE 236 appauvri fondu combustible
+fluid.depleted_len_236=NFE 236 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_len_236_fluoride.name=Fluorure de NFE 236 appauvri fondu combustible
+fluid.depleted_len_236_fluoride=Fluorure de NFE 236 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_len_236_fluoride_flibe.name=Solution de FLiBe au fluorure de NFE 236 appauvri fondu combustible
+fluid.depleted_len_236_fluoride_flibe=Solution de FLiBe au fluorure de NFE 236 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_len_236_za.name=Alliage fondu combustible de NFE 236 appauvri et de zirconium
+fluid.depleted_len_236_za=Alliage fondu combustible de NFE 236 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hen_236.name=NHE 236 appauvri fondu combustible
+fluid.depleted_hen_236=NHE 236 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride.name=Fluorure de NHE 236 appauvri fondu combustible
+fluid.depleted_hen_236_fluoride=Fluorure de NHE 236 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride_flibe.name=Solution de FLiBe au fluorure de NHE 236 appauvri fondu combustible
+fluid.depleted_hen_236_fluoride_flibe=Solution de FLiBe au fluorure de NHE 236 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hen_236_za.name=Alliage fondu combustible de NHE 236 appauvri et de zirconium
+fluid.depleted_hen_236_za=Alliage fondu combustible de NHE 236 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lep_239.name=PFE 239 appauvri fondu combustible
+fluid.depleted_lep_239=PFE 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride.name=Fluorure de PFE 239 appauvri fondu combustible
+fluid.depleted_lep_239_fluoride=Fluorure de PFE 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride_flibe.name=Solution de FLiBe au fluorure de PFE 239 appauvri fondu combustible
+fluid.depleted_lep_239_fluoride_flibe=Solution de FLiBe au fluorure de PFE 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lep_239_za.name=Alliage fondu combustible de PFE 239 appauvri et de zirconium
+fluid.depleted_lep_239_za=Alliage fondu combustible de PFE 239 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hep_239.name=PHE 239 appauvri fondu combustible
+fluid.depleted_hep_239=PHE 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride.name=Fluorure de PHE 239 appauvri fondu combustible
+fluid.depleted_hep_239_fluoride=Fluorure de PHE 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride_flibe.name=Solution de FLiBe au fluorure de PHE 239 appauvri fondu combustible
+fluid.depleted_hep_239_fluoride_flibe=Solution de FLiBe au fluorure de PHE 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hep_239_za.name=Alliage fondu combustible de PHE 239 appauvri et de zirconium
+fluid.depleted_hep_239_za=Alliage fondu combustible de PHE 239 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lep_241.name=PFE 241 appauvri fondu combustible
+fluid.depleted_lep_241=PFE 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride.name=Fluorure de PFE 241 appauvri fondu combustible
+fluid.depleted_lep_241_fluoride=Fluorure de PFE 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride_flibe.name=Solution de FLiBe au fluorure de PFE 241 appauvri fondu combustible
+fluid.depleted_lep_241_fluoride_flibe=Solution de FLiBe au fluorure de PFE 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lep_241_za.name=Alliage fondu combustible de PFE 241 appauvri et de zirconium
+fluid.depleted_lep_241_za=Alliage fondu combustible de PFE 241 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hep_241.name=PHE 241 appauvri fondu combustible
+fluid.depleted_hep_241=PHE 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride.name=Fluorure de PHE 241 appauvri fondu combustible
+fluid.depleted_hep_241_fluoride=Fluorure de PHE 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride_flibe.name=Solution de FLiBe au fluorure de PHE 241 appauvri fondu combustible
+fluid.depleted_hep_241_fluoride_flibe=Solution de FLiBe au fluorure de PHE 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hep_241_za.name=Alliage fondu combustible de PHE 241 appauvri et de zirconium
+fluid.depleted_hep_241_za=Alliage fondu combustible de PHE 241 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_mix_239.name=MIX 239 appauvri fondu combustible
+fluid.depleted_mix_239=MIX 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=Fluorure de MIX 239 appauvri fondu combustible
+fluid.depleted_mix_239_fluoride=Fluorure de MIX 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=Solution de FLiBe au fluorure de MIX 239 appauvri fondu combustible
+fluid.depleted_mix_239_fluoride_flibe=Solution de FLiBe au fluorure de MIX 239 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_mix_239_za.name=Alliage fondu combustible de MIX 239 appauvri et de zirconium
+fluid.depleted_mix_239_za=Alliage fondu combustible de MIX 239 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_mix_241.name=MIX 241 appauvri fondu combustible
+fluid.depleted_mix_241=MIX 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=Fluorure de MIX 241 appauvri fondu combustible
+fluid.depleted_mix_241_fluoride=Fluorure de MIX 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=Solution de FLiBe au fluorure de MIX 241 appauvri fondu combustible
+fluid.depleted_mix_241_fluoride_flibe=Solution de FLiBe au fluorure de MIX 241 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_mix_241_za.name=Alliage fondu combustible de MIX 241 appauvri et de zirconium
+fluid.depleted_mix_241_za=Alliage fondu combustible de MIX 241 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lea_242.name=AFE 242 appauvri fondu combustible
+fluid.depleted_lea_242=AFE 242 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride.name=Fluorure d'AFE 242 appauvri fondu combustible
+fluid.depleted_lea_242_fluoride=Fluorure d'AFE 242 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride_flibe.name=Solution de FLiBe au fluorure d'AFE 242 appauvri fondu combustible
+fluid.depleted_lea_242_fluoride_flibe=Solution de FLiBe au fluorure d'AFE 242 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lea_242_za.name=Alliage fondu combustible d'AFE 242 appauvri et de zirconium
+fluid.depleted_lea_242_za=Alliage fondu combustible d'AFE 242 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hea_242.name=AHE 242 appauvri fondu combustible
+fluid.depleted_hea_242=AHE 242 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride.name=Fluorure d'AHE 242 appauvri fondu combustible
+fluid.depleted_hea_242_fluoride=Fluorure d'AHE 242 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride_flibe.name=Solution de FLiBe au fluorure d'AHE 242 appauvri fondu combustible
+fluid.depleted_hea_242_fluoride_flibe=Solution de FLiBe au fluorure d'AHE 242 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hea_242_za.name=Alliage fondu combustible d'AHE 242 appauvri et de zirconium
+fluid.depleted_hea_242_za=Alliage fondu combustible d'AHE 242 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lecm_243.name=CmFE 243 appauvri fondu combustible
+fluid.depleted_lecm_243=CmFE 243 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride.name=Fluorure de CmFE 243 appauvri fondu combustible
+fluid.depleted_lecm_243_fluoride=Fluorure de CmFE 243 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride_flibe.name=Solution de FLiBe au fluorure de CmFE 243 appauvri fondu combustible
+fluid.depleted_lecm_243_fluoride_flibe=Solution de FLiBe au fluorure de CmFE 243 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_243_za.name=Alliage fondu combustible de CmFE 243 appauvri et de zirconium
+fluid.depleted_lecm_243_za=Alliage fondu combustible de CmFE 243 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hecm_243.name=CmHE 243 appauvri fondu combustible
+fluid.depleted_hecm_243=CmHE 243 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride.name=Fluorure de CmHE 243 appauvri fondu combustible
+fluid.depleted_hecm_243_fluoride=Fluorure de CmHE 243 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride_flibe.name=Solution de FLiBe au fluorure de CmHE 243 appauvri fondu combustible
+fluid.depleted_hecm_243_fluoride_flibe=Solution de FLiBe au fluorure de CmHE 243 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_243_za.name=Alliage fondu combustible de CmHE 243 appauvri et de zirconium
+fluid.depleted_hecm_243_za=Alliage fondu combustible de CmHE 243 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lecm_245.name=CmFE 245 appauvri fondu combustible
+fluid.depleted_lecm_245=CmFE 245 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride.name=Fluorure de CmFE 245 appauvri fondu combustible
+fluid.depleted_lecm_245_fluoride=Fluorure de CmFE 245 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride_flibe.name=Solution de FLiBe au fluorure de CmFE 245 appauvri fondu combustible
+fluid.depleted_lecm_245_fluoride_flibe=Solution de FLiBe au fluorure de CmFE 245 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_245_za.name=Alliage fondu combustible de CmFE 245 appauvri et de zirconium
+fluid.depleted_lecm_245_za=Alliage fondu combustible de CmFE 245 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hecm_245.name=CmHE 245 appauvri fondu combustible
+fluid.depleted_hecm_245=CmHE 245 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride.name=Fluorure de CmHE 245 appauvri fondu combustible
+fluid.depleted_hecm_245_fluoride=Fluorure de CmHE 245 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride_flibe.name=Solution de FLiBe au fluorure de CmHE 245 appauvri fondu combustible
+fluid.depleted_hecm_245_fluoride_flibe=Solution de FLiBe au fluorure de CmHE 245 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_245_za.name=Alliage fondu combustible de CmHE 245 appauvri et de zirconium
+fluid.depleted_hecm_245_za=Alliage fondu combustible de CmHE 245 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lecm_247.name=CmFE 247 appauvri fondu combustible
+fluid.depleted_lecm_247=CmFE 247 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride.name=Fluorure de CmFE 247 appauvri fondu combustible
+fluid.depleted_lecm_247_fluoride=Fluorure de CmFE 247 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride_flibe.name=Solution de FLiBe au fluorure de CmFE 247 appauvri fondu combustible
+fluid.depleted_lecm_247_fluoride_flibe=Solution de FLiBe au fluorure de CmFE 247 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecm_247_za.name=Alliage fondu combustible de CmFE 247 appauvri et de zirconium
+fluid.depleted_lecm_247_za=Alliage fondu combustible de CmFE 247 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hecm_247.name=CmHE 247 appauvri fondu combustible
+fluid.depleted_hecm_247=CmHE 247 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride.name=Fluorure de CmHE 247 appauvri fondu combustible
+fluid.depleted_hecm_247_fluoride=Fluorure de CmHE 247 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride_flibe.name=Solution de FLiBe au fluorure de CmHE 247 appauvri fondu combustible
+fluid.depleted_hecm_247_fluoride_flibe=Solution de FLiBe au fluorure de CmHE 247 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecm_247_za.name=Alliage fondu combustible de CmHE 247 appauvri et de zirconium
+fluid.depleted_hecm_247_za=Alliage fondu combustible de CmHE 247 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_leb_248.name=BFE 248 appauvri fondu combustible
+fluid.depleted_leb_248=BFE 248 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride.name=Fluorure de BFE 248 appauvri fondu combustible
+fluid.depleted_leb_248_fluoride=Fluorure de BFE 248 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride_flibe.name=Solution de FLiBe au fluorure de BFE 248 appauvri fondu combustible
+fluid.depleted_leb_248_fluoride_flibe=Solution de FLiBe au fluorure de BFE 248 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_leb_248_za.name=Alliage fondu combustible de BFE 248 appauvri et de zirconium
+fluid.depleted_leb_248_za=Alliage fondu combustible de BFE 248 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_heb_248.name=BHE 248 appauvri fondu combustible
+fluid.depleted_heb_248=BHE 248 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride.name=Fluorure de BHE 248 appauvri fondu combustible
+fluid.depleted_heb_248_fluoride=Fluorure de BHE 248 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride_flibe.name=Solution de FLiBe au fluorure de BHE 248 appauvri fondu combustible
+fluid.depleted_heb_248_fluoride_flibe=Solution de FLiBe au fluorure de BHE 248 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_heb_248_za.name=Alliage fondu combustible de BHE 248 appauvri et de zirconium
+fluid.depleted_heb_248_za=Alliage fondu combustible de BHE 248 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lecf_249.name=CfFE 249 appauvri fondu combustible
+fluid.depleted_lecf_249=CfFE 249 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride.name=Fluorure de CfFE 249 appauvri fondu combustible
+fluid.depleted_lecf_249_fluoride=Fluorure de CfFE 249 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride_flibe.name=Solution de FLiBe au fluorure de CfFE 249 appauvri fondu combustible
+fluid.depleted_lecf_249_fluoride_flibe=Solution de FLiBe au fluorure de CfFE 249 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecf_249_za.name=Alliage fondu combustible de CfFE 249 appauvri et de zirconium
+fluid.depleted_lecf_249_za=Alliage fondu combustible de CfFE 249 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hecf_249.name=CfHE 249 appauvri fondu combustible
+fluid.depleted_hecf_249=CfHE 249 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride.name=Fluorure de CfHE 249 appauvri fondu combustible
+fluid.depleted_hecf_249_fluoride=Fluorure de CfHE 249 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride_flibe.name=Solution de FLiBe au fluorure de CfHE 249 appauvri fondu combustible
+fluid.depleted_hecf_249_fluoride_flibe=Solution de FLiBe au fluorure de CfHE 249 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecf_249_za.name=Alliage fondu combustible de CfHE 249 appauvri et de zirconium
+fluid.depleted_hecf_249_za=Alliage fondu combustible de CfHE 249 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_lecf_251.name=CfFE 251 appauvri fondu combustible
+fluid.depleted_lecf_251=CfFE 251 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride.name=Fluorure de CfFE 251 appauvri fondu combustible
+fluid.depleted_lecf_251_fluoride=Fluorure de CfFE 251 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride_flibe.name=Solution de FLiBe au fluorure de CfFE 251 appauvri fondu combustible
+fluid.depleted_lecf_251_fluoride_flibe=Solution de FLiBe au fluorure de CfFE 251 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_lecf_251_za.name=Alliage fondu combustible de CfFE 251 appauvri et de zirconium
+fluid.depleted_lecf_251_za=Alliage fondu combustible de CfFE 251 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_depleted_hecf_251.name=CfHE 251 appauvri fondu combustible
+fluid.depleted_hecf_251=CfHE 251 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride.name=Fluorure de CfHE 251 appauvri fondu combustible
+fluid.depleted_hecf_251_fluoride=Fluorure de CfHE 251 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride_flibe.name=Solution de FLiBe au fluorure de CfHE 251 appauvri fondu combustible
+fluid.depleted_hecf_251_fluoride_flibe=Solution de FLiBe au fluorure de CfHE 251 appauvri fondu combustible
+tile.nuclearcraft.fluid_depleted_hecf_251_za.name=Alliage fondu combustible de CfHE 251 appauvri et de zirconium
+fluid.depleted_hecf_251_za=Alliage fondu combustible de CfHE 251 appauvri et de zirconium
+
+tile.nuclearcraft.fluid_iron.name=Fer fondu
+fluid.iron=Fer fondu
+tile.nuclearcraft.fluid_iron_nak.name=Mélange eutectique de fer et de NaK
+fluid.iron_nak=Mélange eutectique de fer et de NaK
+tile.nuclearcraft.fluid_iron_nak_hot.name=Mélange eutectique chaud de fer et de NaK
+fluid.iron_nak_hot=Mélange eutectique chaud de fer et de NaK
+
+tile.nuclearcraft.fluid_redstone.name=Redstone fondu
+fluid.redstone=Redstone fondu
+tile.nuclearcraft.fluid_redstone_nak.name=Mélange eutectique de redstone et de NaK
+fluid.redstone_nak=Mélange eutectique de redstone et de NaK
+tile.nuclearcraft.fluid_redstone_nak_hot.name=Mélange eutectique chaud de redstone et de NaK
+fluid.redstone_nak_hot=Mélange eutectique chaud de redstone et de NaK
+
+tile.nuclearcraft.fluid_quartz.name=Quartz fondu
+fluid.quartz=Quartz fondu
+tile.nuclearcraft.fluid_quartz_nak.name=Mélange eutectique de quartz et de NaK
+fluid.quartz_nak=Mélange eutectique de quartz et de NaK
+tile.nuclearcraft.fluid_quartz_nak_hot.name=Mélange eutectique chaud de quartz et de NaK
+fluid.quartz_nak_hot=Mélange eutectique chaud de quartz et de NaK
+
+tile.nuclearcraft.fluid_obsidian.name=Obsidienne fondue
+fluid.obsidian=Obsidienne fondue
+tile.nuclearcraft.fluid_obsidian_nak.name=Mélange eutectique d'obsidienne et de NaK
+fluid.obsidian_nak=Mélange eutectique d'obsidienne et de NaK
+tile.nuclearcraft.fluid_obsidian_nak_hot.name=Mélange eutectique chaud d'obsidienne et de NaK
+fluid.obsidian_nak_hot=Mélange eutectique chaud d'obsidienne et de NaK
+
+tile.nuclearcraft.fluid_nether_brick.name=Briques du nether fondu
+fluid.nether_brick=Briques du nether fondu
+tile.nuclearcraft.fluid_nether_brick_nak.name=Mélange eutectique de briques du nether et de NaK
+fluid.nether_brick_nak=Mélange eutectique de briques du nether et de NaK
+tile.nuclearcraft.fluid_nether_brick_nak_hot.name=Mélange eutectique chaud de briques du nether et de NaK
+fluid.nether_brick_nak_hot=Mélange eutectique chaud de briques du nether et de NaK
+
+tile.nuclearcraft.fluid_glowstone.name=Pierre lumineuse fondu
+fluid.glowstone=Pierre lumineuse fondu
+tile.nuclearcraft.fluid_glowstone_nak.name=Mélange eutectique de pierres lumineuses et de NaK
+fluid.glowstone_nak=Mélange eutectique de pierres lumineuses et de NaK
+tile.nuclearcraft.fluid_glowstone_nak_hot.name=Mélange eutectique chaud de pierres lumineuses et de NaK
+fluid.glowstone_nak_hot=Mélange eutectique chaud de pierres lumineuses et de NaK
+
+tile.nuclearcraft.fluid_lapis.name=Lapis-lazuli fondu
+fluid.lapis=Lapis-lazuli fondu
+tile.nuclearcraft.fluid_lapis_nak.name=Mélange eutectique de lapis-lazuli et de NaK
+fluid.lapis_nak=Mélange eutectique de lapis-lazuli et de NaK
+tile.nuclearcraft.fluid_lapis_nak_hot.name=Mélange eutectique chaud de lapis-lazuli et de NaK
+fluid.lapis_nak_hot=Mélange eutectique chaud de lapis-lazuli et de NaK
+
+tile.nuclearcraft.fluid_gold.name=Or fondu
+fluid.gold=Or fondu
+tile.nuclearcraft.fluid_gold_nak.name=Mélange eutectique d'or et de NaK
+fluid.gold_nak=Mélange eutectique d'or et de NaK
+tile.nuclearcraft.fluid_gold_nak_hot.name=Mélange eutectique chaud d'or et de NaK
+fluid.gold_nak_hot=Mélange eutectique chaud d'or et de NaK
+
+tile.nuclearcraft.fluid_prismarine.name=Prismarine fondue
+fluid.prismarine=Prismarine fondue
+tile.nuclearcraft.fluid_prismarine_nak.name=Mélange eutectique de prismarine et de NaK
+fluid.prismarine_nak=Mélange eutectique de prismarine et de NaK
+tile.nuclearcraft.fluid_prismarine_nak_hot.name=Mélange eutectique chaud de prismarine et de NaK
+fluid.prismarine_nak_hot=Mélange eutectique chaud de prismarine et de NaK
+
+tile.nuclearcraft.fluid_slime.name=Slime fondu
+fluid.slime=Slime fondu
+tile.nuclearcraft.fluid_slime_nak.name=Mélange eutectique de slime et de NaK
+fluid.slime_nak=Mélange eutectique de slime et de NaK
+tile.nuclearcraft.fluid_slime_nak_hot.name=Mélange eutectique chaud de slime et de NaK
+fluid.slime_nak_hot=Mélange eutectique chaud de slime et de NaK
+
+tile.nuclearcraft.fluid_end_stone.name=Pierre de l'end fondue
+fluid.end_stone=Pierre de l'end fondue
+tile.nuclearcraft.fluid_end_stone_nak.name=Mélange eutectique de pierre de l'end et de NaK
+fluid.end_stone_nak=Mélange eutectique de pierre de l'end et de NaK
+tile.nuclearcraft.fluid_end_stone_nak_hot.name=Mélange eutectique chaud de pierre de l'end et de NaK
+fluid.end_stone_nak_hot=Mélange eutectique chaud de pierre de l'end et de NaK
+
+tile.nuclearcraft.fluid_purpur.name=Purpur fondu
+fluid.purpur=Purpur fondu
+tile.nuclearcraft.fluid_purpur_nak.name=Mélange eutectique de purpur et de NaK
+fluid.purpur_nak=Mélange eutectique de purpur et de NaK
+tile.nuclearcraft.fluid_purpur_nak_hot.name=Mélange eutectique chaud de purpur et de NaK
+fluid.purpur_nak_hot=Mélange eutectique chaud de purpur et de NaK
+
+tile.nuclearcraft.fluid_diamond.name=Diamant fondu
+fluid.diamond=Diamant fondu
+tile.nuclearcraft.fluid_diamond_nak.name=Mélange eutectique de diamant et de NaK
+fluid.diamond_nak=Mélange eutectique de diamant et de NaK
+tile.nuclearcraft.fluid_diamond_nak_hot.name=Mélange eutectique chaud de diamant et de NaK
+fluid.diamond_nak_hot=Mélange eutectique chaud de diamant et de NaK
+
+tile.nuclearcraft.fluid_emerald.name=Emeraude fondu
+fluid.emerald=Emeraude fondu
+tile.nuclearcraft.fluid_emerald_nak.name=Mélange eutectique d'émeraude et de NaK
+fluid.emerald_nak=Mélange eutectique d'émeraude et de NaK
+tile.nuclearcraft.fluid_emerald_nak_hot.name=Mélange eutectique chaud d'émeraude et de NaK
+fluid.emerald_nak_hot=Mélange eutectique chaud d'émeraude et de NaK
+
+tile.nuclearcraft.fluid_copper.name=Cuivre fondu
+fluid.copper=Cuivre fondu
+tile.nuclearcraft.fluid_copper_nak.name=Mélange eutectique de cuivre et de NaK
+fluid.copper_nak=Mélange eutectique de cuivre et de NaK
+tile.nuclearcraft.fluid_copper_nak_hot.name=Mélange eutectique chaud de cuivre et de NaK
+fluid.copper_nak_hot=Mélange eutectique chaud de cuivre et de NaK
+
+tile.nuclearcraft.fluid_tin.name=Etain fondu
+fluid.tin=Etain fondu
+tile.nuclearcraft.fluid_tin_nak.name=Mélange eutectique d'étain et de NaK
+fluid.tin_nak=Mélange eutectique d'étain et de NaK
+tile.nuclearcraft.fluid_tin_nak_hot.name=Mélange eutectique chaud d'étain et de NaK
+fluid.tin_nak_hot=Mélange eutectique chaud d'étain et de NaK
+
+tile.nuclearcraft.fluid_lead.name=Plomb fondu
+fluid.lead=Plomb fondu
+tile.nuclearcraft.fluid_lead_nak.name=Mélange eutectique de plomb et de NaK
+fluid.lead_nak=Mélange eutectique de plomb et de NaK
+tile.nuclearcraft.fluid_lead_nak_hot.name=Mélange eutectique chaud de plomb et de NaK
+fluid.lead_nak_hot=Mélange eutectique chaud de plomb et de NaK
+
+tile.nuclearcraft.fluid_boron.name=Bore fondu
+fluid.boron=Bore fondu
+tile.nuclearcraft.fluid_boron_nak.name=Mélange eutectique de bore et de NaK
+fluid.boron_nak=Mélange eutectique de bore et de NaK
+tile.nuclearcraft.fluid_boron_nak_hot.name=Mélange eutectique chaud de bore et de NaK
+fluid.boron_nak_hot=Mélange eutectique chaud de bore et de NaK
+
+tile.nuclearcraft.fluid_lithium.name=Lithium fondu
+fluid.lithium=Lithium fondu
+tile.nuclearcraft.fluid_lithium_nak.name=Mélange eutectique de lithium et de NaK
+fluid.lithium_nak=Mélange eutectique de lithium et de NaK
+tile.nuclearcraft.fluid_lithium_nak_hot.name=Mélange eutectique chaud de lithium et de NaK
+fluid.lithium_nak_hot=Mélange eutectique chaud de lithium et de NaK
+
+tile.nuclearcraft.fluid_magnesium.name=Magnésium fondu
+fluid.magnesium=Magnésium fondu
+tile.nuclearcraft.fluid_magnesium_nak.name=Mélange eutectique de magnésium et de NaK
+fluid.magnesium_nak=Mélange eutectique de magnésium et de NaK
+tile.nuclearcraft.fluid_magnesium_nak_hot.name=Mélange eutectique chaud de magnésium et de NaK
+fluid.magnesium_nak_hot=Mélange eutectique chaud de magnésium et de NaK
+
+tile.nuclearcraft.fluid_manganese.name=Manganèse fondu
+fluid.manganese=Manganèse fondu
+tile.nuclearcraft.fluid_manganese_nak.name=Mélange eutectique de manganèse et de NaK
+fluid.manganese_nak=Mélange eutectique de manganèse et de NaK
+tile.nuclearcraft.fluid_manganese_nak_hot.name=Mélange eutectique chaud de manganèse et de NaK
+fluid.manganese_nak_hot=Mélange eutectique chaud de manganèse et de NaK
+
+tile.nuclearcraft.fluid_aluminum.name=Aluminium fondu
+fluid.aluminum=Aluminium fondu
+tile.nuclearcraft.fluid_aluminum_nak.name=Mélange eutectique d'aluminium et de NaK
+fluid.aluminum_nak=Mélange eutectique d'aluminium et de NaK
+tile.nuclearcraft.fluid_aluminum_nak_hot.name=Mélange eutectique chaud d'aluminium et de NaK
+fluid.aluminum_nak_hot=Mélange eutectique chaud d'aluminium et de NaK
+
+tile.nuclearcraft.fluid_silver.name=Argent fondu
+fluid.silver=Argent fondu
+tile.nuclearcraft.fluid_silver_nak.name=Mélange eutectique d'argent et de NaK
+fluid.silver_nak=Mélange eutectique d'argent et de NaK
+tile.nuclearcraft.fluid_silver_nak_hot.name=Mélange eutectique chaud d'argent et de NaK
+fluid.silver_nak_hot=Mélange eutectique chaud d'argent et de NaK
+
+tile.nuclearcraft.fluid_fluorite.name=Fluorite fondue
+fluid.fluorite=Fluorite fondue
+tile.nuclearcraft.fluid_fluorite_nak.name=Mélange eutectique de fluorite et de NaK
+fluid.fluorite_nak=Mélange eutectique de fluorite et de NaK
+tile.nuclearcraft.fluid_fluorite_nak_hot.name=Mélange eutectique chaud de fluorite et de NaK
+fluid.fluorite_nak_hot=Mélange eutectique chaud de fluorite et de NaK
+
+tile.nuclearcraft.fluid_villiaumite.name=Villaumite fondue
+fluid.villiaumite=Villaumite fondue
+tile.nuclearcraft.fluid_villiaumite_nak.name=Mélange eutectique de villaumite et de NaK
+fluid.villiaumite_nak=Mélange eutectique de villaumite et de NaK
+tile.nuclearcraft.fluid_villiaumite_nak_hot.name=Mélange eutectique chaud de villaumite et de NaK
+fluid.villiaumite_nak_hot=Mélange eutectique chaud de villaumite et de NaK
+
+tile.nuclearcraft.fluid_carobbiite.name=Carobbiite fondu
+fluid.carobbiite=Carobbiite fondu
+tile.nuclearcraft.fluid_carobbiite_nak.name=Mélange eutectique de carobbiite et de NaK
+fluid.carobbiite_nak=Mélange eutectique de carobbiite et de NaK
+tile.nuclearcraft.fluid_carobbiite_nak_hot.name=Mélange eutectique chaud de carobbiite et de NaK
+fluid.carobbiite_nak_hot=Mélange eutectique chaud de carobbiite et de NaK
+
+tile.nuclearcraft.fluid_arsenic_nak.name=Mélange eutectique d'arsenic et de NaK
+fluid.arsenic_nak=Mélange eutectique d'arsenic et de NaK
+tile.nuclearcraft.fluid_arsenic_nak_hot.name=Mélange eutectique chaud d'arsenic et de NaK
+fluid.arsenic_nak_hot=Mélange eutectique chaud d'arsenic et de NaK
+
+tile.nuclearcraft.fluid_liquid_nitrogen_nak.name=Mélange eutectique d'azote et de NaK
+fluid.liquid_nitrogen_nak=Mélange eutectique d'azote et de NaK
+tile.nuclearcraft.fluid_liquid_nitrogen_nak_hot.name=Mélange eutectique chaud d'azote et de NaK
+fluid.liquid_nitrogen_nak_hot=Mélange eutectique chaud d'azote et de NaK
+
+tile.nuclearcraft.fluid_liquid_helium_nak.name=Mélange eutectique d'hélium et de NaK
+fluid.liquid_helium_nak=Mélange eutectique d'hélium et de NaK
+tile.nuclearcraft.fluid_liquid_helium_nak_hot.name=Mélange eutectique chaud d'hélium et de NaK
+fluid.liquid_helium_nak_hot=Mélange eutectique chaud d'hélium et de NaK
+
+tile.nuclearcraft.fluid_enderium_nak.name=Mélange eutectique d'endérium et de NaK
+fluid.enderium_nak=Mélange eutectique d'endérium et de NaK
+tile.nuclearcraft.fluid_enderium_nak_hot.name=Mélange eutectique chaud d'endérium et de NaK
+fluid.enderium_nak_hot=Mélange eutectique chaud d'endérium et de NaK
+
+tile.nuclearcraft.fluid_cryotheum_nak.name=Mélange eutectique de cryothéum fondu et de NaK
+fluid.cryotheum_nak=Mélange eutectique de cryothéum fondu et de NaK
+tile.nuclearcraft.fluid_cryotheum_nak_hot.name=Mélange eutectique chaud de cryothéum fondu et de NaK
+fluid.cryotheum_nak_hot=Mélange eutectique chaud de cryothéum fondu et de NaK
+
+item.nuclearcraft.rads=Radiation:
+item.nuclearcraft.rad_resist=Résistance aux radiations:
+item.nuclearcraft.food_rads=Effets de l'aliment:
+
+item.nuclearcraft.ingot.copper.name=Lingot de cuivre
+item.nuclearcraft.ingot.tin.name=Lingot d'étain
+item.nuclearcraft.ingot.lead.name=Lingot de plomb
+item.nuclearcraft.ingot.thorium.name=Lingot de thorium
+item.nuclearcraft.ingot.uranium.name=Lingot d'uranium
+item.nuclearcraft.ingot.boron.name=Lingot de bore
+item.nuclearcraft.ingot.lithium.name=Lingot de lithium
+item.nuclearcraft.ingot.magnesium.name=Lingot de magnésium
+item.nuclearcraft.ingot.graphite.name=Lingot de graphite
+item.nuclearcraft.ingot.beryllium.name=Lingot de béryllium
+item.nuclearcraft.ingot.zirconium.name=Lingot de zirconium
+item.nuclearcraft.ingot.manganese.name=Lingot de manganèse
+item.nuclearcraft.ingot.aluminum.name=Lingot d'aluminium
+item.nuclearcraft.ingot.silver.name=Lingot d'argent
+item.nuclearcraft.ingot.manganese_oxide.name=Lingot d'oxyde de manganèse
+item.nuclearcraft.ingot.manganese_dioxide.name=Lingot de dioxyde de manganèse
+
+item.nuclearcraft.dust.copper.name=Poudre de cuivre
+item.nuclearcraft.dust.tin.name=Poudre d'étain
+item.nuclearcraft.dust.lead.name=Poudre de plomb
+item.nuclearcraft.dust.thorium.name=Poudre de thorium
+item.nuclearcraft.dust.uranium.name=Poudre d'uranium
+item.nuclearcraft.dust.boron.name=Poudre de bore
+item.nuclearcraft.dust.lithium.name=Poudre de lithium
+item.nuclearcraft.dust.magnesium.name=Poudre de magnésium
+item.nuclearcraft.dust.graphite.name=Poudre de graphite
+item.nuclearcraft.dust.beryllium.name=Poudre de béryllium
+item.nuclearcraft.dust.beryllium.desc=Obtenu en plus du charbon, lorsqu'on casse du minerai de charbon.
+item.nuclearcraft.dust.zirconium.name=Poudre de zirconium
+item.nuclearcraft.dust.zirconium.desc=Obtenu en plus du quartz, lorsqu'on casse du minerai de quartz.
+item.nuclearcraft.dust.manganese.name=Poudre de manganèse
+item.nuclearcraft.dust.aluminum.name=Poudre d'aluminium
+item.nuclearcraft.dust.silver.name=Poudre d'argent
+item.nuclearcraft.dust.manganese_oxide.name=Poudre d'oxyde de manganèse
+item.nuclearcraft.dust.manganese_dioxide.name=Poudre de dioxyde de manganèse
+
+item.nuclearcraft.gem.rhodochrosite.name=Rhodochrosite
+item.nuclearcraft.gem.rhodochrosite.desc=Obtenu en plus de la redstone, lorsqu'on casse du minerai de redstone.
+item.nuclearcraft.gem.boron_nitride.name=Nitrure de bore cubique
+item.nuclearcraft.gem.fluorite.name=Fluorite
+item.nuclearcraft.gem.fluorite.desc=Obtenu en plus du lapis-lazuli, lorsqu'on casse du minerai de lapis-lazuli.
+item.nuclearcraft.gem.villiaumite.name=Villiaumite
+item.nuclearcraft.gem.villiaumite.desc=Obtenu en plus du diamant, lorsqu'on casse du minerai de diamant.
+item.nuclearcraft.gem.carobbiite.name=Carobbiite
+item.nuclearcraft.gem.carobbiite.desc=Obtenu en plus du diamant, lorsqu'on casse du minerai de diamant.
+item.nuclearcraft.gem.boron_arsenide.name=Arséniure de bore
+item.nuclearcraft.gem.silicon.name=Silicium
+
+item.nuclearcraft.gem_dust.diamond.name=Diamant broyé
+item.nuclearcraft.gem_dust.rhodochrosite.name=Rhodochrosite broyée
+item.nuclearcraft.gem_dust.quartz.name=Quartz broyé
+item.nuclearcraft.gem_dust.obsidian.name=Obsidienne broyée
+item.nuclearcraft.gem_dust.boron_nitride.name=Nitrure de bore hexagonale
+item.nuclearcraft.gem_dust.fluorite.name=Fluorite broyée
+item.nuclearcraft.gem_dust.sulfur.name=Soufre
+item.nuclearcraft.gem_dust.sulfur.desc=Obtenu en plus du charbon, lorsqu'on casse du minerai de charbon.
+item.nuclearcraft.gem_dust.coal.name=Charbon broyé
+item.nuclearcraft.gem_dust.villiaumite.name=Villiaumite broyée
+item.nuclearcraft.gem_dust.carobbiite.name=Carobbiite broyée
+item.nuclearcraft.gem_dust.arsenic.name=Arsenic broyé
+item.nuclearcraft.gem_dust.end_stone.name=Pierre de l'end broyée
+
+item.nuclearcraft.alloy.bronze.name=Lingot de bronze
+item.nuclearcraft.alloy.tough.name=Alliage dur
+item.nuclearcraft.alloy.hard_carbon.name=Alliage de carbone dur
+item.nuclearcraft.alloy.magnesium_diboride.name=Alliage de diborure de magnésium
+item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Alliage de dioxyde de manganèse et de lithium
+item.nuclearcraft.alloy.steel.name=Lingot d'acier
+item.nuclearcraft.alloy.ferroboron.name=Alliage de fer et de bore
+item.nuclearcraft.alloy.shibuichi.name=Alliage shibuichi
+item.nuclearcraft.alloy.tin_silver.name=Alliage d'étain et d'argent
+item.nuclearcraft.alloy.lead_platinum.name=Alliage de platine et de plomb
+item.nuclearcraft.alloy.extreme.name=Alliage extrême
+item.nuclearcraft.alloy.thermoconducting.name=Alliage thermoconducteur
+item.nuclearcraft.alloy.zircaloy.name=Lingot de zircaloy
+item.nuclearcraft.alloy.silicon_carbide.name=Lingot de carbure de silicium
+item.nuclearcraft.alloy.sic_sic_cmc.name=Composite à matrice céramique SiC-SiC
+item.nuclearcraft.alloy.hsla_steel.name=Lingot d'acier faiblement allié à haute résistance
+item.nuclearcraft.alloy.zirconium_molybdenum.name=Alliage de zirconium et de molybdène
+
+item.nuclearcraft.compound.calcium_sulfate.name=Sulfate de calcium
+item.nuclearcraft.compound.crystal_binder.name=Liant de cristal
+item.nuclearcraft.compound.energetic_blend.name=Mélange énergétique
+item.nuclearcraft.compound.sodium_fluoride.name=Fluorure de sodium
+item.nuclearcraft.compound.potassium_fluoride.name=Fluorure de potassium
+item.nuclearcraft.compound.sodium_hydroxide.name=Hydroxyde de sodium
+item.nuclearcraft.compound.potassium_hydroxide.name=Hydroxyde de potassium
+item.nuclearcraft.compound.borax.name=Borax
+item.nuclearcraft.compound.irradiated_borax.name=Borax irradié
+item.nuclearcraft.compound.dimensional_blend.name=Mélange dimensionnel
+item.nuclearcraft.compound.c_mn_blend.name=Mélange de carbone et de manganèse
+item.nuclearcraft.compound.alugentum.name=Poudre d'alugentum
+
+item.nuclearcraft.part.plate_basic.name=Placage basique
+item.nuclearcraft.part.plate_advanced.name=Placage avancé
+item.nuclearcraft.part.plate_du.name=Placage DU
+item.nuclearcraft.part.plate_elite.name=Placage élite
+item.nuclearcraft.part.wire_copper.name=Solénoïde en cuivre
+item.nuclearcraft.part.wire_magnesium_diboride.name=Solénoïde en diborure de magnésium
+item.nuclearcraft.part.bioplastic.name=Bioplastique
+item.nuclearcraft.part.servo.name=Servomécanisme
+item.nuclearcraft.part.motor.name=Moteur électrique
+item.nuclearcraft.part.actuator.name=Actionneur linéaire
+item.nuclearcraft.part.chassis.name=Chassis de machine
+item.nuclearcraft.part.empty_frame.name=Cadre de machine vide
+item.nuclearcraft.part.steel_frame.name=Chassis de machine en acier
+item.nuclearcraft.part.plate_extreme.name=Placage extrême
+item.nuclearcraft.part.sic_fiber.name=Fibre de carbure de silicium
+item.nuclearcraft.part.empty_sink.name=Refroidisseur vide
+item.nuclearcraft.part.pyrolytic_carbon.name=Carbone pyrolytique
+
+item.nuclearcraft.upgrade.speed.name=Amélioration de vitesse
+item.nuclearcraft.upgrade.speed_desc=Augmente la vitesse et la consommation d'énergie des machines. Trois améliorations peuvent être ajoutées en même temps - la vitesse augmentera de %s et la consommation d'énergie de %s à chaque amélioration supplémentaire.
+item.nuclearcraft.upgrade.energy.name=Amélioration d'énergie
+item.nuclearcraft.upgrade.energy_desc=Diminue la consommation d'énergie des machines. Plusieurs améliorations peuvent être ajoutées en même temps, mais le nombre maximum d'amélioration est égal à celui d'améliorations de vitesse installées. La consommation d'énergie diminuera de %s à chaque amélioration supplémentaire.
+
+item.nuclearcraft.fission_dust.bismuth.name=Poudre de bismuth
+item.nuclearcraft.fission_dust.radium.name=Poudre de radium
+item.nuclearcraft.fission_dust.polonium.name=Poudre de polonium
+item.nuclearcraft.fission_dust.tbp.name=Poudre de protactinium enrichi de thorium
+item.nuclearcraft.fission_dust.protactinium_233.name=Poudre de protactinium 233
+item.nuclearcraft.fission_dust.strontium_90.name=Poudre de strontium 90
+item.nuclearcraft.fission_dust.molybdenum.name=Poudre de molybdène
+item.nuclearcraft.fission_dust.ruthenium_106.name=Poudre de ruthénium 106
+item.nuclearcraft.fission_dust.caesium_137.name=Poudre de césium 137
+item.nuclearcraft.fission_dust.promethium_147.name=Poudre de prométhium 147
+item.nuclearcraft.fission_dust.europium_155.name=Poudre d'europium 155
+
+item.nuclearcraft.uranium.233.name=Uranium 233
+item.nuclearcraft.uranium.233_c.name=Carbure d'uranium 233
+item.nuclearcraft.uranium.233_ox.name=Oxyde d'uranium 233
+item.nuclearcraft.uranium.233_ni.name=Nitrure d'uranium 233
+item.nuclearcraft.uranium.233_za.name=Alliage d'uranium 233 et de zirconium
+item.nuclearcraft.uranium.235.name=Uranium 235
+item.nuclearcraft.uranium.235_c.name=Carbure d'uranium 235
+item.nuclearcraft.uranium.235_ox.name=Oxyde d'uranium 235
+item.nuclearcraft.uranium.235_ni.name=Nitrure d'uranium 235
+item.nuclearcraft.uranium.235_za.name=Alliage d'uranium 235 et de zirconium
+item.nuclearcraft.uranium.238.name=Uranium 238
+item.nuclearcraft.uranium.238_c.name=Carbure d'uranium 238
+item.nuclearcraft.uranium.238_ox.name=Oxyde d'uranium 238
+item.nuclearcraft.uranium.238_ni.name=Nitrure d'uranium 238
+item.nuclearcraft.uranium.238_za.name=Alliage d'uranium 238 et de zirconium
+
+item.nuclearcraft.neptunium.236.name=Neptunium 236
+item.nuclearcraft.neptunium.236_c.name=Carbure de neptunium 236
+item.nuclearcraft.neptunium.236_ox.name=Oxyde de neptunium 236
+item.nuclearcraft.neptunium.236_ni.name=Nitrure de neptunium 236
+item.nuclearcraft.neptunium.236_za.name=Alliage de neptunium 236 et de zirconium
+item.nuclearcraft.neptunium.237.name=Neptunium 237
+item.nuclearcraft.neptunium.237_c.name=Carbure de neptunium 237
+item.nuclearcraft.neptunium.237_ox.name=Oxyde de neptunium 237
+item.nuclearcraft.neptunium.237_ni.name=Nitrure de neptunium 237
+item.nuclearcraft.neptunium.237_za.name=Alliage de neptunium 237 et de zirconium
+
+item.nuclearcraft.plutonium.238.name=Plutonium 238
+item.nuclearcraft.plutonium.238_c.name=Carbure de plutonium 238
+item.nuclearcraft.plutonium.238_ox.name=Oxyde de plutonium 238
+item.nuclearcraft.plutonium.238_ni.name=Nitrure de plutonium 238
+item.nuclearcraft.plutonium.238_za.name=Alliage de plutonium 238 et de zirconium
+item.nuclearcraft.plutonium.239.name=Plutonium 239
+item.nuclearcraft.plutonium.239_c.name=Carbure de plutonium 239
+item.nuclearcraft.plutonium.239_ox.name=Oxyde de plutonium 239
+item.nuclearcraft.plutonium.239_ni.name=Nitrure de plutonium 239
+item.nuclearcraft.plutonium.239_za.name=Alliage de plutonium 239 et de zirconium
+item.nuclearcraft.plutonium.241.name=Plutonium 241
+item.nuclearcraft.plutonium.241_c.name=Carbure de plutonium 241
+item.nuclearcraft.plutonium.241_ox.name=Oxyde de plutonium 241
+item.nuclearcraft.plutonium.241_ni.name=Nitrure de plutonium 241
+item.nuclearcraft.plutonium.241_za.name=Alliage de plutonium 241 et de zirconium
+item.nuclearcraft.plutonium.242.name=Plutonium 242
+item.nuclearcraft.plutonium.242_c.name=Carbure de plutonium 242
+item.nuclearcraft.plutonium.242_ox.name=Oxyde de plutonium 242
+item.nuclearcraft.plutonium.242_ni.name=Nitrure de plutonium 242
+item.nuclearcraft.plutonium.242_za.name=Alliage de plutonium 242 et de zirconium
+
+item.nuclearcraft.americium.241.name=Américium 241
+item.nuclearcraft.americium.241_c.name=Carbure d'américium 241
+item.nuclearcraft.americium.241_ox.name=Oxyde d'américium 241
+item.nuclearcraft.americium.241_ni.name=Nitrure d'américium 241
+item.nuclearcraft.americium.241_za.name=Alliage d'américium 241 et de zirconium
+item.nuclearcraft.americium.242.name=Américium 242
+item.nuclearcraft.americium.242_c.name=Carbure d'américium 242
+item.nuclearcraft.americium.242_ox.name=Oxyde d'américium 242
+item.nuclearcraft.americium.242_ni.name=Nitrure d'américium 242
+item.nuclearcraft.americium.242_za.name=Alliage d'américium 242 et de zirconium
+item.nuclearcraft.americium.243.name=Américium 243
+item.nuclearcraft.americium.243_c.name=Carbure d'américium 243
+item.nuclearcraft.americium.243_ox.name=Oxyde d'américium 243
+item.nuclearcraft.americium.243_ni.name=Nitrure d'américium 243
+item.nuclearcraft.americium.243_za.name=Alliage d'américium 243 et de zirconium
+
+item.nuclearcraft.curium.243.name=Curium 243
+item.nuclearcraft.curium.243_c.name=Carbure de curium 243
+item.nuclearcraft.curium.243_ox.name=Oxyde de curium 243
+item.nuclearcraft.curium.243_ni.name=Nitrure de curium 243
+item.nuclearcraft.curium.243_za.name=Alliage de curium 243 et de zirconium
+item.nuclearcraft.curium.245.name=Curium 245
+item.nuclearcraft.curium.245_c.name=Carbure de curium 245
+item.nuclearcraft.curium.245_ox.name=Oxyde de curium 245
+item.nuclearcraft.curium.245_ni.name=Nitrure de curium 245
+item.nuclearcraft.curium.245_za.name=Alliage de curium 245 et de zirconium
+item.nuclearcraft.curium.246.name=Curium 246
+item.nuclearcraft.curium.246_c.name=Carbure de curium 246
+item.nuclearcraft.curium.246_ox.name=Oxyde de curium 246
+item.nuclearcraft.curium.246_ni.name=Nitrure de curium 246
+item.nuclearcraft.curium.246_za.name=Alliage de curium 246 et de zirconium
+item.nuclearcraft.curium.247.name=Curium 247
+item.nuclearcraft.curium.247_c.name=Carbure de curium 247
+item.nuclearcraft.curium.247_ox.name=Oxyde de curium 247
+item.nuclearcraft.curium.247_ni.name=Nitrure de curium 247
+item.nuclearcraft.curium.247_za.name=Alliage de curium 247 et de zirconium
+
+item.nuclearcraft.berkelium.247.name=Berkélium 247
+item.nuclearcraft.berkelium.247_c.name=Carbure de berkélium 247
+item.nuclearcraft.berkelium.247_ox.name=Oxyde de berkélium 247
+item.nuclearcraft.berkelium.247_ni.name=Nitrure de berkélium 247
+item.nuclearcraft.berkelium.247_za.name=Alliage de berkélium 247 et de zirconium
+item.nuclearcraft.berkelium.248.name=Berkélium 248
+item.nuclearcraft.berkelium.248_c.name=Carbure de berkélium 248
+item.nuclearcraft.berkelium.248_ox.name=Oxyde de berkélium 248
+item.nuclearcraft.berkelium.248_ni.name=Nitrure de berkélium 248
+item.nuclearcraft.berkelium.248_za.name=Alliage de berkélium 248 et de zirconium
+
+item.nuclearcraft.californium.249.name=Californium 249
+item.nuclearcraft.californium.249_c.name=Carbure de californium 249
+item.nuclearcraft.californium.249_ox.name=Oxyde de californium 249
+item.nuclearcraft.californium.249_ni.name=Nitrure de californium 249
+item.nuclearcraft.californium.249_za.name=Alliage de californium 249 et de zirconium
+item.nuclearcraft.californium.250.name=Californium 250
+item.nuclearcraft.californium.250_c.name=Carbure de californium 250
+item.nuclearcraft.californium.250_ox.name=Oxyde de californium 250
+item.nuclearcraft.californium.250_ni.name=Nitrure de californium 250
+item.nuclearcraft.californium.250_za.name=Alliage de californium 250 et de zirconium
+item.nuclearcraft.californium.251.name=Californium 251
+item.nuclearcraft.californium.251_c.name=Carbure de californium 251
+item.nuclearcraft.californium.251_ox.name=Oxyde de californium 251
+item.nuclearcraft.californium.251_ni.name=Nitrure de californium 251
+item.nuclearcraft.californium.251_za.name=Alliage de californium 251 et de zirconium
+item.nuclearcraft.californium.252.name=Californium 252
+item.nuclearcraft.californium.252_c.name=Carbure de californium 252
+item.nuclearcraft.californium.252_ox.name=Oxyde de californium 252
+item.nuclearcraft.californium.252_ni.name=Nitrure de californium 252
+item.nuclearcraft.californium.252_za.name=Alliage de californium 252 et de zirconium
+
+item.nuclearcraft.pellet_thorium.tbu.name=UIT
+item.nuclearcraft.pellet_thorium.tbu_c.name=Carbure d'UIT
+
+item.nuclearcraft.pellet_uranium.leu_233.name=UFE 233
+item.nuclearcraft.pellet_uranium.leu_233_c.name=Carbure d'UFE 233
+item.nuclearcraft.pellet_uranium.heu_233.name=UHE 233
+item.nuclearcraft.pellet_uranium.heu_233_c.name=Carbure d'UHE 233
+item.nuclearcraft.pellet_uranium.leu_235.name=UFE 235
+item.nuclearcraft.pellet_uranium.leu_235_c.name=Carbure d'UFE 235
+item.nuclearcraft.pellet_uranium.heu_235.name=UHE 235
+item.nuclearcraft.pellet_uranium.heu_235_c.name=Carbure d'UHE 235
+
+item.nuclearcraft.pellet_neptunium.len_236.name=NFE 236
+item.nuclearcraft.pellet_neptunium.len_236_c.name=Carbure de NFE 236
+item.nuclearcraft.pellet_neptunium.hen_236.name=NFE 236
+item.nuclearcraft.pellet_neptunium.hen_236_c.name=Carbure de NFE 236
+
+item.nuclearcraft.pellet_plutonium.lep_239.name=PFE 239
+item.nuclearcraft.pellet_plutonium.lep_239_c.name=Carbure de PFE 239
+item.nuclearcraft.pellet_plutonium.hep_239.name=PHE 239
+item.nuclearcraft.pellet_plutonium.hep_239_c.name=Carbure de PHE 239
+item.nuclearcraft.pellet_plutonium.lep_241.name=PFE 241
+item.nuclearcraft.pellet_plutonium.lep_241_c.name=Carbure de PFE 241
+item.nuclearcraft.pellet_plutonium.hep_241.name=PHE 241
+item.nuclearcraft.pellet_plutonium.hep_241_c.name=Carbure de PHE 241
+
+item.nuclearcraft.pellet_mixed.mix_239.name=MIX 239
+item.nuclearcraft.pellet_mixed.mix_239_c.name=Carbure de MIX 239
+item.nuclearcraft.pellet_mixed.mix_241.name=MIX 241
+item.nuclearcraft.pellet_mixed.mix_241_c.name=Carbure de MIX 241
+
+item.nuclearcraft.pellet_americium.lea_242.name=AFE 242
+item.nuclearcraft.pellet_americium.lea_242_c.name=Carbure d'AFE 242
+item.nuclearcraft.pellet_americium.hea_242.name=AHE 242
+item.nuclearcraft.pellet_americium.hea_242_c.name=Carbure d'AHE 242
+
+item.nuclearcraft.pellet_curium.lecm_243.name=CmFE 243
+item.nuclearcraft.pellet_curium.lecm_243_c.name=Carbure de CmFE 243
+item.nuclearcraft.pellet_curium.hecm_243.name=CmHE 243
+item.nuclearcraft.pellet_curium.hecm_243_c.name=Carbure de CmHE 243
+item.nuclearcraft.pellet_curium.lecm_245.name=CmFE 245
+item.nuclearcraft.pellet_curium.lecm_245_c.name=Carbure de CmFE 245
+item.nuclearcraft.pellet_curium.hecm_245.name=CmHE 245
+item.nuclearcraft.pellet_curium.hecm_245_c.name=Carbure de CmHE 245
+item.nuclearcraft.pellet_curium.lecm_247.name=CmFE 247
+item.nuclearcraft.pellet_curium.lecm_247_c.name=Carbure de CmFE 247
+item.nuclearcraft.pellet_curium.hecm_247.name=CmHE 247
+item.nuclearcraft.pellet_curium.hecm_247_c.name=Carbure de CmHE 247
+
+item.nuclearcraft.pellet_berkelium.leb_248.name=BFE 248
+item.nuclearcraft.pellet_berkelium.leb_248_c.name=Carbure de BFE 248
+item.nuclearcraft.pellet_berkelium.heb_248.name=BHE 248
+item.nuclearcraft.pellet_berkelium.heb_248_c.name=Carbure de BHE 248
+
+item.nuclearcraft.pellet_californium.lecf_249.name=CfFE 249
+item.nuclearcraft.pellet_californium.lecf_249_c.name=Carbure de CfFE 249
+item.nuclearcraft.pellet_californium.hecf_249.name=CfHE 249
+item.nuclearcraft.pellet_californium.hecf_249_c.name=Carbure de CfHE 249
+item.nuclearcraft.pellet_californium.lecf_251.name=CfFE 251
+item.nuclearcraft.pellet_californium.lecf_251_c.name=Carbure de CfFE 251
+item.nuclearcraft.pellet_californium.hecf_251.name=CfHE 251
+item.nuclearcraft.pellet_californium.hecf_251_c.name=Carbure de CfHE 251
+
+item.nuclearcraft.fuel_thorium.tbu_tr.name=Boulet de combustible TRISO d'UIT
+item.nuclearcraft.fuel_thorium.tbu_ox.name=Tablette de combustible d'oxyde d'UIT
+item.nuclearcraft.fuel_thorium.tbu_ni.name=Tablette de combustible de nitrure d'UIT
+item.nuclearcraft.fuel_thorium.tbu_za.name=Tablette de combustible d'alliage d'UIT et de zirconium
+
+item.nuclearcraft.fuel_uranium.leu_233_tr.name=Boulet de combustible TRISO d'UFE 233
+item.nuclearcraft.fuel_uranium.leu_233_ox.name=Tablette de combustible d'oxyde d'UFE 233
+item.nuclearcraft.fuel_uranium.leu_233_ni.name=Tablette de combustible de nitrure d'UFE 233
+item.nuclearcraft.fuel_uranium.leu_233_za.name=Tablette de combustible d'alliage d'UFE 233 et de zirconium
+item.nuclearcraft.fuel_uranium.heu_233_tr.name=Boulet de combustible TRISO d'UHE 233
+item.nuclearcraft.fuel_uranium.heu_233_ox.name=Tablette de combustible d'oxyde d'UHE 233
+item.nuclearcraft.fuel_uranium.heu_233_ni.name=Tablette de combustible de nitrure d'UHE 233
+item.nuclearcraft.fuel_uranium.heu_233_za.name=Tablette de combustible d'alliage d'UHE 233 et de zirconium
+item.nuclearcraft.fuel_uranium.leu_235_tr.name=Boulet de combustible TRISO d'UFE 235
+item.nuclearcraft.fuel_uranium.leu_235_ox.name=Tablette de combustible d'oxyde d'UFE 235
+item.nuclearcraft.fuel_uranium.leu_235_ni.name=Tablette de combustible de nitrure d'UFE 235
+item.nuclearcraft.fuel_uranium.leu_235_za.name=Tablette de combustible d'alliage d'UFE 235 et de zirconium
+item.nuclearcraft.fuel_uranium.heu_235_tr.name=Boulet de combustible TRISO d'UHE 235
+item.nuclearcraft.fuel_uranium.heu_235_ox.name=Tablette de combustible d'oxyde d'UHE 235
+item.nuclearcraft.fuel_uranium.heu_235_ni.name=Tablette de combustible de nitrure d'UHE 235
+item.nuclearcraft.fuel_uranium.heu_235_za.name=Tablette de combustible d'alliage d'UHE 235 et de zirconium
+
+item.nuclearcraft.fuel_neptunium.len_236_tr.name=Boulet de combustible TRISO de NFE 236
+item.nuclearcraft.fuel_neptunium.len_236_ox.name=Tablette de combustible d'oxyde de NFE 236
+item.nuclearcraft.fuel_neptunium.len_236_ni.name=Tablette de combustible de nitrure de NFE 236
+item.nuclearcraft.fuel_neptunium.len_236_za.name=Tablette de combustible d'alliage de NFE 236 et de zirconium
+item.nuclearcraft.fuel_neptunium.hen_236_tr.name=Boulet de combustible TRISO de NHE 236
+item.nuclearcraft.fuel_neptunium.hen_236_ox.name=Tablette de combustible d'oxyde de NHE 236
+item.nuclearcraft.fuel_neptunium.hen_236_ni.name=Tablette de combustible de nitrure de NHE 236
+item.nuclearcraft.fuel_neptunium.hen_236_za.name=Tablette de combustible d'alliage de NHE 236 et de zirconium
+
+item.nuclearcraft.fuel_plutonium.lep_239_tr.name=Boulet de combustible TRISO de PFE 239
+item.nuclearcraft.fuel_plutonium.lep_239_ox.name=Tablette de combustible d'oxyde de PFE 239
+item.nuclearcraft.fuel_plutonium.lep_239_ni.name=Tablette de combustible de nitrure de PFE 239
+item.nuclearcraft.fuel_plutonium.lep_239_za.name=Tablette de combustible d'alliage de PFE 239 et de zirconium
+item.nuclearcraft.fuel_plutonium.hep_239_tr.name=Boulet de combustible TRISO de PHE 239
+item.nuclearcraft.fuel_plutonium.hep_239_ox.name=Tablette de combustible d'oxyde de PHE 239
+item.nuclearcraft.fuel_plutonium.hep_239_ni.name=Tablette de combustible de nitrure de PHE 239
+item.nuclearcraft.fuel_plutonium.hep_239_za.name=Tablette de combustible d'alliage de PHE 239 et de zirconium
+item.nuclearcraft.fuel_plutonium.lep_241_tr.name=Boulet de combustible TRISO de PFE 241
+item.nuclearcraft.fuel_plutonium.lep_241_ox.name=Tablette de combustible d'oxyde de PFE 241
+item.nuclearcraft.fuel_plutonium.lep_241_ni.name=Tablette de combustible de nitrure de PFE 241
+item.nuclearcraft.fuel_plutonium.lep_241_za.name=Tablette de combustible d'alliage de PFE 241 et de zirconium
+item.nuclearcraft.fuel_plutonium.hep_241_tr.name=Boulet de combustible TRISO de PHE 241
+item.nuclearcraft.fuel_plutonium.hep_241_ox.name=Tablette de combustible d'oxyde de PHE 241
+item.nuclearcraft.fuel_plutonium.hep_241_ni.name=Tablette de combustible de nitrure de PHE 241
+item.nuclearcraft.fuel_plutonium.hep_241_za.name=Tablette de combustible d'alliage de PHE 241 et de zirconium
+
+item.nuclearcraft.fuel_mixed.mix_239_tr.name=Boulet de combustible TRISO de MIX 239
+item.nuclearcraft.fuel_mixed.mix_239_ox.name=Tablette de combustible d'oxyde de MIX 239
+item.nuclearcraft.fuel_mixed.mix_239_ni.name=Tablette de combustible de nitrure de MIX 239
+item.nuclearcraft.fuel_mixed.mix_239_za.name=Tablette de combustible d'alliage de MIX 239 et de zirconium
+item.nuclearcraft.fuel_mixed.mix_241_tr.name=Boulet de combustible TRISO de MIX 241
+item.nuclearcraft.fuel_mixed.mix_241_ox.name=Tablette de combustible d'oxyde de MIX 241
+item.nuclearcraft.fuel_mixed.mix_241_ni.name=Tablette de combustible de nitrure de MIX 241
+item.nuclearcraft.fuel_mixed.mix_241_za.name=Tablette de combustible d'alliage de MIX 241 et de zirconium
+
+item.nuclearcraft.fuel_americium.lea_242_tr.name=Boulet de combustible TRISO d'AFE 242
+item.nuclearcraft.fuel_americium.lea_242_ox.name=Tablette de combustible d'oxyde d'AFE 242
+item.nuclearcraft.fuel_americium.lea_242_ni.name=Tablette de combustible de nitrure d'AFE 242
+item.nuclearcraft.fuel_americium.lea_242_za.name=Tablette de combustible d'alliage d'AFE 242 et de zirconium
+item.nuclearcraft.fuel_americium.hea_242_tr.name=Boulet de combustible TRISO d'AHE 242
+item.nuclearcraft.fuel_americium.hea_242_ox.name=Tablette de combustible d'oxyde d'AHE 242
+item.nuclearcraft.fuel_americium.hea_242_ni.name=Tablette de combustible de nitrure d'AHE 242
+item.nuclearcraft.fuel_americium.hea_242_za.name=Tablette de combustible d'alliage d'AHE 242 et de zirconium
+
+item.nuclearcraft.fuel_curium.lecm_243_tr.name=Boulet de combustible TRISO de CmFE 243
+item.nuclearcraft.fuel_curium.lecm_243_ox.name=Tablette de combustible d'oxyde de CmFE 243
+item.nuclearcraft.fuel_curium.lecm_243_ni.name=Tablette de combustible de nitrure de CmFE 243
+item.nuclearcraft.fuel_curium.lecm_243_za.name=Tablette de combustible d'alliage de CmFE 243 et de zirconium
+item.nuclearcraft.fuel_curium.hecm_243_tr.name=Boulet de combustible TRISO de CmHE 243
+item.nuclearcraft.fuel_curium.hecm_243_ox.name=Tablette de combustible d'oxyde de CmHE 243
+item.nuclearcraft.fuel_curium.hecm_243_ni.name=Tablette de combustible de nitrure de CmHE 243
+item.nuclearcraft.fuel_curium.hecm_243_za.name=Tablette de combustible d'alliage de CmHE 243 et de zirconium
+item.nuclearcraft.fuel_curium.lecm_245_tr.name=Boulet de combustible TRISO de CmFE 245
+item.nuclearcraft.fuel_curium.lecm_245_ox.name=Tablette de combustible d'oxyde de CmFE 245
+item.nuclearcraft.fuel_curium.lecm_245_ni.name=Tablette de combustible de nitrure de CmFE 245
+item.nuclearcraft.fuel_curium.lecm_245_za.name=Tablette de combustible d'alliage de CmFE 245 et de zirconium
+item.nuclearcraft.fuel_curium.hecm_245_tr.name=Boulet de combustible TRISO de CmHE 245
+item.nuclearcraft.fuel_curium.hecm_245_ox.name=Tablette de combustible d'oxyde de CmHE 245
+item.nuclearcraft.fuel_curium.hecm_245_ni.name=Tablette de combustible de nitrure de CmHE 245
+item.nuclearcraft.fuel_curium.hecm_245_za.name=Tablette de combustible d'alliage de CmHE 245 et de zirconium
+item.nuclearcraft.fuel_curium.lecm_247_tr.name=Boulet de combustible TRISO de CmFE 247
+item.nuclearcraft.fuel_curium.lecm_247_ox.name=Tablette de combustible d'oxyde de CmFE 247
+item.nuclearcraft.fuel_curium.lecm_247_ni.name=Tablette de combustible de nitrure de CmFE 247
+item.nuclearcraft.fuel_curium.lecm_247_za.name=Tablette de combustible d'alliage de CmFE 247 et de zirconium
+item.nuclearcraft.fuel_curium.hecm_247_tr.name=Boulet de combustible TRISO de CmHE 247
+item.nuclearcraft.fuel_curium.hecm_247_ox.name=Tablette de combustible d'oxyde de CmHE 247
+item.nuclearcraft.fuel_curium.hecm_247_ni.name=Tablette de combustible de nitrure de CmHE 247
+item.nuclearcraft.fuel_curium.hecm_247_za.name=Tablette de combustible d'alliage de CmHE 247 et de zirconium
+
+item.nuclearcraft.fuel_berkelium.leb_248_tr.name=Boulet de combustible TRISO de BFE 248
+item.nuclearcraft.fuel_berkelium.leb_248_ox.name=Tablette de combustible d'oxyde de BFE 248
+item.nuclearcraft.fuel_berkelium.leb_248_ni.name=Tablette de combustible de nitrure de BFE 248
+item.nuclearcraft.fuel_berkelium.leb_248_za.name=Tablette de combustible d'alliage de BFE 248 et de zirconium
+item.nuclearcraft.fuel_berkelium.heb_248_tr.name=Boulet de combustible TRISO de BHE 248
+item.nuclearcraft.fuel_berkelium.heb_248_ox.name=Tablette de combustible d'oxyde de BHE 248
+item.nuclearcraft.fuel_berkelium.heb_248_ni.name=Tablette de combustible de nitrure de BHE 248
+item.nuclearcraft.fuel_berkelium.heb_248_za.name=Tablette de combustible d'alliage de BHE 248 et de zirconium
+
+item.nuclearcraft.fuel_californium.lecf_249_tr.name=Boulet de combustible TRISO de CfFE 249
+item.nuclearcraft.fuel_californium.lecf_249_ox.name=Tablette de combustible d'oxyde de CfFE 249
+item.nuclearcraft.fuel_californium.lecf_249_ni.name=Tablette de combustible de nitrure de CfFE 249
+item.nuclearcraft.fuel_californium.lecf_249_za.name=Tablette de combustible d'alliage de CfFE 249 et de zirconium
+item.nuclearcraft.fuel_californium.hecf_249_tr.name=Boulet de combustible TRISO de CfHE 249
+item.nuclearcraft.fuel_californium.hecf_249_ox.name=Tablette de combustible d'oxyde de CfHE 249
+item.nuclearcraft.fuel_californium.hecf_249_ni.name=Tablette de combustible de nitrure de CfHE 249
+item.nuclearcraft.fuel_californium.hecf_249_za.name=Tablette de combustible d'alliage de CfHE 249 et de zirconium
+item.nuclearcraft.fuel_californium.lecf_251_tr.name=Boulet de combustible TRISO de CfFE 251
+item.nuclearcraft.fuel_californium.lecf_251_ox.name=Tablette de combustible d'oxyde de CfFE 251
+item.nuclearcraft.fuel_californium.lecf_251_ni.name=Tablette de combustible de nitrure de CfFE 251
+item.nuclearcraft.fuel_californium.lecf_251_za.name=Tablette de combustible d'alliage de CfFE 251 et de zirconium
+item.nuclearcraft.fuel_californium.hecf_251_tr.name=Boulet de combustible TRISO de CfHE 251
+item.nuclearcraft.fuel_californium.hecf_251_ox.name=Tablette de combustible d'oxyde de CfHE 251
+item.nuclearcraft.fuel_californium.hecf_251_ni.name=Tablette de combustible de nitrure de CfHE 251
+item.nuclearcraft.fuel_californium.hecf_251_za.name=Tablette de combustible d'alliage de CfHE 251 et de zirconium
+
+info.nuclearcraft.fission_fuel.desc=Combustible du réacteur à fission
+info.nuclearcraft.fission_fuel.base_time.desc=Temps de déterioration de base: %s
+info.nuclearcraft.fission_fuel.base_heat.desc=Génération de chaleur de base: %s
+info.nuclearcraft.fission_fuel.base_efficiency.desc=Efficacité de base: %s
+info.nuclearcraft.fission_fuel.criticality.desc=Facteur de criticalité: %s
+info.nuclearcraft.fission_fuel.self_priming.desc=Auto-amorçant!
+
+item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=Boulet de combustible TRISO d'UIT appauvri
+item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=Tablette de combustible d'oxyde d'UIT appauvrie
+item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=Tablette de combustible de nitrure d'UIT appauvrie
+item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=Tablette de combustible d'alliage d'UIT et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_uranium.leu_233_tr.name=Boulet de combustible TRISO d'UFE 233 appauvri
+item.nuclearcraft.depleted_fuel_uranium.leu_233_ox.name=Tablette de combustible d'oxyde d'UFE 233 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.leu_233_ni.name=Tablette de combustible de nitrure d'UFE 233 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.leu_233_za.name=Tablette de combustible d'alliage d'UFE 233 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_uranium.heu_233_tr.name=Boulet de combustible TRISO d'UHE 233 appauvri
+item.nuclearcraft.depleted_fuel_uranium.heu_233_ox.name=Tablette de combustible d'oxyde d'UHE 233 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.heu_233_ni.name=Tablette de combustible de nitrure d'UHE 233 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.heu_233_za.name=Tablette de combustible d'alliage d'UHE 233 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_uranium.leu_235_tr.name=Boulet de combustible TRISO d'UFE 235 appauvri
+item.nuclearcraft.depleted_fuel_uranium.leu_235_ox.name=Tablette de combustible d'oxyde d'UFE 235 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.leu_235_ni.name=Tablette de combustible de nitrure d'UFE 235 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.leu_235_za.name=Tablette de combustible d'alliage d'UFE 235 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_uranium.heu_235_tr.name=Boulet de combustible TRISO d'UHE 235 appauvri
+item.nuclearcraft.depleted_fuel_uranium.heu_235_ox.name=Tablette de combustible d'oxyde d'UHE 235 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.heu_235_ni.name=Tablette de combustible de nitrure d'UHE 235 appauvrie
+item.nuclearcraft.depleted_fuel_uranium.heu_235_za.name=Tablette de combustible d'alliage d'UHE 235 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_neptunium.len_236_tr.name=Boulet de combustible TRISO de NFE 236 appauvri
+item.nuclearcraft.depleted_fuel_neptunium.len_236_ox.name=Tablette de combustible d'oxyde de NFE 236 appauvrie
+item.nuclearcraft.depleted_fuel_neptunium.len_236_ni.name=Tablette de combustible de nitrure de NFE 236 appauvrie
+item.nuclearcraft.depleted_fuel_neptunium.len_236_za.name=Tablette de combustible d'alliage de NFE 236 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_tr.name=Boulet de combustible TRISO de NHE 236 appauvri
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_ox.name=Tablette de combustible d'oxyde de NHE 236 appauvrie
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_ni.name=Tablette de combustible de nitrure de NHE 236 appauvrie
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_za.name=Tablette de combustible d'alliage de NHE 236 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_tr.name=Boulet de combustible TRISO de PFE 239 appauvri
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_ox.name=Tablette de combustible d'oxyde de PFE 239 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_ni.name=Tablette de combustible de nitrure de PFE 239 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_za.name=Tablette de combustible d'alliage de PFE 239 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_tr.name=Boulet de combustible TRISO de PHE 239 appauvri
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_ox.name=Tablette de combustible d'oxyde de PHE 239 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_ni.name=Tablette de combustible de nitrure de PHE 239 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_za.name=Tablette de combustible d'alliage de PHE 239 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_tr.name=Boulet de combustible TRISO de PFE 241 appauvri
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_ox.name=Tablette de combustible d'oxyde de PFE 241 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_ni.name=Tablette de combustible de nitrure de PFE 241 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_za.name=Tablette de combustible d'alliage de PFE 241 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_tr.name=Boulet de combustible TRISO de PHE 241 appauvri
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_ox.name=Tablette de combustible d'oxyde de PHE 241 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=Tablette de combustible de nitrure de PHE 241 appauvrie
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=Tablette de combustible d'alliage de PHE 241 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=Boulet de combustible TRISO de MIX 239 appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=Tablette de combustible d'oxyde de MIX 239 appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=Tablette de combustible de nitrure de MIX 239 appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=Tablette de combustible d'alliage de MIX 239 et de zirconium appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=Boulet de combustible TRISO de MIX 241 appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=Tablette de combustible d'oxyde de MIX 241 appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=Tablette de combustible de nitrure de MIX 241 appauvri
+item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=Tablette de combustible d'alliage de MIX 241 et de zirconium appauvri
+
+item.nuclearcraft.depleted_fuel_americium.lea_242_tr.name=Boulet de combustible TRISO d'AFE 242 appauvri
+item.nuclearcraft.depleted_fuel_americium.lea_242_ox.name=Tablette de combustible d'oxyde d'AFE 242 appauvrie
+item.nuclearcraft.depleted_fuel_americium.lea_242_ni.name=Tablette de combustible de nitrure d'AFE 242 appauvrie
+item.nuclearcraft.depleted_fuel_americium.lea_242_za.name=Tablette de combustible d'alliage d'AFE 242 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_americium.hea_242_tr.name=Boulet de combustible TRISO d'AHE 242 appauvri
+item.nuclearcraft.depleted_fuel_americium.hea_242_ox.name=Tablette de combustible d'oxyde d'AHE 242 appauvrie
+item.nuclearcraft.depleted_fuel_americium.hea_242_ni.name=Tablette de combustible de nitrure d'AHE 242 appauvrie
+item.nuclearcraft.depleted_fuel_americium.hea_242_za.name=Tablette de combustible d'alliage d'AHE 242 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_curium.lecm_243_tr.name=Boulet de combustible TRISO de CmFE 243 appauvri
+item.nuclearcraft.depleted_fuel_curium.lecm_243_ox.name=Tablette de combustible d'oxyde de CmFE 243 appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_243_ni.name=Tablette de combustible de nitrure de CmFE 243 appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_243_za.name=Tablette de combustible d'alliage de CmFE 243 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_243_tr.name=Boulet de combustible TRISO de CmHE 243 appauvri
+item.nuclearcraft.depleted_fuel_curium.hecm_243_ox.name=Tablette de combustible d'oxyde de CmHE 243 appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_243_ni.name=Tablette de combustible de nitrure de CmHE 243 appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_243_za.name=Tablette de combustible d'alliage de CmHE 243 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_245_tr.name=Boulet de combustible TRISO de CmFE 245 appauvri
+item.nuclearcraft.depleted_fuel_curium.lecm_245_ox.name=Tablette de combustible d'oxyde de CmFE 245 appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_245_ni.name=Tablette de combustible de nitrure de CmFE 245 appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_245_za.name=Tablette de combustible d'alliage de CmFE 245 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_245_tr.name=Boulet de combustible TRISO de CmHE 245 appauvri
+item.nuclearcraft.depleted_fuel_curium.hecm_245_ox.name=Tablette de combustible d'oxyde de CmHE 245 appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_245_ni.name=Tablette de combustible de nitrure de CmHE 245 appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_245_za.name=Tablette de combustible d'alliage de CmHE 245 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_247_tr.name=Boulet de combustible TRISO de CmFE 247 appauvri
+item.nuclearcraft.depleted_fuel_curium.lecm_247_ox.name=Tablette de combustible d'oxyde de CmFE 247 appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_247_ni.name=Tablette de combustible de nitrure de CmFE 247 appauvrie
+item.nuclearcraft.depleted_fuel_curium.lecm_247_za.name=Tablette de combustible d'alliage de CmFE 247 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_247_tr.name=Boulet de combustible TRISO de CmHE 247 appauvri
+item.nuclearcraft.depleted_fuel_curium.hecm_247_ox.name=Tablette de combustible d'oxyde de CmHE 247 appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_247_ni.name=Tablette de combustible de nitrure de CmHE 247 appauvrie
+item.nuclearcraft.depleted_fuel_curium.hecm_247_za.name=Tablette de combustible d'alliage de CmHE 247 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_tr.name=Boulet de combustible TRISO de BFE 248 appauvri
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_ox.name=Tablette de combustible d'oxyde de BFE 248 appauvrie
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_ni.name=Tablette de combustible de nitrure de BFE 248 appauvrie
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_za.name=Tablette de combustible d'alliage de BFE 248 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_tr.name=Boulet de combustible TRISO de BHE 248 appauvri
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_ox.name=Tablette de combustible d'oxyde de BHE 248 appauvrie
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_ni.name=Tablette de combustible de nitrure de BHE 248 appauvrie
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_za.name=Tablette de combustible d'alliage de BHE 248 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_californium.lecf_249_tr.name=Boulet de combustible TRISO de CfFE 249 appauvri
+item.nuclearcraft.depleted_fuel_californium.lecf_249_ox.name=Tablette de combustible d'oxyde de CfFE 249 appauvrie
+item.nuclearcraft.depleted_fuel_californium.lecf_249_ni.name=Tablette de combustible de nitrure de CfFE 249 appauvrie
+item.nuclearcraft.depleted_fuel_californium.lecf_249_za.name=Tablette de combustible d'alliage de CfFE 249 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_californium.hecf_249_tr.name=Boulet de combustible TRISO de CfHE 249 appauvri
+item.nuclearcraft.depleted_fuel_californium.hecf_249_ox.name=Tablette de combustible d'oxyde de CfHE 249 appauvrie
+item.nuclearcraft.depleted_fuel_californium.hecf_249_ni.name=Tablette de combustible de nitrure de CfHE 249 appauvrie
+item.nuclearcraft.depleted_fuel_californium.hecf_249_za.name=Tablette de combustible d'alliage de CfHE 249 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_californium.lecf_251_tr.name=Boulet de combustible TRISO de CfFE 251 appauvri
+item.nuclearcraft.depleted_fuel_californium.lecf_251_ox.name=Tablette de combustible d'oxyde de CfFE 251 appauvrie
+item.nuclearcraft.depleted_fuel_californium.lecf_251_ni.name=Tablette de combustible de nitrure de CfFE 251 appauvrie
+item.nuclearcraft.depleted_fuel_californium.lecf_251_za.name=Tablette de combustible d'alliage de CfFE 251 et de zirconium appauvrie
+item.nuclearcraft.depleted_fuel_californium.hecf_251_tr.name=Boulet de combustible TRISO de CfHE 251 appauvri
+item.nuclearcraft.depleted_fuel_californium.hecf_251_ox.name=Tablette de combustible d'oxyde de CfHE 251 appauvrie
+item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=Tablette de combustible de nitrure de CfHE 251 appauvrie
+item.nuclearcraft.depleted_fuel_californium.hecf_251_za.name=Tablette de combustible d'alliage de CfHE 251 et de zirconium appauvrie
+
+item.nuclearcraft.depleted_fuel_ic2.u.name=Combustible nucléaire d'uranium appauvri
+item.nuclearcraft.depleted_fuel_ic2.mox.name=Combustible nucléaire mixte appauvri
+
+item.nuclearcraft.boron.10.name=Bore 10
+item.nuclearcraft.boron.11.name=Bore 11
+
+item.nuclearcraft.lithium.6.name=Lithium 6
+item.nuclearcraft.lithium.7.name=Lithium 7
+
+item.nuclearcraft.sword_boron.name=Épée en bore
+item.nuclearcraft.pickaxe_boron.name=Pioche en bore
+item.nuclearcraft.shovel_boron.name=Pelle en bore
+item.nuclearcraft.axe_boron.name=Hache en bore
+item.nuclearcraft.hoe_boron.name=Houe en bore
+item.nuclearcraft.spaxelhoe_boron.name=Épiachoue en bore
+item.nuclearcraft.spaxelhoe_boron.desc=Un outil universel créé à partir de tous les outils en bore
+
+item.nuclearcraft.sword_tough.name=Épée en alliage dur
+item.nuclearcraft.pickaxe_tough.name=Pioche en alliage dur
+item.nuclearcraft.shovel_tough.name=Pelle en alliage dur
+item.nuclearcraft.axe_tough.name=Hache en alliage dur
+item.nuclearcraft.hoe_tough.name=Houe en alliage dur
+item.nuclearcraft.spaxelhoe_tough.name=Épiachoue en alliage dur
+item.nuclearcraft.spaxelhoe_tough.desc=Un outil universel créé à partir de tous les outils en alliage dur
+
+item.nuclearcraft.sword_hard_carbon.name=Épée en alliage de carbone dur
+item.nuclearcraft.pickaxe_hard_carbon.name=Pioche en alliage de carbone dur
+item.nuclearcraft.shovel_hard_carbon.name=Pelle en alliage de carbone dur
+item.nuclearcraft.axe_hard_carbon.name=Hache en alliage de carbone dur
+item.nuclearcraft.hoe_hard_carbon.name=Houe en alliage de carbone dur
+item.nuclearcraft.spaxelhoe_hard_carbon.name=Épiachoue en alliage de carbone dur
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=Un outil universel créé à partir de tous les outils en alliage de carbone dur
+
+item.nuclearcraft.sword_boron_nitride.name=Épée en nitrure de bore
+item.nuclearcraft.pickaxe_boron_nitride.name=Pioche en nitrure de bore
+item.nuclearcraft.shovel_boron_nitride.name=Pelle en nitrure de bore
+item.nuclearcraft.axe_boron_nitride.name=Hache en nitrure de bore
+item.nuclearcraft.hoe_boron_nitride.name=Houe en nitrure de bore
+item.nuclearcraft.spaxelhoe_boron_nitride.name=Épiachoue en nitrure de bore
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=Un outil universel créé à partir de tous les outils en nitrure de bore
+
+item.nuclearcraft.helm_boron.name=Casque en bore
+item.nuclearcraft.chest_boron.name=Plastron en bore
+item.nuclearcraft.legs_boron.name=Jambières en bore
+item.nuclearcraft.boots_boron.name=Bottes en bore
+
+item.nuclearcraft.helm_tough.name=Casque en alliage dur
+item.nuclearcraft.chest_tough.name=Plastron en alliage dur
+item.nuclearcraft.legs_tough.name=Jambières en alliage dur
+item.nuclearcraft.boots_tough.name=Bottes en alliage dur
+
+item.nuclearcraft.helm_hard_carbon.name=Casque en alliage de carbone dur
+item.nuclearcraft.chest_hard_carbon.name=Plastron en alliage de carbone dur
+item.nuclearcraft.legs_hard_carbon.name=Jambières en alliage de carbone dur
+item.nuclearcraft.boots_hard_carbon.name=Bottes en alliage de carbone dur
+
+item.nuclearcraft.helm_boron_nitride.name=Casque en nitrure de bore
+item.nuclearcraft.chest_boron_nitride.name=Plastron en nitrure de bore
+item.nuclearcraft.legs_boron_nitride.name=Jambières en nitrure de bore
+item.nuclearcraft.boots_boron_nitride.name=Bottes en nitrure de bore
+
+item.nuclearcraft.helm_hazmat.name=Casque de combinaison Hazmat
+item.nuclearcraft.chest_hazmat.name=Plastron de combinaison Hazmat
+item.nuclearcraft.legs_hazmat.name=Pantalon de combinaison Hazmat
+item.nuclearcraft.boots_hazmat.name=Bottes de combinaison Hazmat
+
+item.nuclearcraft.lithium_ion_cell.name=Batterie lithium-ion
+
+item.nuclearcraft.multitool.name=Multi-outils
+
+info.nuclearcraft.multitool.clear_info=Information sauvegardées dans le multi-outils effacées!
+
+info.nuclearcraft.multitool.copy_component_info=Information de l'objet copié dans le multi-outils!
+
+info.nuclearcraft.multitool.connect_component_monitor=Objet connecté au multi-outils!
+
+info.nuclearcraft.multitool.fission.connect_shield_manager=Tous les %s boucliers devraient maintenant être connectés à cette interface de contrôle!
+
+info.nuclearcraft.multitool.quantum_computer.qubit_id=ID du qubit: %s
+info.nuclearcraft.multitool.quantum_computer.start_qubit_set=Nouveau groupe d'ID de qubit créé
+info.nuclearcraft.multitool.quantum_computer.start_qubit_list=Nouvelle liste d'ID de qubit créé
+info.nuclearcraft.multitool.quantum_computer.remove_qubit=ID du qubit %s supprimée du multi-outils!
+info.nuclearcraft.multitool.quantum_computer.add_qubit=ID du qubit %s ajoutée au multi-outils!
+
+info.nuclearcraft.multitool.quantum_computer.single_gate_info=La porte est actuellement en train de viser le qubit %s
+info.nuclearcraft.multitool.quantum_computer.start_target_set=La porte est actuellement en train d'attendre un qubit à viser...
+info.nuclearcraft.multitool.quantum_computer.finish_target_set=La porte est maintenant en train de viser le qubit %s!
+
+info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=La porte est actuellement en train de viser le qubit %s avec un angle de travail de %s degrés
+info.nuclearcraft.multitool.quantum_computer.start_angle=La porte est actuellement en train d'attendre un angle de travail...
+info.nuclearcraft.multitool.quantum_computer.tool_set_angle=Angle de travail de %s degrés copié dans le multi-outils!
+info.nuclearcraft.multitool.quantum_computer.finish_angle=La porte travaille maintenant à %s degrées!
+
+info.nuclearcraft.multitool.quantum_computer.control_gate_info=La porte est actuellement en train de viser le qubit %s avec %s qubit de contôle
+info.nuclearcraft.multitool.quantum_computer.start_control_set=La porte est actuellement en train d'attendre un groupoe de qubit de contôle...
+info.nuclearcraft.multitool.quantum_computer.finish_control_set=La porte est maintenant contrôlée par %s qubit!
+
+info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=La porte est actuellement en train de viser le qubit %s avec un angle de travail de %s degrés et avec %s qubit de contôle
+
+info.nuclearcraft.multitool.quantum_computer.swap_gate_info=La porte est actuellement en train d'échnager le qubit %s et le qubit %s
+info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=La porte est actuellement en train d'attendre la première liste de qubit a échanger...
+info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=La porte est maintenant réglée pour échanger la première liste de qubit %s!
+info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=La porte est actuellement en train d'attendre la deuxième liste de qubit a échanger...
+info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=La porte est maintenant réglée pour échanger la deuxième liste de qubit %s! 
+
+info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=LA porte est actuellemnt en train d'échanger les qubits %s avec les qubits %s, avec %s de qubit de contrôle
+
+item.nuclearcraft.geiger_counter.name=Compteur Geiger
+item.nuclearcraft.geiger_counter.desc=Détecte les radiations et informe le joueur de leur niveau de radiations. Peut être utilisé pour lire le niveau de radiations des entités. Sera muet s'il n'est pas dans la barre d'accès rapide
+item.nuclearcraft.geiger_counter.rads=Radiation: 
+
+item.nuclearcraft.rad_shielding.light.name=Bouclier de radiation faible
+item.nuclearcraft.rad_shielding.medium.name=Bouclier de radiation moyen
+item.nuclearcraft.rad_shielding.heavy.name=Bouclier de radiation fort
+item.nuclearcraft.rad_shielding.desc=Peut être appliqué à une armure pour donner au joueur %s de résistance aux radiations lorsque porté. 
+item.nuclearcraft.rad_shielding.desc_hardcore=Peut être appliqué à une armure pour donner au joueur %s de résistance aux radiations lorsque porté. Peut aussi être appliqué à un container pour protéger de l'irratiaion de son contenu.
+item.nuclearcraft.rad_shielding.not_hardcore=Les containers ne sont pas en mode "très difficile"!
+item.nuclearcraft.rad_shielding.failed_not_hardcore=Impossible d'installer le bouclier, les containers ne sont pas en mode "très difficile"!
+item.nuclearcraft.rad_shielding.install_fail=Impossible d'installer le bouclier, le container à déjà un niveau de resistance de
+item.nuclearcraft.rad_shielding.install_success=Installation de bouclier réussie! Le container à maintenat un niveau de résisitance de
+
+item.nuclearcraft.radiation_badge.name=Badge radiation
+item.nuclearcraft.radiation_badge.desc=Informe le joueur de leur exposition aux radiations lorsqu'il est porté, pour chaque %s de radiation détecté, jusqu'à un maximum de %s.
+item.nuclearcraft.radiation_badge.exposure=Votre Badge radiation à été exposé à
+item.nuclearcraft.radiation_badge.broken=Votre Badge radiation s'est désintégré...
+
+item.nuclearcraft.radaway.name=RadAway
+item.nuclearcraft.radaway.desc=Enlève %s [%s] à une vitesse de %s.
+item.nuclearcraft.radaway_slow.name=RadAway lent
+item.nuclearcraft.radaway_slow.desc=Enlève %s [%s] à une vitesse de %s.
+item.nuclearcraft.rad_x.name=Rad-X
+item.nuclearcraft.rad_x.desc=Augmente de %s la résistance aux radiations pour %s. Les effets peuvent être additionés, mais plus le niveau de résistance est élevé, plus il disparaitera rapidement.
+
+item.nuclearcraft.portable_ender_chest.name=Coffre de l'Ender protable
+item.nuclearcraft.portable_ender_chest.desc=Permet d'accéder à son coffre de l'Ender n'importe oú.
+
+item.nuclearcraft.dominos.name=La spéciale de Domino's
+item.nuclearcraft.dominos.desc=La préférée de Paul - restore 16 points de faim grâce à cette beauté.
+
+item.nuclearcraft.flour.name=Farine
+item.nuclearcraft.graham_cracker.name=Petit beurre
+
+item.nuclearcraft.roasted_cocoa_beans.name=Cacao torréfié
+item.nuclearcraft.ground_cocoa_nibs.name=Eclats de fèves de cacao
+item.nuclearcraft.cocoa_butter.name=Beurre de cacao solidifié
+item.nuclearcraft.cocoa_solids.name=Solides de cacao
+item.nuclearcraft.unsweetened_chocolate.name=Chocolat 
+item.nuclearcraft.dark_chocolate.name=Chocolat noir
+item.nuclearcraft.milk_chocolate.name=Chocolat au lait
+
+item.nuclearcraft.gelatin.name=Gélatine
+item.nuclearcraft.marshmallow.name=Chamallow
+item.nuclearcraft.marshmallow.desc=De nombreuses civilisations ne se seraient pas éteites si elles avaient eu ces délices.
+
+item.nuclearcraft.smore.name=S'lingot de s'more
+item.nuclearcraft.moresmore.name=Double s'lingot de s'more 
+item.nuclearcraft.foursmore.name=Quadruple s'lingot de s'more
+
+item.nuclearcraft.record_wanderer.name=Disque de musique
+item.nuclearcraft.record_wanderer.des0=Dion - Le vagabond
+item.nuclearcraft.record_wanderer.des1=Cover 8-bits, par "8 Bit Universe"
+item.nuclearcraft.record_end_of_the_world.name=Disque de musique
+item.nuclearcraft.record_end_of_the_world.des0=Skeeter Davis - La fin du monde
+item.nuclearcraft.record_end_of_the_world.des1=Cover 8-bits, par "GermanPikachuGaming"
+item.nuclearcraft.record_money_for_nothing.name=Disque de musique
+item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - L'argent gratuit
+item.nuclearcraft.record_money_for_nothing.des1=Cover 8-bits, par "Omnigrad"
+item.nuclearcraft.record_hyperspace.name=Disque de musique
+item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperespace
+item.nuclearcraft.record_hyperspace.des1=Titre original de Riku Nuottajärvi
+
+entity.nuclearcraft.feral_ghoul.name=Goule folle
+
+jei.nuclearcraft.chance_output=Sortie: %s-%s [Moyenne: %s]
+
+jei.nuclearcraft.base_process_time=Temps de base du processus:
+jei.nuclearcraft.base_process_power=Énergie de base du processus:
+jei.nuclearcraft.base_process_radiation=Radiation de base du processus:
+
+jei.nuclearcraft.collector_production_rate=Vitesse de production:
+
+jei.nuclearcraft.irradiator_flux_required=Flux requis:
+jei.nuclearcraft.irradiator_heat_per_flux=Chaleur généree par flux:
+jei.nuclearcraft.irradiator_process_efficiency=Contribution à l'éfficacité:
+
+jei.nuclearcraft.pebble_fuel_time=Temps de déterioration de base:
+jei.nuclearcraft.pebble_fuel_heat=Génération de chaleur de base:
+jei.nuclearcraft.pebble_fuel_efficiency=Efficacité de base:
+jei.nuclearcraft.pebble_fuel_criticality=Criticalité du combustible:
+jei.nuclearcraft.pebble_fuel_radiation=Radiation du combustible:
+jei.nuclearcraft.pebble_fuel_self_priming=Auto-amorçant!
+
+jei.nuclearcraft.solid_fuel_time=Temps de déterioration de base:
+jei.nuclearcraft.solid_fuel_heat=Génération de chaleur de base:
+jei.nuclearcraft.solid_fuel_efficiency=Efficacité de base:
+jei.nuclearcraft.solid_fuel_criticality=Criticalité du combustible:
+jei.nuclearcraft.solid_fuel_radiation=Radiation du combustible:
+jei.nuclearcraft.solid_fuel_self_priming=Auto-amorçant!
+
+jei.nuclearcraft.fission_heating_heat_per_mb=Chaleur par mB entrant:
+
+jei.nuclearcraft.salt_fuel_time=Temps de déterioration de base:
+jei.nuclearcraft.salt_fuel_heat=Génération de chaleur de base:
+jei.nuclearcraft.salt_fuel_efficiency=Efficacité de base:
+jei.nuclearcraft.salt_fuel_criticality=Criticalité du combustible:
+jei.nuclearcraft.salt_fuel_radiation=Radiation du combustible:
+jei.nuclearcraft.salt_fuel_self_priming=Auto-amorçant!
+
+jei.nuclearcraft.fission_emergency_cooling_per_mb=Refroidissement par mB entrant:
+
+jei.nuclearcraft.fusion_time=Temps de vie de combinaison de base:
+jei.nuclearcraft.fusion_power=Puissance maximale de base:
+jei.nuclearcraft.fusion_temp=Température optimale:
+
+jei.nuclearcraft.decay_gen_lifetime=Temps de vie moyen:
+jei.nuclearcraft.decay_gen_power=Puissance génerée:
+jei.nuclearcraft.decay_gen_radiation=Radiations produites dues à la déterioration:
+
+jei.nuclearcraft.salt_fuel_time=Temps de déterioration:
+jei.nuclearcraft.salt_fuel_heat=Génération de chaleur de base:
+
+jei.nuclearcraft.coolant_heater_rate=Vitesse de refroidissement:
+
+jei.nuclearcraft.exchanger_fluid_temp=Température:
+jei.nuclearcraft.exchanger_heating_provided=Chaleur apportée:
+jei.nuclearcraft.exchanger_cooling_provided=Refroidissement apporté:
+jei.nuclearcraft.exchanger_heating_required=Chaleur nécessaire:
+jei.nuclearcraft.exchanger_cooling_required=Refroidissement nécessaire:
+
+jei.nuclearcraft.condenser_condensing_temp=Température de condensation:
+jei.nuclearcraft.condenser_heat_removal_req=Refroidissement nécessaire:
+
+jei.nuclearcraft.turbine_energy_density=Densité énergétique de base:
+jei.nuclearcraft.turbine_expansion=Expansion du fluide:
+
+jei.nuclearcraft.scrubber_process_time=Temps d'épuration potentiel:
+jei.nuclearcraft.scrubber_process_power=Energie nécessaire:
+jei.nuclearcraft.scrubber_process_efficiency=Multiplicateur d'efficacité:
+
+itemGroup.nuclearcraft.main=NuclearCraft
+itemGroup.nuclearcraft.material=Matériaux NuclearCraft
+itemGroup.nuclearcraft.radiation=Radiations NuclearCraft
+itemGroup.nuclearcraft.machine=Machines NuclearCraft
+itemGroup.nuclearcraft.multiblock=Multi-blocs NuclearCraft
+itemGroup.nuclearcraft.misc=Autres objets NuclearCraft
+
+gui.nc.config.main_title=Configuration de NuclearCraft
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gui.nc.config.register_armor.comment=Vous voulez enregistrer des types d'armures dans le jeu? Ordre: bore, alliage dur, alliage en carbone dur, nitrure de bore
+
+
+
+
+
+
+
+
+
+
+
+gui.nc.config.category.misc=Configurations générales
+gui.nc.config.category.misc.tooltip=Configurations générales.
+
+
+
+gui.nc.config.ctrl_info=Ctrl pour plus d'informations
+
+
+
+
+gui.nc.config.rare_drops=Activer les récompenses rares
+gui.nc.config.rare_drops.comment=Les créatures donnerons-elles des récompenses rares?
+gui.nc.config.dungeon_loot=Activer le butin des dongeons
+gui.nc.config.dungeon_loot.comment=Les dongeons NuclearCraft générerons-ils du butin dans les coffres?
+
+
+
+
+
+
+
+
+gui.nc.computer.method_not_found=Cette méthode n'apparait pas dans les cartes archivées - perdu une méthode, vous avez... comme c'est embarassant...oui très embarrassant! Allez regarder dans le répertoire GitHub pour trouver votre méthode manquante. 
+gui.nc.computer.invalid_method_number=Numéro de méthode invalide
+gui.nc.computer.number_of_arguments_error=%s arguments utilisés, %s attendus
+gui.nc.computer.invalid_argument_error=Argument %s invalide, %s attendu
+gui.nc.computer.integer_too_small_error=Argument numérique %s trop petit, au moins %s attendu
+gui.nc.computer.integer_too_large_error=Argument numérique %s trop grand, au plus %s attendu
+
+# Localisation for ZeroCore multiblock API# Localisation for ZeroCore multiblock API
+zerocore.api.nc.multiblock.validation.success=Validation du multibloc est réussie
+zerocore.api.nc.multiblock.validation.too_few_parts=Le multibloc est trop petit
+zerocore.api.nc.multiblock.validation.machine_too_large=Le multibloc est trop grand, il doit être au plus %1$d blocs dans la dimension %2$s
+zerocore.api.nc.multiblock.validation.machine_too_small=Le multibloc est trop petit, il doit être au moins %1$d blocs dans la dimension %2$s
+zerocore.api.nc.multiblock.validation.invalid_part=Bloc à %1$d, %2$d, %3$d est incompatible avec ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_part_disconnected=Bloc à %1$d, %2$d, %3$d n'est pas connecté avec ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_part_for_frame=Bloc à %1$d, %2$d, %3$d ne peut pas être utilisé pour le cadre de ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_part_for_bottom=Bloc à %1$d, %2$d, %3$d ne peut pas être utilisé pour la couche du bas de ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_part_for_top=Bloc à %1$d, %2$d, %3$d ne peut pas être utilisé pour la couche du haut de ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_part_for_sides=Bloc à %1$d, %2$d, %3$d ne peut pas être utilisé pour les côtés de ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_part_for_interior=Bloc à %1$d, %2$d, %3$d ne peut pas être utilisé à l'intérieur de ce multibloc
+zerocore.api.nc.multiblock.validation.invalid_logic=La logique pour ce multibloc n'existe pas, veuillez contacter l'auteur du mod
+
+nc.block.vent_toggle=Interface réglée sur 
+nc.block.fission_vent_mode.input=ENTREE
+nc.block.fission_vent_mode.output=SORTIE
+nc.block.vent_toggle.mode=!
+
+nc.block.port_toggle=Interface réglée sur 
+nc.block.fission_port_mode.input=ENTREE
+nc.block.fission_port_mode.output=SORTIE
+nc.block.port_toggle.mode=!
+
+nc.block.fluid_toggle=Côté réglé sur
+nc.block.fluid_toggle_opposite=Côté opposé réglé sur
+
+nc.block.salt_heater_fluid_side.default=PAR DÉFAUT
+nc.block.salt_heater_fluid_side.disabled=DÉSACTIVÉ
+nc.block.salt_heater_fluid_side.hot_coolant_out=SORTIE DE LIQUIDE DE REFROIDISSEMENT CHAUD 
+
+nc.block.salt_vessel_fluid_side.default=PAR DÉFAUT
+nc.block.salt_vessel_fluid_side.disabled=DÉSACTIVÉ
+
+nc.block.exchanger_tube_fluid_side.disabled=PAR DÉFAUT
+nc.block.exchanger_tube_fluid_side.default=DÉSACTIVÉ
+
+gui.nc.inventory.shift_for_info=Maintenir Maj pour plus d'informations
+gui.nc.inventory.ctrl_for_info=Maintenir Ctrl pour plus d'informations
+
+nuclearcraft.container.nuclear_furnace=Four nucléaire
+nuclearcraft.container.manufactory=Fabrique
+nuclearcraft.container.separator=Séparateur
+nuclearcraft.container.decay_hastener=Accélérateur de désintégration
+nuclearcraft.container.fuel_reprocessor=Retraiteur de combustible atomique
+nuclearcraft.container.alloy_furnace=Four à alliage
+nuclearcraft.container.infuser=Infuseur de fluide
+nuclearcraft.container.melter=Four à fusion
+nuclearcraft.container.supercooler=Surfondeur
+nuclearcraft.container.electrolyzer=Electrolyseur
+nuclearcraft.container.assembler=Assembleur
+nuclearcraft.container.ingot_former=Moule à lingots
+nuclearcraft.container.pressurizer=Pressuriseur
+nuclearcraft.container.chemical_reactor=Réacteur chimique
+nuclearcraft.container.salt_mixer=Mélangeur
+nuclearcraft.container.crystallizer=Cristalliseur
+nuclearcraft.container.enricher=Enrichisseur de fluides
+nuclearcraft.container.extractor=Extracteur de fluide
+nuclearcraft.container.centrifuge=Centrifugeuse
+nuclearcraft.container.rock_crusher=Pulvérisateur de rochers
+nuclearcraft.container.machine_config=Configuration de la machine
+
+nuclearcraft.container.machine_interface=Interface de machine
+nuclearcraft.container.bin=Corbeille universelle
+
+nuclearcraft.container.cobblestone_generator=Générateur de pierres
+nuclearcraft.container.cobblestone_generator_compact=Générateur de pierres compact
+nuclearcraft.container.cobblestone_generator_dense=Générateur de pierres dense
+nuclearcraft.container.water_source=Source d'eau infinie
+nuclearcraft.container.water_source_compact=Source d'eau infinie compacte
+nuclearcraft.container.water_source_dense=Source d'eau infinie dense
+nuclearcraft.container.nitrogen_collector=Collecteur d'azote
+nuclearcraft.container.nitrogen_collector_compact=Collecteur d'azote compacte
+nuclearcraft.container.nitrogen_collector_dense=Collecteur d'azote dense
+
+nuclearcraft.container.radiation_scrubber=Épurateur de radiations
+
+gui.nc.container.no_cluster=Pas de groupes!
+
+gui.nc.container.fission_controller.clusters=Nombre de groupes:
+gui.nc.container.fission_controller.sparsity=Multiplicateur d'éfficacité du remplissage du récateur:
+gui.nc.container.fission_controller.useful_parts=Composants utiles:
+gui.nc.container.fission_controller.temperature=Température du caisson:
+gui.nc.container.fission_controller.net_heating=Chaleur nette du caisson:
+gui.nc.container.fission_controller.effective_heat=Chaleur éffective du caisson:
+gui.nc.container.fission_controller.reserved_heat=Chaleur réservé du caisson:
+gui.nc.container.fission_controller.net_cluster_heating=Réchauffement par groupe:
+gui.nc.container.fission_controller.total_cluster_cooling=Refroidissement total des groupes:
+gui.nc.container.fission_controller.efficiency=Éfficacité moyenne:
+gui.nc.container.fission_controller.heat_mult=Multiplicateur de chaleur moyenne:
+gui.nc.container.fission_controller.heat_stored=Niveau de chaleur du caisson:
+
+gui.nc.container.fission_irradiator.irradiator=Irradiateur à neutrons
+gui.nc.container.fission_irradiator.heat_stored=Niveau de chaleur du groupe:
+
+gui.nc.container.solid_fission_controller.reactor=Réacteur à fission solide
+gui.nc.container.solid_fission_controller.output_rate=Vitesse de production:
+
+gui.nc.container.solid_fission_cell.cell=Cellule de combustible
+gui.nc.container.solid_fission_cell.heat_stored=Niveau de chaleur du groupe:
+
+gui.nc.container.salt_fission_controller.reactor=Réacteur à fission liquide
+gui.nc.container.salt_fission_controller.heating_speed_multiplier=Vitesse dde réchauffement moyenne:
+
+gui.nc.container.salt_fission_vessel.vessel=Cuve à combustible
+gui.nc.container.salt_fission_vessel.heat_stored=Niveau de chaleur du groupe:
+gui.nc.container.salt_fission_heater.heater=Refroidisseur liquide
+gui.nc.container.salt_fission_heater.heat_stored=Niveau de chaleur du groupe:
+
+gui.nc.container.fission_heater_port.name=Interface de refroidisseur liquide
+
+gui.nc.container.fusion_core.reactor=Réacteur à fusion
+gui.nc.container.fusion_core.ring_incomplete=Anneau incomplet
+gui.nc.container.fusion_core.ring_incomplete_at=Anneau incomplet
+gui.nc.container.fusion_core.ring_blocked=Anneau intérieur bloqué
+gui.nc.container.fusion_core.power_issue=Électroaimaint non alimenté
+gui.nc.container.fusion_core.incorrect_structure=Structure invalide
+gui.nc.container.fusion_core.no_problem=Aucun problème
+gui.nc.container.fusion_core.size=Taille du toroïde:
+gui.nc.container.fusion_core.energy=Énergie:
+gui.nc.container.fusion_core.power=Puissance:
+gui.nc.container.fusion_core.heat=Chaleur:
+gui.nc.container.fusion_core.temperature=Température:
+gui.nc.container.fusion_core.temperature_change=Changement de température:
+gui.nc.container.fusion_core.cooling_rate=Vitesse de refroidissement active:
+gui.nc.container.fusion_core.efficiency=Éfficacité:
+gui.nc.container.fusion_core.fuels=Combustibles actifs:
+gui.nc.container.fusion_core.empty=Vide
+gui.nc.container.fusion_core.reactor_not_found=Impossible d'acceder au réacteur a fusion - la structure est incomplète
+
+gui.nc.container.heat_exchanger_controller.heat_exchanger=Échangeur de chaleur (WIP)
+gui.nc.container.heat_exchanger_controller.tubes=Nombre de tubes:
+gui.nc.container.heat_exchanger_controller.efficiency=Éfficacité moyenne:
+gui.nc.container.heat_exchanger_controller.efficiency_max=Éfficacité moyenne maximale:
+gui.nc.container.heat_exchanger_controller.active_percent=Tubes actifs:
+
+gui.nc.container.turbine_controller.turbine=Turbine
+gui.nc.container.turbine_controller.power=Production d'énergie:
+gui.nc.container.turbine_controller.dynamo_efficiency=Éfficacité des dynamos:
+gui.nc.container.turbine_controller.dynamo_coil_count=Nombres de dynamo:
+gui.nc.container.turbine_controller.expansion_level=Expansion:
+gui.nc.container.turbine_controller.rotor_efficiency=Éfficacité des rotors:
+gui.nc.container.turbine_controller.fluid_rate=Vitesse d'entrée:
+gui.nc.container.turbine_controller.power_bonus=Bonus de vitesse d'entrée:
+
+gui.nc.container.energy_stored=Energie enmagasinée:
+gui.nc.container.process_power=Energie du processus:
+gui.nc.container.power_gen=Génération d'énergie:
+gui.nc.container.speed_multiplier=Multiplicateur de vitesse:
+gui.nc.container.power_multiplier=Multiplicateur d'énergie:
+gui.nc.container.no_energy=N'a pas besoin d'énergie!
+gui.nc.container.shift_clear_tank=Maj + clic pour vider le réservoir
+gui.nc.container.shift_clear_filter=Maj + clic pour vider le filtre
+gui.nc.container.change_tanks_mode=Empêche le surplus à l'entrée
+gui.nc.container.void_leftover_fluid=Annihile les fluides restants
+gui.nc.container.void_outputs=Annihlie le surplus à la sortie
+gui.nc.container.comparator_mode=Comparateur éfficacité/chaleur
+
+gui.nc.container.machine_side_config=Configuration des côtés
+gui.nc.container.redstone_control=Controle redstone
+gui.nc.container.input_item_config=Configuration de l'emplacement d'entrée
+gui.nc.container.input_tank_config=Configuration du réservoir d'entrée
+gui.nc.container.output_item_config=Configuration de l'emplacement de sortie
+gui.nc.container.output_tank_config=Configuration du réservoir de sortie
+gui.nc.container.upgrade_config=Configuration de l'emplacement d'amélioration
+
+gui.nc.container.slot_setting_config=Paramètres de l'emplacement:
+gui.nc.container.tank_setting_config=Paramètres du réservoir:
+gui.nc.container.default_setting_config=PAR DÉFAUT
+gui.nc.container.void_excess_setting_config=ANNIHILER LE SURPLUS
+gui.nc.container.void_setting_config=ANNIHILER TOUT
+
+gui.nc.container.bottom_config=BAS:
+gui.nc.container.top_config=HAUT:
+gui.nc.container.left_config=GAUCHE:
+gui.nc.container.right_config=DROITE:
+gui.nc.container.front_config=AVANT:
+gui.nc.container.back_config=ARRIERE:
+gui.nc.container.in_config=ENTREE
+gui.nc.container.out_config=SORTIE
+gui.nc.container.both_config=LES DEUX
+gui.nc.container.non_config=DÉSACTIVÉ
+
+gui.nc.container.shift_clear_multiblock=Maj + clic pour vider le composant de TOUS ses objets et ses fluides
+
+nuclearcraft.multiblock_validation.invalid_block=%4$s n'est pas un bloc valide à [%1$s, %2$s, %3$s]
+nuclearcraft.multiblock_validation.no_controller=Un contrôleur doit être présent pour que le multibloc puisse se former
+nuclearcraft.multiblock_validation.too_many_controllers=Un seul contrôleur doit être présent pour que le multibloc puisse se former
+
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=Ce n'est pas un réacteur à fission solide complet - il ne doit pas y avoir de cellules pour qu'il se forme
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=Ce n'est pas un réacteur à fission solide complet - il ne doit pas y avoir de refroidisseur pour qu'il se forme
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=Ce n'est pas un réacteur à fission liquide complet - il ne doit pas y avoir de cuves pour qu'il se forme
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=Ce n'est pas un réacteur à fission liquide complet - il ne doit pas y avoir de refroidisseurs liquides pour qu'il se forme
+
+nuclearcraft.multiblock.fission_reactor_source.no_target=N'a pas de cible!
+nuclearcraft.multiblock.fission_reactor_source.target=Cible %4$s à [%1$d, %2$d, %3$d]
+
+nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=Ce n'est pas un échangeur de chaleur; il ne doit pas y avoir de tubes d'échange de chaleur pour qu'il se forme
+nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=Ce n'est pas un condeseur; il ne doit pas y avoir de tubes de condensation pour qu'il se forme
+
+nuclearcraft.multiblock_validation.turbine.need_bearings=Il doit y avoir deux groupes de support de rotor de chaque côté opposé pour que la turbine se forme
+nuclearcraft.multiblock_validation.turbine.bearings_side_square=Le caisson des supports de rotors doit être carré pour que la turbine se forme
+nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=L'entrée et la sortie de fluides doivent être instalées à l'opposé l'un de l'autre sur les murs du caisson pour que la turbine se forme
+nuclearcraft.multiblock_validation.turbine.bearings_centre_and_square=Le groupe de supports de rotors doit être carré et centré par rapport aux murs du caisson pour que la turbine se forme 
+nuclearcraft.multiblock_validation.turbine.shaft_centre=L'axe du rotor doit être complètement connecté à chaque groupe de supports de rotor pour que la turbine se forme
+nuclearcraft.multiblock_validation.turbine.space_between_blades=L'espace entre le groupe de pales de rotors et celui des stators doit être vide pour que la turbine se forme
+nuclearcraft.multiblock_validation.turbine.different_type_blades=Les pales du rotor ou stator de chaque section de l'axe du rotor doivent être du même type pour que la turbine se forme
+nuclearcraft.multiblock_validation.turbine.missing_blades=Chaque section de l'axe du rotor doivent avoir des pales de rotor ou stator du même type complètement étendus juaqu'au mur pour que la turbine se forme
+
+nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=Il y a %s qubits connectés à cet ordinateur quantique; il ne peut y en avoir que %s au plus pour qu'il se forme 
+
+nuclearcraft.collector.jei_name=Collecteur
+nuclearcraft.multiblock_gui.fission_moderator.jei_name=Modérateur de neutrons
+nuclearcraft.multiblock_gui.fission_reflector.jei_name=Réflecteur de neutrons
+nuclearcraft.multiblock_gui.fission_irradiator.jei_name=Irradieur à neutrons
+nuclearcraft.multiblock_gui.pebble_fission.jei_name=Réacteur à lit de boulets
+nuclearcraft.multiblock_gui.solid_fission.jei_name=Réacteur à fission solide
+nuclearcraft.fission_moderator.jei_name=Modérateur de fission
+nuclearcraft.fission_reflector.jei_name=Réflecteur de fission
+nuclearcraft.fission_heating.jei_name=Réchauffement de réacteur à fission solide
+nuclearcraft.multiblock_gui.salt_fission.jei_name=Réacteur à fission liquide
+nuclearcraft.fission_emergency_cooling.jei_name=Refroidissement d'urgence de réacteur à fission liquide
+nuclearcraft.multiblock_gui.coolant_heater.jei_name=Refroidissement de réacteur à fission liquide
+nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Tube d'échange de chaleur
+nuclearcraft.multiblock_gui.condenser.jei_name=Tube de condensation
+nuclearcraft.multiblock_gui.turbine.jei_name=Turbine
+nuclearcraft.radiation_scrubber.jei_name=Épurateur de radiations
+
+advancement.nuclearcraft.root.name=NuclearCraft
+advancement.nuclearcraft.root.desc=Physique nucléaire, style Minecraft
+
+advancement.nuclearcraft.manufactory.name=Ere industrielle
+advancement.nuclearcraft.manufactory.desc=Fabriquer une Fabrique
+
+advancement.nuclearcraft.separator.name=Compartimentalisation
+advancement.nuclearcraft.separator.desc=Fabriquer un Séparateur
+
+advancement.nuclearcraft.voltaic_pile_basic.name=Pile ou face?
+advancement.nuclearcraft.voltaic_pile_basic.desc=Fabriquer une Pile voltaïque basique
+
+advancement.nuclearcraft.electrolyzer.name=Electrodes pétillantes
+advancement.nuclearcraft.electrolyzer.desc=Fabriquer un Electrolyseur
+
+advancement.nuclearcraft.decay_generator.name=Mâle alpha
+advancement.nuclearcraft.decay_generator.desc=Fabriquer un Générateur à désintégration
+
+advancement.nuclearcraft.bin.name=Monsieur Poubelle
+advancement.nuclearcraft.bin.desc=Fabriquer une Corbeille universelle
+
+advancement.nuclearcraft.portable_ender_chest.name=Mary Poppins
+advancement.nuclearcraft.portable_ender_chest.desc=Fabriquer un Coffre de l'Ender protable
+
+advancement.nuclearcraft.speed_upgrade.name=Surcadençage
+advancement.nuclearcraft.speed_upgrade.desc=Fabriquer une Amélioration de vitesse
+
+advancement.nuclearcraft.energy_upgrade.name=Dériveur de polynômes
+advancement.nuclearcraft.energy_upgrade.desc=Fabriquer une Amélioration d'énergie
+
+advancement.nuclearcraft.machine_interface.name=Extension cubique
+advancement.nuclearcraft.machine_interface.desc=Fabriquer une Interface de machine
+
+advancement.nuclearcraft.alloy_furnace.name=Fondre la tempête
+advancement.nuclearcraft.alloy_furnace.desc=Fabriquer un Four à alliage
+
+advancement.nuclearcraft.fuel_reprocessor.name=Recyclage des ordures
+advancement.nuclearcraft.fuel_reprocessor.desc=Fabriquer un Retraiteur de combustible atomique
+
+advancement.nuclearcraft.decay_hastener.name=Radiation extrême
+advancement.nuclearcraft.decay_hastener.desc=Fabriquer un Accélérateur de désintégration
+
+advancement.nuclearcraft.lithium_ion_battery_basic.name=Dans les pas d'Elon
+advancement.nuclearcraft.lithium_ion_battery_basic.desc=Fabriquer un Accumulateur lithium-ion basique
+
+advancement.nuclearcraft.assembler.name=Production en chaîne
+advancement.nuclearcraft.assembler.desc=Fabriquer un Assembleur
+
+advancement.nuclearcraft.solar_panel_basic.name=Vive l'écologie
+advancement.nuclearcraft.solar_panel_basic.desc=Fabriquer un Panneau solaire basique
+
+advancement.nuclearcraft.rtg_uranium.name=Douce lueur verte
+advancement.nuclearcraft.rtg_uranium.desc=Fabriquer un GTR à uranium
+
+advancement.nuclearcraft.infuser.name=Infuse le bien
+advancement.nuclearcraft.infuser.desc=Fabriquer un Infuseur de fluides
+
+advancement.nuclearcraft.melter.name=C'est chô, ça brûle!
+advancement.nuclearcraft.melter.desc=Fabriquer un Four à fusion
+
+advancement.nuclearcraft.chemical_reactor.name=Poliakoff jusqu'au bout
+advancement.nuclearcraft.chemical_reactor.desc=Fabriquer un Réacteur chimique
+
+advancement.nuclearcraft.supercooler.name=Chaud devant
+advancement.nuclearcraft.supercooler.desc=Fabriquer un Surfondeur
+
+advancement.nuclearcraft.extractor.name=Eponger l'éponge
+advancement.nuclearcraft.extractor.desc=Fabriquer un Extracteur de fluide
+
+advancement.nuclearcraft.enricher.name=Alchimie chimique
+advancement.nuclearcraft.enricher.desc=Fabriquer un Enrichisseur de fluides
+
+advancement.nuclearcraft.nuclear_furnace.name=Cauchemar en cuisine
+advancement.nuclearcraft.nuclear_furnace.desc=Fabriquer un Four nucléaire
+
+advancement.nuclearcraft.neptunium.name=Chère Neptune
+advancement.nuclearcraft.neptunium.desc=Obtenir du neptunium
+
+advancement.nuclearcraft.rtg_plutonium.name=Coeur du démon
+advancement.nuclearcraft.rtg_plutonium.desc=Fabriquer un GTR à plutonium
+
+advancement.nuclearcraft.ingot_former.name=Moule de céramique
+advancement.nuclearcraft.ingot_former.desc=Fabriquer un Moule à lingots
+
+advancement.nuclearcraft.salt_mixer.name=Plier et tordre
+advancement.nuclearcraft.salt_mixer.desc=Fabriquer un Mélangeur
+
+advancement.nuclearcraft.crystallizer.name=Breaking Bad
+advancement.nuclearcraft.crystallizer.desc=Fabriquer un Cristalliseur
+
+advancement.nuclearcraft.centrifuge.name=James Bond
+advancement.nuclearcraft.centrifuge.desc=Fabriquer une Centrifugeuse
+
+advancement.nuclearcraft.rock_crusher.name=Rolling Stones
+advancement.nuclearcraft.rock_crusher.desc=Fabriquer un Pulvérisateur de rochers
+
+advancement.nuclearcraft.plutonium.name=Criticalité
+advancement.nuclearcraft.plutonium.desc=Obtenir du plutonium
+
+advancement.nuclearcraft.rtg_americium.name=Énergie à l'américaine
+advancement.nuclearcraft.rtg_americium.desc=Fabriquer un GTR à américium
+
+advancement.nuclearcraft.pressurizer.name=La terreur du savoir
+advancement.nuclearcraft.pressurizer.desc=Fabriquer un Pressuriseur
+
+advancement.nuclearcraft.americium.name=Dans la physique, nous croyons
+advancement.nuclearcraft.americium.desc=Obtenir de l'américium
+
+advancement.nuclearcraft.rtg_californium.name=Fin de la ligne
+advancement.nuclearcraft.rtg_californium.desc=Fabriquer un GTR à californium
+
+advancement.nuclearcraft.curium.name=Marie curieuse
+advancement.nuclearcraft.curium.desc=Obtenir du curium
+
+advancement.nuclearcraft.berkelium.name=Made in Alameda
+advancement.nuclearcraft.berkelium.desc=Obtenir du berkélium
+
+advancement.nuclearcraft.californium.name=Rêve californien
+advancement.nuclearcraft.californium.desc=Obtenir du californium
+
+advancement.nuclearcraft.solid_fission_controller.name=Dissocier l'atome
+advancement.nuclearcraft.solid_fission_controller.desc=Fabriquer une Interface de contrôle du réacteur à fission solide
+
+advancement.nuclearcraft.salt_fission_controller.name=Nucléaire nouvelle génération
+advancement.nuclearcraft.salt_fission_controller.desc=Fabriquer une Interface de contrôle du réacteur à fission liquide
+
+advancement.nuclearcraft.heat_exchanger_controller.name=Contact thermique
+advancement.nuclearcraft.heat_exchanger_controller.desc=Fabriquer un Contrôleur d'échange de chaleur
+
+advancement.nuclearcraft.turbine_controller.name=Echelle Rankine
+advancement.nuclearcraft.turbine_controller.desc=Fabriquer un Contrôleur de turbine
+
+advancement.nuclearcraft.condenser_controller.name=Fermer le circuit
+advancement.nuclearcraft.condenser_controller.desc=Fabriquer un Contrôleur de condensation
+
+advancement.nuclearcraft.geiger_counter.name=Expédition à Pripyat
+advancement.nuclearcraft.geiger_counter.desc=Farbriquer un Compteur Geiger
+
+advancement.nuclearcraft.radaway.name=Bye bye les radiations
+advancement.nuclearcraft.radaway.desc=Fabriquer du RadAway
+
+advancement.nuclearcraft.rad_x.name=Immunité adaptative
+advancement.nuclearcraft.rad_x.desc=Fabriquer du Rad-X
+
+advancement.nuclearcraft.rad_shielding.name=Brave sire Robin
+advancement.nuclearcraft.rad_shielding.desc=Fabriquer un Bouclier de radiation fort
+
+advancement.nuclearcraft.radiation_scrubber.name=Contrôle de la pollution
+advancement.nuclearcraft.radiation_scrubber.desc=Fabriquer un Épurateur de radiations
+
+advancement.nuclearcraft.marshmallow.name=La manœuvre Lansdell
+advancement.nuclearcraft.marshmallow.desc=Faire un Chamallow
+
+advancement.nuclearcraft.smore.name=Autour du feu de camp
+advancement.nuclearcraft.smore.desc=Faire un S'lingot de s'more
+
+advancement.nuclearcraft.moresmore.name=Plus de feu de camp
+advancement.nuclearcraft.moresmore.desc=Faire un Double s'lingot de s'more 
+
+advancement.nuclearcraft.foursmore.name=ENCORE PLUS de feu de camp
+advancement.nuclearcraft.foursmore.desc=Faire un Quadruple s'lingot de s'more
+
+block.nc.fusion_run=Réacteur à fusion en marche
+block.nc.turbine_run=Turbine en marche
+
+player.nc.geiger_tick=Tick du compteur Geiger
+player.nc.radaway=RadAway utilisé
+player.nc.rad_x=Rad-X utilisé
+player.nc.chems_wear_off=Substances chimiques enlevées
+player.nc.rad_poisoning=Empoisonnement aux radiations
+
+entity.nc.feral_ghoul_ambient=Ambiance de goule folle
+entity.nc.feral_ghoul_hurt=Blessure de goule folle
+entity.nc.feral_ghoul_death=Mort de goule folle
+entity.nc.feral_ghoul_step=Pas de goule folle
+entity.nc.feral_ghoul_fall=Chute de goule folle
+entity.nc.feral_ghoul_charge=Charge de goule folle
+
+music.nc.wanderer=Le vagabond
+music.nc.end_of_the_world=La fin du monde
+music.nc.money_for_nothing=L'argent gratuit
+music.nc.hyperspace=Hyperespace
+
+material.boron.name=Bore
+material.tough.name=Alliage dur
+material.hard_carbon.name=Alliage de carbone dur
+material.boron_nitride.name=Nitrure de bore
+material.thorium.name=Thorium
+material.uranium.name=Uranium
+material.magnesium.name=Magnésium
+material.chocolate.name=Chocolat
+
+modifier.moldable.name=Maléable
+modifier.moldable.desc=§oMaître Chocolatier.§r\nMoule des modificateurs additionels dans l'outil.
+modifier.uplifting.name=Brave
+modifier.uplifting.desc=§oNous nous batterons jusqu'au bout!§r\nRégénère occasionnelement à l'usage de la vie.
+modifier.withering.name=Witherant
+modifier.withering.desc=§oLa mort fait de nous des monstres.§r\nApplique l'effet de wither aux ennemis que l'on tape.
+
+modifier.moldable_armor.name=Maléable
+modifier.moldable_armor.desc=§oMaître Chocolatier.§r\nMoule des modificateurs additionels dans l'armure.
+modifier.poisonous_armor.name=Empoisonné
+modifier.poisonous_armor.desc=§oTellement à tuer... si peu de temps.§r\nEmpoisonne les ennemis aux contact.
+modifier.uplifting_armor.name=Brave
+modifier.uplifting_armor.desc=§oNous nous batterons jusqu'au bout!§r\nRégénère occasionnelement de la vie quand touché.
+modifier.withering_armor.name=Witherant
+modifier.withering_armor.desc=§oLa mort fait de nous des monstres.§r\nApplique l'effet de wither aux ennemis au contact.
+
+message.nuclearcraft.filter=Régler le filtre sur:
+
+message.nuclearcraft.qubit_id=ID du qubit:
+
+message.nuclearcraft.rad_x_wore_off=Votre Rad-X s'estompe...
+message.nuclearcraft.rad_warning=Un sale gôut métallique se forme dans votre bouche et vous sentez une pénible migraine s'installer...vous souffrez d'empoisonnement aux radiations! Il serait avisé de mettre la mian sur un compteur Geiger pour déterminer le sévérité de la situation...
+message.nuclearcraft.radaway_cooling_down=Le temps de relance de votre RadAway est à
+message.nuclearcraft.rad_x_cooling_down=Le temps de relance de votre Rad-X est à
+message.nuclearcraft.scrubber_removal_rate=Vitesse d'épuration active des radiations:
+
+hud.nuclearcraft.rad_immune_for=Immunisé à:
+hud.nuclearcraft.rad_immune=Immunisé!
+
+commands.nuclearcraft.set_chunk_radiation.usage=/nc_set_chunk_radiation <niveaux_radiations> [coord_x] [coord_y]
+commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radiation <niveaux_radiations> <rayon_de_tronçon>
+commands.nuclearcraft.set_world_radiation.usage=/nc_set_world_radiation <niveaux_radiations>
+commands.nuclearcraft.set_player_radiation.usage=/nc_set_world_radiation <niveaux_radiations> [joueur]
+
+commands.nuclearcraft.reconstruct_script_addons.usage=/nc_reload_script_addons ["syntaxe"]
+commands.nuclearcraft.reconstruct_script_addons.success=Reconstruction des ajouts de scripts réussie!
+commands.nuclearcraft.reconstruct_script_addons.fail=Une erreur est survenue lors de l'essai de reconstruire les ajouts de scripts...
+
+message.nuclearcraft.radiation_config_info=Les radiations sont activées sur ce serveur!
+message.nuclearcraft.radiation_config_info_jei=Les radiations sont activées sur ce serveur! Il est recommandé de les activer du côté du client aussi, ainsi que de relancer le jeu, afin de pouvoir voir tous les objets liés aux radiations dans JEI!
+
+death.attack.superfluid_freeze=%1$s est devenu un condensat Bose-Einstein
+death.attack.plasma_burn=%1$s a été incinéré par du plasma
+death.attack.gas_burn=%1$s a été vaporisé
+death.attack.steam_burn=%1$s aurait bien mieux réussi dans une boulloire
+death.attack.molten_burn=%1$s a été en enfer mais n'est pas revenu
+death.attack.corium_burn=%1$s a tenté de nager dans ce qu'il restait de leur réacteur à fission
+death.attack.hot_coolant_burn=%1$s s'est reforidi au mauvais moment et au mauvais endroit
+death.attack.acid_burn=%1$s s'est révélé être bien trop basique
+death.attack.fluid_burn=%1$s a été cuit à point
+death.attack.hypothermia=%1$s est mort d'une extrême hypothermie
+death.attack.fission_burn=%1$s a été frit dans un réacteur à fission
+death.attack.fatal_rads=%1$s est mort d'empoisonnement aux radiations
+
+# Guide Book# Guide Book
+
+nc.guide_book.name=Guide de NuclearCraft
+nc.guide_book.edition=Édition Overhaul
+nc.guide_book.desc=Le guide officiel pour NuclearCraft: Overhauled (WIP). Traduction française faite par Mravran et Sanrom
+
+# String Formatting# String Formatting
+
+nc.sf.plural_rule=%d > 1 ? 1 : 0
+
+nc.sf.zero=zéro
+nc.sf.one=un
+nc.sf.two=deux
+nc.sf.three=trois
+nc.sf.four=quatre
+nc.sf.five=cinq
+nc.sf.six=six
+
+nc.sf.no=non
+
+nc.sf.and=et
+nc.sf.or=ou
+
+nc.sf.placement_rule.and_or.adjacent0=%1$s %2$s
+nc.sf.placement_rule.and_or.adjacent1=%1$s, %2$s
+nc.sf.placement_rule.and_or.adjacent2=%1$s %2$s %3$s
+nc.sf.placement_rule.and_or.adjacent3=%1$s, %2$s %3$s
+nc.sf.placement_rule.and_or.adjacent4=%1$s.
+
+nc.sf.placement_rule.adjacent.must_be_adjacent_to=Doit être adjacent à
+nc.sf.placement_rule.adjacent.at_least=au moins %1$s
+nc.sf.placement_rule.adjacent.at_least_along_axis=au moins %1$s sur un axe commun
+nc.sf.placement_rule.adjacent.at_least_along_axes=au moins %1$s sur des axes commun
+nc.sf.placement_rule.adjacent.at_least_at_vertex=au moins %1$s commun a un coin
+nc.sf.placement_rule.adjacent.exactly=exactement %1$s
+nc.sf.placement_rule.adjacent.exactly_along_axis=exactement %1$s
+nc.sf.placement_rule.adjacent.exactly_along_axes=exactement %1$s
+nc.sf.placement_rule.adjacent.exactly_at_vertex=exactement %1$s
+nc.sf.placement_rule.adjacent.at_most=au plus %1$s
+nc.sf.placement_rule.adjacent.at_most_along_axis=au plus %1$s
+nc.sf.placement_rule.adjacent.at_most_along_axes=au plus %1$s
+nc.sf.placement_rule.adjacent.no=absolument %1$s
+
+nc.sf.placement_rule.adjacent.ambiguity0prev=!common axis&&!common axes&&!common vertex
+nc.sf.placement_rule.adjacent.ambiguity0last=common axis||common axes||common vertex
+nc.sf.placement_rule.adjacent.ambiguity1prev=share a common||share common
+
+nc.sf.reactor_casing0=%s caisson de réacteur
+nc.sf.reactor_casing1=%s caissons de réacteur
+nc.sf.cell0=%s cellule de combustible fonctionnelle
+nc.sf.cell1=%s cellules de combustible fonctionnelles
+nc.sf.vessel0=%s cuve de combustible fonctionnelle
+nc.sf.vessel1=%s cuve de combustible fonctionnelle
+nc.sf.moderator0=%s modérateur actif
+nc.sf.moderator1=%s modérateurs actifs
+nc.sf.reflector0=%s réflecteur actif
+nc.sf.reflector1=%s réflecteurs actifs
+
+nc.sf.any_sink0=%s de n'importe quel refroidisseur
+nc.sf.any_sink1=%s de n'importe quel refroidisseurs
+nc.sf.water_sink0=%s refroidisseur à eau
+nc.sf.water_sink1=%s refroidisseurs à eau
+nc.sf.iron_sink0=%s refroidisseur à fer
+nc.sf.iron_sink1=%s refroidisseurs à fer
+nc.sf.redstone_sink0=%s refroidisseur à redstone
+nc.sf.redstone_sink1=%s refroidisseurs à redstone
+nc.sf.quartz_sink0=%s refroidisseur à quartz
+nc.sf.quartz_sink1=%s refroidisseurs à quartz
+nc.sf.obsidian_sink0=%s refroidisseur à obsidienne
+nc.sf.obsidian_sink1=%s refroidisseurs à obsidienne
+nc.sf.nether_brick_sink0=%s refroidisseur à brique du nether
+nc.sf.nether_brick_sink1=%s refroidisseurs à brique du nether
+nc.sf.glowstone_sink0=%s refroidisseur à pierre lumineuse
+nc.sf.glowstone_sink1=%s refroidisseurs à pierre lumineuse
+nc.sf.lapis_sink0=%s refroidisseur à lapis
+nc.sf.lapis_sink1=%s refroidisseurs à lapis
+nc.sf.gold_sink0=%s refroidisseur à or
+nc.sf.gold_sink1=%s refroidisseurs à or
+nc.sf.prismarine_sink0=%s refroidisseur à prismarine
+nc.sf.prismarine_sink1=%s refroidisseurs à prismarine
+nc.sf.slime_sink0=%s refroidisseur à slime
+nc.sf.slime_sink1=%s refroidisseurs à slime
+nc.sf.end_stone_sink0=%s refroidisseur à pierre de l'end
+nc.sf.end_stone_sink1=%s refroidisseurs à pierre de l'end
+nc.sf.purpur_sink0=%s refroidisseur à purpur
+nc.sf.purpur_sink1=%s refroidisseurs à purpur
+nc.sf.diamond_sink0=%s refroidisseur à diamant
+nc.sf.diamond_sink1=%s refroidisseurs à diamant
+nc.sf.emerald_sink0=%s refroidisseur à émeraude
+nc.sf.emerald_sink1=%s refroidisseurs à émeraude
+nc.sf.copper_sink0=%s refroidisseur à cuivre
+nc.sf.copper_sink1=%s refroidisseurs à cuivre
+nc.sf.tin_sink0=%s refroidisseur à étain
+nc.sf.tin_sink1=%s refroidisseurs à étain
+nc.sf.lead_sink0=%s refroidisseur à plomb
+nc.sf.lead_sink1=%s refroidisseurs à plomb
+nc.sf.boron_sink0=%s refroidisseur à bore
+nc.sf.boron_sink1=%s refroidisseurs à bore
+nc.sf.lithium_sink0=%s refroidisseur à lithium
+nc.sf.lithium_sink1=%s refroidisseurs à lithium
+nc.sf.magnesium_sink0=%s refroidisseur à magnésium
+nc.sf.magnesium_sink1=%s refroidisseurs à magnésium
+nc.sf.manganese_sink0=%s refroidisseur à manganèse
+nc.sf.manganese_sink1=%s refroidisseurs à manganèse
+nc.sf.aluminum_sink0=%s refroidisseur à aluminium
+nc.sf.aluminum_sink1=%s refroidisseurs à aluminium
+nc.sf.silver_sink0=%s refroidisseur à argent
+nc.sf.silver_sink1=%s refroidisseurs à argent
+nc.sf.fluorite_sink0=%s refroidisseur à fluorite
+nc.sf.fluorite_sink1=%s refroidisseurs à fluorite
+nc.sf.villiaumite_sink0=%s refroidisseur à villiaumite
+nc.sf.villiaumite_sink1=%s refroidisseurs à villiaumite
+nc.sf.carobbiite_sink0=%s refroidisseur à carobbiite
+nc.sf.carobbiite_sink1=%s refroidisseurs à carobbiite
+nc.sf.arsenic_sink0=%s refroidisseur à arsenic
+nc.sf.arsenic_sink1=%s refroidisseurs à arsenic
+nc.sf.liquid_nitrogen_sink0=%s refroidisseur à azote
+nc.sf.liquid_nitrogen_sink1=%s refroidisseurs à azote
+nc.sf.liquid_helium_sink0=%s refroidisseur à hélium
+nc.sf.liquid_helium_sink1=%s refroidisseurs à hélium
+nc.sf.enderium_sink0=%s refroidisseur à endérium
+nc.sf.enderium_sink1=%s refroidisseurs à endérium
+nc.sf.cryotheum_sink0=%s refroidisseur à cryothéum
+nc.sf.cryotheum_sink1=%s refroidisseurs à cryothéum
+
+nc.sf.any_heater0=%s de n'importe quel refroidisseur liquide
+nc.sf.any_heater1=%s de n'importe quel refroidisseurs liquide
+nc.sf.standard_heater0=%s refroidisseur standard
+nc.sf.standard_heater1=%s refroidisseurs standard
+nc.sf.iron_heater0=%s refroidisseur à fer liquide
+nc.sf.iron_heater1=%s refroidisseurs à fer liquide
+nc.sf.redstone_heater0=%s refroidisseur à redstone liquide
+nc.sf.redstone_heater1=%s refroidisseurs à redstone liquide
+nc.sf.quartz_heater0=%s refroidisseur à quartz liquide
+nc.sf.quartz_heater1=%s refroidisseurs à quartz liquide
+nc.sf.obsidian_heater0=%s refroidisseur à obsidienne liquide
+nc.sf.obsidian_heater1=%s refroidisseurs à obsidienne liquide
+nc.sf.nether_brick_heater0=%s refroidisseur à brique du nether liquide
+nc.sf.nether_brick_heater1=%s refroidisseurs à brique du nether liquide
+nc.sf.glowstone_heater0=%s refroidisseur à pierre lumineuse liquide
+nc.sf.glowstone_heater1=%s refroidisseurs à pierre lumineuse liquide
+nc.sf.lapis_heater0=%s refroidisseur à lapis liquide
+nc.sf.lapis_heater1=%s refroidisseurs à lapis liquide
+nc.sf.gold_heater0=%s refroidisseur à or liquide
+nc.sf.gold_heater1=%s refroidisseurs à or liquide
+nc.sf.prismarine_heater0=%s refroidisseur à prismarine liquide
+nc.sf.prismarine_heater1=%s refroidisseurs à prismarine liquide
+nc.sf.slime_heater0=%s refroidisseur à slime liquide
+nc.sf.slime_heater1=%s refroidisseurs à slime liquide
+nc.sf.end_stone_heater0=%s refroidisseur à pierre de l'end liquide
+nc.sf.end_stone_heater1=%s refroidisseurs à pierre de l'end liquide
+nc.sf.purpur_heater0=%s refroidisseur à purpur liquide
+nc.sf.purpur_heater1=%s refroidisseurs à purpur liquide
+nc.sf.diamond_heater0=%s refroidisseur à diamant liquide
+nc.sf.diamond_heater1=%s refroidisseurs à diamant liquide
+nc.sf.emerald_heater0=%s refroidisseur à émeraude liquide
+nc.sf.emerald_heater1=%s refroidisseurs à émeraude liquide
+nc.sf.copper_heater0=%s refroidisseur à cuivre liquide
+nc.sf.copper_heater1=%s refroidisseurs à cuivre liquide
+nc.sf.tin_heater0=%s refroidisseur à étain liquide
+nc.sf.tin_heater1=%s refroidisseurs à étain liquide
+nc.sf.lead_heater0=%s refroidisseur à plomb liquide
+nc.sf.lead_heater1=%s refroidisseurs à plomb liquide
+nc.sf.boron_heater0=%s refroidisseur à bore liquide
+nc.sf.boron_heater1=%s refroidisseurs à bore liquide
+nc.sf.lithium_heater0=%s refroidisseur à lithium liquide
+nc.sf.lithium_heater1=%s refroidisseurs à lithium liquide
+nc.sf.magnesium_heater0=%s refroidisseur à magnésium liquide
+nc.sf.magnesium_heater1=%s refroidisseurs à magnésium liquide
+nc.sf.manganese_heater0=%s refroidisseur à manganèse liquide
+nc.sf.manganese_heater1=%s refroidisseurs à manganèse liquide
+nc.sf.aluminum_heater0=%s refroidisseur à aluminium liquide
+nc.sf.aluminum_heater1=%s refroidisseurs à aluminium liquide
+nc.sf.silver_heater0=%s refroidisseur à argent liquide
+nc.sf.silver_heater1=%s refroidisseurs à argent liquide
+nc.sf.fluorite_heater0=%s refroidisseur à fluorite liquide
+nc.sf.fluorite_heater1=%s refroidisseurs à fluorite liquide
+nc.sf.villiaumite_heater0=%s refroidisseur à villiaumite liquide
+nc.sf.villiaumite_heater1=%s refroidisseurs à villiaumite liquide
+nc.sf.carobbiite_heater0=%s refroidisseur à carobbiite liquide
+nc.sf.carobbiite_heater1=%s refroidisseurs à carobbiite liquide
+nc.sf.arsenic_heater0=%s refroidisseur à arsenic liquide
+nc.sf.arsenic_heater1=%s refroidisseurs à arsenic liquide
+nc.sf.liquid_nitrogen_heater0=%s refroidisseur à azote liquide
+nc.sf.liquid_nitrogen_heater1=%s refroidisseurs à azote liquide
+nc.sf.liquid_helium_heater0=%s refroidisseur à hélium liquide
+nc.sf.liquid_helium_heater1=%s refroidisseurs à hélium liquide
+nc.sf.enderium_heater0=%s refroidisseur à endérium liquide
+nc.sf.enderium_heater1=%s refroidisseurs à endérium liquide
+nc.sf.cryotheum_heater0=%s refroidisseur à cryothéum liquide
+nc.sf.cryotheum_heater1=%s refroidisseurs à cryothéum liquide
+
+nc.sf.turbine_casing0=%s caisson de turbine
+nc.sf.turbine_casing1=%s caissons de turbine
+nc.sf.bearing0=%s support de rotor
+nc.sf.connector0=%s connecteur de dynamo
+nc.sf.connector1=%s connecteurs de dynamo
+
+nc.sf.any_coil0=%s de n'importe quel dynamo
+nc.sf.any_coil1=%s de n'importe quel dynamos
+nc.sf.magnesium_coil0=%s dynamo de magnésium
+nc.sf.magnesium_coil1=%s dynamos de magnésium
+nc.sf.beryllium_coil0=%s dynamo de béryllium
+nc.sf.beryllium_coil1=%s dynamos de béryllium
+nc.sf.aluminum_coil0=%s dynamo d'aluminium
+nc.sf.aluminum_coil1=%s dynamos d'aluminium
+nc.sf.gold_coil0=%s dynamo d'or
+nc.sf.gold_coil1=%s dynamos d'or
+nc.sf.copper_coil0=%s dynamo de cuivre
+nc.sf.copper_coil1=%s dynamos de cuivre
+nc.sf.silver_coil0=%s dynamo d'argent
+nc.sf.silver_coil1=%s dynamos d'argent
+
+nc.sf.power_adverb0=est constant
+nc.sf.power_adverb1=%s linéairement
+nc.sf.power_adverb2=%s quadratiquement
+nc.sf.power_adverb3=%s cubiquement
+nc.sf.power_adverb4=%s quartiquement
+nc.sf.power_adverb5=%s quintiquement
+nc.sf.power_adverb6=%s sextiquement
+nc.sf.power_adverb7=%s septiquement
+nc.sf.power_adverb8=%s octiquement
+nc.sf.power_adverb9=%s noniquement
+nc.sf.power_adverb10=%s dédiquement
+nc.sf.power_adverb11=%s undédiquement
+nc.sf.power_adverb12=%s duodédiquement
+nc.sf.power_adverb13=%s tredédiquement
+nc.sf.power_adverb14=%s quattuordédiquement
+nc.sf.power_adverb15=%s quindédiquement
+
+nc.sf.increase=augmente
+nc.sf.decrease=diminue
+nc.sf.increase_approximately=augmente approximativement
+nc.sf.decrease_approximately=diminue approximativement
+nc.sf.power_adverb_preposition=%1$s %2$s
+nc.sf.with=avec
