@@ -3129,8 +3129,8 @@ nuclearcraft.multiblock_validation.too_many_controllers=There must only be one c
 
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=This is not a solid fuel reactor - there must be no cells for it to form!
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=This is not a solid fuel reactor - there must be no sinks for it to form!
-nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten salt reactor - there must be no vessels it to form!
-nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=This is not a molten salt reactor - there must be no heaters it to form!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten salt reactor - there must be no vessels for it to form!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=This is not a molten salt reactor - there must be no heaters for it to form!
 
 nuclearcraft.multiblock.fission_reactor_source.no_target=Has no target!
 nuclearcraft.multiblock.fission_reactor_source.target=Targeting %4$s at [%1$d, %2$d, %3$d]
