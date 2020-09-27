@@ -68,7 +68,7 @@ public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstrac
 	}
 	
 	private boolean staticArrow() {
-		return getProgressArrowTime() < 4 /* || (factor_recipes && itemInputs.isEmpty() && itemOutputs.isEmpty() && getProgressArrowTime() < 8) */;
+		return getProgressArrowTime() < 2 /* || (factor_recipes && itemInputs.isEmpty() && itemOutputs.isEmpty() && getProgressArrowTime() < 4) */;
 	}
 	
 	@Override

@@ -4,7 +4,7 @@ import static nc.config.NCConfig.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
@@ -30,7 +30,7 @@ public class DecayGeneratorRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Californium252", "Lead", decay_lifetime[8], decay_power[8], RadSources.CALIFORNIUM_252);
 	}
 	
-	private static final List<String> NON_FISSION = Lists.newArrayList("Lead", "Bismuth", "Thorium");
+	private static final Set<String> NON_FISSION = Sets.newHashSet("Lead", "Bismuth", "Thorium");
 	
 	public void addDecayRecipes(String input, String output, double lifetime, double power, double radiation) {
 		String inputName = "block" + input;

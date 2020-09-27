@@ -5,6 +5,8 @@ import java.util.zip.*;
 
 public class IOHelper {
 	
+	public static final String NEW_LINE = System.lineSeparator();
+	
 	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
 	public static void appendFile(File target, File source, String separator) throws IOException {
 		FileWriter writer = new FileWriter(target, true);
@@ -29,7 +31,7 @@ public class IOHelper {
 			signature = raf.readInt();
 		}
 		catch (IOException e) {
-			
+			NCUtil.getLogger().catching(e);
 		}
 		return signature == 0x504B0304 || signature == 0x504B0506 || signature == 0x504B0708;
 	}

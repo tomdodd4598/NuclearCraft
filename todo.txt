@@ -1,3 +1,8 @@
+Work out why 4->1 NOT works (only two Toffoli decomps) but 5->1 NOT doesn't (two 4CX and six Toffoli decomps)
+(Currently logging Toffi and 4CX decomps)
+
+Config to disable food rad effect sound effects
+
 Adjacent MSR vessels with same filter form bundle to share flux, shared criticality factor is sum of single vessel criticality factors
 
 Take number of available open faces of vessel bundle into account when calculating the heat multiplier (and efficiency)

@@ -37,7 +37,7 @@ public class ItemRadaway extends NCItem {
 				return stack;
 			}
 			if (playerRads.canConsumeRadaway()) {
-				world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, NCSounds.radaway, SoundCategory.PLAYERS, 0.5F, 1F);
+				world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, NCSounds.radaway, SoundCategory.PLAYERS, (float) (0.5D * radiation_sound_volumes[1]), 1F);
 				onRadawayConsumed(stack, world, player);
 				player.addStat(StatList.getObjectUseStats(this));
 				if (player instanceof EntityPlayerMP) {
@@ -62,7 +62,7 @@ public class ItemRadaway extends NCItem {
 	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
 		if (playerRads.getRadawayCooldown() > 0D && playerRads.getMessageCooldownTime() <= 0) {
 			if (playSound && world.isRemote) {
-				player.playSound(NCSounds.chems_wear_off, 0.5F, 1F);
+				player.playSound(NCSounds.chems_wear_off, (float) (0.5D * radiation_sound_volumes[4]), 1F);
 			}
 			if (!world.isRemote) {
 				playerRads.setMessageCooldownTime(20);

@@ -508,6 +508,11 @@ public class RadSources {
 		return (rad1 * amount1 + rad2 * amount2) * INGOT / 9D;
 	}
 	
+	@Deprecated
+	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4) {
+		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4) * INGOT / 9D;
+	}
+	
 	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, double waste1, double waste2, double m, double r) {
 		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4 + waste1 * m * r + waste2 * m * (1D - r)) * INGOT / 9D;
 	}

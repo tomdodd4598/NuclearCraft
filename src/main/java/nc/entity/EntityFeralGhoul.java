@@ -1,6 +1,6 @@
 package nc.entity;
 
-import static nc.config.NCConfig.register_entity;
+import static nc.config.NCConfig.*;
 
 import java.util.Calendar;
 
@@ -86,14 +86,9 @@ public class EntityFeralGhoul extends EntityZombie {
 	}
 	
 	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		// return SoundHandler.feral_ghoul_hurt;
 		return NCSounds.feral_ghoul_charge;
-	}
-	
-	@Override
-	protected void playHurtSound(DamageSource source) {
-		playSound(getHurtSound(source), getSoundVolume(), getSoundPitch() - 0.3F);
 	}
 	
 	@Override
@@ -102,9 +97,21 @@ public class EntityFeralGhoul extends EntityZombie {
 	}
 	
 	@Override
+	protected SoundEvent getFallSound(int height) {
+		// return SoundHandler.feral_ghoul_fall;
+		return height > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+	}
+	
+	@Override
 	protected SoundEvent getStepSound() {
 		// return SoundHandler.feral_ghoul_step;
 		return SoundEvents.ENTITY_HUSK_STEP;
+	}
+	
+	@Override
+	protected void playHurtSound(DamageSource source) {
+		applyEntityAI();
+		playSound(getHurtSound(source), getSoundVolume(), getSoundPitch() - 0.3F);
 	}
 	
 	@Nullable
@@ -150,7 +157,7 @@ public class EntityFeralGhoul extends EntityZombie {
 			if (entityRads != null) {
 				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + RadSources.CAESIUM_137 * mult);
 				entityRads.setRecentPoisonAddition(RadSources.CAESIUM_137 * mult);
-				playSound(NCSounds.rad_poisoning, 1.35F, 1F + 0.2F * (rand.nextFloat() - rand.nextFloat()));
+				playSound(NCSounds.rad_poisoning, (float) (1.35D * radiation_sound_volumes[7]), 1F + 0.2F * (rand.nextFloat() - rand.nextFloat()));
 			}
 		}
 		
@@ -245,7 +252,6 @@ public class EntityFeralGhoul extends EntityZombie {
 		int i = MathHelper.ceil((distance - 3F) * damageMultiplier);
 		if (i > 0) {
 			playSound(getFallSound(i), 1F, 1F);
-			// playSound(SoundHandler.feral_ghoul_fall, 1F, 1F);
 			playSound(SoundEvents.ENTITY_HUSK_AMBIENT, 1F, 1F);
 			int j = MathHelper.floor(posX);
 			int k = MathHelper.floor(posY - 0.20000000298023224D);
@@ -346,7 +352,7 @@ public class EntityFeralGhoul extends EntityZombie {
 					}
 					else {
 						float f6 = 0.91F;
-						BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain(posX, getEntityBoundingBox().minY - 1D, posZ);
+						BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain(posX, posY - 1D, posZ);
 						
 						if (onGround) {
 							IBlockState underState = world.getBlockState(blockpos$pooledmutableblockpos);
@@ -367,7 +373,7 @@ public class EntityFeralGhoul extends EntityZombie {
 						f6 = 0.91F;
 						
 						if (onGround) {
-							IBlockState underState = world.getBlockState(blockpos$pooledmutableblockpos.setPos(posX, getEntityBoundingBox().minY - 1D, posZ));
+							IBlockState underState = world.getBlockState(blockpos$pooledmutableblockpos.setPos(posX, posY - 1D, posZ));
 							f6 = underState.getBlock().getSlipperiness(underState, world, blockpos$pooledmutableblockpos, this) * 0.91F;
 						}
 						

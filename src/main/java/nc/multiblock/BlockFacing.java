@@ -63,7 +63,6 @@ public final class BlockFacing {
 	}
 	
 	public IBlockState toBlockState(IBlockState state) {
-		
 		return state.withProperty(FACING_DOWN, isSet(EnumFacing.DOWN)).withProperty(FACING_UP, isSet(EnumFacing.UP)).withProperty(FACING_WEST, isSet(EnumFacing.WEST)).withProperty(FACING_EAST, isSet(EnumFacing.EAST)).withProperty(FACING_NORTH, isSet(EnumFacing.NORTH)).withProperty(FACING_SOUTH, isSet(EnumFacing.SOUTH));
 	}
 	
@@ -75,7 +74,6 @@ public final class BlockFacing {
 	 *            the new value for the state of the face
 	 * @return a BlockFacing object */
 	public BlockFacing set(EnumFacing facing, boolean value) {
-		
 		byte newHash = _value;
 		
 		if (value) {
@@ -85,7 +83,7 @@ public final class BlockFacing {
 			newHash &= ~(1 << facing.getIndex());
 		}
 		
-		return BlockFacing.from(Byte.valueOf(newHash));
+		return BlockFacing.from(newHash);
 	}
 	
 	/** Count the number of faces that are in the required state
@@ -94,7 +92,6 @@ public final class BlockFacing {
 	 *            specify if you are looking for "set" faces (true) or not (false)
 	 * @return the number of faces found in the required state */
 	public int countFacesIf(boolean areSet) {
-		
 		int checkFor = areSet ? 1 : 0;
 		int mask = _value;
 		int faces = 0;
@@ -113,7 +110,6 @@ public final class BlockFacing {
 	 *
 	 * @return a PropertyBlockFacings value */
 	public PropertyBlockFacing toProperty() {
-		
 		PropertyBlockFacing[] values = PropertyBlockFacing.values();
 		
 		for (PropertyBlockFacing value : values) {
@@ -131,7 +127,6 @@ public final class BlockFacing {
 	 *            the original position
 	 * @return the new position */
 	public BlockPos offsetBlockPos(BlockPos originalPosition) {
-		
 		int x = 0, y = 0, z = 0;
 		
 		for (EnumFacing facing : EnumFacing.VALUES) {
@@ -152,7 +147,6 @@ public final class BlockFacing {
 	 *            specify if you are looking for "set" faces (true) or not (false)
 	 * @return the first face that match the required state or null if no face is found */
 	public EnumFacing firstIf(boolean isSet) {
-		
 		for (EnumFacing facing : EnumFacing.VALUES) {
 			if (isSet == isSet(facing)) {
 				return facing;
@@ -178,7 +172,6 @@ public final class BlockFacing {
 	 *            the state of the "east" face
 	 * @return a BlockFacing object */
 	public static BlockFacing from(boolean down, boolean up, boolean north, boolean south, boolean west, boolean east) {
-		
 		return BlockFacing.from(BlockFacing.computeHash(down, up, north, south, west, east));
 	}
 	
@@ -188,7 +181,6 @@ public final class BlockFacing {
 	 *            an array describing the state. the elements of the array must be filled in following the order in EnumFacing.VALUES
 	 * @return a BlockFacing object */
 	public static BlockFacing from(boolean[] facings) {
-		
 		return BlockFacing.from(BlockFacing.computeHash(facings));
 	}
 	
@@ -198,26 +190,25 @@ public final class BlockFacing {
 		return String.format("Facings: %s%s%s%s%s%s", isSet(EnumFacing.DOWN) ? "DOWN " : "", isSet(EnumFacing.UP) ? "UP " : "", isSet(EnumFacing.NORTH) ? "NORTH " : "", isSet(EnumFacing.SOUTH) ? "SOUTH " : "", isSet(EnumFacing.WEST) ? "WEST " : "", isSet(EnumFacing.EAST) ? "EAST " : "");
 	}
 	
-	static BlockFacing from(Byte hash) {
-		
-		BlockFacing facings = BlockFacing.s_cache.get(hash);
+	static BlockFacing from(byte hash) {
+		BlockFacing facings = CACHE.get(hash);
 		
 		if (null == facings) {
 			
-			facings = new BlockFacing(hash.byteValue());
-			BlockFacing.s_cache.put(hash, facings);
+			facings = new BlockFacing(hash);
+			CACHE.put(hash, facings);
 		}
 		
 		return facings;
 	}
 	
+	private final byte _value;
+	
 	private BlockFacing(byte value) {
-		
 		_value = value;
 	}
 	
-	static Byte computeHash(boolean down, boolean up, boolean north, boolean south, boolean west, boolean east) {
-		
+	static byte computeHash(boolean down, boolean up, boolean north, boolean south, boolean west, boolean east) {
 		byte hash = 0;
 		
 		if (down) {
@@ -244,11 +235,10 @@ public final class BlockFacing {
 			hash |= 1 << EnumFacing.EAST.getIndex();
 		}
 		
-		return Byte.valueOf(hash);
+		return hash;
 	}
 	
-	static Byte computeHash(boolean[] facings) {
-		
+	static byte computeHash(boolean[] facings) {
 		byte hash = 0;
 		int len = null == facings ? -1 : facings.length;
 		
@@ -263,40 +253,34 @@ public final class BlockFacing {
 			}
 		}
 		
-		return Byte.valueOf(hash);
+		return hash;
 	}
 	
-	private final byte _value;
-	
-	private static Byte2ObjectMap<BlockFacing> s_cache;
+	private static final Byte2ObjectMap<BlockFacing> CACHE = new Byte2ObjectOpenHashMap<>();
 	
 	static {
-		Byte hash;
-		
-		s_cache = new Byte2ObjectOpenHashMap<>(8);
-		
-		hash = BlockFacing.computeHash(false, false, false, false, false, false);
-		s_cache.put(hash, NONE = new BlockFacing(hash.byteValue()));
+		byte hash = BlockFacing.computeHash(false, false, false, false, false, false);
+		CACHE.put(hash, NONE = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(true, true, true, true, true, true);
-		s_cache.put(hash, ALL = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, ALL = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(true, false, false, false, false, false);
-		s_cache.put(hash, DOWN = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, DOWN = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(false, true, false, false, false, false);
-		s_cache.put(hash, UP = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, UP = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(false, false, true, false, false, false);
-		s_cache.put(hash, NORTH = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, NORTH = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(false, false, false, true, false, false);
-		s_cache.put(hash, SOUTH = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, SOUTH = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(false, false, false, false, true, false);
-		s_cache.put(hash, WEST = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, WEST = new BlockFacing(hash));
 		
 		hash = BlockFacing.computeHash(false, false, false, false, false, true);
-		s_cache.put(hash, EAST = new BlockFacing(hash.byteValue()));
+		CACHE.put(hash, EAST = new BlockFacing(hash));
 	}
 }

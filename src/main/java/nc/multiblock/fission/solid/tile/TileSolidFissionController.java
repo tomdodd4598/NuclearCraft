@@ -2,16 +2,15 @@ package nc.multiblock.fission.solid.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
-import nc.Global;
 import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.*;
-import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class TileSolidFissionController extends TileFissionPart implements IFissionController {
 	
@@ -58,7 +57,7 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 	
 	@Override
 	public void doMeltdown() {
-		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
+		IBlockState corium = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium);
 	}

@@ -1,9 +1,13 @@
 package nc.multiblock.qComputer;
 
-import static nc.config.NCConfig.quantum_max_qubits;
+import static nc.config.NCConfig.*;
+import static nc.multiblock.qComputer.QuantumGate.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import org.apache.commons.io.FileUtils;
 
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
@@ -16,7 +20,10 @@ import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.network.PacketHandler;
 import nc.util.*;
 import nc.util.Vector;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 
 public class QuantumComputer extends Multiblock<IQuantumComputerPart, MultiblockUpdatePacket> {
@@ -30,6 +37,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	protected Vector state, cache = null;
 	
 	protected Queue<QuantumGate> queue = new ConcurrentLinkedQueue<>();
+	
+	public boolean qasmStart = false, qasmWrite = false;
+	protected StringBuilder qasmStringBuilder = new StringBuilder();
 	
 	public QuantumComputer(World world) {
 		super(world);
@@ -71,9 +81,13 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		onQuantumComputerFormed();
 	}
 	
+	public static int getMaxQubits() {
+		return Math.max(quantum_max_qubits_live, quantum_max_qubits_qasm);
+	}
+	
 	protected void onQuantumComputerFormed() {
 		if (!WORLD.isRemote) {
-			IntSet set = new IntOpenHashSet(quantum_max_qubits);
+			IntSet set = new IntOpenHashSet();
 			for (TileQuantumComputerQubit qubit : getQubits()) {
 				if (set.contains(qubit.id)) {
 					qubit.id = -1;
@@ -132,8 +146,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			return false;
 		}
 		int q = qubitCount();
-		if (q > quantum_max_qubits) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, q, quantum_max_qubits);
+		if (q > getMaxQubits()) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, q, getMaxQubits());
 			return false;
 		}
 		
@@ -157,10 +171,18 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	@Override
 	protected boolean updateServer() {
 		boolean refresh = false;
+		
+		int q = qubitCount();
+		if (qasmStart) {
+			qasmStart = false;
+			qasmWrite = true;
+			qasmStringBuilder = new StringBuilder();
+		}
+		
 		QuantumGate gate = queue.poll();
 		if (gate != null) {
 			try {
-				tryLoadStateCache(dim(qubitCount()));
+				tryLoadStateCache(dim(q));
 				QuantumGate merger = gate, next;
 				while (merger != null) {
 					next = queue.peek();
@@ -175,15 +197,30 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 						gate = merger;
 					}
 				}
-				gate.run();
-				refresh = gate.shouldMarkDirty();
+				
+				if (qasmWrite) {
+					if (q <= quantum_max_qubits_qasm) {
+						List<String> qasmCode = gate.qasmCode();
+						if (!qasmCode.isEmpty()) {
+							qasmStringBuilder.append(IOHelper.NEW_LINE);
+						}
+						for (String line : qasmCode) {
+							qasmStringBuilder.append(line);
+							qasmStringBuilder.append(IOHelper.NEW_LINE);
+						}
+					}
+				}
+				else if (q <= quantum_max_qubits_live) {
+					gate.run();
+					refresh = gate.shouldMarkDirty();
+				}
 			}
 			catch (OutOfMemoryError e) {
 				if (controller != null) {
 					WORLD.removeTileEntity(controller.getPos());
 					WORLD.setBlockToAir(controller.getPos());
 				}
-				NCUtil.getLogger().fatal("The quantum computer at " + getMiddleCoord().toString() + " has caused the game to run out of heap memory! The controller has been destroyed and so the multiblock has been disabled. It is HIGHLY recommended that the maximum qubit limit is lowered in the configs!");
+				NCUtil.getLogger().fatal("The quantum computer with " + q + " qubits at " + getMiddleCoord().toString() + " has caused the game to run out of heap memory! The controller has been destroyed and so the multiblock has been disabled. It is HIGHLY recommended that the maximum qubit limits are lowered in the configs!");
 				e.printStackTrace();
 				return false;
 			}
@@ -203,13 +240,13 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		cache = Vector.readFromNBT(data, "state");
-		
 	}
 	
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
-		state.writeToNBT(data, "state");
-		
+		if (qubitCount() <= quantum_max_qubits_live) {
+			state.writeToNBT(data, "state");
+		}
 	}
 	
 	protected boolean tryLoadStateCache(int dim) {
@@ -233,11 +270,11 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	// Quantum Logic
 	
-	protected Collection<TileQuantumComputerQubit> getQubits() {
+	public Collection<TileQuantumComputerQubit> getQubits() {
 		return getParts(TileQuantumComputerQubit.class);
 	}
 	
-	protected int qubitCount() {
+	public int qubitCount() {
 		return getPartCount(TileQuantumComputerQubit.class);
 	}
 	
@@ -262,7 +299,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	}
 	
 	protected void checkStateDim(int dim) {
-		if (state.dim != dim) {
+		if (state.dim != dim && qubitCount() <= quantum_max_qubits_live) {
 			state = new Vector(dim);
 		}
 	}
@@ -292,7 +329,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected void refreshState(boolean collapse) {
 		int q = qubitCount();
-		if (q > quantum_max_qubits) {
+		if (q > getMaxQubits()) {
 			return;
 		}
 		
@@ -427,22 +464,22 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	/** Angle in degrees! */
 	public void p(double angle, IntSet n) {
-		gate(single(p(angle), list(n)));
+		gate(single(QuantumGate.p(angle), list(n)));
 	}
 	
 	/** Angle in degrees! */
 	public void rx(double angle, IntSet n) {
-		gate(single(rx(angle), list(n)));
+		gate(single(QuantumGate.rx(angle), list(n)));
 	}
 	
 	/** Angle in degrees! */
 	public void ry(double angle, IntSet n) {
-		gate(single(ry(angle), list(n)));
+		gate(single(QuantumGate.ry(angle), list(n)));
 	}
 	
 	/** Angle in degrees! */
 	public void rz(double angle, IntSet n) {
-		gate(single(rz(angle), list(n)));
+		gate(single(QuantumGate.rz(angle), list(n)));
 	}
 	
 	public void swap(IntList i_, IntList j_) {
@@ -555,22 +592,22 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	/** Angle in degrees! */
 	public void cp(double angle, IntSet c, IntSet t) {
-		gate(control(p(angle), list(c), list(t)));
+		gate(control(QuantumGate.p(angle), list(c), list(t)));
 	}
 	
 	/** Angle in degrees! */
 	public void crx(double angle, IntSet c, IntSet t) {
-		gate(control(rx(angle), list(c), list(t)));
+		gate(control(QuantumGate.rx(angle), list(c), list(t)));
 	}
 	
 	/** Angle in degrees! */
 	public void cry(double angle, IntSet c, IntSet t) {
-		gate(control(ry(angle), list(c), list(t)));
+		gate(control(QuantumGate.ry(angle), list(c), list(t)));
 	}
 	
 	/** Angle in degrees! */
 	public void crz(double angle, IntSet c, IntSet t) {
-		gate(control(rz(angle), list(c), list(t)));
+		gate(control(QuantumGate.rz(angle), list(c), list(t)));
 	}
 	
 	// Don't know how to optimise this!
@@ -601,7 +638,6 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		Matrix m = new Matrix(dim), p;
 		Matrix[] e = new Matrix[q];
 		boolean b;
-		double re, im;
 		for (int u = 0; u < s; u++) {
 			k = 0;
 			for (int v = 0; v < q; v++) {
@@ -625,19 +661,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 						j = q - j - 1;
 						if (NCMath.getBit(l, i) == 0 && NCMath.getBit(l, j) == 1) {
 							w = NCMath.swap(l, i, j);
-							re = p.re[l][l];
-							im = p.im[l][l];
-							p.re[l][l] = p.re[w][l];
-							p.im[l][l] = p.im[w][l];
-							p.re[w][l] = re;
-							p.im[w][l] = im;
-							
-							re = p.re[w][w];
-							im = p.im[w][w];
-							p.re[w][w] = p.re[l][w];
-							p.im[w][w] = p.im[l][w];
-							p.re[l][w] = re;
-							p.im[l][w] = im;
+							p.swap(l, l, w, l);
+							p.swap(w, w, l, w);
 						}
 					}
 				}
@@ -648,79 +673,44 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		gate(m);
 	}
 	
-	// Static
-	
-	protected static int dim(int n) {
-		return 1 << n;
-	}
-	
-	protected static Matrix id(int n) {
-		return new Matrix(dim(n)).id();
-	}
-	
-	public static IntSet set(int... n) {
-		return new IntOpenHashSet(n);
-	}
-	
-	public static IntList list(IntSet n) {
-		IntList l = new IntArrayList(n.size());
-		for (int i = 0; i < quantum_max_qubits; i++) {
-			if (n.contains(i)) {
-				l.add(i);
-			}
+	public void qasmPrint(EntityPlayer player) {
+		if (!qasmWrite) {
+			return;
 		}
-		return l;
+		
+		qasmWrite = false;
+		
+		int q = qubitCount();
+		if (q > quantum_max_qubits_qasm) {
+			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_too_many_qubits")));
+			return;
+		}
+		
+		String qasmString = qasmStringBuilder.toString();
+		qasmStringBuilder = new StringBuilder();
+		
+		if (qasmString.isEmpty()) {
+			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit")));
+			return;
+		}
+		
+		File out = new File("nuclearcraft/quantum/" + q + "_qubit_" + System.currentTimeMillis() + ".qasm");
+		
+		String s = IOHelper.NEW_LINE;
+		qasmString = "OPENQASM 2.0;" + s + "include \"qelib1.inc\";" + s + s + "qreg q[" + q + "];" + s + "creg c[" + q + "];" + s + qasmString;
+		
+		ITextComponent link = new TextComponentString(out.getName());
+		link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
+		
+		try {
+			FileUtils.writeStringToFile(out, qasmString);
+			player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_print", new Object[] {link}));
+		}
+		catch (IOException e) {
+			NCUtil.getLogger().catching(e);
+			player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_error", new Object[] {link}));
+		}
+		
+		qasmString = "";
 	}
-	
-	public static String intSetToString(IntSet set) {
-		return Arrays.toString(list(set).toIntArray());
-	}
-	
-	public static String intListToString(IntList list) {
-		return Arrays.toString(list.toIntArray());
-	}
-	
-	protected static final Matrix I = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
-	
-	protected static final Matrix X = new Matrix(new double[][] {new double[] {0D, 0D, 1D, 0D}, new double[] {1D, 0D, 0D, 0D}});
-	
-	protected static final Matrix Y = new Matrix(new double[][] {new double[] {0D, 0D, 0D, -1D}, new double[] {0D, 1D, 0D, 0D}});
-	
-	protected static final Matrix Z = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, -1D, 0D}});
-	
-	protected static final Matrix H = new Matrix(new double[][] {new double[] {1D, 0D, 1D, 0D}, new double[] {1D, 0D, -1D, 0D}}).multiply(NCMath.INV_SQRT2);
-	
-	protected static final Matrix S = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 1D}});
-	
-	protected static final Matrix Sdg = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, -1D}});
-	
-	protected static final Matrix T = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, NCMath.INV_SQRT2}});
-	
-	protected static final Matrix Tdg = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, -NCMath.INV_SQRT2}});
-	
-	/** Angle in degrees! */
-	protected static Matrix p(double angle) {
-		double[] p = Complex.phase_d(angle);
-		return new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, p[0], p[1]}});
-	}
-	
-	/** Angle in degrees! */
-	protected static Matrix rx(double angle) {
-		return new Matrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, 0D, -NCMath.sin_d(angle / 2D)}, new double[] {0D, -NCMath.sin_d(angle / 2D), NCMath.cos_d(angle / 2D), 0D}});
-	}
-	
-	/** Angle in degrees! */
-	protected static Matrix ry(double angle) {
-		return new Matrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, -NCMath.sin_d(angle / 2D), 0D}, new double[] {NCMath.sin_d(angle / 2D), 0D, NCMath.cos_d(angle / 2D), 0D}});
-	}
-	
-	/** Angle in degrees! */
-	protected static Matrix rz(double angle) {
-		double[] a = Complex.phase_d(-angle / 2D), b = Complex.phase_d(angle / 2D);
-		return new Matrix(new double[][] {new double[] {a[0], a[1], 0D, 0D}, new double[] {0D, 0D, b[0], b[1]}});
-	}
-	
-	protected static final Matrix P_0 = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 0D}});
-	
-	protected static final Matrix P_1 = new Matrix(new double[][] {new double[] {0D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
 }

@@ -24,12 +24,12 @@ public class RecipeStats {
 		setBlockPurificationThreshold();
 	}
 	
-	public static double getProcessorMaxBaseProcessTime(int i) {
-		return processor_max_base_process_time[i];
+	public static double getProcessorMaxBaseProcessTime(int processorID) {
+		return processor_max_base_process_time[processorID - 1];
 	}
 	
-	public static double getProcessorMaxBaseProcessPower(int i) {
-		return processor_max_base_process_power[i];
+	public static double getProcessorMaxBaseProcessPower(int processorID) {
+		return processor_max_base_process_power[processorID - 1];
 	}
 	
 	private static void setProcessorMaxStats() {

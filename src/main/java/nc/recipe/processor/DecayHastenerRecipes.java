@@ -4,7 +4,7 @@ import static nc.config.NCConfig.processor_time;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.radiation.RadSources;
 import nc.recipe.*;
@@ -63,7 +63,7 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Californium252", "Thorium", RadSources.CALIFORNIUM_252);
 	}
 	
-	private static final List<String> NON_FISSION = Lists.newArrayList("Lead", "Bismuth", "Radium", "Polonium", "Thorium", "TBP");
+	private static final Set<String> NON_FISSION = Sets.newHashSet("Thorium", "Lead", "Bismuth", "Thallium", "Radium", "Polonium", "TBP", "Zirconium", "Palladium", "Barium", "Neodymium", "Gadolinium");
 	
 	public void addDecayRecipes(String input, String output, double radiation) {
 		String inputName = (OreDictHelper.oreExists("ingot" + input) ? "ingot" : "dust") + input;

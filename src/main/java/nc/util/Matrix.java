@@ -2,6 +2,7 @@ package nc.util;
 
 import java.util.Arrays;
 
+import it.unimi.dsi.fastutil.HashCommon;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** Only handles square matrices! */
@@ -140,17 +141,88 @@ public class Matrix {
 		return new double[] {re, im};
 	}
 	
+	public void swap(int i1, int j1, int i2, int j2) {
+		double re = this.re[i1][j1];
+		double im = this.im[i1][j1];
+		this.re[i1][j1] = this.re[i2][j2];
+		this.im[i1][j1] = this.im[i2][j2];
+		this.re[i2][j2] = re;
+		this.im[i2][j2] = im;
+	}
+	
+	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
+	public double[] det() {
+		if (dim == 0) {
+			return new double[] {1D, 0D};
+		}
+		else if (dim == 1) {
+			return new double[] {re[0][0], im[0][0]};
+		}
+		else if (dim == 2) {
+			double[] ad = Complex.multiply(re[0][0], im[0][0], re[1][1], im[1][1]);
+			double[] bc = Complex.multiply(re[0][1], im[0][1], re[1][0], im[1][0]);
+			return new double[] {ad[0] - bc[0], ad[1] - bc[1]};
+		}
+		
+		double re1, im1, re2, im2;
+		int index;
+		
+		double[] det = new double[] {1D, 0D}, total = new double[] {1D, 0D};
+		double[] tempRe = new double[dim + 1], tempIm = new double[dim + 1];
+		
+		Matrix m = copy();
+		
+		for (int i = 0; i < dim; i++) {
+			index = i;
+			
+			while (index < dim && m.re[index][i] == 0D && m.im[index][i] == 0D) {
+				index++;
+			}
+			
+			if (index == dim) {
+				continue;
+			}
+			
+			if (index != i) {
+				for (int j = 0; j < dim; j++) {
+					m.swap(index, j, i, j);
+				}
+				det = Complex.multiply(det[0], det[1], -1D, 0D);
+			}
+			
+			for (int j = 0; j < dim; j++) {
+				tempRe[j] = m.re[i][j];
+				tempIm[j] = m.im[i][j];
+			}
+			
+			for (int j = i + 1; j < dim; j++) {
+				re1 = tempRe[i];
+				im1 = tempIm[i];
+				re2 = m.re[j][i];
+				im2 = m.im[j][i];
+				
+				for (int k = 0; k < dim; k++) {
+					double[] ad = Complex.multiply(re1, im1, m.re[j][k], m.im[j][k]);
+					double[] bc = Complex.multiply(re2, im2, tempRe[k], tempIm[k]);
+					m.re[j][k] = ad[0] - bc[0];
+					m.im[j][k] = ad[1] - bc[1];
+				}
+				total = Complex.multiply(total[0], total[1], re1, im1);
+			}
+		}
+		
+		for (int i = 0; i < dim; i++) {
+			det = Complex.multiply(det[0], det[1], m.re[i][i], m.im[i][i]);
+		}
+		
+		return Complex.divide(det[0], det[1], total[0], total[1]);
+	}
+	
 	public Matrix transpose() {
-		double re, im;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < i; j++) {
 				if (i != j) {
-					re = this.re[i][j];
-					im = this.im[i][j];
-					this.re[i][j] = this.re[j][i];
-					this.im[i][j] = this.im[j][i];
-					this.re[j][i] = re;
-					this.im[j][i] = im;
+					swap(i, j, j, i);
 				}
 			}
 		}
@@ -237,20 +309,56 @@ public class Matrix {
 	}
 	
 	public Matrix hermitian() {
-		double re, im;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < i; j++) {
 				if (i != j) {
-					re = this.re[i][j];
-					im = this.im[i][j];
-					this.re[i][j] = this.re[j][i];
-					this.im[i][j] = -this.im[j][i];
-					this.re[j][i] = re;
-					this.im[j][i] = -im;
+					swap(i, j, j, i);
 				}
 			}
 		}
 		return this;
+	}
+	
+	@Override
+	public int hashCode() {
+		int h = 1;
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				h = 31 * h + HashCommon.double2int(re[i][j]);
+				h = 31 * h + HashCommon.double2int(im[i][j]);
+			}
+		}
+		return h;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		
+		if (!(obj instanceof Matrix)) {
+			return false;
+		}
+		
+		Matrix other = (Matrix) obj;
+		
+		if (dim != other.dim) {
+			return false;
+		}
+		
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				if (re[i][j] != other.re[i][j]) {
+					return false;
+				}
+				if (im[i][j] != other.im[i][j]) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	@Override

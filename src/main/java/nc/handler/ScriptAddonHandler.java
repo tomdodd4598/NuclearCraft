@@ -14,8 +14,6 @@ public class ScriptAddonHandler {
 	public static void init() throws IOException {
 		NCUtil.getLogger().info("Constructing NuclearCraft Script Addons...");
 		
-		new File("resources/nuclearcraft").mkdirs();
-		
 		for (String s : new String[] {"addons", "advancements", "blockstates", "lang", "loot_tables", "models/block", "models/item", "patchouli_books/guide", "textures/blocks", "textures/items"}) {
 			new File("resources/nuclearcraft/" + s).mkdirs();
 		}
@@ -63,8 +61,11 @@ public class ScriptAddonHandler {
 	
 	public static void copyAddons(File dir) throws IOException {
 		String dirName = dir.getName();
-		String dirNameLowerCase = dirName.toLowerCase();
+		if (dirName.equals("__MACOSX")) {
+			return;
+		}
 		
+		String dirNameLowerCase = dirName.toLowerCase();
 		for (String suffix : IGNORE_SUFFIX) {
 			if (dirNameLowerCase.endsWith(suffix)) {
 				return;
@@ -152,7 +153,7 @@ public class ScriptAddonHandler {
 				}
 				
 				if (lang.exists()) {
-					String s = System.lineSeparator();
+					String s = IOHelper.NEW_LINE;
 					IOHelper.appendFile(lang, f, (lang.length() == 0 ? "" : (s + s)) + "# " + addonDir.getName() + s + s);
 				}
 			}

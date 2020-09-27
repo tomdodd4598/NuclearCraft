@@ -11,12 +11,31 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class EntityHandler {
 	
 	@SubscribeEvent
-	public void onLootTableLoad(LivingSpawnEvent.CheckSpawn event) {
+	public void onEntityLivingSpawn(LivingSpawnEvent.CheckSpawn event) {
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity instanceof EntityFeralGhoul) {
-			World world = entity.world;
-			if (!event.isSpawner() && (!world.canSeeSky(new BlockPos(entity.posX, entity.getEntityBoundingBox().minY, entity.posZ)) || world.countEntities(EntityFeralGhoul.class) > 20)) {
-				event.setResult(Result.DENY);
+			if (!event.isSpawner()) {
+				World world = entity.world;
+				BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
+				
+				boolean canSeeSky = world.canSeeSky(pos);
+				
+				if (!canSeeSky) {
+					event.setResult(Result.DENY);
+					return;
+				}
+				
+				boolean tooManyGhouls = false;
+				Iterable<EntityFeralGhoul> iterable = world.getChunk(pos).getEntityLists()[(int) Math.floor(entity.posY / 16D)].getByClass(EntityFeralGhoul.class);
+				while (iterable.iterator().hasNext()) {
+					tooManyGhouls = true;
+					break;
+				}
+				
+				if (tooManyGhouls) {
+					event.setResult(Result.DENY);
+					return;
+				}
 			}
 		}
 	}

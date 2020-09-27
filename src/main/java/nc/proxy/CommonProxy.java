@@ -2,13 +2,14 @@ package nc.proxy;
 
 import static nc.config.NCConfig.register_projecte_emc;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Locale;
 
 import crafttweaker.CraftTweakerAPI;
 import nc.*;
 import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.command.CommandHandler;
+import nc.config.NCConfig;
 import nc.handler.*;
 import nc.init.*;
 import nc.integration.crafttweaker.CTRegistration;
@@ -26,7 +27,7 @@ import nc.recipe.*;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
-import nc.worldgen.decoration.BushGenerator;
+import nc.worldgen.decoration.MushroomGenerator;
 import nc.worldgen.dimension.NCWorlds;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
@@ -103,6 +104,10 @@ public class CommonProxy {
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
 			info.preInit();
 		}
+		
+		if (NCConfig.register_quantum) {
+			new File("nuclearcraft/quantum").mkdirs();
+		}
 	}
 	
 	public void init(FMLInitializationEvent event) {
@@ -122,7 +127,7 @@ public class CommonProxy {
 		NCWorlds.registerDimensions();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
-		GameRegistry.registerWorldGenerator(new BushGenerator(), 100);
+		GameRegistry.registerWorldGenerator(new MushroomGenerator(NCBlocks.glowing_mushroom.getDefaultState()), 100);
 		// GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
 		
 		NCEntities.register();

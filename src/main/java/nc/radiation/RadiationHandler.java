@@ -211,11 +211,11 @@ public class RadiationHandler {
 				return;
 			}
 			if (playerRads.getRadXWoreOff() && playerRads.getRadXUsed()) {
-				player.playSound(NCSounds.chems_wear_off, 0.65F, 1F);
+				player.playSound(NCSounds.chems_wear_off, (float) (0.65D * radiation_sound_volumes[4]), 1F);
 				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RAD_X_WORE_OFF));
 			}
 			if (playerRads.getShouldWarn()) {
-				player.playSound(NCSounds.chems_wear_off, 0.8F, 0.7F);
+				player.playSound(NCSounds.chems_wear_off, (float) (0.8D * radiation_sound_volumes[6]), 0.7F);
 				player.sendMessage(new TextComponentString(TextFormatting.GOLD + RAD_WARNING));
 			}
 		}
@@ -483,10 +483,10 @@ public class RadiationHandler {
 		}
 		
 		double soundChance = Math.cbrt(entityRads.getRawRadiationLevel() / 200D);
-		float soundVolume = MathHelper.clamp((float) (8F * soundChance), 0.55F, 1.1F);
+		double soundVolume = MathHelper.clamp(8D * soundChance, 0.55D, 1.1D);
 		for (int i = 0; i < loops; i++) {
 			if (RAND.nextDouble() < soundChance) {
-				player.playSound(NCSounds.geiger_tick, soundVolume + RAND.nextFloat() * 0.12F, 0.92F + RAND.nextFloat() * 0.16F);
+				player.playSound(NCSounds.geiger_tick, (float) ((soundVolume + RAND.nextDouble() * 0.12D) * radiation_sound_volumes[0]), 0.92F + RAND.nextFloat() * 0.16F);
 			}
 		}
 	}

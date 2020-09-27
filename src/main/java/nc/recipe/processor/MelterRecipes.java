@@ -5,7 +5,7 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
@@ -195,7 +195,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		}
 	}
 	
-	private static final List<String> MELTING_BLACKLIST = Lists.newArrayList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
+	private static final Set<String> MELTING_BLACKLIST = Sets.newHashSet("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addOreMeltingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

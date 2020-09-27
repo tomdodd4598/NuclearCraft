@@ -92,7 +92,7 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 					player.sendMessage(new TextComponentString(TextFormatting.ITALIC + BADGE_BROKEN));
 				}
 				else {
-					player.playSound(NCSounds.chems_wear_off, 0.65F, 1F);
+					player.playSound(NCSounds.chems_wear_off, (float) (0.65D * radiation_sound_volumes[5]), 1F);
 				}
 				stack.shrink(1);
 			}

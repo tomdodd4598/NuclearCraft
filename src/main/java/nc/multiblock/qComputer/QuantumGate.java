@@ -1,6 +1,11 @@
 package nc.multiblock.qComputer;
 
+import java.util.*;
+
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
+import joptsimple.internal.Strings;
+import nc.util.*;
 
 public abstract class QuantumGate<GATE extends QuantumGate> {
 	
@@ -33,6 +38,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 	public boolean shouldMarkDirty() {
 		return false;
 	}
+	
+	public abstract QuantumGate withoutControl();
+	
+	public abstract Matrix singleQubitOperation();
+	
+	/** Adds the required decomposition of this gate to the list. */
+	public abstract void addRequiredDecomposition(List<QuantumGate> decomposition);
+	
+	/** Lines of QASM Python code */
+	public abstract List<String> qasmCode();
 	
 	public static class Measurement extends QuantumGate<Measurement> {
 		
@@ -71,6 +86,33 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public boolean shouldMarkDirty() {
 			return true;
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return this;
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return null;
+		}
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (!n.isEmpty()) {
+				decomposition.add(this);
+			}
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			IntList l = list(n);
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < l.size(); i++) {
+				out.add("measure q[" + l.getInt(i) + "] -> c[" + l.getInt(i) + "];");
+			}
+			return out;
+		}
 	}
 	
 	public static class Reset extends QuantumGate<Reset> {
@@ -105,6 +147,31 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public boolean shouldMarkDirty() {
 			return true;
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return this;
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return null;
+		}
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			decomposition.add(this);
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			int q = qc.qubitCount();
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < q; i++) {
+				out.add("reset q[" + i + "];");
+			}
+			return out;
+		}
 	}
 	
 	public static abstract class Basic extends QuantumGate<Basic> {
@@ -134,6 +201,30 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		public abstract Basic newMerged(IntSet c, IntSet t);
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return this;
+		}
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (!n.isEmpty()) {
+				decomposition.add(this);
+			}
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			IntList l = list(n);
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < l.size(); i++) {
+				out.add(qasmLine(l.getInt(i)));
+			}
+			return out;
+		}
+		
+		public abstract String qasmLine(int i);
 	}
 	
 	public static class X extends Basic {
@@ -162,6 +253,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new X(qc, t);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return X;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "x q[" + i + "];";
 		}
 	}
 	
@@ -192,6 +293,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new Y(qc, t);
 		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Y;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "y q[" + i + "];";
+		}
 	}
 	
 	public static class Z extends Basic {
@@ -220,6 +331,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new Z(qc, t);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Z;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "z q[" + i + "];";
 		}
 	}
 	
@@ -250,6 +371,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new H(qc, t);
 		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return H;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "h q[" + i + "];";
+		}
 	}
 	
 	public static class S extends Basic {
@@ -278,6 +409,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new S(qc, t);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return S;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "s q[" + i + "];";
 		}
 	}
 	
@@ -308,6 +449,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new Sdg(qc, t);
 		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Sdg;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "sdg q[" + i + "];";
+		}
 	}
 	
 	public static class T extends Basic {
@@ -337,6 +488,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new T(qc, t);
 		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return T;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "t q[" + i + "];";
+		}
 	}
 	
 	public static class Tdg extends Basic {
@@ -365,6 +526,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new Tdg(qc, t);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Tdg;
+		}
+		
+		@Override
+		public String qasmLine(int i) {
+			return "tdg q[" + i + "];";
 		}
 	}
 	
@@ -401,6 +572,30 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		public abstract BasicAngle newMerged(double angle, IntSet c, IntSet t);
+		
+		@Override
+		public List<String> qasmCode() {
+			IntList l = list(n);
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < l.size(); i++) {
+				out.add(qasmLine(angle, l.getInt(i)));
+			}
+			return out;
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return this;
+		}
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (!n.isEmpty()) {
+				decomposition.add(this);
+			}
+		}
+		
+		public abstract String qasmLine(double angle, int i);
 	}
 	
 	public static class P extends BasicAngle {
@@ -429,6 +624,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new P(qc, angle, t);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return p(angle);
+		}
+		
+		@Override
+		public String qasmLine(double angle, int i) {
+			return "u1(" + Math.toRadians(angle) + ") q[" + i + "];";
 		}
 	}
 	
@@ -459,6 +664,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new RX(qc, angle, t);
 		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return rx(angle);
+		}
+		
+		@Override
+		public String qasmLine(double angle, int i) {
+			return "rx(" + Math.toRadians(angle) + ") q[" + i + "];";
+		}
 	}
 	
 	public static class RY extends BasicAngle {
@@ -487,6 +702,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new RY(qc, angle, t);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return ry(angle);
+		}
+		
+		@Override
+		public String qasmLine(double angle, int i) {
+			return "ry(" + Math.toRadians(angle) + ") q[" + i + "];";
 		}
 	}
 	
@@ -517,6 +742,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new RZ(qc, angle, t);
 		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return rz(angle);
+		}
+		
+		@Override
+		public String qasmLine(double angle, int i) {
+			return "rz(" + Math.toRadians(angle) + ") q[" + i + "];";
+		}
 	}
 	
 	public static abstract class Control extends Basic {
@@ -544,6 +779,58 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			n.addAll(next.n);
 			return newMerged(S0, n);
 		}
+		
+		@Override
+		public abstract QuantumGate withoutControl();
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (c.size() == 1) {
+				if (!n.isEmpty()) {
+					decomposition.add(this);
+				}
+			}
+			else {
+				addZYZDecomposition(this, c, n, decomposition);
+			}
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			if (c.isEmpty()) {
+				return withoutControl().qasmCode();
+			}
+			else if (c.size() == 1) {
+				return singleControlQasmCode();
+			}
+			
+			List<QuantumGate> decomposition = new ArrayList<>();
+			addRequiredDecomposition(decomposition);
+			
+			List<String> out = new ArrayList<>();
+			for (QuantumGate gate : decomposition) {
+				out.addAll(gate.qasmCode());
+			}
+			
+			return out;
+		}
+		
+		@Override
+		public final String qasmLine(int i) {
+			return ";";
+		}
+		
+		public List<String> singleControlQasmCode() {
+			int c = list(this.c).getInt(0);
+			IntList l = list(n);
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < l.size(); i++) {
+				out.add(singleControlQasmLine(c, l.getInt(i)));
+			}
+			return out;
+		}
+		
+		public abstract String singleControlQasmLine(int c, int i);
 	}
 	
 	public static class CX extends Control {
@@ -572,6 +859,146 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CX(qc, c, t);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new X(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return X;
+		}
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (n.isEmpty()) {
+				return;
+			}
+			
+			else if (c.isEmpty()) {
+				decomposition.add(withoutControl());
+				return;
+			}
+			
+			final int c_size = c.size();
+			
+			if (c_size == 1 || c_size == 2) {
+				decomposition.add(this);
+				return;
+			}
+			
+			final int q = qc.qubitCount(), h = (int) Math.ceil(q / 2D);
+			final boolean toffoli = q >= 5 && c_size >= 3 && c_size <= h;
+			final boolean four_cx = q >= c_size + 2 && c_size >= 3;
+			
+			// https://arxiv.org/abs/quant-ph/9503016
+			if (toffoli || four_cx) {
+				IntList c_list = list(c);
+				for (int t : list(n)) {
+					if (toffoli) {
+						// NCUtil.getLogger().info("toffoli");
+						IntList anc = new IntArrayList(q - c_size - 1);
+						for (int i = 0; i < q; i++) {
+							if (i != t && !c.contains(i)) {
+								anc.add(i);
+							}
+						}
+						
+						final CX[] repeat = new CX[2 * (c_size - 2)];
+						
+						repeat[0] = new CX(qc, set(anc.getInt(0), c_list.getInt(0)), set(t));
+						for (int i = 1; i < c_size - 2; i++) {
+							repeat[i] = new CX(qc, set(anc.getInt(i), c_list.getInt(i)), set(anc.getInt(i - 1)));
+							repeat[2 * (c_size - 2) - i] = repeat[i];
+						}
+						repeat[c_size - 2] = new CX(qc, set(c_list.getInt(c_size - 2), c_list.getInt(c_size - 1)), set(anc.getInt(anc.size() - 1)));
+						
+						for (CX cx : repeat) {
+							decomposition.add(cx);
+						}
+						for (CX cx : repeat) {
+							decomposition.add(cx);
+						}
+					}
+					
+					else {
+						// NCUtil.getLogger().info("four_cx");
+						final int m_1 = (int) Math.ceil((c_size + 1D) / 2D), m_2 = c_size - m_1 + 1;
+						
+						int anc = -1;
+						for (int i = 0; i < q; i++) {
+							if (i != t && !c.contains(i)) {
+								anc = i;
+								break;
+							}
+						}
+						
+						IntSet c_1 = new IntOpenHashSet(m_1);
+						c_1.addAll(c_list.subList(m_2 - 1, c_size));
+						CX cx_1 = new CX(qc, c_1, set(anc));
+						
+						IntSet c_2 = new IntOpenHashSet(m_2);
+						c_2.add(anc);
+						c_2.addAll(c_list.subList(0, m_2 - 1));
+						CX cx_2 = new CX(qc, c_2, set(t));
+						
+						decomposition.add(cx_1);
+						decomposition.add(cx_2);
+						decomposition.add(cx_1);
+						decomposition.add(cx_2);
+					}
+				}
+			}
+			else {
+				addZYZDecomposition(this, c, n, decomposition);
+			}
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			
+			if (c.isEmpty()) {
+				return withoutControl().qasmCode();
+			}
+			
+			int c_size = c.size();
+			if (c_size == 1) {
+				return singleControlQasmCode();
+			}
+			else if (c_size == 2) {
+				return doubleControlQasmCode();
+			}
+			
+			List<String> out = new ArrayList<>();
+			List<QuantumGate> decomposition = new ArrayList<>();
+			
+			addRequiredDecomposition(decomposition);
+			for (QuantumGate gate : decomposition) {
+				out.addAll(gate.qasmCode());
+			}
+			return out;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cx q[" + c + "], q[" + i + "];";
+		}
+		
+		public List<String> doubleControlQasmCode() {
+			IntList c_list = list(c);
+			int c1 = c_list.getInt(0), c2 = c_list.getInt(1);
+			IntList l = list(n);
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < l.size(); i++) {
+				out.add(doubleControlQasmLine(c1, c2, l.getInt(i)));
+			}
+			return out;
+		}
+		
+		public String doubleControlQasmLine(int c1, int c2, int i) {
+			return "ccx q[" + c1 + "], q[" + c2 + "], q[" + i + "];";
 		}
 	}
 	
@@ -602,6 +1029,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CY(qc, c, t);
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new Y(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Y;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cy q[" + c + "], q[" + i + "];";
+		}
 	}
 	
 	public static class CZ extends Control {
@@ -630,6 +1072,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CZ(qc, c, t);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new Z(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Z;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cz q[" + c + "], q[" + i + "];";
 		}
 	}
 	
@@ -660,6 +1117,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CH(qc, c, t);
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new H(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return H;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "ch q[" + c + "], q[" + i + "];";
+		}
 	}
 	
 	public static class CS extends Control {
@@ -688,6 +1160,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CS(qc, c, t);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new S(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return S;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cu1(pi/2) q[" + c + "], q[" + i + "];";
 		}
 	}
 	
@@ -718,6 +1205,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CSdg(qc, c, t);
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new Sdg(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Sdg;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cu1(-pi/2) q[" + c + "], q[" + i + "];";
+		}
 	}
 	
 	public static class CT extends Control {
@@ -747,6 +1249,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CT(qc, c, t);
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new T(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return T;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cu1(pi/4) q[" + c + "], q[" + i + "];";
+		}
 	}
 	
 	public static class CTdg extends Control {
@@ -775,6 +1292,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public Basic newMerged(IntSet c, IntSet t) {
 			return new CTdg(qc, c, t);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new Tdg(qc, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return Tdg;
+		}
+		
+		@Override
+		public String singleControlQasmLine(int c, int i) {
+			return "cu1(-pi/4) q[" + c + "], q[" + i + "];";
 		}
 	}
 	
@@ -807,6 +1339,58 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			n.addAll(next.n);
 			return newMerged(angle, S0, n);
 		}
+		
+		@Override
+		public abstract QuantumGate withoutControl();
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (c.size() == 1) {
+				if (!n.isEmpty()) {
+					decomposition.add(this);
+				}
+			}
+			else {
+				addZYZDecomposition(this, c, n, decomposition);
+			}
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			if (c.isEmpty()) {
+				return withoutControl().qasmCode();
+			}
+			else if (c.size() == 1) {
+				return singleControlQasmCode();
+			}
+			
+			List<QuantumGate> decomposition = new ArrayList<>();
+			addRequiredDecomposition(decomposition);
+			
+			List<String> out = new ArrayList<>();
+			for (QuantumGate gate : decomposition) {
+				out.addAll(gate.qasmCode());
+			}
+			
+			return out;
+		}
+		
+		@Override
+		public final String qasmLine(double angle, int i) {
+			return ";";
+		}
+		
+		public List<String> singleControlQasmCode() {
+			int c = list(this.c).getInt(0);
+			IntList l = list(n);
+			List<String> out = new ArrayList<>();
+			for (int i = 0; i < l.size(); i++) {
+				out.add(singleControlQasmLine(angle, c, l.getInt(i)));
+			}
+			return out;
+		}
+		
+		public abstract String singleControlQasmLine(double angle, int c, int i);
 	}
 	
 	public static class CP extends ControlAngle {
@@ -835,6 +1419,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new CP(qc, angle, c, t);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new P(qc, angle, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return p(angle);
+		}
+		
+		@Override
+		public String singleControlQasmLine(double angle, int c, int i) {
+			return "cu1(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
 		}
 	}
 	
@@ -865,6 +1464,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new CRX(qc, angle, c, t);
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new RX(qc, angle, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return rx(angle);
+		}
+		
+		@Override
+		public String singleControlQasmLine(double angle, int c, int i) {
+			return "crx(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+		}
 	}
 	
 	public static class CRY extends ControlAngle {
@@ -893,6 +1507,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		@Override
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new CRY(qc, angle, c, t);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new RY(qc, angle, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return ry(angle);
+		}
+		
+		@Override
+		public String singleControlQasmLine(double angle, int c, int i) {
+			return "cry(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
 		}
 	}
 	
@@ -923,6 +1552,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
 			return new CRZ(qc, angle, c, t);
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new RZ(qc, angle, n);
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return rz(angle);
+		}
+		
+		@Override
+		public String singleControlQasmLine(double angle, int c, int i) {
+			return "crz(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+		}
 	}
 	
 	public static class Swap extends QuantumGate<Swap> {
@@ -949,7 +1593,9 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public void run() {
-			qc.swap(i, j);
+			if (i.size() == j.size()) {
+				qc.swap(i, j);
+			}
 		}
 		
 		@Override
@@ -962,6 +1608,34 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			i.addAll(i2);
 			j.addAll(j2);
 			return c.isEmpty() ? new Swap(qc, i, j) : new ControlSwap(qc, c, i, j);
+		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return this;
+		}
+		
+		@Override
+		public Matrix singleQubitOperation() {
+			return null;
+		}
+		
+		@Override
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (!i.isEmpty() && i.size() == j.size()) {
+				decomposition.add(this);
+			}
+		}
+		
+		@Override
+		public List<String> qasmCode() {
+			List<String> out = new ArrayList<>();
+			if (i.size() == j.size()) {
+				for (int k = 0; k < i.size(); k++) {
+					out.add("swap q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
+				}
+			}
+			return out;
 		}
 	}
 	
@@ -988,16 +1662,141 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public void run() {
-			qc.cswap(c, i, j);
+			if (i.size() == j.size()) {
+				qc.cswap(c, i, j);
+			}
 		}
 		
 		@Override
 		public Swap mergeInernal(Swap next) {
 			return matchingControl(c, next instanceof ControlSwap ? ((ControlSwap) next).c : S0) ? newMerged(c, i, j, next.i, next.j) : null;
 		}
+		
+		@Override
+		public QuantumGate withoutControl() {
+			return new Swap(qc, i, j);
+		}
+		
+		@Override
+		// TODO
+		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+			if (!i.isEmpty() && i.size() == j.size()) {
+				decomposition.add(this);
+			}
+		}
+		
+		@Override
+		// TODO
+		public List<String> qasmCode() {
+			if (c.isEmpty()) {
+				return super.qasmCode();
+			}
+			
+			List<String> out = new ArrayList<>();
+			
+			if (i.size() == j.size()) {
+				IntList l = list(c);
+				if (l.size() == 1) {
+					String s = "cswap q[" + l.getInt(0) + "], ";
+					for (int k = 0; k < i.size(); k++) {
+						out.add(s + "q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
+					}
+				}
+				else {
+					out.add("// multi-controlled swap decomposition not yet implemented!");
+					String s = "// " + Strings.repeat('c', l.size()) + "swap ";
+					for (int k = 0; k < l.size(); k++) {
+						s += "q[" + l.getInt(k) + "], ";
+					}
+					for (int k = 0; k < i.size(); k++) {
+						out.add(s + "q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
+					}
+				}
+			}
+			
+			return out;
+		}
 	}
 	
+	// Static
+	
 	public static final IntSet S0 = new IntOpenHashSet(0);
+	
+	public static int dim(int n) {
+		return 1 << n;
+	}
+	
+	public static Matrix id(int n) {
+		return new Matrix(dim(n)).id();
+	}
+	
+	public static IntSet set(int... n) {
+		return new IntOpenHashSet(n);
+	}
+	
+	public static IntList list(IntSet n) {
+		IntList l = new IntArrayList();
+		for (int i = 0; i < QuantumComputer.getMaxQubits(); i++) {
+			if (n.contains(i)) {
+				l.add(i);
+			}
+		}
+		return l;
+	}
+	
+	public static String intSetToString(IntSet set) {
+		return Arrays.toString(list(set).toIntArray());
+	}
+	
+	public static String intListToString(IntList list) {
+		return Arrays.toString(list.toIntArray());
+	}
+	
+	public static final Matrix I = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
+	
+	public static final Matrix X = new Matrix(new double[][] {new double[] {0D, 0D, 1D, 0D}, new double[] {1D, 0D, 0D, 0D}});
+	
+	public static final Matrix Y = new Matrix(new double[][] {new double[] {0D, 0D, 0D, -1D}, new double[] {0D, 1D, 0D, 0D}});
+	
+	public static final Matrix Z = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, -1D, 0D}});
+	
+	public static final Matrix H = new Matrix(new double[][] {new double[] {1D, 0D, 1D, 0D}, new double[] {1D, 0D, -1D, 0D}}).multiply(NCMath.INV_SQRT2);
+	
+	public static final Matrix S = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 1D}});
+	
+	public static final Matrix Sdg = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, -1D}});
+	
+	public static final Matrix T = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, NCMath.INV_SQRT2}});
+	
+	public static final Matrix Tdg = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, -NCMath.INV_SQRT2}});
+	
+	/** Angle in degrees! */
+	public static Matrix p(double angle) {
+		double[] p = Complex.phase_d(angle);
+		return new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, p[0], p[1]}});
+	}
+	
+	/** Angle in degrees! */
+	public static Matrix rx(double angle) {
+		return new Matrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, 0D, -NCMath.sin_d(angle / 2D)}, new double[] {0D, -NCMath.sin_d(angle / 2D), NCMath.cos_d(angle / 2D), 0D}});
+	}
+	
+	/** Angle in degrees! */
+	public static Matrix ry(double angle) {
+		return new Matrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, -NCMath.sin_d(angle / 2D), 0D}, new double[] {NCMath.sin_d(angle / 2D), 0D, NCMath.cos_d(angle / 2D), 0D}});
+	}
+	
+	/** Angle in degrees! */
+	public static Matrix rz(double angle) {
+		double[] a = Complex.phase_d(-angle / 2D), b = Complex.phase_d(angle / 2D);
+		return new Matrix(new double[][] {new double[] {a[0], a[1], 0D, 0D}, new double[] {0D, 0D, b[0], b[1]}});
+	}
+	
+	public static final Matrix P_0 = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 0D}});
+	
+	public static final Matrix P_1 = new Matrix(new double[][] {new double[] {0D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
+	
+	// Helper Methods
 	
 	public static boolean matchingID(String id, String[] arr) {
 		for (String s : arr) {
@@ -1018,5 +1817,109 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			}
 		}
 		return true;
+	}
+	
+	public static final Object2ObjectMap<Matrix, double[]> ZYZ_DECOMPOSITION_ANGLES_CACHE = new Object2ObjectOpenHashMap<>();
+	
+	static {
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(I, new double[] {0D, 0D, 0D, 0D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(X, new double[] {90D, -90D, 180D, 90D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Y, new double[] {90D, 0D, 180D, 0D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Z, new double[] {90D, 90D, 0D, 90D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(H, new double[] {90D, 0D, 90D, 180D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(S, new double[] {45D, 45D, 0D, 45D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Sdg, new double[] {-45D, -45D, 0D, -45D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(T, new double[] {22.5D, 22.5D, 0D, 22.5D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Tdg, new double[] {-22.5D, -22.5D, 0D, -22.5D});
+	}
+	
+	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees. */
+	public static double[] getZYZDecompositionAngles(Matrix matrix) {
+		if (ZYZ_DECOMPOSITION_ANGLES_CACHE.containsKey(matrix)) {
+			return ZYZ_DECOMPOSITION_ANGLES_CACHE.get(matrix);
+		}
+		
+		double[] det = matrix.det();
+		double[] phase = Complex.invSqrt(det[0], det[1]);
+		
+		Matrix m = matrix.copy();
+		m.multiply(phase[0], phase[1]);
+		
+		double ppl = 2D * Complex.arg(m.re[1][1], m.im[1][1]);
+		double pml = 2D * Complex.arg(m.re[1][0], m.im[1][0]);
+		
+		return new double[] {-Math.toDegrees(Complex.arg(phase[0], phase[1])), Math.toDegrees((ppl + pml) / 2D), Math.toDegrees(2D * Math.atan2(Complex.abs(m.re[1][0], m.im[1][0]), Complex.abs(m.re[0][0], m.im[0][0]))), Math.toDegrees((ppl - pml) / 2D)};
+	}
+	
+	/** Adds the ZYZ decomposition of this gate to the list. */
+	public static void addZYZDecomposition(QuantumGate gate, IntSet c, IntSet t, List<QuantumGate> decomposition) {
+		if (t.isEmpty()) {
+			return;
+		}
+		
+		double[] azyz = getZYZDecompositionAngles(gate.singleQubitOperation());
+		double alpha = azyz[0], beta = azyz[1], hgam = azyz[2] / 2D, hbpd = (azyz[1] + azyz[3]) / 2D, hdmb = (azyz[3] - azyz[1]) / 2D;
+		boolean hgam_f = full(hgam), hbpd_f = full(hbpd);
+		
+		if (c.isEmpty()) {
+			decomposition.add(gate.withoutControl());
+		}
+		else if (c.size() == 1) {
+			if (!full(hdmb)) {
+				new RZ(gate.qc, hdmb, t).addRequiredDecomposition(decomposition);
+			}
+			if (!hbpd_f || !hgam_f) {
+				new CX(gate.qc, c, t).addRequiredDecomposition(decomposition);
+				if (!hbpd_f) {
+					new RZ(gate.qc, -hbpd, t).addRequiredDecomposition(decomposition);
+				}
+				if (!hgam_f) {
+					new RY(gate.qc, -hgam, t).addRequiredDecomposition(decomposition);
+				}
+				new CX(gate.qc, c, t).addRequiredDecomposition(decomposition);
+			}
+			if (!hgam_f) {
+				new RY(gate.qc, hgam, t).addRequiredDecomposition(decomposition);
+			}
+			if (!full(beta)) {
+				new RZ(gate.qc, beta, t).addRequiredDecomposition(decomposition);
+			}
+			if (!full(alpha)) {
+				new P(gate.qc, alpha, c).addRequiredDecomposition(decomposition);
+			}
+		}
+		else {
+			IntList c_list = list(c);
+			IntSet c_rot = set(c_list.getInt(0));
+			IntSet c_cx = new IntOpenHashSet(c);
+			c_cx.rem(c_list.getInt(0));
+			
+			if (!full(hdmb)) {
+				new CRZ(gate.qc, hdmb, c_rot, t).addRequiredDecomposition(decomposition);
+			}
+			if (!hbpd_f || !hgam_f) {
+				new CX(gate.qc, c_cx, t).addRequiredDecomposition(decomposition);
+				if (!hbpd_f) {
+					new CRZ(gate.qc, -hbpd, c_rot, t).addRequiredDecomposition(decomposition);
+				}
+				if (!hgam_f) {
+					new CRY(gate.qc, -hgam, c_rot, t).addRequiredDecomposition(decomposition);
+				}
+				new CX(gate.qc, c_cx, t).addRequiredDecomposition(decomposition);
+			}
+			if (!hgam_f) {
+				new CRY(gate.qc, hgam, c_rot, t).addRequiredDecomposition(decomposition);
+			}
+			if (!full(beta)) {
+				new CRZ(gate.qc, beta, c_rot, t).addRequiredDecomposition(decomposition);
+			}
+			if (!full(alpha)) {
+				new CP(gate.qc, alpha, c_cx, c_rot).addRequiredDecomposition(decomposition);
+			}
+		}
+	}
+	
+	public static boolean full(double angle) {
+		return angle % 720D == 0D;
 	}
 }

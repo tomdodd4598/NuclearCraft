@@ -2,7 +2,7 @@ package nc.recipe.processor;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
@@ -42,7 +42,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		addPlatePressingRecipes();
 	}
 	
-	private static final List<String> PLATE_BLACKLIST = Lists.newArrayList("Graphite");
+	private static final Set<String> PLATE_BLACKLIST = Sets.newHashSet("Graphite");
 	
 	public void addPlatePressingRecipes() {
 		for (String ore : OreDictionary.getOreNames()) {

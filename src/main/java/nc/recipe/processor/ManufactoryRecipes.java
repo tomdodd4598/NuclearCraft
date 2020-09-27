@@ -4,7 +4,7 @@ import static nc.config.NCConfig.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.init.NCItems;
 import nc.recipe.*;
@@ -98,7 +98,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addLogRecipes();
 	}
 	
-	private static final List<String> BLACKLIST = Lists.newArrayList("silicon");
+	private static final Set<String> BLACKLIST = Sets.newHashSet("silicon");
 	
 	public void addMetalProcessingRecipes() {
 		for (String ingot : OreDictionary.getOreNames()) {

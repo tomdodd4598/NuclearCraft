@@ -204,8 +204,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 					
 					if (cookTime == totalCookTime) {
 						cookTime = 0;
-						// totalCookTime =
-						// getCookTime(furnaceItemStacks.get(0));
+						// totalCookTime = getCookTime(furnaceItemStacks.get(0));
 						totalCookTime = getCookTime();
 						smeltItem();
 						flag1 = true;

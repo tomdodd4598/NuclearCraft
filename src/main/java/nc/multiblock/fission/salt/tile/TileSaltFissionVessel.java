@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
-import nc.*;
+import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
@@ -28,7 +28,7 @@ import nc.tile.ITileGui;
 import nc.tile.fluid.*;
 import nc.tile.generator.IFluidGenerator;
 import nc.tile.internal.fluid.*;
-import nc.util.*;
+import nc.util.CapabilityHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileSaltFissionVessel extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionVesselUpdatePacket>, IFluidGenerator, IFissionFuelComponent, IFissionPortTarget<TileFissionVesselPort, TileSaltFissionVessel> {
@@ -327,7 +327,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 			RadiationHelper.addToSourceRadiation(chunkSource, 8D * baseProcessRadiation * getSpeedMultiplier() * fission_meltdown_radiation_multiplier);
 		}
 		
-		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
+		IBlockState corium = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium);
 		

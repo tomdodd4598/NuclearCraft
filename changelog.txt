@@ -1,6 +1,28 @@
+v2o.4.5
+
++ Added WIP OpenQASM code generation mode to quantum computers
+
+* Fixed crash on placing Rock Crusher
+
++ Added French language file [thanks to Mravran and sanrom!]
+* Updated Chinese language file [thanks to ghostbird03!]
+
++ Added configs for the volumes of various radiation-related sound effects
+
+* Fixed Decay Hastener missing various recipes
+* Hopefully fixed rare crash on forming multiblocks
+
+- Removed many unused textures
++ Added totally ignorable stuff that's not worth worrying about to newly generated wasteland biomes
+
+v2o.4.4
+
+* Fixed crash on load with QMD installed
+* Fixed crash on load without Patchouli installed
+
 v2o.4.3
 
-+ Script addons no longer have to be manually unzipped
+* Script addons no longer have to be manually unzipped
 + Added logging of script addons being constructed
 
 * Modified turbine throughput leniency and power bonuses

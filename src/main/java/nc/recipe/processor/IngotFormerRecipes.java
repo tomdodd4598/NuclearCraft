@@ -5,7 +5,7 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
@@ -107,7 +107,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		}
 	}
 	
-	private static final List<String> CASTING_BLACKLIST = Lists.newArrayList("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
+	private static final Set<String> CASTING_BLACKLIST = Sets.newHashSet("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addIngotFormingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

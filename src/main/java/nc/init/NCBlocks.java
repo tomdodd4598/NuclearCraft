@@ -178,8 +178,9 @@ public class NCBlocks {
 	public static Block glowing_mushroom;
 	public static Block wasteland_earth;
 	
+	public static Block wasteland_portal;
+	
 	public static Block tritium_lamp;
-	public static Block tritium_lantern;
 	
 	public static Block quantum_computer_controller;
 	public static Block quantum_computer_qubit;
@@ -189,7 +190,6 @@ public class NCBlocks {
 	public static Block quantum_computer_gate_swap;
 	
 	public static Block quantum_computer_connector;
-	// public static Block quantum_computer_port;
 	
 	public static void init() {
 		ore = withName(new BlockMeta.BlockOre(), "ore");
@@ -378,6 +378,8 @@ public class NCBlocks {
 		glowing_mushroom = withName(new NCBlockMushroom().setCreativeTab(NCTabs.RADIATION).setLightLevel(1F), "glowing_mushroom");
 		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.RADIATION), "wasteland_earth");
 		
+		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.RADIATION), "wasteland_portal");
+		
 		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.MISC).setLightLevel(1F), "tritium_lamp");
 		
 		if (register_quantum) {
@@ -389,7 +391,6 @@ public class NCBlocks {
 			quantum_computer_gate_swap = withName(new BlockQuantumComputerGate.Swap(), "quantum_computer_gate_swap");
 			
 			quantum_computer_connector = withName(new BlockQuantumComputerConnector(), "quantum_computer_connector");
-			// quantum_computer_port = withName(new BlockQuantumComputerPort(), "quantum_computer_port");
 		}
 	}
 	
@@ -581,6 +582,8 @@ public class NCBlocks {
 		registerBlock(glowing_mushroom);
 		registerBlock(wasteland_earth);
 		
+		registerBlock(wasteland_portal);
+		
 		registerBlock(tritium_lamp);
 		
 		if (register_quantum) {
@@ -592,7 +595,6 @@ public class NCBlocks {
 			registerBlock(quantum_computer_gate_swap, new ItemBlockMeta(quantum_computer_gate_swap, QuantumGateEnums.SwapType.class, TextFormatting.AQUA));
 			
 			registerBlock(quantum_computer_connector);
-			// registerBlock(quantum_computer_port);
 		}
 	}
 	
@@ -809,6 +811,8 @@ public class NCBlocks {
 		registerRender(glowing_mushroom);
 		registerRender(wasteland_earth);
 		
+		registerRender(wasteland_portal);
+		
 		registerRender(tritium_lamp);
 		
 		if (register_quantum) {
@@ -826,7 +830,6 @@ public class NCBlocks {
 			}
 			
 			registerRender(quantum_computer_connector);
-			// registerRender(quantum_computer_port);
 		}
 	}
 	

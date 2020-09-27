@@ -490,7 +490,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getDecayGeneratorLifetime() / 4D);
+			return (int) (getDecayGeneratorLifetime() / 20D);
 		}
 		
 		protected double getDecayGeneratorLifetime() {
@@ -831,7 +831,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (getSaltFissionFuelTime() / 80D);
+			return (int) (144D * getSaltFissionFuelTime() / 80D);
 		}
 		
 		protected double getSaltFissionFuelTime() {
