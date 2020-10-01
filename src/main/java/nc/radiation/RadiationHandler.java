@@ -257,9 +257,9 @@ public class RadiationHandler {
 					continue;
 				}
 				
-				for (int j = 0; j < chunk.getEntityLists().length; j++) {
-					ClassInheritanceMultiMap<Entity> entitySubset = chunk.getEntityLists()[j];
-					Entity[] entityArray = entitySubset.toArray(new Entity[entitySubset.size()]);
+				ClassInheritanceMultiMap<Entity>[] entityListArray = chunk.getEntityLists();
+				for (int j = 0; j < entityListArray.length; j++) {
+					Entity[] entityArray = entityListArray[j].toArray(new Entity[entityListArray[j].size()]);
 					for (Entity entity : entityArray) {
 						if (entity instanceof EntityPlayer) {
 							RadiationHelper.transferRadsFromInventoryToChunkBuffer(((EntityPlayer) entity).inventory, chunkSource);

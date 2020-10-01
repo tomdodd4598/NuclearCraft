@@ -299,8 +299,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		Iterator<IFissionController> controllerIterator = getPartIterator(IFissionController.class);
 		while (controllerIterator.hasNext()) {
 			IFissionController controller = controllerIterator.next();
-			controllerIterator.remove();
-			controller.doMeltdown();
+			controller.doMeltdown(controllerIterator);
 		}
 		
 		// TODO - graphite fires

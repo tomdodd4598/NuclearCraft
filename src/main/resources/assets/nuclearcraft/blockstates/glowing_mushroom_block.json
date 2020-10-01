@@ -1,0 +1,95 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"variant": {
+			"north_west": {
+				"model": "nuclearcraft:mushroom_block/nw",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"north": {
+				"model": "nuclearcraft:mushroom_block/n",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"north_east": {
+				"model": "nuclearcraft:mushroom_block/ne",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"west": {
+				"model": "nuclearcraft:mushroom_block/w",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"center": {
+				"model": "nuclearcraft:mushroom_block/c",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"east": {
+				"model": "nuclearcraft:mushroom_block/e",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"south_west": {
+				"model": "nuclearcraft:mushroom_block/sw",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"south": {
+				"model": "nuclearcraft:mushroom_block/s",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"south_east": {
+				"model": "nuclearcraft:mushroom_block/se",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"skin": "nuclearcraft:blocks/glowing_mushroom_block_skin"
+				}
+			},
+			"stem": {
+				"model": "nuclearcraft:mushroom_block/stem",
+				"textures": {
+					"inside": "nuclearcraft:blocks/glowing_mushroom_block_inside",
+					"stem": "nuclearcraft:blocks/glowing_mushroom_block_stem"
+				}
+			},
+			"all_stem": {
+				"textures": {
+					"all": "nuclearcraft:blocks/glowing_mushroom_block_stem"
+				}
+			},
+			"all_outside": {},
+			"all_inside": {
+				"textures": {
+					"all": "nuclearcraft:blocks/glowing_mushroom_block_inside"
+				}
+			}
+		}
+	}
+}

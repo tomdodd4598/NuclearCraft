@@ -157,6 +157,7 @@ public class RadSources {
 		putMaterial(PROTACTINIUM_233, "Protactinium233");
 		putMaterial(STRONTIUM_90, "Strontium90");
 		putMaterial(RUTHENIUM_106, "Ruthenium106");
+		putMaterial(CAESIUM_137, "Cesium137");
 		putMaterial(CAESIUM_137, "Caesium137");
 		putMaterial(PROMETHIUM_147, "Promethium147");
 		putMaterial(EUROPIUM_155, "Europium155");
@@ -271,6 +272,7 @@ public class RadSources {
 		putFluid(TBP, "tbp");
 		putFluid(STRONTIUM_90, "strontium_90");
 		putFluid(RUTHENIUM_106, "ruthenium_106");
+		putFluid(CAESIUM_137, "cesium_137");
 		putFluid(CAESIUM_137, "caesium_137");
 		putFluid(PROMETHIUM_147, "promethium_147");
 		putFluid(EUROPIUM_155, "europium_155");

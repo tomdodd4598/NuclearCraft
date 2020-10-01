@@ -203,10 +203,10 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 			if (MELTING_BLACKLIST.contains(fluidName)) {
 				continue;
 			}
-			String materialName = StringHelper.capitalize(fluidName);
-			String ingot = "ingot" + materialName;
-			String gem = "gem" + materialName;
-			String dust = "dust" + materialName;
+			String oreSuffix = StringHelper.capitalize(fluidName);
+			String ingot = "ingot" + oreSuffix;
+			String gem = "gem" + oreSuffix;
+			String dust = "dust" + oreSuffix;
 			
 			if (OreDictHelper.oreExists(ingot) && OreDictHelper.oreExists(dust)) {
 				addIngotMeltingRecipes(fluidName);

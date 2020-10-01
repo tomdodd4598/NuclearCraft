@@ -1103,68 +1103,114 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addToRadiationBlacklist(IIngredient ingredient) {
-			if (ingredient == null) {
-				return;
-			}
-			else if (ingredient instanceof IItemStack) {
+			boolean success = false;
+			if (ingredient instanceof IItemStack) {
 				RadSources.RUNNABLES.add(() -> RadSources.addToStackBlacklist(CTHelper.getItemStack((IItemStack) ingredient)));
+				success = true;
 			}
 			else if (ingredient instanceof IOreDictEntry) {
 				RadSources.RUNNABLES.add(() -> RadSources.addToOreBlacklist(((IOreDictEntry) ingredient).getName()));
+				success = true;
 			}
 			else if (ingredient instanceof IngredientStack) {
 				IItemIngredient i = CTHelper.buildOreIngredientArray(ingredient, true);
 				if (i instanceof OreIngredient) {
 					RadSources.RUNNABLES.add(() -> RadSources.addToOreBlacklist(((OreIngredient) i).oreName));
+					success = true;
 				}
 				else if (i.getStack() != null) {
 					RadSources.RUNNABLES.add(() -> RadSources.addToStackBlacklist(i.getStack()));
+					success = true;
 				}
 			}
 			else if (ingredient instanceof ILiquidStack) {
 				FluidStack stack = CTHelper.getFluidStack((ILiquidStack) ingredient);
 				if (stack != null && stack.getFluid() != null) {
 					RadSources.RUNNABLES.add(() -> RadSources.addToFluidBlacklist(stack.getFluid().getName()));
+					success = true;
+				}
+			}
+			
+			if (success) {
+				CraftTweakerAPI.logInfo("Added " + ingredient.toCommandString() + " to radiation blacklist");
+			}
+			else {
+				if (ingredient == null) {
+					CraftTweakerAPI.logError("Attempted to add null ingredient to radiation blacklist");
+				}
+				else {
+					CraftTweakerAPI.logError("Failed to add " + ingredient.toCommandString() + " to radiation blacklist");
 				}
 			}
 		}
 		
 		@ZenMethod
 		public static void setRadiationLevel(IIngredient ingredient, double radiation) {
-			if (ingredient == null) {
-				return;
-			}
-			else if (ingredient instanceof IItemStack) {
+			boolean success = false;
+			if (ingredient instanceof IItemStack) {
 				RadSources.RUNNABLES.add(() -> RadSources.addToStackMap(CTHelper.getItemStack((IItemStack) ingredient), radiation));
+				success = true;
 			}
 			else if (ingredient instanceof IOreDictEntry) {
 				RadSources.RUNNABLES.add(() -> RadSources.addToOreMap(((IOreDictEntry) ingredient).getName(), radiation));
+				success = true;
 			}
 			else if (ingredient instanceof IngredientStack) {
 				IItemIngredient i = CTHelper.buildOreIngredientArray(ingredient, true);
 				if (i instanceof OreIngredient) {
 					RadSources.RUNNABLES.add(() -> RadSources.addToOreMap(((OreIngredient) i).oreName, radiation));
+					success = true;
 				}
 				else if (i.getStack() != null) {
 					RadSources.RUNNABLES.add(() -> RadSources.addToStackMap(i.getStack(), radiation));
+					success = true;
 				}
 			}
 			else if (ingredient instanceof ILiquidStack) {
 				FluidStack stack = CTHelper.getFluidStack((ILiquidStack) ingredient);
 				if (stack != null && stack.getFluid() != null) {
 					RadSources.RUNNABLES.add(() -> RadSources.addToFluidMap(stack.getFluid().getName(), radiation));
+					success = true;
+				}
+			}
+			
+			String rads = RadiationHelper.radsPrefix(radiation, true);
+			if (success) {
+				CraftTweakerAPI.logInfo("Set the radiation level of " + ingredient.toCommandString() + " to " + rads);
+			}
+			else {
+				if (ingredient == null) {
+					CraftTweakerAPI.logError("Attempted to set the radiation level of a null ingredient to " + rads);
+				}
+				else {
+					CraftTweakerAPI.logError("Failed to set the radiation level of " + ingredient.toCommandString() + " to " + rads);
 				}
 			}
 		}
 		
 		@ZenMethod
 		public static void setMaterialRadiationLevel(String oreSuffix, double radiation) {
-			RadSources.RUNNABLES.add(() -> RadSources.putMaterial(radiation, oreSuffix));
+			String rads = RadiationHelper.radsPrefix(radiation, true);
+			if (oreSuffix == null) {
+				CraftTweakerAPI.logError("Attempted to set the material radiation level for a null ore dictionary suffix to " + rads);
+			}
+			else {
+				RadSources.RUNNABLES.add(() -> RadSources.putMaterial(radiation, oreSuffix));
+				CraftTweakerAPI.logInfo("Set the material radiation level for the ore suffix \"" + oreSuffix + "\" to " + rads);
+			}
 		}
 		
 		@ZenMethod
 		public static void setFoodRadiationStats(IItemStack food, double radiation, double resistance) {
-			RadSources.RUNNABLES.add(() -> RadSources.addToFoodMaps(CTHelper.getItemStack(food), radiation, resistance));
+			String rads = RadiationHelper.radsPrefix(radiation, true);
+			String res = RadiationHelper.resistanceSigFigs(resistance);
+			if (food == null) {
+				CraftTweakerAPI.logError("Attempted to set the food radiation and resistance levels of a null ingredient to " + rads + " and " + res + ", respectively");
+			}
+			else {
+				RadSources.RUNNABLES.add(() -> RadSources.addToFoodMaps(CTHelper.getItemStack(food), radiation, resistance));
+				CraftTweakerAPI.logInfo("Set the food radiation and resistance levels of " + food.toCommandString() + " to " + rads + " and " + res + ", respectively");
+			}
 		}
 		
 		@ZenMethod

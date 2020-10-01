@@ -1,5 +1,7 @@
 package nc.multiblock.turbine.tile;
 
+import java.util.Iterator;
+
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
@@ -9,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineRotorBlade {
+public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineRotorBlade<TileTurbineRotorStator> {
 	
 	public IRotorStatorType statorType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
@@ -76,8 +78,10 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	}
 	
 	@Override
-	public void onBearingFailure(Turbine turbine) {
-		if (turbine.rand.nextDouble() < 0.04D) {
+	public void onBearingFailure(Iterator<TileTurbineRotorStator> statorIterator) {
+		Turbine turbine = getMultiblock();
+		if (turbine != null && turbine.rand.nextDouble() < 0.04D) {
+			statorIterator.remove();
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
 		}

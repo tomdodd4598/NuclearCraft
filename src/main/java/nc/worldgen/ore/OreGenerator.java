@@ -4,7 +4,7 @@ import static nc.config.NCConfig.*;
 
 import java.util.Random;
 
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import nc.block.BlockMeta;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
@@ -35,11 +35,7 @@ public class OreGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		IntList dimList = new IntArrayList();
-		for (int ore_dim : ore_dims) {
-			dimList.add(ore_dim);
-		}
-		if (dimList.contains(world.provider.getDimension()) != ore_dims_list_type) {
+		if (new IntOpenHashSet(ore_dims).contains(world.provider.getDimension()) != ore_dims_list_type) {
 			generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 		}
 	}

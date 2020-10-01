@@ -1,7 +1,6 @@
-Work out why 4->1 NOT works (only two Toffoli decomps) but 5->1 NOT doesn't (two 4CX and six Toffoli decomps)
-(Currently logging Toffi and 4CX decomps)
+Suggestions from: This probably won’t happen but in stead of multiblock reactors
 
-Config to disable food rad effect sound effects
+Generate Qiskit code?
 
 Adjacent MSR vessels with same filter form bundle to share flux, shared criticality factor is sum of single vessel criticality factors
 
@@ -59,13 +58,6 @@ ________________________________________________________________________________
 ___________________________________________________________________________________________________________________________
 
 1.16: Item stack NBT support in NC recipes (also allow for NBT 'wildcards')
-___________________________________________________________________________________________________________________________
-
-Tool that highlights side settings and opens up GUI for side settings of individual multiblock part
-OR highlights side settings of one type of part on looking at the multiblock - toggle through part types with sneak-right click?
-Tool to check multiblock part tanks and highlight render side configurations?
-Right click on rendered cube to open up GUI for that part's side settings
-GUI of orientable, layered planes of multiblock to configure sides: https://discordapp.com/channels/425461908712325130/542891718622838787/571550775067803648
 ___________________________________________________________________________________________________________________________
 
 1.16: Add sound effects from Exile to machines

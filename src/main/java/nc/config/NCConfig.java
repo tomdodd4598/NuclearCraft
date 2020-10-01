@@ -432,9 +432,9 @@ public class NCConfig {
 		propertyMushroomSpreadRate.setLanguageKey("gui.nc.config.mushroom_spread_rate");
 		Property propertyMushroomGen = config.get(CATEGORY_WORLD_GEN, "mushroom_gen", true, Lang.localise("gui.nc.config.mushroom_gen.comment"));
 		propertyMushroomGen.setLanguageKey("gui.nc.config.mushroom_gen");
-		Property propertyMushroomGenSize = config.get(CATEGORY_WORLD_GEN, "mushroom_gen_size", 64, Lang.localise("gui.nc.config.mushroom_gen_size.comment"), 0, 511);
+		Property propertyMushroomGenSize = config.get(CATEGORY_WORLD_GEN, "mushroom_gen_size", 32, Lang.localise("gui.nc.config.mushroom_gen_size.comment"), 0, 511);
 		propertyMushroomGenSize.setLanguageKey("gui.nc.config.mushroom_gen_size");
-		Property propertyMushroomGenRate = config.get(CATEGORY_WORLD_GEN, "mushroom_gen_rate", 40, Lang.localise("gui.nc.config.mushroom_gen_rate.comment"), 0, 511);
+		Property propertyMushroomGenRate = config.get(CATEGORY_WORLD_GEN, "mushroom_gen_rate", 64, Lang.localise("gui.nc.config.mushroom_gen_rate.comment"), 0, 511);
 		propertyMushroomGenRate.setLanguageKey("gui.nc.config.mushroom_gen_rate");
 		
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSOR, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 600, 400, 600, 800, 600, 1600, 600, 2400, 1200, 400}, Lang.localise("gui.nc.config.processor_time.comment"), 1, 128000);
@@ -853,7 +853,7 @@ public class NCConfig {
 		propertyRadiationSpreadGradient.setLanguageKey("gui.nc.config.radiation_spread_gradient");
 		Property propertyRadiationDecayRate = config.get(CATEGORY_RADIATION, "radiation_decay_rate", 0.001D, Lang.localise("gui.nc.config.radiation_decay_rate.comment"), 0D, 1D);
 		propertyRadiationDecayRate.setLanguageKey("gui.nc.config.radiation_decay_rate");
-		Property propertyRadiationLowestRate = config.get(CATEGORY_RADIATION, "radiation_lowest_rate", 0.000000000000001D, Lang.localise("gui.nc.config.radiation_lowest_rate.comment"), 0.000000000000000001D, 1D);
+		Property propertyRadiationLowestRate = config.get(CATEGORY_RADIATION, "radiation_lowest_rate", 0.000000000000001D, Lang.localise("gui.nc.config.radiation_lowest_rate.comment"), 0D, 1D);
 		propertyRadiationLowestRate.setLanguageKey("gui.nc.config.radiation_lowest_rate");
 		Property propertyRadiationChunkLimit = config.get(CATEGORY_RADIATION, "radiation_chunk_limit", -1D, Lang.localise("gui.nc.config.radiation_chunk_limit.comment"), -1D, Double.MAX_VALUE);
 		propertyRadiationChunkLimit.setLanguageKey("gui.nc.config.radiation_chunk_limit");

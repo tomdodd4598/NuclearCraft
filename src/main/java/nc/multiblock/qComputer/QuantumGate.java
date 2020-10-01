@@ -898,7 +898,6 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				IntList c_list = list(c);
 				for (int t : list(n)) {
 					if (toffoli) {
-						// NCUtil.getLogger().info("toffoli");
 						IntList anc = new IntArrayList(q - c_size - 1);
 						for (int i = 0; i < q; i++) {
 							if (i != t && !c.contains(i)) {
@@ -913,7 +912,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 							repeat[i] = new CX(qc, set(anc.getInt(i), c_list.getInt(i)), set(anc.getInt(i - 1)));
 							repeat[2 * (c_size - 2) - i] = repeat[i];
 						}
-						repeat[c_size - 2] = new CX(qc, set(c_list.getInt(c_size - 2), c_list.getInt(c_size - 1)), set(anc.getInt(anc.size() - 1)));
+						repeat[c_size - 2] = new CX(qc, set(c_list.getInt(c_size - 2), c_list.getInt(c_size - 1)), set(anc.getInt(c_size - 3)));
 						
 						for (CX cx : repeat) {
 							decomposition.add(cx);
@@ -924,7 +923,6 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 					}
 					
 					else {
-						// NCUtil.getLogger().info("four_cx");
 						final int m_1 = (int) Math.ceil((c_size + 1D) / 2D), m_2 = c_size - m_1 + 1;
 						
 						int anc = -1;
@@ -1833,7 +1831,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Tdg, new double[] {-22.5D, -22.5D, 0D, -22.5D});
 	}
 	
-	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees. */
+	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees.
+	 * Translated from https://qiskit.org/documentation/_modules/qiskit/quantum_info/synthesis/one_qubit_decompose.html#OneQubitEulerDecomposer */
 	public static double[] getZYZDecompositionAngles(Matrix matrix) {
 		if (ZYZ_DECOMPOSITION_ANGLES_CACHE.containsKey(matrix)) {
 			return ZYZ_DECOMPOSITION_ANGLES_CACHE.get(matrix);
@@ -1851,7 +1850,10 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		return new double[] {-Math.toDegrees(Complex.arg(phase[0], phase[1])), Math.toDegrees((ppl + pml) / 2D), Math.toDegrees(2D * Math.atan2(Complex.abs(m.re[1][0], m.im[1][0]), Complex.abs(m.re[0][0], m.im[0][0]))), Math.toDegrees((ppl - pml) / 2D)};
 	}
 	
-	/** Adds the ZYZ decomposition of this gate to the list. */
+	/** Adds the ZYZ decomposition of this gate to the list.
+	 * Combines results from:
+	 * https://arxiv.org/abs/quant-ph/9503016,
+	 * Nielsen, Michael A.; Chuang, Isaac L. Quantum Computation and Quantum Information */
 	public static void addZYZDecomposition(QuantumGate gate, IntSet c, IntSet t, List<QuantumGate> decomposition) {
 		if (t.isEmpty()) {
 			return;

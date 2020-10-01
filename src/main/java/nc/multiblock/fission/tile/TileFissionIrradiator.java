@@ -132,7 +132,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public void onClusterMeltdown() {
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
 		
 	}
 	

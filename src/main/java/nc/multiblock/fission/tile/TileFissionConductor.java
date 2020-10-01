@@ -1,5 +1,7 @@
 package nc.multiblock.fission.tile;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -69,7 +71,9 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	}
 	
 	@Override
-	public void onClusterMeltdown() {}
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
+		
+	}
 	
 	@Override
 	public boolean isNullifyingSources(EnumFacing side) {

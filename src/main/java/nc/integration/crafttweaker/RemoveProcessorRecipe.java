@@ -1,5 +1,7 @@
 package nc.integration.crafttweaker;
 
+import static nc.recipe.IngredientSorption.INPUT;
+
 import java.util.*;
 
 import crafttweaker.*;
@@ -9,31 +11,28 @@ import nc.recipe.ingredient.*;
 
 public class RemoveProcessorRecipe implements IAction {
 	
-	public static boolean hasErrored = false;
+	protected static boolean errored = false;
 	
-	public List<IItemIngredient> itemIngredients;
-	public List<IFluidIngredient> fluidIngredients;
-	public IngredientSorption type;
-	public ProcessorRecipe recipe;
-	public boolean ingredientError, wasNull, wrongSize;
-	public final ProcessorRecipeHandler recipeHandler;
+	protected final ProcessorRecipeHandler recipeHandler;
+	protected final IngredientSorption type;
+	protected ProcessorRecipe recipe;
+	
+	protected final List<IItemIngredient> itemIngredients = new ArrayList<>();
+	protected final List<IFluidIngredient> fluidIngredients = new ArrayList<>();
+	
+	protected boolean nullIngredient, nullRecipe, wrongSize;
 	
 	public RemoveProcessorRecipe(ProcessorRecipeHandler recipeHandler, IngredientSorption type, List<IIngredient> ctIngredients) {
 		this.recipeHandler = recipeHandler;
 		this.type = type;
-		int itemSize = type == IngredientSorption.INPUT ? recipeHandler.getItemInputSize() : recipeHandler.getItemOutputSize();
-		int fluidSize = type == IngredientSorption.INPUT ? recipeHandler.getFluidInputSize() : recipeHandler.getFluidOutputSize();
-		if (ctIngredients.size() != itemSize + fluidSize) {
-			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe was the wrong size");
-			wrongSize = true;
-			return;
-		}
-		List<IItemIngredient> itemIngredients = new ArrayList<>();
-		List<IFluidIngredient> fluidIngredients = new ArrayList<>();
+		
+		int itemSize = type == INPUT ? recipeHandler.getItemInputSize() : recipeHandler.getItemOutputSize();
+		int fluidSize = type == INPUT ? recipeHandler.getFluidInputSize() : recipeHandler.getFluidOutputSize();
+		
 		for (int i = 0; i < itemSize; i++) {
 			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i));
 			if (ingredient == null) {
-				ingredientError = true;
+				nullIngredient = true;
 				return;
 			}
 			itemIngredients.add(ingredient);
@@ -41,51 +40,68 @@ public class RemoveProcessorRecipe implements IAction {
 		for (int i = itemSize; i < fluidSize; i++) {
 			IFluidIngredient ingredient = CTHelper.buildRemovalFluidIngredient(ctIngredients.get(i));
 			if (ingredient == null) {
-				ingredientError = true;
+				nullIngredient = true;
 				return;
 			}
 			fluidIngredients.add(ingredient);
 		}
 		
-		this.itemIngredients = itemIngredients;
-		this.fluidIngredients = fluidIngredients;
-		recipe = type == IngredientSorption.INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
+		if (ctIngredients.size() != itemSize + fluidSize) {
+			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe removal had the wrong number of " + (type == INPUT ? "inputs" : "outputs") + ": " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+			wrongSize = true;
+			return;
+		}
+		
+		recipe = type == INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
 		if (recipe == null) {
-			wasNull = true;
+			nullRecipe = true;
 		}
 	}
 	
 	@Override
 	public void apply() {
-		if (!ingredientError && !wasNull && !wrongSize) {
-			boolean removed = recipeHandler.removeRecipe(recipe);
-			while (removed) {
-				recipe = type == IngredientSorption.INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
-				removed = recipeHandler.removeRecipe(recipe);
+		if (!isError()) {
+			while (recipeHandler.removeRecipe(recipe)) {
+				recipe = type == INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
 			}
 		}
 	}
 	
 	@Override
 	public String describe() {
-		if (ingredientError || wasNull || wrongSize) {
-			if (ingredientError || wrongSize) {
-				callError();
+		if (!isError()) {
+			if (type == INPUT) {
+				return "Removing " + recipeHandler.getRecipeName() + " recipe: " + RecipeHelper.getRecipeString(recipe);
 			}
-			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == IngredientSorption.INPUT ? "input" : "output"), recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
-		}
-		if (type == IngredientSorption.INPUT) {
-			return String.format("Removing %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(recipe));
+			else {
+				return "Removing " + recipeHandler.getRecipeName() + " recipes for: " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients);
+			}
 		}
 		else {
-			return String.format("Removing %s recipes for: %s", recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+			callError();
+			
+			String out = "Failed to remove " + recipeHandler.getRecipeName() + " recipe with " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients) + " as the " + (type == INPUT ? "input" : "output");
+			
+			if (nullIngredient) {
+				return out + " as one or more " + (type == INPUT ? "ingredients" : "products") + " had no match";
+			}
+			else if (nullRecipe) {
+				return out + " as no matching recipe could be found";
+			}
+			else {
+				return out;
+			}
 		}
 	}
 	
-	public static void callError() {
-		if (!hasErrored) {
-			CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe removal method has errored - check the CraftTweaker log for more details");
+	protected boolean isError() {
+		return nullIngredient || nullRecipe || wrongSize;
+	}
+	
+	protected static void callError() {
+		if (!errored) {
+			errored = true;
+			CraftTweakerAPI.logError("At least one NuclearCraft recipe removal method has errored. Check the log for more details");
 		}
-		hasErrored = true;
 	}
 }

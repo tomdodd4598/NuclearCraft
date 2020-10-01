@@ -1,3 +1,17 @@
+v2o.4.6
+
++ Added huge glowing mushrooms
+
+* Fixed all known issues with quantum computer QASM code generation
+
+* Hopefully fixed occasional fission meltdown and turbine bearing failure crashes
+
+* Improved CraftTweaker method logging and error reporting
+* Revamped Tinkers' Construct smeltery support
+
++ Added caesium-137 to alternate "Cesium137" ore dict entry
+* Various other minor fixes, changes and refactors
+
 v2o.4.5
 
 + Added WIP OpenQASM code generation mode to quantum computers

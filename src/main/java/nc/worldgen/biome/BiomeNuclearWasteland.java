@@ -34,7 +34,6 @@ public class BiomeNuclearWasteland extends NCBiome {
 		spawnableCaveCreatureList.clear();
 		
 		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1));
-		spawnableCreatureList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1));
 	}
 	
 	protected void setFlowers() {

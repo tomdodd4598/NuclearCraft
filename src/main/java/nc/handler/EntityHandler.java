@@ -1,7 +1,8 @@
 package nc.handler;
 
 import nc.entity.EntityFeralGhoul;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
+import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -26,10 +27,13 @@ public class EntityHandler {
 				}
 				
 				boolean tooManyGhouls = false;
-				Iterable<EntityFeralGhoul> iterable = world.getChunk(pos).getEntityLists()[(int) Math.floor(entity.posY / 16D)].getByClass(EntityFeralGhoul.class);
-				while (iterable.iterator().hasNext()) {
-					tooManyGhouls = true;
-					break;
+				ClassInheritanceMultiMap<Entity>[] entityListArray = world.getChunk(pos).getEntityLists();
+				loop: for (int i = 0; i < entityListArray.length; i++) {
+					Iterable<EntityFeralGhoul> ghouls = entityListArray[i].getByClass(EntityFeralGhoul.class);
+					while (ghouls.iterator().hasNext()) {
+						tooManyGhouls = true;
+						break loop;
+					}
 				}
 				
 				if (tooManyGhouls) {

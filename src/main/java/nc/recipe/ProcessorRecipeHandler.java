@@ -19,7 +19,7 @@ import stanhebben.zenscript.annotations.*;
 @ZenRegister
 public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
 	
-	private final String recipeName;
+	protected final String recipeName;
 	protected final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	protected final boolean isShapeless;
 	

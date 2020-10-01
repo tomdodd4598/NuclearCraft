@@ -770,19 +770,19 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		Iterator<TileTurbineRotorBearing> bearingIterator = getPartIterator(TileTurbineRotorBearing.class);
 		while (bearingIterator.hasNext()) {
 			TileTurbineRotorBearing bearing = bearingIterator.next();
-			bearing.onBearingFailure(getTurbine());
+			bearing.onBearingFailure(bearingIterator);
 		}
 		
 		Iterator<TileTurbineRotorBlade> bladeIterator = getPartIterator(TileTurbineRotorBlade.class);
 		while (bladeIterator.hasNext()) {
 			TileTurbineRotorBlade blade = bladeIterator.next();
-			blade.onBearingFailure(getTurbine());
+			blade.onBearingFailure(bladeIterator);
 		}
 		
 		Iterator<TileTurbineRotorStator> statorIterator = getPartIterator(TileTurbineRotorStator.class);
 		while (statorIterator.hasNext()) {
 			TileTurbineRotorStator stator = statorIterator.next();
-			stator.onBearingFailure(getTurbine());
+			stator.onBearingFailure(statorIterator);
 		}
 		
 		getTurbine().checkIfMachineIsWhole();
@@ -1081,7 +1081,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			// If this machine isn't playing sounds, go ahead and play them
 			for (SoundInfo activeSound : getTurbine().activeSounds) {
 				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
-					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((0.125D + getTurbine().angVel * 0.25D / turbine_render_rotor_speed) * turbine_sound_volume), SoundHelper.getPitch(4F * getTurbine().angVel / turbine_render_rotor_speed - 2F));
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((1D + getTurbine().angVel * 2D / turbine_render_rotor_speed) * turbine_sound_volume / 24D), SoundHelper.getPitch(4F * getTurbine().angVel / turbine_render_rotor_speed - 2F));
 				}
 			}
 			

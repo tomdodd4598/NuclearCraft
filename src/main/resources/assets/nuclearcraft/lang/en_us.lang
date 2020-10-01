@@ -357,6 +357,7 @@ tile.nuclearcraft.geiger_block.name=Geiger Counter Block
 tile.nuclearcraft.geiger_block.desc=Reads the radiation level of the chunk it is placed in.
 
 tile.nuclearcraft.glowing_mushroom.name=Glowing Mushroom
+tile.nuclearcraft.glowing_mushroom_block.name=Glowing Mushroom Block
 tile.nuclearcraft.wasteland_earth.name=Wasteland Earth
 
 tile.nuclearcraft.wasteland_portal.name=Wasteland Portal
@@ -2346,23 +2347,23 @@ gui.nc.config.ore_harvest_levels=Ore Harvest Levels
 gui.nc.config.ore_harvest_levels.comment=Pickaxe harvest levels of ores. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 
 gui.nc.config.wasteland_biome=Generate Wasteland Biome
-gui.nc.config.wasteland_biome.comment=Will the Wasteland Biome generate in the Overworld?
+gui.nc.config.wasteland_biome.comment=Will wasteland biomes generate in the overworld?
 gui.nc.config.wasteland_biome_weight=Wasteland Biome Gen Weight
-gui.nc.config.wasteland_biome_weight.comment=The weight assigned to the generation of the Wasteland Biomes - higher numbers correspond to higher generation rates.
+gui.nc.config.wasteland_biome_weight.comment=The weight assigned to the generation of the wasteland biomes - higher numbers correspond to higher generation rates.
 
 gui.nc.config.wasteland_dimension_gen=Enable Wasteland Dimension
-gui.nc.config.wasteland_dimension_gen.comment=Will the Wasteland Dimension be generated?
+gui.nc.config.wasteland_dimension_gen.comment=Will the wasteland dimension be generated?
 gui.nc.config.wasteland_dimension=Wasteland Dimension ID
-gui.nc.config.wasteland_dimension.comment=Set the dimension ID for the Wasteland Dimension.
+gui.nc.config.wasteland_dimension.comment=Sets the ID for the wasteland dimension.
 
 gui.nc.config.mushroom_spread_rate=Mushroom Spread Rate
-gui.nc.config.mushroom_spread_rate.comment=The rate at which mushrooms added by NC will spread.
+gui.nc.config.mushroom_spread_rate.comment=The rate at which mushrooms added by NC will spread - higher numbers correspond to higher spread rates.
 gui.nc.config.mushroom_gen=Generate Mushrooms
-gui.nc.config.mushroom_gen.comment=Will mushrooms added by NC generate in the nether?
+gui.nc.config.mushroom_gen.comment=Will mushrooms added by NC generate in the nether and wasteland biomes?
 gui.nc.config.mushroom_gen_size=Mushroom Gen Size
-gui.nc.config.mushroom_gen_size.comment=Determines how many mushrooms added by NC will spawn at a time.
+gui.nc.config.mushroom_gen_size.comment=Determines the maximum number of mushrooms added by NC that will spawn at a time. Note that this is typically much higher than the mean number of generated mushrooms.
 gui.nc.config.mushroom_gen_rate=Mushroom Gen Rate
-gui.nc.config.mushroom_gen_rate.comment=Determines how often mushrooms added by NC will spawn.
+gui.nc.config.mushroom_gen_rate.comment=Determines how often mushrooms added by NC will spawn - higher numbers correspond to higher generation rates.
 
 gui.nc.config.category.processor=Processor Configs
 gui.nc.config.category.processor.tooltip=Configure processors.

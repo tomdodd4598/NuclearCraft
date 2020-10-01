@@ -307,14 +307,16 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public void onClusterMeltdown() {
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 		if (chunkSource != null) {
 			RadiationHelper.addToSourceRadiation(chunkSource, 8D * baseProcessRadiation * getSpeedMultiplier() * fission_meltdown_radiation_multiplier);
 		}
 		
-		IBlockState corium = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
+		componentIterator.remove();
 		world.removeTileEntity(pos);
+		
+		IBlockState corium = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
 		world.setBlockState(pos, corium);
 		
 		if (getMultiblock() != null) {

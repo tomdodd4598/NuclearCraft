@@ -91,11 +91,11 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addIngotFormingRecipe(String fluid, String metal) {
-		addRecipe(fluidStack(fluid.toLowerCase(Locale.ROOT), INGOT_VOLUME), "ingot" + metal, 1D, 1D);
+		addRecipe(fluidStack(fluid, INGOT_VOLUME), "ingot" + metal, 1D, 1D);
 	}
 	
 	public void addIngotFormingRecipe(String metal) {
-		addIngotFormingRecipe(metal, metal);
+		addIngotFormingRecipe(metal, StringHelper.capitalize(metal));
 	}
 	
 	public void addFissionFormingRecipes() {
@@ -115,9 +115,10 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 			if (CASTING_BLACKLIST.contains(fluidName)) {
 				continue;
 			}
-			String materialName = StringHelper.capitalize(fluidName);
-			String ingot = "ingot" + materialName;
-			String gem = "gem" + materialName;
+			String oreSuffix = StringHelper.capitalize(fluidName);
+			String ingot = "ingot" + oreSuffix;
+			String gem = "gem" + oreSuffix;
+			
 			if (OreDictHelper.oreExists(ingot)) {
 				addRecipe(fluidStack(fluidName, INGOT_VOLUME), ingot, 1D, 1D);
 			}

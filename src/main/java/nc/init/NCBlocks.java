@@ -6,6 +6,7 @@ import nc.*;
 import nc.block.*;
 import nc.block.item.*;
 import nc.block.item.energy.ItemBlockBattery;
+import nc.block.plant.*;
 import nc.block.tile.*;
 import nc.block.tile.dummy.BlockMachineInterface;
 import nc.block.tile.processor.*;
@@ -176,6 +177,7 @@ public class NCBlocks {
 	public static Block geiger_block;
 	
 	public static Block glowing_mushroom;
+	public static Block glowing_mushroom_block;
 	public static Block wasteland_earth;
 	
 	public static Block wasteland_portal;
@@ -375,7 +377,8 @@ public class NCBlocks {
 		
 		geiger_block = withName(new BlockGeigerCounter(), "geiger_block");
 		
-		glowing_mushroom = withName(new NCBlockMushroom().setCreativeTab(NCTabs.RADIATION).setLightLevel(1F), "glowing_mushroom");
+		glowing_mushroom = withName(new BlockGlowingMushroom().setCreativeTab(NCTabs.RADIATION), "glowing_mushroom");
+		glowing_mushroom_block = withName(new BlockHugeGlowingMushroom().setCreativeTab(NCTabs.RADIATION), "glowing_mushroom_block");
 		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.RADIATION), "wasteland_earth");
 		
 		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.RADIATION), "wasteland_portal");
@@ -580,6 +583,7 @@ public class NCBlocks {
 		registerBlock(geiger_block);
 		
 		registerBlock(glowing_mushroom);
+		registerBlock(glowing_mushroom_block);
 		registerBlock(wasteland_earth);
 		
 		registerBlock(wasteland_portal);
@@ -809,6 +813,7 @@ public class NCBlocks {
 		registerRender(geiger_block);
 		
 		registerRender(glowing_mushroom);
+		registerRender(glowing_mushroom_block);
 		registerRender(wasteland_earth);
 		
 		registerRender(wasteland_portal);

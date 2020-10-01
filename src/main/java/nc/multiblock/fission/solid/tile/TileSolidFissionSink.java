@@ -2,6 +2,8 @@ package nc.multiblock.fission.solid.tile;
 
 import static nc.config.NCConfig.fission_sink_cooling_rate;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -332,7 +334,9 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	}
 	
 	@Override
-	public void onClusterMeltdown() {}
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
+		
+	}
 	
 	@Override
 	public boolean isNullifyingSources(EnumFacing side) {

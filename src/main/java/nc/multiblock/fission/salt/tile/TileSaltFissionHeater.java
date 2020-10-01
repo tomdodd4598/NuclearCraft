@@ -408,7 +408,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public void onClusterMeltdown() {}
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
+		
+	}
 	
 	@Override
 	public boolean isNullifyingSources(EnumFacing side) {

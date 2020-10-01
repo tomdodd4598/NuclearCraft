@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.fission.FissionPlacement;
@@ -229,7 +231,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		protected final AdjacencyType adjType;
 		
 		protected Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) {
-			super(null, Arrays.asList(dependency), countType.requiresRecheck());
+			super(null, Lists.newArrayList(dependency), countType.requiresRecheck());
 			this.amount = amount;
 			this.countType = countType;
 			this.adjType = adjType;

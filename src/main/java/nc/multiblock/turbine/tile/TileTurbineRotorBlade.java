@@ -1,5 +1,7 @@
 package nc.multiblock.turbine.tile;
 
+import java.util.Iterator;
+
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
@@ -9,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade {
+public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade<TileTurbineRotorBlade> {
 	
 	public IRotorBladeType bladeType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
@@ -90,11 +92,13 @@ public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRo
 	}
 	
 	@Override
-	public void onBearingFailure(Turbine turbine) {
-		if (turbine.rand.nextDouble() < 0.18D) {
+	public void onBearingFailure(Iterator<TileTurbineRotorBlade> bladeIterator) {
+		Turbine turbine = getMultiblock();
+		if (turbine != null && turbine.rand.nextDouble() < 0.18D) {
+			bladeIterator.remove();
 			world.removeTileEntity(pos);
-			world.createExplosion(null, pos.getX() + turbine.rand.nextDouble() - 0.5D, pos.getY() + turbine.rand.nextDouble() - 0.5D, pos.getZ() + turbine.rand.nextDouble() - 0.5D, 4F, false);
 			world.setBlockToAir(pos);
+			world.createExplosion(null, pos.getX() + turbine.rand.nextDouble() - 0.5D, pos.getY() + turbine.rand.nextDouble() - 0.5D, pos.getZ() + turbine.rand.nextDouble() - 0.5D, 4F, false);
 		}
 	}
 	

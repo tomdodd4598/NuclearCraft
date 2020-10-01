@@ -87,7 +87,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerFluidBlockRendering(Block block, String name) {
-		super.registerFluidBlockRendering(block, name);
+		name = name.toLowerCase(Locale.ROOT);
 		FluidStateMapper mapper = new FluidStateMapper(name);
 		
 		Item item = Item.getItemFromBlock(block);

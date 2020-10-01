@@ -30,6 +30,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockZirconium", new ItemStack(NCBlocks.ingot_block, 1, 10));
 		OreDictionary.registerOre("blockManganese", new ItemStack(NCBlocks.ingot_block, 1, 11));
 		OreDictionary.registerOre("blockAluminum", new ItemStack(NCBlocks.ingot_block, 1, 12));
+		OreDictionary.registerOre("blockAluminium", new ItemStack(NCBlocks.ingot_block, 1, 12));
 		OreDictionary.registerOre("blockSilver", new ItemStack(NCBlocks.ingot_block, 1, 13));
 		
 		OreDictionary.registerOre("blockFissionModerator", new ItemStack(NCBlocks.ingot_block, 1, 8));
@@ -56,6 +57,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotZirconium", new ItemStack(NCItems.ingot, 1, 10));
 		OreDictionary.registerOre("ingotManganese", new ItemStack(NCItems.ingot, 1, 11));
 		OreDictionary.registerOre("ingotAluminum", new ItemStack(NCItems.ingot, 1, 12));
+		OreDictionary.registerOre("ingotAluminium", new ItemStack(NCItems.ingot, 1, 12));
 		OreDictionary.registerOre("ingotSilver", new ItemStack(NCItems.ingot, 1, 13));
 		OreDictionary.registerOre("ingotManganeseOxide", new ItemStack(NCItems.ingot, 1, 14));
 		OreDictionary.registerOre("ingotManganeseDioxide", new ItemStack(NCItems.ingot, 1, 15));
@@ -73,6 +75,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustZirconium", new ItemStack(NCItems.dust, 1, 10));
 		OreDictionary.registerOre("dustManganese", new ItemStack(NCItems.dust, 1, 11));
 		OreDictionary.registerOre("dustAluminum", new ItemStack(NCItems.dust, 1, 12));
+		OreDictionary.registerOre("dustAluminium", new ItemStack(NCItems.dust, 1, 12));
 		OreDictionary.registerOre("dustSilver", new ItemStack(NCItems.dust, 1, 13));
 		OreDictionary.registerOre("dustManganeseOxide", new ItemStack(NCItems.dust, 1, 14));
 		OreDictionary.registerOre("dustManganeseDioxide", new ItemStack(NCItems.dust, 1, 15));
@@ -155,6 +158,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustStrontium90", new ItemStack(NCItems.fission_dust, 1, 5));
 		OreDictionary.registerOre("dustMolybdenum", new ItemStack(NCItems.fission_dust, 1, 6));
 		OreDictionary.registerOre("dustRuthenium106", new ItemStack(NCItems.fission_dust, 1, 7));
+		OreDictionary.registerOre("dustCesium137", new ItemStack(NCItems.fission_dust, 1, 8));
 		OreDictionary.registerOre("dustCaesium137", new ItemStack(NCItems.fission_dust, 1, 8));
 		OreDictionary.registerOre("dustPromethium147", new ItemStack(NCItems.fission_dust, 1, 9));
 		OreDictionary.registerOre("dustEuropium155", new ItemStack(NCItems.fission_dust, 1, 10));

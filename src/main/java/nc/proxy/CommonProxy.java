@@ -3,7 +3,6 @@ package nc.proxy;
 import static nc.config.NCConfig.register_projecte_emc;
 
 import java.io.*;
-import java.util.Locale;
 
 import crafttweaker.CraftTweakerAPI;
 import nc.*;
@@ -95,6 +94,7 @@ public class CommonProxy {
 		
 		if (ModCheck.tinkersLoaded()) {
 			TConstructMaterials.init();
+			TConstructIMC.init();
 		}
 		
 		if (ModCheck.constructsArmoryLoaded()) {
@@ -127,8 +127,7 @@ public class CommonProxy {
 		NCWorlds.registerDimensions();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
-		GameRegistry.registerWorldGenerator(new MushroomGenerator(NCBlocks.glowing_mushroom.getDefaultState()), 100);
-		// GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
+		GameRegistry.registerWorldGenerator(new MushroomGenerator(NCBlocks.glowing_mushroom.getDefaultState()), 255);
 		
 		NCEntities.register();
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
@@ -136,11 +135,6 @@ public class CommonProxy {
 		PlacementRule.init();
 		
 		ItemMultitool.registerRightClickLogic();
-		
-		if (ModCheck.tinkersLoaded()) {
-			TConstructExtras.init();
-			TConstructIMC.init();
-		}
 		
 		if (ModCheck.constructsArmoryLoaded()) {
 			ConArmMaterials.init();
@@ -228,7 +222,7 @@ public class CommonProxy {
 	// Fluid Colours
 	
 	public void registerFluidBlockRendering(Block block, String name) {
-		name = name.toLowerCase(Locale.ROOT);
+		
 	}
 	
 	public void initFluidColors() {

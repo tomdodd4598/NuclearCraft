@@ -1,5 +1,7 @@
 package nc.multiblock.fission.tile;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -91,7 +93,7 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void setHeatStored(long heat);
 	
-	public void onClusterMeltdown();
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator);
 	
 	public boolean isNullifyingSources(EnumFacing side);
 	

@@ -354,8 +354,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		final Iterator<IFissionComponent> componentIterator = cluster.getComponentMap().values().iterator();
 		while (componentIterator.hasNext()) {
 			IFissionComponent component = componentIterator.next();
-			componentIterator.remove();
-			component.onClusterMeltdown();
+			component.onClusterMeltdown(componentIterator);
 		}
 		super.clusterMeltdown(cluster);
 	}

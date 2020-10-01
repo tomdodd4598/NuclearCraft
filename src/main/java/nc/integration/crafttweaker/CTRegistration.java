@@ -4,6 +4,7 @@ import static nc.config.NCConfig.turbine_mb_per_blade;
 
 import java.util.*;
 
+import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.mc1120.util.CraftTweakerPlatformUtils;
 import nc.*;
@@ -57,6 +58,7 @@ public class CTRegistration {
 		}, "solid_fission_sink_" + sinkID);
 		
 		INFO_LIST.add(new FissionSinkRegistrationInfo(sink, sinkID, cooling, rule));
+		CraftTweakerAPI.logInfo("Registered fission heat sink with ID \"" + sinkID + "\", cooling rate " + cooling + " H/t and placement rule \"" + rule + "\"");
 	}
 	
 	@ZenMethod
@@ -110,6 +112,7 @@ public class CTRegistration {
 		
 		INFO_LIST.add(new FissionHeaterPortRegistrationInfo(port, heaterID));
 		INFO_LIST.add(new FissionHeaterRegistrationInfo(heater, heaterID, fluidInput, inputAmount, fluidOutput, outputAmount, cooling, rule));
+		CraftTweakerAPI.logInfo("Registered fission coolant heater and a respective port with ID \"" + heaterID + "\", cooling rate " + cooling + " H/t, placement rule \"" + rule + "\" and recipe [" + inputAmount + " * " + fluidInput + " -> " + outputAmount + " * " + fluidOutput + "]");
 	}
 	
 	@ZenMethod
@@ -132,6 +135,7 @@ public class CTRegistration {
 		}, "turbine_dynamo_coil_" + coilID);
 		
 		INFO_LIST.add(new TurbineCoilRegistrationInfo(coil, coilID, conductivity, rule));
+		CraftTweakerAPI.logInfo("Registered turbine dynamo coil with ID \"" + coilID + "\", conductivity " + conductivity + " and placement rule \"" + rule + "\"");
 	}
 	
 	@ZenMethod
@@ -165,6 +169,7 @@ public class CTRegistration {
 		}, "turbine_rotor_blade_" + bladeID);
 		
 		INFO_LIST.add(new TurbineBladeRegistrationInfo(blade, efficiency, expansionCoefficient));
+		CraftTweakerAPI.logInfo("Registered turbine rotor blade with ID \"" + bladeID + "\", efficiency " + efficiency + " and expansion coefficient " + expansionCoefficient);
 	}
 	
 	@ZenMethod
@@ -193,6 +198,7 @@ public class CTRegistration {
 		}, "turbine_rotor_stator_" + statorID);
 		
 		INFO_LIST.add(new TurbineStatorRegistrationInfo(stator, expansionCoefficient));
+		CraftTweakerAPI.logInfo("Registered turbine rotor stator with ID \"" + statorID + "\" and expansion coefficient " + expansionCoefficient);
 	}
 	
 	// Registration Wrapper

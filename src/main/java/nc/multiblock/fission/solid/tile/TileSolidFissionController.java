@@ -2,6 +2,8 @@ package nc.multiblock.fission.solid.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import java.util.Iterator;
+
 import nc.multiblock.container.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
@@ -56,9 +58,11 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public void doMeltdown() {
-		IBlockState corium = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
+	public void doMeltdown(Iterator<IFissionController> controllerIterator) {
+		controllerIterator.remove();
 		world.removeTileEntity(pos);
+		
+		IBlockState corium = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
 		world.setBlockState(pos, corium);
 	}
 }

@@ -2,6 +2,8 @@ package nc.multiblock.fission.tile;
 
 import static nc.util.PosHelper.DEFAULT_NON;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -112,7 +114,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public void onClusterMeltdown() {
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
 		
 	}
 	

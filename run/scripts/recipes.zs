@@ -2,7 +2,7 @@
 
 #mods.nuclearcraft.ChemicalReactor.addRecipe(<liquid:hydrogen>*750 | <liquid:deuterium>*500 | <liquid:tritium>*250, <liquid:water>*500 | null, null, mods.nuclearcraft.ChanceFluidIngredient.create(<liquid:liquid_helium>*100, 40, 10, 60), 2.0, 1.5, 0.000000005);
 
-#mods.nuclearcraft.FuelReprocessor.addRecipe(<ore:ingotSilver>*4, <ore:ingotManganese>*4, <ore:ingotManganeseOxide>*4, <ore:ingotManganeseDioxide>*4, <ore:ingotIron>*5, <ore:ingotGold>*6, null);
+#mods.nuclearcraft.FuelReprocessor.addRecipe(<ore:ingotSilver>*4, <ore:ingotManganese>*4, <ore:ingotManganeseOxide>*4, <ore:ingotManganeseDioxide>*4, <ore:ingotIron>*5, <ore:ingotGold>*6, null, null, null);
 
 #mods.nuclearcraft.Manufactory.addRecipe(<minecraft:magma_cream>*5, null);
 
