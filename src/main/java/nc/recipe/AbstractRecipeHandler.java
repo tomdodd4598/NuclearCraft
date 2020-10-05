@@ -95,6 +95,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	}
 	
 	public void refreshCache() {
+		cacheSalt = 0L;
 		do {
 			recipeCache.clear();
 		}
@@ -142,7 +143,8 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 					for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
 						long hash = RecipeHelper.hashMaterials(items, fluids, cacheSalt);
 						if (recipeCache.containsKey(hash)) {
-							NCUtil.getLogger().info(getRecipeName() + " encountered a hash clash! Incrementing salt to " + cacheSalt + " and restarting caching...");
+							cacheSalt++;
+							NCUtil.getLogger().info(getRecipeName() + " encountered a hash clash [" + RecipeHelper.getRecipeString(recipe) + "]! Incrementing salt to " + cacheSalt + " and restarting caching...");
 							return false;
 						}
 						else {
