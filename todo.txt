@@ -1,6 +1,3 @@
-Add salt-based fix for recipe hash caching (start from zero, if there's a clash, start again after incrementing)
-Test with iron + coal alloy furnace recipe in modified Enigmatica 2 instance
-
 Suggestions from: This probably won’t happen but in stead of multiblock reactors
 
 Adjacent MSR vessels with same filter form bundle to share flux, shared criticality factor is sum of single vessel criticality factors
