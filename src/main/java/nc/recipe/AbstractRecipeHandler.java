@@ -26,6 +26,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	protected @Nonnull List<RECIPE> recipeList = new ArrayList<>();
 	
 	protected @Nonnull Long2ObjectMap<RECIPE> recipeCache = new Long2ObjectOpenHashMap<>();
+	protected long cacheSalt = 0L;
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
@@ -52,7 +53,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	public abstract void addRecipe(Object... objects);
 	
 	public @Nullable RecipeInfo<RECIPE> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
-		RECIPE recipe = recipeCache.get(RecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs));
+		RECIPE recipe = recipeCache.get(RecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs, cacheSalt));
 		if (recipe != null) {
 			RecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs);
 			if (matchResult.matches()) {
@@ -94,8 +95,13 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	}
 	
 	public void refreshCache() {
-		recipeCache.clear();
-		
+		do {
+			recipeCache.clear();
+		}
+		while (!fillHashCache());
+	}
+	
+	public boolean fillHashCache() {
 		recipeLoop: for (RECIPE recipe : recipeList) {
 			List<List<ItemStack>> itemInputLists = new ArrayList<>();
 			List<List<FluidStack>> fluidInputLists = new ArrayList<>();
@@ -134,26 +140,35 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
 				for (List<ItemStack> items : PermutationHelper.permutations(materials.getLeft())) {
 					for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
-						recipeCache.put(RecipeHelper.hashMaterials(items, fluids), recipe);
+						long hash = RecipeHelper.hashMaterials(items, fluids, cacheSalt);
+						if (recipeCache.containsKey(hash)) {
+							NCUtil.getLogger().info(getRecipeName() + " encountered a hash clash! Incrementing salt to " + cacheSalt + " and restarting caching...");
+							return false;
+						}
+						else {
+							recipeCache.put(RecipeHelper.hashMaterials(items, fluids, cacheSalt), recipe);
+						}
 					}
 				}
 			}
 		}
+		
+		return true;
 	}
 	
-	public static void addValidItemInput(Class itemInputType) {
+	public static void addValidItemInput(Class<?> itemInputType) {
 		validItemInputs.add(itemInputType);
 	}
 	
-	public static void addValidFluidInput(Class fluidInputType) {
+	public static void addValidFluidInput(Class<?> fluidInputType) {
 		validFluidInputs.add(fluidInputType);
 	}
 	
-	public static void addValidItemOutput(Class itemOutputType) {
+	public static void addValidItemOutput(Class<?> itemOutputType) {
 		validItemOutputs.add(itemOutputType);
 	}
 	
-	public static void addValidFluidOutput(Class fluidOutputType) {
+	public static void addValidFluidOutput(Class<?> fluidOutputType) {
 		validFluidOutputs.add(fluidOutputType);
 	}
 	

@@ -3,8 +3,6 @@ Test with iron + coal alloy furnace recipe in modified Enigmatica 2 instance
 
 Suggestions from: This probably won’t happen but in stead of multiblock reactors
 
-Generate Qiskit code?
-
 Adjacent MSR vessels with same filter form bundle to share flux, shared criticality factor is sum of single vessel criticality factors
 
 Take number of available open faces of vessel bundle into account when calculating the heat multiplier (and efficiency)

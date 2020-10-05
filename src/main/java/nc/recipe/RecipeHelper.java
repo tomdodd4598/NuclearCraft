@@ -509,8 +509,8 @@ public class RecipeHelper {
 		return new OreIngredient(oreName, stackSize);
 	}
 	
-	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {
-		long hash = 1L;
+	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids, long salt) {
+		long hash = 1L + salt;
 		Iterator<ItemStack> itemIter = items.iterator();
 		while (itemIter.hasNext()) {
 			ItemStack stack = itemIter.next();
@@ -524,8 +524,8 @@ public class RecipeHelper {
 		return hash;
 	}
 	
-	public static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids) {
-		long hash = 1L;
+	public static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids, long salt) {
+		long hash = 1L + salt;
 		Iterator<ItemStack> itemIter = items.iterator();
 		while (itemIter.hasNext()) {
 			ItemStack stack = itemIter.next();
