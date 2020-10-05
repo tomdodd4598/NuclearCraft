@@ -144,7 +144,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 						long hash = RecipeHelper.hashMaterials(items, fluids, cacheSalt);
 						if (recipeCache.containsKey(hash)) {
 							cacheSalt++;
-							NCUtil.getLogger().info(getRecipeName() + " encountered a hash clash [" + RecipeHelper.getRecipeString(recipe) + "]! Incrementing salt to " + cacheSalt + " and restarting caching...");
+							NCUtil.getLogger().info(getRecipeName() + " encountered a hash clash [" + RecipeHelper.getRecipeString(recipe) + " == " + RecipeHelper.getRecipeString(recipeCache.get(hash)) + "]! Incrementing salt to " + cacheSalt + " and restarting caching...");
 							return false;
 						}
 						else {
