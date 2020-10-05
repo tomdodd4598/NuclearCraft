@@ -424,8 +424,13 @@ tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=Quantum Computer Control
 tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=Performs a controlled swap on two lists of qubits.
 
 tile.nuclearcraft.quantum_computer_connector.name=Quantum Computer Connector
-tile.nuclearcraft.quantum_computer_port.name=Quantum Computer Port (WIP)
+tile.nuclearcraft.quantum_computer_port.name=Quantum Computer OC Port (WIP)
 tile.nuclearcraft.quantum_computer_port.desc=Used to access the quantum computer via OpenComputers.
+
+tile.nuclearcraft.quantum_computer_code_generator.qasm.name=Quantum Computer QASM Code Generator
+tile.nuclearcraft.quantum_computer_code_generator.qasm.desc=Used to generate QASM code for use with IBM Q.
+tile.nuclearcraft.quantum_computer_code_generator.qiskit.name=Quantum Computer Qiskit Code Generator
+tile.nuclearcraft.quantum_computer_code_generator.qiskit.desc=Used to generate Qiskit code for use with IBM Q.
 
 tile.nuclearcraft.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
@@ -2173,12 +2178,18 @@ info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=Gate now se
 
 info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=Gate currently swapping qubits %s with qubits %s, controlled by qubits %s
 
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_start=Quantum Computer entering QASM mode! Gate operations will be recorded but not carried out in the game.
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_too_many_qubits=Quantum Computer can not enter QASM mode, too many qubits installed.
+info.nuclearcraft.multitool.quantum_computer.controller.code_qasm_start=Quantum Computer entering QASM mode! Gate operations will be recorded but not carried out in the game.
+info.nuclearcraft.multitool.quantum_computer.controller.code_qiskit_start=Quantum Computer entering Qiskit mode! Gate operations will be recorded but not carried out in the game.
+info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits=Quantum Computer can not enter code generation mode, too many qubits installed.
+info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits=Quantum Computer exiting code generation mode, too many qubits installed.
+info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty=Quantum Computer exiting code generation mode.
+
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=Quantum Computer exiting QASM mode, saved generated code to %s
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_error=Quantum Computer exiting QASM mode, an error occurred attempting save generated code to %s
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_too_many_qubits=Quantum Computer exiting QASM mode, too many qubits installed to generate code.
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit=Quantum Computer exiting QASM mode.
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty=Quantum Computer exiting QASM mode.
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=Quantum Computer exiting Qiskit mode, saved generated code to %s
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error=Quantum Computer exiting Qiskit mode, an error occurred attempting save generated code to %s
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty=Quantum Computer exiting Qiskit mode.
 
 item.nuclearcraft.geiger_counter.name=Geiger Counter
 item.nuclearcraft.geiger_counter.desc=Detects radiation and informs the player of their rad count. Can be used to read the irradiation of entities. Will be muted if off the hotbar.
@@ -2659,8 +2670,8 @@ gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
 
 gui.nc.config.quantum_max_qubits_live=Max Live Qubits
 gui.nc.config.quantum_max_qubits_live.comment=The maximum number of actively calculating qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
-gui.nc.config.quantum_max_qubits_qasm=Max QASM Qubits
-gui.nc.config.quantum_max_qubits_qasm.comment=The maximum number of qubits a single quantum computer multiblock can have for generating QASM code. !!!WARNING!!! Gates with more control qubits will take increasingly more work and memory to decompile into basic operations, thus will generate increasingly mode code. IBMQ Experience's circuit composer will begin to struggle to deal with more than a few hundreds of lines of code. Increase this limit with EXTREME caution!
+gui.nc.config.quantum_max_qubits_code=Max Coding Qubits
+gui.nc.config.quantum_max_qubits_code.comment=The maximum number of qubits a single quantum computer multiblock can have for generating code. !!!WARNING!!! Gates with more control qubits will take increasingly more work and memory to decompile into basic operations, thus will generate increasingly mode code. If generating QASM code, IBM Q Experience's circuit composer will begin to struggle to deal with more than a few hundred lines. Increase this limit with EXTREME caution!
 gui.nc.config.quantum_angle_precision=Gate Angle Precision
 gui.nc.config.quantum_angle_precision.comment=Controls the precision allowed for setting the working angle of gates by defining the number of available angles, uniformly distributed from 0 to 360 degrees.
 
@@ -3149,6 +3160,7 @@ nuclearcraft.multiblock_validation.turbine.different_type_blades=The rotor blade
 nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the rotor shaft must have rotor blades or stators of the same type extend fully to the wall for the turbine to form
 
 nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There are %s qubits connected to this quantum computer; there can only be %s at most for it to form
+nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There must be no more than one code generator connected to this quantum computer
 
 nuclearcraft.collector.jei_name=Collector
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=Fission Moderator

@@ -38,8 +38,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected Queue<QuantumGate> queue = new ConcurrentLinkedQueue<>();
 	
-	public boolean qasmStart = false, qasmWrite = false;
-	protected StringBuilder qasmStringBuilder = new StringBuilder();
+	public int codeStart = -1, codeType = -1;
+	protected StringBuilder codeBuilder;
 	
 	public QuantumComputer(World world) {
 		super(world);
@@ -82,7 +82,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	}
 	
 	public static int getMaxQubits() {
-		return Math.max(quantum_max_qubits_live, quantum_max_qubits_qasm);
+		return Math.max(quantum_max_qubits_live, quantum_max_qubits_code);
 	}
 	
 	protected void onQuantumComputerFormed() {
@@ -145,9 +145,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
-		int q = qubitCount();
-		if (q > getMaxQubits()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, q, getMaxQubits());
+		int q = qubitCount(), max = getMaxQubits();
+		if (q > max) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, q, max);
 			return false;
 		}
 		
@@ -173,10 +173,10 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		boolean refresh = false;
 		
 		int q = qubitCount();
-		if (qasmStart) {
-			qasmStart = false;
-			qasmWrite = true;
-			qasmStringBuilder = new StringBuilder();
+		if (codeStart >= 0) {
+			codeType = codeStart;
+			codeStart = -1;
+			codeBuilder = new StringBuilder();
 		}
 		
 		QuantumGate gate = queue.poll();
@@ -198,15 +198,15 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					}
 				}
 				
-				if (qasmWrite) {
-					if (q <= quantum_max_qubits_qasm) {
-						List<String> qasmCode = gate.qasmCode();
-						if (!qasmCode.isEmpty()) {
-							qasmStringBuilder.append(IOHelper.NEW_LINE);
+				if (codeType >= 0) {
+					if (q <= quantum_max_qubits_code) {
+						List<String> code = gate.getCode(codeType);
+						if (!code.isEmpty()) {
+							codeBuilder.append(IOHelper.NEW_LINE);
 						}
-						for (String line : qasmCode) {
-							qasmStringBuilder.append(line);
-							qasmStringBuilder.append(IOHelper.NEW_LINE);
+						for (String line : code) {
+							codeBuilder.append(line);
+							codeBuilder.append(IOHelper.NEW_LINE);
 						}
 					}
 				}
@@ -673,44 +673,117 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		gate(m);
 	}
 	
-	public void qasmPrint(EntityPlayer player) {
-		if (!qasmWrite) {
+	public void printCode(EntityPlayer player) {
+		if (codeType < 0) {
 			return;
 		}
 		
-		qasmWrite = false;
+		int codeType = this.codeType;
+		this.codeType = -1;
 		
 		int q = qubitCount();
-		if (q > quantum_max_qubits_qasm) {
-			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_too_many_qubits")));
+		if (q > quantum_max_qubits_code) {
+			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits")));
 			return;
 		}
 		
-		String qasmString = qasmStringBuilder.toString();
-		qasmStringBuilder = new StringBuilder();
+		String codeString = codeBuilder.toString();
+		String s = IOHelper.NEW_LINE, d = s + s;
 		
-		if (qasmString.isEmpty()) {
-			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit")));
+		if (codeType == 0) {
+			if (codeString.isEmpty()) {
+				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty")));
+				return;
+			}
+			
+			File out = new File("nuclearcraft/quantum/qasm/" + q + "_qubit_" + System.currentTimeMillis() + ".qasm");
+			
+			codeString = "OPENQASM 2.0;" + s +
+					"include \"qelib1.inc\";" + d +
+					"qreg q[" + q + "];" + s +
+					"creg c[" + q + "];" + s +
+					codeString;
+			
+			ITextComponent link = new TextComponentString(out.getName());
+			link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
+			
+			try {
+				FileUtils.writeStringToFile(out, codeString);
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_print", new Object[] {link}));
+			}
+			catch (IOException e) {
+				NCUtil.getLogger().catching(e);
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_error", new Object[] {out.getAbsolutePath()}));
+			}
+		}
+		else if (codeType == 1) {
+			if (codeString.isEmpty()) {
+				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty")));
+				return;
+			}
+			
+			File out = new File("nuclearcraft/quantum/qiskit/" + q + "_qubit_" + System.currentTimeMillis() + ".ipynb");
+			
+			codeString = "# Jupyter plot output mode" + s +
+					"%matplotlib inline" + d +
+					"# Standard Qiskit libraries" + s +
+					"from qiskit import *" + s +
+					"from qiskit.compiler import transpile, assemble" + s +
+					"from qiskit.providers.ibmq import least_busy" + s +
+					"from qiskit.visualization import *" + s +
+					"from qiskit.tools.monitor import job_monitor" + s +
+					"from qiskit.tools.jupyter import *" + d +
+					"# Python maths" + s +
+					"import numpy as np" + s +
+					"from numpy import pi" + d +
+					"# Number of qubits" + s +
+					"qubits = " + q + d +
+					"# Load IBMQ account" + s +
+					"provider = IBMQ.load_account()" + s +
+					"simulator = provider.get_backend('ibmq_qasm_simulator')" + s +
+					"device = provider.get_backend('ibmq_16_melbourne')" + s +
+					"# quiet = least_busy(provider.backends(filters=lambda x: x.configuration().n_qubits >= qubits" + s +
+					"                                     # and not x.configuration().simulator" + s +
+					"                                     # and x.status().operational==True))" + d +
+					"# Helper function" + s +
+					"def run_job(circ_, backend_, shots_ = 1024, optimization_level_ = 1):" + s +
+					"    print('Using ', backend_)" + s +
+					"    job = execute(circ_, backend=backend_, shots=shots_, optimization_level=optimization_level_)" + s +
+					"    job_monitor(job)" + s +
+					"    return job.result()" + d +
+					"# Construct circuit" + s +
+					"qc = QuantumCircuit(qubits, qubits)" + s +
+					codeString + s +
+					"# Run circuit" + s +
+					"result = run_job(qc, backend_=simulator)" + s +
+					"counts = result.get_counts(qc)" + s +
+					"print('\\n', counts)" + d +
+					"# Printing results" + s +
+					"# NOTE: only one diagram can be shown per Jupyter cell." + s +
+					"# Either comment out all but one drawing/plotting method" + s +
+					"# or move them into separate cells." + d +
+					"# Draw circuit" + s +
+					"# qc.draw()" + d +
+					"# Plot results" + s +
+					"# plot_histogram(counts)" + s;
+			
+			ITextComponent link = new TextComponentString(out.getName());
+			link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
+			
+			try {
+				FileUtils.writeStringToFile(out, codeString);
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print", new Object[] {link}));
+			}
+			catch (IOException e) {
+				NCUtil.getLogger().catching(e);
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error", new Object[] {out.getAbsolutePath()}));
+			}
+		}
+		else {
+			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty")));
 			return;
 		}
 		
-		File out = new File("nuclearcraft/quantum/" + q + "_qubit_" + System.currentTimeMillis() + ".qasm");
-		
-		String s = IOHelper.NEW_LINE;
-		qasmString = "OPENQASM 2.0;" + s + "include \"qelib1.inc\";" + s + s + "qreg q[" + q + "];" + s + "creg c[" + q + "];" + s + qasmString;
-		
-		ITextComponent link = new TextComponentString(out.getName());
-		link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
-		
-		try {
-			FileUtils.writeStringToFile(out, qasmString);
-			player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_print", new Object[] {link}));
-		}
-		catch (IOException e) {
-			NCUtil.getLogger().catching(e);
-			player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_error", new Object[] {link}));
-		}
-		
-		qasmString = "";
+		codeString = null;
 	}
 }

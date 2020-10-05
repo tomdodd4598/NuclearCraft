@@ -11,6 +11,7 @@ import nc.multiblock.fission.tile.port.*;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.tile.*;
 import nc.multiblock.qComputer.QuantumGateEnums;
+import nc.multiblock.qComputer.block.BlockQuantumComputerCodeGenerator;
 import nc.multiblock.qComputer.tile.*;
 import nc.multiblock.rtg.tile.TileRTG;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
@@ -295,5 +296,8 @@ public class NCTiles {
 		
 		GameRegistry.registerTileEntity(TileQuantumComputerConnector.class, Global.MOD_ID + ":quantum_computer_connector");
 		GameRegistry.registerTileEntity(TileQuantumComputerPort.class, Global.MOD_ID + ":quantum_computer_port");
+		
+		GameRegistry.registerTileEntity(TileQuantumComputerCodeGenerator.Qasm.class, Global.MOD_ID + ":quantum_computer_code_generator_" + BlockQuantumComputerCodeGenerator.Type.QASM.getName());
+		GameRegistry.registerTileEntity(TileQuantumComputerCodeGenerator.Qiskit.class, Global.MOD_ID + ":quantum_computer_code_generator_" + BlockQuantumComputerCodeGenerator.Type.QISKIT.getName());
 	}
 }

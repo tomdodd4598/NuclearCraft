@@ -224,7 +224,7 @@ public class NCConfig {
 	public static double accelerator_supercooler_coolant;
 	
 	public static int quantum_max_qubits_live;
-	public static int quantum_max_qubits_qasm;
+	public static int quantum_max_qubits_code;
 	public static int quantum_angle_precision;
 	
 	public static int[] tool_mining_level;
@@ -758,8 +758,8 @@ public class NCConfig {
 		
 		Property propertyQuantumMaxQubitsLive = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_live", 7, Lang.localise("gui.nc.config.quantum_max_qubits_live.comment"), 1, 14);
 		propertyQuantumMaxQubitsLive.setLanguageKey("gui.nc.config.quantum_max_qubits_live");
-		Property propertyQuantumMaxQubitsQasm = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_qasm", 16, Lang.localise("gui.nc.config.quantum_max_qubits_qasm.comment"), 1, 32);
-		propertyQuantumMaxQubitsQasm.setLanguageKey("gui.nc.config.quantum_max_qubits_qasm");
+		Property propertyQuantumMaxQubitsCode = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_code", 16, Lang.localise("gui.nc.config.quantum_max_qubits_code.comment"), 1, 32);
+		propertyQuantumMaxQubitsCode.setLanguageKey("gui.nc.config.quantum_max_qubits_code");
 		Property propertyQuantumAnglePrecision = config.get(CATEGORY_QUANTUM, "quantum_angle_precision", 16, Lang.localise("gui.nc.config.quantum_angle_precision.comment"), 2, 5760);
 		propertyQuantumAnglePrecision.setLanguageKey("gui.nc.config.quantum_angle_precision");
 		
@@ -1216,7 +1216,7 @@ public class NCConfig {
 		
 		List<String> propertyOrderQuantum = new ArrayList<>();
 		propertyOrderQuantum.add(propertyQuantumMaxQubitsLive.getName());
-		propertyOrderQuantum.add(propertyQuantumMaxQubitsQasm.getName());
+		propertyOrderQuantum.add(propertyQuantumMaxQubitsCode.getName());
 		propertyOrderQuantum.add(propertyQuantumAnglePrecision.getName());
 		config.setCategoryPropertyOrder(CATEGORY_QUANTUM, propertyOrderQuantum);
 		
@@ -1540,7 +1540,7 @@ public class NCConfig {
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getDouble();
 			
 			quantum_max_qubits_live = propertyQuantumMaxQubitsLive.getInt();
-			quantum_max_qubits_qasm = propertyQuantumMaxQubitsQasm.getInt();
+			quantum_max_qubits_code = propertyQuantumMaxQubitsCode.getInt();
 			quantum_angle_precision = propertyQuantumAnglePrecision.getInt();
 			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
@@ -1864,7 +1864,7 @@ public class NCConfig {
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
 		
 		propertyQuantumMaxQubitsLive.set(quantum_max_qubits_live);
-		propertyQuantumMaxQubitsQasm.set(quantum_max_qubits_qasm);
+		propertyQuantumMaxQubitsCode.set(quantum_max_qubits_code);
 		propertyQuantumAnglePrecision.set(quantum_angle_precision);
 		
 		propertyToolMiningLevel.set(tool_mining_level);

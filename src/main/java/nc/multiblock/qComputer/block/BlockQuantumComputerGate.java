@@ -34,8 +34,8 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 		}
 		
 		@Override
-		public TileEntity createNewTileEntity(World world, int metadata) {
-			return QuantumGateEnums.SingleType.values()[metadata].getTile();
+		public TileEntity createNewTileEntity(World world, int meta) {
+			return QuantumGateEnums.SingleType.values()[meta].getTile();
 		}
 	}
 	
@@ -53,8 +53,8 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 		}
 		
 		@Override
-		public TileEntity createNewTileEntity(World world, int metadata) {
-			return QuantumGateEnums.ControlType.values()[metadata].getTile();
+		public TileEntity createNewTileEntity(World world, int meta) {
+			return QuantumGateEnums.ControlType.values()[meta].getTile();
 		}
 	}
 	
@@ -72,8 +72,8 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 		}
 		
 		@Override
-		public TileEntity createNewTileEntity(World world, int metadata) {
-			return QuantumGateEnums.SwapType.values()[metadata].getTile();
+		public TileEntity createNewTileEntity(World world, int meta) {
+			return QuantumGateEnums.SwapType.values()[meta].getTile();
 		}
 	}
 	

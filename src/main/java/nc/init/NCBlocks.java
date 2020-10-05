@@ -193,6 +193,8 @@ public class NCBlocks {
 	
 	public static Block quantum_computer_connector;
 	
+	public static Block quantum_computer_code_generator;
+	
 	public static void init() {
 		ore = withName(new BlockMeta.BlockOre(), "ore");
 		ingot_block = withName(new BlockMeta.BlockIngot(), "ingot_block");
@@ -394,6 +396,8 @@ public class NCBlocks {
 			quantum_computer_gate_swap = withName(new BlockQuantumComputerGate.Swap(), "quantum_computer_gate_swap");
 			
 			quantum_computer_connector = withName(new BlockQuantumComputerConnector(), "quantum_computer_connector");
+			
+			quantum_computer_code_generator = withName(new BlockQuantumComputerCodeGenerator(), "quantum_computer_code_generator");
 		}
 	}
 	
@@ -599,6 +603,8 @@ public class NCBlocks {
 			registerBlock(quantum_computer_gate_swap, new ItemBlockMeta(quantum_computer_gate_swap, QuantumGateEnums.SwapType.class, TextFormatting.AQUA));
 			
 			registerBlock(quantum_computer_connector);
+			
+			registerBlock(quantum_computer_code_generator, new ItemBlockMeta(quantum_computer_code_generator, BlockQuantumComputerCodeGenerator.Type.class, TextFormatting.AQUA));
 		}
 	}
 	
@@ -835,6 +841,10 @@ public class NCBlocks {
 			}
 			
 			registerRender(quantum_computer_connector);
+			
+			for (int i = 0; i < BlockQuantumComputerCodeGenerator.Type.values().length; i++) {
+				registerRender(quantum_computer_code_generator, i, "type=" + BlockQuantumComputerCodeGenerator.Type.values()[i].getName());
+			}
 		}
 	}
 	

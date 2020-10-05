@@ -92,5 +92,6 @@ public final class MultiblockHandler {
 		
 		QuantumComputer.PART_CLASSES.add(TileQuantumComputerController.class);
 		QuantumComputer.PART_CLASSES.add(TileQuantumComputerQubit.class);
+		QuantumComputer.PART_CLASSES.add(TileQuantumComputerCodeGenerator.class);
 	}
 }

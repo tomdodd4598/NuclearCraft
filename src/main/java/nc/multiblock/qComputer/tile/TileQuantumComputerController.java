@@ -1,14 +1,9 @@
 package nc.multiblock.qComputer.tile;
 
-import nc.config.NCConfig;
 import nc.multiblock.qComputer.*;
-import nc.util.Lang;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class TileQuantumComputerController extends TileQuantumComputerPart implements ITickable {
@@ -47,27 +42,6 @@ public class TileQuantumComputerController extends TileQuantumComputerPart imple
 		if (isMultiblockAssembled()) {
 			getMultiblock().getGateQueue().add(new QuantumGate.Reset(getMultiblock()));
 		}
-	}
-	
-	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player.isSneaking()) {
-			QuantumComputer qc = getMultiblock();
-			if (qc != null) {
-				if (qc.qasmWrite) {
-					qc.qasmPrint(player);
-				}
-				else if (qc.qubitCount() <= NCConfig.quantum_max_qubits_qasm) {
-					qc.qasmStart = true;
-					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_start")));
-				}
-				else {
-					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_too_many_qubits")));
-				}
-				return true;
-			}
-		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
 	}
 	
 	@Override
