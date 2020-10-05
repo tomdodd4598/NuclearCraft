@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import nc.util.*;
@@ -25,8 +26,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
 	protected @Nonnull List<RECIPE> recipeList = new ArrayList<>();
 	
-	protected @Nonnull Long2ObjectMap<RECIPE> recipeCache = new Long2ObjectOpenHashMap<>();
-	protected long cacheSalt = 0L;
+	protected @Nonnull Long2ObjectMap<ObjectSet<RECIPE>> recipeCache = new Long2ObjectOpenHashMap<>();
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
@@ -46,18 +46,19 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	@ZenMethod
 	public abstract List<RECIPE> getRecipeList();
 	
-	public Long2ObjectMap<RECIPE> getRecipeCache() {
-		return recipeCache;
-	}
-	
 	public abstract void addRecipe(Object... objects);
 	
 	public @Nullable RecipeInfo<RECIPE> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
-		RECIPE recipe = recipeCache.get(RecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs, cacheSalt));
-		if (recipe != null) {
-			RecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs);
-			if (matchResult.matches()) {
-				return new RecipeInfo(recipe, matchResult);
+		long hash = RecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs);
+		if (recipeCache.containsKey(hash)) {
+			ObjectSet<RECIPE> set = recipeCache.get(hash);
+			for (RECIPE recipe : set) {
+				if (recipe != null) {
+					RecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs);
+					if (matchResult.matches()) {
+						return new RecipeInfo(recipe, matchResult);
+					}
+				}
 			}
 		}
 		return null;
@@ -95,65 +96,68 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	}
 	
 	public void refreshCache() {
-		cacheSalt = 0L;
-		do {
-			recipeCache.clear();
-		}
-		while (!fillHashCache());
+		recipeCache.clear();
+		fillHashCache();
 	}
 	
-	public boolean fillHashCache() {
-		recipeLoop: for (RECIPE recipe : recipeList) {
-			List<List<ItemStack>> itemInputLists = new ArrayList<>();
-			List<List<FluidStack>> fluidInputLists = new ArrayList<>();
-			
-			for (IItemIngredient item : recipe.getItemIngredients()) {
-				itemInputLists.add(item.getInputStackHashingList());
-			}
-			for (IFluidIngredient fluid : recipe.getFluidIngredients()) {
-				fluidInputLists.add(fluid.getInputStackHashingList());
-			}
-			
-			int arrSize = recipe.getItemIngredients().size() + recipe.getFluidIngredients().size();
-			int[] inputNumbers = new int[arrSize];
-			Arrays.fill(inputNumbers, 0);
-			
-			int[] maxNumbers = new int[arrSize];
-			for (int i = 0; i < itemInputLists.size(); i++) {
-				int maxNumber = itemInputLists.get(i).size() - 1;
-				if (maxNumber < 0) {
-					continue recipeLoop;
-				}
-				maxNumbers[i] = maxNumber;
-			}
-			for (int i = 0; i < fluidInputLists.size(); i++) {
-				int maxNumber = fluidInputLists.get(i).size() - 1;
-				if (maxNumber < 0) {
-					continue recipeLoop;
-				}
-				maxNumbers[i + itemInputLists.size()] = maxNumber;
-			}
-			
+	protected void fillHashCache() {
+		for (RECIPE recipe : recipeList) {
 			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
 			
-			RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+			if (!prepareMaterialListTuples(recipe, materialListTuples)) {
+				continue;
+			}
 			
 			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
 				for (List<ItemStack> items : PermutationHelper.permutations(materials.getLeft())) {
 					for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
-						long hash = RecipeHelper.hashMaterials(items, fluids, cacheSalt);
+						long hash = RecipeHelper.hashMaterials(items, fluids);
 						if (recipeCache.containsKey(hash)) {
-							cacheSalt++;
-							NCUtil.getLogger().info(getRecipeName() + " encountered a hash clash [" + RecipeHelper.getRecipeString(recipe) + " == " + RecipeHelper.getRecipeString(recipeCache.get(hash)) + "]! Incrementing salt to " + cacheSalt + " and restarting caching...");
-							return false;
+							recipeCache.get(hash).add(recipe);
 						}
 						else {
-							recipeCache.put(RecipeHelper.hashMaterials(items, fluids, cacheSalt), recipe);
+							ObjectSet<RECIPE> set = new ObjectOpenHashSet<>();
+							set.add(recipe);
+							recipeCache.put(hash, set);
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	protected boolean prepareMaterialListTuples(RECIPE recipe, List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples) {
+		List<List<ItemStack>> itemInputLists = new ArrayList<>();
+		List<List<FluidStack>> fluidInputLists = new ArrayList<>();
+		
+		for (IItemIngredient item : recipe.getItemIngredients()) {
+			itemInputLists.add(item.getInputStackHashingList());
+		}
+		for (IFluidIngredient fluid : recipe.getFluidIngredients()) {
+			fluidInputLists.add(fluid.getInputStackHashingList());
+		}
+		
+		int arrSize = recipe.getItemIngredients().size() + recipe.getFluidIngredients().size();
+		int[] inputNumbers = new int[arrSize];
+		Arrays.fill(inputNumbers, 0);
+		
+		int[] maxNumbers = new int[arrSize];
+		for (int i = 0; i < itemInputLists.size(); i++) {
+			int maxNumber = itemInputLists.get(i).size() - 1;
+			if (maxNumber < 0) {
+				return false;
+			}
+			maxNumbers[i] = maxNumber;
+		}
+		for (int i = 0; i < fluidInputLists.size(); i++) {
+			int maxNumber = fluidInputLists.get(i).size() - 1;
+			if (maxNumber < 0) {
+				return false;
+			}
+			maxNumbers[i + itemInputLists.size()] = maxNumber;
+		}
+		
+		RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
 		
 		return true;
 	}

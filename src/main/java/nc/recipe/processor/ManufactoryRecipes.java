@@ -98,7 +98,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addLogRecipes();
 	}
 	
-	private static final Set<String> BLACKLIST = Sets.newHashSet("silicon");
+	private static final Set<String> BLACKLIST = Sets.newHashSet("Silicon");
 	
 	public void addMetalProcessingRecipes() {
 		for (String ingot : OreDictionary.getOreNames()) {
