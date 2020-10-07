@@ -1,3 +1,8 @@
+v2.18y
+
++ Added config to disable world radiation block checking
+- Removed block mutation config - recipes are now only added via CraftTweaker
+
 v2.18x
 
 + Added config to disable IC2 EU support
@@ -5,7 +10,6 @@ v2.18x
 v2.18w
 
 + Added config to give players total radiation immunity
-
 * Fixed radiation immunity not being applied when radiation death persistence is disabled
 
 v2.18v
@@ -16,7 +20,7 @@ v2.18v
 
 v2.18u
 
-* Removed fluid auto-pushing from machine interfaces as connected machines would not update properly
+- Removed fluid auto-pushing from machine interfaces as connected machines would not update properly
 
 v2.18t
 
@@ -388,7 +392,7 @@ v2.15
 
 * Fixed strange flickering of fluids in GUIs when looking between two machines of the same type
 
-* Removed machine parts from NC dungeon loot
+- Removed machine parts from NC dungeon loot
 * Replaced 3DO Hyperspace theme with (much better) remix of original PC version
 
 * Fixed various misuses of String logic causing bugs in stricter JVMs [thanks to  domi1819!]
