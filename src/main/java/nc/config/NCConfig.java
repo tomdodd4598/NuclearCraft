@@ -63,6 +63,7 @@ public class NCConfig {
 	public static double[] energy_upgrade_power_laws;
 	public static double[] energy_upgrade_multipliers;
 	public static int rf_per_eu;
+	public static boolean enable_ic2_eu;
 	public static boolean enable_gtce_eu;
 	public static boolean enable_mek_gas;
 	public static int machine_update_rate;
@@ -233,6 +234,8 @@ public class NCConfig {
 	private static boolean radiation_enabled;
 	public static boolean radiation_enabled_public;
 	
+	public static String[] radiation_immune_players;
+	
 	public static int radiation_world_chunks_per_tick;
 	public static int radiation_player_tick_rate;
 	
@@ -262,7 +265,7 @@ public class NCConfig {
 	public static double radiation_lowest_rate;
 	public static double radiation_chunk_limit;
 	
-	public static String[] radiation_block_effects;
+	public static boolean radiation_check_blocks;
 	public static double radiation_block_effect_limit;
 	public static int radiation_block_effect_max_rate;
 	public static double radiation_rain_mult;
@@ -417,6 +420,8 @@ public class NCConfig {
 		propertyEnergyUpgradeMultipliers.setLanguageKey("gui.config.processors.energy_upgrade_multipliers_fp");
 		Property propertyRFPerEU = config.get(CATEGORY_PROCESSORS, "rf_per_eu", 16, Lang.localise("gui.config.processors.rf_per_eu.comment"), 1, 2000);
 		propertyRFPerEU.setLanguageKey("gui.config.processors.rf_per_eu");
+		Property propertyEnableIC2EU = config.get(CATEGORY_PROCESSORS, "enable_ic2_eu", true, Lang.localise("gui.nc.config.enable_ic2_eu.comment"));
+		propertyEnableIC2EU.setLanguageKey("gui.nc.config.enable_ic2_eu");
 		Property propertyEnableGTCEEU = config.get(CATEGORY_PROCESSORS, "enable_gtce_eu", true, Lang.localise("gui.config.processors.enable_gtce_eu.comment"));
 		propertyEnableGTCEEU.setLanguageKey("gui.config.processors.enable_gtce_eu");
 		Property propertyEnableMekGas = config.get(CATEGORY_PROCESSORS, "enable_mek_gas", true, Lang.localise("gui.config.processors.enable_mek_gas.comment"));
@@ -731,6 +736,9 @@ public class NCConfig {
 		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", true, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
 		propertyRadiationEnabled.setLanguageKey("gui.config.radiation.radiation_enabled");
 		
+		Property propertyRadiationImmunePlayers = config.get(CATEGORY_RADIATION, "radiation_immune_players", new String[] {}, Lang.localise("gui.nc.config.radiation_immune_players.comment"));
+		propertyRadiationImmunePlayers.setLanguageKey("gui.nc.config.radiation_immune_players");
+		
 		Property propertyRadiationWorldChunksPerTick = config.get(CATEGORY_RADIATION, "radiation_world_chunks_per_tick", 5, Lang.localise("gui.config.radiation.radiation_world_chunks_per_tick.comment"), 1, 400);
 		propertyRadiationWorldChunksPerTick.setLanguageKey("gui.config.radiation.radiation_world_chunks_per_tick");
 		Property propertyRadiationPlayerTickRate = config.get(CATEGORY_RADIATION, "radiation_player_tick_rate", 5, Lang.localise("gui.config.radiation.radiation_player_tick_rate.comment"), 1, 400);
@@ -785,8 +793,8 @@ public class NCConfig {
 		Property propertyRadiationChunkLimit = config.get(CATEGORY_RADIATION, "radiation_chunk_limit", -1D, Lang.localise("gui.config.radiation.radiation_chunk_limit.comment"), -1D, Double.MAX_VALUE);
 		propertyRadiationChunkLimit.setLanguageKey("gui.config.radiation.radiation_chunk_limit");
 		
-		Property propertyRadiationBlockEffects = config.get(CATEGORY_RADIATION, "radiation_block_effects", new String[] {"nuclearcraft:dry_earth:0_20_materialMapColor@8368696", "nuclearcraft:dry_earth:0_20_materialMapColor@9923917", "minecraft:air:0_10_materialMapColor@31744"}, Lang.localise("gui.config.radiation.radiation_block_effects.comment"));
-		propertyRadiationBlockEffects.setLanguageKey("gui.config.radiation.radiation_block_effects");
+		Property propertyRadiationCheckBlocks = config.get(CATEGORY_RADIATION, "radiation_check_blocks", true, Lang.localise("gui.config.radiation.radiation_check_blocks.comment"));
+		propertyRadiationCheckBlocks.setLanguageKey("gui.config.radiation.radiation_check_blocks");
 		Property propertyRadiationBlockEffectLimit = config.get(CATEGORY_RADIATION, "radiation_block_effect_limit", 10D, Lang.localise("gui.config.radiation.radiation_block_effect_limit.comment"), 0.000000000000000001D, Double.MAX_VALUE);
 		propertyRadiationBlockEffectLimit.setLanguageKey("gui.config.radiation.radiation_block_effect_limit");
 		Property propertyRadiationBlockEffectMaxRate = config.get(CATEGORY_RADIATION, "radiation_block_effect_max_rate", 0, Lang.localise("gui.config.radiation.radiation_block_effect_max_rate.comment"), 0, 15);
@@ -963,6 +971,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyEnergyUpgradePowerLaws.getName());
 		propertyOrderProcessors.add(propertyEnergyUpgradeMultipliers.getName());
 		propertyOrderProcessors.add(propertyRFPerEU.getName());
+		propertyOrderProcessors.add(propertyEnableIC2EU.getName());
 		propertyOrderProcessors.add(propertyEnableGTCEEU.getName());
 		propertyOrderProcessors.add(propertyEnableMekGas.getName());
 		propertyOrderProcessors.add(propertyMachineUpdateRate.getName());
@@ -1155,6 +1164,7 @@ public class NCConfig {
 		
 		List<String> propertyOrderRadiation = new ArrayList<String>();
 		propertyOrderRadiation.add(propertyRadiationEnabled.getName());
+		propertyOrderRadiation.add(propertyRadiationImmunePlayers.getName());
 		propertyOrderRadiation.add(propertyRadiationWorldChunksPerTick.getName());
 		propertyOrderRadiation.add(propertyRadiationPlayerTickRate.getName());
 		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
@@ -1180,7 +1190,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
 		propertyOrderRadiation.add(propertyRadiationChunkLimit.getName());
-		propertyOrderRadiation.add(propertyRadiationBlockEffects.getName());
+		propertyOrderRadiation.add(propertyRadiationCheckBlocks.getName());
 		propertyOrderRadiation.add(propertyRadiationBlockEffectLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationBlockEffectMaxRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRainMult.getName());
@@ -1273,6 +1283,7 @@ public class NCConfig {
 			energy_upgrade_power_laws = readDoubleArrayFromConfig(propertyEnergyUpgradePowerLaws);
 			energy_upgrade_multipliers = readDoubleArrayFromConfig(propertyEnergyUpgradeMultipliers);
 			rf_per_eu = propertyRFPerEU.getInt();
+			enable_ic2_eu = propertyEnableIC2EU.getBoolean();
 			enable_gtce_eu = propertyEnableGTCEEU.getBoolean();
 			enable_mek_gas = propertyEnableMekGas.getBoolean();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
@@ -1443,6 +1454,8 @@ public class NCConfig {
 			
 			radiation_enabled = propertyRadiationEnabled.getBoolean();
 			
+			radiation_immune_players = propertyRadiationImmunePlayers.getStringList();
+			
 			radiation_world_chunks_per_tick = propertyRadiationWorldChunksPerTick.getInt();
 			radiation_player_tick_rate = propertyRadiationPlayerTickRate.getInt();
 			
@@ -1472,7 +1485,7 @@ public class NCConfig {
 			radiation_lowest_rate = propertyRadiationLowestRate.getDouble();
 			radiation_chunk_limit = propertyRadiationChunkLimit.getDouble();
 			
-			radiation_block_effects = propertyRadiationBlockEffects.getStringList();
+			radiation_check_blocks = propertyRadiationCheckBlocks.getBoolean();
 			radiation_block_effect_limit = propertyRadiationBlockEffectLimit.getDouble();
 			radiation_block_effect_max_rate = propertyRadiationBlockEffectMaxRate.getInt();
 			radiation_rain_mult = propertyRadiationRainMult.getDouble();
@@ -1569,6 +1582,7 @@ public class NCConfig {
 		propertyEnergyUpgradePowerLaws.set(energy_upgrade_power_laws);
 		propertyEnergyUpgradeMultipliers.set(energy_upgrade_multipliers);
 		propertyRFPerEU.set(rf_per_eu);
+		propertyEnableIC2EU.set(enable_ic2_eu);
 		propertyEnableGTCEEU.set(enable_gtce_eu);
 		propertyEnableMekGas.set(enable_mek_gas);
 		propertyMachineUpdateRate.set(machine_update_rate);
@@ -1738,6 +1752,8 @@ public class NCConfig {
 		
 		propertyRadiationEnabled.set(radiation_enabled);
 		
+		propertyRadiationImmunePlayers.set(radiation_immune_players);
+		
 		propertyRadiationWorldChunksPerTick.set(radiation_world_chunks_per_tick);
 		propertyRadiationPlayerTickRate.set(radiation_player_tick_rate);
 		
@@ -1767,7 +1783,7 @@ public class NCConfig {
 		propertyRadiationLowestRate.set(radiation_lowest_rate);
 		propertyRadiationChunkLimit.set(radiation_chunk_limit);
 		
-		propertyRadiationBlockEffects.set(radiation_block_effects);
+		propertyRadiationCheckBlocks.set(radiation_check_blocks);
 		propertyRadiationBlockEffectLimit.set(radiation_block_effect_limit);
 		propertyRadiationBlockEffectMaxRate.set(radiation_block_effect_max_rate);
 		propertyRadiationRainMult.set(radiation_rain_mult);
