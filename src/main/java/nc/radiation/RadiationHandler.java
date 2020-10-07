@@ -19,7 +19,6 @@ import nc.entity.EntityFeralGhoul;
 import nc.init.NCSounds;
 import nc.network.PacketHandler;
 import nc.network.radiation.PlayerRadsUpdatePacket;
-import nc.radiation.RadBlockEffects.MaterialQuery;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
@@ -30,9 +29,7 @@ import nc.util.DamageSources;
 import nc.util.ItemStackHelper;
 import nc.util.Lang;
 import nc.util.StructureHelper;
-import nc.worldgen.biome.NCBiomes;
 import net.darkhax.gamestages.GameStageHelper;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.Entity;
@@ -89,7 +86,15 @@ public class RadiationHandler {
 				playerRads.setRadiationImmunityStage(default_rad_immunity ^ GameStageHelper.hasAnyOf(player, rad_immunity_stages));
 			}
 			
-			if (!player.isCreative() && playerRads.isFatal()) {
+			String idString = event.player.getUniqueID().toString();
+			for (String uuid : NCConfig.radiation_immune_players) {
+				if (idString.equals(uuid)) {
+					playerRads.setRadiationImmunityStage(true);
+					break;
+				}
+			}
+			
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune() && playerRads.isFatal()) {
 				player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 			}
 			
@@ -122,7 +127,7 @@ public class RadiationHandler {
 			
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (!player.isCreative()) {
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
 				if (playerRads.isFatal()) {
 					player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
@@ -181,7 +186,7 @@ public class RadiationHandler {
 			
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
-			if (!player.isCreative() && !playerRads.isImmune()) {
+			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
 				RadiationHelper.applyPotionEffects(player, playerRads, RadPotionEffects.PLAYER_RAD_LEVEL_LIST, RadPotionEffects.PLAYER_DEBUFF_LIST);
 			}
 		}
@@ -218,7 +223,7 @@ public class RadiationHandler {
 		BiomeProvider biomeProvider = world.getBiomeProvider();
 		int dimension = world.provider.getDimension();
 		BlockPos randomOffsetPos = newRandomOffsetPos();
-		String randomStructure = RadStructures.STRUCTURE_LIST.isEmpty() ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
+		String randomStructure = ModCheck.cubicChunksLoaded() || RadStructures.STRUCTURE_LIST.isEmpty() ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
 		
 		if (chunkArrSize > 0) for (int i = chunkStart; i < chunkStart + chunksPerTick; i++) {
 			Chunk chunk = chunkArray[i % chunkArrSize];
@@ -304,7 +309,7 @@ public class RadiationHandler {
 				if (structureRadiation != null) RadiationHelper.addToSourceBuffer(chunkSource, structureRadiation);
 			}
 			
-			if (i == chunkStart) {
+			if (NCConfig.radiation_check_blocks && i == chunkStart) {
 				int packed = RecipeItemHelper.pack(ItemStackHelper.blockStateToStack(world.getBlockState(randomChunkPos)));
 				if (RadSources.STACK_MAP.containsKey(packed)) {
 					RadiationHelper.addToSourceBuffer(chunkSource, RadSources.STACK_MAP.get(packed));
@@ -384,45 +389,22 @@ public class RadiationHandler {
 		if (NCConfig.radiation_block_effect_max_rate > 0 && radiation > NCConfig.radiation_block_effect_limit) {
 			long count = Math.min(NCConfig.radiation_block_effect_max_rate, 1L + Math.round(Math.log(radiation/NCConfig.radiation_block_effect_limit))), j = count;
 			while (j > 0) {
+				j--;
 				BlockPos randomChunkPos = newRandomPosInChunk(chunk);
 				IBlockState state = world.getBlockState(randomChunkPos);
-				Material mat = state.getMaterial();
 				
-				boolean fromRecipe = false;
-				if (RadBlockEffects.hasRecipes) {
-					ItemStack stack = ItemStackHelper.blockStateToStack(state);
-					if (stack != null && !stack.isEmpty()) {
-						RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutations.getRecipeInfoFromInputs(Lists.newArrayList(ItemStackHelper.blockStateToStack(state)), new ArrayList<Tank>());
-						if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
-							ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().itemProducts(), 0);
-							if (output != null && !output.isEmpty()) {
-								IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
-								if (result != null) {
-									world.setBlockState(randomChunkPos, result);
-									j--;
-									fromRecipe = true;
-								}
+				ItemStack stack = ItemStackHelper.blockStateToStack(state);
+				if (stack != null && !stack.isEmpty()) {
+					RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutations.getRecipeInfoFromInputs(Lists.newArrayList(ItemStackHelper.blockStateToStack(state)), new ArrayList<Tank>());
+					if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
+						ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().itemProducts(), 0);
+						if (output != null && !output.isEmpty()) {
+							IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
+							if (result != null) {
+								world.setBlockState(randomChunkPos, result);
 							}
 						}
 					}
-				}
-				
-				if (!fromRecipe) {
-					for (MaterialQuery query : RadBlockEffects.MATERIAL_QUERIES) {
-						if (query.matches(mat, radiation)) {
-							world.setBlockState(randomChunkPos, query.result);
-							if (chunk.canSeeSky(randomChunkPos)) {
-								chunk.getBiomeArray()[(randomChunkPos.getZ() & 15) << 4 | randomChunkPos.getX() & 15] = (byte)Biome.getIdForBiome(NCBiomes.NUCLEAR_WASTELAND);
-								j--;
-							}
-							j--;
-							break;
-						}
-					}
-				}
-				
-				if (RAND.nextInt(NCConfig.radiation_block_effect_max_rate) >= count) {
-					j--;
 				}
 			}
 		}
