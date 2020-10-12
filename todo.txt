@@ -1,6 +1,3 @@
-Refactor fission/turbine logic to have abstract super logic (e.g. FissionReactorLogicAbstract, TurbineLogicAbstract)
-Use logic-specific fission clusters (fix MSR vessel bunch stat rounding errors)
-
 Fuel decay heat and neutron poison (https://discordapp.com/channels/425461908712325130/425470889354723350/738167468283002932)
 
 Show potential (pre-primed) stats if reactor is idle

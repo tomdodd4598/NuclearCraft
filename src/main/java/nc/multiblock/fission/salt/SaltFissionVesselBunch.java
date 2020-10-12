@@ -32,20 +32,24 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		initialized = true;
 	}
 	
-	public long getRequiredSources() {
+	public long getBunchingFactor() {
+		return 6L * partMap.size() / openFaces;
+	}
+	
+	public long getSurfaceFactor() {
 		return openFaces / 6L;
 	}
 	
 	public long getCriticalityFactor(int baseProcessCriticality) {
-		return partMap.size() * baseProcessCriticality;
+		return getSurfaceFactor() * baseProcessCriticality;
 	}
 	
-	public double getRawHeating() {
+	public long getRawHeating() {
 		long rawHeating = 0L;
 		for (TileSaltFissionVessel vessel : partMap.values()) {
 			rawHeating += vessel.baseProcessHeat * vessel.heatMult;
 		}
-		return 6D * partMap.size() * rawHeating / openFaces;
+		return getBunchingFactor() * rawHeating;
 	}
 	
 	public double getEffectiveHeating() {
@@ -53,19 +57,19 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		for (TileSaltFissionVessel vessel : partMap.values()) {
 			effectiveHeating += vessel.baseProcessHeat * vessel.heatMult * vessel.baseProcessEfficiency * vessel.getSourceEfficiency() * vessel.getModeratorEfficiencyFactor() * getFluxEfficiencyFactor(vessel.baseProcessCriticality);
 		}
-		return 6D * partMap.size() * effectiveHeating / openFaces;
+		return getBunchingFactor() * effectiveHeating;
 	}
 	
-	public double getHeatMultiplier() {
+	public long getHeatMultiplier() {
 		long rawHeatMult = 0L;
 		for (TileSaltFissionVessel vessel : partMap.values()) {
 			rawHeatMult += vessel.heatMult;
 		}
-		return 6D * partMap.size() * rawHeatMult / openFaces;
+		return getBunchingFactor() * rawHeatMult;
 	}
 	
 	public double getFluxEfficiencyFactor(int baseProcessCriticality) {
-		return (1D + Math.exp(-2D * baseProcessCriticality)) / (1D + Math.exp(2D * ((double) flux / (double) partMap.size() - 2D * baseProcessCriticality)));
+		return (1D + Math.exp(-2D * baseProcessCriticality)) / (1D + Math.exp(2D * ((double) flux / (double) getSurfaceFactor() - 2D * baseProcessCriticality)));
 	}
 	
 	public double getEfficiency() {
@@ -73,6 +77,6 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		for (TileSaltFissionVessel vessel : partMap.values()) {
 			efficiency += vessel.heatMult * vessel.baseProcessEfficiency * vessel.getSourceEfficiency() * vessel.getModeratorEfficiencyFactor() * getFluxEfficiencyFactor(vessel.baseProcessCriticality);
 		}
-		return 6D * partMap.size() * efficiency / openFaces;
+		return getBunchingFactor() * efficiency;
 	}
 }

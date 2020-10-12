@@ -193,7 +193,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		if (canProcessInputs) {
 			if (fromSource) {
 				vesselBunch.sources++;
-				if (vesselBunch.sources >= vesselBunch.getRequiredSources()) {
+				if (vesselBunch.sources >= vesselBunch.getSurfaceFactor()) {
 					vesselBunch.primed = true;
 				}
 			}
@@ -310,7 +310,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	/** DON'T USE IN REACTOR LOGIC! */
 	@Override
 	public long getRawHeating() {
-		return (long) ((baseProcessHeat * vesselBunch.getHeatMultiplier()) / getVesselBunchSize());
+		return baseProcessHeat * vesselBunch.getHeatMultiplier() / getVesselBunchSize();
 	}
 	
 	@Override
@@ -321,7 +321,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	/** DON'T USE IN REACTOR LOGIC! */
 	@Override
 	public long getHeatMultiplier() {
-		return (long) (vesselBunch.getHeatMultiplier() / getVesselBunchSize());
+		return vesselBunch.getHeatMultiplier() / getVesselBunchSize();
 	}
 	
 	@Override
