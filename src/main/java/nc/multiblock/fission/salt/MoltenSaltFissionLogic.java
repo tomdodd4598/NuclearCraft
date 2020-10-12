@@ -183,7 +183,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		super.refreshReactorStats();
 		
 		for (FissionCluster cluster : getReactor().getClusterMap().values()) {
-			// if (cluster.connectedToWall) {
 			getReactor().usefulPartCount += cluster.componentCount;
 			getReactor().fuelComponentCount += cluster.fuelComponentCount;
 			getReactor().cooling += cluster.cooling;
@@ -191,7 +190,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			// effectiveHeating += cluster.effectiveHeating;
 			getReactor().totalHeatMult += cluster.totalHeatMult;
 			getReactor().totalEfficiency += cluster.totalEfficiency;
-			// }
 		}
 		
 		getReactor().usefulPartCount += getReactor().passiveModeratorCache.size() + getReactor().activeModeratorCache.size() + getReactor().activeReflectorCache.size();
@@ -223,8 +221,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public boolean onUpdateServer() {
-		// heatBuffer.changeHeatStored(Math.max(0, getNetClusterHeating()));
-		
 		if (heatBuffer.isFull() && fission_overheat) {
 			heatBuffer.setHeatStored(0);
 			casingMeltdown();
