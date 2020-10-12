@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType> {
@@ -66,12 +66,6 @@ public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.Coola
 				return new TileSaltFissionHeater.Copper();
 		}
 		return new TileSaltFissionHeater.Standard();
-	}
-	
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		// return state.withProperty(DOWN, getProperty(world, pos, EnumFacing.DOWN)).withProperty(UP, getProperty(world, pos, EnumFacing.UP)).withProperty(NORTH, getProperty(world, pos, EnumFacing.NORTH)).withProperty(SOUTH, getProperty(world, pos, EnumFacing.SOUTH)).withProperty(WEST, getProperty(world, pos, EnumFacing.WEST)).withProperty(EAST, getProperty(world, pos, EnumFacing.EAST));
-		return super.getActualState(state, world, pos);
 	}
 	
 	@Override

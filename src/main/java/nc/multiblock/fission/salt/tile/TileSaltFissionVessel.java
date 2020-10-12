@@ -17,7 +17,7 @@ import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
-import nc.multiblock.fission.salt.*;
+import nc.multiblock.fission.salt.SaltFissionVesselBunch;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.port.*;
 import nc.multiblock.network.SaltFissionVesselUpdatePacket;
@@ -50,8 +50,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	protected @Nonnull FluidTileWrapper[] fluidSides;
 	
 	protected @Nonnull GasTileWrapper gasWrapper;
-	
-	protected @Nonnull SaltFissionVesselSetting[] vesselSettings = new SaltFissionVesselSetting[] {SaltFissionVesselSetting.DISABLED, SaltFissionVesselSetting.DISABLED, SaltFissionVesselSetting.DISABLED, SaltFissionVesselSetting.DISABLED, SaltFissionVesselSetting.DISABLED, SaltFissionVesselSetting.DISABLED};
 	
 	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
@@ -312,7 +310,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	/** DON'T USE IN REACTOR LOGIC! */
 	@Override
 	public long getRawHeating() {
-		return (long) ((double) (baseProcessHeat * vesselBunch.getHeatMultiplier()) / (double) getVesselBunchSize());
+		return (long) ((baseProcessHeat * vesselBunch.getHeatMultiplier()) / getVesselBunchSize());
 	}
 	
 	@Override
@@ -323,7 +321,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	/** DON'T USE IN REACTOR LOGIC! */
 	@Override
 	public long getHeatMultiplier() {
-		return (long) ((double) vesselBunch.getHeatMultiplier() / (double) getVesselBunchSize());
+		return (long) (vesselBunch.getHeatMultiplier() / getVesselBunchSize());
 	}
 	
 	@Override
@@ -705,59 +703,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getGasWrapper() : gasWrapper;
 	}
 	
-	public @Nonnull SaltFissionVesselSetting[] getVesselSettings() {
-		return vesselSettings;
-	}
-	
-	public void setVesselSettings(@Nonnull SaltFissionVesselSetting[] settings) {
-		vesselSettings = settings;
-	}
-	
-	public SaltFissionVesselSetting getVesselSetting(@Nonnull EnumFacing side) {
-		return vesselSettings[side.getIndex()];
-	}
-	
-	public void setVesselSetting(@Nonnull EnumFacing side, @Nonnull SaltFissionVesselSetting setting) {
-		vesselSettings[side.getIndex()] = setting;
-	}
-	
-	public void toggleVesselSetting(@Nonnull EnumFacing side) {
-		setVesselSetting(side, getVesselSetting(side).next());
-		refreshFluidConnections(side);
-		markDirtyAndNotify(true);
-	}
-	
-	public void refreshFluidConnections(@Nonnull EnumFacing side) {
-		switch (getVesselSetting(side)) {
-			case DISABLED:
-				setTankSorption(side, 0, TankSorption.NON);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-			case DEFAULT:
-				setTankSorption(side, 0, TankSorption.IN);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-			case DEPLETED_OUT:
-				setTankSorption(side, 0, TankSorption.NON);
-				setTankSorption(side, 1, TankSorption.OUT);
-				break;
-			case FUEL_SPREAD:
-				setTankSorption(side, 0, TankSorption.OUT);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-			default:
-				setTankSorption(side, 0, TankSorption.NON);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-		}
-	}
-	
-	// TODO
-	@Override
-	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		
-	}
-	
 	public void pushFuel(TileSaltFissionVessel other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 		if (diff > 1) {
@@ -876,62 +821,10 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	// NBT
 	
-	public NBTTagCompound writeVesselSettings(NBTTagCompound nbt) {
-		NBTTagCompound settingsTag = new NBTTagCompound();
-		for (EnumFacing side : EnumFacing.VALUES) {
-			settingsTag.setInteger("setting" + side.getIndex(), getVesselSetting(side).ordinal());
-		}
-		nbt.setTag("vesselSettings", settingsTag);
-		return nbt;
-	}
-	
-	public void readVesselSettings(NBTTagCompound nbt) {
-		if (nbt.hasKey("fluidConnections0")) {
-			for (EnumFacing side : EnumFacing.VALUES) {
-				TankSorption sorption = TankSorption.values()[nbt.getInteger("fluidConnections" + side.getIndex())];
-				switch (sorption) {
-					case NON:
-						setTankSorption(side, 0, TankSorption.NON);
-						setTankSorption(side, 1, TankSorption.NON);
-						setVesselSetting(side, SaltFissionVesselSetting.DISABLED);
-						break;
-					case BOTH:
-						setTankSorption(side, 0, TankSorption.IN);
-						setTankSorption(side, 1, TankSorption.NON);
-						setVesselSetting(side, SaltFissionVesselSetting.DEFAULT);
-						break;
-					case IN:
-						setTankSorption(side, 0, TankSorption.NON);
-						setTankSorption(side, 1, TankSorption.OUT);
-						setVesselSetting(side, SaltFissionVesselSetting.DEPLETED_OUT);
-						break;
-					case OUT:
-						setTankSorption(side, 0, TankSorption.OUT);
-						setTankSorption(side, 1, TankSorption.NON);
-						setVesselSetting(side, SaltFissionVesselSetting.FUEL_SPREAD);
-						break;
-					default:
-						setTankSorption(side, 0, TankSorption.NON);
-						setTankSorption(side, 1, TankSorption.NON);
-						setVesselSetting(side, SaltFissionVesselSetting.DISABLED);
-						break;
-				}
-			}
-		}
-		else {
-			NBTTagCompound settingsTag = nbt.getCompoundTag("vesselSettings");
-			for (EnumFacing side : EnumFacing.VALUES) {
-				setVesselSetting(side, SaltFissionVesselSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
-				refreshFluidConnections(side);
-			}
-		}
-	}
-	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeTanks(nbt);
-		writeVesselSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
 		nbt.setInteger("baseProcessHeat", baseProcessHeat);
@@ -953,7 +846,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readTanks(nbt);
-		readVesselSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
 		baseProcessHeat = nbt.getInteger("baseProcessHeat");

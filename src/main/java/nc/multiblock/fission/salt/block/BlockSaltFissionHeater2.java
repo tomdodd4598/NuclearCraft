@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType2> {
@@ -69,11 +69,6 @@ public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.Cool
 	}
 	
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return state;
-	}
-	
-	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) {
 			return false;
@@ -105,5 +100,4 @@ public class BlockSaltFissionHeater2 extends BlockFissionMetaPart<MetaEnums.Cool
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
 	}
-	
 }

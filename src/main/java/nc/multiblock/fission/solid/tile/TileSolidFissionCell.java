@@ -16,7 +16,6 @@ import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
-import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.port.*;
 import nc.multiblock.network.SolidFissionCellUpdatePacket;
@@ -48,8 +47,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	protected final @Nonnull NonNullList<ItemStack> consumedStacks = NonNullList.withSize(1, ItemStack.EMPTY);
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.NON, ItemSorption.NON));
-	
-	protected @Nonnull SolidFissionCellSetting[] cellSettings = new SolidFissionCellSetting[] {SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED};
 	
 	protected final int itemInputSize = 1, itemOutputSize = 1, otherSlotsSize = 0;
 	
@@ -770,53 +767,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	@Override
 	public void setItemOutputSetting(int slot, ItemOutputSetting setting) {}
 	
-	public @Nonnull SolidFissionCellSetting[] getCellSettings() {
-		return cellSettings;
-	}
-	
-	public void setCellSettings(@Nonnull SolidFissionCellSetting[] settings) {
-		cellSettings = settings;
-	}
-	
-	public SolidFissionCellSetting getCellSetting(@Nonnull EnumFacing side) {
-		return cellSettings[side.getIndex()];
-	}
-	
-	public void setCellSetting(@Nonnull EnumFacing side, @Nonnull SolidFissionCellSetting setting) {
-		cellSettings[side.getIndex()] = setting;
-	}
-	
-	public void toggleCellSetting(@Nonnull EnumFacing side) {
-		setCellSetting(side, getCellSetting(side).next());
-		refreshInventoryConnections(side);
-		markDirtyAndNotify(true);
-	}
-	
-	public void refreshInventoryConnections(@Nonnull EnumFacing side) {
-		switch (getCellSetting(side)) {
-			case DISABLED:
-				setItemSorption(side, 0, ItemSorption.NON);
-				setItemSorption(side, 1, ItemSorption.NON);
-				break;
-			case DEFAULT:
-				setItemSorption(side, 0, ItemSorption.IN);
-				setItemSorption(side, 1, ItemSorption.NON);
-				break;
-			case DEPLETED_OUT:
-				setItemSorption(side, 0, ItemSorption.NON);
-				setItemSorption(side, 1, ItemSorption.OUT);
-				break;
-			case FUEL_SPREAD:
-				setItemSorption(side, 0, ItemSorption.OUT);
-				setItemSorption(side, 1, ItemSorption.NON);
-				break;
-			default:
-				setItemSorption(side, 0, ItemSorption.NON);
-				setItemSorption(side, 1, ItemSorption.NON);
-				break;
-		}
-	}
-	
 	// ITileFilteredInventory
 	
 	@Override
@@ -872,29 +822,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	// NBT
 	
-	public NBTTagCompound writeCellSettings(NBTTagCompound nbt) {
-		NBTTagCompound settingsTag = new NBTTagCompound();
-		for (EnumFacing side : EnumFacing.VALUES) {
-			settingsTag.setInteger("setting" + side.getIndex(), getCellSetting(side).ordinal());
-		}
-		nbt.setTag("cellSettings", settingsTag);
-		return nbt;
-	}
-	
-	public void readCellSettings(NBTTagCompound nbt) {
-		NBTTagCompound settingsTag = nbt.getCompoundTag("cellSettings");
-		for (EnumFacing side : EnumFacing.VALUES) {
-			setCellSetting(side, SolidFissionCellSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
-			refreshInventoryConnections(side);
-		}
-	}
-	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeInventory(nbt);
 		writeInventoryConnections(nbt);
-		writeCellSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
 		nbt.setInteger("baseProcessHeat", baseProcessHeat);
@@ -910,7 +842,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
-		// nbt.setLong("masterPortPos", masterPortPos.toLong());
 		return nbt;
 	}
 	
@@ -919,7 +850,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		super.readAll(nbt);
 		readInventory(nbt);
 		readInventoryConnections(nbt);
-		readCellSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
 		baseProcessHeat = nbt.getInteger("baseProcessHeat");
@@ -934,8 +864,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");
-		
-		// masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 	}
 	
 	@Override
