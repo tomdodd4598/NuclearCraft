@@ -38,9 +38,7 @@ public class GuiFissionIrradiatorPort extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if (!port.getFilterStacks().get(0).isEmpty()) {
-			new GuiItemRenderer(guiLeft + 44, guiTop + 35, 0.5F, port.getFilterStacks().get(0)).draw();
-		}
+		new GuiItemRenderer(port.getFilterStacks().get(0), guiLeft + 44, guiTop + 35, 0.5F).draw();
 		mc.getTextureManager().bindTexture(gui_textures);
 	}
 	

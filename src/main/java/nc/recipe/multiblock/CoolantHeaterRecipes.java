@@ -5,9 +5,9 @@ import static nc.init.NCCoolantFluids.COOLANTS;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
+public class CoolantHeaterRecipes extends BasicRecipeHandler {
 	
 	public CoolantHeaterRecipes() {
 		super("coolant_heater", 0, 1, 0, 1);

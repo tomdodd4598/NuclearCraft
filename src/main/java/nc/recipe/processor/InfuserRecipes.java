@@ -8,12 +8,12 @@ import java.util.*;
 import com.google.common.collect.Lists;
 
 import nc.init.*;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
 
-public class InfuserRecipes extends ProcessorRecipeHandler {
+public class InfuserRecipes extends BasicRecipeHandler {
 	
 	public InfuserRecipes() {
 		super("infuser", 1, 1, 1, 0);

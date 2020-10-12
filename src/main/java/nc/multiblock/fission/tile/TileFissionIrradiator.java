@@ -49,7 +49,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	public double time;
 	public boolean isProcessing, canProcessInputs;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	

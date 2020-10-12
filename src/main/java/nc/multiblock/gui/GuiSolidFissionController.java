@@ -46,7 +46,7 @@ public class GuiSolidFissionController extends GuiLogicMultiblock<FissionReactor
 	// TODO
 	public List<String> heatInfo() {
 		List<String> info = new ArrayList<>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.fission_controller.heat_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.getLogic().heatBuffer.getHeatStored(), multiblock.getLogic().heatBuffer.getHeatCapacity(), 6, "H"));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.fission_controller.heat_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(logic.heatBuffer.getHeatStored(), logic.heatBuffer.getHeatCapacity(), 6, "H"));
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.fission_controller.net_cluster_heating") + " " + TextFormatting.WHITE + UnitHelper.prefix(logic.getNetClusterHeating(), 6, "H/t"));
 		info.add(TextFormatting.BLUE + Lang.localise("gui.nc.container.fission_controller.total_cluster_cooling") + " " + TextFormatting.WHITE + UnitHelper.prefix(-multiblock.cooling, 6, "H/t"));
 		return info;
@@ -69,17 +69,17 @@ public class GuiSolidFissionController extends GuiLogicMultiblock<FissionReactor
 		String clusters = Lang.localise("gui.nc.container.fission_controller.clusters") + " " + multiblock.clusterCount;
 		fontRenderer.drawString(clusters, xSize / 2 - width(clusters) / 2, 22, fontColor);
 		
-		String efficiency = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.decimalPlaces(100D * multiblock.meanHeatMult, 1) + "%" : Lang.localise("gui.nc.container.fission_controller.efficiency") + " " + NCMath.decimalPlaces(100D * multiblock.meanEfficiency, 1) + "%";
+		String efficiency = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.pcDecimalPlaces(multiblock.meanHeatMult, 1) : Lang.localise("gui.nc.container.fission_controller.efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.meanEfficiency, 1);
 		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 34, fontColor);
 		
 		String outputRate = Lang.localise("gui.nc.container.solid_fission_controller.output_rate") + " " + UnitHelper.prefix(logic.heatingOutputRateFP, 6, "B/t", -1);
 		outputRateWidth = outputRateWidth - width(outputRate) > 1 ? width(outputRate) : Math.max(outputRateWidth, width(outputRate));
 		fontRenderer.drawString(outputRate, xSize / 2 - outputRateWidth / 2, 46, fontColor);
 		
-		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.decimalPlaces(100D * multiblock.sparsityEfficiencyMult, 1) + "%";
+		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.pcDecimalPlaces(multiblock.sparsityEfficiencyMult, 1);
 		fontRenderer.drawString(sparsity, xSize / 2 - width(sparsity) / 2, 58, fontColor);
 		
-		String temperature = Lang.localise("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? multiblock.getLogic().getTemperature() - 273 + " C" : multiblock.getLogic().getTemperature() + " K");
+		String temperature = Lang.localise("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? logic.getTemperature() - 273 + " C" : logic.getTemperature() + " K");
 		fontRenderer.drawString(temperature, xSize / 2 - width(temperature) / 2, NCUtil.isModifierKeyDown() ? 70 : 76, fontColor);
 		
 		if (!NCUtil.isModifierKeyDown()) {
@@ -93,7 +93,7 @@ public class GuiSolidFissionController extends GuiLogicMultiblock<FissionReactor
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
-		int h = (int) Math.round((double) multiblock.getLogic().heatBuffer.getHeatStored() / (double) multiblock.getLogic().heatBuffer.getHeatCapacity() * 164);
+		int h = (int) Math.round((double) logic.heatBuffer.getHeatStored() / (double) logic.heatBuffer.getHeatCapacity() * 164);
 		drawTexturedModalRect(guiLeft + 6, guiTop + 102, 3, 114, h, 6);
 	}
 	

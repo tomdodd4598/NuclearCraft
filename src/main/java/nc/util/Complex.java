@@ -79,7 +79,7 @@ public class Complex {
 	
 	public static String toString(double re, double im) {
 		if (im == 0) {
-			return re + "";
+			return Double.toString(re);
 		}
 		if (re == 0) {
 			return im + "i";

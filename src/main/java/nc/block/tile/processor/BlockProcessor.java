@@ -75,6 +75,5 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 		}
 		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle1());
 		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle2());
-		BlockHelper.playSoundOnProcessor(world, pos, rand, type.getSound());
 	}
 }

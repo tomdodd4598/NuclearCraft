@@ -4,10 +4,11 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIHelper.RecipeFluidMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class CentrifugeCategory extends JEICategoryProcessor<JEIRecipeWrapper.Centrifuge> {
+public class CentrifugeCategory extends JEIMachineCategory<JEIRecipeWrapper.Centrifuge> {
 	
 	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "centrifuge", 39, 30, 114, 38);

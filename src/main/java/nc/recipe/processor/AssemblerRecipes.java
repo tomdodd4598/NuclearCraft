@@ -4,9 +4,9 @@ import static nc.util.FissionHelper.FISSION_ORE_DICT;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class AssemblerRecipes extends ProcessorRecipeHandler {
+public class AssemblerRecipes extends BasicRecipeHandler {
 	
 	public AssemblerRecipes() {
 		super("assembler", 4, 0, 1, 0);

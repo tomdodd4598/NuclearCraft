@@ -3,16 +3,17 @@ package nc.integration.jei;
 import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.radiation.RadiationHelper;
 import nc.recipe.*;
 import nc.util.*;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProcessor> extends JEIRecipeWrapperAbstract<T> {
+public abstract class JEIMachineRecipeWrapper extends JEIBasicRecipeWrapper {
 	
 	private final int infoX, infoY, infoWidth, infoHeight;
 	
-	public JEIRecipeWrapperProcessor(IGuiHelper guiHelper, IJEIHandler handler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY, int infoX, int infoY, int infoWidth, int infoHeight) {
+	public JEIMachineRecipeWrapper(IGuiHelper guiHelper, IJEIHandler handler, BasicRecipeHandler recipeHandler, BasicRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY, int infoX, int infoY, int infoWidth, int infoHeight) {
 		super(guiHelper, handler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
 		this.infoX = infoX - backX;
 		this.infoY = infoY - backY;

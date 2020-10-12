@@ -5,9 +5,9 @@ import static nc.util.FluidStackHelper.GEM_VOLUME;
 import java.util.*;
 
 import nc.radiation.RadSources;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class CrystallizerRecipes extends ProcessorRecipeHandler {
+public class CrystallizerRecipes extends BasicRecipeHandler {
 	
 	public CrystallizerRecipes() {
 		super("crystallizer", 0, 1, 1, 0);

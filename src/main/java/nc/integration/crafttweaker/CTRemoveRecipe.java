@@ -9,20 +9,20 @@ import crafttweaker.api.item.IIngredient;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 
-public class RemoveProcessorRecipe implements IAction {
+public class CTRemoveRecipe implements IAction {
 	
 	protected static boolean errored = false;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	protected final IngredientSorption type;
-	protected ProcessorRecipe recipe;
+	protected BasicRecipe recipe;
 	
 	protected final List<IItemIngredient> itemIngredients = new ArrayList<>();
 	protected final List<IFluidIngredient> fluidIngredients = new ArrayList<>();
 	
 	protected boolean nullIngredient, nullRecipe, wrongSize;
 	
-	public RemoveProcessorRecipe(ProcessorRecipeHandler recipeHandler, IngredientSorption type, List<IIngredient> ctIngredients) {
+	public CTRemoveRecipe(BasicRecipeHandler recipeHandler, IngredientSorption type, List<IIngredient> ctIngredients) {
 		this.recipeHandler = recipeHandler;
 		this.type = type;
 		
@@ -47,7 +47,7 @@ public class RemoveProcessorRecipe implements IAction {
 		}
 		
 		if (ctIngredients.size() != itemSize + fluidSize) {
-			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe removal had the wrong number of " + (type == INPUT ? "inputs" : "outputs") + ": " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+			CraftTweakerAPI.logError("A " + recipeHandler.getName() + " recipe removal had the wrong number of " + (type == INPUT ? "inputs" : "outputs") + ": " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 			wrongSize = true;
 			return;
 		}
@@ -71,16 +71,16 @@ public class RemoveProcessorRecipe implements IAction {
 	public String describe() {
 		if (!isError()) {
 			if (type == INPUT) {
-				return "Removing " + recipeHandler.getRecipeName() + " recipe: " + RecipeHelper.getRecipeString(recipe);
+				return "Removing " + recipeHandler.getName() + " recipe: " + RecipeHelper.getRecipeString(recipe);
 			}
 			else {
-				return "Removing " + recipeHandler.getRecipeName() + " recipes for: " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients);
+				return "Removing " + recipeHandler.getName() + " recipes for: " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients);
 			}
 		}
 		else {
 			callError();
 			
-			String out = "Failed to remove " + recipeHandler.getRecipeName() + " recipe with " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients) + " as the " + (type == INPUT ? "input" : "output");
+			String out = "Failed to remove " + recipeHandler.getName() + " recipe with " + RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients) + " as the " + (type == INPUT ? "input" : "output");
 			
 			if (nullIngredient) {
 				return out + " as one or more " + (type == INPUT ? "ingredients" : "products") + " had no match";

@@ -55,16 +55,14 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
-	public double baseProcessTime = 1D;
-	protected double baseProcessEfficiency = 0D;
-	protected double baseProcessRadiation = 0D;
-	protected int baseProcessHeat = 0, baseProcessCriticality = 1;
+	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
+	public int baseProcessHeat = 0, baseProcessCriticality = 1;
 	protected boolean selfPriming = false;
 	
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -73,8 +71,10 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	public long clusterHeatStored, clusterHeatCapacity;
 	
-	protected boolean primed = false, fluxSearched = false;
-	protected int flux = 0, heatMult = 0;
+	protected boolean fluxSearched = false;
+	protected int flux = 0;
+	
+	public int heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected int[] moderatorLineFluxes = new int[] {0, 0, 0, 0, 0, 0};
@@ -90,7 +90,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected TileFissionVesselPort masterPort = null;
 	
-	protected SaltFissionVesselBundle vesselBundle = null;
+	protected SaltFissionVesselBunch vesselBunch = null;
 	
 	public TileSaltFissionVessel() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -113,12 +113,19 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	// IFissionFuelComponent
 	
-	public @Nullable SaltFissionVesselBundle getVesselBundle() {
-		return vesselBundle;
+	public @Nullable SaltFissionVesselBunch getVesselBunch() {
+		return vesselBunch;
 	}
 	
-	public void setVesselBundle(@Nullable SaltFissionVesselBundle vesselBundle) {
-		this.vesselBundle = vesselBundle;
+	public void setVesselBunch(@Nullable SaltFissionVesselBunch vesselBunch) {
+		this.vesselBunch = vesselBunch;
+		if (vesselBunch != null) {
+			vesselBunch.getPartMap().put(pos.toLong(), this);
+		}
+	}
+	
+	public int getVesselBunchSize() {
+		return vesselBunch.getPartMap().size();
 	}
 	
 	@Override
@@ -143,6 +150,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void resetStats() {
+		vesselBunch.sources = vesselBunch.flux = 0L;
 		/* primed = */ fluxSearched = false;
 		flux = heatMult = 0;
 		undercoolingLifetimeFactor = 1D;
@@ -179,24 +187,39 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public void tryPriming(FissionReactor sourceReactor) {
+	public void tryPriming(FissionReactor sourceReactor, boolean fromSource) {
 		if (getMultiblock() != sourceReactor) {
 			return;
 		}
 		
 		if (canProcessInputs) {
-			primed = true;
+			if (fromSource) {
+				vesselBunch.sources++;
+				if (vesselBunch.sources >= vesselBunch.getRequiredSources()) {
+					vesselBunch.primed = true;
+				}
+			}
+			else {
+				vesselBunch.primed = true;
+			}
 		}
 	}
 	
 	@Override
 	public boolean isPrimed() {
-		return primed;
+		return vesselBunch.primed;
+	}
+	
+	@Override
+	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache) {
+		for (TileSaltFissionVessel vessel : vesselBunch.getPartMap().values()) {
+			primedCache.add(vessel);
+		}
 	}
 	
 	@Override
 	public void unprime() {
-		primed = false;
+		vesselBunch.primed = false;
 	}
 	
 	@Override
@@ -238,6 +261,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	@Override
 	public void addFlux(int flux) {
 		this.flux += flux;
+		vesselBunch.flux += flux;
 	}
 	
 	@Override
@@ -285,9 +309,10 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		return activeReflectorCache;
 	}
 	
+	/** DON'T USE IN REACTOR LOGIC! */
 	@Override
 	public long getRawHeating() {
-		return baseProcessHeat * heatMult;
+		return (long) ((double) (baseProcessHeat * vesselBunch.getHeatMultiplier()) / (double) getVesselBunchSize());
 	}
 	
 	@Override
@@ -295,19 +320,20 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		return baseProcessHeat * getEfficiency();
 	}
 	
+	/** DON'T USE IN REACTOR LOGIC! */
 	@Override
 	public long getHeatMultiplier() {
-		return heatMult;
+		return (long) ((double) vesselBunch.getHeatMultiplier() / (double) getVesselBunchSize());
 	}
 	
 	@Override
 	public double getFluxEfficiencyFactor() {
-		return (1D + Math.exp(-2D * baseProcessCriticality)) / (1D + Math.exp(2D * (flux - 2D * baseProcessCriticality)));
+		return vesselBunch.getFluxEfficiencyFactor(baseProcessCriticality);
 	}
 	
 	@Override
 	public double getEfficiency() {
-		return heatMult * baseProcessEfficiency * getSourceEfficiency() * getModeratorEfficiencyFactor() * getFluxEfficiencyFactor();
+		return vesselBunch.getHeatMultiplier() * baseProcessEfficiency * getSourceEfficiency() * getModeratorEfficiencyFactor() * getFluxEfficiencyFactor() / getVesselBunchSize();
 	}
 	
 	@Override
@@ -478,7 +504,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	// Processing
 	
 	public boolean isProcessing(boolean checkCluster) {
-		return readyToProcess(checkCluster) && flux >= baseProcessCriticality;
+		return readyToProcess(checkCluster) && vesselBunch.flux >= vesselBunch.getCriticalityFactor(baseProcessCriticality);
 	}
 	
 	public boolean readyToProcess(boolean checkCluster) {
@@ -581,7 +607,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		if (getMultiblock() != null) {
 			if (canProcessInputs) {
 				if (oldProcessHeat != baseProcessHeat || oldProcessEfficiency != baseProcessEfficiency || oldProcessCriticality != baseProcessCriticality) {
-					if (flux < baseProcessCriticality) {
+					if (vesselBunch.flux < vesselBunch.getCriticalityFactor(baseProcessCriticality)) {
 						getMultiblock().refreshFlag = true;
 					}
 					else {

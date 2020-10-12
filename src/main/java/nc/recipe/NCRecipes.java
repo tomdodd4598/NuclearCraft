@@ -60,7 +60,7 @@ public class NCRecipes {
 	public static RadiationBlockMutation radiation_block_mutation;
 	public static RadiationBlockPurification radiation_block_purification;
 	
-	public static ProcessorRecipeHandler[] processor_recipe_handlers;
+	public static BasicRecipeHandler[] processor_recipe_handlers;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
@@ -108,7 +108,7 @@ public class NCRecipes {
 		radiation_block_mutation = new RadiationBlockMutation();
 		radiation_block_purification = new RadiationBlockPurification();
 		
-		processor_recipe_handlers = new ProcessorRecipeHandler[] {manufactory, separator, decay_hastener, fuel_reprocessor, alloy_furnace, infuser, melter, supercooler, electrolyzer, assembler, ingot_former, pressurizer, chemical_reactor, salt_mixer, crystallizer, enricher, extractor, centrifuge, rock_crusher};
+		processor_recipe_handlers = new BasicRecipeHandler[] {manufactory, separator, decay_hastener, fuel_reprocessor, alloy_furnace, infuser, melter, supercooler, electrolyzer, assembler, ingot_former, pressurizer, chemical_reactor, salt_mixer, crystallizer, enricher, extractor, centrifuge, rock_crusher};
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();

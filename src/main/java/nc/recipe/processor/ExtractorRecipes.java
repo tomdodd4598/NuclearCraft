@@ -7,11 +7,11 @@ import java.util.*;
 import com.google.common.collect.Lists;
 
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 
-public class ExtractorRecipes extends ProcessorRecipeHandler {
+public class ExtractorRecipes extends BasicRecipeHandler {
 	
 	public ExtractorRecipes() {
 		super("extractor", 1, 0, 1, 1);

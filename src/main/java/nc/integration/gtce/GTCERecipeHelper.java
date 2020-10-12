@@ -21,7 +21,7 @@ public class GTCERecipeHelper {
 	
 	// Thanks so much to Firew0lf for the original method!
 	@Optional.Method(modid = "gregtech")
-	public static void addGTCERecipe(String recipeName, ProcessorRecipe recipe) {
+	public static void addGTCERecipe(String recipeName, BasicRecipe recipe) {
 		RecipeMap<?> recipeMap = null;
 		RecipeBuilder<?> builder = null;
 		
@@ -250,7 +250,7 @@ public class GTCERecipeHelper {
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower, int processTime) {
+	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, BasicRecipe recipe, int processPower, int processTime) {
 		return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1)).duration((int) recipe.getBaseProcessTime(20D * processTime));
 	}
 	
@@ -325,12 +325,12 @@ public class GTCERecipeHelper {
 		return true;
 	}
 	
-	private static boolean isPlateRecipe(ProcessorRecipe recipe) {
+	private static boolean isPlateRecipe(BasicRecipe recipe) {
 		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		return output != null && OreDictHelper.hasOrePrefix(output, "plate", "plateDense");
 	}
 	
-	private static MetaValueItem getIngotFormerMold(ProcessorRecipe recipe) {
+	private static MetaValueItem getIngotFormerMold(BasicRecipe recipe) {
 		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		if (output != null) {
 			if (OreDictHelper.hasOrePrefix(output, "ingot")) {

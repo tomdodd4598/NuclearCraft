@@ -11,7 +11,7 @@ import nc.tile.radiation.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.IStringSerializable;
 
 public class BlockEnums {
 	
@@ -153,11 +153,6 @@ public class BlockEnums {
 				default:
 					return NCTabs.MACHINE;
 			}
-		}
-		
-		@SuppressWarnings("static-method")
-		public SoundEvent getSound() {
-			return null;
 		}
 		
 		public String getParticle1() {

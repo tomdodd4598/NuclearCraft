@@ -39,12 +39,12 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected final BasicRecipeHandler recipeHandler;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
+	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull BasicRecipeHandler recipeHandler) {
 		super(name, itemInSize + itemOutSize + otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;

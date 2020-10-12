@@ -2,9 +2,9 @@ package nc.recipe.generator;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class FusionRecipes extends ProcessorRecipeHandler {
+public class FusionRecipes extends BasicRecipeHandler {
 	
 	public FusionRecipes() {
 		super("fusion", 0, 2, 0, 4);

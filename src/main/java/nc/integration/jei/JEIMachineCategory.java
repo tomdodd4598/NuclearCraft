@@ -4,27 +4,24 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.ingredient.*;
 import nc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEICategoryProcessor<WRAPPER extends JEIRecipeWrapperAbstract> extends JEICategoryAbstract<WRAPPER> {
+public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipeWrapper> extends JEIBasicCategory<WRAPPER> {
 	
-	private final IDrawable background;
-	protected String recipeTitle;
+	protected final IDrawable background;
+	protected final String title;
 	protected final int backPosX, backPosY;
 	
-	public JEICategoryProcessor(IGuiHelper guiHelper, IJEIHandler handler, String title, int backX, int backY, int backWidth, int backHeight) {
-		this(guiHelper, handler, title, "", backX, backY, backWidth, backHeight);
-	}
-	
-	public JEICategoryProcessor(IGuiHelper guiHelper, IJEIHandler handler, String title, String guiExtra, int backX, int backY, int backWidth, int backHeight) {
+	public JEIMachineCategory(IGuiHelper guiHelper, IJEIHandler handler, String blockName, int backX, int backY, int backWidth, int backHeight) {
 		super(handler);
-		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + guiExtra + ".png");
+		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, backX, backY, backWidth, backHeight);
-		recipeTitle = Lang.localise("tile." + Global.MOD_ID + "." + title + ".name");
+		title = Lang.localise("tile." + Global.MOD_ID + "." + blockName + ".name");
 		backPosX = backX + 1;
 		backPosY = backY + 1;
 	}
@@ -60,6 +57,6 @@ public abstract class JEICategoryProcessor<WRAPPER extends JEIRecipeWrapperAbstr
 	
 	@Override
 	public String getTitle() {
-		return recipeTitle;
+		return title;
 	}
 }

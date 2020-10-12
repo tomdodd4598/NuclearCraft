@@ -1,9 +1,12 @@
 package nc.recipe.vanilla.recipe;
 
+import static nc.config.NCConfig.radiation_horse_armor_public;
+
 import javax.annotation.Nonnull;
 
+import nc.util.ArmorHelper;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -25,7 +28,7 @@ public class ShapelessArmorRadShieldingRecipe extends ShapelessOreRecipe {
 	public @Nonnull ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i).copy();
-			if (!stack.isEmpty() && stack.getItem() instanceof ItemArmor) {
+			if (!stack.isEmpty() && ArmorHelper.isArmor(stack.getItem(), radiation_horse_armor_public)) {
 				if (!stack.hasTagCompound()) {
 					stack.setTagCompound(new NBTTagCompound());
 				}

@@ -12,7 +12,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.fission.FissionPlacement;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.turbine.TurbinePlacement;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.util.EnumFacing;
 
@@ -734,7 +734,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	
 	// Tooltip Recipes
 	
-	public static class TooltipRecipeHandler extends ProcessorRecipeHandler {
+	public static class TooltipRecipeHandler extends BasicRecipeHandler {
 		
 		public TooltipRecipeHandler(String type) {
 			super(type + "_placement_rules", 1, 0, 0, 0);

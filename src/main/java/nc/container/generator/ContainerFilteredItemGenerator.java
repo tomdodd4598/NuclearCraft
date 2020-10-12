@@ -1,7 +1,7 @@
 package nc.container.generator;
 
 import nc.container.ContainerTile;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.ITileGui;
 import nc.tile.generator.IItemGenerator;
 import nc.tile.inventory.ITileFilteredInventory;
@@ -12,9 +12,9 @@ import net.minecraft.item.ItemStack;
 public class ContainerFilteredItemGenerator<GENERATOR extends IItemGenerator & ITileFilteredInventory & ITileGui> extends ContainerTile<GENERATOR> {
 	
 	protected final GENERATOR tile;
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public ContainerFilteredItemGenerator(EntityPlayer player, GENERATOR tileEntity, ProcessorRecipeHandler recipeHandler) {
+	public ContainerFilteredItemGenerator(EntityPlayer player, GENERATOR tileEntity, BasicRecipeHandler recipeHandler) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipeHandler = recipeHandler;

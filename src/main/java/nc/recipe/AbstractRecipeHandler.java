@@ -41,7 +41,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	public abstract void addRecipes();
 	
 	@ZenMethod
-	public abstract String getRecipeName();
+	public abstract String getName();
 	
 	@ZenMethod
 	public abstract List<RECIPE> getRecipeList();

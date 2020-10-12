@@ -1,6 +1,6 @@
 package nc.container.slot;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.inventory.ITileFilteredInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -71,9 +71,9 @@ public class SlotFiltered extends Slot {
 	
 	public static class ProcessorInput extends SlotFiltered {
 		
-		protected final ProcessorRecipeHandler recipeHandler;
+		protected final BasicRecipeHandler recipeHandler;
 		
-		public ProcessorInput(ITileFilteredInventory tile, ProcessorRecipeHandler recipeHandler, int index, int xPosition, int yPosition) {
+		public ProcessorInput(ITileFilteredInventory tile, BasicRecipeHandler recipeHandler, int index, int xPosition, int yPosition) {
 			super(tile, index, xPosition, yPosition);
 			this.recipeHandler = recipeHandler;
 		}

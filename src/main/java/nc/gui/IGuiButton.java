@@ -1,6 +1,6 @@
 package nc.gui;
 
-public interface IButtonEnum {
+public interface IGuiButton {
 	
 	public int getTextureX();
 	

@@ -36,7 +36,7 @@ public class RecipeStats {
 		for (int i = 0; i < NCRecipes.processor_recipe_handlers.length; i++) {
 			processor_max_base_process_time[i] = 1D;
 			processor_max_base_process_power[i] = 0D;
-			for (ProcessorRecipe recipe : NCRecipes.processor_recipe_handlers[i].getRecipeList()) {
+			for (BasicRecipe recipe : NCRecipes.processor_recipe_handlers[i].getRecipeList()) {
 				if (recipe != null) {
 					processor_max_base_process_time[i] = Math.max(processor_max_base_process_time[i], recipe.getBaseProcessTime(NCConfig.processor_time[i]));
 					processor_max_base_process_power[i] = Math.max(processor_max_base_process_power[i], recipe.getBaseProcessPower(NCConfig.processor_power[i]));
@@ -51,7 +51,7 @@ public class RecipeStats {
 	
 	private static void setDecayGeneratorMaxPower() {
 		double max = 0D;
-		for (ProcessorRecipe recipe : NCRecipes.decay_generator.getRecipeList()) {
+		for (BasicRecipe recipe : NCRecipes.decay_generator.getRecipeList()) {
 			if (recipe != null) {
 				max = Math.max(max, recipe.getDecayGeneratorPower());
 			}
@@ -65,7 +65,7 @@ public class RecipeStats {
 	
 	private static void setFissionMaxModeratorLineFlux() {
 		fission_max_moderator_line_flux = 0;
-		for (ProcessorRecipe recipe : NCRecipes.fission_moderator.getRecipeList()) {
+		for (BasicRecipe recipe : NCRecipes.fission_moderator.getRecipeList()) {
 			if (recipe != null) {
 				fission_max_moderator_line_flux = Math.max(fission_max_moderator_line_flux, recipe.getFissionModeratorFluxFactor());
 			}
@@ -79,7 +79,7 @@ public class RecipeStats {
 	
 	private static void setScrubberMaxProcessPower() {
 		scrubber_max_process_power = 0;
-		for (ProcessorRecipe recipe : NCRecipes.radiation_scrubber.getRecipeList()) {
+		for (BasicRecipe recipe : NCRecipes.radiation_scrubber.getRecipeList()) {
 			if (recipe != null) {
 				scrubber_max_process_power = Math.max(scrubber_max_process_power, recipe.getScrubberProcessPower());
 			}
@@ -92,7 +92,7 @@ public class RecipeStats {
 	
 	private static void setBlockMutationThreshold() {
 		block_mutation_threshold = Double.MAX_VALUE;
-		for (ProcessorRecipe recipe : NCRecipes.radiation_block_mutation.getRecipeList()) {
+		for (BasicRecipe recipe : NCRecipes.radiation_block_mutation.getRecipeList()) {
 			if (recipe != null) {
 				block_mutation_threshold = Math.min(block_mutation_threshold, recipe.getBlockMutationThreshold());
 			}
@@ -105,7 +105,7 @@ public class RecipeStats {
 	
 	private static void setBlockPurificationThreshold() {
 		block_purification_threshold = 0D;
-		for (ProcessorRecipe recipe : NCRecipes.radiation_block_purification.getRecipeList()) {
+		for (BasicRecipe recipe : NCRecipes.radiation_block_purification.getRecipeList()) {
 			if (recipe != null) {
 				block_purification_threshold = Math.max(block_purification_threshold, recipe.getBlockMutationThreshold());
 			}

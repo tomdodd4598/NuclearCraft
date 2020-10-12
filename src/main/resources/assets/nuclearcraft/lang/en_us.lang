@@ -1952,6 +1952,7 @@ info.nuclearcraft.fission_fuel.base_time.desc=Base depletion time: %s
 info.nuclearcraft.fission_fuel.base_heat.desc=Base heat gen: %s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=Base efficiency: %s
 info.nuclearcraft.fission_fuel.criticality.desc=Criticality factor: %s
+info.nuclearcraft.fission_fuel.decay_factor.desc=Decay factor: %s
 info.nuclearcraft.fission_fuel.self_priming.desc=Self-priming!
 
 item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=Depleted TBU TRISO Fuel Pebble
@@ -2273,15 +2274,17 @@ jei.nuclearcraft.radiation_per_flux=Radiation per flux:
 jei.nuclearcraft.pebble_fuel_time=Base depletion time:
 jei.nuclearcraft.pebble_fuel_heat=Base heat gen:
 jei.nuclearcraft.pebble_fuel_efficiency=Base efficiency:
-jei.nuclearcraft.pebble_fuel_criticality=Fuel criticality:
-jei.nuclearcraft.pebble_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.pebble_fuel_criticality=Criticality factor:
+jei.nuclearcraft.pebble_fuel_decay_factor=Decay factor:
+jei.nuclearcraft.pebble_fuel_radiation=Depletion radiation:
 jei.nuclearcraft.pebble_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_heat=Base heat gen:
 jei.nuclearcraft.solid_fuel_efficiency=Base efficiency:
-jei.nuclearcraft.solid_fuel_criticality=Fuel criticality:
-jei.nuclearcraft.solid_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.solid_fuel_criticality=Criticality factor:
+jei.nuclearcraft.solid_fuel_decay_factor=Decay factor:
+jei.nuclearcraft.solid_fuel_radiation=Depletion radiation:
 jei.nuclearcraft.solid_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
@@ -2289,8 +2292,9 @@ jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
 jei.nuclearcraft.salt_fuel_time=Base depletion time:
 jei.nuclearcraft.salt_fuel_heat=Base heat gen:
 jei.nuclearcraft.salt_fuel_efficiency=Base efficiency:
-jei.nuclearcraft.salt_fuel_criticality=Fuel criticality:
-jei.nuclearcraft.salt_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.salt_fuel_criticality=Criticality factor:
+jei.nuclearcraft.salt_fuel_decay_factor=Decay factor:
+jei.nuclearcraft.salt_fuel_radiation=Depletion radiation:
 jei.nuclearcraft.salt_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.fission_emergency_cooling_per_mb=Cooling per input mB:
@@ -3092,7 +3096,7 @@ gui.nc.container.turbine_controller.dynamo_efficiency=Dynamo Efficiency:
 gui.nc.container.turbine_controller.dynamo_coil_count=Coil Counts:
 gui.nc.container.turbine_controller.expansion_level=Expansion:
 gui.nc.container.turbine_controller.rotor_efficiency=Rotor Efficiency:
-gui.nc.container.turbine_controller.fluid_rate=Input Rate:
+gui.nc.container.turbine_controller.fluid_rate=Input:
 gui.nc.container.turbine_controller.power_bonus=Rate Power Bonus:
 
 gui.nc.container.energy_stored=Energy Stored:

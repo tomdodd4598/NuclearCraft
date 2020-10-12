@@ -7,43 +7,38 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstract> implements IRecipeWrapper {
+public abstract class JEIBasicRecipeWrapper implements IRecipeWrapper {
 	
-	public final ProcessorRecipeHandler recipeHandler;
-	public final ProcessorRecipe recipe;
+	public final BasicRecipeHandler recipeHandler;
+	public final BasicRecipe recipe;
 	
 	public final List<List<ItemStack>> itemInputs;
 	public final List<List<FluidStack>> fluidInputs;
-	
-	public List<List<ItemStack>> itemOutputs;
-	public List<List<FluidStack>> fluidOutputs;
+	public final List<List<ItemStack>> itemOutputs;
+	public final List<List<FluidStack>> fluidOutputs;
 	
 	public final boolean drawArrow;
 	public final IDrawable arrow;
 	public final int arrowDrawPosX, arrowDrawPosY;
 	
-	public JEIRecipeWrapperAbstract(IGuiHelper guiHelper, IJEIHandler handler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY) {
-		this(guiHelper, handler, recipeHandler, recipe, "", backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
-	}
-	
-	public JEIRecipeWrapperAbstract(IGuiHelper guiHelper, IJEIHandler handler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe, String guiExtra, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY) {
+	public JEIBasicRecipeWrapper(IGuiHelper guiHelper, IJEIHandler handler, BasicRecipeHandler recipeHandler, BasicRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY) {
 		this.recipeHandler = recipeHandler;
 		this.recipe = recipe;
 		
 		itemInputs = RecipeHelper.getItemInputLists(recipe.getItemIngredients());
 		fluidInputs = RecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
-		
 		itemOutputs = RecipeHelper.getItemOutputLists(recipe.getItemProducts());
 		fluidOutputs = RecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
 		
 		this.drawArrow = arrowWidth > 0 && arrowHeight > 0;
-		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + guiExtra + ".png");
+		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + ".png");
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
 		arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
 		arrowDrawPosX = arrowPosX - backX;
@@ -67,7 +62,7 @@ public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstrac
 		}
 	}
 	
-	private boolean staticArrow() {
+	protected boolean staticArrow() {
 		return getProgressArrowTime() < 2 /* || (factor_recipes && itemInputs.isEmpty() && itemOutputs.isEmpty() && getProgressArrowTime() < 4) */;
 	}
 	

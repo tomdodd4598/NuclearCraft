@@ -60,7 +60,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	public double time;
 	public boolean isProcessing, canProcessInputs;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected final Set<EntityPlayer> playersToUpdate;
 	

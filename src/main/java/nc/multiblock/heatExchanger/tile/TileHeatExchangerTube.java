@@ -49,7 +49,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	public int inputTemperature = 300, outputTemperature = 300;
 	public EnumFacing flowDir = null;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	public final double conductivity;
 	

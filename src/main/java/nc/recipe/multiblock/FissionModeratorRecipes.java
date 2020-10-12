@@ -5,9 +5,9 @@ import static nc.config.NCConfig.*;
 import java.util.*;
 
 import nc.init.NCBlocks;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class FissionModeratorRecipes extends ProcessorRecipeHandler {
+public class FissionModeratorRecipes extends BasicRecipeHandler {
 	
 	public FissionModeratorRecipes() {
 		super("fission_moderator", 1, 0, 0, 0);

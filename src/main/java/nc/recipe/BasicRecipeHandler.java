@@ -9,7 +9,7 @@ import javax.annotation.*;
 import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
-import nc.*;
+import nc.ModCheck;
 import nc.integration.gtce.GTCERecipeHelper;
 import nc.recipe.ingredient.*;
 import nc.util.*;
@@ -17,18 +17,18 @@ import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mods.nuclearcraft.ProcessorRecipeHandler")
 @ZenRegister
-public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
+public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicRecipe> {
 	
-	protected final String recipeName;
+	protected final String name;
 	protected final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	protected final boolean isShapeless;
 	
-	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
-		this(recipeName, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
+	public BasicRecipeHandler(@Nonnull String name, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
+		this(name, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
 	}
 	
-	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean isShapeless) {
-		this.recipeName = recipeName;
+	public BasicRecipeHandler(@Nonnull String name, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean isShapeless) {
+		this.name = name;
 		this.itemInputSize = itemInputSize;
 		this.fluidInputSize = fluidInputSize;
 		this.itemOutputSize = itemOutputSize;
@@ -58,10 +58,10 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 				extras.add(object);
 			}
 		}
-		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
+		BasicRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
 		
-		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName) && recipe != null) {
-			GTCERecipeHelper.addGTCERecipe(recipeName, recipe);
+		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(name) && recipe != null) {
+			GTCERecipeHelper.addGTCERecipe(name, recipe);
 		}
 		
 		addRecipe(factor_recipes ? factorRecipe(recipe) : recipe);
@@ -69,7 +69,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	
 	public abstract List fixExtras(List extras);
 	
-	public ProcessorRecipe factorRecipe(ProcessorRecipe recipe) {
+	public BasicRecipe factorRecipe(BasicRecipe recipe) {
 		if (recipe == null) {
 			return null;
 		}
@@ -100,7 +100,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 			fluidProducts.add(ingredient.getFactoredIngredient(hcf));
 		}
 		
-		return new ProcessorRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
+		return new BasicRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
 	}
 	
 	public IntList getExtraFactors(List extras) {
@@ -137,7 +137,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	}
 	
 	@Nullable
-	public ProcessorRecipe buildRecipe(List itemInputs, List fluidInputs, List itemOutputs, List fluidOutputs, List extras, boolean shapeless) {
+	public BasicRecipe buildRecipe(List itemInputs, List fluidInputs, List itemOutputs, List fluidOutputs, List extras, boolean shapeless) {
 		List<IItemIngredient> itemIngredients = new ArrayList<>(), itemProducts = new ArrayList<>();
 		List<IFluidIngredient> fluidIngredients = new ArrayList<>(), fluidProducts = new ArrayList<>();
 		for (Object obj : itemInputs) {
@@ -189,9 +189,9 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 			}
 		}
 		if (!isValidRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts)) {
-			NCUtil.getLogger().info(getRecipeName() + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
+			NCUtil.getLogger().info(name + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
-		return new ProcessorRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixExtras(extras), shapeless);
+		return new BasicRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixExtras(extras), shapeless);
 	}
 	
 	public boolean isValidRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
@@ -199,13 +199,13 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	}
 	
 	@Override
-	public String getRecipeName() {
-		return Global.MOD_ID + "_" + recipeName;
+	public String getName() {
+		return name;
 	}
 	
 	@Override
 	@ZenMethod
-	public List<ProcessorRecipe> getRecipeList() {
+	public List<BasicRecipe> getRecipeList() {
 		return recipeList;
 	}
 	

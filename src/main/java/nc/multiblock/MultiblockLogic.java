@@ -93,6 +93,10 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	public abstract void onMachineDisassembled();
 	
+	public abstract void onAssimilate(Multiblock assimilated);
+	
+	public abstract void onAssimilated(Multiblock assimilator);
+	
 	public abstract boolean isMachineWhole(Multiblock multiblock);
 	
 	public abstract boolean onUpdateServer();
@@ -231,6 +235,8 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	public abstract PACKET getUpdatePacket();
 	
 	public abstract void onPacket(PACKET message);
+	
+	public abstract void clearAllMaterial();
 	
 	// Multiblock Validators
 	

@@ -4,12 +4,13 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.*;
 import nc.Global;
+import nc.integration.jei.NCJEI.IJEIHandler;
 
-public abstract class JEICategoryAbstract<WRAPPER extends JEIRecipeWrapperAbstract> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
+public abstract class JEIBasicCategory<WRAPPER extends JEIBasicRecipeWrapper> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
 	
 	protected final IJEIHandler jeiHandler;
 	
-	public JEICategoryAbstract(IJEIHandler jeiHandler) {
+	public JEIBasicCategory(IJEIHandler<WRAPPER> jeiHandler) {
 		this.jeiHandler = jeiHandler;
 	}
 	
@@ -25,26 +26,26 @@ public abstract class JEICategoryAbstract<WRAPPER extends JEIRecipeWrapperAbstra
 	
 	@Override
 	public String getUid() {
-		return jeiHandler.getUUID();
+		return jeiHandler.getUid();
 	}
 	
 	@Override
 	public Class getRecipeClass() {
-		return jeiHandler.getJEIRecipeWrapper();
+		return jeiHandler.getRecipeWrapperClass();
 	}
 	
 	@Override
-	public IRecipeWrapper getRecipeWrapper(JEIRecipeWrapperAbstract recipeWrapper) {
+	public IRecipeWrapper getRecipeWrapper(WRAPPER recipeWrapper) {
 		return recipeWrapper;
 	}
 	
 	@Override
-	public boolean isRecipeValid(JEIRecipeWrapperAbstract recipeWrapper) {
-		return recipeWrapper.recipeHandler.getRecipeName().equals(getUid());
+	public boolean isRecipeValid(WRAPPER recipeWrapper) {
+		return getUid().equals(Global.MOD_ID + "_" + recipeWrapper.recipeHandler.getName());
 	}
 	
 	@Override
-	public String getRecipeCategoryUid(JEIRecipeWrapperAbstract recipeWrapper) {
+	public String getRecipeCategoryUid(WRAPPER recipeWrapper) {
 		return getUid();
 	}
 }

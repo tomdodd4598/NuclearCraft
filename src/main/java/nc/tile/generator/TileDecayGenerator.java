@@ -20,7 +20,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	Random rand = new Random();
 	public int tickCount;
 	
-	protected ProcessorRecipe[] recipes = new ProcessorRecipe[6];
+	protected BasicRecipe[] recipes = new BasicRecipe[6];
 	
 	protected int generatorCount;
 	
@@ -116,7 +116,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	
 	// Recipe from BlockPos
 	
-	public ProcessorRecipe getDecayRecipe(EnumFacing side) {
+	public BasicRecipe getDecayRecipe(EnumFacing side) {
 		return recipes[side.getIndex()];
 	}
 	

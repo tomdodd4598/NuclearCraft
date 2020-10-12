@@ -90,6 +90,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 		return EXCHANGER_PART_BLACKLIST;
 	}
 	
+	@Override
 	public void onAssimilate(Multiblock assimilated) {
 		if (assimilated instanceof HeatExchanger) {
 			
@@ -103,6 +104,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 		}
 	}
 	
+	@Override
 	public void onAssimilated(Multiblock assimilator) {}
 	
 	// Server
@@ -141,6 +143,12 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	
 	@Override
 	public void onPacket(HeatExchangerUpdatePacket message) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void clearAllMaterial() {
 		// TODO Auto-generated method stub
 		
 	}

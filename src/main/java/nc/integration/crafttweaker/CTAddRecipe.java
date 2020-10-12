@@ -7,12 +7,12 @@ import crafttweaker.api.item.IIngredient;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 
-public class AddProcessorRecipe implements IAction {
+public class CTAddRecipe implements IAction {
 	
 	protected static boolean errored = false;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
-	protected ProcessorRecipe recipe;
+	protected final BasicRecipeHandler recipeHandler;
+	protected BasicRecipe recipe;
 	
 	protected final List<IItemIngredient> itemIngredients = new ArrayList<>();
 	protected final List<IFluidIngredient> fluidIngredients = new ArrayList<>();
@@ -22,7 +22,7 @@ public class AddProcessorRecipe implements IAction {
 	
 	protected boolean nullInputs = true, nullIngredient, nullRecipe, wrongSize;
 	
-	public AddProcessorRecipe(ProcessorRecipeHandler recipeHandler, List objects) {
+	public CTAddRecipe(BasicRecipeHandler recipeHandler, List objects) {
 		this.recipeHandler = recipeHandler;
 		
 		int count = 0;
@@ -93,7 +93,7 @@ public class AddProcessorRecipe implements IAction {
 		}
 		
 		if (itemIngredients.size() != recipeHandler.getItemInputSize() || fluidIngredients.size() != recipeHandler.getFluidInputSize() || itemProducts.size() != recipeHandler.getItemOutputSize() || fluidProducts.size() != recipeHandler.getFluidOutputSize()) {
-			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe addition had the wrong size: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
+			CraftTweakerAPI.logError("A " + recipeHandler.getName() + " recipe addition had the wrong size: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 			wrongSize = true;
 			return;
 		}
@@ -115,12 +115,12 @@ public class AddProcessorRecipe implements IAction {
 	public String describe() {
 		String recipeString = RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts);
 		if (!isError()) {
-			return "Adding " + recipeHandler.getRecipeName() + " recipe: " + recipeString;
+			return "Adding " + recipeHandler.getName() + " recipe: " + recipeString;
 		}
 		else {
 			callError();
 			
-			String out = "Failed to add " + recipeHandler.getRecipeName() + " recipe " + recipeString;
+			String out = "Failed to add " + recipeHandler.getName() + " recipe " + recipeString;
 			
 			if (nullInputs) {
 				return out + " as all ingredients were null";

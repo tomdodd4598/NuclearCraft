@@ -5,12 +5,12 @@ import java.util.*;
 import com.google.common.collect.Lists;
 
 import nc.init.NCBlocks;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.init.Blocks;
 
 public class RadBlockEffects {
 	
-	public static class RadiationBlockMutation extends ProcessorRecipeHandler {
+	public static class RadiationBlockMutation extends BasicRecipeHandler {
 		
 		public RadiationBlockMutation() {
 			super("radiation_block_mutation", 1, 0, 1, 0);
@@ -31,7 +31,7 @@ public class RadBlockEffects {
 		}
 	}
 	
-	public static class RadiationBlockPurification extends ProcessorRecipeHandler {
+	public static class RadiationBlockPurification extends BasicRecipeHandler {
 		
 		public RadiationBlockPurification() {
 			super("radiation_block_purification", 1, 0, 1, 0);

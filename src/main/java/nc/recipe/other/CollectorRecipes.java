@@ -5,12 +5,12 @@ import static nc.config.NCConfig.*;
 import java.util.*;
 
 import nc.init.NCBlocks;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
-public class CollectorRecipes extends ProcessorRecipeHandler {
+public class CollectorRecipes extends BasicRecipeHandler {
 	
 	public CollectorRecipes() {
 		super("collector", 1, 0, 1, 1);

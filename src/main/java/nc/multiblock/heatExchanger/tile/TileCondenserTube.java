@@ -53,7 +53,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	
 	public int[] adjacentTemperatures = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	public final double conductivity;
 	

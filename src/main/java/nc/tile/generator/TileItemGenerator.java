@@ -34,12 +34,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected final BasicRecipeHandler recipeHandler;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
+	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull BasicRecipeHandler recipeHandler) {
 		super(name, itemInSize + itemOutSize + otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;

@@ -8,12 +8,12 @@ import java.util.*;
 import com.google.common.collect.Sets;
 
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class IngotFormerRecipes extends ProcessorRecipeHandler {
+public class IngotFormerRecipes extends BasicRecipeHandler {
 	
 	public IngotFormerRecipes() {
 		super("ingot_former", 0, 1, 1, 0);

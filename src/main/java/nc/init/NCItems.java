@@ -179,8 +179,8 @@ public class NCItems {
 		rad_shielding = withName(new ItemRadShielding(NCInfo.radShieldingInfo()), "rad_shielding");
 		radiation_badge = withName(new ItemRadiationBadge(InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(radiation_badge_durability * radiation_badge_info_rate, 3, "Rad"), UnitHelper.prefix(radiation_badge_durability, 3, "Rad"))), "radiation_badge");
 		
-		radaway = withName(new ItemRadaway(false, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(radiation_radaway_amount, false), Math.round(100D * radiation_radaway_amount / max_player_rads) + "%", RadiationHelper.radsPrefix(radiation_radaway_rate, true))), "radaway");
-		radaway_slow = withName(new ItemRadaway(true, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(radiation_radaway_slow_amount, false), Math.round(100D * radiation_radaway_slow_amount / max_player_rads) + "%", RadiationHelper.radsPrefix(radiation_radaway_slow_rate, true))), "radaway_slow");
+		radaway = withName(new ItemRadaway(false, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(radiation_radaway_amount, false), NCMath.pcDecimalPlaces(radiation_radaway_amount / max_player_rads, 1), RadiationHelper.radsPrefix(radiation_radaway_rate, true))), "radaway");
+		radaway_slow = withName(new ItemRadaway(true, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(radiation_radaway_slow_amount, false), NCMath.pcDecimalPlaces(radiation_radaway_slow_amount / max_player_rads, 1), RadiationHelper.radsPrefix(radiation_radaway_slow_rate, true))), "radaway_slow");
 		rad_x = withName(new ItemRadX(InfoHelper.formattedInfo(infoLine("rad_x"), RadiationHelper.resistanceSigFigs(radiation_rad_x_amount), UnitHelper.applyTimeUnit(radiation_rad_x_lifetime, 2))), "rad_x");
 		
 		portable_ender_chest = withName(new ItemPortableEnderChest(), "portable_ender_chest");

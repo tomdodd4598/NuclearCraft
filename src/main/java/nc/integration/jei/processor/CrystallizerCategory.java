@@ -4,10 +4,11 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.*;
+import nc.integration.jei.JEIHelper.*;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class CrystallizerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Crystallizer> {
+public class CrystallizerCategory extends JEIMachineCategory<JEIRecipeWrapper.Crystallizer> {
 	
 	public CrystallizerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "crystallizer", 47, 30, 90, 26);

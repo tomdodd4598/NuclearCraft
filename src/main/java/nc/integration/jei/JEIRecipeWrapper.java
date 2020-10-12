@@ -5,6 +5,7 @@ import static nc.config.NCConfig.*;
 import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.radiation.RadiationHelper;
 import nc.recipe.*;
 import nc.util.*;
@@ -13,9 +14,9 @@ import net.minecraft.util.text.TextFormatting;
 
 public class JEIRecipeWrapper {
 	
-	public static class Manufactory extends JEIRecipeWrapperProcessor<Manufactory> {
+	public static class Manufactory extends JEIMachineRecipeWrapper {
 		
-		public Manufactory(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Manufactory(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -36,9 +37,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Separator extends JEIRecipeWrapperProcessor<Separator> {
+	public static class Separator extends JEIMachineRecipeWrapper {
 		
-		public Separator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Separator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34, 59, 34, 37, 18);
 		}
 		
@@ -59,9 +60,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class DecayHastener extends JEIRecipeWrapperProcessor<DecayHastener> {
+	public static class DecayHastener extends JEIMachineRecipeWrapper {
 		
-		public DecayHastener(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public DecayHastener(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -82,9 +83,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class FuelReprocessor extends JEIRecipeWrapperProcessor<FuelReprocessor> {
+	public static class FuelReprocessor extends JEIMachineRecipeWrapper {
 		
-		public FuelReprocessor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public FuelReprocessor(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 29, 30, 176, 3, 37, 38, 48, 30, 47, 30, 37, 38);
 		}
 		
@@ -105,9 +106,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class AlloyFurnace extends JEIRecipeWrapperProcessor<AlloyFurnace> {
+	public static class AlloyFurnace extends JEIMachineRecipeWrapper {
 		
-		public AlloyFurnace(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public AlloyFurnace(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35, 83, 34, 37, 18);
 		}
 		
@@ -128,9 +129,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Infuser extends JEIRecipeWrapperProcessor<Infuser> {
+	public static class Infuser extends JEIMachineRecipeWrapper {
 		
-		public Infuser(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Infuser(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35, 83, 34, 37, 18);
 		}
 		
@@ -151,9 +152,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Melter extends JEIRecipeWrapperProcessor<Melter> {
+	public static class Melter extends JEIMachineRecipeWrapper {
 		
-		public Melter(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Melter(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -174,9 +175,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Supercooler extends JEIRecipeWrapperProcessor<Supercooler> {
+	public static class Supercooler extends JEIMachineRecipeWrapper {
 		
-		public Supercooler(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Supercooler(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -197,9 +198,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Electrolyzer extends JEIRecipeWrapperProcessor<Electrolyzer> {
+	public static class Electrolyzer extends JEIMachineRecipeWrapper {
 		
-		public Electrolyzer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Electrolyzer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 49, 30, 176, 3, 37, 38, 68, 30, 67, 30, 37, 38);
 		}
 		
@@ -220,9 +221,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Assembler extends JEIRecipeWrapperProcessor<Assembler> {
+	public static class Assembler extends JEIMachineRecipeWrapper {
 		
-		public Assembler(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Assembler(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 36, 84, 31, 83, 30, 37, 38);
 		}
 		
@@ -243,9 +244,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class IngotFormer extends JEIRecipeWrapperProcessor<IngotFormer> {
+	public static class IngotFormer extends JEIMachineRecipeWrapper {
 		
-		public IngotFormer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public IngotFormer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -266,9 +267,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Pressurizer extends JEIRecipeWrapperProcessor<Pressurizer> {
+	public static class Pressurizer extends JEIMachineRecipeWrapper {
 		
-		public Pressurizer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Pressurizer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -289,9 +290,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class ChemicalReactor extends JEIRecipeWrapperProcessor<ChemicalReactor> {
+	public static class ChemicalReactor extends JEIMachineRecipeWrapper {
 		
-		public ChemicalReactor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public ChemicalReactor(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 31, 30, 176, 3, 37, 18, 70, 34, 69, 34, 37, 18);
 		}
 		
@@ -312,9 +313,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class SaltMixer extends JEIRecipeWrapperProcessor<SaltMixer> {
+	public static class SaltMixer extends JEIMachineRecipeWrapper {
 		
-		public SaltMixer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public SaltMixer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 18, 84, 34, 83, 34, 37, 18);
 		}
 		
@@ -335,9 +336,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Crystallizer extends JEIRecipeWrapperProcessor<Crystallizer> {
+	public static class Crystallizer extends JEIMachineRecipeWrapper {
 		
-		public Crystallizer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Crystallizer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35, 73, 34, 37, 18);
 		}
 		
@@ -358,9 +359,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Enricher extends JEIRecipeWrapperProcessor<Enricher> {
+	public static class Enricher extends JEIMachineRecipeWrapper {
 		
-		public Enricher(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Enricher(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35, 83, 34, 37, 18);
 		}
 		
@@ -381,9 +382,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Extractor extends JEIRecipeWrapperProcessor<Extractor> {
+	public static class Extractor extends JEIMachineRecipeWrapper {
 		
-		public Extractor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Extractor(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34, 59, 34, 37, 18);
 		}
 		
@@ -404,9 +405,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Centrifuge extends JEIRecipeWrapperProcessor<Centrifuge> {
+	public static class Centrifuge extends JEIMachineRecipeWrapper {
 		
-		public Centrifuge(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Centrifuge(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 39, 30, 176, 3, 37, 38, 58, 30, 57, 30, 37, 38);
 		}
 		
@@ -427,9 +428,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class RockCrusher extends JEIRecipeWrapperProcessor<RockCrusher> {
+	public static class RockCrusher extends JEIMachineRecipeWrapper {
 		
-		public RockCrusher(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public RockCrusher(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 29, 30, 176, 3, 37, 16, 56, 35, 55, 34, 37, 18);
 		}
 		
@@ -450,9 +451,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Collector extends JEIRecipeWrapperAbstract<Collector> {
+	public static class Collector extends JEIBasicRecipeWrapper {
 		
-		public Collector(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Collector(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34);
 		}
 		
@@ -482,9 +483,9 @@ public class JEIRecipeWrapper {
 		private static final String PRODUCTION_RATE = Lang.localise("jei.nuclearcraft.collector_production_rate");
 	}
 	
-	public static class DecayGenerator extends JEIRecipeWrapperAbstract<DecayGenerator> {
+	public static class DecayGenerator extends JEIBasicRecipeWrapper {
 		
-		public DecayGenerator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public DecayGenerator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -535,9 +536,9 @@ public class JEIRecipeWrapper {
 		private static final String BLOCK_RADIATION = Lang.localise("jei.nuclearcraft.decay_gen_radiation");
 	}
 	
-	public static class FissionModerator extends JEIRecipeWrapperAbstract<FissionModerator> {
+	public static class FissionModerator extends JEIBasicRecipeWrapper {
 		
-		public FissionModerator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public FissionModerator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, -1, -1, 74, 35);
 		}
 		
@@ -547,9 +548,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class FissionReflector extends JEIRecipeWrapperAbstract<FissionReflector> {
+	public static class FissionReflector extends JEIBasicRecipeWrapper {
 		
-		public FissionReflector(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public FissionReflector(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, -1, -1, 74, 35);
 		}
 		
@@ -559,10 +560,10 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class FissionIrradiator extends JEIRecipeWrapperAbstract<FissionIrradiator> {
+	public static class FissionIrradiator extends JEIBasicRecipeWrapper {
 		
-		public FissionIrradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, "_jei", 47, 30, 176, 3, 37, 16, 74, 35);
+		public FissionIrradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
 		@Override
@@ -610,7 +611,7 @@ public class JEIRecipeWrapper {
 				}
 				double efficiency = getIrradiatorProcessEfficiency();
 				if (efficiency > 0D) {
-					tooltip.add(TextFormatting.LIGHT_PURPLE + EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * efficiency) + "%");
+					tooltip.add(TextFormatting.LIGHT_PURPLE + EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(efficiency, 1));
 				}
 				double radiation = getIrradiatorBaseProcessRadiation();
 				if (radiation > 0D) {
@@ -627,9 +628,9 @@ public class JEIRecipeWrapper {
 		private static final String RADIATION_PER_FLUX = Lang.localise("jei.nuclearcraft.radiation_per_flux");
 	}
 	
-	public static class PebbleFission extends JEIRecipeWrapperAbstract<PebbleFission> {
+	public static class PebbleFission extends JEIBasicRecipeWrapper {
 		
-		public PebbleFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public PebbleFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -666,6 +667,13 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected double getFissionFuelDecayFactor() {
+			if (recipe == null) {
+				return 0D;
+			}
+			return recipe.getFissionFuelDecayFactor();
+		}
+		
 		protected boolean getFissionFuelSelfPriming() {
 			if (recipe == null) {
 				return false;
@@ -687,8 +695,9 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime() * fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				tooltip.add(TextFormatting.GRAY + FUEL_DECAY_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelDecayFactor(), 1));
 				if (getFissionFuelSelfPriming()) {
 					tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
 				}
@@ -705,13 +714,14 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.pebble_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.pebble_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.pebble_fuel_criticality");
+		private static final String FUEL_DECAY_FACTOR = Lang.localise("jei.nuclearcraft.pebble_fuel_decay_factor");
 		private static final String FUEL_SELF_PRIMING = Lang.localise("jei.nuclearcraft.pebble_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.pebble_fuel_radiation");
 	}
 	
-	public static class SolidFission extends JEIRecipeWrapperAbstract<SolidFission> {
+	public static class SolidFission extends JEIBasicRecipeWrapper {
 		
-		public SolidFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public SolidFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -748,6 +758,13 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected double getFissionFuelDecayFactor() {
+			if (recipe == null) {
+				return 0D;
+			}
+			return recipe.getFissionFuelDecayFactor();
+		}
+		
 		protected boolean getFissionFuelSelfPriming() {
 			if (recipe == null) {
 				return false;
@@ -769,8 +786,9 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime() * fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				tooltip.add(TextFormatting.GRAY + FUEL_DECAY_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelDecayFactor(), 1));
 				if (getFissionFuelSelfPriming()) {
 					tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
 				}
@@ -787,13 +805,14 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.solid_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.solid_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.solid_fuel_criticality");
+		private static final String FUEL_DECAY_FACTOR = Lang.localise("jei.nuclearcraft.solid_fuel_decay_factor");
 		private static final String FUEL_SELF_PRIMING = Lang.localise("jei.nuclearcraft.solid_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.solid_fuel_radiation");
 	}
 	
-	public static class FissionHeating extends JEIRecipeWrapperAbstract<FissionHeating> {
+	public static class FissionHeating extends JEIBasicRecipeWrapper {
 		
-		public FissionHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public FissionHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -823,9 +842,9 @@ public class JEIRecipeWrapper {
 		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
-	public static class SaltFission extends JEIRecipeWrapperAbstract<SaltFission> {
+	public static class SaltFission extends JEIBasicRecipeWrapper {
 		
-		public SaltFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public SaltFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -862,6 +881,13 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected double getFissionFuelDecayFactor() {
+			if (recipe == null) {
+				return 0D;
+			}
+			return recipe.getFissionFuelDecayFactor();
+		}
+		
 		protected boolean getFissionFuelSelfPriming() {
 			if (recipe == null) {
 				return false;
@@ -883,8 +909,9 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getSaltFissionFuelTime() * fission_fuel_time_multiplier, 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				tooltip.add(TextFormatting.GRAY + FUEL_DECAY_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelDecayFactor(), 1));
 				if (getFissionFuelSelfPriming()) {
 					tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
 				}
@@ -901,13 +928,14 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.salt_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.salt_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.salt_fuel_criticality");
+		private static final String FUEL_DECAY_FACTOR = Lang.localise("jei.nuclearcraft.salt_fuel_decay_factor");
 		private static final String FUEL_SELF_PRIMING = Lang.localise("jei.nuclearcraft.salt_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.salt_fuel_radiation");
 	}
 	
-	public static class CoolantHeater extends JEIRecipeWrapperAbstract<CoolantHeater> {
+	public static class CoolantHeater extends JEIBasicRecipeWrapper {
 		
-		public CoolantHeater(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public CoolantHeater(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -949,9 +977,9 @@ public class JEIRecipeWrapper {
 		private static final String COOLING = Lang.localise("jei.nuclearcraft.coolant_heater_rate");
 	}
 	
-	public static class FissionEmergencyCooling extends JEIRecipeWrapperAbstract<FissionEmergencyCooling> {
+	public static class FissionEmergencyCooling extends JEIBasicRecipeWrapper {
 		
-		public FissionEmergencyCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public FissionEmergencyCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -981,10 +1009,10 @@ public class JEIRecipeWrapper {
 		private static final String COOLING_PER_MB = Lang.localise("jei.nuclearcraft.fission_emergency_cooling_per_mb");
 	}
 	
-	public static class Fusion extends JEIRecipeWrapperAbstract<Fusion> {
+	public static class Fusion extends JEIBasicRecipeWrapper {
 		
-		public Fusion(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, "_jei", 55, 30, 176, 3, 37, 16, 74, 35);
+		public Fusion(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 55, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
 		@Override
@@ -1019,7 +1047,7 @@ public class JEIRecipeWrapper {
 			
 			if (mouseX >= 73 - 55 && mouseY >= 34 - 30 && mouseX < 73 - 55 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFusionComboTime() / fusion_fuel_use, 3));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(100D * getFusionComboPower() * fusion_base_power, 5, "RF/t"));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getFusionComboPower() * fusion_base_power, 5, "RF/t"));
 				double optimalTemp = R * getFusionComboHeatVariable();
 				tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + (optimalTemp < 20000000D / 1000D ? TextFormatting.WHITE : TextFormatting.GOLD) + UnitHelper.prefix(optimalTemp, 5, "K", 2));
 			}
@@ -1034,9 +1062,9 @@ public class JEIRecipeWrapper {
 		private static final String COMBO_TEMP = Lang.localise("jei.nuclearcraft.fusion_temp");
 	}
 	
-	public static class HeatExchanger extends JEIRecipeWrapperAbstract<HeatExchanger> {
+	public static class HeatExchanger extends JEIBasicRecipeWrapper {
 		
-		public HeatExchanger(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public HeatExchanger(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, recipe != null && recipe.getHeatExchangerIsHeating() ? 3 : 19, 37, 16, 74, 35);
 		}
 		
@@ -1074,9 +1102,9 @@ public class JEIRecipeWrapper {
 		private static final String COOLING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_cooling_required");
 	}
 	
-	public static class Condenser extends JEIRecipeWrapperAbstract<Condenser> {
+	public static class Condenser extends JEIBasicRecipeWrapper {
 		
-		public Condenser(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Condenser(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -1105,7 +1133,7 @@ public class JEIRecipeWrapper {
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.YELLOW + CONDENSING_TEMPERATURE + TextFormatting.WHITE + " " + getCondenserCondensingTemperature() + "K");
-				tooltip.add(TextFormatting.BLUE + HEAT_REMOVAL_REQUIRED + TextFormatting.WHITE + " " + NCMath.sigFigs(getCondenserProcessTime(), 3));
+				tooltip.add(TextFormatting.BLUE + HEAT_REMOVAL_REQUIRED + TextFormatting.WHITE + " " + NCMath.sigFigs(getCondenserProcessTime(), 5));
 			}
 			
 			return tooltip;
@@ -1115,9 +1143,9 @@ public class JEIRecipeWrapper {
 		private static final String HEAT_REMOVAL_REQUIRED = Lang.localise("jei.nuclearcraft.condenser_heat_removal_req");
 	}
 	
-	public static class Turbine extends JEIRecipeWrapperAbstract<Turbine> {
+	public static class Turbine extends JEIBasicRecipeWrapper {
 		
-		public Turbine(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Turbine(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
 		}
 		
@@ -1146,7 +1174,7 @@ public class JEIRecipeWrapper {
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getTurbinePowerPerMB(), 2) + " RF/mB");
-				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + Math.round(100D * getTurbineExpansionLevel()) + "%");
+				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineExpansionLevel(), 1));
 			}
 			
 			return tooltip;
@@ -1156,9 +1184,9 @@ public class JEIRecipeWrapper {
 		private static final String EXPANSION = Lang.localise("jei.nuclearcraft.turbine_expansion");
 	}
 	
-	public static class RadiationScrubber extends JEIRecipeWrapperAbstract<RadiationScrubber> {
+	public static class RadiationScrubber extends JEIBasicRecipeWrapper {
 		
-		public RadiationScrubber(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public RadiationScrubber(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 31, 30, 176, 3, 37, 16, 70, 35);
 		}
 		
@@ -1195,7 +1223,7 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 69 - 31 && mouseY >= 34 - 30 && mouseX < 69 - 31 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + PROCESS_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getScrubberProcessTime(), 3));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + PROCESS_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getScrubberProcessPower(), 5, "RF/t"));
-				tooltip.add(TextFormatting.RED + PROCESS_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D * getScrubberProcessEfficiency()) + "%");
+				tooltip.add(TextFormatting.RED + PROCESS_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getScrubberProcessEfficiency(), 1));
 			}
 			
 			return tooltip;

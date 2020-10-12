@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.multiblock.fission.tile.port.internal.PortItemHandler;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.*;
 import nc.util.*;
@@ -36,9 +36,9 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	public int inventoryStackLimit = 64;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public TileFissionItemPort(Class<PORT> portClass, String type, ProcessorRecipeHandler recipeHandler) {
+	public TileFissionItemPort(Class<PORT> portClass, String type, BasicRecipeHandler recipeHandler) {
 		super(portClass);
 		inventoryName = Global.MOD_ID + ".container.fission_" + type + "_port";
 		this.recipeHandler = recipeHandler;

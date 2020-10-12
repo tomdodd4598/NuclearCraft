@@ -4,10 +4,11 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIHelper.RecipeItemMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class RockCrusherCategory extends JEICategoryProcessor<JEIRecipeWrapper.RockCrusher> {
+public class RockCrusherCategory extends JEIMachineCategory<JEIRecipeWrapper.RockCrusher> {
 	
 	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "rock_crusher", 29, 30, 122, 26);

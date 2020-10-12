@@ -2,7 +2,7 @@ package nc.container.processor;
 
 import nc.container.ContainerTile;
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.ITileGui;
 import nc.tile.inventory.ITileFilteredInventory;
 import nc.tile.processor.*;
@@ -13,9 +13,9 @@ import net.minecraft.item.ItemStack;
 public abstract class ContainerFilteredItemProcessor<PROCESSOR extends IItemProcessor & ITileFilteredInventory & ITileGui> extends ContainerTile<PROCESSOR> {
 	
 	protected final PROCESSOR tile;
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public ContainerFilteredItemProcessor(EntityPlayer player, PROCESSOR tileEntity, ProcessorRecipeHandler recipeHandler) {
+	public ContainerFilteredItemProcessor(EntityPlayer player, PROCESSOR tileEntity, BasicRecipeHandler recipeHandler) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipeHandler = recipeHandler;

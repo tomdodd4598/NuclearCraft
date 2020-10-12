@@ -54,13 +54,13 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	protected final int itemInputSize = 1, itemOutputSize = 1, otherSlotsSize = 0;
 	
 	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
-	protected int baseProcessHeat = 0, baseProcessCriticality = 1;
+	public int baseProcessHeat = 0, baseProcessCriticality = 1;
 	protected boolean selfPriming = false;
 	
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -70,7 +70,9 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public long clusterHeatStored, clusterHeatCapacity;
 	
 	protected boolean primed = false, fluxSearched = false;
-	protected int flux = 0, heatMult = 0;
+	protected int flux = 0;
+	
+	public int heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected int[] moderatorLineFluxes = new int[] {0, 0, 0, 0, 0, 0};
@@ -165,7 +167,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public void tryPriming(FissionReactor sourceReactor) {
+	public void tryPriming(FissionReactor sourceReactor, boolean fromSource) {
 		if (getMultiblock() != sourceReactor) {
 			return;
 		}
@@ -178,6 +180,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	@Override
 	public boolean isPrimed() {
 		return primed;
+	}
+	
+	@Override
+	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache) {
+		primedCache.add(this);
 	}
 	
 	@Override

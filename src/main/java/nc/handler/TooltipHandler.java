@@ -44,8 +44,8 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addPlacementRuleTooltip(List<String> tooltip, ItemStack stack) {
-		RecipeInfo<ProcessorRecipe> recipeInfo = FissionPlacement.tooltip_recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
-		ProcessorRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
+		RecipeInfo<BasicRecipe> recipeInfo = FissionPlacement.tooltip_recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+		BasicRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
 			String rule = FissionPlacement.TOOLTIP_MAP.get(recipe.getPlacementRuleID());
 			if (rule != null) {
@@ -67,16 +67,16 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addRecipeTooltip(List<String> tooltip, ItemStack stack) {
-		RecipeInfo<ProcessorRecipe> recipeInfo = NCRecipes.pebble_fission.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
-		ProcessorRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
+		RecipeInfo<BasicRecipe> recipeInfo = NCRecipes.pebble_fission.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+		BasicRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
-			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
+			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.GRAY, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
 		}
 		
 		recipeInfo = NCRecipes.solid_fission.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 		recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
-			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
+			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.GRAY, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
 		}
 		
 		recipeInfo = NCRecipes.fission_moderator.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
@@ -100,7 +100,7 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addArmorRadiationTooltip(List<String> tooltip, ItemStack stack) {
-		if (!ArmorHelper.isArmor(stack.getItem(), radiation_horse_armor_public)) {
+		if (stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), radiation_horse_armor_public)) {
 			return;
 		}
 		IRadiationResistance armorResistance = RadiationHelper.getRadiationResistance(stack);

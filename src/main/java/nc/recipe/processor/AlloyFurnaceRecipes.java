@@ -7,12 +7,12 @@ import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.OreIngredient;
 import nc.util.OreDictHelper;
 import net.minecraft.init.*;
 
-public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
+public class AlloyFurnaceRecipes extends BasicRecipeHandler {
 	
 	public AlloyFurnaceRecipes() {
 		super("alloy_furnace", 2, 0, 1, 0);

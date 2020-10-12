@@ -17,7 +17,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ManufactoryRecipes extends ProcessorRecipeHandler {
+public class ManufactoryRecipes extends BasicRecipeHandler {
 	
 	public ManufactoryRecipes() {
 		super("manufactory", 1, 0, 1, 0);

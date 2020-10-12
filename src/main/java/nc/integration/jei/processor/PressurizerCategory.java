@@ -4,10 +4,11 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIHelper.RecipeItemMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class PressurizerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Pressurizer> {
+public class PressurizerCategory extends JEIMachineCategory<JEIRecipeWrapper.Pressurizer> {
 	
 	public PressurizerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "pressurizer", 47, 30, 90, 26);

@@ -65,7 +65,7 @@ public class RadArmor {
 	
 	public static ItemStack armorWithRadResistance(ItemStack armor, double resistance) {
 		ItemStack stack = armor.copy();
-		if (!ArmorHelper.isArmor(armor.getItem(), true)) {
+		if (!ArmorHelper.isArmor(armor.getItem(), radiation_horse_armor_public)) {
 			return stack;
 		}
 		if (!stack.hasTagCompound()) {

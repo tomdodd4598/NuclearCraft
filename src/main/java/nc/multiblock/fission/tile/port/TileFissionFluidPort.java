@@ -10,7 +10,7 @@ import javax.annotation.*;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.fluid.*;
 import nc.tile.internal.fluid.*;
 import nc.util.*;
@@ -35,9 +35,9 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	protected @Nonnull GasTileWrapper gasWrapper;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public TileFissionFluidPort(Class<PORT> portClass, int capacity, List<String> validFluids, ProcessorRecipeHandler recipeHandler) {
+	public TileFissionFluidPort(Class<PORT> portClass, int capacity, List<String> validFluids, BasicRecipeHandler recipeHandler) {
 		super(portClass);
 		tanks = Lists.newArrayList(new Tank(capacity, validFluids), new Tank(capacity, new ArrayList<>()));
 		filterTanks = Lists.newArrayList(new Tank(1000, validFluids), new Tank(1000, new ArrayList<>()));

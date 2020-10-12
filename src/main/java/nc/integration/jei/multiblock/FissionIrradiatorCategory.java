@@ -5,15 +5,15 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIHelper.RecipeItemMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class FissionIrradiatorCategory extends JEICategoryProcessor<JEIRecipeWrapper.FissionIrradiator> {
+public class FissionIrradiatorCategory extends JEIMachineCategory<JEIRecipeWrapper.FissionIrradiator> {
 	
 	public FissionIrradiatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "fission_irradiator", "_jei", 47, 30, 90, 26);
-		recipeTitle = Lang.localise(Global.MOD_ID + ".multiblock_gui.fission_irradiator.jei_name");
+		super(guiHelper, handler, "fission_irradiator", 47, 30, 90, 26);
 	}
 	
 	@Override
@@ -24,5 +24,10 @@ public class FissionIrradiatorCategory extends JEICategoryProcessor<JEIRecipeWra
 		itemMapper.map(IngredientSorption.INPUT, 0, 0, 56 - backPosX, 35 - backPosY);
 		itemMapper.map(IngredientSorption.OUTPUT, 0, 1, 116 - backPosX, 35 - backPosY);
 		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
+	}
+	
+	@Override
+	public String getTitle() {
+		return Lang.localise(Global.MOD_ID + ".multiblock_gui.fission_irradiator.jei_name");
 	}
 }

@@ -2,10 +2,10 @@ package nc.recipe.processor;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 
-public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
+public class FuelReprocessorRecipes extends BasicRecipeHandler {
 	
 	public FuelReprocessorRecipes() {
 		super("fuel_reprocessor", 1, 0, 8, 0);

@@ -164,7 +164,7 @@ public class UnitHelper {
 	
 	public static String applyTimeUnit(long ticks, int maxLength, int startUnit) {
 		int i = startUnit;
-		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+		while (Long.toString(Math.round(ticks / TIME_MULT[i])).length() > maxLength) {
 			i++;
 		}
 		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT[i];
@@ -175,7 +175,7 @@ public class UnitHelper {
 			return NCMath.decimalPlaces(ticks, 3) + " ticks";
 		}
 		int i = startUnit;
-		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+		while (Long.toString(Math.round(ticks / TIME_MULT[i])).length() > maxLength) {
 			i++;
 		}
 		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT[i];
@@ -191,7 +191,7 @@ public class UnitHelper {
 	
 	public static String applyTimeUnitShort(long ticks, int maxLength, int startUnit) {
 		int i = startUnit;
-		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+		while (Long.toString(Math.round(ticks / TIME_MULT[i])).length() > maxLength) {
 			i++;
 		}
 		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT_SHORT[i];
@@ -202,7 +202,7 @@ public class UnitHelper {
 			return NCMath.decimalPlaces(ticks, 3) + " t";
 		}
 		int i = startUnit;
-		while ((Math.round(ticks / TIME_MULT[i]) + "").length() > maxLength) {
+		while (Long.toString(Math.round(ticks / TIME_MULT[i])).length() > maxLength) {
 			i++;
 		}
 		return Math.round(ticks / TIME_MULT[i]) + TIME_UNIT_SHORT[i];

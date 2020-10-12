@@ -466,11 +466,11 @@ public class RecipeHelper {
 		return ingredientNames;
 	}
 	
-	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes) {
+	public static List<List<String>> validFluids(BasicRecipeHandler recipes) {
 		return validFluids(recipes, new ArrayList<>());
 	}
 	
-	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes, List<String> exceptions) {
+	public static List<List<String>> validFluids(BasicRecipeHandler recipes, List<String> exceptions) {
 		int fluidInputSize = recipes.getFluidInputSize();
 		int fluidOutputSize = recipes.getFluidOutputSize();
 		
@@ -539,8 +539,8 @@ public class RecipeHelper {
 		return hash;
 	}
 	
-	public static ProcessorRecipe blockRecipe(ProcessorRecipeHandler recipeHandler, World world, BlockPos pos) {
-		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(pos))), new ArrayList<>());
+	public static BasicRecipe blockRecipe(BasicRecipeHandler recipeHandler, World world, BlockPos pos) {
+		RecipeInfo<BasicRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(pos))), new ArrayList<>());
 		return recipeInfo == null ? null : recipeInfo.getRecipe();
 	}
 	

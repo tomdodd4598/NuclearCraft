@@ -1,12 +1,5 @@
-Suggestions from: This probably won’t happen but in stead of multiblock reactors
-
-Adjacent MSR vessels with same filter form bundle to share flux, shared criticality factor is sum of single vessel criticality factors
-
-Take number of available open faces of vessel bundle into account when calculating the heat multiplier (and efficiency)
-(actual heat multiplier) = 6*(number of vessels)*(raw heat multiplier)/(number of open faces)
-(number of open faces = number of faces not adjacent to another vessel of the same bundle)
-
-Required neutron sources to prime vessel bundle = (number of open faces)/6
+Refactor fission/turbine logic to have abstract super logic (e.g. FissionReactorLogicAbstract, TurbineLogicAbstract)
+Use logic-specific fission clusters (fix MSR vessel bunch stat rounding errors)
 
 Fuel decay heat and neutron poison (https://discordapp.com/channels/425461908712325130/425470889354723350/738167468283002932)
 
@@ -15,23 +8,22 @@ Show potential (pre-primed) stats if reactor is idle
 Keep clusters running even when multiblock is invalidated
 
 Link managers to listeners with multitool (default behaviour: act on all listeners)
+Add neutron source managers
+Add unidirectional interior neutron source
 
 Multiblock monitors: show cluster information, meltdown locations, side configurations, etc.
-
-Add two more product slots to fuel reprocessor for waste products (used in decay pool)
 
 Finish fission meltdown mechanics
 Add melting logic to non-fuel components
 Graphite/beryllium fires, heavy water evaporation, etc.
 Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
 
-Replace casing emergency cooling with cluster/port based version (no placement rules)?
-
-Refactor fission/turbine logic to have abstract super logic (e.g. FissionReactorLogicAbstract, TurbineLogicAbstract)
-Use logic-specific fission clusters
+Replace casing emergency cooling with cluster/port based version (no placement rules)
+Add component heat dissipation while invalid?
 
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
 Modularise processor classes
+Refactor GUIs
 
 CT Registration of machines?
 
@@ -39,6 +31,8 @@ Multitool support for side configurations
 OC support for side configurations
 
 Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
+
+Weapons based on acids and toxic materials?
 
 Patchouli documentation
 
@@ -53,6 +47,7 @@ SiC–SiC ceramic matrix composite for top-tier turbine blades, made by melt inf
 ___________________________________________________________________________________________________________________________
 
 1.16: Cherenkov radiation (configurable)?
+1.16: Make reflectors tile entities (can form clusters)
 ___________________________________________________________________________________________________________________________
 
 1.16: Item stack NBT support in NC recipes (also allow for NBT 'wildcards')
@@ -82,7 +77,7 @@ Gas-cooled Pebble-Bed Reactor that produces energy directly
 Option to use superheated gases in turbine loop?
 QT gas coolants: https://docs.google.com/spreadsheets/d/1gtXbk_S9ginkjgDo8BNXQr54kaQcToaqUa2E9LA0CMQ/edit#gid=1165328757
 
-1.16: MSR split: NaK coolant for thermal, PbBi coolant for fast?
+1.16: MSR split: NaK coolant for thermal, eutectic Pb-Bi alloy coolant for fast?
 ___________________________________________________________________________________________________________________________
 
 Heat Exchanger: make heat flow maths realistic: https://en.wikipedia.org/wiki/Countercurrent_exchange

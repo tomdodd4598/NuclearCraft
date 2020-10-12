@@ -7,21 +7,23 @@ import it.unimi.dsi.fastutil.objects.*;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.*;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-public class JEIMethods {
+public class JEIHelper {
 	
-	public static ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
-		ArrayList<JEIRecipeWrapperAbstract> recipes = new ArrayList();
+	public static List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, Class<? extends JEIBasicRecipeWrapper> recipeWrapper) {
+		ArrayList<JEIBasicRecipeWrapper> recipes = new ArrayList<>();
 		if (recipeHandler != null) {
-			for (ProcessorRecipe recipe : recipeHandler.getRecipeList()) {
+			for (BasicRecipe recipe : recipeHandler.getRecipeList()) {
 				try {
-					recipes.add(recipeWrapper.getConstructor(IGuiHelper.class, IJEIHandler.class, ProcessorRecipeHandler.class, ProcessorRecipe.class).newInstance(guiHelper, jeiHandler, recipeHandler, recipe));
+					recipes.add(recipeWrapper.getConstructor(IGuiHelper.class, IJEIHandler.class, BasicRecipeHandler.class, BasicRecipe.class).newInstance(guiHelper, jeiHandler, recipeHandler, recipe));
 				}
 				catch (Exception e) {
-					e.printStackTrace();
+					NCUtil.getLogger().catching(e);
 				}
 			}
 		}
@@ -102,7 +104,7 @@ public class JEIMethods {
 		}
 	}
 	
-	public static class RecipeItemMapping {
+	protected static class RecipeItemMapping {
 		
 		public int slotPos, xPos, yPos;
 		
@@ -113,7 +115,7 @@ public class JEIMethods {
 		}
 	}
 	
-	public static class RecipeFluidMapping {
+	protected static class RecipeFluidMapping {
 		
 		public int slotPos, xPos, yPos, xSize, ySize;
 		

@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import nc.enumm.*;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.radiation.RadiationHelper;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.BasicRecipe;
 import nc.util.*;
 import net.minecraft.util.IStringSerializable;
 
@@ -17,8 +17,14 @@ public class NCInfo {
 	
 	// Fission Fuel
 	
-	public static String[] fissionFuelInfo(ProcessorRecipe fuelInfo) {
-		List<String> list = Lists.newArrayList(Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime() * fission_fuel_time_multiplier, 3)), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", Math.round(100D * fuelInfo.getFissionFuelEfficiency()) + "%"), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t"));
+	public static String[] fissionFuelInfo(BasicRecipe fuelInfo) {
+		List<String> list = Lists.newArrayList(
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime() * fission_fuel_time_multiplier, 3)),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", NCMath.pcDecimalPlaces(fuelInfo.getFissionFuelEfficiency(), 1)),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t"),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.decay_factor.desc", NCMath.pcDecimalPlaces(fuelInfo.getFissionFuelDecayFactor(), 1)));
 		if (fuelInfo.getFissionFuelSelfPriming()) {
 			list.add(Lang.localise("info." + Global.MOD_ID + ".fission_fuel.self_priming.desc"));
 		}
@@ -61,7 +67,7 @@ public class NCInfo {
 		MetaEnums.NeutronSourceType[] values = MetaEnums.NeutronSourceType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("info." + Global.MOD_ID + ".fission_source.efficiency.fixd", Math.round(100D * values[i].getEfficiency()) + "%"),};
+			info[i] = new String[] {Lang.localise("info." + Global.MOD_ID + ".fission_source.efficiency.fixd", NCMath.pcDecimalPlaces(values[i].getEfficiency(), 1)),};
 		}
 		return info;
 	}
@@ -81,7 +87,10 @@ public class NCInfo {
 		MetaEnums.NeutronShieldType[] values = MetaEnums.NeutronShieldType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/t/N")), Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", Math.round(100D * values[i].getEfficiency()) + "%"),};
+			info[i] = new String[] {
+					Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/t/N")),
+					Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", NCMath.pcDecimalPlaces(values[i].getEfficiency(), 1))
+			};
 		}
 		return info;
 	}
@@ -97,8 +106,12 @@ public class NCInfo {
 	
 	// Fission Moderators
 	
-	public static String[] fissionModeratorFixedInfo(ProcessorRecipe moderatorInfo) {
-		return new String[] {Lang.localise("info." + Global.MOD_ID + ".moderator.fixd"), Lang.localise("info." + Global.MOD_ID + ".moderator.flux_factor.fixd", moderatorInfo.getFissionModeratorFluxFactor() + " N/t"), Lang.localise("info." + Global.MOD_ID + ".moderator.efficiency.fixd", Math.round(100D * moderatorInfo.getFissionModeratorEfficiency()) + "%")};
+	public static String[] fissionModeratorFixedInfo(BasicRecipe moderatorInfo) {
+		return new String[] {
+				Lang.localise("info." + Global.MOD_ID + ".moderator.fixd"),
+				Lang.localise("info." + Global.MOD_ID + ".moderator.flux_factor.fixd", moderatorInfo.getFissionModeratorFluxFactor() + " N/t"),
+				Lang.localise("info." + Global.MOD_ID + ".moderator.efficiency.fixd", NCMath.pcDecimalPlaces(moderatorInfo.getFissionModeratorEfficiency(), 1))
+		};
 	}
 	
 	public static String[] fissionModeratorInfo() {
@@ -107,8 +120,12 @@ public class NCInfo {
 	
 	// Fission Reflectors
 	
-	public static String[] fissionReflectorFixedInfo(ProcessorRecipe reflectorInfo) {
-		return new String[] {Lang.localise("info." + Global.MOD_ID + ".reflector.fixd"), Lang.localise("info." + Global.MOD_ID + ".reflector.reflectivity.fixd", Math.round(100D * reflectorInfo.getFissionReflectorReflectivity()) + "%"), Lang.localise("info." + Global.MOD_ID + ".reflector.efficiency.fixd", Math.round(100D * reflectorInfo.getFissionReflectorEfficiency()) + "%")};
+	public static String[] fissionReflectorFixedInfo(BasicRecipe reflectorInfo) {
+		return new String[] {
+				Lang.localise("info." + Global.MOD_ID + ".reflector.fixd"),
+				Lang.localise("info." + Global.MOD_ID + ".reflector.reflectivity.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorReflectivity(), 1)),
+				Lang.localise("info." + Global.MOD_ID + ".reflector.efficiency.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorEfficiency(), 1))
+		};
 	}
 	
 	public static String[] fissionReflectorInfo() {
@@ -119,7 +136,6 @@ public class NCInfo {
 	
 	public static String[][] dynamoCoilFixedInfo() {
 		String[][] info = new String[TurbineDynamoCoilType.values().length][];
-		info[0] = new String[] {};
 		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
 			info[i] = new String[] {coilConductivityString(i)};
 		}
@@ -127,7 +143,7 @@ public class NCInfo {
 	}
 	
 	private static String coilConductivityString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.decimalPlaces(100D * TurbineDynamoCoilType.values()[meta].getConductivity(), 1) + "%";
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.pcDecimalPlaces(TurbineDynamoCoilType.values()[meta].getConductivity(), 1);
 	}
 	
 	// Speed Upgrade

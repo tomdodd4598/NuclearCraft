@@ -5,6 +5,7 @@ import java.util.*;
 import it.unimi.dsi.fastutil.doubles.*;
 import it.unimi.dsi.fastutil.floats.*;
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class CollectionHelper {
@@ -82,6 +83,33 @@ public class CollectionHelper {
 		List result = new ArrayList();
 		result.addAll(first);
 		for (List list : rest) {
+			result.addAll(list);
+		}
+		return result;
+	}
+	
+	public static IntList concatInt(List<? extends Integer> first, List<? extends Integer>... rest) {
+		IntList result = new IntArrayList();
+		result.addAll(first);
+		for (List<? extends Integer> list : rest) {
+			result.addAll(list);
+		}
+		return result;
+	}
+	
+	public static DoubleList concatDouble(List<? extends Double> first, List<? extends Double>... rest) {
+		DoubleList result = new DoubleArrayList();
+		result.addAll(first);
+		for (List<? extends Double> list : rest) {
+			result.addAll(list);
+		}
+		return result;
+	}
+	
+	public static LongList concatLong(List<? extends Long> first, List<? extends Long>... rest) {
+		LongList result = new LongArrayList();
+		result.addAll(first);
+		for (List<? extends Long> list : rest) {
 			result.addAll(list);
 		}
 		return result;
@@ -278,5 +306,29 @@ public class CollectionHelper {
 			}
 		}
 		return true;
+	}
+	
+	public static IntList nCopies(int n, int value) {
+		return new IntArrayList(Collections.nCopies(n, value));
+	}
+	
+	public static LongList nCopies(int n, long value) {
+		return new LongArrayList(Collections.nCopies(n, value));
+	}
+	
+	public static DoubleList nCopies(int n, double value) {
+		return new DoubleArrayList(Collections.nCopies(n, value));
+	}
+	
+	public static int[] arrayCopies(int n, int value) {
+		return nCopies(n, value).toIntArray();
+	}
+	
+	public static long[] arrayCopies(int n, long value) {
+		return nCopies(n, value).toLongArray();
+	}
+	
+	public static double[] arrayCopies(int n, double value) {
+		return nCopies(n, value).toDoubleArray();
 	}
 }

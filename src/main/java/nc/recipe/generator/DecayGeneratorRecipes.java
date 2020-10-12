@@ -7,10 +7,10 @@ import java.util.*;
 import com.google.common.collect.*;
 
 import nc.radiation.RadSources;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.OreDictHelper;
 
-public class DecayGeneratorRecipes extends ProcessorRecipeHandler {
+public class DecayGeneratorRecipes extends BasicRecipeHandler {
 	
 	public DecayGeneratorRecipes() {
 		super("decay_generator", 1, 0, 1, 0);

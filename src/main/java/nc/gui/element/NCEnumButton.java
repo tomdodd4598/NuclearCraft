@@ -3,7 +3,7 @@ package nc.gui.element;
 import org.lwjgl.opengl.GL11;
 
 import nc.Global;
-import nc.gui.IButtonEnum;
+import nc.gui.IGuiButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.*;
@@ -30,7 +30,7 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 	public abstract void toggle(int mouseButton);
 	
 	@SideOnly(Side.CLIENT)
-	public static abstract class Image<T extends Enum<T> & IButtonEnum> extends NCEnumButton<T> {
+	public static abstract class Image<T extends Enum<T> & IGuiButton> extends NCEnumButton<T> {
 		
 		protected int textureX, textureY;
 		protected int textureWidth, textureHeight;

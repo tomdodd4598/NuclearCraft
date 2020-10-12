@@ -5,9 +5,9 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class SaltMixerRecipes extends ProcessorRecipeHandler {
+public class SaltMixerRecipes extends BasicRecipeHandler {
 	
 	public SaltMixerRecipes() {
 		super("salt_mixer", 0, 2, 0, 1);

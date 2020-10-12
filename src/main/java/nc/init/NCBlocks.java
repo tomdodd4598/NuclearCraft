@@ -538,24 +538,24 @@ public class NCBlocks {
 		registerBlock(heat_exchanger_casing);
 		registerBlock(heat_exchanger_glass);
 		registerBlock(heat_exchanger_vent);
-		registerBlock(heat_exchanger_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D * heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
-		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D * heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
-		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D * heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[0], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[1], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[2], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		registerBlock(heat_exchanger_computer_port);
 		
 		registerBlock(condenser_controller);
-		registerBlock(condenser_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), Math.round(100D * heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
-		registerBlock(condenser_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), Math.round(100D * heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
-		registerBlock(condenser_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), Math.round(100D * heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
+		registerBlock(condenser_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[0], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
+		registerBlock(condenser_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[1], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
+		registerBlock(condenser_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[2], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
 		
 		registerBlock(turbine_controller);
 		registerBlock(turbine_casing);
 		registerBlock(turbine_glass);
 		registerBlock(turbine_rotor_shaft);
-		registerBlock(turbine_rotor_blade_steel, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * turbine_blade_efficiency[0]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * turbine_blade_expansion[0]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_blade_extreme, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * turbine_blade_efficiency[1]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * turbine_blade_expansion[1]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_blade_sic_sic_cmc, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * turbine_blade_efficiency[2]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * turbine_blade_expansion[2]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D * turbine_stator_expansion) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
+		registerBlock(turbine_rotor_blade_steel, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[0], 1)), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[0], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_blade_extreme, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[1], 1)), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[1], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_blade_sic_sic_cmc, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[2], 1)), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[2], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(turbine_stator_expansion, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
 		registerBlock(turbine_rotor_bearing);
 		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, InfoHelper.NULL_ARRAYS));
 		registerBlock(turbine_coil_connector);
@@ -582,7 +582,7 @@ public class NCBlocks {
 			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.prefix(processor_passive_rate[2] * 64, 5, "B/t", -1)));
 		}
 		
-		registerBlock(radiation_scrubber, radiation_scrubber_non_linear ? InfoHelper.formattedInfo(infoLine("radiation_scrubber_non_linear"), NCMath.decimalPlaces(100D * RadiationHelper.getAltScrubbingFraction(1D), 1) + "%", Lang.localise("nuclearcraft.one_hundred_percent")) : InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.decimalPlaces(100D * radiation_scrubber_fraction, 1) + "%", Lang.localise("nuclearcraft.one_hundred_percent")));
+		registerBlock(radiation_scrubber, radiation_scrubber_non_linear ? InfoHelper.formattedInfo(infoLine("radiation_scrubber_non_linear"), NCMath.pcDecimalPlaces(RadiationHelper.getAltScrubbingFraction(1D), 1), Lang.localise("nuclearcraft.one_hundred_percent")) : InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.pcDecimalPlaces(radiation_scrubber_fraction, 1), Lang.localise("nuclearcraft.one_hundred_percent")));
 		
 		registerBlock(geiger_block);
 		

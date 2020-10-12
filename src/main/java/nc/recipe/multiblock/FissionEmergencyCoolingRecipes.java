@@ -4,9 +4,9 @@ import static nc.config.NCConfig.fission_emergency_cooling_multiplier;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class FissionEmergencyCoolingRecipes extends ProcessorRecipeHandler {
+public class FissionEmergencyCoolingRecipes extends BasicRecipeHandler {
 	
 	public FissionEmergencyCoolingRecipes() {
 		super("emergency_cooling", 0, 1, 0, 1);

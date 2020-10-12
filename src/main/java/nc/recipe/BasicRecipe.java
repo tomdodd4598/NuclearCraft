@@ -13,7 +13,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 
 @ZenClass("mods.nuclearcraft.ProcessorRecipe")
 @ZenRegister
-public class ProcessorRecipe implements IRecipe {
+public class BasicRecipe implements IRecipe {
 	
 	protected List<IItemIngredient> itemIngredients, itemProducts;
 	protected List<IFluidIngredient> fluidIngredients, fluidProducts;
@@ -21,7 +21,7 @@ public class ProcessorRecipe implements IRecipe {
 	protected List extras;
 	protected boolean isShapeless;
 	
-	public ProcessorRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+	public BasicRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
 		this.itemIngredients = itemIngredients;
 		this.fluidIngredients = fluidIngredients;
 		this.itemProducts = itemProducts;
@@ -182,12 +182,16 @@ public class ProcessorRecipe implements IRecipe {
 		return (int) extras.get(3);
 	}
 	
+	public double getFissionFuelDecayFactor() {
+		return (double) extras.get(4);
+	}
+	
 	public boolean getFissionFuelSelfPriming() {
-		return (boolean) extras.get(4);
+		return (boolean) extras.get(5);
 	}
 	
 	public double getFissionFuelRadiation() {
-		return (double) extras.get(5);
+		return (double) extras.get(6);
 	}
 	
 	// Fission Heating

@@ -704,11 +704,10 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"creg c[" + q + "];" + s +
 					codeString;
 			
-			ITextComponent link = new TextComponentString(out.getName());
-			link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
-			
 			try {
 				FileUtils.writeStringToFile(out, codeString);
+				ITextComponent link = new TextComponentString(out.getName());
+				link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
 				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_print", new Object[] {link}));
 			}
 			catch (IOException e) {
@@ -726,6 +725,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			
 			codeString = "# Jupyter plot output mode" + s +
 					"%matplotlib inline" + d +
+					
 					"# Standard Qiskit libraries" + s +
 					"from qiskit import *" + s +
 					"from qiskit.compiler import transpile, assemble" + s +
@@ -733,45 +733,73 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"from qiskit.visualization import *" + s +
 					"from qiskit.tools.monitor import job_monitor" + s +
 					"from qiskit.tools.jupyter import *" + d +
+					
 					"# Python maths" + s +
 					"import numpy as np" + s +
 					"from numpy import pi" + d +
+					
 					"# Number of qubits" + s +
 					"qubits = " + q + d +
+					
 					"# Load IBMQ account" + s +
 					"provider = IBMQ.load_account()" + s +
 					"simulator = provider.get_backend('ibmq_qasm_simulator')" + s +
-					"device = provider.get_backend('ibmq_16_melbourne')" + s +
-					"# quiet = least_busy(provider.backends(filters=lambda x: x.configuration().n_qubits >= qubits" + s +
-					"                                     # and not x.configuration().simulator" + s +
-					"                                     # and x.status().operational==True))" + d +
+					"device = provider.get_backend('" + (q > 5 ? "ibmq_16_melbourne" : "ibmq_santiago") + "')" + s +
+					"filtered = provider.backends(filters=lambda x:" + s +
+					"                             x.configuration().n_qubits >= qubits" + s +
+					"                             and not x.configuration().simulator" + s +
+					"                             and x.status().operational)" + s +
+					"leastbusy = least_busy(filtered) if len(filtered) > 0 else device" + d +
+					
+					"# Choice of backend" + s +
+					"qc_backend = " + (q > 16 ? "simulator" : "device") + d +
+					
 					"# Helper function" + s +
-					"def run_job(circ_, backend_, shots_ = 1024, optimization_level_ = 1):" + s +
-					"    print('Using ', backend_)" + s +
-					"    job = execute(circ_, backend=backend_, shots=shots_, optimization_level=optimization_level_)" + s +
+					"def run_job(circuit_, backend_, shots_ = 1024, opt_ = 1):" + s +
+					"    print('Using {}'.format(backend_))" + s +
+					"    job = execute(circuit_, backend = backend_, shots = shots_, optimization_level = opt_)" + s +
 					"    job_monitor(job)" + s +
 					"    return job.result()" + d +
+					
 					"# Construct circuit" + s +
 					"qc = QuantumCircuit(qubits, qubits)" + s +
+					
 					codeString + s +
+					
+					"# Optimize circuit before running?" + s +
+					"optimize = True" + d +
+					
+					"# Optimization" + s +
+					"optimization = 0" + s +
+					"if optimize:" + s +
+					"    qc_cx = qc_depth = sys.maxsize" + s +
+					"    for o in range(4):" + s +
+					"        qc_opt = transpile(qc, backend = qc_backend, seed_transpiler = " + rand.nextInt() + ", optimization_level = o)" + s +
+					"        if (qc_opt.count_ops().get('cx') < qc_cx" + s +
+					"        or (qc_opt.count_ops().get('cx') == qc_cx and qc_opt.depth() <= qc_depth)):" + s +
+					"            optimization = o" + s +
+					"    print('Optimization level: {}'.format(optimization))" + d +
+					
 					"# Run circuit" + s +
-					"result = run_job(qc, backend_=simulator)" + s +
+					"result = run_job(qc, qc_backend, 1024, optimization)" + s +
 					"counts = result.get_counts(qc)" + s +
 					"print('\\n', counts)" + d +
+					
 					"# Printing results" + s +
 					"# NOTE: only one diagram can be shown per Jupyter cell." + s +
 					"# Either comment out all but one drawing/plotting method" + s +
 					"# or move them into separate cells." + d +
+					
 					"# Draw circuit" + s +
 					"# qc.draw()" + d +
+					
 					"# Plot results" + s +
 					"# plot_histogram(counts)" + s;
 			
-			ITextComponent link = new TextComponentString(out.getName());
-			link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
-			
 			try {
 				FileUtils.writeStringToFile(out, codeString);
+				ITextComponent link = new TextComponentString(out.getName());
+				link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
 				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print", new Object[] {link}));
 			}
 			catch (IOException e) {

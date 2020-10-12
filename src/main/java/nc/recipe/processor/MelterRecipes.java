@@ -8,12 +8,12 @@ import java.util.*;
 import com.google.common.collect.*;
 
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class MelterRecipes extends ProcessorRecipeHandler {
+public class MelterRecipes extends BasicRecipeHandler {
 	
 	public MelterRecipes() {
 		super("melter", 1, 0, 0, 1);

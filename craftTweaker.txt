@@ -3,8 +3,8 @@
 
 All recipes involve five sets of information - item inputs, fluid inputs, item outputs, fluid outputs and extra info. The
 first four are clearly the ingredients and products involved in the recipe, and the extra info contains data such as
-processing time and power for machines, the base depletion time, heat gen, efficiency, criticality, and radiation level
-of solid fission fuels, etc.
+processing time and power for machines, the base depletion time, heat gen, efficiency, criticality factor, decay heat
+factor, and radiation level of solid fission fuels, etc.
 
 All parts of the recipe are simply listed in the method - the internal NC code will deal with splitting it up into those
 five categories and packaging the information up into a recipe.
@@ -328,7 +328,7 @@ mods.nuclearcraft.FissionIrradiator.removeRecipeWithOutput(IIngredient itemOutpu
 Pebble Bed Fission:
 -------------------
 
-mods.nuclearcraft.PebbleFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.PebbleFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.PebbleFission.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.PebbleFission.removeRecipeWithOutput(IIngredient itemOutput);
@@ -337,7 +337,7 @@ mods.nuclearcraft.PebbleFission.removeRecipeWithOutput(IIngredient itemOutput);
 Solid Fuel Fission:
 -------------------
 
-mods.nuclearcraft.SolidFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.SolidFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SolidFission.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.SolidFission.removeRecipeWithOutput(IIngredient itemOutput);
@@ -355,7 +355,7 @@ mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput
 Molten Salt Fission:
 --------------------
 
-mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SaltFission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.SaltFission.removeRecipeWithOutput(ILiquidStack fluidOutput);
@@ -491,7 +491,7 @@ get the Solid Fuel Fission recipe handler, use `mods.nuclearcraft.SolidFission.g
 Recipe Handler Methods:
 -----------------------
 
-RecipeHandler::getRecipeName();
+RecipeHandler::getName();
 RecipeHandler::getRecipeList();
 
 RecipeHandler::getItemInputSize();

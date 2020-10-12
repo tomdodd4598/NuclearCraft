@@ -49,7 +49,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
 	public static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
-	public RecipeInfo<ProcessorRecipe> recipeInfo;
+	public RecipeInfo<BasicRecipe> recipeInfo;
 	
 	public boolean isTurbineOn, computerActivated, isProcessing;
 	public double power = 0D, conductivity = 0D, rotorEfficiency = 0D, powerBonus = 0D;

@@ -241,7 +241,7 @@ public class NCMath {
 	}
 	
 	private static int lcmInternal(int a, int b) {
-		return toInt(Math.abs((long) a * b)) / hcfInternal(a, b);
+		return toInt(Math.abs((long) a * (long) b)) / hcfInternal(a, b);
 	}
 	
 	public static int hollowCuboid(int x, int y, int z) {
@@ -273,22 +273,30 @@ public class NCMath {
 	}
 	
 	public static String sigFigs(double number, int sigFigs) {
-		if (number == (int) number) {
-			return (int) number + "";
+		if (number == (long) number) {
+			return Long.toString((long) number);
 		}
 		BigDecimal bd = new BigDecimal(number);
 		bd = bd.round(new MathContext(Math.max(1, sigFigs)));
-		return bd.doubleValue() + "";
+		return Double.toString(bd.doubleValue());
 	}
 	
 	public static String decimalPlaces(double number, int places) {
-		if (number == (int) number) {
-			return (int) number + "";
+		if (number == (long) number) {
+			return Long.toString((long) number);
 		}
 		char[] arr = new char[Math.max(1, places)];
 		Arrays.fill(arr, '#');
 		DecimalFormat df = new DecimalFormat("0." + new String(arr));
 		return df.format(number);
+	}
+	
+	public static String pcSigFigs(double number, int sigFigs) {
+		return sigFigs(100D * number, sigFigs) + "%";
+	}
+	
+	public static String pcDecimalPlaces(double number, int places) {
+		return decimalPlaces(100D * number, places) + "%";
 	}
 	
 	public static int toInt(long value) {

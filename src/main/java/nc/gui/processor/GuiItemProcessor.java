@@ -75,10 +75,10 @@ public abstract class GuiItemProcessor extends NCGui {
 	
 	protected void drawUpgradeRenderers() {
 		if (speedUpgradeRender == null) {
-			speedUpgradeRender = new GuiItemRenderer(guiLeft + 132, guiTop + ySize - 102, 0.5F, NCItems.upgrade, 0);
+			speedUpgradeRender = new GuiItemRenderer(NCItems.upgrade, 0, guiLeft + 132, guiTop + ySize - 102, 0.5F);
 		}
 		if (energyUpgradeRender == null) {
-			energyUpgradeRender = new GuiItemRenderer(guiLeft + 152, guiTop + ySize - 102, 0.5F, NCItems.upgrade, 1);
+			energyUpgradeRender = new GuiItemRenderer(NCItems.upgrade, 1, guiLeft + 152, guiTop + ySize - 102, 0.5F);
 		}
 		speedUpgradeRender.draw();
 		energyUpgradeRender.draw();

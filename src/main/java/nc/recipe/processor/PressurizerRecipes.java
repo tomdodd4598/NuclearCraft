@@ -5,12 +5,12 @@ import java.util.*;
 import com.google.common.collect.*;
 
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class PressurizerRecipes extends ProcessorRecipeHandler {
+public class PressurizerRecipes extends BasicRecipeHandler {
 	
 	public PressurizerRecipes() {
 		super("pressurizer", 1, 0, 1, 0);

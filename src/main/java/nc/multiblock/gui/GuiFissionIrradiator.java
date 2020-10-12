@@ -53,9 +53,7 @@ public class GuiFissionIrradiator extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if (!irradiator.getFilterStacks().get(0).isEmpty()) {
-			new GuiItemRenderer(guiLeft + 56, guiTop + 35, 0.5F, irradiator.getFilterStacks().get(0)).draw();
-		}
+		new GuiItemRenderer(irradiator.getFilterStacks().get(0), guiLeft + 56, guiTop + 35, 0.5F).draw();
 		mc.getTextureManager().bindTexture(gui_textures);
 		
 		if (irradiator.clusterHeatCapacity >= 0L) {

@@ -4,9 +4,9 @@ import static nc.util.FluidStackHelper.BUCKET_VOLUME;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class SupercoolerRecipes extends ProcessorRecipeHandler {
+public class SupercoolerRecipes extends BasicRecipeHandler {
 	
 	public SupercoolerRecipes() {
 		super("supercooler", 0, 1, 0, 1);

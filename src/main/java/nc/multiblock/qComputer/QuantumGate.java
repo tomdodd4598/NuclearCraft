@@ -117,7 +117,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			else if (type == 1) {
 				if (!l.isEmpty()) {
 					String s = pythonArray(l);
-					out.add("qc.barrier(" + s + ")");
+					//out.add("qc.barrier(" + s + ")");
 					out.add("qc.measure(" + s + ", " + s + ")");
 				}
 			}
@@ -187,7 +187,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			else if (type == 1) {
 				if (q != 0) {
 					String s = pythonArray(CollectionHelper.increasingList(q));
-					out.add("qc.barrier(" + s + ")");
+					//out.add("qc.barrier(" + s + ")");
 					out.add("qc.reset(" + s + ")");
 				}
 			}
@@ -881,7 +881,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			
 			IntSet n = new IntOpenHashSet(this.n);
 			n.addAll(next.n);
-			return newMerged(S0, n);
+			return newMerged(c, n);
 		}
 		
 		@Override
@@ -1508,7 +1508,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			
 			IntSet n = new IntOpenHashSet(this.n);
 			n.addAll(next.n);
-			return newMerged(angle, S0, n);
+			return newMerged(angle, c, n);
 		}
 		
 		@Override

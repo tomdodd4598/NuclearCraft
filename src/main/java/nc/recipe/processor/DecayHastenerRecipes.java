@@ -10,7 +10,7 @@ import nc.radiation.RadSources;
 import nc.recipe.*;
 import nc.util.*;
 
-public class DecayHastenerRecipes extends ProcessorRecipeHandler {
+public class DecayHastenerRecipes extends BasicRecipeHandler {
 	
 	public DecayHastenerRecipes() {
 		super("decay_hastener", 1, 0, 1, 0);

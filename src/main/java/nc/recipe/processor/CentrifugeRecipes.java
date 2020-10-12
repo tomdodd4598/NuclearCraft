@@ -5,9 +5,9 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class CentrifugeRecipes extends ProcessorRecipeHandler {
+public class CentrifugeRecipes extends BasicRecipeHandler {
 	
 	public CentrifugeRecipes() {
 		super("centrifuge", 0, 1, 0, 6);

@@ -5,9 +5,9 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
+public class ChemicalReactorRecipes extends BasicRecipeHandler {
 	
 	public ChemicalReactorRecipes() {
 		super("chemical_reactor", 0, 2, 0, 2);

@@ -1,5 +1,7 @@
 package nc.config;
 
+import static nc.util.CollectionHelper.arrayCopies;
+
 import java.io.File;
 import java.util.*;
 
@@ -10,7 +12,7 @@ import nc.multiblock.turbine.TurbinePlacement;
 import nc.network.PacketHandler;
 import nc.network.config.ConfigUpdatePacket;
 import nc.radiation.RadSources;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -117,6 +119,7 @@ public class NCConfig {
 	public static int[] fission_thorium_heat_generation;
 	public static double[] fission_thorium_efficiency;
 	public static int[] fission_thorium_criticality;
+	public static double[] fission_thorium_decay_factor;
 	public static boolean[] fission_thorium_self_priming;
 	public static double[] fission_thorium_radiation;
 	
@@ -124,6 +127,7 @@ public class NCConfig {
 	public static int[] fission_uranium_heat_generation;
 	public static double[] fission_uranium_efficiency;
 	public static int[] fission_uranium_criticality;
+	public static double[] fission_uranium_decay_factor;
 	public static boolean[] fission_uranium_self_priming;
 	public static double[] fission_uranium_radiation;
 	
@@ -131,6 +135,7 @@ public class NCConfig {
 	public static int[] fission_neptunium_heat_generation;
 	public static double[] fission_neptunium_efficiency;
 	public static int[] fission_neptunium_criticality;
+	public static double[] fission_neptunium_decay_factor;
 	public static boolean[] fission_neptunium_self_priming;
 	public static double[] fission_neptunium_radiation;
 	
@@ -138,6 +143,7 @@ public class NCConfig {
 	public static int[] fission_plutonium_heat_generation;
 	public static double[] fission_plutonium_efficiency;
 	public static int[] fission_plutonium_criticality;
+	public static double[] fission_plutonium_decay_factor;
 	public static boolean[] fission_plutonium_self_priming;
 	public static double[] fission_plutonium_radiation;
 	
@@ -145,6 +151,7 @@ public class NCConfig {
 	public static int[] fission_mixed_heat_generation;
 	public static double[] fission_mixed_efficiency;
 	public static int[] fission_mixed_criticality;
+	public static double[] fission_mixed_decay_factor;
 	public static boolean[] fission_mixed_self_priming;
 	public static double[] fission_mixed_radiation;
 	
@@ -152,6 +159,7 @@ public class NCConfig {
 	public static int[] fission_americium_heat_generation;
 	public static double[] fission_americium_efficiency;
 	public static int[] fission_americium_criticality;
+	public static double[] fission_americium_decay_factor;
 	public static boolean[] fission_americium_self_priming;
 	public static double[] fission_americium_radiation;
 	
@@ -159,6 +167,7 @@ public class NCConfig {
 	public static int[] fission_curium_heat_generation;
 	public static double[] fission_curium_efficiency;
 	public static int[] fission_curium_criticality;
+	public static double[] fission_curium_decay_factor;
 	public static boolean[] fission_curium_self_priming;
 	public static double[] fission_curium_radiation;
 	
@@ -166,6 +175,7 @@ public class NCConfig {
 	public static int[] fission_berkelium_heat_generation;
 	public static double[] fission_berkelium_efficiency;
 	public static int[] fission_berkelium_criticality;
+	public static double[] fission_berkelium_decay_factor;
 	public static boolean[] fission_berkelium_self_priming;
 	public static double[] fission_berkelium_radiation;
 	
@@ -173,6 +183,7 @@ public class NCConfig {
 	public static int[] fission_californium_heat_generation;
 	public static double[] fission_californium_efficiency;
 	public static int[] fission_californium_criticality;
+	public static double[] fission_californium_decay_factor;
 	public static boolean[] fission_californium_self_priming;
 	public static double[] fission_californium_radiation;
 	
@@ -255,7 +266,7 @@ public class NCConfig {
 	
 	public static String[] radiation_worlds;
 	public static String[] radiation_biomes;
-	public static String[] radiation_structures;
+	public static String[] radiation_structures; // Mineshaft, Village, Fortress, Stronghold, Temple, Monument, EndCity, Mansion
 	public static String[] radiation_world_limits;
 	public static String[] radiation_biome_limits;
 	public static int[] radiation_from_biomes_dims_blacklist;
@@ -558,6 +569,8 @@ public class NCConfig {
 		propertyFissionThoriumEfficiency.setLanguageKey("gui.nc.config.fission_thorium_efficiency");
 		Property propertyFissionThoriumCriticality = config.get(CATEGORY_FISSION, "fission_thorium_criticality", new int[] {199, 234, 293, 199, 234}, Lang.localise("gui.nc.config.fission_thorium_criticality.comment"), 0, 32767);
 		propertyFissionThoriumCriticality.setLanguageKey("gui.nc.config.fission_thorium_criticality");
+		Property propertyFissionThoriumDecayFactor = config.get(CATEGORY_FISSION, "fission_thorium_decay_factor", arrayCopies(5, 0.04D), Lang.localise("gui.nc.config.fission_thorium_decay_factor.comment"), 0D, 1D);
+		propertyFissionThoriumDecayFactor.setLanguageKey("gui.nc.config.fission_thorium_decay_factor");
 		Property propertyFissionThoriumSelfPriming = config.get(CATEGORY_FISSION, "fission_thorium_self_priming", new boolean[] {false, false, false, false, false}, Lang.localise("gui.nc.config.fission_thorium_self_priming.comment"));
 		propertyFissionThoriumSelfPriming.setLanguageKey("gui.nc.config.fission_thorium_self_priming");
 		Property propertyFissionThoriumRadiation = config.get(CATEGORY_FISSION, "fission_thorium_radiation", new double[] {RadSources.TBU_FISSION, RadSources.TBU_FISSION, RadSources.TBU_FISSION, RadSources.TBU_FISSION, RadSources.TBU_FISSION}, Lang.localise("gui.nc.config.fission_thorium_radiation.comment"), 0D, 1000D);
@@ -571,6 +584,8 @@ public class NCConfig {
 		propertyFissionUraniumEfficiency.setLanguageKey("gui.nc.config.fission_uranium_efficiency");
 		Property propertyFissionUraniumCriticality = config.get(CATEGORY_FISSION, "fission_uranium_criticality", new int[] {66, 78, 98, 66, 78, 66 / 2, 78 / 2, 98 / 2, 66 / 2, 78 / 2, 87, 102, 128, 87, 102, 87 / 2, 102 / 2, 128 / 2, 87 / 2, 102 / 2}, Lang.localise("gui.nc.config.fission_uranium_criticality.comment"), 0, 32767);
 		propertyFissionUraniumCriticality.setLanguageKey("gui.nc.config.fission_uranium_criticality");
+		Property propertyFissionUraniumDecayFactor = config.get(CATEGORY_FISSION, "fission_uranium_decay_factor", arrayCopies(20, 0.065D), Lang.localise("gui.nc.config.fission_uranium_decay_factor.comment"), 0D, 1D);
+		propertyFissionUraniumDecayFactor.setLanguageKey("gui.nc.config.fission_uranium_decay_factor");
 		Property propertyFissionUraniumSelfPriming = config.get(CATEGORY_FISSION, "fission_uranium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_uranium_self_priming.comment"));
 		propertyFissionUraniumSelfPriming.setLanguageKey("gui.nc.config.fission_uranium_self_priming");
 		Property propertyFissionUraniumRadiation = config.get(CATEGORY_FISSION, "fission_uranium_radiation", new double[] {RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION}, Lang.localise("gui.nc.config.fission_uranium_radiation.comment"), 0D, 1000D);
@@ -584,6 +599,8 @@ public class NCConfig {
 		propertyFissionNeptuniumEfficiency.setLanguageKey("gui.nc.config.fission_neptunium_efficiency");
 		Property propertyFissionNeptuniumCriticality = config.get(CATEGORY_FISSION, "fission_neptunium_criticality", new int[] {60, 70, 88, 60, 70, 60 / 2, 70 / 2, 88 / 2, 60 / 2, 70 / 2}, Lang.localise("gui.nc.config.fission_neptunium_criticality.comment"), 0, 32767);
 		propertyFissionNeptuniumCriticality.setLanguageKey("gui.nc.config.fission_neptunium_criticality");
+		Property propertyFissionNeptuniumDecayFactor = config.get(CATEGORY_FISSION, "fission_neptunium_decay_factor", arrayCopies(10, 0.07D), Lang.localise("gui.nc.config.fission_neptunium_decay_factor.comment"), 0D, 1D);
+		propertyFissionNeptuniumDecayFactor.setLanguageKey("gui.nc.config.fission_neptunium_decay_factor");
 		Property propertyFissionNeptuniumSelfPriming = config.get(CATEGORY_FISSION, "fission_neptunium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_neptunium_self_priming.comment"));
 		propertyFissionNeptuniumSelfPriming.setLanguageKey("gui.nc.config.fission_neptunium_self_priming");
 		Property propertyFissionNeptuniumRadiation = config.get(CATEGORY_FISSION, "fission_neptunium_radiation", new double[] {RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION}, Lang.localise("gui.nc.config.fission_neptunium_radiation.comment"), 0D, 1000D);
@@ -597,6 +614,8 @@ public class NCConfig {
 		propertyFissionPlutoniumEfficiency.setLanguageKey("gui.nc.config.fission_plutonium_efficiency");
 		Property propertyFissionPlutoniumCriticality = config.get(CATEGORY_FISSION, "fission_plutonium_criticality", new int[] {84, 99, 124, 84, 99, 84 / 2, 99 / 2, 124 / 2, 84 / 2, 99 / 2, 71, 84, 105, 71, 84, 71 / 2, 84 / 2, 105 / 2, 71 / 2, 84 / 2}, Lang.localise("gui.nc.config.fission_plutonium_criticality.comment"), 0, 32767);
 		propertyFissionPlutoniumCriticality.setLanguageKey("gui.nc.config.fission_plutonium_criticality");
+		Property propertyFissionPlutoniumDecayFactor = config.get(CATEGORY_FISSION, "fission_plutonium_decay_factor", arrayCopies(20, 0.075D), Lang.localise("gui.nc.config.fission_plutonium_decay_factor.comment"), 0D, 1D);
+		propertyFissionPlutoniumDecayFactor.setLanguageKey("gui.nc.config.fission_plutonium_decay_factor");
 		Property propertyFissionPlutoniumSelfPriming = config.get(CATEGORY_FISSION, "fission_plutonium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_plutonium_self_priming.comment"));
 		propertyFissionPlutoniumSelfPriming.setLanguageKey("gui.nc.config.fission_plutonium_self_priming");
 		Property propertyFissionPlutoniumRadiation = config.get(CATEGORY_FISSION, "fission_plutonium_radiation", new double[] {RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION}, Lang.localise("gui.nc.config.fission_plutonium_radiation.comment"), 0D, 1000D);
@@ -610,6 +629,8 @@ public class NCConfig {
 		propertyFissionMixedEfficiency.setLanguageKey("gui.nc.config.fission_mixed_efficiency");
 		Property propertyFissionMixedCriticality = config.get(CATEGORY_FISSION, "fission_mixed_criticality", new int[] {80, 94, 118, 80, 94, 68, 80, 100, 68, 80}, Lang.localise("gui.nc.config.fission_mixed_criticality.comment"), 0, 32767);
 		propertyFissionMixedCriticality.setLanguageKey("gui.nc.config.fission_mixed_criticality");
+		Property propertyFissionMixedDecayFactor = config.get(CATEGORY_FISSION, "fission_mixed_decay_factor", arrayCopies(10, 0.075D), Lang.localise("gui.nc.config.fission_mixed_decay_factor.comment"), 0D, 1D);
+		propertyFissionMixedDecayFactor.setLanguageKey("gui.nc.config.fission_mixed_decay_factor");
 		Property propertyFissionMixedSelfPriming = config.get(CATEGORY_FISSION, "fission_mixed_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_mixed_self_priming.comment"));
 		propertyFissionMixedSelfPriming.setLanguageKey("gui.nc.config.fission_mixed_self_priming");
 		Property propertyFissionMixedRadiation = config.get(CATEGORY_FISSION, "fission_mixed_radiation", new double[] {RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION}, Lang.localise("gui.nc.config.fission_mixed_radiation.comment"), 0D, 1000D);
@@ -623,6 +644,8 @@ public class NCConfig {
 		propertyFissionAmericiumEfficiency.setLanguageKey("gui.nc.config.fission_americium_efficiency");
 		Property propertyFissionAmericiumCriticality = config.get(CATEGORY_FISSION, "fission_americium_criticality", new int[] {55, 65, 81, 55, 65, 55 / 2, 65 / 2, 81 / 2, 55 / 2, 65 / 2}, Lang.localise("gui.nc.config.fission_americium_criticality.comment"), 0, 32767);
 		propertyFissionAmericiumCriticality.setLanguageKey("gui.nc.config.fission_americium_criticality");
+		Property propertyFissionAmericiumDecayFactor = config.get(CATEGORY_FISSION, "fission_americium_decay_factor", arrayCopies(10, 0.08D), Lang.localise("gui.nc.config.fission_americium_decay_factor.comment"), 0D, 1D);
+		propertyFissionAmericiumDecayFactor.setLanguageKey("gui.nc.config.fission_americium_decay_factor");
 		Property propertyFissionAmericiumSelfPriming = config.get(CATEGORY_FISSION, "fission_americium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_americium_self_priming.comment"));
 		propertyFissionAmericiumSelfPriming.setLanguageKey("gui.nc.config.fission_americium_self_priming");
 		Property propertyFissionAmericiumRadiation = config.get(CATEGORY_FISSION, "fission_americium_radiation", new double[] {RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION}, Lang.localise("gui.nc.config.fission_americium_radiation.comment"), 0D, 1000D);
@@ -636,6 +659,8 @@ public class NCConfig {
 		propertyFissionCuriumEfficiency.setLanguageKey("gui.nc.config.fission_curium_efficiency");
 		Property propertyFissionCuriumCriticality = config.get(CATEGORY_FISSION, "fission_curium_criticality", new int[] {56, 66, 83, 56, 66, 56 / 2, 66 / 2, 83 / 2, 56 / 2, 66 / 2, 64, 75, 94, 64, 75, 64 / 2, 75 / 2, 94 / 2, 64 / 2, 75 / 2, 61, 72, 90, 61, 72, 61 / 2, 72 / 2, 90 / 2, 61 / 2, 72 / 2}, Lang.localise("gui.nc.config.fission_curium_criticality.comment"), 0, 32767);
 		propertyFissionCuriumCriticality.setLanguageKey("gui.nc.config.fission_curium_criticality");
+		Property propertyFissionCuriumDecayFactor = config.get(CATEGORY_FISSION, "fission_curium_decay_factor", arrayCopies(30, 0.085D), Lang.localise("gui.nc.config.fission_curium_decay_factor.comment"), 0D, 1D);
+		propertyFissionCuriumDecayFactor.setLanguageKey("gui.nc.config.fission_curium_decay_factor");
 		Property propertyFissionCuriumSelfPriming = config.get(CATEGORY_FISSION, "fission_curium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_curium_self_priming.comment"));
 		propertyFissionCuriumSelfPriming.setLanguageKey("gui.nc.config.fission_curium_self_priming");
 		Property propertyFissionCuriumRadiation = config.get(CATEGORY_FISSION, "fission_curium_radiation", new double[] {RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION}, Lang.localise("gui.nc.config.fission_curium_radiation.comment"), 0D, 1000D);
@@ -649,6 +674,8 @@ public class NCConfig {
 		propertyFissionBerkeliumEfficiency.setLanguageKey("gui.nc.config.fission_berkelium_efficiency");
 		Property propertyFissionBerkeliumCriticality = config.get(CATEGORY_FISSION, "fission_berkelium_criticality", new int[] {62, 73, 91, 62, 73, 62 / 2, 73 / 2, 91 / 2, 62 / 2, 73 / 2}, Lang.localise("gui.nc.config.fission_berkelium_criticality.comment"), 0, 32767);
 		propertyFissionBerkeliumCriticality.setLanguageKey("gui.nc.config.fission_berkelium_criticality");
+		Property propertyFissionBerkeliumDecayFactor = config.get(CATEGORY_FISSION, "fission_berkelium_decay_factor", arrayCopies(10, 0.09D), Lang.localise("gui.nc.config.fission_berkelium_decay_factor.comment"), 0D, 1D);
+		propertyFissionBerkeliumDecayFactor.setLanguageKey("gui.nc.config.fission_berkelium_decay_factor");
 		Property propertyFissionBerkeliumSelfPriming = config.get(CATEGORY_FISSION, "fission_berkelium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, Lang.localise("gui.nc.config.fission_berkelium_self_priming.comment"));
 		propertyFissionBerkeliumSelfPriming.setLanguageKey("gui.nc.config.fission_berkelium_self_priming");
 		Property propertyFissionBerkeliumRadiation = config.get(CATEGORY_FISSION, "fission_berkelium_radiation", new double[] {RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION}, Lang.localise("gui.nc.config.fission_berkelium_radiation.comment"), 0D, 1000D);
@@ -662,6 +689,8 @@ public class NCConfig {
 		propertyFissionCaliforniumEfficiency.setLanguageKey("gui.nc.config.fission_californium_efficiency");
 		Property propertyFissionCaliforniumCriticality = config.get(CATEGORY_FISSION, "fission_californium_criticality", new int[] {51, 60, 75, 51, 60, 51 / 2, 60 / 2, 75 / 2, 51 / 2, 60 / 2, 60, 71, 89, 60, 71, 60 / 2, 71 / 2, 89 / 2, 60 / 2, 71 / 2}, Lang.localise("gui.nc.config.fission_californium_criticality.comment"), 0, 32767);
 		propertyFissionCaliforniumCriticality.setLanguageKey("gui.nc.config.fission_californium_criticality");
+		Property propertyFissionCaliforniumDecayFactor = config.get(CATEGORY_FISSION, "fission_californium_decay_factor", arrayCopies(20, 0.1D), Lang.localise("gui.nc.config.fission_californium_decay_factor.comment"), 0D, 1D);
+		propertyFissionCaliforniumDecayFactor.setLanguageKey("gui.nc.config.fission_californium_decay_factor");
 		Property propertyFissionCaliforniumSelfPriming = config.get(CATEGORY_FISSION, "fission_californium_self_priming", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.fission_californium_self_priming.comment"));
 		propertyFissionCaliforniumSelfPriming.setLanguageKey("gui.nc.config.fission_californium_self_priming");
 		Property propertyFissionCaliforniumRadiation = config.get(CATEGORY_FISSION, "fission_californium_radiation", new double[] {RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION}, Lang.localise("gui.nc.config.fission_californium_radiation.comment"), 0D, 1000D);
@@ -694,7 +723,7 @@ public class NCConfig {
 		
 		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 150D, 200D, 200D, 350D, 400D, 600D, 200D, 250D, 250D, 400D, 450D, 650D, 300D, 300D, 450D, 500D, 700D, 300D, 450D, 500D, 700D, 600D, 650D, 850D, 700D, 900D, 1100D}, Lang.localise("gui.nc.config.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.nc.config.fusion_fuel_time");
-		Property propertyFusionPower = config.get(CATEGORY_FUSION, "fusion_power", new double[] {442D, 1123D, 0.3D, 3036D, 351D, 1330D, 444D, 507D, 1726D, 2252D, 1716D, 859D, 261D, 901D, 1099D, 915D, 435D, 7D, 1315D, 1151D, 727D, 140D, 1068D, 552D, 157D, 229D, 0.45D, 0.05D}, Lang.localise("gui.nc.config.fusion_power.comment"), 0D, 32767D);
+		Property propertyFusionPower = config.get(CATEGORY_FUSION, "fusion_power", new double[] {44200D, 112300D, 30D, 303600D, 35100D, 133000D, 44400D, 50700D, 172600D, 225200D, 171600D, 85900D, 26100D, 90100D, 109900D, 91500D, 43500D, 700D, 131500D, 115100D, 72700D, 14000D, 106800D, 55200D, 15700D, 22900D, 45D, 5D}, Lang.localise("gui.nc.config.fusion_power.comment"), 0D, 32767D);
 		propertyFusionPower.setLanguageKey("gui.nc.config.fusion_power");
 		Property propertyFusionHeatVariable = config.get(CATEGORY_FUSION, "fusion_heat_variable", new double[] {3635D, 1022D, 4964D, 2740D, 5972D, 4161D, 13432D, 949D, 670D, 2160D, 3954D, 4131D, 13853D, 736D, 2137D, 4079D, 4522D, 27254D, 5420D, 7800D, 7937D, 24266D, 11268D, 11927D, 30399D, 13630D, 166414D, 293984D}, Lang.localise("gui.nc.config.fusion_heat_variable.comment"), 500D, 20000D);
 		propertyFusionHeatVariable.setLanguageKey("gui.nc.config.fusion_heat_variable");
@@ -811,7 +840,7 @@ public class NCConfig {
 		propertyRadiationWorlds.setLanguageKey("gui.nc.config.radiation_worlds");
 		Property propertyRadiationBiomes = config.get(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, Lang.localise("gui.nc.config.radiation_biomes.comment"));
 		propertyRadiationBiomes.setLanguageKey("gui.nc.config.radiation_biomes");
-		Property propertyRadiationStructures = config.get(CATEGORY_RADIATION, "radiation_structures", new String[] {"Fortress_0.0025", "Mineshaft_0.00005", "Stronghold_0.001"}, Lang.localise("gui.nc.config.radiation_structures.comment"));
+		Property propertyRadiationStructures = config.get(CATEGORY_RADIATION, "radiation_structures", new String[] {}, Lang.localise("gui.nc.config.radiation_structures.comment"));
 		propertyRadiationStructures.setLanguageKey("gui.nc.config.radiation_structures");
 		Property propertyRadiationWorldLimit = config.get(CATEGORY_RADIATION, "radiation_world_limits", new String[] {}, Lang.localise("gui.nc.config.radiation_world_limits.comment"));
 		propertyRadiationWorldLimit.setLanguageKey("gui.nc.config.radiation_world_limits");
@@ -1099,6 +1128,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionThoriumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionThoriumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionThoriumCriticality.getName());
+		propertyOrderFission.add(propertyFissionThoriumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionThoriumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionThoriumRadiation.getName());
 		
@@ -1106,6 +1136,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionUraniumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionUraniumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionUraniumCriticality.getName());
+		propertyOrderFission.add(propertyFissionUraniumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionUraniumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionUraniumRadiation.getName());
 		
@@ -1113,6 +1144,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionNeptuniumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionNeptuniumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionNeptuniumCriticality.getName());
+		propertyOrderFission.add(propertyFissionNeptuniumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionNeptuniumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionNeptuniumRadiation.getName());
 		
@@ -1120,6 +1152,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionPlutoniumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionPlutoniumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionPlutoniumCriticality.getName());
+		propertyOrderFission.add(propertyFissionPlutoniumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionPlutoniumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionPlutoniumRadiation.getName());
 		
@@ -1127,6 +1160,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionMixedHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionMixedEfficiency.getName());
 		propertyOrderFission.add(propertyFissionMixedCriticality.getName());
+		propertyOrderFission.add(propertyFissionMixedDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionMixedSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionMixedRadiation.getName());
 		
@@ -1134,6 +1168,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionAmericiumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionAmericiumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionAmericiumCriticality.getName());
+		propertyOrderFission.add(propertyFissionAmericiumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionAmericiumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionAmericiumRadiation.getName());
 		
@@ -1141,6 +1176,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionCuriumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionCuriumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionCuriumCriticality.getName());
+		propertyOrderFission.add(propertyFissionCuriumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionCuriumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionCuriumRadiation.getName());
 		
@@ -1148,6 +1184,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionBerkeliumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionBerkeliumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionBerkeliumCriticality.getName());
+		propertyOrderFission.add(propertyFissionBerkeliumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionBerkeliumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionBerkeliumRadiation.getName());
 		
@@ -1155,6 +1192,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionCaliforniumHeatGeneration.getName());
 		propertyOrderFission.add(propertyFissionCaliforniumEfficiency.getName());
 		propertyOrderFission.add(propertyFissionCaliforniumCriticality.getName());
+		propertyOrderFission.add(propertyFissionCaliforniumDecayFactor.getName());
 		propertyOrderFission.add(propertyFissionCaliforniumSelfPriming.getName());
 		propertyOrderFission.add(propertyFissionCaliforniumRadiation.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FISSION, propertyOrderFission);
@@ -1433,6 +1471,7 @@ public class NCConfig {
 			fission_thorium_heat_generation = readIntegerArrayFromConfig(propertyFissionThoriumHeatGeneration);
 			fission_thorium_efficiency = readDoubleArrayFromConfig(propertyFissionThoriumEfficiency);
 			fission_thorium_criticality = readIntegerArrayFromConfig(propertyFissionThoriumCriticality);
+			fission_thorium_decay_factor = readDoubleArrayFromConfig(propertyFissionThoriumDecayFactor);
 			fission_thorium_self_priming = readBooleanArrayFromConfig(propertyFissionThoriumSelfPriming);
 			fission_thorium_radiation = readDoubleArrayFromConfig(propertyFissionThoriumRadiation);
 			
@@ -1440,6 +1479,7 @@ public class NCConfig {
 			fission_uranium_heat_generation = readIntegerArrayFromConfig(propertyFissionUraniumHeatGeneration);
 			fission_uranium_efficiency = readDoubleArrayFromConfig(propertyFissionUraniumEfficiency);
 			fission_uranium_criticality = readIntegerArrayFromConfig(propertyFissionUraniumCriticality);
+			fission_uranium_decay_factor = readDoubleArrayFromConfig(propertyFissionUraniumDecayFactor);
 			fission_uranium_self_priming = readBooleanArrayFromConfig(propertyFissionUraniumSelfPriming);
 			fission_uranium_radiation = readDoubleArrayFromConfig(propertyFissionUraniumRadiation);
 			
@@ -1447,6 +1487,7 @@ public class NCConfig {
 			fission_neptunium_heat_generation = readIntegerArrayFromConfig(propertyFissionNeptuniumHeatGeneration);
 			fission_neptunium_efficiency = readDoubleArrayFromConfig(propertyFissionNeptuniumEfficiency);
 			fission_neptunium_criticality = readIntegerArrayFromConfig(propertyFissionNeptuniumCriticality);
+			fission_neptunium_decay_factor = readDoubleArrayFromConfig(propertyFissionNeptuniumDecayFactor);
 			fission_neptunium_self_priming = readBooleanArrayFromConfig(propertyFissionNeptuniumSelfPriming);
 			fission_neptunium_radiation = readDoubleArrayFromConfig(propertyFissionNeptuniumRadiation);
 			
@@ -1454,6 +1495,7 @@ public class NCConfig {
 			fission_plutonium_heat_generation = readIntegerArrayFromConfig(propertyFissionPlutoniumHeatGeneration);
 			fission_plutonium_efficiency = readDoubleArrayFromConfig(propertyFissionPlutoniumEfficiency);
 			fission_plutonium_criticality = readIntegerArrayFromConfig(propertyFissionPlutoniumCriticality);
+			fission_plutonium_decay_factor = readDoubleArrayFromConfig(propertyFissionPlutoniumDecayFactor);
 			fission_plutonium_self_priming = readBooleanArrayFromConfig(propertyFissionPlutoniumSelfPriming);
 			fission_plutonium_radiation = readDoubleArrayFromConfig(propertyFissionPlutoniumRadiation);
 			
@@ -1461,6 +1503,7 @@ public class NCConfig {
 			fission_mixed_heat_generation = readIntegerArrayFromConfig(propertyFissionMixedHeatGeneration);
 			fission_mixed_efficiency = readDoubleArrayFromConfig(propertyFissionMixedEfficiency);
 			fission_mixed_criticality = readIntegerArrayFromConfig(propertyFissionMixedCriticality);
+			fission_mixed_decay_factor = readDoubleArrayFromConfig(propertyFissionMixedDecayFactor);
 			fission_mixed_self_priming = readBooleanArrayFromConfig(propertyFissionMixedSelfPriming);
 			fission_mixed_radiation = readDoubleArrayFromConfig(propertyFissionMixedRadiation);
 			
@@ -1468,6 +1511,7 @@ public class NCConfig {
 			fission_americium_heat_generation = readIntegerArrayFromConfig(propertyFissionAmericiumHeatGeneration);
 			fission_americium_efficiency = readDoubleArrayFromConfig(propertyFissionAmericiumEfficiency);
 			fission_americium_criticality = readIntegerArrayFromConfig(propertyFissionAmericiumCriticality);
+			fission_americium_decay_factor = readDoubleArrayFromConfig(propertyFissionAmericiumDecayFactor);
 			fission_americium_self_priming = readBooleanArrayFromConfig(propertyFissionAmericiumSelfPriming);
 			fission_americium_radiation = readDoubleArrayFromConfig(propertyFissionAmericiumRadiation);
 			
@@ -1475,6 +1519,7 @@ public class NCConfig {
 			fission_curium_heat_generation = readIntegerArrayFromConfig(propertyFissionCuriumHeatGeneration);
 			fission_curium_efficiency = readDoubleArrayFromConfig(propertyFissionCuriumEfficiency);
 			fission_curium_criticality = readIntegerArrayFromConfig(propertyFissionCuriumCriticality);
+			fission_curium_decay_factor = readDoubleArrayFromConfig(propertyFissionCuriumDecayFactor);
 			fission_curium_self_priming = readBooleanArrayFromConfig(propertyFissionCuriumSelfPriming);
 			fission_curium_radiation = readDoubleArrayFromConfig(propertyFissionCuriumRadiation);
 			
@@ -1482,6 +1527,7 @@ public class NCConfig {
 			fission_berkelium_heat_generation = readIntegerArrayFromConfig(propertyFissionBerkeliumHeatGeneration);
 			fission_berkelium_efficiency = readDoubleArrayFromConfig(propertyFissionBerkeliumEfficiency);
 			fission_berkelium_criticality = readIntegerArrayFromConfig(propertyFissionBerkeliumCriticality);
+			fission_berkelium_decay_factor = readDoubleArrayFromConfig(propertyFissionBerkeliumDecayFactor);
 			fission_berkelium_self_priming = readBooleanArrayFromConfig(propertyFissionBerkeliumSelfPriming);
 			fission_berkelium_radiation = readDoubleArrayFromConfig(propertyFissionBerkeliumRadiation);
 			
@@ -1489,6 +1535,7 @@ public class NCConfig {
 			fission_californium_heat_generation = readIntegerArrayFromConfig(propertyFissionCaliforniumHeatGeneration);
 			fission_californium_efficiency = readDoubleArrayFromConfig(propertyFissionCaliforniumEfficiency);
 			fission_californium_criticality = readIntegerArrayFromConfig(propertyFissionCaliforniumCriticality);
+			fission_californium_decay_factor = readDoubleArrayFromConfig(propertyFissionCaliforniumDecayFactor);
 			fission_californium_self_priming = readBooleanArrayFromConfig(propertyFissionCaliforniumSelfPriming);
 			fission_californium_radiation = readDoubleArrayFromConfig(propertyFissionCaliforniumRadiation);
 			
@@ -1757,6 +1804,7 @@ public class NCConfig {
 		propertyFissionThoriumHeatGeneration.set(fission_thorium_heat_generation);
 		propertyFissionThoriumEfficiency.set(fission_thorium_efficiency);
 		propertyFissionThoriumCriticality.set(fission_thorium_criticality);
+		propertyFissionThoriumDecayFactor.set(fission_thorium_decay_factor);
 		propertyFissionThoriumSelfPriming.set(fission_thorium_self_priming);
 		propertyFissionThoriumRadiation.set(fission_thorium_radiation);
 		
@@ -1764,6 +1812,7 @@ public class NCConfig {
 		propertyFissionUraniumHeatGeneration.set(fission_uranium_heat_generation);
 		propertyFissionUraniumEfficiency.set(fission_uranium_efficiency);
 		propertyFissionUraniumCriticality.set(fission_uranium_criticality);
+		propertyFissionUraniumDecayFactor.set(fission_uranium_decay_factor);
 		propertyFissionUraniumSelfPriming.set(fission_uranium_self_priming);
 		propertyFissionUraniumRadiation.set(fission_uranium_radiation);
 		
@@ -1771,6 +1820,7 @@ public class NCConfig {
 		propertyFissionNeptuniumHeatGeneration.set(fission_neptunium_heat_generation);
 		propertyFissionNeptuniumEfficiency.set(fission_neptunium_efficiency);
 		propertyFissionNeptuniumCriticality.set(fission_neptunium_criticality);
+		propertyFissionNeptuniumDecayFactor.set(fission_neptunium_decay_factor);
 		propertyFissionNeptuniumSelfPriming.set(fission_neptunium_self_priming);
 		propertyFissionNeptuniumRadiation.set(fission_neptunium_radiation);
 		
@@ -1778,6 +1828,7 @@ public class NCConfig {
 		propertyFissionPlutoniumHeatGeneration.set(fission_plutonium_heat_generation);
 		propertyFissionPlutoniumEfficiency.set(fission_plutonium_efficiency);
 		propertyFissionPlutoniumCriticality.set(fission_plutonium_criticality);
+		propertyFissionPlutoniumDecayFactor.set(fission_plutonium_decay_factor);
 		propertyFissionPlutoniumSelfPriming.set(fission_plutonium_self_priming);
 		propertyFissionPlutoniumRadiation.set(fission_plutonium_radiation);
 		
@@ -1785,6 +1836,7 @@ public class NCConfig {
 		propertyFissionMixedHeatGeneration.set(fission_mixed_heat_generation);
 		propertyFissionMixedEfficiency.set(fission_mixed_efficiency);
 		propertyFissionMixedCriticality.set(fission_mixed_criticality);
+		propertyFissionMixedDecayFactor.set(fission_mixed_decay_factor);
 		propertyFissionMixedSelfPriming.set(fission_mixed_self_priming);
 		propertyFissionMixedRadiation.set(fission_mixed_radiation);
 		
@@ -1792,6 +1844,7 @@ public class NCConfig {
 		propertyFissionAmericiumHeatGeneration.set(fission_americium_heat_generation);
 		propertyFissionAmericiumEfficiency.set(fission_americium_efficiency);
 		propertyFissionAmericiumCriticality.set(fission_americium_criticality);
+		propertyFissionAmericiumDecayFactor.set(fission_americium_decay_factor);
 		propertyFissionAmericiumSelfPriming.set(fission_americium_self_priming);
 		propertyFissionAmericiumRadiation.set(fission_americium_radiation);
 		
@@ -1799,6 +1852,7 @@ public class NCConfig {
 		propertyFissionCuriumHeatGeneration.set(fission_curium_heat_generation);
 		propertyFissionCuriumEfficiency.set(fission_curium_efficiency);
 		propertyFissionCuriumCriticality.set(fission_curium_criticality);
+		propertyFissionCuriumDecayFactor.set(fission_curium_decay_factor);
 		propertyFissionCuriumSelfPriming.set(fission_curium_self_priming);
 		propertyFissionCuriumRadiation.set(fission_curium_radiation);
 		
@@ -1806,6 +1860,7 @@ public class NCConfig {
 		propertyFissionBerkeliumHeatGeneration.set(fission_berkelium_heat_generation);
 		propertyFissionBerkeliumEfficiency.set(fission_berkelium_efficiency);
 		propertyFissionBerkeliumCriticality.set(fission_berkelium_criticality);
+		propertyFissionBerkeliumDecayFactor.set(fission_berkelium_decay_factor);
 		propertyFissionBerkeliumSelfPriming.set(fission_berkelium_self_priming);
 		propertyFissionBerkeliumRadiation.set(fission_berkelium_radiation);
 		
@@ -1813,6 +1868,7 @@ public class NCConfig {
 		propertyFissionCaliforniumHeatGeneration.set(fission_californium_heat_generation);
 		propertyFissionCaliforniumEfficiency.set(fission_californium_efficiency);
 		propertyFissionCaliforniumCriticality.set(fission_californium_criticality);
+		propertyFissionCaliforniumDecayFactor.set(fission_californium_decay_factor);
 		propertyFissionCaliforniumSelfPriming.set(fission_californium_self_priming);
 		propertyFissionCaliforniumRadiation.set(fission_californium_radiation);
 		
@@ -1998,7 +2054,7 @@ public class NCConfig {
 		propertyHWYLAEnabled.set(hwyla_enabled);
 		
 		if (setFromConfig) {
-			ProcessorRecipeHandler.initGTCEIntegration();
+			BasicRecipeHandler.initGTCEIntegration();
 			
 			radiation_enabled_public = radiation_enabled;
 			radiation_horse_armor_public = radiation_horse_armor;
