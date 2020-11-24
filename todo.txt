@@ -15,7 +15,7 @@ Add melting logic to non-fuel components
 Graphite/beryllium fires, heavy water evaporation, etc.
 Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
 
-Replace casing emergency cooling with cluster/port based version (no placement rules)
+Replace casing emergency cooling with cluster/port based version (no placement rules, works for both SFRs and MSRs)
 Add component heat dissipation while invalid?
 
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
