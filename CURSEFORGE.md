@@ -14,7 +14,7 @@
 <li>A complex nuclear engineering mod for Minecraft</span></li>
 <li>Intricate multiblock solid-fuel and molten-salt fission reactors</span></li>
 <li>Multiblock heat exchangers and steam turbines</span></li>
-<li>Large multiblock fusion reactors</span></li>
+<li>Large multiblock tokamak fusion reactors</span></li>
 </ul>
 <p><span style="font-size: 14px;"><b><u>Features</span>
 </p>
