@@ -1,17 +1,15 @@
-NuclearCraft - Mod for Minecraft 1.12.2
-=======================================
+NuclearCraft: Overhauled - Mod for Minecraft 1.12.2
+===================================================
 
 
 Summary
 -------
 
-Adds nuclear physics and aims to bring quantum and particle physics to Minecraft
+Brings complex nuclear engineering to Minecraft!
 
 YouTube Channel: https://www.youtube.com/c/NuclearCraftMod
 
-CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
-
-Wiki (WIP): https://ftb.gamepedia.com/NuclearCraft
+CurseForge Page: https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-overhauled
 
 
 Issues & Pull Requests
