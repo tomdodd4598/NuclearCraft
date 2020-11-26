@@ -44,7 +44,7 @@
 <br/><br/>
 Permissions: feel free to go ahead and use this mod in your pack if you wish!
 <br/><br/>
-Head to <a title="NC Wiki" href="https://ftb.gamepedia.com/NuclearCraft">the Wiki</a>, <a href="https://www.youtube.com/channel/UC-df90SAvYXk-FClmntlFhw">the YouTube Channel</a> or use the in-game tool-tips for help with progression through the mod. Also feel free to just ask me directly if you need more info!
+Head to <a title="NC Wiki" href="https://ftb.gamepedia.com/NuclearCraft">the Wiki</a>, <a href="https://www.youtube.com/channel/UC-df90SAvYXk-FClmntlFhw">the YouTube Channel</a> or use the in-game tooltips for help with progression through the mod. Also feel free to just ask me directly if you need more info!
 <br/><br/>
 Thanks to QuantumTraverse for the mod logo!
 </p>
