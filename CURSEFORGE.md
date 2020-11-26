@@ -15,16 +15,14 @@ WARNING: the overhaul version of NC is <em>NOT</em> compatible with the pre-over
 </p>
 <ul><span style="font-size: 14px;">
 <li>A complex nuclear engineering mod for Minecraft</span></li>
-<li>Intricate multiblock solid-fuel and molten-salt fission reactors</span></li>
-<li>Multiblock heat exchangers and steam turbines</span></li>
-<li>Large multiblock fusion reactors</span></li>
+<li>Intricate multiblock fission reactors</span></li>
+<li>Multiblock steam turbines</span></li>
 </ul>
 <p><span style="font-size: 14px;"><b><u>Features</span>
 </p>
 <ul><span style="font-size: 14px;">
 <li>Forge Energy, RF, IC2 EU and GTCE EU compatibility</span></li>
-<li>In-depth nuclear fuel system featuring 52 different fuel types</span></li>
-<li>Complex fusion system of 7 fuels and 28 fuel combinations</span></li>
+<li>In-depth nuclear fuel system featuring many fuel types</span></li>
 <li>Unique electric processors and generators</span></li>
 <li>Full JEI compatibility</span></li>
 <li>CraftTweaker recipe support</span></li>
@@ -35,9 +33,11 @@ WARNING: the overhaul version of NC is <em>NOT</em> compatible with the pre-over
 <p><span style="font-size: 14px;"><b><u>Planned</span>
 </p>
 <ul><span style="font-size: 14px;">
+<li>Heat exchangers</span></li>
 <li>Pebble-bed fission reactors</span></li>
-<li>Inertial confinement fusion</span></li>
-<li>More futuristic machinery</span></li>
+<li>Multiblock electrolysis</span></li>
+<li>Multiblock heavy water processing</span></li>
+<li>Tokamak fusion reactors</span></li>
 </ul>
 <p><span style="font-size: 14px;"><b>
 <a href="https://www.curseforge.com/minecraft/mc-mods/jei">JEI</a>, <a href="https://www.curseforge.com/minecraft/mc-mods/the-one-probe">The One Probe</a> and <a href="https://www.curseforge.com/minecraft/mc-mods/ctm">ConnectedTexturesMod</a> are highly recommended!
