@@ -40,14 +40,14 @@ WARNING: the overhaul version of NC is <em>NOT</em> compatible with the pre-over
 <li>Tokamak fusion reactors</span></li>
 </ul>
 <p><span style="font-size: 14px;"><b>
-<a href="https://www.curseforge.com/minecraft/mc-mods/jei">JEI</a>, <a href="https://www.curseforge.com/minecraft/mc-mods/the-one-probe">The One Probe</a> and <a href="https://www.curseforge.com/minecraft/mc-mods/ctm">ConnectedTexturesMod</a> are highly recommended!
+<a href="https://www.curseforge.com/minecraft/mc-mods/jei">JEI</a>, <a href="https://www.curseforge.com/minecraft/mc-mods/the-one-probe">The One Probe</a>, <a href="https://www.curseforge.com/minecraft/mc-mods/patchouli">Patchouli</a> and <a href="https://www.curseforge.com/minecraft/mc-mods/ctm">ConnectedTexturesMod</a> are highly recommended!
 <br/>
 <a href="https://github.com/turbodiesel4598/NuclearCraft/blob/master/changelog.txt">Changelog</a><br/>
 <a href="https://github.com/turbodiesel4598/NuclearCraft/blob/master/craftTweaker.txt">CraftTweaker Help</a>
 <br/><br/>
 Permissions: feel free to go ahead and use this mod in your pack if you wish!
 <br/><br/>
-Head to the YouTube Channel</a> or use the in-game guide and tooltips for help with progression through the mod. Also feel free to just ask me directly if you need more info!
+Head to the YouTube Channel</a> or use the in-game Patchouli guide and tooltips for help with progression through the mod. Also feel free to just ask me directly if you need more info!
 <br/><br/>
 Thanks to QuantumTraverse for the mod logo!
 </p>
