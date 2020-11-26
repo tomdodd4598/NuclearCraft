@@ -1,5 +1,5 @@
 <p>
-<img src="https://i.imgur.com/vby0vF5.png" alt="NC Splash (1.7)" width="1920" height="720"/>
+<img src="https://i.imgur.com/vby0vF5.png" alt="NC Splash (1.7)"/>
 </p>
 <p><span style="font-size: 14px;"><b>
 <a href="https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-mod">Head here for the pre-overhaul builds!</a>
