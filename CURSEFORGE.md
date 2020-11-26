@@ -12,7 +12,7 @@
 </p>
 <ul><span style="font-size: 14px;">
 <li>A complex nuclear engineering mod for Minecraft</span></li>
-<li>Intricate multiblock solid-fuel and molten-salt fission reactors</span></li>
+<li>Intricate multiblock fission reactors</span></li>
 <li>Multiblock heat exchangers and steam turbines</span></li>
 <li>Large multiblock tokamak fusion reactors</span></li>
 </ul>
@@ -20,8 +20,8 @@
 </p>
 <ul><span style="font-size: 14px;">
 <li>Forge Energy, RF, IC2 EU and GTCE EU compatibility</span></li>
-<li>In-depth nuclear fuel system featuring 52 different fuel types</span></li>
-<li>Complex fusion system of 7 fuels and 28 fuel combinations</span></li>
+<li>In-depth nuclear fuel system featuring many fuel types</span></li>
+<li>Complex fusion system of multiple fuel combinations</span></li>
 <li>Unique electric processors and generators</span></li>
 <li>Full JEI compatibility</span></li>
 <li>CraftTweaker recipe support</span></li>
