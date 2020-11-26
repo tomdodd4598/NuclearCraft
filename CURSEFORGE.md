@@ -2,11 +2,11 @@
 <img src="https://i.imgur.com/vby0vF5.png" alt="NC Splash (1.7)" width="1920" height="720"/>
 </p>
 <p><span style="font-size: 14px;"><b>
-<a href="https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-mod">Head here for the pre-overhaul builds!
+<a href="https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-mod">Head here for the pre-overhaul builds!</a>
 <br/>
-<a href="https://www.youtube.com/c/NuclearCraftMod">YouTube channel for help with the mod!
+<a href="https://www.youtube.com/c/NuclearCraftMod">YouTube channel for help with the mod!</a>
 <br/>
-<a title="https://discord.gg/KCPYgWw" href="https://discord.gg/KCPYgWw">Join the Discord server!
+<a title="https://discord.gg/KCPYgWw" href="https://discord.gg/KCPYgWw">Join the Discord server!</a>
 </p>
 <p><span style="text-decoration: underline; font-size: 18px;"><strong>
 WARNING: the overhaul version of NC is <em>NOT</em> compatible with the pre-overhaul version. Moving from one to the other will cause most NC content to mutate or disappear!
