@@ -1,5 +1,5 @@
-NuclearCraft - Mod for Minecraft 1.7.10 - 1.12.2
-=============================================
+NuclearCraft - Mod for Minecraft 1.12.2
+=======================================
 
 
 Summary
