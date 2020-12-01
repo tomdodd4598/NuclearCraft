@@ -6,6 +6,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.tile.*;
 import net.minecraftforge.fml.common.Optional;
+import java.util.*;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 public class TileFissionComputerPort extends TileFissionPart implements SimpleComponent {
@@ -113,6 +114,35 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfHeaters(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionHeater.class).size() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfIrradiators(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileFissionIrradiator.class).size() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getIrradiatorsStats(Context context, Arguments args) {
+		List<Map> irradiators = new ArrayList<Map>();
+		if(isMultiblockAssembled()) {
+			Collection<TileFissionIrradiator> irradiatorTiles = getMultiblock().getPartMap(TileFissionIrradiator.class).values();
+			for(TileFissionIrradiator irradiator: irradiatorTiles) {
+				Map<String, Object> entry = new HashMap<String, Object>();
+				entry.put("flux_recieved", irradiator.time);
+				entry.put("input_slot", new Object[] {irradiator.getInventoryStacks().get(0).getCount(),irradiator.getInventoryStacks().get(0).getDisplayName()});
+				entry.put("output_slot", new Object[] {irradiator.getInventoryStacks().get(1).getCount(),irradiator.getInventoryStacks().get(1).getDisplayName()});
+				entry.put("heat", irradiator.getEffectiveHeating());
+				entry.put("flux", irradiator.flux);
+				entry.put("flux_needed", irradiator.isProcessing ? irradiator.recipeInfo.getRecipe().getIrradiatorFluxRequired() : 0);
+				entry.put("recipe_name", irradiator.isProcessing ? irradiator.recipeInfo.getRecipe().getItemProducts().get(0).getStack().getDisplayName() : "");
+				entry.put("progress",  irradiator.isProcessing ? (irradiator.time/irradiator.recipeInfo.getRecipe().getIrradiatorFluxRequired()) : 0);
+				entry.put("is_active", irradiator.isProcessing);
+				irradiators.add(entry);
+			}
+		}
+		return new Object[] {irradiators.toArray()};
 	}
 	
 	/* @Callback
