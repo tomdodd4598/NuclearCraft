@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "nuclearcraft:salt_fission_controller"
+    },
+    "title": {
+      "translate": "advancement.nuclearcraft.salt_fission_complete.title"
+    },
+    "description": {
+      "translate": "advancement.nuclearcraft.salt_fission_complete.description"
+    }
+  },
+  "parent": "nuclearcraft:fission/salt/salt_fission_controller",
+  "criteria": {
+    "moltensalt_reactor_complete": {
+      "trigger": "nuclearcraft:moltensalt_reactor_complete"
+    }
+  }
+}

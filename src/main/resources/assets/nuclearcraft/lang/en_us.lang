@@ -3345,6 +3345,18 @@ advancement.nuclearcraft.moresmore.desc=Make a MoreS'more DoubleS'mingot
 advancement.nuclearcraft.foursmore.name=Even S'more Where That Came From
 advancement.nuclearcraft.foursmore.desc=Make a FourS'more QuadS'mingot
 
+advancement.nuclearcraft.fission_reactor_formed.title=That's why we are here
+advancement.nuclearcraft.fission_reactor_formed.description=Build a Fission Reactor
+
+advancement.nuclearcraft.heatexchanger_formed.title=Nothing is left behind
+advancement.nuclearcraft.heatexchanger_formed.description=Build a Heatexchanger
+
+advancement.nuclearcraft.salt_fission_formed.title=Next-gen Fuel
+advancement.nuclearcraft.salt_fission_formed.description=Build a Molten-Salt Fission Reactor
+
+advancement.nuclearcraft.turbine_formed.title=Power of Steam
+advancement.nuclearcraft.turbine_formed.description=Build a Turbine
+
 block.nc.fusion_run=Fusion Reactor Running
 block.nc.turbine_run=Turbine Running
 
