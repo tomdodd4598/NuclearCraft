@@ -4,10 +4,10 @@
       "item": "nuclearcraft:salt_fission_controller"
     },
     "title": {
-      "translate": "advancement.nuclearcraft.salt_fission_complete.title"
+      "translate": "advancement.nuclearcraft.salt_fission_formed.title"
     },
     "description": {
-      "translate": "advancement.nuclearcraft.salt_fission_complete.description"
+      "translate": "advancement.nuclearcraft.salt_fission_formed.description"
     }
   },
   "parent": "nuclearcraft:fission/salt/salt_fission_controller",

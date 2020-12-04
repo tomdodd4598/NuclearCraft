@@ -147,7 +147,7 @@ public class CommonProxy {
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
 			info.init();
 		}
-		//NCAdvancements.init();
+		NCAdvancements.init();
 	}
 	
 	public void postInit(FMLPostInitializationEvent postEvent) {

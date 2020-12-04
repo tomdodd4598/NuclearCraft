@@ -75,6 +75,7 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 					player.sendMessage(new TextComponentString(Lang.localise(Global.MOD_ID + ".multiblock_validation.no_controller")));
 					return true;
 				}
+				//Not the best place. But leaving this as an example
 				controller.checkIfMachineIsWhole();
 				if (!world.isRemote && controller.isAssembled()) {
 					MultiblockTrigger.FISSION_REACTOR_FORMED.trigger((EntityPlayerMP)player);

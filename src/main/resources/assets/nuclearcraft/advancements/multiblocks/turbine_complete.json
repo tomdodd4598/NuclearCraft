@@ -4,10 +4,10 @@
       "item": "nuclearcraft:turbine_controller"
     },
     "title": {
-      "translate": "advancement.nuclearcraft.turbine_complete.title"
+      "translate": "advancement.nuclearcraft.turbine_formed.title"
     },
     "description": {
-      "translate": "advancement.nuclearcraft.turbine_complete.description"
+      "translate": "advancement.nuclearcraft.turbine_formed.description"
     }
   },
   "parent": "nuclearcraft:turbine/turbine_controller",

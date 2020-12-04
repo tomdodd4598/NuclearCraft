@@ -4,10 +4,10 @@
       "item": "nuclearcraft:heat_exchanger_controller"
     },
     "title": {
-      "translate": "advancement.nuclearcraft.nc_fission_reactor_formed.title"
+      "translate": "advancement.nuclearcraft.heatexchanger_formed.title"
     },
     "description": {
-      "translate": "advancement.nuclearcraft.nc_fission_reactor_formed.description"
+      "translate": "advancement.nuclearcraft.heatexchanger_formed.description"
     }
   },
   "parent": "nuclearcraft:heat_exchanger/heat_exchanger_controller",
