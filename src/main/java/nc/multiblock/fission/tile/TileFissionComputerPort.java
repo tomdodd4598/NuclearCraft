@@ -115,6 +115,41 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionHeater.class).size() : 0};
 	}
 	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfFuelCells(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSolidFissionCell.class).size() : 0};
+	}
+	
+	
+	//TODO review OC fission cell method
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFuelCellStats(Context context, Arguments args) {
+		List<Map> fuelCellData = new ArrayList<Map>();
+		if(isMultiblockAssembled()) {
+			Collection<TileSolidFissionCell> fuelCells = getMultiblock().getPartMap(TileSolidFissionCell.class).values();
+			for(TileSolidFissionCell fuelCell: fuelCells) {
+				Map<String, Object> entry = new HashMap<String, Object>();
+				entry.put("fuel", new Object[] {fuelCell.getInventoryStacks().get(0).getCount(),fuelCell.getInventoryStacks().get(0).getDisplayName()});
+				entry.put("heating", fuelCell.getEffectiveHeating());
+				entry.put("heat_mult", fuelCell.getHeatMultiplier());
+				entry.put("is_processing", fuelCell.isProcessing);
+				entry.put("time", fuelCell.time);
+				entry.put("base_process_time", fuelCell.baseProcessTime);
+				entry.put("claster_heat_capacity", fuelCell.getCluster().heatBuffer.getHeatCapacity());
+				entry.put("claster_heat_stored", fuelCell.getCluster().heatBuffer.getHeatStored());
+				entry.put("cooling", fuelCell.getCluster().cooling);
+				entry.put("base_process_criticality", fuelCell.baseProcessCriticality);
+				entry.put("base_process_efficiency", fuelCell.baseProcessEfficiency);
+				entry.put("is_primed", fuelCell.isPrimed());
+				entry.put("flux_efficiency", fuelCell.getEfficiency());
+				fuelCellData.add(entry);
+			}
+		}
+		return new Object[] {fuelCellData.toArray()};
+	}
+	
 	/* @Callback
 	 * 
 	 * @Optional.Method(modid = "opencomputers") public Object[] getVesselStats(Context context, Arguments args) { if (isMultiblockAssembled()) { List<Object[]> stats = new ArrayList<>(); for (TileSaltFissionVessel vessel : getMultiblock().getVessels()) { stats.add(new Object[] { new Object[] {vessel.getPos().getX(), vessel.getPos().getY(), vessel.getPos().getZ()}, vessel.isProcessing, vessel.time, vessel.recipeInfo != null ? vessel.baseProcessTime/vessel.getSpeedMultiplier() : 0D, vessel.getProcessHeat(), vessel.getEfficiency(), vessel.getHeatMultiplier() }); } return new Object[] {stats.toArray()}; } else return new Object[] {}; } */
