@@ -2,6 +2,7 @@ package nc.multiblock;
 
 import java.util.*;
 
+import net.minecraft.block.state.IBlockState;
 import org.apache.commons.lang3.tuple.Pair;
 
 import it.unimi.dsi.fastutil.ints.*;
@@ -240,7 +241,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	// Multiblock Validators
 	
-	public boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	public boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z) {
 		return true;
 	}
 	

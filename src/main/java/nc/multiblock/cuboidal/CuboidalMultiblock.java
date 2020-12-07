@@ -6,11 +6,17 @@ import nc.multiblock.*;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.util.NCMath;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+
+import static net.minecraft.world.chunk.Chunk.EnumCreateEntityType.CHECK;
 
 public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> extends Multiblock<T, PACKET> {
 	
@@ -82,118 +88,137 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 		int extremes;
 		boolean isPartValid;
 		
-		for (int x = minX; x <= maxX; x++) {
-			for (int y = minY; y <= maxY; y++) {
-				for (int z = minZ; z <= maxZ; z++) {
-					// Okay, figure out what sort of block this should be.
-					
-					te = WORLD.getTileEntity(new BlockPos(x, y, z));
-					if (te instanceof TileCuboidalMultiblockPart) {
-						part = (TileCuboidalMultiblockPart) te;
-						
-						// Ensure this part should actually be allowed within a cuboid of this multiblock's type
-						if (!myClass.equals(part.getMultiblockType())) {
-							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
-							return false;
-						}
-						
-						// Ensure this part is actually connected to this multiblock
-						if (part.getMultiblock() != this) {
-							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_disconnected", new BlockPos(x, y, z), x, y, z);
-							return false;
-						}
-					}
-					else {
-						// This is permitted so that we can incorporate certain non-multiblock parts inside interiors
-						part = null;
-					}
-					
-					// Validate block type against both part-level and material-level validators.
-					extremes = 0;
-					
-					if (x == minX) {
-						extremes++;
-					}
-					if (y == minY) {
-						extremes++;
-					}
-					if (z == minZ) {
-						extremes++;
-					}
-					
-					if (x == maxX) {
-						extremes++;
-					}
-					if (y == maxY) {
-						extremes++;
-					}
-					if (z == maxZ) {
-						extremes++;
-					}
-					
-					if (extremes >= 2) {
-						
-						isPartValid = part != null ? part.isGoodForFrame(multiblock) : isBlockGoodForFrame(WORLD, x, y, z, multiblock);
-						
-						if (!isPartValid) {
-							if (null == multiblock.getLastError()) {
-								multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_frame", new BlockPos(x, y, z), x, y, z);
-							}
-							return false;
-						}
-					}
-					else if (extremes == 1) {
-						if (y == maxY) {
-							
-							isPartValid = part != null ? part.isGoodForTop(multiblock) : isBlockGoodForTop(WORLD, x, y, z, multiblock);
-							
-							if (!isPartValid) {
-								if (null == multiblock.getLastError()) {
-									multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_top", new BlockPos(x, y, z), x, y, z);
-								}
-								return false;
-							}
-						}
-						else if (y == minY) {
-							
-							isPartValid = part != null ? part.isGoodForBottom(multiblock) : isBlockGoodForBottom(WORLD, x, y, z, multiblock);
-							
-							if (!isPartValid) {
-								if (null == multiblock.getLastError()) {
-									multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_bottom", new BlockPos(x, y, z), x, y, z);
-								}
-								return false;
-							}
-						}
-						else {
-							// Side
-							isPartValid = part != null ? part.isGoodForSides(multiblock) : isBlockGoodForSides(WORLD, x, y, z, multiblock);
-							
-							if (!isPartValid) {
-								if (null == multiblock.getLastError()) {
-									multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_sides", new BlockPos(x, y, z), x, y, z);
-								}
-								return false;
-							}
-						}
-					}
-					else {
-						
-						isPartValid = part != null ? part.isGoodForInterior(multiblock) : isBlockGoodForInterior(WORLD, x, y, z, multiblock);
-						
-						if (!isPartValid) {
-							if (null == multiblock.getLastError()) {
-								multiblock.setLastError("zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior", new BlockPos(x, y, z), x, y, z);
-							}
-							return false;
-						}
-					}
-				}
-			}
-		}
-		return true;
-	}
-	
+        
+        BlockPos.MutableBlockPos blockPos = new MutableBlockPos();
+        for (int X = minX; X < ((maxX + 16) & 0xFFFFFFF0); X += 16) {
+            for (int Z = minZ; Z < ((maxZ + 16) & 0xFFFFFFF0); Z += 16) {
+                int chunkX = X >> 4;
+                int chunkZ = Z >> 4;
+                Chunk chunk = WORLD.getChunk(chunkX, chunkZ);
+                ExtendedBlockStorage[] chunkSections = chunk.getBlockStorageArray();
+                for (int Y = minY; Y < ((maxY + 16) & 0xFFFFFFF0); Y += 16) {
+                    int chunkSectionIndex = Y >> 4;
+                    ExtendedBlockStorage chunkSection = chunkSections[chunkSectionIndex];
+                    int sectionMinX = Math.max((X) & 0xFFFFFFF0, minX);
+                    int sectionMinY = Math.max((Y) & 0xFFFFFFF0, minY);
+                    int sectionMinZ = Math.max((Z) & 0xFFFFFFF0, minZ);
+                    int sectionMaxX = Math.min((X + 16) & 0xFFFFFFF0, maxX + 1);
+                    int sectionMaxY = Math.min((Y + 16) & 0xFFFFFFF0, maxY + 1);
+                    int sectionMaxZ = Math.min((Z + 16) & 0xFFFFFFF0, maxZ + 1);
+                    for (int y = sectionMinY; y < sectionMaxY; y++) {
+                        for (int z = sectionMinZ; z < sectionMaxZ; z++) {
+                            for (int x = sectionMinX; x < sectionMaxX; x++) {
+                                IBlockState state = Blocks.AIR.getDefaultState();
+                                if (chunkSection != null) {
+                                    state = chunkSection.get(x & 15, y & 15, z & 15);
+                                }
+                                
+                                te = chunk.getTileEntity(blockPos, CHECK);
+                                
+                                if (te instanceof TileCuboidalMultiblockPart) {
+                                    part = (TileCuboidalMultiblockPart) te;
+                                    
+                                    // Ensure this part should actually be allowed within a cuboid of this multiblock's type
+                                    if (!myClass.equals(part.getMultiblockType())) {
+                                        multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
+                                        return false;
+                                    }
+                                    
+                                    // Ensure this part is actually connected to this multiblock
+                                    if (part.getMultiblock() != this) {
+                                        multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_disconnected", new BlockPos(x, y, z), x, y, z);
+                                        return false;
+                                    }
+                                } else {
+                                    // This is permitted so that we can incorporate certain non-multiblock parts inside interiors
+                                    part = null;
+                                }
+                                
+                                // Validate block type against both part-level and material-level validators.
+                                extremes = 0;
+                                
+                                if (x == minX) {
+                                    extremes++;
+                                }
+                                if (y == minY) {
+                                    extremes++;
+                                }
+                                if (z == minZ) {
+                                    extremes++;
+                                }
+                                
+                                if (x == maxX) {
+                                    extremes++;
+                                }
+                                if (y == maxY) {
+                                    extremes++;
+                                }
+                                if (z == maxZ) {
+                                    extremes++;
+                                }
+                                
+                                if (extremes >= 2) {
+                                    
+                                    isPartValid = part != null ? part.isGoodForFrame(multiblock) : isBlockGoodForFrame(state, x, y, z);
+                                    
+                                    if (!isPartValid) {
+                                        if (null == multiblock.getLastError()) {
+                                            multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_frame", new BlockPos(x, y, z), x, y, z);
+                                        }
+                                        return false;
+                                    }
+                                } else if (extremes == 1) {
+                                    if (y == maxY) {
+                                        
+                                        isPartValid = part != null ? part.isGoodForTop(multiblock) : isBlockGoodForTop(state, x, y, z);
+                                        
+                                        if (!isPartValid) {
+                                            if (null == multiblock.getLastError()) {
+                                                multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_top", new BlockPos(x, y, z), x, y, z);
+                                            }
+                                            return false;
+                                        }
+                                    } else if (y == minY) {
+                                        
+                                        isPartValid = part != null ? part.isGoodForBottom(multiblock) : isBlockGoodForBottom(state, x, y, z);
+                                        
+                                        if (!isPartValid) {
+                                            if (null == multiblock.getLastError()) {
+                                                multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_bottom", new BlockPos(x, y, z), x, y, z);
+                                            }
+                                            return false;
+                                        }
+                                    } else {
+                                        // Side
+                                        isPartValid = part != null ? part.isGoodForSides(multiblock) : isBlockGoodForSides(state, x, y, z);
+                                        
+                                        if (!isPartValid) {
+                                            if (null == multiblock.getLastError()) {
+                                                multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_sides", new BlockPos(x, y, z), x, y, z);
+                                            }
+                                            return false;
+                                        }
+                                    }
+                                } else {
+                                    
+                                    isPartValid = part != null ? part.isGoodForInterior(multiblock) : isBlockGoodForInterior(state, x, y, z);
+                                    
+                                    if (!isPartValid) {
+                                        if (null == multiblock.getLastError()) {
+                                            multiblock.setLastError("zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior", new BlockPos(x, y, z), x, y, z);
+                                        }
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
 	protected BlockPos getMinimumInteriorCoord() {
 		return new BlockPos(getMinInteriorX(), getMinInteriorY(), getMinInteriorZ());
 	}

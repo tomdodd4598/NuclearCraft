@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import net.minecraft.block.state.IBlockState;
 import org.apache.commons.io.FileUtils;
 
 import it.unimi.dsi.fastutil.ints.*;
@@ -233,7 +234,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	protected void updateClient() {}
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	protected boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z) {
 		return true;
 	}
 	

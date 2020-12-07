@@ -504,8 +504,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	// Validation helpers
 	
-	public boolean standardLastError(int x, int y, int z, Multiblock multiblock) {
-		multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", new BlockPos(x, y, z), x, y, z, getBlock(x, y, z).getLocalizedName());
+	public boolean standardLastError(int x, int y, int z) {
+		this.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", new BlockPos(x, y, z), x, y, z, getBlock(x, y, z).getLocalizedName());
 		return false;
 	}
 	
@@ -519,8 +519,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForFrame(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForFrame(IBlockState blockState, int x, int y, int z) {
+		return standardLastError(x, y, z);
 	}
 	
 	/** The top consists of the top face, minus the edges.
@@ -533,8 +533,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForTop(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForTop(IBlockState blockState, int x, int y, int z) {
+		return standardLastError(x, y, z);
 	}
 	
 	/** The bottom consists of the bottom face, minus the edges.
@@ -547,8 +547,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForBottom(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForBottom(IBlockState blockState, int x, int y, int z) {
+		return standardLastError(x, y, z);
 	}
 	
 	/** The sides consists of the N/E/S/W-facing faces, minus the edges.
@@ -561,8 +561,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForSides(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForSides(IBlockState blockState, int x, int y, int z) {
+		return standardLastError(x, y, z);
 	}
 	
 	/** The interior is any block that does not touch blocks outside the machine.
@@ -575,7 +575,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected abstract boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock);
+	protected abstract boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z);
 	
 	/** @return The reference coordinate, the block with the lowest x, y, z coordinates, evaluated in that order. */
 	public BlockPos getReferenceCoord() {

@@ -14,6 +14,7 @@ import nc.multiblock.fission.tile.*;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -327,7 +328,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	// Multiblock Validators
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+	protected boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z) {
+		return logic.isBlockGoodForInterior(blockState, x, y, z);
 	}
 }

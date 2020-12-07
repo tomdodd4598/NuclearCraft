@@ -10,6 +10,7 @@ import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.NCMath;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -139,7 +140,7 @@ public class RTGMultiblock extends Multiblock<TileRTG, MultiblockUpdatePacket> {
 	protected void updateClient() {}
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	protected boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z) {
 		return true;
 	}
 	

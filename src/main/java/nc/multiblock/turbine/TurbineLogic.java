@@ -1244,14 +1244,14 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	// Multiblock Validators
 	
 	@Override
-	public boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	public boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
 		long posLong = pos.toLong();
-		if (getPartMap(TileTurbineRotorShaft.class).containsKey(posLong) || getPartMap(TileTurbineRotorBlade.class).containsKey(posLong) || getPartMap(TileTurbineRotorStator.class).containsKey(posLong) || MaterialHelper.isReplaceable(world.getBlockState(pos).getMaterial())) {
+		if (getPartMap(TileTurbineRotorShaft.class).containsKey(posLong) || getPartMap(TileTurbineRotorBlade.class).containsKey(posLong) || getPartMap(TileTurbineRotorStator.class).containsKey(posLong) || MaterialHelper.isReplaceable(blockState.getMaterial())) {
 			return true;
 		}
 		else {
-			return getTurbine().standardLastError(x, y, z, multiblock);
+			return getTurbine().standardLastError(x, y, z);
 		}
 	}
 }

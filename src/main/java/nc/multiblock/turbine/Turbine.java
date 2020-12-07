@@ -454,7 +454,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	// Multiblock Validators
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+	protected boolean isBlockGoodForInterior(IBlockState blockState, int x, int y, int z) {
+		return logic.isBlockGoodForInterior(blockState, x, y, z);
 	}
 }
