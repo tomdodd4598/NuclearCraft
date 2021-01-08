@@ -6,10 +6,10 @@ import java.util.*;
 
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.item.ItemStack;
 
-public class FissionReflectorRecipes extends ProcessorRecipeHandler {
+public class FissionReflectorRecipes extends BasicRecipeHandler {
 	
 	public FissionReflectorRecipes() {
 		super("fission_reflector", 1, 0, 0, 0);

@@ -2,51 +2,35 @@ package nc.integration.crafttweaker;
 
 import static nc.config.NCConfig.turbine_mb_per_blade;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.mc1120.util.CraftTweakerPlatformUtils;
-import nc.Global;
-import nc.NuclearCraft;
+import nc.*;
 import nc.init.NCBlocks;
-import nc.multiblock.fission.FissionPlacement;
-import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.*;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.block.port.BlockFissionFluidPort;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
 import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
 import nc.multiblock.turbine.TurbinePlacement;
-import nc.multiblock.turbine.TurbineRotorBladeUtil;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorStatorType;
-import nc.multiblock.turbine.block.BlockTurbinePart;
-import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
-import nc.multiblock.turbine.block.BlockTurbineRotorStator;
-import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
-import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
-import nc.multiblock.turbine.tile.TileTurbineRotorStator;
-import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.NCRecipes;
-import nc.util.FluidStackHelper;
-import nc.util.InfoHelper;
-import nc.util.Lang;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
+import nc.multiblock.turbine.block.*;
+import nc.multiblock.turbine.tile.*;
+import nc.recipe.*;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mods.nuclearcraft.Registration")
 @ZenRegister
@@ -54,148 +38,104 @@ public class CTRegistration {
 	
 	public static final List<RegistrationInfo> INFO_LIST = new ArrayList<>();
 	
-	public static class TileSink extends TileSolidFissionSink {
-		
-		public TileSink(String sinkName, int coolingRate, String ruleID) {
-			super(sinkName, coolingRate, ruleID);
-		}
-	}
-	
 	@ZenMethod
 	public static void registerFissionSink(String sinkID, int cooling, String rule) {
 		
-		Block sink = NCBlocks.withName(
-				new BlockFissionPart() {
-					@Override
-					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileSink(sinkID, cooling, sinkID + "_sink");
-					}
-					
-					@Override
-					public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-						if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
-							return false;
-						}
-						return rightClickOnPart(world, pos, player, hand, facing);
-					}
-				},
-				"solid_fission_sink_" + sinkID);
+		Block sink = NCBlocks.withName(new BlockFissionPart() {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileSolidFissionSink(sinkID, cooling, sinkID + "_sink");
+			}
+			
+			@Override
+			public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+				if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+					return false;
+				}
+				return rightClickOnPart(world, pos, player, hand, facing);
+			}
+		}, "solid_fission_sink_" + sinkID);
 		
 		INFO_LIST.add(new FissionSinkRegistrationInfo(sink, sinkID, cooling, rule));
-	}
-	
-	public static class TileHeaterPort extends TileFissionHeaterPort {
-		
-		public TileHeaterPort(String coolantName) {
-			super(coolantName);
-		}
-	}
-	
-	public static class TileHeater extends TileSaltFissionHeater {
-		
-		public TileHeater(String heaterName, String coolantName) {
-			super(heaterName, coolantName);
-		}
+		CraftTweakerAPI.logInfo("Registered fission heat sink with ID \"" + sinkID + "\", cooling rate " + cooling + " H/t and placement rule \"" + rule + "\"");
 	}
 	
 	@ZenMethod
 	public static void registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 		
-		Block port = NCBlocks.withName(
-				new BlockFissionFluidPort(TileHeaterPort.class, 303) {
-					@Override
-					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileHeaterPort(fluidInput);
-					}
-				},
-				"fission_heater_port_" + heaterID);
+		Block port = NCBlocks.withName(new BlockFissionFluidPort(TileFissionHeaterPort.class, 303) {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileFissionHeaterPort(fluidInput);
+			}
+		}, "fission_heater_port_" + heaterID);
 		
-		Block heater = NCBlocks.withName(
-				new BlockFissionPart() {
-					@Override
-					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileHeater(heaterID, fluidInput);
-					}
-					
-					@Override
-					public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-						if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
-							return false;
-						}
-						
-						if (!world.isRemote) {
-							TileEntity tile = world.getTileEntity(pos);
-							if (tile instanceof TileSaltFissionHeater) {
-								TileSaltFissionHeater heater = (TileSaltFissionHeater) tile;
-								FissionReactor reactor = heater.getMultiblock();
-								if (reactor != null) {
-									FluidStack fluidStack = FluidStackHelper.getFluid(player.getHeldItem(hand));
-									if (heater.canModifyFilter(0) && heater.getTanks().get(0).isEmpty() && fluidStack != null && !FluidStackHelper.stacksEqual(heater.getFilterTanks().get(0).getFluid(), fluidStack) && heater.getTanks().get(0).canFillFluidType(fluidStack)) {
-										player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(fluidStack.getUnlocalizedName())));
-										FluidStack filter = fluidStack.copy();
-										filter.amount = 1000;
-										heater.getFilterTanks().get(0).setFluid(filter);
-										heater.onFilterChanged(0);
-									}
-									else {
-										player.openGui(NuclearCraft.instance, 203, world, pos.getX(), pos.getY(), pos.getZ());
-									}
-									return true;
-								}
+		Block heater = NCBlocks.withName(new BlockFissionPart() {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileSaltFissionHeater(heaterID, fluidInput);
+			}
+			
+			@Override
+			public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+				if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+					return false;
+				}
+				
+				if (!world.isRemote) {
+					TileEntity tile = world.getTileEntity(pos);
+					if (tile instanceof TileSaltFissionHeater) {
+						TileSaltFissionHeater heater = (TileSaltFissionHeater) tile;
+						FissionReactor reactor = heater.getMultiblock();
+						if (reactor != null) {
+							FluidStack fluidStack = FluidStackHelper.getFluid(player.getHeldItem(hand));
+							if (heater.canModifyFilter(0) && heater.getTanks().get(0).isEmpty() && fluidStack != null && !FluidStackHelper.stacksEqual(heater.getFilterTanks().get(0).getFluid(), fluidStack) && heater.getTanks().get(0).canFillFluidType(fluidStack)) {
+								player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(fluidStack.getUnlocalizedName())));
+								FluidStack filter = fluidStack.copy();
+								filter.amount = 1000;
+								heater.getFilterTanks().get(0).setFluid(filter);
+								heater.onFilterChanged(0);
 							}
+							else {
+								player.openGui(NuclearCraft.instance, 203, world, pos.getX(), pos.getY(), pos.getZ());
+							}
+							return true;
 						}
-						return rightClickOnPart(world, pos, player, hand, facing, true);
 					}
-				},
-				"salt_fission_heater_" + heaterID);
+				}
+				return rightClickOnPart(world, pos, player, hand, facing, true);
+			}
+		}, "salt_fission_heater_" + heaterID);
 		
 		INFO_LIST.add(new FissionHeaterPortRegistrationInfo(port, heaterID));
 		INFO_LIST.add(new FissionHeaterRegistrationInfo(heater, heaterID, fluidInput, inputAmount, fluidOutput, outputAmount, cooling, rule));
-	}
-	
-	public static class TileCoil extends TileTurbineDynamoCoil {
-		
-		public TileCoil(String partName, double conductivity, String ruleID) {
-			super(partName, conductivity, ruleID);
-		}
+		CraftTweakerAPI.logInfo("Registered fission coolant heater and a respective port with ID \"" + heaterID + "\", cooling rate " + cooling + " H/t, placement rule \"" + rule + "\" and recipe [" + inputAmount + " * " + fluidInput + " -> " + outputAmount + " * " + fluidOutput + "]");
 	}
 	
 	@ZenMethod
 	public static void registerTurbineCoil(String coilID, double conductivity, String rule) {
 		
-		Block coil = NCBlocks.withName(
-				new BlockTurbinePart() {
-					@Override
-					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileCoil(coilID, conductivity, coilID + "_coil");
-					}
-					
-					@Override
-					public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-						if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
-							return false;
-						}
-						return rightClickOnPart(world, pos, player, hand, facing);
-					}
-				},
-				"turbine_dynamo_coil_" + coilID);
+		Block coil = NCBlocks.withName(new BlockTurbinePart() {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileTurbineDynamoCoil(coilID, conductivity, coilID + "_coil");
+			}
+			
+			@Override
+			public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+				if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+					return false;
+				}
+				return rightClickOnPart(world, pos, player, hand, facing);
+			}
+		}, "turbine_dynamo_coil_" + coilID);
 		
 		INFO_LIST.add(new TurbineCoilRegistrationInfo(coil, coilID, conductivity, rule));
-	}
-	
-	public static class TileBlade extends TileTurbineRotorBlade {
-		
-		final Block bladeBlock;
-		
-		public TileBlade(IRotorBladeType bladeType, Block bladeBlock) {
-			super(bladeType);
-			this.bladeBlock = bladeBlock;
-		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return bladeBlock.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
+		CraftTweakerAPI.logInfo("Registered turbine dynamo coil with ID \"" + coilID + "\", conductivity " + conductivity + " and placement rule \"" + rule + "\"");
 	}
 	
 	@ZenMethod
@@ -220,36 +160,16 @@ public class CTRegistration {
 			
 		};
 		
-		Block blade = NCBlocks.withName(
-				new BlockTurbineRotorBlade(null) {
-					@Override
-					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileBlade(bladeType, this);
-					}
-				},
-				"turbine_rotor_blade_" + bladeID);
+		Block blade = NCBlocks.withName(new BlockTurbineRotorBlade(null) {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileTurbineRotorBlade(bladeType);
+			}
+		}, "turbine_rotor_blade_" + bladeID);
 		
 		INFO_LIST.add(new TurbineBladeRegistrationInfo(blade, efficiency, expansionCoefficient));
-	}
-	
-	public static class TileStator extends TileTurbineRotorStator {
-		
-		final Block bladeBlock;
-		
-		public TileStator(IRotorStatorType statorType, Block bladeBlock) {
-			super(statorType);
-			this.bladeBlock = bladeBlock;
-		}
-		
-		@Override
-		public IRotorBladeType getBladeType() {
-			return statorType;
-		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return bladeBlock.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
+		CraftTweakerAPI.logInfo("Registered turbine rotor blade with ID \"" + bladeID + "\", efficiency " + efficiency + " and expansion coefficient " + expansionCoefficient);
 	}
 	
 	@ZenMethod
@@ -269,21 +189,22 @@ public class CTRegistration {
 			
 		};
 		
-		Block stator = NCBlocks.withName(
-				new BlockTurbineRotorStator() {
-					@Override
-					public TileEntity createNewTileEntity(World world, int metadata) {
-						return new TileBlade(statorType, this);
-					}
-				},
-				"turbine_rotor_stator_" + statorID);
+		Block stator = NCBlocks.withName(new BlockTurbineRotorStator() {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileTurbineRotorStator(statorType);
+			}
+		}, "turbine_rotor_stator_" + statorID);
 		
 		INFO_LIST.add(new TurbineStatorRegistrationInfo(stator, expansionCoefficient));
+		CraftTweakerAPI.logInfo("Registered turbine rotor stator with ID \"" + statorID + "\" and expansion coefficient " + expansionCoefficient);
 	}
 	
 	// Registration Wrapper
 	
 	public abstract static class RegistrationInfo {
+		
 		public abstract void preInit();
 		
 		public void recipeInit() {}
@@ -415,7 +336,7 @@ public class CTRegistration {
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block, TextFormatting.LIGHT_PURPLE, new String[] {Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.decimalPlaces(100D * conductivity, 1) + "%"}, TextFormatting.AQUA, InfoHelper.NULL_ARRAY);
+			NCBlocks.registerBlock(block, TextFormatting.LIGHT_PURPLE, new String[] {Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.pcDecimalPlaces(conductivity, 1)}, TextFormatting.AQUA, InfoHelper.NULL_ARRAY);
 		}
 		
 		@Override
@@ -437,7 +358,7 @@ public class CTRegistration {
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * efficiency) + "%"), Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * expansionCoefficient) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+			NCBlocks.registerBlock(block, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(efficiency, 1)), Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
 		}
 	}
 	
@@ -452,7 +373,7 @@ public class CTRegistration {
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block, TextFormatting.GRAY, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_stator_expansion"), Math.round(100D * expansionCoefficient) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_stator")));
+			NCBlocks.registerBlock(block, TextFormatting.GRAY, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_stator")));
 		}
 	}
 }

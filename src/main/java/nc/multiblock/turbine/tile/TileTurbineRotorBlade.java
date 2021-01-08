@@ -1,15 +1,17 @@
 package nc.multiblock.turbine.tile;
 
-import nc.init.NCBlocks;
+import java.util.Iterator;
+
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
+import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade {
+public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade<TileTurbineRotorBlade> {
 	
 	public IRotorBladeType bladeType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
@@ -24,11 +26,6 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 		public Steel() {
 			super(TurbineRotorBladeType.STEEL);
 		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return NCBlocks.turbine_rotor_blade_steel.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
 	}
 	
 	public static class Extreme extends TileTurbineRotorBlade {
@@ -36,22 +33,12 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 		public Extreme() {
 			super(TurbineRotorBladeType.EXTREME);
 		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return NCBlocks.turbine_rotor_blade_extreme.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
-		}
 	}
 	
 	public static class SicSicCMC extends TileTurbineRotorBlade {
 		
 		public SicSicCMC() {
 			super(TurbineRotorBladeType.SIC_SIC_CMC);
-		}
-		
-		@Override
-		public IBlockState getRenderState() {
-			return NCBlocks.turbine_rotor_blade_sic_sic_cmc.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
 		}
 	}
 	
@@ -64,20 +51,16 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override
@@ -96,16 +79,26 @@ public abstract class TileTurbineRotorBlade extends TileTurbinePart implements I
 	}
 	
 	@Override
+	public IBlockState getRenderState() {
+		if (getBlockType() instanceof BlockTurbineRotorBlade) {
+			return getBlockType().getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, dir);
+		}
+		return getBlockType().getDefaultState();
+	}
+	
+	@Override
 	public IRotorBladeType getBladeType() {
 		return bladeType;
 	}
 	
 	@Override
-	public void onBearingFailure(Turbine turbine) {
-		if (turbine.rand.nextDouble() < 0.18D) {
+	public void onBearingFailure(Iterator<TileTurbineRotorBlade> bladeIterator) {
+		Turbine turbine = getMultiblock();
+		if (turbine != null && turbine.rand.nextDouble() < 0.18D) {
+			bladeIterator.remove();
 			world.removeTileEntity(pos);
-			world.createExplosion(null, pos.getX() + turbine.rand.nextDouble() - 0.5D, pos.getY() + turbine.rand.nextDouble() - 0.5D, pos.getZ() + turbine.rand.nextDouble() - 0.5D, 4F, false);
 			world.setBlockToAir(pos);
+			world.createExplosion(null, pos.getX() + turbine.rand.nextDouble() - 0.5D, pos.getY() + turbine.rand.nextDouble() - 0.5D, pos.getZ() + turbine.rand.nextDouble() - 0.5D, 4F, false);
 		}
 	}
 	

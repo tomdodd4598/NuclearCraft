@@ -76,11 +76,11 @@ public abstract class NCButton extends GuiButton {
 		
 		protected GuiItemRenderer itemRenderer;
 		
-		public Item(int id, int x, int y, int width, int height, float alph, @Nonnull net.minecraft.item.Item item, int itemMeta) {
+		public Item(int id, int x, int y, int width, int height, float alph, @Nonnull net.minecraft.item.Item item, int meta) {
 			super(id, x, y, width, height);
 			this.width = width;
 			this.height = height;
-			itemRenderer = new GuiItemRenderer(x + (width - 16) / 2, y + (height - 16) / 2, alph, item, itemMeta);
+			itemRenderer = new GuiItemRenderer(item, meta, x + (width - 16) / 2, y + (height - 16) / 2, alph);
 		}
 		
 		@Override

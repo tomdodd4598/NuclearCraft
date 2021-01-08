@@ -2,9 +2,9 @@ package nc.recipe.multiblock;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class CondenserRecipes extends ProcessorRecipeHandler {
+public class CondenserRecipes extends BasicRecipeHandler {
 	
 	public CondenserRecipes() {
 		super("condenser", 0, 1, 0, 1);

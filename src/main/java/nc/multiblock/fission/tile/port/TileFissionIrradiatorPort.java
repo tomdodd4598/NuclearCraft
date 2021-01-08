@@ -1,6 +1,5 @@
 package nc.multiblock.fission.tile.port;
 
-import static nc.recipe.NCRecipes.fission_irradiator;
 import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.Set;
@@ -8,6 +7,7 @@ import java.util.Set;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.network.FissionIrradiatorPortUpdatePacket;
+import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -16,7 +16,7 @@ public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIr
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileFissionIrradiatorPort() {
-		super(TileFissionIrradiatorPort.class, "irradiator", fission_irradiator);
+		super(TileFissionIrradiatorPort.class, "irradiator", NCRecipes.fission_irradiator);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}

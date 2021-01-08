@@ -73,12 +73,12 @@ public abstract class NCToggleButton extends NCButton {
 		
 		protected GuiItemRenderer unpressedItemRenderer, pressedItemRenderer;
 		
-		public Item(int id, int x, int y, int width, int height, float unpressedAlph, @Nonnull net.minecraft.item.Item unpressedItem, int unpressedItemMeta, float pressedAlph, @Nonnull net.minecraft.item.Item pressedItem, int pressedItemMeta, boolean pressed) {
+		public Item(int id, int x, int y, int width, int height, float unpressedAlpha, @Nonnull net.minecraft.item.Item unpressedItem, int unpressedMeta, float pressedAlpha, @Nonnull net.minecraft.item.Item pressedItem, int pressedMeta, boolean pressed) {
 			super(id, x, y, width, height, pressed);
 			this.width = width;
 			this.height = height;
-			unpressedItemRenderer = new GuiItemRenderer(x + (width - 16) / 2, y + (height - 16) / 2, unpressedAlph, unpressedItem, unpressedItemMeta);
-			pressedItemRenderer = new GuiItemRenderer(x + (width - 16) / 2, y + (height - 16) / 2, pressedAlph, pressedItem, pressedItemMeta);
+			unpressedItemRenderer = new GuiItemRenderer(unpressedItem, unpressedMeta, x + (width - 16) / 2, y + (height - 16) / 2, unpressedAlpha);
+			pressedItemRenderer = new GuiItemRenderer(pressedItem, pressedMeta, x + (width - 16) / 2, y + (height - 16) / 2, pressedAlpha);
 		}
 		
 		public GuiItemRenderer getItemRenderer() {

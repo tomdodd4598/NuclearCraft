@@ -87,17 +87,17 @@ public class OreIngredient implements IItemIngredient {
 	}
 	
 	@Override
-	public IngredientMatchResult match(Object object, IngredientSorption type) {
+	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
 		if (object instanceof OreIngredient) {
 			OreIngredient oreStack = (OreIngredient) object;
-			if (oreStack.oreName.equals(oreName) && type.checkStackSize(stackSize, oreStack.stackSize)) {
+			if (oreStack.oreName.equals(oreName) && sorption.checkStackSize(stackSize, oreStack.stackSize)) {
 				return IngredientMatchResult.PASS_0;
 			}
 		}
 		else if (object instanceof String) {
 			return new IngredientMatchResult(oreName.equals(object), 0);
 		}
-		else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
+		else if (object instanceof ItemStack && sorption.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
 			ItemStack itemstack = (ItemStack) object;
 			if (itemstack.isEmpty()) {
 				return IngredientMatchResult.FAIL;
@@ -107,13 +107,13 @@ public class OreIngredient implements IItemIngredient {
 			}
 		}
 		else if (object instanceof ItemIngredient) {
-			if (match(((ItemIngredient) object).stack, type).matches()) {
+			if (match(((ItemIngredient) object).stack, sorption).matches()) {
 				return IngredientMatchResult.PASS_0;
 			}
 		}
 		else if (object instanceof ItemArrayIngredient) {
 			for (IItemIngredient ingredient : ((ItemArrayIngredient) object).ingredientList) {
-				if (!match(ingredient, type).matches()) {
+				if (!match(ingredient, sorption).matches()) {
 					return IngredientMatchResult.FAIL;
 				}
 			}

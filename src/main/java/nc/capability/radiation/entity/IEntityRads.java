@@ -1,6 +1,6 @@
 package nc.capability.radiation.entity;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.radiation_lowest_rate;
 
 import nc.Global;
 import nc.capability.ICapability;
@@ -33,9 +33,8 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 		return getFullRadiationResistance() > 0D ? 0.5D * (getRadiationLevel() + Math.sqrt(getRadiationLevel() * (getRadiationLevel() + 4D * getFullRadiationResistance()))) : getFullRadiationResistance() < 0D ? getRadiationLevel() / (1D - getFullRadiationResistance()) : getRadiationLevel();
 	}
 	
-	@Override
-	public default boolean isRadiationUndetectable() {
-		return getRawRadiationLevel() < radiation_lowest_rate * max_player_rads;
+	public default boolean isRawRadiationNegligible() {
+		return getRawRadiationLevel() < radiation_lowest_rate;
 	}
 	
 	public double getInternalRadiationResistance();

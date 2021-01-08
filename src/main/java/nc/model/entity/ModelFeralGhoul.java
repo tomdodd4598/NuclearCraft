@@ -211,7 +211,6 @@ public class ModelFeralGhoul extends ModelBase {
 		
 		copyModelAngles(bipedHead, bipedHeadwear);
 		
-		/* f = MathHelper.sin(swingProgress * (float)Math.PI); float f1 = MathHelper.sin((1F - (1F - swingProgress) * (1F - swingProgress)) * (float)Math.PI); bipedRightArm.rotateAngleZ = 0F; bipedLeftArm.rotateAngleZ = 0F; bipedRightArm.rotateAngleY = -(0.1F - f * 0.6F); bipedLeftArm.rotateAngleY = 0.1F - f * 0.6F; float f2 = -(float)(Math.PI / 2.25D); bipedRightArm.rotateAngleX = f2; bipedLeftArm.rotateAngleX = f2; bipedRightArm.rotateAngleX += f * 1.2F - f1 * 0.4F; bipedLeftArm.rotateAngleX += f * 1.2F - f1 * 0.4F; */
 		bipedRightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
 		bipedLeftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
 		bipedRightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
@@ -255,9 +254,7 @@ public class ModelFeralGhoul extends ModelBase {
 		BLOCK;
 	}
 	
-	/**
-	 * This is a helper function from Tabula to set the rotation of model parts
-	 */
+	/** This is a helper function from Tabula to set the rotation of model parts */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;

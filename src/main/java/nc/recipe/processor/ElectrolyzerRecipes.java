@@ -5,9 +5,9 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class ElectrolyzerRecipes extends ProcessorRecipeHandler {
+public class ElectrolyzerRecipes extends BasicRecipeHandler {
 	
 	public ElectrolyzerRecipes() {
 		super("electrolyzer", 0, 1, 0, 4);

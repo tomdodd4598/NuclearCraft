@@ -1,0 +1,13 @@
+tile.nuclearcraft.turbine_dynamo_coil_extreme.name=Extreme Alloy Turbine Dynamo Coil
+tile.nuclearcraft.turbine_dynamo_coil_sic_sic_cmc.name=SiC-SiC CMC Turbine Dynamo Coil
+
+tile.nuclearcraft.turbine_rotor_blade_manganese.name=Manganese Turbine Rotor Blade
+tile.nuclearcraft.turbine_rotor_blade_copper.name=Copper Turbine Rotor Blade
+
+tile.nuclearcraft.turbine_rotor_stator_magnesium.name=Magnesium Turbine Rotor Stator
+tile.nuclearcraft.turbine_rotor_stator_boron.name=Boron Turbine Rotor Stator
+
+nc.sf.extreme_coil0=%s extreme alloy dynamo coil
+nc.sf.extreme_coil1=%s extreme alloy dynamo coils
+nc.sf.sic_sic_cmc_coil0=%s SiC-SiC CMC dynamo coil
+nc.sf.sic_sic_cmc_coil1=%s SiC-SiC CMC dynamo coils

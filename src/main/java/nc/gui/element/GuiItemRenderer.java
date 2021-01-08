@@ -1,119 +1,194 @@
-/** Massive thanks to CrazyPants, maker of EnderIO and related mods, for letting me use this code! */
-
 package nc.gui.element;
+
+import java.awt.Color;
 
 import javax.annotation.Nonnull;
 
-import org.lwjgl.opengl.GL11;
-
-import nc.util.StackHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.*;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.common.ForgeModContainer;
 
-public class GuiItemRenderer extends Gui {
+public class GuiItemRenderer {
 	
-	private static final Minecraft MC = Minecraft.getMinecraft();
+	protected static final Minecraft MC = Minecraft.getMinecraft();
 	
-	public static final int DEFAULT_WIDTH = 16;
-	public static final int HWIDTH = DEFAULT_WIDTH / 2;
-	public static final int DEFAULT_HEIGHT = 16;
-	public static final int HHEIGHT = DEFAULT_HEIGHT / 2;
+	protected final @Nonnull ItemStack stack;
+	protected final int x, y;
+	protected final float alpha;
 	
-	protected int hwidth = HWIDTH;
-	protected int hheight = HHEIGHT;
-	protected int width = DEFAULT_WIDTH;
-	protected int height = DEFAULT_HEIGHT;
+	protected int width = 16, height = 16;
 	
-	protected @Nonnull TextureAtlasSprite icon;
-	protected @Nonnull ResourceLocation texture;
-	
-	private final int yPosition;
-	private final int xPosition;
-	
-	private float alpha = 1F;
-	
-	public GuiItemRenderer(int x, int y, float alpha, @Nonnull ItemStack stack) {
-		this(x, y, alpha, stack.getItem(), StackHelper.getMetadata(stack));
-	}
-	
-	public GuiItemRenderer(int x, int y, float alpha, @Nonnull Item item, int itemMeta) {
-		this(x, y, alpha, getIconForItem(item, itemMeta), TextureMap.LOCATION_BLOCKS_TEXTURE);
-	}
-	
-	public GuiItemRenderer(int x, int y, float alpha, @Nonnull TextureAtlasSprite icon, @Nonnull ResourceLocation texture) {
-		xPosition = x;
-		yPosition = y;
-		setAlpha(alpha);
-		this.icon = icon;
-		this.texture = texture;
-	}
-	
-	public static @Nonnull TextureAtlasSprite getIconForItem(@Nonnull Item item, int meta) {
-		final TextureAtlasSprite icon = MC.getRenderItem().getItemModelMesher().getParticleIcon(item, meta);
-		return icon != null ? icon : MC.getTextureMapBlocks().getMissingSprite();
-	}
-	
-	public void setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
-		hwidth = width / 2;
-		hheight = height / 2;
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	
-	public @Nonnull TextureAtlasSprite getIcon() {
-		return icon;
-	}
-	
-	public float getAlpha() {
-		return alpha;
-	}
-	
-	public void setAlpha(float alpha) {
+	public GuiItemRenderer(@Nonnull ItemStack stack, int x, int y, float alpha) {
+		this.stack = stack;
+		this.x = x;
+		this.y = y;
 		this.alpha = alpha;
 	}
 	
-	public void setIcon(@Nonnull TextureAtlasSprite icon) {
-		this.icon = icon;
+	public GuiItemRenderer(@Nonnull Item item, int meta, int x, int y, float alpha) {
+		this(new ItemStack(item, 1, meta), x, y, alpha);
 	}
 	
-	public @Nonnull ResourceLocation getTexture() {
-		return texture;
-	}
-	
-	public void setTexture(@Nonnull ResourceLocation textureName) {
-		texture = textureName;
-	}
-	
-	public static void bindTexture(String string) {
-		MC.renderEngine.bindTexture(new ResourceLocation(string));
-	}
-	
-	public static void bindTexture(@Nonnull ResourceLocation tex) {
-		MC.renderEngine.bindTexture(tex);
+	public GuiItemRenderer size(int width, int height) {
+		this.width = width;
+		this.height = height;
+		return this;
 	}
 	
 	public void draw() {
-		GlStateManager.color(1F, 1F, 1F, alpha);
+		if (!stack.isEmpty()) {
+			GlStateManager.color(1F, 1F, 1F, alpha);
+			renderItem();
+			renderItemOverlays();
+			GlStateManager.color(1F, 1F, 1F, 1F);
+		}
+	}
+	
+	protected void renderItem() {
+		MC.getRenderItem().zLevel += 50F;
+		GlStateManager.pushMatrix();
+		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		MC.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.alphaFunc(516, 0.1F);
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color(1F, 1F, 1F, alpha);
+		IBakedModel model = MC.getRenderItem().getItemModelWithOverrides(stack, null, null);
+		setupGuiTransform(x, y, model.isGui3d());
+		model = ForgeHooksClient.handleCameraTransforms(model, ItemCameraTransforms.TransformType.GUI, false);
+		renderModelAndEffect(stack, model);
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.disableLighting();
+		GlStateManager.popMatrix();
+		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		MC.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
+		MC.getRenderItem().zLevel -= 50F;
+	}
+	
+	protected void setupGuiTransform(int x, int y, boolean isGui3d) {
+		GlStateManager.translate(x, y, 100F + MC.getRenderItem().zLevel);
+		GlStateManager.translate(8F, 8F, 0F);
+		GlStateManager.scale(1F, -1F, 1F);
+		GlStateManager.scale(width, 16F, height);
 		
-		bindTexture(texture);
-		drawTexturedModalRect(xPosition, yPosition, icon, width, height);
+		if (isGui3d) {
+			GlStateManager.enableLighting();
+		}
+		else {
+			GlStateManager.disableLighting();
+		}
+	}
+	
+	protected void renderModelAndEffect(ItemStack stack, IBakedModel model) {
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 		
-		GlStateManager.disableBlend();
+		if (model.isBuiltInRenderer()) {
+			GlStateManager.color(1F, 1F, 1F, alpha);
+			GlStateManager.enableRescaleNormal();
+			stack.getItem().getTileEntityItemStackRenderer().renderByItem(stack);
+		}
+		else {
+			renderModel(model, new Color(1F, 1F, 1F, alpha).getRGB(), stack);
+			if (stack.hasEffect()) {
+				renderEffect(model);
+			}
+		}
 		
-		GlStateManager.color(1F, 1F, 1F, 1F);
+		GlStateManager.popMatrix();
+	}
+	
+	protected void renderEffect(IBakedModel model) {
+		GlStateManager.depthMask(false);
+		GlStateManager.depthFunc(514);
+		GlStateManager.disableLighting();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
+		MC.getTextureManager().bindTexture(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
+		GlStateManager.matrixMode(5890);
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(8F, 8F, 8F);
+		float f = (Minecraft.getSystemTime() % 3000L) / 24000F;
+		GlStateManager.translate(f, 0F, 0F);
+		GlStateManager.rotate(-50F, 0F, 0F, 1F);
+		renderModel(model, -8372020, ItemStack.EMPTY);
+		GlStateManager.popMatrix();
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(8F, 8F, 8F);
+		float f1 = (Minecraft.getSystemTime() % 4873L) / 38984F;
+		GlStateManager.translate(-f1, 0F, 0F);
+		GlStateManager.rotate(10F, 0F, 0F, 1F);
+		renderModel(model, -8372020, ItemStack.EMPTY);
+		GlStateManager.popMatrix();
+		GlStateManager.matrixMode(5888);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.enableLighting();
+		GlStateManager.depthFunc(515);
+		GlStateManager.depthMask(true);
+		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+	}
+	
+	protected void renderModel(IBakedModel model, int color, ItemStack stack) {
+		if (ForgeModContainer.allowEmissiveItems) {
+			ForgeHooksClient.renderLitItem(MC.getRenderItem(), model, color, stack);
+			return;
+		}
+		
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		bufferbuilder.begin(7, DefaultVertexFormats.ITEM);
+		
+		for (EnumFacing facing : EnumFacing.values()) {
+			MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, facing, 0L), color, stack);
+		}
+		
+		MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, null, 0L), color, stack);
+		tessellator.draw();
+	}
+	
+	protected void renderItemOverlays() {
+		if (!stack.isEmpty()) {
+			BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
+			GlStateManager.disableLighting();
+			GlStateManager.disableDepth();
+			GlStateManager.disableTexture2D();
+			
+			if (stack.getItem().showDurabilityBar(stack)) {
+				GlStateManager.disableBlend();
+				int i = Math.round(13F * (1F - (float) stack.getItem().getDurabilityForDisplay(stack)));
+				int j = stack.getItem().getRGBDurabilityForDisplay(stack);
+				draw(bufferbuilder, x + 2, y + 13, 13, 2, 0, 0, 0, (int) (255D * alpha));
+				draw(bufferbuilder, x + 2, y + 13, i, 1, j >> 16 & 255, j >> 8 & 255, j & 255, (int) (255D * alpha));
+				GlStateManager.enableBlend();
+			}
+			
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
+			float partialTicks = player == null ? 0F : player.getCooldownTracker().getCooldown(stack.getItem(), Minecraft.getMinecraft().getRenderPartialTicks());
+			
+			if (partialTicks > 0F) {
+				draw(bufferbuilder, x, y + MathHelper.floor(16F * (1F - partialTicks)), 16, MathHelper.ceil(16F * partialTicks), 255, 255, 255, (int) (127D * alpha));
+			}
+			
+			GlStateManager.enableTexture2D();
+			GlStateManager.enableLighting();
+			GlStateManager.enableDepth();
+		}
+	}
+	
+	protected void draw(BufferBuilder bufferbuilder, int x, int y, int width, int height, int red, int green, int blue, int alpha) {
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+		bufferbuilder.pos(x, y, 0D).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(x, y + height, 0D).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(x + width, y + height, 0D).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(x + width, y, 0D).color(red, green, blue, alpha).endVertex();
+		Tessellator.getInstance().draw();
 	}
 }

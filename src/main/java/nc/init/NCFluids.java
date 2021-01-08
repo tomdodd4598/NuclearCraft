@@ -26,13 +26,13 @@ public class NCFluids {
 		addFluidPair(FluidType.GAS, "hydrogen", 0xB37AC4);
 		addFluidPair(FluidType.GAS, "deuterium", 0x9E6FEF);
 		addFluidPair(FluidType.GAS, "tritium", 0x5DBBD6);
-		addFluidPair(FluidType.GAS, "helium3", 0xCBBB67);
+		addFluidPair(FluidType.GAS, "helium_3", 0xCBBB67);
 		addFluidPair(FluidType.GAS, "helium", 0xC57B81);
 		
-		addFluidPair(FluidType.MOLTEN, "boron10", 0x7D7D7D);
-		addFluidPair(FluidType.MOLTEN, "boron11", 0x7D7D7D);
-		addFluidPair(FluidType.MOLTEN, "lithium6", 0xEFEFEF);
-		addFluidPair(FluidType.MOLTEN, "lithium7", 0xEFEFEF);
+		addFluidPair(FluidType.MOLTEN, "boron_10", 0x7D7D7D);
+		addFluidPair(FluidType.MOLTEN, "boron_11", 0x7D7D7D);
+		addFluidPair(FluidType.MOLTEN, "lithium_6", 0xEFEFEF);
+		addFluidPair(FluidType.MOLTEN, "lithium_7", 0xEFEFEF);
 		
 		addFluidPair(FluidType.MOLTEN, "ferroboron", 0x4A4A4A);
 		addFluidPair(FluidType.MOLTEN, "tough", 0x150F21);
@@ -144,6 +144,13 @@ public class NCFluids {
 		
 		addFluidPair(FluidType.MOLTEN, "alugentum", 0xB5C9CB);
 		addFluidPair(FluidType.MOLTEN, "alumina", 0x919880);
+		
+		addFluidPair(FluidType.FISSION, "strontium_90", 0xB8BE88);
+		addFluidPair(FluidType.FISSION, "molybdenum", 0xBCC5E4);
+		addFluidPair(FluidType.FISSION, "ruthenium_106", 0xA3A3A3);
+		addFluidPair(FluidType.FISSION, "caesium_137", 0xADADAD);
+		addFluidPair(FluidType.FISSION, "promethium_147", 0x96C199);
+		addFluidPair(FluidType.FISSION, "europium_155", 0x74664A);
 	}
 	
 	private static <T extends Fluid, V extends NCBlockFluid> void addFluidPair(FluidType fluidType, Object... fluidArgs) {

@@ -12,9 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLLog;
 
-/**
- * Base logic class for Multiblock-connected tile entities. Most multiblock machines should derive from this and implement their game logic in certain abstract methods.
- */
+/** Base logic class for Multiblock-connected tile entities. Most multiblock machines should derive from this and implement their game logic in certain abstract methods. */
 public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends TileBeefAbstract implements ITileMultiblockPart<MULTIBLOCK> {
 	
 	private MULTIBLOCK multiblock;
@@ -97,10 +95,11 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 			if (data.hasKey("multiblockData")) {
 				this.cachedMultiblockData = data.getCompoundTag("multiblockData");
 			}
-		} else {
+		}
+		else {
 			if (data.hasKey("multiblockData")) {
 				NBTTagCompound tag = data.getCompoundTag("multiblockData");
-				if(isConnected()) {
+				if (isConnected()) {
 					getMultiblock().syncDataFrom(tag, syncReason);
 				}
 				else {
@@ -134,35 +133,29 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		}
 	}
 	
-	/**
-	 * Called when a block is removed by game actions, such as a player breaking the block or the block being changed into another block.
+	/** Called when a block is removed by game actions, such as a player breaking the block or the block being changed into another block.
 	 * 
-	 * @see net.minecraft.tileentity.TileEntity#invalidate()
-	 */
+	 * @see net.minecraft.tileentity.TileEntity#invalidate() */
 	@Override
 	public void invalidate() {
 		super.invalidate();
 		detachSelf(false);
 	}
 	
-	/**
-	 * Called from Minecraft's tile entity loop, after all tile entities have been ticked, as the chunk in which this tile entity is contained is unloading. Happens before the Forge TickEnd event.
+	/** Called from Minecraft's tile entity loop, after all tile entities have been ticked, as the chunk in which this tile entity is contained is unloading. Happens before the Forge TickEnd event.
 	 * 
-	 * @see net.minecraft.tileentity.TileEntity#onChunkUnload()
-	 */
+	 * @see net.minecraft.tileentity.TileEntity#onChunkUnload() */
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		detachSelf(true);
 	}
 	
-	/**
-	 * This is called when a block is being marked as valid by the chunk, but has not yet fully been placed into the world's TileEntity cache. this.WORLD, xCoord, yCoord and zCoord have been initialized, but any attempts to read data about the world can cause infinite loops - if you call getTileEntity on this TileEntity's coordinate from within validate(), you will blow your call stack.
+	/** This is called when a block is being marked as valid by the chunk, but has not yet fully been placed into the world's TileEntity cache. this.WORLD, xCoord, yCoord and zCoord have been initialized, but any attempts to read data about the world can cause infinite loops - if you call getTileEntity on this TileEntity's coordinate from within validate(), you will blow your call stack.
 	 * 
 	 * TL;DR: Here there be dragons.
 	 * 
-	 * @see net.minecraft.tileentity.TileEntity#validate()
-	 */
+	 * @see net.minecraft.tileentity.TileEntity#validate() */
 	@Override
 	public void validate() {
 		super.validate();
@@ -278,7 +271,6 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	@Override
 	public void onOrphaned(MULTIBLOCK multiblock, int oldSize, int newSize) {
 		markDirty();
-		getWorld().markChunkDirty(pos, this);
 	}
 	
 	@Override
@@ -315,8 +307,8 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		NCUtil.getLogger().warn(getBlock(getPos()).getLocalizedName() + " at (%d, %d, %d) is being assembled without being attached to a controller. It is recommended that the multiblock is completely disassambled and rebuilt if these errors continue!", getPos().getX(), getPos().getY(), getPos().getZ());
 	}
 	
-	///// Private/Protected Logic Helpers
-	/* Detaches this block from its multiblock. Calls detachBlock() and clears the multiblock member. */
+	// Private/Protected Logic Helpers
+	/** Detaches this block from its multiblock. Calls detachBlock() and clears the multiblock member. */
 	protected void detachSelf(boolean chunkUnloading) {
 		if (this.multiblock != null) {
 			// Clean part out of multiblock
@@ -330,9 +322,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		REGISTRY.onPartRemovedFromWorld(getWorld(), this);
 	}
 	
-	/**
-	 * IF the part is connected to a multiblock, marks the whole multiblock for a render update on the client. On the server, this does nothing
-	 */
+	/** IF the part is connected to a multiblock, marks the whole multiblock for a render update on the client. On the server, this does nothing */
 	protected void markMultiblockForRenderUpdate() {
 		
 		if (multiblock != null) {

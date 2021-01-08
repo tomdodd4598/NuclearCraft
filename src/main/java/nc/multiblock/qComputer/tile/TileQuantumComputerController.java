@@ -2,10 +2,11 @@ package nc.multiblock.qComputer.tile;
 
 import nc.multiblock.qComputer.*;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileQuantumComputerController extends TileQuantumComputerPart {
+public class TileQuantumComputerController extends TileQuantumComputerPart implements ITickable {
 	
 	public boolean pulsed = false;
 	
@@ -28,7 +29,6 @@ public class TileQuantumComputerController extends TileQuantumComputerPart {
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!pulsed && getIsRedstonePowered()) {
 			queueReset();
 			pulsed = true;

@@ -22,10 +22,16 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.*;
+import vazkii.patchouli.common.item.ItemModBook;
 
 public class CraftingRecipeHandler {
 	
 	public static void registerCraftingRecipes() {
+		if (ModCheck.patchouliLoaded()) {
+			addShapelessOreRecipe(ItemModBook.forBook("nuclearcraft:guide"), new Object[] {Items.BOOK, "ingotUranium"});
+			addShapelessOreRecipe(Items.BOOK, new Object[] {ItemModBook.forBook("nuclearcraft:guide")});
+		}
+		
 		for (int i = 0; i < IngotType.values().length; i++) {
 			String type = StringHelper.capitalize(IngotType.values()[i].getName());
 			if (!ore_dict_raw_material_recipes) {
@@ -270,8 +276,8 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.solid_fission_sink2, 1, 14), new Object[] {" E ", "ESE", " E ", 'S', "emptyHeatSink", 'E', "ingotEnderium"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.solid_fission_sink2, 1, 15), new Object[] {" C ", "CSC", " C ", 'S', "emptyHeatSink", 'C', "dustCryotheum"});
 		
-		addShapedOreRecipe(NCBlocks.salt_fission_controller, new Object[] {"PEP", "HFH", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'H', "ingotHardCarbon", 'F', "steelFrame"});
-		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_vessel, 4), new Object[] {"PEP", "ZFZ", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'Z', "ingotZircaloy", 'F', "steelFrame"});
+		addShapedOreRecipe(NCBlocks.salt_fission_controller, new Object[] {"PMP", "EFE", "PMP", 'P', "plateElite", 'E', "ingotExtreme", 'M', "ingotZirconiumMolybdenum", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_vessel, 4), new Object[] {"PMP", "ZFZ", "PMP", 'P', "plateElite", 'M', "ingotZirconiumMolybdenum", 'Z', "ingotZircaloy", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 8, 0), new Object[] {"PEP", "TFT", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'T', "ingotThermoconducting", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 1), new Object[] {" I ", "IHI", " I ", 'H', new ItemStack(NCBlocks.salt_fission_heater, 1, 0), 'I', "ingotIron"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 2), new Object[] {"RRR", "RHR", "RRR", 'H', new ItemStack(NCBlocks.salt_fission_heater, 1, 0), 'R', "dustRedstone"});
@@ -437,43 +443,46 @@ public class CraftingRecipeHandler {
 			addShapedOreRecipe(NCBlocks.quantum_computer_controller, new Object[] {"EPE", "PFP", "EPE", 'E', "ingotExtreme", 'P', Items.ENDER_PEARL, 'F', "steelFrame"});
 			addShapedOreRecipe(NCBlocks.quantum_computer_qubit, new Object[] {"ESE", "PRP", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL, 'R', "blockRedstone"});
 			
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 0), new Object[] {"SES", "ECE", "SES", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 1), new Object[] {"SES", "ECE", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 2), new Object[] {"SSS", "ECE", "SSS", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 3), new Object[] {"SES", "SCS", "SES", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 4), new Object[] {"ESS", "ECE", "SSE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 6), new Object[] {"SSS", "ECE", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 8), new Object[] {"SSS", "SCS", "SEE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 0), new Object[] {"SES", "EPE", "SES", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 1), new Object[] {"SES", "EPE", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 2), new Object[] {"SSS", "EPE", "SSS", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 3), new Object[] {"SES", "SPS", "SES", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 4), new Object[] {"ESS", "EPE", "SSE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 6), new Object[] {"SSS", "EPE", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 8), new Object[] {"SSS", "SPS", "SEE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
 			
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 0), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 9), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 1), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 10), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 2), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 11), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 4), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 5), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 5), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 4), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 6), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 7), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 7), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 6), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 9), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 0), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 10), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 1), Blocks.REDSTONE_TORCH});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 11), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 2), Blocks.REDSTONE_TORCH});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 5), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 4)});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 4), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 5)});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 7), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 6)});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 6), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 7)});
 			
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 0), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 9), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 1), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 10), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 2), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 11), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 4), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 5), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 5), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 4), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 6), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 7), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 7), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 6), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 9), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 0), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 10), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 1), "dustRedstone"});
-			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 11), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 2), "dustRedstone"});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 9), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 0), Blocks.REDSTONE_TORCH});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 10), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 1), Blocks.REDSTONE_TORCH});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 11), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 2), Blocks.REDSTONE_TORCH});
 			
 			for (int i = 0; i < QuantumGateEnums.SingleType.values().length; i++) {
-				addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, i), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, i)});
-				addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, i), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, i)});
+				addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, i), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, i), "dustEnergetic"});
 			}
 			
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 4), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 5)});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 6), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 7)});
+			
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 9), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 0), Blocks.REDSTONE_TORCH});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 10), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 1), Blocks.REDSTONE_TORCH});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 11), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, 2), Blocks.REDSTONE_TORCH});
+			
+			for (int i : new int[] {0, 1, 2, 3, 4, 6, 8, 9, 10, 11}) {
+				addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, i), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_control, 1, i)});
+			}
+			
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 0), new Object[] {"EES", "EPE", "SEE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 1), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 0), "dustEnergetic"});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 0), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 1)});
+			
 			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_connector, 8), new Object[] {"ESE", "SPS", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
-			/* if (ModCheck.openComputersLoaded()) { addShapedOreRecipe(NCBlocks.quantum_computer_port, new Object[] {"EME", "CFC", "EPE", 'E', "ingotExtreme", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'F', "steelFrame"}); } */
+			
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 0), new Object[] {"ESE", "PBP", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL, 'B', Items.WRITABLE_BOOK});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 1), new Object[] {new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 0)});
 		}
 	}
 	

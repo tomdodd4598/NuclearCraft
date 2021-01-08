@@ -6,9 +6,9 @@ import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class RockCrusherRecipes extends ProcessorRecipeHandler {
+public class RockCrusherRecipes extends BasicRecipeHandler {
 	
 	public RockCrusherRecipes() {
 		super("rock_crusher", 1, 0, 3, 0);

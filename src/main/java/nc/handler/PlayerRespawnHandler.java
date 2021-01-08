@@ -4,12 +4,10 @@ import static nc.config.NCConfig.*;
 
 import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.items.ItemHandlerHelper;
 import vazkii.patchouli.common.item.ItemModBook;
 
 public class PlayerRespawnHandler {
@@ -42,10 +40,8 @@ public class PlayerRespawnHandler {
 			if (event.isWasDeath()) {
 				if (radiation_death_persist) {
 					newRads.setTotalRads(oldRads.getTotalRads() * radiation_death_persist_fraction % oldRads.getMaxRads(), false);
-					newRads.setRadiationImmunityTime(oldRads.getTotalRads() * radiation_death_immunity_time * 20D / oldRads.getMaxRads());
 				}
-				
-				newRads.setGiveGuidebook(oldRads.getGiveGuidebook());
+				newRads.setRadiationImmunityTime(radiation_death_immunity_time * 20D);
 			}
 			else {
 				newRads.setConsumedMedicine(oldRads.getConsumedMedicine());
@@ -65,8 +61,9 @@ public class PlayerRespawnHandler {
 				newRads.setRecentRadXAddition(oldRads.getRecentRadXAddition());
 				newRads.setShouldWarn(oldRads.getShouldWarn());
 				newRads.setTotalRads(oldRads.getTotalRads(), false);
-				newRads.setGiveGuidebook(oldRads.getGiveGuidebook());
 			}
+			
+			newRads.setGiveGuidebook(oldRads.getGiveGuidebook());
 		}
 	}
 	
@@ -82,7 +79,7 @@ public class PlayerRespawnHandler {
 			return;
 		}
 		
-		if (NCConfig.give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
+		if (give_guidebook && ModCheck.patchouliLoaded() && playerRads.getGiveGuidebook()) {
 			boolean success = player.inventory.addItemStackToInventory(ItemModBook.forBook("nuclearcraft:guide"));
 			if (success) {
 				playerRads.setGiveGuidebook(false);

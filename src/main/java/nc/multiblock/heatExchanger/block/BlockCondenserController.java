@@ -5,7 +5,7 @@ import static nc.block.property.BlockProperties.*;
 import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
-import nc.init.NCBlocks;
+import nc.block.tile.IActivatable;
 import nc.multiblock.heatExchanger.tile.TileCondenserController;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
@@ -16,7 +16,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 
-public class BlockCondenserController extends BlockHeatExchangerPart {
+public class BlockCondenserController extends BlockHeatExchangerPart implements IActivatable {
 	
 	public BlockCondenserController() {
 		super();
@@ -86,16 +86,5 @@ public class BlockCondenserController extends BlockHeatExchangerPart {
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
 		return side != null;
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == NCBlocks.condenser_controller) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

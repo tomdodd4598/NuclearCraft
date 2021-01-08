@@ -13,6 +13,7 @@ public class RenderQuantumComputerQubit extends TileEntitySpecialRenderer<TileQu
 	@Override
 	public void render(TileQuantumComputerQubit qubit, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
 		long time = System.currentTimeMillis();
+		
 		boolean up = qubit.measureColor > 0F, down = qubit.measureColor < 0F;
 		float r = (float) NCMath.trapezoidalWave(time * 0.12D, 0D) + 6F * (down ? -qubit.measureColor : 0F);
 		float g = (float) NCMath.trapezoidalWave(time * 0.12D, 120D);

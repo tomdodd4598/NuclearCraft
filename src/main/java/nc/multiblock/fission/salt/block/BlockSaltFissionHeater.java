@@ -13,10 +13,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType> /* implements ISidedProperty< SaltFissionHeaterSetting> */ {
+public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType> {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType.class);
 	
@@ -26,7 +26,6 @@ public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.Coola
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		// return new BlockStateContainer(this, TYPE, DOWN, UP, NORTH, SOUTH, WEST, EAST);
 		return new BlockStateContainer(this, TYPE);
 	}
 	
@@ -70,12 +69,6 @@ public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.Coola
 	}
 	
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		// return state.withProperty(DOWN, getProperty(world, pos, EnumFacing.DOWN)).withProperty(UP, getProperty(world, pos, EnumFacing.UP)).withProperty(NORTH, getProperty(world, pos, EnumFacing.NORTH)).withProperty(SOUTH, getProperty(world, pos, EnumFacing.SOUTH)).withProperty(WEST, getProperty(world, pos, EnumFacing.WEST)).withProperty(EAST, getProperty(world, pos, EnumFacing.EAST));
-		return super.getActualState(state, world, pos);
-	}
-	
-	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) {
 			return false;
@@ -106,5 +99,5 @@ public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.Coola
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
-	}	
+	}
 }

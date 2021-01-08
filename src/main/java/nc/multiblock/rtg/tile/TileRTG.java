@@ -1,26 +1,25 @@
 package nc.multiblock.rtg.tile;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
 
 import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.*;
 import nc.ModCheck;
 import nc.multiblock.rtg.*;
 import nc.multiblock.tile.TileMultiblockPart;
-import nc.tile.energy.*;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.*;
 import nc.util.*;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnergySpread, IEnergySink, IEnergySource {
+@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")
+public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITickable, ITileEnergy, IEnergySource {
 	
 	public static class Uranium extends TileRTG {
 		
@@ -82,14 +81,11 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	@Override
 	public void onMachineAssembled(RTGMultiblock controller) {
 		doStandardNullControllerResponse(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
+		
 	}
 	
 	@Override
@@ -98,8 +94,8 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -107,7 +103,6 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			pushEnergy();
 		}
@@ -116,7 +111,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	@Override
 	public void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (!ignoreSide(side)) {
-			IEnergySpread.super.pushEnergyToSide(side);
+			ITileEnergy.super.pushEnergyToSide(side);
 		}
 	}
 	
@@ -165,82 +160,41 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements IEnerg
 	// IC2 Energy
 	
 	@Override
-	@Optional.Method(modid = "ic2")
-	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-		return getEnergyConnection(side).canReceive();
+	public boolean getIC2Reg() {
+		return ic2reg;
+	}
+	
+	@Override
+	public void setIC2Reg(boolean ic2reg) {
+		this.ic2reg = ic2reg;
+	}
+	
+	@Override
+	public int getSinkTier() {
+		return 10;
+	}
+	
+	@Override
+	public int getSourceTier() {
+		return EnergyHelper.getEUTier(power);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection(side).canExtract();
+		return ITileEnergy.super.emitsEnergyTo(receiver, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+		return ITileEnergy.super.getOfferedEnergy();
 	}
 	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSinkTier() + 3), (double) getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
-	}
-	
-	/* The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) (rf_per_eu * amount), true);
-		getEnergyStorage().receiveEnergy(energyReceived, false);
-		return amount - (double) energyReceived / (double) rf_per_eu;
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		return getEUSourceTier();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSinkTier() {
-		return getEUSinkTier();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
-			ic2reg = true;
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
-			ic2reg = false;
-		}
-	}
-	
-	@Override
-	public int getEUSourceTier() {
-		return EnergyHelper.getEUTier(power);
-	}
-	
-	@Override
-	public int getEUSinkTier() {
-		return 10;
+		ITileEnergy.super.drawEnergy(amount);
 	}
 	
 	@Override

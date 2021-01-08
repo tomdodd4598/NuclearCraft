@@ -74,7 +74,7 @@ public class ToggleTankOutputSettingPacket implements IMessage {
 				if (setting == TankOutputSetting.VOID) {
 					machine.clearTank(message.tank);
 				}
-				machine.markDirtyAndNotify();
+				machine.markDirtyAndNotify(true);
 			}
 		}
 	}

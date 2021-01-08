@@ -3,33 +3,21 @@ package nc.multiblock.turbine.block;
 import static nc.util.NCRenderHelper.PIXEL;
 
 import nc.multiblock.turbine.TurbineRotorBladeUtil;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRotorBlade {
 	
-	private static final AxisAlignedBB[] BLADE_AABB = {
-			new AxisAlignedBB(0D, PIXEL*7D, PIXEL*2D, PIXEL*16D, PIXEL*9D, PIXEL*14D),
-			new AxisAlignedBB(PIXEL*2D, 0D, PIXEL*7D, PIXEL*14D, PIXEL*16D, PIXEL*9D),
-			new AxisAlignedBB(PIXEL*2D, PIXEL*7D, 0D, PIXEL*14D, PIXEL*9D, PIXEL*16D)
-	};
+	private static final AxisAlignedBB[] BLADE_AABB = {new AxisAlignedBB(0D, PIXEL * 7D, PIXEL * 2D, PIXEL * 16D, PIXEL * 9D, PIXEL * 14D), new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 7D, PIXEL * 14D, PIXEL * 16D, PIXEL * 9D), new AxisAlignedBB(PIXEL * 2D, PIXEL * 7D, 0D, PIXEL * 14D, PIXEL * 9D, PIXEL * 16D)};
 	
 	private final TurbineRotorBladeType bladeType;
 	
@@ -103,7 +91,7 @@ public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRo
 				return super.getSelectedBoundingBox(state, worldIn, pos);
 		}
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) {

@@ -2,6 +2,8 @@ package nc.multiblock.fission.solid.tile;
 
 import static nc.config.NCConfig.fission_sink_cooling_rate;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -12,7 +14,7 @@ import nc.multiblock.fission.tile.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
+public class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
 	public String sinkName;
 	public int coolingRate;
@@ -269,15 +271,11 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionComponent
@@ -336,7 +334,9 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 	}
 	
 	@Override
-	public void onClusterMeltdown() {}
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
+		
+	}
 	
 	@Override
 	public boolean isNullifyingSources(EnumFacing side) {
@@ -362,8 +362,10 @@ public abstract class TileSolidFissionSink extends TileFissionPart implements IF
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("sinkName")) sinkName = nbt.getString("sinkName");
-		if (nbt.hasKey("coolingRate")) coolingRate = nbt.getInteger("coolingRate");
+		if (nbt.hasKey("sinkName"))
+			sinkName = nbt.getString("sinkName");
+		if (nbt.hasKey("coolingRate"))
+			coolingRate = nbt.getInteger("coolingRate");
 		if (nbt.hasKey("ruleID")) {
 			ruleID = nbt.getString("ruleID");
 			placementRule = FissionPlacement.RULE_MAP.get(ruleID);

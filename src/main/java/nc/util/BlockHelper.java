@@ -91,14 +91,6 @@ public class BlockHelper {
 		}
 	}
 	
-	public static void playSoundOnProcessor(World world, BlockPos pos, Random rand, SoundEvent sound) {
-		if (sound != null) {
-			if (rand.nextDouble() < 0.2D) {
-				world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, sound, SoundCategory.BLOCKS, 1F, 1F, false);
-			}
-		}
-	}
-	
 	// Accessing machine tanks - taken from net.minecraftforge.fluids.FluidUtil and modified to correctly handle ITileFluids
 	public static boolean accessTanks(EntityPlayer player, EnumHand hand, EnumFacing facing, ITileFluid tile) {
 		if (player == null || tile == null) {

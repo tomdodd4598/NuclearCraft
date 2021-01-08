@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.*;
 
-public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidSidedInventory {
+public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidSidedInventory implements ITickable {
 	
 	public BlockPos masterPosition = null;
 	protected final int updateRate;
@@ -65,8 +65,8 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			findMaster();
 		}
@@ -74,7 +74,6 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			if (checkCount == 0) {
 				findMaster();
@@ -228,19 +227,19 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	// IC2 Energy
 	
 	@Override
-	public int getEUSourceTier() {
+	public int getSinkTier() {
 		if (getMaster() instanceof ITileEnergy) {
-			return ((ITileEnergy) getMaster()).getEUSourceTier();
+			return ((ITileEnergy) getMaster()).getSinkTier();
 		}
-		return 1;
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
+	public int getSourceTier() {
 		if (getMaster() instanceof ITileEnergy) {
-			return ((ITileEnergy) getMaster()).getEUSinkTier();
+			return ((ITileEnergy) getMaster()).getSourceTier();
 		}
-		return 10;
+		return 1;
 	}
 	
 	// Energy Distribution
@@ -274,8 +273,6 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		}
 		return super.getFluidConnections();
 	}
-	
-	/* @Override public void setFluidConnections(@Nonnull FluidConnection[] connections) { if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setFluidConnections(connections); super.setFluidConnections(connections); } */
 	
 	@Override
 	public @Nonnull FluidTileWrapper[] getFluidSides() {
@@ -481,17 +478,13 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	
 	@Override
 	public NBTTagCompound writeEnergy(NBTTagCompound nbt) {
-		nbt.setInteger("energy", super.getEnergyStorage().getEnergyStored());
-		nbt.setInteger("capacity", super.getEnergyStorage().getMaxEnergyStored());
-		nbt.setInteger("maxTransfer", super.getEnergyStorage().getMaxTransfer());
+		super.getEnergyStorage().writeToNBT(nbt, "energyStorage");
 		return nbt;
 	}
 	
 	@Override
 	public void readEnergy(NBTTagCompound nbt) {
-		super.getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
-		super.getEnergyStorage().setStorageCapacity(nbt.getInteger("capacity"));
-		super.getEnergyStorage().setMaxTransfer(nbt.getInteger("maxTransfer"));
+		super.getEnergyStorage().readFromNBT(nbt, "energyStorage");
 	}
 	
 	@Override

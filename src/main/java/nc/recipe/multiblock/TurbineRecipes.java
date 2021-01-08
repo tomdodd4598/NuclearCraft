@@ -4,9 +4,9 @@ import static nc.config.NCConfig.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class TurbineRecipes extends ProcessorRecipeHandler {
+public class TurbineRecipes extends BasicRecipeHandler {
 	
 	public TurbineRecipes() {
 		super("high_turbine", 0, 1, 0, 1);

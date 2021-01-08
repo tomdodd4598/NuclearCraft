@@ -357,7 +357,10 @@ tile.nuclearcraft.geiger_block.name=Geiger Counter Block
 tile.nuclearcraft.geiger_block.desc=Reads the radiation level of the chunk it is placed in.
 
 tile.nuclearcraft.glowing_mushroom.name=Glowing Mushroom
+tile.nuclearcraft.glowing_mushroom_block.name=Glowing Mushroom Block
 tile.nuclearcraft.wasteland_earth.name=Wasteland Earth
+
+tile.nuclearcraft.wasteland_portal.name=Wasteland Portal
 
 tile.nuclearcraft.tritium_lamp.name=Tritium Lamp
 tile.nuclearcraft.tritium_lantern.name=Tritium Lantern
@@ -416,13 +419,18 @@ tile.nuclearcraft.quantum_computer_gate_control.crz.name=Quantum Computer Contro
 tile.nuclearcraft.quantum_computer_gate_control.crz.desc=Performs a controlled rotation on the target qubits about the spatial Z-axis.
 
 tile.nuclearcraft.quantum_computer_gate_swap.swap.name=Quantum Computer Swap Gate
-tile.nuclearcraft.quantum_computer_gate_swap.swap.desc=Swaps two collections of qubits.
+tile.nuclearcraft.quantum_computer_gate_swap.swap.desc=Swaps two lists of qubits.
 tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=Quantum Computer Controlled Swap Gate
-tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=Performs a controlled swap on two collections of qubits.
+tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=Performs a controlled swap on two lists of qubits.
 
 tile.nuclearcraft.quantum_computer_connector.name=Quantum Computer Connector
-tile.nuclearcraft.quantum_computer_port.name=Quantum Computer Port (WIP)
+tile.nuclearcraft.quantum_computer_port.name=Quantum Computer OC Port (WIP)
 tile.nuclearcraft.quantum_computer_port.desc=Used to access the quantum computer via OpenComputers.
+
+tile.nuclearcraft.quantum_computer_code_generator.qasm.name=Quantum Computer QASM Code Generator
+tile.nuclearcraft.quantum_computer_code_generator.qasm.desc=Used to generate QASM code for use with IBM Q.
+tile.nuclearcraft.quantum_computer_code_generator.qiskit.name=Quantum Computer Qiskit Code Generator
+tile.nuclearcraft.quantum_computer_code_generator.qiskit.desc=Used to generate Qiskit code for use with IBM Q.
 
 tile.nuclearcraft.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
@@ -436,8 +444,8 @@ fluid.deuterium=Deuterium
 tile.nuclearcraft.fluid_tritium.name=Tritium
 fluid.tritium=Tritium
 
-tile.nuclearcraft.fluid_helium3.name=Helium-3
-fluid.helium3=Helium-3
+tile.nuclearcraft.fluid_helium_3.name=Helium-3
+fluid.helium_3=Helium-3
 
 tile.nuclearcraft.fluid_helium.name=Helium
 fluid.helium=Helium
@@ -488,17 +496,17 @@ tile.nuclearcraft.fluid_plasma.name=Plasma
 tile.nuclearcraft.fluid_plasma.desc=Produced in active fusion reactors. May cause an explosion and fire when coming into contact with an unpowered fusion electromagnet.
 fluid.plasma=Plasma
 
-tile.nuclearcraft.fluid_lithium6.name=Molten Lithium-6
-fluid.lithium6=Molten Lithium-6
+tile.nuclearcraft.fluid_lithium_6.name=Molten Lithium-6
+fluid.lithium_6=Molten Lithium-6
 
-tile.nuclearcraft.fluid_lithium7.name=Molten Lithium-7
-fluid.lithium7=Molten Lithium-7
+tile.nuclearcraft.fluid_lithium_7.name=Molten Lithium-7
+fluid.lithium_7=Molten Lithium-7
 
-tile.nuclearcraft.fluid_boron10.name=Molten Boron-10
-fluid.boron10=Molten Boron-10
+tile.nuclearcraft.fluid_boron_10.name=Molten Boron-10
+fluid.boron_10=Molten Boron-10
 
-tile.nuclearcraft.fluid_boron11.name=Molten Boron-11
-fluid.boron11=Molten Boron-11
+tile.nuclearcraft.fluid_boron_11.name=Molten Boron-11
+fluid.boron_11=Molten Boron-11
 
 tile.nuclearcraft.fluid_ferroboron.name=Molten Ferroboron
 fluid.ferroboron=Molten Ferroboron
@@ -696,6 +704,24 @@ fluid.alugentum=Molten Alugentum
 
 tile.nuclearcraft.fluid_alumina.name=Molten Alumina
 fluid.alumina=Molten Alumina
+
+tile.nuclearcraft.fluid_strontium_90.name=Molten Strontium-90
+fluid.strontium_90=Molten Strontium-90
+
+tile.nuclearcraft.fluid_molybdenum.name=Molten Molybdenum
+fluid.molybdenum=Molten Molybdenum
+
+tile.nuclearcraft.fluid_ruthenium_106.name=Molten Ruthenium-106
+fluid.ruthenium_106=Molten Ruthenium-106
+
+tile.nuclearcraft.fluid_caesium_137.name=Molten Caesium-137
+fluid.caesium_137=Molten Caesium-137
+
+tile.nuclearcraft.fluid_promethium_147.name=Molten Promethium-147
+fluid.promethium_147=Molten Promethium-147
+
+tile.nuclearcraft.fluid_europium_155.name=Molten Europium-155
+fluid.europium_155=Molten Europium-155
 
 tile.nuclearcraft.fluid_thorium.name=Molten Thorium
 fluid.thorium=Molten Thorium
@@ -1559,21 +1585,22 @@ item.nuclearcraft.gem_dust.arsenic.name=Crushed Arsenic
 item.nuclearcraft.gem_dust.end_stone.name=Crushed End Stone
 
 item.nuclearcraft.alloy.bronze.name=Bronze Ingot
-item.nuclearcraft.alloy.tough.name=Tough Alloy
-item.nuclearcraft.alloy.hard_carbon.name=Hard Carbon Alloy
-item.nuclearcraft.alloy.magnesium_diboride.name=Magnesium Diboride Alloy
-item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy
+item.nuclearcraft.alloy.tough.name=Tough Alloy Ingot
+item.nuclearcraft.alloy.hard_carbon.name=Hard Carbon Alloy Ingot
+item.nuclearcraft.alloy.magnesium_diboride.name=Magnesium Diboride Alloy Ingot
+item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy Ingot
 item.nuclearcraft.alloy.steel.name=Steel Ingot
-item.nuclearcraft.alloy.ferroboron.name=Ferroboron Alloy
-item.nuclearcraft.alloy.shibuichi.name=Shibuichi Alloy
-item.nuclearcraft.alloy.tin_silver.name=Tin Silver Alloy
-item.nuclearcraft.alloy.lead_platinum.name=Lead Platinum Alloy
-item.nuclearcraft.alloy.extreme.name=Extreme Alloy
-item.nuclearcraft.alloy.thermoconducting.name=Thermoconducting Alloy
+item.nuclearcraft.alloy.ferroboron.name=Ferroboron Alloy Ingot
+item.nuclearcraft.alloy.shibuichi.name=Shibuichi Alloy Ingot
+item.nuclearcraft.alloy.tin_silver.name=Tin Silver Alloy Ingot
+item.nuclearcraft.alloy.lead_platinum.name=Lead Platinum Alloy Ingot
+item.nuclearcraft.alloy.extreme.name=Extreme Alloy Ingot
+item.nuclearcraft.alloy.thermoconducting.name=Thermoconducting Alloy Ingot
 item.nuclearcraft.alloy.zircaloy.name=Zircaloy Ingot
 item.nuclearcraft.alloy.silicon_carbide.name=Silicon Carbide Ingot
-item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC Ceramic Matrix Composite
+item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC Ceramic Matrix Composite Ingot
 item.nuclearcraft.alloy.hsla_steel.name=HSLA Steel Ingot
+item.nuclearcraft.alloy.zirconium_molybdenum.name=Zirconium-Molybdenum Alloy Ingot
 
 item.nuclearcraft.compound.calcium_sulfate.name=Calcium Sulfate
 item.nuclearcraft.compound.crystal_binder.name=Crystal Binder
@@ -1616,6 +1643,12 @@ item.nuclearcraft.fission_dust.radium.name=Radium Dust
 item.nuclearcraft.fission_dust.polonium.name=Polonium Dust
 item.nuclearcraft.fission_dust.tbp.name=Protactinium-Enriched Thorium Dust
 item.nuclearcraft.fission_dust.protactinium_233.name=Protactinium-233 Dust
+item.nuclearcraft.fission_dust.strontium_90.name=Strontium-90 Dust
+item.nuclearcraft.fission_dust.molybdenum.name=Molybdenum Dust
+item.nuclearcraft.fission_dust.ruthenium_106.name=Ruthenium-106 Dust
+item.nuclearcraft.fission_dust.caesium_137.name=Caesium-137 Dust
+item.nuclearcraft.fission_dust.promethium_147.name=Promethium-147 Dust
+item.nuclearcraft.fission_dust.europium_155.name=Europium-155 Dust
 
 item.nuclearcraft.uranium.233.name=Uranium-233
 item.nuclearcraft.uranium.233_c.name=Uranium-233 Carbide
@@ -1919,6 +1952,7 @@ info.nuclearcraft.fission_fuel.base_time.desc=Base depletion time: %s
 info.nuclearcraft.fission_fuel.base_heat.desc=Base heat gen: %s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=Base efficiency: %s
 info.nuclearcraft.fission_fuel.criticality.desc=Criticality factor: %s
+info.nuclearcraft.fission_fuel.decay_factor.desc=Decay factor: %s
 info.nuclearcraft.fission_fuel.self_priming.desc=Self-priming!
 
 item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=Depleted TBU TRISO Fuel Pebble
@@ -2145,6 +2179,19 @@ info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=Gate now se
 
 info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=Gate currently swapping qubits %s with qubits %s, controlled by qubits %s
 
+info.nuclearcraft.multitool.quantum_computer.controller.code_qasm_start=Quantum Computer entering QASM mode! Gate operations will be recorded but not carried out in the game.
+info.nuclearcraft.multitool.quantum_computer.controller.code_qiskit_start=Quantum Computer entering Qiskit mode! Gate operations will be recorded but not carried out in the game.
+info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits=Quantum Computer can not enter code generation mode, too many qubits installed.
+info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits=Quantum Computer exiting code generation mode, too many qubits installed.
+info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty=Quantum Computer exiting code generation mode.
+
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=Quantum Computer exiting QASM mode, saved generated code to %s
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_error=Quantum Computer exiting QASM mode, an error occurred attempting save generated code to %s
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty=Quantum Computer exiting QASM mode.
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=Quantum Computer exiting Qiskit mode, saved generated code to %s
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error=Quantum Computer exiting Qiskit mode, an error occurred attempting save generated code to %s
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty=Quantum Computer exiting Qiskit mode.
+
 item.nuclearcraft.geiger_counter.name=Geiger Counter
 item.nuclearcraft.geiger_counter.desc=Detects radiation and informs the player of their rad count. Can be used to read the irradiation of entities. Will be muted if off the hotbar.
 item.nuclearcraft.geiger_counter.rads=Radiation:
@@ -2222,19 +2269,22 @@ jei.nuclearcraft.collector_production_rate=Production rate:
 jei.nuclearcraft.irradiator_flux_required=Flux required:
 jei.nuclearcraft.irradiator_heat_per_flux=Heat gen per flux:
 jei.nuclearcraft.irradiator_process_efficiency=Efficiency contribution:
+jei.nuclearcraft.radiation_per_flux=Radiation per flux:
 
 jei.nuclearcraft.pebble_fuel_time=Base depletion time:
 jei.nuclearcraft.pebble_fuel_heat=Base heat gen:
 jei.nuclearcraft.pebble_fuel_efficiency=Base efficiency:
-jei.nuclearcraft.pebble_fuel_criticality=Fuel criticality:
-jei.nuclearcraft.pebble_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.pebble_fuel_criticality=Criticality factor:
+jei.nuclearcraft.pebble_fuel_decay_factor=Decay factor:
+jei.nuclearcraft.pebble_fuel_radiation=Depletion radiation:
 jei.nuclearcraft.pebble_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_heat=Base heat gen:
 jei.nuclearcraft.solid_fuel_efficiency=Base efficiency:
-jei.nuclearcraft.solid_fuel_criticality=Fuel criticality:
-jei.nuclearcraft.solid_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.solid_fuel_criticality=Criticality factor:
+jei.nuclearcraft.solid_fuel_decay_factor=Decay factor:
+jei.nuclearcraft.solid_fuel_radiation=Depletion radiation:
 jei.nuclearcraft.solid_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
@@ -2242,9 +2292,12 @@ jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
 jei.nuclearcraft.salt_fuel_time=Base depletion time:
 jei.nuclearcraft.salt_fuel_heat=Base heat gen:
 jei.nuclearcraft.salt_fuel_efficiency=Base efficiency:
-jei.nuclearcraft.salt_fuel_criticality=Fuel criticality:
-jei.nuclearcraft.salt_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.salt_fuel_criticality=Criticality factor:
+jei.nuclearcraft.salt_fuel_decay_factor=Decay factor:
+jei.nuclearcraft.salt_fuel_radiation=Depletion radiation:
 jei.nuclearcraft.salt_fuel_self_priming=Self-priming!
+
+jei.nuclearcraft.fission_emergency_cooling_per_mb=Cooling per input mB:
 
 jei.nuclearcraft.fusion_time=Base combo lifetime:
 jei.nuclearcraft.fusion_power=Base max power:
@@ -2292,11 +2345,11 @@ gui.nc.config.ore_dims.comment=List of IDs of dimensions to whitelist/blacklist 
 gui.nc.config.ore_dims_list_type=Whitelist/Blacklist (false/true)
 gui.nc.config.ore_dims_list_type.comment=Is the dimension list a whitelist (false) or a blacklist (true)?
 gui.nc.config.ore_gen=Generate Ores
-gui.nc.config.ore_gen.comment=Will ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
+gui.nc.config.ore_gen.comment=Will these ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_size=Chunk Sizes
 gui.nc.config.ore_size.comment=Numbers of ore blocks per ore chunk. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_rate=Spawn Rates
-gui.nc.config.ore_rate.comment=Rates at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
+gui.nc.config.ore_rate.comment=Rates at which ores generate (uses a vanilla-style ore generator). Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_min_height=Minimum Gen Heights
 gui.nc.config.ore_min_height.comment=Minimum heights at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 gui.nc.config.ore_max_height=Maximum Gen Heights
@@ -2309,23 +2362,23 @@ gui.nc.config.ore_harvest_levels=Ore Harvest Levels
 gui.nc.config.ore_harvest_levels.comment=Pickaxe harvest levels of ores. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
 
 gui.nc.config.wasteland_biome=Generate Wasteland Biome
-gui.nc.config.wasteland_biome.comment=Will the Wasteland Biome generate in the Overworld?
+gui.nc.config.wasteland_biome.comment=Will wasteland biomes generate in the overworld?
 gui.nc.config.wasteland_biome_weight=Wasteland Biome Gen Weight
-gui.nc.config.wasteland_biome_weight.comment=The weight assigned to the generation of the Wasteland Biomes - higher numbers correspond to higher generation rates.
+gui.nc.config.wasteland_biome_weight.comment=The weight assigned to the generation of the wasteland biomes - higher numbers correspond to higher generation rates.
 
 gui.nc.config.wasteland_dimension_gen=Enable Wasteland Dimension
-gui.nc.config.wasteland_dimension_gen.comment=Will the Wasteland Dimension be generated?
+gui.nc.config.wasteland_dimension_gen.comment=Will the wasteland dimension be generated?
 gui.nc.config.wasteland_dimension=Wasteland Dimension ID
-gui.nc.config.wasteland_dimension.comment=Set the dimension ID for the Wasteland Dimension.
+gui.nc.config.wasteland_dimension.comment=Sets the ID for the wasteland dimension.
 
 gui.nc.config.mushroom_spread_rate=Mushroom Spread Rate
-gui.nc.config.mushroom_spread_rate.comment=Glowing Mushroom spread rate.
+gui.nc.config.mushroom_spread_rate.comment=The rate at which mushrooms added by NC will spread - higher numbers correspond to higher spread rates.
 gui.nc.config.mushroom_gen=Generate Mushrooms
-gui.nc.config.mushroom_gen.comment=Will glowing mushrooms generate in the nether?
+gui.nc.config.mushroom_gen.comment=Will mushrooms added by NC generate in the nether and wasteland biomes?
 gui.nc.config.mushroom_gen_size=Mushroom Gen Size
-gui.nc.config.mushroom_gen_size.comment=Determines how many glowing mushrooms will spawn at a time.
+gui.nc.config.mushroom_gen_size.comment=Determines the maximum number of mushrooms added by NC that will spawn at a time. Note that this is typically much higher than the mean number of generated mushrooms.
 gui.nc.config.mushroom_gen_rate=Mushroom Gen Rate
-gui.nc.config.mushroom_gen_rate.comment=Determines how often glowing mushrooms will spawn.
+gui.nc.config.mushroom_gen_rate.comment=Determines how often mushrooms added by NC will spawn - higher numbers correspond to higher generation rates.
 
 gui.nc.config.category.processor=Processor Configs
 gui.nc.config.category.processor.tooltip=Configure processors.
@@ -2343,7 +2396,9 @@ gui.nc.config.energy_upgrade_power_laws_fp.comment=Power laws for energy upgrade
 gui.nc.config.energy_upgrade_multipliers_fp=Energy Upgrade Multipliers
 gui.nc.config.energy_upgrade_multipliers_fp.comment=Base multipliers for energy upgrades. Order: Processing Power.
 gui.nc.config.rf_per_eu=RF per IC2 EU
-gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 Energy Units.
+gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 and GTCE Energy Units.
+gui.nc.config.enable_ic2_eu=Enable IC2 EU Support
+gui.nc.config.enable_ic2_eu.comment=If true, energy from IC2 can be accepted and emitted by NC machines.
 gui.nc.config.enable_gtce_eu=Enable GTCE EU Support
 gui.nc.config.enable_gtce_eu.comment=If true, energy from GTCE can be accepted and emitted by NC machines.
 gui.nc.config.enable_mek_gas=Enable Mekanism Gas Support
@@ -2381,9 +2436,9 @@ gui.nc.config.rtg_power.comment=RF/t generated. Order: Uranium, Plutonium, Ameri
 gui.nc.config.solar_power=Solar Panel Power Gen
 gui.nc.config.solar_power.comment=RF/t generated. Order: Basic, Advanced, DU, Elite.
 gui.nc.config.decay_lifetime=Decay Generator Mean Lifetimes
-gui.nc.config.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. Order: Thorium, Uranium, Uranium-238, Neptunium-237, Plutonium-242, Americium-243, Curium-246, Berkelium-247, Californium-252.
 gui.nc.config.decay_power=Decay Generator Power Gen
-gui.nc.config.decay_power.comment=RF/t generated by adjacent radioactive blocks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.decay_power.comment=RF/t generated by adjacent radioactive blocks. Order: Thorium, Uranium, Uranium-238, Neptunium-237, Plutonium-242, Americium-243, Curium-246, Berkelium-247, Californium-252.
 gui.nc.config.generator_rf_per_eu=RF Use per EU Emitted
 gui.nc.config.generator_rf_per_eu.comment=The RF used per EU emitted for generators.
 
@@ -2617,8 +2672,10 @@ gui.nc.config.accelerator_supercooler_coolant.comment=mB/t of liquid helium requ
 gui.nc.config.category.quantum=Quantum Configs
 gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
 
-gui.nc.config.quantum_max_qubits=Max Qubits
-gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
+gui.nc.config.quantum_max_qubits_live=Max Live Qubits
+gui.nc.config.quantum_max_qubits_live.comment=The maximum number of actively calculating qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
+gui.nc.config.quantum_max_qubits_code=Max Coding Qubits
+gui.nc.config.quantum_max_qubits_code.comment=The maximum number of qubits a single quantum computer multiblock can have for generating code. !!!WARNING!!! Gates with more control qubits will take increasingly more work and memory to decompile into basic operations, thus will generate increasingly mode code. If generating QASM code, IBM Q Experience's circuit composer will begin to struggle to deal with more than a few hundred lines. Increase this limit with EXTREME caution!
 gui.nc.config.quantum_angle_precision=Gate Angle Precision
 gui.nc.config.quantum_angle_precision.comment=Controls the precision allowed for setting the working angle of gates by defining the number of available angles, uniformly distributed from 0 to 360 degrees.
 
@@ -2669,6 +2726,9 @@ gui.nc.config.category.radiation.tooltip=Configure aspects of nuclear radiation.
 
 gui.nc.config.radiation_enabled=Enable Radiation
 gui.nc.config.radiation_enabled.comment=Will nuclear radiation exist in the world? Note that the game will require a restart for radiation-related items to be shown in JEI after enabling this feature.
+
+gui.config.radiation.radiation_immune_players=Player Radiation Immunity
+gui.config.radiation.radiation_immune_players.comment=List of UUIDs for players who will be given permanent radiation immunity.
 
 gui.nc.config.radiation_world_chunks_per_tick=Radiation World Chunks Per Tick
 gui.nc.config.radiation_world_chunks_per_tick.comment=The maximum number of chunks in which radiation will be updated per tick.
@@ -2726,6 +2786,11 @@ gui.nc.config.radiation_lowest_rate=Lowest Radiation Rate
 gui.nc.config.radiation_lowest_rate.comment=The lowest rate of player and chunk irradiation possible in Rad/t - amounts below this are ignored.
 gui.nc.config.radiation_chunk_limit=Chunk Radiation Limit
 gui.nc.config.radiation_chunk_limit.comment=The maximum chunk radiation level possible in Rad/t. A negative value means there is no limit.
+
+gui.nc.config.radiation_sound_volumes=Radiation Sound Volumes
+gui.nc.config.radiation_sound_volumes.comment=Modifiers for the volumes of radiation sound effects. Order: Geiger counter ticking, RadAway use, Rad-X use, food effects, chems wearing off, radiation badge breaking, radiation level warning, feral ghoul attack.
+gui.nc.config.radiation_check_blocks=Block Radiation Contribution
+gui.nc.config.radiation_check_blocks.comment=Should non-tile entity blocks contribute to chunk radiation?
 gui.nc.config.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
 gui.nc.config.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
 gui.nc.config.radiation_rain_mult=Radiation Rain Multiplier
@@ -2764,7 +2829,7 @@ gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search f
 gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
 gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
 gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
-gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
+gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for their efficiencies. It is recommended that you only modify these if you know what you are doing.
 gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
 gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. Order: borax dust, RadAway, Slow-Acting RadAway
 gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
@@ -2793,9 +2858,9 @@ gui.nc.config.radiation_hud_text_outline=HUD Text Outline
 gui.nc.config.radiation_hud_text_outline.comment=If enabled, a black outline will surround the radiation counter text underneath the rad bar.
 
 gui.nc.config.radiation_require_counter=Counter Required For Info
-gui.nc.config.radiation_require_counter.comment=If disabled, the rads overlay will show and the ticking will be heard even when a Geiger Counter is not being held.
+gui.nc.config.radiation_require_counter.comment=If disabled, the rads overlay will show and the ticking will be heard even when a Geiger counter is not being held.
 gui.nc.config.radiation_chunk_boundaries=Counter/Scrubber Chunk Boundaries
-gui.nc.config.radiation_chunk_boundaries.comment=If enabled, chunk boundaries will be shown while holding or looking at a geiger counter block or radiation scrubber.
+gui.nc.config.radiation_chunk_boundaries.comment=If enabled, chunk boundaries will be shown while holding or looking at a Geiger counter block or radiation scrubber.
 gui.nc.config.radiation_unit_prefixes=Radiation Unit Prefixes
 gui.nc.config.radiation_unit_prefixes.comment=If set to a positive integer, radiation levels will be shown without unit prefixes to this number of significant figures.
 
@@ -2903,6 +2968,11 @@ nc.block.fission_vent_mode.input=INPUT
 nc.block.fission_vent_mode.output=OUTPUT
 nc.block.vent_toggle.mode=mode!
 
+nc.block.port_toggle=Toggled port to
+nc.block.fission_port_mode.input=INPUT
+nc.block.fission_port_mode.output=OUTPUT
+nc.block.port_toggle.mode=mode!
+
 nc.block.fluid_toggle=Toggled side to
 nc.block.fluid_toggle_opposite=Toggled opposite side to
 
@@ -2993,6 +3063,8 @@ gui.nc.container.salt_fission_vessel.heat_stored=Cluster Heat Level:
 gui.nc.container.salt_fission_heater.heater=Fission Coolant Heater
 gui.nc.container.salt_fission_heater.heat_stored=Cluster Heat Level:
 
+gui.nc.container.fission_heater_port.name=Fission Coolant Heater Port
+
 gui.nc.container.fusion_core.reactor=Fusion Reactor
 gui.nc.container.fusion_core.ring_incomplete=Ring Incomplete
 gui.nc.container.fusion_core.ring_incomplete_at=Ring Incomplete
@@ -3024,7 +3096,7 @@ gui.nc.container.turbine_controller.dynamo_efficiency=Dynamo Efficiency:
 gui.nc.container.turbine_controller.dynamo_coil_count=Coil Counts:
 gui.nc.container.turbine_controller.expansion_level=Expansion:
 gui.nc.container.turbine_controller.rotor_efficiency=Rotor Efficiency:
-gui.nc.container.turbine_controller.fluid_rate=Input Rate:
+gui.nc.container.turbine_controller.fluid_rate=Input:
 gui.nc.container.turbine_controller.power_bonus=Rate Power Bonus:
 
 gui.nc.container.energy_stored=Energy Stored:
@@ -3073,8 +3145,8 @@ nuclearcraft.multiblock_validation.too_many_controllers=There must only be one c
 
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=This is not a solid fuel reactor - there must be no cells for it to form!
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=This is not a solid fuel reactor - there must be no sinks for it to form!
-nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten salt reactor - there must be no vessels it to form!
-nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=This is not a molten salt reactor - there must be no heaters it to form!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten salt reactor - there must be no vessels for it to form!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=This is not a molten salt reactor - there must be no heaters for it to form!
 
 nuclearcraft.multiblock.fission_reactor_source.no_target=Has no target!
 nuclearcraft.multiblock.fission_reactor_source.target=Targeting %4$s at [%1$d, %2$d, %3$d]
@@ -3092,6 +3164,7 @@ nuclearcraft.multiblock_validation.turbine.different_type_blades=The rotor blade
 nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the rotor shaft must have rotor blades or stators of the same type extend fully to the wall for the turbine to form
 
 nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There are %s qubits connected to this quantum computer; there can only be %s at most for it to form
+nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There must be no more than one code generator connected to this quantum computer
 
 nuclearcraft.collector.jei_name=Collector
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=Fission Moderator
@@ -3103,6 +3176,7 @@ nuclearcraft.fission_moderator.jei_name=Fission Moderators
 nuclearcraft.fission_reflector.jei_name=Fission Reflectors
 nuclearcraft.fission_heating.jei_name=Solid Fuel Fission Heating
 nuclearcraft.multiblock_gui.salt_fission.jei_name=Molten Salt Fission
+nuclearcraft.fission_emergency_cooling.jei_name=MSR Emergency Cooling
 nuclearcraft.multiblock_gui.coolant_heater.jei_name=Molten Salt Cooling
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Heat Exchanger Tube
 nuclearcraft.multiblock_gui.condenser.jei_name=Condensation Tube
@@ -3335,6 +3409,10 @@ commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radi
 commands.nuclearcraft.set_world_radiation.usage=/nc_set_world_radiation <radiation_level>
 commands.nuclearcraft.set_player_radiation.usage=/nc_set_world_radiation <radiation_level> [player]
 
+commands.nuclearcraft.reconstruct_script_addons.usage=/nc_reload_script_addons ["syntax"]
+commands.nuclearcraft.reconstruct_script_addons.success=Successfully reconstructed script addons!
+commands.nuclearcraft.reconstruct_script_addons.fail=An error occurred while attempting to reconstruct script addons...
+
 message.nuclearcraft.radiation_config_info=Radiation is enabled on this server!
 message.nuclearcraft.radiation_config_info_jei=Radiation is enabled on this server! It is recommended that it is enabled on the client side too, along with a restart, in order to see all radiation-related items in JEI!
 
@@ -3353,9 +3431,9 @@ death.attack.fatal_rads=%1$s died due to fatal radiation poisoning
 
 # Guide Book
 
-nc.guide_book.name=NuclearCraft Guide
+nc.guide_book.name=NuclearCraft Guide (WIP)
 nc.guide_book.edition=Overhaul Edition
-nc.guide_book.desc=The official guide for NuclearCraft: Overhauled.
+nc.guide_book.desc=The official guide for NuclearCraft: Overhauled (WIP).
 
 # String Formatting
 
@@ -3398,8 +3476,8 @@ nc.sf.placement_rule.adjacent.ambiguity0prev=!common axis&&!common axes&&!common
 nc.sf.placement_rule.adjacent.ambiguity0last=common axis||common axes||common vertex
 nc.sf.placement_rule.adjacent.ambiguity1prev=share a common||share common
 
-nc.sf.casing0=%s reactor casing
-nc.sf.casing1=%s reactor casing
+nc.sf.reactor_casing0=%s reactor casing
+nc.sf.reactor_casing1=%s reactor casing
 nc.sf.cell0=%s functional fuel cell
 nc.sf.cell1=%s functional fuel cells
 nc.sf.vessel0=%s functional fuel vessel
@@ -3543,6 +3621,8 @@ nc.sf.enderium_heater1=%s functional enderium heaters
 nc.sf.cryotheum_heater0=%s functional cryotheum heater
 nc.sf.cryotheum_heater1=%s functional cryotheum heaters
 
+nc.sf.turbine_casing0=%s turbine casing
+nc.sf.turbine_casing1=%s turbine casing
 nc.sf.bearing0=%s rotor bearing
 nc.sf.connector0=%s valid coil connector
 nc.sf.connector1=%s valid coil connectors

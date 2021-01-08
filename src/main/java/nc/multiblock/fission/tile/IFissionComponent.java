@@ -1,5 +1,7 @@
 package nc.multiblock.fission.tile;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -40,9 +42,7 @@ public interface IFissionComponent extends IFissionPart {
 		return getCluster() != null;
 	}
 	
-	/**
-	 * Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary!
-	 */
+	/** Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary! */
 	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache);
 	
 	public boolean isFunctional();
@@ -93,7 +93,7 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void setHeatStored(long heat);
 	
-	public void onClusterMeltdown();
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator);
 	
 	public boolean isNullifyingSources(EnumFacing side);
 	
@@ -106,9 +106,7 @@ public interface IFissionComponent extends IFissionPart {
 	/** The moderator line does not necessarily have to be complete! */
 	public default void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
 	
-	/**
-	 * Called if and only if the moderator line from the fuel component searching in the dir direction is complete!
-	 */
+	/** Called if and only if the moderator line from the fuel component searching in the dir direction is complete! */
 	public default void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {}
 	
 	/** Called during cluster searches! */

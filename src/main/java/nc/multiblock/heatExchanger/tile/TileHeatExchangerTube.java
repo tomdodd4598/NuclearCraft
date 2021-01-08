@@ -1,7 +1,6 @@
 package nc.multiblock.heatExchanger.tile;
 
 import static nc.config.NCConfig.enable_mek_gas;
-import static nc.recipe.NCRecipes.*;
 
 import java.util.*;
 
@@ -19,7 +18,7 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
-import nc.util.GasHelper;
+import nc.util.CapabilityHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -29,7 +28,7 @@ import net.minecraftforge.fluids.capability.*;
 
 public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFluidProcessor {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, heat_exchanger_valid_fluids.get(0)), new Tank(64000, new ArrayList<>()));
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, new ArrayList<>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -50,7 +49,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	public int inputTemperature = 300, outputTemperature = 300;
 	public EnumFacing flowDir = null;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	public final double conductivity;
 	
@@ -89,15 +88,11 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	public void onMachineAssembled(HeatExchanger controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	public int[] checkPosition() {
@@ -164,8 +159,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
@@ -175,35 +170,26 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	
 	@Override
 	public void update() {
-		super.update();
-		updateTube();
-	}
-	
-	public void updateTube() {
 		if (!world.isRemote) {
 			setIsHeatExchangerOn();
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			// tickTube();
 			if (isProcessing) {
 				process();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			/* if (tubeCount == 0) { pushFluid(); refreshRecipe(); refreshActivity(); } */
 			if (shouldUpdate) {
 				markDirty();
 			}
 		}
 	}
 	
-	/* public void tickTube() { tubeCount++; tubeCount %= machine_update_rate / 4; } */
-	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = heat_exchanger.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
+		recipeInfo = NCRecipes.heat_exchanger.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
 	}
 	
 	@Override
@@ -417,7 +403,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 		setTubeSetting(side, getTubeSetting(side).next());
 		refreshFluidConnections(side);
 		updateFlowDir();
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public void refreshFluidConnections(@Nonnull EnumFacing side) {
@@ -657,7 +643,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -671,7 +657,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

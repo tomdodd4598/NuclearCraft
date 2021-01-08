@@ -6,7 +6,7 @@ import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
-import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.energy.*;
 import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,84 +22,69 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	private ItemEnergyWrapperGT wrapperGT;
 	private final int energyTier;
 	
-	public ItemEnergyCapabilityProvider(ItemStack stack, NBTTagCompound nbt, int energyTier) {
-		this(stack, nbt.getLong("energy"), nbt.getLong("capacity"), nbt.getInteger("maxTransfer"), energyTier);
-	}
-	
-	public ItemEnergyCapabilityProvider(ItemStack stack, long energy, long capacity, int maxTransfer, int energyTier) {
+	public ItemEnergyCapabilityProvider(ItemStack stack, long capacity, int maxTransfer, long energy, EnergyConnection energyConnection, int energyTier) {
 		this.stack = stack;
 		storage = new EnergyStorage(capacity, maxTransfer, energy) {
 			
 			@Override
-			public int getEnergyStored() {
-				if (stack.hasTagCompound()) {
-					return (int) Math.min(Integer.MAX_VALUE, stack.getTagCompound().getLong("energy"));
+			public long getEnergyStoredLong() {
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt == null) {
+					return 0L;
 				}
-				return 0;
+				return Math.min(nbt.getLong("energy"), nbt.getLong("capacity"));
 			}
 			
 			@Override
-			public int getMaxEnergyStored() {
-				if (stack.hasTagCompound()) {
-					return (int) Math.min(Integer.MAX_VALUE, stack.getTagCompound().getLong("capacity"));
+			public long getMaxEnergyStoredLong() {
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt == null) {
+					return 0L;
 				}
-				return 0;
-			}
-			
-			@Override
-			public void setEnergyStored(long energy) {
-				if (!stack.hasTagCompound()) {
-					stack.setTagCompound(new NBTTagCompound());
-				}
-				stack.getTagCompound().setLong("energy", energy);
-			}
-			
-			@Override
-			public void changeEnergyStored(long energy) {
-				if (!stack.hasTagCompound()) {
-					stack.setTagCompound(new NBTTagCompound());
-				}
-				stack.getTagCompound().setLong("energy", NCMath.clamp(stack.getTagCompound().getLong("energy") + energy / stack.getCount(), 0, getMaxEnergyStored()));
-			}
-			
-			@Override
-			public void setStorageCapacity(long capacity) {
-				if (!stack.hasTagCompound()) {
-					stack.setTagCompound(new NBTTagCompound());
-				}
-				stack.getTagCompound().setLong("capacity", capacity);
-			}
-			
-			@Override
-			public boolean canReceive() {
-				if (stack.hasTagCompound()) {
-					return stack.getTagCompound().getInteger("maxTransfer") > 0;
-				}
-				return super.canReceive();
-			}
-			
-			@Override
-			public boolean canExtract() {
-				if (stack.hasTagCompound()) {
-					return stack.getTagCompound().getInteger("maxTransfer") > 0;
-				}
-				return super.canExtract();
+				return nbt.getLong("capacity");
 			}
 			
 			@Override
 			public int getMaxTransfer() {
-				if (stack.hasTagCompound()) {
-					return stack.getTagCompound().getInteger("maxTransfer");
-				}
-				return 0;
+				return maxTransfer;
 			}
 			
 			@Override
-			public void setMaxTransfer(int maxTransfer) {
-				if (!stack.hasTagCompound()) {
-					stack.setTagCompound(new NBTTagCompound());
+			public void setEnergyStored(long energy) {
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt != null && nbt.hasKey("energy")) {
+					nbt.setLong("energy", energy);
 				}
-				stack.getTagCompound().setInteger("maxTransfer", maxTransfer);
+			}
+			
+			@Override
+			public void changeEnergyStored(long energy) {
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt != null && nbt.hasKey("energy")) {
+					nbt.setLong("energy", NCMath.clamp(nbt.getLong("energy") + energy / stack.getCount(), 0, getMaxEnergyStored()));
+				}
+			}
+			
+			@Override
+			public void setStorageCapacity(long capacity) {
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt != null && nbt.hasKey("capacity")) {
+					nbt.setLong("capacity", capacity);
+				}
+				
+			}
+			
+			@Override
+			public void setMaxTransfer(int maxTransfer) {}
+			
+			@Override
+			public boolean canReceive() {
+				return energyConnection.canReceive();
+			}
+			
+			@Override
+			public boolean canExtract() {
+				return energyConnection.canExtract();
 			}
 			
 			@Override
@@ -107,9 +92,13 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 				if (!canReceive()) {
 					return 0;
 				}
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt == null || !nbt.hasKey("energy")) {
+					return 0;
+				}
 				int energyReceived = Math.min(getMaxEnergyStored() - getEnergyStored(), Math.min(getMaxTransfer(), maxReceive));
 				if (!simulate) {
-					stack.getTagCompound().setLong("energy", getEnergyStored() + energyReceived / stack.getCount());
+					nbt.setLong("energy", getEnergyStored() + energyReceived / stack.getCount());
 				}
 				return energyReceived;
 			}
@@ -119,9 +108,13 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 				if (!canExtract()) {
 					return 0;
 				}
+				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
+				if (nbt == null || !nbt.hasKey("energy")) {
+					return 0;
+				}
 				int energyExtracted = Math.min(getEnergyStored(), Math.min(getMaxTransfer(), maxExtract));
 				if (!simulate) {
-					stack.getTagCompound().setLong("energy", getEnergyStored() - energyExtracted / stack.getCount());
+					nbt.setLong("energy", getEnergyStored() - energyExtracted / stack.getCount());
 				}
 				return energyExtracted;
 			}

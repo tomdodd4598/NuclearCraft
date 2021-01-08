@@ -4,9 +4,9 @@ import static nc.config.NCConfig.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class RadiationScrubberRecipes extends ProcessorRecipeHandler {
+public class RadiationScrubberRecipes extends BasicRecipeHandler {
 	
 	public RadiationScrubberRecipes() {
 		super("radiation_scrubber", 1, 1, 1, 1);

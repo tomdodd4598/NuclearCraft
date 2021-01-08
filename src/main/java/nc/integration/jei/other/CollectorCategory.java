@@ -5,15 +5,15 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.*;
+import nc.integration.jei.JEIHelper.*;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CollectorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Collector> {
+public class CollectorCategory extends JEIMachineCategory<JEIRecipeWrapper.Collector> {
 	
 	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "collector", 33, 30, 118, 26);
-		recipeTitle = Lang.localise(Global.MOD_ID + ".collector.jei_name");
 	}
 	
 	@Override
@@ -27,5 +27,10 @@ public class CollectorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Col
 		fluidMapper.map(IngredientSorption.OUTPUT, 0, 0, 126 - backPosX, 31 - backPosY, 24, 24);
 		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
 		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
+	}
+	
+	@Override
+	public String getTitle() {
+		return Lang.localise(Global.MOD_ID + ".collector.jei_name");
 	}
 }

@@ -2,6 +2,8 @@ package nc.multiblock.fission.tile;
 
 import static nc.util.PosHelper.DEFAULT_NON;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -9,7 +11,6 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
-import nc.multiblock.fission.block.BlockFissionShield;
 import nc.multiblock.fission.tile.IFissionFuelComponent.*;
 import nc.multiblock.fission.tile.manager.*;
 import nc.util.PosHelper;
@@ -61,7 +62,6 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	// IFissionComponent
@@ -114,7 +114,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public void onClusterMeltdown() {
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
 		
 	}
 	
@@ -230,7 +230,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 		isShielding = manager.isShieldingActive();
 		if (wasShielding != isShielding) {
 			if (!world.isRemote) {
-				updateBlockState(isShielding);
+				setActivity(isShielding);
 			}
 			return true;
 		}
@@ -239,26 +239,15 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	
 	// Ticking
 	
-	@Override
-	public void onAdded() {
-		world.neighborChanged(pos, getBlockType(), pos);
-		super.onAdded();
-	}
+	/* @Override public void onLoad() { world.neighborChanged(pos, getBlockType(), pos); super.onLoad(); } */
 	
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasShielding = isShielding;
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		updateBlockState(isShielding);
+		setActivity(isShielding);
 		if (!world.isRemote && wasShielding != isShielding) {
 			getLogic().onShieldUpdated(this);
-		}
-	}
-	
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockFissionShield) {
-			((BlockFissionShield) getBlockType()).setState(isActive, this);
-			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	

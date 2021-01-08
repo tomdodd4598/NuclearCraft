@@ -1,5 +1,7 @@
 package nc.multiblock.fission.tile;
 
+import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -21,15 +23,11 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionComponent
@@ -73,7 +71,9 @@ public class TileFissionConductor extends TileFissionPart implements IFissionCom
 	}
 	
 	@Override
-	public void onClusterMeltdown() {}
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
+		
+	}
 	
 	@Override
 	public boolean isNullifyingSources(EnumFacing side) {

@@ -7,13 +7,11 @@ import javax.annotation.*;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.capability.radiation.source.*;
 import nc.network.tile.TileUpdatePacket;
 import nc.radiation.RadSources;
 import nc.tile.ITileGui;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import nc.util.*;
@@ -36,7 +34,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui, IInterfaceable, IBufferable {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui, IInterfaceable {
 	
 	private final NonNullList<ItemStack> furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
 	
@@ -73,7 +71,6 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 		furnaceItemStacks.set(index, stack);
 		
 		if (!flag) {
-			// totalCookTime = getCookTime(stack);
 			totalCookTime = getCookTime();
 			cookTime = 0;
 			markDirty();
@@ -157,6 +154,16 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
+	public void onLoad() {
+		if (world.isRemote) {
+			world.markBlockRangeForRenderUpdate(pos, pos);
+			refreshIsRedstonePowered(world, pos);
+			markDirty();
+			updateComparatorOutputLevel();
+		}
+	}
+	
+	@Override
 	public void update() {
 		boolean flag = isBurning();
 		boolean flag1 = false;
@@ -197,8 +204,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 					
 					if (cookTime == totalCookTime) {
 						cookTime = 0;
-						// totalCookTime =
-						// getCookTime(furnaceItemStacks.get(0));
+						// totalCookTime = getCookTime(furnaceItemStacks.get(0));
 						totalCookTime = getCookTime();
 						smeltItem();
 						flag1 = true;
@@ -214,8 +220,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 			
 			if (flag != isBurning()) {
 				flag1 = true;
-				setState(isBurning(), this);
-				world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+				setActivity(isBurning());
 			}
 			
 			if (flag1) {
@@ -415,22 +420,8 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		if (getBlockType() instanceof BlockNuclearFurnace) {
-			((BlockNuclearFurnace) getBlockType()).setState(isActive, tile);
-		}
-	}
-	
-	@Override
 	public void markTileDirty() {
 		markDirty();
-	}
-	
-	@Override
-	public void markDirtyAndNotify() {
-		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 	}
 	
 	@Override

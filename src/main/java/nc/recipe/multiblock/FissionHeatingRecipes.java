@@ -6,9 +6,9 @@ import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class FissionHeatingRecipes extends ProcessorRecipeHandler {
+public class FissionHeatingRecipes extends BasicRecipeHandler {
 	
 	public FissionHeatingRecipes() {
 		super("fission_heating", 0, 1, 0, 1);

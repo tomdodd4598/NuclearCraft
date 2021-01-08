@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:turbine_rotor_blade",
+		"textures": {
+			"texture": "nuclearcraft:blocks/blade_manganese"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"dir": {
+			"invisible": {
+				"model": "nuclearcraft:block_invisible"
+			},
+			"x": {"x": 90, "y": 90},
+			"y": {},
+			"z": {"x": 90}
+		}
+	}
+}

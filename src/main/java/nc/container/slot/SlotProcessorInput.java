@@ -1,14 +1,14 @@
 package nc.container.slot;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
 public class SlotProcessorInput extends Slot {
 	
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public SlotProcessorInput(IInventory tile, ProcessorRecipeHandler recipeHandler, int index, int xPosition, int yPosition) {
+	public SlotProcessorInput(IInventory tile, BasicRecipeHandler recipeHandler, int index, int xPosition, int yPosition) {
 		super(tile, index, xPosition, yPosition);
 		this.recipeHandler = recipeHandler;
 	}

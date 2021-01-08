@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.decay_hastener;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerDecayHastener extends ContainerItemProcessor {
 	
 	public ContainerDecayHastener(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, decay_hastener);
+		super(player, tileEntity, NCRecipes.decay_hastener);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		

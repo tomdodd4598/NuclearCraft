@@ -2,6 +2,8 @@ package nc.multiblock.turbine;
 
 import static nc.config.NCConfig.*;
 
+import java.util.Iterator;
+
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.*;
@@ -50,6 +52,10 @@ public class TurbineRotorBladeUtil {
 		public double getEfficiency();
 		
 		public double getExpansionCoefficient();
+		
+		public default boolean eq(IRotorBladeType other) {
+			return other != null && getName().equals(other.getName()) && getEfficiency() == other.getEfficiency() && getExpansionCoefficient() == other.getExpansionCoefficient();
+		}
 	}
 	
 	public enum TurbineRotorStatorType implements IRotorStatorType {
@@ -87,7 +93,7 @@ public class TurbineRotorBladeUtil {
 		}
 	}
 	
-	public interface ITurbineRotorBlade {
+	public interface ITurbineRotorBlade<BLADE extends ITurbineRotorBlade> {
 		
 		public BlockPos bladePos();
 		
@@ -99,7 +105,7 @@ public class TurbineRotorBladeUtil {
 		
 		public IBlockState getRenderState();
 		
-		public void onBearingFailure(Turbine turbine);
+		public void onBearingFailure(Iterator<BLADE> bladeIterator);
 	}
 	
 	public interface IBlockRotorBlade {

@@ -1,0 +1,7 @@
+{
+	"parent": "nuclearcraft:block/cube_all_overlayed",
+	"textures": {
+		"all": "#all",
+		"overlay": "nuclearcraft:blocks/fission/shield/on"
+	}
+}

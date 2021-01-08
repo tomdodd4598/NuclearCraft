@@ -30,6 +30,36 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/fission_dust/protactinium_233"
 				}
+			},
+			"strontium_90": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/strontium_90"
+				}
+			},
+			"molybdenum": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/molybdenum"
+				}
+			},
+			"ruthenium_106": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/ruthenium_106"
+				}
+			},
+			"caesium_137": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/caesium_137"
+				}
+			},
+			"promethium_147": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/promethium_147"
+				}
+			},
+			"europium_155": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/europium_155"
+				}
 			}
 		}
 	}

@@ -6,9 +6,12 @@ import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
+import mekanism.api.gas.GasStack;
+import nc.multiblock.tile.port.ITilePort;
 import nc.tile.ITile;
 import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
+import nc.tile.processor.IProcessor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -24,9 +27,7 @@ public interface ITileFluid extends ITile {
 	
 	// Tank Logic
 	
-	/**
-	 * Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption
-	 */
+	/** Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption */
 	public default boolean isNextToFill(@Nonnull EnumFacing side, int tankNumber, FluidStack resource) {
 		if (!getInputTanksSeparated()) {
 			return true;
@@ -59,8 +60,6 @@ public interface ITileFluid extends ITile {
 		return getFluidConnections()[side.getIndex()];
 	}
 	
-	/* public default void setFluidConnection(@Nonnull EnumFacing side, @Nonnull FluidConnection connection) { getFluidConnections()[side.getIndex()] = connection.copy(); } */
-	
 	public default @Nonnull TankSorption getTankSorption(@Nonnull EnumFacing side, int tankNumber) {
 		return getFluidConnections()[side.getIndex()].getTankSorption(tankNumber);
 	}
@@ -74,7 +73,7 @@ public interface ITileFluid extends ITile {
 			return;
 		}
 		getFluidConnection(side).toggleTankSorption(tankNumber, type, reverse);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public default boolean canConnectFluid(@Nonnull EnumFacing side) {
@@ -153,6 +152,52 @@ public interface ITileFluid extends ITile {
 		return new FluidTileWrapper[] {new FluidTileWrapper(tile, EnumFacing.DOWN), new FluidTileWrapper(tile, EnumFacing.UP), new FluidTileWrapper(tile, EnumFacing.NORTH), new FluidTileWrapper(tile, EnumFacing.SOUTH), new FluidTileWrapper(tile, EnumFacing.WEST), new FluidTileWrapper(tile, EnumFacing.EAST)};
 	}
 	
+	public default void onWrapperFill(int fillAmount, boolean doFill) {
+		if (doFill && fillAmount != 0) {
+			if (this instanceof IProcessor) {
+				((IProcessor) this).refreshRecipe();
+				((IProcessor) this).refreshActivity();
+			}
+			if (this instanceof ITilePort) {
+				((ITilePort) this).setRefreshTargetsFlag(true);
+			}
+		}
+	}
+	
+	public default void onWrapperDrain(FluidStack drainStack, boolean doDrain) {
+		if (doDrain && drainStack != null && drainStack.amount != 0) {
+			if (this instanceof IProcessor) {
+				((IProcessor) this).refreshActivity();
+			}
+			if (this instanceof ITilePort) {
+				((ITilePort) this).setRefreshTargetsFlag(true);
+			}
+		}
+	}
+	
+	public default void onWrapperReceiveGas(int receiveAmount, boolean doTransfer) {
+		if (doTransfer && receiveAmount != 0) {
+			if (this instanceof IProcessor) {
+				((IProcessor) this).refreshRecipe();
+				((IProcessor) this).refreshActivity();
+			}
+			if (this instanceof ITilePort) {
+				((ITilePort) this).setRefreshTargetsFlag(true);
+			}
+		}
+	}
+	
+	public default void onWrapperDrawGas(GasStack drawStack, boolean doTransfer) {
+		if (doTransfer && drawStack != null && drawStack.amount != 0) {
+			if (this instanceof IProcessor) {
+				((IProcessor) this).refreshActivity();
+			}
+			if (this instanceof ITilePort) {
+				((ITilePort) this).setRefreshTargetsFlag(true);
+			}
+		}
+	}
+	
 	// Mekanism Gas Wrapper
 	
 	public @Nonnull GasTileWrapper getGasWrapper();
@@ -168,47 +213,40 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	/* public default void spreadFluid() { if (!passive_permeation || getTanks().isEmpty()) { return; } for (EnumFacing side : EnumFacing.VALUES) { spreadFluidToSide(side); } } */
-	
 	public default void pushFluidToSide(@Nonnull EnumFacing side) {
 		if (!getFluidConnection(side).canConnect()) {
 			return;
 		}
+		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null || tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
 			return;
 		}
+		
 		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 		if (adjStorage == null) {
 			return;
 		}
+		
+		boolean drained = false;
+		
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (!getTankSorption(side, i).canDrain() || getTanks().get(i).getFluid() == null /* || !getTanks ( ) . get ( i ) . canDrain ( ) */) {
+			if (!getTankSorption(side, i).canDrain() || getTanks().get(i).getFluid() == null) {
 				continue;
 			}
-			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
-		}
-	}
-	
-	public default void spreadFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canConnect()) {
-			return;
-		}
-		
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		
-		if (tile instanceof IFluidSpread) {
-			if (tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo()) {
-				return;
+			
+			FluidStack drain = getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
+			if (drain != null && drain.amount != 0) {
+				drained = true;
 			}
-			
-			IFluidSpread other = (IFluidSpread) tile;
-			
-			for (int i = 0; i < getTanks().size(); i++) {
-				int diff = getTanks().get(i).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
-				if (diff > 1) {
-					getTanks().get(i).drain(other.getTanks().get(0).fillInternal(getTanks().get(i).drain(diff / 2, false), true), true);
-				}
+		}
+		
+		if (drained) {
+			if (this instanceof IProcessor) {
+				((IProcessor) this).refreshActivity();
+			}
+			if (this instanceof ITilePort) {
+				((ITilePort) this).setRefreshTargetsFlag(true);
 			}
 		}
 	}

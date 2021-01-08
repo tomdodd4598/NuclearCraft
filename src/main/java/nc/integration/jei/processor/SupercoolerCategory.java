@@ -4,10 +4,11 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIHelper.RecipeFluidMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class SupercoolerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Supercooler> {
+public class SupercoolerCategory extends JEIMachineCategory<JEIRecipeWrapper.Supercooler> {
 	
 	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "supercooler", 47, 30, 90, 26);

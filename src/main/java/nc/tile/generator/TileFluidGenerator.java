@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import nc.ModCheck;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.energy.ITileEnergy;
@@ -36,12 +35,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected final BasicRecipeHandler recipeHandler;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
+	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull BasicRecipeHandler recipeHandler) {
 		super(name, otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
@@ -91,32 +90,13 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
 			isProcessing = isProcessing();
 			hasConsumed = hasConsumed();
-		}
-	}
-	
-	@Override
-	public void update() {
-		super.update();
-		updateGenerator();
-	}
-	
-	public abstract void updateGenerator();
-	
-	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) {
-			removeTileFromENet();
-		}
-		setState(isProcessing, this);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		if (ModCheck.ic2Loaded()) {
-			addTileToENet();
 		}
 	}
 	

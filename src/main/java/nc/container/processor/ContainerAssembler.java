@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.assembler;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerAssembler extends ContainerItemProcessor {
 	
 	public ContainerAssembler(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, assembler);
+		super(player, tileEntity, NCRecipes.assembler);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 31));
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 1, 66, 31));

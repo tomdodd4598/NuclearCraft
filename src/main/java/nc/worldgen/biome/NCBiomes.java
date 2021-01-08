@@ -1,7 +1,8 @@
 package nc.worldgen.biome;
 
+import static nc.config.NCConfig.*;
+
 import nc.Global;
-import nc.config.NCConfig;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.*;
 import net.minecraftforge.common.BiomeManager.*;
@@ -27,8 +28,8 @@ public class NCBiomes {
 	}
 	
 	public static void initBiomeManagerAndDictionary() {
-		if (NCConfig.wasteland_biome) {
-			BiomeManager.addBiome(BiomeType.DESERT, new BiomeEntry(NUCLEAR_WASTELAND, NCConfig.wasteland_biome_weight));
+		if (wasteland_biome) {
+			BiomeManager.addBiome(BiomeType.DESERT, new BiomeEntry(NUCLEAR_WASTELAND, wasteland_biome_weight));
 			BiomeManager.addSpawnBiome(NUCLEAR_WASTELAND);
 			BiomeManager.addStrongholdBiome(NUCLEAR_WASTELAND);
 			BiomeDictionary.addTypes(NUCLEAR_WASTELAND, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.WASTELAND);

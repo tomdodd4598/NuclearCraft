@@ -1,27 +1,26 @@
 package nc.multiblock.battery.tile;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
 
 import javax.annotation.*;
 
 import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.*;
 import nc.ModCheck;
 import nc.multiblock.battery.*;
 import nc.multiblock.tile.TileMultiblockPart;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.*;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.*;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implements IEnergySpread, IEnergySink, IEnergySource, IInterfaceable {
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
+public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implements ITickable, ITileEnergy, IEnergySink, IEnergySource, IInterfaceable {
 	
 	public static class VoltaicPileBasic extends TileBattery {
 		
@@ -79,20 +78,21 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 		}
 	}
 	
-	private final EnergyStorage backupStorage = new EnergyStorage(1);
+	protected final EnergyStorage backupStorage = new EnergyStorage(1);
 	
-	private @Nonnull final EnergyConnection[] energyConnections;
-	private boolean[] ignoreSide = new boolean[] {false, false, false, false, false, false};
+	protected @Nonnull final EnergyConnection[] energyConnections;
+	protected boolean[] ignoreSide = new boolean[] {false, false, false, false, false, false};
 	
-	private @Nonnull final EnergyTileWrapper[] energySides;
-	private @Nonnull final EnergyTileWrapperGT[] energySidesGT;
+	protected @Nonnull final EnergyTileWrapper[] energySides;
+	protected @Nonnull final EnergyTileWrapperGT[] energySidesGT;
 	
-	private boolean ic2reg = false;
+	protected boolean ic2reg = false;
 	
+	public long waitingEnergy = 0L;
 	public final long capacity;
-	private final int energyTier;
+	protected final int energyTier;
 	
-	private TileBattery(BatteryType type) {
+	protected TileBattery(BatteryType type) {
 		this(type.getCapacity(), type.getEnergyTier());
 	}
 	
@@ -105,22 +105,17 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
 	}
 	
-	private boolean ignoreSide(EnumFacing side) {
+	protected boolean ignoreSide(EnumFacing side) {
 		return side == null ? false : ignoreSide[side.getIndex()];
 	}
 	
 	@Override
 	public void onMachineAssembled(BatteryMultiblock controller) {
 		doStandardNullControllerResponse(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
-	public void onMachineBroken() {
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
-	}
+	public void onMachineBroken() {}
 	
 	@Override
 	public BatteryMultiblock createNewMultiblock() {
@@ -128,8 +123,8 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -137,8 +132,11 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
+			if (waitingEnergy != 0L && getMultiblock() != null) {
+				getEnergyStorage().changeEnergyStored(waitingEnergy);
+				waitingEnergy = 0L;
+			}
 			pushEnergy();
 		}
 	}
@@ -146,7 +144,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	@Override
 	public void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (!ignoreSide(side)) {
-			IEnergySpread.super.pushEnergyToSide(side);
+			ITileEnergy.super.pushEnergyToSide(side);
 		}
 	}
 	
@@ -195,82 +193,59 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	// IC2 Energy
 	
 	@Override
+	public boolean getIC2Reg() {
+		return ic2reg;
+	}
+	
+	@Override
+	public void setIC2Reg(boolean ic2reg) {
+		this.ic2reg = ic2reg;
+	}
+	
+	@Override
+	public int getSinkTier() {
+		return energyTier;
+	}
+	
+	@Override
+	public int getSourceTier() {
+		return energyTier;
+	}
+	
+	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-		return getEnergyConnection(side).canReceive();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection(side).canExtract();
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+		return ITileEnergy.super.acceptsEnergyFrom(emitter, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSinkTier() + 3), (double) getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
-	}
-	
-	/* The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
+		return ITileEnergy.super.getDemandedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) (rf_per_eu * amount), true);
-		getEnergyStorage().receiveEnergy(energyReceived, false);
-		return amount - (double) energyReceived / (double) rf_per_eu;
+		return ITileEnergy.super.injectEnergy(directionFrom, amount, voltage);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		return getEUSourceTier();
+	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
+		return ITileEnergy.super.emitsEnergyTo(receiver, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public int getSinkTier() {
-		return getEUSinkTier();
+	public double getOfferedEnergy() {
+		return ITileEnergy.super.getOfferedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
-			ic2reg = true;
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
-			ic2reg = false;
-		}
-	}
-	
-	@Override
-	public int getEUSourceTier() {
-		return energyTier;
-	}
-	
-	@Override
-	public int getEUSinkTier() {
-		return energyTier;
+	public void drawEnergy(double amount) {
+		ITileEnergy.super.drawEnergy(amount);
 	}
 	
 	@Override
@@ -284,6 +259,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeEnergyConnections(nbt);
+		nbt.setLong("waitingEnergy", waitingEnergy);
 		nbt.setByteArray("ignoreSide", NCMath.booleansToBytes(ignoreSide));
 		return nbt;
 	}
@@ -292,6 +268,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readEnergyConnections(nbt);
+		waitingEnergy = nbt.getLong("waitingEnergy");
 		boolean[] arr = NCMath.bytesToBooleans(nbt.getByteArray("ignoreSide"));
 		if (arr.length == 6) {
 			ignoreSide = arr;

@@ -2,7 +2,7 @@ package nc.container.processor;
 
 import nc.container.ContainerTile;
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.ITileGui;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.processor.*;
@@ -13,12 +13,12 @@ import net.minecraft.item.ItemStack;
 public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor & ITileGui> extends ContainerTile<PROCESSOR> {
 	
 	protected final PROCESSOR tile;
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
 	protected static final ItemStack SPEED_UPGRADE = new ItemStack(NCItems.upgrade, 1, 0);
 	protected static final ItemStack ENERGY_UPGRADE = new ItemStack(NCItems.upgrade, 1, 1);
 	
-	public ContainerFluidProcessor(EntityPlayer player, PROCESSOR tileEntity, ProcessorRecipeHandler recipeHandler) {
+	public ContainerFluidProcessor(EntityPlayer player, PROCESSOR tileEntity, BasicRecipeHandler recipeHandler) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipeHandler = recipeHandler;

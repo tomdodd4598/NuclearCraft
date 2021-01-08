@@ -1,41 +1,20 @@
 package nc.radiation;
 
-import static nc.config.NCConfig.radiation_blocks;
-import static nc.config.NCConfig.radiation_blocks_blacklist;
-import static nc.config.NCConfig.radiation_fluids;
-import static nc.config.NCConfig.radiation_fluids_blacklist;
-import static nc.config.NCConfig.radiation_foods;
-import static nc.config.NCConfig.radiation_items;
-import static nc.config.NCConfig.radiation_items_blacklist;
-import static nc.config.NCConfig.radiation_ores;
-import static nc.config.NCConfig.radiation_ores_blacklist;
+import static nc.config.NCConfig.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
-import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
-import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
-import nc.util.OreDictHelper;
-import nc.util.RegistryHelper;
-import nc.util.StringHelper;
+import nc.init.*;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.item.*;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RadSources {
@@ -176,6 +155,12 @@ public class RadSources {
 		putMaterial(POLONIUM, "Polonium");
 		putMaterial(TBP, "TBP");
 		putMaterial(PROTACTINIUM_233, "Protactinium233");
+		putMaterial(STRONTIUM_90, "Strontium90");
+		putMaterial(RUTHENIUM_106, "Ruthenium106");
+		putMaterial(CAESIUM_137, "Cesium137");
+		putMaterial(CAESIUM_137, "Caesium137");
+		putMaterial(PROMETHIUM_147, "Promethium147");
+		putMaterial(EUROPIUM_155, "Europium155");
 		
 		putMaterial(THORIUM, "Thorium");
 		putMaterial(URANIUM, "Uranium", "Yellorium");
@@ -273,13 +258,24 @@ public class RadSources {
 		putFluid(FUSION, "plasma");
 		putFluid(TRITIUM, "tritium");
 		
-		putFluid(CAESIUM_137, "caesium_137");
 		putFluid(CORIUM, "corium");
 		
 		putFluid(THORIUM, "thorium");
 		putFluid(URANIUM, "uranium", "yellorium");
 		putFluid(PLUTONIUM, "plutonium", "blutonium");
 		putFluid(URANIUM_238, "cyanite");
+		
+		putFluid(BISMUTH, "bismuth");
+		putFluid(RADIUM, "radium");
+		putFluid(POLONIUM, "polonium");
+		putFluid(PROTACTINIUM_233, "protactinium_233");
+		putFluid(TBP, "tbp");
+		putFluid(STRONTIUM_90, "strontium_90");
+		putFluid(RUTHENIUM_106, "ruthenium_106");
+		putFluid(CAESIUM_137, "cesium_137");
+		putFluid(CAESIUM_137, "caesium_137");
+		putFluid(PROMETHIUM_147, "promethium_147");
+		putFluid(EUROPIUM_155, "europium_155");
 		
 		putFluid(CAESIUM_137 / 4D, "irradiated_borax_solution");
 		
@@ -349,14 +345,16 @@ public class RadSources {
 		ORE_MAP.entrySet().forEach(ent -> OreDictionary.getOres(ent.getKey(), false).forEach(s -> addToStackMap(s, ent.getValue())));
 	}
 	
-	public static void refreshRadSources() {
+	public static void refreshRadSources(boolean postInit) {
 		STACK_BLACKLIST.clear();
 		STACK_MAP.clear();
 		FOOD_RAD_MAP.clear();
 		FOOD_RESISTANCE_MAP.clear();
 		
 		init();
-		postInit();
+		if (postInit) {
+			postInit();
+		}
 	}
 	
 	public static void putMaterial(double radiation, String... ores) {
@@ -458,16 +456,22 @@ public class RadSources {
 	public static final double NEUTRON = 0.00505D;
 	public static final double TRITIUM = 0.0115D;
 	
-	public static final double CAESIUM_137 = 0.033D;
 	public static final double CORIUM = 0.0000165D;
-	
-	public static final double BISMUTH = 4.975E-20D;
-	public static final double RADIUM = 0.000625;
-	public static final double POLONIUM = 2.64D / 9D;
 	
 	public static final double THORIUM = 0.0000000000715D;
 	public static final double URANIUM = 0.000000000385D;
 	public static final double PLUTONIUM = 0.000042D;
+	
+	public static final double BISMUTH = 4.975E-20D;
+	public static final double RADIUM = 0.000625;
+	public static final double POLONIUM = 2.64D / 9D;
+	public static final double PROTACTINIUM_233 = 13.54 / 9D;
+	public static final double TBP = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
+	public static final double STRONTIUM_90 = 0.0345D;
+	public static final double RUTHENIUM_106 = 0.98D;
+	public static final double CAESIUM_137 = 0.033D;
+	public static final double PROMETHIUM_147 = 0.38D;
+	public static final double EUROPIUM_155 = 0.21D;
 	
 	// Isotopes
 	
@@ -506,8 +510,13 @@ public class RadSources {
 		return (rad1 * amount1 + rad2 * amount2) * INGOT / 9D;
 	}
 	
+	@Deprecated
 	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4) {
 		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4) * INGOT / 9D;
+	}
+	
+	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, double waste1, double waste2, double m, double r) {
+		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4 + waste1 * m * r + waste2 * m * (1D - r)) * INGOT / 9D;
 	}
 	
 	public static final double TBU = getFuelRadiation(THORIUM, 8.5D, URANIUM_233, 0.5D);
@@ -546,78 +555,75 @@ public class RadSources {
 	public static final double LECf_251 = getFuelRadiation(CALIFORNIUM_252, 8, CALIFORNIUM_251, 1);
 	public static final double HECf_251 = getFuelRadiation(CALIFORNIUM_252, 6, CALIFORNIUM_251, 3);
 	
-	public static final double DEPLETED_TBU = getDepletedFuelRadiation(URANIUM_233, 1, URANIUM_238, 5, NEPTUNIUM_236, 1, NEPTUNIUM_237, 1);
+	public static final double DEPLETED_TBU = getDepletedFuelRadiation(URANIUM_233, 1, URANIUM_238, 5, NEPTUNIUM_236, 1, NEPTUNIUM_237, 1, STRONTIUM_90, CAESIUM_137, 0.5D, 0.5D);
 	
-	public static final double DEPLETED_LEU_233 = getDepletedFuelRadiation(URANIUM_238, 5, PLUTONIUM_241, 1, PLUTONIUM_242, 1, AMERICIUM_243, 1);
-	public static final double DEPLETED_HEU_233 = getDepletedFuelRadiation(URANIUM_235, 1, URANIUM_238, 2, PLUTONIUM_242, 3, AMERICIUM_243, 1);
-	public static final double DEPLETED_LEU_235 = getDepletedFuelRadiation(URANIUM_238, 4, PLUTONIUM_239, 1, PLUTONIUM_242, 2, AMERICIUM_243, 1);
-	public static final double DEPLETED_HEU_235 = getDepletedFuelRadiation(URANIUM_238, 3, NEPTUNIUM_236, 1, PLUTONIUM_242, 2, AMERICIUM_243, 1);
+	public static final double DEPLETED_LEU_233 = getDepletedFuelRadiation(URANIUM_238, 5, PLUTONIUM_241, 1, PLUTONIUM_242, 1, AMERICIUM_243, 1, STRONTIUM_90, CAESIUM_137, 0.5D, 0.5D);
+	public static final double DEPLETED_HEU_233 = getDepletedFuelRadiation(URANIUM_235, 1, URANIUM_238, 2, PLUTONIUM_242, 3, AMERICIUM_243, 1, STRONTIUM_90, CAESIUM_137, 1.5D, 0.5D);
+	public static final double DEPLETED_LEU_235 = getDepletedFuelRadiation(URANIUM_238, 4, PLUTONIUM_239, 1, PLUTONIUM_242, 2, AMERICIUM_243, 1, 0D, CAESIUM_137, 0.5D, 0.5D);
+	public static final double DEPLETED_HEU_235 = getDepletedFuelRadiation(URANIUM_238, 3, NEPTUNIUM_236, 1, PLUTONIUM_242, 2, AMERICIUM_243, 1, 0D, CAESIUM_137, 1.5D, 0.5D);
 	
-	public static final double DEPLETED_LEN_236 = getDepletedFuelRadiation(URANIUM_238, 4, NEPTUNIUM_237, 1, PLUTONIUM_241, 1, PLUTONIUM_242, 2);
-	public static final double DEPLETED_HEN_236 = getDepletedFuelRadiation(URANIUM_238, 4, PLUTONIUM_238, 1, PLUTONIUM_241, 1, PLUTONIUM_242, 1);
+	public static final double DEPLETED_LEN_236 = getDepletedFuelRadiation(URANIUM_238, 4, NEPTUNIUM_237, 1, PLUTONIUM_241, 1, PLUTONIUM_242, 2, 0D, CAESIUM_137, 0.5D, 0.5D);
+	public static final double DEPLETED_HEN_236 = getDepletedFuelRadiation(URANIUM_238, 4, PLUTONIUM_238, 1, PLUTONIUM_241, 1, PLUTONIUM_242, 1, 0D, CAESIUM_137, 1.5D, 0.5D);
 	
-	public static final double DEPLETED_LEP_239 = getDepletedFuelRadiation(PLUTONIUM_242, 5, AMERICIUM_242, 1, AMERICIUM_243, 1, CURIUM_246, 1);
-	public static final double DEPLETED_HEP_239 = getDepletedFuelRadiation(PLUTONIUM_241, 1, AMERICIUM_242, 1, AMERICIUM_243, 4, CURIUM_243, 1);
-	public static final double DEPLETED_LEP_241 = getDepletedFuelRadiation(PLUTONIUM_242, 5, AMERICIUM_243, 1, CURIUM_246, 1, BERKELIUM_247, 1);
-	public static final double DEPLETED_HEP_241 = getDepletedFuelRadiation(PLUTONIUM_241, 1, AMERICIUM_242, 1, AMERICIUM_243, 3, CURIUM_246, 2);
+	public static final double DEPLETED_LEP_239 = getDepletedFuelRadiation(PLUTONIUM_242, 5, AMERICIUM_242, 1, AMERICIUM_243, 1, CURIUM_246, 1, STRONTIUM_90, PROMETHIUM_147, 0.5D, 0.5D);
+	public static final double DEPLETED_HEP_239 = getDepletedFuelRadiation(PLUTONIUM_241, 1, AMERICIUM_242, 1, AMERICIUM_243, 4, CURIUM_243, 1, STRONTIUM_90, PROMETHIUM_147, 1.5D, 0.5D);
+	public static final double DEPLETED_LEP_241 = getDepletedFuelRadiation(PLUTONIUM_242, 5, AMERICIUM_243, 1, CURIUM_246, 1, BERKELIUM_247, 1, STRONTIUM_90, PROMETHIUM_147, 0.5D, 0.5D);
+	public static final double DEPLETED_HEP_241 = getDepletedFuelRadiation(PLUTONIUM_241, 1, AMERICIUM_242, 1, AMERICIUM_243, 3, CURIUM_246, 2, STRONTIUM_90, PROMETHIUM_147, 1.5D, 0.5D);
 	
-	public static final double DEPLETED_MIX_239 = getDepletedFuelRadiation(URANIUM_238, 4, PLUTONIUM_241, 1, PLUTONIUM_242, 2, AMERICIUM_243, 1);
-	public static final double DEPLETED_MIX_241 = getDepletedFuelRadiation(URANIUM_238, 3, PLUTONIUM_241, 1, PLUTONIUM_242, 3, AMERICIUM_243, 1);
+	public static final double DEPLETED_MIX_239 = getDepletedFuelRadiation(URANIUM_238, 4, PLUTONIUM_241, 1, PLUTONIUM_242, 2, AMERICIUM_243, 1, STRONTIUM_90, PROMETHIUM_147, 0.5D, 0.5D);
+	public static final double DEPLETED_MIX_241 = getDepletedFuelRadiation(URANIUM_238, 3, PLUTONIUM_241, 1, PLUTONIUM_242, 3, AMERICIUM_243, 1, STRONTIUM_90, PROMETHIUM_147, 0.5D, 0.5D);
 	
-	public static final double DEPLETED_LEA_242 = getDepletedFuelRadiation(AMERICIUM_243, 3, CURIUM_245, 1, CURIUM_246, 3, BERKELIUM_248, 1);
-	public static final double DEPLETED_HEA_242 = getDepletedFuelRadiation(AMERICIUM_243, 3, CURIUM_243, 1, CURIUM_246, 2, BERKELIUM_247, 1);
+	public static final double DEPLETED_LEA_242 = getDepletedFuelRadiation(AMERICIUM_243, 3, CURIUM_245, 1, CURIUM_246, 3, BERKELIUM_248, 1, 0D, PROMETHIUM_147, 0.5D, 0.5D);
+	public static final double DEPLETED_HEA_242 = getDepletedFuelRadiation(AMERICIUM_243, 3, CURIUM_243, 1, CURIUM_246, 2, BERKELIUM_247, 1, 0D, PROMETHIUM_147, 1.5D, 0.5D);
 	
-	public static final double DEPLETED_LECm_243 = getDepletedFuelRadiation(CURIUM_246, 4, CURIUM_247, 1, BERKELIUM_247, 2, BERKELIUM_248, 1);
-	public static final double DEPLETED_HECm_243 = getDepletedFuelRadiation(CURIUM_245, 1, CURIUM_246, 3, BERKELIUM_247, 2, BERKELIUM_248, 1);
-	public static final double DEPLETED_LECm_245 = getDepletedFuelRadiation(CURIUM_246, 4, CURIUM_247, 1, BERKELIUM_247, 2, CALIFORNIUM_249, 1);
-	public static final double DEPLETED_HECm_245 = getDepletedFuelRadiation(CURIUM_246, 3, CURIUM_247, 1, BERKELIUM_247, 2, CALIFORNIUM_249, 1);
-	public static final double DEPLETED_LECm_247 = getDepletedFuelRadiation(CURIUM_246, 5, BERKELIUM_247, 1, BERKELIUM_248, 1, CALIFORNIUM_249, 1);
-	public static final double DEPLETED_HECm_247 = getDepletedFuelRadiation(BERKELIUM_247, 4, BERKELIUM_248, 1, CALIFORNIUM_249, 1, CALIFORNIUM_251, 1);
+	public static final double DEPLETED_LECm_243 = getDepletedFuelRadiation(CURIUM_246, 4, CURIUM_247, 1, BERKELIUM_247, 2, BERKELIUM_248, 1, 0D, PROMETHIUM_147, 0.5D, 0.5D);
+	public static final double DEPLETED_HECm_243 = getDepletedFuelRadiation(CURIUM_245, 1, CURIUM_246, 3, BERKELIUM_247, 2, BERKELIUM_248, 1, 0D, PROMETHIUM_147, 1.5D, 0.5D);
+	public static final double DEPLETED_LECm_245 = getDepletedFuelRadiation(CURIUM_246, 4, CURIUM_247, 1, BERKELIUM_247, 2, CALIFORNIUM_249, 1, 0D, EUROPIUM_155, 0.5D, 0.6D);
+	public static final double DEPLETED_HECm_245 = getDepletedFuelRadiation(CURIUM_246, 3, CURIUM_247, 1, BERKELIUM_247, 2, CALIFORNIUM_249, 1, 0D, EUROPIUM_155, 1.5D, 0.6D);
+	public static final double DEPLETED_LECm_247 = getDepletedFuelRadiation(CURIUM_246, 5, BERKELIUM_247, 1, BERKELIUM_248, 1, CALIFORNIUM_249, 1, 0D, EUROPIUM_155, 0.5D, 0.6D);
+	public static final double DEPLETED_HECm_247 = getDepletedFuelRadiation(BERKELIUM_247, 4, BERKELIUM_248, 1, CALIFORNIUM_249, 1, CALIFORNIUM_251, 1, 0D, EUROPIUM_155, 1.5D, 0.6D);
 	
-	public static final double DEPLETED_LEB_248 = getDepletedFuelRadiation(BERKELIUM_247, 5, BERKELIUM_248, 1, CALIFORNIUM_249, 1, CALIFORNIUM_251, 1);
-	public static final double DEPLETED_HEB_248 = getDepletedFuelRadiation(BERKELIUM_248, 1, CALIFORNIUM_249, 1, CALIFORNIUM_251, 2, CALIFORNIUM_252, 3);
+	public static final double DEPLETED_LEB_248 = getDepletedFuelRadiation(BERKELIUM_247, 5, BERKELIUM_248, 1, CALIFORNIUM_249, 1, CALIFORNIUM_251, 1, RUTHENIUM_106, PROMETHIUM_147, 0.5D, 0.6D);
+	public static final double DEPLETED_HEB_248 = getDepletedFuelRadiation(BERKELIUM_248, 1, CALIFORNIUM_249, 1, CALIFORNIUM_251, 2, CALIFORNIUM_252, 3, RUTHENIUM_106, PROMETHIUM_147, 1.5D, 0.6D);
 	
-	public static final double DEPLETED_LECf_249 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2);
-	public static final double DEPLETED_HECf_249 = getDepletedFuelRadiation(CALIFORNIUM_250, 1, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2);
-	public static final double DEPLETED_LECf_251 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2);
-	public static final double DEPLETED_HECf_251 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 1);
+	public static final double DEPLETED_LECf_249 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, RUTHENIUM_106, PROMETHIUM_147, 0.5D, 0.6D);
+	public static final double DEPLETED_HECf_249 = getDepletedFuelRadiation(CALIFORNIUM_250, 1, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, RUTHENIUM_106, PROMETHIUM_147, 1.5D, 0.6D);
+	public static final double DEPLETED_LECf_251 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, RUTHENIUM_106, EUROPIUM_155, 0.5D, 0.6D);
+	public static final double DEPLETED_HECf_251 = getDepletedFuelRadiation(CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 2, CALIFORNIUM_252, 1, RUTHENIUM_106, EUROPIUM_155, 1.5D, 0.6D);
 	
 	public static final double TBU_FISSION = (TBU + DEPLETED_TBU + CAESIUM_137) / 64D;
 	
-	public static final double LEU_233_FISSION = (LEU_233 + DEPLETED_LEU_233 + CAESIUM_137) / 64D;
-	public static final double HEU_233_FISSION = (HEU_233 + DEPLETED_HEU_233 + CAESIUM_137) / 64D;
-	public static final double LEU_235_FISSION = (LEU_235 + DEPLETED_LEU_235 + CAESIUM_137) / 64D;
-	public static final double HEU_235_FISSION = (HEU_235 + DEPLETED_HEU_235 + CAESIUM_137) / 64D;
+	public static final double LEU_233_FISSION = (LEU_233 + DEPLETED_LEU_233) / 64D;
+	public static final double HEU_233_FISSION = (HEU_233 + DEPLETED_HEU_233) / 64D;
+	public static final double LEU_235_FISSION = (LEU_235 + DEPLETED_LEU_235) / 64D;
+	public static final double HEU_235_FISSION = (HEU_235 + DEPLETED_HEU_235) / 64D;
 	
-	public static final double LEN_236_FISSION = (LEN_236 + DEPLETED_LEN_236 + CAESIUM_137) / 64D;
-	public static final double HEN_236_FISSION = (HEN_236 + DEPLETED_HEN_236 + CAESIUM_137) / 64D;
+	public static final double LEN_236_FISSION = (LEN_236 + DEPLETED_LEN_236) / 64D;
+	public static final double HEN_236_FISSION = (HEN_236 + DEPLETED_HEN_236) / 64D;
 	
-	public static final double LEP_239_FISSION = (LEP_239 + DEPLETED_LEP_239 + CAESIUM_137) / 64D;
-	public static final double HEP_239_FISSION = (HEP_239 + DEPLETED_HEP_239 + CAESIUM_137) / 64D;
-	public static final double LEP_241_FISSION = (LEP_241 + DEPLETED_LEP_241 + CAESIUM_137) / 64D;
-	public static final double HEP_241_FISSION = (HEP_241 + DEPLETED_HEP_241 + CAESIUM_137) / 64D;
+	public static final double LEP_239_FISSION = (LEP_239 + DEPLETED_LEP_239) / 64D;
+	public static final double HEP_239_FISSION = (HEP_239 + DEPLETED_HEP_239) / 64D;
+	public static final double LEP_241_FISSION = (LEP_241 + DEPLETED_LEP_241) / 64D;
+	public static final double HEP_241_FISSION = (HEP_241 + DEPLETED_HEP_241) / 64D;
 	
-	public static final double MIX_239_FISSION = (MIX_239 + DEPLETED_MIX_239 + CAESIUM_137) / 64D;
-	public static final double MIX_241_FISSION = (MIX_241 + DEPLETED_MIX_241 + CAESIUM_137) / 64D;
+	public static final double MIX_239_FISSION = (MIX_239 + DEPLETED_MIX_239) / 64D;
+	public static final double MIX_241_FISSION = (MIX_241 + DEPLETED_MIX_241) / 64D;
 	
-	public static final double LEA_242_FISSION = (LEA_242 + DEPLETED_LEA_242 + CAESIUM_137) / 64D;
-	public static final double HEA_242_FISSION = (HEA_242 + DEPLETED_HEA_242 + CAESIUM_137) / 64D;
+	public static final double LEA_242_FISSION = (LEA_242 + DEPLETED_LEA_242) / 64D;
+	public static final double HEA_242_FISSION = (HEA_242 + DEPLETED_HEA_242) / 64D;
 	
-	public static final double LECm_243_FISSION = (LECm_243 + DEPLETED_LECm_243 + CAESIUM_137) / 64D;
-	public static final double HECm_243_FISSION = (HECm_243 + DEPLETED_HECm_243 + CAESIUM_137) / 64D;
-	public static final double LECm_245_FISSION = (LECm_245 + DEPLETED_LECm_245 + CAESIUM_137) / 64D;
-	public static final double HECm_245_FISSION = (HECm_245 + DEPLETED_HECm_245 + CAESIUM_137) / 64D;
-	public static final double LECm_247_FISSION = (LECm_247 + DEPLETED_LECm_247 + CAESIUM_137) / 64D;
-	public static final double HECm_247_FISSION = (HECm_247 + DEPLETED_HECm_247 + CAESIUM_137) / 64D;
+	public static final double LECm_243_FISSION = (LECm_243 + DEPLETED_LECm_243) / 64D;
+	public static final double HECm_243_FISSION = (HECm_243 + DEPLETED_HECm_243) / 64D;
+	public static final double LECm_245_FISSION = (LECm_245 + DEPLETED_LECm_245) / 64D;
+	public static final double HECm_245_FISSION = (HECm_245 + DEPLETED_HECm_245) / 64D;
+	public static final double LECm_247_FISSION = (LECm_247 + DEPLETED_LECm_247) / 64D;
+	public static final double HECm_247_FISSION = (HECm_247 + DEPLETED_HECm_247) / 64D;
 	
-	public static final double LEB_248_FISSION = (LEB_248 + DEPLETED_LEB_248 + CAESIUM_137) / 64D;
-	public static final double HEB_248_FISSION = (HEB_248 + DEPLETED_HEB_248 + CAESIUM_137) / 64D;
+	public static final double LEB_248_FISSION = (LEB_248 + DEPLETED_LEB_248) / 64D;
+	public static final double HEB_248_FISSION = (HEB_248 + DEPLETED_HEB_248) / 64D;
 	
-	public static final double LECf_249_FISSION = (LECf_249 + DEPLETED_LECf_249 + CAESIUM_137) / 64D;
-	public static final double HECf_249_FISSION = (HECf_249 + DEPLETED_HECf_249 + CAESIUM_137) / 64D;
-	public static final double LECf_251_FISSION = (LECf_251 + DEPLETED_LECf_251 + CAESIUM_137) / 64D;
-	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251 + CAESIUM_137) / 64D;
-	
-	public static final double PROTACTINIUM_233 = 13.54 / 9D;
-	public static final double TBP = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
+	public static final double LECf_249_FISSION = (LECf_249 + DEPLETED_LECf_249) / 64D;
+	public static final double HECf_249_FISSION = (HECf_249 + DEPLETED_HECf_249) / 64D;
+	public static final double LECf_251_FISSION = (LECf_251 + DEPLETED_LECf_251) / 64D;
+	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251) / 64D;
 }

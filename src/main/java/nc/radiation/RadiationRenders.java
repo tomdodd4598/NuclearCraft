@@ -34,7 +34,7 @@ public class RadiationRenders {
 	private static final String IMMUNE = Lang.localise("hud.nuclearcraft.rad_immune");
 	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune_for");
 	
-	/* Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
+	/** Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void addRadiationInfo(RenderGameOverlayEvent.Post event) {
 		if (!radiation_enabled_public) {
@@ -95,7 +95,7 @@ public class RadiationRenders {
 		tessellator.draw();
 	}
 	
-	/* Thanks to dizzyd for this method! */
+	/** Thanks to dizzyd for this method! */
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		// Overlay renderer for the geiger counter and radiation scrubber blocks
@@ -106,11 +106,10 @@ public class RadiationRenders {
 			return;
 		}
 		
-		// Draw the chunk borders if we're either holding a geiger block OR
-		// looking at one
 		for (EnumHand hand : EnumHand.values()) {
-			ItemStack heldItem = MC.player.getHeldItem(hand);
-			if (NCItems.geiger_counter == heldItem.getItem() || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem.getItem()) {
+			ItemStack heldStack = MC.player.getHeldItem(hand);
+			Item heldItem = heldStack.getItem();
+			if (NCItems.geiger_counter == heldItem || Item.getItemFromBlock(NCBlocks.geiger_block) == heldItem || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem) {
 				chunkBorders = true;
 				break;
 			}
@@ -118,12 +117,12 @@ public class RadiationRenders {
 		
 		if (!chunkBorders && MC.objectMouseOver != null && MC.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
 			TileEntity te = MC.world.getTileEntity(MC.objectMouseOver.getBlockPos());
-			if (!chunkBorders && (te instanceof TileGeigerCounter || te instanceof TileRadiationScrubber)) {
+			if (te instanceof TileGeigerCounter || te instanceof TileRadiationScrubber) {
 				chunkBorders = true;
 			}
 		}
 		
-		/* Logic below taken with minor changes from BluSunrize's Immersive Engineering: blusunrize.immersiveengineering.client.ClientEventHandler */
+		// Logic below taken with minor changes from BluSunrize's Immersive Engineering: blusunrize.immersiveengineering.client.ClientEventHandler
 		
 		if (chunkBorders) {
 			EntityPlayer player = MC.player;

@@ -102,8 +102,7 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	protected void drawTooltip(String text, int mouseX, int mouseY, int x, int y, int width, int height) {
-		List<String> stringList = Lists.newArrayList(text);
-		drawTooltip(stringList, mouseX, mouseY, x, y, width, height);
+		drawTooltip(Lists.newArrayList(text), mouseX, mouseY, x, y, width, height);
 	}
 	
 	protected List<String> fluidInfo(Tank tank) {
@@ -153,9 +152,5 @@ public abstract class NCGui extends GuiContainer {
 	
 	protected int width(String string) {
 		return fontRenderer.getStringWidth(string);
-	}
-	
-	protected int widthHalf(String string) {
-		return width(string) / 2;
 	}
 }

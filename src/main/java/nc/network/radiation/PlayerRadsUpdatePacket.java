@@ -136,7 +136,8 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			}
 			
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-			if (playerRads == null) return;
+			if (playerRads == null)
+				return;
 			
 			playerRads.setTotalRads(message.totalRads, false);
 			playerRads.setRadiationLevel(message.radiationLevel);

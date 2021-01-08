@@ -1,0 +1,13 @@
+{
+	"parent": "nuclearcraft:block/wall_part_overlayed",
+	"textures": {
+		"side": "nuclearcraft:blocks/fission/port/side",
+		"top": "nuclearcraft:blocks/fission/port/top",
+		"in": "#front",
+		"out": "#front",
+		"side_overlay": "nuclearcraft:blocks/block_invisible",
+		"top_overlay": "nuclearcraft:blocks/block_invisible",
+		"in_overlay": "#overlay",
+		"out_overlay": "#overlay"
+	}
+}

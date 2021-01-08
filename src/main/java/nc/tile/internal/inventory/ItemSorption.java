@@ -1,10 +1,10 @@
 package nc.tile.internal.inventory;
 
-import nc.gui.IButtonEnum;
+import nc.gui.IGuiButton;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
-public enum ItemSorption implements IStringSerializable, IButtonEnum {
+public enum ItemSorption implements IStringSerializable, IGuiButton {
 	IN,
 	OUT,
 	BOTH,

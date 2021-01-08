@@ -2,58 +2,54 @@ package nc.worldgen.decoration;
 
 import java.util.Random;
 
-import nc.config.NCConfig;
-import nc.init.NCBlocks;
+import nc.util.NCMath;
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class BushGenerator implements IWorldGenerator {
 	
-	private final WorldGenBush glowing_mushroom;
+	protected final IBlockState bush;
+	protected final int genSize, genRate;
 	
-	public BushGenerator() {
-		glowing_mushroom = new WorldGenBush(NCBlocks.glowing_mushroom.getDefaultState());
+	public BushGenerator(IBlockState bush, int genSize, int genRate) {
+		this.bush = bush;
+		this.genSize = genSize;
+		this.genRate = genRate;
 	}
 	
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		generateNether(random, chunkX, chunkZ, world, NCBlocks.glowing_mushroom.getDefaultState());
+	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		if (shouldGenerate() && rand.nextInt(Math.max(1, NCMath.toInt(400D / genRate))) == 0) {
+			BlockPos chunkPos = new BlockPos(chunkX * 16 + 8, rand.nextInt(world.getHeight()), chunkZ * 16 + 8);
+			if (canGenerate(rand, world, chunkPos)) {
+				generateBush(rand, world, chunkPos.add(rand.nextInt(16), 0, rand.nextInt(16)));
+			}
+		}
 	}
 	
-	public void generateNether(Random random, int chunkX, int chunkZ, World world, IBlockState mushroom) {
-		if (!NCConfig.mushroom_gen || NCConfig.mushroom_gen_size <= 0 || NCConfig.mushroom_gen_rate <= 0) {
-			return;
-		}
-		
-		int genRarity = Math.max(400 / NCConfig.mushroom_gen_rate, 1);
-		
-		int xSpawn, ySpawn, zSpawn;
-		
-		int xPos = chunkX * 16 + 8;
-		int zPos = chunkZ * 16 + 8;
-		BlockPos chunkPos = new BlockPos(xPos, 0, zPos);
-		BlockPos position;
-		
-		Biome biome = world.getChunk(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
-		if (biome == null) {
-			return;
-		}
-		
-		if (BiomeDictionary.hasType(biome, Type.NETHER)) {
-			if (random.nextInt(genRarity) == 0) {
-				xSpawn = xPos + random.nextInt(16);
-				ySpawn = random.nextInt(128);
-				zSpawn = zPos + random.nextInt(16);
-				position = new BlockPos(xSpawn, ySpawn, zSpawn);
-				
-				glowing_mushroom.generateBush(random, world, position);
+	public boolean shouldGenerate() {
+		return genSize > 0 && genRate > 0;
+	}
+	
+	public boolean canGenerate(Random rand, World world, BlockPos chunkPos) {
+		return true;
+	}
+	
+	public void generateBush(Random rand, World world, BlockPos sourcePos) {
+		Block block = bush.getBlock();
+		for (int i = 0; i < genSize; ++i) {
+			int height = MathHelper.clamp(sourcePos.getY() + rand.nextInt(4) - rand.nextInt(4), 1, world.getHeight() - 1);
+			BlockPos genPos = new BlockPos(sourcePos.getX() + rand.nextInt(8) - rand.nextInt(8), height, sourcePos.getZ() + rand.nextInt(8) - rand.nextInt(8));
+			
+			boolean canBlockStay = block instanceof BlockBush ? ((BlockBush) block).canBlockStay(world, genPos, bush) : true;
+			
+			if (world.isAirBlock(genPos) && (!world.provider.hasSkyLight() || genPos.getY() < world.getHeight() - 1) && canBlockStay) {
+				world.setBlockState(genPos, bush, 2);
 			}
 		}
 	}

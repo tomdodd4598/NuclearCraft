@@ -6,7 +6,6 @@ import java.util.Random;
 
 import nc.NuclearCraft;
 import nc.block.tile.IActivatable;
-import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.util.BlockHelper;
@@ -89,18 +88,6 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 			FMLNetworkHandler.openGui(player, NuclearCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
-	}
-	
-	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == NCBlocks.nuclear_furnace) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 	
 	@Override

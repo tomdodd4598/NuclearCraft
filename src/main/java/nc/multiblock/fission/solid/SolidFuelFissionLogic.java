@@ -1,8 +1,6 @@
 package nc.multiblock.fission.solid;
 
-import static nc.block.property.BlockProperties.*;
 import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.*;
 
 import java.util.*;
 
@@ -20,23 +18,20 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.tile.*;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.tile.*;
-import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.port.TileFissionCellPort;
 import nc.multiblock.network.*;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
-	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, fission_heating_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_heating_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
 	
-	public RecipeInfo<ProcessorRecipe> heatingRecipeInfo;
+	public RecipeInfo<BasicRecipe> heatingRecipeInfo;
 	
 	public int heatingOutputRate = 0;
 	public double effectiveHeating = 0D, reservedEffectiveHeat = 0D, heatingRecipeRate = 0D, heatingOutputRateFP = 0D;
@@ -91,120 +86,9 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void distributeFlux(final ObjectSet<IFissionFuelComponent> primedCache, final Long2ObjectMap<IFissionFuelComponent> primedFailCache) {
-		for (TileFissionSource source : getParts(TileFissionSource.class)) {
-			IBlockState state = getWorld().getBlockState(source.getPos());
-			EnumFacing facing = source.getPartPosition().getFacing();
-			source.refreshIsRedstonePowered(getWorld(), source.getPos());
-			getWorld().setBlockState(source.getPos(), state.withProperty(FACING_ALL, facing != null ? facing : state.getValue(FACING_ALL)).withProperty(ACTIVE, source.getIsRedstonePowered()), 3);
-			
-			if (!source.getIsRedstonePowered()) {
-				continue;
-			}
-			PrimingTargetInfo targetInfo = source.getPrimingTarget(false);
-			if (targetInfo == null) {
-				continue;
-			}
-			IFissionFuelComponent fuelComponent = targetInfo.fuelComponent;
-			if (fuelComponent == null || primedFailCache.containsKey(fuelComponent.getTilePos().toLong())) {
-				continue;
-			}
-			
-			fuelComponent.tryPriming(getReactor());
-			if (fuelComponent.isPrimed()) {
-				primedCache.add(fuelComponent);
-			}
-		}
-		
-		for (IFissionFuelComponent primedComponent : primedCache) {
-			iterateFluxSearch(primedComponent);
-		}
-		
-		for (IFissionFuelComponent primedComponent : primedCache) {
-			primedComponent.refreshIsProcessing(false);
-			refreshFuelComponentLocal(primedComponent);
-			primedComponent.unprime();
-			
-			if (!primedComponent.isFunctional()) {
-				primedFailCache.put(primedComponent.getTilePos().toLong(), primedComponent);
-				getReactor().refreshFlag = true;
-			}
-		}
-	}
-	
-	@Override
-	public void refreshClusters() {
+	public void refreshAllFuelComponentModerators() {
 		for (TileSolidFissionCell cell : getParts(TileSolidFissionCell.class)) {
 			refreshFuelComponentModerators(cell, assumedValidCache);
-		}
-		
-		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
-		
-		for (IFissionComponent component : getParts(IFissionComponent.class)) {
-			if (component != null && component.isClusterRoot()) {
-				iterateClusterSearch(component);
-			}
-		}
-		
-		for (long posLong : getReactor().activeModeratorCache) {
-			for (EnumFacing dir : EnumFacing.VALUES) {
-				IFissionComponent component = getPartMap(IFissionComponent.class).get(BlockPos.fromLong(posLong).offset(dir).toLong());
-				if (component != null) {
-					iterateClusterSearch(component);
-				}
-			}
-		}
-		
-		for (long posLong : getReactor().activeReflectorCache) {
-			for (EnumFacing dir : EnumFacing.VALUES) {
-				IFissionComponent component = getPartMap(IFissionComponent.class).get(BlockPos.fromLong(posLong).offset(dir).toLong());
-				if (component != null) {
-					iterateClusterSearch(component);
-				}
-			}
-		}
-		
-		super.refreshClusters();
-	}
-	
-	@Override
-	public void refreshClusterStats(FissionCluster cluster) {
-		super.refreshClusterStats(cluster);
-		
-		for (IFissionComponent component : cluster.getComponentMap().values()) {
-			if (component.isFunctional()) {
-				cluster.componentCount++;
-				if (component instanceof IFissionHeatingComponent) {
-					cluster.rawHeating += ((IFissionHeatingComponent) component).getRawHeating();
-					cluster.effectiveHeating += ((IFissionHeatingComponent) component).getEffectiveHeating();
-					if (component instanceof IFissionFuelComponent) {
-						cluster.fuelComponentCount++;
-						cluster.totalHeatMult += ((IFissionFuelComponent) component).getHeatMultiplier();
-						cluster.totalEfficiency += ((IFissionFuelComponent) component).getEfficiency();
-					}
-				}
-				if (component instanceof IFissionCoolingComponent) {
-					cluster.cooling += ((IFissionCoolingComponent) component).getCooling();
-				}
-			}
-		}
-		
-		if (getReactor().refreshFlag) {
-			return;
-		}
-		
-		cluster.overcoolingEfficiencyFactor = cluster.cooling == 0L ? 1D : Math.min(1D, (double) (cluster.rawHeating + fission_cooling_efficiency_leniency) / (double) cluster.cooling);
-		cluster.undercoolingLifetimeFactor = cluster.rawHeating == 0L ? 1D : Math.min(1D, (double) (cluster.cooling + fission_cooling_efficiency_leniency) / (double) cluster.rawHeating);
-		cluster.effectiveHeating *= cluster.overcoolingEfficiencyFactor;
-		cluster.totalEfficiency *= cluster.overcoolingEfficiencyFactor;
-		cluster.meanHeatMult = cluster.fuelComponentCount == 0 ? 0D : (double) cluster.totalHeatMult / (double) cluster.fuelComponentCount;
-		cluster.meanEfficiency = cluster.fuelComponentCount == 0 ? 0D : cluster.totalEfficiency / cluster.fuelComponentCount;
-		
-		for (IFissionComponent component : cluster.getComponentMap().values()) {
-			if (component instanceof IFissionFuelComponent) {
-				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
-				fuelComponent.setUndercoolingLifetimeFactor(cluster.undercoolingLifetimeFactor);
-			}
 		}
 	}
 	
@@ -275,7 +159,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void refreshRecipe() {
-		heatingRecipeInfo = fission_heating.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
+		heatingRecipeInfo = NCRecipes.fission_heating.getRecipeInfoFromInputs(new ArrayList<>(), tanks.subList(0, 1));
 	}
 	
 	public boolean canProcessInputs() {
@@ -295,7 +179,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean canProduceProducts() {
-		ProcessorRecipe recipe = heatingRecipeInfo.getRecipe();
+		BasicRecipe recipe = heatingRecipeInfo.getRecipe();
 		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		int productSize = fluidProduct.getMaxStackSize(0);
 		if (productSize <= 0 || fluidProduct.getStack() == null) {
@@ -317,7 +201,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void produceProducts() {
-		ProcessorRecipe recipe = heatingRecipeInfo.getRecipe();
+		BasicRecipe recipe = heatingRecipeInfo.getRecipe();
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		int heatingRecipeRateInt = (int) heatingRecipeRate;
 		
@@ -365,8 +249,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		final Iterator<IFissionComponent> componentIterator = cluster.getComponentMap().values().iterator();
 		while (componentIterator.hasNext()) {
 			IFissionComponent component = componentIterator.next();
-			componentIterator.remove();
-			component.onClusterMeltdown();
+			component.onClusterMeltdown(componentIterator);
 		}
 		super.clusterMeltdown(cluster);
 	}

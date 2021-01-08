@@ -26,6 +26,11 @@ public class NuclearCraft {
 	public BlockHighlightTracker blockOverlayTracker = new BlockHighlightTracker();
 	
 	@EventHandler
+	public void onConstruction(FMLConstructionEvent constructionEvent) {
+		proxy.onConstruction(constructionEvent);
+	}
+	
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		NCConfig.preInit();
 		proxy.preInit(preEvent);
@@ -40,6 +45,7 @@ public class NuclearCraft {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		proxy.postInit(postEvent);
+		NCConfig.postInit();
 	}
 	
 	@EventHandler

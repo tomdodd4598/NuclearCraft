@@ -57,18 +57,6 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 		return getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
-	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == type.getBlock()) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
-	}
-	
 	public static class Transparent extends BlockActivatable {
 		
 		protected final boolean smartRender;

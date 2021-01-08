@@ -8,7 +8,6 @@ import org.apache.logging.log4j.*;
 import org.lwjgl.input.Keyboard;
 
 import nc.Global;
-import net.minecraft.launchwrapper.Launch;
 
 public class NCUtil {
 	
@@ -21,9 +20,7 @@ public class NCUtil {
 		return logger;
 	}
 	
-	/**
-	 * NOTE: The constructor parameter types must match the argument types EXACTLY - they can NOT be superclasses
-	 */
+	/** NOTE: The constructor parameter types must match the argument types EXACTLY - they can NOT be superclasses */
 	public static <T> T newInstance(Class<T> clazz, Object... args) throws Exception {
 		Constructor<T> constructor = clazz.getConstructor(getClasses(args));
 		return constructor.newInstance(args);

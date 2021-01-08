@@ -10,24 +10,18 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 
-/**
- * This class manages all the multiblocks that exist in a given world, either client- or server-side. You must create different registries for server and client worlds.
+/** This class manages all the multiblocks that exist in a given world, either client- or server-side. You must create different registries for server and client worlds.
  *
- * @author Erogenous Beef
- */
+ * @author Erogenous Beef */
 final class MultiblockWorldRegistry {
 	
 	private World worldObj;
 	
 	private final ObjectSet<Multiblock> multiblocks; // Active multiblocks
-	private final ObjectSet<Multiblock> dirtyMultiblocks; // Multiblocks whose
-															 // parts lists have
-															 // changed
-	private final ObjectSet<Multiblock> deadMultiblocks; // Multiblocks which
-														 // are empty
+	private final ObjectSet<Multiblock> dirtyMultiblocks; // Multiblocks whose parts lists have changed
+	private final ObjectSet<Multiblock> deadMultiblocks; // Multiblocks which are empty
 	
-	// A list of orphan parts - parts which currently have no master, but should
-	// seek one this tick
+	// A list of orphan parts - parts which currently have no master, but should seek one this tick
 	// Indexed by the hashed chunk coordinate
 	// This can be added-to asynchronously via chunk loads!
 	private ObjectSet<ITileMultiblockPart> orphanedParts;
@@ -61,16 +55,13 @@ final class MultiblockWorldRegistry {
 		orphanedPartsMutex = new Object();
 	}
 	
-	/**
-	 * Called before Tile Entities are ticked in the world. Run game logic.
-	 */
+	/** Called before Tile Entities are ticked in the world. Run game logic. */
 	public void tickStart() {
 		if (multiblocks.size() > 0) {
 			for (Multiblock multiblock : multiblocks) {
 				if (multiblock.WORLD == worldObj && multiblock.WORLD.isRemote == worldObj.isRemote) {
 					if (multiblock.isEmpty()) {
-						// This happens on the server when the user breaks the
-						// last block. It's fine.
+						// This happens on the server when the user breaks the last block. It's fine.
 						// Mark 'er dead and move on.
 						deadMultiblocks.add(multiblock);
 					}
@@ -83,25 +74,20 @@ final class MultiblockWorldRegistry {
 		}
 	}
 	
-	/**
-	 * Called prior to processing multiblocks. Do bookkeeping.
-	 */
+	/** Called prior to processing multiblocks. Do bookkeeping. */
 	public void processMultiblockChanges() {
 		BlockPos coord;
 		
-		// Merge pools - sets of adjacent machines which should be merged later
-		// on in processing
+		// Merge pools - sets of adjacent machines which should be merged later on in processing
 		List<Set<Multiblock>> mergePools = null;
 		if (orphanedParts.size() > 0) {
 			Set<ITileMultiblockPart> orphansToProcess = null;
 			
-			// Keep the synchronized block small. We can't iterate over
-			// orphanedParts directly
-			// because the client does not know which chunks are actually
-			// loaded, so attachToNeighbors()
+			// Keep the synchronized block small.
+			// We can't iterate over orphanedParts directly because the client
+			// does not know which chunks are actually loaded, so attachToNeighbors()
 			// is not chunk-safe on the client, because Minecraft is stupid.
-			// It's possible to polyfill this, but the polyfill is too slow for
-			// comfort.
+			// It's possible to polyfill this, but the polyfill is too slow for comfort.
 			synchronized (orphanedPartsMutex) {
 				if (orphanedParts.size() > 0) {
 					orphansToProcess = orphanedParts;
@@ -110,13 +96,11 @@ final class MultiblockWorldRegistry {
 			}
 			
 			if (orphansToProcess != null && orphansToProcess.size() > 0) {
-				// IChunkProvider chunkProvider =
-				// this.worldObj.getChunkProvider();
+				// IChunkProvider chunkProvider = this.worldObj.getChunkProvider();
 				Set<Multiblock> compatibleMultiblocks;
 				
 				// Process orphaned blocks
-				// These are blocks that exist in a valid chunk and require a
-				// multiblock
+				// These are blocks that exist in a valid chunk and require a multiblock
 				for (ITileMultiblockPart orphan : orphansToProcess) {
 					coord = orphan.getTilePos();
 					if (!worldObj.isBlockLoaded(coord)) {
@@ -138,8 +122,7 @@ final class MultiblockWorldRegistry {
 					compatibleMultiblocks = orphan.attachToNeighbors();
 					if (compatibleMultiblocks == null) {
 						// FOREVER ALONE! Create and register a new multiblock.
-						// THIS IS THE ONLY PLACE WHERE NEW CONTROLLERS ARE
-						// CREATED.
+						// THIS IS THE ONLY PLACE WHERE NEW CONTROLLERS ARE CREATED.
 						Multiblock newMultiblock = orphan.createNewMultiblock();
 						newMultiblock.attachBlock(orphan);
 						multiblocks.add(newMultiblock);
@@ -150,15 +133,13 @@ final class MultiblockWorldRegistry {
 						}
 						
 						// THIS IS THE ONLY PLACE WHERE MERGES ARE DETECTED
-						// Multiple compatible multiblocks indicates an
-						// impending merge.
+						// Multiple compatible multiblocks indicates an impending merge.
 						// Locate the appropriate merge pool(s)
 						// boolean hasAddedToPool = false;
 						List<Set<Multiblock>> candidatePools = new ArrayList<>();
 						for (Set<Multiblock> candidatePool : mergePools) {
 							if (!Collections.disjoint(candidatePool, compatibleMultiblocks)) {
-								// They share at least one element, so that
-								// means they will all touch after the merge
+								// They share at least one element, so that means they will all touch after the merge
 								candidatePools.add(candidatePool);
 							}
 						}
@@ -172,8 +153,7 @@ final class MultiblockWorldRegistry {
 							candidatePools.get(0).addAll(compatibleMultiblocks);
 						}
 						else {
-							// Multiple pools- merge into one, then add the
-							// compatible multiblocks
+							// Multiple pools- merge into one, then add the compatible multiblocks
 							Set<Multiblock> masterPool = candidatePools.get(0);
 							Set<Multiblock> consumedPool;
 							for (int i = 1; i < candidatePools.size(); i++) {
@@ -189,15 +169,10 @@ final class MultiblockWorldRegistry {
 		}
 		
 		if (mergePools != null && mergePools.size() > 0) {
-			// Process merges - any machines that have been marked for merge
-			// should be merged
-			// into the "master" machine.
-			// To do this, we combine lists of machines that are touching one
-			// another and therefore
-			// should voltron the fuck up.
+			// Process merges - any machines that have been marked for merge should be merged into the "master" machine.
+			// To do this, we combine lists of machines that are touching one another and therefore should voltron the fuck up.
 			for (Set<Multiblock> mergePool : mergePools) {
-				// Search for the new master machine, which will take over all
-				// the blocks contained in the other machines
+				// Search for the new master machine, which will take over all the blocks contained in the other machines
 				Multiblock newMaster = null;
 				for (Multiblock multiblock : mergePool) {
 					if (newMaster == null || multiblock.shouldConsume(newMaster)) {
@@ -209,8 +184,7 @@ final class MultiblockWorldRegistry {
 					FMLLog.severe("Multiblock system checked a merge pool of size %d, found no master candidates. This should never happen.", mergePool.size());
 				}
 				else {
-					// Merge all the other machines into the master machine,
-					// then unregister them
+					// Merge all the other machines into the master machine, then unregister them
 					addDirtyMultiblock(newMaster);
 					for (Multiblock multiblock : mergePool) {
 						if (multiblock != newMaster) {
@@ -224,18 +198,14 @@ final class MultiblockWorldRegistry {
 		}
 		
 		// Process splits and assembly
-		// Any multiblocks which have had parts removed must be checked to see
-		// if some parts are no longer
-		// physically connected to their master.
+		// Any multiblocks which have had parts removed must be checked to see if some parts are no longer physically connected to their master.
 		if (dirtyMultiblocks.size() > 0) {
 			Set<ITileMultiblockPart> newlyDetachedParts = null;
 			for (Multiblock multiblock : dirtyMultiblocks) {
 				// Tell the machine to check if any parts are disconnected.
-				// It should return a set of parts which are no longer
-				// connected.
+				// It should return a set of parts which are no longer connected.
 				// POSTCONDITION: The multiblock must have informed those parts
-				// that
-				// they are no longer connected to this machine.
+				// that they are no longer connected to this machine.
 				newlyDetachedParts = multiblock.checkForDisconnections();
 				
 				if (!multiblock.isEmpty()) {
@@ -247,8 +217,7 @@ final class MultiblockWorldRegistry {
 				}
 				
 				if (newlyDetachedParts != null && newlyDetachedParts.size() > 0) {
-					// Multiblock has shed some parts - add them to the detached
-					// list for delayed processing
+					// Multiblock has shed some parts - add them to the detached list for delayed processing
 					detachedParts.addAll(newlyDetachedParts);
 				}
 			}
@@ -259,8 +228,7 @@ final class MultiblockWorldRegistry {
 		// Unregister dead multiblocks
 		if (deadMultiblocks.size() > 0) {
 			for (Multiblock multiblock : deadMultiblocks) {
-				// Go through any multiblocks which have marked themselves as
-				// potentially dead.
+				// Go through any multiblocks which have marked themselves as potentially dead.
 				// Validate that they are empty/dead, then unregister them.
 				if (!multiblock.isEmpty()) {
 					FMLLog.severe("Found a non-empty multiblock. Forcing it to shed its blocks and die. This should never happen!");
@@ -275,10 +243,8 @@ final class MultiblockWorldRegistry {
 		}
 		
 		// Process detached blocks
-		// Any blocks which have been detached this tick should be moved to the
-		// orphaned
-		// list, and will be checked next tick to see if their chunk is still
-		// loaded.
+		// Any blocks which have been detached this tick should be moved to the orphaned
+		// list, and will be checked next tick to see if their chunk is still loaded.
 		for (ITileMultiblockPart part : detachedParts) {
 			// Ensure parts know they're detached
 			part.assertDetached();
@@ -288,12 +254,10 @@ final class MultiblockWorldRegistry {
 		detachedParts.clear();
 	}
 	
-	/**
-	 * Called when a multiblock part is added to the world, either via chunk-load or user action. If its chunk is loaded, it will be processed during the next tick. If the chunk is not loaded, it will be added to a list of objects waiting for a chunkload.
+	/** Called when a multiblock part is added to the world, either via chunk-load or user action. If its chunk is loaded, it will be processed during the next tick. If the chunk is not loaded, it will be added to a list of objects waiting for a chunkload.
 	 * 
 	 * @param part
-	 * The part which is being added to this world.
-	 */
+	 *            The part which is being added to this world. */
 	public void onPartAdded(final ITileMultiblockPart part) {
 		BlockPos worldLocation = part.getTilePos();
 		
@@ -320,12 +284,10 @@ final class MultiblockWorldRegistry {
 		}
 	}
 	
-	/**
-	 * Called when a part is removed from the world, via user action or via chunk unloads. This part is removed from any lists in which it may be, and its machine is marked for recalculation.
+	/** Called when a part is removed from the world, via user action or via chunk unloads. This part is removed from any lists in which it may be, and its machine is marked for recalculation.
 	 * 
 	 * @param part
-	 * The part which is being removed.
-	 */
+	 *            The part which is being removed. */
 	public void onPartRemovedFromWorld(final ITileMultiblockPart part) {
 		final BlockPos coord = part.getTilePos();
 		if (coord != null) {
@@ -353,9 +315,7 @@ final class MultiblockWorldRegistry {
 		part.assertDetached();
 	}
 	
-	/**
-	 * Called when the world which this World Registry represents is fully unloaded from the system. Does some housekeeping just to be nice.
-	 */
+	/** Called when the world which this World Registry represents is fully unloaded from the system. Does some housekeeping just to be nice. */
 	public void onWorldUnloaded() {
 		multiblocks.clear();
 		deadMultiblocks.clear();
@@ -374,14 +334,12 @@ final class MultiblockWorldRegistry {
 		worldObj = null;
 	}
 	
-	/**
-	 * Called when a chunk has finished loading. Adds all of the parts which are awaiting load to the list of parts which are orphans and therefore will be added to machines after the next world tick.
+	/** Called when a chunk has finished loading. Adds all of the parts which are awaiting load to the list of parts which are orphans and therefore will be added to machines after the next world tick.
 	 *
 	 * @param chunkX
-	 * Chunk X coordinate (world coordate >> 4) of the chunk that was loaded
+	 *            Chunk X coordinate (world coordate >> 4) of the chunk that was loaded
 	 * @param chunkZ
-	 * Chunk Z coordinate (world coordate >> 4) of the chunk that was loaded
-	 */
+	 *            Chunk Z coordinate (world coordate >> 4) of the chunk that was loaded */
 	public void onChunkLoaded(final int chunkX, final int chunkZ) {
 		final long chunkHash = ChunkPos.asLong(chunkX, chunkZ);
 		if (partsAwaitingChunkLoad.containsKey(chunkHash)) {
@@ -394,36 +352,30 @@ final class MultiblockWorldRegistry {
 		}
 	}
 	
-	/**
-	 * Registers a multiblock as dead. It will be cleaned up at the end of the next world tick. Note that a multiblock must shed all of its blocks before being marked as dead, or the system will complain at you.
+	/** Registers a multiblock as dead. It will be cleaned up at the end of the next world tick. Note that a multiblock must shed all of its blocks before being marked as dead, or the system will complain at you.
 	 *
 	 * @param deadMultiblock
-	 * The multiblock which is dead.
-	 */
+	 *            The multiblock which is dead. */
 	public void addDeadMultiblock(Multiblock deadMultiblock) {
 		deadMultiblocks.add(deadMultiblock);
 	}
 	
-	/**
-	 * Registers a multiblock as dirty - its list of attached blocks has changed, and it must be re-checked for assembly and, possibly, for orphans.
+	/** Registers a multiblock as dirty - its list of attached blocks has changed, and it must be re-checked for assembly and, possibly, for orphans.
 	 *
 	 * @param dirtyMultiblock
-	 * The dirty multiblock.
-	 */
+	 *            The dirty multiblock. */
 	public void addDirtyMultiblock(Multiblock dirtyMultiblock) {
 		dirtyMultiblocks.add(dirtyMultiblock);
 	}
 	
-	/**
-	 * Use this only if you know what you're doing. You should rarely need to iterate over all multiblocks in a world!
+	/** Use this only if you know what you're doing. You should rarely need to iterate over all multiblocks in a world!
 	 *
-	 * @return An (unmodifiable) set of multiblocks which are active in this world.
-	 */
+	 * @return An (unmodifiable) set of multiblocks which are active in this world. */
 	public Set<Multiblock> getMultiblocks() {
 		return Collections.unmodifiableSet(multiblocks);
 	}
 	
-	/* *** INTERNAL HELPERS *** */
+	// INTERNAL HELPERS
 	
 	protected static ITileMultiblockPart getMultiblockPartFromWorld(final World world, final BlockPos position) {
 		

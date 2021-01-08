@@ -169,8 +169,7 @@ public class ItemHandler<T extends ITileInventory> implements IItemHandlerModifi
 	}
 	
 	protected void setInventorySlotContents(int slot, ItemStack stack) {
-		// Notify vanilla of updates, We change the handler to be responsible
-		// for this instead of the caller (mimic vanilla behavior)
+		// Notify vanilla of updates, We change the handler to be responsible for this instead of the caller (mimic vanilla behavior)
 		tile.markDirty();
 		tile.setInventorySlotContents(slot, stack);
 	}

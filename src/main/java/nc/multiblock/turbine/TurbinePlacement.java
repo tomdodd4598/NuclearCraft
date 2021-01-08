@@ -1,18 +1,20 @@
 package nc.multiblock.turbine;
 
+import static nc.config.NCConfig.*;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.objects.*;
-import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.PlacementRule.*;
 import nc.multiblock.turbine.tile.*;
 import nc.util.StringHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -20,6 +22,9 @@ public abstract class TurbinePlacement {
 	
 	/** List of all defined rule parsers. Earlier entries are prioritised! */
 	public static final List<PlacementRule.RuleParser<ITurbinePart>> RULE_PARSER_LIST = new LinkedList<>();
+	
+	/** Map of all placement rule IDs to unparsed rule strings, used for ordered iterations. */
+	public static final Object2ObjectMap<String, String> RULE_MAP_RAW = new Object2ObjectArrayMap<>();
 	
 	/** Map of all defined placement rules. */
 	public static final Object2ObjectMap<String, PlacementRule<ITurbinePart>> RULE_MAP = new PlacementMap<>();
@@ -43,17 +48,18 @@ public abstract class TurbinePlacement {
 		
 		RULE_MAP.put("", new PlacementRule.Or<>(new ArrayList<>()));
 		
-		addRule("magnesium_coil", NCConfig.turbine_coil_rule[0], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 0));
-		addRule("beryllium_coil", NCConfig.turbine_coil_rule[1], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 1));
-		addRule("aluminum_coil", NCConfig.turbine_coil_rule[2], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 2));
-		addRule("gold_coil", NCConfig.turbine_coil_rule[3], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 3));
-		addRule("copper_coil", NCConfig.turbine_coil_rule[4], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 4));
-		addRule("silver_coil", NCConfig.turbine_coil_rule[5], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 5));
+		addRule("magnesium_coil", turbine_coil_rule[0], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 0));
+		addRule("beryllium_coil", turbine_coil_rule[1], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 1));
+		addRule("aluminum_coil", turbine_coil_rule[2], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 2));
+		addRule("gold_coil", turbine_coil_rule[3], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 3));
+		addRule("copper_coil", turbine_coil_rule[4], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 4));
+		addRule("silver_coil", turbine_coil_rule[5], new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 5));
 		
-		addRule("connector", NCConfig.turbine_connector_rule[0], new ItemStack(NCBlocks.turbine_coil_connector));
+		addRule("connector", turbine_connector_rule[0], new ItemStack(NCBlocks.turbine_coil_connector));
 	}
 	
 	public static void addRule(String id, String rule, Object... blocks) {
+		RULE_MAP_RAW.put(id, rule);
 		RULE_MAP.put(id, parse(rule));
 		for (Object block : blocks) {
 			tooltip_recipe_handler.addRecipe(block, id);
@@ -64,7 +70,8 @@ public abstract class TurbinePlacement {
 		for (Object2ObjectMap.Entry<String, PlacementRule<ITurbinePart>> entry : RULE_MAP.object2ObjectEntrySet()) {
 			for (PlacementRule.TooltipBuilder<ITurbinePart> builder : TOOLTIP_BUILDER_LIST) {
 				String tooltip = builder.buildTooltip(entry.getValue());
-				if (tooltip != null) TOOLTIP_MAP.put(entry.getKey(), tooltip);
+				if (tooltip != null)
+					TOOLTIP_MAP.put(entry.getKey(), tooltip);
 			}
 		}
 	}
@@ -87,7 +94,8 @@ public abstract class TurbinePlacement {
 			boolean exact = s.contains("exact"), atMost = s.contains("at most");
 			boolean axial = s.contains("axial"), vertex = s.contains("vertex");
 			
-			if ((exact && atMost) || (axial && vertex)) return null;
+			if ((exact && atMost) || (axial && vertex))
+				return null;
 			
 			s = s.replaceAll("at least", "");
 			s = s.replaceAll("exactly", "");
@@ -117,18 +125,24 @@ public abstract class TurbinePlacement {
 					}
 					else if (split[i].contains("coil")) {
 						rule = "coil";
-						if (i > 0) type = split[i - 1];
-						else return null;
+						if (i > 0)
+							type = split[i - 1];
+						else
+							return null;
 					}
 				}
 			}
 			
-			if (amount < 0 || rule == null) return null;
+			if (amount < 0 || rule == null)
+				return null;
 			
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
 			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : AdjacencyType.STANDARD);
 			
-			if (rule.equals("bearing")) {
+			if (rule.equals("casing")) {
+				return new AdjacentCasing(amount, countType, adjType);
+			}
+			else if (rule.equals("bearing")) {
 				return new AdjacentBearing(amount, countType, adjType);
 			}
 			else if (rule.equals("connector")) {
@@ -159,6 +173,18 @@ public abstract class TurbinePlacement {
 				throw new IllegalArgumentException("Vertex placement rule with ID \"" + ruleID + "\" is disallowed as turbine dynamos have no depth!");
 			}
 			super.checkIsRuleAllowed(ruleID);
+		}
+	}
+	
+	public static class AdjacentCasing extends Adjacent {
+		
+		public AdjacentCasing(int amount, CountType countType, AdjacencyType adjType) {
+			super("turbine_casing", amount, countType, adjType);
+		}
+		
+		@Override
+		public boolean satisfied(ITurbinePart part, EnumFacing dir) {
+			return isCasing(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
 	
@@ -218,6 +244,11 @@ public abstract class TurbinePlacement {
 	}
 	
 	// Helper Methods
+	
+	public static boolean isCasing(Turbine turbine, BlockPos pos) {
+		TileEntity tile = turbine.WORLD.getTileEntity(pos);
+		return tile instanceof TileTurbinePart && ((TileTurbinePart) tile).getPartPositionType().isGoodForWall();
+	}
 	
 	public static boolean isRotorBearing(Turbine turbine, BlockPos pos) {
 		return turbine.getPartMap(TileTurbineRotorBearing.class).get(pos.toLong()) != null;

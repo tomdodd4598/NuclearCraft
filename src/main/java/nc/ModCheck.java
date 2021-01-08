@@ -10,6 +10,7 @@ public class ModCheck {
 	private static boolean ic2Loaded = false;
 	private static boolean mekanismLoaded = false;
 	private static boolean craftTweakerLoaded = false;
+	private static boolean contentTweakerLoaded = false;
 	private static boolean mantleLoaded = false;
 	private static boolean tinkersLoaded = false;
 	private static boolean constructsArmoryLoaded = false;
@@ -36,6 +37,7 @@ public class ModCheck {
 		ic2Loaded = Loader.isModLoaded("ic2");
 		mekanismLoaded = Loader.isModLoaded("mekanism");
 		craftTweakerLoaded = Loader.isModLoaded("crafttweaker");
+		contentTweakerLoaded = craftTweakerLoaded && Loader.isModLoaded("contenttweaker");
 		mantleLoaded = Loader.isModLoaded("mantle");
 		tinkersLoaded = mantleLoaded && Loader.isModLoaded("tconstruct");
 		constructsArmoryLoaded = tinkersLoaded && Loader.isModLoaded("conarm");
@@ -70,6 +72,10 @@ public class ModCheck {
 	
 	public static boolean craftTweakerLoaded() {
 		return craftTweakerLoaded;
+	}
+	
+	public static boolean contentTweakerLoaded() {
+		return contentTweakerLoaded;
 	}
 	
 	public static boolean mantleLoaded() {

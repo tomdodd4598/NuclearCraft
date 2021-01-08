@@ -75,7 +75,7 @@ public class ToggleItemOutputSettingPacket implements IMessage {
 				if (setting == ItemOutputSetting.VOID) {
 					machine.getInventoryStacks().set(message.slot, ItemStack.EMPTY);
 				}
-				machine.markDirtyAndNotify();
+				machine.markDirtyAndNotify(true);
 			}
 		}
 	}

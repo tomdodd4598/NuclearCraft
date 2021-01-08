@@ -78,7 +78,7 @@ public class ResetItemSorptionsPacket implements IMessage {
 						machine.setItemSorption(side, message.slot, ItemSorption.NON);
 					}
 				}
-				machine.markDirtyAndNotify();
+				machine.markDirtyAndNotify(true);
 			}
 		}
 	}

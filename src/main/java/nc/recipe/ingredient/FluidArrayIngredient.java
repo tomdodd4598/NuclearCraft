@@ -99,9 +99,22 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
-		for (int i = 0; i < ingredientList.size(); i++) {
-			if (ingredientList.get(i).match(object, sorption).matches()) {
-				return new IngredientMatchResult(true, i);
+		if (object instanceof FluidArrayIngredient) {
+			loop: for (IFluidIngredient ingredient : ingredientList) {
+				for (IFluidIngredient ingr : ((FluidArrayIngredient) object).ingredientList) {
+					if (ingredient.match(ingr, sorption).matches()) {
+						continue loop;
+					}
+				}
+				return IngredientMatchResult.FAIL;
+			}
+			return IngredientMatchResult.PASS_0;
+		}
+		else {
+			for (int i = 0; i < ingredientList.size(); i++) {
+				if (ingredientList.get(i).match(object, sorption).matches()) {
+					return new IngredientMatchResult(true, i);
+				}
 			}
 		}
 		return IngredientMatchResult.FAIL;

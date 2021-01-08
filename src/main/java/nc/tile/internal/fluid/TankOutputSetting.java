@@ -1,10 +1,10 @@
 package nc.tile.internal.fluid;
 
-import nc.gui.IButtonEnum;
+import nc.gui.IGuiButton;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
-public enum TankOutputSetting implements IStringSerializable, IButtonEnum {
+public enum TankOutputSetting implements IStringSerializable, IGuiButton {
 	DEFAULT,
 	VOID_EXCESS,
 	VOID;

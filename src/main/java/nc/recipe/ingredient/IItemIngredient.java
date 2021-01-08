@@ -25,7 +25,7 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 			if (stack != null && !stack.isEmpty() && meta == OreDictionary.WILDCARD_VALUE) {
 				NonNullList<ItemStack> subStacks = NonNullList.create();
 				Item item = stack.getItem();
-				if (ItemBlock.class.isAssignableFrom(item.getClass())) {
+				if (item instanceof ItemBlock) {
 					for (int i = 0; i < 16; i++) {
 						subStacks.add(new ItemStack(item, stack.getCount(), i));
 					}

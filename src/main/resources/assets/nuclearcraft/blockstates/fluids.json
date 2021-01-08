@@ -32,10 +32,10 @@
 				"fluid": "tritium"
 			}
 		},
-		"fluid_helium3": {
+		"fluid_helium_3": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "helium3"
+				"fluid": "helium_3"
 			}
 		},
 		"fluid_helium": {
@@ -140,16 +140,16 @@
 				"fluid": "lithium"
 			}
 		},
-		"fluid_lithium6": {
+		"fluid_lithium_6": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "lithium6"
+				"fluid": "lithium_6"
 			}
 		},
-		"fluid_lithium7": {
+		"fluid_lithium_7": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "lithium7"
+				"fluid": "lithium_7"
 			}
 		},
 		"fluid_boron": {
@@ -158,16 +158,16 @@
 				"fluid": "boron"
 			}
 		},
-		"fluid_boron10": {
+		"fluid_boron_10": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "boron10"
+				"fluid": "boron_10"
 			}
 		},
-		"fluid_boron11": {
+		"fluid_boron_11": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "boron11"
+				"fluid": "boron_11"
 			}
 		},
 		"fluid_ferroboron": {
@@ -588,6 +588,42 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "silver"
+			}
+		},
+		"fluid_strontium_90": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "strontium_90"
+			}
+		},
+		"fluid_molybdenum": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "molybdenum"
+			}
+		},
+		"fluid_ruthenium_106": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ruthenium_106"
+			}
+		},
+		"fluid_caesium_137": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "caesium_137"
+			}
+		},
+		"fluid_promethium_147": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "promethium_147"
+			}
+		},
+		"fluid_europium_155": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "europium_155"
 			}
 		}
 	}

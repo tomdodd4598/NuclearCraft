@@ -1,0 +1,6 @@
+{
+	"parent": "nuclearcraft:block/fission_shield_on",
+	"textures": {
+		"all": "nuclearcraft:blocks/fission/shield/boron_silver"
+	}
+}

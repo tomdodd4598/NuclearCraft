@@ -5,7 +5,6 @@ import static nc.util.PosHelper.DEFAULT_NON;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.block.BlockFissionMonitor;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,21 +35,11 @@ public class TileFissionMonitor extends TileFissionPart {
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
-	}
-	
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockFissionMonitor) {
-			((BlockFissionMonitor) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
 	}
 	
 	public BlockPos getComponentPos() {

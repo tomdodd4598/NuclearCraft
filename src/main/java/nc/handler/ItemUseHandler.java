@@ -42,22 +42,22 @@ public class ItemUseHandler {
 			if (rads > 0D) {
 				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + rads);
 				entityRads.setRecentPoisonAddition(rads);
-				entity.playSound(NCSounds.rad_poisoning, 1F - (float) Math.pow(10D, -Math.sqrt(rads) / 10D), 1F);
+				entity.playSound(NCSounds.rad_poisoning, (float) ((1D - Math.pow(10D, -Math.sqrt(rads) / 10D)) * radiation_sound_volumes[3]), 1F);
 			}
 			else {
 				entityRads.setRadawayBuffer(false, entityRads.getRadawayBuffer(false) - rads);
 				entityRads.setRecentRadawayAddition(-rads);
-				entity.playSound(NCSounds.radaway, 1F - (float) Math.pow(10D, -Math.sqrt(-rads) / 10D), 1F);
+				entity.playSound(NCSounds.radaway, (float) ((1D - Math.pow(10D, -Math.sqrt(-rads) / 10D)) * radiation_sound_volumes[3]), 1F);
 			}
 			
 			if (entityRads.getRadXCooldown() <= 0D) {
 				entityRads.setInternalRadiationResistance(entityRads.getInternalRadiationResistance() + resistance);
 				entityRads.setRecentRadXAddition(Math.abs(resistance));
 				if (resistance > 0D) {
-					entity.playSound(NCSounds.rad_x, 1F - (float) Math.pow(10D, -5D * Math.sqrt(resistance) / radiation_rad_x_amount), 1F);
+					entity.playSound(NCSounds.rad_x, (float) ((1D - Math.pow(10D, -5D * Math.sqrt(resistance) / radiation_rad_x_amount)) * radiation_sound_volumes[3]), 1F);
 				}
 				else {
-					entity.playSound(NCSounds.chems_wear_off, 1F - (float) Math.pow(10D, -5D * Math.sqrt(-resistance) / radiation_rad_x_amount), 1F);
+					entity.playSound(NCSounds.chems_wear_off, (float) ((1D - Math.pow(10D, -5D * Math.sqrt(-resistance) / radiation_rad_x_amount)) * radiation_sound_volumes[3]), 1F);
 				}
 			}
 		}

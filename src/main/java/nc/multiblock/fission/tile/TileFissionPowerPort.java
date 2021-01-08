@@ -1,34 +1,32 @@
 package nc.multiblock.fission.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.enable_gtce_eu;
 
 import javax.annotation.*;
 
-import gregtech.api.capability.*;
-import ic2.api.energy.EnergyNet;
+import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.tile.*;
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.turbine.tile.TileTurbinePart;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.*;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.passive.ITilePassive;
-import nc.util.EnergyHelper;
+import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.*;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.*;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy, IEnergySource {
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
+public class TileFissionPowerPort extends TileFissionPart implements ITickable, ITileEnergy, IEnergySink, IEnergySource {
 	
 	protected final EnergyStorage backupStorage = new EnergyStorage(1);
 	
@@ -55,9 +53,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -67,15 +62,15 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	
 	@Override
 	public void update() {
-		super.update();
-		if (!world.isRemote) {
-			pushEnergy();
+		EnumFacing facing = getPartPosition().getFacing();
+		if (!world.isRemote && facing != null && getEnergyStored() > 0 && getEnergyConnection(facing).canExtract()) {
+			pushEnergyToSide(facing);
 		}
 	}
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (ModCheck.ic2Loaded()) {
 			addTileToENet();
 		}
@@ -108,16 +103,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	}
 	
 	@Override
-	public int getEUSourceTier() {
-		return getMultiblock() != null ? getLogic().getPowerPortEUSourceTier() : 1;
-	}
-	
-	@Override
-	public int getEUSinkTier() {
-		return 1;
-	}
-	
-	@Override
 	public @Nonnull EnergyTileWrapper[] getEnergySides() {
 		return energySides;
 	}
@@ -127,99 +112,97 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 		return energySidesGT;
 	}
 	
-	// Energy Pushing
+	// IC2 Energy
 	
 	@Override
-	public void pushEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canExtract() || getEnergyStorage().getEnergyStored() == 0) {
-			return;
-		}
-		
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileTurbinePart) {
-			return;
-		}
-		
-		if (tile instanceof ITileEnergy) {
-			if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) {
-				return;
-			}
-		}
-		if (tile instanceof ITilePassive) {
-			if (!((ITilePassive) tile).canPushEnergyTo()) {
-				return;
-			}
-		}
-		
-		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-		
-		if (adjStorage != null && getEnergyStorage().canExtract()) {
-			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true), false), false);
-			return;
-		}
-		
-		if (getEnergyStorage().getEnergyStored() < rf_per_eu) {
-			return;
-		}
-		
-		if (ModCheck.ic2Loaded()) {
-			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / rf_per_eu, getEUSourceTier()) * rf_per_eu), false);
-				return;
-			}
-		}
-		if (enable_gtce_eu && ModCheck.gregtechLoaded()) {
-			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
-			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
-				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
-				return;
-			}
-		}
+	public boolean getIC2Reg() {
+		return ic2reg;
 	}
 	
-	// IC2 Energy
+	@Override
+	public void setIC2Reg(boolean ic2reg) {
+		this.ic2reg = ic2reg;
+	}
+	
+	@Override
+	public int getSinkTier() {
+		return getMultiblock() != null ? getLogic().getPowerPortEUSinkTier() : 1;
+	}
+	
+	@Override
+	public int getSourceTier() {
+		return getMultiblock() != null ? getLogic().getPowerPortEUSourceTier() : 1;
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
+		return ITileEnergy.super.acceptsEnergyFrom(emitter, side);
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double getDemandedEnergy() {
+		return ITileEnergy.super.getDemandedEnergy();
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
+		return ITileEnergy.super.injectEnergy(directionFrom, amount, voltage);
+	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection(side).canExtract();
+		return ITileEnergy.super.emitsEnergyTo(receiver, side);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2 * getSourceTier() + 3), (double) getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double) rf_per_eu);
+		return ITileEnergy.super.getOfferedEnergy();
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
+		ITileEnergy.super.drawEnergy(amount);
 	}
 	
 	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		return getEUSourceTier();
+	public boolean hasConfigurableEnergyConnections() {
+		return true;
 	}
 	
+	// IMultitoolLogic
+	
 	@Override
-	@Optional.Method(modid = "ic2")
-	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
-			ic2reg = true;
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (player.isSneaking()) {
+			
 		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void removeTileFromENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
-			ic2reg = false;
+		else {
+			if (getMultiblock() != null) {
+				if (getEnergyConnection(facing) != EnergyConnection.OUT) {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setEnergyConnection(EnergyConnection.OUT, side);
+					}
+					setActivity(false);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				else {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setEnergyConnection(EnergyConnection.IN, side);
+					}
+					setActivity(true);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				markDirtyAndNotify(true);
+				return true;
+			}
 		}
+		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT
@@ -227,7 +210,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		writeEnergy(nbt);
 		writeEnergyConnections(nbt);
 		return nbt;
 	}
@@ -235,7 +217,6 @@ public class TileFissionPowerPort extends TileFissionPart implements ITileEnergy
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		readEnergy(nbt);
 		readEnergyConnections(nbt);
 	}
 	

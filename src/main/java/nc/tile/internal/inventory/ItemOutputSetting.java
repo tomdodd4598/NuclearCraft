@@ -1,10 +1,10 @@
 package nc.tile.internal.inventory;
 
-import nc.gui.IButtonEnum;
+import nc.gui.IGuiButton;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
-public enum ItemOutputSetting implements IStringSerializable, IButtonEnum {
+public enum ItemOutputSetting implements IStringSerializable, IGuiButton {
 	DEFAULT,
 	VOID_EXCESS,
 	VOID;

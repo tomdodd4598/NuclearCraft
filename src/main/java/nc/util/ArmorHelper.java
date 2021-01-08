@@ -9,13 +9,7 @@ import net.minecraft.item.*;
 public class ArmorHelper {
 	
 	public static boolean isArmor(Item item, boolean includeHorse) {
-		if (item instanceof ItemArmor) {
-			return true;
-		}
-		else if (includeHorse && isHorseArmor(item)) {
-			return true;
-		}
-		return false;
+		return item instanceof ItemArmor || item instanceof ItemElytra || (includeHorse && isHorseArmor(item));
 	}
 	
 	private static final Object2BooleanMap<Item> HORSE_ARMOR_CACHE = new Object2BooleanOpenHashMap<>();

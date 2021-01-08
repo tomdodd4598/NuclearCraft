@@ -21,8 +21,8 @@ public class NCSounds {
 	// public static SoundEvent feral_ghoul_ambient;
 	// public static SoundEvent feral_ghoul_hurt;
 	public static SoundEvent feral_ghoul_death;
-	// public static SoundEvent feral_ghoul_step;
 	// public static SoundEvent feral_ghoul_fall;
+	// public static SoundEvent feral_ghoul_step;
 	public static SoundEvent feral_ghoul_charge;
 	
 	public static SoundEvent wanderer;

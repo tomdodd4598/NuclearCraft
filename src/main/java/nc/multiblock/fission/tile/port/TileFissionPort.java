@@ -11,13 +11,13 @@ import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.TileFissionPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>> extends TileFissionPart implements IFissionPort<PORT, TARGET> {
+public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET>> extends TileFissionPart implements ITickable, IFissionPort<PORT, TARGET> {
 	
 	protected final Class<PORT> portClass;
 	protected BlockPos masterPortPos = DEFAULT_NON;
@@ -44,9 +44,6 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		
-		// TODO - temporary ports
-		/* if (!getWorld().isRemote && !DEFAULT_NON.equals(masterPortPos)) { PORT master = masterPort; clearMasterPort(); master.shiftStacks(this); } */
 	}
 	
 	@Override
@@ -65,7 +62,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	
 	@Override
 	public ObjectSet<TARGET> getTargets() {
-		return targets;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getTargets() : targets;
 	}
 	
 	@Override
@@ -98,7 +95,7 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 		refreshTargetsFlag = false;
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
-			for (TARGET part : targets) {
+			for (TARGET part : getTargets()) {
 				if (part.onPortRefresh()) {
 					refresh = true;
 				}
@@ -118,7 +115,6 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			if (refreshTargetsFlag) {
 				refreshTargets();

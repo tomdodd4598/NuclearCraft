@@ -1,15 +1,12 @@
 package nc.multiblock.fission.tile;
 
 import static nc.config.NCConfig.fission_max_size;
-import static nc.recipe.NCRecipes.fission_reflector;
 
 import javax.annotation.Nonnull;
 
 import nc.enumm.MetaEnums;
-import nc.multiblock.BlockFacing;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.block.BlockFissionSource;
 import nc.recipe.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,15 +59,11 @@ public abstract class TileFissionSource extends TileFissionPart {
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
@@ -87,26 +80,15 @@ public abstract class TileFissionSource extends TileFissionPart {
 		return new int[] {2, 3, 4, 5};
 	}
 	
-	@Override
-	public void onAdded() {
-		world.neighborChanged(pos, getBlockType(), pos);
-		super.onAdded();
-	}
+	/* @Override public void onLoad() { world.neighborChanged(pos, getBlockType(), pos); super.onLoad(); } */
 	
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasRedstonePowered = getIsRedstonePowered();
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		updateBlockState(getIsRedstonePowered());
+		setActivity(getIsRedstonePowered());
 		if (!world.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
 			getLogic().onSourceUpdated(this);
-		}
-	}
-	
-	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockFissionSource) {
-			((BlockFissionSource) getBlockType()).setState(isActive, this);
-			// world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	
@@ -121,7 +103,7 @@ public abstract class TileFissionSource extends TileFissionPart {
 		EnumFacing dir = facing.getOpposite();
 		for (int i = 1; i <= fission_max_size; i++) {
 			BlockPos offPos = pos.offset(dir, i);
-			ProcessorRecipe blockRecipe = RecipeHelper.blockRecipe(fission_reflector, world, offPos);
+			BasicRecipe blockRecipe = RecipeHelper.blockRecipe(NCRecipes.fission_reflector, world, offPos);
 			if (blockRecipe != null && blockRecipe.getFissionReflectorReflectivity() >= 1D) {
 				return null;
 			}

@@ -2,6 +2,7 @@ package nc.multiblock.fission.block;
 
 import static nc.block.property.BlockProperties.*;
 
+import nc.block.tile.IActivatable;
 import nc.item.ItemMultitool;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.tile.*;
@@ -15,7 +16,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFissionMonitor extends BlockFissionPart {
+public class BlockFissionMonitor extends BlockFissionPart implements IActivatable {
 	
 	public BlockFissionMonitor() {
 		super();
@@ -87,16 +88,5 @@ public class BlockFissionMonitor extends BlockFissionPart {
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockFissionMonitor) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

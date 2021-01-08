@@ -5,15 +5,15 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.*;
+import nc.integration.jei.JEIHelper.*;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class RadiationScrubberCategory extends JEICategoryProcessor<JEIRecipeWrapper.RadiationScrubber> {
+public class RadiationScrubberCategory extends JEIMachineCategory<JEIRecipeWrapper.RadiationScrubber> {
 	
 	public RadiationScrubberCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "radiation_scrubber", 31, 30, 130, 26);
-		recipeTitle = Lang.localise(Global.MOD_ID + ".radiation_scrubber.jei_name");
 	}
 	
 	@Override
@@ -28,5 +28,10 @@ public class RadiationScrubberCategory extends JEICategoryProcessor<JEIRecipeWra
 		fluidMapper.map(IngredientSorption.OUTPUT, 0, 1, 136 - backPosX, 31 - backPosY, 24, 24);
 		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
 		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
+	}
+	
+	@Override
+	public String getTitle() {
+		return Lang.localise(Global.MOD_ID + ".radiation_scrubber.jei_name");
 	}
 }

@@ -6,11 +6,11 @@ import java.util.*;
 
 import nc.ModCheck;
 import nc.init.NCBlocks;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class EnricherRecipes extends ProcessorRecipeHandler {
+public class EnricherRecipes extends BasicRecipeHandler {
 	
 	public EnricherRecipes() {
 		super("enricher", 1, 1, 0, 1);

@@ -7,9 +7,9 @@ import java.util.*;
 import com.google.common.collect.Lists;
 
 import nc.radiation.RadSources;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class FissionIrradiatorRecipes extends ProcessorRecipeHandler {
+public class FissionIrradiatorRecipes extends BasicRecipeHandler {
 	
 	public FissionIrradiatorRecipes() {
 		super("fission_irradiator", 1, 0, 1, 0);

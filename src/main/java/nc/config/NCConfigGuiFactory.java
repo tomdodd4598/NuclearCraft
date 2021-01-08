@@ -1,7 +1,5 @@
 package nc.config;
 
-import static nc.config.NCConfig.*;
-
 import java.util.*;
 
 import nc.Global;
@@ -27,8 +25,6 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 		return null;
 	}
 	
-	/* public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) { return null; } */
-	
 	public static class NCConfigGui extends GuiConfig {
 		
 		public NCConfigGui(GuiScreen parentScreen) {
@@ -37,22 +33,22 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 		
 		private static List<IConfigElement> getConfigElements() {
 			List<IConfigElement> list = new ArrayList<>();
-			list.add(categoryElement(CATEGORY_WORLD_GEN, CategoryEntryWorldGen.class));
-			list.add(categoryElement(CATEGORY_PROCESSOR, CategoryEntryProcessor.class));
-			list.add(categoryElement(CATEGORY_GENERATOR, CategoryEntryGenerator.class));
-			list.add(categoryElement(CATEGORY_ENERGY_STORAGE, CategoryEntryEnergyStorage.class));
-			list.add(categoryElement(CATEGORY_FISSION, CategoryEntryFission.class));
-			list.add(categoryElement(CATEGORY_FUSION, CategoryEntryFusion.class));
-			list.add(categoryElement(CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
-			list.add(categoryElement(CATEGORY_TURBINE, CategoryEntryTurbine.class));
-			list.add(categoryElement(CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
-			list.add(categoryElement(CATEGORY_QUANTUM, CategoryEntryQuantum.class));
-			list.add(categoryElement(CATEGORY_TOOL, CategoryEntryTool.class));
-			list.add(categoryElement(CATEGORY_ARMOR, CategoryEntryArmor.class));
-			list.add(categoryElement(CATEGORY_ENTITY, CategoryEntryEntity.class));
-			list.add(categoryElement(CATEGORY_RADIATION, CategoryEntryRadiation.class));
-			list.add(categoryElement(CATEGORY_REGISTRATION, CategoryEntryRegistration.class));
-			list.add(categoryElement(CATEGORY_MISC, CategoryEntryMisc.class));
+			list.add(categoryElement(NCConfig.CATEGORY_WORLD_GEN, CategoryEntryWorldGen.class));
+			list.add(categoryElement(NCConfig.CATEGORY_PROCESSOR, CategoryEntryProcessor.class));
+			list.add(categoryElement(NCConfig.CATEGORY_GENERATOR, CategoryEntryGenerator.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ENERGY_STORAGE, CategoryEntryEnergyStorage.class));
+			list.add(categoryElement(NCConfig.CATEGORY_FISSION, CategoryEntryFission.class));
+			list.add(categoryElement(NCConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
+			list.add(categoryElement(NCConfig.CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
+			list.add(categoryElement(NCConfig.CATEGORY_TURBINE, CategoryEntryTurbine.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
+			list.add(categoryElement(NCConfig.CATEGORY_QUANTUM, CategoryEntryQuantum.class));
+			list.add(categoryElement(NCConfig.CATEGORY_TOOL, CategoryEntryTool.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ARMOR, CategoryEntryArmor.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ENTITY, CategoryEntryEntity.class));
+			list.add(categoryElement(NCConfig.CATEGORY_RADIATION, CategoryEntryRadiation.class));
+			list.add(categoryElement(NCConfig.CATEGORY_REGISTRATION, CategoryEntryRegistration.class));
+			list.add(categoryElement(NCConfig.CATEGORY_MISC, CategoryEntryMisc.class));
 			return list;
 		}
 		
@@ -68,7 +64,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_WORLD_GEN, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_WORLD_GEN, owningScreen, configElement);
 			}
 		}
 		
@@ -80,7 +76,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_PROCESSOR, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_PROCESSOR, owningScreen, configElement);
 			}
 		}
 		
@@ -92,7 +88,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_GENERATOR, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_GENERATOR, owningScreen, configElement);
 			}
 		}
 		
@@ -104,7 +100,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_ENERGY_STORAGE, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_ENERGY_STORAGE, owningScreen, configElement);
 			}
 		}
 		
@@ -116,7 +112,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_FISSION, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_FISSION, owningScreen, configElement);
 			}
 		}
 		
@@ -128,7 +124,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_FUSION, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_FUSION, owningScreen, configElement);
 			}
 		}
 		
@@ -140,7 +136,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_HEAT_EXCHANGER, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_HEAT_EXCHANGER, owningScreen, configElement);
 			}
 		}
 		
@@ -152,7 +148,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_TURBINE, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_TURBINE, owningScreen, configElement);
 			}
 		}
 		
@@ -164,7 +160,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_ACCELERATOR, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_ACCELERATOR, owningScreen, configElement);
 			}
 		}
 		
@@ -176,7 +172,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_QUANTUM, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_QUANTUM, owningScreen, configElement);
 			}
 		}
 		
@@ -188,7 +184,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_TOOL, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_TOOL, owningScreen, configElement);
 			}
 		}
 		
@@ -200,7 +196,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_ARMOR, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_ARMOR, owningScreen, configElement);
 			}
 		}
 		
@@ -212,7 +208,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_ENTITY, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_ENTITY, owningScreen, configElement);
 			}
 		}
 		
@@ -224,7 +220,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_RADIATION, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_RADIATION, owningScreen, configElement);
 			}
 		}
 		
@@ -236,7 +232,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_REGISTRATION, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_REGISTRATION, owningScreen, configElement);
 			}
 		}
 		
@@ -248,7 +244,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(CATEGORY_MISC, owningScreen, configElement);
+				return buildChildScreen(NCConfig.CATEGORY_MISC, owningScreen, configElement);
 			}
 		}
 	}

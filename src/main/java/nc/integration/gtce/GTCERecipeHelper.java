@@ -1,5 +1,7 @@
 package nc.integration.gtce;
 
+import static nc.config.NCConfig.gtce_recipe_logging;
+
 import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,7 +10,6 @@ import gregtech.api.items.metaitem.MetaItem.MetaValueItem;
 import gregtech.api.recipes.*;
 import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
-import nc.config.NCConfig;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.util.*;
@@ -20,7 +21,7 @@ public class GTCERecipeHelper {
 	
 	// Thanks so much to Firew0lf for the original method!
 	@Optional.Method(modid = "gregtech")
-	public static void addGTCERecipe(String recipeName, ProcessorRecipe recipe) {
+	public static void addGTCERecipe(String recipeName, BasicRecipe recipe) {
 		RecipeMap<?> recipeMap = null;
 		RecipeBuilder<?> builder = null;
 		
@@ -35,10 +36,10 @@ public class GTCERecipeHelper {
 				break;
 			case "decay_hastener":
 				return;
-			case "fuel_reprocessor":
+			/*case "fuel_reprocessor":
 				recipeMap = RecipeMaps.CENTRIFUGE_RECIPES;
 				builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 60);
-				break;
+				break;*/
 			case "alloy_furnace":
 				recipeMap = RecipeMaps.ALLOY_SMELTER_RECIPES;
 				builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 10);
@@ -152,8 +153,8 @@ public class GTCERecipeHelper {
 		}
 		
 		List<RecipeBuilder<?>> builders = new ArrayList<>(); // Holds all the
-															 // recipe
-															 // variants
+																// recipe
+																// variants
 		builders.add(builder);
 		
 		for (IItemIngredient input : recipe.getItemIngredients()) {
@@ -164,9 +165,9 @@ public class GTCERecipeHelper {
 			}
 			else {
 				List<String> ingredientOreList = new ArrayList<>(); // Hold the
-																	 // different
-																	 // oreDict
-																	 // names
+																	// different
+																	// oreDict
+																	// names
 				List<RecipeBuilder<?>> newBuilders = new ArrayList<>();
 				for (ItemStack inputVariant : input.getInputStackList()) {
 					if (inputVariant.isEmpty()) {
@@ -175,7 +176,7 @@ public class GTCERecipeHelper {
 					Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
 					
 					if (!variantOreList.isEmpty()) { // This variant has oreDict
-													 // entries
+														// entries
 						if (ingredientOreList.containsAll(variantOreList)) {
 							continue;
 						}
@@ -243,13 +244,13 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		if (built && NCConfig.gtce_recipe_logging) {
+		if (built && gtce_recipe_logging) {
 			NCUtil.getLogger().info("Injected GTCE " + recipeMap.unlocalizedName + " recipe: " + RecipeHelper.getRecipeString(recipe));
 		}
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower, int processTime) {
+	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, BasicRecipe recipe, int processPower, int processTime) {
 		return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1)).duration((int) recipe.getBaseProcessTime(20D * processTime));
 	}
 	
@@ -324,12 +325,12 @@ public class GTCERecipeHelper {
 		return true;
 	}
 	
-	private static boolean isPlateRecipe(ProcessorRecipe recipe) {
+	private static boolean isPlateRecipe(BasicRecipe recipe) {
 		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		return output != null && OreDictHelper.hasOrePrefix(output, "plate", "plateDense");
 	}
 	
-	private static MetaValueItem getIngotFormerMold(ProcessorRecipe recipe) {
+	private static MetaValueItem getIngotFormerMold(BasicRecipe recipe) {
 		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		if (output != null) {
 			if (OreDictHelper.hasOrePrefix(output, "ingot")) {

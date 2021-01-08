@@ -1,8 +1,7 @@
 package nc.container.processor;
 
-import static nc.recipe.NCRecipes.alloy_furnace;
-
 import nc.container.slot.*;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerAlloyFurnace extends ContainerItemProcessor {
 	
 	public ContainerAlloyFurnace(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, alloy_furnace);
+		super(player, tileEntity, NCRecipes.alloy_furnace);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 35));
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 1, 66, 35));

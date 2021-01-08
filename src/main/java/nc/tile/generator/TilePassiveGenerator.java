@@ -4,8 +4,9 @@ import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.EnergyHelper;
+import net.minecraft.util.ITickable;
 
-public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable, IEnergySpread {
+public abstract class TilePassiveGenerator extends TileEnergy implements ITickable, IInterfaceable {
 	
 	public final int power;
 	
@@ -16,23 +17,21 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			getEnergyStorage().changeEnergyStored(getGenerated());
 			pushEnergy();
-			// spreadEnergy();
 		}
 	}
 	
 	public abstract int getGenerated();
 	
 	@Override
-	public int getEUSourceTier() {
-		return EnergyHelper.getEUTier(power);
+	public int getSinkTier() {
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
-		return 10;
+	public int getSourceTier() {
+		return EnergyHelper.getEUTier(power);
 	}
 }

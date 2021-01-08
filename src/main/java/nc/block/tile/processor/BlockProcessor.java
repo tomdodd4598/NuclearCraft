@@ -68,18 +68,6 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 	}
 	
 	@Override
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == type.getBlock()) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
-	}
-	
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (!state.getValue(ACTIVE)) {
@@ -87,6 +75,5 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 		}
 		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle1());
 		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle2());
-		BlockHelper.playSoundOnProcessor(world, pos, rand, type.getSound());
 	}
 }

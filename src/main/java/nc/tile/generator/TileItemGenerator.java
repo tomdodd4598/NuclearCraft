@@ -1,13 +1,13 @@
 package nc.tile.generator;
 
+import static nc.config.NCConfig.smart_processor_input;
+
 import java.util.*;
 
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.energy.*;
@@ -34,12 +34,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected final BasicRecipeHandler recipeHandler;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
+	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull BasicRecipeHandler recipeHandler) {
 		super(name, itemInSize + itemOutSize + otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
@@ -73,8 +73,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			if (!world.isRemote) {
 				refreshRecipe();
@@ -82,25 +82,6 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 				isProcessing = isProcessing();
 				hasConsumed = hasConsumed();
 			}
-		}
-	}
-	
-	@Override
-	public void update() {
-		super.update();
-		updateGenerator();
-	}
-	
-	public abstract void updateGenerator();
-	
-	public void updateBlockType() {
-		if (ModCheck.ic2Loaded()) {
-			removeTileFromENet();
-		}
-		setState(isProcessing, this);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		if (ModCheck.ic2Loaded()) {
-			addTileToENet();
 		}
 	}
 	
@@ -339,7 +320,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) {
 			return false;
 		}
-		return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+		return smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {

@@ -49,7 +49,7 @@ public class GuiFuelReprocessor extends GuiItemProcessor {
 			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 86, 0xFFC6C6C6, 0xFF8B8B8B);
 		}
 		
-		drawTexturedModalRect(guiLeft + 58, guiTop + 30, 176, 3, getCookProgressScaled(37), 38);
+		drawTexturedModalRect(guiLeft + 48, guiTop + 30, 176, 3, getCookProgressScaled(37), 38);
 		
 		drawUpgradeRenderers();
 		
@@ -100,13 +100,15 @@ public class GuiFuelReprocessor extends GuiItemProcessor {
 		
 		@Override
 		public void renderButtonTooltips(int mouseX, int mouseY) {
-			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 39, 40, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 95, 30, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 115, 30, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 135, 30, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 95, 50, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 115, 50, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 135, 50, 18, 18);
+			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 29, 40, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 85, 30, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 105, 30, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 125, 30, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 145, 30, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 85, 50, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 105, 50, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 125, 50, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 145, 50, 18, 18);
 			drawTooltip(TextFormatting.DARK_BLUE + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 131, 75, 18, 18);
 			drawTooltip(TextFormatting.YELLOW + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 151, 75, 18, 18);
 		}
@@ -119,15 +121,17 @@ public class GuiFuelReprocessor extends GuiItemProcessor {
 		
 		@Override
 		public void initButtons() {
-			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 39, guiTop + 40));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(1, guiLeft + 95, guiTop + 30));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(2, guiLeft + 115, guiTop + 30));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(3, guiLeft + 135, guiTop + 30));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(4, guiLeft + 95, guiTop + 50));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(5, guiLeft + 115, guiTop + 50));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(6, guiLeft + 135, guiTop + 50));
-			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(7, guiLeft + 131, guiTop + 75));
-			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(8, guiLeft + 151, guiTop + 75));
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 29, guiTop + 40));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(1, guiLeft + 85, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(2, guiLeft + 105, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(3, guiLeft + 125, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(4, guiLeft + 145, guiTop + 30));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(5, guiLeft + 85, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(6, guiLeft + 105, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(7, guiLeft + 125, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(8, guiLeft + 145, guiTop + 50));
+			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(9, guiLeft + 131, guiTop + 75));
+			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(10, guiLeft + 151, guiTop + 75));
 		}
 		
 		@Override
@@ -155,10 +159,16 @@ public class GuiFuelReprocessor extends GuiItemProcessor {
 					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 6));
 				}
 				else if (guiButton.id == 7) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 7));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 7));
 				}
 				else if (guiButton.id == 8) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 8));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 8));
+				}
+				else if (guiButton.id == 9) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 9));
+				}
+				else if (guiButton.id == 10) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 10));
 				}
 			}
 		}

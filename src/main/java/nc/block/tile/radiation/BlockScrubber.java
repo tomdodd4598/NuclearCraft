@@ -6,7 +6,7 @@ import nc.block.tile.BlockSimpleTile;
 import nc.enumm.BlockEnums.SimpleTileType;
 import nc.radiation.RadiationHelper;
 import nc.tile.radiation.TileRadiationScrubber;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -33,7 +33,7 @@ public class BlockScrubber extends BlockSimpleTile {
 				TileRadiationScrubber scrubber = (TileRadiationScrubber) tile;
 				scrubber.checkRadiationEnvironmentInfo();
 				double radRemoval = scrubber.getRawScrubberRate();
-				player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radRemoval, true)) + " [" + Math.abs(Math.round(100D * scrubber.getRadiationContributionFraction() / TileRadiationScrubber.getMaxScrubberFraction())) + "%]"));
+				player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radRemoval, true)) + " [" + NCMath.pcDecimalPlaces(Math.abs(scrubber.getRadiationContributionFraction() / TileRadiationScrubber.getMaxScrubberFraction()), 1) + "]"));
 			}
 			return true;
 		}

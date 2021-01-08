@@ -11,14 +11,17 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.multiblock.fission.tile.port.internal.PortItemHandler;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.*;
-import nc.util.NBTHelper;
+import nc.util.*;
 import net.minecraft.client.util.RecipeItemHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
+import net.minecraft.util.text.*;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.*;
 
@@ -33,12 +36,21 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	public int inventoryStackLimit = 64;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public TileFissionItemPort(Class<PORT> portClass, String type, ProcessorRecipeHandler recipeHandler) {
+	public TileFissionItemPort(Class<PORT> portClass, String type, BasicRecipeHandler recipeHandler) {
 		super(portClass);
 		inventoryName = Global.MOD_ID + ".container.fission_" + type + "_port";
 		this.recipeHandler = recipeHandler;
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		EnumFacing facing = getPartPosition().getFacing();
+		if (!world.isRemote && facing != null && !getStackInSlot(1).isEmpty() && getItemSorption(facing, 1).canExtract()) {
+			pushStacksToSide(facing);
+		}
 	}
 	
 	@Override
@@ -66,7 +78,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -123,8 +134,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 			}
 		}
 	}
-	
-	/* @Override public void markDirty() { super.markDirty(); } */
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
@@ -185,6 +194,43 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public void setItemOutputSetting(int slot, ItemOutputSetting setting) {}
+	
+	@Override
+	public boolean hasConfigurableInventoryConnections() {
+		return true;
+	}
+	
+	// IMultitoolLogic
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (player.isSneaking()) {
+			
+		}
+		else {
+			if (getMultiblock() != null) {
+				if (getItemSorption(facing, 0) != ItemSorption.IN) {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setItemSorption(side, 0, ItemSorption.IN);
+						setItemSorption(side, 1, ItemSorption.NON);
+					}
+					setActivity(false);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.BLUE + Lang.localise("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				else {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setItemSorption(side, 0, ItemSorption.NON);
+						setItemSorption(side, 1, ItemSorption.OUT);
+					}
+					setActivity(true);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				markDirtyAndNotify(true);
+				return true;
+			}
+		}
+		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+	}
 	
 	// NBT
 	
@@ -262,7 +308,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
-		ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
+		// ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(this, side));
 	}
 }

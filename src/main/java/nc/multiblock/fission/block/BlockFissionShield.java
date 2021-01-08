@@ -2,6 +2,7 @@ package nc.multiblock.fission.block;
 
 import static nc.block.property.BlockProperties.ACTIVE;
 
+import nc.block.tile.IActivatable;
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionShield;
 import net.minecraft.block.Block;
@@ -16,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronShieldType> {
+public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronShieldType> implements IActivatable {
 	
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronShieldType.class);
 	
@@ -72,15 +73,6 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockFissionShield && isActive != state.getValue(ACTIVE)) {
-			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-		}
 	}
 	
 	// Rendering

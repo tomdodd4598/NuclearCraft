@@ -11,7 +11,7 @@ import nc.tile.radiation.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.IStringSerializable;
 
 public class BlockEnums {
 	
@@ -155,11 +155,6 @@ public class BlockEnums {
 			}
 		}
 		
-		@SuppressWarnings("static-method")
-		public SoundEvent getSound() {
-			return null;
-		}
-		
 		public String getParticle1() {
 			return particle1;
 		}
@@ -264,7 +259,7 @@ public class BlockEnums {
 	}
 	
 	public enum ActivatableTileType implements IStringSerializable {
-		/* FUSION_ELECTROMAGNET("fusion_electromagnet", NCTabs.FUSION), FUSION_ELECTROMAGNET_TRANSPARENT("fusion_electromagnet_transparent", NCTabs.FUSION), ACCELERATOR_ELECTROMAGNET("accelerator_electromagnet", NCTabs.ACCELERATOR), ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", NCTabs.ACCELERATOR) */;
+		;
 		
 		private final String name;
 		private final CreativeTabs tab;
@@ -281,7 +276,6 @@ public class BlockEnums {
 		
 		public TileEntity getTile() {
 			switch (this) {
-				/* case FUSION_ELECTROMAGNET: return new TilePassive.FusionElectromagnet(); case FUSION_ELECTROMAGNET_TRANSPARENT: return new TilePassive.FusionElectromagnet(); case ACCELERATOR_ELECTROMAGNET: return new TilePassive.AcceleratorElectromagnet(); case ELECTROMAGNET_SUPERCOOLER: return new TilePassive.ElectromagnetSupercooler(); */
 				default:
 					return null;
 			}
@@ -293,9 +287,8 @@ public class BlockEnums {
 		
 		public Block getBlock() {
 			switch (this) {
-				/* case FUSION_ELECTROMAGNET: return NCBlocks.fusion_electromagnet; case FUSION_ELECTROMAGNET_TRANSPARENT: return NCBlocks.fusion_electromagnet_transparent; case ACCELERATOR_ELECTROMAGNET: return NCBlocks.accelerator_electromagnet; case ELECTROMAGNET_SUPERCOOLER: return NCBlocks.electromagnet_supercooler; */
 				default:
-					return /* NCBlocks.fusion_electromagnet */ null;
+					return null;
 			}
 		}
 	}

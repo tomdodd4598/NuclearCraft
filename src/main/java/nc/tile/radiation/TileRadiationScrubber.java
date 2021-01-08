@@ -1,19 +1,17 @@
 package nc.tile.radiation;
 
 import static nc.config.NCConfig.*;
-import static nc.recipe.NCRecipes.*;
 
-import java.util.*;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.radiation.RadiationHelper;
 import nc.radiation.environment.*;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.*;
 import nc.tile.generator.TileItemFluidGenerator;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.*;
@@ -33,25 +31,13 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	private int radCheckCount = 0;
 	
 	public TileRadiationScrubber() {
-		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), radiation_scrubber_valid_fluids, maxPower(), radiation_scrubber);
+		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.radiation_scrubber_valid_fluids, NCMath.toInt(20 * RecipeStats.getScrubberMaxProcessPower()), NCRecipes.radiation_scrubber);
 		setEnergyConnectionAll(EnergyConnection.IN);
 	}
 	
-	private static int maxPower() {
-		int max = 0;
-		List<ProcessorRecipe> recipes = radiation_scrubber.getRecipeList();
-		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null) {
-				continue;
-			}
-			max = Math.max(max, recipe.getScrubberProcessPower());
-		}
-		return 20 * max;
-	}
-	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			for (int x = -radiation_scrubber_radius; x <= radiation_scrubber_radius; x++) {
 				for (int y = -radiation_scrubber_radius; y <= radiation_scrubber_radius; y++) {
@@ -65,7 +51,6 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	
 	@Override
 	public void update() {
-		super.update();
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing, shouldUpdate = false;
 			isProcessing = isProcessing();
@@ -75,7 +60,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 			
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
-				updateBlockType();
+				setActivity(isProcessing);
 			}
 			
 			tickRadCount();
@@ -88,9 +73,6 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 			}
 		}
 	}
-	
-	@Override
-	public void updateGenerator() {}
 	
 	@Override
 	public boolean setRecipeStats() {
@@ -164,13 +146,13 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	// IC2 Tiers
 	
 	@Override
-	public int getEUSourceTier() {
-		return 1;
+	public int getSinkTier() {
+		return 10;
 	}
 	
 	@Override
-	public int getEUSinkTier() {
-		return 10;
+	public int getSourceTier() {
+		return 1;
 	}
 	
 	// IRadiationEnvironmentHandler
@@ -202,7 +184,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	@Override
 	public void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info) {
 		FourPos fourPos = getFourPos(), infoPos = info.pos;
-		if (fourPos.getDimension() == infoPos.getDimension() && !fourPos.equals(infoPos) && !info.tileMap.isEmpty() /* && isOcclusive ( fourPos . getBlockPos ( ) , world, infoPos . getBlockPos ( ) ) */) {
+		if (fourPos.getDimension() == infoPos.getDimension() && !fourPos.equals(infoPos) && !info.tileMap.isEmpty() /* && isOcclusive(fourPos.getBlockPos(), world, infoPos.getBlockPos()) */) {
 			occlusionMap.put(infoPos.getBlockPos(), Math.max(1, info.tileMap.size()));
 		}
 	}
@@ -246,6 +228,11 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	private static boolean isOcclusive(BlockPos pos, World world, BlockPos otherPos) {
 		IBlockState state = world.getBlockState(otherPos);
 		return pos.distanceSq(otherPos) < NCMath.sq(radiation_scrubber_radius) && !MaterialHelper.isEmpty(state.getMaterial()) && (state.isOpaqueCube() || !state.getMaterial().isOpaque());
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 	
 	@Override

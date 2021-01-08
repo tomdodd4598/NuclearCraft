@@ -1,11 +1,12 @@
 package nc.multiblock.fission.block.port;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.block.property.BlockProperties.*;
 
 import nc.NuclearCraft;
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.fission.tile.port.TileFissionHeaterPort;
+import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +25,12 @@ public class BlockFissionHeaterPort extends BlockFissionFluidMetaPort<TileFissio
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, TYPE, AXIS_ALL);
+		return new BlockStateContainer(this, TYPE, AXIS_ALL, ACTIVE);
+	}
+	
+	@Override
+	public boolean getActualStateActive(TileFissionHeaterPort port) {
+		return port.getTankSorption(EnumFacing.DOWN, 0) != TankSorption.IN;
 	}
 	
 	@Override

@@ -5,16 +5,16 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
 import nc.integration.jei.*;
-import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIHelper.RecipeFluidMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
-public class HeatExchangerCategory extends JEICategoryProcessor<JEIRecipeWrapper.HeatExchanger> {
+public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipeWrapper.HeatExchanger> {
 	
 	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "heat_exchanger", 47, 30, 90, 26);
-		recipeTitle = Lang.localise(Global.MOD_ID + ".multiblock_gui.heat_exchanger.jei_name");
+		super(guiHelper, handler, "heat_exchanger_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
@@ -39,4 +39,9 @@ public class HeatExchangerCategory extends JEICategoryProcessor<JEIRecipeWrapper
 	}
 	
 	private static final String TEMPERATURE = Lang.localise("jei.nuclearcraft.exchanger_fluid_temp");
+	
+	@Override
+	public String getTitle() {
+		return Lang.localise(Global.MOD_ID + ".multiblock_gui.heat_exchanger.jei_name");
+	}
 }

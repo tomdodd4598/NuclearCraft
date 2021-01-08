@@ -5,9 +5,9 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class SaltMixerRecipes extends ProcessorRecipeHandler {
+public class SaltMixerRecipes extends BasicRecipeHandler {
 	
 	public SaltMixerRecipes() {
 		super("salt_mixer", 0, 2, 0, 1);
@@ -18,8 +18,8 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("lif", INGOT_VOLUME), fluidStack("bef2", INGOT_VOLUME / 2), fluidStack("flibe", INGOT_VOLUME / 2), 0.5D, 1D);
 		addRecipe(fluidStack("sodium", INGOT_VOLUME / 2), fluidStack("potassium", INGOT_VOLUME * 2), fluidStack("nak", INGOT_VOLUME), 1D, 1D);
 		
-		addRecipe(fluidStack("boron11", INGOT_VOLUME), fluidStack("boron10", NUGGET_VOLUME * 3), fluidStack("boron", NUGGET_VOLUME * 12), 4D / 3D, 1D);
-		addRecipe(fluidStack("lithium7", INGOT_VOLUME), fluidStack("lithium6", NUGGET_VOLUME), fluidStack("lithium", NUGGET_VOLUME * 10), 10D / 9D, 1D);
+		addRecipe(fluidStack("boron_11", INGOT_VOLUME), fluidStack("boron_10", NUGGET_VOLUME * 3), fluidStack("boron", NUGGET_VOLUME * 12), 4D / 3D, 1D);
+		addRecipe(fluidStack("lithium_7", INGOT_VOLUME), fluidStack("lithium_6", NUGGET_VOLUME), fluidStack("lithium", NUGGET_VOLUME * 10), 10D / 9D, 1D);
 		
 		addRecipe(fluidStack("steel", INGOT_VOLUME / 2), fluidStack("boron", INGOT_VOLUME / 2), fluidStack("ferroboron", INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("ferroboron", INGOT_VOLUME / 2), fluidStack("lithium", INGOT_VOLUME / 2), fluidStack("tough", INGOT_VOLUME), 1D, 1D);
@@ -72,7 +72,7 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addCoolantNAKRecipe("enderium", INGOT_VOLUME);
 		addCoolantNAKRecipe("cryotheum", EUM_DUST_VOLUME);
 		
-		/* ========================================= Fission Materials ========================================= */
+		// Fission Materials
 		
 		// addRecipe(fluidStack("uranium_238", INGOT_VOLUME), fluidStack("uranium_235", NUGGET_VOLUME), fluidStack("uranium", NUGGET_VOLUME*10), 10D/9D, 1D);
 		

@@ -1,6 +1,7 @@
 package nc.multiblock.heatExchanger.block;
 
 import nc.block.property.*;
+import nc.block.tile.IDynamicState;
 import nc.item.ItemMultitool;
 import nc.multiblock.heatExchanger.*;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
@@ -16,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.*;
 
-public class BlockCondenserTube extends BlockHeatExchangerPart implements ISidedProperty<HeatExchangerTubeSetting> {
+public class BlockCondenserTube extends BlockHeatExchangerPart implements IDynamicState, ISidedProperty<HeatExchangerTubeSetting> {
 	
 	private static EnumFacing placementSide = null;
 	
@@ -122,7 +123,7 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements ISided
 			TileCondenserTube other = (TileCondenserTube) otherTile;
 			tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			tube.setTubeSettings(other.getTubeSettings().clone());
-			tube.markDirtyAndNotify();
+			tube.markDirtyAndNotify(true);
 		}
 	}
 }

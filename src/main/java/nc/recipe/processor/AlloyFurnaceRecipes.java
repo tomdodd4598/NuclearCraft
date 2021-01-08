@@ -7,12 +7,12 @@ import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.OreIngredient;
 import nc.util.OreDictHelper;
 import net.minecraft.init.*;
 
-public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
+public class AlloyFurnaceRecipes extends BasicRecipeHandler {
 	
 	public AlloyFurnaceRecipes() {
 		super("alloy_furnace", 2, 0, 1, 0);
@@ -43,6 +43,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Zirconium", 7, "Tin", 1, "Zircaloy", 8, 4D, 1D);
 		addRecipe(SILICON, metalList("Graphite"), oreStack("ingotSiliconCarbide", 2), 2D, 2D);
 		addAlloyIngotIngotRecipes("Iron", 15, "CarbonManganese", 1, "HSLASteel", 16, 8D, 2D);
+		addAlloyIngotIngotRecipes("Zirconium", 1, "Molybdenum", 15, "ZirconiumMolybdenum", 16, 8D, 2D);
 		
 		// Tinkers' Construct
 		addAlloyIngotIngotRecipes("Aluminum", 3, "Copper", 1, "AluminumBrass", 4, 1D, 1D);

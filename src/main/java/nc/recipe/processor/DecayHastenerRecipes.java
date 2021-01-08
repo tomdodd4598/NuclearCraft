@@ -4,13 +4,13 @@ import static nc.config.NCConfig.processor_time;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.radiation.RadSources;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.*;
 import nc.util.*;
 
-public class DecayHastenerRecipes extends ProcessorRecipeHandler {
+public class DecayHastenerRecipes extends BasicRecipeHandler {
 	
 	public DecayHastenerRecipes() {
 		super("decay_hastener", 1, 0, 1, 0);
@@ -26,6 +26,12 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		
 		addDecayRecipes("TBP", "TBU", RadSources.TBP);
 		addDecayRecipes("Protactinium233", "Uranium233", RadSources.PROTACTINIUM_233);
+		
+		addDecayRecipes("Strontium90", "Zirconium", RadSources.STRONTIUM_90);
+		addDecayRecipes("Ruthenium106", "Palladium", RadSources.RUTHENIUM_106);
+		addDecayRecipes("Caesium137", "Barium", RadSources.CAESIUM_137);
+		addDecayRecipes("Promethium147", "Neodymium", RadSources.PROMETHIUM_147);
+		addDecayRecipes("Europium155", "Gadolinium", RadSources.EUROPIUM_155);
 		
 		addDecayRecipes("Uranium233", "Bismuth", RadSources.URANIUM_233);
 		addDecayRecipes("Uranium235", "Lead", RadSources.URANIUM_235);
@@ -57,12 +63,12 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Californium252", "Thorium", RadSources.CALIFORNIUM_252);
 	}
 	
-	private static final List<String> DUSTS = Lists.newArrayList("Lead", "Bismuth", "Radium", "Polonium", "Thorium", "TBP");
+	private static final Set<String> NON_FISSION = Sets.newHashSet("Thorium", "Lead", "Bismuth", "Thallium", "Radium", "Polonium", "TBP", "Zirconium", "Palladium", "Barium", "Neodymium", "Gadolinium");
 	
 	public void addDecayRecipes(String input, String output, double radiation) {
 		String inputName = (OreDictHelper.oreExists("ingot" + input) ? "ingot" : "dust") + input;
-		double timeMult = NCMath.roundTo(Z * (radiation >= 1D ? F / Math.log1p(Math.log1p(radiation)) : Math.log1p(Math.log1p(1D / radiation)) / F), 5D / processor_time[2]);
-		if (DUSTS.contains(output)) {
+		double timeMult = NCMath.roundTo(RecipeHelper.getDecayTimeMultiplier(1E-6D, radiation, 3.16E-7D), 5D / processor_time[2]);
+		if (NON_FISSION.contains(output)) {
 			addRecipe(Lists.newArrayList(inputName, inputName + "Oxide", inputName + "Nitride"), "dust" + output, timeMult, 1D, radiation);
 		}
 		else {
@@ -71,8 +77,6 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 			}
 		}
 	}
-	
-	private static final double F = Math.log1p(Math.log(2D)), Z = 0.1674477985420331D;
 	
 	@Override
 	public List fixExtras(List extras) {

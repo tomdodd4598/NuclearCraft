@@ -6,8 +6,10 @@ import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
+import nc.multiblock.tile.port.ITilePort;
 import nc.tile.ITile;
 import nc.tile.internal.inventory.*;
+import nc.tile.processor.IProcessor;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
@@ -157,8 +159,6 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 		return getInventoryConnections()[side.getIndex()];
 	}
 	
-	/* public default void setInventoryConnection(@Nonnull EnumFacing side, @Nonnull InventoryConnection connection) { getInventoryConnections()[side.getIndex()] = connection.copy(); } */
-	
 	public default @Nonnull ItemSorption getItemSorption(@Nonnull EnumFacing side, int slotNumber) {
 		return getInventoryConnections()[side.getIndex()].getItemSorption(slotNumber);
 	}
@@ -172,7 +172,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 			return;
 		}
 		getInventoryConnection(side).toggleItemSorption(slotNumber, type, reverse);
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 	}
 	
 	public default boolean canConnectInventory(@Nonnull EnumFacing side) {
@@ -204,28 +204,53 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 	}
 	
 	public default void pushStacksToSide(@Nonnull EnumFacing side) {
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjInv == null || adjInv.getSlots() < 1) {
+		if (!getInventoryConnection(side).canConnect()) {
 			return;
 		}
 		
-		for (int i = 0; i < getInventoryStacks().size(); i++) {
-			if (getInventoryStacks().get(i).isEmpty()) {
-				continue;
+		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		if (tile == null) {
+			return;
+		}
+		
+		/* if (ModCheck.mekanismLoaded() && tile.hasCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite())) { ILogisticalTransporter lt = tile.getCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite()); } */
+		
+		if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite())) {
+			IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+			if (adjInv == null || adjInv.getSlots() < 1) {
+				return;
 			}
 			
-			ItemStack initialStack = getInventoryStacks().get(i).copy();
-			ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
+			boolean pushed = false;
 			
-			if (inserted.getCount() >= initialStack.getCount()) {
-				continue;
+			for (int i = 0; i < getInventoryStacks().size(); i++) {
+				if (!getItemSorption(side, i).canExtract() || getInventoryStacks().get(i).isEmpty()) {
+					continue;
+				}
+				
+				ItemStack initialStack = getInventoryStacks().get(i).copy();
+				ItemStack remaining = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
+				
+				if (remaining.getCount() >= initialStack.getCount()) {
+					continue;
+				}
+				
+				pushed = true;
+				
+				getInventoryStacks().get(i).shrink(initialStack.getCount() - remaining.getCount());
+				
+				if (getInventoryStacks().get(i).getCount() <= 0) {
+					getInventoryStacks().set(i, ItemStack.EMPTY);
+				}
 			}
 			
-			getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
-			
-			if (getInventoryStacks().get(i).getCount() <= 0) {
-				getInventoryStacks().set(i, ItemStack.EMPTY);
+			if (pushed) {
+				if (this instanceof IProcessor) {
+					((IProcessor) this).refreshActivity();
+				}
+				if (this instanceof ITilePort) {
+					((ITilePort) this).setRefreshTargetsFlag(true);
+				}
 			}
 		}
 	}

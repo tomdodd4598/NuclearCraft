@@ -12,7 +12,7 @@ import net.minecraftforge.items.*;
 
 public class NCInventoryHelper {
 	
-	private static final Random RANDOM = new Random();
+	private static final Random RAND = new Random();
 	
 	public static void dropInventoryItems(World world, BlockPos pos, IInventory inventory, int... slots) {
 		dropInventoryItems(world, pos.getX(), pos.getY(), pos.getZ(), inventory, slots);
@@ -59,20 +59,21 @@ public class NCInventoryHelper {
 	}
 	
 	private static void spawnItemStack(World world, double x, double y, double z, ItemStack stack) {
-		float fx = RANDOM.nextFloat() * 0.8F + 0.1F;
-		float fy = RANDOM.nextFloat() * 0.8F + 0.1F;
-		float fz = RANDOM.nextFloat() * 0.8F + 0.1F;
+		float fx = RAND.nextFloat() * 0.8F + 0.1F;
+		float fy = RAND.nextFloat() * 0.8F + 0.1F;
+		float fz = RAND.nextFloat() * 0.8F + 0.1F;
 		
 		while (!stack.isEmpty()) {
-			int split = RANDOM.nextInt(21) + 10;
+			int split = RAND.nextInt(21) + 10;
 			EntityItem entityitem = new EntityItem(world, x + fx, y + fy, z + fz, stack.splitStack(split));
-			entityitem.motionX = RANDOM.nextGaussian() * 0.05D;
-			entityitem.motionY = RANDOM.nextGaussian() * 0.05D + 0.2D;
-			entityitem.motionZ = RANDOM.nextGaussian() * 0.05D;
+			entityitem.motionX = RAND.nextGaussian() * 0.05D;
+			entityitem.motionY = RAND.nextGaussian() * 0.05D + 0.2D;
+			entityitem.motionZ = RAND.nextGaussian() * 0.05D;
 			world.spawnEntity(entityitem);
 		}
 	}
 	
+	/** Returns the stack remaining after insertion */
 	public static ItemStack addStackToInventory(IItemHandler inv, ItemStack stack) {
 		if (stack.isEmpty()) {
 			return ItemStack.EMPTY;

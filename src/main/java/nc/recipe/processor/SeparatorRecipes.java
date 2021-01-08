@@ -6,9 +6,9 @@ import java.util.*;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class SeparatorRecipes extends ProcessorRecipeHandler {
+public class SeparatorRecipes extends BasicRecipeHandler {
 	
 	public SeparatorRecipes() {
 		super("separator", 1, 0, 2, 0);

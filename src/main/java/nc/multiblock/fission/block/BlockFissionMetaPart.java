@@ -1,6 +1,7 @@
 package nc.multiblock.fission.block;
 
-import nc.config.NCConfig;
+import static nc.config.NCConfig.fission_heat_damage;
+
 import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.block.BlockMultiblockMetaPart;
 import nc.tab.NCTabs;
@@ -21,7 +22,7 @@ public abstract class BlockFissionMetaPart<T extends Enum<T> & IStringSerializab
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return NCConfig.fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
+		return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
 	}
 	
 	@Override

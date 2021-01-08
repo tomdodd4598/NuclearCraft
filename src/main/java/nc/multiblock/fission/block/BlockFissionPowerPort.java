@@ -1,7 +1,8 @@
 package nc.multiblock.fission.block;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
+import static nc.block.property.BlockProperties.*;
 
+import nc.block.tile.IActivatable;
 import nc.multiblock.fission.tile.TileFissionPowerPort;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
@@ -12,26 +13,31 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFissionPowerPort extends BlockFissionPart {
+public class BlockFissionPowerPort extends BlockFissionPart implements IActivatable {
 	
 	public BlockFissionPowerPort() {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING_ALL);
+		return new BlockStateContainer(this, FACING_ALL, ACTIVE);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(FACING_ALL, EnumFacing.byIndex(meta));
+		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING_ALL).getIndex();
+		int i = state.getValue(FACING_ALL).getIndex();
+		if (state.getValue(ACTIVE).booleanValue()) {
+			i |= 8;
+		}
+		return i;
 	}
 	
 	@Override
@@ -41,7 +47,7 @@ public class BlockFissionPowerPort extends BlockFissionPart {
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer));
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override

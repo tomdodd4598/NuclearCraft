@@ -2,9 +2,8 @@ package nc.multiblock.fission.salt.tile;
 
 import static nc.config.NCConfig.enable_mek_gas;
 import static nc.init.NCCoolantFluids.COOLANTS;
-import static nc.recipe.NCRecipes.coolant_heater;
-import static nc.util.PosHelper.DEFAULT_NON;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
+import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
 
@@ -19,7 +18,6 @@ import nc.ModCheck;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
-import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.port.*;
@@ -30,7 +28,7 @@ import nc.tile.ITileGui;
 import nc.tile.fluid.*;
 import nc.tile.internal.fluid.*;
 import nc.tile.processor.IFluidProcessor;
-import nc.util.GasHelper;
+import nc.util.CapabilityHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +36,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public abstract class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidProcessor, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
+public class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidProcessor, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
 	
 	protected final @Nonnull List<Tank> tanks;
 	protected final @Nonnull List<Tank> filterTanks;
@@ -48,8 +46,6 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	protected @Nonnull FluidTileWrapper[] fluidSides;
 	
 	protected @Nonnull GasTileWrapper gasWrapper;
-	
-	protected @Nonnull SaltFissionHeaterSetting[] heaterSettings = new SaltFissionHeaterSetting[] {SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED};
 	
 	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
@@ -61,7 +57,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public double time;
 	public boolean isProcessing, canProcessInputs;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected final Set<EntityPlayer> playersToUpdate;
 	
@@ -327,15 +323,11 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(),
-		// getWorld().getBlockState(getPos()), 2);
 	}
 	
 	// IFissionComponent
@@ -413,7 +405,9 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	}
 	
 	@Override
-	public void onClusterMeltdown() {}
+	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator) {
+		
+	}
 	
 	@Override
 	public boolean isNullifyingSources(EnumFacing side) {
@@ -473,8 +467,8 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	// Ticking
 	
 	@Override
-	public void onAdded() {
-		super.onAdded();
+	public void onLoad() {
+		super.onLoad();
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
@@ -484,11 +478,6 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public void update() {
-		super.update();
-		updateHeater();
-	}
-	
-	public void updateHeater() {
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true, true);
@@ -502,9 +491,6 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 				getRadiationSource().setRadiationLevel(0D);
 			}
 			
-			// tickHeater();
-			// if (heaterCount == 0) pushFluid();
-			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
@@ -516,11 +502,9 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		}
 	}
 	
-	/* public void tickHeater() { heaterCount++; heaterCount %= machine_update_rate / 2; } */
-	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = coolant_heater.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
+		recipeInfo = NCRecipes.coolant_heater.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
 	}
 	
 	@Override
@@ -704,72 +688,6 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getGasWrapper() : gasWrapper;
 	}
 	
-	public @Nonnull SaltFissionHeaterSetting[] getHeaterSettings() {
-		return heaterSettings;
-	}
-	
-	public void setHeaterSettings(@Nonnull SaltFissionHeaterSetting[] settings) {
-		heaterSettings = settings;
-	}
-	
-	public SaltFissionHeaterSetting getHeaterSetting(@Nonnull EnumFacing side) {
-		return heaterSettings[side.getIndex()];
-	}
-	
-	public void setHeaterSetting(@Nonnull EnumFacing side, @Nonnull SaltFissionHeaterSetting setting) {
-		heaterSettings[side.getIndex()] = setting;
-	}
-	
-	public void toggleHeaterSetting(@Nonnull EnumFacing side) {
-		setHeaterSetting(side, getHeaterSetting(side).next());
-		refreshFluidConnections(side);
-		markDirtyAndNotify();
-	}
-	
-	public void refreshFluidConnections(@Nonnull EnumFacing side) {
-		switch (getHeaterSetting(side)) {
-			case DISABLED:
-				setTankSorption(side, 0, TankSorption.NON);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-			case DEFAULT:
-				setTankSorption(side, 0, TankSorption.IN);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-			case HOT_COOLANT_OUT:
-				setTankSorption(side, 0, TankSorption.NON);
-				setTankSorption(side, 1, TankSorption.OUT);
-				break;
-			case COOLANT_SPREAD:
-				setTankSorption(side, 0, TankSorption.OUT);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-			default:
-				setTankSorption(side, 0, TankSorption.NON);
-				setTankSorption(side, 1, TankSorption.NON);
-				break;
-		}
-	}
-	
-	// TODO
-	@Override
-	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		/* SaltFissionHeaterSetting thisSetting = getHeaterSetting(side); if (thisSetting == SaltFissionHeaterSetting.DISABLED) return;
-		 * 
-		 * TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		 * 
-		 * if (tile instanceof TileSaltFissionHeater) { TileSaltFissionHeater heater = (TileSaltFissionHeater)tile; SaltFissionHeaterSetting heaterSetting = heater.getHeaterSetting(side.getOpposite());
-		 * 
-		 * if (thisSetting == SaltFissionHeaterSetting.COOLANT_SPREAD) { if (heaterSetting == SaltFissionHeaterSetting.DEFAULT) { pushCoolant(heater); pushHotCoolant(heater); } else if (heaterSetting == SaltFissionHeaterSetting.HOT_COOLANT_OUT) { pushCoolant(heater); } } else if (thisSetting == SaltFissionHeaterSetting.HOT_COOLANT_OUT && (heaterSetting == SaltFissionHeaterSetting.DEFAULT || heaterSetting == SaltFissionHeaterSetting.COOLANT_SPREAD)) { pushHotCoolant(heater); } }
-		 * 
-		 * else if (thisSetting == SaltFissionHeaterSetting.HOT_COOLANT_OUT) { if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return; IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-		 * 
-		 * if (adjStorage == null) return;
-		 * 
-		 * for (int i = 0; i < getTanks().size(); i++) { if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
-		 * 
-		 * getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain( getTanks().get(i).getCapacity(), false), true), true); } } */}
-		
 	public void pushCoolant(TileSaltFissionHeater other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 		if (diff > 1) {
@@ -829,7 +747,6 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public void onFilterChanged(int slot) {
-		/* if (!canModifyFilter(slot)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -875,65 +792,12 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	// NBT
 	
-	public NBTTagCompound writeHeaterSettings(NBTTagCompound nbt) {
-		NBTTagCompound settingsTag = new NBTTagCompound();
-		for (EnumFacing side : EnumFacing.VALUES) {
-			settingsTag.setInteger("setting" + side.getIndex(), getHeaterSetting(side).ordinal());
-		}
-		nbt.setTag("heaterSettings", settingsTag);
-		return nbt;
-	}
-	
-	public void readHeaterSettings(NBTTagCompound nbt) {
-		if (nbt.hasKey("fluidConnections0")) {
-			for (EnumFacing side : EnumFacing.VALUES) {
-				TankSorption sorption = TankSorption.values()[nbt.getInteger("fluidConnections" + side.getIndex())];
-				switch (sorption) {
-					case NON:
-						setTankSorption(side, 0, TankSorption.NON);
-						setTankSorption(side, 1, TankSorption.NON);
-						setHeaterSetting(side, SaltFissionHeaterSetting.DISABLED);
-						break;
-					case BOTH:
-						setTankSorption(side, 0, TankSorption.IN);
-						setTankSorption(side, 1, TankSorption.NON);
-						setHeaterSetting(side, SaltFissionHeaterSetting.DEFAULT);
-						break;
-					case IN:
-						setTankSorption(side, 0, TankSorption.NON);
-						setTankSorption(side, 1, TankSorption.OUT);
-						setHeaterSetting(side, SaltFissionHeaterSetting.HOT_COOLANT_OUT);
-						break;
-					case OUT:
-						setTankSorption(side, 0, TankSorption.OUT);
-						setTankSorption(side, 1, TankSorption.NON);
-						setHeaterSetting(side, SaltFissionHeaterSetting.COOLANT_SPREAD);
-						break;
-					default:
-						setTankSorption(side, 0, TankSorption.NON);
-						setTankSorption(side, 1, TankSorption.NON);
-						setHeaterSetting(side, SaltFissionHeaterSetting.DISABLED);
-						break;
-				}
-			}
-		}
-		else {
-			NBTTagCompound settingsTag = nbt.getCompoundTag("heaterSettings");
-			for (EnumFacing side : EnumFacing.VALUES) {
-				setHeaterSetting(side, SaltFissionHeaterSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
-				refreshFluidConnections(side);
-			}
-		}
-	}
-	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("heaterName", heaterName);
 		nbt.setString("coolantName", coolantName);
-		
 		writeTanks(nbt);
-		writeHeaterSettings(nbt);
 		
 		nbt.setInteger("baseProcessCooling", baseProcessCooling);
 		nbt.setDouble("heatingSpeedMultiplier", heatingSpeedMultiplier);
@@ -950,15 +814,14 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("heaterName")) heaterName = nbt.getString("heaterName");
+		if (nbt.hasKey("heaterName"))
+			heaterName = nbt.getString("heaterName");
 		if (nbt.hasKey("coolantName")) {
 			coolantName = nbt.getString("coolantName");
 			tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 			filterTanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 		}
-		
 		readTanks(nbt);
-		readHeaterSettings(nbt);
 		
 		baseProcessCooling = nbt.getInteger("baseProcessCooling");
 		heatingSpeedMultiplier = nbt.getDouble("heatingSpeedMultiplier");
@@ -996,7 +859,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -1010,7 +873,7 @@ public abstract class TileSaltFissionHeater extends TileFissionPart implements I
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

@@ -466,11 +466,11 @@ public class RecipeHelper {
 		return ingredientNames;
 	}
 	
-	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes) {
+	public static List<List<String>> validFluids(BasicRecipeHandler recipes) {
 		return validFluids(recipes, new ArrayList<>());
 	}
 	
-	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes, List<String> exceptions) {
+	public static List<List<String>> validFluids(BasicRecipeHandler recipes, List<String> exceptions) {
 		int fluidInputSize = recipes.getFluidInputSize();
 		int fluidOutputSize = recipes.getFluidOutputSize();
 		
@@ -539,9 +539,17 @@ public class RecipeHelper {
 		return hash;
 	}
 	
-	public static ProcessorRecipe blockRecipe(ProcessorRecipeHandler recipeHandler, World world, BlockPos pos) {
-		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(pos))), new ArrayList<>());
+	public static BasicRecipe blockRecipe(BasicRecipeHandler recipeHandler, World world, BlockPos pos) {
+		RecipeInfo<BasicRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(pos))), new ArrayList<>());
 		return recipeInfo == null ? null : recipeInfo.getRecipe();
+	}
+	
+	public static double getDecayTimeMultiplier(double baseRads, double radiation, double scaleFactor) {
+		return radiation > baseRads ? (Math.log1p(baseRads / scaleFactor) / Math.log1p(radiation / scaleFactor)) : (1D + (Math.log1p(scaleFactor / radiation) / Math.log1p(scaleFactor / baseRads) - 1D) * (baseRads / scaleFactor) * (Math.log1p(scaleFactor / baseRads) / Math.log1p(baseRads / scaleFactor)));
+	}
+	
+	public static double getDecayPowerMultiplier(double baseRads, double radiation, double scaleFactor) {
+		return getDecayTimeMultiplier(baseRads, 1D / radiation, scaleFactor);
 	}
 	
 	public static InventoryCrafting fakeCrafter(int width, int height) {

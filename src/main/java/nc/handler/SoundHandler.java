@@ -12,10 +12,9 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.relauncher.*;
 
+/** TE sound handling - thanks to the Mekanism devs for this system! */
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
-	
-	/* =========================== TE sound handling - thanks to the Mekanism devs for this system! =========================== */
 	
 	private static final Minecraft MC = Minecraft.getMinecraft();
 	private static Long2ObjectMap<ISound> soundMap = new Long2ObjectOpenHashMap<>();
@@ -25,12 +24,10 @@ public class SoundHandler {
 	}
 	
 	public static ISound startTileSound(SoundEvent soundEvent, BlockPos pos, float volume, float pitch) {
-		// First, check to see if there's already a sound playing at the desired
-		// location
+		// First, check to see if there's already a sound playing at the desired location
 		ISound sound = soundMap.get(pos.toLong());
 		if (sound == null || !MC.getSoundHandler().isSoundPlaying(sound)) {
-			// No sound playing, start one up - we assume that tile sounds will
-			// play until explicitly stopped
+			// No sound playing, start one up - we assume that tile sounds will play until explicitly stopped
 			sound = new PositionedSoundRecord(soundEvent.getSoundName(), SoundCategory.BLOCKS, volume, pitch, true, 0, ISound.AttenuationType.LINEAR, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F) {
 				
 				@Override
@@ -53,10 +50,8 @@ public class SoundHandler {
 			// Start the sound
 			playSound(sound);
 			
-			// N.B. By the time playSound returns, our expectation is that our
-			// wrapping-detector handler has fired
-			// and dealt with any muting interceptions and, CRITICALLY, updated
-			// the soundMap with the final ISound.
+			// N.B. By the time playSound returns, our expectation is that our wrapping-detector handler has fired
+			// and dealt with any muting interceptions and, CRITICALLY, updated the soundMap with the final ISound.
 			sound = soundMap.get(pos.toLong());
 		}
 		return sound;
@@ -73,8 +68,7 @@ public class SoundHandler {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onTilePlaySound(PlaySoundEvent event) {
-		// Ignore any sound event which is null or is happening in a muffled
-		// check
+		// Ignore any sound event which is null or is happening in a muffled check
 		ISound resultSound = event.getResultSound();
 		if (resultSound == null) {
 			return;
@@ -95,10 +89,8 @@ public class SoundHandler {
 		resultSound = new TileSound(event.getSound(), resultSound.getVolume(), resultSound.getPitch());
 		event.setResultSound(resultSound);
 		
-		// Finally, update our soundMap so that we can actually have a shot at
-		// stopping this sound; note that we also
-		// need to "un-offset" the sound position so that we build the correct
-		// key for the sound map
+		// Finally, update our soundMap so that we can actually have a shot at stopping this sound; note that we also
+		// need to "un-offset" the sound position so that we build the correct key for the sound map
 		BlockPos pos = new BlockPos(resultSound.getXPosF() - 0.5F, resultSound.getYPosF() - 0.5F, resultSound.getZPosF() - 0.5F);
 		soundMap.put(pos.toLong(), resultSound);
 	}

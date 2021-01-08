@@ -35,7 +35,7 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 			if (!(rayTrace != null && rayTrace.typeOfHit == Type.ENTITY)) {
 				IEntityRads playerRads = RadiationHelper.getEntityRadiation(playerIn);
 				if (playerRads != null) {
-					playerIn.sendMessage(new TextComponentString(RadiationHelper.getRadsTextColor(playerRads) + RADIATION + " " + (playerRads.isTotalRadsNegligible() ? "0 Rad" : RadiationHelper.radsPrefix(playerRads.getTotalRads(), false)) + " [" + Math.round(playerRads.getRadsPercentage()) + "%], " + RadiationHelper.getRawRadiationTextColor(playerRads) + (playerRads.isRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRawRadiationLevel(), true))));
+					playerIn.sendMessage(new TextComponentString(RadiationHelper.getRadsTextColor(playerRads) + RADIATION + " " + (playerRads.isTotalRadsNegligible() ? "0 Rad" : RadiationHelper.radsPrefix(playerRads.getTotalRads(), false)) + " [" + Math.round(playerRads.getRadsPercentage()) + "%], " + RadiationHelper.getRawRadiationTextColor(playerRads) + (playerRads.isRawRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRawRadiationLevel(), true))));
 				}
 			}
 		}

@@ -1,7 +1,9 @@
 package nc.worldgen.dimension;
 
+import nc.worldgen.biome.NCBiomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
+import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
 
@@ -10,16 +12,21 @@ public class WorldProviderWasteland extends WorldProvider {
 	@Override
 	protected void init() {
 		hasSkyLight = true;
-		biomeProvider = new BiomeProviderWasteland();
+		biomeProvider = new BiomeProviderSingle(NCBiomes.NUCLEAR_WASTELAND);
 	}
 	
 	@Override
 	public DimensionType getDimensionType() {
-		return NCWorlds.WASTELAND_DIM_TYPE;
+		return NCWorlds.wastelandDimType;
 	}
 	
 	@Override
 	public boolean isSurfaceWorld() {
+		return false;
+	}
+	
+	@Override
+	public boolean isNether() {
 		return false;
 	}
 	
@@ -38,7 +45,7 @@ public class WorldProviderWasteland extends WorldProvider {
 		return new ChunkGeneratorWasteland(world);
 	}
 	
-	/* ======================================= Forge Start ========================================= */
+	// Forge Start
 	
 	@Override
 	public boolean canDoLightning(Chunk chunk) {

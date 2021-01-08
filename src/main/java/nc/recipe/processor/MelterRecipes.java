@@ -5,15 +5,15 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class MelterRecipes extends ProcessorRecipeHandler {
+public class MelterRecipes extends BasicRecipeHandler {
 	
 	public MelterRecipes() {
 		super("melter", 1, 0, 0, 1);
@@ -34,15 +34,15 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(Lists.newArrayList("ingotSilicon", "itemSilicon"), fluidStack("silicon", INGOT_VOLUME), 1D, 1D);
 		
-		addIngotMeltingRecipes("boron10");
-		addIngotMeltingRecipes("boron11");
-		addIngotMeltingRecipes("lithium6");
-		addIngotMeltingRecipes("lithium7");
+		addIngotMeltingRecipes("boron_10");
+		addIngotMeltingRecipes("boron_11");
+		addIngotMeltingRecipes("lithium_6");
+		addIngotMeltingRecipes("lithium_7");
 		
-		addIngotMeltingRecipes("hardCarbon", "hard_carbon");
-		addIngotMeltingRecipes("manganeseDioxide", "manganese_dioxide");
+		addIngotMeltingRecipes("HardCarbon", "hard_carbon");
+		addIngotMeltingRecipes("ManganeseDioxide", "manganese_dioxide");
 		addIngotMeltingRecipes("alugentum");
-		addIngotMeltingRecipes("leadPlatinum", "lead_platinum");
+		addIngotMeltingRecipes("LeadPlatinum", "lead_platinum");
 		
 		addRecipe("blockQuartz", fluidStack("quartz", GEM_VOLUME * 4), 4D, 1D);
 		addRecipe("blockLapis", fluidStack("lapis", GEM_BLOCK_VOLUME), 9D, 1D);
@@ -88,25 +88,25 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("blockGraphite", fluidStack("coal", COAL_BLOCK_VOLUME), 4.5D, 1D);
 		
 		// EnderIO
-		addIngotMeltingRecipes("electricalSteel", "electrical_steel");
-		addIngotMeltingRecipes("energeticAlloy", "energetic_alloy");
-		addIngotMeltingRecipes("vibrantAlloy", "vibrant_alloy");
-		addIngotMeltingRecipes("redstoneAlloy", "redstone_alloy");
-		addIngotMeltingRecipes("conductiveIron", "conductive_iron");
-		addIngotMeltingRecipes("pulsatingIron", "pulsating_iron");
-		addIngotMeltingRecipes("darkSteel", "dark_steel");
-		addIngotMeltingRecipes("soularium", "soularium");
-		addIngotMeltingRecipes("endSteel", "end_steel");
-		addIngotMeltingRecipes("constructionAlloy", "construction_alloy");
+		addIngotMeltingRecipes("ElectricalSteel", "electrical_steel");
+		addIngotMeltingRecipes("EnergeticAlloy", "energetic_alloy");
+		addIngotMeltingRecipes("VibrantAlloy", "vibrant_alloy");
+		addIngotMeltingRecipes("RedstoneAlloy", "redstone_alloy");
+		addIngotMeltingRecipes("ConductiveIron", "conductive_iron");
+		addIngotMeltingRecipes("PulsatingIron", "pulsating_iron");
+		addIngotMeltingRecipes("DarkSteel", "dark_steel");
+		addIngotMeltingRecipes("Soularium", "soularium");
+		addIngotMeltingRecipes("EndSteel", "end_steel");
+		addIngotMeltingRecipes("ConstructionAlloy", "construction_alloy");
 		
 		// Endergy
-		addIngotMeltingRecipes("crudeSteel", "crude_steel");
-		addIngotMeltingRecipes("crystallineAlloy", "crystalline_alloy");
-		addIngotMeltingRecipes("melodicAlloy", "melodic_alloy");
-		addIngotMeltingRecipes("stellarAlloy", "stellar_alloy");
-		addIngotMeltingRecipes("crystallinePinkSlime", "crystalline_pink_slime");
-		addIngotMeltingRecipes("energeticSilver", "energetic_silver");
-		addIngotMeltingRecipes("vividAlloy", "vivid_alloy");
+		addIngotMeltingRecipes("CrudeSteel", "crude_steel");
+		addIngotMeltingRecipes("CrystallineAlloy", "crystalline_alloy");
+		addIngotMeltingRecipes("MelodicAlloy", "melodic_alloy");
+		addIngotMeltingRecipes("StellarAlloy", "stellar_alloy");
+		addIngotMeltingRecipes("CrystallinePinkSlime", "crystalline_pink_slime");
+		addIngotMeltingRecipes("EnergeticSilver", "energetic_silver");
+		addIngotMeltingRecipes("VividAlloy", "vivid_alloy");
 		
 		// Mekanism
 		addRecipe(Lists.newArrayList("itemSalt", "dustSalt"), fluidStack("brine", 15), 0.25D, 0.5D);
@@ -121,8 +121,8 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("elementium");
 		
 		// PlusTiC - Mekanism
-		addIngotMeltingRecipes("refinedObsidian", "refinedobsidian");
-		addIngotMeltingRecipes("refinedGlowstone", "refinedglowstone");
+		addIngotMeltingRecipes("RefinedObsidian", "refinedobsidian");
+		addIngotMeltingRecipes("RefinedGlowstone", "refinedglowstone");
 		
 		// PlusTiC - Psi
 		addIngotMeltingRecipes("psi");
@@ -156,10 +156,16 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		
 		// Fission Materials
 		addFissionMeltingRecipes();
+		
+		addIngotMeltingRecipes("Strontium90", "strontium_90");
+		addIngotMeltingRecipes("Molybdenum", "molybdenum");
+		addIngotMeltingRecipes("Ruthenium106", "ruthenium_106");
+		addIngotMeltingRecipes("Caesium137", "caesium_137");
+		addIngotMeltingRecipes("Promethium147", "promethium_147");
+		addIngotMeltingRecipes("Europium155", "europium_155");
 	}
 	
 	public void addIngotMeltingRecipes(String oreName, String fluidName) {
-		oreName = StringHelper.capitalize(oreName);
 		addRecipe("ore" + oreName, fluidStack(fluidName, INGOT_ORE_VOLUME), 1.25D, 1.5D);
 		addRecipe(Lists.newArrayList("ingot" + oreName, "dust" + oreName), fluidStack(fluidName, INGOT_VOLUME), 1D, 1D);
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, NUGGET_VOLUME), 1D / 9D, 1D);
@@ -167,14 +173,17 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addIngotMeltingRecipes(String name) {
-		addIngotMeltingRecipes(name, name);
+		addIngotMeltingRecipes(StringHelper.capitalize(name), name);
+	}
+	
+	public void addGemMeltingRecipes(String oreName, String fluidName) {
+		addRecipe("ore" + oreName, fluidStack(fluidName, GEM_ORE_VOLUME), 1.25D, 1.5D);
+		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(fluidName, GEM_VOLUME), 1D, 1D);
+		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, GEM_NUGGET_VOLUME), 1D / 9D, 1D);
 	}
 	
 	public void addGemMeltingRecipes(String name) {
-		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, GEM_ORE_VOLUME), 1.25D, 1.5D);
-		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(name, GEM_VOLUME), 1D, 1D);
-		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, GEM_NUGGET_VOLUME), 1D / 9D, 1D);
+		addGemMeltingRecipes(StringHelper.capitalize(name), name);
 	}
 	
 	public void addFissionMeltingRecipes() {
@@ -186,7 +195,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		}
 	}
 	
-	private static final List<String> MELTING_BLACKLIST = Lists.newArrayList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
+	private static final Set<String> MELTING_BLACKLIST = Sets.newHashSet("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addOreMeltingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
@@ -194,10 +203,10 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 			if (MELTING_BLACKLIST.contains(fluidName)) {
 				continue;
 			}
-			String materialName = StringHelper.capitalize(fluidName);
-			String ingot = "ingot" + materialName;
-			String gem = "gem" + materialName;
-			String dust = "dust" + materialName;
+			String oreSuffix = StringHelper.capitalize(fluidName);
+			String ingot = "ingot" + oreSuffix;
+			String gem = "gem" + oreSuffix;
+			String dust = "dust" + oreSuffix;
 			
 			if (OreDictHelper.oreExists(ingot) && OreDictHelper.oreExists(dust)) {
 				addIngotMeltingRecipes(fluidName);

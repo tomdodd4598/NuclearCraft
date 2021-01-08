@@ -2,18 +2,18 @@ package nc.multiblock.fission.block.manager;
 
 import static nc.block.property.BlockProperties.*;
 
+import nc.block.tile.IActivatable;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.tile.manager.*;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class BlockFissionManager<MANAGER extends TileFissionManager<MANAGER, LISTENER>, LISTENER extends IFissionManagerListener<MANAGER, LISTENER>> extends BlockFissionPart {
+public abstract class BlockFissionManager<MANAGER extends TileFissionManager<MANAGER, LISTENER>, LISTENER extends IFissionManagerListener<MANAGER, LISTENER>> extends BlockFissionPart implements IActivatable {
 	
 	protected final Class<MANAGER> managerClass;
 	
@@ -64,16 +64,5 @@ public abstract class BlockFissionManager<MANAGER extends TileFissionManager<MAN
 		}
 		
 		return rightClickOnPart(world, pos, player, hand, facing, false);
-	}
-	
-	public void setState(boolean isActive, TileEntity tile) {
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockFissionManager) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
 	}
 }

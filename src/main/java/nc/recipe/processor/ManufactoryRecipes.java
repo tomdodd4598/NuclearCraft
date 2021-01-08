@@ -4,7 +4,7 @@ import static nc.config.NCConfig.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 import nc.init.NCItems;
 import nc.recipe.*;
@@ -17,7 +17,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ManufactoryRecipes extends ProcessorRecipeHandler {
+public class ManufactoryRecipes extends BasicRecipeHandler {
 	
 	public ManufactoryRecipes() {
 		super("manufactory", 1, 0, 1, 0);
@@ -98,7 +98,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addLogRecipes();
 	}
 	
-	private static final List<String> BLACKLIST = Lists.newArrayList("silicon");
+	private static final Set<String> BLACKLIST = Sets.newHashSet("Silicon");
 	
 	public void addMetalProcessingRecipes() {
 		for (String ingot : OreDictionary.getOreNames()) {
@@ -116,7 +116,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		}
 	}
 	
-	/* Originally from KingLemming's Thermal Expansion: cofh.thermalexpansion.util.managers.machine.SawmillManager */
+	/** Originally from KingLemming's Thermal Expansion: cofh.thermalexpansion.util.managers.machine.SawmillManager */
 	public void addLogRecipes() {
 		InventoryCrafting fakeCrafter = RecipeHelper.fakeCrafter(3, 3);
 		for (ItemStack logWood : OreDictionary.getOres("logWood", false)) {

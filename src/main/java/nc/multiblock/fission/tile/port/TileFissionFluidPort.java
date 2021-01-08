@@ -10,12 +10,16 @@ import javax.annotation.*;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.fluid.*;
 import nc.tile.internal.fluid.*;
-import nc.util.GasHelper;
+import nc.util.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.*;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
@@ -31,9 +35,9 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	protected @Nonnull GasTileWrapper gasWrapper;
 	
-	protected final ProcessorRecipeHandler recipeHandler;
+	protected final BasicRecipeHandler recipeHandler;
 	
-	public TileFissionFluidPort(Class<PORT> portClass, int capacity, List<String> validFluids, ProcessorRecipeHandler recipeHandler) {
+	public TileFissionFluidPort(Class<PORT> portClass, int capacity, List<String> validFluids, BasicRecipeHandler recipeHandler) {
 		super(portClass);
 		tanks = Lists.newArrayList(new Tank(capacity, validFluids), new Tank(capacity, new ArrayList<>()));
 		filterTanks = Lists.newArrayList(new Tank(1000, validFluids), new Tank(1000, new ArrayList<>()));
@@ -41,6 +45,15 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
 		this.recipeHandler = recipeHandler;
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		EnumFacing facing = getPartPosition().getFacing();
+		if (!world.isRemote && facing != null && !getTanks().get(1).isEmpty() && getTankSorption(facing, 1).canDrain()) {
+			pushFluidToSide(facing);
+		}
 	}
 	
 	@Override
@@ -64,7 +77,6 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	@Override
 	public void onFilterChanged(int tank) {
-		/* if (!canModifyFilter(tank)) { getMultiblock().getLogic().refreshPorts(); } */
 		markDirty();
 	}
 	
@@ -72,8 +84,6 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	public int getFilterID() {
 		return getFilterTanks().get(0).getFluidName().hashCode();
 	}
-	
-	/* @Override public void markDirty() { super.markDirty(); } */
 	
 	// Fluids
 	
@@ -136,6 +146,43 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	@Override
 	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting) {}
 	
+	@Override
+	public boolean hasConfigurableFluidConnections() {
+		return true;
+	}
+	
+	// IMultitoolLogic
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (player.isSneaking()) {
+			
+		}
+		else {
+			if (getMultiblock() != null) {
+				if (getTankSorption(facing, 0) != TankSorption.IN) {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setTankSorption(side, 0, TankSorption.IN);
+						setTankSorption(side, 1, TankSorption.NON);
+					}
+					setActivity(false);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				else {
+					for (EnumFacing side : EnumFacing.VALUES) {
+						setTankSorption(side, 0, TankSorption.NON);
+						setTankSorption(side, 1, TankSorption.OUT);
+					}
+					setActivity(true);
+					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.RED + Lang.localise("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+				}
+				markDirtyAndNotify(true);
+				return true;
+			}
+		}
+		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+	}
+	
 	// NBT
 	
 	@Override
@@ -176,7 +223,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
@@ -190,7 +237,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 			}
 			return null;
 		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}

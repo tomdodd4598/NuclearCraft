@@ -25,6 +25,24 @@ public class Complex {
 		return new double[] {re / scale, -im / scale};
 	}
 	
+	public static double[] sqrt(double re, double im) {
+		if (im == 0D) {
+			if (re >= 0D) {
+				return new double[] {Math.sqrt(re), 0D};
+			}
+			else {
+				return new double[] {0D, Math.sqrt(-re)};
+			}
+		}
+		double a = Math.sqrt((re + abs(re, im)) / 2D);
+		return new double[] {a, im / (2D * a)};
+	}
+	
+	public static double[] invSqrt(double re, double im) {
+		double sq = absSq(re, im);
+		return sqrt(re / sq, -im / sq);
+	}
+	
 	public static double[] divide(double re1, double im1, double re2, double im2) {
 		double scale = absSq(re2, im2);
 		return new double[] {(re1 * re2 + im1 * im2) / scale, (im1 * re2 - re1 * im2) / scale};
@@ -61,7 +79,7 @@ public class Complex {
 	
 	public static String toString(double re, double im) {
 		if (im == 0) {
-			return re + "";
+			return Double.toString(re);
 		}
 		if (re == 0) {
 			return im + "i";

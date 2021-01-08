@@ -1,7 +1,7 @@
 package nc.multiblock.battery.block;
 
 import nc.block.property.ISidedEnergy;
-import nc.block.tile.INBTDrop;
+import nc.block.tile.*;
 import nc.item.ItemMultitool;
 import nc.multiblock.battery.*;
 import nc.multiblock.battery.tile.TileBattery;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.*;
 
-public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, INBTDrop {
+public class BlockBattery extends BlockMultiblockPart implements IDynamicState, ISidedEnergy, INBTDrop {
 	
 	private final BatteryType type;
 	
@@ -97,9 +97,24 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
-			TileBattery battery = (TileBattery) tile;
 			NBTTagCompound nbt = new NBTTagCompound();
-			battery.writeEnergy(nbt);
+			
+			TileBattery battery = (TileBattery) tile;
+			BatteryMultiblock multiblock = battery.getMultiblock();
+			
+			if (multiblock != null) {
+				EnergyStorage storage = multiblock.getEnergyStorage();
+				if (multiblock.getPartCount(TileBattery.class) < 2) {
+					storage.writeToNBT(nbt, "energyStorage");
+				}
+				else {
+					double fraction = (double) multiblock.getEnergyStorage().getEnergyStoredLong() / (double) multiblock.getEnergyStorage().getMaxEnergyStoredLong();
+					long energy = (long) (fraction * battery.capacity);
+					new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity), energy).writeToNBT(nbt, "energyStorage");
+					storage.changeEnergyStored(-energy);
+				}
+			}
+			
 			battery.writeEnergyConnections(nbt);
 			stack.setTagCompound(nbt);
 		}
@@ -108,14 +123,19 @@ public class BlockBattery extends BlockMultiblockPart implements ISidedEnergy, I
 	
 	@Override
 	public void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack) {
-		if (player == null || !player.isSneaking()) {
+		if (player == null || !stack.hasTagCompound()) {
 			return;
 		}
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
+			NBTTagCompound nbt = stack.getTagCompound();
 			TileBattery battery = (TileBattery) tile;
-			battery.readEnergy(stack.getTagCompound());
-			battery.readEnergyConnections(stack.getTagCompound());
+			
+			battery.waitingEnergy += new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity)).readFromNBT(nbt, "energyStorage").getEnergyStoredLong();
+			
+			if (player.isSneaking()) {
+				battery.readEnergyConnections(nbt);
+			}
 		}
 	}
 }

@@ -1,95 +1,360 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "nuclearcraft:fission_port"
+		"model": "nuclearcraft:fission_heater_port_off"
 	},
 	"variants": {
-		"axis": {
-			"x": {"y": 90},
-			"y": {"x": 90},
-			"z": {}
+		"active=false,axis=x,type=tin": {
+			"model": "nuclearcraft:fission_heater_port/tin_off",
+			"y": 90
 		},
-		"type": {
-			"tin": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/tin"
-				}
-			},
-			"lead": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/lead"
-				}
-			},
-			"boron": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/boron"
-				}
-			},
-			"lithium": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/lithium"
-				}
-			},
-			"magnesium": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/magnesium"
-				}
-			},
-			"manganese": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/manganese"
-				}
-			},
-			"aluminum": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/aluminum"
-				}
-			},
-			"silver": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/silver"
-				}
-			},
-			"fluorite": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/fluorite"
-				}
-			},
-			"villiaumite": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/villiaumite"
-				}
-			},
-			"carobbiite": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/carobbiite"
-				}
-			},
-			"arsenic": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/arsenic"
-				}
-			},
-			"liquid_nitrogen": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/liquid_nitrogen"
-				}
-			},
-			"liquid_helium": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/liquid_helium"
-				}
-			},
-			"enderium": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/enderium"
-				}
-			},
-			"cryotheum": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/heater/cryotheum"
-				}
-			}
+		"active=true,axis=x,type=tin": {
+			"model": "nuclearcraft:fission_heater_port/tin_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=tin": {
+			"model": "nuclearcraft:fission_heater_port/tin_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=tin": {
+			"model": "nuclearcraft:fission_heater_port/tin_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=tin": {
+			"model": "nuclearcraft:fission_heater_port/tin_off"
+		},
+		"active=true,axis=z,type=tin": {
+			"model": "nuclearcraft:fission_heater_port/tin_on"
+		},
+		"active=false,axis=x,type=lead": {
+			"model": "nuclearcraft:fission_heater_port/lead_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=lead": {
+			"model": "nuclearcraft:fission_heater_port/lead_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=lead": {
+			"model": "nuclearcraft:fission_heater_port/lead_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=lead": {
+			"model": "nuclearcraft:fission_heater_port/lead_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=lead": {
+			"model": "nuclearcraft:fission_heater_port/lead_off"
+		},
+		"active=true,axis=z,type=lead": {
+			"model": "nuclearcraft:fission_heater_port/lead_on"
+		},
+		"active=false,axis=x,type=boron": {
+			"model": "nuclearcraft:fission_heater_port/boron_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=boron": {
+			"model": "nuclearcraft:fission_heater_port/boron_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=boron": {
+			"model": "nuclearcraft:fission_heater_port/boron_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=boron": {
+			"model": "nuclearcraft:fission_heater_port/boron_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=boron": {
+			"model": "nuclearcraft:fission_heater_port/boron_off"
+		},
+		"active=true,axis=z,type=boron": {
+			"model": "nuclearcraft:fission_heater_port/boron_on"
+		},
+		"active=false,axis=x,type=lithium": {
+			"model": "nuclearcraft:fission_heater_port/lithium_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=lithium": {
+			"model": "nuclearcraft:fission_heater_port/lithium_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=lithium": {
+			"model": "nuclearcraft:fission_heater_port/lithium_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=lithium": {
+			"model": "nuclearcraft:fission_heater_port/lithium_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=lithium": {
+			"model": "nuclearcraft:fission_heater_port/lithium_off"
+		},
+		"active=true,axis=z,type=lithium": {
+			"model": "nuclearcraft:fission_heater_port/lithium_on"
+		},
+		"active=false,axis=x,type=magnesium": {
+			"model": "nuclearcraft:fission_heater_port/magnesium_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=magnesium": {
+			"model": "nuclearcraft:fission_heater_port/magnesium_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=magnesium": {
+			"model": "nuclearcraft:fission_heater_port/magnesium_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=magnesium": {
+			"model": "nuclearcraft:fission_heater_port/magnesium_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=magnesium": {
+			"model": "nuclearcraft:fission_heater_port/magnesium_off"
+		},
+		"active=true,axis=z,type=magnesium": {
+			"model": "nuclearcraft:fission_heater_port/magnesium_on"
+		},
+		"active=false,axis=x,type=manganese": {
+			"model": "nuclearcraft:fission_heater_port/manganese_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=manganese": {
+			"model": "nuclearcraft:fission_heater_port/manganese_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=manganese": {
+			"model": "nuclearcraft:fission_heater_port/manganese_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=manganese": {
+			"model": "nuclearcraft:fission_heater_port/manganese_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=manganese": {
+			"model": "nuclearcraft:fission_heater_port/manganese_off"
+		},
+		"active=true,axis=z,type=manganese": {
+			"model": "nuclearcraft:fission_heater_port/manganese_on"
+		},
+		"active=false,axis=x,type=aluminum": {
+			"model": "nuclearcraft:fission_heater_port/aluminum_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=aluminum": {
+			"model": "nuclearcraft:fission_heater_port/aluminum_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=aluminum": {
+			"model": "nuclearcraft:fission_heater_port/aluminum_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=aluminum": {
+			"model": "nuclearcraft:fission_heater_port/aluminum_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=aluminum": {
+			"model": "nuclearcraft:fission_heater_port/aluminum_off"
+		},
+		"active=true,axis=z,type=aluminum": {
+			"model": "nuclearcraft:fission_heater_port/aluminum_on"
+		},
+		"active=false,axis=x,type=silver": {
+			"model": "nuclearcraft:fission_heater_port/silver_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=silver": {
+			"model": "nuclearcraft:fission_heater_port/silver_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=silver": {
+			"model": "nuclearcraft:fission_heater_port/silver_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=silver": {
+			"model": "nuclearcraft:fission_heater_port/silver_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=silver": {
+			"model": "nuclearcraft:fission_heater_port/silver_off"
+		},
+		"active=true,axis=z,type=silver": {
+			"model": "nuclearcraft:fission_heater_port/silver_on"
+		},
+		"active=false,axis=x,type=fluorite": {
+			"model": "nuclearcraft:fission_heater_port/fluorite_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=fluorite": {
+			"model": "nuclearcraft:fission_heater_port/fluorite_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=fluorite": {
+			"model": "nuclearcraft:fission_heater_port/fluorite_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=fluorite": {
+			"model": "nuclearcraft:fission_heater_port/fluorite_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=fluorite": {
+			"model": "nuclearcraft:fission_heater_port/fluorite_off"
+		},
+		"active=true,axis=z,type=fluorite": {
+			"model": "nuclearcraft:fission_heater_port/fluorite_on"
+		},
+		"active=false,axis=x,type=villiaumite": {
+			"model": "nuclearcraft:fission_heater_port/villiaumite_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=villiaumite": {
+			"model": "nuclearcraft:fission_heater_port/villiaumite_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=villiaumite": {
+			"model": "nuclearcraft:fission_heater_port/villiaumite_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=villiaumite": {
+			"model": "nuclearcraft:fission_heater_port/villiaumite_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=villiaumite": {
+			"model": "nuclearcraft:fission_heater_port/villiaumite_off"
+		},
+		"active=true,axis=z,type=villiaumite": {
+			"model": "nuclearcraft:fission_heater_port/villiaumite_on"
+		},
+		"active=false,axis=x,type=carobbiite": {
+			"model": "nuclearcraft:fission_heater_port/carobbiite_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=carobbiite": {
+			"model": "nuclearcraft:fission_heater_port/carobbiite_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=carobbiite": {
+			"model": "nuclearcraft:fission_heater_port/carobbiite_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=carobbiite": {
+			"model": "nuclearcraft:fission_heater_port/carobbiite_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=carobbiite": {
+			"model": "nuclearcraft:fission_heater_port/carobbiite_off"
+		},
+		"active=true,axis=z,type=carobbiite": {
+			"model": "nuclearcraft:fission_heater_port/carobbiite_on"
+		},
+		"active=false,axis=x,type=arsenic": {
+			"model": "nuclearcraft:fission_heater_port/arsenic_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=arsenic": {
+			"model": "nuclearcraft:fission_heater_port/arsenic_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=arsenic": {
+			"model": "nuclearcraft:fission_heater_port/arsenic_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=arsenic": {
+			"model": "nuclearcraft:fission_heater_port/arsenic_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=arsenic": {
+			"model": "nuclearcraft:fission_heater_port/arsenic_off"
+		},
+		"active=true,axis=z,type=arsenic": {
+			"model": "nuclearcraft:fission_heater_port/arsenic_on"
+		},
+		"active=false,axis=x,type=liquid_nitrogen": {
+			"model": "nuclearcraft:fission_heater_port/liquid_nitrogen_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=liquid_nitrogen": {
+			"model": "nuclearcraft:fission_heater_port/liquid_nitrogen_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=liquid_nitrogen": {
+			"model": "nuclearcraft:fission_heater_port/liquid_nitrogen_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=liquid_nitrogen": {
+			"model": "nuclearcraft:fission_heater_port/liquid_nitrogen_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=liquid_nitrogen": {
+			"model": "nuclearcraft:fission_heater_port/liquid_nitrogen_off"
+		},
+		"active=true,axis=z,type=liquid_nitrogen": {
+			"model": "nuclearcraft:fission_heater_port/liquid_nitrogen_on"
+		},
+		"active=false,axis=x,type=liquid_helium": {
+			"model": "nuclearcraft:fission_heater_port/liquid_helium_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=liquid_helium": {
+			"model": "nuclearcraft:fission_heater_port/liquid_helium_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=liquid_helium": {
+			"model": "nuclearcraft:fission_heater_port/liquid_helium_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=liquid_helium": {
+			"model": "nuclearcraft:fission_heater_port/liquid_helium_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=liquid_helium": {
+			"model": "nuclearcraft:fission_heater_port/liquid_helium_off"
+		},
+		"active=true,axis=z,type=liquid_helium": {
+			"model": "nuclearcraft:fission_heater_port/liquid_helium_on"
+		},
+		"active=false,axis=x,type=enderium": {
+			"model": "nuclearcraft:fission_heater_port/enderium_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=enderium": {
+			"model": "nuclearcraft:fission_heater_port/enderium_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=enderium": {
+			"model": "nuclearcraft:fission_heater_port/enderium_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=enderium": {
+			"model": "nuclearcraft:fission_heater_port/enderium_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=enderium": {
+			"model": "nuclearcraft:fission_heater_port/enderium_off"
+		},
+		"active=true,axis=z,type=enderium": {
+			"model": "nuclearcraft:fission_heater_port/enderium_on"
+		},
+		"active=false,axis=x,type=cryotheum": {
+			"model": "nuclearcraft:fission_heater_port/cryotheum_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=cryotheum": {
+			"model": "nuclearcraft:fission_heater_port/cryotheum_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=cryotheum": {
+			"model": "nuclearcraft:fission_heater_port/cryotheum_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=cryotheum": {
+			"model": "nuclearcraft:fission_heater_port/cryotheum_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=cryotheum": {
+			"model": "nuclearcraft:fission_heater_port/cryotheum_off"
+		},
+		"active=true,axis=z,type=cryotheum": {
+			"model": "nuclearcraft:fission_heater_port/cryotheum_on"
 		}
 	}
 }
