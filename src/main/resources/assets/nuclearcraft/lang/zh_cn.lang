@@ -350,7 +350,7 @@ tile.nuclearcraft.nitrogen_collector.desc=恒定产出%s的氮。
 
 tile.nuclearcraft.radiation_scrubber.name=辐射净化仪
 tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。最多以%2$s的效率移除其所在区块中%1$s的辐射。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射净化剂”的使用量。
-tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。单独使用时，最多以%2$s的效率移除其所在区块中%1$s的辐射，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来。一开始的效率只会线性地叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射净化剂”的使用量。
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。单独使用时，最多以%2$s的效率移除其所在区块中%1$s的辐射，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来，而一开始的效率只会线性地叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射净化剂”的使用量。
 nuclearcraft.one_hundred_percent=100%
 
 tile.nuclearcraft.geiger_block.name=盖革计数器方块
@@ -2087,7 +2087,7 @@ item.nuclearcraft.shovel_boron.name=硼锹
 item.nuclearcraft.axe_boron.name=硼斧
 item.nuclearcraft.hoe_boron.name=硼锄
 item.nuclearcraft.spaxelhoe_boron.name=硼斫石锄
-item.nuclearcraft.spaxelhoe_boron.desc=一把由所有标准硼工具组装而成的通用工具。
+item.nuclearcraft.spaxelhoe_boron.desc=一把由所有普通硼工具组装而成的通用工具。
 
 item.nuclearcraft.sword_tough.name=高强合金剑
 item.nuclearcraft.pickaxe_tough.name=高强合金镐
@@ -2095,7 +2095,7 @@ item.nuclearcraft.shovel_tough.name=高强合金锹
 item.nuclearcraft.axe_tough.name=高强合金斧
 item.nuclearcraft.hoe_tough.name=高强合金锄
 item.nuclearcraft.spaxelhoe_tough.name=高强合金斫石锄
-item.nuclearcraft.spaxelhoe_tough.desc=一把由所有标准高强合金工具组装而成的通用工具。
+item.nuclearcraft.spaxelhoe_tough.desc=一把由所有普通高强合金工具组装而成的通用工具。
 
 item.nuclearcraft.sword_hard_carbon.name=硬碳合金剑
 item.nuclearcraft.pickaxe_hard_carbon.name=硬碳合金镐
@@ -2103,7 +2103,7 @@ item.nuclearcraft.shovel_hard_carbon.name=硬碳合金锹
 item.nuclearcraft.axe_hard_carbon.name=硬碳合金斧
 item.nuclearcraft.hoe_hard_carbon.name=硬碳合金锄
 item.nuclearcraft.spaxelhoe_hard_carbon.name=硬碳合金斫石锄
-item.nuclearcraft.spaxelhoe_hard_carbon.desc=一把由所有标准硬碳合金工具组装而成的通用工具。
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=一把由所有普通硬碳合金工具组装而成的通用工具。
 
 item.nuclearcraft.sword_boron_nitride.name=氮化硼剑
 item.nuclearcraft.pickaxe_boron_nitride.name=氮化硼镐
@@ -2111,7 +2111,7 @@ item.nuclearcraft.shovel_boron_nitride.name=氮化硼锹
 item.nuclearcraft.axe_boron_nitride.name=氮化硼斧
 item.nuclearcraft.hoe_boron_nitride.name=氮化硼锄
 item.nuclearcraft.spaxelhoe_boron_nitride.name=氮化硼斫石锄
-item.nuclearcraft.spaxelhoe_boron_nitride.desc=一把由所有标准氮化硼工具组装而成的通用工具。
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=一把由所有普通氮化硼工具组装而成的通用工具。
 
 item.nuclearcraft.helm_boron.name=硼头盔
 item.nuclearcraft.chest_boron.name=硼胸甲
