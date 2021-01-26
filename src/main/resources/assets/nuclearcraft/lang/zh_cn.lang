@@ -2216,7 +2216,7 @@ item.nuclearcraft.radaway.desc=以%3$s的速率移除%1$s（%2$s）的辐射量�
 item.nuclearcraft.radaway_slow.name=缓效抗辐宁
 item.nuclearcraft.radaway_slow.desc=以%3$s的速率移除%1$s（%2$s）的辐射量。
 item.nuclearcraft.rad_x.name=降辐剂
-item.nuclearcraft.rad_x.desc=增加%s的辐射抗性（%s 内）。效果可以叠加，但是持续时间也会变短。
+item.nuclearcraft.rad_x.desc=增加%s的辐射抗性（%s内）。效果可以叠加，但是持续时间也会变短。
 
 item.nuclearcraft.portable_ender_chest.name=便携末影箱
 item.nuclearcraft.portable_ender_chest.desc=可以在移动中使用的末影箱。
@@ -3487,10 +3487,10 @@ nc.sf.no=没有
 nc.sf.and=和
 nc.sf.or=或
 
-nc.sf.placement_rule.and_or.adjacent0=%1$s %2$s
+nc.sf.placement_rule.and_or.adjacent0=%1$s%2$s
 nc.sf.placement_rule.and_or.adjacent1=%1$s，%2$s
-nc.sf.placement_rule.and_or.adjacent2=%1$s %2$s %3$s
-nc.sf.placement_rule.and_or.adjacent3=%1$s，%2$s %3$s
+nc.sf.placement_rule.and_or.adjacent2=%1$s%2$s%3$s
+nc.sf.placement_rule.and_or.adjacent3=%1$s，%2$s%3$s
 nc.sf.placement_rule.and_or.adjacent4=%1$s。
 
 nc.sf.placement_rule.adjacent.must_be_adjacent_to=必须接触
@@ -3621,5 +3621,5 @@ nc.sf.increase=提升
 nc.sf.decrease=降低
 nc.sf.increase_approximately=近似地提升
 nc.sf.decrease_approximately=近似地降低
-nc.sf.power_adverb_preposition=%2$s%1$s 
+nc.sf.power_adverb_preposition=%2$s%1$s
 nc.sf.with=与
