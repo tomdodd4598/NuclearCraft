@@ -2151,33 +2151,33 @@ info.nuclearcraft.multitool.connect_component_monitor=将构件连接到了显�
 info.nuclearcraft.multitool.fission.connect_shield_manager=所有%s个防护屏都已连接到了管理器！
 
 info.nuclearcraft.multitool.quantum_computer.qubit_id=量子位ID：%s
-info.nuclearcraft.multitool.quantum_computer.start_qubit_set=以%s设定了一个新的量子位ID！
-info.nuclearcraft.multitool.quantum_computer.start_qubit_list=以%s创建了一个新的量子位ID列表!
-info.nuclearcraft.multitool.quantum_computer.remove_qubit=将ID为%s的量子位移出了多功能工具!
-info.nuclearcraft.multitool.quantum_computer.add_qubit=将ID为%s的量子位拷贝入了多功能工具!
+info.nuclearcraft.multitool.quantum_computer.start_qubit_set=当前设定的量子位ID为%s！
+info.nuclearcraft.multitool.quantum_computer.start_qubit_list=已创建新的量子位ID列表，其首项为%s!
+info.nuclearcraft.multitool.quantum_computer.remove_qubit=将量子位ID%s移出了此列表!
+info.nuclearcraft.multitool.quantum_computer.add_qubit=将量子位ID%s加出了此列表!
 
-info.nuclearcraft.multitool.quantum_computer.single_gate_info=逻辑门已经成功地将量子位%s设为了目标
-info.nuclearcraft.multitool.quantum_computer.start_target_set=逻辑门正在等待目标量子位的设定……
-info.nuclearcraft.multitool.quantum_computer.finish_target_set=逻辑门现在的目标量子位是%s！
+info.nuclearcraft.multitool.quantum_computer.single_gate_info=逻辑门当前的目标位为%s
+info.nuclearcraft.multitool.quantum_computer.start_target_set=逻辑门正在等待对目标位的设定……
+info.nuclearcraft.multitool.quantum_computer.finish_target_set=逻辑门现在正以%s为目标位！
 
-info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=逻辑门目前正在以%2$s的工作角度将量子位%1$s作为目标
-info.nuclearcraft.multitool.quantum_computer.start_angle=逻辑门正在等待工作角度的设置……
-info.nuclearcraft.multitool.quantum_computer.tool_set_angle=将工作角度%s度存入了多功能工具！
-info.nuclearcraft.multitool.quantum_computer.finish_angle=逻辑门正在以%s度工作！
+info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=逻辑门当前的目标位为%s，当前的工作角度为%s°
+info.nuclearcraft.multitool.quantum_computer.start_angle=逻辑门正在等待对工作角度的设定……
+info.nuclearcraft.multitool.quantum_computer.tool_set_angle=将工作角度%s°存入了多功能工具！
+info.nuclearcraft.multitool.quantum_computer.finish_angle=逻辑门现在正以%s°为工作角度！
 
-info.nuclearcraft.multitool.quantum_computer.control_gate_info=逻辑门目前正在以%2$s作为量子控制位将量子位%1$s作为目标
-info.nuclearcraft.multitool.quantum_computer.start_control_set=逻辑门正在等待量子控制位的设置……
-info.nuclearcraft.multitool.quantum_computer.finish_control_set=逻辑门正在量子位%s的控制下！
+info.nuclearcraft.multitool.quantum_computer.control_gate_info=逻辑门当前的目标位为%s，当前的控制位为%s
+info.nuclearcraft.multitool.quantum_computer.start_control_set=逻辑门正在等待对控制位的设定……
+info.nuclearcraft.multitool.quantum_computer.finish_control_set=逻辑门现在正以%s为控制位！
 
-info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=逻辑门目前正在以%3$s作为量子控制位、以%2$s的工作角度将量子位%1$s作为目标
+info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=逻辑门当前的目标位为%s，当前的工作角度为%s°，当前的控制位为%s
 
-info.nuclearcraft.multitool.quantum_computer.swap_gate_info=逻辑门目前正在交换量子位%s与%s
-info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待量子位的首列表……
-info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=逻辑门已被设定为交换首列表的量子位%s！
-info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待量子位的次列表……
-info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门已被设定为交换次列表的量子位%s！
+info.nuclearcraft.multitool.quantum_computer.swap_gate_info=逻辑门当前交换量子位%s与%s的态
+info.nuclearcraft.multitool.quantum_computer.start_first_swap_list=逻辑门正在等待对所交换量子位的第一个列表的设定……
+info.nuclearcraft.multitool.quantum_computer.finish_first_swap_list=逻辑门现在所交换量子位的第一个列表为%s！
+info.nuclearcraft.multitool.quantum_computer.start_second_swap_list=逻辑门正在等待对所交换量子位的第二个列表的设定……
+info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门现在所交换量子位的第二个列表为%s！
 
-info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=逻辑门正在量子位%3$s的控制下交换量子位%1$s与%2$s
+info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=逻辑门当前交换量子位%s与%s的态，当前的控制位为%s
 
 info.nuclearcraft.multitool.quantum_computer.controller.code_qasm_start=量子计算机正在进入QASM模式！门运算会被记录但不会在游戏中生效。
 info.nuclearcraft.multitool.quantum_computer.controller.code_qiskit_start=量子计算机正在进入QISKit模式！门运算会被记录但不会在游戏中生效。
@@ -2185,10 +2185,10 @@ info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits=由
 info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits=由于目前量子位过多，量子计算机将退出代码生成模式。
 info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty=量子计算机正在退出代码生成模式。
 
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=量子计算机正在退出QASM模式，生成的代码已被存储至%s
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=量子计算机正在退出QASM模式，生成的代码已被保存至%s。
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_error=量子计算机正在退出QASM模式，尝试将生成的代码保存至%s时出错。
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty=量子计算机正在退出QASM模式。
-info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=量子计算机正在退出QISKit模式，生成的代码已被存储至%s
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=量子计算机正在退出QISKit模式，生成的代码已被保存至%s。
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error=量子计算机正在退出QISKit模式，尝试将生成的代码保存至%s时出错。
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty=量子计算机正在退出QISKit模式。
 
@@ -2596,8 +2596,8 @@ gui.nc.config.fusion_overheat=启用熔毁
 gui.nc.config.fusion_overheat.comment=聚变反应堆会过热吗？
 gui.nc.config.fusion_meltdown_radiation_multiplier=熔毁辐射倍率
 gui.nc.config.fusion_meltdown_radiation_multiplier.comment=熔毁时的辐射。
-gui.nc.config.fusion_active_cooling=启用聚变主动冷却。
-gui.nc.config.fusion_active_cooling.comment=Can fusion reactors be actively cooled (disable if suffering from lag)?
+gui.nc.config.fusion_active_cooling=启用聚变主动冷却
+gui.nc.config.fusion_active_cooling.comment=聚变反应堆可以被主动冷却吗（请在过于卡顿时关闭）？
 gui.nc.config.fusion_active_cooling_rate=Active Cooling Rates
 gui.nc.config.fusion_active_cooling_rate.comment=Base heat removed per tick/mB. 顺序：水，红石，石英，金，荧石，青金石，钻石，液氦，末影，凛冰，铁，绿宝石，铜，锡，镁。
 gui.nc.config.fusion_min_size=Minimum Toroid Size
