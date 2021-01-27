@@ -3602,8 +3602,8 @@ nc.sf.silver_coil0=%s银发电机线圈
 
 nc.sf.power_adverb0=保持恒定
 nc.sf.power_adverb1=线性地%s
-nc.sf.power_adverb2=平方地%s
-nc.sf.power_adverb3=立方地%s
+nc.sf.power_adverb2=两次方地%s
+nc.sf.power_adverb3=三次方地%s
 nc.sf.power_adverb4=四次方地%s
 nc.sf.power_adverb5=五次方地%s
 nc.sf.power_adverb6=六次方地%s
@@ -3622,4 +3622,4 @@ nc.sf.decrease=降低
 nc.sf.increase_approximately=近似地提升
 nc.sf.decrease_approximately=近似地降低
 nc.sf.power_adverb_preposition=%2$s%1$s
-nc.sf.with=与
+nc.sf.with=
