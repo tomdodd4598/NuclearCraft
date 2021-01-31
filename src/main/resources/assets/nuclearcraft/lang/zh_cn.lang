@@ -924,19 +924,19 @@ fluid.hep_241_za=熔融高浓缩钚-241-锆合金燃料
 
 tile.nuclearcraft.fluid_mix_239.name=熔融混合物-239燃料
 fluid.mix_239=熔融混合物-239燃料
-tile.nuclearcraft.fluid_mix_239_fluoride.name=熔融混合 氟化物-239燃料
-fluid.mix_239_fluoride=熔融混合 氟化物-239燃料
-tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=熔融混合 氟化物-239燃料
-fluid.mix_239_fluoride_flibe=熔融混合 氟化物-239燃料
+tile.nuclearcraft.fluid_mix_239_fluoride.name=熔融混合氟化物-239燃料
+fluid.mix_239_fluoride=熔融混合氟化物-239燃料
+tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=熔融混合氟化物-239燃料
+fluid.mix_239_fluoride_flibe=熔融混合氟化物-239燃料
 tile.nuclearcraft.fluid_mix_239_za.name=熔融混合锆合金-239燃料
 fluid.mix_239_za=熔融混合锆合金-239燃料
 
 tile.nuclearcraft.fluid_mix_241.name=熔融混合物-241燃料
 fluid.mix_241=熔融混合物-241燃料
-tile.nuclearcraft.fluid_mix_241_fluoride.name=熔融混合 氟化物-241燃料
-fluid.mix_241_fluoride=熔融混合 氟化物-241燃料
-tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=熔融混合 氟化物-241燃料
-fluid.mix_241_fluoride_flibe=熔融混合 氟化物-241燃料
+tile.nuclearcraft.fluid_mix_241_fluoride.name=熔融混合氟化物-241燃料
+fluid.mix_241_fluoride=熔融混合氟化物-241燃料
+tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=熔融混合氟化物-241燃料
+fluid.mix_241_fluoride_flibe=熔融混合氟化物-241燃料
 tile.nuclearcraft.fluid_mix_241_za.name=熔融混合锆合金-241燃料
 fluid.mix_241_za=熔融混合锆合金-241燃料
 
@@ -1169,19 +1169,19 @@ fluid.depleted_hep_241_za=熔融枯竭高浓缩钚-241-锆合金燃料
 
 tile.nuclearcraft.fluid_depleted_mix_239.name=熔融枯竭混合物-239燃料
 fluid.depleted_mix_239=熔融枯竭混合物-239燃料
-tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭混合 氟化物-239燃料
-fluid.depleted_mix_239_fluoride=熔融枯竭混合 氟化物-239燃料
-tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭混合 氟化物-239燃料
-fluid.depleted_mix_239_fluoride_flibe=熔融枯竭混合 氟化物-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭混合氟化物-239燃料
+fluid.depleted_mix_239_fluoride=熔融枯竭混合氟化物-239燃料
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭混合氟化物-239燃料
+fluid.depleted_mix_239_fluoride_flibe=熔融枯竭混合氟化物-239燃料
 tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭混合锆合金-239燃料
 fluid.depleted_mix_239_za=熔融枯竭混合锆合金-239燃料
 
 tile.nuclearcraft.fluid_depleted_mix_241.name=熔融枯竭混合物-241燃料
 fluid.depleted_mix_241=熔融枯竭混合物-241燃料
-tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭混合 氟化物-241燃料
-fluid.depleted_mix_241_fluoride=熔融枯竭混合 氟化物-241燃料
-tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭混合 氟化物-241燃料
-fluid.depleted_mix_241_fluoride_flibe=熔融枯竭混合 氟化物-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭混合氟化物-241燃料
+fluid.depleted_mix_241_fluoride=熔融枯竭混合氟化物-241燃料
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭混合氟化物-241燃料
+fluid.depleted_mix_241_fluoride_flibe=熔融枯竭混合氟化物-241燃料
 tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭混合锆合金-241燃料
 fluid.depleted_mix_241_za=熔融枯竭混合锆合金-241燃料
 
