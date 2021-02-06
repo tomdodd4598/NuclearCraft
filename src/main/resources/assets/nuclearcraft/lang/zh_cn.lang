@@ -80,10 +80,10 @@ tile.nuclearcraft.electrolyzer.name=电解机
 tile.nuclearcraft.electrolyzer.desc=将化合物分解为构成它们的单质。
 
 tile.nuclearcraft.assembler.name=组合机
-tile.nuclearcraft.assembler.desc=将一些构件组合为一个复杂的成品。
+tile.nuclearcraft.assembler.desc=将一些组件组合为一个复杂的成品。
 
 tile.nuclearcraft.ingot_former.name=冷却器
-tile.nuclearcraft.ingot_former.desc=将熔融物冷却为锭或其它材料。
+tile.nuclearcraft.ingot_former.desc=将熔融物冷却为锭或其他材料。
 
 tile.nuclearcraft.pressurizer.name=压缩机
 tile.nuclearcraft.pressurizer.desc=以巨大的压力压缩材料。
@@ -160,8 +160,8 @@ tile.nuclearcraft.fission_shield.boron_silver.name=硼-银辐射中子防护屏
 info.nuclearcraft.fission_shield.heat_per_flux.fixd=单位中子通量产热：%s
 info.nuclearcraft.fission_shield.efficiency.fixd=效能倍率：%s
 
-tile.nuclearcraft.fission_redstone_port.name=裂变红石接口（半成品）
-tile.nuclearcraft.fission_computer_port.name=裂变电脑接口（半成品）
+tile.nuclearcraft.fission_redstone_port.name=裂变红石端口（半成品）
+tile.nuclearcraft.fission_computer_port.name=裂变电脑端口（半成品）
 tile.nuclearcraft.fission_computer_port.desc=用于通过[OC]开放式电脑来操控反应堆。
 
 tile.nuclearcraft.fission_irradiator_port.name=裂变中子辐照器端口
@@ -291,7 +291,7 @@ tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=硬碳合金热交换管�
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=热引合金热交换管道
 tile.nuclearcraft.heat_exchanger_tube.fixd=导热倍率：%s
 tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如果正在加热/冷却并且与另一个正在冷却/加热的热交换管道相邻，那么其将会以与另一个管道的配方温差成正比的速率接收更多的热量/被以该速率提取热量。如果被冷却的流体的输出温度低于被加热的流体的输出温度，则相邻的管道流向不得平行。潜行以已存在的热交换管道为基础放置另一个热交换管道以复制其侧面配置。
-tile.nuclearcraft.heat_exchanger_computer_port.name=热交换机电脑接口
+tile.nuclearcraft.heat_exchanger_computer_port.name=热交换机电脑端口
 tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电脑来操控热交换机。
 
 tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构未完成！）
@@ -328,7 +328,7 @@ tile.nuclearcraft.turbine_dynamo_coil.conductivity=导电倍率：
 tile.nuclearcraft.turbine_coil_connector.name=涡轮机发电机线圈连接器
 tile.nuclearcraft.turbine_inlet.name=涡轮机流体输入口
 tile.nuclearcraft.turbine_outlet.name=涡轮机流体输出口
-tile.nuclearcraft.turbine_computer_port.name=涡轮机电脑接口（半成品）
+tile.nuclearcraft.turbine_computer_port.name=涡轮机电脑端口（半成品）
 tile.nuclearcraft.turbine_computer_port.desc=用于通过[OC]开放式电脑来操控涡轮机。
 
 tile.nuclearcraft.cobblestone_generator.name=造石机
@@ -424,7 +424,7 @@ tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=受控 量子计算机 �
 tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=在控制下交换两个列表中的量子位。
 
 tile.nuclearcraft.quantum_computer_connector.name=量子计算机连接器
-tile.nuclearcraft.quantum_computer_port.name=量子计算机接口（半成品）
+tile.nuclearcraft.quantum_computer_port.name=量子计算机端口（半成品）
 tile.nuclearcraft.quantum_computer_port.desc=用于通过[OC]开放式电脑来操控量子计算机。
 
 tile.nuclearcraft.quantum_computer_code_generator.qasm.name=量子计算机QASM代码生成器
@@ -487,7 +487,7 @@ tile.nuclearcraft.fluid_lead_platinum.name=熔融铅铂合金
 fluid.lead_platinum=熔融铅铂合金
 
 tile.nuclearcraft.fluid_enderium.name=熔融末影
-fluid.enderium=熔融Enderium
+fluid.enderium=熔融末影
 
 tile.nuclearcraft.fluid_cryotheum.name=熔融凛冰
 fluid.cryotheum=熔融凛冰
@@ -2144,9 +2144,9 @@ item.nuclearcraft.multitool.name=多功能工具
 
 info.nuclearcraft.multitool.clear_info=清除了多功能工具中的信息！
 
-info.nuclearcraft.multitool.copy_component_info=将构件信息存入了多功能工具！
+info.nuclearcraft.multitool.copy_component_info=将组件信息存入了多功能工具！
 
-info.nuclearcraft.multitool.connect_component_monitor=将构件连接到了显示器！
+info.nuclearcraft.multitool.connect_component_monitor=将组件连接到了显示器！
 
 info.nuclearcraft.multitool.fission.connect_shield_manager=所有%s个防护屏都已连接到了管理器！
 
@@ -2239,9 +2239,9 @@ item.nuclearcraft.gelatin.name=明胶
 item.nuclearcraft.marshmallow.name=棉花糖
 item.nuclearcraft.marshmallow.desc=要是有了这好东西，许多文明就衰落不了了。
 
-item.nuclearcraft.smore.name=饼干巧克力夹棉花糖
-item.nuclearcraft.moresmore.name=双层饼干巧克力夹棉花糖
-item.nuclearcraft.foursmore.name=四层饼干巧克力夹棉花糖
+item.nuclearcraft.smore.name=棉花糖巧克力夹心饼干
+item.nuclearcraft.moresmore.name=双层棉花糖巧克力夹心饼干
+item.nuclearcraft.foursmore.name=四层棉花糖巧克力夹心饼干
 
 item.nuclearcraft.record_wanderer.name=唱片
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
@@ -2415,7 +2415,7 @@ gui.nc.config.ore_processing=矿石处理
 gui.nc.config.ore_processing.comment=核电工艺的机器可以处理矿石吗？
 gui.nc.config.manufactory_wood=小制造机的木头处理
 gui.nc.config.manufactory_wood.comment=调整木头处理时的产量。顺序：原木->木板，木板->木棍。
-gui.nc.config.rock_crusher_alternate=岩石粉碎机其它配方
+gui.nc.config.rock_crusher_alternate=岩石粉碎机其他配方
 gui.nc.config.rock_crusher_alternate.comment=使用另一套只产出核电工艺的粉的岩石粉碎机的配方替代默认的吗？
 gui.nc.config.gtce_recipe_integration=注册[GTCE]格雷科技：社区版的配方
 gui.nc.config.gtce_recipe_integration.comment=如果设定为 (true) ，核电工艺的相关配方也会被加入至对应的机器里。顺序：小制造机，分离器，衰变加速器，燃料再处理机，合金炉，流体注入器，熔化机，超冷却机，电解机，组合机，冷却器，压缩机，化学反应器，流体混合器，结晶器，溶解器，流体提取机，离心机，岩石粉碎机。
@@ -2598,18 +2598,18 @@ gui.nc.config.fusion_meltdown_radiation_multiplier=熔毁辐射倍率
 gui.nc.config.fusion_meltdown_radiation_multiplier.comment=熔毁时的辐射。
 gui.nc.config.fusion_active_cooling=启用聚变主动冷却
 gui.nc.config.fusion_active_cooling.comment=聚变反应堆可以被主动冷却吗（请在过于卡顿时关闭）？
-gui.nc.config.fusion_active_cooling_rate=Active Cooling Rates
-gui.nc.config.fusion_active_cooling_rate.comment=Base heat removed per tick/mB. 顺序：水，红石，石英，金，荧石，青金石，钻石，液氦，末影，凛冰，铁，绿宝石，铜，锡，镁。
-gui.nc.config.fusion_min_size=Minimum Toroid Size
-gui.nc.config.fusion_min_size.comment=Minimum size of fusion toroids.
-gui.nc.config.fusion_max_size=Maximum Toroid Size
-gui.nc.config.fusion_max_size.comment=Maximum size of fusion toroids.
-gui.nc.config.fusion_comparator_max_efficiency=Max Comparator Signal Efficiency
-gui.nc.config.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
-gui.nc.config.fusion_plasma_craziness=Fusion Plasma Fires
-gui.nc.config.fusion_plasma_craziness.comment=Will fusion plasma start fires? Disabling this will reduce lag somewhat.
-gui.nc.config.fusion_sound_volume=Fusion Sound Volume
-gui.nc.config.fusion_sound_volume.comment=Modifier for the volume of fusion sound effects.
+gui.nc.config.fusion_active_cooling_rate=主动冷却速率
+gui.nc.config.fusion_active_cooling_rate.comment=基础热量移除（单位：H/(t/mB)）。顺序：水，红石，石英，金，荧石，青金石，钻石，液氦，末影，凛冰，铁，绿宝石，铜，锡，镁。
+gui.nc.config.fusion_min_size=最小磁环尺寸
+gui.nc.config.fusion_min_size.comment=聚变磁环的最小尺寸。
+gui.nc.config.fusion_max_size=最大磁环尺寸
+gui.nc.config.fusion_max_size.comment=聚变磁环的最大尺寸。
+gui.nc.config.fusion_comparator_max_efficiency=比较器产生红石信号最大效能
+gui.nc.config.fusion_comparator_max_efficiency.comment=会导致与控制器相邻的比较器产生满级红石信号强度的效能（单位：%）。
+gui.nc.config.fusion_plasma_craziness=等离子体产生火
+gui.nc.config.fusion_plasma_craziness.comment=等离子体会产生火吗？如果设定为 (false) 则卡顿情况会在某种情况下改善。
+gui.nc.config.fusion_sound_volume=聚变音效范围
+gui.nc.config.fusion_sound_volume.comment=调整能听到聚变声音的范围。
 
 gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
 gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
@@ -2916,7 +2916,7 @@ gui.nc.config.register_projecte_emc=注册基础EMC值
 gui.nc.config.register_projecte_emc.comment=为核电工艺的材料添加EMC值吗？
 
 gui.nc.config.category.misc=杂项配置
-gui.nc.config.category.misc.tooltip=配置一些其它的内容。
+gui.nc.config.category.misc.tooltip=配置一些其他的内容。
 
 gui.nc.config.single_creative_tab=单一创造模式标签
 gui.nc.config.single_creative_tab.comment=将所有核电工艺添加的创造模式标签合并到一个大的标签当中吗？
@@ -3365,13 +3365,13 @@ advancement.nuclearcraft.marshmallow.name=兰斯戴尔的捭阖之术
 advancement.nuclearcraft.marshmallow.desc=制作一个棉花糖
 
 advancement.nuclearcraft.smore.name=快来到篝火边！
-advancement.nuclearcraft.smore.desc=制作一块饼干巧克力夹棉花糖
+advancement.nuclearcraft.smore.desc=制作一块棉花糖巧克力夹心饼干
 
 advancement.nuclearcraft.moresmore.name=更多一些
-advancement.nuclearcraft.moresmore.desc=制作一块双层饼干巧克力夹棉花糖
+advancement.nuclearcraft.moresmore.desc=制作一块双层棉花糖巧克力夹心饼干
 
 advancement.nuclearcraft.foursmore.name=再多一些
-advancement.nuclearcraft.foursmore.desc=制作一块四层饼干巧克力夹棉花糖
+advancement.nuclearcraft.foursmore.desc=制作一块四层棉花糖巧克力夹心饼干
 
 block.nc.fusion_run=聚变反应堆：运行
 block.nc.turbine_run=涡轮机：运行
