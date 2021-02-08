@@ -21,7 +21,6 @@
 			"anchor": "controller",
 			"type": "blocks/2",
 			"header": "Reactor Controllers",
-			//"block1": "nuclearcraft:pebble_fission_controller",
 			"block1": "nuclearcraft:solid_fission_controller",
 			"block2": "nuclearcraft:salt_fission_controller",
 			"text": "The reactor type is determined by the $(item)Reactor Controller$(), installed in one of the reactor walls. Without a controller, the reactor multiblock will not form. It's GUI will show information about the reactor, such as the averages of relevant components' stats."
@@ -30,7 +29,12 @@
 			"anchor": "clusters",
 			"type": "text",
 			"title": "Reactor Clusters",
-			"text": "$(thing)Clusters$() are connected groups of heat-conducting components. These components, which can be in an active or idle state only, conduct heat when active. Passive blocks such as $(l:fission/general#conductor)Conductor$() blocks always do, while $(l:fission/general#moderator)Moderators$() and $(l:fission/general#reflector)Reflectors$() do not make up clusters. The components share a combined heat level, and will overheat if they get too hot. If the reactor contains a cluster that is not connected to the casing, the multiblock won't form."
+			"text": "$(thing)Clusters$() are connected groups of heat-conducting components. These components, which can be in an active or idle state only, conduct heat when active. Passive blocks such as $(l:fission/general#conductor)Conductor$() blocks always do, while $(l:fission/general#moderator)Moderators$() and $(l:fission/general#reflector)Reflectors$() do not make up clusters."
+		},
+		{
+			"type": "text",
+			"title": "Reactor Clusters Cont.",
+			"text": "The components in a cluster share a combined heat level, and will collectively overheat if they get too hot. If the reactor contains a cluster that is not connected to the casing, the multiblock won't form."
 		},
 		{
 			"anchor": "conductor",
@@ -50,7 +54,6 @@
 			"anchor": "fuel_component",
 			"type": "blocks/2",
 			"header": "Fuel Components",
-			//"block1": "nuclearcraft:pebble_fission_chamber",
 			"block1": "nuclearcraft:solid_fission_cell",
 			"block2": "nuclearcraft:salt_fission_vessel",
 			"text": "Each type of reactor has an associated $(item)fuel component$(), which houses the fission fuel. When the fuel is undergoing fission, it produces a certain amount of heat. Fuel components can also be filtered by right-clicking it with a fuel to allow for multi-fuel reactors."
@@ -60,6 +63,10 @@
 			"type": "text",
 			"title": "Criticality Factor",
 			"text": "For fuels to be able to undergo fission, they must receive a certain neutron flux, measured in N/t. When the neutron flux going into a $(l:fission/general#fuel_component)Fuel Component$() is above the fuel's criticality factor, the fuel will start undergoing fission. This will not only produce heat, but also more neutrons."
+		},
+		{
+			"type": "text",
+			"text": "If the flux in a fuel cell goes over two times it's criticality factor, the efficiency of the reactor will be reduced. Neutron flux can also be used for crafting recipes in the $(l:fission/general#irradiator)Irradiator$()."
 		},
 		{
 			"anchor": "moderator",
@@ -72,7 +79,23 @@
 		},
 		{
 			"type": "text",
-			"text": "The neutron flux generated at the other end will be equal to the sum of the flux factors of each of the moderators in that line. If there are active fuel cells on both ends of the moderator line, then both cells will receive neutron flux equal to the sum of the flux factors of each moderator in the line."
+			"title": "Moderators Cont.",
+			"text": "The neutron flux generated at the other end will be equal to the sum of the flux factors of each of the moderators in that line. If there are active fuel cells on both ends of the moderator line, then both cells will receive neutron flux equal to the sum of the flux factors of each moderator in the line. In some design rules, it may refer to \"Active\" moderators. Active moderators are moderators directly adjacent to an active fuel cell."
+		},
+		{
+			"anchor": "heatsink",
+			"type": "text",
+			"title": "Heatsinks",
+			"text": "$(item)Heatsinks$() and their active $(l:fission/molten_salt#intro)MSR$() counterpart, $(item)Coolant Heaters$(). When designing a reactor, the designer must balance the $(thing)Net Heat$() of the reactor, employing the use of heatsinks. The designer should aim for a net heat of 0HU/t for a fully stable reactor. Each heatsink has specific design rules that it must adhere to."
+		},
+		{
+			"type": "text",
+			"text": "Heatsinks act to remove heat from the reactor. When a fuelcell is active, it will produce heat equal to it's base heat output times the $(thing)Heat Multiplier$(). The heat multiplier of a cell is determined by the number of moderator lines. Thus, a cell with a single moderator line will have 100% heat efficiency, and a cell with two moderator lines will have 200% heat efficiency."
+		},
+		{
+			"type": "text",
+			"title": "Heatsinks Continued",
+			"text": "When a valid heatsink is placed within a cluster, it will subtract it's cooling value from the total heat of the cluster. Heatsinks have varying cooling values, and should be used in conjunction to reach a net heat of 0HU/t, +/-5 HU/t."
 		},
 		{
 			"anchor": "reflector",
@@ -95,6 +118,12 @@
 			"header": "Neutron Shields",
 			"block": "nuclearcraft:fission_shield:0",
 			"text": "$(item)Neutron Shields$() act as a toggleable $(l:fission/general#moderator)Moderator$(). When toggled off, neutron shields block neutron flux and generate heat. When toggled on, neutron shields pass neutron flux, but do not add flux like a moderator. They can be used to disable moderator channels while the reactor is still assembled."
+		},
+		{
+			"anchor": "planner",
+			"type": "text",
+			"title": "Design Considerations",
+			"text": "When designing a reactor, the usage of a $(l:https://github.com/ThizThizzyDizzy/nc-reactor-generator/releases)reactor planner$() is recommended. Reactor planners assist with the design of the reactor, providing feedback on design rules, heat control, and predicted output."
 		}
 	]
 }

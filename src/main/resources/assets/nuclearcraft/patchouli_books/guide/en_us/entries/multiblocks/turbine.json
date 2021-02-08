@@ -5,6 +5,7 @@
 	"sortnum": 2,
 	"pages": [
 		{
+			"anchor": "intro",
 			"type": "text",
 			"text": "Turbines extract energy from pressurised steam, producing an exhaust fluid in the process."
 		}
