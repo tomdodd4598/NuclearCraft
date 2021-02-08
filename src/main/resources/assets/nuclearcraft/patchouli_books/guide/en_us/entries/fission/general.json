@@ -19,11 +19,11 @@
 		},
 		{
 			"anchor": "controller",
-			"type": "blocks/3",
+			"type": "blocks/2",
 			"header": "Reactor Controllers",
-			"block1": "nuclearcraft:pebble_fission_controller",
-			"block2": "nuclearcraft:solid_fission_controller",
-			"block3": "nuclearcraft:salt_fission_controller",
+			//"block1": "nuclearcraft:pebble_fission_controller",
+			"block1": "nuclearcraft:solid_fission_controller",
+			"block2": "nuclearcraft:salt_fission_controller",
 			"text": "The reactor type is determined by the $(item)Reactor Controller$(), installed in one of the reactor walls. Without a controller, the reactor multiblock will not form. It's GUI will show information about the reactor, such as the averages of relevant components' stats."
 		},
 		{
