@@ -7,7 +7,7 @@
 		{
 			"anchor": "intro",
 			"type": "text",
-			"text": "The pebble-bed fission reactor uses solid fission fuel in the form of layered pellets. The generated heat is transferred to a gas coolant and transformed into useful energy by an internal thermoelectric generator."
+			"text": "The pebble-bed fission reactor uses solid fission fuel in the form of layered pellets. The generated heat is transferred to a gas coolant and transformed into useful energy by an internal thermoelectric generator. Pebble-Bed Reactors have not been implemented yet."
 		}
 	]
 }

@@ -7,7 +7,7 @@
 		{
 			"anchor": "intro",
 			"type": "text",
-			"text": "Fission reactors generate heat from the self-sustained nuclear reaction of fission fuel. This heat is ultimately transformed into useful energy, and the way this is achieved depends on the type of reactor being built."
+			"text": "$(thing)Fission reactors$() generate heat from the self-sustained nuclear reaction of fission fuel. This heat is ultimately transformed into electricity. The method of electricity generation depends on the type of reactor being built."
 		},
 		{
 			"anchor": "casing",
@@ -15,7 +15,7 @@
 			"header": "Reactor Casing",
 			"block1": "nuclearcraft:fission_casing",
 			"block2": "nuclearcraft:fission_glass",
-			"text": "The reactor's interior components are contained within a cuboidal structure. The edges must consist of reactor casing, while reactor glass can be used instead of casing for the walls. When the multiblock forms, the casing blocks on the edges will be given a new frame texture."
+			"text": "The interior components of the reactor are contained within a rectangular prism. The reactor has edges consisting of $(item)Reactor Casing$(), while the walls of the reactor can be $(item)Reactor Glass$(), Reactor Casing, or both."
 		},
 		{
 			"anchor": "controller",
@@ -24,36 +24,77 @@
 			"block1": "nuclearcraft:pebble_fission_controller",
 			"block2": "nuclearcraft:solid_fission_controller",
 			"block3": "nuclearcraft:salt_fission_controller",
-			"text": "The type of reactor is given by the controller, installed in one of the reactor walls. Without a controller, the multiblock will not form. Its GUI will show information about the reactor as a whole, such as the averages of relevant components' stats."
+			"text": "The reactor type is determined by the $(item)Reactor Controller$(), installed in one of the reactor walls. Without a controller, the reactor multiblock will not form. It's GUI will show information about the reactor, such as the averages of relevant components' stats."
+		},
+		{
+			"anchor": "clusters",
+			"type": "text",
+			"title": "Reactor Clusters",
+			"text": "$(thing)Clusters$() are connected groups of heat-conducting components. These components, which can be in an active or idle state only, conduct heat when active. Passive blocks such as $(l:fission/general#conductor)Conductor$() blocks always do, while $(l:fission/general#moderator)Moderators$() and $(l:fission/general#reflector)Reflectors$() do not make up clusters. The components share a combined heat level, and will overheat if they get too hot. If the reactor contains a cluster that is not connected to the casing, the multiblock won't form."
 		},
 		{
 			"anchor": "conductor",
 			"type": "blocks/1",
 			"header": "Conductor Blocks",
 			"block": "nuclearcraft:fission_conductor",
-			"text": "If the structure contains groups of components disconnected from the casing, the multiblock can not form. Conductor blocks can be used to join these blocks to the reactor's walls. $(l)Clusters$() can also be connected together with the use of these blocks."
-		},
-		{
-			"anchor": "clusters",
-			"type": "text",
-			"title": "Reactor Clusters",
-			"text": "Clusters are simply connected groups of heat-conducting components. Components which can be in an active or idle state only conduct heat when functional, while passive blocks such as conductor blocks always do. Moderator and reflector blocks do $(l)not$() make up clusters. The components share a combined heat level, so will collectively overheat if they get too hot."
+			"text": "$(item)Conductor Blocks$() can be used to join these blocks to the reactor's walls. Clusters can also be connected together with the use of these blocks."
 		},
 		{
 			"anchor": "monitor",
 			"type": "blocks/1",
 			"header": "Reactor Monitors",
 			"block": "nuclearcraft:fission_monitor",
-			"text": "Monitors are used to get more localised information about the reactor, particularly the stats of individual clusters."
+			"text": "$(item)Reactor Monitors$() are used to get more localized information about the stats of individual clusters."
 		},
 		{
 			"anchor": "fuel_component",
-			"type": "blocks/3",
+			"type": "blocks/2",
 			"header": "Fuel Components",
-			"block1": "nuclearcraft:pebble_fission_chamber",
-			"block2": "nuclearcraft:solid_fission_cell",
-			"block3": "nuclearcraft:salt_fission_vessel",
-			"text": "Each type of reactor has an associated fuel component which houses the fission fuel."
+			//"block1": "nuclearcraft:pebble_fission_chamber",
+			"block1": "nuclearcraft:solid_fission_cell",
+			"block2": "nuclearcraft:salt_fission_vessel",
+			"text": "Each type of reactor has an associated $(item)fuel component$(), which houses the fission fuel. When the fuel is undergoing fission, it produces a certain amount of heat. Fuel components can also be filtered by right-clicking it with a fuel to allow for multi-fuel reactors."
+		},
+		{
+			"anchor": "criticality",
+			"type": "text",
+			"title": "Criticality Factor",
+			"text": "For fuels to be able to undergo fission, they must receive a certain neutron flux, measured in N/t. When the neutron flux going into a $(l:fission/general#fuel_component)Fuel Component$() is above the fuel's criticality factor, the fuel will start undergoing fission. This will not only produce heat, but also more neutrons."
+		},
+		{
+			"anchor": "moderator",
+			"type": "blocks/3",
+			"header": "Moderators",
+			"block1": "nuclearcraft:ingot_block:8",
+			"block2": "nuclearcraft:ingot_block:9",
+			"block3": "nuclearcraft:heavy_water_moderator",
+			"text": " $(item)Moderators$() can slow down the high energy neutrons produced by the $(l:fission/general#fuel_component)Fuel Components$() into ones that will cause more fission in other fuel components. Moderators are placed in a straight line, no more than 4 blocks long. At one end of the moderator line there must be an $(o)active$() fuel component."
+		},
+		{
+			"type": "text",
+			"text": "The neutron flux generated at the other end will be equal to the sum of the flux factors of each of the moderators in that line. If there are active fuel cells on both ends of the moderator line, then both cells will receive neutron flux equal to the sum of the flux factors of each moderator in the line."
+		},
+		{
+			"anchor": "reflector",
+			"type": "blocks/2",
+			"header": "Reflectors",
+			"block1": "nuclearcraft:fission_reflector:0",
+			"block2": "nuclearcraft:fission_reflector:1",
+			"text": " When a $(item)Reflector$() is used, it will reflect neutron flux back into the source. Thus, a reflector with 100% reflectivity will result in double the flux in the fuel cell, since the neutrons double back over the $(l:fission/general#moderator)Moderators$() without any loss. Reflectors must be no farther than two moderators from the neutron source."
+		},
+		{
+			"anchor": "irradiator",
+			"type": "blocks/1",
+			"header": "Irradiators",
+			"block": "nuclearcraft:fission_irradiator",
+			"text": "When placed at the end of a $(l:fission/general#moderator)Moderator$() line, $(item)Irradiators$() will use the neutron flux for crafting recipes. The higher the neutron flux, the faster the crafting recipe will complete. When activated, irradiators will generate heat and release radiation into the environment."
+		},
+		{
+			"anchor": "shield",
+			"type": "blocks/1",
+			"header": "Neutron Shields",
+			"block": "nuclearcraft:fission_shield:0",
+			"text": "$(item)Neutron Shields$() act as a toggleable $(l:fission/general#moderator)Moderator$(). When toggled off, neutron shields block neutron flux and generate heat. When toggled on, neutron shields pass neutron flux, but do not add flux like a moderator. They can be used to disable moderator channels while the reactor is still assembled."
 		}
 	]
 }
