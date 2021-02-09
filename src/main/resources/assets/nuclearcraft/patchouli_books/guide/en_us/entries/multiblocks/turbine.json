@@ -50,7 +50,7 @@
 		{
 			"type": "text",
 			"title": "Turbine Blades Cont.",
-			"text": "Each turbine blade processes a certain amount of steam. If more steam is input into the turbine than the blades can process, the turbine will break. When steam flows through each set of blades, it expands by a certain amount. The closer this $(thing)Expansion Rate$() is to the $(thing)Ideal Expansion Rate$(), the more efficient the turbine will be."
+			"text": "Each turbine blade can process a certain amount of steam. If more steam is input into the turbine than the blades can process, the turbine will break. When steam flows through each set of blades, it expands by a certain amount. The closer this $(thing)Expansion Rate$() is to the $(thing)Ideal Expansion Rate$() per shaft layer, the more efficient the turbine will be."
 		},
 		{
 			"anchor": "stator",
@@ -58,21 +58,6 @@
 			"header": "Turbine Rotor Stator",
 			"block": "nuclearcraft:turbine_rotor_stator",
 			"text": "$(item)Turbine Rotor Stators$() are similar to blades, however when steam passes through the stators, it will contract instead of expanding. Stators do not process steam, nor do they add to the turbine's maximum steam. The placement rules for stators are identical to rotor blades."
-		},
-		{
-			"type": "text",
-			"header": "Turbine Blades Cont.",
-			"title": "Turbine Blades Cont.",
-			"text": "Within the ideal expansion rate, there are two considerations. The $(thing)Total Ideal Expansion Rate$(), and the $(thing)Exponential Ideal Expansion Rate$(). The total ideal expansion rate is the expansion rate of the gas when it has reached the end of the turbine. This number should be as close to the expansion coefficient of the gas as possible. It is calculated by multiplying the expansion coefficient of all of the blades or stators."
-		},
-		{
-			"type": "text",
-			"text": "The exponential ideal expansion rate is a value at every point in the turbine. The exponential ideal expansion rate equation is:$(br) (g^(1/n))^p$(br)Where \"g\" is the gas expansion coefficient, \"n\" is the number of rotor shaft layers, and \"p\" is the sequential position of the shaft layer for which you want to calculate the exponential ideal expansion rate."
-		},
-		{
-			"type": "text",
-			"title": "Turbine Blades Cont.",
-			"text": "When designing a turbine, the usage of a $(l:https://github.com/ThizThizzyDizzy/nc-reactor-generator/releases)reactor planner with turbine planning ability$() or a dedicated turbine planner is recommended. Turbine planners assist with the design of the turbine, providing feedback on design rules, expansion, and predicted efficiency."
 		},
 		{
 			"anchor": "dynamo_coil",
@@ -99,6 +84,15 @@
 			"header": "Turbine Fluid Outlet",
 			"block": "nuclearcraft:turbine_outlet",
 			"text": "$(item)Turbine Fluid Outlets$() allow exhaust steam to exit the turbine. They must be placed on one of the faces of the turbine that has a rotor bearing, on the opposite face of the fluid inlet."
+		},
+		{
+			"type": "text",
+			"title": "Design Considerations",
+			"text": "When designing a turbine, due to their complicated nature, the usage of a $(l:https://github.com/ThizThizzyDizzy/nc-reactor-generator/releases)reactor planner with turbine planning ability$() or a dedicated turbine planner is recommended. Turbine planners assist with the design of the turbine, providing feedback on design rules, expansion, and predicted efficiency."
+		},
+		{
+			"type": "text",
+			"text": "For the sake of brevity and clarity, a full description of the function of turbines has been omitted. For more information, consider watching $(l:https://youtu.be/p555h2peays)this video$()."
 		},
 		{
 			"anchor": "examples",
