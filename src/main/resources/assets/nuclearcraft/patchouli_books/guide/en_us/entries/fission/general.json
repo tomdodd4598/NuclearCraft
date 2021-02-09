@@ -15,7 +15,7 @@
 			"header": "Reactor Casing",
 			"block1": "nuclearcraft:fission_casing",
 			"block2": "nuclearcraft:fission_glass",
-			"text": "The interior components of the reactor are contained within a rectangular prism. The reactor has edges consisting of $(item)Reactor Casing$(), while the walls of the reactor can be $(item)Reactor Glass$(), Reactor Casing, or both."
+			"text": "The interior components of the reactor are contained within a rectangular prism. The reactor must have edges consisting of $(item)Reactor Casing$(), while the walls of the reactor can be $(item)Reactor Glass$(), Reactor Casing, or both."
 		},
 		{
 			"anchor": "controller",
@@ -84,9 +84,11 @@
 		},
 		{
 			"anchor": "heatsink",
-			"type": "text",
-			"title": "Heatsinks",
-			"text": "$(item)Heatsinks$() and their active $(l:fission/molten_salt#intro)MSR$() counterpart, $(item)Coolant Heaters$(). When designing a reactor, the designer must balance the $(thing)Net Heat$() of the reactor, employing the use of heatsinks. The designer should aim for a net heat of 0HU/t for a fully stable reactor. Each heatsink has specific design rules that it must adhere to."
+			"type": "blocks/2",
+			"block1": "nuclearcraft:solid_fission_sink:0,nuclearcraft:solid_fission_sink:1,nuclearcraft:solid_fission_sink:2,nuclearcraft:solid_fission_sink:3,nuclearcraft:solid_fission_sink:4,nuclearcraft:solid_fission_sink:5,nuclearcraft:solid_fission_sink:6,nuclearcraft:solid_fission_sink:7,nuclearcraft:solid_fission_sink:8,nuclearcraft:solid_fission_sink:9,nuclearcraft:solid_fission_sink:10,nuclearcraft:solid_fission_sink:11,nuclearcraft:solid_fission_sink:12,nuclearcraft:solid_fission_sink:13,nuclearcraft:solid_fission_sink:14,nuclearcraft:solid_fission_sink:15",
+			"block2": "nuclearcraft:solid_fission_sink2:0,nuclearcraft:solid_fission_sink2:1,nuclearcraft:solid_fission_sink2:2,nuclearcraft:solid_fission_sink2:3,nuclearcraft:solid_fission_sink2:4,nuclearcraft:solid_fission_sink2:5,nuclearcraft:solid_fission_sink2:6,nuclearcraft:solid_fission_sink2:7,nuclearcraft:solid_fission_sink2:8,nuclearcraft:solid_fission_sink2:9,nuclearcraft:solid_fission_sink2:10,nuclearcraft:solid_fission_sink2:11,nuclearcraft:solid_fission_sink2:12,nuclearcraft:solid_fission_sink2:13,nuclearcraft:solid_fission_sink2:14,nuclearcraft:solid_fission_sink2:15",
+			"header": "Heatsinks",
+			"text": "$(item)Heatsinks$() and their active $(l:fission/molten_salt#intro)MSR$() counterpart, $(item)Coolant Heaters$() are used when designing a reactor, to balance the $(thing)Net Heat$() of the reactor. The designer should aim for a net heat of 0HU/t for a fully stable reactor. Each heatsink has specific design rules that it must adhere to."
 		},
 		{
 			"type": "text",
