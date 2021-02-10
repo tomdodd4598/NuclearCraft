@@ -302,17 +302,17 @@ tile.nuclearcraft.condenser_tube.fixd=导热倍率：%s
 tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行以已存在的冷凝管道为基础放置另一个冷凝管道以复制其侧面配置。
 
 tile.nuclearcraft.turbine_controller.name=涡轮机控制器
-tile.nuclearcraft.turbine_controller.desc=涡轮机的心脏——一面墙壁上必须要有一个以使涡轮机运转。
+tile.nuclearcraft.turbine_controller.desc=涡轮机的心脏——某面墙壁上必须有一个。
 tile.nuclearcraft.turbine_casing.name=涡轮机外壳
 tile.nuclearcraft.turbine_glass.name=透明涡轮机外壳
 tile.nuclearcraft.turbine_rotor_shaft.name=涡轮机转子轴
 tile.nuclearcraft.turbine_rotor_shaft.desc=将叶片连接到发电机以将产生的动能转换为电能。必须被以涡轮机的中心为轴放置。
 tile.nuclearcraft.turbine_rotor_blade_steel.name=钢涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_extreme.name=极限合金涡轮机转子叶片
-tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料涡轮机转子叶片
+tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅复合材料涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=效能倍率：%s
 tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=膨胀系数：%s
-tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转动能。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并保证每个组的叶片都相同。每个叶片最多能处理%s的液体。
+tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转动能。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并且每个组的叶片都须相同。每个叶片最多能处理%s的液体。
 tile.nuclearcraft.turbine_rotor_stator.name=涡轮机转子定子
 tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=膨胀系数：%s
 tile.nuclearcraft.turbine_rotor_stator.desc=用于增加经过的流体的密度，也即通过压低叶片产生的过高膨胀系数来提升涡轮机的效率。必须放置在从转子轴到所对墙壁间的全部位置。
@@ -1598,7 +1598,8 @@ item.nuclearcraft.alloy.extreme.name=极限合金锭
 item.nuclearcraft.alloy.thermoconducting.name=热引合金锭
 item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
-item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅纤维增韧型碳化硅陶瓷基复合材料锭
+item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅复合材料锭
+# 碳化硅纤维增韧型碳化硅陶瓷基复合材料
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
 item.nuclearcraft.alloy.zirconium_molybdenum.name=锆钼合金锭
 
@@ -2193,7 +2194,7 @@ info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error=量子计�
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty=量子计算机正在退出QISKit模式。
 
 item.nuclearcraft.geiger_counter.name=盖革计数器
-item.nuclearcraft.geiger_counter.desc=监测并为玩家显示出其身上的辐射量。同样可以检测其他实体的辐射量。当不在快捷栏中时不会显示HUD。
+item.nuclearcraft.geiger_counter.desc=监测及显示玩家身上的辐射量。同样可以检测其他实体的辐射量。当不在快捷栏或饰品栏时不会显示HUD。
 item.nuclearcraft.geiger_counter.rads=辐射量：
 
 item.nuclearcraft.rad_shielding.light.name=轻型辐射屏蔽板
@@ -2243,16 +2244,16 @@ item.nuclearcraft.smore.name=棉花糖巧克力夹心饼干
 item.nuclearcraft.moresmore.name=双层棉花糖巧克力夹心饼干
 item.nuclearcraft.foursmore.name=四层棉花糖巧克力夹心饼干
 
-item.nuclearcraft.record_wanderer.name=唱片
+item.nuclearcraft.record_wanderer.name=音乐唱片
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
 item.nuclearcraft.record_wanderer.des1=8-Bit版本制作者：8 Bit Universe
-item.nuclearcraft.record_end_of_the_world.name=唱片
+item.nuclearcraft.record_end_of_the_world.name=音乐唱片
 item.nuclearcraft.record_end_of_the_world.des0=Skeeter Davis - The End of the World
 item.nuclearcraft.record_end_of_the_world.des1=8-Bit版本制作者：GermanPikachuGaming
-item.nuclearcraft.record_money_for_nothing.name=唱片
+item.nuclearcraft.record_money_for_nothing.name=音乐唱片
 item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
 item.nuclearcraft.record_money_for_nothing.des1=8-Bit版本制作者：Omnigrad
-item.nuclearcraft.record_hyperspace.name=唱片
+item.nuclearcraft.record_hyperspace.name=音乐唱片
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=原制作者：Riku Nuottajärvi
 
@@ -2644,9 +2645,9 @@ gui.nc.config.turbine_min_size.comment=涡轮机结构的最小边长。
 gui.nc.config.turbine_max_size=最大结构边长
 gui.nc.config.turbine_max_size.comment=涡轮机结构的最大边长。
 gui.nc.config.turbine_blade_efficiency=转子叶片效能
-gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅纤维增韧型碳化硅陶瓷基复合材料。
+gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅复合材料。
 gui.nc.config.turbine_blade_expansion=转子叶片膨胀系数
-gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅纤维增韧型碳化硅陶瓷基复合材料。
+gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅复合材料。
 gui.nc.config.turbine_stator_expansion=转子定子膨胀系数
 gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rotor stators multiplies the volume of the fluid in the oncoming flow.
 gui.nc.config.turbine_coil_conductivity=发电机线圈传导率
@@ -3148,9 +3149,9 @@ gui.nc.container.non_config=无
 
 gui.nc.container.shift_clear_multiblock=按住Shift单击以 彻底 清除所有材料
 
-nuclearcraft.multiblock_validation.invalid_block=位于 [%1$d, %2$d, %3$d] 的方块%4$s并不是所要求的
-nuclearcraft.multiblock_validation.no_controller=必须要有一个控制器以完成多方块结构
-nuclearcraft.multiblock_validation.too_many_controllers=必须要有且仅有一个控制器以完成多方块结构
+nuclearcraft.multiblock_validation.invalid_block=位于 [%1$d, %2$d, %3$d] 的方块%4$s无效
+nuclearcraft.multiblock_validation.no_controller=完成多方块结构必须要有一个控制器
+nuclearcraft.multiblock_validation.too_many_controllers=完成多方块结构必须要有且仅有一个控制器
 
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=这不是一个固态燃料反应堆——这里不应该有单元！
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=这不是一个固态燃料反应堆——这里不应该有散热器！
@@ -3163,17 +3164,17 @@ nuclearcraft.multiblock.fission_reactor_source.target=目标为位于 [%1$d, %2$
 nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=这不是一个热交换机——这里不应该有热交换管道！
 nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=这不是一个冷凝机——这里不应该有冷凝管道！
 
-nuclearcraft.multiblock_validation.turbine.need_bearings=需要两组相对的轴承以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.bearings_side_square=轴承所在的墙壁必须是矩形的以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=输入口和输出口必须相对且位于轴承所在的墙壁上以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.bearings_centre_and_square=轴承组必须是正方形的并且位于相对的两面墙的正中央以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.shaft_centre=转子轴必须完全连接到轴承以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.space_between_blades=叶片和定子以外的部分必须空着以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.different_type_blades=每个转子轴上四个面所对应的叶片和定子必须完全相同以使涡轮机运转
-nuclearcraft.multiblock_validation.turbine.missing_blades=每个转子轴上四个面所对应的叶片和定子必须完全搭建到墙壁以使涡轮机运转
+nuclearcraft.multiblock_validation.turbine.need_bearings=需要两组相对的轴承。
+nuclearcraft.multiblock_validation.turbine.bearings_side_square=轴承所在的墙壁必须是矩形的。
+nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=输入口和输出口必须相对且位于轴承所在的墙壁上。
+nuclearcraft.multiblock_validation.turbine.bearings_centre_and_square=轴承组必须是正方形的并且位于相对的两面墙的正中央。
+nuclearcraft.multiblock_validation.turbine.shaft_centre=转子轴必须完全连接到轴承。
+nuclearcraft.multiblock_validation.turbine.space_between_blades=叶片和定子以外的部分必须空着。
+nuclearcraft.multiblock_validation.turbine.different_type_blades=每个转子轴上四个面所对应的叶片和定子必须完全相同。
+nuclearcraft.multiblock_validation.turbine.missing_blades=每个转子轴上四个面所对应的叶片和定子必须完全搭建到墙壁。
 
 nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=现在有%s个量子位连接到了这个量子计算机上——最多只能有%s个。
-nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=最多只能有一个代码生成器连接到这个量子计算机上
+nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=最多只能有一个代码生成器连接到这个量子计算机上。
 
 nuclearcraft.collector.jei_name=收集器
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=裂变减速剂
@@ -3360,7 +3361,7 @@ advancement.nuclearcraft.rad_shielding.desc=做一些重型辐射屏蔽板
 advancement.nuclearcraft.radiation_scrubber.name=污染控制
 advancement.nuclearcraft.radiation_scrubber.desc=制作一个辐射净化仪
 
-advancement.nuclearcraft.marshmallow.name=兰斯戴尔的捭阖之术
+advancement.nuclearcraft.marshmallow.name=Lansdell的捭阖之术
 # pun or meme
 advancement.nuclearcraft.marshmallow.desc=制作一个棉花糖
 
@@ -3431,7 +3432,7 @@ message.nuclearcraft.filter=设置过滤器：
 message.nuclearcraft.qubit_id=量子位ID：
 
 message.nuclearcraft.rad_x_wore_off=你的降辐剂的效果结束了……
-message.nuclearcraft.rad_warning=伴随着剧烈的头痛，一种金属的恶臭在你的嘴里蔓延……你正在受到可怕的辐射！你最好使用盖革计数器查看当前辐射的严重程度……
+message.nuclearcraft.rad_warning=伴随着剧烈的头痛，一种金属的恶臭在你的嘴里蔓延……你正在受到可怕的辐射！最好使用盖革计数器查看当前辐射的严重程度……
 message.nuclearcraft.radaway_cooling_down=你的抗辐宁效果的剩余冷却时间：
 message.nuclearcraft.rad_x_cooling_down=你的降辐剂的剩余冷却时间：
 message.nuclearcraft.scrubber_removal_rate=主动背景辐射消除速率：
