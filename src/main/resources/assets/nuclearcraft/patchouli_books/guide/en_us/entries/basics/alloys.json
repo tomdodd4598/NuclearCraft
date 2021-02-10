@@ -7,7 +7,7 @@
 		{
 			"anchor": "intro",
 			"type": "text",
-			"text": "Alloys are made by combining two materials in an $(l:machines/processors#alloy_furnace)Alloy Furnace$(/l)$(br)Dust and Ingots can be used to make the alloys, and OreDict substitutions are valid"
+			"text": "$(thing)Alloys$() are made by combining two materials in an $(l:machines/processors#alloy_furnace)Alloy Furnace$(/l), inside which dust or ingots can be used to make the alloys. OreDict substitutions are valid."
 		},
 		{
 			"flag": "!mod:thermalfoundation",
@@ -16,7 +16,7 @@
 			"item1": "nuclearcraft:ingot:0#3,nuclearcraft:dust:0#3",
 			"item2": "nuclearcraft:ingot:1,nuclearcraft:dust:1",
 			"result": "nuclearcraft:alloy:0#4",
-			"text": "3 Copper and 1 Tin make 4$(br2)$(o)Disabled if Thermal Foundation is installed$()"
+			"text": "Three $(item)Copper$() and one $(item)Tin$() make four $(item)Bronze$(). $(br2)$(o)This recipe is disabled if Thermal Foundation is installed$()."
 		},
 		{
 			"anchor": "tough_alloy",
@@ -24,7 +24,7 @@
 			"item1": "nuclearcraft:ingot:6,nuclearcraft:dust:6",
 			"item2": "nuclearcraft:alloy:6",
 			"result": "nuclearcraft:alloy:1#2",
-			"text": "1 Lithiun and 1 Ferroboron make 2"
+			"text": "One $(item)Lithium$() and one $(item)Ferroboron Alloy$() make two $(item)Tough Alloy$()."
 		},
 		{
 			"anchor": "hard_carbon_alloy",
@@ -32,7 +32,7 @@
 			"item1": "nuclearcraft:ingot:8#2,nuclearcraft:dust:8#2",
 			"item2": "ore:gemDiamond",
 			"result": "nuclearcraft:alloy:2#2",
-			"text": "1 Diamond and 2 Graphite make 2"
+			"text": "One $(item)Diamond$() and two $(item)Graphite$() make two $(item)Hard Carbon Alloy$()."
 		},
 		{
 			"anchor": "MgB2_alloy",
@@ -41,7 +41,8 @@
 			"item1": "nuclearcraft:ingot:5#2,nuclearcraft:dust:5#2",
 			"item2": "nuclearcraft:ingot:7,nuclearcraft:dust:7",
 			"result": "nuclearcraft:alloy:3#3",
-			"text": "2 Boron and 1 Magnesium make 3"
+			"title": "Magnesium Diboride Alloy",
+			"text": "Two $(item)Boron$() and one $(item)Magnesium$() make three $(item)Magnesium Diboride Alloy$()."
 		},
 		{
 			"anchor": "LiMnO2_alloy",
@@ -50,7 +51,8 @@
 			"item1": "nuclearcraft:ingot:6,nuclearcraft:dust:6",
 			"item2": "nuclearcraft:ingot:15,nuclearcraft:dust:15",
 			"result": "nuclearcraft:alloy:4#2",
-			"text": "1 Manganese Dioxide and 1 Lithium make 2"
+			"title": "Lithium Manganese Dioxide Alloy",
+			"text": "One $(item)Manganese Dioxide$() and one $(item)Lithium$() make two $(item)Lithium Manganese Dioxide Alloy$()."
 		},
 		{
 			"flag": "!mod:thermalfoundation",
@@ -59,7 +61,7 @@
 			"item1": "ore:ingotIron",
 			"item2": "minecraft:coal#2,nuclearcraft:gem_dust:7#2,nuclearcraft:ingot:8#2,nuclearcraft:dust:8#2",
 			"result": "nuclearcraft:alloy:5",
-			"text": "1 Iron and 2 Coal/Graphite make 1$(br2)$(o)Disabled if Thermal Foundation is installed$()"
+			"text": "One $(item)Iron$() and two $(item)Coal$() or $(item)Graphite$() make one $(item)Steel$().$(br2)$(o)This recipe is disabled if Thermal Foundation is installed$()."
 		},
 		{
 			"anchor": "FB_alloy",
@@ -67,7 +69,7 @@
 			"item1": "ore:ingotSteel,ore:dustSteel",
 			"item2": "nuclearcraft:ingot:5,nuclearcraft:dust:5",
 			"result": "nuclearcraft:alloy:6#2",
-			"text": "1 Steel and 1 Boron make 2"
+			"text": "One $(item)Steel$() and one $(item)Boron$() make two $(item)Ferroboron Alloy$()."
 		},
 		{
 			"anchor": "AgCu3_alloy",
@@ -75,7 +77,7 @@
 			"item1": "nuclearcraft:ingot:0#3,nuclearcraft:dust:0#3",
 			"item2": "nuclearcraft:ingot:13,nuclearcraft:dust:13",
 			"result": "nuclearcraft:alloy:7#4",
-			"text": "3 Copper and 1 Silver make 4"
+			"text": "Three $(item)Copper$() and one $(item)Silver$() make four $(item)Shibuichi Alloy$()."
 		},
 		{
 			"anchor": "Sn3Ag_alloy",
@@ -83,7 +85,7 @@
 			"item1": "nuclearcraft:ingot:1#3,nuclearcraft:dust:1#3",
 			"item2": "nuclearcraft:ingot:13,nuclearcraft:dust:13",
 			"result": "nuclearcraft:alloy:8#4",
-			"text": "3 Tin and 1 Silver make 4"
+			"text": "Three $(item)Tin$() and one $(item)Silver$() make four $(item)Tin Silver Alloy$()."
 		},
 		{
 			"flag": "mod:thermalfoundation",
@@ -92,7 +94,7 @@
 			"item1": "nuclearcraft:ingot:2#3,nuclearcraft:dust:2#3",
 			"item2": "ore:ingotPlatinum",
 			"result": "nuclearcraft:alloy:9#4",
-			"text": "3 Lead and 1 Platinum make 4$(br2)$(o)Enabled only if Thermal Foundation is installed$()"
+			"text": "Three $(item)Lead$() and one $(item)Platinum$() make four $(item)SOMETHING SOMETHING PLS FIX$() $(br1)$(o)This recipe is disabled if Thermal Foundation is installed$()."
 		},
 		{
 			"anchor": "extreme_alloy",
@@ -100,7 +102,7 @@
 			"item1": "nuclearcraft:alloy:1",
 			"item2": "nuclearcraft:alloy:2",
 			"result": "nuclearcraft:alloy:10",
-			"text": "1 Tough Alloy and 1 Hard Carbon Alloy make 2"
+			"text": "One $(item)Tough Alloy$() and one $(item)Hard Carbon Alloy$() make two $(item)Extreme Alloy$()."
 		},
 		{
 			"anchor": "thermoconducting_alloy",
@@ -108,7 +110,8 @@
 			"item1": "nuclearcraft:alloy:10",
 			"item2": "nuclearcraft:gem:5",
 			"result": "nuclearcraft:alloy:11#2",
-			"text": "1 Extreme alloy and 1 Boron Arsenide make 2"
+			"title": "Thermoconducting Alloy",
+			"text": "One $(item)Extreme Alloy$() and one $(item)Boron Arsenide$() make two $(item)Thermoconducting Alloy$()."
 		},
 		{
 			"anchor": "Zr7Sn_alloy",
@@ -116,7 +119,7 @@
 			"item1": "nuclearcraft:ingot:10#7,nuclearcraft:dust:10#7",
 			"item2": "nuclearcraft:ingot:1,nuclearcraft:dust:1",
 			"result": "nuclearcraft:alloy:12#8",
-			"text": "7 Zirconium and 1 Tin make 8"
+			"text": "Seven $(item)Zirconium$() and one $(item)Tin$() make eight $(item)Zircaloy$()."
 		},
 		{
 			"anchor": "SiC_alloy",
@@ -124,7 +127,7 @@
 			"item1": "nuclearcraft:gem:6",
 			"item2": "nuclearcraft:ingot:8,nuclearcraft:dust:8",
 			"result": "nuclearcraft:alloy:13#2",
-			"text": "1 Silicon and 1 Graphite make 2"
+			"text": "One $(item)Silicon$() and one $(item)Graphite$() make two $(item)Silicon Carbide$()."
 		},
 		{
 			"anchor": "SiCSiCCMC_alloy",
@@ -133,7 +136,7 @@
 			"item1": "",
 			"item2": "",
 			"result": "nuclearcraft:alloy:14#4",
-			"text": "No recipes implemented yet"
+			"text": "No recipes implemented yet."
 		},
 		{
 			"anchor": "HSLA_alloy",
@@ -141,7 +144,7 @@
 			"item1": "minecraft:iron_ingot#15",
 			"item2": "nuclearcraft:compound:10",
 			"result": "nuclearcraft:alloy:15#16",
-			"text": "15 Iron and 1 Carbon Manganese Blend make 16"
+			"text": "15 $(item)Iron$() and one $(item)Carbon Manganese Blend$() make 16 $(item)HSLA Steel()."
 		}
 	]
 }

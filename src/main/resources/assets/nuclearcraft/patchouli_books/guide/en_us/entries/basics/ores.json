@@ -1,7 +1,7 @@
 {
 	"name": "Ores and Ingots",
 	"icon": "nuclearcraft:ore:3",
-	"category": "nuclearcraft:basics",
+	"category": "nuclearcraft:basics_",
 	"sortnum": 1,
 	"pages": [
 		{

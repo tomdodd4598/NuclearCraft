@@ -1,7 +1,7 @@
 {
 	"name": "Introduction",
 	"icon": "nuclearcraft:ingot:4",
-	"category": "nuclearcraft:basics",
+	"category": "nuclearcraft:basics_",
 	"sortnum": 0,
 	"pages": [
 		{
