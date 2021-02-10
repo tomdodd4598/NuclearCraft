@@ -98,7 +98,7 @@
 			"anchor": "examples",
 			"type": "text",
 			"title": "Turbine Examples",
-			"text": "Here is an example of a valid, functional turbine. These turbines are intentionally designed to be inefficient. Designing more efficient turbines will be left as an exercise to the reader. "
+			"text": "Here is an example of a valid, functional turbine. This turbines are intentionally designed to be inefficient. Designing bigger and more efficient turbines will be left as an exercise to the reader. "
 		},
 		{
 			"type": "multiblock",

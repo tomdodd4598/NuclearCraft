@@ -1,6 +1,6 @@
 {
 	"name": "Pebble-Bed Reactor (WIP)",
-	"icon": "nuclearcraft:pebble_fission_controller",
+	"icon": "nuclearcraft:fuel_uranium",
 	"category": "nuclearcraft:fission",
 	"sortnum": 1,
 	"pages": [
