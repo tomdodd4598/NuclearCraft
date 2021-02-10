@@ -56,7 +56,7 @@
 			"header": "Fuel Components",
 			"block1": "nuclearcraft:solid_fission_cell",
 			"block2": "nuclearcraft:salt_fission_vessel",
-			"text": "Each type of reactor has an associated $(item)fuel component$(), which houses the fission fuel. When the fuel is undergoing fission, it produces a certain amount of heat. Fuel components can also be filtered by right-clicking it with a fuel to allow for multi-fuel reactors."
+			"text": "Each type of reactor has an associated $(item)Fuel Component$(), which houses the fission fuel. When the fuel is undergoing fission, it produces a certain amount of heat. Fuel components can also be filtered by right-clicking it with a fuel to allow for multi-fuel reactors."
 		},
 		{
 			"anchor": "criticality",
@@ -100,12 +100,26 @@
 			"text": "When a valid heatsink is placed within a cluster, it will subtract it's cooling value from the total heat of the cluster. Heatsinks have varying cooling values, and should be used in conjunction to reach a net heat of 0HU/t, +/-5 HU/t."
 		},
 		{
+			"anchor": "fission_source",
+			"type": "blocks/3",
+			"block1": "nuclearcraft:fission_source:0",
+			"block2": "nuclearcraft:fission_source:1",
+			"block3": "nuclearcraft:fission_source:2",
+			"header": "Neutron Source",
+			"text": "$(item)Neutron Sources$() are used to start fission within a reactor. They must be placed in the walls of the reactor. When given a redstone signal, the source will \"prime\" the fuel component they are pointed at, starting fission within it, and producing further neutrons to activate other fuel cells."
+		},
+		{
+		"type": "text",
+		"title": "Neutron Source Cont.",
+		"text": "To prime a fuel component, the component must not be occluded by anything. The efficiency multiplier of the source affects the efficiency of the fuel cell that it is priming."
+		},
+		{
 			"anchor": "reflector",
 			"type": "blocks/2",
 			"header": "Reflectors",
 			"block1": "nuclearcraft:fission_reflector:0",
 			"block2": "nuclearcraft:fission_reflector:1",
-			"text": " When a $(item)Reflector$() is used, it will reflect neutron flux back into the source. Thus, a reflector with 100% reflectivity will result in double the flux in the fuel cell, since the neutrons double back over the $(l:fission/general#moderator)Moderators$() without any loss. Reflectors must be no farther than two moderators from the neutron source."
+			"text": " When a $(item)Reflector$() is used, it will reflect neutron flux back into the source. Thus, a reflector with 100% reflectivity will result in double the flux in the fuel cell, since the neutrons double back over the $(l:fission/general#moderator)Moderators$() without any loss. Reflectors must be no farther than two moderators from the active fuel component."
 		},
 		{
 			"anchor": "irradiator",
