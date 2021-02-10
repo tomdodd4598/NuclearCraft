@@ -11,7 +11,7 @@
       "item1": "nuclearcraft:rad_shielding:0",
       "item2": "nuclearcraft:rad_shielding:1",
       "item3": "nuclearcraft:rad_shielding:2",
-      "text": "$(item)Radiation Shielding$() can be added to armour to give it radiation resistance. The amount of radiation resistance added to the armor is dependent upon the type of shielding used. When adding shielding to armour, the radiation shielding from each shielding added stacks."
+      "text": "$(item)Radiation Shielding$() can be added to armour to give it radiation resistance. The amount of radiation resistance added to the armor is dependent upon the type of shielding used. When adding shielding to armour, the radiation resistance from each shielding added stacks."
     }
   ]
 }

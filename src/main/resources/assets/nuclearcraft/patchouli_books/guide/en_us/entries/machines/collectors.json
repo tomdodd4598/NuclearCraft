@@ -16,7 +16,7 @@
 			"block1": "nuclearcraft:cobblestone_generator",
 			"block2": "nuclearcraft:cobblestone_generator_compact",
 			"block3": "nuclearcraft:cobblestone_generator_dense",
-			"text": "The $(item)Cobblestone Generator$() continuously generates cobblestone at a specific rate via the combination of water and lava."
+			"text": "The $(item)Cobblestone Generator$() continuously generates cobblestone at a specific rate by the combination of water and lava."
 		},
 		{
 			"anchor": "water_source",
@@ -25,7 +25,7 @@
 			"block1": "nuclearcraft:water_source",
 			"block2": "nuclearcraft:water_source_compact",
 			"block3": "nuclearcraft:water_source_dense",
-			"text": "The $(item)Infinte Water Source$() produces water at a specific rate."
+			"text": "The $(item)Infinte Water Source$() produces water at a specific rate by the usage of an infinite water source."
 		},
 		{
 			"anchor": "nitrogen_collector",
