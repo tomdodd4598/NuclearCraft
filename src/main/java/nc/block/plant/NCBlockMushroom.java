@@ -5,16 +5,13 @@ import static nc.config.NCConfig.mushroom_spread_rate;
 import java.util.Random;
 
 import nc.util.NCMath;
-import nc.worldgen.biome.NCBiomes;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.*;
-import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.EnumPlantType;
 
 public abstract class NCBlockMushroom extends BlockMushroom {
 	
@@ -71,23 +68,14 @@ public abstract class NCBlockMushroom extends BlockMushroom {
 		return ground.getBlock().canSustainPlant(worldIn.getBlockState(groundPos), worldIn, groundPos, EnumFacing.UP, this);
 	}
 	
-	protected abstract boolean canGrowHuge();
-	
 	@Override
-	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
-		if (!canGrowHuge()) {
-			return false;
-		}
-		
-		Biome biome = worldIn.getChunk(pos).getBiome(pos, worldIn.getBiomeProvider());
-		return biome != null && (biome == NCBiomes.NUCLEAR_WASTELAND || BiomeDictionary.hasType(biome, Type.NETHER));
-	}
+	public abstract boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient);
 	
 	protected abstract HugeMushroomGenerator getHugeMushroomGenerator(World worldIn, Random rand, BlockPos pos);
 	
 	@Override
 	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-		if (canGrowHuge()) {
+		if (canGrow(worldIn, pos, state, false)) {
 			worldIn.setBlockToAir(pos);
 			if (!getHugeMushroomGenerator(worldIn, rand, pos).generate(worldIn, rand, pos)) {
 				worldIn.setBlockState(pos, state, 3);

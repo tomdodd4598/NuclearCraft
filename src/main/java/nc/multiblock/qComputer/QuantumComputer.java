@@ -688,7 +688,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		}
 		
 		String codeString = codeBuilder.toString();
-		String s = IOHelper.NEW_LINE, d = s + s;
+		String s = IOHelper.NEW_LINE, d = s + s, time = Long.toString(System.currentTimeMillis() / 100L);
 		
 		if (codeType == 0) {
 			if (codeString.isEmpty()) {
@@ -696,12 +696,12 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 				return;
 			}
 			
-			File out = new File("nuclearcraft/quantum/qasm/" + q + "_qubit_" + System.currentTimeMillis() + ".qasm");
+			File out = new File("nuclearcraft/quantum/qasm/" + q + "_qubit_" + time + ".qasm");
 			
 			codeString = "OPENQASM 2.0;" + s +
 					"include \"qelib1.inc\";" + d +
 					"qreg q[" + q + "];" + s +
-					"creg c[" + q + "];" + s +
+					"creg c[" + q + "];" + d +
 					codeString;
 			
 			try {
@@ -721,7 +721,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 				return;
 			}
 			
-			File out = new File("nuclearcraft/quantum/qiskit/" + q + "_qubit_" + System.currentTimeMillis() + ".ipynb");
+			File out = new File("nuclearcraft/quantum/qiskit/" + q + "_qubit_" + time + ".ipynb");
 			
 			codeString = "# Jupyter plot output mode" + s +
 					"%matplotlib inline" + d +
@@ -737,6 +737,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"# Python maths" + s +
 					"import numpy as np" + s +
 					"from numpy import pi" + d +
+					
+					"# Plotting" + s +
+					"from matplotlib import pyplot as plt" + d +
 					
 					"# Number of qubits" + s +
 					"qubits = " + q + d +
@@ -755,14 +758,14 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"qc_backend = " + (q > 16 ? "simulator" : "device") + d +
 					
 					"# Helper function" + s +
-					"def run_job(circuit_, backend_, shots_ = 1024, opt_ = 1):" + s +
+					"def run_job(circuit_, backend_, shots_ = 4096, opt_ = 1):" + s +
 					"    print('Using {}'.format(backend_))" + s +
 					"    job = execute(circuit_, backend = backend_, shots = shots_, optimization_level = opt_)" + s +
 					"    job_monitor(job)" + s +
 					"    return job.result()" + d +
 					
 					"# Construct circuit" + s +
-					"qc = QuantumCircuit(qubits, qubits)" + s +
+					"qc = QuantumCircuit(qubits, qubits)" + d +
 					
 					codeString + s +
 					
@@ -770,19 +773,20 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"optimize = True" + d +
 					
 					"# Optimization" + s +
-					"optimization = 0" + s +
+					"optimization = 1" + s +
 					"if optimize:" + s +
 					"    qc_cx = qc_depth = sys.maxsize" + s +
-					"    for o in range(4):" + s +
-					"        qc_opt = transpile(qc, backend = qc_backend, seed_transpiler = " + rand.nextInt() + ", optimization_level = o)" + s +
+					"    for o in range(1, 4):" + s +
+					"        qc_opt = transpile(qc, backend = qc_backend, seed_transpiler = " + Math.abs(rand.nextInt()) + ", optimization_level = o)" + s +
 					"        if (qc_opt.count_ops().get('cx') < qc_cx" + s +
 					"        or (qc_opt.count_ops().get('cx') == qc_cx and qc_opt.depth() <= qc_depth)):" + s +
 					"            optimization = o" + s +
 					"    print('Optimization level: {}'.format(optimization))" + d +
 					
 					"# Run circuit" + s +
-					"result = run_job(qc, qc_backend, 1024, optimization)" + s +
+					"result = run_job(qc, qc_backend, 4096, optimization)" + s +
 					"counts = result.get_counts(qc)" + s +
+					"hist = plot_histogram(counts)" + s +
 					"print('\\n', counts)" + d +
 					
 					"# Printing results" + s +
@@ -793,8 +797,11 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"# Draw circuit" + s +
 					"# qc.draw()" + d +
 					
-					"# Plot results" + s +
-					"# plot_histogram(counts)" + s;
+					"# Plot results - only works in Jupyter" + s +
+					"hist" + d +
+					
+					"# Save plot to file - won't work in IBM Q" + s +
+					"# hist.savefig('counts.png')" + s;
 			
 			try {
 				FileUtils.writeStringToFile(out, codeString);

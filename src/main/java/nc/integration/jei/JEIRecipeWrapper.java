@@ -607,7 +607,7 @@ public class JEIRecipeWrapper {
 				tooltip.add(TextFormatting.RED + FLUX_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getIrradiatorFluxRequired(), 5, "N"));
 				double heatPerFlux = getIrradiatorHeatPerFlux();
 				if (heatPerFlux > 0D) {
-					tooltip.add(TextFormatting.YELLOW + HEAT_PER_FLUX + " " + TextFormatting.WHITE + UnitHelper.prefix(heatPerFlux, 5, "H/t/N"));
+					tooltip.add(TextFormatting.YELLOW + HEAT_PER_FLUX + " " + TextFormatting.WHITE + UnitHelper.prefix(heatPerFlux, 5, "H/N"));
 				}
 				double efficiency = getIrradiatorProcessEfficiency();
 				if (efficiency > 0D) {
@@ -615,7 +615,7 @@ public class JEIRecipeWrapper {
 				}
 				double radiation = getIrradiatorBaseProcessRadiation();
 				if (radiation > 0D) {
-					tooltip.add(TextFormatting.GOLD + RADIATION_PER_FLUX + " " + RadiationHelper.getRadiationTextColor(radiation) + UnitHelper.prefix(radiation / RecipeStats.getFissionMaxModeratorLineFlux(), 3, "Rad/t/N"));
+					tooltip.add(TextFormatting.GOLD + RADIATION_PER_FLUX + " " + RadiationHelper.getRadiationTextColor(radiation) + UnitHelper.prefix(radiation, 3, "Rad/N"));
 				}
 			}
 			

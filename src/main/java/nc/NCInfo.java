@@ -88,7 +88,7 @@ public class NCInfo {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
-					Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/t/N")),
+					Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/N")),
 					Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", NCMath.pcDecimalPlaces(values[i].getEfficiency(), 1))
 			};
 		}

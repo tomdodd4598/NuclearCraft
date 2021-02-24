@@ -1,4 +1,6 @@
-Fuel decay heat and neutron poison (https://discordapp.com/channels/425461908712325130/425470889354723350/738167468283002932)
+Fix file vulnerabilities in NC (MMC: https://discordapp.com/channels/166630061217153024/217332023746887680/777708394320363570)
+
+Fuel decay heat and neutron poison (eVault: "Someone else suggested decay heat a while back too...")
 
 Show potential (pre-primed) stats if reactor is idle
 
@@ -15,7 +17,7 @@ Add melting logic to non-fuel components
 Graphite/beryllium fires, heavy water evaporation, etc.
 Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
 
-Replace casing emergency cooling with cluster/port based version (no placement rules)
+Replace casing emergency cooling with cluster/port based version (no placement rules, works for both SFRs and MSRs)
 Add component heat dissipation while invalid?
 
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
@@ -42,6 +44,9 @@ ________________________________________________________________________________
 
 SiC–SiC ceramic matrix composite for top-tier turbine blades, made by melt infiltration (MI) of silicon, following chemical vapor infiltration (CVI) of carbon into SiC fibre, formed from SiC gas phase via laser-driven chemical vapor deposition (LCVD)
 ___________________________________________________________________________________________________________________________
+
+1.16: Potential block state getter optimisation - https://github.com/RogueLogix/BiggerSeries/blob/master/Phosphophyllite/src/main/java/net/roguelogix/phosphophyllite/util/Util.java#L51-L83 (chunkCachedBlockStateIteration)
+1.16: Potential TE getter optimisation - https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/common/util/MekanismUtils.java#L929-L948 (getChunkForTile)
 
 1.16: Cherenkov radiation (configurable)?
 1.16: Make reflectors tile entities (can form clusters)
