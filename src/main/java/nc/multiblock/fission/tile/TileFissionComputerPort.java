@@ -135,6 +135,124 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	/* @Callback
 	 * 
 	 * @Optional.Method(modid = "opencomputers") public Object[] deactivate(Context context, Arguments args) { if (isMultiblockAssembled()) { getMultiblock().computerActivated = false; getMultiblock().setIsReactorOn(); } return new Object[] {}; } */
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfFuelCells(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSolidFissionCell.class).size() : 0};
+	}
+	
+	
+	//TODO review OC fission cell method
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFuelCellStats(Context context, Arguments args) {
+		List<Map> fuelCellData = new ArrayList<Map>();
+		if(isMultiblockAssembled()) {
+			Collection<TileSolidFissionCell> fuelCells = getMultiblock().getPartMap(TileSolidFissionCell.class).values();
+			for(TileSolidFissionCell fuelCell: fuelCells) {
+				Map<String, Object> entry = new HashMap<String, Object>();
+				entry.put("fuel", new Object[] {fuelCell.getInventoryStacks().get(0).getCount(),fuelCell.getInventoryStacks().get(0).getDisplayName()});
+				entry.put("heating", fuelCell.getEffectiveHeating());
+				entry.put("heat_mult", fuelCell.getHeatMultiplier());
+				entry.put("is_processing", fuelCell.isProcessing);
+				entry.put("time", fuelCell.time);
+				entry.put("base_process_time", fuelCell.baseProcessTime);
+				entry.put("claster_heat_capacity", fuelCell.getCluster().heatBuffer.getHeatCapacity());
+				entry.put("claster_heat_stored", fuelCell.getCluster().heatBuffer.getHeatStored());
+				entry.put("cooling", fuelCell.getCluster().cooling);
+				entry.put("base_process_criticality", fuelCell.baseProcessCriticality);
+				entry.put("base_process_efficiency", fuelCell.baseProcessEfficiency);
+				entry.put("is_primed", fuelCell.isPrimed());
+				entry.put("flux_efficiency", fuelCell.getEfficiency());
+				fuelCellData.add(entry);
+			}
+		}
+		return new Object[] {fuelCellData.toArray()};
+	}
+	
+	
+		@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfShields(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileFissionShield.class).size() : 0};
+	}
+
+
+	//TODO review updateShieldState method
+	@Callback(doc = "function(int shield_id, bool state) Activate/Deactivate shield")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] updateShieldState(Context context, Arguments args) {
+		boolean activated = false;
+		if(isMultiblockAssembled()) {
+			if(getMultiblock().getPartMap(TileFissionShield.class).size() == 0) {
+				return new Object[] {"No shields found."};
+			}
+			int shieldId = args.checkInteger(0)-1;
+			boolean shieldState = (boolean) args.checkBoolean(1);
+			if(shieldId > getMultiblock().getPartMap(TileFissionShield.class).size()) {
+				return new Object[] {"Wrong shield ID."};
+			}
+			//for some reasons getMultiblock().getPartMap(TileFissionShield.class).get(shieldId) is not giving us a shield instance, so using this workaround
+			Collection<TileFissionShield> shields = getMultiblock().getPartMap(TileFissionShield.class).values();
+			int i = 0;
+			for(TileFissionShield shield : shields) {
+				if(shieldId == i) {
+					shield.isShielding = shieldState;
+					shield.setActivity(shield.isShielding);
+					shield.resetStats();
+					getLogic().onShieldUpdated(shield);
+					markDirty();
+					getMultiblock().refreshFlag = true;
+					activated = shield.isShielding;
+					break;
+				}
+			}
+
+		}
+
+		return new Object[] {activated};
+	}
+
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfClusters(Context context, Arguments args) {
+		int clusters = 0;
+		if(isMultiblockAssembled()) {
+			clusters = getMultiblock().clusterCount;
+		}
+		return new Object[] {clusters};
+	}
+
+
+	//TODO review method getClusterComponents
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getClusterComponents(Context context, Arguments args) {
+		List<Map> componentsData = new ArrayList<Map>();
+		if(isMultiblockAssembled()) {
+			if(getMultiblock().clusterCount == 0) {
+				return new Object[] {"No clusters found."};
+			}
+			int clusterId = args.checkInteger(0)-1;
+			if(clusterId > getMultiblock().clusterCount) {
+				return new Object[] {"Wrong cluster ID."};
+			}
+			FissionCluster cluster = getMultiblock().getClusterMap().get(clusterId);
+			for (Object comp : cluster.getComponentMap().values()) {
+				Map<String, Object> component = new HashMap<String, Object>();
+				if (comp instanceof TileSolidFissionSink) {
+					TileSolidFissionSink sink = (TileSolidFissionSink) comp;
+					component.put(sink.ruleID, new Object[]{sink.getHeatStored(), sink.coolingRate});
+				}
+				if (comp instanceof TileFissionShield) {
+					TileFissionShield shield = (TileFissionShield) comp;
+					component.put(shield.getClass().getName().toString(), new Object[]{shield.flux, shield.heatPerFlux, shield.isShielding, shield.heat, shield.efficiency});
+				}
+				componentsData.add(component);
+			}
+		}
+		return new Object[] {componentsData.toArray()};
+	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
