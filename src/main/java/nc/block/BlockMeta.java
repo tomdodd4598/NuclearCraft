@@ -10,7 +10,7 @@ import nc.tile.ITile;
 import nc.util.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.*;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -21,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.*;
 
 public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends Block implements IBlockMeta {
@@ -28,7 +29,9 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	public final T[] values;
 	public final PropertyEnum<T> type;
 	
+	protected boolean canSustainPlant = true;
 	protected boolean canCreatureSpawn = true;
+	
 	protected static boolean keepInventory;
 	
 	public BlockMeta(Class<T> enumm, PropertyEnum<T> property, Material material) {
@@ -52,7 +55,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 		
 		@Override
@@ -73,7 +76,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 		
 		@Override
@@ -103,7 +106,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 	}
 	
@@ -118,7 +121,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 	}
 	
@@ -175,6 +178,11 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(state));
+	}
+	
+	@Override
+	public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
+		return canSustainPlant && super.canSustainPlant(state, world, pos, direction, plantable);
 	}
 	
 	@Override

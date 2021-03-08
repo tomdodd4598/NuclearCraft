@@ -59,10 +59,12 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionVent.class, Global.MOD_ID + ":fission_vent");
 		GameRegistry.registerTileEntity(TileFissionIrradiator.class, Global.MOD_ID + ":fission_irradiator");
 		
+		GameRegistry.registerTileEntity(TileFissionSource.class, Global.MOD_ID + ":fission_source");
 		GameRegistry.registerTileEntity(TileFissionSource.RadiumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.RADIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.PoloniumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.POLONIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.Californium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.CALIFORNIUM.getName());
 		
+		GameRegistry.registerTileEntity(TileFissionShield.class, Global.MOD_ID + ":fission_shield");
 		GameRegistry.registerTileEntity(TileFissionShield.BoronSilver.class, Global.MOD_ID + ":fission_shield_" + MetaEnums.NeutronShieldType.BORON_SILVER.getName());
 		
 		GameRegistry.registerTileEntity(TileFissionComputerPort.class, Global.MOD_ID + ":fission_computer_port");
@@ -222,6 +224,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineOutlet.class, Global.MOD_ID + ":turbine_outlet");
 		GameRegistry.registerTileEntity(TileTurbineComputerPort.class, Global.MOD_ID + ":turbine_computer_port");
 		
+		GameRegistry.registerTileEntity(TileRTG.class, Global.MOD_ID + ":rtg");
 		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");
 		GameRegistry.registerTileEntity(TileRTG.Americium.class, Global.MOD_ID + ":rtg_americium");
@@ -234,6 +237,7 @@ public class NCTiles {
 		
 		GameRegistry.registerTileEntity(TileDecayGenerator.class, Global.MOD_ID + ":decay_generator");
 		
+		GameRegistry.registerTileEntity(TileBattery.class, Global.MOD_ID + ":battery");
 		GameRegistry.registerTileEntity(TileBattery.VoltaicPileBasic.class, Global.MOD_ID + ":voltaic_pile_basic");
 		GameRegistry.registerTileEntity(TileBattery.VoltaicPileAdvanced.class, Global.MOD_ID + ":voltaic_pile_advanced");
 		GameRegistry.registerTileEntity(TileBattery.VoltaicPileDU.class, Global.MOD_ID + ":voltaic_pile_du");

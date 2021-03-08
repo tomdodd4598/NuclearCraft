@@ -717,12 +717,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public String qasmLine(double angle, int i) {
-			return "u1(" + Math.toRadians(angle) + ") q[" + i + "];";
+			return "p(" + Math.toRadians(angle) + ") q[" + i + "];";
 		}
 		
 		@Override
 		public String qiskitLine(double angle, IntList l) {
-			return "qc.u1(" + Math.toRadians(angle) + ", " + pythonArray(l) + ")";
+			return "qc.p(" + Math.toRadians(angle) + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1325,12 +1325,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public String singleControlQasmLine(int c, int i) {
-			return "cu1(pi/2) q[" + c + "], q[" + i + "];";
+			return "cp(pi/2) q[" + c + "], q[" + i + "];";
 		}
 		
 		@Override
 		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cu1(pi/2, " + c + ", " + pythonArray(l) + ")";
+			return "qc.cp(pi/2, " + c + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1374,12 +1374,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public String singleControlQasmLine(int c, int i) {
-			return "cu1(-pi/2) q[" + c + "], q[" + i + "];";
+			return "cp(-pi/2) q[" + c + "], q[" + i + "];";
 		}
 		
 		@Override
 		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cu1(-pi/2, " + c + ", " + pythonArray(l) + ")";
+			return "qc.cp(-pi/2, " + c + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1423,12 +1423,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public String singleControlQasmLine(int c, int i) {
-			return "cu1(pi/4) q[" + c + "], q[" + i + "];";
+			return "cp(pi/4) q[" + c + "], q[" + i + "];";
 		}
 		
 		@Override
 		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cu1(pi/4, " + c + ", " + pythonArray(l) + ")";
+			return "qc.cp(pi/4, " + c + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1472,12 +1472,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public String singleControlQasmLine(int c, int i) {
-			return "cu1(-pi/4) q[" + c + "], q[" + i + "];";
+			return "cp(-pi/4) q[" + c + "], q[" + i + "];";
 		}
 		
 		@Override
 		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cu1(-pi/4, " + c + ", " + pythonArray(l) + ")";
+			return "qc.cp(-pi/4, " + c + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1620,12 +1620,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public String singleControlQasmLine(double angle, int c, int i) {
-			return "cu1(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+			return "cp(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
 		}
 		
 		@Override
 		public String singleControlQiskitLine(double angle, int c, IntList l) {
-			return "qc.cu1(" + Math.toRadians(angle) + ", " + c + ", " + pythonArray(l) + ")";
+			return "qc.cp(" + Math.toRadians(angle) + ", " + c + ", " + pythonArray(l) + ")";
 		}
 	}
 	

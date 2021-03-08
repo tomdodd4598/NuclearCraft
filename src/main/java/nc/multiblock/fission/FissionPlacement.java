@@ -35,7 +35,7 @@ public abstract class FissionPlacement {
 	/** List of all defined tooltip builders. Earlier entries are prioritised! */
 	public static final List<PlacementRule.TooltipBuilder<IFissionPart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
 	
-	public static PlacementRule.TooltipRecipeHandler tooltip_recipe_handler;
+	public static PlacementRule.RecipeHandler recipe_handler;
 	
 	/** Map of all localised tooltips. */
 	public static final Object2ObjectMap<String, String> TOOLTIP_MAP = new Object2ObjectOpenHashMap<>();
@@ -47,7 +47,7 @@ public abstract class FissionPlacement {
 	}
 	
 	public static void init() {
-		tooltip_recipe_handler = new TooltipRecipeHandler();
+		recipe_handler = new RecipeHandler();
 		
 		RULE_MAP.put("", new PlacementRule.Or<>(new ArrayList<>()));
 		
@@ -122,7 +122,7 @@ public abstract class FissionPlacement {
 		RULE_MAP_RAW.put(id, rule);
 		RULE_MAP.put(id, parse(rule));
 		for (Object block : blocks) {
-			tooltip_recipe_handler.addRecipe(block, id);
+			recipe_handler.addRecipe(block, id);
 		}
 	}
 	
@@ -377,9 +377,9 @@ public abstract class FissionPlacement {
 		return cell == null ? false : cell.isFunctional();
 	}
 	
-	public static boolean isValidSink(FissionReactor reactor, BlockPos pos, String sinkName) {
+	public static boolean isValidSink(FissionReactor reactor, BlockPos pos, String sinkType) {
 		TileSolidFissionSink sink = reactor.getPartMap(TileSolidFissionSink.class).get(pos.toLong());
-		return sink == null ? false : sink.isFunctional() && (sinkName.equals("any") || sink.sinkName.equals(sinkName));
+		return sink == null ? false : sink.isFunctional() && (sinkType.equals("any") || sink.sinkType.equals(sinkType));
 	}
 	
 	public static boolean isFunctionalVessel(FissionReactor reactor, BlockPos pos) {
@@ -387,20 +387,20 @@ public abstract class FissionPlacement {
 		return vessel == null ? false : vessel.isFunctional();
 	}
 	
-	public static boolean isValidHeater(FissionReactor reactor, BlockPos pos, String heaterName) {
+	public static boolean isValidHeater(FissionReactor reactor, BlockPos pos, String heaterType) {
 		TileSaltFissionHeater heater = reactor.getPartMap(TileSaltFissionHeater.class).get(pos.toLong());
-		return heater == null ? false : heater.isFunctional() && (heaterName.equals("any") || heater.heaterName.equals(heaterName));
+		return heater == null ? false : heater.isFunctional() && (heaterType.equals("any") || heater.heaterType.equals(heaterType));
 	}
 	
 	// Default Tooltip Builder
 	
 	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<IFissionPart> {}
 	
-	// Tooltip Recipes
+	// Recipe Handler
 	
-	public static class TooltipRecipeHandler extends PlacementRule.TooltipRecipeHandler {
+	public static class RecipeHandler extends PlacementRule.RecipeHandler {
 		
-		public TooltipRecipeHandler() {
+		public RecipeHandler() {
 			super("fission");
 		}
 	}

@@ -1,4 +1,4 @@
-# Addon Test A
+# Addon Test
 
 tile.nuclearcraft.solid_fission_sink_extreme.name=Extreme Alloy Fission Heat Sink
 tile.nuclearcraft.solid_fission_sink_sic_sic_cmc.name=SiC-SiC CMC Fission Heat Sink
@@ -19,8 +19,9 @@ nc.sf.extreme_heater1=%s functional extreme alloy heaters
 nc.sf.sic_sic_cmc_heater0=%s functional SiC-SiC CMC heater
 nc.sf.sic_sic_cmc_heater1=%s functional SiC-SiC CMC heaters
 
+tile.nuclearcraft.fission_source_americium_beryllium.name=Am-Be Fission Neutron Source
 
-# Addon Test B
+tile.nuclearcraft.fission_shield_cadmium.name=Cadmium Fission Neutron Shield
 
 tile.nuclearcraft.turbine_dynamo_coil_extreme.name=Extreme Alloy Turbine Dynamo Coil
 tile.nuclearcraft.turbine_dynamo_coil_sic_sic_cmc.name=SiC-SiC CMC Turbine Dynamo Coil
@@ -35,3 +36,7 @@ nc.sf.extreme_coil0=%s extreme alloy dynamo coil
 nc.sf.extreme_coil1=%s extreme alloy dynamo coils
 nc.sf.sic_sic_cmc_coil0=%s SiC-SiC CMC dynamo coil
 nc.sf.sic_sic_cmc_coil1=%s SiC-SiC CMC dynamo coils
+
+tile.nuclearcraft.rtg_strontium.name=Strontium RTG
+
+tile.nuclearcraft.battery_zinc.name=Zinc Battery

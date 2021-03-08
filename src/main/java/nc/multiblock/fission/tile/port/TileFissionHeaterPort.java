@@ -18,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeaterPort, TileSaltFissionHeater> implements ITileGui<FissionHeaterPortUpdatePacket> {
 	
-	protected String coolantName;
+	protected String heaterType, coolantName;
 	
 	protected final Set<EntityPlayer> playersToUpdate;
 	
@@ -29,20 +29,21 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
-	public TileFissionHeaterPort(String coolantName) {
+	public TileFissionHeaterPort(String heaterType, String coolantName) {
 		this();
+		this.heaterType = heaterType;
 		this.coolantName = coolantName;
 		tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 	}
 	
-	protected TileFissionHeaterPort(int coolant) {
-		this(COOLANTS.get(coolant) + "nak");
+	protected TileFissionHeaterPort(int coolantID) {
+		this(COOLANTS.get(coolantID), COOLANTS.get(coolantID) + "_nak");
 	}
 	
 	public static class Standard extends TileFissionHeaterPort {
 		
 		public Standard() {
-			super(0);
+			super("standard", "nak");
 		}
 	}
 	
@@ -269,8 +270,8 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	}
 	
 	@Override
-	public int getFilterID() {
-		return coolantName.hashCode();
+	public Object getFilterKey() {
+		return heaterType;
 	}
 	
 	@Override
@@ -324,6 +325,9 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		if (heaterType != null) {
+			nbt.setString("heaterName", heaterType);
+		}
 		nbt.setString("coolantName", coolantName);
 		return nbt;
 	}
@@ -331,6 +335,9 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (nbt.hasKey("heaterName")) {
+			heaterType = nbt.getString("heaterName");
+		}
 		if (nbt.hasKey("coolantName")) {
 			coolantName = nbt.getString("coolantName");
 			tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));

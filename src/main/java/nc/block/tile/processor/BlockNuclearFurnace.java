@@ -11,7 +11,6 @@ import nc.tile.processor.TileNuclearFurnace;
 import nc.util.BlockHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,11 +59,11 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FACING_HORIZONTAL, ACTIVE});
+		return new BlockStateContainer(this, FACING_HORIZONTAL, ACTIVE);
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	

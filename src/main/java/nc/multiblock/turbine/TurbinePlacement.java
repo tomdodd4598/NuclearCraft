@@ -32,7 +32,7 @@ public abstract class TurbinePlacement {
 	/** List of all defined tooltip builders. Earlier entries are prioritised! */
 	public static final List<PlacementRule.TooltipBuilder<ITurbinePart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
 	
-	public static PlacementRule.TooltipRecipeHandler tooltip_recipe_handler;
+	public static PlacementRule.RecipeHandler recipe_handler;
 	
 	/** Map of all localised tooltips. */
 	public static final Object2ObjectMap<String, String> TOOLTIP_MAP = new Object2ObjectOpenHashMap<>();
@@ -44,7 +44,7 @@ public abstract class TurbinePlacement {
 	}
 	
 	public static void init() {
-		tooltip_recipe_handler = new TooltipRecipeHandler();
+		recipe_handler = new RecipeHandler();
 		
 		RULE_MAP.put("", new PlacementRule.Or<>(new ArrayList<>()));
 		
@@ -62,7 +62,7 @@ public abstract class TurbinePlacement {
 		RULE_MAP_RAW.put(id, rule);
 		RULE_MAP.put(id, parse(rule));
 		for (Object block : blocks) {
-			tooltip_recipe_handler.addRecipe(block, id);
+			recipe_handler.addRecipe(block, id);
 		}
 	}
 	
@@ -268,11 +268,11 @@ public abstract class TurbinePlacement {
 	
 	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<ITurbinePart> {}
 	
-	// Tooltip Recipes
+	// Recipe Handler
 	
-	public static class TooltipRecipeHandler extends PlacementRule.TooltipRecipeHandler {
+	public static class RecipeHandler extends PlacementRule.RecipeHandler {
 		
-		public TooltipRecipeHandler() {
+		public RecipeHandler() {
 			super("turbine");
 		}
 	}

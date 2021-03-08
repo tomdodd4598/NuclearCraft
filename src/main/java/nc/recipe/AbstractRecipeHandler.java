@@ -157,7 +157,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 			maxNumbers[i + itemInputLists.size()] = maxNumber;
 		}
 		
-		RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+		RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, false);
 		
 		return true;
 	}

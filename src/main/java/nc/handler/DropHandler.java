@@ -9,6 +9,7 @@ import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.entity.EntityFeralGhoul;
 import nc.enumm.MetaEnums;
 import nc.init.NCItems;
+import nc.radiation.RadiationHelper;
 import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -107,8 +108,8 @@ public class DropHandler {
 			TileEntity tile = tileMap.get(pos);
 			
 			if (tile != null) {
-				if (tile.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null)) {
-					IRadiationResistance resistance = tile.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
+				IRadiationResistance resistance = RadiationHelper.getRadiationResistance(tile);
+				if (resistance != null) {
 					for (int i = MetaEnums.RadShieldingType.values().length; i > 0; i--) {
 						if (resistance.getShieldingRadResistance() >= radiation_shielding_level[i - 1]) {
 							drops.add(new ItemStack(NCItems.rad_shielding, 1, i - 1));

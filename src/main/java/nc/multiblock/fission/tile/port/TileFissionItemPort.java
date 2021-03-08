@@ -15,7 +15,6 @@ import nc.recipe.BasicRecipeHandler;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.*;
 import nc.util.*;
-import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -79,11 +78,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public void onFilterChanged(int slot) {
 		markDirty();
-	}
-	
-	@Override
-	public int getFilterID() {
-		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
 	}
 	
 	// Inventory

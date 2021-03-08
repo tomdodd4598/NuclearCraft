@@ -4,8 +4,6 @@ import static nc.config.NCConfig.*;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
@@ -95,34 +93,40 @@ public class RadSources {
 		FOOD_RESISTANCE_MAP.put(packed, resistance);
 	}
 	
-	public static final double INGOT = 1D;
-	public static final double NUGGET = 1D / 9D;
-	public static final double HALF = 1D / 2D;
-	public static final double THIRD = 1D / 3D;
-	public static final double SMALL = 1D / 4D;
-	public static final double DOUBLE = 2D;
-	public static final double TRIPLE = 3D;
-	public static final double QUAD = 4D;
-	public static final double FIVE = 5D;
-	public static final double SIX = 6D;
-	public static final double BLOCK = 9D;
-	public static final double SLAB = 9D / 2D;
-	public static final double FLUID = 125D / 18D;
+	private static final Object2DoubleMap<String> PREFIX_MULTIPLIER_MAP = new Object2DoubleOpenHashMap<>();
 	
-	public static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "dustImpure", "dustPure", "plate", "blockSheetmetal");
-	public static final List<String> MATERIAL_NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
-	public static final List<String> MATERIAL_HALF_NAME_LIST = Lists.newArrayList("rod", "stick", "slabSheetmetal");
-	public static final List<String> MATERIAL_THIRD_NAME_LIST = Lists.newArrayList("coin");
-	public static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore", "oreGravel");
-	public static final List<String> MATERIAL_DOUBLE_NAME_LIST = Lists.newArrayList();
-	public static final List<String> MATERIAL_TRIPLE_NAME_LIST = Lists.newArrayList();
-	public static final List<String> MATERIAL_QUAD_NAME_LIST = Lists.newArrayList("gear");
-	public static final List<String> MATERIAL_FIVE_NAME_LIST = Lists.newArrayList();
-	public static final List<String> MATERIAL_SIX_NAME_LIST = Lists.newArrayList();
-	public static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block", "plateDense");
-	public static final List<String> MATERIAL_SLAB_NAME_LIST = Lists.newArrayList("slab");
+	private static final double FLUID_MULTIPLIER = 125D / 18D;
 	
-	public static final List<String> ORE_PREFIXES = Lists.newArrayList("ore");
+	public static void addMaterialPrefixMultiplier(String prefix, double multiplier) {
+		PREFIX_MULTIPLIER_MAP.put(prefix, multiplier);
+	}
+	
+	static {
+		for (String prefix : new String[] {"ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "dustImpure", "dustPure", "plate", "blockSheetmetal"}) {
+			addMaterialPrefixMultiplier(prefix, 1D);
+		}
+		for (String prefix : new String[] {"tinyDust", "dustTiny", "nugget"}) {
+			addMaterialPrefixMultiplier(prefix, 1D / 9D);
+		}
+		for (String prefix : new String[] {"rod", "stick", "slabSheetmetal"}) {
+			addMaterialPrefixMultiplier(prefix, 1D / 2D);
+		}
+		for (String prefix : new String[] {"coin"}) {
+			addMaterialPrefixMultiplier(prefix, 1D / 3D);
+		}
+		for (String prefix : new String[] {"smallDust", "dustSmall", "ore", "oreGravel"}) {
+			addMaterialPrefixMultiplier(prefix, 1D / 4D);
+		}
+		for (String prefix : new String[] {"gear"}) {
+			addMaterialPrefixMultiplier(prefix, 4D);
+		}
+		for (String prefix : new String[] {"block", "plateDense"}) {
+			addMaterialPrefixMultiplier(prefix, 9D);
+		}
+		for (String prefix : new String[] {"slab"}) {
+			addMaterialPrefixMultiplier(prefix, 9D / 2D);
+		}
+	}
 	
 	public static void init() {
 		for (String ore : radiation_ores_blacklist) {
@@ -139,15 +143,27 @@ public class RadSources {
 		}
 		
 		if (ModCheck.gregtechLoaded()) {
-			MATERIAL_INGOT_NAME_LIST.addAll(Lists.newArrayList("crushedPurified", "crushedCentrifuged", "toolHeadShovel"));
-			MATERIAL_SMALL_NAME_LIST.addAll(Lists.newArrayList("bolt", "screw", "oreNetherrack", "oreEndstone", "oreSand", "oreGravel", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
-			MATERIAL_DOUBLE_NAME_LIST.addAll(Lists.newArrayList("toolHeadSword", "toolHeadHoe", "toolHeadFile", "toolHeadSaw", "toolHeadChainsaw"));
-			MATERIAL_TRIPLE_NAME_LIST.addAll(Lists.newArrayList("toolHeadPickaxe", "toolHeadAxe", "toolHeadSense"));
-			MATERIAL_QUAD_NAME_LIST.addAll(Lists.newArrayList("toolHeadDrill", "toolHeadWrench", "toolHeadPlow", "toolHeadBuzzSaw"));
-			MATERIAL_FIVE_NAME_LIST.add("turbineBlade");
-			MATERIAL_SIX_NAME_LIST.addAll(Lists.newArrayList("toolHeadHammer", "toolHeadUniversalSpade"));
-			
-			ORE_PREFIXES.addAll(Lists.newArrayList("oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
+			for (String prefix : new String[] {"crushedPurified", "crushedCentrifuged", "toolHeadShovel"}) {
+				addMaterialPrefixMultiplier(prefix, 1D);
+			}
+			for (String prefix : new String[] {"bolt", "screw", "oreNetherrack", "oreEndstone", "oreSand", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"}) {
+				addMaterialPrefixMultiplier(prefix, 1D / 4D);
+			}
+			for (String prefix : new String[] {"toolHeadSword", "toolHeadHoe", "toolHeadFile", "toolHeadSaw", "toolHeadChainsaw"}) {
+				addMaterialPrefixMultiplier(prefix, 2D);
+			}
+			for (String prefix : new String[] {"toolHeadPickaxe", "toolHeadAxe", "toolHeadSense"}) {
+				addMaterialPrefixMultiplier(prefix, 3D);
+			}
+			for (String prefix : new String[] {"toolHeadDrill", "toolHeadWrench", "toolHeadPlow", "toolHeadBuzzSaw"}) {
+				addMaterialPrefixMultiplier(prefix, 4D);
+			}
+			for (String prefix : new String[] {"turbineBlade"}) {
+				addMaterialPrefixMultiplier(prefix, 5D);
+			}
+			for (String prefix : new String[] {"toolHeadHammer", "toolHeadUniversalSpade"}) {
+				addMaterialPrefixMultiplier(prefix, 6D);
+			}
 		}
 		
 		putMaterial(BISMUTH, "Bismuth");
@@ -247,12 +263,12 @@ public class RadSources {
 		
 		put(TRITIUM / 256D, NCBlocks.tritium_lamp);
 		
+		put(CORIUM, NCBlocks.solidified_corium);
+		
 		putOre(CAESIUM_137 / 4D, "dustIrradiatedBorax");
 		
 		if (ModCheck.gregtechLoaded()) {
-			for (String prefix : ORE_PREFIXES) {
-				putOre(17D * THORIUM / 4D, prefix + "Monazite");
-			}
+			putMaterial(17D * THORIUM, "Monazite");
 		}
 		
 		putFluid(FUSION, "plasma");
@@ -359,43 +375,8 @@ public class RadSources {
 	
 	public static void putMaterial(double radiation, String... ores) {
 		for (String ore : ores) {
-			for (String suffix : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
-				for (String prefix : MATERIAL_INGOT_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * INGOT);
-				}
-				for (String prefix : MATERIAL_NUGGET_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * NUGGET);
-				}
-				for (String prefix : MATERIAL_HALF_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * HALF);
-				}
-				for (String prefix : MATERIAL_THIRD_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * THIRD);
-				}
-				for (String prefix : MATERIAL_SMALL_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * SMALL);
-				}
-				for (String prefix : MATERIAL_DOUBLE_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * DOUBLE);
-				}
-				for (String prefix : MATERIAL_TRIPLE_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * TRIPLE);
-				}
-				for (String prefix : MATERIAL_QUAD_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * QUAD);
-				}
-				for (String prefix : MATERIAL_FIVE_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * FIVE);
-				}
-				for (String prefix : MATERIAL_SIX_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * SIX);
-				}
-				for (String prefix : MATERIAL_BLOCK_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * BLOCK);
-				}
-				for (String prefix : MATERIAL_SLAB_NAME_LIST) {
-					addToOreMap(prefix + ore + suffix, radiation * SLAB);
-				}
+			for (Object2DoubleMap.Entry<String> entry : PREFIX_MULTIPLIER_MAP.object2DoubleEntrySet()) {
+				addToOreMap(entry.getKey() + ore, radiation * entry.getDoubleValue());
 			}
 		}
 	}
@@ -404,8 +385,10 @@ public class RadSources {
 		for (String suffix : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
 			putMaterial(radiation, ore + suffix);
 		}
-		for (String suffix : new String[] {"", "_za", "_fluoride", "_fluoride_flibe"}) {
-			addToFluidMap(fluid + suffix, radiation * FLUID);
+		if (fluid != null) {
+			for (String suffix : new String[] {"", "_za", "_fluoride", "_fluoride_flibe"}) {
+				addToFluidMap(fluid + suffix, radiation * FLUID_MULTIPLIER);
+			}
 		}
 	}
 	
@@ -414,9 +397,11 @@ public class RadSources {
 			addToOreMap("ingot" + ore + suffix, fuelRadiation);
 			addToOreMap("ingotDepleted" + ore + suffix, depletedRadiation);
 		}
-		for (String suffix : new String[] {"", "_za", "_fluoride", "_fluoride_flibe"}) {
-			addToFluidMap(fluid + suffix, fuelRadiation * FLUID);
-			addToFluidMap("depleted_" + fluid + suffix, depletedRadiation * FLUID);
+		if (fluid != null) {
+			for (String suffix : new String[] {"", "_za", "_fluoride", "_fluoride_flibe"}) {
+				addToFluidMap(fluid + suffix, fuelRadiation * FLUID_MULTIPLIER);
+				addToFluidMap("depleted_" + fluid + suffix, depletedRadiation * FLUID_MULTIPLIER);
+			}
 		}
 	}
 	
@@ -446,7 +431,7 @@ public class RadSources {
 	
 	public static void putFluid(double radiation, String... fluids) {
 		for (String fluid : fluids) {
-			addToFluidMap(fluid, radiation * FLUID);
+			addToFluidMap(fluid, radiation * FLUID_MULTIPLIER);
 		}
 	}
 	
@@ -507,16 +492,16 @@ public class RadSources {
 	// Fuels
 	
 	public static double getFuelRadiation(double rad1, double amount1, double rad2, double amount2) {
-		return (rad1 * amount1 + rad2 * amount2) * INGOT / 9D;
+		return (rad1 * amount1 + rad2 * amount2) / 9D;
 	}
 	
 	@Deprecated
 	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4) {
-		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4) * INGOT / 9D;
+		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4) / 9D;
 	}
 	
 	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, double waste1, double waste2, double m, double r) {
-		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4 + waste1 * m * r + waste2 * m * (1D - r)) * INGOT / 9D;
+		return (rad1 * amount1 + rad2 * amount2 + rad3 * amount3 + rad4 * amount4 + waste1 * m * r + waste2 * m * (1D - r)) / 9D;
 	}
 	
 	public static final double TBU = getFuelRadiation(THORIUM, 8.5D, URANIUM_233, 0.5D);

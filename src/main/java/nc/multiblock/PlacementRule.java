@@ -66,9 +66,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		TurbinePlacement.postInit();
 	}
 	
-	public static void refreshTooltipRecipeHandlers() {
-		FissionPlacement.tooltip_recipe_handler.refreshCache();
-		TurbinePlacement.tooltip_recipe_handler.refreshCache();
+	public static void refreshRecipeCaches() {
+		FissionPlacement.recipe_handler.refreshCache();
+		TurbinePlacement.recipe_handler.refreshCache();
 	}
 	
 	// Rule Parser
@@ -732,11 +732,11 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		}
 	}
 	
-	// Tooltip Recipes
+	// Recipe Handler
 	
-	public static class TooltipRecipeHandler extends BasicRecipeHandler {
+	public static class RecipeHandler extends BasicRecipeHandler {
 		
-		public TooltipRecipeHandler(String type) {
+		public RecipeHandler(String type) {
 			super(type + "_placement_rules", 1, 0, 0, 0);
 		}
 		

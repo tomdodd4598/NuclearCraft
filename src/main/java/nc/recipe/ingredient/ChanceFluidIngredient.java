@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
-public class ChanceFluidIngredient implements IFluidIngredient {
+public class ChanceFluidIngredient implements IChanceFluidIngredient {
 	
 	// ONLY USED AS AN OUTPUT, SO INGREDIENT NUMBER DOES NOT MATTER!
 	
@@ -34,8 +34,7 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 		int sizeIncrSteps = (ingredient.getMaxStackSize(0) - this.minStackSize) / this.stackDiff;
 		int sizeShift = ingredient.getMaxStackSize(0) - this.minStackSize - sizeIncrSteps * this.stackDiff;
 		
-		// this.ingredient.setMaxStackSize(this.ingredient.getMaxStackSize(0) +
-		// sizeShift);
+		// this.ingredient.setMaxStackSize(this.ingredient.getMaxStackSize(0) + sizeShift);
 		this.minStackSize += sizeShift;
 		this.sizeIncrSteps = sizeIncrSteps;
 		
@@ -121,6 +120,38 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	@Override
 	public boolean isValid() {
 		return ingredient.isValid();
+	}
+	
+	// IChanceFluidIngredient
+	
+	@Override
+	public IFluidIngredient getRawIngredient() {
+		return ingredient;
+	}
+	
+	@Override
+	public int getChancePercent() {
+		return chancePercent;
+	}
+	
+	@Override
+	public int getStackDiff() {
+		return stackDiff;
+	}
+	
+	@Override
+	public int getMinStackSize() {
+		return minStackSize;
+	}
+	
+	@Override
+	public int getSizeIncrSteps() {
+		return sizeIncrSteps;
+	}
+	
+	@Override
+	public double getMeanStackSize() {
+		return meanStackSize;
 	}
 	
 	// CraftTweaker

@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import nc.*;
+import nc.Global;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.*;
 import nc.network.PacketHandler;
@@ -15,7 +15,6 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.inventory.ITileInventory;
 import nc.util.SuperMap;
 import nc.util.SuperMap.SuperMapEntry;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.*;
 import net.minecraft.inventory.ItemStackHelper;
@@ -193,7 +192,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			}
 		}
 		
-		REGISTRY.addDirtyMultiblock(WORLD, this);
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(WORLD, this);
 	}
 	
 	/** Called when a new part is added to the machine. Good time to register things into lists.
@@ -261,11 +260,11 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		
 		if (connectedParts.isEmpty()) {
 			// Destroy/unregister
-			REGISTRY.addDeadMultiblock(this.WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(this.WORLD, this);
 			return;
 		}
 		
-		REGISTRY.addDirtyMultiblock(this.WORLD, this);
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(this.WORLD, this);
 		
 		// Find new save delegate if we need to.
 		if (referenceCoord == null) {
@@ -342,7 +341,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	}
 	
 	/** Checks if a machine is whole. If not, set a validation error using IMultiblockValidator. */
-	protected abstract boolean isMachineWhole(Multiblock multiblock);
+	protected abstract boolean isMachineWhole();
 	
 	/** Check if the machine is whole or not. If the machine was not whole, but now is, assemble the machine. If the machine was whole, but no longer is, disassemble the machine.
 	 * 
@@ -352,7 +351,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		
 		this.lastValidationError = null;
 		
-		if (this.isMachineWhole(this)) {
+		if (this.isMachineWhole()) {
 			// This will alter assembly state
 			assembleMachine(oldState);
 		}
@@ -398,11 +397,14 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			throw new IllegalArgumentException("The multiblock with the lowest minimum-coord value must consume the one with the higher coords");
 		}
 		
-		// TileEntity te;
 		Set<ITileMultiblockPart> partsToAcquire = new ObjectOpenHashSet<ITileMultiblockPart>(other.connectedParts);
 		
-		// releases all blocks and references gently so they can be incorporated
-		// into another multiblock
+		// Force disassembly of assimilated multiblock
+		if (other.assemblyState == AssemblyState.Assembled) {
+			other.disassembleMachine();
+		}
+		
+		// Releases all blocks and references gently so they can be incorporated into another multiblock
 		other._onAssimilated(this);
 		
 		for (ITileMultiblockPart acquiredPart : partsToAcquire) {
@@ -456,7 +458,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	public final void updateMultiblockEntity() {
 		if (connectedParts.isEmpty()) {
 			// This shouldn't happen, but just in case...
-			REGISTRY.addDeadMultiblock(this.WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(this.WORLD, this);
 			return;
 		}
 		
@@ -504,8 +506,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	// Validation helpers
 	
-	public boolean standardLastError(int x, int y, int z, Multiblock multiblock) {
-		multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", new BlockPos(x, y, z), x, y, z, getBlock(x, y, z).getLocalizedName());
+	public boolean standardLastError(BlockPos pos) {
+		setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", pos, pos.getX(), pos.getY(), pos.getZ(), WORLD.getBlockState(pos).getBlock().getLocalizedName());
 		return false;
 	}
 	
@@ -519,8 +521,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForFrame(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForFrame(World world, BlockPos pos) {
+		return standardLastError(pos);
 	}
 	
 	/** The top consists of the top face, minus the edges.
@@ -533,8 +535,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForTop(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForTop(World world, BlockPos pos) {
+		return standardLastError(pos);
 	}
 	
 	/** The bottom consists of the bottom face, minus the edges.
@@ -547,8 +549,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForBottom(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForBottom(World world, BlockPos pos) {
+		return standardLastError(pos);
 	}
 	
 	/** The sides consists of the N/E/S/W-facing faces, minus the edges.
@@ -561,8 +563,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected boolean isBlockGoodForSides(World world, int x, int y, int z, Multiblock multiblock) {
-		return standardLastError(x, y, z, multiblock);
+	protected boolean isBlockGoodForSides(World world, BlockPos pos) {
+		return standardLastError(pos);
 	}
 	
 	/** The interior is any block that does not touch blocks outside the machine.
@@ -575,7 +577,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            Y coordinate of the block being tested
 	 * @param z
 	 *            Z coordinate of the block being tested */
-	protected abstract boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock);
+	protected abstract boolean isBlockGoodForInterior(World world, BlockPos pos);
 	
 	/** @return The reference coordinate, the block with the lowest x, y, z coordinates, evaluated in that order. */
 	public BlockPos getReferenceCoord() {
@@ -855,7 +857,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 		
 		if (this.isEmpty()) {
-			REGISTRY.addDeadMultiblock(WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, this);
 			return null;
 		}
 		
@@ -907,7 +909,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			// There are no valid parts remaining. The entire multiblock was
 			// unloaded during a chunk unload. Halt.
 			shouldCheckForDisconnections = false;
-			REGISTRY.addDeadMultiblock(WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, this);
 			return null;
 		}
 		else {
@@ -1170,23 +1172,5 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 				}
 			}
 		}
-	}
-	
-	// Registry
-	
-	private static final MultiblockRegistry REGISTRY;
-	
-	static {
-		REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
-	}
-	
-	// Block getters
-	
-	protected IBlockState getBlockState(int x, int y, int z) {
-		return WORLD.getBlockState(new BlockPos(x, y, z));
-	}
-	
-	protected Block getBlock(int x, int y, int z) {
-		return WORLD.getBlockState(new BlockPos(x, y, z)).getBlock();
 	}
 }

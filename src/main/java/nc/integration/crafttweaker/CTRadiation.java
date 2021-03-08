@@ -145,6 +145,17 @@ public class CTRadiation {
 		}
 		
 		@ZenMethod
+		public static void setMaterialPrefixRadiationMultiplier(String orePrefix, double radiationMultiplier) {
+			if (orePrefix == null) {
+				CraftTweakerAPI.logError("Attempted to set the material prefix radiation multiplier for a null ore dictionary prefix to " + radiationMultiplier);
+			}
+			else {
+				RadSources.addMaterialPrefixMultiplier(orePrefix, radiationMultiplier);
+				CraftTweakerAPI.logInfo("Set the material prefix radiation multiplier for the ore prefix \"" + orePrefix + "\" to " + radiationMultiplier);
+			}
+		}
+		
+		@ZenMethod
 		public static void setMaterialRadiationLevel(String oreSuffix, double radiation) {
 			String rads = RadiationHelper.radsPrefix(radiation, true);
 			if (oreSuffix == null) {
@@ -153,6 +164,60 @@ public class CTRadiation {
 			else {
 				RadSources.RUNNABLES.add(() -> RadSources.putMaterial(radiation, oreSuffix));
 				CraftTweakerAPI.logInfo("Set the material radiation level for the ore suffix \"" + oreSuffix + "\" to " + rads);
+			}
+		}
+		
+		@ZenMethod
+		public static void setIsotopeRadiationLevel(String oreSuffix, String fluidName, double radiation) {
+			String rads = RadiationHelper.radsPrefix(radiation, true);
+			if (oreSuffix == null) {
+				CraftTweakerAPI.logError("Attempted to set the isotope radiation level for a null ore dictionary suffix to " + rads);
+			}
+			else if (fluidName == null) {
+				CraftTweakerAPI.logError("Attempted to set the isotope radiation level for a null fluid name to " + rads);
+			}
+			else {
+				RadSources.RUNNABLES.add(() -> RadSources.putIsotope(radiation, oreSuffix, fluidName));
+				CraftTweakerAPI.logInfo("Set the isotope radiation level for the ore suffix \"" + oreSuffix + "\" and fluid name \"" + fluidName + "\" to " + rads);
+			}
+		}
+		
+		@ZenMethod
+		public static void setIsotopeRadiationLevel(String oreSuffix, double radiation) {
+			String rads = RadiationHelper.radsPrefix(radiation, true);
+			if (oreSuffix == null) {
+				CraftTweakerAPI.logError("Attempted to set the isotope radiation level for a null ore dictionary suffix to " + rads);
+			}
+			else {
+				RadSources.RUNNABLES.add(() -> RadSources.putIsotope(radiation, oreSuffix, null));
+				CraftTweakerAPI.logInfo("Set the isotope radiation level for the ore suffix \"" + oreSuffix + "\" to " + rads);
+			}
+		}
+		
+		@ZenMethod
+		public static void setFuelRadiationLevel(String oreSuffix, String fluidName, double fuelRadiation, double depletedRadiation) {
+			String rads = RadiationHelper.radsPrefix(fuelRadiation, true);
+			if (oreSuffix == null) {
+				CraftTweakerAPI.logError("Attempted to set the fuel radiation level for a null ore dictionary suffix to " + rads);
+			}
+			else if (fluidName == null) {
+				CraftTweakerAPI.logError("Attempted to set the fuel radiation level for a null fluid name to " + rads);
+			}
+			else {
+				RadSources.RUNNABLES.add(() -> RadSources.putFuel(fuelRadiation, depletedRadiation, oreSuffix, fluidName));
+				CraftTweakerAPI.logInfo("Set the fuel radiation level for the ore suffix \"" + oreSuffix + "\" and fluid name \"" + fluidName + "\" to " + rads);
+			}
+		}
+		
+		@ZenMethod
+		public static void setFuelRadiationLevel(String oreSuffix, double fuelRadiation, double depletedRadiation) {
+			String rads = RadiationHelper.radsPrefix(fuelRadiation, true);
+			if (oreSuffix == null) {
+				CraftTweakerAPI.logError("Attempted to set the fuel radiation level for a null ore dictionary suffix to " + rads);
+			}
+			else {
+				RadSources.RUNNABLES.add(() -> RadSources.putFuel(fuelRadiation, depletedRadiation, oreSuffix, null));
+				CraftTweakerAPI.logInfo("Set the fuel radiation level for the ore suffix \"" + oreSuffix + "\" to " + rads);
 			}
 		}
 		

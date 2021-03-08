@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.objects.*;
 public class StringHelper {
 	
 	public static String capitalize(String s) {
-		return s.substring(0, 1).toUpperCase(Locale.ROOT) + s.substring(1);
+		return s.isEmpty() ? s : (s.substring(0, 1).toUpperCase(Locale.ROOT) + s.substring(1));
 	}
 	
 	public static String starting(String s, int length) {

@@ -146,7 +146,7 @@ public class GuiItemRenderer {
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.ITEM);
 		
-		for (EnumFacing facing : EnumFacing.values()) {
+		for (EnumFacing facing : EnumFacing.VALUES) {
 			MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, facing, 0L), color, stack);
 		}
 		

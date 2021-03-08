@@ -16,7 +16,7 @@ import net.minecraft.util.EnumFacing;
 
 public class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
-	public String sinkName;
+	public String sinkType;
 	public int coolingRate;
 	
 	public String ruleID;
@@ -31,16 +31,16 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 		super(CuboidalPartPositionType.INTERIOR);
 	}
 	
-	public TileSolidFissionSink(String sinkName, int coolingRate, String ruleID) {
+	public TileSolidFissionSink(String sinkType, int coolingRate, String ruleID) {
 		this();
-		this.sinkName = sinkName;
+		this.sinkType = sinkType;
 		this.coolingRate = coolingRate;
 		this.ruleID = ruleID;
 		this.placementRule = FissionPlacement.RULE_MAP.get(ruleID);
 	}
 	
-	protected TileSolidFissionSink(String sinkName, int coolingID) {
-		this(sinkName, fission_sink_cooling_rate[coolingID], sinkName + "_sink");
+	protected TileSolidFissionSink(String sinkType, int coolingID) {
+		this(sinkType, fission_sink_cooling_rate[coolingID], sinkType + "_sink");
 	}
 	
 	public static class Water extends TileSolidFissionSink {
@@ -351,7 +351,7 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setString("sinkName", sinkName);
+		nbt.setString("sinkName", sinkType);
 		nbt.setInteger("coolingRate", coolingRate);
 		nbt.setString("ruleID", ruleID);
 		
@@ -363,7 +363,7 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		if (nbt.hasKey("sinkName"))
-			sinkName = nbt.getString("sinkName");
+			sinkType = nbt.getString("sinkName");
 		if (nbt.hasKey("coolingRate"))
 			coolingRate = nbt.getInteger("coolingRate");
 		if (nbt.hasKey("ruleID")) {

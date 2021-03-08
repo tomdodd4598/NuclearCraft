@@ -22,6 +22,7 @@ import nc.util.*;
 import nc.util.Vector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
@@ -136,18 +137,18 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
+	protected boolean isMachineWhole() {
 		if (getPartMap(TileQuantumComputerController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
 		}
 		if (getPartCount(TileQuantumComputerController.class) > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+			setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
 		int q = qubitCount(), max = getMaxQubits();
 		if (q > max) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, q, max);
+			setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, q, max);
 			return false;
 		}
 		
@@ -160,9 +161,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	@Override
 	protected void onAssimilate(Multiblock assimilated) {
-		if (isAssembled()) {
+		/*if (isAssembled()) {
 			onQuantumComputerFormed();
-		}
+		}*/
 	}
 	
 	@Override
@@ -233,7 +234,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	protected void updateClient() {}
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
 	}
 	
@@ -747,7 +748,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"# Load IBMQ account" + s +
 					"provider = IBMQ.load_account()" + s +
 					"simulator = provider.get_backend('ibmq_qasm_simulator')" + s +
-					"device = provider.get_backend('" + (q > 5 ? "ibmq_16_melbourne" : "ibmq_santiago") + "')" + s +
+					"device = provider.get_backend('" + (q > 5 ? "ibmq_16_melbourne" : (q > 1 ? "ibmq_santiago" : "ibmq_armonk")) + "')" + s +
 					"filtered = provider.backends(filters=lambda x:" + s +
 					"                             x.configuration().n_qubits >= qubits" + s +
 					"                             and not x.configuration().simulator" + s +
@@ -755,7 +756,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					"leastbusy = least_busy(filtered) if len(filtered) > 0 else device" + d +
 					
 					"# Choice of backend" + s +
-					"qc_backend = " + (q > 16 ? "simulator" : "device") + d +
+					"qc_backend = " + (q > 15 ? "simulator" : "device") + d +
 					
 					"# Helper function" + s +
 					"def run_job(circuit_, backend_, shots_ = 4096, opt_ = 1):" + s +

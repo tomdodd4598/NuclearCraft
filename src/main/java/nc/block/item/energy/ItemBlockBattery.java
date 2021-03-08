@@ -6,7 +6,11 @@ import net.minecraft.block.Block;
 
 public class ItemBlockBattery extends ItemBlockEnergy {
 	
+	public ItemBlockBattery(Block block, long capacity, int maxTransfer, int energyTier, String... tooltip) {
+		super(block, capacity, maxTransfer, energyTier, EnergyConnection.BOTH, tooltip);
+	}
+	
 	public ItemBlockBattery(Block block, BatteryType type, String... tooltip) {
-		super(block, type.getCapacity(), type.getMaxTransfer(), type.getEnergyTier(), EnergyConnection.BOTH, tooltip);
+		this(block, type.getCapacity(), type.getMaxTransfer(), type.getEnergyTier(), tooltip);
 	}
 }

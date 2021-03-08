@@ -44,7 +44,7 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addPlacementRuleTooltip(List<String> tooltip, ItemStack stack) {
-		RecipeInfo<BasicRecipe> recipeInfo = FissionPlacement.tooltip_recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+		RecipeInfo<BasicRecipe> recipeInfo = FissionPlacement.recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 		BasicRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
 			String rule = FissionPlacement.TOOLTIP_MAP.get(recipe.getPlacementRuleID());
@@ -53,7 +53,7 @@ public class TooltipHandler {
 			}
 		}
 		
-		recipeInfo = TurbinePlacement.tooltip_recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+		recipeInfo = TurbinePlacement.recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 		recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
 			String rule = TurbinePlacement.TOOLTIP_MAP.get(recipe.getPlacementRuleID());

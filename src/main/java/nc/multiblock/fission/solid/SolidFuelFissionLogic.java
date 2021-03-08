@@ -13,7 +13,6 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
-import nc.multiblock.Multiblock;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.tile.*;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
@@ -68,7 +67,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock) {
+	public boolean isMachineWhole() {
 		return !containsBlacklistedPart();
 	}
 	

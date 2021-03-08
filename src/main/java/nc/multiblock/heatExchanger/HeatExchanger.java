@@ -16,6 +16,7 @@ import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatExchangerUpdatePacket> implements ILogicMultiblock<HeatExchangerLogic, IHeatExchangerPart> {
@@ -176,20 +177,20 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
+	protected boolean isMachineWhole() {
 		
 		// Only one controller
 		
 		if (controllers.size() == 0) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
 		}
 		if (controllers.size() > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+			setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
 		
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	@Override
@@ -321,7 +322,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	// Multiblock Validators
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
 	}
 }

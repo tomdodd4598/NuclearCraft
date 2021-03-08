@@ -14,14 +14,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class TileFissionSource extends TileFissionPart {
+public class TileFissionSource extends TileFissionPart {
 	
-	protected final double efficiency;
+	protected double efficiency;
 	
 	public EnumFacing facing = EnumFacing.DOWN;
 	
-	public TileFissionSource(double efficiency) {
+	/** Don't use this constructor! */
+	public TileFissionSource() {
 		super(CuboidalPartPositionType.WALL);
+	}
+	
+	public TileFissionSource(double efficiency) {
+		this();
 		this.efficiency = efficiency;
 	}
 	
@@ -46,7 +51,7 @@ public abstract class TileFissionSource extends TileFissionPart {
 		}
 	}
 	
-	private TileFissionSource(MetaEnums.NeutronSourceType type) {
+	protected TileFissionSource(MetaEnums.NeutronSourceType type) {
 		this(type.getEfficiency());
 	}
 	
@@ -142,6 +147,7 @@ public abstract class TileFissionSource extends TileFissionPart {
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setInteger("facing", facing.getIndex());
+		nbt.setDouble("efficiency", efficiency);
 		return nbt;
 	}
 	
@@ -149,5 +155,8 @@ public abstract class TileFissionSource extends TileFissionPart {
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		facing = EnumFacing.byIndex(nbt.getInteger("facing"));
+		if (nbt.hasKey("efficiency")) {
+			efficiency = nbt.getDouble("efficiency");
+		}
 	}
 }

@@ -20,10 +20,10 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 	
 	/** @return True if the machine is "whole" and should be assembled. False otherwise. */
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
+	protected boolean isMachineWhole() {
 		
 		if (connectedParts.size() < getMinimumNumberOfBlocksForAssembledMachine()) {
-			multiblock.setLastError(MultiblockValidationError.VALIDATION_ERROR_TOO_FEW_PARTS);
+			setLastError(MultiblockValidationError.VALIDATION_ERROR_TOO_FEW_PARTS);
 			return false;
 		}
 		
@@ -50,27 +50,27 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 		int minZSize = getMinimumZSize();
 		
 		if (maxXSize > 0 && deltaX > maxXSize) {
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxXSize, "X");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxXSize, "X");
 			return false;
 		}
 		if (maxYSize > 0 && deltaY > maxYSize) {
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxYSize, "Y");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxYSize, "Y");
 			return false;
 		}
 		if (maxZSize > 0 && deltaZ > maxZSize) {
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxZSize, "Z");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxZSize, "Z");
 			return false;
 		}
 		if (deltaX < minXSize) {
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minXSize, "X");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minXSize, "X");
 			return false;
 		}
 		if (deltaY < minYSize) {
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minYSize, "Y");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minYSize, "Y");
 			return false;
 		}
 		if (deltaZ < minZSize) {
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minZSize, "Z");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minZSize, "Z");
 			return false;
 		}
 		
@@ -86,20 +86,21 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 			for (int y = minY; y <= maxY; y++) {
 				for (int z = minZ; z <= maxZ; z++) {
 					// Okay, figure out what sort of block this should be.
+					BlockPos pos = new BlockPos(x, y, z);
 					
-					te = WORLD.getTileEntity(new BlockPos(x, y, z));
+					te = WORLD.getTileEntity(pos);
 					if (te instanceof TileCuboidalMultiblockPart) {
 						part = (TileCuboidalMultiblockPart) te;
 						
 						// Ensure this part should actually be allowed within a cuboid of this multiblock's type
 						if (!myClass.equals(part.getMultiblockType())) {
-							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
+							setLastError("zerocore.api.nc.multiblock.validation.invalid_part", pos, x, y, z);
 							return false;
 						}
 						
 						// Ensure this part is actually connected to this multiblock
 						if (part.getMultiblock() != this) {
-							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_disconnected", new BlockPos(x, y, z), x, y, z);
+							setLastError("zerocore.api.nc.multiblock.validation.invalid_part_disconnected", pos, x, y, z);
 							return false;
 						}
 					}
@@ -133,11 +134,11 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					
 					if (extremes >= 2) {
 						
-						isPartValid = part != null ? part.isGoodForFrame(multiblock) : isBlockGoodForFrame(WORLD, x, y, z, multiblock);
+						isPartValid = part != null ? part.isGoodForFrame(this) : isBlockGoodForFrame(WORLD, pos);
 						
 						if (!isPartValid) {
-							if (null == multiblock.getLastError()) {
-								multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_frame", new BlockPos(x, y, z), x, y, z);
+							if (getLastError() == null) {
+								setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_frame", pos, x, y, z);
 							}
 							return false;
 						}
@@ -145,33 +146,33 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					else if (extremes == 1) {
 						if (y == maxY) {
 							
-							isPartValid = part != null ? part.isGoodForTop(multiblock) : isBlockGoodForTop(WORLD, x, y, z, multiblock);
+							isPartValid = part != null ? part.isGoodForTop(this) : isBlockGoodForTop(WORLD, pos);
 							
 							if (!isPartValid) {
-								if (null == multiblock.getLastError()) {
-									multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_top", new BlockPos(x, y, z), x, y, z);
+								if (getLastError() == null) {
+									setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_top", pos, x, y, z);
 								}
 								return false;
 							}
 						}
 						else if (y == minY) {
 							
-							isPartValid = part != null ? part.isGoodForBottom(multiblock) : isBlockGoodForBottom(WORLD, x, y, z, multiblock);
+							isPartValid = part != null ? part.isGoodForBottom(this) : isBlockGoodForBottom(WORLD, pos);
 							
 							if (!isPartValid) {
-								if (null == multiblock.getLastError()) {
-									multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_bottom", new BlockPos(x, y, z), x, y, z);
+								if (getLastError() == null) {
+									setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_bottom", pos, x, y, z);
 								}
 								return false;
 							}
 						}
 						else {
 							// Side
-							isPartValid = part != null ? part.isGoodForSides(multiblock) : isBlockGoodForSides(WORLD, x, y, z, multiblock);
+							isPartValid = part != null ? part.isGoodForSides(this) : isBlockGoodForSides(WORLD, pos);
 							
 							if (!isPartValid) {
-								if (null == multiblock.getLastError()) {
-									multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_sides", new BlockPos(x, y, z), x, y, z);
+								if (getLastError() == null) {
+									setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_sides", pos, x, y, z);
 								}
 								return false;
 							}
@@ -179,11 +180,11 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					}
 					else {
 						
-						isPartValid = part != null ? part.isGoodForInterior(multiblock) : isBlockGoodForInterior(WORLD, x, y, z, multiblock);
+						isPartValid = part != null ? part.isGoodForInterior(this) : isBlockGoodForInterior(WORLD, pos);
 						
 						if (!isPartValid) {
-							if (null == multiblock.getLastError()) {
-								multiblock.setLastError("zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior", new BlockPos(x, y, z), x, y, z);
+							if (getLastError() == null) {
+								setLastError("zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior", pos, x, y, z);
 							}
 							return false;
 						}

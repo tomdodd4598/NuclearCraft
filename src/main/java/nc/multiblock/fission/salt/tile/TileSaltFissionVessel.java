@@ -426,8 +426,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		}
 	}
 	
-	// Ticking
-	
 	@Override
 	public void update() {
 		if (!world.isRemote) {
@@ -464,7 +462,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	public void refreshActivity() {
 		boolean wasReady = readyToProcess(false);
 		canProcessInputs = canProcessInputs();
-		if (/* selfPriming && */ getMultiblock() != null && !wasReady && readyToProcess(false)) {
+		if (getMultiblock() != null && !wasReady && readyToProcess(false)) {
 			getMultiblock().refreshFlag = true;
 		}
 	}
@@ -703,17 +701,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getGasWrapper() : gasWrapper;
 	}
 	
-	public void pushFuel(TileSaltFissionVessel other) {
-		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
-		if (diff > 1) {
-			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain(diff / 2, false), true), true);
-		}
-	}
-	
-	public void pushDepleted(TileSaltFissionVessel other) {
-		getTanks().get(1).drain(other.getTanks().get(1).fillInternal(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
-	}
-	
 	@Override
 	public boolean getInputTanksSeparated() {
 		return false;
@@ -740,7 +727,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean hasConfigurableFluidConnections() {
-		return true;
+		return false;
 	}
 	
 	@Override
@@ -779,8 +766,8 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public int getFilterID() {
-		return getFilterTanks().get(0).getFluidName().hashCode();
+	public Object getFilterKey() {
+		return getFilterTanks().get(0).getFluidName();
 	}
 	
 	// ITileGui

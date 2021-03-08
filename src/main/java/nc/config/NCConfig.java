@@ -332,6 +332,9 @@ public class NCConfig {
 	public static String[] radiation_player_debuff_lists;
 	public static String[] radiation_passive_debuff_lists;
 	public static String[] radiation_mob_buff_lists;
+	public static boolean radiation_player_rads_fatal;
+	public static boolean radiation_passive_rads_fatal;
+	public static boolean radiation_mob_rads_fatal;
 	
 	private static boolean radiation_horse_armor;
 	public static boolean radiation_horse_armor_public;
@@ -965,6 +968,12 @@ public class NCConfig {
 		propertyRadiationPassiveDebuffLists.setLanguageKey("gui.nc.config.radiation_passive_debuff_lists");
 		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:strength@1", "70.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1", "80.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.nc.config.radiation_mob_buff_lists.comment"));
 		propertyRadiationMobBuffLists.setLanguageKey("gui.nc.config.radiation_mob_buff_lists");
+		Property propertyRadiationPlayerRadsFatal = config.get(CATEGORY_RADIATION, "radiation_player_rads_fatal", true, Lang.localise("gui.nc.config.radiation_player_rads_fatal.comment"));
+		propertyRadiationPlayerRadsFatal.setLanguageKey("gui.nc.config.radiation_player_rads_fatal");
+		Property propertyRadiationPassiveRadsFatal = config.get(CATEGORY_RADIATION, "radiation_passive_rads_fatal", true, Lang.localise("gui.nc.config.radiation_passive_rads_fatal.comment"));
+		propertyRadiationPassiveRadsFatal.setLanguageKey("gui.nc.config.radiation_passive_rads_fatal");
+		Property propertyRadiationMobRadsFatal = config.get(CATEGORY_RADIATION, "radiation_mob_rads_fatal", true, Lang.localise("gui.nc.config.radiation_mob_rads_fatal.comment"));
+		propertyRadiationMobRadsFatal.setLanguageKey("gui.nc.config.radiation_mob_rads_fatal");
 		
 		Property propertyRadiationHorseArmor = config.get(CATEGORY_RADIATION, "radiation_horse_armor", false, Lang.localise("gui.nc.config.radiation_horse_armor.comment"));
 		propertyRadiationHorseArmor.setLanguageKey("gui.nc.config.radiation_horse_armor");
@@ -1348,6 +1357,9 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationPlayerDebuffLists.getName());
 		propertyOrderRadiation.add(propertyRadiationPassiveDebuffLists.getName());
 		propertyOrderRadiation.add(propertyRadiationMobBuffLists.getName());
+		propertyOrderRadiation.add(propertyRadiationPlayerRadsFatal.getName());
+		propertyOrderRadiation.add(propertyRadiationPassiveRadsFatal.getName());
+		propertyOrderRadiation.add(propertyRadiationMobRadsFatal.getName());
 		propertyOrderRadiation.add(propertyRadiationHorseArmor.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
@@ -1683,6 +1695,9 @@ public class NCConfig {
 			radiation_player_debuff_lists = propertyRadiationPlayerDebuffLists.getStringList();
 			radiation_passive_debuff_lists = propertyRadiationPassiveDebuffLists.getStringList();
 			radiation_mob_buff_lists = propertyRadiationMobBuffLists.getStringList();
+			radiation_player_rads_fatal = propertyRadiationPlayerRadsFatal.getBoolean();
+			radiation_passive_rads_fatal = propertyRadiationPassiveRadsFatal.getBoolean();
+			radiation_mob_rads_fatal = propertyRadiationMobRadsFatal.getBoolean();
 			
 			radiation_horse_armor = propertyRadiationHorseArmor.getBoolean();
 			
@@ -2016,6 +2031,9 @@ public class NCConfig {
 		propertyRadiationPlayerDebuffLists.set(radiation_player_debuff_lists);
 		propertyRadiationPassiveDebuffLists.set(radiation_passive_debuff_lists);
 		propertyRadiationMobBuffLists.set(radiation_mob_buff_lists);
+		propertyRadiationPlayerRadsFatal.set(radiation_player_rads_fatal);
+		propertyRadiationPassiveRadsFatal.set(radiation_passive_rads_fatal);
+		propertyRadiationMobRadsFatal.set(radiation_mob_rads_fatal);
 		
 		propertyRadiationHorseArmor.set(radiation_horse_armor);
 		
@@ -2066,7 +2084,9 @@ public class NCConfig {
 	}
 	
 	private static void outputInfo() {
-		Configuration info = new Configuration(new File(config.getConfigFile().getParentFile(), "nuclearcraft.info"));
+		File file = new File(Loader.instance().getConfigDir(), "nuclearcraft.info");
+		file.delete();
+		Configuration info = new Configuration(file);
 		
 		List<String> fissionPlacement = new ArrayList<>();
 		for (Object2ObjectMap.Entry<String, String> entry : FissionPlacement.RULE_MAP_RAW.object2ObjectEntrySet()) {

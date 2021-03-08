@@ -1,24 +1,13 @@
 package nc.model.entity;
 
 import net.minecraft.client.model.*;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.*;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.*;
 
-public class ModelFeralGhoul extends ModelBase {
-	
-	public ModelRenderer bipedRightArm;
-	public ModelRenderer bipedRightLeg;
-	public ModelRenderer bipedHead;
-	public ModelRenderer bipedBody;
-	public ModelRenderer bipedLeftArm;
-	public ModelRenderer bipedLeftLeg;
-	public ModelRenderer bipedHeadwear;
-	
-	public ArmPose leftArmPose;
-	public ArmPose rightArmPose;
+@SideOnly(Side.CLIENT)
+public class ModelFeralGhoul extends ModelBiped {
 	
 	public ModelFeralGhoul() {
 		textureWidth = 64;
@@ -62,27 +51,6 @@ public class ModelFeralGhoul extends ModelBase {
 		bipedLeftArm.setRotationPoint(4.2F, 4.4F, -1.7F);
 		bipedLeftArm.addBox(-1F, -2F, -2F, 4, 16, 4, -0.5F);
 		setRotateAngle(bipedLeftArm, -0.3490658503988659F, 0.10000736613927509F, -0.10000736613927509F);
-	}
-	
-	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
-		
-		GlStateManager.pushMatrix();
-		
-		if (entityIn.isSneaking()) {
-			GlStateManager.translate(0F, 0.2F, 0F);
-		}
-		
-		bipedHead.render(scale);
-		bipedLeftLeg.render(scale);
-		bipedHeadwear.render(scale);
-		bipedBody.render(scale);
-		bipedRightArm.render(scale);
-		bipedRightLeg.render(scale);
-		bipedLeftArm.render(scale);
-		
-		GlStateManager.popMatrix();
 	}
 	
 	@Override
@@ -215,43 +183,6 @@ public class ModelFeralGhoul extends ModelBase {
 		bipedLeftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
 		bipedRightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
 		bipedLeftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-	}
-	
-	@Override
-	public void setModelAttributes(ModelBase model) {
-		super.setModelAttributes(model);
-		
-		if (model instanceof ModelFeralGhoul) {
-			ModelFeralGhoul modelFeralGhoul = (ModelFeralGhoul) model;
-			leftArmPose = modelFeralGhoul.leftArmPose;
-			rightArmPose = modelFeralGhoul.rightArmPose;
-		}
-	}
-	
-	public void postRenderArm(float scale, EnumHandSide side) {
-		getArmForSide(side).postRender(scale);
-	}
-	
-	protected ModelRenderer getArmForSide(EnumHandSide side) {
-		return side == EnumHandSide.LEFT ? bipedLeftArm : bipedRightArm;
-	}
-	
-	protected EnumHandSide getMainHand(Entity entityIn) {
-		if (entityIn instanceof EntityLivingBase) {
-			EntityLivingBase entitylivingbase = (EntityLivingBase) entityIn;
-			EnumHandSide enumhandside = entitylivingbase.getPrimaryHand();
-			return entitylivingbase.swingingHand == EnumHand.MAIN_HAND ? enumhandside : enumhandside.opposite();
-		}
-		else {
-			return EnumHandSide.RIGHT;
-		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public static enum ArmPose {
-		EMPTY,
-		ITEM,
-		BLOCK;
 	}
 	
 	/** This is a helper function from Tabula to set the rotation of model parts */

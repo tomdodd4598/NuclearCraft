@@ -7,7 +7,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.multiblock.Multiblock;
 import nc.multiblock.heatExchanger.tile.*;
 
 public class CondenserLogic extends HeatExchangerLogic {
@@ -22,7 +21,7 @@ public class CondenserLogic extends HeatExchangerLogic {
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock) {
+	public boolean isMachineWhole() {
 		return !containsBlacklistedPart();
 	}
 	

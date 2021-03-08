@@ -13,7 +13,6 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
-import nc.multiblock.Multiblock;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.tile.*;
 import nc.multiblock.fission.solid.tile.*;
@@ -70,7 +69,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock) {
+	public boolean isMachineWhole() {
 		return !containsBlacklistedPart();
 	}
 	
@@ -101,7 +100,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			SaltFissionVesselBunch bunch = null;
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				TileSaltFissionVessel other = getPartMap(TileSaltFissionVessel.class).get(vessel.getPos().offset(dir).toLong());
-				if (other != null && vessel.getFilterID() == other.getFilterID()) {
+				if (other != null && vessel.getFilterKey().equals(other.getFilterKey())) {
 					SaltFissionVesselBunch otherBunch = other.getVesselBunch();
 					if (bunch == null) {
 						bunch = otherBunch;

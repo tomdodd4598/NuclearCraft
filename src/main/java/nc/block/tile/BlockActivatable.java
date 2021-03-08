@@ -5,7 +5,6 @@ import static nc.block.property.BlockProperties.ACTIVE;
 import nc.enumm.BlockEnums.ActivatableTileType;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
@@ -49,11 +48,11 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {ACTIVE});
+		return new BlockStateContainer(this, ACTIVE);
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		return getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	

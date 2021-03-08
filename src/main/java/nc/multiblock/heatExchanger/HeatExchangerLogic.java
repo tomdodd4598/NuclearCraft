@@ -79,7 +79,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock) {
+	public boolean isMachineWhole() {
 		return !containsBlacklistedPart();
 	}
 	
@@ -96,12 +96,12 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 			
 		}
 		
-		if (getExchanger().isAssembled()) {
+		/*if (getExchanger().isAssembled()) {
 			onExchangerFormed();
 		}
 		else {
 			onExchangerBroken();
-		}
+		}*/
 	}
 	
 	@Override

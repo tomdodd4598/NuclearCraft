@@ -3,7 +3,6 @@ package nc.multiblock.heatExchanger.block;
 import static nc.block.property.BlockProperties.FRAME;
 
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerCasing;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +19,7 @@ public class BlockHeatExchangerCasing extends BlockHeatExchangerPart {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FRAME});
+		return new BlockStateContainer(this, FRAME);
 	}
 	
 	@Override

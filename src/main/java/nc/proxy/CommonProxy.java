@@ -53,6 +53,8 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
 		
+		MinecraftForge.EVENT_BUS.register(new MultiblockHandler());
+		
 		if (ModCheck.craftTweakerLoaded()) {
 			CraftTweakerAPI.tweaker.loadScript(false, "nc_preinit");
 		}
@@ -199,7 +201,7 @@ public class CommonProxy {
 		
 		NCRecipes.refreshRecipeCaches();
 		
-		PlacementRule.refreshTooltipRecipeHandlers();
+		PlacementRule.refreshRecipeCaches();
 		
 		RadSources.refreshRadSources(true);
 		RadArmor.refreshRadiationArmor();
@@ -240,17 +242,4 @@ public class CommonProxy {
 	public void setRenderInfo(Material mat, int lo, int mid, int hi) {
 		
 	}
-	
-	// Multiblocks
-	
-	public MultiblockRegistry initMultiblockRegistry() {
-		
-		if (multiblockEventHandler == null) {
-			MinecraftForge.EVENT_BUS.register(multiblockEventHandler = new MultiblockHandler());
-		}
-		
-		return MultiblockRegistry.INSTANCE;
-	}
-	
-	private static MultiblockHandler multiblockEventHandler = null;
 }

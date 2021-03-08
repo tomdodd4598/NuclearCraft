@@ -122,9 +122,13 @@ public class NCRecipes {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void registerTiCRecipes(RegistryEvent.Register<IRecipe> event) {
+	public void registerIntegrationRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (ModCheck.tinkersLoaded()) {
 			TConstructExtras.init();
+		}
+		
+		for (BasicRecipeHandler handler : processor_recipe_handlers) {
+			handler.addGTCERecipes();
 		}
 	}
 	

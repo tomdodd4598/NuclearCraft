@@ -138,7 +138,7 @@ public final class ModelTexturedFluid implements IModel {
 			this.flowing = flowing;
 			
 			faceQuads = Maps.newEnumMap(EnumFacing.class);
-			for (EnumFacing side : EnumFacing.values()) {
+			for (EnumFacing side : EnumFacing.VALUES) {
 				faceQuads.put(side, ImmutableList.of());
 			}
 			

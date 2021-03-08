@@ -80,11 +80,6 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 		markDirty();
 	}
 	
-	@Override
-	public int getFilterID() {
-		return getFilterTanks().get(0).getFluidName().hashCode();
-	}
-	
 	// Fluids
 	
 	@Override

@@ -56,15 +56,22 @@ public class RadiationHelper {
 		return provider.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
 	}
 	
+	public static boolean hasInfiniteRadiationResistance(ICapabilityProvider provider) {
+		IRadiationResistance resistance = getRadiationResistance(provider);
+		return resistance != null && resistance.getTotalRadResistance() == Double.POSITIVE_INFINITY;
+	}
+	
 	public static IItemHandler getTileInventory(ICapabilityProvider provider, EnumFacing side) {
-		if (!(provider instanceof TileEntity) || provider instanceof TileDummy || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
+		
+		if (!(provider instanceof TileEntity) || provider instanceof TileDummy || hasInfiniteRadiationResistance(provider) || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
 			return null;
 		}
 		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 	}
 	
 	public static IFluidHandler getTileTanks(ICapabilityProvider provider, EnumFacing side) {
-		if (!(provider instanceof TileEntity) || provider instanceof TileDummy || !provider.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
+		
+		if (!(provider instanceof TileEntity) || provider instanceof TileDummy || hasInfiniteRadiationResistance(provider) || !provider.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
 			return null;
 		}
 		return provider.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);

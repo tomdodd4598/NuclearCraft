@@ -26,20 +26,22 @@ import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.ITileGui;
 import nc.tile.fluid.*;
+import nc.tile.generator.IFluidGenerator;
 import nc.tile.internal.fluid.*;
-import nc.tile.processor.IFluidProcessor;
 import nc.util.CapabilityHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidProcessor, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
+public class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidGenerator, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
 	
-	protected final @Nonnull List<Tank> tanks;
-	protected final @Nonnull List<Tank> filterTanks;
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, null), new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
+	protected final @Nonnull List<Tank> filterTanks = Lists.newArrayList(new Tank(1000, null), new Tank(1000, new ArrayList<>()));
+	protected final @Nonnull List<Tank> consumedTanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -55,13 +57,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	public double heatingSpeedMultiplier; // Based on the cluster efficiency, but with heat/cooling taken into account
 	
 	public double time;
-	public boolean isProcessing, canProcessInputs;
+	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected final Set<EntityPlayer> playersToUpdate;
 	
-	public String heaterName, coolantName;
+	public String heaterType, coolantName;
 	
 	protected FissionCluster cluster = null;
 	protected long heat = 0L;
@@ -75,247 +77,245 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	/** Don't use this constructor! */
 	public TileSaltFissionHeater() {
 		super(CuboidalPartPositionType.INTERIOR);
-		tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, null), new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
-		filterTanks = Lists.newArrayList(new Tank(1000, null), new Tank(1000, new ArrayList<>()));
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}
 	
-	public TileSaltFissionHeater(String heaterName, String coolantName) {
+	public TileSaltFissionHeater(String heaterType, String coolantName) {
 		this();
-		this.heaterName = heaterName;
+		this.heaterType = heaterType;
 		this.coolantName = coolantName;
 		tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 		filterTanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 	}
 	
-	protected TileSaltFissionHeater(String heaterName, int coolantID) {
-		this(heaterName, COOLANTS.get(coolantID) + "nak");
+	protected TileSaltFissionHeater(int coolantID) {
+		this(COOLANTS.get(coolantID), COOLANTS.get(coolantID) + "_nak");
 	}
 	
 	public static class Standard extends TileSaltFissionHeater {
 		
 		public Standard() {
-			super("standard", 0);
+			super("standard", "nak");
 		}
 	}
 	
 	public static class Iron extends TileSaltFissionHeater {
 		
 		public Iron() {
-			super("iron", 1);
+			super(1);
 		}
 	}
 	
 	public static class Redstone extends TileSaltFissionHeater {
 		
 		public Redstone() {
-			super("redstone", 2);
+			super(2);
 		}
 	}
 	
 	public static class Quartz extends TileSaltFissionHeater {
 		
 		public Quartz() {
-			super("quartz", 3);
+			super(3);
 		}
 	}
 	
 	public static class Obsidian extends TileSaltFissionHeater {
 		
 		public Obsidian() {
-			super("obsidian", 4);
+			super(4);
 		}
 	}
 	
 	public static class NetherBrick extends TileSaltFissionHeater {
 		
 		public NetherBrick() {
-			super("nether_brick", 5);
+			super(5);
 		}
 	}
 	
 	public static class Glowstone extends TileSaltFissionHeater {
 		
 		public Glowstone() {
-			super("glowstone", 6);
+			super(6);
 		}
 	}
 	
 	public static class Lapis extends TileSaltFissionHeater {
 		
 		public Lapis() {
-			super("lapis", 7);
+			super(7);
 		}
 	}
 	
 	public static class Gold extends TileSaltFissionHeater {
 		
 		public Gold() {
-			super("gold", 8);
+			super(8);
 		}
 	}
 	
 	public static class Prismarine extends TileSaltFissionHeater {
 		
 		public Prismarine() {
-			super("prismarine", 9);
+			super(9);
 		}
 	}
 	
 	public static class Slime extends TileSaltFissionHeater {
 		
 		public Slime() {
-			super("slime", 10);
+			super(10);
 		}
 	}
 	
 	public static class EndStone extends TileSaltFissionHeater {
 		
 		public EndStone() {
-			super("end_stone", 11);
+			super(11);
 		}
 	}
 	
 	public static class Purpur extends TileSaltFissionHeater {
 		
 		public Purpur() {
-			super("purpur", 12);
+			super(12);
 		}
 	}
 	
 	public static class Diamond extends TileSaltFissionHeater {
 		
 		public Diamond() {
-			super("diamond", 13);
+			super(13);
 		}
 	}
 	
 	public static class Emerald extends TileSaltFissionHeater {
 		
 		public Emerald() {
-			super("emerald", 14);
+			super(14);
 		}
 	}
 	
 	public static class Copper extends TileSaltFissionHeater {
 		
 		public Copper() {
-			super("copper", 15);
+			super(15);
 		}
 	}
 	
 	public static class Tin extends TileSaltFissionHeater {
 		
 		public Tin() {
-			super("tin", 16);
+			super(16);
 		}
 	}
 	
 	public static class Lead extends TileSaltFissionHeater {
 		
 		public Lead() {
-			super("lead", 17);
+			super(17);
 		}
 	}
 	
 	public static class Boron extends TileSaltFissionHeater {
 		
 		public Boron() {
-			super("boron", 18);
+			super(18);
 		}
 	}
 	
 	public static class Lithium extends TileSaltFissionHeater {
 		
 		public Lithium() {
-			super("lithium", 19);
+			super(19);
 		}
 	}
 	
 	public static class Magnesium extends TileSaltFissionHeater {
 		
 		public Magnesium() {
-			super("magnesium", 20);
+			super(20);
 		}
 	}
 	
 	public static class Manganese extends TileSaltFissionHeater {
 		
 		public Manganese() {
-			super("manganese", 21);
+			super(21);
 		}
 	}
 	
 	public static class Aluminum extends TileSaltFissionHeater {
 		
 		public Aluminum() {
-			super("aluminum", 22);
+			super(22);
 		}
 	}
 	
 	public static class Silver extends TileSaltFissionHeater {
 		
 		public Silver() {
-			super("silver", 23);
+			super(23);
 		}
 	}
 	
 	public static class Fluorite extends TileSaltFissionHeater {
 		
 		public Fluorite() {
-			super("fluorite", 24);
+			super(24);
 		}
 	}
 	
 	public static class Villiaumite extends TileSaltFissionHeater {
 		
 		public Villiaumite() {
-			super("villiaumite", 25);
+			super(25);
 		}
 	}
 	
 	public static class Carobbiite extends TileSaltFissionHeater {
 		
 		public Carobbiite() {
-			super("carobbiite", 26);
+			super(26);
 		}
 	}
 	
 	public static class Arsenic extends TileSaltFissionHeater {
 		
 		public Arsenic() {
-			super("arsenic", 27);
+			super(27);
 		}
 	}
 	
 	public static class LiquidNitrogen extends TileSaltFissionHeater {
 		
 		public LiquidNitrogen() {
-			super("liquid_nitrogen", 28);
+			super(28);
 		}
 	}
 	
 	public static class LiquidHelium extends TileSaltFissionHeater {
 		
 		public LiquidHelium() {
-			super("liquid_helium", 29);
+			super(29);
 		}
 	}
 	
 	public static class Enderium extends TileSaltFissionHeater {
 		
 		public Enderium() {
-			super("enderium", 30);
+			super(30);
 		}
 	}
 	
 	public static class Cryotheum extends TileSaltFissionHeater {
 		
 		public Cryotheum() {
-			super("cryotheum", 31);
+			super(31);
 		}
 	}
 	
@@ -392,6 +392,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	public void refreshIsProcessing(boolean checkCluster, boolean checkValid) {
 		isProcessing = isProcessing(checkCluster, checkValid);
+		hasConsumed = hasConsumed();
 	}
 	
 	@Override
@@ -464,12 +465,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		return isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false, true);
 	}
 	
-	// Ticking
+	// Processing
 	
 	@Override
 	public void onLoad() {
 		super.onLoad();
 		if (!world.isRemote) {
+			refreshMasterPort();
 			refreshRecipe();
 			refreshActivity();
 			refreshIsProcessing(true, true);
@@ -504,7 +506,8 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = NCRecipes.coolant_heater.getRecipeInfoFromInputs(new ArrayList<>(), getFluidInputs());
+		recipeInfo = NCRecipes.coolant_heater.getRecipeInfoFromHeaterInputs(heaterType, getFluidInputs(hasConsumed));
+		consumeInputs();
 	}
 	
 	@Override
@@ -541,11 +544,29 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	public boolean readyToProcess(boolean checkCluster, boolean checkValid) {
-		return canProcessInputs && isMultiblockAssembled() && !(checkCluster && cluster == null) && !(checkValid && !isInValidPosition);
+		return canProcessInputs && hasConsumed && isMultiblockAssembled() && !(checkCluster && cluster == null) && !(checkValid && !isInValidPosition);
+	}
+	
+	public boolean hasConsumed() {
+		if (world.isRemote) {
+			return hasConsumed;
+		}
+		for (int i = 0; i < fluidInputSize; i++) {
+			if (!consumedTanks.get(i).isEmpty()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
+		if (hasConsumed && !validRecipe) {
+			for (Tank tank : getFluidInputs(true)) {
+				tank.setFluidStored(null);
+			}
+			hasConsumed = false;
+		}
 		if (!canProcess) {
 			time = 0D;
 		}
@@ -571,6 +592,33 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 			}
 		}
 		return true;
+	}
+	
+	public void consumeInputs() {
+		if (hasConsumed || recipeInfo == null) {
+			return;
+		}
+		IntList fluidInputOrder = recipeInfo.getFluidInputOrder();
+		if (fluidInputOrder == AbstractRecipeHandler.INVALID) {
+			return;
+		}
+		
+		for (int i = 0; i < fluidInputSize; i++) {
+			if (!consumedTanks.get(i).isEmpty()) {
+				consumedTanks.get(i).setFluid(null);
+			}
+		}
+		for (int i = 0; i < fluidInputSize; i++) {
+			int maxStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
+			if (maxStackSize > 0) {
+				consumedTanks.get(i).setFluidStored(new FluidStack(getTanks().get(i).getFluid(), maxStackSize));
+				getTanks().get(i).changeFluidAmount(-maxStackSize);
+			}
+			if (getTanks().get(i).isEmpty()) {
+				getTanks().get(i).setFluid(null);
+			}
+		}
+		hasConsumed = true;
 	}
 	
 	public void process() {
@@ -603,26 +651,17 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	public void produceProducts() {
-		if (recipeInfo == null) {
-			return;
+		for (int i = 0; i < fluidInputSize; i++) {
+			consumedTanks.get(i).setFluid(null);
 		}
-		IntList fluidInputOrder = recipeInfo.getFluidInputOrder();
-		if (fluidInputOrder == AbstractRecipeHandler.INVALID) {
+		
+		if (!hasConsumed || recipeInfo == null) {
 			return;
 		}
 		
-		for (int i = 0; i < fluidInputSize; i++) {
-			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
-			if (fluidIngredientStackSize > 0) {
-				getTanks().get(i).changeFluidAmount(-fluidIngredientStackSize);
-			}
-			if (getTanks().get(i).getFluidAmount() <= 0) {
-				getTanks().get(i).setFluidStored(null);
-			}
-		}
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize(0) <= 0) {
+			if (fluidProduct.getNextStackSize(0) <= 0) {
 				continue;
 			}
 			if (getTanks().get(j + fluidInputSize).isEmpty()) {
@@ -632,6 +671,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
 		}
+		hasConsumed = false;
 	}
 	
 	// IProcessor
@@ -647,8 +687,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public List<Tank> getFluidInputs() {
-		return getTanks().subList(0, fluidInputSize);
+	public int getOtherSlotsSize() {
+		return 0;
+	}
+	
+	@Override
+	public List<Tank> getFluidInputs(boolean consumed) {
+		return consumed ? consumedTanks : getTanks().subList(0, fluidInputSize);
 	}
 	
 	@Override
@@ -688,17 +733,6 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getGasWrapper() : gasWrapper;
 	}
 	
-	public void pushCoolant(TileSaltFissionHeater other) {
-		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
-		if (diff > 1) {
-			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain(diff / 2, false), true), true);
-		}
-	}
-	
-	public void pushHotCoolant(TileSaltFissionHeater other) {
-		getTanks().get(1).drain(other.getTanks().get(1).fillInternal(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
-	}
-	
 	@Override
 	public boolean getInputTanksSeparated() {
 		return false;
@@ -725,7 +759,20 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean hasConfigurableFluidConnections() {
-		return true;
+		return false;
+	}
+	
+	@Override
+	public void clearAllTanks() {
+		IFluidGenerator.super.clearAllTanks();
+		for (Tank tank : consumedTanks) {
+			tank.setFluidStored(null);
+		}
+		
+		hasConsumed = false;
+		refreshRecipe();
+		refreshActivity();
+		refreshIsProcessing(true, true);
 	}
 	
 	// ITileFilteredFluid
@@ -751,8 +798,8 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public int getFilterID() {
-		return coolantName.hashCode();
+	public Object getFilterKey() {
+		return heaterType;
 	}
 	
 	// ITileGui
@@ -795,7 +842,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setString("heaterName", heaterName);
+		nbt.setString("heaterName", heaterType);
 		nbt.setString("coolantName", coolantName);
 		writeTanks(nbt);
 		
@@ -804,6 +851,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
+		nbt.setBoolean("hasConsumed", hasConsumed);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		
 		nbt.setLong("clusterHeat", heat);
@@ -814,8 +862,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("heaterName"))
-			heaterName = nbt.getString("heaterName");
+		if (nbt.hasKey("heaterName")) {
+			heaterType = nbt.getString("heaterName");
+		}
 		if (nbt.hasKey("coolantName")) {
 			coolantName = nbt.getString("coolantName");
 			tanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
@@ -828,6 +877,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
+		hasConsumed = nbt.getBoolean("hasConsumed");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		
 		heat = nbt.getLong("clusterHeat");
@@ -842,6 +892,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		for (int i = 0; i < filterTanks.size(); i++) {
 			filterTanks.get(i).writeToNBT(nbt, "filterTanks" + i);
 		}
+		for (int i = 0; i < consumedTanks.size(); i++) {
+			consumedTanks.get(i).writeToNBT(nbt, "consumedTanks" + i);
+		}
 		return nbt;
 	}
 	
@@ -852,6 +905,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		}
 		for (int i = 0; i < filterTanks.size(); i++) {
 			filterTanks.get(i).readFromNBT(nbt, "filterTanks" + i);
+		}
+		for (int i = 0; i < consumedTanks.size(); i++) {
+			consumedTanks.get(i).readFromNBT(nbt, "consumedTanks" + i);
 		}
 	}
 	

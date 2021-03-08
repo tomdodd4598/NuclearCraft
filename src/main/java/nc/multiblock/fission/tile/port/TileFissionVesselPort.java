@@ -27,6 +27,11 @@ public class TileFissionVesselPort extends TileFissionFluidPort<TileFissionVesse
 		return 36;
 	}
 	
+	@Override
+	public Object getFilterKey() {
+		return getFilterTanks().get(0).getFluidName();
+	}
+	
 	// Ticking
 	
 	@Override

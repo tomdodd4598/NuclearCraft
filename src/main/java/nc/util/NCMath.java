@@ -236,7 +236,7 @@ public class NCMath {
 			for (int i = 1; i < l - 1; i++) {
 				next[i] = arr[i + 1];
 			}
-			return hcf(next);
+			return lcm(next);
 		}
 	}
 	

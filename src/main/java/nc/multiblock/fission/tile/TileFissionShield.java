@@ -21,9 +21,9 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class TileFissionShield extends TileFissionPart implements IFissionHeatingComponent, IFissionManagerListener<TileFissionShieldManager, TileFissionShield> {
+public class TileFissionShield extends TileFissionPart implements IFissionHeatingComponent, IFissionManagerListener<TileFissionShieldManager, TileFissionShield> {
 	
-	public final double heatPerFlux, efficiency;
+	public double heatPerFlux, efficiency;
 	public boolean isShielding = false, inCompleteModeratorLine = false, activeModerator = false;
 	protected boolean[] validActiveModeratorPos = new boolean[] {false, false, false, false, false, false};
 	
@@ -36,8 +36,13 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	protected BlockPos managerPos = DEFAULT_NON;
 	protected TileFissionShieldManager manager = null;
 	
-	public TileFissionShield(double heatPerFlux, double efficiency) {
+	/** Don't use this constructor! */
+	public TileFissionShield() {
 		super(CuboidalPartPositionType.INTERIOR);
+	}
+	
+	public TileFissionShield(double heatPerFlux, double efficiency) {
+		this();
 		this.heatPerFlux = heatPerFlux;
 		this.efficiency = efficiency;
 	}
@@ -49,7 +54,7 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 		}
 	}
 	
-	private TileFissionShield(MetaEnums.NeutronShieldType type) {
+	protected TileFissionShield(MetaEnums.NeutronShieldType type) {
 		this(type.getHeatPerFlux(), type.getEfficiency());
 	}
 	
@@ -239,8 +244,6 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	
 	// Ticking
 	
-	/* @Override public void onLoad() { world.neighborChanged(pos, getBlockType(), pos); super.onLoad(); } */
-	
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasShielding = isShielding;
@@ -256,6 +259,8 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
+		nbt.setDouble("heatPerFlux", heatPerFlux);
+		nbt.setDouble("efficiency", efficiency);
 		nbt.setBoolean("isShielding", isShielding);
 		nbt.setBoolean("inCompleteModeratorLine", inCompleteModeratorLine);
 		nbt.setBoolean("activeModerator", activeModerator);
@@ -268,6 +273,12 @@ public abstract class TileFissionShield extends TileFissionPart implements IFiss
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
+		if (nbt.hasKey("heatPerFlux")) {
+			heatPerFlux = nbt.getDouble("heatPerFlux");
+		}
+		if (nbt.hasKey("efficiency")) {
+			efficiency = nbt.getDouble("efficiency");
+		}
 		isShielding = nbt.getBoolean("isShielding");
 		inCompleteModeratorLine = nbt.getBoolean("inCompleteModeratorLine");
 		activeModerator = nbt.getBoolean("activeModerator");

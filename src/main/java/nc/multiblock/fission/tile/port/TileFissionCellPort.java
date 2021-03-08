@@ -9,6 +9,7 @@ import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.network.FissionCellPortUpdatePacket;
 import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort, TileSolidFissionCell> implements ITileGui<FissionCellPortUpdatePacket> {
@@ -19,6 +20,11 @@ public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort
 		super(TileFissionCellPort.class, "cell", NCRecipes.solid_fission);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
+	}
+	
+	@Override
+	public Object getFilterKey() {
+		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
 	}
 	
 	// Ticking

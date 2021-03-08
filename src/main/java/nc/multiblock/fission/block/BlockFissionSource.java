@@ -5,12 +5,10 @@ import static nc.block.property.BlockProperties.*;
 import javax.annotation.Nullable;
 
 import nc.block.tile.IActivatable;
-import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.render.BlockHighlightTracker;
 import nc.util.*;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.*;
@@ -21,53 +19,42 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.*;
 
-public class BlockFissionSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> implements IActivatable {
-	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronSourceType.class);
+public abstract class BlockFissionSource extends BlockFissionPart implements IActivatable {
 	
 	public BlockFissionSource() {
-		super(MetaEnums.NeutronSourceType.class, TYPE);
+		super();
 		setDefaultState(getDefaultState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, TYPE, FACING_ALL, ACTIVE);
+		return new BlockStateContainer(this, FACING_ALL, ACTIVE);
 	}
 	
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) tile;
-			EnumFacing facing = source.getPartPosition().getFacing();
-			return state.withProperty(FACING_ALL, facing != null ? facing : source.facing).withProperty(ACTIVE, source.getIsRedstonePowered());
-		}
-		return state;
+	public IBlockState getStateFromMeta(int meta) {
+		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileFissionSource.RadiumBeryllium();
-			case 1:
-				return new TileFissionSource.PoloniumBeryllium();
-			case 2:
-				return new TileFissionSource.Californium();
+	public int getMetaFromState(IBlockState state) {
+		int i = state.getValue(FACING_ALL).getIndex();
+		if (state.getValue(ACTIVE).booleanValue()) {
+			i |= 8;
 		}
-		return new TileFissionSource.RadiumBeryllium();
+		return i;
+	}
+	
+	@Override
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(world, pos, state);
 		BlockHelper.setDefaultFacing(world, pos, state, FACING_ALL);
-	}
-	
-	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getStateFromMeta(meta).withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override

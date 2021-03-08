@@ -11,6 +11,7 @@ import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class RTGMultiblock extends Multiblock<TileRTG, MultiblockUpdatePacket> {
@@ -106,7 +107,7 @@ public class RTGMultiblock extends Multiblock<TileRTG, MultiblockUpdatePacket> {
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
+	protected boolean isMachineWhole() {
 		return true;
 	}
 	
@@ -116,9 +117,9 @@ public class RTGMultiblock extends Multiblock<TileRTG, MultiblockUpdatePacket> {
 			storage.mergeEnergyStorage(((RTGMultiblock) assimilated).storage);
 		}
 		
-		if (isAssembled()) {
+		/*if (isAssembled()) {
 			onMultiblockFormed();
-		}
+		}*/
 	}
 	
 	@Override
@@ -139,7 +140,7 @@ public class RTGMultiblock extends Multiblock<TileRTG, MultiblockUpdatePacket> {
 	protected void updateClient() {}
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
 	}
 	

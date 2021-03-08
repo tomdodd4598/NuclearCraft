@@ -3,7 +3,6 @@ package nc.multiblock.fission.block;
 import static nc.block.property.BlockProperties.FRAME;
 
 import nc.multiblock.fission.tile.TileFissionCasing;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +19,7 @@ public class BlockFissionCasing extends BlockFissionPart {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FRAME});
+		return new BlockStateContainer(this, FRAME);
 	}
 	
 	@Override

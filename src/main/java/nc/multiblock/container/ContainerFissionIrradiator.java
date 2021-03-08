@@ -1,13 +1,13 @@
 package nc.multiblock.container;
 
-import nc.container.processor.ContainerFilteredItemProcessor;
+import nc.container.generator.ContainerFilteredItemGenerator;
 import nc.container.slot.*;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.recipe.NCRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerFissionIrradiator extends ContainerFilteredItemProcessor<TileFissionIrradiator> {
+public class ContainerFissionIrradiator extends ContainerFilteredItemGenerator<TileFissionIrradiator> {
 	
 	public ContainerFissionIrradiator(EntityPlayer player, TileFissionIrradiator irradiator) {
 		super(player, irradiator, NCRecipes.fission_irradiator);

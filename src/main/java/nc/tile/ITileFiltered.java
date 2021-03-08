@@ -6,5 +6,5 @@ public interface ITileFiltered extends ITile {
 	
 	public void onFilterChanged(int slot);
 	
-	public int getFilterID();
+	public Object getFilterKey();
 }

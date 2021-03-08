@@ -59,19 +59,24 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITicka
 	
 	private boolean ic2reg = false;
 	
-	public final int power;
+	public long power;
 	
-	private TileRTG(RTGType type) {
-		this(type.getPower(), type.getRadiation());
-	}
-	
-	public TileRTG(int power, double radiation) {
+	/** Don't use this constructor! */
+	public TileRTG() {
 		super(RTGMultiblock.class);
-		this.power = power;
-		getRadiationSource().setRadiationLevel(radiation);
 		energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.OUT);
 		energySides = ITileEnergy.getDefaultEnergySides(this);
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
+	}
+	
+	public TileRTG(long power, double radiation) {
+		this();
+		this.power = power;
+		getRadiationSource().setRadiationLevel(radiation);
+	}
+	
+	protected TileRTG(RTGType type) {
+		this(type.getPower(), type.getRadiation());
 	}
 	
 	private boolean ignoreSide(EnumFacing side) {
@@ -209,6 +214,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITicka
 		super.writeAll(nbt);
 		writeEnergyConnections(nbt);
 		nbt.setByteArray("ignoreSide", NCMath.booleansToBytes(ignoreSide));
+		nbt.setLong("power", power);
 		return nbt;
 	}
 	
@@ -220,11 +226,9 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITicka
 		if (arr.length == 6) {
 			ignoreSide = arr;
 		}
-	}
-	
-	@Override
-	public boolean shouldSaveRadiation() {
-		return false;
+		if (nbt.hasKey("power")) {
+			power = nbt.getLong("power");
+		}
 	}
 	
 	// Capability

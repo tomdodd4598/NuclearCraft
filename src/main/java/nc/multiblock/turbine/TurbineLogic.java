@@ -18,7 +18,6 @@ import nc.handler.SoundHandler;
 import nc.handler.SoundHandler.SoundInfo;
 import nc.init.*;
 import nc.multiblock.*;
-import nc.multiblock.Multiblock.AssemblyState;
 import nc.multiblock.network.*;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.Turbine.PlaneDir;
@@ -292,7 +291,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (getWorld().isRemote) {
-			updateSounds();
+			stopSounds();
 		}
 	}
 	
@@ -326,7 +325,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock) {
+	public boolean isMachineWhole() {
 		int minX = getTurbine().getMinX(), minY = getTurbine().getMinY(), minZ = getTurbine().getMinZ();
 		int maxX = getTurbine().getMaxX(), maxY = getTurbine().getMaxY(), maxZ = getTurbine().getMaxZ();
 		
@@ -695,16 +694,15 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			assimilatedTurbine.rawPower = assimilatedTurbine.rawLimitPower = assimilatedTurbine.rawMaxPower = 0D;
 		}
 		
-		if (getTurbine().isAssembled()) {
+		/*if (getTurbine().isAssembled()) {
 			onTurbineFormed(true);
-		}
-		else {
-			// onTurbineBroken();
-		}
+		}*/
 	}
 	
 	@Override
-	public void onAssimilated(Multiblock assimilator) {}
+	public void onAssimilated(Multiblock assimilator) {
+		clearSounds();
+	}
 	
 	// Server
 	
@@ -787,7 +785,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			stator.onBearingFailure(statorIterator);
 		}
 		
-		getTurbine().checkIfMachineIsWhole();
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(getWorld(), getTurbine());
 		
 		if (getTurbine().controller != null) {
 			getTurbine().sendUpdateToAllPlayers();
@@ -1035,8 +1033,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	protected void updateSounds() {
 		if (turbine_sound_volume == 0D) {
 			if (getTurbine().activeSounds != null) {
-				stopSounds();
-				getTurbine().activeSounds.clear();
+				clearSounds();
 				getTurbine().activeSounds = null;
 			}
 			return;
@@ -1049,14 +1046,13 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		if (getTurbine().isProcessing && getTurbine().isAssembled()) {
 			getTurbine().refreshSoundInfo = getTurbine().refreshSoundInfo || Math.abs(getTurbine().angVel - getTurbine().prevAngVel) > 0.025F;
 			
-			if (--getTurbine().soundCount > (getTurbine().refreshSoundInfo ? 186 / 2 : 0)) {
+			if (--getTurbine().soundCount > (getTurbine().refreshSoundInfo ? Turbine.SOUND_LENGTH / 2 : 0)) {
 				return;
 			}
 			
 			// Generate sound info if necessary
 			if (getTurbine().refreshSoundInfo) {
-				stopSounds();
-				getTurbine().activeSounds.clear();
+				clearSounds();
 				final int _x = 1 + getTurbine().getExteriorLengthX() / 8, _y = 1 + getTurbine().getExteriorLengthY() / 8, _z = 1 + getTurbine().getExteriorLengthZ() / 8;
 				final int[] xList = new int[_x], yList = new int[_y], zList = new int[_z];
 				for (int i = 0; i < _x; i++) {
@@ -1088,7 +1084,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			// Always reset the count
-			getTurbine().soundCount = 186;
+			getTurbine().soundCount = Turbine.SOUND_LENGTH;
 			
 			getTurbine().prevAngVel = getTurbine().angVel;
 		}
@@ -1099,16 +1095,23 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@SideOnly(Side.CLIENT)
 	protected void stopSounds() {
-		if (getTurbine().activeSounds == null) {
-			return;
-		}
-		for (SoundInfo activeSound : getTurbine().activeSounds) {
-			if (activeSound != null) {
-				SoundHandler.stopTileSound(activeSound.pos);
-				activeSound.sound = null;
+		if (getTurbine().activeSounds != null) {
+			for (SoundInfo activeSound : getTurbine().activeSounds) {
+				if (activeSound != null) {
+					SoundHandler.stopTileSound(activeSound.pos);
+					activeSound.sound = null;
+				}
 			}
+			getTurbine().soundCount = 0;
 		}
-		getTurbine().soundCount = 0;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	protected void clearSounds() {
+		stopSounds();
+		if (getTurbine().activeSounds != null) {
+			getTurbine().activeSounds.clear();
+		}
 	}
 	
 	// NBT
@@ -1133,7 +1136,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	@Override
 	public void onPacket(TurbineUpdatePacket message) {
 		if (getTurbine().assemblyState != message.assemblyState) {
-			getTurbine().checkIfMachineIsWhole();
+			MultiblockRegistry.INSTANCE.addDirtyMultiblock(getWorld(), getTurbine());
 		}
 		
 		getTurbine().assemblyState = message.assemblyState;
@@ -1154,10 +1157,6 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().dynamoCoilCount = message.dynamoCoilCount;
 		getTurbine().dynamoCoilCountOpposite = message.dynamoCoilCountOpposite;
 		getTurbine().bearingTension = message.bearingTension;
-		
-		if (!getTurbine().isTurbineOn || message.assemblyState != AssemblyState.Assembled) {
-			stopSounds();
-		}
 	}
 	
 	public TurbineRenderPacket getRenderPacket() {
@@ -1193,7 +1192,6 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			for (ITurbineController controller : getParts(ITurbineController.class)) {
 				controller.setIsRenderer(false);
 			}
-			// NCUtil.getLogger().error("The assembly state of the turbine at " + getTurbine().getMiddleCoord().toString() + " is different between the server and client(s). It is recommended that the multiblock is completely disassambled and rebuilt if these errors continually appear!");
 			return;
 		}
 		
@@ -1244,14 +1242,13 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	// Multiblock Validators
 	
 	@Override
-	public boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
-		BlockPos pos = new BlockPos(x, y, z);
+	public boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		long posLong = pos.toLong();
 		if (getPartMap(TileTurbineRotorShaft.class).containsKey(posLong) || getPartMap(TileTurbineRotorBlade.class).containsKey(posLong) || getPartMap(TileTurbineRotorStator.class).containsKey(posLong) || MaterialHelper.isReplaceable(world.getBlockState(pos).getMaterial())) {
 			return true;
 		}
 		else {
-			return getTurbine().standardLastError(x, y, z, multiblock);
+			return getTurbine().standardLastError(pos);
 		}
 	}
 }

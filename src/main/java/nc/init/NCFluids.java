@@ -34,6 +34,7 @@ public class NCFluids {
 		addFluidPair(FluidType.MOLTEN, "lithium_6", 0xEFEFEF);
 		addFluidPair(FluidType.MOLTEN, "lithium_7", 0xEFEFEF);
 		
+		addFluidPair(FluidType.MOLTEN, "steel", 0x7B7B7B);
 		addFluidPair(FluidType.MOLTEN, "ferroboron", 0x4A4A4A);
 		addFluidPair(FluidType.MOLTEN, "tough", 0x150F21);
 		addFluidPair(FluidType.MOLTEN, "hard_carbon", 0x195970);

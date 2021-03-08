@@ -9,6 +9,7 @@ import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.network.FissionIrradiatorPortUpdatePacket;
 import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIrradiatorPort, TileFissionIrradiator> implements ITileGui<FissionIrradiatorPortUpdatePacket> {
@@ -19,6 +20,11 @@ public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIr
 		super(TileFissionIrradiatorPort.class, "irradiator", NCRecipes.fission_irradiator);
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
+	}
+	
+	@Override
+	public Object getFilterKey() {
+		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
 	}
 	
 	// Ticking

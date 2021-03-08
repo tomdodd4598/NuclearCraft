@@ -5,7 +5,6 @@ import static nc.util.NCRenderHelper.PIXEL;
 import nc.multiblock.turbine.TurbineRotorBladeUtil;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,11 +28,11 @@ public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRo
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {TurbineRotorBladeUtil.DIR});
+		return new BlockStateContainer(this, TurbineRotorBladeUtil.DIR);
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		return getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.fromFacingAxis(facing.getAxis()));
 	}
 	

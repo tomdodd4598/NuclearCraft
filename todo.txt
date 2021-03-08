@@ -1,7 +1,14 @@
+Fix custom shields not working
+Add irradiator and conductor placement rules
+"maybe someone wants to make a fluid that acts as moderator..."
+"bit of a really niche use, but it'd be nice if NCO could load up ModularMachinery based add-ons..."
+Add turbine recipe rotor spin-up multiplier
+
+Poll: nitrogen collector -> air collector, Lach QMD feature merge?
+
 Fix file vulnerabilities in NC (MMC: https://discordapp.com/channels/166630061217153024/217332023746887680/777708394320363570)
 
-Fuel decay heat and neutron poison (eVault: "Someone else suggested decay heat a while back too...")
-
+Fuel decay heat and neutron poison (eVault: "Someone else suggested decay heat a while back too...", "been thinking about decay heat and neutron poisons a bit more...")
 Show potential (pre-primed) stats if reactor is idle
 
 Keep clusters running even when multiblock is invalidated
@@ -19,6 +26,7 @@ Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if
 
 Replace casing emergency cooling with cluster/port based version (no placement rules, works for both SFRs and MSRs)
 Add component heat dissipation while invalid?
+Configurable reactor rainbow bonus?
 
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
 Modularise processor classes
@@ -29,9 +37,13 @@ CT Registration of machines?
 Multitool support for side configurations
 OC support for side configurations
 
+OC support for port filtering
+
 Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
 
 Weapons based on acids and toxic materials?
+
+Configurable hardcore reactor maintenance mechanics?
 
 Patchouli documentation
 
@@ -45,17 +57,17 @@ ________________________________________________________________________________
 SiC–SiC ceramic matrix composite for top-tier turbine blades, made by melt infiltration (MI) of silicon, following chemical vapor infiltration (CVI) of carbon into SiC fibre, formed from SiC gas phase via laser-driven chemical vapor deposition (LCVD)
 ___________________________________________________________________________________________________________________________
 
-1.16: Potential block state getter optimisation - https://github.com/RogueLogix/BiggerSeries/blob/master/Phosphophyllite/src/main/java/net/roguelogix/phosphophyllite/util/Util.java#L51-L83 (chunkCachedBlockStateIteration)
-1.16: Potential TE getter optimisation - https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/common/util/MekanismUtils.java#L929-L948 (getChunkForTile)
+1.17: Potential block state getter optimisation - https://github.com/RogueLogix/BiggerSeries/blob/master/Phosphophyllite/src/main/java/net/roguelogix/phosphophyllite/util/Util.java#L51-L83 (chunkCachedBlockStateIteration)
+1.17: Potential TE getter optimisation - https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/common/util/MekanismUtils.java#L929-L948 (getChunkForTile)
 
-1.16: Cherenkov radiation (configurable)?
-1.16: Make reflectors tile entities (can form clusters)
+1.17: Cherenkov radiation (configurable)?
+1.17: Make reflectors tile entities (can form clusters)
 ___________________________________________________________________________________________________________________________
 
-1.16: Item stack NBT support in NC recipes (also allow for NBT 'wildcards')
+1.17: Item stack NBT support in NC recipes (also allow for NBT 'wildcards')
 ___________________________________________________________________________________________________________________________
 
-1.16: Add sound effects from Exile to machines
+1.17: Add sound effects from Exile to machines
 ___________________________________________________________________________________________________________________________
 
 Multiblock Electrolyser
@@ -69,17 +81,17 @@ deuterium-enriched H2S + water -> H2S + deuterium-enriched water
 
 Fractional distillation: deuterium-enriched water -> heavy water + water
 
-1.16: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
-1.16: Tiered machines: basic -> advanced -> DU -> elite? https://discordapp.com/channels/425461908712325130/425471153067524098/651401188054401025
+1.17: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
+1.17: Tiered machines: basic -> advanced -> DU -> elite? https://discordapp.com/channels/425461908712325130/425471153067524098/651401188054401025
 ___________________________________________________________________________________________________________________________
 
-1.16: Specialised fuel-making machine
+1.17: Specialised fuel-making machine
 
 Gas-cooled Pebble-Bed Reactor that produces energy directly
 Option to use superheated gases in turbine loop?
 QT gas coolants: https://docs.google.com/spreadsheets/d/1gtXbk_S9ginkjgDo8BNXQr54kaQcToaqUa2E9LA0CMQ/edit#gid=1165328757
 
-1.16: MSR split: NaK coolant for thermal, eutectic Pb-Bi alloy coolant for fast?
+1.17: MSR split: NaK coolant for thermal, eutectic Pb-Bi alloy coolant for fast?
 ___________________________________________________________________________________________________________________________
 
 Heat Exchanger: make heat flow maths realistic: https://en.wikipedia.org/wiki/Countercurrent_exchange
@@ -91,7 +103,7 @@ Add condenser controller, split mechanics like the fission reactor
 
 Decay pool to preheat condensate water from radioactive isotopes? (https://discordapp.com/channels/425461908712325130/425470889354723350/574303555465510912)
 
-1.16: Give dynamo depth for 3D coil puzzle?
+1.17: Give dynamo depth for 3D coil puzzle?
 ___________________________________________________________________________________________________________________________
 
 Fusion Reactor: https://discordapp.com/channels/425461908712325130/425471153067524098/621412674948825134
@@ -104,18 +116,18 @@ ________________________________________________________________________________
 
 [Only if QMD does not update]
 
-1.16: Add Synchrotron modules that use radiation - one per corner:
+1.17: Add Synchrotron modules that use radiation - one per corner:
 
-1.16: Add Collider Controller - electron/positron/proton input on corner
-1.16: Particles need to be fired in opposite directions to work
-1.16: Add multiblock collider experiments - one per corner:
+1.17: Add Collider Controller - electron/positron/proton input on corner
+1.17: Particles need to be fired in opposite directions to work
+1.17: Add multiblock collider experiments - one per corner:
 
-1.16: Particles implemented as new material type, similar to Mek gases
+1.17: Particles implemented as new material type, similar to Mek gases
 ___________________________________________________________________________________________________________________________
 
-1.16: Inertial Confinement Fusion - synchrotron radiation as laser -> heat molten salt coolant
+1.17: Inertial Confinement Fusion - synchrotron radiation as laser -> heat molten salt coolant
 
-1.16: Focus Fusion -> direct energy production?
+1.17: Focus Fusion -> direct energy production?
 ___________________________________________________________________________________________________________________________
 
-1.16: Hawking Generator - form black hole and power with matter -> Hawking radiation produced for energy
+1.17: Hawking Generator - form black hole and power with matter -> Hawking radiation produced for energy

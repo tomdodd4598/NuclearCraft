@@ -32,11 +32,12 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 		hasTileEntity = true;
 		setDefaultState(blockState.getBaseState());
 		setCreativeTab(tab);
+		canSustainPlant = false;
 		canCreatureSpawn = false;
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		return getDefaultState();
 	}
 	

@@ -15,7 +15,7 @@ import nc.recipe.ingredient.*;
 import nc.util.*;
 import stanhebben.zenscript.annotations.*;
 
-@ZenClass("mods.nuclearcraft.ProcessorRecipeHandler")
+@ZenClass("mods.nuclearcraft.BasicRecipeHandler")
 @ZenRegister
 public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicRecipe> {
 	
@@ -59,12 +59,19 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 			}
 		}
 		BasicRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
-		
-		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(name) && recipe != null) {
-			GTCERecipeHelper.addGTCERecipe(name, recipe);
-		}
-		
 		addRecipe(factor_recipes ? factorRecipe(recipe) : recipe);
+	}
+	
+	public BasicRecipe newRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+		return new BasicRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
+	}
+	
+	public void addGTCERecipes() {
+		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(name)) {
+			for (BasicRecipe recipe : recipeList) {
+				GTCERecipeHelper.addGTCERecipe(name, recipe);
+			}
+		}
 	}
 	
 	public abstract List fixExtras(List extras);
@@ -100,7 +107,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 			fluidProducts.add(ingredient.getFactoredIngredient(hcf));
 		}
 		
-		return new BasicRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
+		return newRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
 	}
 	
 	public IntList getExtraFactors(List extras) {
@@ -191,7 +198,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		if (!isValidRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts)) {
 			NCUtil.getLogger().info(name + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
-		return new BasicRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixExtras(extras), shapeless);
+		return newRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixExtras(extras), shapeless);
 	}
 	
 	public boolean isValidRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {

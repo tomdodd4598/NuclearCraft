@@ -2,7 +2,7 @@ package nc.multiblock.qComputer.block;
 
 import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.qComputer.tile.TileQuantumComputerCodeGenerator;
-import net.minecraft.block.properties.*;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +20,7 @@ public class BlockQuantumComputerCodeGenerator extends BlockQuantumComputerMetaP
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {TYPE});
+		return new BlockStateContainer(this, TYPE);
 	}
 	
 	@Override

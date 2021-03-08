@@ -11,6 +11,7 @@ import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdatePacket> {
@@ -105,7 +106,7 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
+	protected boolean isMachineWhole() {
 		return true;
 	}
 	
@@ -115,9 +116,9 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 			storage.mergeEnergyStorage(((BatteryMultiblock) assimilated).storage);
 		}
 		
-		if (isAssembled()) {
+		/*if (isAssembled()) {
 			onMultiblockFormed();
-		}
+		}*/
 	}
 	
 	@Override
@@ -153,7 +154,7 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 	protected void updateClient() {}
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
 	}
 	

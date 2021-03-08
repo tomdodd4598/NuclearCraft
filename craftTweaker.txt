@@ -373,7 +373,7 @@ mods.nuclearcraft.FissionEmergencyCooling.removeRecipeWithOutput(ILiquidStack fl
 Fusion (NOT YET IMPLEMENTED!):
 ------------------------------
 
-mods.nuclearcraft.Fusion.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, double comboTime, double comboPower, double comboHeatVar, double processRadiation);
+mods.nuclearcraft.Fusion.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4, int time, int power, int optimalTemp, double radiation);
 
 mods.nuclearcraft.Fusion.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
 mods.nuclearcraft.Fusion.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
@@ -382,7 +382,7 @@ mods.nuclearcraft.Fusion.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiqu
 Heat Exchanger (KINDA BROKEN!):
 -------------------------------
 
-mods.nuclearcraft.HeatExchanger.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double heatRequired, int temperatureIn, int temperatureOut);
+mods.nuclearcraft.HeatExchanger.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int heatRequired, int temperatureIn, int temperatureOut);
 
 mods.nuclearcraft.HeatExchanger.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.HeatExchanger.removeRecipeWithOutput(ILiquidStack fluidOutput);
@@ -391,7 +391,7 @@ mods.nuclearcraft.HeatExchanger.removeRecipeWithOutput(ILiquidStack fluidOutput)
 Condenser (KINDA BROKEN!):
 --------------------------
 
-mods.nuclearcraft.Condenser.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double coolingRequired, int condensingTemperature});
+mods.nuclearcraft.Condenser.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int coolingRequired, int condensingTemperature);
 
 mods.nuclearcraft.Condenser.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.Condenser.removeRecipeWithOutput(ILiquidStack fluidOutput);
@@ -470,7 +470,12 @@ mods.nuclearcraft.Radiation.getRadiationLevel(IIngredient ingredient);
 mods.nuclearcraft.Radiation.addToRadiationBlacklist(IIngredient ingredient);
 
 mods.nuclearcraft.Radiation.setRadiationLevel(IIngredient ingredient, double radiation);
+mods.nuclearcraft.Radiation.setMaterialPrefixRadiationMultiplier(String orePrefix, double radiationMultiplier);
 mods.nuclearcraft.Radiation.setMaterialRadiationLevel(String oreSuffix, double radiation);
+mods.nuclearcraft.Radiation.setIsotopeRadiationLevel(String oreSuffix, String fluidName, double radiation);
+mods.nuclearcraft.Radiation.setIsotopeRadiationLevel(String oreSuffix, double radiation);
+mods.nuclearcraft.Radiation.setFuelRadiationLevel(String oreSuffix, String fluidName, double fuelRadiation, double depletedRadiation);
+mods.nuclearcraft.Radiation.setFuelRadiationLevel(String oreSuffix, double fuelRadiation, double depletedRadiation);
 
 mods.nuclearcraft.Radiation.setFoodRadiationStats(IItemStack food, double radiation, double resistance);
 
@@ -520,9 +525,15 @@ Note B: If ContentTweaker is installed, assets can be located in its generated r
 
 mods.nuclearcraft.Registration.registerFissionSink(String sinkID, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);
+mods.nuclearcraft.Registration.registerFissionSource(String sourceID, double efficiency);
+mods.nuclearcraft.Registration.registerFissionShield(String shieldID, double heatPerFlux, double efficiency);
 
 mods.nuclearcraft.Registration.registerTurbineCoil(String coilID, double conductivity, String placementRule);
 mods.nuclearcraft.Registration.registerTurbineBlade(String bladeID, double efficiency, double expansionCoefficient);
 mods.nuclearcraft.Registration.registerTurbineStator(String statorID, double expansionCoefficient);
+
+mods.nuclearcraft.Registration.registerRTG(String rtgID, long power, double radiation);
+
+mods.nuclearcraft.Registration.registerBattery(String batteryID, long capacity, int euEnergyTier);
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------

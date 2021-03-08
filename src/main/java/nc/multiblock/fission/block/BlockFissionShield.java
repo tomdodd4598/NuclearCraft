@@ -3,10 +3,8 @@ package nc.multiblock.fission.block;
 import static nc.block.property.BlockProperties.ACTIVE;
 
 import nc.block.tile.IActivatable;
-import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionShield;
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,42 +15,31 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronShieldType> implements IActivatable {
-	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronShieldType.class);
+public abstract class BlockFissionShield extends BlockFissionPart implements IActivatable {
 	
 	public BlockFissionShield() {
-		super(MetaEnums.NeutronShieldType.class, TYPE);
+		super();
 		setDefaultState(getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, TYPE, ACTIVE);
+		return new BlockStateContainer(this, ACTIVE);
 	}
 	
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionShield) {
-			TileFissionShield shield = (TileFissionShield) tile;
-			return state.withProperty(ACTIVE, shield.isShielding);
-		}
-		return state;
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(ACTIVE, Boolean.valueOf(meta == 1));
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileFissionShield.BoronSilver();
-		}
-		return new TileFissionShield.BoronSilver();
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(ACTIVE).booleanValue() ? 1 : 0;
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getStateFromMeta(meta);
+		return getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override
@@ -85,13 +72,11 @@ public class BlockFissionShield extends BlockFissionMetaPart<MetaEnums.NeutronSh
 	
 	@Override
 	public boolean isFullCube(IBlockState state) {
-		// return state.getValue(ACTIVE);
 		return false;
 	}
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
-		// return state.getValue(ACTIVE);
 		return false;
 	}
 	

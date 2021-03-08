@@ -936,7 +936,7 @@ public class JEIRecipeWrapper {
 	public static class CoolantHeater extends JEIBasicRecipeWrapper {
 		
 		public CoolantHeater(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35);
 		}
 		
 		@Override

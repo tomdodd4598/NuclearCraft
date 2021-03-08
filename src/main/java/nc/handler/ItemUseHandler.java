@@ -9,12 +9,16 @@ import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.*;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.*;
 
 public class ItemUseHandler {
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onFoodEaten(LivingEntityUseItemEvent.Finish event) {
+		if (event.isCanceled()) {
+			return;
+		}
+		
 		final ItemStack stack = event.getItem();
 		if (stack.isEmpty()) {
 			return;

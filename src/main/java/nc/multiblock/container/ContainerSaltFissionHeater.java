@@ -1,12 +1,12 @@
 package nc.multiblock.container;
 
-import nc.container.processor.ContainerFluidProcessor;
+import nc.container.generator.ContainerFluidGenerator;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.recipe.NCRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerSaltFissionHeater extends ContainerFluidProcessor<TileSaltFissionHeater> {
+public class ContainerSaltFissionHeater extends ContainerFluidGenerator<TileSaltFissionHeater> {
 	
 	public ContainerSaltFissionHeater(EntityPlayer player, TileSaltFissionHeater heater) {
 		super(player, heater, NCRecipes.coolant_heater);

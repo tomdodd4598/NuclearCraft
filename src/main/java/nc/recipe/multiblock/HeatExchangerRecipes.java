@@ -17,8 +17,9 @@ public class HeatExchangerRecipes extends BasicRecipeHandler {
 	public void addRecipes() {
 		// Hot NaK -> NaK
 		
-		for (int i = 0; i < COOLANTS.size(); i++) {
-			addRecipe(fluidStack(COOLANTS.get(i) + "nak_hot", 1), fluidStack(COOLANTS.get(i) + "nak", 1), fission_heater_cooling_rate[i] * heat_exchanger_coolant_mult, 700, 300);
+		addRecipe(fluidStack("nak_hot", 1), fluidStack("nak", 1), fission_heater_cooling_rate[0] * heat_exchanger_coolant_mult, 700, 300);
+		for (int i = 1; i < COOLANTS.size(); i++) {
+			addRecipe(fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fluidStack(COOLANTS.get(i) + "_nak", 1), fission_heater_cooling_rate[i] * heat_exchanger_coolant_mult, 700, 300);
 		}
 		
 		// Steam <-> Water

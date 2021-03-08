@@ -126,7 +126,7 @@ public class RecipeHelper {
 	}
 	
 	public static List<ItemStack> getItemOutputStackList(IItemIngredient ingredient) {
-		if (ingredient instanceof ChanceItemIngredient) {
+		if (ingredient instanceof IChanceItemIngredient) {
 			return ingredient.getOutputStackList();
 		}
 		else {
@@ -135,7 +135,7 @@ public class RecipeHelper {
 	}
 	
 	public static List<FluidStack> getFluidOutputStackList(IFluidIngredient ingredient) {
-		if (ingredient instanceof ChanceFluidIngredient) {
+		if (ingredient instanceof IChanceFluidIngredient) {
 			return ingredient.getOutputStackList();
 		}
 		else {

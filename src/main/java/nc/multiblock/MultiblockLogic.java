@@ -4,8 +4,8 @@ import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.fission.solid.SolidFuelFissionLogic;
@@ -97,7 +97,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	public abstract void onAssimilated(Multiblock assimilator);
 	
-	public abstract boolean isMachineWhole(Multiblock multiblock);
+	public abstract boolean isMachineWhole();
 	
 	public abstract boolean onUpdateServer();
 	
@@ -129,10 +129,10 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 			target.clearMasterPort();
 		}
 		
-		Int2ObjectMap<PORT> masterPortMap = new Int2ObjectOpenHashMap<>();
-		Int2IntMap targetCountMap = new Int2IntOpenHashMap();
+		Object2ObjectMap<Object, PORT> masterPortMap = new Object2ObjectOpenHashMap<>();
+		Object2IntMap<Object> targetCountMap = new Object2IntOpenHashMap<>();
 		for (PORT port : portMap.values()) {
-			int filter = port.getFilterID();
+			Object filter = port.getFilterKey();
 			if (PosHelper.DEFAULT_NON.equals(port.getMasterPortPos()) && !masterPortMap.containsKey(filter)) {
 				masterPortMap.put(filter, port);
 				targetCountMap.put(filter, 0);
@@ -146,7 +146,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		}
 		
 		for (PORT port : portMap.values()) {
-			int filter = port.getFilterID();
+			Object filter = port.getFilterKey();
 			if (!masterPortMap.containsKey(filter)) {
 				masterPortMap.put(filter, port);
 				targetCountMap.put(filter, 0);
@@ -154,7 +154,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		}
 		
 		for (PORT port : portMap.values()) {
-			int filter = port.getFilterID();
+			Object filter = port.getFilterKey();
 			PORT master = masterPortMap.get(filter);
 			if (port != master) {
 				port.setMasterPortPos(master.getTilePos());
@@ -165,7 +165,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		}
 		
 		for (TARGET target : targetMap.values()) {
-			int filter = target.getFilterID();
+			Object filter = target.getFilterKey();
 			if (masterPortMap.containsKey(filter)) {
 				PORT master = masterPortMap.get(filter);
 				if (master != null) {
@@ -177,9 +177,9 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 			}
 		}
 		
-		for (Int2ObjectMap.Entry<PORT> entry : masterPortMap.int2ObjectEntrySet()) {
-			entry.getValue().setInventoryStackLimit(Math.max(64, entry.getValue().getInventoryStackLimitPerConnection() * targetCountMap.get(entry.getIntKey())));
-			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection() * targetCountMap.get(entry.getIntKey())));
+		for (Object2ObjectMap.Entry<Object, PORT> entry : masterPortMap.object2ObjectEntrySet()) {
+			entry.getValue().setInventoryStackLimit(Math.max(64, entry.getValue().getInventoryStackLimitPerConnection() * targetCountMap.get(entry.getKey())));
+			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection() * targetCountMap.get(entry.getKey())));
 		}
 	}
 	
@@ -240,7 +240,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	// Multiblock Validators
 	
-	public boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
+	public boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
 	}
 	

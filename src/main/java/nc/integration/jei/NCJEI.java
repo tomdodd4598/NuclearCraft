@@ -18,8 +18,10 @@ import nc.integration.jei.multiblock.*;
 import nc.integration.jei.other.*;
 import nc.integration.jei.processor.*;
 import nc.multiblock.container.*;
+import nc.multiblock.fission.FissionPlacement;
 import nc.multiblock.gui.*;
 import nc.recipe.*;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
@@ -234,12 +236,12 @@ public class NCJEI implements IModPlugin {
 		DECAY_GENERATOR(NCRecipes.decay_generator, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
 		FISSION_MODERATOR(NCRecipes.fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
 		FISSION_REFLECTOR(NCRecipes.fission_reflector, NCBlocks.fission_reflector, "fission_reflector", JEIRecipeWrapper.FissionReflector.class),
-		FISSION_IRRADIATOR(NCRecipes.fission_irradiator, NCBlocks.fission_irradiator, "fission_irradiator", JEIRecipeWrapper.FissionIrradiator.class),
+		FISSION_IRRADIATOR(NCRecipes.fission_irradiator, NCBlocks.fission_irradiator, "fission_irradiator_jei", JEIRecipeWrapper.FissionIrradiator.class),
 		PEBBLE_FISSION(NCRecipes.pebble_fission, Lists.newArrayList(), "pebble_fission", JEIRecipeWrapper.PebbleFission.class),
 		SOLID_FISSION(NCRecipes.solid_fission, Lists.newArrayList(NCBlocks.solid_fission_controller, NCBlocks.solid_fission_cell), "solid_fission", JEIRecipeWrapper.SolidFission.class),
 		FISSION_HEATING(NCRecipes.fission_heating, NCBlocks.fission_vent, "fission_heating", JEIRecipeWrapper.FissionHeating.class),
 		SALT_FISSION(NCRecipes.salt_fission, Lists.newArrayList(NCBlocks.salt_fission_controller, NCBlocks.salt_fission_vessel), "salt_fission", JEIRecipeWrapper.SaltFission.class),
-		COOLANT_HEATER(NCRecipes.coolant_heater, coolantHeaters(), "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
+		COOLANT_HEATER(NCRecipes.coolant_heater, getCoolantHeaters(), "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		FISSION_EMERGENCY_COOLING(NCRecipes.fission_emergency_cooling, NCBlocks.fission_vent, "fission_emergency_cooling", JEIRecipeWrapper.FissionEmergencyCooling.class),
 		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
 		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class),
@@ -412,13 +414,15 @@ public class NCJEI implements IModPlugin {
 		return list;
 	}
 	
-	private static List<ItemStack> coolantHeaters() {
+	private static List<ItemStack> getCoolantHeaters() {
 		List<ItemStack> list = new ArrayList<>();
-		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
-			list.add(new ItemStack(NCBlocks.salt_fission_heater, 1, i));
-		}
-		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
-			list.add(new ItemStack(NCBlocks.salt_fission_heater2, 1, i));
+		for (BasicRecipe recipe : FissionPlacement.recipe_handler.getRecipeList()) {
+			if (recipe.getPlacementRuleID().endsWith("_heater"))
+				for (IItemIngredient ingredient : recipe.getItemIngredients()) {
+					for (ItemStack stack : ingredient.getInputStackList()) {
+						list.add(stack);
+					}
+				}
 		}
 		return list;
 	}

@@ -19,6 +19,11 @@ public class NCBlockIce extends BlockIce {
 	}
 	
 	@Override
+	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
+		return false;
+	}
+	
+	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
@@ -30,11 +35,6 @@ public class NCBlockIce extends BlockIce {
 		Block block = iblockstate.getBlock();
 		
 		return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
-	}
-	
-	@Override
-	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
-		return false;
 	}
 	
 	@Override

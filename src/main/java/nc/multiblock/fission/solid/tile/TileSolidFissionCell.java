@@ -128,7 +128,8 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public void resetStats() {
-		/* primed = */ fluxSearched = false;
+		// primed = false;
+		fluxSearched = false;
 		flux = heatMult = 0;
 		undercoolingLifetimeFactor = 1D;
 		// sourceEfficiency = null;
@@ -391,8 +392,6 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			refreshIsProcessing(true);
 		}
 	}
-	
-	// Ticking
 	
 	@Override
 	public void update() {
@@ -733,7 +732,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public boolean hasConfigurableInventoryConnections() {
-		return true;
+		return false;
 	}
 	
 	@Override
@@ -785,7 +784,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public int getFilterID() {
+	public Object getFilterKey() {
 		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
 	}
 	

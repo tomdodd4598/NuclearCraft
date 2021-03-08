@@ -812,7 +812,7 @@ public class CTRecipes {
 	
 	@ZenClass("mods.nuclearcraft.FissionEmergencyCooling")
 	@ZenRegister
-	public static class FissionEmergencyCooling {
+	public static class FissionEmergencyCoolingMethods {
 		
 		@ZenMethod
 		public static BasicRecipeHandler getRecipeHandler() {
@@ -851,8 +851,8 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int time, int power, int optimalTemp) {
-			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.fusion, Lists.newArrayList(input1, input2, output1, output2, output3, output4, time, power, optimalTemp)));
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int time, int power, int optimalTemp, double radiation) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.fusion, Lists.newArrayList(input1, input2, output1, output2, output3, output4, time, power, optimalTemp, radiation)));
 		}
 		
 		@ZenMethod
@@ -882,18 +882,18 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(Object[] objects) {
-			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.heat_exchanger, Lists.newArrayList(objects)));
+		public static void addRecipe(IIngredient input, IIngredient output, int heatRequired, int temperatureIn, int temperatureOut) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.heat_exchanger, Lists.newArrayList(input, output, heatRequired, temperatureIn, temperatureOut)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient[] inputs) {
-			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.heat_exchanger, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.heat_exchanger, IngredientSorption.INPUT, Lists.newArrayList(input)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient[] outputs) {
-			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.heat_exchanger, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.heat_exchanger, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
 		}
 		
 		@ZenMethod
@@ -913,18 +913,18 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(Object[] objects) {
-			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.condenser, Lists.newArrayList(objects)));
+		public static void addRecipe(IIngredient input, IIngredient output, int coolingRequired, int condensingTemperature) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.condenser, Lists.newArrayList(input, output, coolingRequired, condensingTemperature)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient[] inputs) {
-			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.condenser, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.condenser, IngredientSorption.INPUT, Lists.newArrayList(input)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient[] outputs) {
-			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.condenser, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.condenser, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
 		}
 		
 		@ZenMethod

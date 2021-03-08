@@ -18,11 +18,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.*;
 
 public class NCBlock extends Block {
 	
+	protected boolean canSustainPlant = true;
 	protected boolean canCreatureSpawn = true;
+	
 	protected static boolean keepInventory;
 	
 	public NCBlock(Material material) {
@@ -30,6 +33,11 @@ public class NCBlock extends Block {
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);
+	}
+	
+	@Override
+	public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
+		return canSustainPlant && super.canSustainPlant(state, world, pos, direction, plantable);
 	}
 	
 	@Override
@@ -101,6 +109,7 @@ public class NCBlock extends Block {
 			setHardness(1.5F);
 			setResistance(10F);
 			this.smartRender = smartRender;
+			canSustainPlant = false;
 			canCreatureSpawn = false;
 		}
 		

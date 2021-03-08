@@ -1,13 +1,11 @@
 package nc.multiblock.fission.salt.block;
 
 import nc.NuclearCraft;
-import nc.enumm.MetaEnums;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.block.BlockFissionMetaPart;
+import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.util.*;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.*;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -16,56 +14,10 @@ import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BlockSaltFissionHeater extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType> {
-	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType.class);
+public abstract class BlockSaltFissionHeater extends BlockFissionPart {
 	
 	public BlockSaltFissionHeater() {
-		super(MetaEnums.CoolantHeaterType.class, TYPE);
-	}
-	
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, TYPE);
-	}
-	
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileSaltFissionHeater.Standard();
-			case 1:
-				return new TileSaltFissionHeater.Iron();
-			case 2:
-				return new TileSaltFissionHeater.Redstone();
-			case 3:
-				return new TileSaltFissionHeater.Quartz();
-			case 4:
-				return new TileSaltFissionHeater.Obsidian();
-			case 5:
-				return new TileSaltFissionHeater.NetherBrick();
-			case 6:
-				return new TileSaltFissionHeater.Glowstone();
-			case 7:
-				return new TileSaltFissionHeater.Lapis();
-			case 8:
-				return new TileSaltFissionHeater.Gold();
-			case 9:
-				return new TileSaltFissionHeater.Prismarine();
-			case 10:
-				return new TileSaltFissionHeater.Slime();
-			case 11:
-				return new TileSaltFissionHeater.EndStone();
-			case 12:
-				return new TileSaltFissionHeater.Purpur();
-			case 13:
-				return new TileSaltFissionHeater.Diamond();
-			case 14:
-				return new TileSaltFissionHeater.Emerald();
-			case 15:
-				return new TileSaltFissionHeater.Copper();
-		}
-		return new TileSaltFissionHeater.Standard();
+		super();
 	}
 	
 	@Override

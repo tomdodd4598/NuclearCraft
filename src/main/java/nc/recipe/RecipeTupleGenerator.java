@@ -15,25 +15,31 @@ public class RecipeTupleGenerator {
 	
 	private boolean itemEnd, fluidEnd;
 	
-	public void generateMaterialListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
+	public void generateMaterialListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, boolean removeEmptyStacks) {
 		do {
-			generateNextMaterialListTuple(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+			generateNextMaterialListTuple(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, removeEmptyStacks);
 		}
 		while (!itemEnd || !fluidEnd);
 	}
 	
-	private void generateNextMaterialListTuple(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
+	private void generateNextMaterialListTuple(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, boolean removeEmptyStacks) {
 		int itemInputSize = itemInputLists.size(), fluidInputSize = fluidInputLists.size();
 		
 		List<ItemStack> itemInputs = new ArrayList<>();
 		List<FluidStack> fluidInputs = new ArrayList<>();
 		
 		for (int i = 0; i < itemInputSize; i++) {
-			itemInputs.add(itemInputLists.get(i).get(inputNumbers[i]));
+			ItemStack stack = itemInputLists.get(i).get(inputNumbers[i]);
+			if (!removeEmptyStacks || (stack != null && !stack.isEmpty())) {
+				itemInputs.add(stack);
+			}
 		}
 		
 		for (int i = 0; i < fluidInputSize; i++) {
-			fluidInputs.add(fluidInputLists.get(i).get(inputNumbers[i + itemInputSize]));
+			FluidStack stack = fluidInputLists.get(i).get(inputNumbers[i + itemInputSize]);
+			if (!removeEmptyStacks || stack != null) {
+				fluidInputs.add(stack);
+			}
 		}
 		
 		tuples.add(Pair.of(itemInputs, fluidInputs));

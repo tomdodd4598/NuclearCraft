@@ -1,0 +1,97 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"particle":"nuclearcraft:blocks/battery_zinc_side_in",
+			"north":"nuclearcraft:blocks/battery_zinc_side_in",
+			"east":"nuclearcraft:blocks/battery_zinc_side_in",
+			"south":"nuclearcraft:blocks/battery_zinc_side_in",
+			"west":"nuclearcraft:blocks/battery_zinc_side_in",
+			"up":"nuclearcraft:blocks/battery_zinc_top_in",
+			"down":"nuclearcraft:blocks/battery_zinc_top_in"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
+	"variants": {
+		"inventory": [{}],
+		"north": {
+			"in": {},
+			"out": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/battery_zinc_side_out"
+				}
+			},
+			"non": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/battery_zinc_side_non"
+				}
+			}
+		},
+		"east": {
+			"in": {},
+			"out": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/battery_zinc_side_out"
+				}
+			},
+			"non": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/battery_zinc_side_non"
+				}
+			}
+		},
+		"south": {
+			"in": {},
+			"out": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/battery_zinc_side_out"
+				}
+			},
+			"non": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/battery_zinc_side_non"
+				}
+			}
+		},
+		"west": {
+			"in": {},
+			"out": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/battery_zinc_side_out"
+				}
+			},
+			"non": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/battery_zinc_side_non"
+				}
+			}
+		},
+		"up": {
+			"in": {},
+			"out": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/battery_zinc_top_out"
+				}
+			},
+			"non": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/battery_zinc_top_non"
+				}
+			}
+		},
+		"down": {
+			"in": {},
+			"out": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/battery_zinc_top_out"
+				}
+			},
+			"non": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/battery_zinc_top_non"
+				}
+			}
+		}
+	}
+}

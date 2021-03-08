@@ -31,6 +31,7 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 		super(enumm, property, material);
 		hasTileEntity = true;
 		setCreativeTab(tab);
+		canSustainPlant = false;
 		canCreatureSpawn = false;
 	}
 	

@@ -33,7 +33,7 @@ public class FourPos {
 		if (obj == this) {
 			return true;
 		}
-		if (obj == null || getClass() != obj.getClass()) {
+		if (obj == null || !(obj instanceof FourPos)) {
 			return false;
 		}
 		

@@ -89,20 +89,25 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	protected boolean ic2reg = false;
 	
 	public long waitingEnergy = 0L;
-	public final long capacity;
-	protected final int energyTier;
+	public long capacity;
+	protected int energyTier;
 	
-	protected TileBattery(BatteryType type) {
-		this(type.getCapacity(), type.getEnergyTier());
-	}
-	
-	public TileBattery(long capacity, int energyTier) {
+	/** Don't use this constructor! */
+	public TileBattery() {
 		super(BatteryMultiblock.class);
-		this.capacity = capacity;
-		this.energyTier = energyTier;
 		energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.IN);
 		energySides = ITileEnergy.getDefaultEnergySides(this);
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
+	}
+	
+	public TileBattery(long capacity, int energyTier) {
+		this();
+		this.capacity = capacity;
+		this.energyTier = energyTier;
+	}
+	
+	protected TileBattery(BatteryType type) {
+		this(type.getCapacity(), type.getEnergyTier());
 	}
 	
 	protected boolean ignoreSide(EnumFacing side) {
@@ -260,6 +265,8 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 		super.writeAll(nbt);
 		writeEnergyConnections(nbt);
 		nbt.setLong("waitingEnergy", waitingEnergy);
+		nbt.setLong("capacity", capacity);
+		nbt.setInteger("energyTier", energyTier);
 		nbt.setByteArray("ignoreSide", NCMath.booleansToBytes(ignoreSide));
 		return nbt;
 	}
@@ -269,6 +276,12 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 		super.readAll(nbt);
 		readEnergyConnections(nbt);
 		waitingEnergy = nbt.getLong("waitingEnergy");
+		if (nbt.hasKey("capacity")) {
+			capacity = nbt.getLong("capacity");
+		}
+		if (nbt.hasKey("energyTier")) {
+			energyTier = nbt.getInteger("energyTier");
+		}
 		boolean[] arr = NCMath.bytesToBooleans(nbt.getByteArray("ignoreSide"));
 		if (arr.length == 6) {
 			ignoreSide = arr;

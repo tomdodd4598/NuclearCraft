@@ -15,6 +15,7 @@ import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpdatePacket> implements ILogicMultiblock<FissionReactorLogic, IFissionPart> {
@@ -131,8 +132,8 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
-		return setLogic(multiblock) && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
+	protected boolean isMachineWhole() {
+		return setLogic(this) && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
 	public boolean setLogic(Multiblock multiblock) {
@@ -327,7 +328,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	// Multiblock Validators
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
+		return logic.isBlockGoodForInterior(world, pos);
 	}
 }

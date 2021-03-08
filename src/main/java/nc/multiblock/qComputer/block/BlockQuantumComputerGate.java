@@ -6,7 +6,7 @@ import nc.enumm.IBlockMetaEnum;
 import nc.item.ItemMultitool;
 import nc.multiblock.qComputer.QuantumGateEnums;
 import nc.multiblock.qComputer.tile.TileQuantumComputerGate;
-import net.minecraft.block.properties.*;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -30,7 +30,7 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 		
 		@Override
@@ -49,7 +49,7 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 		
 		@Override
@@ -68,7 +68,7 @@ public abstract class BlockQuantumComputerGate<T extends Enum<T> & IStringSerial
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
+			return new BlockStateContainer(this, TYPE);
 		}
 		
 		@Override

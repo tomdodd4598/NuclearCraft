@@ -4,7 +4,6 @@ import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
 
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.*;
@@ -29,7 +28,7 @@ public abstract class BlockSidedTile extends BlockTile {
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite());
 	}
 	
@@ -61,6 +60,6 @@ public abstract class BlockSidedTile extends BlockTile {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FACING_HORIZONTAL});
+		return new BlockStateContainer(this, FACING_HORIZONTAL);
 	}
 }

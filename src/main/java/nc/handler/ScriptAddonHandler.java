@@ -1,6 +1,7 @@
 package nc.handler;
 
 import java.io.*;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 
@@ -10,6 +11,10 @@ import nc.util.*;
 public class ScriptAddonHandler {
 	
 	public static final ObjectSet<File> SCRIPT_ADDON_DIRS = new ObjectOpenHashSet<>();
+	
+	public static final String[] NC_ASSETS = {"advancements", "blockstates", "loot_tables", "models", "patchouli_books", "textures"};
+	public static final String[] ADDON_ASSETS = {"advancements", "blockstates", "contenttweaker", "lang", "loot_tables", "models", "patchouli_books", "scripts", "textures"};
+	public static final String[] IGNORE_SUFFIX = {".ignore", ".disabled"};
 	
 	public static void init() throws IOException {
 		NCUtil.getLogger().info("Constructing NuclearCraft Script Addons...");
@@ -23,31 +28,17 @@ public class ScriptAddonHandler {
 		scripts.mkdirs();
 		new File("scripts/nc_script_addons/DONT_PUT_YOUR_SCRIPTS_IN_HERE").createNewFile();
 		
-		File legacy = new File("scripts/nuclearcraft/DONT_PUT_YOUR_SCRIPTS_IN_HERE");
-		if (legacy.exists()) {
-			legacy.delete();
+		File oldWarning = new File("scripts/nuclearcraft/DONT_PUT_YOUR_SCRIPTS_IN_HERE");
+		if (oldWarning.exists()) {
+			oldWarning.delete();
 		}
 		
 		File temp = new File("resources/nuclearcraft/addons/.temp");
 		temp.mkdirs();
 		
 		File addons = new File("resources/nuclearcraft/addons");
-		for (File f : addons.listFiles()) {
-			if (IOHelper.isZip(f)) {
-				String fileName = f.getName();
-				if (fileName.endsWith(".zip") || fileName.endsWith(".jar")) {
-					fileName = StringHelper.removeSuffix(fileName, 4);
-				}
-				IOHelper.unzip(f, "resources/nuclearcraft/addons/.temp/" + fileName);
-			}
-		}
-		
-		for (File f : addons.listFiles()) {
-			if (f.isDirectory()) {
-				copyAddons(f);
-			}
-		}
-		
+		extractAddons(addons);
+		copyAddons(addons);
 		FileUtils.deleteDirectory(temp);
 		
 		for (File f : SCRIPT_ADDON_DIRS) {
@@ -55,9 +46,23 @@ public class ScriptAddonHandler {
 		}
 	}
 	
-	public static final String[] NC_ASSETS = {"advancements", "blockstates", "loot_tables", "models", "patchouli_books", "textures"};
-	public static final String[] ADDON_ASSETS = {"advancements", "blockstates", "contenttweaker", "lang", "loot_tables", "models", "patchouli_books", "scripts", "textures"};
-	public static final String[] IGNORE_SUFFIX = {".ignore", ".disabled"};
+	public static void extractAddons(File dir) throws IOException {
+		fileLoop: for (File f : dir.listFiles()) {
+			if (!f.isDirectory() && IOHelper.isZip(f)) {
+				String fileName = f.getName();
+				String fileNameLowerCase = fileName.toLowerCase(Locale.ROOT);
+				for (String suffix : IGNORE_SUFFIX) {
+					if (fileNameLowerCase.endsWith(suffix)) {
+						continue fileLoop;
+					}
+				}
+				if (fileName.endsWith(".zip") || fileName.endsWith(".jar")) {
+					fileName = StringHelper.removeSuffix(fileName, 4);
+				}
+				IOHelper.unzip(f, "resources/nuclearcraft/addons/.temp/" + fileName);
+			}
+		}
+	}
 	
 	public static void copyAddons(File dir) throws IOException {
 		String dirName = dir.getName();

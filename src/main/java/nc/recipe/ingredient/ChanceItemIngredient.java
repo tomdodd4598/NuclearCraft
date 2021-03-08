@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Optional;
 
-public class ChanceItemIngredient implements IItemIngredient {
+public class ChanceItemIngredient implements IChanceItemIngredient {
 	
 	// ONLY USED AS AN OUTPUT, SO INGREDIENT NUMBER DOES NOT MATTER!
 	
@@ -119,6 +119,28 @@ public class ChanceItemIngredient implements IItemIngredient {
 	@Override
 	public boolean isValid() {
 		return ingredient.isValid();
+	}
+	
+	// IChanceItemIngredient
+	
+	@Override
+	public IItemIngredient getRawIngredient() {
+		return ingredient;
+	}
+	
+	@Override
+	public int getChancePercent() {
+		return chancePercent;
+	}
+	
+	@Override
+	public int getMinStackSize() {
+		return minStackSize;
+	}
+	
+	@Override
+	public double getMeanStackSize() {
+		return meanStackSize;
 	}
 	
 	// CraftTweaker

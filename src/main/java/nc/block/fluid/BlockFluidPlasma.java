@@ -33,19 +33,54 @@ public class BlockFluidPlasma extends NCBlockFluid {
 	
 	@Override
 	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
+		if (fusion_plasma_craziness && worldIn.getGameRules().getBoolean("doFireTick") && updateFire(worldIn, pos, state, rand)) {
+			return;
+		}
+		super.updateTick(worldIn, pos, state, rand);
+	}
+	
+	private static boolean updateFire(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		EnumFacing side = EnumFacing.byIndex(rand.nextInt(6));
 		BlockPos offPos = pos.offset(side);
-		if (side != EnumFacing.UP && side != EnumFacing.DOWN && fusion_plasma_craziness && rand.nextInt(4) == 0) {
+		if (side != EnumFacing.UP && side != EnumFacing.DOWN && rand.nextInt(4) == 0) {
 			Material mat = worldIn.getBlockState(offPos).getMaterial();
 			if (mat != Material.FIRE && MaterialHelper.isReplaceable(mat) && !mat.isLiquid()) {
 				if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
 					worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
-					// super.updateTick(worldIn, pos, state, rand);
-					return;
+					return true;
 				}
 			}
 		}
-		/* if (rand.nextInt(4) == 0) { TileEntity tile = worldIn.getTileEntity(offPos); if (tile instanceof TilePassive.FusionElectromagnet) { TilePassive.FusionElectromagnet magnet = (TilePassive.FusionElectromagnet) tile; if (!magnet.isActive) { worldIn.createExplosion(null, offPos.getX(), offPos.getY(), offPos.getZ(), 4F, true); return; } } } */
-		super.updateTick(worldIn, pos, state, rand);
+		return false;
+	}
+	
+	@Override
+	protected boolean canMixWithFluids(World world, BlockPos pos, IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	protected boolean shouldMixWithAdjacentFluid(World world, BlockPos pos, IBlockState state, IBlockState otherState) {
+		return false;
+	}
+	
+	@Override
+	protected IBlockState getSourceMixingState(World world, BlockPos pos, IBlockState state) {
+		return Blocks.OBSIDIAN.getDefaultState();
+	}
+	
+	@Override
+	protected IBlockState getFlowingMixingState(World world, BlockPos pos, IBlockState state) {
+		return Blocks.COBBLESTONE.getDefaultState();
+	}
+	
+	@Override
+	protected boolean canSetFireToSurroundings(World world, BlockPos pos, IBlockState state, Random rand) {
+		return true;
+	}
+	
+	@Override
+	protected IBlockState getFlowingIntoWaterState(World world, BlockPos pos, IBlockState state, Random rand) {
+		return null;
 	}
 }

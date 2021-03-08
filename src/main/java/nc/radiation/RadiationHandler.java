@@ -90,7 +90,7 @@ public class RadiationHandler {
 				}
 			}
 			
-			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune() && playerRads.isFatal()) {
+			if (radiation_player_rads_fatal && !player.isCreative() && !player.isSpectator() && !playerRads.isImmune() && playerRads.isFatal()) {
 				player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 			}
 			
@@ -130,7 +130,7 @@ public class RadiationHandler {
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && !player.isSpectator() && !playerRads.isImmune()) {
-				if (playerRads.isFatal()) {
+				if (radiation_player_rads_fatal && playerRads.isFatal()) {
 					player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
 				else if (!RadPotionEffects.PLAYER_RAD_LEVEL_LIST.isEmpty() && previousRadPercentage < RadPotionEffects.PLAYER_RAD_LEVEL_LIST.get(0) && playerRads.getRadsPercentage() >= RadPotionEffects.PLAYER_RAD_LEVEL_LIST.get(0) && !RadiationHelper.shouldShowHUD(player)) {
@@ -242,7 +242,7 @@ public class RadiationHandler {
 		
 		BiomeProvider biomeProvider = world.getBiomeProvider();
 		int dimension = world.provider.getDimension();
-		BlockPos randomOffsetPos = newRandomOffsetPos();
+		BlockPos randomOffsetPos = newRandomOffsetPos(world);
 		String randomStructure = ModCheck.cubicChunksLoaded() || RadStructures.STRUCTURE_LIST.isEmpty() ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
 		
 		if (chunkArrSize > 0) {
@@ -295,14 +295,19 @@ public class RadiationHandler {
 							}
 							
 							if (entityLiving instanceof IMob) {
-								RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.MOB_RAD_LEVEL_LIST, RadPotionEffects.MOB_EFFECTS_LIST);
+								if (radiation_mob_rads_fatal && entityRads.isFatal()) {
+									entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+								}
+								else {
+									RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.MOB_RAD_LEVEL_LIST, RadPotionEffects.MOB_EFFECTS_LIST);
+								}
 							}
 							else {
 								if (entityRads.isFatal()) {
 									if (register_entity[0] && entityLiving instanceof INpc) {
 										spawnFeralGhoul(world, entityLiving);
 									}
-									else {
+									else if (radiation_passive_rads_fatal) {
 										entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 									}
 								}
@@ -336,7 +341,7 @@ public class RadiationHandler {
 					}
 				}
 				
-				BlockPos randomChunkPos = newRandomPosInChunk(chunk);
+				BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
 				if (randomStructure != null && StructureHelper.CACHE.isInStructure(world, randomStructure, randomChunkPos)) {
 					Double structureRadiation = RadStructures.RAD_MAP.get(randomStructure);
 					if (structureRadiation != null) {
@@ -419,19 +424,19 @@ public class RadiationHandler {
 		return null;
 	}
 	
-	private static BlockPos newRandomOffsetPos() {
-		return new BlockPos(RAND.nextInt(16), RAND.nextInt(256), RAND.nextInt(16));
+	private static BlockPos newRandomOffsetPos(World world) {
+		return new BlockPos(RAND.nextInt(16), RAND.nextInt(world.getHeight()), RAND.nextInt(16));
 	}
 	
-	private static BlockPos newRandomPosInChunk(Chunk chunk) {
-		return chunk.getPos().getBlock(RAND.nextInt(16), RAND.nextInt(256), RAND.nextInt(16));
+	private static BlockPos newRandomPosInChunk(World world, Chunk chunk) {
+		return chunk.getPos().getBlock(RAND.nextInt(16), RAND.nextInt(world.getHeight()), RAND.nextInt(16));
 	}
 	
 	private static void mutateTerrain(World world, Chunk chunk, double radiation) {
 		long j = Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + radiation / RecipeStats.getBlockMutationThreshold()));
 		while (j > 0) {
 			j--;
-			BlockPos randomChunkPos = newRandomPosInChunk(chunk);
+			BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
 			IBlockState state = world.getBlockState(randomChunkPos);
 			
 			ItemStack stack = StackHelper.blockStateToStack(state);
@@ -452,7 +457,7 @@ public class RadiationHandler {
 		j = radiation == 0D ? radiation_block_effect_max_rate : Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + RecipeStats.getBlockPurificationThreshold() / radiation));
 		while (j > 0) {
 			j--;
-			BlockPos randomChunkPos = newRandomPosInChunk(chunk);
+			BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
 			IBlockState state = world.getBlockState(randomChunkPos);
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {

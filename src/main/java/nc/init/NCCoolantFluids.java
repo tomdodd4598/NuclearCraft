@@ -23,7 +23,7 @@ public class NCCoolantFluids {
 	public static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<>();
 	public static List<Fluid> fluidList = new ArrayList<>();
 	
-	public static final List<String> COOLANTS = Lists.newArrayList("");
+	public static final List<String> COOLANTS = Lists.newArrayList((String) null);
 	
 	public static void init() {
 		addMoltenPair("iron", 0x8D1515);
@@ -125,7 +125,7 @@ public class NCCoolantFluids {
 	}
 	
 	private static void addNAKPairs(String name, int color) {
-		COOLANTS.add(name + "_");
+		COOLANTS.add(name);
 		FluidCoolant coolant = new FluidCoolant(name + "_nak", FluidCoolant.getNAKColor(color));
 		fluidPairList.add(Pair.of(coolant, register_fluid_blocks ? new BlockFluidCoolant(coolant) : null));
 		FluidHotCoolant hotCoolant = new FluidHotCoolant(name + "_nak_hot", FluidHotCoolant.getNAKColor(color));

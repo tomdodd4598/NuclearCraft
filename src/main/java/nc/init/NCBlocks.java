@@ -184,6 +184,8 @@ public class NCBlocks {
 	
 	public static Block tritium_lamp;
 	
+	public static Block solidified_corium;
+	
 	public static Block quantum_computer_controller;
 	public static Block quantum_computer_qubit;
 	
@@ -304,8 +306,8 @@ public class NCBlocks {
 		fission_power_port = withName(new BlockFissionPowerPort(), "fission_power_port");
 		fission_vent = withName(new BlockFissionVent(), "fission_vent");
 		fission_irradiator = withName(new BlockFissionIrradiator(), "fission_irradiator");
-		fission_source = withName(new BlockFissionSource(), "fission_source");
-		fission_shield = withName(new BlockFissionShield(), "fission_shield");
+		fission_source = withName(new BlockFissionMetaSource(), "fission_source");
+		fission_shield = withName(new BlockFissionMetaShield(), "fission_shield");
 		fission_computer_port = withName(new BlockFissionComputerPort(), "fission_computer_port");
 		
 		fission_irradiator_port = withName(new BlockFissionIrradiatorPort(), "fission_irradiator_port");
@@ -320,13 +322,13 @@ public class NCBlocks {
 		
 		solid_fission_controller = withName(new BlockSolidFissionController(), "solid_fission_controller");
 		solid_fission_cell = withName(new BlockSolidFissionCell(), "solid_fission_cell");
-		solid_fission_sink = withName(new BlockSolidFissionSink(), "solid_fission_sink");
-		solid_fission_sink2 = withName(new BlockSolidFissionSink2(), "solid_fission_sink2");
+		solid_fission_sink = withName(new BlockSolidFissionMetaSink(), "solid_fission_sink");
+		solid_fission_sink2 = withName(new BlockSolidFissionMetaSink2(), "solid_fission_sink2");
 		
 		salt_fission_controller = withName(new BlockSaltFissionController(), "salt_fission_controller");
 		salt_fission_vessel = withName(new BlockSaltFissionVessel(), "salt_fission_vessel");
-		salt_fission_heater = withName(new BlockSaltFissionHeater(), "salt_fission_heater");
-		salt_fission_heater2 = withName(new BlockSaltFissionHeater2(), "salt_fission_heater2");
+		salt_fission_heater = withName(new BlockSaltFissionMetaHeater(), "salt_fission_heater");
+		salt_fission_heater2 = withName(new BlockSaltFissionMetaHeater2(), "salt_fission_heater2");
 		
 		heat_exchanger_controller = withName(new BlockHeatExchangerController(), "heat_exchanger_controller");
 		heat_exchanger_casing = withName(new BlockHeatExchangerCasing(), "heat_exchanger_casing");
@@ -351,7 +353,7 @@ public class NCBlocks {
 		turbine_rotor_blade_sic_sic_cmc = withName(new BlockTurbineRotorBlade(TurbineRotorBladeType.SIC_SIC_CMC), "turbine_rotor_blade_sic_sic_cmc");
 		turbine_rotor_stator = withName(new BlockTurbineRotorStator(), "turbine_rotor_stator");
 		turbine_rotor_bearing = withName(new BlockTurbineRotorBearing(), "turbine_rotor_bearing");
-		turbine_dynamo_coil = withName(new BlockTurbineDynamoCoil(), "turbine_dynamo_coil");
+		turbine_dynamo_coil = withName(new BlockTurbineMetaDynamoCoil(), "turbine_dynamo_coil");
 		turbine_coil_connector = withName(new BlockTurbineCoilConnector(), "turbine_coil_connector");
 		turbine_inlet = withName(new BlockTurbineInlet(), "turbine_inlet");
 		turbine_outlet = withName(new BlockTurbineOutlet(), "turbine_outlet");
@@ -386,6 +388,8 @@ public class NCBlocks {
 		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.RADIATION), "wasteland_portal");
 		
 		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.MISC).setLightLevel(1F), "tritium_lamp");
+		
+		solidified_corium = withName(new NCBlockMagma(DamageSources.CORIUM_BURN, 1F).setCreativeTab(NCTabs.MISC), "solidified_corium");
 		
 		if (register_quantum) {
 			quantum_computer_controller = withName(new BlockQuantumComputerController(), "quantum_computer_controller");
@@ -593,6 +597,8 @@ public class NCBlocks {
 		registerBlock(wasteland_portal);
 		
 		registerBlock(tritium_lamp);
+		
+		registerBlock(solidified_corium);
 		
 		if (register_quantum) {
 			registerBlock(quantum_computer_controller);
@@ -825,6 +831,8 @@ public class NCBlocks {
 		registerRender(wasteland_portal);
 		
 		registerRender(tritium_lamp);
+		
+		registerRender(solidified_corium);
 		
 		if (register_quantum) {
 			registerRender(quantum_computer_controller);

@@ -66,6 +66,8 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
 	
 	@SideOnly(Side.CLIENT)
+	public static final int SOUND_LENGTH = 186;
+	@SideOnly(Side.CLIENT)
 	public List<SoundInfo> activeSounds;
 	public int soundCount = rand.nextInt(20);
 	public boolean refreshSoundInfo = true;
@@ -169,9 +171,9 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock) {
+	protected boolean isMachineWhole() {
 		shouldRenderRotor = false;
-		return setLogic(multiblock) && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
+		return setLogic(this) && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
 	public boolean setLogic(Multiblock multiblock) {
@@ -191,14 +193,6 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		setLogic(controller.getLogicID());
 		
 		return true;
-	}
-	
-	@Override
-	public void checkIfMachineIsWhole() {
-		super.checkIfMachineIsWhole();
-		if (WORLD.isRemote && (!isTurbineOn || assemblyState != AssemblyState.Assembled)) {
-			logic.stopSounds();
-		}
 	}
 	
 	@Override
@@ -454,7 +448,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	// Multiblock Validators
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock) {
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
+		return logic.isBlockGoodForInterior(world, pos);
 	}
 }

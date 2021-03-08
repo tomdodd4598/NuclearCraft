@@ -1,13 +1,21 @@
 package nc.handler;
 
+import static nc.config.NCConfig.*;
+
+import nc.capability.radiation.source.IRadiationSource;
 import nc.entity.EntityFeralGhoul;
+import nc.radiation.RadiationHelper;
 import net.minecraft.entity.*;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityHandler {
 	
@@ -39,6 +47,33 @@ public class EntityHandler {
 				if (tooManyGhouls) {
 					event.setResult(Result.DENY);
 					return;
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onItemExpired(ItemExpireEvent event) {
+		if (event.isCanceled()) {
+			return;
+		}
+		
+		final EntityItem entity = event.getEntityItem();
+		if (entity == null || entity.world == null) {
+			return;
+		}
+		
+		final ItemStack stack = entity.getItem();
+		if (stack.isEmpty()) {
+			return;
+		}
+		
+		if (radiation_enabled_public && radiation_hardcore_stacks) {
+			Chunk chunk = entity.world.getChunk(new BlockPos(entity));
+			if (chunk.isLoaded()) {
+				IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
+				if (chunkSource != null) {
+					RadiationHelper.addToSourceRadiation(chunkSource, RadiationHelper.getRadiationFromStack(stack, 8D));
 				}
 			}
 		}

@@ -120,7 +120,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock) {
+	public boolean isMachineWhole() {
 		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", null);
 		return false;
 	}
@@ -137,12 +137,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			heatBuffer.mergeHeatBuffers(assimilatedReactor.getLogic().heatBuffer);
 		}
 		
-		if (getReactor().isAssembled()) {
+		/*if (getReactor().isAssembled()) {
 			onReactorFormed();
 		}
 		else {
 			onReactorBroken();
-		}
+		}*/
 	}
 	
 	@Override
@@ -425,11 +425,11 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			
 		}
 		
-		getReactor().checkIfMachineIsWhole();
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(getWorld(), getReactor());
 	}
 	
 	public void clusterMeltdown(FissionCluster cluster) {
-		getReactor().checkIfMachineIsWhole();
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(getWorld(), getReactor());
 	}
 	
 	// TODO - config

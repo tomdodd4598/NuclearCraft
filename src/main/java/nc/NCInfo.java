@@ -33,16 +33,20 @@ public class NCInfo {
 	
 	// Fission Cooling
 	
-	private static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingFixedInfo(T[] values, String name) {
+	public static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingFixedInfo(T[] values, String name) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {coolingRateString(values[i], name)};
+			info[i] = coolingRateInfo(values[i], name);
 		}
 		return info;
 	}
 	
-	private static <T extends Enum<T> & ICoolingComponentEnum> String coolingRateString(T type, String name) {
-		return Lang.localise("tile." + Global.MOD_ID + "." + name + ".cooling_rate") + " " + type.getCooling() + " H/t";
+	public static <T extends Enum<T> & ICoolingComponentEnum> String[] coolingRateInfo(T type, String name) {
+		return coolingRateInfo(type.getCooling(), name);
+	}
+	
+	public static String[] coolingRateInfo(int cooling, String name) {
+		return new String[] {Lang.localise("tile." + Global.MOD_ID + "." + name + ".cooling_rate") + " " + cooling + " H/t"};
 	}
 	
 	public static String[][] heatSinkFixedInfo() {
@@ -67,18 +71,26 @@ public class NCInfo {
 		MetaEnums.NeutronSourceType[] values = MetaEnums.NeutronSourceType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("info." + Global.MOD_ID + ".fission_source.efficiency.fixd", NCMath.pcDecimalPlaces(values[i].getEfficiency(), 1)),};
+			info[i] = neutronSourceEfficiencyInfo(values[i].getEfficiency());
 		}
 		return info;
+	}
+	
+	public static String[] neutronSourceEfficiencyInfo(double efficiency) {
+		return new String[] {Lang.localise("info." + Global.MOD_ID + ".fission_source.efficiency.fixd", NCMath.pcDecimalPlaces(efficiency, 1))};
 	}
 	
 	public static String[][] neutronSourceInfo() {
 		MetaEnums.NeutronSourceType[] values = MetaEnums.NeutronSourceType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = InfoHelper.formattedInfo(Lang.localise("tile." + Global.MOD_ID + ".fission_source.desc"));
+			info[i] = neutronSourceDescriptionInfo();
 		}
 		return info;
+	}
+	
+	public static String[] neutronSourceDescriptionInfo() {
+		return InfoHelper.formattedInfo(Lang.localise("tile." + Global.MOD_ID + ".fission_source.desc"));
 	}
 	
 	// Fission Neutron Shields
@@ -87,21 +99,29 @@ public class NCInfo {
 		MetaEnums.NeutronShieldType[] values = MetaEnums.NeutronShieldType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {
-					Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/N")),
-					Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", NCMath.pcDecimalPlaces(values[i].getEfficiency(), 1))
-			};
+			info[i] = neutronShieldStatInfo(values[i].getHeatPerFlux(), values[i].getEfficiency());
 		}
 		return info;
+	}
+	
+	public static String[] neutronShieldStatInfo(double heatPerFlux, double efficiency) {
+		return new String[] {
+				Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(heatPerFlux, 5, "H/N")),
+				Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", NCMath.pcDecimalPlaces(efficiency, 1))
+		};
 	}
 	
 	public static String[][] neutronShieldInfo() {
 		MetaEnums.NeutronShieldType[] values = MetaEnums.NeutronShieldType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = InfoHelper.formattedInfo(Lang.localise("tile." + Global.MOD_ID + ".fission_shield.desc"));
+			info[i] = neutronShieldDescriptionInfo();
 		}
 		return info;
+	}
+	
+	public static String[] neutronShieldDescriptionInfo() {
+		return InfoHelper.formattedInfo(Lang.localise("tile." + Global.MOD_ID + ".fission_shield.desc"));
 	}
 	
 	// Fission Moderators
@@ -137,13 +157,17 @@ public class NCInfo {
 	public static String[][] dynamoCoilFixedInfo() {
 		String[][] info = new String[TurbineDynamoCoilType.values().length][];
 		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
-			info[i] = new String[] {coilConductivityString(i)};
+			info[i] = coilConductivityInfo(i);
 		}
 		return info;
 	}
 	
-	private static String coilConductivityString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.pcDecimalPlaces(TurbineDynamoCoilType.values()[meta].getConductivity(), 1);
+	public static String[] coilConductivityInfo(int meta) {
+		return coilConductivityInfo(TurbineDynamoCoilType.values()[meta].getConductivity());
+	}
+	
+	public static String[] coilConductivityInfo(double conductivity) {
+		return new String[] {Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.pcDecimalPlaces(conductivity, 1)};
 	}
 	
 	// Speed Upgrade
@@ -158,7 +182,7 @@ public class NCInfo {
 		return info;
 	}
 	
-	private static String powerAdverb(double power, String verb, String preposition) {
+	public static String powerAdverb(double power, String verb, String preposition) {
 		if (power != (int) power) {
 			verb += "_approximately";
 		}

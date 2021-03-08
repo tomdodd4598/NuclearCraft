@@ -3,7 +3,7 @@ package nc.multiblock.tile;
 import java.util.*;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import nc.*;
+import nc.Global;
 import nc.multiblock.*;
 import nc.util.NCUtil;
 import net.minecraft.nbt.NBTTagCompound;
@@ -159,7 +159,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	@Override
 	public void validate() {
 		super.validate();
-		REGISTRY.onPartAdded(getWorld(), this);
+		MultiblockRegistry.INSTANCE.onPartAdded(getWorld(), this);
 	}
 	
 	@Override
@@ -319,7 +319,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		}
 		
 		// Clean part out of lists in the registry
-		REGISTRY.onPartRemovedFromWorld(getWorld(), this);
+		MultiblockRegistry.INSTANCE.onPartRemovedFromWorld(getWorld(), this);
 	}
 	
 	/** IF the part is connected to a multiblock, marks the whole multiblock for a render update on the client. On the server, this does nothing */
@@ -328,13 +328,5 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		if (multiblock != null) {
 			multiblock.markMultiblockForRenderUpdate();
 		}
-	}
-	
-	// Registry
-	
-	private static final MultiblockRegistry REGISTRY;
-	
-	static {
-		REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
 	}
 }
