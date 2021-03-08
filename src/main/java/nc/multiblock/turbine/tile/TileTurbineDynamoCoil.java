@@ -1,6 +1,9 @@
 package nc.multiblock.turbine.tile;
 
 import nc.multiblock.turbine.TurbineDynamoCoilType;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 	
@@ -13,46 +16,54 @@ public class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		super(coilName, conductivity, ruleID);
 	}
 	
-	private TileTurbineDynamoCoil(TurbineDynamoCoilType coilType) {
-		this(coilType.getName(), coilType.getConductivity(), coilType.getName() + "_coil");
+	protected static class Meta extends TileTurbineDynamoCoil {
+		
+		protected Meta(TurbineDynamoCoilType coilType) {
+			super(coilType.getName(), coilType.getConductivity(), coilType.getName() + "_coil");
+		}
+		
+		@Override
+		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+			return oldState != newState;
+		}
 	}
 	
-	public static class Magnesium extends TileTurbineDynamoCoil {
+	public static class Magnesium extends Meta {
 		
 		public Magnesium() {
 			super(TurbineDynamoCoilType.MAGNESIUM);
 		}
 	}
 	
-	public static class Beryllium extends TileTurbineDynamoCoil {
+	public static class Beryllium extends Meta {
 		
 		public Beryllium() {
 			super(TurbineDynamoCoilType.BERYLLIUM);
 		}
 	}
 	
-	public static class Aluminum extends TileTurbineDynamoCoil {
+	public static class Aluminum extends Meta {
 		
 		public Aluminum() {
 			super(TurbineDynamoCoilType.ALUMINUM);
 		}
 	}
 	
-	public static class Gold extends TileTurbineDynamoCoil {
+	public static class Gold extends Meta {
 		
 		public Gold() {
 			super(TurbineDynamoCoilType.GOLD);
 		}
 	}
 	
-	public static class Copper extends TileTurbineDynamoCoil {
+	public static class Copper extends Meta {
 		
 		public Copper() {
 			super(TurbineDynamoCoilType.COPPER);
 		}
 	}
 	
-	public static class Silver extends TileTurbineDynamoCoil {
+	public static class Silver extends Meta {
 		
 		public Silver() {
 			super(TurbineDynamoCoilType.SILVER);

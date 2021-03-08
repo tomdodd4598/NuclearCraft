@@ -46,11 +46,6 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock();
-	}
-	
-	@Override
 	public int[] weakSidesToCheck(World world, BlockPos pos) {
 		return new int[] {2, 3, 4, 5};
 	}

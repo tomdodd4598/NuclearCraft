@@ -3,19 +3,11 @@ package nc.multiblock.turbine.tile;
 import nc.block.property.BlockProperties;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class TileTurbineCasing extends TileTurbinePart {
 	
 	public TileTurbineCasing() {
 		super(CuboidalPartPositionType.EXTERIOR);
-	}
-	
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override

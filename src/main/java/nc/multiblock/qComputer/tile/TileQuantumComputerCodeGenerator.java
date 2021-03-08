@@ -4,9 +4,11 @@ import static nc.config.NCConfig.quantum_max_qubits_code;
 
 import nc.multiblock.qComputer.QuantumComputer;
 import nc.util.Lang;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -50,6 +52,11 @@ public abstract class TileQuantumComputerCodeGenerator extends TileQuantumComput
 	
 	@Override
 	public void onMachineBroken() {}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState != newState;
+	}
 	
 	@Override
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {

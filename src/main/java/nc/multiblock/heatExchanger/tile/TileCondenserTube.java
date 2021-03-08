@@ -80,7 +80,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 		}
 	}
 	
-	private TileCondenserTube(HeatExchangerTubeType tubeType) {
+	protected TileCondenserTube(HeatExchangerTubeType tubeType) {
 		super(CuboidalPartPositionType.INTERIOR);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);

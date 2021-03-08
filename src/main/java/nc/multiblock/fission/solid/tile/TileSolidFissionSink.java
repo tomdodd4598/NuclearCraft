@@ -11,8 +11,11 @@ import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.tile.*;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
@@ -39,228 +42,236 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 		this.placementRule = FissionPlacement.RULE_MAP.get(ruleID);
 	}
 	
-	protected TileSolidFissionSink(String sinkType, int coolingID) {
-		this(sinkType, fission_sink_cooling_rate[coolingID], sinkType + "_sink");
+	protected static class Meta extends TileSolidFissionSink {
+		
+		protected Meta(String sinkType, int coolingID) {
+			super(sinkType, fission_sink_cooling_rate[coolingID], sinkType + "_sink");
+		}
+		
+		@Override
+		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+			return oldState != newState;
+		}
 	}
 	
-	public static class Water extends TileSolidFissionSink {
+	public static class Water extends Meta {
 		
 		public Water() {
 			super("water", 0);
 		}
 	}
 	
-	public static class Iron extends TileSolidFissionSink {
+	public static class Iron extends Meta {
 		
 		public Iron() {
 			super("iron", 1);
 		}
 	}
 	
-	public static class Redstone extends TileSolidFissionSink {
+	public static class Redstone extends Meta {
 		
 		public Redstone() {
 			super("redstone", 2);
 		}
 	}
 	
-	public static class Quartz extends TileSolidFissionSink {
+	public static class Quartz extends Meta {
 		
 		public Quartz() {
 			super("quartz", 3);
 		}
 	}
 	
-	public static class Obsidian extends TileSolidFissionSink {
+	public static class Obsidian extends Meta {
 		
 		public Obsidian() {
 			super("obsidian", 4);
 		}
 	}
 	
-	public static class NetherBrick extends TileSolidFissionSink {
+	public static class NetherBrick extends Meta {
 		
 		public NetherBrick() {
 			super("nether_brick", 5);
 		}
 	}
 	
-	public static class Glowstone extends TileSolidFissionSink {
+	public static class Glowstone extends Meta {
 		
 		public Glowstone() {
 			super("glowstone", 6);
 		}
 	}
 	
-	public static class Lapis extends TileSolidFissionSink {
+	public static class Lapis extends Meta {
 		
 		public Lapis() {
 			super("lapis", 7);
 		}
 	}
 	
-	public static class Gold extends TileSolidFissionSink {
+	public static class Gold extends Meta {
 		
 		public Gold() {
 			super("gold", 8);
 		}
 	}
 	
-	public static class Prismarine extends TileSolidFissionSink {
+	public static class Prismarine extends Meta {
 		
 		public Prismarine() {
 			super("prismarine", 9);
 		}
 	}
 	
-	public static class Slime extends TileSolidFissionSink {
+	public static class Slime extends Meta {
 		
 		public Slime() {
 			super("slime", 10);
 		}
 	}
 	
-	public static class EndStone extends TileSolidFissionSink {
+	public static class EndStone extends Meta {
 		
 		public EndStone() {
 			super("end_stone", 11);
 		}
 	}
 	
-	public static class Purpur extends TileSolidFissionSink {
+	public static class Purpur extends Meta {
 		
 		public Purpur() {
 			super("purpur", 12);
 		}
 	}
 	
-	public static class Diamond extends TileSolidFissionSink {
+	public static class Diamond extends Meta {
 		
 		public Diamond() {
 			super("diamond", 13);
 		}
 	}
 	
-	public static class Emerald extends TileSolidFissionSink {
+	public static class Emerald extends Meta {
 		
 		public Emerald() {
 			super("emerald", 14);
 		}
 	}
 	
-	public static class Copper extends TileSolidFissionSink {
+	public static class Copper extends Meta {
 		
 		public Copper() {
 			super("copper", 15);
 		}
 	}
 	
-	public static class Tin extends TileSolidFissionSink {
+	public static class Tin extends Meta {
 		
 		public Tin() {
 			super("tin", 16);
 		}
 	}
 	
-	public static class Lead extends TileSolidFissionSink {
+	public static class Lead extends Meta {
 		
 		public Lead() {
 			super("lead", 17);
 		}
 	}
 	
-	public static class Boron extends TileSolidFissionSink {
+	public static class Boron extends Meta {
 		
 		public Boron() {
 			super("boron", 18);
 		}
 	}
 	
-	public static class Lithium extends TileSolidFissionSink {
+	public static class Lithium extends Meta {
 		
 		public Lithium() {
 			super("lithium", 19);
 		}
 	}
 	
-	public static class Magnesium extends TileSolidFissionSink {
+	public static class Magnesium extends Meta {
 		
 		public Magnesium() {
 			super("magnesium", 20);
 		}
 	}
 	
-	public static class Manganese extends TileSolidFissionSink {
+	public static class Manganese extends Meta {
 		
 		public Manganese() {
 			super("manganese", 21);
 		}
 	}
 	
-	public static class Aluminum extends TileSolidFissionSink {
+	public static class Aluminum extends Meta {
 		
 		public Aluminum() {
 			super("aluminum", 22);
 		}
 	}
 	
-	public static class Silver extends TileSolidFissionSink {
+	public static class Silver extends Meta {
 		
 		public Silver() {
 			super("silver", 23);
 		}
 	}
 	
-	public static class Fluorite extends TileSolidFissionSink {
+	public static class Fluorite extends Meta {
 		
 		public Fluorite() {
 			super("fluorite", 24);
 		}
 	}
 	
-	public static class Villiaumite extends TileSolidFissionSink {
+	public static class Villiaumite extends Meta {
 		
 		public Villiaumite() {
 			super("villiaumite", 25);
 		}
 	}
 	
-	public static class Carobbiite extends TileSolidFissionSink {
+	public static class Carobbiite extends Meta {
 		
 		public Carobbiite() {
 			super("carobbiite", 26);
 		}
 	}
 	
-	public static class Arsenic extends TileSolidFissionSink {
+	public static class Arsenic extends Meta {
 		
 		public Arsenic() {
 			super("arsenic", 27);
 		}
 	}
 	
-	public static class LiquidNitrogen extends TileSolidFissionSink {
+	public static class LiquidNitrogen extends Meta {
 		
 		public LiquidNitrogen() {
 			super("liquid_nitrogen", 28);
 		}
 	}
 	
-	public static class LiquidHelium extends TileSolidFissionSink {
+	public static class LiquidHelium extends Meta {
 		
 		public LiquidHelium() {
 			super("liquid_helium", 29);
 		}
 	}
 	
-	public static class Enderium extends TileSolidFissionSink {
+	public static class Enderium extends Meta {
 		
 		public Enderium() {
 			super("enderium", 30);
 		}
 	}
 	
-	public static class Cryotheum extends TileSolidFissionSink {
+	public static class Cryotheum extends Meta {
 		
 		public Cryotheum() {
 			super("cryotheum", 31);

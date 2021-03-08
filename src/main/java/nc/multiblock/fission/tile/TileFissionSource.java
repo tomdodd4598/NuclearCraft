@@ -30,34 +30,37 @@ public class TileFissionSource extends TileFissionPart {
 		this.efficiency = efficiency;
 	}
 	
-	public static class RadiumBeryllium extends TileFissionSource {
+	protected static class Meta extends TileFissionSource {
+		
+		protected Meta(MetaEnums.NeutronSourceType type) {
+			super(type.getEfficiency());
+		}
+		
+		@Override
+		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+			return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
+		}
+	}
+	
+	public static class RadiumBeryllium extends Meta {
 		
 		public RadiumBeryllium() {
 			super(MetaEnums.NeutronSourceType.RADIUM_BERYLLIUM);
 		}
 	}
 	
-	public static class PoloniumBeryllium extends TileFissionSource {
+	public static class PoloniumBeryllium extends Meta {
 		
 		public PoloniumBeryllium() {
 			super(MetaEnums.NeutronSourceType.POLONIUM_BERYLLIUM);
 		}
 	}
 	
-	public static class Californium extends TileFissionSource {
+	public static class Californium extends Meta {
 		
 		public Californium() {
 			super(MetaEnums.NeutronSourceType.CALIFORNIUM);
 		}
-	}
-	
-	protected TileFissionSource(MetaEnums.NeutronSourceType type) {
-		this(type.getEfficiency());
-	}
-	
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
 	}
 	
 	@Override

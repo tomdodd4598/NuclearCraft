@@ -10,12 +10,12 @@
 	"variants": {
 		"inventory": [{}],
 		"active": {
-			"false": {},
-			"true": {
+			"false": {
 				"textures": {
 					"overlay": "nuclearcraft:blocks/fission/shield/off"
 				}
-			}
+			},
+			"true": {}
 		}
 	}
 }

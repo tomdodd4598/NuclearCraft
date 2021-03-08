@@ -80,6 +80,11 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile {
 		return getBlockType() == null ? null : new TextComponentTranslation(getBlockType().getLocalizedName());
 	}
 	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+	
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
 		BlockPos position = pos;
 		

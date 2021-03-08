@@ -4,18 +4,18 @@
 		"model": "nuclearcraft:cube_all_overlayed",
 		"textures": {
 			"all": "nuclearcraft:blocks/shield_cadmium",
-			"overlay": "nuclearcraft:blocks/fission/shield/off"
+			"overlay": "nuclearcraft:blocks/fission/shield/on"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
 		"active": {
-			"false": {},
-			"true": {
+			"false": {
 				"textures": {
-					"overlay": "nuclearcraft:blocks/fission/shield/on"
+					"overlay": "nuclearcraft:blocks/fission/shield/off"
 				}
-			}
+			},
+			"true": {}
 		}
 	}
 }

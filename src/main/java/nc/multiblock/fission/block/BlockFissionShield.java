@@ -39,7 +39,7 @@ public abstract class BlockFissionShield extends BlockFissionPart implements IAc
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState();
 	}
 	
 	@Override

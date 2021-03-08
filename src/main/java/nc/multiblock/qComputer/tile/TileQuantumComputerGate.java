@@ -5,6 +5,7 @@ import static nc.multiblock.qComputer.QuantumGate.*;
 import it.unimi.dsi.fastutil.ints.*;
 import nc.multiblock.qComputer.*;
 import nc.util.*;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -827,6 +828,11 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart im
 		else if (pulsed && !getIsRedstonePowered()) {
 			pulsed = false;
 		}
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState != newState;
 	}
 	
 	protected abstract QuantumGate newGate(QuantumComputer qc);

@@ -47,20 +47,23 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 		this.efficiency = efficiency;
 	}
 	
-	public static class BoronSilver extends TileFissionShield {
+	protected static class Meta extends TileFissionShield {
+		
+		protected Meta(MetaEnums.NeutronShieldType type) {
+			super(type.getHeatPerFlux(), type.getEfficiency());
+		}
+		
+		@Override
+		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+			return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
+		}
+	}
+	
+	public static class BoronSilver extends Meta {
 		
 		public BoronSilver() {
 			super(MetaEnums.NeutronShieldType.BORON_SILVER);
 		}
-	}
-	
-	protected TileFissionShield(MetaEnums.NeutronShieldType type) {
-		this(type.getHeatPerFlux(), type.getEfficiency());
-	}
-	
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
 	}
 	
 	@Override

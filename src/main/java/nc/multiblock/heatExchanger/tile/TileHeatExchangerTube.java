@@ -76,7 +76,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 		}
 	}
 	
-	private TileHeatExchangerTube(HeatExchangerTubeType tubeType) {
+	protected TileHeatExchangerTube(HeatExchangerTubeType tubeType) {
 		super(CuboidalPartPositionType.INTERIOR);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
