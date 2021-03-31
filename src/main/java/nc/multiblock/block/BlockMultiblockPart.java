@@ -4,7 +4,10 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.block.NCBlock;
+import nc.block.tile.INBTDrop;
 import nc.multiblock.*;
+import nc.multiblock.advancement.MultiblockTrigger;
+import nc.multiblock.fission.solid.tile.TileSolidFissionController;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.render.BlockHighlightTracker;
 import nc.tile.fluid.ITileFluid;
@@ -12,6 +15,7 @@ import nc.util.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.*;
@@ -66,16 +70,23 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 						}
 						return true;
 					}
+					
 				}
 				else {
 					player.sendMessage(new TextComponentString(Lang.localise(Global.MOD_ID + ".multiblock_validation.no_controller")));
 					return true;
 				}
+				//Not the best place. But leaving this as an example
+				controller.checkIfMachineIsWhole();
+				if (!world.isRemote && controller.isAssembled()) {
+					MultiblockTrigger.FISSION_REACTOR_FORMED.trigger((EntityPlayerMP)player);
+				}
 			}
 		}
+		
 		return prioritiseGui;
 	}
-	
+
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (!keepInventory) {

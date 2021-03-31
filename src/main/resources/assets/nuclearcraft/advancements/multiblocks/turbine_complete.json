@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "nuclearcraft:turbine_controller"
+    },
+    "title": {
+      "translate": "advancement.nuclearcraft.turbine_formed.title"
+    },
+    "description": {
+      "translate": "advancement.nuclearcraft.turbine_formed.description"
+    }
+  },
+  "parent": "nuclearcraft:turbine/turbine_controller",
+  "criteria": {
+    "turbine_complete": {
+      "trigger": "nuclearcraft:turbine_complete"
+    }
+  }
+}
