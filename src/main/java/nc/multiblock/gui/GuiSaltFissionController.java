@@ -7,8 +7,8 @@ import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.gui.element.MultiblockButton;
-import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
+import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,7 +73,7 @@ public class GuiSaltFissionController extends GuiLogicMultiblock<FissionReactor,
 		String speedMult = Lang.localise("gui.nc.container.salt_fission_controller.heating_speed_multiplier") + " " + NCMath.pcDecimalPlaces(logic.meanHeatingSpeedMultiplier, 1);
 		fontRenderer.drawString(speedMult, xSize / 2 - width(speedMult) / 2, 46, fontColor);
 		
-		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.decimalPlaces(multiblock.sparsityEfficiencyMult, 1);
+		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.pcDecimalPlaces(multiblock.sparsityEfficiencyMult, 1);
 		fontRenderer.drawString(sparsity, xSize / 2 - width(sparsity) / 2, 58, fontColor);
 		
 		String temperature = Lang.localise("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? logic.getTemperature() - 273 + " C" : logic.getTemperature() + " K");

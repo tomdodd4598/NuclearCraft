@@ -1168,6 +1168,13 @@ public class JEIRecipeWrapper {
 			return recipe.getTurbineExpansionLevel();
 		}
 		
+		protected double getTurbineSpinUpMultiplier() {
+			if (recipe == null) {
+				return 1D;
+			}
+			return recipe.getTurbineSpinUpMultiplier();
+		}
+		
 		@Override
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
@@ -1175,6 +1182,7 @@ public class JEIRecipeWrapper {
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getTurbinePowerPerMB(), 2) + " RF/mB");
 				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineExpansionLevel(), 1));
+				tooltip.add(TextFormatting.GREEN + SPIN_UP + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineSpinUpMultiplier(), 1));
 			}
 			
 			return tooltip;
@@ -1182,6 +1190,7 @@ public class JEIRecipeWrapper {
 		
 		private static final String ENERGY_DENSITY = Lang.localise("jei.nuclearcraft.turbine_energy_density");
 		private static final String EXPANSION = Lang.localise("jei.nuclearcraft.turbine_expansion");
+		private static final String SPIN_UP = Lang.localise("jei.nuclearcraft.turbine_spin_up_multiplier");
 	}
 	
 	public static class RadiationScrubber extends JEIBasicRecipeWrapper {

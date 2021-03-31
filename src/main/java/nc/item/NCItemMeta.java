@@ -5,16 +5,13 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.enumm.IMetaEnum;
-import nc.init.NCItems;
 import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.*;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
 public class NCItemMeta<T extends Enum<T> & IStringSerializable & IMetaEnum> extends Item implements IInfoItem {
@@ -77,11 +74,5 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IMetaEnum> ext
 	
 	protected ActionResult<ItemStack> actionResult(boolean success, ItemStack stack) {
 		return new ActionResult<>(success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL, stack);
-	}
-	
-	// Allow upgrades to be right-clicked into machines
-	@Override
-	public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
-		return stack.getItem() == NCItems.upgrade;
 	}
 }

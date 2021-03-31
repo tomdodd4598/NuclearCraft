@@ -2,8 +2,6 @@ package nc.multiblock.qComputer;
 
 import java.util.*;
 
-import com.google.common.base.Strings;
-
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.util.*;
@@ -40,14 +38,21 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		return false;
 	}
 	
-	public abstract QuantumGate withoutControl();
-	
-	public abstract Matrix singleQubitOperation();
+	public abstract ComplexMatrix singleQubitOperation();
 	
 	/** Adds the required decomposition of this gate to the list. */
 	public abstract void addRequiredDecomposition(List<QuantumGate> decomposition);
 	
 	public abstract List<String> getCode(int type);
+	
+	public static interface IControl {
+		
+		public IntSet c();
+		
+		public IntSet t();
+		
+		public QuantumGate withoutControl();
+	}
 	
 	public static class Measurement extends QuantumGate<Measurement> {
 		
@@ -88,12 +93,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
-			return this;
-		}
-		
-		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return null;
 		}
 		
@@ -160,12 +160,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
-			return this;
-		}
-		
-		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return null;
 		}
 		
@@ -223,11 +218,6 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		public abstract Basic newMerged(IntSet c, IntSet t);
-		
-		@Override
-		public QuantumGate withoutControl() {
-			return this;
-		}
 		
 		@Override
 		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
@@ -289,7 +279,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return X;
 		}
 		
@@ -333,7 +323,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Y;
 		}
 		
@@ -377,7 +367,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Z;
 		}
 		
@@ -421,7 +411,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return H;
 		}
 		
@@ -465,7 +455,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return S;
 		}
 		
@@ -509,7 +499,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Sdg;
 		}
 		
@@ -553,7 +543,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return T;
 		}
 		
@@ -597,7 +587,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Tdg;
 		}
 		
@@ -666,11 +656,6 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
-			return this;
-		}
-		
-		@Override
 		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
 			if (!n.isEmpty()) {
 				decomposition.add(this);
@@ -711,7 +696,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return p(angle);
 		}
 		
@@ -755,7 +740,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return rx(angle);
 		}
 		
@@ -799,7 +784,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return ry(angle);
 		}
 		
@@ -843,7 +828,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return rz(angle);
 		}
 		
@@ -858,13 +843,23 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 	}
 	
-	public static abstract class Control extends Basic {
+	public static abstract class Control extends Basic implements IControl {
 		
 		protected final IntSet c;
 		
 		public Control(QuantumComputer qc, IntSet c, IntSet t) {
 			super(qc, t);
 			this.c = c;
+		}
+		
+		@Override
+		public IntSet c() {
+			return c;
+		}
+		
+		@Override
+		public IntSet t() {
+			return n;
 		}
 		
 		@Override
@@ -885,9 +880,6 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public abstract QuantumGate withoutControl();
-		
-		@Override
 		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
 			if (c.size() == 1) {
 				if (!n.isEmpty()) {
@@ -895,7 +887,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			else {
-				addZYZDecomposition(this, c, n, decomposition);
+				addZYZDecomposition(this, decomposition);
 			}
 		}
 		
@@ -987,7 +979,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return X;
 		}
 		
@@ -1070,7 +1062,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			else {
-				addZYZDecomposition(this, c, n, decomposition);
+				addZYZDecomposition(this, decomposition);
 			}
 		}
 		
@@ -1172,7 +1164,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Y;
 		}
 		
@@ -1221,7 +1213,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Z;
 		}
 		
@@ -1270,7 +1262,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return H;
 		}
 		
@@ -1319,7 +1311,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return S;
 		}
 		
@@ -1368,7 +1360,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Sdg;
 		}
 		
@@ -1417,7 +1409,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return T;
 		}
 		
@@ -1466,7 +1458,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return Tdg;
 		}
 		
@@ -1481,13 +1473,23 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 	}
 	
-	public static abstract class ControlAngle extends BasicAngle {
+	public static abstract class ControlAngle extends BasicAngle implements IControl {
 		
 		protected final IntSet c;
 		
 		public ControlAngle(QuantumComputer qc, double angle, IntSet c, IntSet t) {
 			super(qc, angle, t);
 			this.c = c;
+		}
+		
+		@Override
+		public IntSet c() {
+			return c;
+		}
+		
+		@Override
+		public IntSet t() {
+			return n;
 		}
 		
 		@Override
@@ -1512,9 +1514,6 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public abstract QuantumGate withoutControl();
-		
-		@Override
 		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
 			if (c.size() == 1) {
 				if (!n.isEmpty()) {
@@ -1522,7 +1521,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			else {
-				addZYZDecomposition(this, c, n, decomposition);
+				addZYZDecomposition(this, decomposition);
 			}
 		}
 		
@@ -1614,7 +1613,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return p(angle);
 		}
 		
@@ -1663,7 +1662,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return rx(angle);
 		}
 		
@@ -1712,7 +1711,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return ry(angle);
 		}
 		
@@ -1761,7 +1760,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return rz(angle);
 		}
 		
@@ -1818,12 +1817,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
-			return this;
-		}
-		
-		@Override
-		public Matrix singleQubitOperation() {
+		public ComplexMatrix singleQubitOperation() {
 			return null;
 		}
 		
@@ -1855,7 +1849,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 	}
 	
-	public static class ControlSwap extends Swap {
+	public static class ControlSwap extends Swap implements IControl {
 		
 		private static final String[] ID = new String[] {"cswap", "swap"};
 		
@@ -1864,6 +1858,16 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		public ControlSwap(QuantumComputer qc, IntSet c, IntList i, IntList j) {
 			super(qc, i, j);
 			this.c = c;
+		}
+		
+		@Override
+		public IntSet c() {
+			return c;
+		}
+		
+		@Override
+		public IntSet t() {
+			return null;
 		}
 		
 		@Override
@@ -1894,58 +1898,62 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		// TODO
 		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
 			if (!i.isEmpty() && i.size() == j.size()) {
-				decomposition.add(this);
+				if (c.isEmpty()) {
+					decomposition.add(withoutControl());
+				}
+				else if (c.size() == 1) {
+					decomposition.add(this);
+				}
+				else {
+					for (int k = 0; k < i.size(); k++) {
+						IntSet c_1 = set(i.getInt(k));
+						c_1.addAll(c);
+						CX cx_1 = new CX(qc, c_1, set(j.getInt(k)));
+						
+						IntSet c_2 = set(j.getInt(k));
+						c_2.addAll(c);
+						CX cx_2 = new CX(qc, c_2, set(i.getInt(k)));
+						
+						addZYZDecomposition(cx_1, decomposition);
+						addZYZDecomposition(cx_2, decomposition);
+						addZYZDecomposition(cx_1, decomposition);
+					}
+				}
 			}
 		}
 		
 		@Override
-		// TODO
 		public List<String> getCode(int type) {
 			if (c.isEmpty()) {
-				return super.getCode(type);
+				return withoutControl().getCode(type);
 			}
 			
 			List<String> out = new ArrayList<>();
 			
-			if (i.size() == j.size() && !i.isEmpty()) {
-				IntList l = list(c);
-				if (type == 0) {
-					if (l.size() == 1) {
+			if (!i.isEmpty() && i.size() == j.size()) {
+				if (c.size() == 1) {
+					IntList l = list(c);
+					if (type == 0) {
 						String s = "cswap q[" + l.getInt(0) + "], ";
 						for (int k = 0; k < i.size(); k++) {
 							out.add(s + "q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
 						}
 					}
-					else {
-						out.add("// multi-controlled swap decomposition not yet implemented!");
-						String s = Strings.repeat("c", l.size()) + "swap ";
-						for (int k = 0; k < l.size(); k++) {
-							s += ("q[" + l.getInt(k) + "], ");
-						}
-						for (int k = 0; k < i.size(); k++) {
-							out.add(s + "q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
-						}
-					}
-				}
-				else if (type == 1) {
-					if (l.size() == 1) {
+					else if (type == 1) {
 						String s = "qc.cswap(" + l.getInt(0) + ", ";
 						for (int k = 0; k < i.size(); k++) {
 							out.add(s + i.getInt(k) + ", " + j.getInt(k) + ")");
 						}
 					}
-					else {
-						out.add("# multi-controlled swap decomposition not yet implemented!");
-						String s = "qc." + Strings.repeat("c", l.size()) + "swap(";
-						for (int k = 0; k < l.size(); k++) {
-							s += (l.getInt(k) + ", ");
-						}
-						for (int k = 0; k < i.size(); k++) {
-							out.add(s + i.getInt(k) + ", " + j.getInt(k) + ")");
-						}
+				}
+				else {
+					List<QuantumGate> decomposition = new ArrayList<>();
+					addRequiredDecomposition(decomposition);
+					
+					for (QuantumGate gate : decomposition) {
+						out.addAll(gate.getCode(type));
 					}
 				}
 			}
@@ -1962,8 +1970,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		return 1 << n;
 	}
 	
-	public static Matrix id(int n) {
-		return new Matrix(dim(n)).id();
+	public static ComplexMatrix id(int n) {
+		return new ComplexMatrix(dim(n)).id();
 	}
 	
 	public static IntSet set(int... n) {
@@ -1988,49 +1996,49 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		return Arrays.toString(list.toIntArray());
 	}
 	
-	public static final Matrix I = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
+	public static final ComplexMatrix I = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
 	
-	public static final Matrix X = new Matrix(new double[][] {new double[] {0D, 0D, 1D, 0D}, new double[] {1D, 0D, 0D, 0D}});
+	public static final ComplexMatrix X = new ComplexMatrix(new double[][] {new double[] {0D, 0D, 1D, 0D}, new double[] {1D, 0D, 0D, 0D}});
 	
-	public static final Matrix Y = new Matrix(new double[][] {new double[] {0D, 0D, 0D, -1D}, new double[] {0D, 1D, 0D, 0D}});
+	public static final ComplexMatrix Y = new ComplexMatrix(new double[][] {new double[] {0D, 0D, 0D, -1D}, new double[] {0D, 1D, 0D, 0D}});
 	
-	public static final Matrix Z = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, -1D, 0D}});
+	public static final ComplexMatrix Z = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, -1D, 0D}});
 	
-	public static final Matrix H = new Matrix(new double[][] {new double[] {1D, 0D, 1D, 0D}, new double[] {1D, 0D, -1D, 0D}}).multiply(NCMath.INV_SQRT2);
+	public static final ComplexMatrix H = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 1D, 0D}, new double[] {1D, 0D, -1D, 0D}}).multiply(NCMath.INV_SQRT2);
 	
-	public static final Matrix S = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 1D}});
+	public static final ComplexMatrix S = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 1D}});
 	
-	public static final Matrix Sdg = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, -1D}});
+	public static final ComplexMatrix Sdg = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, -1D}});
 	
-	public static final Matrix T = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, NCMath.INV_SQRT2}});
+	public static final ComplexMatrix T = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, NCMath.INV_SQRT2}});
 	
-	public static final Matrix Tdg = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, -NCMath.INV_SQRT2}});
+	public static final ComplexMatrix Tdg = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, NCMath.INV_SQRT2, -NCMath.INV_SQRT2}});
 	
 	/** Angle in degrees! */
-	public static Matrix p(double angle) {
+	public static ComplexMatrix p(double angle) {
 		double[] p = Complex.phase_d(angle);
-		return new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, p[0], p[1]}});
+		return new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, p[0], p[1]}});
 	}
 	
 	/** Angle in degrees! */
-	public static Matrix rx(double angle) {
-		return new Matrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, 0D, -NCMath.sin_d(angle / 2D)}, new double[] {0D, -NCMath.sin_d(angle / 2D), NCMath.cos_d(angle / 2D), 0D}});
+	public static ComplexMatrix rx(double angle) {
+		return new ComplexMatrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, 0D, -NCMath.sin_d(angle / 2D)}, new double[] {0D, -NCMath.sin_d(angle / 2D), NCMath.cos_d(angle / 2D), 0D}});
 	}
 	
 	/** Angle in degrees! */
-	public static Matrix ry(double angle) {
-		return new Matrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, -NCMath.sin_d(angle / 2D), 0D}, new double[] {NCMath.sin_d(angle / 2D), 0D, NCMath.cos_d(angle / 2D), 0D}});
+	public static ComplexMatrix ry(double angle) {
+		return new ComplexMatrix(new double[][] {new double[] {NCMath.cos_d(angle / 2D), 0D, -NCMath.sin_d(angle / 2D), 0D}, new double[] {NCMath.sin_d(angle / 2D), 0D, NCMath.cos_d(angle / 2D), 0D}});
 	}
 	
 	/** Angle in degrees! */
-	public static Matrix rz(double angle) {
+	public static ComplexMatrix rz(double angle) {
 		double[] a = Complex.phase_d(-angle / 2D), b = Complex.phase_d(angle / 2D);
-		return new Matrix(new double[][] {new double[] {a[0], a[1], 0D, 0D}, new double[] {0D, 0D, b[0], b[1]}});
+		return new ComplexMatrix(new double[][] {new double[] {a[0], a[1], 0D, 0D}, new double[] {0D, 0D, b[0], b[1]}});
 	}
 	
-	public static final Matrix P_0 = new Matrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 0D}});
+	public static final ComplexMatrix P_0 = new ComplexMatrix(new double[][] {new double[] {1D, 0D, 0D, 0D}, new double[] {0D, 0D, 0D, 0D}});
 	
-	public static final Matrix P_1 = new Matrix(new double[][] {new double[] {0D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
+	public static final ComplexMatrix P_1 = new ComplexMatrix(new double[][] {new double[] {0D, 0D, 0D, 0D}, new double[] {0D, 0D, 1D, 0D}});
 	
 	// Helper Methods
 	
@@ -2055,7 +2063,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		return true;
 	}
 	
-	public static final Object2ObjectMap<Matrix, double[]> ZYZ_DECOMPOSITION_ANGLES_CACHE = new Object2ObjectOpenHashMap<>();
+	public static final Object2ObjectMap<ComplexMatrix, double[]> ZYZ_DECOMPOSITION_ANGLES_CACHE = new Object2ObjectOpenHashMap<>();
 	
 	static {
 		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(I, new double[] {0D, 0D, 0D, 0D});
@@ -2071,7 +2079,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 	
 	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees.
 	 * Translated from https://qiskit.org/documentation/_modules/qiskit/quantum_info/synthesis/one_qubit_decompose.html#OneQubitEulerDecomposer */
-	public static double[] getZYZDecompositionAngles(Matrix matrix) {
+	public static double[] getZYZDecompositionAngles(ComplexMatrix matrix) {
 		if (ZYZ_DECOMPOSITION_ANGLES_CACHE.containsKey(matrix)) {
 			return ZYZ_DECOMPOSITION_ANGLES_CACHE.get(matrix);
 		}
@@ -2079,7 +2087,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		double[] det = matrix.det();
 		double[] phase = Complex.invSqrt(det[0], det[1]);
 		
-		Matrix m = matrix.copy();
+		ComplexMatrix m = matrix.copy();
 		m.multiply(phase[0], phase[1]);
 		
 		double ppl = 2D * Complex.arg(m.re[1][1], m.im[1][1]);
@@ -2092,10 +2100,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 	 * Combines results from:
 	 * https://arxiv.org/abs/quant-ph/9503016,
 	 * Nielsen, Michael A.; Chuang, Isaac L. Quantum Computation and Quantum Information */
-	public static void addZYZDecomposition(QuantumGate gate, IntSet c, IntSet t, List<QuantumGate> decomposition) {
+	public static <GATE extends QuantumGate<?> & IControl> void addZYZDecomposition(GATE gate, List<QuantumGate> decomposition) {
+		IntSet t = gate.t();
 		if (t.isEmpty()) {
 			return;
 		}
+		IntSet c = gate.c();
 		
 		double[] azyz = getZYZDecompositionAngles(gate.singleQubitOperation());
 		double alpha = azyz[0], beta = azyz[1], hgam = azyz[2] / 2D, hbpd = (azyz[1] + azyz[3]) / 2D, hdmb = (azyz[3] - azyz[1]) / 2D;

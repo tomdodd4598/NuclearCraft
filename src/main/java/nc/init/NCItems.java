@@ -124,7 +124,7 @@ public class NCItems {
 		compound = withName(new NCItemMeta(MetaEnums.CompoundType.class), "compound");
 		
 		part = withName(new NCItemMeta(MetaEnums.PartType.class), "part");
-		upgrade = withName(new NCItemMeta(MetaEnums.UpgradeType.class, NCInfo.upgradeInfo()), "upgrade");
+		upgrade = withName(new ItemUpgrade(MetaEnums.UpgradeType.class, NCInfo.upgradeInfo()), "upgrade");
 		
 		fission_dust = withName(new NCItemMeta(MetaEnums.FissionDustType.class), "fission_dust");
 		

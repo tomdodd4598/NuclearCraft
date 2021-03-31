@@ -18,7 +18,7 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 	public List<TankInfo> tanksInfo;
 	
 	public ProcessorUpdatePacket() {
-		messageValid = false;
+		
 	}
 	
 	public ProcessorUpdatePacket(BlockPos pos, boolean isProcessing, double time, int energyStored, double baseProcessTime, double baseProcessPower, List<Tank> tanks) {
@@ -29,12 +29,10 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		this.baseProcessTime = baseProcessTime;
 		this.baseProcessPower = baseProcessPower;
 		tanksInfo = TankInfo.infoList(tanks);
-		
-		messageValid = true;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isProcessing = buf.readBoolean();
 		time = buf.readDouble();
@@ -46,7 +44,7 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());

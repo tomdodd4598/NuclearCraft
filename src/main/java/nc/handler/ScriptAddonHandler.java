@@ -13,8 +13,8 @@ public class ScriptAddonHandler {
 	public static final ObjectSet<File> SCRIPT_ADDON_DIRS = new ObjectOpenHashSet<>();
 	
 	public static final String[] NC_ASSETS = {"advancements", "blockstates", "loot_tables", "models", "patchouli_books", "textures"};
-	public static final String[] ADDON_ASSETS = {"advancements", "blockstates", "contenttweaker", "lang", "loot_tables", "models", "patchouli_books", "scripts", "textures"};
-	public static final String[] IGNORE_SUFFIX = {".ignore", ".disabled"};
+	public static final String[] ADDON_ASSETS = {"advancements", "blockstates", "contenttweaker", "lang", "loot_tables", "models", "modularmachinery", "patchouli_books", "scripts", "textures"};
+	public static final String[] IGNORE_SUFFIX = {".ignore", ".ignored", ".disable", ".disabled"};
 	
 	public static void init() throws IOException {
 		NCUtil.getLogger().info("Constructing NuclearCraft Script Addons...");
@@ -48,7 +48,7 @@ public class ScriptAddonHandler {
 	
 	public static void extractAddons(File dir) throws IOException {
 		fileLoop: for (File f : dir.listFiles()) {
-			if (!f.isDirectory() && IOHelper.isZip(f)) {
+			if (f.isFile() && IOHelper.isZip(f)) {
 				String fileName = f.getName();
 				String fileNameLowerCase = fileName.toLowerCase(Locale.ROOT);
 				for (String suffix : IGNORE_SUFFIX) {
@@ -107,6 +107,11 @@ public class ScriptAddonHandler {
 					SCRIPT_ADDON_DIRS.add(dir);
 				}
 				
+				else if (f.getName().equals("modularmachinery")) {
+					FileUtils.copyDirectory(f, new File("config/modularmachinery/machinery"));
+					SCRIPT_ADDON_DIRS.add(dir);
+				}
+				
 				else {
 					boolean a = false;
 					for (File d : f.listFiles()) {
@@ -136,7 +141,7 @@ public class ScriptAddonHandler {
 	public static void copyLangs(File addonDir, File langDir) throws IOException {
 		for (File f : langDir.listFiles()) {
 			String name = f.getName().toLowerCase();
-			if (!f.isDirectory() && name.endsWith(".lang")) {
+			if (f.isFile() && name.endsWith(".lang")) {
 				String type = StringHelper.removeSuffix(name, 5);
 				File lang = new File("resources/nuclearcraft/lang/" + type + ".lang");
 				

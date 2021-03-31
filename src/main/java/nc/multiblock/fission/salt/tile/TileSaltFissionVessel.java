@@ -20,7 +20,7 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.SaltFissionVesselBunch;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.port.*;
-import nc.multiblock.network.SaltFissionVesselUpdatePacket;
+import nc.network.multiblock.SaltFissionVesselUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;

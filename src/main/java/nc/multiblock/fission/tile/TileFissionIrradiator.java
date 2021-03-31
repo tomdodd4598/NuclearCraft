@@ -16,7 +16,7 @@ import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import nc.multiblock.fission.tile.port.*;
-import nc.multiblock.network.FissionIrradiatorUpdatePacket;
+import nc.network.multiblock.FissionIrradiatorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.ITileGui;
@@ -684,13 +684,13 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
-		NBTHelper.saveAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
 		return nbt;
 	}
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
-		NBTHelper.loadAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
 	}
 	
 	// Capability

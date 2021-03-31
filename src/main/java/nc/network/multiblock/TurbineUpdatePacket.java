@@ -1,7 +1,6 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
-import nc.multiblock.Multiblock.AssemblyState;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.tile.internal.energy.EnergyStorage;
@@ -9,18 +8,16 @@ import net.minecraft.util.math.BlockPos;
 
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
-	public AssemblyState assemblyState;
 	public boolean isTurbineOn;
 	public double power, rawPower, conductivity, rotorEfficiency, powerBonus, totalExpansionLevel, idealTotalExpansionLevel, bearingTension;
 	public int energy, capacity, shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite;
 	
 	public TurbineUpdatePacket() {
-		messageValid = false;
+		
 	}
 	
-	public TurbineUpdatePacket(BlockPos pos, AssemblyState assemblyState, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double rotorEfficiency, double powerBonus, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, double bearingTension) {
+	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double rotorEfficiency, double powerBonus, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, double bearingTension) {
 		this.pos = pos;
-		this.assemblyState = assemblyState;
 		this.isTurbineOn = isTurbineOn;
 		energy = energyStorage.getEnergyStored();
 		capacity = energyStorage.getMaxEnergyStored();
@@ -37,15 +34,11 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		this.dynamoCoilCount = dynamoCoilCount;
 		this.dynamoCoilCountOpposite = dynamoCoilCountOpposite;
 		this.bearingTension = bearingTension;
-		
-		messageValid = true;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		byte b = buf.readByte();
-		assemblyState = b == 0 ? AssemblyState.Assembled : (b == 1 ? AssemblyState.Disassembled : AssemblyState.Paused);
 		isTurbineOn = buf.readBoolean();
 		energy = buf.readInt();
 		capacity = buf.readInt();
@@ -65,11 +58,10 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		buf.writeByte(assemblyState == AssemblyState.Assembled ? 0 : (assemblyState == AssemblyState.Disassembled ? 1 : 2));
 		buf.writeBoolean(isTurbineOn);
 		buf.writeInt(energy);
 		buf.writeInt(capacity);

@@ -257,7 +257,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 			}
 		}
 		
-		NBTHelper.saveAllItems(nbt, inventoryStacks, filterStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks, filterStacks);
 		
 		for (int i = 0; i < inventoryStacks.size(); i++) {
 			if (!inventoryStacks.get(i).isEmpty()) {
@@ -270,7 +270,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
-		NBTHelper.loadAllItems(nbt, inventoryStacks, filterStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks, filterStacks);
 		
 		for (int i = 0; i < inventoryStacks.size(); i++) {
 			if (!inventoryStacks.get(i).isEmpty()) {

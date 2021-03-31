@@ -1,8 +1,8 @@
 package nc.multiblock;
 
 import it.unimi.dsi.fastutil.longs.*;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
+import nc.network.multiblock.MultiblockUpdatePacket;
 
 public abstract class PartBunch<TYPE extends T, MULTIBLOCK extends Multiblock<T, PACKET>, T extends ITileMultiblockPart<MULTIBLOCK>, PACKET extends MultiblockUpdatePacket> {
 	

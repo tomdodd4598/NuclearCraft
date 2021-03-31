@@ -397,10 +397,10 @@ mods.nuclearcraft.Condenser.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.Condenser.removeRecipeWithOutput(ILiquidStack fluidOutput);
 
 
-Steam Turbine:
---------------
+Turbine:
+--------
 
-mods.nuclearcraft.Turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double powerPerMB, double expansionLevel, {String particleEffect, double particleSpeedMultiplier});
+mods.nuclearcraft.Turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double powerPerMB, double expansionLevel, double spinUpMultiplier, {String particleEffect, double particleSpeedMultiplier});
 
 mods.nuclearcraft.Turbine.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.Turbine.removeRecipeWithOutput(ILiquidStack fluidOutput);

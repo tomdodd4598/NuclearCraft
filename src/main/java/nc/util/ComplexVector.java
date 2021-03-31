@@ -2,20 +2,20 @@ package nc.util;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Vector {
+public class ComplexVector {
 	
 	public final int dim;
 	public final double[] re;
 	public final double[] im;
 	
-	public Vector(int dim) {
+	public ComplexVector(int dim) {
 		this.dim = dim;
 		re = new double[dim];
 		im = new double[dim];
 	}
 	
-	public Vector copy() {
-		Vector v = new Vector(dim);
+	public ComplexVector copy() {
+		ComplexVector v = new ComplexVector(dim);
 		for (int i = 0; i < dim; i++) {
 			v.re[i] = re[i];
 			v.im[i] = im[i];
@@ -30,8 +30,8 @@ public class Vector {
 		}
 	}
 	
-	public Vector map(Matrix m) {
-		Vector v = copy();
+	public ComplexVector map(ComplexMatrix m) {
+		ComplexVector v = copy();
 		double[] c;
 		for (int i = 0; i < dim; i++) {
 			re[i] = 0D;
@@ -53,7 +53,7 @@ public class Vector {
 		return n;
 	}
 	
-	public Vector normalize() {
+	public ComplexVector normalize() {
 		double scale = Math.sqrt(absSq());
 		for (int i = 0; i < dim; i++) {
 			re[i] /= scale;
@@ -62,7 +62,7 @@ public class Vector {
 		return this;
 	}
 	
-	public double[] dot(Vector v) {
+	public double[] dot(ComplexVector v) {
 		double re = 0D, im = 0D;
 		double[] c;
 		for (int i = 0; i < dim; i++) {
@@ -93,16 +93,16 @@ public class Vector {
 		return nbt;
 	}
 	
-	public static Vector readFromNBT(NBTTagCompound nbt, String name) {
+	public static ComplexVector readFromNBT(NBTTagCompound nbt, String name) {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound vectorTag = nbt.getCompoundTag(name);
-			Vector v = new Vector(vectorTag.getInteger("dim"));
+			ComplexVector v = new ComplexVector(vectorTag.getInteger("dim"));
 			for (int i = 0; i < v.dim; i++) {
 				v.re[i] = vectorTag.getDouble("re" + i);
 				v.im[i] = vectorTag.getDouble("im" + i);
 			}
 			return v;
 		}
-		return new Vector(0);
+		return new ComplexVector(0);
 	}
 }

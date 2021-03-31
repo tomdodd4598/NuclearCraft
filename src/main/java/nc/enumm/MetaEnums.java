@@ -1035,10 +1035,12 @@ public class MetaEnums {
 		
 		private final String name;
 		private final int id;
+		private final int maxStackSize;
 		
 		private UpgradeType(String name, int id) {
 			this.name = name;
 			this.id = id;
+			this.maxStackSize = upgrade_stack_sizes[id];
 		}
 		
 		@Override
@@ -1054,6 +1056,10 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
+		}
+		
+		public int getMaxStackSize() {
+			return maxStackSize;
 		}
 	}
 	

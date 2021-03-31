@@ -10,12 +10,12 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.fission.solid.SolidFuelFissionLogic;
 import nc.multiblock.heatExchanger.*;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.*;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.tile.manager.*;
 import nc.multiblock.tile.port.*;
 import nc.multiblock.turbine.*;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.ITileFiltered;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -249,8 +249,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	public static void init() {
 		try {
 			FissionReactor.LOGIC_MAP.put("", FissionReactorLogic.class.getConstructor(FissionReactorLogic.class));
-			// FissionReactor.LOGIC_MAP.put("pebble_bed",
-			// PebbleBedFissionLogic.class);
+			// FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic.class);
 			FissionReactor.LOGIC_MAP.put("solid_fuel", SolidFuelFissionLogic.class.getConstructor(FissionReactorLogic.class));
 			FissionReactor.LOGIC_MAP.put("molten_salt", MoltenSaltFissionLogic.class.getConstructor(FissionReactorLogic.class));
 			

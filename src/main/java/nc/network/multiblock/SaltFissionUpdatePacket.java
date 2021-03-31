@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.fission.FissionReactor;
@@ -21,15 +21,15 @@ public class SaltFissionUpdatePacket extends FissionUpdatePacket {
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
-		super.readMessage(buf);
+	public void fromBytes(ByteBuf buf) {
+		super.fromBytes(buf);
 		meanHeatingSpeedMultiplier = buf.readDouble();
 		totalHeatingSpeedMultiplier = buf.readDouble();
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
-		super.writeMessage(buf);
+	public void toBytes(ByteBuf buf) {
+		super.toBytes(buf);
 		buf.writeDouble(meanHeatingSpeedMultiplier);
 		buf.writeDouble(totalHeatingSpeedMultiplier);
 	}

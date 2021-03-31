@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import java.util.List;
 
@@ -10,20 +10,20 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import net.minecraft.util.math.BlockPos;
 
-public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
+public class SaltFissionVesselUpdatePacket extends TileUpdatePacket {
 	
 	public BlockPos masterPortPos;
 	public List<TankInfo> tanksInfo;
 	public List<TankInfo> filterTanksInfo;
 	public long clusterHeatStored, clusterHeatCapacity;
 	public boolean isProcessing;
-	public double time;
+	public double time, baseProcessTime;
 	
-	public SaltFissionHeaterUpdatePacket() {
-		messageValid = false;
+	public SaltFissionVesselUpdatePacket() {
+		
 	}
 	
-	public SaltFissionHeaterUpdatePacket(BlockPos pos, BlockPos masterPortPos, List<Tank> tanks, List<Tank> filterTanks, FissionCluster cluster, boolean isProcessing, double time) {
+	public SaltFissionVesselUpdatePacket(BlockPos pos, BlockPos masterPortPos, List<Tank> tanks, List<Tank> filterTanks, FissionCluster cluster, boolean isProcessing, double time, double baseProcessTime) {
 		this.pos = pos;
 		this.masterPortPos = masterPortPos;
 		tanksInfo = TankInfo.infoList(tanks);
@@ -32,12 +32,11 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 		clusterHeatCapacity = cluster == null ? -1L : cluster.heatBuffer.getHeatCapacity();
 		this.isProcessing = isProcessing;
 		this.time = time;
-		
-		messageValid = true;
+		this.baseProcessTime = baseProcessTime;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		masterPortPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		byte numberOfTanks = buf.readByte();
@@ -48,10 +47,11 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 		clusterHeatCapacity = buf.readLong();
 		isProcessing = buf.readBoolean();
 		time = buf.readDouble();
+		baseProcessTime = buf.readDouble();
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -70,12 +70,13 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 		buf.writeLong(clusterHeatCapacity);
 		buf.writeBoolean(isProcessing);
 		buf.writeDouble(time);
+		buf.writeDouble(baseProcessTime);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<SaltFissionHeaterUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<SaltFissionVesselUpdatePacket, ITileGui> {
 		
 		@Override
-		protected void onPacket(SaltFissionHeaterUpdatePacket message, ITileGui processor) {
+		protected void onPacket(SaltFissionVesselUpdatePacket message, ITileGui processor) {
 			processor.onGuiPacket(message);
 		}
 	}

@@ -264,12 +264,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 		nbt.setDouble("currentChunkLevel", currentChunkLevel);
 		nbt.setDouble("currentChunkBuffer", currentChunkBuffer);
 		
-		int count = 0;
-		for (Entry<BlockPos, Integer> occlusion : occlusionMap.entrySet()) {
-			BlockPos pos = occlusion.getKey();
-			nbt.setIntArray("occlusion" + count, new int[] {occlusion.getValue(), pos.getX(), pos.getY(), pos.getZ()});
-			count++;
-		}
+		NBTHelper.writeBlockPosToIntegerMap(nbt, occlusionMap, "occlusionMap");
 		return nbt;
 	}
 	
@@ -284,15 +279,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 		currentChunkLevel = nbt.getDouble("currentChunkLevel");
 		currentChunkBuffer = nbt.getDouble("currentChunkBuffer");
 		
-		for (String key : nbt.getKeySet()) {
-			if (key.startsWith("occlusion")) {
-				int[] data = nbt.getIntArray(key);
-				if (data.length < 4) {
-					continue;
-				}
-				occlusionMap.put(new BlockPos(data[1], data[2], data[3]), data[0]);
-			}
-		}
+		NBTHelper.readBlockPosToIntegerMap(nbt, occlusionMap, "occlusionMap");
 	}
 	
 	// OpenComputers

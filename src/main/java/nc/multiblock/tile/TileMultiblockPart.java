@@ -324,7 +324,6 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	
 	/** IF the part is connected to a multiblock, marks the whole multiblock for a render update on the client. On the server, this does nothing */
 	protected void markMultiblockForRenderUpdate() {
-		
 		if (multiblock != null) {
 			multiblock.markMultiblockForRenderUpdate();
 		}

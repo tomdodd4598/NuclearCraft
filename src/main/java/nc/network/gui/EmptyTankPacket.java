@@ -2,47 +2,36 @@ package nc.network.gui;
 
 import io.netty.buffer.ByteBuf;
 import nc.tile.fluid.ITileFluid;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class EmptyTankPacket implements IMessage {
 	
-	boolean messageValid;
-	
-	BlockPos pos;
-	int tankNo;
+	private BlockPos pos;
+	private int tankNo;
 	
 	public EmptyTankPacket() {
-		messageValid = false;
+		
 	}
 	
 	public EmptyTankPacket(ITileFluid machine, int tankNo) {
 		pos = machine.getTilePos();
 		this.tankNo = tankNo;
-		messageValid = true;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		try {
-			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-			tankNo = buf.readInt();
-		}
-		catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-			return;
-		}
-		messageValid = true;
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		tankNo = buf.readInt();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) {
-			return;
-		}
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -53,15 +42,19 @@ public class EmptyTankPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(EmptyTankPacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.SERVER) {
-				return null;
+			if (ctx.side == Side.SERVER) {
+				FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			}
-			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
 		
 		void processMessage(EmptyTankPacket message, MessageContext ctx) {
-			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
+			EntityPlayerMP player = ctx.getServerHandler().player;
+			World world = player.getServerWorld();
+			if (!world.isBlockLoaded(message.pos) || !world.isBlockModifiable(player, message.pos)) {
+				return;
+			}
+			TileEntity tile = world.getTileEntity(message.pos);
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.clearTank(message.tankNo);

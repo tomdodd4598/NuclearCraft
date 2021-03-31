@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.heatExchanger.HeatExchanger;
@@ -13,7 +13,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	public double maxEfficiency;
 	
 	public HeatExchangerUpdatePacket() {
-		messageValid = false;
+		
 	}
 	
 	public HeatExchangerUpdatePacket(BlockPos pos, boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency, double maxEfficiency) {
@@ -22,12 +22,10 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 		this.fractionOfTubesActive = fractionOfTubesActive;
 		this.efficiency = efficiency;
 		this.maxEfficiency = maxEfficiency;
-		
-		messageValid = true;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isHeatExchangerOn = buf.readBoolean();
 		fractionOfTubesActive = buf.readDouble();
@@ -36,7 +34,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());

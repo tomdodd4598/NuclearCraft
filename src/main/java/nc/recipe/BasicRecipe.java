@@ -270,13 +270,17 @@ public class BasicRecipe implements IRecipe {
 		return (double) extras.get(1);
 	}
 	
+	public double getTurbineSpinUpMultiplier() {
+		return (double) extras.get(2);
+	}
+	
 	public String getTurbineParticleEffect() {
-		EnumParticleTypes particle = EnumParticleTypes.getByName((String) extras.get(2));
-		return particle == null ? "cloud" : (String) extras.get(2);
+		EnumParticleTypes particle = EnumParticleTypes.getByName((String) extras.get(3));
+		return particle == null ? "cloud" : (String) extras.get(3);
 	}
 	
 	public double getTurbineParticleSpeedMultiplier() {
-		return (double) extras.get(3);
+		return (double) extras.get(4);
 	}
 	
 	// Condenser

@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.network.tile.TileUpdatePacket;
@@ -22,14 +22,14 @@ public class FissionCellPortUpdatePacket extends FissionPortUpdatePacket {
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
-		super.readMessage(buf);
+	public void fromBytes(ByteBuf buf) {
+		super.fromBytes(buf);
 		filterStack = ByteBufUtils.readItemStack(buf);
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
-		super.writeMessage(buf);
+	public void toBytes(ByteBuf buf) {
+		super.toBytes(buf);
 		ByteBufUtils.writeItemStack(buf, filterStack);
 	}
 	

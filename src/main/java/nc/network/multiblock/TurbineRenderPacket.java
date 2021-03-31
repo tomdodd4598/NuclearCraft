@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
@@ -15,7 +15,7 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	public int recipeInputRate;
 	
 	public TurbineRenderPacket() {
-		messageValid = false;
+		
 	}
 	
 	public TurbineRenderPacket(BlockPos pos, String particleEffect, double particleSpeedMult, float angVel, boolean isProcessing, int recipeInputRate, double recipeInputRateFP) {
@@ -26,12 +26,10 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 		this.isProcessing = isProcessing;
 		this.recipeInputRate = recipeInputRate;
 		this.recipeInputRateFP = recipeInputRateFP;
-		
-		messageValid = true;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		particleEffect = ByteBufUtils.readUTF8String(buf);
 		particleSpeedMult = buf.readDouble();
@@ -42,7 +40,7 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());

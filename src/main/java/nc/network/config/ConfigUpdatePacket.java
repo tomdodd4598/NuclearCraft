@@ -9,59 +9,36 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ConfigUpdatePacket implements IMessage {
 	
-	protected boolean messageValid;
-	
 	public boolean radiation_enabled, radiation_horse_armor;
 	
 	public ConfigUpdatePacket() {
-		messageValid = false;
+		
 	}
 	
 	public ConfigUpdatePacket(boolean radiation_enabled, boolean radiation_horse_armor) {
 		this.radiation_enabled = radiation_enabled;
 		this.radiation_horse_armor = radiation_horse_armor;
-		
-		messageValid = true;
-	}
-	
-	public void readMessage(ByteBuf buf) {
-		radiation_enabled = buf.readBoolean();
-		radiation_horse_armor = buf.readBoolean();
-	}
-	
-	public void writeMessage(ByteBuf buf) {
-		buf.writeBoolean(radiation_enabled);
-		buf.writeBoolean(radiation_horse_armor);
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		try {
-			readMessage(buf);
-		}
-		catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-			return;
-		}
-		messageValid = true;
+		radiation_enabled = buf.readBoolean();
+		radiation_horse_armor = buf.readBoolean();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) {
-			return;
-		}
-		writeMessage(buf);
+		buf.writeBoolean(radiation_enabled);
+		buf.writeBoolean(radiation_horse_armor);
 	}
 	
 	public static class Handler implements IMessageHandler<ConfigUpdatePacket, IMessage> {
 		
 		@Override
 		public IMessage onMessage(ConfigUpdatePacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.CLIENT) {
-				return null;
+			if (ctx.side == Side.CLIENT) {
+				Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			}
-			Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			return null;
 		}
 		

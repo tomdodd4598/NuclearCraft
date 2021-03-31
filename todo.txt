@@ -1,16 +1,12 @@
-Fix custom shields not working
-Add irradiator and conductor placement rules
-"maybe someone wants to make a fluid that acts as moderator..."
-"bit of a really niche use, but it'd be nice if NCO could load up ModularMachinery based add-ons..."
-Add turbine recipe rotor spin-up multiplier
+NC & NCO: "base the condition for the advancement on if the processor in the parent advancement is registered and if the processor for the advancement is registered..."
 
-Poll: nitrogen collector -> air collector, Lach QMD feature merge?
+v2o.6: QMD feature merge: nitrogen collector -> air collector
 
-Fix file vulnerabilities in NC (MMC: https://discordapp.com/channels/166630061217153024/217332023746887680/777708394320363570)
+v2o.6: Refactor multiblock NBT
 
 Fuel decay heat and neutron poison (eVault: "Someone else suggested decay heat a while back too...", "been thinking about decay heat and neutron poisons a bit more...")
-Show potential (pre-primed) stats if reactor is idle
 
+Show potential (pre-primed) stats if reactor is idle
 Keep clusters running even when multiblock is invalidated
 
 Link managers to listeners with multitool (default behaviour: act on all listeners)
@@ -27,6 +23,7 @@ Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if
 Replace casing emergency cooling with cluster/port based version (no placement rules, works for both SFRs and MSRs)
 Add component heat dissipation while invalid?
 Configurable reactor rainbow bonus?
+Recipe-based moderator and reflector components?
 
 Refactor old tile entity hierarchy - modularise item/fluid/energy handling
 Modularise processor classes

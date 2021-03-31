@@ -13,13 +13,12 @@ import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.Multiblock;
-import nc.multiblock.network.*;
 import nc.multiblock.qComputer.tile.*;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.network.PacketHandler;
+import nc.network.multiblock.*;
 import nc.util.*;
-import nc.util.Vector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +34,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected TileQuantumComputerController controller;
 	
-	protected Vector state, cache = null;
+	protected ComplexVector state, cache = null;
 	
 	protected Queue<QuantumGate> queue = new ConcurrentLinkedQueue<>();
 	
@@ -47,7 +46,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		for (Class<? extends IQuantumComputerPart> clazz : PART_CLASSES) {
 			partSuperMap.equip(clazz);
 		}
-		state = new Vector(1);
+		state = new ComplexVector(1);
 	}
 	
 	@Override
@@ -240,7 +239,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
-		cache = Vector.readFromNBT(data, "state");
+		cache = ComplexVector.readFromNBT(data, "state");
 	}
 	
 	@Override
@@ -301,7 +300,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	protected void checkStateDim(int dim) {
 		if (state.dim != dim && qubitCount() <= quantum_max_qubits_live) {
-			state = new Vector(dim);
+			state = new ComplexVector(dim);
 		}
 	}
 	
@@ -404,16 +403,16 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		return false;
 	}
 	
-	protected Matrix fallback() {
+	protected ComplexMatrix fallback() {
 		return id(qubitCount());
 	}
 	
-	protected void gate(Matrix m) {
+	protected void gate(ComplexMatrix m) {
 		checkStateDim(dim(qubitCount()));
 		state.map(m);
 	}
 	
-	protected Matrix single(Matrix m, IntList n) {
+	protected ComplexMatrix single(ComplexMatrix m, IntList n) {
 		int q = qubitCount();
 		if (n.isEmpty()) {
 			return id(q);
@@ -423,12 +422,12 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			return fallback();
 		}
 		
-		Matrix[] t = new Matrix[q];
+		ComplexMatrix[] t = new ComplexMatrix[q];
 		for (int j = 0; j < q; j++) {
 			t[j] = n.contains(j) ? m : I;
 		}
 		
-		return Matrix.tensorProduct(t);
+		return ComplexMatrix.tensorProduct(t);
 	}
 	
 	public void x(IntSet n) {
@@ -520,7 +519,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		}
 	}
 	
-	public Matrix control(Matrix g, IntList c, IntList t) {
+	public ComplexMatrix control(ComplexMatrix g, IntList c, IntList t) {
 		int q = qubitCount();
 		if (t.isEmpty()) {
 			return id(q);
@@ -541,8 +540,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		}
 		
 		int s = dim(c.size()), k;
-		Matrix m = new Matrix(dim(q));
-		Matrix[] e = new Matrix[q];
+		ComplexMatrix m = new ComplexMatrix(dim(q));
+		ComplexMatrix[] e = new ComplexMatrix[q];
 		boolean b;
 		for (int i = 0; i < s; i++) {
 			k = 0;
@@ -553,7 +552,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					++k;
 				}
 			}
-			m.add(Matrix.tensorProduct(e));
+			m.add(ComplexMatrix.tensorProduct(e));
 		}
 		
 		return m;
@@ -636,8 +635,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		int s = dim(c.size()), q = qubitCount(), dim = dim(q), k, i, j, w;
 		checkStateDim(dim);
 		
-		Matrix m = new Matrix(dim), p;
-		Matrix[] e = new Matrix[q];
+		ComplexMatrix m = new ComplexMatrix(dim), p;
+		ComplexMatrix[] e = new ComplexMatrix[q];
 		boolean b;
 		for (int u = 0; u < s; u++) {
 			k = 0;
@@ -648,7 +647,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					++k;
 				}
 			}
-			p = Matrix.tensorProduct(e);
+			p = ComplexMatrix.tensorProduct(e);
 			if (u == s - 1) {
 				for (int l = 0; l < dim; l++) {
 					for (int a = 0; a < i_.size(); a++) {

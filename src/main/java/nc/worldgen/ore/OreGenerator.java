@@ -4,7 +4,7 @@ import static nc.config.NCConfig.*;
 
 import java.util.Random;
 
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.*;
 import nc.block.BlockMeta;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
@@ -17,6 +17,8 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class OreGenerator implements IWorldGenerator {
 	
+	protected static IntSet ore_dim_set;
+	
 	protected final WorldGenOre[] ores;
 	
 	protected static class WorldGenOre extends WorldGenMinable {
@@ -27,6 +29,10 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	public OreGenerator() {
+		if (ore_dim_set == null) {
+			ore_dim_set = new IntOpenHashSet(ore_dims);
+		}
+		
 		ores = new WorldGenOre[8];
 		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
 			ores[i] = new WorldGenOre(i);
@@ -35,7 +41,7 @@ public class OreGenerator implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if (new IntOpenHashSet(ore_dims).contains(world.provider.getDimension()) != ore_dims_list_type) {
+		if (ore_dim_set.contains(world.provider.getDimension()) != ore_dims_list_type) {
 			generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 		}
 	}
@@ -50,7 +56,7 @@ public class OreGenerator implements IWorldGenerator {
 	
 	public static void generateOre(WorldGenOre generator, World world, Random rand, int chunk_X, int chunk_Z, int chancesToSpawn, int minHeight, int maxHeight) {
 		if (minHeight < 0 || maxHeight >= world.getHeight() || minHeight > maxHeight) {
-			throw new IllegalArgumentException("Illegal height arguments for WorldGenerator!");
+			throw new IllegalArgumentException("Illegal height arguments!");
 		}
 		
 		int heightDiff = maxHeight - minHeight + 1;

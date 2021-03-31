@@ -6,19 +6,19 @@ import it.unimi.dsi.fastutil.HashCommon;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** Only handles square matrices! */
-public class Matrix {
+public class ComplexMatrix {
 	
 	public final int dim;
 	public final double[][] re;
 	public final double[][] im;
 	
-	public Matrix(int dim) {
+	public ComplexMatrix(int dim) {
 		this.dim = dim;
 		re = new double[dim][dim];
 		im = new double[dim][dim];
 	}
 	
-	public Matrix(double[][] c) {
+	public ComplexMatrix(double[][] c) {
 		this(c.length);
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
@@ -28,8 +28,8 @@ public class Matrix {
 		}
 	}
 	
-	public Matrix copy() {
-		Matrix m = new Matrix(dim);
+	public ComplexMatrix copy() {
+		ComplexMatrix m = new ComplexMatrix(dim);
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				m.re[i][j] = re[i][j];
@@ -39,7 +39,7 @@ public class Matrix {
 		return m;
 	}
 	
-	public Matrix id() {
+	public ComplexMatrix id() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				re[i][j] = j == i ? 1D : 0D;
@@ -49,7 +49,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix zero() {
+	public ComplexMatrix zero() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				re[i][j] = im[i][j] = 0D;
@@ -58,7 +58,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix add(Matrix m) {
+	public ComplexMatrix add(ComplexMatrix m) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				re[i][j] += m.re[i][j];
@@ -68,7 +68,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix subtract(Matrix m) {
+	public ComplexMatrix subtract(ComplexMatrix m) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				re[i][j] -= m.re[i][j];
@@ -78,7 +78,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix hadamardProduct(Matrix m) {
+	public ComplexMatrix hadamardProduct(ComplexMatrix m) {
 		double[] c;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
@@ -90,7 +90,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix multiply(double re, double im) {
+	public ComplexMatrix multiply(double re, double im) {
 		double[] c;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
@@ -102,7 +102,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix multiply(double a) {
+	public ComplexMatrix multiply(double a) {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				re[i][j] *= a;
@@ -112,8 +112,8 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix multiply(Matrix m) {
-		Matrix copy = copy();
+	public ComplexMatrix multiply(ComplexMatrix m) {
+		ComplexMatrix copy = copy();
 		double[] c;
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
@@ -128,7 +128,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public double[] expectation(Vector v) {
+	public double[] expectation(ComplexVector v) {
 		return v.copy().dot(v.map(this));
 	}
 	
@@ -170,7 +170,7 @@ public class Matrix {
 		double[] det = new double[] {1D, 0D}, total = new double[] {1D, 0D};
 		double[] tempRe = new double[dim + 1], tempIm = new double[dim + 1];
 		
-		Matrix m = copy();
+		ComplexMatrix m = copy();
 		
 		for (int i = 0; i < dim; i++) {
 			index = i;
@@ -218,7 +218,7 @@ public class Matrix {
 		return Complex.divide(det[0], det[1], total[0], total[1]);
 	}
 	
-	public Matrix transpose() {
+	public ComplexMatrix transpose() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < i; j++) {
 				if (i != j) {
@@ -229,9 +229,9 @@ public class Matrix {
 		return this;
 	}
 	
-	public static Matrix tensorProduct(Matrix... a) {
+	public static ComplexMatrix tensorProduct(ComplexMatrix... a) {
 		if (a.length == 0) {
-			return new Matrix(0);
+			return new ComplexMatrix(0);
 		}
 		if (a.length == 1) {
 			return a[0];
@@ -242,7 +242,7 @@ public class Matrix {
 			dim *= a[j].dim;
 		}
 		
-		Matrix m = new Matrix(dim);
+		ComplexMatrix m = new ComplexMatrix(dim);
 		double[] c;
 		int[] length = new int[a.length], count = new int[2 * a.length], mult = new int[a.length];
 		for (int j = 0; j < a.length; j++) {
@@ -289,16 +289,16 @@ public class Matrix {
 		}
 	}
 	
-	public Matrix commute(Matrix a) {
-		Matrix c = copy();
+	public ComplexMatrix commute(ComplexMatrix a) {
+		ComplexMatrix c = copy();
 		return multiply(a).subtract(a.copy().multiply(c));
 	}
 	
-	public Matrix square() {
+	public ComplexMatrix square() {
 		return multiply(copy());
 	}
 	
-	public Matrix conjugate() {
+	public ComplexMatrix conjugate() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				re[i][j] = re[i][j];
@@ -308,7 +308,7 @@ public class Matrix {
 		return this;
 	}
 	
-	public Matrix hermitian() {
+	public ComplexMatrix hermitian() {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < i; j++) {
 				if (i != j) {
@@ -337,11 +337,11 @@ public class Matrix {
 			return true;
 		}
 		
-		if (!(obj instanceof Matrix)) {
+		if (!(obj instanceof ComplexMatrix)) {
 			return false;
 		}
 		
-		Matrix other = (Matrix) obj;
+		ComplexMatrix other = (ComplexMatrix) obj;
 		
 		if (dim != other.dim) {
 			return false;
@@ -387,10 +387,10 @@ public class Matrix {
 		return nbt;
 	}
 	
-	public static Matrix readFromNBT(NBTTagCompound nbt, String name) {
+	public static ComplexMatrix readFromNBT(NBTTagCompound nbt, String name) {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound matrixTag = nbt.getCompoundTag(name);
-			Matrix m = new Matrix(matrixTag.getInteger("dim"));
+			ComplexMatrix m = new ComplexMatrix(matrixTag.getInteger("dim"));
 			for (int i = 0; i < m.dim; i++) {
 				for (int j = 0; j < m.dim; j++) {
 					m.re[i][j] = matrixTag.getDouble("re" + i + "_" + j);

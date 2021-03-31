@@ -57,11 +57,11 @@ public class StructureHelper {
 			NBTBase nbtbase = nbttagcompound.getTag(s);
 			
 			if (nbtbase.getId() == 10) {
-				NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbtbase;
+				NBTTagCompound nbt = (NBTTagCompound) nbtbase;
 				
-				if (nbttagcompound1.hasKey("ChunkX") && nbttagcompound1.hasKey("ChunkZ")) {
-					int i = nbttagcompound1.getInteger("ChunkX");
-					int j = nbttagcompound1.getInteger("ChunkZ");
+				if (nbt.hasKey("ChunkX") && nbt.hasKey("ChunkZ")) {
+					int i = nbt.getInteger("ChunkX");
+					int j = nbt.getInteger("ChunkZ");
 					chunks.add(ChunkPos.asLong(i, j));
 				}
 			}

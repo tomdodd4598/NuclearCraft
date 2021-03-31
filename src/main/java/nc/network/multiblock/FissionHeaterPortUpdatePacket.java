@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import java.util.List;
 
@@ -25,8 +25,8 @@ public class FissionHeaterPortUpdatePacket extends FissionPortUpdatePacket {
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
-		super.readMessage(buf);
+	public void fromBytes(ByteBuf buf) {
+		super.fromBytes(buf);
 		byte numberOfTanks = buf.readByte();
 		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
 		byte numberOfFilterTanks = buf.readByte();
@@ -34,8 +34,8 @@ public class FissionHeaterPortUpdatePacket extends FissionPortUpdatePacket {
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
-		super.writeMessage(buf);
+	public void toBytes(ByteBuf buf) {
+		super.toBytes(buf);
 		buf.writeByte(tanksInfo.size());
 		for (TankInfo info : tanksInfo) {
 			info.writeBuf(buf);

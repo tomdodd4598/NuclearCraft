@@ -21,7 +21,7 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.tile.*;
 import nc.multiblock.fission.tile.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.multiblock.fission.tile.port.*;
-import nc.multiblock.network.SaltFissionHeaterUpdatePacket;
+import nc.network.multiblock.SaltFissionHeaterUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.ITileGui;

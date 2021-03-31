@@ -3,24 +3,24 @@ package nc.network.gui;
 import io.netty.buffer.ByteBuf;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleItemSorptionPacket implements IMessage {
 	
-	boolean messageValid;
-	
-	BlockPos pos;
-	int side;
-	int slot;
-	int sorption;
+	private BlockPos pos;
+	private int side;
+	private int slot;
+	private int sorption;
 	
 	public ToggleItemSorptionPacket() {
-		messageValid = false;
+		
 	}
 	
 	public ToggleItemSorptionPacket(ITileInventory machine, EnumFacing side, int slot, ItemSorption sorption) {
@@ -28,29 +28,18 @@ public class ToggleItemSorptionPacket implements IMessage {
 		this.side = side.getIndex();
 		this.slot = slot;
 		this.sorption = sorption.ordinal();
-		messageValid = true;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		try {
-			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-			side = buf.readInt();
-			slot = buf.readInt();
-			sorption = buf.readInt();
-		}
-		catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-			return;
-		}
-		messageValid = true;
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		side = buf.readInt();
+		slot = buf.readInt();
+		sorption = buf.readInt();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) {
-			return;
-		}
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -63,15 +52,19 @@ public class ToggleItemSorptionPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ToggleItemSorptionPacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.SERVER) {
-				return null;
+			if (ctx.side == Side.SERVER) {
+				FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			}
-			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
 		
 		void processMessage(ToggleItemSorptionPacket message, MessageContext ctx) {
-			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
+			EntityPlayerMP player = ctx.getServerHandler().player;
+			World world = player.getServerWorld();
+			if (!world.isBlockLoaded(message.pos) || !world.isBlockModifiable(player, message.pos)) {
+				return;
+			}
+			TileEntity tile = world.getTileEntity(message.pos);
 			if (tile instanceof ITileInventory) {
 				ITileInventory machine = (ITileInventory) tile;
 				machine.setItemSorption(EnumFacing.byIndex(message.side), message.slot, ItemSorption.values()[message.sorption]);

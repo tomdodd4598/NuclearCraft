@@ -97,7 +97,7 @@ public class NCFluids {
 		addFluidPair(FluidType.SALT_SOLUTION, "borax_solution", waterBlend(0xEEEEEE, 0.5F));
 		addFluidPair(FluidType.SALT_SOLUTION, "irradiated_borax_solution", waterBlend(0xFFD0A3, 0.5F));
 		
-		addFluidPair(FluidType.CORIUM, "corium", 0x7F8178);
+		addFluidPair(FluidType.CORIUM, "corium", 0x7C7C6F);
 		
 		addFluidPair(FluidType.LIQUID, "ice", false, 0xAFF1FF, 1000, 250, 2000, 0);
 		addFluidPair(FluidType.LIQUID, "slurry_ice", false, 0x7EAEB7, 950, 270, 4000, 0);

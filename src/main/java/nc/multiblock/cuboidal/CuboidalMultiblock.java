@@ -3,8 +3,8 @@ package nc.multiblock.cuboidal;
 import javax.vecmath.Vector3f;
 
 import nc.multiblock.*;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.util.NCMath;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

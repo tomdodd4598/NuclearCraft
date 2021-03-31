@@ -63,6 +63,7 @@ public class NCConfig {
 	public static double[] speed_upgrade_multipliers;
 	public static double[] energy_upgrade_power_laws;
 	public static double[] energy_upgrade_multipliers;
+	public static int[] upgrade_stack_sizes;
 	public static int rf_per_eu;
 	public static boolean enable_ic2_eu;
 	public static boolean enable_gtce_eu;
@@ -221,6 +222,7 @@ public class NCConfig {
 	public static String[] turbine_connector_rule;
 	public static double[] turbine_power_per_mb;
 	public static double[] turbine_expansion_level;
+	public static double[] turbine_spin_up_multiplier;
 	public static int turbine_mb_per_blade;
 	public static double[] turbine_throughput_leniency_params;
 	public static double turbine_tension_throughput_factor;
@@ -382,6 +384,9 @@ public class NCConfig {
 	public static int mushroom_gen_size;
 	public static int mushroom_gen_rate;
 	
+	public static int[] corium_solidification;
+	public static boolean corium_solidification_list_type;
+	
 	public static boolean ore_dict_raw_material_recipes;
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
@@ -463,6 +468,8 @@ public class NCConfig {
 		propertyEnergyUpgradePowerLaws.setLanguageKey("gui.nc.config.energy_upgrade_power_laws_fp");
 		Property propertyEnergyUpgradeMultipliers = config.get(CATEGORY_PROCESSOR, "energy_upgrade_multipliers_fp", new double[] {1D}, Lang.localise("gui.nc.config.energy_upgrade_multipliers_fp.comment"), 0D, 15D);
 		propertyEnergyUpgradeMultipliers.setLanguageKey("gui.nc.config.energy_upgrade_multipliers_fp");
+		Property propertyUpgradeStackSizes = config.get(CATEGORY_PROCESSOR, "upgrade_stack_sizes", new int[] {64, 64}, Lang.localise("gui.nc.config.upgrade_stack_sizes.comment"), 1, 64);
+		propertyUpgradeStackSizes.setLanguageKey("gui.nc.config.upgrade_stack_sizes");
 		Property propertyRFPerEU = config.get(CATEGORY_PROCESSOR, "rf_per_eu", 16, Lang.localise("gui.nc.config.rf_per_eu.comment"), 1, 2000);
 		propertyRFPerEU.setLanguageKey("gui.nc.config.rf_per_eu");
 		Property propertyEnableIC2EU = config.get(CATEGORY_PROCESSOR, "enable_ic2_eu", true, Lang.localise("gui.nc.config.enable_ic2_eu.comment"));
@@ -764,6 +771,8 @@ public class NCConfig {
 		propertyTurbinePowerPerMB.setLanguageKey("gui.nc.config.turbine_power_per_mb");
 		Property propertyTurbineExpansionLevel = config.get(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D}, Lang.localise("gui.nc.config.turbine_expansion_level.comment"), 1D, 255D);
 		propertyTurbineExpansionLevel.setLanguageKey("gui.nc.config.turbine_expansion_level");
+		Property propertyTurbineSpinUpMultiplier = config.get(CATEGORY_TURBINE, "turbine_spin_up_multiplier", new double[] {1D, 1D, 1D}, Lang.localise("gui.nc.config.turbine_spin_up_multiplier.comment"), 0D, 255D);
+		propertyTurbineSpinUpMultiplier.setLanguageKey("gui.nc.config.turbine_spin_up_multiplier");
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.nc.config.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.nc.config.turbine_mb_per_blade");
 		Property propertyTurbineThroughputLeniencyParams = config.get(CATEGORY_TURBINE, "turbine_throughput_leniency_params", new double[] {0.5D, 0.75D}, Lang.localise("gui.nc.config.turbine_throughput_leniency_params.comment"), 0D, 1D);
@@ -1037,6 +1046,11 @@ public class NCConfig {
 		Property propertyDungeonLoot = config.get(CATEGORY_MISC, "dungeon_loot", true, Lang.localise("gui.nc.config.dungeon_loot.comment"));
 		propertyDungeonLoot.setLanguageKey("gui.nc.config.dungeon_loot");
 		
+		Property propertyCoriumSolidification = config.get(CATEGORY_MISC, "corium_solidification", new int[] {0, 1, 2, -6, -100, 4598, -9999, -11325}, Lang.localise("gui.nc.config.corium_solidification.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
+		propertyCoriumSolidification.setLanguageKey("gui.nc.config.corium_solidification");
+		Property propertyCoriumSolidificationListType = config.get(CATEGORY_MISC, "corium_solidification_list_type", false, Lang.localise("gui.nc.config.corium_solidification_list_type.comment"));
+		propertyCoriumSolidificationListType.setLanguageKey("gui.nc.config.corium_solidification_list_type");
+		
 		Property propertyOreDictRawMaterialRecipes = config.get(CATEGORY_MISC, "ore_dict_raw_material_recipes", false, Lang.localise("gui.nc.config.ore_dict_raw_material_recipes.comment"));
 		propertyOreDictRawMaterialRecipes.setLanguageKey("gui.nc.config.ore_dict_raw_material_recipes");
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_MISC, "ore_dict_priority_bool", true, Lang.localise("gui.nc.config.ore_dict_priority_bool.comment"));
@@ -1075,6 +1089,7 @@ public class NCConfig {
 		propertyOrderProcessor.add(propertySpeedUpgradeMultipliers.getName());
 		propertyOrderProcessor.add(propertyEnergyUpgradePowerLaws.getName());
 		propertyOrderProcessor.add(propertyEnergyUpgradeMultipliers.getName());
+		propertyOrderProcessor.add(propertyUpgradeStackSizes.getName());
 		propertyOrderProcessor.add(propertyRFPerEU.getName());
 		propertyOrderProcessor.add(propertyEnableIC2EU.getName());
 		propertyOrderProcessor.add(propertyEnableGTCEEU.getName());
@@ -1245,6 +1260,7 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineConnectorRule.getName());
 		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
 		propertyOrderTurbine.add(propertyTurbineExpansionLevel.getName());
+		propertyOrderTurbine.add(propertyTurbineSpinUpMultiplier.getName());
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
 		propertyOrderTurbine.add(propertyTurbineThroughputLeniencyParams.getName());
 		propertyOrderTurbine.add(propertyTurbineTensionThroughputFactor.getName());
@@ -1394,6 +1410,8 @@ public class NCConfig {
 		propertyOrderMisc.add(propertyJEIChanceItemsIncludeNull.getName());
 		propertyOrderMisc.add(propertyRareDrops.getName());
 		propertyOrderMisc.add(propertyDungeonLoot.getName());
+		propertyOrderMisc.add(propertyCoriumSolidification.getName());
+		propertyOrderMisc.add(propertyCoriumSolidificationListType.getName());
 		propertyOrderMisc.add(propertyOreDictRawMaterialRecipes.getName());
 		propertyOrderMisc.add(propertyOreDictPriorityBool.getName());
 		propertyOrderMisc.add(propertyOreDictPriority.getName());
@@ -1427,6 +1445,7 @@ public class NCConfig {
 			speed_upgrade_multipliers = readDoubleArrayFromConfig(propertySpeedUpgradeMultipliers);
 			energy_upgrade_power_laws = readDoubleArrayFromConfig(propertyEnergyUpgradePowerLaws);
 			energy_upgrade_multipliers = readDoubleArrayFromConfig(propertyEnergyUpgradeMultipliers);
+			upgrade_stack_sizes = readIntegerArrayFromConfig(propertyUpgradeStackSizes);
 			rf_per_eu = propertyRFPerEU.getInt();
 			enable_ic2_eu = propertyEnableIC2EU.getBoolean();
 			enable_gtce_eu = propertyEnableGTCEEU.getBoolean();
@@ -1585,6 +1604,7 @@ public class NCConfig {
 			turbine_connector_rule = propertyTurbineConnectorRule.getStringList();
 			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
 			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
+			turbine_spin_up_multiplier = readDoubleArrayFromConfig(propertyTurbineSpinUpMultiplier);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
 			turbine_throughput_leniency_params = readDoubleArrayFromConfig(propertyTurbineThroughputLeniencyParams);
 			turbine_tension_throughput_factor = propertyTurbineTensionThroughputFactor.getDouble();
@@ -1731,6 +1751,8 @@ public class NCConfig {
 			jei_chance_items_include_null = propertyJEIChanceItemsIncludeNull.getBoolean();
 			rare_drops = propertyRareDrops.getBoolean();
 			dungeon_loot = propertyDungeonLoot.getBoolean();
+			corium_solidification = propertyCoriumSolidification.getIntList();
+			corium_solidification_list_type = propertyCoriumSolidificationListType.getBoolean();
 			ore_dict_raw_material_recipes = propertyOreDictRawMaterialRecipes.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
@@ -1763,6 +1785,7 @@ public class NCConfig {
 		propertySpeedUpgradeMultipliers.set(speed_upgrade_multipliers);
 		propertyEnergyUpgradePowerLaws.set(energy_upgrade_power_laws);
 		propertyEnergyUpgradeMultipliers.set(energy_upgrade_multipliers);
+		propertyUpgradeStackSizes.set(upgrade_stack_sizes);
 		propertyRFPerEU.set(rf_per_eu);
 		propertyEnableIC2EU.set(enable_ic2_eu);
 		propertyEnableGTCEEU.set(enable_gtce_eu);
@@ -1921,6 +1944,7 @@ public class NCConfig {
 		propertyTurbineConnectorRule.set(turbine_connector_rule);
 		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
 		propertyTurbineExpansionLevel.set(turbine_expansion_level);
+		propertyTurbineSpinUpMultiplier.set(turbine_spin_up_multiplier);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
 		propertyTurbineThroughputLeniencyParams.set(turbine_throughput_leniency_params);
 		propertyTurbineTensionThroughputFactor.set(turbine_tension_throughput_factor);
@@ -2066,6 +2090,9 @@ public class NCConfig {
 		propertyCtrlInfo.set(ctrl_info);
 		propertyJEIChanceItemsIncludeNull.set(jei_chance_items_include_null);
 		propertyRareDrops.set(rare_drops);
+		propertyDungeonLoot.set(rare_drops);
+		propertyCoriumSolidification.set(corium_solidification);
+		propertyCoriumSolidificationListType.set(corium_solidification_list_type);
 		propertyOreDictRawMaterialRecipes.set(ore_dict_raw_material_recipes);
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);

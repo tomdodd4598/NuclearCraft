@@ -6,7 +6,7 @@ import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.tile.TileFissionIrradiator;
-import nc.multiblock.network.FissionIrradiatorPortUpdatePacket;
+import nc.network.multiblock.FissionIrradiatorPortUpdatePacket;
 import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.client.util.RecipeItemHelper;

@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.longs.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.TileFissionPart;
+import nc.util.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
@@ -64,25 +65,14 @@ public abstract class TileFissionManager<MANAGER extends TileFissionManager<MANA
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		
-		int count = 0;
-		for (long posLong : listenerPosSet) {
-			nbt.setLong("listenerPos" + count, posLong);
-			count++;
-		}
-		
+		NBTHelper.writeLongCollection(nbt, listenerPosSet, "listenerPosSet");
 		return nbt;
 	}
 	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		
-		for (String key : nbt.getKeySet()) {
-			if (key.startsWith("listenerPos")) {
-				listenerPosSet.add(nbt.getLong(key));
-			}
-		}
+		NBTHelper.readLongCollection(nbt, listenerPosSet, "listenerPosSet");
 	}
 	
 	// Capability

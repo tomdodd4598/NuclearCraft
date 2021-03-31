@@ -263,7 +263,7 @@ public class RadSources {
 		
 		put(TRITIUM / 256D, NCBlocks.tritium_lamp);
 		
-		put(CORIUM, NCBlocks.solidified_corium);
+		put(CORIUM * FLUID_MULTIPLIER, NCBlocks.solidified_corium);
 		
 		putOre(CAESIUM_137 / 4D, "dustIrradiatedBorax");
 		

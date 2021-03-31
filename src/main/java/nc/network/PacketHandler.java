@@ -1,8 +1,8 @@
 package nc.network;
 
-import nc.multiblock.network.*;
 import nc.network.config.ConfigUpdatePacket;
 import nc.network.gui.*;
+import nc.network.multiblock.*;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.network.render.BlockHighlightUpdatePacket;
 import nc.network.tile.ProcessorUpdatePacket;
@@ -44,8 +44,6 @@ public class PacketHandler {
 		
 		instance.registerMessage(ClearAllMaterialPacket.Handler.class, ClearAllMaterialPacket.class, nextID(), Side.SERVER);
 		
-		instance.registerMessage(TurbineResendFormPacket.Handler.class, TurbineResendFormPacket.class, nextID(), Side.SERVER);
-		
 		// CLIENT
 		instance.registerMessage(ConfigUpdatePacket.Handler.class, ConfigUpdatePacket.class, nextID(), Side.CLIENT);
 		
@@ -67,7 +65,6 @@ public class PacketHandler {
 		instance.registerMessage(HeatExchangerUpdatePacket.Handler.class, HeatExchangerUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(TurbineUpdatePacket.Handler.class, TurbineUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(TurbineRenderPacket.Handler.class, TurbineRenderPacket.class, nextID(), Side.CLIENT);
-		instance.registerMessage(TurbineFormPacket.Handler.class, TurbineFormPacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(QuantumComputerQubitRenderPacket.Handler.class, QuantumComputerQubitRenderPacket.class, nextID(), Side.CLIENT);
 		
 		instance.registerMessage(PlayerRadsUpdatePacket.Handler.class, PlayerRadsUpdatePacket.class, nextID(), Side.CLIENT);

@@ -254,23 +254,34 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
+		NBTTagCompound data = super.writeToNBT(new NBTTagCompound());
+		writeAll(data);
+		syncDataTo(data, SyncReason.NetworkUpdate);
+		return data;
 	}
 	
 	@Override
 	public void handleUpdateTag(NBTTagCompound data) {
-		super.handleUpdateTag(data);
+		super.readFromNBT(data);
+		readAll(data);
+		syncDataFrom(data, SyncReason.NetworkUpdate);
 	}
 	
 	@Nullable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), writeToNBT(new NBTTagCompound()));
+		NBTTagCompound data = super.writeToNBT(new NBTTagCompound());
+		writeAll(data);
+		syncDataTo(data, SyncReason.NetworkUpdate);
+		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), data);
 	}
 	
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
+		NBTTagCompound data = packet.getNbtCompound();
+		super.readFromNBT(data);
+		readAll(data);
+		syncDataFrom(data, SyncReason.NetworkUpdate);
 		if (getBlockType() instanceof IDynamicState) {
 			notifyBlockUpdate();
 		}

@@ -4,10 +4,10 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.Multiblock;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.rtg.tile.TileRTG;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;

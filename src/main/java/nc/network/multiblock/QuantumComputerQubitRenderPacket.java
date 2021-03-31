@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
@@ -10,24 +10,22 @@ public class QuantumComputerQubitRenderPacket extends TileUpdatePacket {
 	public float measureColor;
 	
 	public QuantumComputerQubitRenderPacket() {
-		messageValid = false;
+		
 	}
 	
 	public QuantumComputerQubitRenderPacket(BlockPos pos, float measureColor) {
 		this.pos = pos;
 		this.measureColor = measureColor;
-		
-		messageValid = true;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		measureColor = buf.readFloat();
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());

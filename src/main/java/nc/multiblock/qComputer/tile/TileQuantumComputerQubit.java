@@ -1,8 +1,8 @@
 package nc.multiblock.qComputer.tile;
 
 import it.unimi.dsi.fastutil.ints.*;
-import nc.multiblock.network.QuantumComputerQubitRenderPacket;
 import nc.multiblock.qComputer.*;
+import nc.network.multiblock.QuantumComputerQubitRenderPacket;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -58,12 +58,12 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart implements
 		if (s || l) {
 			IntCollection idColl = s ? new IntOpenHashSet() : new IntArrayList();
 			if (s) {
-				NBTHelper.loadIntCollection(nbt, idColl, "qubitIDSet");
-				NBTHelper.saveIntCollection(nbt, new IntArrayList(), "qubitIDList");
+				NBTHelper.readIntCollection(nbt, idColl, "qubitIDSet");
+				NBTHelper.writeIntCollection(nbt, new IntArrayList(), "qubitIDList");
 			}
 			else {
-				NBTHelper.loadIntCollection(nbt, idColl, "qubitIDList");
-				NBTHelper.saveIntCollection(nbt, new IntOpenHashSet(), "qubitIDSet");
+				NBTHelper.readIntCollection(nbt, idColl, "qubitIDList");
+				NBTHelper.writeIntCollection(nbt, new IntOpenHashSet(), "qubitIDSet");
 			}
 			
 			if (!player.isSneaking()) {
@@ -79,10 +79,10 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart implements
 			}
 			
 			if (s) {
-				NBTHelper.saveIntCollection(nbt, idColl, "qubitIDSet");
+				NBTHelper.writeIntCollection(nbt, idColl, "qubitIDSet");
 			}
 			else {
-				NBTHelper.saveIntCollection(nbt, idColl, "qubitIDList");
+				NBTHelper.writeIntCollection(nbt, idColl, "qubitIDList");
 			}
 			return true;
 		}

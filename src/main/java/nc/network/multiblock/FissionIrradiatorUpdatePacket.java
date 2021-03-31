@@ -1,4 +1,4 @@
-package nc.multiblock.network;
+package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.fission.FissionCluster;
@@ -9,7 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
-public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
+public class FissionIrradiatorUpdatePacket extends TileUpdatePacket {
 	
 	public BlockPos masterPortPos;
 	public ItemStack filterStack;
@@ -17,11 +17,11 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 	public boolean isProcessing;
 	public double time, baseProcessTime;
 	
-	public SolidFissionCellUpdatePacket() {
-		messageValid = false;
+	public FissionIrradiatorUpdatePacket() {
+		
 	}
 	
-	public SolidFissionCellUpdatePacket(BlockPos pos, BlockPos masterPortPos, NonNullList<ItemStack> filterStacks, FissionCluster cluster, boolean isProcessing, double time, double baseProcessTime) {
+	public FissionIrradiatorUpdatePacket(BlockPos pos, BlockPos masterPortPos, NonNullList<ItemStack> filterStacks, FissionCluster cluster, boolean isProcessing, double time, double baseProcessTime) {
 		this.pos = pos;
 		this.masterPortPos = masterPortPos;
 		filterStack = filterStacks.get(0);
@@ -30,12 +30,10 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 		this.isProcessing = isProcessing;
 		this.time = time;
 		this.baseProcessTime = baseProcessTime;
-		
-		messageValid = true;
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		masterPortPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		filterStack = ByteBufUtils.readItemStack(buf);
@@ -47,7 +45,7 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 	}
 	
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -62,10 +60,10 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(baseProcessTime);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<SolidFissionCellUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<FissionIrradiatorUpdatePacket, ITileGui> {
 		
 		@Override
-		protected void onPacket(SolidFissionCellUpdatePacket message, ITileGui processor) {
+		protected void onPacket(FissionIrradiatorUpdatePacket message, ITileGui processor) {
 			processor.onGuiPacket(message);
 		}
 	}

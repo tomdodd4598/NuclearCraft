@@ -23,7 +23,7 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 	public boolean isGoodForFrame(Multiblock multiblock) {
 		if (getPartPositionType().isGoodForFrame()) {
 			if (isTransparent() && getMultiblock() != null) {
-				getMultiblock().shouldRenderRotor = true;
+				getMultiblock().shouldSpecialRenderRotor = true;
 			}
 			return true;
 		}
@@ -35,7 +35,7 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 	public boolean isGoodForSides(Multiblock multiblock) {
 		if (getPartPositionType().isGoodForWall()) {
 			if (isTransparent() && getMultiblock() != null) {
-				getMultiblock().shouldRenderRotor = true;
+				getMultiblock().shouldSpecialRenderRotor = true;
 			}
 			return true;
 		}
@@ -47,7 +47,7 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 	public boolean isGoodForTop(Multiblock multiblock) {
 		if (getPartPositionType().isGoodForWall()) {
 			if (isTransparent() && getMultiblock() != null) {
-				getMultiblock().shouldRenderRotor = true;
+				getMultiblock().shouldSpecialRenderRotor = true;
 			}
 			return true;
 		}
@@ -59,7 +59,7 @@ public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine
 	public boolean isGoodForBottom(Multiblock multiblock) {
 		if (getPartPositionType().isGoodForWall()) {
 			if (isTransparent() && getMultiblock() != null) {
-				getMultiblock().shouldRenderRotor = true;
+				getMultiblock().shouldSpecialRenderRotor = true;
 			}
 			return true;
 		}

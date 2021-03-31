@@ -2,10 +2,10 @@ package nc.multiblock.gui;
 
 import nc.Global;
 import nc.multiblock.gui.element.MultiblockButton;
-import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.*;
 import nc.network.PacketHandler;
+import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;

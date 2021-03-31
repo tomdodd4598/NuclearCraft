@@ -7,6 +7,9 @@ public class IOHelper {
 	
 	public static final String NEW_LINE = System.lineSeparator();
 	
+	public static final int MAX_ZIP_SIZE = 0x100000;
+	public static final int ZIP_READ_SIZE = 0x2000;
+	
 	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
 	public static void appendFile(File target, File source, String separator) throws IOException {
 		FileWriter writer = new FileWriter(target, true);
@@ -43,12 +46,21 @@ public class IOHelper {
 			destDir.mkdir();
 		}
 		
+		int bytes = 0;
 		ZipInputStream zipStream = new ZipInputStream(new FileInputStream(zipFile));
 		ZipEntry entry = zipStream.getNextEntry();
 		while (entry != null) {
 			String fileDest = dest + "/" + entry.getName();
+			String canonicalDestDir = new File(dest).getCanonicalPath();
+			String canonicalFileDest = new File(fileDest).getCanonicalPath();
+			
+			if (!canonicalFileDest.startsWith(canonicalDestDir + File.separator)) {
+				zipStream.close();
+				throw new IOException("Entry is outside of the target directory \"" + entry.getName() + "\"");
+			}
+			
 			if (!entry.isDirectory()) {
-				extract(zipStream, fileDest);
+				bytes = extract(zipStream, fileDest, bytes);
 			}
 			else {
 				new File(fileDest).mkdirs();
@@ -59,13 +71,19 @@ public class IOHelper {
 		zipStream.close();
 	}
 	
-	private static void extract(ZipInputStream zipStream, String fileDest) throws IOException {
-		BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(fileDest));
-		byte[] bytesIn = new byte[1024];
-		int read = 0;
-		while ((read = zipStream.read(bytesIn)) != -1) {
-			outStream.write(bytesIn, 0, read);
+	private static int extract(ZipInputStream zipStream, String fileDest, int bytes) throws IOException {
+		try (BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(fileDest))) {
+			byte[] bytesIn = new byte[ZIP_READ_SIZE];
+			int read = 0;
+			while ((read = zipStream.read(bytesIn)) != -1) {
+				bytes += read;
+				if (bytes > MAX_ZIP_SIZE) {
+					throw new IOException("Zip file being extracted to \"" + fileDest + "\" is too big!");
+				}
+				outStream.write(bytesIn, 0, read);
+			}
+			outStream.close();
 		}
-		outStream.close();
+		return bytes;
 	}
 }

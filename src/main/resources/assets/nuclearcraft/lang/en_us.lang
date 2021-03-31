@@ -2327,6 +2327,7 @@ jei.nuclearcraft.condenser_heat_removal_req=Heat removal required:
 
 jei.nuclearcraft.turbine_energy_density=Base energy density:
 jei.nuclearcraft.turbine_expansion=Fluid expansion:
+jei.nuclearcraft.turbine_spin_up_multiplier=Spin-up multiplier:
 
 jei.nuclearcraft.scrubber_process_time=Scrubbing lifetime:
 jei.nuclearcraft.scrubber_process_power=Required power:
@@ -2344,9 +2345,9 @@ gui.nc.config.main_title=NuclearCraft Configs
 gui.nc.config.category.world_gen=World Gen Configs
 gui.nc.config.category.world_gen.tooltip=Configure world generation.
 
-gui.nc.config.ore_dims=Dimension List
+gui.nc.config.ore_dims=Ore Gen Dimension List
 gui.nc.config.ore_dims.comment=List of IDs of dimensions to whitelist/blacklist for ore generation.
-gui.nc.config.ore_dims_list_type=Whitelist/Blacklist (false/true)
+gui.nc.config.ore_dims_list_type=Ore Gen Dim WList/BList (false/true)
 gui.nc.config.ore_dims_list_type.comment=Is the dimension list a whitelist (false) or a blacklist (true)?
 gui.nc.config.ore_gen=Generate Ores
 gui.nc.config.ore_gen.comment=Will these ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium.
@@ -2384,6 +2385,11 @@ gui.nc.config.mushroom_gen_size.comment=Determines the maximum number of mushroo
 gui.nc.config.mushroom_gen_rate=Mushroom Gen Rate
 gui.nc.config.mushroom_gen_rate.comment=Determines how often mushrooms added by NC will spawn - higher numbers correspond to higher generation rates.
 
+gui.nc.config.corium_solidification=Corium Solidification Dimension List
+gui.nc.config.corium_solidification.comment=List of IDs of dimensions to whitelist/blacklist for corium solidification.
+gui.nc.config.corium_solidification_list_type=Corium Solidification Dimension Whitelist/Blacklist (false/true)
+gui.nc.config.corium_solidification_list_type.comment=Is the dimension list a whitelist (false) or a blacklist (true)?
+
 gui.nc.config.category.processor=Processor Configs
 gui.nc.config.category.processor.tooltip=Configure processors.
 
@@ -2399,6 +2405,8 @@ gui.nc.config.energy_upgrade_power_laws_fp=Energy Upgrade Power Laws
 gui.nc.config.energy_upgrade_power_laws_fp.comment=Power laws for energy upgrades. Order: Processing Power.
 gui.nc.config.energy_upgrade_multipliers_fp=Energy Upgrade Multipliers
 gui.nc.config.energy_upgrade_multipliers_fp.comment=Base multipliers for energy upgrades. Order: Processing Power.
+gui.nc.config.upgrade_stack_sizes=Upgrade Max Stack Sizes
+gui.nc.config.upgrade_stack_sizes.comment=Max stack sizes for upgrades. Order: Speed, Energy.
 gui.nc.config.rf_per_eu=RF per IC2 EU
 gui.nc.config.rf_per_eu.comment=Conversion ratio between Redstone Flux and IC2 and GTCE Energy Units.
 gui.nc.config.enable_ic2_eu=Enable IC2 EU Support
@@ -2660,6 +2668,8 @@ gui.nc.config.turbine_power_per_mb=Steam Base RF per mB
 gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of steam. Order: high pressure, low pressure, standard.
 gui.nc.config.turbine_expansion_level=Steam Expansion Level
 gui.nc.config.turbine_expansion_level.comment=Expansion level for this type of steam's recipe. Order: high pressure, low pressure, standard.
+gui.nc.config.turbine_spin_up_multiplier=Steam Spin-Up Multiplier
+gui.nc.config.turbine_spin_up_multiplier.comment=Rotor spin-up multiplier for this type of steam's recipe. Order: high pressure, low pressure, standard.
 gui.nc.config.turbine_mb_per_blade=Rotor Blade Maximum Process Rate
 gui.nc.config.turbine_mb_per_blade.comment=Maximum mB of fluid processed per tick per rotor blade.
 gui.nc.config.turbine_sound_volume=Turbine Sound Volume
@@ -3488,14 +3498,23 @@ nc.sf.placement_rule.adjacent.ambiguity1prev=share a common||share common
 
 nc.sf.reactor_casing0=%s reactor casing
 nc.sf.reactor_casing1=%s reactor casing
+nc.sf.conductor0=%s conductor
+nc.sf.conductor1=%s conductors
+
 nc.sf.cell0=%s functional fuel cell
 nc.sf.cell1=%s functional fuel cells
 nc.sf.vessel0=%s functional fuel vessel
 nc.sf.vessel1=%s functional fuel vessels
+
 nc.sf.moderator0=%s active moderator
 nc.sf.moderator1=%s active moderators
 nc.sf.reflector0=%s active reflector
 nc.sf.reflector1=%s active reflectors
+
+nc.sf.irradiator0=%s functional irradiator
+nc.sf.irradiator1=%s functional irradiators
+nc.sf.shield0=%s valid open shield
+nc.sf.shield1=%s valid open shields
 
 nc.sf.any_sink0=%s of any sink
 nc.sf.any_sink1=any %s sinks

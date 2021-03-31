@@ -7,7 +7,7 @@ import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
-import nc.multiblock.network.FissionVesselPortUpdatePacket;
+import nc.network.multiblock.FissionVesselPortUpdatePacket;
 import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayer;

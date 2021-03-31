@@ -11,22 +11,24 @@ import javax.vecmath.Vector3f;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.doubles.*;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.handler.SoundHandler.SoundInfo;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.multiblock.network.*;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.tile.*;
+import nc.network.PacketHandler;
+import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.util.NCMath;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -54,16 +56,19 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public boolean isTurbineOn, computerActivated, isProcessing;
 	public double power = 0D, conductivity = 0D, rotorEfficiency = 0D, powerBonus = 0D;
 	public double rawPower = 0D, rawLimitPower = 0D, rawMaxPower = 0D;
+	
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
-	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D;
+	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, spinUpMultiplier = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D;
+	
 	public double minBladeExpansionCoefficient = Double.MAX_VALUE;
 	public double maxBladeExpansionCoefficient = 1D;
 	public double minStatorExpansionCoefficient = 1D;
 	public double maxStatorExpansionCoefficient = Double.MIN_VALUE;
 	public int effectiveMaxLength = turbine_max_size;
 	public double bearingTension = 0D;
-	public DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
+	
+	public final DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
 	
 	@SideOnly(Side.CLIENT)
 	public static final int SOUND_LENGTH = 186;
@@ -76,15 +81,18 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public String particleEffect = "cloud";
 	public double particleSpeedMult = 1D / 23.2D;
 	public float angVel = 0F, rotorAngle = 0F;
-	public long prevRenderTime = 0L;
+	
 	public Iterable<MutableBlockPos>[] inputPlane = new Iterable[4];
 	
-	public boolean shouldRenderRotor = false;
+	public boolean nbtUpdateRenderDataFlag = false;
+	public boolean shouldSpecialRenderRotor = false;
+	
 	public BlockPos[] bladePosArray = null;
 	public Vector3f[] renderPosArray = null;
 	public float[] bladeAngleArray = null;
+	
 	public IBlockState[] rotorStateArray = null;
-	public IntList bladeDepths = null, statorDepths = null;
+	public final IntList bladeDepths = new IntArrayList(), statorDepths = new IntArrayList();
 	
 	public Turbine(World world) {
 		super(world);
@@ -172,7 +180,8 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	
 	@Override
 	protected boolean isMachineWhole() {
-		shouldRenderRotor = false;
+		shouldSpecialRenderRotor = false;
+		
 		return setLogic(this) && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
@@ -318,17 +327,26 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		writeTanks(tanks, data, "tanks");
 		data.setBoolean("isTurbineOn", isTurbineOn);
 		data.setBoolean("computerActivated", computerActivated);
+		data.setBoolean("isProcessing", isProcessing);
 		data.setDouble("power", power);
 		data.setDouble("rawPower", rawPower);
 		data.setDouble("rawLimitPower", rawLimitPower);
 		data.setDouble("rawMaxPower", rawMaxPower);
+		
+		data.setInteger("flowDir", flowDir == null ? -1 : flowDir.getIndex());
+		
 		data.setDouble("conductivity", conductivity);
 		data.setDouble("rotorEfficiency", rotorEfficiency);
 		data.setDouble("powerBonus", powerBonus);
 		data.setString("particleEffect", particleEffect);
 		data.setDouble("particleSpeedMult", particleSpeedMult);
 		data.setFloat("angVel", angVel);
-		data.setInteger("flowDir", flowDir == null ? -1 : flowDir.getIndex());
+		data.setFloat("rotorAngle", rotorAngle);
+		
+		NBTHelper.writeBlockPosArray(data, bladePosArray, "bladePosArray");
+		NBTHelper.writeVector3fArray(data, renderPosArray, "renderPosArray");
+		NBTHelper.writeFloatArray(data, bladeAngleArray, "bladeAngleArray");
+		
 		data.setInteger("shaftWidth", shaftWidth);
 		data.setInteger("shaftVolume", inertia);
 		data.setInteger("bladeLength", bladeLength);
@@ -338,6 +356,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		data.setInteger("dynamoCoilCountOpposite", dynamoCoilCountOpposite);
 		data.setDouble("totalExpansionLevel", totalExpansionLevel);
 		data.setDouble("idealTotalExpansionLevel", idealTotalExpansionLevel);
+		data.setDouble("spinUpMultiplier", spinUpMultiplier);
 		data.setDouble("basePowerPerMB", basePowerPerMB);
 		data.setDouble("recipeInputRateFP", recipeInputRateFP);
 		data.setDouble("minBladeExpansionCoefficient", minBladeExpansionCoefficient);
@@ -346,15 +365,9 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		data.setDouble("maxStatorExpansionCoefficient", maxStatorExpansionCoefficient);
 		data.setInteger("effectiveMaxLength", effectiveMaxLength);
 		data.setDouble("bearingTension", bearingTension);
-		data.setInteger("expansionLevelsSize", expansionLevels.size());
-		for (int i = 0; i < expansionLevels.size(); i++) {
-			data.setDouble("expansionLevels" + i, expansionLevels.get(i));
-		}
-		data.setInteger("rawBladeEfficienciesSize", rawBladeEfficiencies.size());
-		for (int i = 0; i < rawBladeEfficiencies.size(); i++) {
-			data.setDouble("rawBladeEfficiencies" + i, rawBladeEfficiencies.get(i));
-		}
-		data.setBoolean("isProcessing", isProcessing);
+		
+		NBTHelper.writeDoubleCollection(data, expansionLevels, "expansionLevels");
+		NBTHelper.writeDoubleCollection(data, rawBladeEfficiencies, "rawBladeEfficiencies");
 		
 		writeLogicNBT(data, syncReason);
 	}
@@ -365,17 +378,26 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		readTanks(tanks, data, "turbineTanks");
 		isTurbineOn = data.getBoolean("isTurbineOn");
 		computerActivated = data.getBoolean("computerActivated");
+		isProcessing = data.getBoolean("isProcessing");
 		power = data.getDouble("power");
 		rawPower = data.getDouble("rawPower");
 		rawLimitPower = data.getDouble("rawLimitPower");
 		rawMaxPower = data.getDouble("rawMaxPower");
+		
+		flowDir = data.getInteger("flowDir") < 0 ? null : EnumFacing.VALUES[data.getInteger("flowDir")];
+		
 		conductivity = data.getDouble("conductivity");
 		rotorEfficiency = data.getDouble("rotorEfficiency");
 		powerBonus = data.getDouble("powerBonus");
 		particleEffect = data.getString("particleEffect");
 		particleSpeedMult = data.getDouble("particleSpeedMult");
 		angVel = data.getFloat("angVel");
-		flowDir = data.getInteger("flowDir") < 0 ? null : EnumFacing.VALUES[data.getInteger("flowDir")];
+		rotorAngle = data.getFloat("rotorAngle");
+		
+		bladePosArray = NBTHelper.readBlockPosArray(data, "bladePosArray");
+		renderPosArray = NBTHelper.readVector3fArray(data, "renderPosArray");
+		bladeAngleArray = NBTHelper.readFloatArray(data, "bladeAngleArray");
+		
 		shaftWidth = data.getInteger("shaftWidth");
 		inertia = data.getInteger("shaftVolume");
 		bladeLength = data.getInteger("bladeLength");
@@ -385,6 +407,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		dynamoCoilCountOpposite = data.getInteger("dynamoCoilCountOpposite");
 		totalExpansionLevel = data.getDouble("totalExpansionLevel");
 		idealTotalExpansionLevel = data.getDouble("idealTotalExpansionLevel");
+		spinUpMultiplier = data.getDouble("spinUpMultiplier");
 		basePowerPerMB = data.getDouble("basePowerPerMB");
 		recipeInputRateFP = data.getDouble("recipeInputRateFP");
 		minBladeExpansionCoefficient = data.getDouble("minBladeExpansionCoefficient");
@@ -393,19 +416,11 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		maxStatorExpansionCoefficient = data.getDouble("maxStatorExpansionCoefficient");
 		effectiveMaxLength = data.getInteger("effectiveMaxLength");
 		bearingTension = data.getDouble("bearingTension");
-		expansionLevels = new DoubleArrayList();
-		if (data.hasKey("expansionLevelsSize")) {
-			for (int i = 0; i < data.getInteger("expansionLevelsSize"); i++) {
-				expansionLevels.add(data.getDouble("expansionLevels" + i));
-			}
-		}
-		rawBladeEfficiencies = new DoubleArrayList();
-		if (data.hasKey("rawBladeEfficienciesSize")) {
-			for (int i = 0; i < data.getInteger("rawBladeEfficienciesSize"); i++) {
-				rawBladeEfficiencies.add(data.getDouble("rawBladeEfficiencies" + i));
-			}
-		}
-		isProcessing = data.getBoolean("isProcessing");
+		
+		NBTHelper.readDoubleCollection(data, expansionLevels, "expansionLevels");
+		NBTHelper.readDoubleCollection(data, rawBladeEfficiencies, "rawBladeEfficiencies");
+		
+		nbtUpdateRenderDataFlag = true;
 		
 		readLogicNBT(data, syncReason);
 	}
@@ -430,12 +445,26 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		logic.onRenderPacket(message);
 	}
 	
-	public TurbineFormPacket getFormPacket() {
-		return logic.getFormPacket();
+	public void sendIndividualRender(EntityPlayer player) {
+		if (WORLD.isRemote) {
+			return;
+		}
+		TurbineRenderPacket packet = getRenderPacket();
+		if (packet == null) {
+			return;
+		}
+		PacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
 	}
 	
-	public void onFormPacket(TurbineFormPacket message) {
-		logic.onFormPacket(message);
+	public void sendRenderToAllPlayers() {
+		if (WORLD.isRemote) {
+			return;
+		}
+		TurbineRenderPacket packet = getRenderPacket();
+		if (packet == null) {
+			return;
+		}
+		PacketHandler.instance.sendToAll(packet);
 	}
 	
 	@Override

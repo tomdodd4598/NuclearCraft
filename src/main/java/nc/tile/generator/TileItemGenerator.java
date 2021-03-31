@@ -375,12 +375,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
-		NBTHelper.saveAllItems(nbt, getInventoryStacks(), consumedStacks);
+		NBTHelper.writeAllItems(nbt, getInventoryStacks(), consumedStacks);
 		return nbt;
 	}
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
-		NBTHelper.loadAllItems(nbt, getInventoryStacks(), consumedStacks);
+		NBTHelper.readAllItems(nbt, getInventoryStacks(), consumedStacks);
 	}
 }

@@ -9,8 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class PlayerRadsUpdatePacket implements IMessage {
 	
-	boolean messageValid;
-	
 	protected double totalRads;
 	protected double radiationLevel;
 	protected double internalRadiationResistance, externalRadiationResistance;
@@ -31,7 +29,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected boolean giveGuidebook;
 	
 	public PlayerRadsUpdatePacket() {
-		messageValid = false;
+		
 	}
 	
 	public PlayerRadsUpdatePacket(IEntityRads playerRads) {
@@ -55,47 +53,34 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		radiationImmunityStage = playerRads.getRadiationImmunityStage();
 		shouldWarn = playerRads.getShouldWarn();
 		giveGuidebook = playerRads.getGiveGuidebook();
-		
-		messageValid = true;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		try {
-			totalRads = buf.readDouble();
-			radiationLevel = buf.readDouble();
-			internalRadiationResistance = buf.readDouble();
-			externalRadiationResistance = buf.readDouble();
-			radXUsed = buf.readBoolean();
-			radXWoreOff = buf.readBoolean();
-			radawayBuffer = buf.readDouble();
-			radawayBufferSlow = buf.readDouble();
-			poisonBuffer = buf.readDouble();
-			consumed = buf.readBoolean();
-			radawayCooldown = buf.readDouble();
-			recentRadawayAddition = buf.readDouble();
-			radXCooldown = buf.readDouble();
-			recentRadXAddition = buf.readDouble();
-			messageCooldownTime = buf.readInt();
-			recentPoisonAddition = buf.readDouble();
-			radiationImmunityTime = buf.readDouble();
-			radiationImmunityStage = buf.readBoolean();
-			shouldWarn = buf.readBoolean();
-			giveGuidebook = buf.readBoolean();
-		}
-		catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-			return;
-		}
-		messageValid = true;
+		totalRads = buf.readDouble();
+		radiationLevel = buf.readDouble();
+		internalRadiationResistance = buf.readDouble();
+		externalRadiationResistance = buf.readDouble();
+		radXUsed = buf.readBoolean();
+		radXWoreOff = buf.readBoolean();
+		radawayBuffer = buf.readDouble();
+		radawayBufferSlow = buf.readDouble();
+		poisonBuffer = buf.readDouble();
+		consumed = buf.readBoolean();
+		radawayCooldown = buf.readDouble();
+		recentRadawayAddition = buf.readDouble();
+		radXCooldown = buf.readDouble();
+		recentRadXAddition = buf.readDouble();
+		messageCooldownTime = buf.readInt();
+		recentPoisonAddition = buf.readDouble();
+		radiationImmunityTime = buf.readDouble();
+		radiationImmunityStage = buf.readBoolean();
+		shouldWarn = buf.readBoolean();
+		giveGuidebook = buf.readBoolean();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) {
-			return;
-		}
-		
 		buf.writeDouble(totalRads);
 		buf.writeDouble(radiationLevel);
 		buf.writeDouble(internalRadiationResistance);
@@ -122,10 +107,9 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(PlayerRadsUpdatePacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.CLIENT) {
-				return null;
+			if (ctx.side == Side.CLIENT) {
+				Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			}
-			Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			return null;
 		}
 		

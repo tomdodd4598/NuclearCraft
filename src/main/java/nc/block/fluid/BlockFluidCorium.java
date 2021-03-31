@@ -4,7 +4,9 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.ints.*;
 import nc.capability.radiation.source.IRadiationSource;
+import nc.config.NCConfig;
 import nc.fluid.FluidCorium;
 import nc.init.NCBlocks;
 import nc.radiation.*;
@@ -17,6 +19,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 public class BlockFluidCorium extends BlockFluidFission {
+	
+	protected static IntSet solidification_dim_set;
 	
 	public BlockFluidCorium(FluidCorium fluid) {
 		super(fluid);
@@ -40,7 +44,11 @@ public class BlockFluidCorium extends BlockFluidFission {
 		
 		super.updateTick(world, pos, state, rand);
 		
-		if (state.getValue(LEVEL) == 0) {
+		if (solidification_dim_set == null) {
+			solidification_dim_set = new IntOpenHashSet(NCConfig.corium_solidification);
+		}
+		
+		if (state.getValue(LEVEL) == 0 && solidification_dim_set.contains(world.provider.getDimension()) != NCConfig.corium_solidification_list_type) {
 			int count = 0;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				if (isSourceBlock(world, pos.offset(side))) {
@@ -51,7 +59,7 @@ public class BlockFluidCorium extends BlockFluidFission {
 				}
 			}
 			
-			if (rand.nextInt(2 * (1 + count)) == 0) {
+			if (rand.nextInt(2 + 4 * count) == 0) {
 				world.setBlockState(pos, NCBlocks.solidified_corium.getDefaultState());
 			}
 		}

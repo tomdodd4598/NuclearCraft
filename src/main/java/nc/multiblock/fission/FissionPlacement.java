@@ -180,11 +180,20 @@ public abstract class FissionPlacement {
 					if (split[i].contains("wall") || split[i].contains("casing")) {
 						rule = "casing";
 					}
+					else if (split[i].contains("conductor")) {
+						rule = "conductor";
+					}
 					else if (split[i].contains("moderator")) {
 						rule = "moderator";
 					}
 					else if (split[i].contains("reflector")) {
 						rule = "reflector";
+					}
+					else if (split[i].contains("irradiator")) {
+						rule = "irradiator";
+					}
+					else if (split[i].contains("shield")) {
+						rule = "shield";
 					}
 					else if (split[i].contains("cell")) {
 						rule = "cell";
@@ -218,11 +227,20 @@ public abstract class FissionPlacement {
 			if (rule.equals("casing")) {
 				return new AdjacentCasing(amount, countType, adjType);
 			}
+			else if (rule.equals("conductor")) {
+				return new AdjacentConductor(amount, countType, adjType);
+			}
 			else if (rule.equals("moderator")) {
 				return new AdjacentModerator(amount, countType, adjType);
 			}
 			else if (rule.equals("reflector")) {
 				return new AdjacentReflector(amount, countType, adjType);
+			}
+			else if (rule.equals("irradiator")) {
+				return new AdjacentIrradiator(amount, countType, adjType);
+			}
+			else if (rule.equals("shield")) {
+				return new AdjacentShield(amount, countType, adjType);
 			}
 			else if (rule.equals("cell")) {
 				return new AdjacentCell(amount, countType, adjType);
@@ -262,6 +280,18 @@ public abstract class FissionPlacement {
 		}
 	}
 	
+	public static class AdjacentConductor extends Adjacent {
+		
+		public AdjacentConductor(int amount, CountType countType, AdjacencyType adjType) {
+			super("conductor", amount, countType, adjType);
+		}
+		
+		@Override
+		public boolean satisfied(IFissionPart part, EnumFacing dir) {
+			return isConductor(part.getMultiblock(), part.getTilePos().offset(dir));
+		}
+	}
+	
 	public static class AdjacentModerator extends Adjacent {
 		
 		public AdjacentModerator(int amount, CountType countType, AdjacencyType adjType) {
@@ -283,6 +313,30 @@ public abstract class FissionPlacement {
 		@Override
 		public boolean satisfied(IFissionPart part, EnumFacing dir) {
 			return isActiveReflector(part.getMultiblock(), part.getTilePos().offset(dir));
+		}
+	}
+	
+	public static class AdjacentIrradiator extends Adjacent {
+		
+		public AdjacentIrradiator(int amount, CountType countType, AdjacencyType adjType) {
+			super("irradiator", amount, countType, adjType);
+		}
+		
+		@Override
+		public boolean satisfied(IFissionPart part, EnumFacing dir) {
+			return isFunctionalIrradiator(part.getMultiblock(), part.getTilePos().offset(dir));
+		}
+	}
+	
+	public static class AdjacentShield extends Adjacent {
+		
+		public AdjacentShield(int amount, CountType countType, AdjacencyType adjType) {
+			super("shield", amount, countType, adjType);
+		}
+		
+		@Override
+		public boolean satisfied(IFissionPart part, EnumFacing dir) {
+			return isFunctionalShield(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
 	
@@ -363,6 +417,10 @@ public abstract class FissionPlacement {
 		return tile instanceof TileFissionPart && ((TileFissionPart) tile).getPartPositionType().isGoodForWall();
 	}
 	
+	public static boolean isConductor(FissionReactor reactor, BlockPos pos) {
+		return reactor.getPartMap(TileFissionConductor.class).get(pos.toLong()) != null;
+	}
+	
 	public static boolean isActiveModerator(FissionReactor reactor, BlockPos pos) {
 		IFissionComponent component = reactor.getPartMap(IFissionComponent.class).get(pos.toLong());
 		return (component != null && component.isActiveModerator()) || (reactor.activeModeratorCache.contains(pos.toLong()) && RecipeHelper.blockRecipe(NCRecipes.fission_moderator, reactor.WORLD, pos) != null);
@@ -372,24 +430,34 @@ public abstract class FissionPlacement {
 		return reactor.activeReflectorCache.contains(pos.toLong()) && RecipeHelper.blockRecipe(NCRecipes.fission_reflector, reactor.WORLD, pos) != null;
 	}
 	
+	public static boolean isFunctionalIrradiator(FissionReactor reactor, BlockPos pos) {
+		TileFissionIrradiator irradiator = reactor.getPartMap(TileFissionIrradiator.class).get(pos.toLong());
+		return irradiator != null && irradiator.isFunctional();
+	}
+	
+	public static boolean isFunctionalShield(FissionReactor reactor, BlockPos pos) {
+		TileFissionShield shield = reactor.getPartMap(TileFissionShield.class).get(pos.toLong());
+		return shield != null && shield.isFunctional();
+	}
+	
 	public static boolean isFunctionalCell(FissionReactor reactor, BlockPos pos) {
 		TileSolidFissionCell cell = reactor.getPartMap(TileSolidFissionCell.class).get(pos.toLong());
-		return cell == null ? false : cell.isFunctional();
+		return cell != null && cell.isFunctional();
 	}
 	
 	public static boolean isValidSink(FissionReactor reactor, BlockPos pos, String sinkType) {
 		TileSolidFissionSink sink = reactor.getPartMap(TileSolidFissionSink.class).get(pos.toLong());
-		return sink == null ? false : sink.isFunctional() && (sinkType.equals("any") || sink.sinkType.equals(sinkType));
+		return sink != null && sink.isFunctional() && (sinkType.equals("any") || sink.sinkType.equals(sinkType));
 	}
 	
 	public static boolean isFunctionalVessel(FissionReactor reactor, BlockPos pos) {
 		TileSaltFissionVessel vessel = reactor.getPartMap(TileSaltFissionVessel.class).get(pos.toLong());
-		return vessel == null ? false : vessel.isFunctional();
+		return vessel != null && vessel.isFunctional();
 	}
 	
 	public static boolean isValidHeater(FissionReactor reactor, BlockPos pos, String heaterType) {
 		TileSaltFissionHeater heater = reactor.getPartMap(TileSaltFissionHeater.class).get(pos.toLong());
-		return heater == null ? false : heater.isFunctional() && (heaterType.equals("any") || heater.heaterType.equals(heaterType));
+		return heater != null && heater.isFunctional() && (heaterType.equals("any") || heater.heaterType.equals(heaterType));
 	}
 	
 	// Default Tooltip Builder

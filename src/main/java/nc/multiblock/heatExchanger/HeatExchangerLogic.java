@@ -9,8 +9,8 @@ import com.google.common.collect.Lists;
 import nc.Global;
 import nc.multiblock.*;
 import nc.multiblock.heatExchanger.tile.*;
-import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.network.multiblock.HeatExchangerUpdatePacket;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart, HeatExchangerUpdatePacket> {

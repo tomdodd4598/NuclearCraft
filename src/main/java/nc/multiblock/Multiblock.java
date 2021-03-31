@@ -6,9 +6,9 @@ import java.util.Map.Entry;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.*;
 import nc.network.PacketHandler;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -37,8 +37,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	// Multiblock stuff - do not mess with
 	public final World WORLD;
 	
-	// Disassembled -> Assembled; Assembled -> Disassembled OR Paused; Paused ->
-	// Assembled
+	// Disassembled -> Assembled; Assembled -> Disassembled OR Paused; Paused -> Assembled
 	public enum AssemblyState {
 		Disassembled,
 		Assembled,
@@ -66,7 +65,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	/** Set whenever we validate the multiblock */
 	private MultiblockValidationError lastValidationError;
 	
-	protected boolean debugMode;
+	private boolean debugMode;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -1029,7 +1028,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * On the server, this will mark the for a data-update, so that nearby clients will receive an updated description packet from the server after a short time. The block's chunk will also be marked dirty and the block's chunk will be saved to disk the next time chunks are saved.
 	 * 
 	 * On the client, this will mark the block for a rendering update. */
-	protected void markReferenceCoordForUpdate() {
+	public void markReferenceCoordForUpdate() {
 		
 		BlockPos rc = this.getReferenceCoord();
 		
@@ -1046,7 +1045,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * On the client, does nothing.
 	 * 
 	 * @see Multiblock#markReferenceCoordForUpdate() */
-	protected void markReferenceCoordDirty() {
+	public void markReferenceCoordDirty() {
 		if (WORLD == null || WORLD.isRemote) {
 			return;
 		}
@@ -1086,7 +1085,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			return;
 		}
 		for (EntityPlayer player : playersToUpdate) {
-			PacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+			PacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
 		}
 	}
 	
@@ -1098,15 +1097,18 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		if (packet == null) {
 			return;
 		}
-		PacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+		PacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
 	}
 	
 	public void sendUpdateToAllPlayers() {
+		if (WORLD.isRemote) {
+			return;
+		}
 		PACKET packet = getUpdatePacket();
 		if (packet == null) {
 			return;
 		}
-		PacketHandler.instance.sendToAll(getUpdatePacket());
+		PacketHandler.instance.sendToAll(packet);
 	}
 	
 	// Multiblock Parts

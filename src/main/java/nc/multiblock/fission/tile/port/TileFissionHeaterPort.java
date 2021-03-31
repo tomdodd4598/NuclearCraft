@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
-import nc.multiblock.network.FissionHeaterPortUpdatePacket;
+import nc.network.multiblock.FissionHeaterPortUpdatePacket;
 import nc.recipe.NCRecipes;
 import nc.tile.ITileGui;
 import net.minecraft.block.state.IBlockState;

@@ -9,59 +9,36 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockHighlightUpdatePacket implements IMessage {
 	
-	protected boolean messageValid;
-	
 	protected long posLong, highlightTimeMillis;
 	
 	public BlockHighlightUpdatePacket() {
-		messageValid = false;
+		
 	}
 	
 	public BlockHighlightUpdatePacket(BlockPos pos, long highlightTimeMillis) {
 		posLong = pos.toLong();
 		this.highlightTimeMillis = highlightTimeMillis;
-		
-		messageValid = true;
-	}
-	
-	public void readMessage(ByteBuf buf) {
-		posLong = buf.readLong();
-		highlightTimeMillis = buf.readLong();
-	}
-	
-	public void writeMessage(ByteBuf buf) {
-		buf.writeLong(posLong);
-		buf.writeLong(highlightTimeMillis);
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		try {
-			readMessage(buf);
-		}
-		catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-			return;
-		}
-		messageValid = true;
+		posLong = buf.readLong();
+		highlightTimeMillis = buf.readLong();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		if (!messageValid) {
-			return;
-		}
-		writeMessage(buf);
+		buf.writeLong(posLong);
+		buf.writeLong(highlightTimeMillis);
 	}
 	
 	public static class Handler implements IMessageHandler<BlockHighlightUpdatePacket, IMessage> {
 		
 		@Override
 		public IMessage onMessage(BlockHighlightUpdatePacket message, MessageContext ctx) {
-			if (!message.messageValid && ctx.side != Side.CLIENT) {
-				return null;
+			if (ctx.side == Side.CLIENT) {
+				Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			}
-			Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			return null;
 		}
 		

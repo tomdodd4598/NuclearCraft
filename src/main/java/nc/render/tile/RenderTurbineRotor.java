@@ -4,12 +4,10 @@ import static nc.config.NCConfig.*;
 
 import javax.vecmath.Vector3f;
 
-import nc.multiblock.network.TurbineResendFormPacket;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.Turbine.PlaneDir;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
 import nc.multiblock.turbine.tile.TileTurbineController;
-import nc.network.PacketHandler;
 import nc.util.NCMath;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -28,6 +26,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 	
 	private final float[] brightness = new float[] {1F, 1F, 1F, 1F, 1F, 1F, 1F, 1F};
 	private byte count = 0;
+	private long prevRenderTime = 0L;
 	
 	@Override
 	public boolean isGlobalRenderer(TileTurbineController tile) {
@@ -36,29 +35,25 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 	
 	@Override
 	public void render(TileTurbineController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
-		if (!controller.isRenderer() || !controller.isMultiblockAssembled())
+		if (!controller.isRenderer() || !controller.isMultiblockAssembled()) {
 			return;
+		}
 		
 		Turbine turbine = controller.getMultiblock();
-		if (turbine == null)
+		if (turbine == null || turbine.nbtUpdateRenderDataFlag) {
 			return;
+		}
 		
 		int flowLength = turbine.getFlowLength(), bladeLength = turbine.bladeLength, shaftWidth = turbine.shaftWidth;
-		if (turbine.renderPosArray == null || turbine.bladeAngleArray == null || turbine.rotorStateArray == null || turbine.bladeDepths == null || turbine.statorDepths == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
-			resendForm(controller);
+		if (flowLength < 1 || turbine.renderPosArray == null || turbine.bladeAngleArray == null || turbine.rotorStateArray == null || turbine.rotorStateArray.length < 1 + 4 * flowLength) {
 			return;
 		}
 		
 		IBlockState shaftState = turbine.rotorStateArray[4 * flowLength];
-		
-		if (shaftState == null) {
-			resendForm(controller);
+		EnumFacing dir = turbine.flowDir;
+		if (shaftState == null || dir == null) {
 			return;
 		}
-		
-		EnumFacing dir = turbine.flowDir;
-		if (dir == null)
-			return;
 		
 		BlockRendererDispatcher renderer = MC.getBlockRendererDispatcher();
 		
@@ -83,9 +78,10 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
 		{
 			long systemTime = Minecraft.getSystemTime();
-			if (!MC.isGamePaused())
-				turbine.rotorAngle = (turbine.rotorAngle + (systemTime - turbine.prevRenderTime) * turbine.angVel) % 360F;
-			turbine.prevRenderTime = systemTime;
+			if (!MC.isGamePaused()) {
+				turbine.rotorAngle = (turbine.rotorAngle + (systemTime - prevRenderTime) * turbine.angVel) % 360F;
+			}
+			prevRenderTime = systemTime;
 			GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		}
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
@@ -171,9 +167,5 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			
 			GlStateManager.popMatrix();
 		}
-	}
-	
-	public void resendForm(TileTurbineController controller) {
-		PacketHandler.instance.sendToServer(new TurbineResendFormPacket(controller.getPos()));
 	}
 }

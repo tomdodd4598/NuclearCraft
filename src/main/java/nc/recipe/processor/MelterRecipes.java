@@ -158,7 +158,7 @@ public class MelterRecipes extends BasicRecipeHandler {
 		addFissionMeltingRecipes();
 		
 		addIngotMeltingRecipes("Strontium90", "strontium_90");
-		addIngotMeltingRecipes("Molybdenum", "molybdenum");
+		//addIngotMeltingRecipes("Molybdenum", "molybdenum");
 		addIngotMeltingRecipes("Ruthenium106", "ruthenium_106");
 		addIngotMeltingRecipes("Caesium137", "caesium_137");
 		addIngotMeltingRecipes("Promethium147", "promethium_147");
