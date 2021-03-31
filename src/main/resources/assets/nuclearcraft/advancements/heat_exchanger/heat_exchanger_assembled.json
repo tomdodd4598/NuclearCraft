@@ -1,0 +1,20 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:heat_exchanger_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.heat_exchanger_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.heat_exchanger_assembled.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:heat_exchanger/heat_exchanger_controller",
+	"criteria": {
+		"heat_exchanger_assembled": {
+			"trigger": "nuclearcraft:heat_exchanger_assembled"
+		}
+	}
+}

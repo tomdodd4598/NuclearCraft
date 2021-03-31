@@ -1,0 +1,20 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:condenser_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.condenser_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.condenser_assembled.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:heat_exchanger/condenser_controller",
+	"criteria": {
+		"condenser_assembled": {
+			"trigger": "nuclearcraft:condenser_assembled"
+		}
+	}
+}

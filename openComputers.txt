@@ -6,26 +6,53 @@
 
 boolean isComplete()
 boolean isReactorOn()
+
 int getLengthX()
 int getLengthY()
 int getLengthZ()
+
 long getHeatStored()
 long getHeatCapacity()
+
 double getCoolingRate()
 double getRawHeatingRate()
 double getNetHeatingRate()
 double getRawEfficiency()
 double getHeatMultiplier()
 double getCoolingEfficiency()
+
+int getNumberOfCells()
 int getNumberOfVessels()
 int getNumberOfHeaters()
-int getNumberOfModerators()
-Object[] getVesselStats() -> {{{posX, posY, posZ}, isProcessing, currentRecipeTime, processTime, processHeat, efficiency, heatMultiplier},...}
-Object[] getHeaterStats() -> {{{posX, posY, posZ}, coolantName, isProcessing, currentRecipeTime, processTime, processCooling},...}
-Object[] getModeratorStats() -> {{{posX, posY, posZ}, isInValidPosition, isInModerationLine},...}
+int getNumberOfShields()
+
+int getNumberOfClusters()
+
+Table[] getCellStats() ->
+{
+	{
+		"fuel": {stackSize, itemID},
+		"effective_heating": effectiveHeating,
+		"heat_multiplier": heatMultiplier,
+		"is_processing": isProcessing,
+		"time": time,
+		"base_process_time": baseProcessTime,
+		"cluster_heat_capacity": clusterHeatCapacity,
+		"cluster_heat_stored": clusterHeatStored,
+		"cluster_cooling": clusterCooling,
+		"base_process_criticality": baseProcessCriticality,
+		"base_process_efficiency": baseProcessEfficiency,
+		"is_primed": isPrimed,
+		"efficiency": efficiency
+	},
+	...
+}
+
+Table[] getClusterComponents(int clusterID)
 
 void activate()
 void deactivate()
+
 void clearAllMaterial()
 
 ---------------------------------------------------------------------------------------------------------------------------
@@ -35,18 +62,19 @@ void clearAllMaterial()
 
 boolean isComplete()
 boolean isHeatExchangerOn()
+
 int getLengthX()
 int getLengthY()
 int getLengthZ()
+
 double getFractionOfTubesActive()
 double getMeanEfficiency()
 int getNumberOfExchangerTubes()
 int getNumberOfCondensationTubes()
-Object[] getExchangerTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, inputTemperature, outputTemperature, flowDirection},...}
-Object[] getCondensationTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, condensingTemperature, {adjacentTemperatures}},...}
 
 void activate()
 void deactivate()
+
 void clearAllMaterial()
 
 ---------------------------------------------------------------------------------------------------------------------------
@@ -56,9 +84,11 @@ void clearAllMaterial()
 
 boolean isComplete()
 boolean isTurbineOn()
+
 int getLengthX()
 int getLengthY()
 int getLengthZ()
+
 boolean isProcessing()
 int getEnergyStored()
 int getEnergyCapacity()
@@ -71,11 +101,12 @@ double[] getExpansionLevels()
 double[] getIdealExpansionLevels()
 double[] getBladeEfficiencies()
 int getInputRate()
+
 int getNumberOfDynamoCoils()
-Object[] getDynamoPartStats() -> {{{posX, posY, posZ}, partName, isInValidPosition},...}
 
 void activate()
 void deactivate()
+
 void clearAllMaterial()
 
 ---------------------------------------------------------------------------------------------------------------------------

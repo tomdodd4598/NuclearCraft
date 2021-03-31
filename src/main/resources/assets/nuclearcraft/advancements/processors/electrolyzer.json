@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.electrolyzer.desc"
 		}
 	},
-	"parent": "nuclearcraft:root",
+	"parent": "nuclearcraft:processors/alloy_furnace",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

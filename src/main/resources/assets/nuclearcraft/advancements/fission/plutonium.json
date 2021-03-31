@@ -11,7 +11,7 @@
 			"translate": "advancement.nuclearcraft.plutonium.desc"
 		}
 	},
-	"parent": "nuclearcraft:fission/solid/solid_fission_controller",
+	"parent": "nuclearcraft:fission/solid_fission_reactor_assembled",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

@@ -50,12 +50,14 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	protected final int itemInputSize = 1, itemOutputSize = 1, otherSlotsSize = 0;
 	
-	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
+	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessDecayFactor = 0D, baseProcessRadiation = 0D;
 	public int baseProcessHeat = 0, baseProcessCriticality = 1;
 	protected boolean selfPriming = false;
 	
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
+	
+	public double decayFraction = 0D, poisonFraction = 0D;
 	
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
@@ -451,6 +453,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			baseProcessHeat = 0;
 			baseProcessEfficiency = 0D;
 			baseProcessCriticality = 1;
+			baseProcessDecayFactor = 0D;
 			selfPriming = false;
 			baseProcessRadiation = 0D;
 			return false;
@@ -459,6 +462,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		baseProcessHeat = recipeInfo.getRecipe().getFissionFuelHeat();
 		baseProcessEfficiency = recipeInfo.getRecipe().getFissionFuelEfficiency();
 		baseProcessCriticality = recipeInfo.getRecipe().getFissionFuelCriticality();
+		baseProcessDecayFactor = recipeInfo.getRecipe().getFissionFuelDecayFactor();
 		selfPriming = recipeInfo.getRecipe().getFissionFuelSelfPriming();
 		baseProcessRadiation = recipeInfo.getRecipe().getFissionFuelRadiation();
 		return true;
@@ -831,6 +835,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		nbt.setInteger("baseProcessHeat", baseProcessHeat);
 		nbt.setDouble("baseProcessEfficiency", baseProcessEfficiency);
 		nbt.setInteger("baseProcessCriticality", baseProcessCriticality);
+		nbt.setDouble("baseProcessDecayFactor", baseProcessDecayFactor);
 		nbt.setBoolean("selfPriming", selfPriming);
 		
 		nbt.setDouble("time", time);
@@ -854,6 +859,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		baseProcessHeat = nbt.getInteger("baseProcessHeat");
 		baseProcessEfficiency = nbt.getDouble("baseProcessEfficiency");
 		baseProcessCriticality = nbt.getInteger("baseProcessCriticality");
+		baseProcessDecayFactor = nbt.getDouble("baseProcessDecayFactor");
 		selfPriming = nbt.getBoolean("selfPriming");
 		
 		time = nbt.getDouble("time");

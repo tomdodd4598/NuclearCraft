@@ -1,0 +1,20 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:turbine_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.turbine_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.turbine_assembled.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:turbine/turbine_controller",
+	"criteria": {
+		"turbine_assembled": {
+			"trigger": "nuclearcraft:turbine_assembled"
+		}
+	}
+}

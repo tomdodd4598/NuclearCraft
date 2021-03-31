@@ -1,0 +1,20 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:salt_fission_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.salt_fission_reactor_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.salt_fission_reactor_assembled.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:fission/salt_fission_controller",
+	"criteria": {
+		"salt_fission_reactor_assembled": {
+			"trigger": "nuclearcraft:salt_fission_reactor_assembled"
+		}
+	}
+}

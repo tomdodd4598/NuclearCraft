@@ -41,7 +41,7 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 				if (reactor != null) {
 					ItemStack heldStack = player.getHeldItem(hand);
 					if (irradiator.canModifyFilter(0) && irradiator.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(irradiator.getFilterStacks().get(0)) && irradiator.isItemValidForSlotInternal(0, heldStack)) {
-						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(heldStack.getTranslationKey() + ".name")));
+						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + heldStack.getDisplayName()));
 						ItemStack filter = heldStack.copy();
 						filter.setCount(1);
 						irradiator.getFilterStacks().set(0, filter);

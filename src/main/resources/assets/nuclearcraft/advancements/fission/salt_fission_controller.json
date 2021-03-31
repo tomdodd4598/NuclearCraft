@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.salt_fission_controller.desc"
 		}
 	},
-	"parent": "nuclearcraft:processors/salt_mixer",
+	"parent": "nuclearcraft:fission/solid_fission_reactor_assembled",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

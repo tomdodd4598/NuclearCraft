@@ -479,9 +479,10 @@ public class CraftingRecipeHandler {
 			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 1), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 0), "dustEnergetic"});
 			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 0), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_swap, 1, 1)});
 			
-			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_connector, 8), new Object[] {"ESE", "SPS", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL});
+			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_connector, 8), new Object[] {"ESE", "S S", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel"});
 			
 			addShapedOreRecipe(new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 0), new Object[] {"ESE", "PBP", "ESE", 'E', "ingotExtreme", 'S', "ingotSteel", 'P', Items.ENDER_PEARL, 'B', Items.WRITABLE_BOOK});
+			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 0), new Object[] {new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 1)});
 			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 1), new Object[] {new ItemStack(NCBlocks.quantum_computer_code_generator, 1, 0)});
 		}
 	}
@@ -598,7 +599,7 @@ public class CraftingRecipeHandler {
 		}
 		ItemStack outStack = StackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
-			String outName = outStack.getTranslationKey();
+			String outName = StackHelper.stackName(outStack);
 			if (RECIPE_COUNT_MAP.containsKey(outName)) {
 				int count = RECIPE_COUNT_MAP.getInt(outName);
 				RECIPE_COUNT_MAP.put(outName, count + 1);

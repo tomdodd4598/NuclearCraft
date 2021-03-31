@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.*;
 
 public class StackHelper {
@@ -71,7 +72,8 @@ public class StackHelper {
 	}
 	
 	public static String stackName(ItemStack stack) {
-		return stack.getItem().getTranslationKey() + ":" + getMetadata(stack);
+		ResourceLocation resourcelocation = Item.REGISTRY.getNameForObject(stack.getItem());
+		return resourcelocation == null ? "null" : resourcelocation.toString() + ":" + getMetadata(stack);
 	}
 	
 	public static String stackListNames(List<ItemStack> list) {

@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.salt_mixer.desc"
 		}
 	},
-	"parent": "nuclearcraft:processors/rock_crusher",
+	"parent": "nuclearcraft:processors/alloy_furnace",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

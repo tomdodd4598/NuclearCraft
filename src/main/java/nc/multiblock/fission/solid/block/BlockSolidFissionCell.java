@@ -42,7 +42,7 @@ public class BlockSolidFissionCell extends BlockFissionPart {
 				if (reactor != null) {
 					ItemStack heldStack = player.getHeldItem(hand);
 					if (cell.canModifyFilter(0) && cell.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(cell.getFilterStacks().get(0)) && cell.isItemValidForSlotInternal(0, heldStack)) {
-						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(heldStack.getTranslationKey() + ".name")));
+						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + heldStack.getDisplayName()));
 						ItemStack filter = heldStack.copy();
 						filter.setCount(1);
 						cell.getFilterStacks().set(0, filter);

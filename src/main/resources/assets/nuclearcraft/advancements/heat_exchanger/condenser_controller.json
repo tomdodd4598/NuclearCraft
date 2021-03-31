@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.condenser_controller.desc"
 		}
 	},
-	"parent": "nuclearcraft:turbine/turbine_controller",
+	"parent": "nuclearcraft:turbine/turbine_assembled",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

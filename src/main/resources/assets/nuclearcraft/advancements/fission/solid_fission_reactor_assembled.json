@@ -1,0 +1,20 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:solid_fission_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.solid_fission_reactor_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.solid_fission_reactor_assembled.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:fission/solid_fission_controller",
+	"criteria": {
+		"solid_fission_reactor_assembled": {
+			"trigger": "nuclearcraft:solid_fission_reactor_assembled"
+		}
+	}
+}

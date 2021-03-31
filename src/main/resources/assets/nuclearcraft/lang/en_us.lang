@@ -3323,20 +3323,35 @@ advancement.nuclearcraft.berkelium.desc=Obtain some Berkelium
 advancement.nuclearcraft.californium.name=California Dreamin'
 advancement.nuclearcraft.californium.desc=Obtain some Californium
 
-advancement.nuclearcraft.solid_fission_controller.name=Splitting the Atom
+advancement.nuclearcraft.solid_fission_controller.name=Splitting the Atom [1/2]
 advancement.nuclearcraft.solid_fission_controller.desc=Craft a Solid Fuel Fission Controller
 
-advancement.nuclearcraft.salt_fission_controller.name=Next Gen Nuclear
+advancement.nuclearcraft.salt_fission_controller.name=Next Gen Nuclear [1/2]
 advancement.nuclearcraft.salt_fission_controller.desc=Craft a Molten Salt Fission Controller
 
-advancement.nuclearcraft.heat_exchanger_controller.name=Thermal Contact
+advancement.nuclearcraft.heat_exchanger_controller.name=Thermal Contact [1/2]
 advancement.nuclearcraft.heat_exchanger_controller.desc=Craft a Heat Exchanger Controller
 
-advancement.nuclearcraft.turbine_controller.name=Respecting Rankine
+advancement.nuclearcraft.turbine_controller.name=Respecting Rankine [1/2]
 advancement.nuclearcraft.turbine_controller.desc=Craft a Turbine Controller
 
-advancement.nuclearcraft.condenser_controller.name=Completing the Circle
+advancement.nuclearcraft.condenser_controller.name=Completing the Circle [1/2]
 advancement.nuclearcraft.condenser_controller.desc=Craft a Condenser Controller
+
+advancement.nuclearcraft.solid_fission_reactor_assembled.name=Splitting the Atom [2/2]
+advancement.nuclearcraft.solid_fission_reactor_assembled.desc=Build a Solid Fuel Fission Reactor
+
+advancement.nuclearcraft.salt_fission_reactor_assembled.name=Next Gen Nuclear [2/2]
+advancement.nuclearcraft.salt_fission_reactor_assembled.desc=Build a Molten Salt Fission Reactor
+
+advancement.nuclearcraft.heat_exchanger_assembled.name=Thermal Contact [2/2]
+advancement.nuclearcraft.heat_exchanger_assembled.desc=Build a Heat Exchanger
+
+advancement.nuclearcraft.turbine_assembled.name=Respecting Rankine [2/2]
+advancement.nuclearcraft.turbine_assembled.desc=Build a Turbine
+
+advancement.nuclearcraft.condenser_assembled.name=Completing the Circle [2/2]
+advancement.nuclearcraft.condenser_assembled.desc=Build a Condenser
 
 advancement.nuclearcraft.geiger_counter.name=Pripyat Preparations
 advancement.nuclearcraft.geiger_counter.desc=Craft a Geiger Counter
@@ -3364,18 +3379,6 @@ advancement.nuclearcraft.moresmore.desc=Make a MoreS'more DoubleS'mingot
 
 advancement.nuclearcraft.foursmore.name=Even S'more Where That Came From
 advancement.nuclearcraft.foursmore.desc=Make a FourS'more QuadS'mingot
-
-advancement.nuclearcraft.fission_reactor_formed.title=That's why we are here
-advancement.nuclearcraft.fission_reactor_formed.description=Build a Fission Reactor
-
-advancement.nuclearcraft.heatexchanger_formed.title=Nothing is left behind
-advancement.nuclearcraft.heatexchanger_formed.description=Build a Heatexchanger
-
-advancement.nuclearcraft.salt_fission_formed.title=Next-gen Fuel
-advancement.nuclearcraft.salt_fission_formed.description=Build a Molten-Salt Fission Reactor
-
-advancement.nuclearcraft.turbine_formed.title=Power of Steam
-advancement.nuclearcraft.turbine_formed.description=Build a Turbine
 
 block.nc.fusion_run=Fusion Reactor Running
 block.nc.turbine_run=Turbine Running

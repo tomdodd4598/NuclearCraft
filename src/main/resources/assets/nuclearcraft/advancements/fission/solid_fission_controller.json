@@ -8,8 +8,7 @@
 		},
 		"description": {
 			"translate": "advancement.nuclearcraft.solid_fission_controller.desc"
-		},
-		"frame": "goal"
+		}
 	},
 	"parent": "nuclearcraft:processors/separator",
 	"criteria": {

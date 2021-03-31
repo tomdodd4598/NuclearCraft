@@ -3,13 +3,14 @@ package nc.multiblock.fission.solid.block;
 import static nc.block.property.BlockProperties.*;
 
 import nc.NuclearCraft;
+import nc.advancement.NCCriterions;
 import nc.block.tile.IActivatable;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -72,6 +73,7 @@ public class BlockSolidFissionController extends BlockFissionPart implements IAc
 			if (tile instanceof TileSolidFissionController) {
 				TileSolidFissionController controller = (TileSolidFissionController) tile;
 				if (controller.isMultiblockAssembled()) {
+					NCCriterions.SOLID_FISSION_ASSEMBLED.trigger((EntityPlayerMP) player);
 					player.openGui(NuclearCraft.instance, 101, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;
 				}

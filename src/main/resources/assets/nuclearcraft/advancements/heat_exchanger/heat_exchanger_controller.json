@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.heat_exchanger_controller.desc"
 		}
 	},
-	"parent": "nuclearcraft:fission/salt/salt_fission_controller",
+	"parent": "nuclearcraft:fission/salt_fission_reactor_assembled",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

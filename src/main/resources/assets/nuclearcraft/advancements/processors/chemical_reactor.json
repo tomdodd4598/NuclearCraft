@@ -8,8 +8,7 @@
 		},
 		"description": {
 			"translate": "advancement.nuclearcraft.chemical_reactor.desc"
-		},
-		"frame": "goal"
+		}
 	},
 	"parent": "nuclearcraft:processors/alloy_furnace",
 	"criteria": {
