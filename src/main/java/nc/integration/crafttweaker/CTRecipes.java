@@ -943,8 +943,8 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, double powerPerMB, double expansionLevel, @Optional(value = "cloud") String particleEffect, @Optional(valueDouble = 1D / 23.2D) double particleSpeedMultiplier) {
-			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.turbine, Lists.newArrayList(input, output, powerPerMB, expansionLevel, particleEffect, particleSpeedMultiplier)));
+		public static void addRecipe(IIngredient input, IIngredient output, double powerPerMB, double expansionLevel, double spinUpMultiplier, @Optional(value = "cloud") String particleEffect, @Optional(valueDouble = 1D / 23.2D) double particleSpeedMultiplier) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.turbine, Lists.newArrayList(input, output, powerPerMB, expansionLevel, spinUpMultiplier, particleEffect, particleSpeedMultiplier)));
 		}
 		
 		@ZenMethod

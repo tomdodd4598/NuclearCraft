@@ -1,6 +1,7 @@
 EITHER fix moderator-based placement rules not recognising decay-heated cells (also test reflector and shield rules)
 OR set decay-heated cell flux to zero and make only cell-based placement rules work?
 Work out mechanic for decay heat not to be heavily suppressed by overcooling
+Amplify increase in criticality factor due to poisoning?
 
 NC & NCO: "base the condition for the advancement on if the processor in the parent advancement is registered and if the processor for the advancement is registered..."
 

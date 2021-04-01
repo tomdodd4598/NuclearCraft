@@ -439,9 +439,9 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		int oldDecayHeating = getDecayHeating();
 		
 		if (isProcessing) {
-			decayHeatFraction = NCMath.clamp(decayHeatFraction + baseProcessDecayFactor / fission_decay_buildup_time, 0, baseProcessDecayFactor);
-			poisonParentFraction = NCMath.clamp(poisonParentFraction + baseProcessDecayFactor / fission_decay_buildup_time, 0, baseProcessDecayFactor);
-			poisonFraction = NCMath.clamp(poisonFraction + baseProcessDecayFactor / fission_decay_buildup_time, 0, baseProcessDecayFactor);
+			decayHeatFraction = NCMath.clamp(decayHeatFraction + baseProcessDecayFactor / fission_decay_build_up_time, 0, baseProcessDecayFactor);
+			poisonParentFraction = NCMath.clamp(poisonParentFraction + baseProcessDecayFactor / fission_decay_build_up_time, 0, baseProcessDecayFactor);
+			poisonFraction = NCMath.clamp(poisonFraction + baseProcessDecayFactor / fission_decay_build_up_time, 0, baseProcessDecayFactor);
 		}
 		else {
 			double decayHeatFractionChange = Math.min(decayHeatFraction, baseProcessDecayFactor / fission_decay_heat_lifetime);
