@@ -655,7 +655,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		if (getMultiblock() != null) {
 			if (canProcessInputs) {
 				if (oldProcessCooling != baseProcessCooling) {
-					getMultiblock().refreshCluster(cluster);
+					getMultiblock().addClusterToRefresh(cluster);
 				}
 			}
 			else {

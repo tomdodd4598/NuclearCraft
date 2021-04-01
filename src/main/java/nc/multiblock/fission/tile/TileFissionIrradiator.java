@@ -398,7 +398,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 		if (getMultiblock() != null) {
 			if (canProcessInputs) {
 				if (oldProcessHeat != baseProcessHeatPerFlux || oldProcessEfficiency != baseProcessEfficiency) {
-					getMultiblock().refreshCluster(cluster);
+					getMultiblock().addClusterToRefresh(cluster);
 				}
 			}
 			else {

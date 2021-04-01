@@ -29,6 +29,8 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	protected final Int2ObjectMap<FissionCluster> clusterMap = new Int2ObjectOpenHashMap<>();
 	public int clusterCount = 0;
 	
+	public final ObjectSet<FissionCluster> clustersToRefresh = new ObjectOpenHashSet<>();
+	
 	public IFissionController controller;
 	
 	public final LongSet passiveModeratorCache = new LongOpenHashSet();
@@ -168,11 +170,14 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	// Cluster Management
 	
 	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
-	public void refreshCluster(FissionCluster cluster) {
+	public void addClusterToRefresh(FissionCluster cluster) {
+		clustersToRefresh.add(cluster);
+	}
+	
+	protected void refreshCluster(FissionCluster cluster) {
 		if (cluster != null && clusterMap.containsKey(cluster.getId())) {
 			logic.refreshClusterStats(cluster);
 		}
-		logic.refreshReactorStats();
 	}
 	
 	protected void sortClusters() {
@@ -217,7 +222,16 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		
 		if (refreshFlag) {
 			logic.refreshReactor();
+			clustersToRefresh.clear();
 		}
+		else if (!clustersToRefresh.isEmpty()) {
+			for (FissionCluster cluster : clustersToRefresh) {
+				refreshCluster(cluster);
+			}
+			logic.refreshReactorStats();
+			clustersToRefresh.clear();
+		}
+		
 		updateActivity();
 		
 		if (logic.onUpdateServer()) {

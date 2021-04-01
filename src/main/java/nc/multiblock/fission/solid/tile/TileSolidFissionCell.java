@@ -57,7 +57,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	public double decayFraction = 0D, poisonFraction = 0D;
+	public double decayProcessHeat = 0D, decayHeatFraction = 0D, poisonParentFraction = 0D, poisonFraction = 0D;
 	
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
@@ -120,12 +120,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
-		return isProcessing;
+		return isProcessing || getDecayHeating() > 0;
 	}
 	
 	@Override
 	public boolean isFunctional() {
-		return isProcessing;
+		return isProcessing || getDecayHeating() > 0;
 	}
 	
 	@Override
@@ -280,12 +280,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public long getRawHeating() {
-		return baseProcessHeat * heatMult;
+		return isProcessing ? baseProcessHeat * heatMult : getDecayHeating();
 	}
 	
 	@Override
 	public double getEffectiveHeating() {
-		return baseProcessHeat * getEfficiency();
+		return isProcessing ? baseProcessHeat * getEfficiency() : getDecayHeating();
 	}
 	
 	@Override
@@ -295,7 +295,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public double getFluxEfficiencyFactor() {
-		return (1D + Math.exp(-2D * baseProcessCriticality)) / (1D + Math.exp(2D * (flux - 2D * baseProcessCriticality)));
+		return (1D + Math.exp(-2D * getFloatingPointCriticality())) / (1D + Math.exp(2D * (flux - 2D * getFloatingPointCriticality())));
 	}
 	
 	@Override
@@ -306,6 +306,16 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	@Override
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor) {
 		this.undercoolingLifetimeFactor = undercoolingLifetimeFactor;
+	}
+	
+	@Override
+	public int getCriticality() {
+		return NCMath.toInt(getFloatingPointCriticality());
+	}
+	
+	@Override
+	public double getFloatingPointCriticality() {
+		return baseProcessCriticality * (1D - baseProcessDecayFactor + poisonFraction);
 	}
 	
 	@Override
@@ -410,6 +420,8 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 				getRadiationSource().setRadiationLevel(0D);
 			}
 			
+			updateDecayFractions();
+			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
 			}
@@ -419,6 +431,47 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 				markDirty();
 			}
 		}
+	}
+	
+	public void updateDecayFractions() {
+		int oldCriticality = getCriticality();
+		boolean oldHasEnoughFlux = hasEnoughFlux();
+		int oldDecayHeating = getDecayHeating();
+		
+		if (isProcessing) {
+			decayHeatFraction = NCMath.clamp(decayHeatFraction + baseProcessDecayFactor / fission_decay_buildup_time, 0, baseProcessDecayFactor);
+			poisonParentFraction = NCMath.clamp(poisonParentFraction + baseProcessDecayFactor / fission_decay_buildup_time, 0, baseProcessDecayFactor);
+			poisonFraction = NCMath.clamp(poisonFraction + baseProcessDecayFactor / fission_decay_buildup_time, 0, baseProcessDecayFactor);
+		}
+		else {
+			double decayHeatFractionChange = Math.min(decayHeatFraction, baseProcessDecayFactor / fission_decay_heat_lifetime);
+			decayHeatFraction = Math.max(0D, decayHeatFraction - decayHeatFractionChange);
+			double poisonParentFractionChange = Math.min(poisonParentFraction, baseProcessDecayFactor / fission_poison_parent_lifetime);
+			poisonParentFraction = Math.max(0D, poisonParentFraction + decayHeatFractionChange - poisonParentFractionChange);
+			double poisonFractionChange = Math.min(poisonFraction, baseProcessDecayFactor / fission_poison_lifetime);
+			poisonFraction = Math.max(0D, poisonFraction + poisonParentFractionChange - poisonFractionChange);
+		}
+		
+		if (isProcessing && oldCriticality != getCriticality()) {
+			if (oldHasEnoughFlux && !hasEnoughFlux()) {
+				getMultiblock().refreshFlag = true;
+			}
+			else {
+				getMultiblock().addClusterToRefresh(cluster);
+			}
+		}
+		else if (!isProcessing && oldDecayHeating != getDecayHeating()) {
+			if (getDecayHeating() == 0) {
+				getMultiblock().refreshFlag = true;
+			}
+			else {
+				getMultiblock().addClusterToRefresh(cluster);
+			}
+		}
+	}
+	
+	public int getDecayHeating() {
+		return NCMath.toInt(decayProcessHeat * decayHeatFraction);
 	}
 	
 	@Override
@@ -453,13 +506,14 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			baseProcessHeat = 0;
 			baseProcessEfficiency = 0D;
 			baseProcessCriticality = 1;
-			baseProcessDecayFactor = 0D;
+			//baseProcessDecayFactor = 0D;
 			selfPriming = false;
 			baseProcessRadiation = 0D;
 			return false;
 		}
 		baseProcessTime = recipeInfo.getRecipe().getFissionFuelTime();
 		baseProcessHeat = recipeInfo.getRecipe().getFissionFuelHeat();
+		decayProcessHeat = baseProcessHeat;
 		baseProcessEfficiency = recipeInfo.getRecipe().getFissionFuelEfficiency();
 		baseProcessCriticality = recipeInfo.getRecipe().getFissionFuelCriticality();
 		baseProcessDecayFactor = recipeInfo.getRecipe().getFissionFuelDecayFactor();
@@ -471,11 +525,15 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	// Processing
 	
 	public boolean isProcessing(boolean checkCluster) {
-		return readyToProcess(checkCluster) && flux >= baseProcessCriticality;
+		return readyToProcess(checkCluster) && hasEnoughFlux();
 	}
 	
 	public boolean readyToProcess(boolean checkCluster) {
 		return canProcessInputs && hasConsumed && isMultiblockAssembled() && !(checkCluster && cluster == null);
+	}
+	
+	public boolean hasEnoughFlux() {
+		return flux >= getCriticality();
 	}
 	
 	public boolean hasConsumed() {
@@ -561,8 +619,8 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	public void finishProcess() {
-		double oldProcessTime = baseProcessTime, oldProcessEfficiency = baseProcessEfficiency;
-		int oldProcessHeat = baseProcessHeat, oldProcessCriticality = baseProcessCriticality;
+		double oldProcessTime = baseProcessTime, oldProcessEfficiency = baseProcessEfficiency, oldProcessDecayFactor = baseProcessDecayFactor;
+		int oldProcessHeat = baseProcessHeat, oldCriticality = getCriticality();
 		produceProducts();
 		refreshRecipe();
 		time = Math.max(0D, time - oldProcessTime);
@@ -573,12 +631,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		
 		if (getMultiblock() != null) {
 			if (canProcessInputs) {
-				if (oldProcessHeat != baseProcessHeat || oldProcessEfficiency != baseProcessEfficiency || oldProcessCriticality != baseProcessCriticality) {
-					if (flux < baseProcessCriticality) {
+				if (oldProcessHeat != baseProcessHeat || oldProcessEfficiency != baseProcessEfficiency || oldProcessDecayFactor != baseProcessDecayFactor || oldCriticality != getCriticality()) {
+					if (!hasEnoughFlux()) {
 						getMultiblock().refreshFlag = true;
 					}
 					else {
-						getMultiblock().refreshCluster(cluster);
+						getMultiblock().addClusterToRefresh(cluster);
 					}
 				}
 			}
@@ -843,6 +901,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		nbt.setBoolean("hasConsumed", hasConsumed);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		
+		nbt.setDouble("decayProcessHeat", decayProcessHeat);
+		nbt.setDouble("decayHeatFraction", decayHeatFraction);
+		nbt.setDouble("poisonParentFraction", poisonParentFraction);
+		nbt.setDouble("poisonFraction", poisonFraction);
+		
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
@@ -866,6 +929,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		isProcessing = nbt.getBoolean("isProcessing");
 		hasConsumed = nbt.getBoolean("hasConsumed");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
+		
+		decayProcessHeat = nbt.getDouble("decayProcessHeat");
+		decayHeatFraction = nbt.getDouble("decayHeatFraction");
+		poisonParentFraction = nbt.getDouble("poisonParentFraction");
+		poisonFraction = nbt.getDouble("poisonFraction");
 		
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");

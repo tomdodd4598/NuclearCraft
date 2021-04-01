@@ -40,8 +40,8 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		return openFaces / 6L;
 	}
 	
-	public long getCriticalityFactor(int baseProcessCriticality) {
-		return getSurfaceFactor() * baseProcessCriticality;
+	public long getCriticalityFactor(int criticalityFactor) {
+		return getSurfaceFactor() * criticalityFactor;
 	}
 	
 	public long getRawHeating() {
@@ -68,8 +68,8 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		return getBunchingFactor() * rawHeatMult;
 	}
 	
-	public double getFluxEfficiencyFactor(int baseProcessCriticality) {
-		return (1D + Math.exp(-2D * baseProcessCriticality)) / (1D + Math.exp(2D * ((double) flux / (double) getSurfaceFactor() - 2D * baseProcessCriticality)));
+	public double getFluxEfficiencyFactor(double floatingPointCriticalityFactor) {
+		return (1D + Math.exp(-2D * floatingPointCriticalityFactor)) / (1D + Math.exp(2D * ((double) flux / (double) getSurfaceFactor() - 2D * floatingPointCriticalityFactor)));
 	}
 	
 	public double getEfficiency() {

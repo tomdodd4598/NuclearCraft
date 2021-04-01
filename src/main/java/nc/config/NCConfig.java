@@ -105,6 +105,10 @@ public class NCConfig {
 	public static double[] fission_irradiator_efficiency;
 	public static int fission_cooling_efficiency_leniency;
 	public static double[] fission_sparsity_penalty_params; // Multiplier and threshold
+	public static double fission_decay_buildup_time;
+	public static double fission_decay_heat_lifetime;
+	public static double fission_poison_parent_lifetime;
+	public static double fission_poison_lifetime;
 	public static boolean fission_overheat;
 	public static boolean fission_explosions;
 	public static double fission_meltdown_radiation_multiplier;
@@ -545,11 +549,18 @@ public class NCConfig {
 		propertyFissionIrradiatorHeatPerFlux.setLanguageKey("gui.nc.config.fission_irradiator_heat_per_flux");
 		Property propertyFissionIrradiatorEfficiency = config.get(CATEGORY_FISSION, "fission_irradiator_efficiency", new double[] {0D, 0D, 0.5D}, Lang.localise("gui.nc.config.fission_irradiator_efficiency.comment"), 0D, 32767D);
 		propertyFissionIrradiatorEfficiency.setLanguageKey("gui.nc.config.fission_irradiator_efficiency");
-		
 		Property propertyFissionCoolingEfficiencyLeniency = config.get(CATEGORY_FISSION, "fission_cooling_efficiency_leniency", 10, Lang.localise("gui.nc.config.fission_cooling_efficiency_leniency.comment"), 0, 32767);
 		propertyFissionCoolingEfficiencyLeniency.setLanguageKey("gui.nc.config.fission_cooling_efficiency_leniency");
 		Property propertyFissionSparsityPenaltyParams = config.get(CATEGORY_FISSION, "fission_sparsity_penalty_params", new double[] {0.5D, 0.75D}, Lang.localise("gui.nc.config.fission_sparsity_penalty_params.comment"), 0D, 1D);
 		propertyFissionSparsityPenaltyParams.setLanguageKey("gui.nc.config.fission_sparsity_penalty_params");
+		Property propertyFissionDecayBuildupTime = config.get(CATEGORY_FISSION, "fission_decay_buildup_time", 24000D, Lang.localise("gui.nc.config.fission_decay_buildup_time.comment"), 0D, Integer.MAX_VALUE);
+		propertyFissionDecayBuildupTime.setLanguageKey("gui.nc.config.fission_decay_buildup_time");
+		Property propertyFissionDecayHeatLifetime = config.get(CATEGORY_FISSION, "fission_decay_heat_lifetime", 6000D, Lang.localise("gui.nc.config.fission_decay_heat_lifetime.comment"), 0D, Integer.MAX_VALUE);
+		propertyFissionDecayHeatLifetime.setLanguageKey("gui.nc.config.fission_decay_heat_lifetime");
+		Property propertyFissionPoisonParentLifetime = config.get(CATEGORY_FISSION, "fission_poison_parent_lifetime", 8000D, Lang.localise("gui.nc.config.fission_poison_parent_lifetime.comment"), 0D, Integer.MAX_VALUE);
+		propertyFissionPoisonParentLifetime.setLanguageKey("gui.nc.config.fission_poison_parent_lifetime");
+		Property propertyFissionPoisonLifetime = config.get(CATEGORY_FISSION, "fission_poison_lifetime", 12000D, Lang.localise("gui.nc.config.fission_poison_lifetime.comment"), 0D, Integer.MAX_VALUE);
+		propertyFissionPoisonLifetime.setLanguageKey("gui.nc.config.fission_poison_lifetime");
 		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, Lang.localise("gui.nc.config.fission_overheat.comment"));
 		propertyFissionOverheat.setLanguageKey("gui.nc.config.fission_overheat");
 		Property propertyFissionExplosions = config.get(CATEGORY_FISSION, "fission_explosions", false, Lang.localise("gui.nc.config.fission_explosions.comment"));
@@ -1137,6 +1148,10 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionIrradiatorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionCoolingEfficiencyLeniency.getName());
 		propertyOrderFission.add(propertyFissionSparsityPenaltyParams.getName());
+		propertyOrderFission.add(propertyFissionDecayBuildupTime.getName());
+		propertyOrderFission.add(propertyFissionDecayHeatLifetime.getName());
+		propertyOrderFission.add(propertyFissionPoisonParentLifetime.getName());
+		propertyOrderFission.add(propertyFissionPoisonLifetime.getName());
 		propertyOrderFission.add(propertyFissionOverheat.getName());
 		propertyOrderFission.add(propertyFissionExplosions.getName());
 		propertyOrderFission.add(propertyFissionMeltdownRadiationMultiplier.getName());
@@ -1487,6 +1502,10 @@ public class NCConfig {
 			fission_irradiator_efficiency = readDoubleArrayFromConfig(propertyFissionIrradiatorEfficiency);
 			fission_cooling_efficiency_leniency = propertyFissionCoolingEfficiencyLeniency.getInt();
 			fission_sparsity_penalty_params = readDoubleArrayFromConfig(propertyFissionSparsityPenaltyParams);
+			fission_decay_buildup_time = propertyFissionDecayBuildupTime.getDouble();
+			fission_decay_heat_lifetime = propertyFissionDecayHeatLifetime.getDouble();
+			fission_poison_parent_lifetime = propertyFissionPoisonParentLifetime.getDouble();
+			fission_poison_lifetime = propertyFissionPoisonLifetime.getDouble();
 			fission_overheat = propertyFissionOverheat.getBoolean();
 			fission_explosions = propertyFissionExplosions.getBoolean();
 			fission_meltdown_radiation_multiplier = propertyFissionMeltdownRadiationMultiplier.getDouble();
@@ -1827,6 +1846,10 @@ public class NCConfig {
 		propertyFissionIrradiatorEfficiency.set(fission_irradiator_efficiency);
 		propertyFissionCoolingEfficiencyLeniency.set(fission_cooling_efficiency_leniency);
 		propertyFissionSparsityPenaltyParams.set(fission_sparsity_penalty_params);
+		propertyFissionDecayBuildupTime.set(fission_decay_buildup_time);
+		propertyFissionDecayHeatLifetime.set(fission_decay_heat_lifetime);
+		propertyFissionPoisonParentLifetime.set(fission_poison_parent_lifetime);
+		propertyFissionPoisonLifetime.set(fission_poison_lifetime);
 		propertyFissionOverheat.set(fission_overheat);
 		propertyFissionExplosions.set(fission_explosions);
 		propertyFissionMeltdownRadiationMultiplier.set(fission_meltdown_radiation_multiplier);

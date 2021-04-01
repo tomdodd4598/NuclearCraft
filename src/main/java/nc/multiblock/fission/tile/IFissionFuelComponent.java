@@ -87,6 +87,10 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
+	public int getCriticality();
+	
+	public double getFloatingPointCriticality();
+	
 	public boolean isSelfPriming();
 	
 	public default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
