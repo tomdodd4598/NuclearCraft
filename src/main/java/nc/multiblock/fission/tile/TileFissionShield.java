@@ -147,8 +147,18 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	}
 	
 	@Override
+	public long getRawHeatingIgnoreCoolingPenalty() {
+		return 0L;
+	}
+	
+	@Override
 	public double getEffectiveHeating() {
 		return isFunctional() ? flux * heatPerFlux * efficiency : 0D;
+	}
+	
+	@Override
+	public double getEffectiveHeatingIgnoreCoolingPenalty() {
+		return 0D;
 	}
 	
 	// Moderator Line

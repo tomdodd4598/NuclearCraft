@@ -29,7 +29,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	protected final Int2ObjectMap<FissionCluster> clusterMap = new Int2ObjectOpenHashMap<>();
 	public int clusterCount = 0;
 	
-	public final ObjectSet<FissionCluster> clustersToRefresh = new ObjectOpenHashSet<>();
+	protected final ObjectSet<FissionCluster> clustersToRefresh = new ObjectOpenHashSet<>();
 	
 	public IFissionController controller;
 	
@@ -171,7 +171,9 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	
 	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
 	public void addClusterToRefresh(FissionCluster cluster) {
-		clustersToRefresh.add(cluster);
+		if (cluster != null) {
+			clustersToRefresh.add(cluster);
+		}
 	}
 	
 	protected void refreshCluster(FissionCluster cluster) {

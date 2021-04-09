@@ -164,8 +164,18 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
+	public long getRawHeatingIgnoreCoolingPenalty() {
+		return 0L;
+	}
+	
+	@Override
 	public double getEffectiveHeating() {
 		return flux * baseProcessHeatPerFlux * baseProcessEfficiency;
+	}
+	
+	@Override
+	public double getEffectiveHeatingIgnoreCoolingPenalty() {
+		return 0D;
 	}
 	
 	@Override

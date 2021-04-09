@@ -65,6 +65,8 @@ public class GuiFluidRenderer {
 		int color = fluid.getFluid().getColor(fluid);
 		GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF), (byte) alpha);
 		
+		GlStateManager.disableLighting();
+		GlStateManager.disableDepth();
 		GlStateManager.enableBlend();
 		for (int i = 0; i < width; i += 16) {
 			for (int j = 0; j < renderAmount; j += 16) {
@@ -90,5 +92,7 @@ public class GuiFluidRenderer {
 			}
 		}
 		GlStateManager.disableBlend();
+		GlStateManager.enableDepth();
+		GlStateManager.enableLighting();
 	}
 }

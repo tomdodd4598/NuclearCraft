@@ -305,8 +305,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	public void refreshClusterStats(FissionCluster cluster) {
 		cluster.componentCount = cluster.fuelComponentCount = 0;
-		cluster.cooling = cluster.rawHeating = cluster.totalHeatMult = 0L;
-		cluster.effectiveHeating = cluster.meanHeatMult = cluster.totalEfficiency = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = cluster.meanHeatingSpeedMultiplier = 0D;
+		cluster.cooling = cluster.rawHeating = cluster.rawHeatingIgnoreCoolingPenalty = cluster.totalHeatMult = 0L;
+		cluster.effectiveHeating = cluster.effectiveHeatingIgnoreCoolingPenalty = cluster.meanHeatMult = cluster.totalEfficiency = cluster.totalEfficiencyIgnoreCoolingPenalty = cluster.meanEfficiency = cluster.overcoolingEfficiencyFactor = cluster.undercoolingLifetimeFactor = cluster.meanHeatingSpeedMultiplier = 0D;
 		
 		cluster.heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT * cluster.getComponentMap().size());
 		
@@ -320,6 +320,11 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		cluster.undercoolingLifetimeFactor = cluster.rawHeating == 0L ? 1D : Math.min(1D, (double) (cluster.cooling + fission_cooling_efficiency_leniency) / (double) cluster.rawHeating);
 		cluster.effectiveHeating *= cluster.overcoolingEfficiencyFactor;
 		cluster.totalEfficiency *= cluster.overcoolingEfficiencyFactor;
+		
+		cluster.rawHeating += cluster.rawHeatingIgnoreCoolingPenalty;
+		cluster.effectiveHeating += cluster.effectiveHeatingIgnoreCoolingPenalty;
+		cluster.totalEfficiency += cluster.totalEfficiencyIgnoreCoolingPenalty;
+		
 		cluster.meanHeatMult = cluster.fuelComponentCount == 0 ? 0D : (double) cluster.totalHeatMult / (double) cluster.fuelComponentCount;
 		cluster.meanEfficiency = cluster.fuelComponentCount == 0 ? 0D : cluster.totalEfficiency / cluster.fuelComponentCount;
 		
@@ -337,11 +342,14 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 				cluster.componentCount++;
 				if (component instanceof IFissionHeatingComponent) {
 					cluster.rawHeating += ((IFissionHeatingComponent) component).getRawHeating();
+					cluster.rawHeatingIgnoreCoolingPenalty += ((IFissionHeatingComponent) component).getRawHeatingIgnoreCoolingPenalty();
 					cluster.effectiveHeating += ((IFissionHeatingComponent) component).getEffectiveHeating();
+					cluster.effectiveHeatingIgnoreCoolingPenalty += ((IFissionHeatingComponent) component).getEffectiveHeatingIgnoreCoolingPenalty();
 					if (component instanceof IFissionFuelComponent) {
 						cluster.fuelComponentCount++;
 						cluster.totalHeatMult += ((IFissionFuelComponent) component).getHeatMultiplier();
 						cluster.totalEfficiency += ((IFissionFuelComponent) component).getEfficiency();
+						cluster.totalEfficiencyIgnoreCoolingPenalty += ((IFissionFuelComponent) component).getEfficiencyIgnoreCoolingPenalty();
 					}
 				}
 				if (component instanceof IFissionCoolingComponent) {

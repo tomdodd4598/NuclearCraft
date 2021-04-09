@@ -104,11 +104,12 @@ public class NCConfig {
 	public static double[] fission_irradiator_heat_per_flux;
 	public static double[] fission_irradiator_efficiency;
 	public static int fission_cooling_efficiency_leniency;
-	public static double[] fission_sparsity_penalty_params; // Multiplier and threshold
-	public static double fission_decay_build_up_time;
-	public static double fission_decay_heat_lifetime;
-	public static double fission_poison_parent_lifetime;
-	public static double fission_poison_lifetime;
+	public static double[] fission_sparsity_penalty_params; // Multiplier, threshold
+	public static double[] fission_decay_build_up_times; // Decay heat, iodine, poison
+	public static double[] fission_decay_lifetimes; // Decay heat, iodine, poison
+	public static double[] fission_decay_equilibrium_factors; // Decay heat, iodine, poison
+	public static double[] fission_decay_daughter_multipliers; // Iodine, poison
+	public static double[] fission_decay_term_multipliers; // Exponential, linear
 	public static boolean fission_overheat;
 	public static boolean fission_explosions;
 	public static double fission_meltdown_radiation_multiplier;
@@ -553,14 +554,16 @@ public class NCConfig {
 		propertyFissionCoolingEfficiencyLeniency.setLanguageKey("gui.nc.config.fission_cooling_efficiency_leniency");
 		Property propertyFissionSparsityPenaltyParams = config.get(CATEGORY_FISSION, "fission_sparsity_penalty_params", new double[] {0.5D, 0.75D}, Lang.localise("gui.nc.config.fission_sparsity_penalty_params.comment"), 0D, 1D);
 		propertyFissionSparsityPenaltyParams.setLanguageKey("gui.nc.config.fission_sparsity_penalty_params");
-		Property propertyFissionDecayBuildUpTime = config.get(CATEGORY_FISSION, "fission_decay_build_up_time", 24000D, Lang.localise("gui.nc.config.fission_decay_build_up_time.comment"), 0D, Integer.MAX_VALUE);
-		propertyFissionDecayBuildUpTime.setLanguageKey("gui.nc.config.fission_decay_build_up_time");
-		Property propertyFissionDecayHeatLifetime = config.get(CATEGORY_FISSION, "fission_decay_heat_lifetime", 6000D, Lang.localise("gui.nc.config.fission_decay_heat_lifetime.comment"), 0D, Integer.MAX_VALUE);
-		propertyFissionDecayHeatLifetime.setLanguageKey("gui.nc.config.fission_decay_heat_lifetime");
-		Property propertyFissionPoisonParentLifetime = config.get(CATEGORY_FISSION, "fission_poison_parent_lifetime", 8000D, Lang.localise("gui.nc.config.fission_poison_parent_lifetime.comment"), 0D, Integer.MAX_VALUE);
-		propertyFissionPoisonParentLifetime.setLanguageKey("gui.nc.config.fission_poison_parent_lifetime");
-		Property propertyFissionPoisonLifetime = config.get(CATEGORY_FISSION, "fission_poison_lifetime", 12000D, Lang.localise("gui.nc.config.fission_poison_lifetime.comment"), 0D, Integer.MAX_VALUE);
-		propertyFissionPoisonLifetime.setLanguageKey("gui.nc.config.fission_poison_lifetime");
+		Property propertyFissionDecayBuildUpTimes = config.get(CATEGORY_FISSION, "fission_decay_build_up_times", new double[] {24000D, 24000D, 24000D}, Lang.localise("gui.nc.config.fission_decay_build_up_times.comment"), 0D, Integer.MAX_VALUE);
+		propertyFissionDecayBuildUpTimes.setLanguageKey("gui.nc.config.fission_decay_build_up_times");
+		Property propertyFissionDecayLifetimes = config.get(CATEGORY_FISSION, "fission_decay_lifetimes", new double[] {6000D, 8000D, 12000D}, Lang.localise("gui.nc.config.fission_decay_lifetimes.comment"), 0D, Integer.MAX_VALUE);
+		propertyFissionDecayLifetimes.setLanguageKey("gui.nc.config.fission_decay_lifetimes");
+		Property propertyFissionDecayEquilibriumFactors = config.get(CATEGORY_FISSION, "fission_decay_equilibrium_factors", new double[] {1D, 5D, 1D}, Lang.localise("gui.nc.config.fission_decay_equilibrium_factors.comment"), 0D, 255D);
+		propertyFissionDecayEquilibriumFactors.setLanguageKey("gui.nc.config.fission_decay_equilibrium_factors");
+		Property propertyFissionDecayDaughterMultipliers = config.get(CATEGORY_FISSION, "fission_decay_daughter_multipliers", new double[] {5D, 5D}, Lang.localise("gui.nc.config.fission_decay_daughter_multipliers.comment"), 0D, 255D);
+		propertyFissionDecayDaughterMultipliers.setLanguageKey("gui.nc.config.fission_decay_daughter_multipliers");
+		Property propertyFissionDecayTermMultipliers = config.get(CATEGORY_FISSION, "fission_decay_term_multipliers", new double[] {0.95D, 0.05D}, Lang.localise("gui.nc.config.fission_decay_term_multipliers.comment"), 0D, 1D);
+		propertyFissionDecayTermMultipliers.setLanguageKey("gui.nc.config.fission_decay_term_multipliers");
 		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, Lang.localise("gui.nc.config.fission_overheat.comment"));
 		propertyFissionOverheat.setLanguageKey("gui.nc.config.fission_overheat");
 		Property propertyFissionExplosions = config.get(CATEGORY_FISSION, "fission_explosions", false, Lang.localise("gui.nc.config.fission_explosions.comment"));
@@ -1148,10 +1151,11 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionIrradiatorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionCoolingEfficiencyLeniency.getName());
 		propertyOrderFission.add(propertyFissionSparsityPenaltyParams.getName());
-		propertyOrderFission.add(propertyFissionDecayBuildUpTime.getName());
-		propertyOrderFission.add(propertyFissionDecayHeatLifetime.getName());
-		propertyOrderFission.add(propertyFissionPoisonParentLifetime.getName());
-		propertyOrderFission.add(propertyFissionPoisonLifetime.getName());
+		propertyOrderFission.add(propertyFissionDecayBuildUpTimes.getName());
+		propertyOrderFission.add(propertyFissionDecayLifetimes.getName());
+		propertyOrderFission.add(propertyFissionDecayEquilibriumFactors.getName());
+		propertyOrderFission.add(propertyFissionDecayDaughterMultipliers.getName());
+		propertyOrderFission.add(propertyFissionDecayTermMultipliers.getName());
 		propertyOrderFission.add(propertyFissionOverheat.getName());
 		propertyOrderFission.add(propertyFissionExplosions.getName());
 		propertyOrderFission.add(propertyFissionMeltdownRadiationMultiplier.getName());
@@ -1502,10 +1506,11 @@ public class NCConfig {
 			fission_irradiator_efficiency = readDoubleArrayFromConfig(propertyFissionIrradiatorEfficiency);
 			fission_cooling_efficiency_leniency = propertyFissionCoolingEfficiencyLeniency.getInt();
 			fission_sparsity_penalty_params = readDoubleArrayFromConfig(propertyFissionSparsityPenaltyParams);
-			fission_decay_build_up_time = propertyFissionDecayBuildUpTime.getDouble();
-			fission_decay_heat_lifetime = propertyFissionDecayHeatLifetime.getDouble();
-			fission_poison_parent_lifetime = propertyFissionPoisonParentLifetime.getDouble();
-			fission_poison_lifetime = propertyFissionPoisonLifetime.getDouble();
+			fission_decay_build_up_times = readDoubleArrayFromConfig(propertyFissionDecayBuildUpTimes);
+			fission_decay_lifetimes = readDoubleArrayFromConfig(propertyFissionDecayLifetimes);
+			fission_decay_equilibrium_factors = readDoubleArrayFromConfig(propertyFissionDecayEquilibriumFactors);
+			fission_decay_daughter_multipliers = readDoubleArrayFromConfig(propertyFissionDecayDaughterMultipliers);
+			fission_decay_term_multipliers = readDoubleArrayFromConfig(propertyFissionDecayTermMultipliers);
 			fission_overheat = propertyFissionOverheat.getBoolean();
 			fission_explosions = propertyFissionExplosions.getBoolean();
 			fission_meltdown_radiation_multiplier = propertyFissionMeltdownRadiationMultiplier.getDouble();
@@ -1846,10 +1851,11 @@ public class NCConfig {
 		propertyFissionIrradiatorEfficiency.set(fission_irradiator_efficiency);
 		propertyFissionCoolingEfficiencyLeniency.set(fission_cooling_efficiency_leniency);
 		propertyFissionSparsityPenaltyParams.set(fission_sparsity_penalty_params);
-		propertyFissionDecayBuildUpTime.set(fission_decay_build_up_time);
-		propertyFissionDecayHeatLifetime.set(fission_decay_heat_lifetime);
-		propertyFissionPoisonParentLifetime.set(fission_poison_parent_lifetime);
-		propertyFissionPoisonLifetime.set(fission_poison_lifetime);
+		propertyFissionDecayBuildUpTimes.set(fission_decay_build_up_times);
+		propertyFissionDecayLifetimes.set(fission_decay_lifetimes);
+		propertyFissionDecayEquilibriumFactors.set(fission_decay_equilibrium_factors);
+		propertyFissionDecayDaughterMultipliers.set(fission_decay_daughter_multipliers);
+		propertyFissionDecayTermMultipliers.set(fission_decay_term_multipliers);
 		propertyFissionOverheat.set(fission_overheat);
 		propertyFissionExplosions.set(fission_explosions);
 		propertyFissionMeltdownRadiationMultiplier.set(fission_meltdown_radiation_multiplier);

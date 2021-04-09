@@ -85,6 +85,8 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public double getEfficiency();
 	
+	public double getEfficiencyIgnoreCoolingPenalty();
+	
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
 	public int getCriticality();
@@ -304,36 +306,45 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	}
 	
 	public default void defaultRefreshLocal() {
-		if (!isFunctional()) {
-			return;
-		}
-		
-		for (EnumFacing dir : EnumFacing.VALUES) {
-			ModeratorLine line = getModeratorLineCaches()[dir.getIndex()];
-			if (line != null && line.hasValidEndpoint()) {
-				onModeratorLineComplete(line, dir);
-				getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCaches()[dir.getIndex()]);
-				getMultiblock().activeModeratorCache.addAll(getActiveModeratorCaches()[dir.getIndex()]);
+		if (isFunctional()) {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				ModeratorLine line = getModeratorLineCaches()[dir.getIndex()];
+				if (line != null && line.hasValidEndpoint()) {
+					onModeratorLineComplete(line, dir);
+					getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCaches()[dir.getIndex()]);
+					getMultiblock().activeModeratorCache.addAll(getActiveModeratorCaches()[dir.getIndex()]);
+				}
+				getMultiblock().passiveModeratorCache.addAll(getPassiveReflectorModeratorCaches()[dir.getIndex()]);
+				getMultiblock().activeModeratorCache.addAll(getActiveReflectorModeratorCaches()[dir.getIndex()]);
+				getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 			}
-			getMultiblock().passiveModeratorCache.addAll(getPassiveReflectorModeratorCaches()[dir.getIndex()]);
-			getMultiblock().activeModeratorCache.addAll(getActiveReflectorModeratorCaches()[dir.getIndex()]);
-			getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 		}
 	}
 	
 	/** Fix to force adjacent moderators to be active */
 	public default void defaultRefreshModerators(final Long2ObjectMap<IFissionComponent> assumedValidCache) {
-		if (!isFunctional()) {
-			return;
+		if (isFunctional()) {
+			defaultRefreshAdjacentActiveModerators(assumedValidCache);
 		}
-		
+	}
+	
+	public default void defaultRefreshAdjacentActiveModerators(final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			IFissionFluxSink fluxSink = getAdjacentFluxSinks()[dir.getIndex()];
 			if (fluxSink != null && fluxSink.isFunctional()) {
 				BlockPos adjPos = getTilePos().offset(dir);
 				if (getMultiblock().passiveModeratorCache.contains(adjPos.toLong())) {
-					addToModeratorCache(getModeratorBlockInfo(adjPos, dir, fluxSink.canSupportActiveModerator(true)), getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache, assumedValidCache);
+					addToModeratorCache(getModeratorBlockInfo(adjPos, dir, canSupportActiveModerator(true)), getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache, assumedValidCache);
 				}
+			}
+		}
+	}
+	
+	public default void defaultForceAdjacentActiveModerators(final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			ModeratorBlockInfo info = getModeratorBlockInfo(getTilePos().offset(dir), dir, true);
+			if (info != null) {
+				addToModeratorCache(info, getMultiblock().activeModeratorCache, getMultiblock().passiveModeratorCache, assumedValidCache);
 			}
 		}
 	}

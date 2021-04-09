@@ -693,7 +693,9 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@Override
 	public void onAssimilated(Multiblock assimilator) {
-		clearSounds();
+		if (getWorld().isRemote) {
+			clearSounds();
+		}
 	}
 	
 	// Server

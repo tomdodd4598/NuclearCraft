@@ -1,9 +1,4 @@
-EITHER fix active moderator-based placement rules not recognising pure decay heating cells
-OR make only cell-based placement rules work for pure decay heating cells?
-
-Work out mechanic for decay heat not to be heavily suppressed by overcooling
-
-Amplify increase in criticality factor due to poisoning?
+Fix fission sounds playing for pure decay heatimg cells/vessels
 
 ---------------------------------------------------------------------------------------------------------------------------
 

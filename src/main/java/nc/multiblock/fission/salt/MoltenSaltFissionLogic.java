@@ -160,9 +160,12 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 						if (!bunch.statsRetrieved) {
 							bunch.statsRetrieved = true;
 							cluster.rawHeating += bunch.getRawHeating();
+							cluster.rawHeatingIgnoreCoolingPenalty += bunch.getRawHeatingIgnoreCoolingPenalty();
 							cluster.effectiveHeating += bunch.getEffectiveHeating();
+							cluster.effectiveHeatingIgnoreCoolingPenalty += bunch.getEffectiveHeatingIgnoreCoolingPenalty();
 							cluster.totalHeatMult += bunch.getHeatMultiplier();
 							cluster.totalEfficiency += bunch.getEfficiency();
+							cluster.totalEfficiencyIgnoreCoolingPenalty += bunch.getEfficiencyIgnoreCoolingPenalty();
 						}
 					}
 					else {
