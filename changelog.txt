@@ -1,3 +1,73 @@
+v2o.5.0
+
++ Added fission reactor decay heat and neutron poisoning
++ In memory of Paul Ritter, you can now recreate Dyatlov's self-inflicted dilemma
+
++ Added MSR vessel bunch mechanics
++ Added placement rules for adjacent conductors, neutron irradiators and neutron shields
+* Fixed possible item duplication bug in fission multiblock components
+
++ Added turbine recipe rotor spin-up rate multiplier
+* Completely rewrote dodgy turbine rotor render data packet code
+* Turbine rotors now regain their saved rotation angle on world load
+* Fixed the sound effects of large turbines repeatedly cutting out
+
++ Increased scope of script addons to include Modular Machinery .json files
+* Fixed various technical security flaws in script addon loading such as protection against zip-bombing
+* Attempted to fix occasional bug where script addon unzipping to the temporary installation folder would fail
+
++ Added fission neutron source and neutron shield CT registration methods
++ Added RTG and battery CT registration methods
++ Added various helper radiation-related CT methods
+
++ Began introduction of new Patchouli guide book information [thanks to Zanedema!]
+
++ Began introduction of new multiblock OC methods [thanks to igentuman!]
+
++ Added new advancement criterion trigger system [thanks to igentuman!]
+
+* Updated Chinese language file [thanks to WuzgXY!]
+
+* Fixed chargeable items basically not working at all
+
+* Improved quantum computer code output
+* Fixed controlled swap gate decomposition
+
++ Added solidified corium
++ Added mixing and solidification mechanics to NC fluids
+
++ Added configs for whether reaching max radiation is fatal for players, passive mobs and hostile mobs
+* Fixed rare crash caused by radiation capabilities not existing as expected
+* Elytra can now have radiation resistance
+
+* Fixed various feral ghoul rendering glitches
+
++ Added configs to modify machine upgrade max stack sizes
+* Fixed diborane recipe using too little molten boron
++ Added molten steel in case other mods that add it aren't installed
+
+* Fixed GTCE recipe integration conflicting with base GTCE recipes
+* Fixed crash when Gregicality is installed
+
+* Fixed glowing mushrooms spreading into the interiors of multiblocks
+
+* Fixed fluids in GUIs not being coloured correctly
+* Fixed GUI ghost items not rendering correctly
+
+* Fixed custom coolant heaters not being related to coolant heater recipes in JEI
+* Fixed coolant heater recipes with the same input conflicting with each other
+* Fixed some incorrect units on fission component tooltips
+
+* Fixed multiblocks sometimes crashing when disassembled
+* Fixed multiblock NBT data sometimes not loading correctly
+
+- Removed many old, unused classes
+- Removed a lot of unnecessary error-catching logic from data packet logic
+
+* A lot of other minor fixes, changes and refactors
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2o.4.7
 
 + Added quantum computer Python Qiskit code generation
