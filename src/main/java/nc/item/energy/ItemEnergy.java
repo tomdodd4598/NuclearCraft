@@ -45,18 +45,15 @@ public class ItemEnergy extends NCItem implements ISpecialElectricItem, IChargab
 	
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		InfoHelper.infoLine(tooltip, TextFormatting.LIGHT_PURPLE, "Energy Stored: " + UnitHelper.prefix(getEnergyStored(stack), getMaxEnergyStored(stack), 5, "RF"));
-		InfoHelper.infoLine(tooltip, TextFormatting.WHITE, "EU Power Tier: " + getEnergyTier(stack));
+		InfoHelper.infoLine(tooltip, TextFormatting.LIGHT_PURPLE, Lang.localise("info.nuclearcraft.item_energy.energy_stored") + " " + UnitHelper.prefix(getEnergyStored(stack), getMaxEnergyStored(stack), 5, "RF"));
+		InfoHelper.infoLine(tooltip, TextFormatting.WHITE, Lang.localise("info.nuclearcraft.item_energy.power_tier") + " " + getEnergyTier(stack));
 		super.addInformation(stack, world, tooltip, flag);
 	}
 	
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
-		if (nbt == null || !nbt.hasKey("energy")) {
-			return false;
-		}
-		return nbt.getLong("energy") > 0;
+		return nbt != null && nbt.getLong("energy") > 0;
 	}
 	
 	@Override

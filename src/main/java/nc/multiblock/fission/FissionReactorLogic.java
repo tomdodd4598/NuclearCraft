@@ -416,6 +416,31 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		
 	}
 	
+	public void playFuelComponentSounds(Class<? extends IFissionFuelComponent> clazz) {
+		Collection<? extends IFissionFuelComponent> fuelComponents = getParts(clazz);
+		int i = fuelComponents.size();
+		for (IFissionFuelComponent fuelComponent : fuelComponents) {
+			if ((i <= 0 || rand.nextDouble() < 1D / i) && playFissionSound(fuelComponent)) {
+				return;
+			}
+			else if (fuelComponent.isFunctional()) {
+				--i;
+			}
+		}
+	}
+	
+	public boolean playFissionSound(IFissionFuelComponent fuelComponent) {
+		if (getReactor().fuelComponentCount <= 0) {
+			return true;
+		}
+		double soundRate = Math.min(1D, fuelComponent.getEfficiency() / (14D * fission_max_size));
+		if (rand.nextDouble() < soundRate) {
+			getWorld().playSound(null, fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D * Math.log1p(Math.sqrt(getReactor().fuelComponentCount)) * fission_sound_volume), 1F + 0.12F * (rand.nextFloat() - 0.5F));
+			return true;
+		}
+		return false;
+	}
+	
 	public void casingMeltdown() {
 		Iterator<IFissionController> controllerIterator = getPartIterator(IFissionController.class);
 		while (controllerIterator.hasNext()) {
@@ -514,18 +539,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	@Override
 	public void onUpdateClient() {}
-	
-	public boolean playFissionSound(IFissionFuelComponent fuelComponent) {
-		if (getReactor().fuelComponentCount <= 0) {
-			return true;
-		}
-		double soundRate = Math.min(1D, getReactor().meanEfficiency / (14D * fission_max_size));
-		if (rand.nextDouble() < soundRate) {
-			getWorld().playSound(fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D * Math.log1p(Math.sqrt(getReactor().fuelComponentCount)) * fission_sound_volume), 1F + 0.12F * (rand.nextFloat() - 0.5F), false);
-			return true;
-		}
-		return false;
-	}
 	
 	// NBT
 	

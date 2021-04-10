@@ -3157,6 +3157,9 @@ gui.nc.container.out_config=OUTPUT
 gui.nc.container.both_config=BOTH
 gui.nc.container.non_config=DISABLED
 
+info.nuclearcraft.item_energy.energy_stored=Energy Stored:
+info.nuclearcraft.item_energy.power_tier=EU Power Tier:
+
 gui.nc.container.shift_clear_multiblock=Shift click to clear out ALL components' items and fluids
 
 nuclearcraft.multiblock_validation.invalid_block=%4$s is not a valid block at [%1$d, %2$d, %3$d]

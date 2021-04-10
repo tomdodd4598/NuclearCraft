@@ -123,7 +123,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		heatBuffer.changeHeatStored(getReactor().rawHeating);
 		
 		if (heatBuffer.isFull() && fission_overheat) {
-			heatBuffer.setHeatStored(0);
+			heatBuffer.setHeatStored(0L);
 			reservedEffectiveHeat = 0D;
 			casingMeltdown();
 			return true;
@@ -132,7 +132,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		for (FissionCluster cluster : getClusterMap().values()) {
 			cluster.heatBuffer.changeHeatStored(cluster.getNetHeating());
 			if (cluster.heatBuffer.isFull() && fission_overheat) {
-				cluster.heatBuffer.setHeatStored(0);
+				cluster.heatBuffer.setHeatStored(0L);
 				clusterMeltdown(cluster);
 				return true;
 			}
@@ -141,6 +141,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		if (getEffectiveHeat() > 0D) {
 			updateFluidHeating();
 		}
+		
+		updateSounds();
 		
 		return super.onUpdateServer();
 	}
@@ -155,6 +157,12 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		}
 		heatingOutputRate = 0;
 		heatingRecipeRate = heatingOutputRateFP = 0D;
+	}
+	
+	public void updateSounds() {
+		if (getReactor().isReactorOn) {
+			playFuelComponentSounds(TileSolidFissionCell.class);
+		}
 	}
 	
 	public void refreshRecipe() {
@@ -284,17 +292,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public void onUpdateClient() {
-		if (getReactor().isReactorOn) {
-			int i = getPartCount(TileSolidFissionCell.class);
-			for (TileSolidFissionCell cell : getParts(TileSolidFissionCell.class)) {
-				if (rand.nextDouble() < 1D / i && playFissionSound(cell)) {
-					return;
-				}
-				if (cell.isFunctional()) {
-					i--;
-				}
-			}
-		}
+		super.onUpdateClient();
 	}
 	
 	// NBT

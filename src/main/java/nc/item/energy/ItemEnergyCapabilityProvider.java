@@ -124,7 +124,19 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	
 	@Override
 	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-		return this.getCapability(capability, facing) != null;
+		if (capability == CapabilityEnergy.ENERGY) {
+			if (wrapper == null) {
+				wrapper = new ItemEnergyWrapper(storage);
+			}
+			return true;
+		}
+		if (ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ELECTRIC_ITEM) {
+			if (wrapperGT == null) {
+				wrapperGT = new ItemEnergyWrapperGT(stack, storage, energyTier);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

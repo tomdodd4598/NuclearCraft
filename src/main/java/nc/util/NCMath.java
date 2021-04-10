@@ -4,6 +4,8 @@ import java.math.*;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import net.minecraft.util.math.MathHelper;
+
 public class NCMath {
 	
 	public static final double SQRT2 = 1.41421356237309504880D;
@@ -14,15 +16,6 @@ public class NCMath {
 	private static Random rand = new Random();
 	
 	public static long clamp(long num, long min, long max) {
-		if (num < min) {
-			return min;
-		}
-		else {
-			return num > max ? max : num;
-		}
-	}
-	
-	public static double clamp(double num, double min, double max) {
 		if (num < min) {
 			return min;
 		}
@@ -304,7 +297,7 @@ public class NCMath {
 	}
 	
 	public static int toInt(double value) {
-		return (int) clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		return (int) MathHelper.clamp(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 	
 	public static int getComparatorSignal(double var, double max, double leeway) {

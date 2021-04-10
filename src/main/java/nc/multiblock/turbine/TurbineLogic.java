@@ -33,7 +33,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.EnumFacing.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
@@ -943,7 +943,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().effectiveMaxLength = getMaximumInteriorLength();
 		}
 		else {
-			getTurbine().effectiveMaxLength = NCMath.toInt(Math.ceil(NCMath.clamp((Math.log(getTurbine().idealTotalExpansionLevel) - getMaximumInteriorLength() * Math.log(getTurbine().minStatorExpansionCoefficient)) / (Math.log(getTurbine().minBladeExpansionCoefficient) - Math.log(getTurbine().minStatorExpansionCoefficient)), 1D, getMaximumInteriorLength())));
+			getTurbine().effectiveMaxLength = NCMath.toInt(Math.ceil(MathHelper.clamp((Math.log(getTurbine().idealTotalExpansionLevel) - getMaximumInteriorLength() * Math.log(getTurbine().minStatorExpansionCoefficient)) / (Math.log(getTurbine().minBladeExpansionCoefficient) - Math.log(getTurbine().minStatorExpansionCoefficient)), 1D, getMaximumInteriorLength())));
 		}
 	}
 	
@@ -1035,7 +1035,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().activeSounds = new ArrayList<>();
 		}
 		
-		if (getTurbine().isProcessing && getTurbine().isAssembled()) {
+		if (getTurbine().isProcessing && getTurbine().isAssembled() && !Minecraft.getMinecraft().isGamePaused()) {
 			getTurbine().refreshSoundInfo = getTurbine().refreshSoundInfo || Math.abs(getTurbine().angVel - getTurbine().prevAngVel) > 0.025F;
 			
 			if (--getTurbine().soundCount > (getTurbine().refreshSoundInfo ? Turbine.SOUND_LENGTH / 2 : 0)) {
@@ -1045,26 +1045,49 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			// Generate sound info if necessary
 			if (getTurbine().refreshSoundInfo) {
 				clearSounds();
-				final int _x = 1 + getTurbine().getExteriorLengthX() / 8, _y = 1 + getTurbine().getExteriorLengthY() / 8, _z = 1 + getTurbine().getExteriorLengthZ() / 8;
-				final int[] xList = new int[_x], yList = new int[_y], zList = new int[_z];
-				for (int i = 0; i < _x; i++) {
-					xList[i] = getTurbine().getMinimumCoord().getX() + (i + 1) * getTurbine().getExteriorLengthX() / (_x + 1);
+				
+				final BlockPos minPos = getTurbine().getMinimumCoord();
+				final BlockPos midPos = getTurbine().getMiddleCoord();
+				final BlockPos maxPos = getTurbine().getMaximumCoord();
+				
+				final int lengthX = getTurbine().getExteriorLengthX();
+				final int lengthY = getTurbine().getExteriorLengthY();
+				final int lengthZ = getTurbine().getExteriorLengthZ();
+				
+				final int[] _x, _y, _z;
+				
+				if (lengthX > 8) {
+					final int powX = (int) Math.pow(lengthX, 0.4D);
+					_x = new int[] {minPos.getX() + powX, maxPos.getX() - powX};
 				}
-				for (int j = 0; j < _y; j++) {
-					yList[j] = getTurbine().getMinimumCoord().getY() + (j + 1) * getTurbine().getExteriorLengthY() / (_y + 1);
+				else {
+					_x = new int[] {midPos.getX()};
 				}
-				for (int k = 0; k < _z; k++) {
-					zList[k] = getTurbine().getMinimumCoord().getZ() + (k + 1) * getTurbine().getExteriorLengthZ() / (_z + 1);
+				
+				if (lengthY > 8) {
+					final int powY = (int) Math.pow(lengthY, 0.4D);
+					_y = new int[] {minPos.getY() + powY, maxPos.getY() - powY};
 				}
-				for (int i = 0; i < _x; i++) {
-					for (int j = 0; j < _y; j++) {
-						for (int k = 0; k < _z; k++) {
-							if (i == 0 || i == _x - 1 || j == 0 || j == _y - 1 || k == 0 || k == _z - 1) {
-								getTurbine().activeSounds.add(new SoundInfo(null, new BlockPos(xList[i], yList[j], zList[k])));
-							}
+				else {
+					_y = new int[] {midPos.getY()};
+				}
+				
+				if (lengthZ > 8) {
+					final int powZ = (int) Math.pow(lengthZ, 0.4D);
+					_z = new int[] {minPos.getZ() + powZ, maxPos.getZ() - powZ};
+				}
+				else {
+					_z = new int[] {midPos.getZ()};
+				}
+				
+				for (int i : _x) {
+					for (int j : _y) {
+						for (int k : _z) {
+							getTurbine().activeSounds.add(new SoundInfo(null, new BlockPos(i, j, k)));
 						}
 					}
 				}
+				
 				getTurbine().refreshSoundInfo = false;
 			}
 			

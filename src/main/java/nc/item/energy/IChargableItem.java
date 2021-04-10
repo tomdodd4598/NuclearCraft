@@ -1,25 +1,32 @@
 package nc.item.energy;
 
-import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.energy.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IChargableItem {
 	
 	public static NBTTagCompound getEnergyStorageNBT(ItemStack stack) {
-		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null || !nbt.hasKey("energyStorage")) {
+		if (!(stack.getItem() instanceof IChargableItem)) {
 			return null;
 		}
+		
+		if (!stack.hasTagCompound()) {
+			stack.setTagCompound(new NBTTagCompound());
+		}
+		
+		NBTTagCompound nbt = stack.getTagCompound();
+		IChargableItem item = (IChargableItem) stack.getItem();
+		if (!nbt.hasKey("energyStorage")) {
+			new EnergyStorage(item.getMaxEnergyStored(stack), item.getMaxTransfer(stack), 0L).writeToNBT(nbt, "energyStorage");
+		}
+		
 		return nbt.getCompoundTag("energyStorage");
 	}
 	
 	public default long getEnergyStored(ItemStack stack) {
 		NBTTagCompound nbt = getEnergyStorageNBT(stack);
-		if (nbt == null) {
-			return 0L;
-		}
-		return nbt.getLong("energy");
+		return nbt == null ? 0L : nbt.getLong("energy");
 	}
 	
 	public default void setEnergyStored(ItemStack stack, long energy) {

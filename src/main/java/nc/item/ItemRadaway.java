@@ -37,7 +37,7 @@ public class ItemRadaway extends NCItem {
 				return stack;
 			}
 			if (playerRads.canConsumeRadaway()) {
-				world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, NCSounds.radaway, SoundCategory.PLAYERS, (float) (0.5D * radiation_sound_volumes[1]), 1F);
+				world.playSound(null, player.posX, player.posY, player.posZ, NCSounds.radaway, SoundCategory.PLAYERS, (float) (0.5D * radiation_sound_volumes[1]), 1F);
 				onRadawayConsumed(stack, world, player);
 				player.addStat(StatList.getObjectUseStats(this));
 				if (player instanceof EntityPlayerMP) {

@@ -224,7 +224,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public boolean onUpdateServer() {
 		if (heatBuffer.isFull() && fission_overheat) {
-			heatBuffer.setHeatStored(0);
+			heatBuffer.setHeatStored(0L);
 			casingMeltdown();
 			return true;
 		}
@@ -239,15 +239,17 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			}
 			
 			if (cluster.heatBuffer.isFull() && fission_overheat) {
-				cluster.heatBuffer.setHeatStored(0);
+				cluster.heatBuffer.setHeatStored(0L);
 				clusterMeltdown(cluster);
 				return true;
 			}
 		}
 		
-		if (heatBuffer.getHeatStored() > 0) {
+		if (heatBuffer.getHeatStored() > 0L) {
 			updateEmergencyCooling();
 		}
+		
+		updateSounds();
 		
 		return super.onUpdateServer();
 	}
@@ -259,6 +261,12 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 				produceProducts();
 				return;
 			}
+		}
+	}
+	
+	public void updateSounds() {
+		if (getReactor().isReactorOn) {
+			playFuelComponentSounds(TileSaltFissionVessel.class);
 		}
 	}
 	
@@ -365,17 +373,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public void onUpdateClient() {
-		if (getReactor().isReactorOn) {
-			int i = getPartCount(TileSaltFissionVessel.class);
-			for (TileSaltFissionVessel vessel : getParts(TileSaltFissionVessel.class)) {
-				if (rand.nextDouble() < 1D / i && playFissionSound(vessel)) {
-					return;
-				}
-				if (vessel.isFunctional()) {
-					i--;
-				}
-			}
-		}
+		super.onUpdateClient();
 	}
 	
 	// NBT

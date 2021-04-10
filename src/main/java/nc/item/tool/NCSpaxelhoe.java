@@ -18,6 +18,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.*;
 
 public class NCSpaxelhoe extends ItemTool implements IInfoItem {
@@ -77,33 +78,32 @@ public class NCSpaxelhoe extends ItemTool implements IInfoItem {
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ItemStack itemstack = player.getHeldItem(hand);
+		ItemStack stack = player.getHeldItem(hand);
 		
-		if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
+		if (!player.canPlayerEdit(pos.offset(facing), facing, stack)) {
 			return EnumActionResult.FAIL;
 		}
 		else {
-			int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(itemstack, player, worldIn, pos);
+			int hook = ForgeEventFactory.onHoeUse(stack, player, worldIn, pos);
 			if (hook != 0) {
 				return hook > 0 ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 			}
 			
-			IBlockState iblockstate = worldIn.getBlockState(pos);
-			Block block = iblockstate.getBlock();
+			IBlockState state = worldIn.getBlockState(pos);
+			Block block = state.getBlock();
 			
 			if (facing != EnumFacing.DOWN && worldIn.isAirBlock(pos.up())) {
 				if (block == Blocks.GRASS || block == Blocks.GRASS_PATH) {
-					setBlock(itemstack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
+					tillBlock(stack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
 					return EnumActionResult.SUCCESS;
 				}
-				
-				if (block == Blocks.DIRT) {
-					switch (iblockstate.getValue(BlockDirt.VARIANT)) {
+				else if (block == Blocks.DIRT) {
+					switch (state.getValue(BlockDirt.VARIANT)) {
 						case DIRT:
-							setBlock(itemstack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
+							tillBlock(stack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
 							return EnumActionResult.SUCCESS;
 						case COARSE_DIRT:
-							setBlock(itemstack, player, worldIn, pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
+							tillBlock(stack, player, worldIn, pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
 							return EnumActionResult.SUCCESS;
 						default:
 							break;
@@ -115,7 +115,7 @@ public class NCSpaxelhoe extends ItemTool implements IInfoItem {
 		}
 	}
 	
-	protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state) {
+	protected void tillBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state) {
 		worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1F, 1F);
 		
 		if (!worldIn.isRemote) {

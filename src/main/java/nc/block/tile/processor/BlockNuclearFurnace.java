@@ -91,7 +91,6 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	@SuppressWarnings("incomplete-switch")
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (!state.getValue(ACTIVE)) {
 			return;
@@ -123,6 +122,8 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 			case SOUTH:
 				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
 				world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
+			default:
+				break;
 		}
 	}
 	
