@@ -143,7 +143,7 @@ tile.nuclearcraft.energy_storage.desc=右击以查看当前存储的能量，手
 
 tile.nuclearcraft.fission_casing.name=裂变反应堆外壳
 tile.nuclearcraft.fission_glass.name=透明裂变反应堆外壳
-tile.nuclearcraft.fission_conductor.name=裂变反应堆连接器
+tile.nuclearcraft.fission_conductor.name=裂变反应堆导体
 tile.nuclearcraft.fission_monitor.name=裂变反应堆显示器（半成品）
 tile.nuclearcraft.fission_power_port.name=裂变反应堆能量端口
 tile.nuclearcraft.fission_vent.name=裂变反应堆出入口
