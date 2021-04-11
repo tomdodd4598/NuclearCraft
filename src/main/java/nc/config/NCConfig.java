@@ -36,7 +36,6 @@ public class NCConfig {
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_HEAT_EXCHANGER = "heat_exchanger";
 	public static final String CATEGORY_TURBINE = "turbine";
-	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_QUANTUM = "quantum";
 	public static final String CATEGORY_TOOL = "tool";
 	public static final String CATEGORY_ARMOR = "armor";
@@ -237,9 +236,6 @@ public class NCConfig {
 	public static double turbine_render_blade_width;
 	public static double turbine_render_rotor_expansion;
 	public static double turbine_render_rotor_speed;
-	
-	public static double accelerator_electromagnet_power;
-	public static double accelerator_supercooler_coolant;
 	
 	public static int quantum_max_qubits_live;
 	public static int quantum_max_qubits_code;
@@ -806,11 +802,6 @@ public class NCConfig {
 		Property propertyTurbineRenderRotorSpeed = config.get(CATEGORY_TURBINE, "turbine_render_rotor_speed", 1D, Lang.localise("gui.nc.config.turbine_render_rotor_speed.comment"), 0D, 15D);
 		propertyTurbineRenderRotorSpeed.setLanguageKey("gui.nc.config.turbine_render_rotor_speed");
 		
-		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 1000D, Lang.localise("gui.nc.config.accelerator_electromagnet_power.comment"), 0D, Integer.MAX_VALUE);
-		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.nc.config.accelerator_electromagnet_power");
-		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 0.125D, Lang.localise("gui.nc.config.accelerator_supercooler_coolant.comment"), 0D, Integer.MAX_VALUE);
-		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.nc.config.accelerator_supercooler_coolant");
-		
 		Property propertyQuantumMaxQubitsLive = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_live", 7, Lang.localise("gui.nc.config.quantum_max_qubits_live.comment"), 1, 14);
 		propertyQuantumMaxQubitsLive.setLanguageKey("gui.nc.config.quantum_max_qubits_live");
 		Property propertyQuantumMaxQubitsCode = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_code", 16, Lang.localise("gui.nc.config.quantum_max_qubits_code.comment"), 1, 32);
@@ -1291,11 +1282,6 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineRenderRotorSpeed.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
-		List<String> propertyOrderAccelerator = new ArrayList<>();
-		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
-		propertyOrderAccelerator.add(propertyAcceleratorSupercoolerCoolant.getName());
-		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
-		
 		List<String> propertyOrderQuantum = new ArrayList<>();
 		propertyOrderQuantum.add(propertyQuantumMaxQubitsLive.getName());
 		propertyOrderQuantum.add(propertyQuantumMaxQubitsCode.getName());
@@ -1639,9 +1625,6 @@ public class NCConfig {
 			turbine_render_rotor_expansion = propertyTurbineRenderRotorExpansion.getDouble();
 			turbine_render_rotor_speed = propertyTurbineRenderRotorSpeed.getDouble();
 			
-			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getDouble();
-			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getDouble();
-			
 			quantum_max_qubits_live = propertyQuantumMaxQubitsLive.getInt();
 			quantum_max_qubits_code = propertyQuantumMaxQubitsCode.getInt();
 			quantum_angle_precision = propertyQuantumAnglePrecision.getInt();
@@ -1983,9 +1966,6 @@ public class NCConfig {
 		propertyTurbineRenderBladeWidth.set(turbine_render_blade_width);
 		propertyTurbineRenderRotorExpansion.set(turbine_render_rotor_expansion);
 		propertyTurbineRenderRotorSpeed.set(turbine_render_rotor_speed);
-		
-		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
-		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
 		
 		propertyQuantumMaxQubitsLive.set(quantum_max_qubits_live);
 		propertyQuantumMaxQubitsCode.set(quantum_max_qubits_code);

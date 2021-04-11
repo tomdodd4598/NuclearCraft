@@ -41,7 +41,6 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			list.add(categoryElement(NCConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
 			list.add(categoryElement(NCConfig.CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
 			list.add(categoryElement(NCConfig.CATEGORY_TURBINE, CategoryEntryTurbine.class));
-			list.add(categoryElement(NCConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
 			list.add(categoryElement(NCConfig.CATEGORY_QUANTUM, CategoryEntryQuantum.class));
 			list.add(categoryElement(NCConfig.CATEGORY_TOOL, CategoryEntryTool.class));
 			list.add(categoryElement(NCConfig.CATEGORY_ARMOR, CategoryEntryArmor.class));
@@ -149,18 +148,6 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			@Override
 			protected GuiScreen buildChildScreen() {
 				return buildChildScreen(NCConfig.CATEGORY_TURBINE, owningScreen, configElement);
-			}
-		}
-		
-		public static class CategoryEntryAccelerator extends CategoryEntry implements IConfigCategory {
-			
-			public CategoryEntryAccelerator(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
-				super(owningScreen, owningEntryList, configElement);
-			}
-			
-			@Override
-			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_ACCELERATOR, owningScreen, configElement);
 			}
 		}
 		
