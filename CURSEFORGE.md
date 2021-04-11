@@ -1,5 +1,10 @@
 <p>
 <img src="https://i.imgur.com/vby0vF5.png"/>
+<br/>
+</p>
+<p><span style="text-decoration: underline; font-size: 18px;"><strong>
+A complex nuclear engineering mod for Minecraft!
+<br/>
 </p>
 <p><span style="font-size: 14px;"><b>
 <a href="https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-mod">Head here for the pre-overhaul builds!</a>
@@ -9,21 +14,16 @@
 <a title="https://discord.gg/KCPYgWw" href="https://discord.gg/KCPYgWw">Join the Discord server!</a>
 </p>
 <p><span style="text-decoration: underline; font-size: 18px;"><strong>
-WARNING: the overhaul version of NC is <em>NOT</em> compatible with the pre-overhaul version. Moving from one to the other will cause most NC content to mutate or disappear!
+WARNING: the overhaul version of NC is <em>NOT</em> compatible with the pre-overhaul version!
+<br/>
+Switching from one to the other will cause most NC content to mutate or disappear!
 </p>
-<p><span style="font-size: 14px;"><b><u>Summary
-</p>
-<ul><span style="font-size: 14px;">
-<li>A complex nuclear engineering mod for Minecraft</span></li>
-<li>Intricate multiblock fission reactors</span></li>
-<li>Multiblock steam turbines</span></li>
-</ul>
 <p><span style="font-size: 14px;"><b><u>Features</span>
 </p>
 <ul><span style="font-size: 14px;">
 <li>Forge Energy, RF, IC2 EU and GTCE EU compatibility</span></li>
+<li>Intricate multiblock fission reactors and steam turbines</span></li>
 <li>In-depth nuclear fuel system featuring many fuel types</span></li>
-<li>Unique electric processors and generators</span></li>
 <li>Full JEI compatibility</span></li>
 <li>CraftTweaker recipe support</span></li>
 <li>Complete Mekanism gas support</span></li>
