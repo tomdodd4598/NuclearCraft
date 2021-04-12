@@ -1,3 +1,13 @@
+v2o.5.1
+
+* Increased script addon max zip size to 50 MB
+
+* Updated Chinese language file [thanks to WuzgXY!]
+
++ Added fluid colour blend methods to CraftTweaker
+
+- Removed old, unused accelerator configs
+
 v2o.5.0
 
 + Added fission reactor decay heat and neutron poisoning
