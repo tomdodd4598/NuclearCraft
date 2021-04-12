@@ -87,15 +87,15 @@ public class NCFluids {
 		addFluidPair(FluidType.ACID, "boric_acid", 0x696939);
 		addFluidPair(FluidType.ACID, "sulfuric_acid", 0x454500);
 		
-		addFluidPair(FluidType.SALT_SOLUTION, "boron_nitride_solution", waterBlend(0x6F8E5C, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "fluorite_water", waterBlend(0x8AB492, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "calcium_sulfate_solution", waterBlend(0xB8B0A6, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "sodium_fluoride_solution", waterBlend(0xC2B1A1, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "potassium_fluoride_solution", waterBlend(0xC1C99D, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "sodium_hydroxide_solution", waterBlend(0xC2B7BB, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "potassium_hydroxide_solution", waterBlend(0xB8C6B0, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "borax_solution", waterBlend(0xEEEEEE, 0.5F));
-		addFluidPair(FluidType.SALT_SOLUTION, "irradiated_borax_solution", waterBlend(0xFFD0A3, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "boron_nitride_solution", ColorHelper.waterBlend(0x6F8E5C, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "fluorite_water", ColorHelper.waterBlend(0x8AB492, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "calcium_sulfate_solution", ColorHelper.waterBlend(0xB8B0A6, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "sodium_fluoride_solution", ColorHelper.waterBlend(0xC2B1A1, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "potassium_fluoride_solution", ColorHelper.waterBlend(0xC1C99D, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "sodium_hydroxide_solution", ColorHelper.waterBlend(0xC2B7BB, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "potassium_hydroxide_solution", ColorHelper.waterBlend(0xB8C6B0, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "borax_solution", ColorHelper.waterBlend(0xEEEEEE, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "irradiated_borax_solution", ColorHelper.waterBlend(0xFFD0A3, 0.5F));
 		
 		addFluidPair(FluidType.CORIUM, "corium", 0x7C7C6F);
 		
@@ -109,7 +109,7 @@ public class NCFluids {
 		addFluidPair(FluidType.CHOCOLATE, "milk_chocolate", 0x884121);
 		addFluidPair(FluidType.SUGAR, "sugar", 0xFFD59A);
 		addFluidPair(FluidType.SUGAR, "gelatin", 0xDDD09C);
-		addFluidPair(FluidType.SUGAR, "hydrated_gelatin", waterBlend(0xDDD09C, 0.8F));
+		addFluidPair(FluidType.SUGAR, "hydrated_gelatin", ColorHelper.waterBlend(0xDDD09C, 0.8F));
 		addFluidPair(FluidType.CHOCOLATE, "marshmallow", 0xE1E1E3);
 		addFluidPair(FluidType.LIQUID, "milk");
 		
@@ -189,10 +189,6 @@ public class NCFluids {
 	
 	private static <T extends NCBlockFluid> Block withName(T block) {
 		return block.setTranslationKey(Global.MOD_ID + "." + block.name).setRegistryName(new ResourceLocation(Global.MOD_ID, block.name));
-	}
-	
-	private static int waterBlend(int soluteColor, float blendRatio) {
-		return ColorHelper.blend(0x2F43F4, soluteColor, blendRatio);
 	}
 	
 	private static boolean registerCoFHAlt() {

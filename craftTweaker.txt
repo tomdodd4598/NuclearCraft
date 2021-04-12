@@ -537,3 +537,24 @@ mods.nuclearcraft.Registration.registerRTG(String rtgID, long power, double radi
 mods.nuclearcraft.Registration.registerBattery(String batteryID, long capacity, int euEnergyTier);
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
+
+ Helper Methods
+#==============#
+
+mods.nuclearcraft.ColorHelper.getAlpha(int color);
+mods.nuclearcraft.ColorHelper.getRed(int color);
+mods.nuclearcraft.ColorHelper.getGreen(int color);
+mods.nuclearcraft.ColorHelper.getBlue(int color);
+
+mods.nuclearcraft.ColorHelper.blend(int color1, int color2, float blendRatio);
+mods.nuclearcraft.ColorHelper.glow(int color1, int color2, float glowFactor);
+
+mods.nuclearcraft.ColorHelper.waterBlend(int soluteColor, float blendRatio);
+mods.nuclearcraft.ColorHelper.getNAKColor(int color);
+mods.nuclearcraft.ColorHelper.getFluorideColor(int color);
+mods.nuclearcraft.ColorHelper.getFLIBEColor(int color);
+mods.nuclearcraft.ColorHelper.getZAColor(int color);
+
+___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------
+

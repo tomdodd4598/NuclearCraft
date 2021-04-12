@@ -8,6 +8,7 @@ import nc.*;
 import nc.block.fluid.*;
 import nc.block.item.NCItemBlock;
 import nc.fluid.FluidFission;
+import nc.util.ColorHelper;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -52,8 +53,7 @@ public class NCFissionFluids {
 		addIsotopeFluids("californium_252", 0x430B0E);
 		
 		addFuelFluids("tbu", 0x272727);
-		// fluidList.add(new FluidFission("tbu_za",
-		// FluidFission.getZAColor(0x272727)));
+		// fluidList.add(new FluidFission("tbu_za", FluidFission.getZAColor(0x272727)));
 		
 		addFuelFluids("leu_233", 0x1D321B);
 		addFuelFluids("heu_233", 0x123B0D);
@@ -134,8 +134,8 @@ public class NCFissionFluids {
 	
 	private static void addFuelFluids(String name, int color) {
 		fluidList.add(new FluidFission(name, color));
-		fluidList.add(new FluidFission(name + "_fluoride", FluidFission.getFluorideColor(color)));
-		fluidList.add(new FluidFission(name + "_fluoride_flibe", FluidFission.getFLIBEColor(color)));
+		fluidList.add(new FluidFission(name + "_fluoride", ColorHelper.getFluorideColor(color)));
+		fluidList.add(new FluidFission(name + "_fluoride_flibe", ColorHelper.getFLIBEColor(color)));
 		// fluidList.add(new FluidFission(name + "_za", FluidFission.getZAColor(color)));
 	}
 	

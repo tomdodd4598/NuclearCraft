@@ -12,6 +12,7 @@ import nc.*;
 import nc.block.fluid.*;
 import nc.block.item.NCItemBlock;
 import nc.fluid.*;
+import nc.util.ColorHelper;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -126,7 +127,7 @@ public class NCCoolantFluids {
 	
 	private static void addNAKPairs(String name, int color) {
 		COOLANTS.add(name);
-		FluidCoolant coolant = new FluidCoolant(name + "_nak", FluidCoolant.getNAKColor(color));
+		FluidCoolant coolant = new FluidCoolant(name + "_nak", ColorHelper.getNAKColor(color));
 		fluidPairList.add(Pair.of(coolant, register_fluid_blocks ? new BlockFluidCoolant(coolant) : null));
 		FluidHotCoolant hotCoolant = new FluidHotCoolant(name + "_nak_hot", FluidHotCoolant.getNAKColor(color));
 		fluidPairList.add(Pair.of(hotCoolant, register_fluid_blocks ? new BlockFluidHotCoolant(hotCoolant) : null));
