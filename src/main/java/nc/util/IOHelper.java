@@ -7,7 +7,7 @@ public class IOHelper {
 	
 	public static final String NEW_LINE = System.lineSeparator();
 	
-	public static final int MAX_ZIP_SIZE = 0x100000;
+	public static final int MAX_ZIP_SIZE = 50000000;
 	public static final int ZIP_READ_SIZE = 0x2000;
 	
 	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
@@ -71,19 +71,20 @@ public class IOHelper {
 		zipStream.close();
 	}
 	
-	private static int extract(ZipInputStream zipStream, String fileDest, int bytes) throws IOException {
+	/** Returns the number of bytes extracted plus the original value of currentBytes */
+	private static int extract(ZipInputStream zipStream, String fileDest, int currentBytes) throws IOException {
 		try (BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(fileDest))) {
 			byte[] bytesIn = new byte[ZIP_READ_SIZE];
 			int read = 0;
 			while ((read = zipStream.read(bytesIn)) != -1) {
-				bytes += read;
-				if (bytes > MAX_ZIP_SIZE) {
+				currentBytes += read;
+				if (currentBytes > MAX_ZIP_SIZE) {
 					throw new IOException("Zip file being extracted to \"" + fileDest + "\" is too big!");
 				}
 				outStream.write(bytesIn, 0, read);
 			}
 			outStream.close();
 		}
-		return bytes;
+		return currentBytes;
 	}
 }
