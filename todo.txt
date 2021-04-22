@@ -1,3 +1,6 @@
+Fix vanilla crafting recipes having broken IDs
+Add manufactory recipe for 1 certus ore -> 2 certus crystals
+
 NC & NCO: "base the condition for the advancement on if the processor in the parent advancement is registered and if the processor for the advancement is registered..."
 
 v2o.6: QMD feature merge: nitrogen collector -> air collector

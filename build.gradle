@@ -1,17 +1,24 @@
 buildscript {
 	repositories {
-		jcenter()
+		// jcenter()
+		mavenCentral()
+		maven {
+			name = "jitpack"
+			url = "https://jitpack.io/"
+		}
 		maven {
 			name = "forge"
-			url = "http://files.minecraftforge.net/maven"
+			url = "https://maven.minecraftforge.net/"
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath("com.github.DStrand1:ForgeGradle:FG_2.3-SNAPSHOT") {
+			changing = true
+		}
 	}
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "net.minecraftforge.gradle.forge"
 
 repositories {
 	maven {
@@ -47,7 +54,7 @@ repositories {
 		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
 	}
 	maven {
-		name 'tterrag Maven'
+		name "tterrag Maven"
 		url "https://maven.tterrag.com/"
 	}
 	maven {
@@ -56,16 +63,16 @@ repositories {
 	}
 	maven {
 		name = "ModMaven"
-		url = "https://modmaven.k-4u.nl"
+		url = "https://modmaven.dev/"
 	}
 }
 
 version = "${mod_version}-${mc_version}"
 group = "nc"
 archivesBaseName = "NuclearCraft"
-sourceCompatibility = targetCompatibility = '1.8'
+sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
-	sourceCompatibility = targetCompatibility = '1.8'
+	sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
@@ -101,28 +108,28 @@ dependencies {
 	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
 	deobfCompile "net.darkhax.bookshelf:Bookshelf-${mc_version}:${bookshelf_version}"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
-	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6") {
-		transitive = false
-	}
+	// deobfCompile ("appeng:appliedenergistics2:rv6-stable-6") {
+		// transitive = false
+	// }
 	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}"
 	deobfCompile "hwyla:Hwyla:${hwyla_version}"
 }
 
 processResources {
-	exclude '**/Thumbs.db'
-	exclude '**/assets/base/**'
+	exclude "**/Thumbs.db"
+	exclude "**/assets/base/**"
 	
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
 
 	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-		expand 'version':project.version, 'mcversion':project.minecraft.version
+		include "mcmod.info"
+		expand "version": project.version, "mcversion": project.minecraft.version
 	}
 	
 	from(sourceSets.main.resources.srcDirs) {
-		exclude 'mcmod.info'
+		exclude "mcmod.info"
 	}
 	
 	rename '(.+_at.cfg)', 'META-INF/$1'
@@ -130,13 +137,13 @@ processResources {
 
 jar {
 	manifest {
-		attributes 'FMLAT': 'nuclearcraft_at.cfg'
+		attributes "FMLAT": "nuclearcraft_at.cfg"
 	}
 }
 
 task deobfJar(type: Jar) {
 	from sourceSets.main.output
-	classifier = 'deobf'
+	classifier = "deobf"
 }
 
 artifacts {
