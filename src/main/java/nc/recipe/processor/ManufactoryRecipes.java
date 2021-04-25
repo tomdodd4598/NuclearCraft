@@ -87,6 +87,8 @@ public class ManufactoryRecipes extends BasicRecipeHandler {
 		
 		// AE2
 		addRecipe(Items.ENDER_PEARL, oreStackList(Lists.newArrayList("dustEnder", "dustEnderPearl"), 2), 0.5D, 1D);
+		addRecipe(RegistryHelper.blockStackFromRegistry("appliedenergistics2:quartz_ore:0"), oreStack("crystalCertusQuartz", 2), 1D, 1D);
+		addRecipe("oreChargedCertusQuartz", RegistryHelper.itemStackFromRegistry("appliedenergistics2:material:1", 2), 1D, 1D);
 		addRecipe("crystalCertusQuartz", "dustCertusQuartz", 0.5D, 1D);
 		addRecipe("crystalFluix", "dustFluix", 0.5D, 1D);
 		

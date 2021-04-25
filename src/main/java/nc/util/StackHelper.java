@@ -71,6 +71,10 @@ public class StackHelper {
 		return newStack.copy();
 	}
 	
+	public static String stackPath(ItemStack stack) {
+		return Item.REGISTRY.getNameForObject(stack.getItem()).getPath();
+	}
+	
 	public static String stackName(ItemStack stack) {
 		ResourceLocation resourcelocation = Item.REGISTRY.getNameForObject(stack.getItem());
 		return resourcelocation == null ? "null" : resourcelocation.toString() + ":" + getMetadata(stack);

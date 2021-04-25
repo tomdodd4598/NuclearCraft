@@ -599,7 +599,7 @@ public class CraftingRecipeHandler {
 		}
 		ItemStack outStack = StackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
-			String outName = StackHelper.stackName(outStack);
+			String outName = StackHelper.stackPath(outStack);
 			if (RECIPE_COUNT_MAP.containsKey(outName)) {
 				int count = RECIPE_COUNT_MAP.getInt(outName);
 				RECIPE_COUNT_MAP.put(outName, count + 1);
