@@ -1,3 +1,11 @@
+v2o.5.2
+
+* Moved to an unofficial fork of ForgeGradle 2.3 [thanks to DStrand1!]
+
+* Fixed vanilla crafting recipe ID errors
+
++ Added manufactory recipes for AE2 certus quartz ore and charged certus quartz ore
+
 v2o.5.1
 
 * Increased script addon max zip size to 50 MB
