@@ -12,7 +12,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath("com.github.DStrand1:ForgeGradle:FG_2.3-SNAPSHOT") {
+		classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT") {
 			changing = true
 		}
 	}
