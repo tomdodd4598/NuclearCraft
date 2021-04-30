@@ -58,6 +58,10 @@ public class ScriptAddonHandler {
 				}
 				if (fileName.endsWith(".zip") || fileName.endsWith(".jar")) {
 					fileName = StringHelper.removeSuffix(fileName, 4);
+					int hyphen = fileName.lastIndexOf('-');
+					if (hyphen > 0) {
+						fileName = fileName.substring(0, hyphen);
+					}
 				}
 				IOHelper.unzip(f, "resources/nuclearcraft/addons/.temp/" + fileName);
 			}
@@ -65,6 +69,10 @@ public class ScriptAddonHandler {
 	}
 	
 	public static void copyAddons(File dir) throws IOException {
+		if (!dir.isDirectory()) {
+			return;
+		}
+		
 		String dirName = dir.getName();
 		if (dirName.equals("__MACOSX")) {
 			return;

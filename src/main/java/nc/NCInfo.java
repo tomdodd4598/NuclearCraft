@@ -20,7 +20,7 @@ public class NCInfo {
 	public static String[] fissionFuelInfo(BasicRecipe fuelInfo) {
 		List<String> list = Lists.newArrayList(
 				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"),
-				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime() * fission_fuel_time_multiplier, 3)),
+				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime(), 3)),
 				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")),
 				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", NCMath.pcDecimalPlaces(fuelInfo.getFissionFuelEfficiency(), 1)),
 				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t"),

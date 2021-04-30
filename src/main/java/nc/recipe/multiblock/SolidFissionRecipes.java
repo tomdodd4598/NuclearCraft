@@ -38,9 +38,9 @@ public class SolidFissionRecipes extends BasicRecipeHandler {
 	public void addFuelDepleteRecipes(int[] time, int[] heat, double[] efficiency, int[] criticality, double[] decayFactor, boolean[] selfPriming, double[] radiation, String... fuelTypes) {
 		int id = 0;
 		for (String fuelType : fuelTypes) {
-			addRecipe("ingot" + fuelType + "Oxide", "ingotDepleted" + fuelType + "Oxide", time[id + 1], heat[id + 1], efficiency[id + 1], criticality[id + 1], decayFactor[id + 1], selfPriming[id + 1], radiation[id + 1]);
-			addRecipe("ingot" + fuelType + "Nitride", "ingotDepleted" + fuelType + "Nitride", time[id + 2], heat[id + 2], efficiency[id + 2], criticality[id + 2], decayFactor[id + 2], selfPriming[id + 2], radiation[id + 2]);
-			addRecipe("ingot" + fuelType + "ZA", "ingotDepleted" + fuelType + "ZA", time[id + 3], heat[id + 3], efficiency[id + 3], criticality[id + 3], decayFactor[id + 3], selfPriming[id + 3], radiation[id + 3]);
+			addRecipe("ingot" + fuelType + "Oxide", "ingotDepleted" + fuelType + "Oxide", (int) (fission_fuel_time_multiplier * time[id + 1]), (int) (fission_fuel_heat_multiplier * heat[id + 1]), fission_fuel_efficiency_multiplier * efficiency[id + 1], criticality[id + 1], decayFactor[id + 1], selfPriming[id + 1], fission_fuel_radiation_multiplier * radiation[id + 1]);
+			addRecipe("ingot" + fuelType + "Nitride", "ingotDepleted" + fuelType + "Nitride", (int) (fission_fuel_time_multiplier * time[id + 2]), (int) (fission_fuel_heat_multiplier * heat[id + 2]), fission_fuel_efficiency_multiplier * efficiency[id + 2], criticality[id + 2], decayFactor[id + 2], selfPriming[id + 2], fission_fuel_radiation_multiplier * radiation[id + 2]);
+			addRecipe("ingot" + fuelType + "ZA", "ingotDepleted" + fuelType + "ZA", (int) (fission_fuel_time_multiplier * time[id + 3]), (int) (fission_fuel_heat_multiplier * heat[id + 3]), fission_fuel_efficiency_multiplier * efficiency[id + 3], criticality[id + 3], decayFactor[id + 3], selfPriming[id + 3], fission_fuel_radiation_multiplier * radiation[id + 3]);
 			id += 5;
 		}
 	}

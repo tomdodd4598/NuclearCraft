@@ -1,5 +1,3 @@
-NC & NCO: "base the condition for the advancement on if the processor in the parent advancement is registered and if the processor for the advancement is registered..."
-
 v2o.6: QMD feature merge: nitrogen collector -> air collector
 
 v2o.6: Refactor multiblock NBT
@@ -76,11 +74,14 @@ deuterium-enriched H2S + water -> H2S + deuterium-enriched water
 
 Fractional distillation: deuterium-enriched water -> heavy water + water
 
-1.17: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
+1.17: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust?
 1.17: Tiered machines: basic -> advanced -> DU -> elite? https://discordapp.com/channels/425461908712325130/425471153067524098/651401188054401025
 ___________________________________________________________________________________________________________________________
 
 1.17: Specialised fuel-making machine
+
+1.17: Make clusters share heat with casing (if connected)
+1.17: Make active reflectors conduct heat
 
 Gas-cooled Pebble-Bed Reactor that produces energy directly
 Option to use superheated gases in turbine loop?

@@ -571,7 +571,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	// Processor Stats
 	
 	public double getSpeedMultiplier() {
-		return 1D / (fission_fuel_time_multiplier * undercoolingLifetimeFactor);
+		return 1D / undercoolingLifetimeFactor;
 	}
 	
 	public boolean setRecipeStats() {

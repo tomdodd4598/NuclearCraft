@@ -605,7 +605,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	// Processor Stats
 	
 	public double getSpeedMultiplier() {
-		return 1D / (fission_fuel_time_multiplier * undercoolingLifetimeFactor);
+		return 1D / undercoolingLifetimeFactor;
 	}
 	
 	public boolean setRecipeStats() {

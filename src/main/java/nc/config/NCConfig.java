@@ -89,6 +89,9 @@ public class NCConfig {
 	public static int[] battery_capacity;
 	
 	public static double fission_fuel_time_multiplier; // Default: 1
+	public static double fission_fuel_heat_multiplier; // Default: 1
+	public static double fission_fuel_efficiency_multiplier; // Default: 1
+	public static double fission_fuel_radiation_multiplier; // Default: 1
 	public static double[] fission_source_efficiency;
 	public static int[] fission_sink_cooling_rate;
 	public static String[] fission_sink_rule;
@@ -520,6 +523,12 @@ public class NCConfig {
 		
 		Property propertyFissionFuelTimeMultiplier = config.get(CATEGORY_FISSION, "fission_fuel_time_multiplier", 1D, Lang.localise("gui.nc.config.fission_fuel_time_multiplier.comment"), 0.001D, 255D);
 		propertyFissionFuelTimeMultiplier.setLanguageKey("gui.nc.config.fission_fuel_time_multiplier");
+		Property propertyFissionFuelHeatMultiplier = config.get(CATEGORY_FISSION, "fission_fuel_heat_multiplier", 1D, Lang.localise("gui.nc.config.fission_fuel_heat_multiplier.comment"), 0.001D, 255D);
+		propertyFissionFuelHeatMultiplier.setLanguageKey("gui.nc.config.fission_fuel_heat_multiplier");
+		Property propertyFissionFuelEfficiencyMultiplier = config.get(CATEGORY_FISSION, "fission_fuel_efficiency_multiplier", 1D, Lang.localise("gui.nc.config.fission_fuel_efficiency_multiplier.comment"), 0.001D, 255D);
+		propertyFissionFuelEfficiencyMultiplier.setLanguageKey("gui.nc.config.fission_fuel_efficiency_multiplier");
+		Property propertyFissionFuelRadiationMultiplier = config.get(CATEGORY_FISSION, "fission_fuel_radiation_multiplier", 1D, Lang.localise("gui.nc.config.fission_fuel_radiation_multiplier.comment"), 0.001D, 255D);
+		propertyFissionFuelRadiationMultiplier.setLanguageKey("gui.nc.config.fission_fuel_radiation_multiplier");
 		Property propertyFissionSourceEfficiency = config.get(CATEGORY_FISSION, "fission_source_efficiency", new double[] {0.9D, 0.95D, 1D}, Lang.localise("gui.nc.config.fission_source_efficiency.comment"), 0D, 255D);
 		propertyFissionSourceEfficiency.setLanguageKey("gui.nc.config.fission_source_efficiency");
 		Property propertyFissionSinkCoolingRate = config.get(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {55, 50, 85, 80, 70, 105, 90, 100, 110, 115, 145, 65, 95, 200, 195, 75, 120, 60, 160, 130, 125, 150, 175, 170, 165, 180, 140, 135, 185, 190, 155, 205}, Lang.localise("gui.nc.config.fission_sink_cooling_rate.comment"), 0, 32767);
@@ -1127,6 +1136,9 @@ public class NCConfig {
 		
 		List<String> propertyOrderFission = new ArrayList<>();
 		propertyOrderFission.add(propertyFissionFuelTimeMultiplier.getName());
+		propertyOrderFission.add(propertyFissionFuelHeatMultiplier.getName());
+		propertyOrderFission.add(propertyFissionFuelEfficiencyMultiplier.getName());
+		propertyOrderFission.add(propertyFissionFuelRadiationMultiplier.getName());
 		propertyOrderFission.add(propertyFissionSourceEfficiency.getName());
 		propertyOrderFission.add(propertyFissionSinkCoolingRate.getName());
 		propertyOrderFission.add(propertyFissionSinkRule.getName());
@@ -1477,6 +1489,9 @@ public class NCConfig {
 			battery_capacity = readIntegerArrayFromConfig(propertyBatteryCapacity);
 			
 			fission_fuel_time_multiplier = propertyFissionFuelTimeMultiplier.getDouble();
+			fission_fuel_heat_multiplier = propertyFissionFuelHeatMultiplier.getDouble();
+			fission_fuel_efficiency_multiplier = propertyFissionFuelEfficiencyMultiplier.getDouble();
+			fission_fuel_radiation_multiplier = propertyFissionFuelRadiationMultiplier.getDouble();
 			fission_source_efficiency = readDoubleArrayFromConfig(propertyFissionSourceEfficiency);
 			fission_sink_cooling_rate = readIntegerArrayFromConfig(propertyFissionSinkCoolingRate);
 			fission_sink_rule = propertyFissionSinkRule.getStringList();
@@ -1819,6 +1834,9 @@ public class NCConfig {
 		propertyBatteryCapacity.set(battery_capacity);
 		
 		propertyFissionFuelTimeMultiplier.set(fission_fuel_time_multiplier);
+		propertyFissionFuelHeatMultiplier.set(fission_fuel_heat_multiplier);
+		propertyFissionFuelEfficiencyMultiplier.set(fission_fuel_efficiency_multiplier);
+		propertyFissionFuelRadiationMultiplier.set(fission_fuel_radiation_multiplier);
 		propertyFissionSourceEfficiency.set(fission_source_efficiency);
 		propertyFissionSinkCoolingRate.set(fission_sink_cooling_rate);
 		propertyFissionSinkRule.set(fission_sink_rule);
