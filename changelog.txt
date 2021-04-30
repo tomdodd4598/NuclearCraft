@@ -1,3 +1,9 @@
+v2o.5.3
+
++ Added global multiplier configs for fission fuel heat gen, base efficiency and radiation stats
+
+* Script addon zip files with the "[name]-[version].zip" file name format will now have their scripts extracted to the "scripts/nc_script_addons/[name]" directory
+
 v2o.5.2
 
 * Moved to an unofficial fork of ForgeGradle 2.3 [thanks to DStrand1!]
