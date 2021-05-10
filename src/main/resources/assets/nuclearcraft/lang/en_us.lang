@@ -2387,7 +2387,7 @@ gui.nc.config.mushroom_gen_rate.comment=Determines how often mushrooms added by 
 
 gui.nc.config.corium_solidification=Corium Solidification Dimension List
 gui.nc.config.corium_solidification.comment=List of IDs of dimensions to whitelist/blacklist for corium solidification.
-gui.nc.config.corium_solidification_list_type=Corium Solidification Dimension Whitelist/Blacklist (false/true)
+gui.nc.config.corium_solidification_list_type=Corium Solidification Dim WList/BList (false/true)
 gui.nc.config.corium_solidification_list_type.comment=Is the dimension list a whitelist (false) or a blacklist (true)?
 
 gui.nc.config.category.processor=Processor Configs
