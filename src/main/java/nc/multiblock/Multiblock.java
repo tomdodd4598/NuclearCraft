@@ -107,9 +107,9 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * @param blockCoord
 	 *            Coordinate to check.
 	 * @return True if the tile entity at blockCoord is being tracked by this machine, false otherwise. */
-	public boolean hasBlock(BlockPos blockCoord) {
+	/*public boolean hasBlock(BlockPos blockCoord) {
 		return connectedParts.contains(blockCoord);
-	}
+	}*/
 	
 	/** Attach a new part to this machine.
 	 * 
