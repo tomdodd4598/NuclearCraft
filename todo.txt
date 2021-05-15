@@ -1,3 +1,5 @@
+Fix shield lag issue
+
 v2o.6: QMD feature merge: nitrogen collector -> air collector
 
 v2o.6: Refactor multiblock NBT

@@ -4,7 +4,7 @@
 	"description": "Nuclear Physics, Minecraft Style, Overhauled!",
 	"version": "${version}",
 	"mcversion": "${mcversion}",
-	"url": "https://minecraft.curseforge.com/projects/nuclearcraft-mod",
+	"url": "https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-overhauled",
 	"updateUrl": "",
 	"authorList": ["tomdodd4598"],
 	"credits": "Thanks to all suggestors, bug reporters, modders whose APIs I have used and those who have made language files!",
