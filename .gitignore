@@ -29,5 +29,7 @@ run/*
 !run/resources
 run/resources/*
 !run/resources/nuclearcraft
+run/resources/nuclearcraft/*
+!run/resources/nuclearcraft/addons
 *.suo
 /.vs
