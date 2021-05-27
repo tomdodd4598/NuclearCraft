@@ -46,6 +46,14 @@ public class ScriptAddonHandler {
 		}
 	}
 	
+	public static String removeVersionSuffix(String name) {
+		int hyphen = name.lastIndexOf('-');
+		if (hyphen > 0) {
+			name = name.substring(0, hyphen);
+		}
+		return name;
+	}
+	
 	public static void extractAddons(File dir) throws IOException {
 		fileLoop: for (File f : dir.listFiles()) {
 			if (f.isFile() && IOHelper.isZip(f)) {
@@ -58,10 +66,7 @@ public class ScriptAddonHandler {
 				}
 				if (fileName.endsWith(".zip") || fileName.endsWith(".jar")) {
 					fileName = StringHelper.removeSuffix(fileName, 4);
-					int hyphen = fileName.lastIndexOf('-');
-					if (hyphen > 0) {
-						fileName = fileName.substring(0, hyphen);
-					}
+					fileName = removeVersionSuffix(fileName);
 				}
 				IOHelper.unzip(f, "resources/nuclearcraft/addons/.temp/" + fileName);
 			}
@@ -106,7 +111,7 @@ public class ScriptAddonHandler {
 						FileUtils.deleteDirectory(legacy);
 					}
 					
-					FileUtils.copyDirectory(f, new File("scripts/nc_script_addons/" + dirName));
+					FileUtils.copyDirectory(f, new File("scripts/nc_script_addons/" + removeVersionSuffix(dirName)));
 					SCRIPT_ADDON_DIRS.add(dir);
 				}
 				

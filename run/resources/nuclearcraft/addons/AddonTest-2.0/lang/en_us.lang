@@ -1,0 +1,168 @@
+item.contenttweaker.abc_123.name=ABC-123
+item.contenttweaker.abc_123_c.name=ABC-123 Carbide
+item.contenttweaker.abc_123_ox.name=ABC-123 Oxide
+item.contenttweaker.abc_123_ni.name=ABC-123 Nitride
+item.contenttweaker.abc_123_za.name=ABC-123-Zirconium Alloy
+
+item.contenttweaker.abc_124.name=ABC-124
+item.contenttweaker.abc_124_c.name=ABC-124 Carbide
+item.contenttweaker.abc_124_ox.name=ABC-124 Oxide
+item.contenttweaker.abc_124_ni.name=ABC-124 Nitride
+item.contenttweaker.abc_124_za.name=ABC-124-Zirconium Alloy
+
+item.contenttweaker.xyz_786.name=XYZ-786
+item.contenttweaker.xyz_786_c.name=XYZ-786 Carbide
+item.contenttweaker.xyz_786_ox.name=XYZ-786 Oxide
+item.contenttweaker.xyz_786_ni.name=XYZ-786 Nitride
+item.contenttweaker.xyz_786_za.name=XYZ-786-Zirconium Alloy
+
+item.contenttweaker.xyz_789.name=XYZ-789
+item.contenttweaker.xyz_789_c.name=XYZ-789 Carbide
+item.contenttweaker.xyz_789_ox.name=XYZ-789 Oxide
+item.contenttweaker.xyz_789_ni.name=XYZ-789 Nitride
+item.contenttweaker.xyz_789_za.name=XYZ-789-Zirconium Alloy
+
+item.contenttweaker.def_124.name=DEF-124
+item.contenttweaker.def_124_c.name=DEF-124 Carbide
+item.contenttweaker.def_124_ox.name=DEF-124 Oxide
+item.contenttweaker.def_124_ni.name=DEF-124 Nitride
+item.contenttweaker.def_124_za.name=DEF-124-Zirconium Alloy
+
+item.contenttweaker.def_125.name=DEF-125
+item.contenttweaker.def_125_c.name=DEF-125 Carbide
+item.contenttweaker.def_125_ox.name=DEF-125 Oxide
+item.contenttweaker.def_125_ni.name=DEF-125 Nitride
+item.contenttweaker.def_125_za.name=DEF-125-Zirconium Alloy
+
+item.contenttweaker.ghi_125.name=GHI-125
+item.contenttweaker.ghi_125_c.name=GHI-125 Carbide
+item.contenttweaker.ghi_125_ox.name=GHI-125 Oxide
+item.contenttweaker.ghi_125_ni.name=GHI-125 Nitride
+item.contenttweaker.ghi_125_za.name=GHI-125-Zirconium Alloy
+
+item.contenttweaker.ghi_126.name=GHI-126
+item.contenttweaker.ghi_126_c.name=GHI-126 Carbide
+item.contenttweaker.ghi_126_ox.name=GHI-126 Oxide
+item.contenttweaker.ghi_126_ni.name=GHI-126 Nitride
+item.contenttweaker.ghi_126_za.name=GHI-126-Zirconium Alloy
+
+item.contenttweaker.uvw_787.name=UVW-787
+item.contenttweaker.uvw_787_c.name=UVW-787 Carbide
+item.contenttweaker.uvw_787_ox.name=UVW-787 Oxide
+item.contenttweaker.uvw_787_ni.name=UVW-787 Nitride
+item.contenttweaker.uvw_787_za.name=UVW-787-Zirconium Alloy
+
+item.contenttweaker.uvw_788.name=UVW-788
+item.contenttweaker.uvw_788_c.name=UVW-788 Carbide
+item.contenttweaker.uvw_788_ox.name=UVW-788 Oxide
+item.contenttweaker.uvw_788_ni.name=UVW-788 Nitride
+item.contenttweaker.uvw_788_za.name=UVW-788-Zirconium Alloy
+
+item.contenttweaker.rst_789.name=RST-789
+item.contenttweaker.rst_789_c.name=RST-789 Carbide
+item.contenttweaker.rst_789_ox.name=RST-789 Oxide
+item.contenttweaker.rst_789_ni.name=RST-789 Nitride
+item.contenttweaker.rst_789_za.name=RST-789-Zirconium Alloy
+
+item.contenttweaker.rst_790.name=RST-790
+item.contenttweaker.rst_790_c.name=RST-790 Carbide
+item.contenttweaker.rst_790_ox.name=RST-790 Oxide
+item.contenttweaker.rst_790_ni.name=RST-790 Nitride
+item.contenttweaker.rst_790_za.name=RST-790-Zirconium Alloy
+
+item.contenttweaker.pellet_leabc_123.name=LEABC-123
+item.contenttweaker.pellet_leabc_123_c.name=LEABC-123 Carbide
+
+item.contenttweaker.fuel_leabc_123_tr.name=LEABC-123 TRISO Fuel Pebble
+item.contenttweaker.fuel_leabc_123_ox.name=LEABC-123 Oxide Fuel Pellet
+item.contenttweaker.fuel_leabc_123_ni.name=LEABC-123 Nitride Fuel Pellet
+item.contenttweaker.fuel_leabc_123_za.name=LEABC-123-Zirconium Alloy Fuel Pellet
+
+item.contenttweaker.depleted_fuel_leabc_123_tr.name=Depleted LEABC-123 TRISO Fuel Pebble
+item.contenttweaker.depleted_fuel_leabc_123_ox.name=Depleted LEABC-123 Oxide Fuel Pellet
+item.contenttweaker.depleted_fuel_leabc_123_ni.name=Depleted LEABC-123 Nitride Fuel Pellet
+item.contenttweaker.depleted_fuel_leabc_123_za.name=Depleted LEABC-123-Zirconium Alloy Fuel Pellet
+
+item.contenttweaker.pellet_hexyz_789.name=HEXYZ-789
+item.contenttweaker.pellet_hexyz_789_c.name=HEXYZ-789 Carbide
+
+item.contenttweaker.fuel_hexyz_789_tr.name=HEXYZ-789 TRISO Fuel Pebble
+item.contenttweaker.fuel_hexyz_789_ox.name=HEXYZ-789 Oxide Fuel Pellet
+item.contenttweaker.fuel_hexyz_789_ni.name=HEXYZ-789 Nitride Fuel Pellet
+item.contenttweaker.fuel_hexyz_789_za.name=HEXYZ-789-Zirconium Alloy Fuel Pellet
+
+item.contenttweaker.depleted_fuel_hexyz_789_tr.name=Depleted HEXYZ-789 TRISO Fuel Pebble
+item.contenttweaker.depleted_fuel_hexyz_789_ox.name=Depleted HEXYZ-789 Oxide Fuel Pellet
+item.contenttweaker.depleted_fuel_hexyz_789_ni.name=Depleted HEXYZ-789 Nitride Fuel Pellet
+item.contenttweaker.depleted_fuel_hexyz_789_za.name=Depleted HEXYZ-789-Zirconium Alloy Fuel Pellet
+
+fluid.abc_123=Molten ABC-123
+fluid.abc_124=Molten ABC-124
+
+fluid.xyz_786=Molten XYZ-786
+fluid.xyz_789=Molten XYZ-789
+
+fluid.def_124=Molten DEF-124
+fluid.def_125=Molten DEF-125
+fluid.ghi_125=Molten GHI-125
+fluid.ghi_126=Molten GHI-126
+
+fluid.uvw_787=Molten UVW-787
+fluid.uvw_788=Molten UVW-788
+fluid.rst_789=Molten RST-789
+fluid.rst_790=Molten RST-790
+
+fluid.leabc_123=Molten LEABC-123
+fluid.leabc_123_fluoride=Molten LEABC-123 Fluoride
+fluid.leabc_123_fluoride_flibe=Molten FLiBe Salt Solution of LEABC-123 Fluoride Fuel
+fluid.depleted_leabc_123=Molten Depleted LEABC-123
+fluid.depleted_leabc_123_fluoride=Molten Depleted LEABC-123 Fluoride
+fluid.depleted_leabc_123_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEABC-123 Fluoride Fuel
+
+fluid.hexyz_789=Molten HEXYZ-789
+fluid.hexyz_789_fluoride=Molten HEXYZ-789 Fluoride
+fluid.hexyz_789_fluoride_flibe=Molten FLiBe Salt Solution of HEXYZ-789 Fluoride Fuel
+fluid.depleted_hexyz_789=Molten Depleted HEXYZ-789
+fluid.depleted_hexyz_789_fluoride=Molten Depleted HEXYZ-789 Fluoride
+fluid.depleted_hexyz_789_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEXYZ-789 Fluoride Fuel
+
+tile.nuclearcraft.solid_fission_sink_extreme.name=Extreme Alloy Fission Heat Sink
+tile.nuclearcraft.solid_fission_sink_sic_sic_cmc.name=SiC-SiC CMC Fission Heat Sink
+
+tile.nuclearcraft.salt_fission_heater_extreme.name=Extreme Alloy Fission Coolant Heater
+tile.nuclearcraft.salt_fission_heater_sic_sic_cmc.name=SiC-SiC CMC Fission Coolant Heater
+
+tile.nuclearcraft.fission_heater_port_extreme.name=Extreme Alloy Fission Coolant Heater Port
+tile.nuclearcraft.fission_heater_port_sic_sic_cmc.name=SiC-SiC CMC Fission Coolant Heater Port
+
+nc.sf.extreme_sink0=%s valid extreme alloy sink
+nc.sf.extreme_sink1=%s valid extreme alloy sinks
+nc.sf.sic_sic_cmc_sink0=%s valid SiC-SiC CMC sink
+nc.sf.sic_sic_cmc_sink1=%s valid SiC-SiC CMC sinks
+
+nc.sf.extreme_heater0=%s functional extreme alloy heater
+nc.sf.extreme_heater1=%s functional extreme alloy heaters
+nc.sf.sic_sic_cmc_heater0=%s functional SiC-SiC CMC heater
+nc.sf.sic_sic_cmc_heater1=%s functional SiC-SiC CMC heaters
+
+tile.nuclearcraft.fission_source_americium_beryllium.name=Am-Be Fission Neutron Source
+
+tile.nuclearcraft.fission_shield_cadmium.name=Cadmium Fission Neutron Shield
+
+tile.nuclearcraft.turbine_dynamo_coil_extreme.name=Extreme Alloy Turbine Dynamo Coil
+tile.nuclearcraft.turbine_dynamo_coil_sic_sic_cmc.name=SiC-SiC CMC Turbine Dynamo Coil
+
+tile.nuclearcraft.turbine_rotor_blade_manganese.name=Manganese Turbine Rotor Blade
+tile.nuclearcraft.turbine_rotor_blade_copper.name=Copper Turbine Rotor Blade
+
+tile.nuclearcraft.turbine_rotor_stator_magnesium.name=Magnesium Turbine Rotor Stator
+tile.nuclearcraft.turbine_rotor_stator_boron.name=Boron Turbine Rotor Stator
+
+nc.sf.extreme_coil0=%s extreme alloy dynamo coil
+nc.sf.extreme_coil1=%s extreme alloy dynamo coils
+nc.sf.sic_sic_cmc_coil0=%s SiC-SiC CMC dynamo coil
+nc.sf.sic_sic_cmc_coil1=%s SiC-SiC CMC dynamo coils
+
+tile.nuclearcraft.rtg_strontium.name=Strontium RTG
+
+tile.nuclearcraft.battery_zinc.name=Zinc Battery

@@ -1,3 +1,7 @@
+v2o.5.4
+
+* Updated Russian language file [thanks to artenaft69!]
+
 v2o.5.3
 
 + Added global multiplier configs for fission fuel heat gen, base efficiency and radiation stats

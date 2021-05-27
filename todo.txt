@@ -1,4 +1,8 @@
+Make quantum computer multiblock SSP-only
+Don't create nuclearcraft folder for quantum programs unless a program is made
+
 Fix shield lag issue
+Remove salt fission recipes time int cast (and generally fix salt fission process time in JEI)
 
 Read Pu + Fatmice neutron poison discussion (+ "Technically, almost all of the neutron poisons were removed with the spent fuel")
 Reduce neutron poison lifetime
