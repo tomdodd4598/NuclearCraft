@@ -1,9 +1,10 @@
 package nc.tile;
 
+import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import nc.block.property.BlockProperties;
 import nc.capability.radiation.source.IRadiationSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -23,7 +24,7 @@ public interface ITile {
 	public int getTileBlockMeta();
 	
 	public default EnumFacing getFacingHorizontal() {
-		return getTileBlockType().getStateFromMeta(getTileBlockMeta()).getValue(BlockProperties.FACING_HORIZONTAL);
+		return getTileBlockType().getStateFromMeta(getTileBlockMeta()).getValue(FACING_HORIZONTAL);
 	}
 	
 	public default IBlockState getBlockState(BlockPos pos) {

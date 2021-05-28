@@ -1,3 +1,25 @@
+v2.18z
+
+* Fixed GTCE recipe integration conflicting with base GTCE recipes
+* Fixed crash when Gregicality is installed
+
++ Added molten steel in case other mods that add it aren't installed
+
+* Hopefully fixed TiC smeltery recipes not being removable via CraftTweaker
+
+* Fixed various feral ghoul rendering glitches
+* Fixed player radiation being reset on leaving the End
+* Fixed radiation-related crash with Cubic Chunks installed
+
+* Fixed fluids in GUIs not being coloured correctly
+* Fixed remaining fuel time counter not taking fuel use rate config into account
+
+* Updated Forge
+* Moved to an unofficial fork of ForgeGradle 2.3 [thanks to DStrand1!]
+
+* Various other minor fixes, changes and refactors
+* Possible other things that I have forgotten
+
 v2.18y
 
 + Added config to disable world radiation block checking

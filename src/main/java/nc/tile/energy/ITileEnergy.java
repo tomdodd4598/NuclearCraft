@@ -157,7 +157,7 @@ public interface ITileEnergy extends ITile {
 		
 		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
 		
-		if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu) {
 			if (tile instanceof IEnergySink) {
 				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
 				return;

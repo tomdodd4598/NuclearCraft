@@ -14,12 +14,14 @@ import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.util.GTUtility;
+import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.common.items.MetaItems;
 import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
 import nc.recipe.RecipeTupleGenerator;
+import nc.recipe.ingredient.ChanceFluidIngredient;
+import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
@@ -81,7 +83,7 @@ public class GTCERecipeHelper {
 		case "pressurizer":
 			if (isPlateRecipe(recipe)) {
 				recipeMap = RecipeMaps.BENDER_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 10);
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 10).notConsumable(new IntCircuitIngredient(0));
 			}
 			else {
 				recipeMap = RecipeMaps.COMPRESSOR_RECIPES;
@@ -98,11 +100,11 @@ public class GTCERecipeHelper {
 			break;
 		case "crystallizer":
 			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10);
+			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10).notConsumable(new IntCircuitIngredient(0));
 			break;
 		case "dissolver":
 			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20);
+			builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20).notConsumable(new IntCircuitIngredient(1));
 			break;
 		case "extractor":
 			recipeMap = RecipeMaps.FLUID_EXTRACTION_RECIPES;
@@ -110,7 +112,7 @@ public class GTCERecipeHelper {
 			break;
 		case "centrifuge":
 			recipeMap = RecipeMaps.CENTRIFUGE_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 80);
+			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 80).notConsumable(new IntCircuitIngredient(0));
 			break;
 		case "rock_crusher":
 			recipeMap = RecipeMaps.MACERATOR_RECIPES;
@@ -146,10 +148,10 @@ public class GTCERecipeHelper {
 		
 		List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
 		
-		RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+		RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, true);
 		
 		for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
-			if (findRecipe(recipeMap, materials.getLeft(), materials.getRight()) != null) {
+			if (isRecipeInvalid(recipeMap, materials.getLeft(), materials.getRight())) {
 				return;
 			}
 		}
@@ -196,11 +198,6 @@ public class GTCERecipeHelper {
 				builderVariant.notConsumable(mold);
 			}
 		}
-		else if (recipeMap == RecipeMaps.BENDER_RECIPES) {
-			for (RecipeBuilder<?> builderVariant : builders) {
-				builderVariant.notConsumable(MetaItems.INTEGRATED_CIRCUIT);
-			}
-		}
 		
 		for (IFluidIngredient input : recipe.fluidIngredients()) {
 			if (input.getInputStackList().isEmpty()) continue;
@@ -210,6 +207,7 @@ public class GTCERecipeHelper {
 		}
 		
 		for (IItemIngredient output : recipe.itemProducts()) {
+			if (output instanceof ChanceItemIngredient) return;
 			List<ItemStack> outputStackList = output.getOutputStackList();
 			if (outputStackList.isEmpty()) continue;
 			for (RecipeBuilder<?> builderVariant : builders) {
@@ -218,9 +216,11 @@ public class GTCERecipeHelper {
 		}
 		
 		for (IFluidIngredient output : recipe.fluidProducts()) {
-			if (output.getOutputStackList().isEmpty()) continue;
+			if (output instanceof ChanceFluidIngredient) return;
+			List<FluidStack> outputStackList = output.getOutputStackList();
+			if (outputStackList.isEmpty()) continue;
 			for (RecipeBuilder<?> builderVariant : builders) {
-				builderVariant.fluidOutputs(output.getOutputStackList().get(0));
+				builderVariant.fluidOutputs(outputStackList.get(0));
 			}
 		}
 		
@@ -245,61 +245,64 @@ public class GTCERecipeHelper {
 	// GTCE recipe matching - modified from GTCE source
 	
 	@Optional.Method(modid = "gregtech")
-	private static Recipe findRecipe(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
-		if (recipeMap.getRecipeList().isEmpty())
-			return null;
-		if (recipeMap.getMinFluidInputs() > 0 && GTUtility.amountOfNonNullElements(fluidInputs) < recipeMap.getMinFluidInputs()) {
-			return null;
+	private static boolean isRecipeInvalid(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+		if (fluidInputs.size() < recipeMap.getMinFluidInputs() || fluidInputs.size() > recipeMap.getMaxFluidInputs()) {
+			return true;
 		}
-		if (recipeMap.getMinInputs() > 0 && GTUtility.amountOfNonEmptyStacks(inputs) < recipeMap.getMinInputs()) {
-			return null;
+		else if (inputs.size() < recipeMap.getMinInputs() || inputs.size() > recipeMap.getMaxInputs()) {
+			return true;
 		}
+		
 		if (recipeMap.getMaxInputs() > 0) {
-			return findByInputs(recipeMap, inputs, fluidInputs);
+			return findConflictByInputs(recipeMap, inputs, fluidInputs);
 		}
 		else {
-			return findByFluidInputs(recipeMap, inputs, fluidInputs);
+			return findConflictByFluidInputs(recipeMap, inputs, fluidInputs);
 		}
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static Recipe findByFluidInputs(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+	private static boolean findConflictByFluidInputs(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
 		for (FluidStack fluid : fluidInputs) {
-			if (fluid == null) continue;
+			if (fluid == null) {
+				continue;
+			}
 			Collection<Recipe> recipes = recipeMap.getRecipesForFluid(fluid);
-			if (recipes == null) continue;
+			if (recipes == null) {
+				continue;
+			}
 			for (Recipe recipe : recipes) {
-				if (recipeMatches(recipe, inputs, fluidInputs)) {
-					return recipe;
+				if (isRecipeConflict(recipe, inputs, fluidInputs)) {
+					return true;
 				}
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static Recipe findByInputs(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+	private static boolean findConflictByInputs(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
 		for (Recipe recipe : recipeMap.getRecipeList()) {
-			if (recipeMatches(recipe, inputs, fluidInputs)) {
-				return recipe;
+			if (isRecipeConflict(recipe, inputs, fluidInputs)) {
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static boolean recipeMatches(Recipe recipe, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
-		itemLoop : for (CountableIngredient ingredient : recipe.getInputs()) {
-			for (ItemStack input : inputs) {
-				if (!input.isEmpty() && ingredient.getIngredient().apply(input)) {
+	private static boolean isRecipeConflict(Recipe recipe, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+		itemLoop: for (ItemStack input : inputs) {
+			for (CountableIngredient ingredient : recipe.getInputs()) {
+				if (ingredient.getIngredient().apply(input)) {
 					continue itemLoop;
 				}
 			}
 			return false;
 		}
-		fluidLoop : for (FluidStack fluid : recipe.getFluidInputs()) {
-			for (FluidStack input : fluidInputs) {
-				if (input != null && input.isFluidEqual(fluid)) {
+		fluidLoop: for (FluidStack input : fluidInputs) {
+			for (FluidStack fluid : recipe.getFluidInputs()) {
+				if (input.isFluidEqual(fluid)) {
 					continue fluidLoop;
 				}
 			}

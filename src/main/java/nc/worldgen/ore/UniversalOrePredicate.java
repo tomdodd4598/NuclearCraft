@@ -8,7 +8,6 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 
-@SuppressWarnings("null")
 public class UniversalOrePredicate implements Predicate<IBlockState> {
 	
 	@Override

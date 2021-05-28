@@ -147,7 +147,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		// Fission Fuels
 		for (String suffix : new String[] {"", "Oxide"}) {
 			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), 9D);
-			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_fuel_tbu", FluidStackHelper.NUGGET_VOLUME*64), 64D/9D);
+			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), 64D/9D);
 		}
 		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
 		addFissionFuelMeltingRecipes("neptunium", "en", 236);

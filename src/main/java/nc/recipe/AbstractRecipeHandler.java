@@ -1,7 +1,5 @@
 package nc.recipe;
 
-import static nc.util.PermutationHelper.permutations;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -28,6 +26,7 @@ import nc.tile.internal.fluid.Tank;
 import nc.util.FluidRegHelper;
 import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
+import nc.util.PermutationHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
@@ -37,9 +36,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
-	private List<T> recipeList = new ArrayList<>();
+	protected List<T> recipeList = new ArrayList<>();
 	
-	private Long2ObjectMap<T> recipeCache = new Long2ObjectOpenHashMap<>();
+	protected Long2ObjectMap<T> recipeCache = new Long2ObjectOpenHashMap<>();
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
@@ -155,11 +154,11 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 			
 			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
 			
-			RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+			RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, false);
 			
 			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
-				for (List<ItemStack> items : permutations(materials.getLeft())) {
-					for (List<FluidStack> fluids : permutations(materials.getRight())) {
+				for (List<ItemStack> items : PermutationHelper.permutations(materials.getLeft())) {
+					for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
 						recipeCache.put(hashMaterials(items, fluids), recipe);
 					}
 				}

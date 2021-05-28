@@ -62,7 +62,7 @@ public class GuiFissionController extends NCGui {
 		String power = UnitHelper.prefix((int)this.tile.processPower, 6, "RF/t");
 		String efficiency = NCMath.decimalPlaces(this.tile.efficiency, 1) + "%";
 		if (this.tile.getFuelName().equals(TileFissionController.NO_FUEL) || this.tile.cells == 0) return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
-		double fuelTimeLeft = MathHelper.clamp((this.tile.baseProcessTime - this.tile.time)/(this.tile.cells*NCConfig.fission_fuel_use), 0D, this.tile.baseProcessTime);
+		double fuelTimeLeft = MathHelper.clamp((this.tile.baseProcessTime - this.tile.time)/(this.tile.cells*NCConfig.fission_fuel_use), 0D, this.tile.baseProcessTime/NCConfig.fission_fuel_use);
 		int fuelTimeLeftPercent = (int)(100D*MathHelper.clamp(1D - this.tile.time/this.tile.baseProcessTime, 0D, 1D));
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency, TextFormatting.GREEN + Lang.localise("gui.container.fission_controller.fuel_remaining") + TextFormatting.WHITE + " " + UnitHelper.applyTimeUnitShort(fuelTimeLeft, 2) + " [" + fuelTimeLeftPercent + "%]");
 	}

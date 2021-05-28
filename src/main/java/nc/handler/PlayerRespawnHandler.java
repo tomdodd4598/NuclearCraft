@@ -25,11 +25,27 @@ public class PlayerRespawnHandler {
 			
 			if (event.isWasDeath()) {
 				if (NCConfig.radiation_death_persist) {
-					newRads.setTotalRads((oldRads.getTotalRads()*NCConfig.radiation_death_persist_fraction) % oldRads.getMaxRads(), false);
-					newRads.setRadiationImmunityTime(oldRads.getTotalRads()*NCConfig.radiation_death_immunity_time*20D/oldRads.getMaxRads());
+					newRads.setTotalRads(oldRads.getTotalRads() * NCConfig.radiation_death_persist_fraction % oldRads.getMaxRads(), false);
 				}
+				newRads.setRadiationImmunityTime(NCConfig.radiation_death_immunity_time * 20D);
 			}
 			else {
+				newRads.setConsumedMedicine(oldRads.getConsumedMedicine());
+				newRads.setExternalRadiationResistance(oldRads.getExternalRadiationResistance());
+				newRads.setInternalRadiationResistance(oldRads.getInternalRadiationResistance());
+				newRads.setPoisonBuffer(oldRads.getPoisonBuffer());
+				newRads.setRadawayBuffer(false, oldRads.getRadawayBuffer(false));
+				newRads.setRadawayBuffer(true, oldRads.getRadawayBuffer(true));
+				newRads.setRadawayCooldown(oldRads.getRadawayCooldown());
+				newRads.setRadiationImmunityStage(oldRads.getRadiationImmunityStage());
+				newRads.setRadiationImmunityTime(oldRads.getRadiationImmunityTime());
+				newRads.setRadXCooldown(oldRads.getRadXCooldown());
+				newRads.setRadXUsed(oldRads.getRadXUsed());
+				newRads.setRadXWoreOff(oldRads.getRadXWoreOff());
+				newRads.setRecentPoisonAddition(oldRads.getRecentPoisonAddition());
+				newRads.setRecentRadawayAddition(oldRads.getRecentRadawayAddition());
+				newRads.setRecentRadXAddition(oldRads.getRecentRadXAddition());
+				newRads.setShouldWarn(oldRads.getShouldWarn());
 				newRads.setTotalRads(oldRads.getTotalRads(), false);
 			}
 		}

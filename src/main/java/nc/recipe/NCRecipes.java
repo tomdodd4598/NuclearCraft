@@ -2,6 +2,8 @@ package nc.recipe;
 
 import java.util.List;
 
+import nc.ModCheck;
+import nc.integration.tconstruct.TConstructExtras;
 import nc.radiation.RadBlockEffects;
 import nc.radiation.RadSources;
 import nc.recipe.generator.DecayGeneratorRecipes;
@@ -77,6 +79,8 @@ public class NCRecipes {
 	public static CondenserRecipes condenser;
 	public static RadBlockEffects radiation_block_mutations;
 	
+	public static ProcessorRecipeHandler[] processor_recipe_handlers;
+	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (initialized) return;
@@ -112,6 +116,8 @@ public class NCRecipes {
 		condenser = new CondenserRecipes();
 		radiation_block_mutations = new RadBlockEffects();
 		
+		processor_recipe_handlers = new ProcessorRecipeHandler[] {manufactory, isotope_separator, decay_hastener, fuel_reprocessor, alloy_furnace, infuser, melter, supercooler, electrolyser, irradiator, ingot_former, pressurizer, chemical_reactor, salt_mixer, crystallizer, dissolver, extractor, centrifuge, rock_crusher};
+		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
@@ -119,6 +125,17 @@ public class NCRecipes {
 		RadSources.init();
 		
 		initialized = true;
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void registerIntegrationRecipes(RegistryEvent.Register<IRecipe> event) {
+		if (ModCheck.tinkersLoaded()) {
+			TConstructExtras.init();
+		}
+		
+		for (ProcessorRecipeHandler handler : processor_recipe_handlers) {
+			handler.addGTCERecipes();
+		}
 	}
 	
 	public static List<List<String>> infuser_valid_fluids;

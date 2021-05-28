@@ -5,15 +5,16 @@ import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
-import ic2.api.energy.EnergyNet;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -311,7 +313,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		
 		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
 		
-		if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu) {
 			if (tile instanceof IEnergySink) {
 				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
 				return;
@@ -356,8 +358,8 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
+		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			ic2reg = true;
 		}
 	}
@@ -366,7 +368,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
 		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			ic2reg = false;
 		}
 	}

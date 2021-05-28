@@ -3,10 +3,10 @@ package nc.tile;
 import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.EnergyNet;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergyTile;
 import nc.Global;
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -27,7 +28,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2")})
-public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergySink, IInterfaceable {
+public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfaceable {
 	
 	private final EnergyStorageVoid energyStorage = new EnergyStorageVoid();
 	private final EnergyStorageVoidGT energyStorageGT = new EnergyStorageVoidGT();
@@ -59,8 +60,8 @@ public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergyS
 	
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
-		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
-			EnergyNet.instance.addTile(this);
+		if (!world.isRemote && ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu && !ic2reg) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			ic2reg = true;
 		}
 	}
@@ -68,7 +69,7 @@ public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergyS
 	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
 		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
-			EnergyNet.instance.removeTile(this);
+			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			ic2reg = false;
 		}
 	}

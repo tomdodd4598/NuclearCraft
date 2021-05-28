@@ -1,7 +1,6 @@
 package nc.recipe.vanilla;
 
-import static nc.config.NCConfig.ore_dict_raw_material_recipes;
-
+import nc.config.NCConfig;
 import nc.enumm.MetaEnums.IngotOxideType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
@@ -22,7 +21,7 @@ public class FurnaceRecipeHandler {
 		for (int i = 0; i < OreType.values().length; i++) {
 			if (OreGenerator.showOre(i)) {
 				String type = StringHelper.capitalize(OreType.values()[i].getName());
-				if (!ore_dict_raw_material_recipes) {
+				if (!NCConfig.ore_dict_raw_material_recipes) {
 					GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + type), 0.5F);
 				}
 				else for (ItemStack ore : OreDictionary.getOres("ore" + type)) {
@@ -32,7 +31,7 @@ public class FurnaceRecipeHandler {
 		}
 		for (int i = 0; i < IngotType.values().length; i++) {
 			String type = StringHelper.capitalize(IngotType.values()[i].getName());
-			if (!ore_dict_raw_material_recipes) {
+			if (!NCConfig.ore_dict_raw_material_recipes) {
 				GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + type), 0F);
 			}
 			else for (ItemStack dust : OreDictionary.getOres("dust" + type)) {
@@ -41,7 +40,7 @@ public class FurnaceRecipeHandler {
 		}
 		for (int i = 0; i < IngotOxideType.values().length; i++) {
 			String type = StringHelper.capitalize(IngotOxideType.values()[i].getName()) + "Oxide";
-			if (!ore_dict_raw_material_recipes) {
+			if (!NCConfig.ore_dict_raw_material_recipes) {
 				GameRegistry.addSmelting(new ItemStack(NCItems.dust_oxide, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, i), "ingot" + type), 0F);
 			}
 			else for (ItemStack dust : OreDictionary.getOres("dust" + type)) {
@@ -49,7 +48,7 @@ public class FurnaceRecipeHandler {
 			}
 		}
 		// MnO2 -> MnO
-		if (!ore_dict_raw_material_recipes) {
+		if (!NCConfig.ore_dict_raw_material_recipes) {
 			GameRegistry.addSmelting(new ItemStack(NCItems.ingot_oxide, 1, 3), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, 2), "ingotManganeseOxide"), 0F);
 		}
 		else for (ItemStack ingot : OreDictionary.getOres("ingotManganeseDioxide")) {
@@ -58,7 +57,7 @@ public class FurnaceRecipeHandler {
 		for (int i = 0; i < IngotOxideType.values().length; i++) {
 			if (i == 3) continue;
 			String type = StringHelper.capitalize(IngotOxideType.values()[i].getName());
-			if (!ore_dict_raw_material_recipes) {
+			if (!NCConfig.ore_dict_raw_material_recipes) {
 				GameRegistry.addSmelting(new ItemStack(NCItems.ingot_oxide, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, i), "ingot" + type), 0F);
 			}
 			else for (ItemStack ingot : OreDictionary.getOres("ingot" + type + "Oxide")) {

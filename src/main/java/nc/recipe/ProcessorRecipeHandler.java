@@ -55,9 +55,13 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		}
 		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
 		addRecipe(recipe);
-		
-		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName) && recipe != null) {
-			GTCERecipeHelper.addGTCERecipe(recipeName, recipe);
+	}
+	
+	public void addGTCERecipes() {
+		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName)) {
+			for (ProcessorRecipe recipe : recipeList) {
+				GTCERecipeHelper.addGTCERecipe(recipeName, recipe);
+			}
 		}
 	}
 	

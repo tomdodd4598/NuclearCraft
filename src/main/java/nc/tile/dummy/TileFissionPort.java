@@ -114,7 +114,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		
 		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
 		
-		if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded() && NCConfig.enable_ic2_eu) {
 			if (tile instanceof IEnergySink) {
 				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true)/NCConfig.rf_per_eu, getSourceTier())*NCConfig.rf_per_eu), false);
 				return;

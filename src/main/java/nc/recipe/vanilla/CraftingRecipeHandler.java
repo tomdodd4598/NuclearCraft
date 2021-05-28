@@ -1,7 +1,5 @@
 package nc.recipe.vanilla;
 
-import static nc.config.NCConfig.ore_dict_raw_material_recipes;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,14 +44,14 @@ public class CraftingRecipeHandler {
 	public static void registerCraftingRecipes() {
 		for (int i = 0; i < IngotType.values().length; i++) {
 			String type = StringHelper.capitalize(IngotType.values()[i].getName());
-			if (!ore_dict_raw_material_recipes) {
+			if (!NCConfig.ore_dict_raw_material_recipes) {
 				blockCompress(NCBlocks.ingot_block, i, "block" + type, new ItemStack(NCItems.ingot, 1, i));
 			}
 			else for (ItemStack ingot : OreDictionary.getOres("ingot" + type)) {
 				blockCompress(NCBlocks.ingot_block, i, "block" + type, ingot);
 			}
 			
-			if (!ore_dict_raw_material_recipes) {
+			if (!NCConfig.ore_dict_raw_material_recipes) {
 				blockOpen(NCItems.ingot, i, "ingot" + type, new ItemStack(NCBlocks.ingot_block, 1, i));
 			}
 			else for (ItemStack block : OreDictionary.getOres("block" + type)) {

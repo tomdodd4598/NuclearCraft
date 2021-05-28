@@ -23,7 +23,6 @@ import nc.init.NCSounds;
 import nc.init.NCTiles;
 import nc.init.NCTools;
 import nc.integration.projecte.NCProjectE;
-import nc.integration.tconstruct.TConstructExtras;
 import nc.integration.tconstruct.TConstructIMC;
 import nc.integration.tconstruct.TConstructMaterials;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
@@ -33,7 +32,6 @@ import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadArmor;
 import nc.radiation.RadBiomes;
-import nc.radiation.RadBlockEffects;
 import nc.radiation.RadPotionEffects;
 import nc.radiation.RadSources;
 import nc.radiation.RadStructures;
@@ -66,7 +64,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.library.materials.Material;
 
 public class CommonProxy {
-
+	
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
 		
@@ -100,8 +98,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new NCRecipes());
 		
 		if (ModCheck.tinkersLoaded()) {
-			TConstructIMC.sendIMCs();
 			TConstructMaterials.init();
+			TConstructIMC.init();
 			
 			if (ModCheck.constructsArmoryLoaded()) {
 				ConArmMaterials.preInit();
@@ -131,11 +129,7 @@ public class CommonProxy {
 		NCEntities.register();
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		
-		if (ModCheck.tinkersLoaded()) {
-			TConstructExtras.init();
-			
-			if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();
-		}
+		if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
@@ -148,7 +142,6 @@ public class CommonProxy {
 		RadPotionEffects.init();
 		RadSources.postInit();
 		RadStructures.init();
-		RadBlockEffects.init();
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());

@@ -92,7 +92,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		
 		// Fission Fuels
 		//addRecipe(fluidStack("fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
-		addRecipe(fluidStack("depleted_fuel_tbu", FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelTBU", 64D/9D, 1D);
+		addRecipe(fluidStack("depleted_fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), "depletedFuelTBU", 64D/9D, 1D);
 		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
 		addFissionFuelFormingRecipes("neptunium", "en", 236);
 		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);

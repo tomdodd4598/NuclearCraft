@@ -140,6 +140,12 @@
 				"fluid": "boron11"
 			}
 		},
+		"fluid_steel": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "steel"
+			}
+		},
 		"fluid_ferroboron": {
 			"model": "forge:fluid",
 			"custom": {

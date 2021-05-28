@@ -1,13 +1,19 @@
 buildscript {
 	repositories {
-		jcenter()
+		mavenCentral()
+		maven {
+			name = "jitpack"
+			url = "https://jitpack.io/"
+		}
 		maven {
 			name = "forge"
-			url = "http://files.minecraftforge.net/maven"
+			url = "https://maven.minecraftforge.net/"
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT")
+		classpath("org.eclipse.jgit:org.eclipse.jgit:5.8.0.202006091008-r")
+		classpath("org.apache.commons:commons-lang3:3.12.0")
 	}
 }
 
@@ -19,22 +25,18 @@ repositories {
 		url = "https://minecraft.curseforge.com/api/maven/"
 	}
 	maven {
-		// JEI & TiC
 		name = "progwml6"
 		url = "http://dvs1.progwml6.com/files/maven/"
 	}
 	maven {
-		// CraftTweaker
 		name = "blamejared"
 		url = "http://maven.blamejared.com/"
 	}
 	maven {
-		// IC2
 		name = "ic2"
 		url = "http://maven.ic2.player.to/"
 	}
 	maven {
-		// OpenComputers
 		name = "cil"
 		url = "http://maven.cil.li/"
 	}
@@ -47,17 +49,14 @@ repositories {
 		url = "http://chickenbones.net/maven/"
 	}
 	maven {
-		// CyclopsMC
 		name = "CyclopsMC"
 		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
 	}
 	maven {
-		// General
 		name = "mcmoddev"
 		url = "https://maven.mcmoddev.com"
 	}
 	maven {
-		// Fallbacks
 		name = "ModMaven"
 		url = "https://modmaven.k-4u.nl"
 	}
@@ -101,9 +100,6 @@ dependencies {
 	deobfCompile "projecte:ProjectE:${projecte_version}"
 	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
-	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6"){
-		transitive = false
-	}
 }
 
 processResources {

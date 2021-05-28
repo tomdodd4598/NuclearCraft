@@ -111,15 +111,6 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	public abstract void onAttachedPartWithMultiblockData(IMultiblockPart part, NBTTagCompound data);
 	
 	/**
-	 * Check if a block is being tracked by this machine.
-	 * @param blockCoord Coordinate to check.
-	 * @return True if the tile entity at blockCoord is being tracked by this machine, false otherwise.
-	 */
-	public boolean hasBlock(BlockPos blockCoord) {
-		return connectedParts.contains(blockCoord);
-	}
-	
-	/**
 	 * Attach a new part to this machine.
 	 * @param part The part to add.
 	 */

@@ -7,7 +7,7 @@ import java.util.Locale;
 public class StringHelper {
 	
 	public static String capitalize(String string) {
-		return string.substring(0, 1).toUpperCase(Locale.ROOT) + string.substring(1);
+		return string.isEmpty() ? string : (string.substring(0, 1).toUpperCase(Locale.ROOT) + string.substring(1));
 	}
 	
 	public static String starting(String string, int length) {
