@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
+import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
 import nc.multiblock.qComputer.tile.*;
 import nc.multiblock.tile.ITileMultiblockPart;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class QuantumComputer extends Multiblock<IQuantumComputerPart, MultiblockUpdatePacket> {
 	
@@ -137,6 +139,11 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	@Override
 	protected boolean isMachineWhole() {
+		if (!NCConfig.quantum_dedicated_server && FMLCommonHandler.instance().getSide().isServer()) {
+			setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.server_disabled", null);
+			return false;
+		}
+		
 		if (getPartMap(TileQuantumComputerController.class).isEmpty()) {
 			setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
@@ -696,7 +703,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 				return;
 			}
 			
-			File out = new File("nuclearcraft/quantum/qasm/" + q + "_qubit_" + time + ".qasm");
+			File out = new File("nc_quantum/qasm/" + q + "_qubit_" + time + ".qasm");
 			
 			codeString = "OPENQASM 2.0;" + s +
 					"include \"qelib1.inc\";" + d +
@@ -721,7 +728,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 				return;
 			}
 			
-			File out = new File("nuclearcraft/quantum/qiskit/" + q + "_qubit_" + time + ".ipynb");
+			File out = new File("nc_quantum/qiskit/" + q + "_qubit_" + time + ".ipynb");
 			
 			codeString = "# Jupyter plot output mode" + s +
 					"%matplotlib inline" + d +

@@ -1,5 +1,6 @@
-Make quantum computer multiblock SSP-only
-Don't create nuclearcraft folder for quantum programs unless a program is made
+Isotope + fuel script addon CT helper methods
+
+Move fission recipe stat multipliers to logic (instead of recipe addition)
 
 Fix shield lag issue
 Remove salt fission recipes time int cast (and generally fix salt fission process time in JEI)
@@ -42,6 +43,8 @@ Multitool support for side configurations
 OC support for side configurations
 
 OC support for port filtering
+
+CC Tweaked support
 
 Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
 

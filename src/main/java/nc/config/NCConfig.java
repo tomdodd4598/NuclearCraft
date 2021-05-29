@@ -240,6 +240,7 @@ public class NCConfig {
 	public static double turbine_render_rotor_expansion;
 	public static double turbine_render_rotor_speed;
 	
+	public static boolean quantum_dedicated_server;
 	public static int quantum_max_qubits_live;
 	public static int quantum_max_qubits_code;
 	public static int quantum_angle_precision;
@@ -811,6 +812,8 @@ public class NCConfig {
 		Property propertyTurbineRenderRotorSpeed = config.get(CATEGORY_TURBINE, "turbine_render_rotor_speed", 1D, Lang.localise("gui.nc.config.turbine_render_rotor_speed.comment"), 0D, 15D);
 		propertyTurbineRenderRotorSpeed.setLanguageKey("gui.nc.config.turbine_render_rotor_speed");
 		
+		Property propertyQuantumDedicatedServer = config.get(CATEGORY_QUANTUM, "quantum_dedicated_server", false, Lang.localise("gui.nc.config.quantum_dedicated_server.comment"));
+		propertyQuantumDedicatedServer.setLanguageKey("gui.nc.config.quantum_dedicated_server");
 		Property propertyQuantumMaxQubitsLive = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_live", 7, Lang.localise("gui.nc.config.quantum_max_qubits_live.comment"), 1, 14);
 		propertyQuantumMaxQubitsLive.setLanguageKey("gui.nc.config.quantum_max_qubits_live");
 		Property propertyQuantumMaxQubitsCode = config.get(CATEGORY_QUANTUM, "quantum_max_qubits_code", 16, Lang.localise("gui.nc.config.quantum_max_qubits_code.comment"), 1, 32);
@@ -1295,6 +1298,7 @@ public class NCConfig {
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderQuantum = new ArrayList<>();
+		propertyOrderQuantum.add(propertyQuantumDedicatedServer.getName());
 		propertyOrderQuantum.add(propertyQuantumMaxQubitsLive.getName());
 		propertyOrderQuantum.add(propertyQuantumMaxQubitsCode.getName());
 		propertyOrderQuantum.add(propertyQuantumAnglePrecision.getName());
@@ -1640,6 +1644,7 @@ public class NCConfig {
 			turbine_render_rotor_expansion = propertyTurbineRenderRotorExpansion.getDouble();
 			turbine_render_rotor_speed = propertyTurbineRenderRotorSpeed.getDouble();
 			
+			quantum_dedicated_server = propertyQuantumDedicatedServer.getBoolean();
 			quantum_max_qubits_live = propertyQuantumMaxQubitsLive.getInt();
 			quantum_max_qubits_code = propertyQuantumMaxQubitsCode.getInt();
 			quantum_angle_precision = propertyQuantumAnglePrecision.getInt();
@@ -1985,6 +1990,7 @@ public class NCConfig {
 		propertyTurbineRenderRotorExpansion.set(turbine_render_rotor_expansion);
 		propertyTurbineRenderRotorSpeed.set(turbine_render_rotor_speed);
 		
+		propertyQuantumDedicatedServer.set(quantum_dedicated_server);
 		propertyQuantumMaxQubitsLive.set(quantum_max_qubits_live);
 		propertyQuantumMaxQubitsCode.set(quantum_max_qubits_code);
 		propertyQuantumAnglePrecision.set(quantum_angle_precision);

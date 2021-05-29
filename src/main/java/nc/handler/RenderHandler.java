@@ -52,7 +52,6 @@ public class RenderHandler {
 		});
 	}
 	
-	@SuppressWarnings("unused")
 	private static class TextureStichHandler {
 		
 		@SubscribeEvent

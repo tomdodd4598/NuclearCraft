@@ -1,6 +1,5 @@
 buildscript {
 	repositories {
-		// jcenter()
 		mavenCentral()
 		maven {
 			name = "jitpack"
@@ -108,9 +107,6 @@ dependencies {
 	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
 	deobfCompile "net.darkhax.bookshelf:Bookshelf-${mc_version}:${bookshelf_version}"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
-	// deobfCompile ("appeng:appliedenergistics2:rv6-stable-6") {
-		// transitive = false
-	// }
 	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}"
 	deobfCompile "hwyla:Hwyla:${hwyla_version}"

@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.*;
 
-@SuppressWarnings("static-method")
 public final class MultiblockHandler {
 	
 	@SubscribeEvent(priority = EventPriority.NORMAL)

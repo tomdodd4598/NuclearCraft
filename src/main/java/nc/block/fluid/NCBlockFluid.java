@@ -2,6 +2,8 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -40,13 +42,13 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 	}
 	
 	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+	public void onBlockAdded(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
 		checkForMixing(world, pos, state);
 		super.onBlockAdded(world, pos, state);
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+	public void neighborChanged(@Nonnull IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos) {
 		checkForMixing(world, pos, state);
 		super.neighborChanged(state, world, pos, block, fromPos);
 	}
@@ -86,7 +88,7 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 	}
 	
 	@Override
-	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		super.updateTick(world, pos, state, rand);
 		int level = state.getValue(LEVEL);
 		if (level == 0) {

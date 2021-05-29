@@ -2686,6 +2686,8 @@ gui.nc.config.accelerator_supercooler_coolant.comment=mB/t of liquid helium requ
 gui.nc.config.category.quantum=Quantum Configs
 gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
 
+gui.nc.config.quantum_server_enabled=Enable on Dedicated Servers
+gui.nc.config.quantum_server_enabled.comment=Will quantum computers form on dedicated servers? Disabled by default to prevent players using up server memory, and because generated code is not sent to clients but instead stored in the server's directory.
 gui.nc.config.quantum_max_qubits_live=Max Live Qubits
 gui.nc.config.quantum_max_qubits_live.comment=The maximum number of actively calculating qubits a single quantum computer multiblock can have. !!!WARNING!!! Allowing for complex circuits of more than seven qubits will begin to seriously impact performance and use up a huge amount of memory. Increase this limit with EXTREME caution!
 gui.nc.config.quantum_max_qubits_code=Max Coding Qubits
@@ -3186,8 +3188,8 @@ nuclearcraft.multiblock_validation.turbine.space_between_blades=The space betwee
 nuclearcraft.multiblock_validation.turbine.different_type_blades=The rotor blades or stators about each section of the rotor shaft must be of the same type for the turbine to form
 nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the rotor shaft must have rotor blades or stators of the same type extend fully to the wall for the turbine to form
 
+nuclearcraft.multiblock_validation.quantum_computer.server_disabled=The quantum computer must be enabled in the server's configs to form
 nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There are %s qubits connected to this quantum computer; there can only be %s at most for it to form
-nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There must be no more than one code generator connected to this quantum computer
 
 nuclearcraft.collector.jei_name=Collector
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=Fission Moderator
