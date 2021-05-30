@@ -101,9 +101,6 @@ public class IngotFormerRecipes extends BasicRecipeHandler {
 	public void addFissionFormingRecipes() {
 		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
 			addRecipe(fluidStack(FISSION_FLUID[i], INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i], 1D, 1D);
-			addRecipe(fluidStack(FISSION_FLUID[i] + "_za", INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i] + "ZA", 1D, 1D);
-			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i], INGOT_VOLUME), "ingotDepleted" + FISSION_ORE_DICT[i], 1D, 1D);
-			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i] + "_za", INGOT_VOLUME), "ingotDepleted" + FISSION_ORE_DICT[i] + "ZA", 1D, 1D);
 		}
 	}
 	

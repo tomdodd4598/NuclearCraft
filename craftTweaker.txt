@@ -521,7 +521,13 @@ ________________________________________________________________________________
 
 Note A: These methods must use the `nc_preinit` loader!
 
-Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource pack. Make sure to use a new `nuclearcraft` sub-directory rather than the generated `contenttweaker` one!
+Note B: If ContentTweaker is installed, assets can be located in its generated resources directory rather than a resource
+pack. Make sure to use a new `nuclearcraft` sub-directory rather than the generated `contenttweaker` one!
+
+---------------------------------------------------------------------------------------------------------------------------
+
+ Custom Machines and Multiblock Components
+>-----------------------------------------<
 
 mods.nuclearcraft.Registration.registerFissionSink(String sinkID, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);
@@ -535,6 +541,15 @@ mods.nuclearcraft.Registration.registerTurbineStator(String statorID, double exp
 mods.nuclearcraft.Registration.registerRTG(String rtgID, long power, double radiation);
 
 mods.nuclearcraft.Registration.registerBattery(String batteryID, long capacity, int euEnergyTier);
+
+---------------------------------------------------------------------------------------------------------------------------
+
+ Fission Materials
+>-----------------<
+
+mods.nuclearcraft.Registration.registerFissionIsotope(String itemID, String isotopeName, String itemModel, String oreDict, double radiation, boolean raw, boolean carbide, boolean oxide, boolean nitride, boolean zirconiumAlloy, {int fluidColor});
+
+mods.nuclearcraft.Registration.registerFissionFuel(String itemID, String fuelName, String itemModel, String oreDict, int time, int heat, double efficiency, int crit, double decay, boolean prime, double fissionRadiation, double fuelRadiation, double depletedRadiation, boolean raw, boolean carbide, boolean triso, boolean oxide, boolean nitride, boolean zirconiumAlloy, {int fluidColor, int depletedFluidColor});
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
 

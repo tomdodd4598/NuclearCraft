@@ -2,13 +2,12 @@ package nc.proxy;
 
 import static nc.config.NCConfig.register_projecte_emc;
 
-import java.io.*;
+import java.io.IOException;
 
 import crafttweaker.CraftTweakerAPI;
 import nc.*;
 import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.command.CommandHandler;
-import nc.config.NCConfig;
 import nc.handler.*;
 import nc.init.*;
 import nc.integration.crafttweaker.CTRegistration;
@@ -75,17 +74,21 @@ public class CommonProxy {
 		NCTools.register();
 		NCArmor.register();
 		
+		OreDictHandler.registerOres();
+		
+		NCTiles.register();
+		
+		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
+			info.preInit();
+		}
+		
 		NCFluids.register();
 		NCFissionFluids.register();
 		NCCoolantFluids.register();
 		
-		NCTiles.register();
-		
 		MultiblockHandler.init();
 		MultiblockLogic.init();
 		PlacementRule.preInit();
-		
-		OreDictHandler.registerOres();
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
@@ -101,14 +104,6 @@ public class CommonProxy {
 		
 		if (ModCheck.constructsArmoryLoaded()) {
 			ConArmMaterials.preInit();
-		}
-		
-		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
-			info.preInit();
-		}
-		
-		if (NCConfig.register_quantum) {
-			new File("nuclearcraft/quantum").mkdirs();
 		}
 	}
 	
@@ -186,6 +181,7 @@ public class CommonProxy {
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
 			info.postInit();
 		}
+		CTRegistration.INFO_LIST.clear();
 	}
 	
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {

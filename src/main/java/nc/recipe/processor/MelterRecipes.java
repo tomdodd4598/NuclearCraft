@@ -189,9 +189,6 @@ public class MelterRecipes extends BasicRecipeHandler {
 	public void addFissionMeltingRecipes() {
 		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
 			addRecipe("ingot" + FISSION_ORE_DICT[i], fluidStack(FISSION_FLUID[i], INGOT_VOLUME), 1D, 1D);
-			addRecipe("ingot" + FISSION_ORE_DICT[i] + "ZA", fluidStack(FISSION_FLUID[i] + "_za", INGOT_VOLUME), 1D, 1D);
-			addRecipe("ingotDepleted" + FISSION_ORE_DICT[i], fluidStack("depleted_" + FISSION_FLUID[i], INGOT_VOLUME), 1D, 1D);
-			addRecipe("ingotDepleted" + FISSION_ORE_DICT[i] + "ZA", fluidStack("depleted_" + FISSION_FLUID[i] + "_za", INGOT_VOLUME), 1D, 1D);
 		}
 	}
 	

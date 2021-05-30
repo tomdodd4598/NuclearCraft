@@ -145,31 +145,47 @@ public class InfoHelper {
 		}
 	}
 	
+	public static <T extends Enum<T> & IStringSerializable> String[] getEnumNames(Class<T> enumm) {
+		T[] values = enumm.getEnumConstants();
+		String[] names = new String[values.length];
+		for (int i = 0; i < values.length; i++) {
+			names[i] = values[i].getName();
+		}
+		return names;
+	}
+	
 	public static <T extends Enum<T> & IStringSerializable> String[][] buildFixedInfo(String unlocNameBase, Class<T> enumm, String[]... tooltips) {
-		return buildGeneralInfo(unlocNameBase, enumm, ".fixd", ".fix", tooltips);
+		return buildGeneralInfo(unlocNameBase, getEnumNames(enumm), ".fixd", ".fix", tooltips);
+	}
+	
+	public static String[][] buildFixedInfo(String unlocNameBase, String[] types, String[]... tooltips) {
+		return buildGeneralInfo(unlocNameBase, types, ".fixd", ".fix", tooltips);
 	}
 	
 	public static <T extends Enum<T> & IStringSerializable> String[][] buildInfo(String unlocNameBase, Class<T> enumm, String[]... tooltips) {
-		return buildGeneralInfo(unlocNameBase, enumm, ".desc", ".des", tooltips);
+		return buildGeneralInfo(unlocNameBase, getEnumNames(enumm), ".desc", ".des", tooltips);
 	}
 	
-	public static <T extends Enum<T> & IStringSerializable> String[][] buildGeneralInfo(String unlocNameBase, Class<T> enumm, String desc, String des, String[]... tooltips) {
-		T[] values = enumm.getEnumConstants();
-		String[][] strings = new String[values.length][];
+	public static String[][] buildInfo(String unlocNameBase, String[] names, String[]... tooltips) {
+		return buildGeneralInfo(unlocNameBase, names, ".desc", ".des", tooltips);
+	}
+	
+	public static String[][] buildGeneralInfo(String unlocNameBase, String[] types, String desc, String des, String[]... tooltips) {
+		String[][] strings = new String[types.length][];
 		
 		if (Arrays.equals(tooltips, NULL_ARRAYS)) {
-			for (int i = 0; i < values.length; i++) {
+			for (int i = 0; i < types.length; i++) {
 				strings[i] = NULL_ARRAY;
 			}
 			return strings;
 		}
 		
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < types.length; i++) {
 			if (CollectionHelper.isNull(tooltips, i)) {
 				strings[i] = EMPTY_ARRAY;
 			}
 			else if (CollectionHelper.isEmpty(tooltips, i)) {
-				strings[i] = standardGeneralInfo(unlocNameBase + "." + values[i].getName(), unlocNameBase, desc, des);
+				strings[i] = standardGeneralInfo(unlocNameBase + "." + types[i], unlocNameBase, desc, des);
 			}
 			else {
 				strings[i] = tooltips[i];

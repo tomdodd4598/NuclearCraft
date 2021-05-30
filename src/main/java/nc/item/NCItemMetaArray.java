@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import nc.enumm.IFissionFuelEnum;
 import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,23 +13,29 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
-public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionFuelEnum> extends Item implements IInfoItem {
+public class NCItemMetaArray extends Item implements IInfoItem {
 	
-	private final Class<T> enumm;
-	public final T[] values;
-	public String[] fixedInfo;
+	public final String[] types;
+	
+	public final TextFormatting infoColor;
+	private final String[][] tooltips;
 	public String[][] info;
 	
-	public ItemFissionFuel(Class<T> enumm) {
+	public NCItemMetaArray(List<String> types, TextFormatting infoColor, String[]... tooltips) {
 		setHasSubtypes(true);
-		this.enumm = enumm;
-		values = enumm.getEnumConstants();
+		this.types = types.toArray(new String[types.size()]);
+		this.infoColor = infoColor;
+		this.tooltips = tooltips;
+	}
+	
+	public NCItemMetaArray(List<String> names, String[]... tooltips) {
+		this(names, TextFormatting.AQUA, tooltips);
 	}
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (isInCreativeTab(tab)) {
-			for (int i = 0; i < values.length; i++) {
+			for (int i = 0; i < types.length; i++) {
 				items.add(new ItemStack(this, 1, i));
 			}
 		}
@@ -38,18 +43,17 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionF
 	
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < types.length; i++) {
 			if (StackHelper.getMetadata(stack) == i) {
-				return getTranslationKey() + "." + values[i].getName();
+				return getTranslationKey() + "." + types[i];
 			}
 		}
-		return getTranslationKey() + "." + values[0].getName();
+		return getTranslationKey() + "." + types[0];
 	}
 	
 	@Override
 	public void setInfo() {
-		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), InfoHelper.EMPTY_ARRAY);
-		info = InfoHelper.buildInfo(getTranslationKey(), enumm, InfoHelper.EMPTY_ARRAYS);
+		info = InfoHelper.buildInfo(getTranslationKey(), types, tooltips);
 	}
 	
 	@Override
@@ -58,7 +62,11 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionF
 		super.addInformation(stack, world, tooltip, flag);
 		int meta = StackHelper.getMetadata(stack);
 		if (info.length > meta) {
-			InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, new TextFormatting[] {TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.DARK_AQUA}, info[meta]);
+			InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, infoColor, info[meta]);
 		}
+	}
+	
+	protected ActionResult<ItemStack> actionResult(boolean success, ItemStack stack) {
+		return new ActionResult<>(success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL, stack);
 	}
 }

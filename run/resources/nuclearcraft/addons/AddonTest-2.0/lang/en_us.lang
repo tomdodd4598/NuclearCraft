@@ -10,17 +10,17 @@ item.contenttweaker.abc_124_ox.name=ABC-124 Oxide
 item.contenttweaker.abc_124_ni.name=ABC-124 Nitride
 item.contenttweaker.abc_124_za.name=ABC-124-Zirconium Alloy
 
-item.contenttweaker.xyz_786.name=XYZ-786
-item.contenttweaker.xyz_786_c.name=XYZ-786 Carbide
-item.contenttweaker.xyz_786_ox.name=XYZ-786 Oxide
-item.contenttweaker.xyz_786_ni.name=XYZ-786 Nitride
-item.contenttweaker.xyz_786_za.name=XYZ-786-Zirconium Alloy
+item.nuclearcraft.fission_isotope_addon_test.xyz_786.name=XYZ-786
+item.nuclearcraft.fission_isotope_addon_test.xyz_786_c.name=XYZ-786 Carbide
+item.nuclearcraft.fission_isotope_addon_test.xyz_786_ox.name=XYZ-786 Oxide
+item.nuclearcraft.fission_isotope_addon_test.xyz_786_ni.name=XYZ-786 Nitride
+item.nuclearcraft.fission_isotope_addon_test.xyz_786_za.name=XYZ-786-Zirconium Alloy
 
-item.contenttweaker.xyz_789.name=XYZ-789
-item.contenttweaker.xyz_789_c.name=XYZ-789 Carbide
-item.contenttweaker.xyz_789_ox.name=XYZ-789 Oxide
-item.contenttweaker.xyz_789_ni.name=XYZ-789 Nitride
-item.contenttweaker.xyz_789_za.name=XYZ-789-Zirconium Alloy
+item.nuclearcraft.fission_isotope_addon_test.xyz_789.name=XYZ-789
+item.nuclearcraft.fission_isotope_addon_test.xyz_789_c.name=XYZ-789 Carbide
+item.nuclearcraft.fission_isotope_addon_test.xyz_789_ox.name=XYZ-789 Oxide
+item.nuclearcraft.fission_isotope_addon_test.xyz_789_ni.name=XYZ-789 Nitride
+item.nuclearcraft.fission_isotope_addon_test.xyz_789_za.name=XYZ-789-Zirconium Alloy
 
 item.contenttweaker.def_124.name=DEF-124
 item.contenttweaker.def_124_c.name=DEF-124 Carbide
@@ -46,29 +46,29 @@ item.contenttweaker.ghi_126_ox.name=GHI-126 Oxide
 item.contenttweaker.ghi_126_ni.name=GHI-126 Nitride
 item.contenttweaker.ghi_126_za.name=GHI-126-Zirconium Alloy
 
-item.contenttweaker.uvw_787.name=UVW-787
-item.contenttweaker.uvw_787_c.name=UVW-787 Carbide
-item.contenttweaker.uvw_787_ox.name=UVW-787 Oxide
-item.contenttweaker.uvw_787_ni.name=UVW-787 Nitride
-item.contenttweaker.uvw_787_za.name=UVW-787-Zirconium Alloy
+item.nuclearcraft.fission_isotope_addon_test.uvw_787.name=UVW-787
+item.nuclearcraft.fission_isotope_addon_test.uvw_787_c.name=UVW-787 Carbide
+item.nuclearcraft.fission_isotope_addon_test.uvw_787_ox.name=UVW-787 Oxide
+item.nuclearcraft.fission_isotope_addon_test.uvw_787_ni.name=UVW-787 Nitride
+item.nuclearcraft.fission_isotope_addon_test.uvw_787_za.name=UVW-787-Zirconium Alloy
 
-item.contenttweaker.uvw_788.name=UVW-788
-item.contenttweaker.uvw_788_c.name=UVW-788 Carbide
-item.contenttweaker.uvw_788_ox.name=UVW-788 Oxide
-item.contenttweaker.uvw_788_ni.name=UVW-788 Nitride
-item.contenttweaker.uvw_788_za.name=UVW-788-Zirconium Alloy
+item.nuclearcraft.fission_isotope_addon_test.uvw_788.name=UVW-788
+item.nuclearcraft.fission_isotope_addon_test.uvw_788_c.name=UVW-788 Carbide
+item.nuclearcraft.fission_isotope_addon_test.uvw_788_ox.name=UVW-788 Oxide
+item.nuclearcraft.fission_isotope_addon_test.uvw_788_ni.name=UVW-788 Nitride
+item.nuclearcraft.fission_isotope_addon_test.uvw_788_za.name=UVW-788-Zirconium Alloy
 
-item.contenttweaker.rst_789.name=RST-789
-item.contenttweaker.rst_789_c.name=RST-789 Carbide
-item.contenttweaker.rst_789_ox.name=RST-789 Oxide
-item.contenttweaker.rst_789_ni.name=RST-789 Nitride
-item.contenttweaker.rst_789_za.name=RST-789-Zirconium Alloy
+item.nuclearcraft.fission_isotope_addon_test.rst_789.name=RST-789
+item.nuclearcraft.fission_isotope_addon_test.rst_789_c.name=RST-789 Carbide
+item.nuclearcraft.fission_isotope_addon_test.rst_789_ox.name=RST-789 Oxide
+item.nuclearcraft.fission_isotope_addon_test.rst_789_ni.name=RST-789 Nitride
+item.nuclearcraft.fission_isotope_addon_test.rst_789_za.name=RST-789-Zirconium Alloy
 
-item.contenttweaker.rst_790.name=RST-790
-item.contenttweaker.rst_790_c.name=RST-790 Carbide
-item.contenttweaker.rst_790_ox.name=RST-790 Oxide
-item.contenttweaker.rst_790_ni.name=RST-790 Nitride
-item.contenttweaker.rst_790_za.name=RST-790-Zirconium Alloy
+item.nuclearcraft.fission_isotope_addon_test.rst_790.name=RST-790
+item.nuclearcraft.fission_isotope_addon_test.rst_790_c.name=RST-790 Carbide
+item.nuclearcraft.fission_isotope_addon_test.rst_790_ox.name=RST-790 Oxide
+item.nuclearcraft.fission_isotope_addon_test.rst_790_ni.name=RST-790 Nitride
+item.nuclearcraft.fission_isotope_addon_test.rst_790_za.name=RST-790-Zirconium Alloy
 
 item.contenttweaker.pellet_leabc_123.name=LEABC-123
 item.contenttweaker.pellet_leabc_123_c.name=LEABC-123 Carbide
@@ -83,18 +83,18 @@ item.contenttweaker.depleted_fuel_leabc_123_ox.name=Depleted LEABC-123 Oxide Fue
 item.contenttweaker.depleted_fuel_leabc_123_ni.name=Depleted LEABC-123 Nitride Fuel Pellet
 item.contenttweaker.depleted_fuel_leabc_123_za.name=Depleted LEABC-123-Zirconium Alloy Fuel Pellet
 
-item.contenttweaker.pellet_hexyz_789.name=HEXYZ-789
-item.contenttweaker.pellet_hexyz_789_c.name=HEXYZ-789 Carbide
+item.nuclearcraft.fission_fuel_addon_test.hexyz_789.name=HEXYZ-789
+item.nuclearcraft.fission_fuel_addon_test.hexyz_789_c.name=HEXYZ-789 Carbide
 
-item.contenttweaker.fuel_hexyz_789_tr.name=HEXYZ-789 TRISO Fuel Pebble
-item.contenttweaker.fuel_hexyz_789_ox.name=HEXYZ-789 Oxide Fuel Pellet
-item.contenttweaker.fuel_hexyz_789_ni.name=HEXYZ-789 Nitride Fuel Pellet
-item.contenttweaker.fuel_hexyz_789_za.name=HEXYZ-789-Zirconium Alloy Fuel Pellet
+item.nuclearcraft.fission_fuel_addon_test.hexyz_789_tr.name=HEXYZ-789 TRISO Fuel Pebble
+item.nuclearcraft.fission_fuel_addon_test.hexyz_789_ox.name=HEXYZ-789 Oxide Fuel Pellet
+item.nuclearcraft.fission_fuel_addon_test.hexyz_789_ni.name=HEXYZ-789 Nitride Fuel Pellet
+item.nuclearcraft.fission_fuel_addon_test.hexyz_789_za.name=HEXYZ-789-Zirconium Alloy Fuel Pellet
 
-item.contenttweaker.depleted_fuel_hexyz_789_tr.name=Depleted HEXYZ-789 TRISO Fuel Pebble
-item.contenttweaker.depleted_fuel_hexyz_789_ox.name=Depleted HEXYZ-789 Oxide Fuel Pellet
-item.contenttweaker.depleted_fuel_hexyz_789_ni.name=Depleted HEXYZ-789 Nitride Fuel Pellet
-item.contenttweaker.depleted_fuel_hexyz_789_za.name=Depleted HEXYZ-789-Zirconium Alloy Fuel Pellet
+item.nuclearcraft.fission_fuel_addon_test.depleted_hexyz_789_tr.name=Depleted HEXYZ-789 TRISO Fuel Pebble
+item.nuclearcraft.fission_fuel_addon_test.depleted_hexyz_789_ox.name=Depleted HEXYZ-789 Oxide Fuel Pellet
+item.nuclearcraft.fission_fuel_addon_test.depleted_hexyz_789_ni.name=Depleted HEXYZ-789 Nitride Fuel Pellet
+item.nuclearcraft.fission_fuel_addon_test.depleted_hexyz_789_za.name=Depleted HEXYZ-789-Zirconium Alloy Fuel Pellet
 
 fluid.abc_123=Molten ABC-123
 fluid.abc_124=Molten ABC-124

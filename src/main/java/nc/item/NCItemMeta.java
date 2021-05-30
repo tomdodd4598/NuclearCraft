@@ -50,9 +50,6 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IMetaEnum> ext
 			if (StackHelper.getMetadata(stack) == i) {
 				return getTranslationKey() + "." + values[i].getName();
 			}
-			else {
-				continue;
-			}
 		}
 		return getTranslationKey() + "." + values[0].getName();
 	}

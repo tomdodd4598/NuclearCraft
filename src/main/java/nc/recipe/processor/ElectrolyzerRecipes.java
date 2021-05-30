@@ -26,13 +26,6 @@ public class ElectrolyzerRecipes extends BasicRecipeHandler {
 		
 		// Fission Materials
 		addFissionFluorideRecipes();
-		addFissionZARecipes();
-	}
-	
-	public void addFissionZARecipes() {
-		for (String element : FISSION_FLUID) {
-			addRecipe(fluidStack(element + "_za", INGOT_VOLUME / 2), fluidStack(element, INGOT_VOLUME / 2), fluidStack("zirconium", INGOT_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
-		}
 	}
 	
 	public void addFissionFluorideRecipes() {

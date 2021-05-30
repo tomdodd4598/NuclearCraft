@@ -29,7 +29,7 @@ public class SaltFissionRecipes extends BasicRecipeHandler {
 	public void addFuelDepleteRecipes(int[] time, int[] heat, double[] efficiency, int[] criticality, double[] decayFactor, boolean[] selfPriming, double[] radiation, String... fuelTypes) {
 		int id = 0;
 		for (String fuelType : fuelTypes) {
-			addRecipe(fluidStack(fuelType + "_fluoride_flibe", 1), fluidStack("depleted_" + fuelType + "_fluoride_flibe", 1), (int) (fission_fuel_time_multiplier * time[id + 4] / INGOT_VOLUME), (int) (fission_fuel_heat_multiplier * heat[id + 4]), fission_fuel_efficiency_multiplier * efficiency[id + 4], criticality[id + 4], decayFactor[id + 4], selfPriming[id + 4], fission_fuel_radiation_multiplier * radiation[id + 4]);
+			addRecipe(fluidStack(fuelType + "_fluoride_flibe", 1), fluidStack("depleted_" + fuelType + "_fluoride_flibe", 1), (double) (fission_fuel_time_multiplier * time[id + 4] / INGOT_VOLUME), (int) (fission_fuel_heat_multiplier * heat[id + 4]), fission_fuel_efficiency_multiplier * efficiency[id + 4], criticality[id + 4], decayFactor[id + 4], selfPriming[id + 4], fission_fuel_radiation_multiplier * radiation[id + 4]);
 			id += 5;
 		}
 	}

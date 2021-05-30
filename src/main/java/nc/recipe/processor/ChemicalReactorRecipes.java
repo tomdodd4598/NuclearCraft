@@ -66,13 +66,6 @@ public class ChemicalReactorRecipes extends BasicRecipeHandler {
 		
 		// Fission Materials
 		addFissionFluorideRecipes();
-		addFissionZARecipes();
-	}
-	
-	public void addFissionZARecipes() {
-		for (String element : FISSION_FLUID) {
-			addRecipe(fluidStack(element, INGOT_VOLUME / 2), fluidStack("zirconium", INGOT_VOLUME / 2), fluidStack(element + "_za", INGOT_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
-		}
 	}
 	
 	public void addFissionFluorideRecipes() {
