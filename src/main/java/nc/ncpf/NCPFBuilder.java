@@ -13,9 +13,9 @@ import nc.ncpf.texture.TextureProvider;
 public class NCPFBuilder{
     public static final byte NCPF_VERSION = 10;
     public Configuration configuration;
-    private HashMap<nc.ncpf.configuration.overhaul.fissionsfr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule[]>> sfrBlocksToHaveRules = new HashMap<>();
-    private HashMap<nc.ncpf.configuration.overhaul.fissionmsr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]>> msrBlocksToHaveRules = new HashMap<>();
-    private HashMap<nc.ncpf.configuration.overhaul.turbine.Block, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]>> turbineBlocksToHaveRules = new HashMap<>();
+    private final HashMap<nc.ncpf.configuration.overhaul.fissionsfr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule[]>> sfrBlocksToHaveRules = new HashMap<>();
+    private final HashMap<nc.ncpf.configuration.overhaul.fissionmsr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]>> msrBlocksToHaveRules = new HashMap<>();
+    private final HashMap<nc.ncpf.configuration.overhaul.turbine.Block, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]>> turbineBlocksToHaveRules = new HashMap<>();
     public NCPFBuilder(String name, String version){
         configuration = new Configuration(name, version);
         configuration.overhaul = new OverhaulConfiguration();
