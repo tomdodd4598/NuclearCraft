@@ -275,7 +275,7 @@ public class CTRegistration {
 		}
 		else {
 			info.rawFluids.add(null);
-			info.rawFluidColors.add(null);
+			info.rawFluidColors.add(0);
 		}
 		
 		if (raw) {
@@ -363,8 +363,8 @@ public class CTRegistration {
 		}
 		else {
 			info.rawFluids.add(null);
-			info.rawFluidColors.add(null);
-			info.rawDepletedFluidColors.add(null);
+			info.rawFluidColors.add(0);
+			info.rawDepletedFluidColors.add(0);
 		}
 		
 		info.fissionStats.add(new FissionFuelStats(time, heat, efficiency, crit, decay, prime, fissionRadiation));

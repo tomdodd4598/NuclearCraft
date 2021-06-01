@@ -8,7 +8,7 @@
 	"updateUrl": "",
 	"authorList": ["tomdodd4598"],
 	"credits": "Thanks to all suggestors, bug reporters, modders whose APIs I have used and those who have made language files!",
-	"logoFile": "logo.jpg",
+	"logoFile": "logo.png",
 	"screenshots": [],
 	"dependencies": []
 }]
