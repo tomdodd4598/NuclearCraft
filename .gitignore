@@ -33,3 +33,4 @@ run/resources/nuclearcraft/*
 !run/resources/nuclearcraft/addons
 *.suo
 /.vs
+/.nb-gradle/
