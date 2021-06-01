@@ -17,6 +17,7 @@ public class NCPFBuilder{
     private final HashMap<nc.ncpf.configuration.overhaul.fissionmsr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]>> msrBlocksToHaveRules = new HashMap<>();
     private final HashMap<nc.ncpf.configuration.overhaul.turbine.Block, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]>> turbineBlocksToHaveRules = new HashMap<>();
     public NCPFBuilder(String name, String version){
+        if(name.equals("NuclearCraft"))throw new IllegalArgumentException("'NuclearCraft' Configuration name is reserved for vanilla nuclearcraft, and should not be automatically assigned!");
         configuration = new Configuration(name, version);
         configuration.overhaul = new OverhaulConfiguration();
         configuration.overhaul.fissionSFR = new FissionSFRConfiguration();
@@ -70,12 +71,12 @@ public class NCPFBuilder{
     }
     public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRCell(String name, String displayName, TextureProvider texture, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture){
         nc.ncpf.configuration.overhaul.fissionsfr.Block cell = addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block.cell(name, displayName, texture));
-        cell.port = nc.ncpf.configuration.overhaul.fissionsfr.Block.port(cell, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture);
+        cell.port = addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block.port(cell, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
         return cell;
     }
     public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRIrradiator(String name, String displayName, TextureProvider texture, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture){
         nc.ncpf.configuration.overhaul.fissionsfr.Block irradiator = addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block.irradiator(name, displayName, texture));
-        irradiator.port = nc.ncpf.configuration.overhaul.fissionsfr.Block.port(irradiator, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture);
+        irradiator.port = addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block.port(irradiator, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
         return irradiator;
     }
     public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRConductor(String name, String displayName, TextureProvider texture){
@@ -127,9 +128,10 @@ public class NCPFBuilder{
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRSource(String name, String displayName, TextureProvider texture, float efficiency){
         return addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.source(name, displayName, texture, efficiency));
     }
-    public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRHeater(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]> ruleSupplier, String recipeInputName, String recipeInputDisplayName, TextureProvider recipeInputTexture, String recipeOutputName, String recipeOutputDisplayName, TextureProvider recipeOutputTexture){
+    public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRHeater(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]> ruleSupplier, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture, String recipeInputName, String recipeInputDisplayName, TextureProvider recipeInputTexture, String recipeOutputName, String recipeOutputDisplayName, TextureProvider recipeOutputTexture){
         nc.ncpf.configuration.overhaul.fissionmsr.Block heater;
         msrBlocksToHaveRules.put(heater = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.heater(name, displayName, texture)), ruleSupplier);
+        heater.port = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.port(heater, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
         nc.ncpf.configuration.overhaul.fissionmsr.BlockRecipe recipe = nc.ncpf.configuration.overhaul.fissionmsr.BlockRecipe.heater(recipeInputName, recipeInputDisplayName, recipeInputTexture, recipeOutputName, recipeOutputDisplayName, recipeOutputTexture, 1, 1, cooling);
         heater.recipes.add(recipe);
         heater.allRecipes.add(recipe);
@@ -137,12 +139,12 @@ public class NCPFBuilder{
     }
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRVessel(String name, String displayName, TextureProvider texture, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture){
         nc.ncpf.configuration.overhaul.fissionmsr.Block vessel = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.vessel(name, displayName, texture));
-        vessel.port = nc.ncpf.configuration.overhaul.fissionmsr.Block.port(vessel, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture);
+        vessel.port = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.port(vessel, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
         return vessel;
     }
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRIrradiator(String name, String displayName, TextureProvider texture, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture){
         nc.ncpf.configuration.overhaul.fissionmsr.Block irradiator = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.irradiator(name, displayName, texture));
-        irradiator.port = nc.ncpf.configuration.overhaul.fissionmsr.Block.port(irradiator, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture);
+        irradiator.port = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.port(irradiator, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
         return irradiator;
     }
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRConductor(String name, String displayName, TextureProvider texture){
@@ -231,8 +233,10 @@ public class NCPFBuilder{
     public nc.ncpf.configuration.overhaul.turbine.Block addTurbineBearing(String name, String displayName, TextureProvider texture){
         return addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.bearing(name, displayName, texture));
     }
-    public nc.ncpf.configuration.overhaul.turbine.Block addTurbineConnector(String name, String displayName, TextureProvider texture){
-        return addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.connector(name, displayName, texture));
+    public nc.ncpf.configuration.overhaul.turbine.Block addTurbineConnector(String name, String displayName, TextureProvider texture, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]> ruleSupplier){
+        nc.ncpf.configuration.overhaul.turbine.Block connector = addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.connector(name, displayName, texture));
+        turbineBlocksToHaveRules.put(connector, ruleSupplier);
+        return connector;
     }
     public nc.ncpf.configuration.overhaul.turbine.Block addTurbineBlade(String name, String displayName, TextureProvider texture, float efficiency, float expansion){
         return addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.blade(name, displayName, texture, efficiency, expansion));
@@ -242,5 +246,11 @@ public class NCPFBuilder{
     }
     public nc.ncpf.configuration.overhaul.turbine.Block addTurbineShaft(String name, String displayName, TextureProvider texture){
         return addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.shaft(name, displayName, texture));
+    }
+    public nc.ncpf.configuration.overhaul.turbine.Recipe addTurbineRecipe(String inputName, String inputDisplayName, TextureProvider inputTexture, String outputName, String outputDisplayName, TextureProvider outputTexture, double power, double coefficient){
+        nc.ncpf.configuration.overhaul.turbine.Recipe recipe = nc.ncpf.configuration.overhaul.turbine.Recipe.recipe(inputName, inputDisplayName, inputTexture, outputName, outputDisplayName, outputTexture, power, coefficient);
+        configuration.overhaul.turbine.recipes.add(recipe);
+        configuration.overhaul.turbine.allRecipes.add(recipe);
+        return recipe;
     }
 }
