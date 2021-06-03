@@ -2,7 +2,11 @@ package nc.ncpf;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
+import javax.swing.JOptionPane;
+import nc.multiblock.PlacementRule;
+import nc.multiblock.fission.tile.IFissionPart;
 import nc.ncpf.config2.Config;
 import nc.ncpf.configuration.Configuration;
 import nc.ncpf.configuration.overhaul.OverhaulConfiguration;
@@ -13,9 +17,9 @@ import nc.ncpf.texture.TextureProvider;
 public class NCPFBuilder{
     public static final byte NCPF_VERSION = 10;
     public Configuration configuration;
-    private final HashMap<nc.ncpf.configuration.overhaul.fissionsfr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule[]>> sfrBlocksToHaveRules = new HashMap<>();
-    private final HashMap<nc.ncpf.configuration.overhaul.fissionmsr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]>> msrBlocksToHaveRules = new HashMap<>();
-    private final HashMap<nc.ncpf.configuration.overhaul.turbine.Block, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]>> turbineBlocksToHaveRules = new HashMap<>();
+    private final HashMap<nc.ncpf.configuration.overhaul.fissionsfr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule>> sfrBlocksToHaveRules = new HashMap<>();
+    private final HashMap<nc.ncpf.configuration.overhaul.fissionmsr.Block, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule>> msrBlocksToHaveRules = new HashMap<>();
+    private final HashMap<nc.ncpf.configuration.overhaul.turbine.Block, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule>> turbineBlocksToHaveRules = new HashMap<>();
     public NCPFBuilder(String name, String version){
         if(name.equals("NuclearCraft"))throw new IllegalArgumentException("'NuclearCraft' Configuration name is reserved for vanilla nuclearcraft, and should not be automatically assigned!");
         configuration = new Configuration(name, version);
@@ -49,6 +53,7 @@ public class NCPFBuilder{
         turbineBlocksToHaveRules.clear();
     }
     public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block block){
+        configuration.overhaul.fissionSFR.blocks.add(block);
         configuration.overhaul.fissionSFR.allBlocks.add(block);
         return block;
     }
@@ -64,7 +69,7 @@ public class NCPFBuilder{
     public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRSource(String name, String displayName, TextureProvider texture, float efficiency){
         return addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block.source(name, displayName, texture, efficiency));
     }
-    public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRHeatsink(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule[]> ruleSupplier){
+    public nc.ncpf.configuration.overhaul.fissionsfr.Block addSFRHeatsink(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule> ruleSupplier){
         nc.ncpf.configuration.overhaul.fissionsfr.Block heatsink;
         sfrBlocksToHaveRules.put(heatsink = addSFRBlock(nc.ncpf.configuration.overhaul.fissionsfr.Block.heatsink(name, displayName, cooling, texture)), ruleSupplier);
         return heatsink;
@@ -116,6 +121,7 @@ public class NCPFBuilder{
         return recipe;
     }
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block block){
+        configuration.overhaul.fissionMSR.blocks.add(block);
         configuration.overhaul.fissionMSR.allBlocks.add(block);
         return block;
     }
@@ -128,7 +134,7 @@ public class NCPFBuilder{
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRSource(String name, String displayName, TextureProvider texture, float efficiency){
         return addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.source(name, displayName, texture, efficiency));
     }
-    public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRHeater(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule[]> ruleSupplier, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture, String recipeInputName, String recipeInputDisplayName, TextureProvider recipeInputTexture, String recipeOutputName, String recipeOutputDisplayName, TextureProvider recipeOutputTexture){
+    public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRHeater(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule> ruleSupplier, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture, String recipeInputName, String recipeInputDisplayName, TextureProvider recipeInputTexture, String recipeOutputName, String recipeOutputDisplayName, TextureProvider recipeOutputTexture){
         nc.ncpf.configuration.overhaul.fissionmsr.Block heater;
         msrBlocksToHaveRules.put(heater = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.heater(name, displayName, texture)), ruleSupplier);
         heater.port = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.port(heater, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
@@ -210,6 +216,7 @@ public class NCPFBuilder{
         addMSRIrradiatorRecipe(inputName, inputDisplayName, inputTexture, outputName, outputDisplayName, outputTexture, efficiency, heat);
     }
     public nc.ncpf.configuration.overhaul.turbine.Block addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block block){
+        configuration.overhaul.turbine.blocks.add(block);
         configuration.overhaul.turbine.allBlocks.add(block);
         return block;
     }
@@ -225,7 +232,7 @@ public class NCPFBuilder{
     public nc.ncpf.configuration.overhaul.turbine.Block addTurbineOutlet(String name, String displayName, TextureProvider texture){
         return addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.outlet(name, displayName, texture));
     }
-    public nc.ncpf.configuration.overhaul.turbine.Block addTurbineCoil(String name, String displayName, TextureProvider texture, float efficiency, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]> ruleSupplier){
+    public nc.ncpf.configuration.overhaul.turbine.Block addTurbineCoil(String name, String displayName, TextureProvider texture, float efficiency, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule> ruleSupplier){
         nc.ncpf.configuration.overhaul.turbine.Block coil = addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.coil(name, displayName, texture, efficiency));
         turbineBlocksToHaveRules.put(coil, ruleSupplier);
         return coil;
@@ -233,7 +240,7 @@ public class NCPFBuilder{
     public nc.ncpf.configuration.overhaul.turbine.Block addTurbineBearing(String name, String displayName, TextureProvider texture){
         return addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.bearing(name, displayName, texture));
     }
-    public nc.ncpf.configuration.overhaul.turbine.Block addTurbineConnector(String name, String displayName, TextureProvider texture, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule[]> ruleSupplier){
+    public nc.ncpf.configuration.overhaul.turbine.Block addTurbineConnector(String name, String displayName, TextureProvider texture, Supplier<nc.ncpf.configuration.overhaul.turbine.PlacementRule> ruleSupplier){
         nc.ncpf.configuration.overhaul.turbine.Block connector = addTurbineBlock(nc.ncpf.configuration.overhaul.turbine.Block.connector(name, displayName, texture));
         turbineBlocksToHaveRules.put(connector, ruleSupplier);
         return connector;
@@ -252,5 +259,120 @@ public class NCPFBuilder{
         configuration.overhaul.turbine.recipes.add(recipe);
         configuration.overhaul.turbine.allRecipes.add(recipe);
         return recipe;
+    }
+    public nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule convertSFRRule(PlacementRule<IFissionPart> rule, HashMap<String, nc.ncpf.configuration.overhaul.fissionsfr.Block> blockMap){
+        if(rule instanceof PlacementRule.And){
+            nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule and = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+            and.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AND;
+            for(PlacementRule<IFissionPart> rul : rule.getSubRules())and.rules.add(convertSFRRule(rul, blockMap));
+            return and;
+        }
+        if(rule instanceof PlacementRule.Or){
+            nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule or = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+            or.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.OR;
+            for(PlacementRule<IFissionPart> rul : rule.getSubRules())or.rules.add(convertSFRRule(rul, blockMap));
+            return or;
+        }
+        if(rule instanceof PlacementRule.Adjacent){
+            PlacementRule.Adjacent adj = (PlacementRule.Adjacent)rule;
+            nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule rul = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+            String part = ((List<String>)adj.getDependencies()).get(0);
+            if(blockMap.containsKey(part)){
+                rul.block = blockMap.get(part);
+                switch(adj.adjType){//TODO make sure these work correctly with exact-axial rules (and vertex AT_LEAST vs. EXACTLY)
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)(adj.amount/2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.BETWEEN;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.VERTEX;
+                        break;
+                }
+            }else{
+                switch(adj.adjType){
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)(adj.amount/2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.BETWEEN_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.VERTEX_GROUP;
+                        break;
+                }
+                switch(part){
+                    case "reactor_casing":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.CASING;
+                        break;
+                    case "cell":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.FUEL_CELL;
+                        break;
+                    case "moderator":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.MODERATOR;
+                        break;
+                    case "reflector":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.REFLECTOR;
+                        break;
+                    default://TODO irradiators also, and something else too I think?
+                        throw new IllegalArgumentException("Unknown block: "+part);
+                }
+            }
+            return rul;
+        }
+        throw new IllegalArgumentException("Unable to convert SFR placement rule: unknown rule type");
     }
 }

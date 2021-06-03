@@ -226,9 +226,10 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	
 	public abstract static class Adjacent<T extends ITileMultiblockPart> extends PlacementRule<T> {
 		
-		protected final int amount;
-		protected final CountType countType;
-		protected final AdjacencyType adjType;
+        //was absolutely going to use reflection before I remembered that I could edit this >.>
+		public final int amount;
+		public final CountType countType;
+		public final AdjacencyType adjType;
 		
 		protected Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) {
 			super(null, Lists.newArrayList(dependency), countType.requiresRecheck());
