@@ -8,7 +8,6 @@ public class BlockRecipe{
     public static BlockRecipe heater(String inputName, String inputDisplayName, TextureProvider inputTexture, String outputName, String outputDisplayName, TextureProvider outputTexture, int inputRate, int outputRate, int cooling){
         BlockRecipe recipe = new BlockRecipe(inputName, outputName);
         recipe.inputDisplayName = inputDisplayName;
-        recipe.inputLegacyNames.add(inputDisplayName);
         recipe.inputTexture = inputTexture;
         recipe.outputDisplayName = outputDisplayName;
         recipe.outputTexture = outputTexture;
@@ -20,7 +19,6 @@ public class BlockRecipe{
     public static BlockRecipe irradiatorRecipe(String inputName, String inputDisplayName, TextureProvider inputTexture, String outputName, String outputDisplayName, TextureProvider outputTexture, float efficiency, float heat){
         BlockRecipe recipe = new BlockRecipe(inputName, outputName);
         recipe.inputDisplayName = inputDisplayName;
-        recipe.inputLegacyNames.add(inputDisplayName);
         recipe.inputTexture = inputTexture;
         recipe.outputDisplayName = outputDisplayName;
         recipe.outputTexture = outputTexture;
@@ -31,7 +29,6 @@ public class BlockRecipe{
     public static BlockRecipe fuel(String inputName, String inputDisplayName, TextureProvider inputTexture, String outputName, String outputDisplayName, TextureProvider outputTexture, float efficiency, int heat, int time, int criticality, boolean selfPriming){
         BlockRecipe recipe = new BlockRecipe(inputName, outputName);
         recipe.inputDisplayName = inputDisplayName;
-        recipe.inputLegacyNames.add(inputDisplayName);
         recipe.inputTexture = inputTexture;
         recipe.outputDisplayName = outputDisplayName;
         recipe.outputTexture = outputTexture;

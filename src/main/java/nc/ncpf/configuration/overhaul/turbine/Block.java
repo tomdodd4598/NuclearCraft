@@ -9,7 +9,6 @@ public class Block extends RuleContainer{
     public static Block controller(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.controller = true;
         block.casing = true;
@@ -18,7 +17,6 @@ public class Block extends RuleContainer{
     public static Block casing(String name, String displayName, TextureProvider texture, boolean edge){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.casing = true;
         block.casingEdge = edge;
@@ -27,7 +25,6 @@ public class Block extends RuleContainer{
     public static Block inlet(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.inlet = true;
         return block;
@@ -35,7 +32,6 @@ public class Block extends RuleContainer{
     public static Block outlet(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.outlet = true;
         return block;
@@ -43,7 +39,6 @@ public class Block extends RuleContainer{
     public static Block coil(String name, String displayName, TextureProvider texture, float efficiency){
         Block coil = new Block(name);
         coil.displayName = displayName;
-        coil.legacyNames.add(displayName);
         coil.coil = true;
         coil.coilEfficiency = efficiency;
         coil.texture = texture;
@@ -52,7 +47,6 @@ public class Block extends RuleContainer{
     public static Block bearing(String name, String displayName, TextureProvider texture){
         Block bearing = new Block(name);
         bearing.displayName = displayName;
-        bearing.legacyNames.add(displayName);
         bearing.bearing = true;
         bearing.texture = texture;
         return bearing;
@@ -60,7 +54,6 @@ public class Block extends RuleContainer{
     public static Block connector(String name, String displayName, TextureProvider texture){
         Block connector = new Block(name);
         connector.displayName = displayName;
-        connector.legacyNames.add(displayName);
         connector.connector = true;
         connector.texture = texture;
         return connector;
@@ -68,7 +61,6 @@ public class Block extends RuleContainer{
     public static Block blade(String name, String displayName, TextureProvider texture, float efficiency, float expansion){
         Block blade = new Block(name);
         blade.displayName = displayName;
-        blade.legacyNames.add(displayName);
         blade.blade = true;
         blade.bladeEfficiency = efficiency;
         blade.bladeExpansion = expansion;
@@ -78,7 +70,6 @@ public class Block extends RuleContainer{
     public static Block stator(String name, String displayName, TextureProvider texture, float expansion){
         Block blade = new Block(name);
         blade.displayName = displayName;
-        blade.legacyNames.add(displayName);
         blade.blade = true;
         blade.bladeEfficiency = 0;
         blade.bladeExpansion = expansion;
@@ -89,7 +80,6 @@ public class Block extends RuleContainer{
     public static Block shaft(String name, String displayName, TextureProvider texture){
         Block shaft = new Block(name);
         shaft.displayName = displayName;
-        shaft.legacyNames.add(displayName);
         shaft.shaft = true;
         shaft.texture = texture;
         return shaft;

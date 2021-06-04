@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
-import javax.swing.JOptionPane;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.fission.tile.IFissionPart;
 import nc.multiblock.turbine.tile.ITurbinePart;
@@ -284,7 +283,7 @@ public class NCPFBuilder{
             String part = ((List<String>)adj.getDependencies()).get(0);
             if(blockMap.containsKey(part)){
                 rul.block = blockMap.get(part);
-                switch(adj.adjType){//TODO make sure these work correctly with exact-axial rules (and vertex AT_LEAST vs. EXACTLY)
+                switch(adj.adjType){//TODO make sure these work correctly with vertex AT_LEAST vs. EXACTLY
                     case AXIAL:
                         rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL;
                         switch(adj.countType){
@@ -297,7 +296,17 @@ public class NCPFBuilder{
                                 rul.max = (byte)(adj.amount/2);
                                 break;
                             case EXACTLY:
-                                rul.min = rul.max = (byte)(adj.amount/2);
+                                rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AND;
+                                nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule rul1 = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+                                nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule rul2 = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+                                rul1.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.BETWEEN;
+                                rul2.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL;
+                                rul1.block = rul2.block = rul.block;
+                                rul.block = null;
+                                rul1.min = rul1.max = (byte)adj.amount;
+                                rul2.min = rul2.max = (byte)(adj.amount/2);
+                                rul.rules.add(rul1);
+                                rul.rules.add(rul2);
                                 break;
                         }
                         break;
@@ -322,43 +331,6 @@ public class NCPFBuilder{
                         break;
                 }
             }else{
-                switch(adj.adjType){
-                    case AXIAL:
-                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL_GROUP;
-                        switch(adj.countType){
-                            case AT_LEAST:
-                                rul.min = (byte)(adj.amount/2);
-                                rul.max = 3;
-                                break;
-                            case AT_MOST:
-                                rul.min = 0;
-                                rul.max = (byte)(adj.amount/2);
-                                break;
-                            case EXACTLY:
-                                rul.min = rul.max = (byte)(adj.amount/2);
-                                break;
-                        }
-                        break;
-                    case STANDARD:
-                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.BETWEEN_GROUP;
-                        switch(adj.countType){
-                            case AT_LEAST:
-                                rul.min = (byte)adj.amount;
-                                rul.max = 6;
-                                break;
-                            case AT_MOST:
-                                rul.min = 0;
-                                rul.max = (byte)adj.amount;
-                                break;
-                            case EXACTLY:
-                                rul.min = rul.max = (byte)adj.amount;
-                                break;
-                        }
-                        break;
-                    case VERTEX:
-                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.VERTEX_GROUP;
-                        break;
-                }
                 switch(part){
                     case "reactor_casing":
                         rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.CASING;
@@ -384,6 +356,53 @@ public class NCPFBuilder{
                     default:
                         throw new IllegalArgumentException("Unknown block: "+part);
                 }
+                switch(adj.adjType){
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AND;
+                                nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule rul1 = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+                                nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule rul2 = new nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule();
+                                rul1.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.BETWEEN_GROUP;
+                                rul2.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.AXIAL_GROUP;
+                                rul1.blockType = rul2.blockType = rul.blockType;
+                                rul.blockType = null;
+                                rul1.min = rul1.max = (byte)adj.amount;
+                                rul2.min = rul2.max = (byte)(adj.amount/2);
+                                rul.rules.add(rul1);
+                                rul.rules.add(rul2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.BETWEEN_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.RuleType.VERTEX_GROUP;
+                        break;
+                }
             }
             return rul;
         }
@@ -408,7 +427,7 @@ public class NCPFBuilder{
             String part = ((List<String>)adj.getDependencies()).get(0);
             if(blockMap.containsKey(part)){
                 rul.block = blockMap.get(part);
-                switch(adj.adjType){//TODO make sure these work correctly with exact-axial rules (and vertex AT_LEAST vs. EXACTLY)
+                switch(adj.adjType){//TODO make sure these work correctly with vertex AT_LEAST vs. EXACTLY
                     case AXIAL:
                         rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL;
                         switch(adj.countType){
@@ -421,7 +440,17 @@ public class NCPFBuilder{
                                 rul.max = (byte)(adj.amount/2);
                                 break;
                             case EXACTLY:
-                                rul.min = rul.max = (byte)(adj.amount/2);
+                                rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AND;
+                                nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule rul1 = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+                                nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule rul2 = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+                                rul1.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.BETWEEN;
+                                rul2.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL;
+                                rul1.block = rul2.block = rul.block;
+                                rul.block = null;
+                                rul1.min = rul1.max = (byte)adj.amount;
+                                rul2.min = rul2.max = (byte)(adj.amount/2);
+                                rul.rules.add(rul1);
+                                rul.rules.add(rul2);
                                 break;
                         }
                         break;
@@ -446,43 +475,6 @@ public class NCPFBuilder{
                         break;
                 }
             }else{
-                switch(adj.adjType){
-                    case AXIAL:
-                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL_GROUP;
-                        switch(adj.countType){
-                            case AT_LEAST:
-                                rul.min = (byte)(adj.amount/2);
-                                rul.max = 3;
-                                break;
-                            case AT_MOST:
-                                rul.min = 0;
-                                rul.max = (byte)(adj.amount/2);
-                                break;
-                            case EXACTLY:
-                                rul.min = rul.max = (byte)(adj.amount/2);
-                                break;
-                        }
-                        break;
-                    case STANDARD:
-                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.BETWEEN_GROUP;
-                        switch(adj.countType){
-                            case AT_LEAST:
-                                rul.min = (byte)adj.amount;
-                                rul.max = 6;
-                                break;
-                            case AT_MOST:
-                                rul.min = 0;
-                                rul.max = (byte)adj.amount;
-                                break;
-                            case EXACTLY:
-                                rul.min = rul.max = (byte)adj.amount;
-                                break;
-                        }
-                        break;
-                    case VERTEX:
-                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.VERTEX_GROUP;
-                        break;
-                }
                 switch(part){
                     case "reactor_casing":
                         rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.CASING;
@@ -508,6 +500,53 @@ public class NCPFBuilder{
                     default:
                         throw new IllegalArgumentException("Unknown block: "+part);
                 }
+                switch(adj.adjType){
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AND;
+                                nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule rul1 = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+                                nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule rul2 = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+                                rul1.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.BETWEEN_GROUP;
+                                rul2.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL_GROUP;
+                                rul1.blockType = rul2.blockType = rul.blockType;
+                                rul.blockType = null;
+                                rul1.min = rul1.max = (byte)adj.amount;
+                                rul2.min = rul2.max = (byte)(adj.amount/2);
+                                rul.rules.add(rul1);
+                                rul.rules.add(rul2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.BETWEEN_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.VERTEX_GROUP;
+                        break;
+                }
             }
             return rul;
         }
@@ -532,7 +571,7 @@ public class NCPFBuilder{
             String part = ((List<String>)adj.getDependencies()).get(0);
             if(blockMap.containsKey(part)){
                 rul.block = blockMap.get(part);
-                switch(adj.adjType){//TODO make sure these work correctly with exact-axial rules (and vertex AT_LEAST vs. EXACTLY)
+                switch(adj.adjType){//TODO make sure these work correctly with edge AT_LEAST vs. EXACTLY
                     case AXIAL:
                         rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AXIAL;
                         switch(adj.countType){
@@ -545,7 +584,17 @@ public class NCPFBuilder{
                                 rul.max = (byte)(adj.amount/2);
                                 break;
                             case EXACTLY:
-                                rul.min = rul.max = (byte)(adj.amount/2);
+                                rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AND;
+                                nc.ncpf.configuration.overhaul.turbine.PlacementRule rul1 = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+                                nc.ncpf.configuration.overhaul.turbine.PlacementRule rul2 = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+                                rul1.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.BETWEEN;
+                                rul2.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AXIAL;
+                                rul1.block = rul2.block = rul.block;
+                                rul.block = null;
+                                rul1.min = rul1.max = (byte)adj.amount;
+                                rul2.min = rul2.max = (byte)(adj.amount/2);
+                                rul.rules.add(rul1);
+                                rul.rules.add(rul2);
                                 break;
                         }
                         break;
@@ -570,6 +619,16 @@ public class NCPFBuilder{
                         break;
                 }
             }else{
+                switch(part){
+                    case "bearing":
+                        rul.blockType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.BlockType.BEARING;
+                        break;
+                    case "any_coil":
+                        rul.blockType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.BlockType.COIL;
+                        break;
+                    default://what about connectors?
+                        throw new IllegalArgumentException("Unknown block: "+part);
+                }
                 switch(adj.adjType){
                     case AXIAL:
                         rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AXIAL_GROUP;
@@ -583,7 +642,17 @@ public class NCPFBuilder{
                                 rul.max = (byte)(adj.amount/2);
                                 break;
                             case EXACTLY:
-                                rul.min = rul.max = (byte)(adj.amount/2);
+                                rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AND;
+                                nc.ncpf.configuration.overhaul.turbine.PlacementRule rul1 = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+                                nc.ncpf.configuration.overhaul.turbine.PlacementRule rul2 = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+                                rul1.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.BETWEEN_GROUP;
+                                rul2.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AXIAL_GROUP;
+                                rul1.blockType = rul2.blockType = rul.blockType;
+                                rul.blockType = null;
+                                rul1.min = rul1.max = (byte)adj.amount;
+                                rul2.min = rul2.max = (byte)(adj.amount/2);
+                                rul.rules.add(rul1);
+                                rul.rules.add(rul2);
                                 break;
                         }
                         break;
@@ -606,16 +675,6 @@ public class NCPFBuilder{
                     case VERTEX:
                         rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.EDGE_GROUP;
                         break;
-                }
-                switch(part){
-                    case "bearing":
-                        rul.blockType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.BlockType.BEARING;
-                        break;
-                    case "any_coil":
-                        rul.blockType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.BlockType.COIL;
-                        break;
-                    default://TODO connectors?
-                        throw new IllegalArgumentException("Unknown block: "+part);
                 }
             }
             return rul;

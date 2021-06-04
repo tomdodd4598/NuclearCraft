@@ -8,7 +8,6 @@ public class CoolantRecipe{
     public static CoolantRecipe coolantRecipe(String inputName, String inputDisplayName, TextureProvider inputTexture, String outputName, String outputDisplayName, TextureProvider outputTexture, int heat, float outputRatio){
         CoolantRecipe recipe = new CoolantRecipe(inputName, outputName, heat, outputRatio);
         recipe.inputDisplayName = inputDisplayName;
-        recipe.inputLegacyNames.add(inputDisplayName);
         recipe.inputTexture = inputTexture;
         recipe.outputDisplayName = outputDisplayName;
         recipe.outputTexture = outputTexture;

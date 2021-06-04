@@ -1,6 +1,5 @@
 package nc.ncpf.configuration.overhaul.turbine;
 import java.util.ArrayList;
-import java.util.Objects;
 import nc.ncpf.config2.Config;
 import nc.ncpf.config2.ConfigList;
 import nc.ncpf.config2.ConfigNumberList;
@@ -9,7 +8,6 @@ public class Recipe{
     public static Recipe recipe(String inputName, String inputDisplayName, TextureProvider inputTexture, String outputName, String outputDisplayName, TextureProvider outputTexture, double power, double coefficient){
         Recipe recipe = new Recipe(inputName, outputName, power, coefficient);
         recipe.inputDisplayName = inputDisplayName;
-        recipe.inputLegacyNames.add(inputDisplayName);
         recipe.inputTexture = inputTexture;
         recipe.outputDisplayName = outputDisplayName;
         recipe.outputTexture = outputTexture;

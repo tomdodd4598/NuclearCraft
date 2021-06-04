@@ -9,7 +9,6 @@ public class Block extends RuleContainer{
     public static Block controller(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.controller = true;
         block.casing = true;
@@ -18,7 +17,6 @@ public class Block extends RuleContainer{
     public static Block casing(String name, String displayName, TextureProvider texture, boolean edge){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.casing = true;
         block.casingEdge = edge;
@@ -28,7 +26,6 @@ public class Block extends RuleContainer{
         Block block = new Block(name);
         block.parent = parent;
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.texture = texture;
         block.portOutputDisplayName = outputDisplayName;
         block.portOutputTexture = outputTexture;
@@ -37,7 +34,6 @@ public class Block extends RuleContainer{
     public static Block source(String name, String displayName, TextureProvider texture, float efficiency){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName.replace(" Neutron Source", ""));
         block.texture = texture;
         block.casing = true;
         block.source = true;
@@ -47,7 +43,6 @@ public class Block extends RuleContainer{
     public static Block heater(String name, String displayName, TextureProvider texture, PlacementRule... rules){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.heater = true;
         for(PlacementRule r : rules){
             block.rules.add(r);
@@ -62,7 +57,6 @@ public class Block extends RuleContainer{
     public static Block vessel(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.fuelVessel = true;
         block.cluster = true;
         block.createCluster = true;
@@ -74,7 +68,6 @@ public class Block extends RuleContainer{
     public static Block irradiator(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.cluster = true;
         block.createCluster = true;
         block.irradiator = true;
@@ -86,7 +79,6 @@ public class Block extends RuleContainer{
     public static Block conductor(String name, String displayName, TextureProvider texture){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.cluster = true;//because conductors connect clusters together
         block.texture = texture;
         return block;
@@ -94,7 +86,6 @@ public class Block extends RuleContainer{
     public static Block moderator(String name, String displayName, TextureProvider texture, int flux, float efficiency){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.moderator = true;
         block.moderatorHasBaseStats = true;
         block.moderatorActive = true;
@@ -107,7 +98,6 @@ public class Block extends RuleContainer{
     public static Block reflector(String name, String displayName, TextureProvider texture, float efficiency, float reflectivity){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.reflector = true;
         block.reflectorHasBaseStats = true;
         block.reflectorEfficiency = efficiency;
@@ -120,7 +110,6 @@ public class Block extends RuleContainer{
     public static Block shield(String name, String displayName, TextureProvider texture, TextureProvider closedTexture, int heatPerFlux, float efficiency){
         Block block = new Block(name);
         block.displayName = displayName;
-        block.legacyNames.add(displayName);
         block.shield = true;
         block.moderator = true;
         block.functional = true;
