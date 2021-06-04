@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import javax.swing.JOptionPane;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.fission.tile.IFissionPart;
+import nc.multiblock.turbine.tile.ITurbinePart;
 import nc.ncpf.config2.Config;
 import nc.ncpf.configuration.Configuration;
 import nc.ncpf.configuration.overhaul.OverhaulConfiguration;
@@ -135,12 +136,16 @@ public class NCPFBuilder{
         return addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.source(name, displayName, texture, efficiency));
     }
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRHeater(String name, String displayName, TextureProvider texture, int cooling, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule> ruleSupplier, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture, String recipeInputName, String recipeInputDisplayName, TextureProvider recipeInputTexture, String recipeOutputName, String recipeOutputDisplayName, TextureProvider recipeOutputTexture){
-        nc.ncpf.configuration.overhaul.fissionmsr.Block heater;
-        msrBlocksToHaveRules.put(heater = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.heater(name, displayName, texture)), ruleSupplier);
-        heater.port = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.port(heater, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
+        nc.ncpf.configuration.overhaul.fissionmsr.Block heater = addMSRHeater(name, displayName, texture, ruleSupplier, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture);
         nc.ncpf.configuration.overhaul.fissionmsr.BlockRecipe recipe = nc.ncpf.configuration.overhaul.fissionmsr.BlockRecipe.heater(recipeInputName, recipeInputDisplayName, recipeInputTexture, recipeOutputName, recipeOutputDisplayName, recipeOutputTexture, 1, 1, cooling);
         heater.recipes.add(recipe);
         heater.allRecipes.add(recipe);
+        return heater;
+    }
+    public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRHeater(String name, String displayName, TextureProvider texture, Supplier<nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule> ruleSupplier, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture){
+        nc.ncpf.configuration.overhaul.fissionmsr.Block heater;
+        msrBlocksToHaveRules.put(heater = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.heater(name, displayName, texture)), ruleSupplier);
+        heater.port = addMSRBlock(nc.ncpf.configuration.overhaul.fissionmsr.Block.port(heater, portName, portDisplayName, portTexture, portOutputDisplayName, portOutputTexture));
         return heater;
     }
     public nc.ncpf.configuration.overhaul.fissionmsr.Block addMSRVessel(String name, String displayName, TextureProvider texture, String portName, String portDisplayName, TextureProvider portTexture, String portOutputDisplayName, TextureProvider portOutputTexture){
@@ -367,12 +372,254 @@ public class NCPFBuilder{
                     case "reflector":
                         rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.REFLECTOR;
                         break;
-                    default://TODO irradiators also, and something else too I think?
+                    case "conductor":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.CONDUCTOR;
+                        break;
+                    case "irradiator":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.IRRADIATOR;
+                        break;
+                    case "shield":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionsfr.PlacementRule.BlockType.SHIELD;
+                        break;
+                    default:
                         throw new IllegalArgumentException("Unknown block: "+part);
                 }
             }
             return rul;
         }
         throw new IllegalArgumentException("Unable to convert SFR placement rule: unknown rule type");
+    }
+    public nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule convertMSRRule(PlacementRule<IFissionPart> rule, HashMap<String, nc.ncpf.configuration.overhaul.fissionmsr.Block> blockMap){
+        if(rule instanceof PlacementRule.And){
+            nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule and = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+            and.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AND;
+            for(PlacementRule<IFissionPart> rul : rule.getSubRules())and.rules.add(convertMSRRule(rul, blockMap));
+            return and;
+        }
+        if(rule instanceof PlacementRule.Or){
+            nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule or = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+            or.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.OR;
+            for(PlacementRule<IFissionPart> rul : rule.getSubRules())or.rules.add(convertMSRRule(rul, blockMap));
+            return or;
+        }
+        if(rule instanceof PlacementRule.Adjacent){
+            PlacementRule.Adjacent adj = (PlacementRule.Adjacent)rule;
+            nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule rul = new nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule();
+            String part = ((List<String>)adj.getDependencies()).get(0);
+            if(blockMap.containsKey(part)){
+                rul.block = blockMap.get(part);
+                switch(adj.adjType){//TODO make sure these work correctly with exact-axial rules (and vertex AT_LEAST vs. EXACTLY)
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)(adj.amount/2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.BETWEEN;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.VERTEX;
+                        break;
+                }
+            }else{
+                switch(adj.adjType){
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.AXIAL_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)(adj.amount/2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.BETWEEN_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.RuleType.VERTEX_GROUP;
+                        break;
+                }
+                switch(part){
+                    case "reactor_casing":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.CASING;
+                        break;
+                    case "vessel"://might need "cell" also
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.VESSEL;
+                        break;
+                    case "moderator":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.MODERATOR;
+                        break;
+                    case "reflector":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.REFLECTOR;
+                        break;
+                    case "conductor":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.CONDUCTOR;
+                        break;
+                    case "irradiator":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.IRRADIATOR;
+                        break;
+                    case "shield":
+                        rul.blockType = nc.ncpf.configuration.overhaul.fissionmsr.PlacementRule.BlockType.SHIELD;
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown block: "+part);
+                }
+            }
+            return rul;
+        }
+        throw new IllegalArgumentException("Unable to convert MSR placement rule: unknown rule type");
+    }
+    public nc.ncpf.configuration.overhaul.turbine.PlacementRule convertTurbineRule(PlacementRule<ITurbinePart> rule, HashMap<String, nc.ncpf.configuration.overhaul.turbine.Block> blockMap){
+        if(rule instanceof PlacementRule.And){
+            nc.ncpf.configuration.overhaul.turbine.PlacementRule and = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+            and.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AND;
+            for(PlacementRule<ITurbinePart> rul : rule.getSubRules())and.rules.add(convertTurbineRule(rul, blockMap));
+            return and;
+        }
+        if(rule instanceof PlacementRule.Or){
+            nc.ncpf.configuration.overhaul.turbine.PlacementRule or = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+            or.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.OR;
+            for(PlacementRule<ITurbinePart> rul : rule.getSubRules())or.rules.add(convertTurbineRule(rul, blockMap));
+            return or;
+        }
+        if(rule instanceof PlacementRule.Adjacent){
+            PlacementRule.Adjacent adj = (PlacementRule.Adjacent)rule;
+            nc.ncpf.configuration.overhaul.turbine.PlacementRule rul = new nc.ncpf.configuration.overhaul.turbine.PlacementRule();
+            String part = ((List<String>)adj.getDependencies()).get(0);
+            if(blockMap.containsKey(part)){
+                rul.block = blockMap.get(part);
+                switch(adj.adjType){//TODO make sure these work correctly with exact-axial rules (and vertex AT_LEAST vs. EXACTLY)
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AXIAL;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)(adj.amount/2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.BETWEEN;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.EDGE;
+                        break;
+                }
+            }else{
+                switch(adj.adjType){
+                    case AXIAL:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.AXIAL_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)(adj.amount/2);
+                                rul.max = 3;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)(adj.amount/2);
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)(adj.amount/2);
+                                break;
+                        }
+                        break;
+                    case STANDARD:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.BETWEEN_GROUP;
+                        switch(adj.countType){
+                            case AT_LEAST:
+                                rul.min = (byte)adj.amount;
+                                rul.max = 6;
+                                break;
+                            case AT_MOST:
+                                rul.min = 0;
+                                rul.max = (byte)adj.amount;
+                                break;
+                            case EXACTLY:
+                                rul.min = rul.max = (byte)adj.amount;
+                                break;
+                        }
+                        break;
+                    case VERTEX:
+                        rul.ruleType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.RuleType.EDGE_GROUP;
+                        break;
+                }
+                switch(part){
+                    case "bearing":
+                        rul.blockType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.BlockType.BEARING;
+                        break;
+                    case "any_coil":
+                        rul.blockType = nc.ncpf.configuration.overhaul.turbine.PlacementRule.BlockType.COIL;
+                        break;
+                    default://TODO connectors?
+                        throw new IllegalArgumentException("Unknown block: "+part);
+                }
+            }
+            return rul;
+        }
+        throw new IllegalArgumentException("Unable to convert Turbine placement rule: unknown rule type");
     }
 }

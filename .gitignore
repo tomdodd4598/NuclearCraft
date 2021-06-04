@@ -13,6 +13,10 @@ out
 *.iml
 .idea
 
+# nb
+/.nb-gradle/
+/.nb-gradle-properties
+
 # gradle
 build/*
 .gradle
@@ -33,4 +37,3 @@ run/resources/nuclearcraft/*
 !run/resources/nuclearcraft/addons
 *.suo
 /.vs
-/.nb-gradle/

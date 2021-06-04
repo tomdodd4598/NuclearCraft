@@ -56,6 +56,7 @@ import stanhebben.zenscript.annotations.Optional;
 public class CTRegistration {
 	
 	public static final List<RegistrationInfo> INFO_LIST = new ArrayList<>();
+	public static final List<RegistrationInfo> STICKY_INFO_LIST = new ArrayList<>();//because INFO_LIST is cleared at the end of postInit, and there might be a reason for that
 	
 	public static final Object2ObjectMap<String, FissionIsotopeRegistrationInfo> FISSION_ISOTOPE_INFO_MAP = new Object2ObjectLinkedOpenHashMap<>();
 	public static final Object2ObjectMap<String, FissionFuelRegistrationInfo> FISSION_FUEL_INFO_MAP = new Object2ObjectLinkedOpenHashMap<>();
@@ -429,7 +430,7 @@ public class CTRegistration {
 	
 	public static class BlockRegistrationInfo extends RegistrationInfo {
 		
-		protected final Block block;
+		public final Block block;
 		
 		public BlockRegistrationInfo(Block block) {
 			this.block = block;
@@ -468,8 +469,8 @@ public class CTRegistration {
 	
 	public static class FissionSinkRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final String sinkID, rule;
-		protected final int cooling;
+		public final String sinkID, rule;
+		public final int cooling;
 		
 		FissionSinkRegistrationInfo(Block block, String sinkID, int cooling, String rule) {
 			super(block);
@@ -492,8 +493,8 @@ public class CTRegistration {
 	
 	public static class FissionHeaterRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final String heaterID, fluidInput, fluidOutput, rule;
-		protected final int inputAmount, outputAmount, cooling;
+		public final String heaterID, fluidInput, fluidOutput, rule;
+		public final int inputAmount, outputAmount, cooling;
 		
 		FissionHeaterRegistrationInfo(Block block, String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 			super(block);
@@ -537,7 +538,7 @@ public class CTRegistration {
 	
 	public static class FissionSourceRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double efficiency;
+		public final double efficiency;
 		
 		FissionSourceRegistrationInfo(Block block, double efficiency) {
 			super(block);
@@ -552,7 +553,7 @@ public class CTRegistration {
 	
 	public static class FissionShieldRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double heatPerFlux, efficiency;
+		public final double heatPerFlux, efficiency;
 		
 		FissionShieldRegistrationInfo(Block block, double heatPerFlux, double efficiency) {
 			super(block);
@@ -568,8 +569,8 @@ public class CTRegistration {
 	
 	public static class TurbineCoilRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final String coilID, rule;
-		protected final double conductivity;
+		public final String coilID, rule;
+		public final double conductivity;
 		
 		TurbineCoilRegistrationInfo(Block block, String coilID, double conductivity, String rule) {
 			super(block);
@@ -592,7 +593,7 @@ public class CTRegistration {
 	
 	public static class TurbineBladeRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double efficiency, expansionCoefficient;
+		public final double efficiency, expansionCoefficient;
 		
 		TurbineBladeRegistrationInfo(Block block, double efficiency, double expansionCoefficient) {
 			super(block);
@@ -608,7 +609,7 @@ public class CTRegistration {
 	
 	public static class TurbineStatorRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double expansionCoefficient;
+		public final double expansionCoefficient;
 		
 		TurbineStatorRegistrationInfo(Block block, double expansionCoefficient) {
 			super(block);
