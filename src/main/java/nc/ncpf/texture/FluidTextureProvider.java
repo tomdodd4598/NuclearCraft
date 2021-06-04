@@ -3,13 +3,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 /**
- * Doesn't work at all, this is just a placeholder
+ * Doesn't work, this is just a placeholder
  */
-public class ResourceLocationTextureProvider implements TextureProvider{
+public class FluidTextureProvider implements TextureProvider{
     private int[] data;
     private int size = -1;
-    public ResourceLocationTextureProvider(ResourceLocation resource){
+    public FluidTextureProvider(FluidStack stack){
+        this(stack.getFluid());
+    }
+    public FluidTextureProvider(Fluid fluid){
+        ResourceLocation resource = fluid.getStill();
         Minecraft.getMinecraft().renderEngine.bindTexture(resource);
         ITextureObject texture = Minecraft.getMinecraft().renderEngine.getTexture(resource);
         if(texture instanceof DynamicTexture){
