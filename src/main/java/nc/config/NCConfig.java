@@ -2200,7 +2200,7 @@ public class NCConfig {
                 ItemStack input = recipe.getItemIngredients().get(0).getStack();
                 ncpf.addFissionReflector(input.getItem().getRegistryName().toString()+(input.getItem().getHasSubtypes()?":"+input.getMetadata():""), input.getDisplayName(), new ItemTextureProvider(input), (float)recipe.getFissionReflectorEfficiency(), (float)recipe.getFissionReflectorReflectivity());
             }
-            ncpf.addFissionNeutronShield(NCBlocks.fission_shield.getRegistryName().toString()+":0", NCBlocks.fission_shield.getLocalizedName(), new BlockTextureProvider(NCBlocks.fission_shield), new BlockTextureProvider(NCBlocks.fission_shield), (int)fission_shield_heat_per_flux[0], (float)fission_shield_efficiency[0]);
+            ncpf.addFissionNeutronShield(NCBlocks.fission_shield.getRegistryName().toString()+":0", new ItemStack(NCBlocks.fission_shield).getDisplayName(), new BlockTextureProvider(NCBlocks.fission_shield), new BlockTextureProvider(NCBlocks.fission_shield), (int)fission_shield_heat_per_flux[0], (float)fission_shield_efficiency[0]);
             for(BasicRecipe recipe : NCRecipes.fission_irradiator.getRecipeList()){
                 ItemStack input = recipe.getItemIngredients().get(0).getStack();
                 ItemStack output = recipe.getItemProducts().get(0).getStack();
