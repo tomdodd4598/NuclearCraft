@@ -2186,39 +2186,53 @@ public class NCConfig {
     private static void outputNCPF(){
         try{
             NCPFBuilder ncpf = new NCPFBuilder("NuclearCraft Info", Global.VERSION);//not sure what name to use; 'NuclearCraft' is reserved for vanilla NC
-            //<editor-fold defaultstate="collapsed" desc="Fission">
-            ncpf.addFissionCasing(name(NCBlocks.fission_casing), displayName(NCBlocks.fission_casing), new BlockTextureProvider(NCBlocks.fission_casing), true);
-            ncpf.addFissionCasing(name(NCBlocks.fission_glass), displayName(NCBlocks.fission_glass), new BlockTextureProvider(NCBlocks.fission_glass), false);
-            ncpf.addFissionSource(name(NCBlocks.fission_source, 0), displayName(NCBlocks.fission_source, 0), new BlockTextureProvider(NCBlocks.fission_source, 0), (float) fission_source_efficiency[0]);
-            ncpf.addFissionSource(name(NCBlocks.fission_source, 1), displayName(NCBlocks.fission_source, 1), new BlockTextureProvider(NCBlocks.fission_source, 1), (float) fission_source_efficiency[1]);
-            ncpf.addFissionSource(name(NCBlocks.fission_source, 2), displayName(NCBlocks.fission_source, 2), new BlockTextureProvider(NCBlocks.fission_source, 2), (float) fission_source_efficiency[2]);
-            ncpf.addFissionIrradiator(name(NCBlocks.fission_irradiator), displayName(NCBlocks.fission_irradiator), new BlockTextureProvider(NCBlocks.fission_irradiator), name(NCBlocks.fission_irradiator_port), displayName(NCBlocks.fission_irradiator_port)+" (Input)", new BlockTextureProvider(NCBlocks.fission_irradiator_port), displayName(NCBlocks.fission_irradiator_port)+"(Output)", new BlockTextureProvider(NCBlocks.fission_irradiator_port));
-            ncpf.addFissionConductor(name(NCBlocks.fission_conductor), displayName(NCBlocks.fission_conductor), new BlockTextureProvider(NCBlocks.fission_conductor));
-            for(BasicRecipe recipe : NCRecipes.fission_moderator.getRecipeList()){
-                ItemStack input = recipe.getItemIngredients().get(0).getStack();
-                ncpf.addFissionModerator(name(input), displayName(input), new ItemTextureProvider(input), recipe.getFissionModeratorFluxFactor(), (float)recipe.getFissionModeratorEfficiency());
-            }
-            for(BasicRecipe recipe : NCRecipes.fission_reflector.getRecipeList()){
-                ItemStack input = recipe.getItemIngredients().get(0).getStack();
-                ncpf.addFissionReflector(name(input), displayName(input), new ItemTextureProvider(input), (float)recipe.getFissionReflectorEfficiency(), (float)recipe.getFissionReflectorReflectivity());
-            }
-            ncpf.addFissionNeutronShield(name(NCBlocks.fission_shield), displayName(NCBlocks.fission_shield), new BlockTextureProvider(NCBlocks.fission_shield), new BlockTextureProvider(NCBlocks.fission_shield), (int)fission_shield_heat_per_flux[0], (float)fission_shield_efficiency[0]);
-            for(BasicRecipe recipe : NCRecipes.fission_irradiator.getRecipeList()){
-                ItemStack input = recipe.getItemIngredients().get(0).getStack();
-                ItemStack output = recipe.getItemProducts().get(0).getStack();
-                ncpf.addFissionIrradiatorRecipe(name(input), displayName(input), new ItemTextureProvider(input), name(output), displayName(output), new ItemTextureProvider(output), (float)recipe.getIrradiatorProcessEfficiency(), (float)recipe.getIrradiatorHeatPerFlux());
-            }
-    //</editor-fold>
-            //<editor-fold defaultstate="collapsed" desc="Fission SFR">
             HashMap<String, nc.ncpf.configuration.overhaul.fissionsfr.Block> sfrBlockMap = new HashMap<>();
-            ncpf.addSFRController(name(NCBlocks.solid_fission_controller), displayName(NCBlocks.solid_fission_controller), new BlockTextureProvider(NCBlocks.solid_fission_controller));
-            ncpf.addSFRVent(name(NCBlocks.fission_vent), displayName(NCBlocks.fission_vent)+" (Input)", new BlockTextureProvider(NCBlocks.fission_vent), displayName(NCBlocks.fission_vent)+" (Output)", new BlockTextureProvider(NCBlocks.fission_vent));
+            HashMap<String, nc.ncpf.configuration.overhaul.fissionmsr.Block> msrBlockMap = new HashMap<>();
+            HashMap<String, nc.ncpf.configuration.overhaul.turbine.Block> turbineBlockMap = new HashMap<>();
+            
+            //settings
             ncpf.configuration.overhaul.fissionSFR.coolingEfficiencyLeniency = fission_cooling_efficiency_leniency;
             ncpf.configuration.overhaul.fissionSFR.minSize = fission_min_size;
             ncpf.configuration.overhaul.fissionSFR.maxSize = fission_max_size;
             ncpf.configuration.overhaul.fissionSFR.neutronReach = fission_neutron_reach;
             ncpf.configuration.overhaul.fissionSFR.sparsityPenaltyMult = (float) fission_sparsity_penalty_params[0];
             ncpf.configuration.overhaul.fissionSFR.sparsityPenaltyThreshold = (float) fission_sparsity_penalty_params[1];
+            
+            ncpf.configuration.overhaul.fissionMSR.coolingEfficiencyLeniency = fission_cooling_efficiency_leniency;
+            ncpf.configuration.overhaul.fissionMSR.minSize = fission_min_size;
+            ncpf.configuration.overhaul.fissionMSR.maxSize = fission_max_size;
+            ncpf.configuration.overhaul.fissionMSR.neutronReach = fission_neutron_reach;
+            ncpf.configuration.overhaul.fissionMSR.sparsityPenaltyMult = (float)fission_sparsity_penalty_params[0];
+            ncpf.configuration.overhaul.fissionMSR.sparsityPenaltyThreshold = (float)fission_sparsity_penalty_params[1];
+            
+            ncpf.configuration.overhaul.turbine.fluidPerBlade = turbine_mb_per_blade;
+            ncpf.configuration.overhaul.turbine.minLength = turbine_min_size;
+            ncpf.configuration.overhaul.turbine.minWidth = Math.max(3, turbine_min_size);
+            ncpf.configuration.overhaul.turbine.maxSize = turbine_max_size;
+            ncpf.configuration.overhaul.turbine.throughputEfficiencyLeniencyMult = (float)turbine_throughput_leniency_params[0];
+            ncpf.configuration.overhaul.turbine.throughputEfficiencyLeniencyThreshold = (float)turbine_throughput_leniency_params[1];
+            ncpf.configuration.overhaul.turbine.throughputFactor = (float)turbine_tension_throughput_factor;
+            ncpf.configuration.overhaul.turbine.powerBonus = (float)turbine_power_bonus_multiplier;
+            
+            //blocks
+            ncpf.addSFRController(name(NCBlocks.solid_fission_controller), displayName(NCBlocks.solid_fission_controller), new BlockTextureProvider(NCBlocks.solid_fission_controller));
+            ncpf.addMSRController(name(NCBlocks.salt_fission_controller), displayName(NCBlocks.salt_fission_controller), new BlockTextureProvider(NCBlocks.salt_fission_controller));
+            
+            ncpf.addFissionCasing(name(NCBlocks.fission_casing), displayName(NCBlocks.fission_casing), new BlockTextureProvider(NCBlocks.fission_casing), true);
+            ncpf.addFissionCasing(name(NCBlocks.fission_glass), displayName(NCBlocks.fission_glass), new BlockTextureProvider(NCBlocks.fission_glass), false);
+            
+            ncpf.addSFRVent(name(NCBlocks.fission_vent), displayName(NCBlocks.fission_vent)+" (Input)", new BlockTextureProvider(NCBlocks.fission_vent), displayName(NCBlocks.fission_vent)+" (Output)", new BlockTextureProvider(NCBlocks.fission_vent));
+            
+            ncpf.addFissionSource(name(NCBlocks.fission_source, 0), displayName(NCBlocks.fission_source, 0), new BlockTextureProvider(NCBlocks.fission_source, 0), (float) fission_source_efficiency[0]);
+            ncpf.addFissionSource(name(NCBlocks.fission_source, 1), displayName(NCBlocks.fission_source, 1), new BlockTextureProvider(NCBlocks.fission_source, 1), (float) fission_source_efficiency[1]);
+            ncpf.addFissionSource(name(NCBlocks.fission_source, 2), displayName(NCBlocks.fission_source, 2), new BlockTextureProvider(NCBlocks.fission_source, 2), (float) fission_source_efficiency[2]);
+            
+            ncpf.addSFRCell(NCBlocks.solid_fission_cell.getRegistryName().toString(), NCBlocks.solid_fission_cell.getLocalizedName(), new BlockTextureProvider(NCBlocks.solid_fission_cell), NCBlocks.fission_cell_port.getRegistryName().toString(), NCBlocks.fission_cell_port.getLocalizedName()+" (Input)", new BlockTextureProvider(NCBlocks.fission_cell_port), NCBlocks.fission_cell_port.getLocalizedName()+" (Output)", new BlockTextureProvider(NCBlocks.fission_cell_port));
+            ncpf.addMSRVessel(name(NCBlocks.salt_fission_vessel), displayName(NCBlocks.salt_fission_vessel), new BlockTextureProvider(NCBlocks.salt_fission_vessel), name(NCBlocks.fission_vessel_port), displayName(NCBlocks.fission_vessel_port)+" (Input)", new BlockTextureProvider(NCBlocks.fission_vessel_port), displayName(NCBlocks.fission_vessel_port)+" (Output)", new BlockTextureProvider(NCBlocks.fission_vessel_port));
+            
+            ncpf.addFissionIrradiator(name(NCBlocks.fission_irradiator), displayName(NCBlocks.fission_irradiator), new BlockTextureProvider(NCBlocks.fission_irradiator), name(NCBlocks.fission_irradiator_port), displayName(NCBlocks.fission_irradiator_port)+" (Input)", new BlockTextureProvider(NCBlocks.fission_irradiator_port), displayName(NCBlocks.fission_irradiator_port)+"(Output)", new BlockTextureProvider(NCBlocks.fission_irradiator_port));
+            ncpf.addFissionConductor(name(NCBlocks.fission_conductor), displayName(NCBlocks.fission_conductor), new BlockTextureProvider(NCBlocks.fission_conductor));
+            
             sfrBlockMap.put("water_sink", ncpf.addSFRHeatsink(name(NCBlocks.solid_fission_sink, 0), displayName(NCBlocks.solid_fission_sink, 0), new BlockTextureProvider(NCBlocks.solid_fission_sink, 0), fission_sink_cooling_rate[0], ()->{return ncpf.convertSFRRule(FissionPlacement.RULE_MAP.get("water_sink"), sfrBlockMap);}));
             sfrBlockMap.put("iron_sink", ncpf.addSFRHeatsink(name(NCBlocks.solid_fission_sink, 1), displayName(NCBlocks.solid_fission_sink, 1), new BlockTextureProvider(NCBlocks.solid_fission_sink, 1), fission_sink_cooling_rate[1], ()->{return ncpf.convertSFRRule(FissionPlacement.RULE_MAP.get("iron_sink"), sfrBlockMap);}));
             sfrBlockMap.put("redstone_sink", ncpf.addSFRHeatsink(name(NCBlocks.solid_fission_sink, 2), displayName(NCBlocks.solid_fission_sink, 2), new BlockTextureProvider(NCBlocks.solid_fission_sink, 2), fission_sink_cooling_rate[2], ()->{return ncpf.convertSFRRule(FissionPlacement.RULE_MAP.get("redstone_sink"), sfrBlockMap);}));
@@ -2251,27 +2265,7 @@ public class NCConfig {
             sfrBlockMap.put("liquid_helium_sink", ncpf.addSFRHeatsink(name(NCBlocks.solid_fission_sink2, 13), displayName(NCBlocks.solid_fission_sink2, 13), new BlockTextureProvider(NCBlocks.solid_fission_sink2, 13), fission_sink_cooling_rate[29], ()->{return ncpf.convertSFRRule(FissionPlacement.RULE_MAP.get("liquid_helium_sink"), sfrBlockMap);}));
             sfrBlockMap.put("enderium_sink", ncpf.addSFRHeatsink(name(NCBlocks.solid_fission_sink2, 14), displayName(NCBlocks.solid_fission_sink2, 14), new BlockTextureProvider(NCBlocks.solid_fission_sink2, 14), fission_sink_cooling_rate[30], ()->{return ncpf.convertSFRRule(FissionPlacement.RULE_MAP.get("enderium_sink"), sfrBlockMap);}));
             sfrBlockMap.put("cryotheum_sink", ncpf.addSFRHeatsink(name(NCBlocks.solid_fission_sink2, 15), displayName(NCBlocks.solid_fission_sink2, 15), new BlockTextureProvider(NCBlocks.solid_fission_sink2, 15), fission_sink_cooling_rate[31], ()->{return ncpf.convertSFRRule(FissionPlacement.RULE_MAP.get("cryotheum_sink"), sfrBlockMap);}));
-            ncpf.addSFRCell(NCBlocks.solid_fission_cell.getRegistryName().toString(), NCBlocks.solid_fission_cell.getLocalizedName(), new BlockTextureProvider(NCBlocks.solid_fission_cell), NCBlocks.fission_cell_port.getRegistryName().toString(), NCBlocks.fission_cell_port.getLocalizedName()+" (Input)", new BlockTextureProvider(NCBlocks.fission_cell_port), NCBlocks.fission_cell_port.getLocalizedName()+" (Output)", new BlockTextureProvider(NCBlocks.fission_cell_port));
-            for(BasicRecipe recipe : NCRecipes.fission_heating.getRecipeList()){
-                FluidStack input = recipe.getFluidIngredients().get(0).getStack();
-                FluidStack output = recipe.getFluidProducts().get(0).getStack();
-                ncpf.addSFRCoolantRecipe(input.getFluid().getName(), input.getLocalizedName(), new FluidTextureProvider(input), output.getFluid().getName(), output.getLocalizedName(), new FluidTextureProvider(output), recipe.getFissionHeatingHeatPerInputMB(), output.amount/(float)input.amount);
-            }
-            for(BasicRecipe recipe : NCRecipes.solid_fission.getRecipeList()){
-                ItemStack input = recipe.getItemIngredients().get(0).getStack();
-                ItemStack output = recipe.getItemProducts().get(0).getStack();
-                ncpf.addSFRFuel(name(input), displayName(input), new ItemTextureProvider(input), name(output), displayName(output), new ItemTextureProvider(output), (float)recipe.getFissionFuelEfficiency(), recipe.getFissionFuelHeat(), recipe.getFissionFuelTime(), recipe.getFissionFuelCriticality(), recipe.getFissionFuelSelfPriming());
-            }
-    //</editor-fold>
-            //<editor-fold defaultstate="collapsed" desc="Fission MSR">
-            HashMap<String, nc.ncpf.configuration.overhaul.fissionmsr.Block> msrBlockMap = new HashMap<>();
-            ncpf.addMSRController(name(NCBlocks.salt_fission_controller), displayName(NCBlocks.salt_fission_controller), new BlockTextureProvider(NCBlocks.salt_fission_controller));
-            ncpf.configuration.overhaul.fissionMSR.coolingEfficiencyLeniency = fission_cooling_efficiency_leniency;
-            ncpf.configuration.overhaul.fissionMSR.minSize = fission_min_size;
-            ncpf.configuration.overhaul.fissionMSR.maxSize = fission_max_size;
-            ncpf.configuration.overhaul.fissionMSR.neutronReach = fission_neutron_reach;
-            ncpf.configuration.overhaul.fissionMSR.sparsityPenaltyMult = (float)fission_sparsity_penalty_params[0];
-            ncpf.configuration.overhaul.fissionMSR.sparsityPenaltyThreshold = (float)fission_sparsity_penalty_params[1];
+            
             msrBlockMap.put("standard_heater", ncpf.addMSRHeater(name(NCBlocks.salt_fission_heater, 0), displayName(NCBlocks.salt_fission_heater, 0), new BlockTextureProvider(NCBlocks.salt_fission_heater, 0), ()->{return ncpf.convertMSRRule(FissionPlacement.RULE_MAP.get("standard_heater"), msrBlockMap);}, name(NCBlocks.fission_heater_port, 0), displayName(NCBlocks.fission_heater_port, 0)+" (Input)", new BlockTextureProvider(NCBlocks.fission_heater_port, 0), displayName(NCBlocks.fission_heater_port, 0)+" (Output)", new BlockTextureProvider(NCBlocks.fission_heater_port, 0)));
             msrBlockMap.put("iron_heater", ncpf.addMSRHeater(name(NCBlocks.salt_fission_heater, 1), displayName(NCBlocks.salt_fission_heater, 1), new BlockTextureProvider(NCBlocks.salt_fission_heater, 1), ()->{return ncpf.convertMSRRule(FissionPlacement.RULE_MAP.get("iron_heater"), msrBlockMap);}, name(NCBlocks.fission_heater_port, 1), displayName(NCBlocks.fission_heater_port, 1)+" (Input)", new BlockTextureProvider(NCBlocks.fission_heater_port, 1), displayName(NCBlocks.fission_heater_port, 1)+" (Output)", new BlockTextureProvider(NCBlocks.fission_heater_port, 1)));
             msrBlockMap.put("redstone_heater", ncpf.addMSRHeater(name(NCBlocks.salt_fission_heater, 2), displayName(NCBlocks.salt_fission_heater, 2), new BlockTextureProvider(NCBlocks.salt_fission_heater, 2), ()->{return ncpf.convertMSRRule(FissionPlacement.RULE_MAP.get("redstone_heater"), msrBlockMap);}, name(NCBlocks.fission_heater_port, 2), displayName(NCBlocks.fission_heater_port, 2)+" (Input)", new BlockTextureProvider(NCBlocks.fission_heater_port, 2), displayName(NCBlocks.fission_heater_port, 2)+" (Output)", new BlockTextureProvider(NCBlocks.fission_heater_port, 2)));
@@ -2304,32 +2298,28 @@ public class NCConfig {
             msrBlockMap.put("liquid_helium_heater", ncpf.addMSRHeater(name(NCBlocks.salt_fission_heater2, 13), displayName(NCBlocks.salt_fission_heater2, 13), new BlockTextureProvider(NCBlocks.salt_fission_heater2, 13), ()->{return ncpf.convertMSRRule(FissionPlacement.RULE_MAP.get("liquid_helium_heater"), msrBlockMap);}, name(NCBlocks.fission_heater_port2, 13), displayName(NCBlocks.fission_heater_port2, 13)+" (Input)", new BlockTextureProvider(NCBlocks.fission_heater_port2, 13), displayName(NCBlocks.fission_heater_port2, 13)+" (Output)", new BlockTextureProvider(NCBlocks.fission_heater_port2, 13)));
             msrBlockMap.put("enderium_heater", ncpf.addMSRHeater(name(NCBlocks.salt_fission_heater2, 14), displayName(NCBlocks.salt_fission_heater2, 14), new BlockTextureProvider(NCBlocks.salt_fission_heater2, 14), ()->{return ncpf.convertMSRRule(FissionPlacement.RULE_MAP.get("enderium_heater"), msrBlockMap);}, name(NCBlocks.fission_heater_port2, 14), displayName(NCBlocks.fission_heater_port2, 14)+" (Input)", new BlockTextureProvider(NCBlocks.fission_heater_port2, 14), displayName(NCBlocks.fission_heater_port2, 14)+" (Output)", new BlockTextureProvider(NCBlocks.fission_heater_port2, 14)));
             msrBlockMap.put("cryotheum_heater", ncpf.addMSRHeater(name(NCBlocks.salt_fission_heater2, 15), displayName(NCBlocks.salt_fission_heater2, 15), new BlockTextureProvider(NCBlocks.salt_fission_heater2, 15), ()->{return ncpf.convertMSRRule(FissionPlacement.RULE_MAP.get("cryotheum_heater"), msrBlockMap);}, name(NCBlocks.fission_heater_port2, 15), displayName(NCBlocks.fission_heater_port2, 15)+" (Input)", new BlockTextureProvider(NCBlocks.fission_heater_port2, 15), displayName(NCBlocks.fission_heater_port2, 15)+" (Output)", new BlockTextureProvider(NCBlocks.fission_heater_port2, 15)));
-            ncpf.addMSRVessel(name(NCBlocks.salt_fission_vessel), displayName(NCBlocks.salt_fission_vessel), new BlockTextureProvider(NCBlocks.salt_fission_vessel), name(NCBlocks.fission_vessel_port), displayName(NCBlocks.fission_vessel_port)+" (Input)", new BlockTextureProvider(NCBlocks.fission_vessel_port), displayName(NCBlocks.fission_vessel_port)+" (Output)", new BlockTextureProvider(NCBlocks.fission_vessel_port));
-            for(BasicRecipe recipe : NCRecipes.salt_fission.getRecipeList()){
-                FluidStack input = recipe.getFluidIngredients().get(0).getStack();
-                FluidStack output = recipe.getFluidProducts().get(0).getStack();
-                ncpf.addMSRFuel(input.getFluid().getName(), input.getLocalizedName(), new FluidTextureProvider(input), output.getFluid().getName(), output.getLocalizedName(), new FluidTextureProvider(output), (float)recipe.getFissionFuelEfficiency(), recipe.getFissionFuelHeat(), (int)recipe.getSaltFissionFuelTime(), recipe.getFissionFuelCriticality(), recipe.getFissionFuelSelfPriming());
+            
+            for(BasicRecipe recipe : NCRecipes.fission_moderator.getRecipeList()){
+                ItemStack input = recipe.getItemIngredients().get(0).getStack();
+                ncpf.addFissionModerator(name(input), displayName(input), new ItemTextureProvider(input), recipe.getFissionModeratorFluxFactor(), (float)recipe.getFissionModeratorEfficiency());
             }
-    //</editor-fold>
-            //<editor-fold defaultstate="collapsed" desc="Turbine">
-            HashMap<String, nc.ncpf.configuration.overhaul.turbine.Block> turbineBlockMap = new HashMap<>();
+            for(BasicRecipe recipe : NCRecipes.fission_reflector.getRecipeList()){
+                ItemStack input = recipe.getItemIngredients().get(0).getStack();
+                ncpf.addFissionReflector(name(input), displayName(input), new ItemTextureProvider(input), (float)recipe.getFissionReflectorEfficiency(), (float)recipe.getFissionReflectorReflectivity());
+            }
+            ncpf.addFissionNeutronShield(name(NCBlocks.fission_shield), displayName(NCBlocks.fission_shield), new BlockTextureProvider(NCBlocks.fission_shield), new BlockTextureProvider(NCBlocks.fission_shield), (int)fission_shield_heat_per_flux[0], (float)fission_shield_efficiency[0]);
+            
             ncpf.addTurbineController(name(NCBlocks.turbine_controller), displayName(NCBlocks.turbine_controller), new BlockTextureProvider(NCBlocks.turbine_controller));
             ncpf.addTurbineCasing(name(NCBlocks.turbine_casing), displayName(NCBlocks.turbine_casing), new BlockTextureProvider(NCBlocks.turbine_casing), true);
             ncpf.addTurbineCasing(name(NCBlocks.turbine_glass), displayName(NCBlocks.turbine_glass), new BlockTextureProvider(NCBlocks.turbine_glass), false);
             ncpf.addTurbineInlet(name(NCBlocks.turbine_inlet), displayName(NCBlocks.turbine_inlet), new BlockTextureProvider(NCBlocks.turbine_inlet));
             ncpf.addTurbineOutlet(name(NCBlocks.turbine_outlet), displayName(NCBlocks.turbine_outlet), new BlockTextureProvider(NCBlocks.turbine_outlet));
-            ncpf.configuration.overhaul.turbine.fluidPerBlade = turbine_mb_per_blade;
-            ncpf.configuration.overhaul.turbine.minLength = turbine_min_size;
-            ncpf.configuration.overhaul.turbine.minWidth = Math.max(3, turbine_min_size);
-            ncpf.configuration.overhaul.turbine.maxSize = turbine_max_size;
-            ncpf.configuration.overhaul.turbine.throughputEfficiencyLeniencyMult = (float)turbine_throughput_leniency_params[0];
-            ncpf.configuration.overhaul.turbine.throughputEfficiencyLeniencyThreshold = (float)turbine_throughput_leniency_params[1];
-            ncpf.configuration.overhaul.turbine.throughputFactor = (float)turbine_tension_throughput_factor;
-            ncpf.configuration.overhaul.turbine.powerBonus = (float)turbine_power_bonus_multiplier;
             ncpf.addTurbineBlade(name(NCBlocks.turbine_rotor_blade_steel), displayName(NCBlocks.turbine_rotor_blade_steel), new BlockTextureProvider(NCBlocks.turbine_rotor_blade_steel), (float)turbine_blade_efficiency[0], (float)turbine_blade_expansion[0]);
             ncpf.addTurbineBlade(name(NCBlocks.turbine_rotor_blade_extreme), displayName(NCBlocks.turbine_rotor_blade_extreme), new BlockTextureProvider(NCBlocks.turbine_rotor_blade_extreme), (float)turbine_blade_efficiency[1], (float)turbine_blade_expansion[1]);
             ncpf.addTurbineBlade(name(NCBlocks.turbine_rotor_blade_sic_sic_cmc), displayName(NCBlocks.turbine_rotor_blade_sic_sic_cmc), new BlockTextureProvider(NCBlocks.turbine_rotor_blade_sic_sic_cmc), (float)turbine_blade_efficiency[2], (float)turbine_blade_expansion[2]);
             ncpf.addTurbineStator(name(NCBlocks.turbine_rotor_stator), displayName(NCBlocks.turbine_rotor_stator), new BlockTextureProvider(NCBlocks.turbine_rotor_stator), (float)turbine_stator_expansion);
+            ncpf.addTurbineBearing(name(NCBlocks.turbine_rotor_bearing), displayName(NCBlocks.turbine_rotor_bearing), new BlockTextureProvider(NCBlocks.turbine_rotor_bearing));
+            ncpf.addTurbineShaft(name(NCBlocks.turbine_rotor_shaft), displayName(NCBlocks.turbine_rotor_shaft), new BlockTextureProvider(NCBlocks.turbine_rotor_shaft));
             turbineBlockMap.put("magnesium_coil", ncpf.addTurbineCoil(name(NCBlocks.turbine_dynamo_coil, 0), displayName(NCBlocks.turbine_dynamo_coil, 0), new BlockTextureProvider(NCBlocks.turbine_dynamo_coil, 0), (float)turbine_coil_conductivity[0], ()->{return ncpf.convertTurbineRule(TurbinePlacement.RULE_MAP.get("magnesium_coil"), turbineBlockMap);}));
             turbineBlockMap.put("beryllium_coil", ncpf.addTurbineCoil(name(NCBlocks.turbine_dynamo_coil, 1), displayName(NCBlocks.turbine_dynamo_coil, 1), new BlockTextureProvider(NCBlocks.turbine_dynamo_coil, 1), (float)turbine_coil_conductivity[1], ()->{return ncpf.convertTurbineRule(TurbinePlacement.RULE_MAP.get("beryllium_coil"), turbineBlockMap);}));
             turbineBlockMap.put("aluminum_coil", ncpf.addTurbineCoil(name(NCBlocks.turbine_dynamo_coil, 2), displayName(NCBlocks.turbine_dynamo_coil, 2), new BlockTextureProvider(NCBlocks.turbine_dynamo_coil, 2), (float)turbine_coil_conductivity[2], ()->{return ncpf.convertTurbineRule(TurbinePlacement.RULE_MAP.get("aluminum_coil"), turbineBlockMap);}));
@@ -2337,14 +2327,8 @@ public class NCConfig {
             turbineBlockMap.put("copper_coil", ncpf.addTurbineCoil(name(NCBlocks.turbine_dynamo_coil, 4), displayName(NCBlocks.turbine_dynamo_coil, 4), new BlockTextureProvider(NCBlocks.turbine_dynamo_coil, 4), (float)turbine_coil_conductivity[4], ()->{return ncpf.convertTurbineRule(TurbinePlacement.RULE_MAP.get("copper_coil"), turbineBlockMap);}));
             turbineBlockMap.put("silver_coil", ncpf.addTurbineCoil(name(NCBlocks.turbine_dynamo_coil, 5), displayName(NCBlocks.turbine_dynamo_coil, 5), new BlockTextureProvider(NCBlocks.turbine_dynamo_coil, 5), (float)turbine_coil_conductivity[5], ()->{return ncpf.convertTurbineRule(TurbinePlacement.RULE_MAP.get("silver_coil"), turbineBlockMap);}));
             turbineBlockMap.put("connector", ncpf.addTurbineConnector(name(NCBlocks.turbine_coil_connector), displayName(NCBlocks.turbine_coil_connector), new BlockTextureProvider(NCBlocks.turbine_coil_connector), ()->{return ncpf.convertTurbineRule(TurbinePlacement.RULE_MAP.get("connector"), turbineBlockMap);}));
-            ncpf.addTurbineBearing(name(NCBlocks.turbine_rotor_bearing), displayName(NCBlocks.turbine_rotor_bearing), new BlockTextureProvider(NCBlocks.turbine_rotor_bearing));
-            ncpf.addTurbineShaft(name(NCBlocks.turbine_rotor_shaft), displayName(NCBlocks.turbine_rotor_shaft), new BlockTextureProvider(NCBlocks.turbine_rotor_shaft));
-            for(BasicRecipe recipe : NCRecipes.turbine.getRecipeList()){
-                FluidStack input = recipe.getFluidIngredients().get(0).getStack();
-                FluidStack output = recipe.getFluidProducts().get(0).getStack();
-                ncpf.addTurbineRecipe(input.getFluid().getName(), input.getLocalizedName(), new FluidTextureProvider(input), output.getFluid().getName(), output.getLocalizedName(), new FluidTextureProvider(output), recipe.getTurbinePowerPerMB(), recipe.getTurbineExpansionLevel());
-            }
-    //</editor-fold>
+            
+            //CT blocks
             CTRegistration.FissionHeaterPortRegistrationInfo port = null;
             for(CTRegistration.RegistrationInfo info : CTRegistration.STICKY_INFO_LIST){
                 if(info instanceof CTRegistration.FissionSinkRegistrationInfo){
@@ -2377,6 +2361,33 @@ public class NCConfig {
                     ncpf.addTurbineStator(name(stator.block), displayName(stator.block), new BlockTextureProvider(stator.block), (float)stator.expansionCoefficient);
                 }
             }
+            
+            //recipes
+            for(BasicRecipe recipe : NCRecipes.fission_irradiator.getRecipeList()){
+                ItemStack input = recipe.getItemIngredients().get(0).getStack();
+                ItemStack output = recipe.getItemProducts().get(0).getStack();
+                ncpf.addFissionIrradiatorRecipe(name(input), displayName(input), new ItemTextureProvider(input), name(output), displayName(output), new ItemTextureProvider(output), (float)recipe.getIrradiatorProcessEfficiency(), (float)recipe.getIrradiatorHeatPerFlux());
+            }
+            for(BasicRecipe recipe : NCRecipes.fission_heating.getRecipeList()){
+                FluidStack input = recipe.getFluidIngredients().get(0).getStack();
+                FluidStack output = recipe.getFluidProducts().get(0).getStack();
+                ncpf.addSFRCoolantRecipe(input.getFluid().getName(), input.getLocalizedName(), new FluidTextureProvider(input), output.getFluid().getName(), output.getLocalizedName(), new FluidTextureProvider(output), recipe.getFissionHeatingHeatPerInputMB(), output.amount/(float)input.amount);
+            }
+            for(BasicRecipe recipe : NCRecipes.solid_fission.getRecipeList()){
+                ItemStack input = recipe.getItemIngredients().get(0).getStack();
+                ItemStack output = recipe.getItemProducts().get(0).getStack();
+                ncpf.addSFRFuel(name(input), displayName(input), new ItemTextureProvider(input), name(output), displayName(output), new ItemTextureProvider(output), (float)recipe.getFissionFuelEfficiency(), recipe.getFissionFuelHeat(), recipe.getFissionFuelTime(), recipe.getFissionFuelCriticality(), recipe.getFissionFuelSelfPriming());
+            }
+            for(BasicRecipe recipe : NCRecipes.salt_fission.getRecipeList()){
+                FluidStack input = recipe.getFluidIngredients().get(0).getStack();
+                FluidStack output = recipe.getFluidProducts().get(0).getStack();
+                ncpf.addMSRFuel(input.getFluid().getName(), input.getLocalizedName(), new FluidTextureProvider(input), output.getFluid().getName(), output.getLocalizedName(), new FluidTextureProvider(output), (float)recipe.getFissionFuelEfficiency(), recipe.getFissionFuelHeat(), (int)recipe.getSaltFissionFuelTime(), recipe.getFissionFuelCriticality(), recipe.getFissionFuelSelfPriming());
+            }
+            for(BasicRecipe recipe : NCRecipes.turbine.getRecipeList()){
+                FluidStack input = recipe.getFluidIngredients().get(0).getStack();
+                FluidStack output = recipe.getFluidProducts().get(0).getStack();
+                ncpf.addTurbineRecipe(input.getFluid().getName(), input.getLocalizedName(), new FluidTextureProvider(input), output.getFluid().getName(), output.getLocalizedName(), new FluidTextureProvider(output), recipe.getTurbinePowerPerMB(), recipe.getTurbineExpansionLevel());
+            }
             for(BasicRecipe recipe : NCRecipes.coolant_heater.getRecipeList()){
                 FluidStack input = recipe.getFluidIngredients().get(0).getStack();
                 FluidStack output = recipe.getFluidProducts().get(0).getStack();
@@ -2386,6 +2397,7 @@ public class NCConfig {
                 b.recipes.add(br);
                 b.allRecipes.add(br);
             }
+            
             File file = new File(Loader.instance().getConfigDir(), "nuclearcraft.ncpf");
             file.delete();
             try(FileOutputStream fos = new FileOutputStream(file)){
