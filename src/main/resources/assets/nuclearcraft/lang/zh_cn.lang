@@ -2250,16 +2250,16 @@ item.nuclearcraft.foursmore.name=四层棉花糖巧克力夹心饼干
 
 item.nuclearcraft.record_wanderer.name=音乐唱片
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
-item.nuclearcraft.record_wanderer.des1=8-Bit版本制作者：8 Bit Universe
+item.nuclearcraft.record_wanderer.des1=8-Bit 版本制作者：8 Bit Universe
 item.nuclearcraft.record_end_of_the_world.name=音乐唱片
 item.nuclearcraft.record_end_of_the_world.des0=Skeeter Davis - The End of the World
-item.nuclearcraft.record_end_of_the_world.des1=8-Bit版本制作者：GermanPikachuGaming
+item.nuclearcraft.record_end_of_the_world.des1=8-Bit 版本制作者：GermanPikachuGaming
 item.nuclearcraft.record_money_for_nothing.name=音乐唱片
 item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
-item.nuclearcraft.record_money_for_nothing.des1=8-Bit版本制作者：Omnigrad
+item.nuclearcraft.record_money_for_nothing.des1=8-Bit 版本制作者：Omnigrad
 item.nuclearcraft.record_hyperspace.name=音乐唱片
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
-item.nuclearcraft.record_hyperspace.des1=原制作者：Riku Nuottajärvi
+item.nuclearcraft.record_hyperspace.des1=制作者：Riku Nuottajärvi
 
 entity.nuclearcraft.feral_ghoul.name=狂尸鬼
 
@@ -2688,6 +2688,8 @@ gui.nc.config.turbine_sound_volume.comment=调整能听到涡轮机声音的范�
 gui.nc.config.category.quantum=量子配置
 gui.nc.config.category.quantum.tooltip=配置量子相关的内容。
 
+gui.nc.config.quantum_server_enabled=在专用服务器上启用
+gui.nc.config.quantum_server_enabled.comment=量子计算机可以在专用服务器上工作吗？默认为否 (false)，因为此功能会占用服务器内存，并且生成的代码存储在服务端而非客户端。
 gui.nc.config.quantum_max_qubits=最大量子位数量
 gui.nc.config.quantum_max_qubits.comment=一个量子计算机最多拥有的量子位数量。！！！警告！！！超过七个量子位的电路可能会消耗大量的系统资源，并占用巨大的内存！在调整此限制时需要进行 特别的 注意！
 gui.nc.config.quantum_max_qubits_code=最大编程用量子位数量
@@ -3209,8 +3211,8 @@ nuclearcraft.multiblock_validation.turbine.space_between_blades=叶片和定子�
 nuclearcraft.multiblock_validation.turbine.different_type_blades=每个转子轴上四个面所对应的叶片和定子必须完全相同。
 nuclearcraft.multiblock_validation.turbine.missing_blades=每个转子轴上四个面所对应的叶片和定子必须完全搭建到墙壁。
 
+nuclearcraft.multiblock_validation.quantum_computer.server_disabled=服务端配置文件允许时，量子计算机才能正常工作。
 nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=现在有 %s 个量子位连接到了这个量子计算机上——最多只能有 %s 个。
-nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=最多只能有一个代码生成器连接到这个量子计算机上。
 
 nuclearcraft.collector.jei_name=收集器
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=裂变减速剂
