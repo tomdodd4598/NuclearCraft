@@ -78,7 +78,7 @@ public class RadiationRenders {
 			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos + 1, 0);
 			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos - 1, 0);
 		}
-		MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
+		MC.fontRenderer.drawString(info, xPos + (104 - infoWidth) / 2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.T2I_MAP.getInt(RadiationHelper.getRadiationTextColor(playerRads)));
 		
 		GlStateManager.popMatrix();
 	}

@@ -923,10 +923,10 @@ public class CTRegistration {
 					NCRecipes.separator.addRecipe("ingot" + rawOre + "Carbide", "ingot" + rawOre, "dustGraphite", 1D, 1D);
 					NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("ingot" + rawOre + "Carbide", 9), "dustGraphite", "ingotPyrolyticCarbon", "ingotSiliconCarbide", AbstractRecipeHandler.oreStack("ingot" + rawOre + "TRISO", 9), 1D, 1D);
 					
-					NCRecipes.pebble_fission.addRecipe("ingot" + rawOre + "TRISO", "ingotDepleted" + rawOre + "TRISO", (int) (TRISO_TIME_MULT * stats.time), (int) (TRISO_HEAT_MULT * stats.heat), stats.efficiency, TRISO_CRIT_MULT * stats.crit, stats.decay, stats.prime, stats.radiation);
-					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Oxide", "ingotDepleted" + rawOre + "Oxide", (int) (SFR_TIME_MULT[0] * stats.time), (int) (SFR_HEAT_MULT[0] * stats.heat), stats.efficiency, SFR_CRIT_MULT[0] * stats.crit, stats.decay, stats.prime, stats.radiation);
-					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Nitride", "ingotDepleted" + rawOre + "Nitride", (int) (SFR_TIME_MULT[1] * stats.time), (int) (SFR_HEAT_MULT[1] * stats.heat), stats.efficiency, SFR_CRIT_MULT[1] * stats.crit, stats.decay, stats.prime, stats.radiation);
-					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "ZA", "ingotDepleted" + rawOre + "ZA", (int) (SFR_TIME_MULT[2] * stats.time), (int) (SFR_HEAT_MULT[2] * stats.heat), stats.efficiency, SFR_CRIT_MULT[2] * stats.crit, stats.decay, stats.prime, stats.radiation);
+					NCRecipes.pebble_fission.addRecipe("ingot" + rawOre + "TRISO", "ingotDepleted" + rawOre + "TRISO", (int) (TRISO_TIME_MULT * stats.time), (int) (TRISO_HEAT_MULT * stats.heat), stats.efficiency, (int) (TRISO_CRIT_MULT * stats.crit), stats.decay, stats.prime, stats.radiation);
+					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Oxide", "ingotDepleted" + rawOre + "Oxide", (int) (SFR_TIME_MULT[0] * stats.time), (int) (SFR_HEAT_MULT[0] * stats.heat), stats.efficiency, (int) (SFR_CRIT_MULT[0] * stats.crit), stats.decay, stats.prime, stats.radiation);
+					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Nitride", "ingotDepleted" + rawOre + "Nitride", (int) (SFR_TIME_MULT[1] * stats.time), (int) (SFR_HEAT_MULT[1] * stats.heat), stats.efficiency, (int) (SFR_CRIT_MULT[1] * stats.crit), stats.decay, stats.prime, stats.radiation);
+					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "ZA", "ingotDepleted" + rawOre + "ZA", (int) (SFR_TIME_MULT[2] * stats.time), (int) (SFR_HEAT_MULT[2] * stats.heat), stats.efficiency, (int) (SFR_CRIT_MULT[2] * stats.crit), stats.decay, stats.prime, stats.radiation);
 				}
 				
 				if (rawFluid != null) {

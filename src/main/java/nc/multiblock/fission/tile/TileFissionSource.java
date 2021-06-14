@@ -88,7 +88,11 @@ public class TileFissionSource extends TileFissionPart {
 		return new int[] {2, 3, 4, 5};
 	}
 	
-	/* @Override public void onLoad() { world.neighborChanged(pos, getBlockType(), pos); super.onLoad(); } */
+	/*@Override
+	public void onLoad() {
+		world.neighborChanged(pos, getBlockType(), pos);
+		super.onLoad();
+	}*/
 	
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {

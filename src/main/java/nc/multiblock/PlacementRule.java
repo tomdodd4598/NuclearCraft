@@ -249,14 +249,22 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 				throw new IllegalArgumentException("Adjacency placement rule with ID \"" + ruleID + "\" can only require zero adjacencies if also an exact rule!");
 			}
 			if (adjType == AdjacencyType.AXIAL && (amount & 1) != 0) {
-				throw new IllegalArgumentException("Axial placement rule with ID \"" + ruleID + "\" must require an even number of adjacencies!");
+				throw new IllegalArgumentException("Axial adjacency placement rule with ID \"" + ruleID + "\" must require an even number of adjacencies!");
 			}
 			if (adjType == AdjacencyType.VERTEX) {
 				if (amount != 3) {
-					throw new IllegalArgumentException("Vertex placement rule with ID \"" + ruleID + "\" must require three adjacencies!");
+					throw new IllegalArgumentException("Vertex adjacency placement rule with ID \"" + ruleID + "\" must require three adjacencies!");
 				}
 				if (countType == CountType.AT_MOST) {
-					throw new IllegalArgumentException("Vertex placement rule with ID \"" + ruleID + "\" can not be an 'at most' rule!");
+					throw new IllegalArgumentException("Vertex adjacency placement rule with ID \"" + ruleID + "\" can not be an 'at most' rule!");
+				}
+			}
+			if (adjType == AdjacencyType.EDGE) {
+				if (amount != 2) {
+					throw new IllegalArgumentException("Edge adjacency placement rule with ID \"" + ruleID + "\" must require two adjacencies!");
+				}
+				if (countType == CountType.AT_MOST) {
+					throw new IllegalArgumentException("Edge adjacency placement rule with ID \"" + ruleID + "\" can not be an 'at most' rule!");
 				}
 			}
 		}
@@ -359,8 +367,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					if (count != amount)
 						return false;
 					
-					loop: for (EnumFacing[] vertexDirs : PosHelper.vertexDirsList()) {
-						for (EnumFacing dir : vertexDirs) {
+					loop: for (EnumFacing[] typeDirs : (adjType == AdjacencyType.VERTEX ? PosHelper.VERTEX_DIRS : PosHelper.EDGE_DIRS)) {
+						for (EnumFacing dir : typeDirs) {
 							if (!dirs[dir.getIndex()]) {
 								continue loop;
 							}
@@ -370,8 +378,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					return false;
 				}
 				else {
-					loop: for (EnumFacing[] vertexDirs : PosHelper.vertexDirsList()) {
-						for (EnumFacing dir : vertexDirs) {
+					loop: for (EnumFacing[] typeDirs : (adjType == AdjacencyType.VERTEX ? PosHelper.VERTEX_DIRS : PosHelper.EDGE_DIRS)) {
+						for (EnumFacing dir : typeDirs) {
 							if (!satisfied(tile, dir)) {
 								continue loop;
 							}
@@ -389,7 +397,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	public enum AdjacencyType {
 		STANDARD,
 		AXIAL,
-		VERTEX;
+		VERTEX,
+		EDGE;
 		
 		public String tooltipSubstring(int amount) {
 			switch (this) {
@@ -399,6 +408,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					return amount == 2 ? "_along_axis" : "_along_axes";
 				case VERTEX:
 					return "_at_vertex";
+				case EDGE:
+					return "_along_edge";
 				default:
 					return "";
 			}

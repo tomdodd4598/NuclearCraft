@@ -379,7 +379,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	public void iterateClusterSearch(IFissionComponent rootComponent) {
 		final Object2IntMap<IFissionComponent> clusterSearchCache = new Object2IntOpenHashMap<>();
 		rootComponent.clusterSearch(null, clusterSearchCache, componentFailCache, assumedValidCache);
-		
 		do {
 			final Iterator<IFissionComponent> clusterSearchIterator = clusterSearchCache.keySet().iterator();
 			final Object2IntMap<IFissionComponent> clusterSearchSubCache = new Object2IntOpenHashMap<>();
@@ -509,7 +508,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	public void refreshFuelComponentLocal(IFissionFuelComponent fuelComponent) {}
 	
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> assumedValidCache) {}
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {}
 	
 	public boolean isShieldActiveModerator(TileFissionShield shield, boolean activeModeratorPos) {
 		return false;

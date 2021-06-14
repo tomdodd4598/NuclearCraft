@@ -152,7 +152,7 @@ public abstract class FissionPlacement {
 			s = s.replaceAll("at exactly one vertex", "vertex");
 			
 			boolean exact = s.contains("exact"), atMost = s.contains("at most");
-			boolean axial = s.contains("axial"), vertex = s.contains("vertex");
+			boolean axial = s.contains("axial"), vertex = s.contains("vertex"), edge = s.contains("edge");
 			
 			if ((exact && atMost) || (axial && vertex))
 				return null;
@@ -167,6 +167,13 @@ public abstract class FissionPlacement {
 			s = s.replaceAll("at a vertex", "");
 			s = s.replaceAll("at vertex", "");
 			s = s.replaceAll("vertex", "");
+			s = s.replaceAll("at one edge", "");
+			s = s.replaceAll("at an edge", "");
+			s = s.replaceAll("at edge", "");
+			s = s.replaceAll("along one edge", "");
+			s = s.replaceAll("along an edge", "");
+			s = s.replaceAll("along edge", "");
+			s = s.replaceAll("edge", "");
 			
 			int amount = -1;
 			String rule = null, type = null;
@@ -200,20 +207,24 @@ public abstract class FissionPlacement {
 					}
 					else if (split[i].contains("sink")) {
 						rule = "sink";
-						if (i > 0)
+						if (i > 0) {
 							type = split[i - 1];
-						else
+						}
+						else {
 							return null;
+						}
 					}
 					else if (split[i].contains("vessel")) {
 						rule = "vessel";
 					}
 					else if (split[i].contains("heater")) {
 						rule = "heater";
-						if (i > 0)
+						if (i > 0) {
 							type = split[i - 1];
-						else
+						}
+						else {
 							return null;
+						}
 					}
 				}
 			}
@@ -222,7 +233,7 @@ public abstract class FissionPlacement {
 				return null;
 			
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
-			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : AdjacencyType.STANDARD);
+			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : (edge ? AdjacencyType.EDGE : AdjacencyType.STANDARD));
 			
 			if (rule.equals("casing")) {
 				return new AdjacentCasing(amount, countType, adjType);

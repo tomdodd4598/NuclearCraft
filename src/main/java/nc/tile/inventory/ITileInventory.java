@@ -213,7 +213,9 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 			return;
 		}
 		
-		/* if (ModCheck.mekanismLoaded() && tile.hasCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite())) { ILogisticalTransporter lt = tile.getCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite()); } */
+		/*if (ModCheck.mekanismLoaded() && tile.hasCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite())) {
+			ILogisticalTransporter lt = tile.getCapability(CapabilityHelper.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite());
+		}*/
 		
 		if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite())) {
 			IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());

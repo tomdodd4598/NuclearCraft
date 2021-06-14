@@ -140,7 +140,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshAllFuelComponentModerators() {
 		for (TileSaltFissionVessel vessel : getParts(TileSaltFissionVessel.class)) {
-			refreshFuelComponentModerators(vessel, assumedValidCache);
+			refreshFuelComponentModerators(vessel, componentFailCache, assumedValidCache);
 		}
 	}
 	
@@ -354,8 +354,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
-		fuelComponent.defaultRefreshModerators(assumedValidCache);
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		fuelComponent.defaultRefreshModerators(componentFailCache, assumedValidCache);
 	}
 	
 	@Override

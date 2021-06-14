@@ -4,7 +4,6 @@ import static nc.block.property.BlockProperties.ACTIVE;
 
 import nc.block.tile.IActivatable;
 import nc.multiblock.fission.tile.TileFissionShield;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,13 +82,15 @@ public abstract class BlockFissionShield extends BlockFissionPart implements IAc
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		IBlockState otherState = world.getBlockState(pos.offset(side));
+		/*IBlockState otherState = world.getBlockState(pos.offset(side));
 		Block block = otherState.getBlock();
 		
 		if (blockState != otherState) {
 			return true;
 		}
 		
-		return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
+		return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);*/
+		
+		return true;
 	}
 }

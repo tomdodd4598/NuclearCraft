@@ -69,18 +69,41 @@ public class PosHelper {
 	
 	// Vertices
 	
-	private static final EnumFacing[] VERTEX_DNW = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.WEST};
-	private static final EnumFacing[] VERTEX_DNE = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.EAST};
-	private static final EnumFacing[] VERTEX_DSW = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH, EnumFacing.WEST};
-	private static final EnumFacing[] VERTEX_DSE = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH, EnumFacing.EAST};
-	private static final EnumFacing[] VERTEX_UNW = new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.WEST};
-	private static final EnumFacing[] VERTEX_UNE = new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.EAST};
-	private static final EnumFacing[] VERTEX_USW = new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.WEST};
-	private static final EnumFacing[] VERTEX_USE = new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.EAST};
+	public static final EnumFacing[][] VERTEX_DIRS = new EnumFacing[][] {
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.EAST}
+	};
 	
-	public static List<EnumFacing[]> vertexDirsList() {
-		return Lists.newArrayList(VERTEX_DNW, VERTEX_DNE, VERTEX_DSW, VERTEX_DSE, VERTEX_UNW, VERTEX_UNE, VERTEX_USW, VERTEX_USE);
-	}
+	// Edges
+	
+	public static final EnumFacing[][] EDGE_DIRS = new EnumFacing[][] {
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH},
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH},
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.UP, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.NORTH, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.NORTH, EnumFacing.WEST},
+		new EnumFacing[] {EnumFacing.SOUTH, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.SOUTH, EnumFacing.EAST}
+	};
+	
+	// Planes
+	
+	public static final EnumFacing[][] PLANE_DIRS = new EnumFacing[][] {
+		new EnumFacing[] {EnumFacing.DOWN, EnumFacing.UP, EnumFacing.NORTH, EnumFacing.SOUTH},
+		new EnumFacing[] {EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST},
+		new EnumFacing[] {EnumFacing.WEST, EnumFacing.EAST, EnumFacing.DOWN, EnumFacing.UP}
+	};
 	
 	// Axes
 	
@@ -90,7 +113,7 @@ public class PosHelper {
 		return axis == EnumFacing.Axis.X ? 0 : axis == EnumFacing.Axis.Y ? 1 : 2;
 	}
 	
-	public static final EnumFacing.AxisDirection[] AXISDIRS = new EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE, EnumFacing.AxisDirection.NEGATIVE};
+	public static final EnumFacing.AxisDirection[] AXIS_DIRS = new EnumFacing.AxisDirection[] {EnumFacing.AxisDirection.POSITIVE, EnumFacing.AxisDirection.NEGATIVE};
 	
 	public static int getAxisDirIndex(@Nonnull EnumFacing.AxisDirection dir) {
 		return dir == EnumFacing.AxisDirection.POSITIVE ? 0 : 1;

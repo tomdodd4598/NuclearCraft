@@ -84,11 +84,17 @@ public class DungeonLootHandler {
 				}
 			}
 			
-			/* if (addPlating) { pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(0, 3, 3, 6), noCondition, Global.MOD_ID + ":plating")); }
-			 * 
-			 * if (addSolenoids) { pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(4, 5, 4, 8), noCondition, Global.MOD_ID + ":solenoids")); }
-			 * 
-			 * if (addMachinery) { pool.addEntry(new LootEntryItem(NCItems.part, 20, 0, lootFunctions(7, 9, 2, 4), noCondition, Global.MOD_ID + ":machinery")); } */
+			/*if (addPlating) {
+				pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(0, 3, 3, 6), noCondition, Global.MOD_ID + ":plating"));
+			}
+			
+			if (addSolenoids) {
+				pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(4, 5, 4, 8), noCondition, Global.MOD_ID + ":solenoids"));
+			}
+			
+			if (addMachinery) {
+				pool.addEntry(new LootEntryItem(NCItems.part, 20, 0, lootFunctions(7, 9, 2, 4), noCondition, Global.MOD_ID + ":machinery"));
+			}*/
 			
 			if (addOther) {
 				pool.addEntry(new LootEntryItem(NCItems.dominos, 3, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":dominos"));

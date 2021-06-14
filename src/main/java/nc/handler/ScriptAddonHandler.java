@@ -24,7 +24,9 @@ public class ScriptAddonHandler {
 		}
 		
 		File scripts = new File("scripts/nc_script_addons");
-		FileUtils.deleteDirectory(scripts);
+		if (scripts.exists()) {
+			FileUtils.deleteDirectory(scripts);
+		}
 		scripts.mkdirs();
 		new File("scripts/nc_script_addons/DONT_PUT_YOUR_SCRIPTS_IN_HERE").createNewFile();
 		
@@ -33,16 +35,28 @@ public class ScriptAddonHandler {
 			oldWarning.delete();
 		}
 		
+		File cot = new File("resources/contenttweaker"), cotBackup = new File("resources/.contenttweaker");
+		if (cot.exists()) {
+			FileUtils.copyDirectory(cot, cotBackup);
+		}
+		
 		File temp = new File("resources/nuclearcraft/addons/.temp");
 		temp.mkdirs();
 		
 		File addons = new File("resources/nuclearcraft/addons");
 		extractAddons(addons);
 		copyAddons(addons);
-		FileUtils.deleteDirectory(temp);
+		if (temp.exists()) {
+			FileUtils.deleteDirectory(temp);
+		}
 		
 		for (File f : SCRIPT_ADDON_DIRS) {
 			NCUtil.getLogger().info("Constructed \"" + f.getName() + "\" Script Addon!");
+		}
+		
+		if (cotBackup.exists()) {
+			FileUtils.copyDirectory(cotBackup, cot);
+			FileUtils.deleteDirectory(cotBackup);
 		}
 	}
 	

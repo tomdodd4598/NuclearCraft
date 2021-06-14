@@ -184,7 +184,8 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		getEnergyStorage().setMaxTransfer(capacity);
 	}
 	
-	private int getMaxEnergyModified() { // Needed for Galacticraft
+	// Needed for Galacticraft
+	private int getMaxEnergyModified() {
 		return ModCheck.galacticraftLoaded() ? Math.max(0, getMaxEnergyStored() - 16) : getMaxEnergyStored();
 	}
 	

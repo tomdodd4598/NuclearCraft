@@ -67,7 +67,9 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 				// world.updateComparatorOutputLevel(pos, this);
 				// FissionReactor reactor = irradiator.getMultiblock();
 				// world.removeTileEntity(pos);
-				/* if (reactor != null) { reactor.getLogic().refreshPorts(); } */
+				/*if (reactor != null) {
+					reactor.getLogic().refreshPorts();
+				}*/
 			}
 		}
 		// super.breakBlock(world, pos, state);
