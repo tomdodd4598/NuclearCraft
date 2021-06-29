@@ -112,6 +112,10 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		
 		GlStateManager.pushMatrix();
 		
+		if (turbine.renderPosArray.length < 1 + 4 * flowLength * shaftWidth + depth) {
+			return;
+		}
+		
 		Vector3f renderPos = turbine.renderPosArray[4 * flowLength * shaftWidth + depth];
 		GlStateManager.translate(renderPos.x + 0.5D, renderPos.y + 0.5D, renderPos.z + 0.5D);
 		GlStateManager.scale(flowDir.getAxis() == Axis.X ? 1D : depthScale, flowDir.getAxis() == Axis.Y ? 1D : depthScale, flowDir.getAxis() == Axis.Z ? 1D : depthScale);
@@ -127,6 +131,10 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 	
 	public void renderShaft(Turbine turbine, BlockRendererDispatcher renderer, float bright, IBlockState shaftState, EnumFacing flowDir, int flowLength, int shaftWidth, int depth) {
 		GlStateManager.pushMatrix();
+		
+		if (turbine.renderPosArray.length < 1 + 4 * flowLength * shaftWidth + depth) {
+			return;
+		}
 		
 		Vector3f renderPos = turbine.renderPosArray[4 * flowLength * shaftWidth + depth];
 		GlStateManager.translate(renderPos.x + 0.5D, renderPos.y + 0.5D, renderPos.z + 0.5D);
@@ -147,6 +155,10 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		PlaneDir planeDir;
 		
 		int i = jMult + depth;
+		
+		if (turbine.rotorStateArray.length < i + 1) {
+			return;
+		}
 		
 		for (int w = 0; w < shaftWidth; w++) {
 			GlStateManager.pushMatrix();

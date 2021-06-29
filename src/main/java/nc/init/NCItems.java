@@ -117,9 +117,9 @@ public class NCItems {
 	
 	public static void init() {
 		ingot = withName(new NCItemMeta(MetaEnums.IngotType.class), "ingot");
-		dust = withName(new NCItemMeta(MetaEnums.DustType.class, NCInfo.dustOreDropInfo()), "dust");
-		gem = withName(new NCItemMeta(MetaEnums.GemType.class, NCInfo.gemOreDropInfo()), "gem");
-		gem_dust = withName(new NCItemMeta(MetaEnums.GemDustType.class, NCInfo.gemDustOreDropInfo()), "gem_dust");
+		dust = withName(new NCItemMeta(MetaEnums.DustType.class/*, NCInfo.dustOreDropInfo()*/), "dust");
+		gem = withName(new NCItemMeta(MetaEnums.GemType.class/*, NCInfo.gemOreDropInfo()*/), "gem");
+		gem_dust = withName(new NCItemMeta(MetaEnums.GemDustType.class/*, NCInfo.gemDustOreDropInfo()*/), "gem_dust");
 		alloy = withName(new NCItemMeta(MetaEnums.AlloyType.class), "alloy");
 		compound = withName(new NCItemMeta(MetaEnums.CompoundType.class), "compound");
 		

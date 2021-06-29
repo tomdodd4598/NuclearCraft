@@ -340,12 +340,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	/** Fix to force adjacent moderators to be active */
 	@Override
-	public void defaultRefreshModerators(final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	public void defaultRefreshModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (isProcessing) {
-			defaultRefreshAdjacentActiveModerators(assumedValidCache);
+			defaultRefreshAdjacentActiveModerators(componentFailCache, assumedValidCache);
 		}
 		else if (getDecayHeating() > 0) {
-			defaultForceAdjacentActiveModerators(assumedValidCache);
+			defaultForceAdjacentActiveModerators(componentFailCache, assumedValidCache);
 		}
 	}
 	
@@ -460,6 +460,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	public void updateDecayFractions() {
+		if (fission_decay_mechanics) {
+			decayHeatFraction = iodineFraction = poisonFraction = 0D;
+			return;
+		}
+		
 		int oldCriticality = getCriticality();
 		boolean oldHasEnoughFlux = hasEnoughFlux();
 		int oldDecayHeating = getDecayHeating();

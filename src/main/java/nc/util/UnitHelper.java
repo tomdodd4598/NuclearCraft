@@ -5,6 +5,7 @@ import net.minecraft.util.math.MathHelper;
 public class UnitHelper {
 	
 	public static final String[] SI_PREFIX = new String[] {" y", " z", " a", " f", " p", " n", " u", " m", " ", " k", " M", " G", " T", " P", " E", " Z", " Y"};
+	public static final String[] SI_PREFIX_2 = new String[] {" y", " z", " a", " f", " p", " n", " u", " m", "", " k", " M", " G", " T", " P", " E", " Z", " Y"};
 	
 	// Long
 	
@@ -13,7 +14,7 @@ public class UnitHelper {
 		int prefixNumber = minPrefixNumber;
 		
 		boolean hasMax = max != Long.MIN_VALUE;
-		String slashMaxVal = !hasMax ? "" : " / " + max;
+		String slashMaxVal = !hasMax ? "" : SI_PREFIX_2[prefixNumber] + " / " + max;
 		String sign = value < 0D ? "-" : "";
 		if (value == 0D) {
 			return value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
@@ -41,7 +42,7 @@ public class UnitHelper {
 					continue;
 				}
 				if (value != 0L) {
-					slashMaxVal = !hasMax ? "" : " / " + max;
+					slashMaxVal = !hasMax ? "" : SI_PREFIX_2[prefixNumber] + " / " + max;
 					return sign + value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 				}
 				value = NCMath.magnitudeMult(value, 3);
@@ -50,7 +51,7 @@ public class UnitHelper {
 			}
 			else {
 				if (length <= maxLengthFixed) {
-					slashMaxVal = !hasMax ? "" : " / " + max;
+					slashMaxVal = !hasMax ? "" : SI_PREFIX_2[prefixNumber] + " / " + max;
 					return sign + value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 				}
 				value = NCMath.magnitudeMult(value, -3);
@@ -61,7 +62,7 @@ public class UnitHelper {
 				descending = false;
 			}
 		}
-		slashMaxVal = !hasMax ? "" : " / " + NCMath.magnitudeMult(max, -3);
+		slashMaxVal = !hasMax ? "" : SI_PREFIX_2[SI_PREFIX.length - 1] + " / " + NCMath.magnitudeMult(max, -3);
 		return sign + NCMath.magnitudeMult(value, -3) + slashMaxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}
 	
@@ -84,7 +85,7 @@ public class UnitHelper {
 		int prefixNumber = minPrefixNumber;
 		
 		boolean hasMax = max != Double.MIN_VALUE;
-		String slashMaxVal = !hasMax ? "" : " / " + (long) max;
+		String slashMaxVal = !hasMax ? "" : SI_PREFIX_2[prefixNumber] + " / " + (long) max;
 		String sign = value < 0D ? "-" : "";
 		if (value == 0D) {
 			return (long) value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
@@ -112,7 +113,7 @@ public class UnitHelper {
 					continue;
 				}
 				if ((long) value != 0L) {
-					slashMaxVal = !hasMax ? "" : " / " + (long) max;
+					slashMaxVal = !hasMax ? "" : SI_PREFIX_2[prefixNumber] + " / " + (long) max;
 					return sign + (long) value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 				}
 				value = NCMath.magnitudeMult(value, 3);
@@ -121,7 +122,7 @@ public class UnitHelper {
 			}
 			else {
 				if (length <= maxLengthFixed) {
-					slashMaxVal = !hasMax ? "" : " / " + (long) max;
+					slashMaxVal = !hasMax ? "" : SI_PREFIX_2[prefixNumber] + " / " + (long) max;
 					return sign + (long) value + slashMaxVal + SI_PREFIX[prefixNumber] + unit;
 				}
 				value = NCMath.magnitudeMult(value, -3);
@@ -132,7 +133,7 @@ public class UnitHelper {
 				descending = false;
 			}
 		}
-		slashMaxVal = !hasMax ? "" : " / " + (long) NCMath.magnitudeMult(max, -3);
+		slashMaxVal = !hasMax ? "" : SI_PREFIX_2[SI_PREFIX.length - 1] + " / " + (long) NCMath.magnitudeMult(max, -3);
 		return sign + (long) NCMath.magnitudeMult(value, -3) + slashMaxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}
 	

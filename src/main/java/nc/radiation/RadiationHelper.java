@@ -358,7 +358,13 @@ public class RadiationHelper {
 	
 	// Biome -> Player
 	
-	/* public static double transferBackgroundRadsToPlayer(Biome biome, IEntityRads playerRads, EntityPlayer player, int updateRate) { Double biomeRadiation = RadBiomes.RAD_MAP.get(biome); if (biomeRadiation == null) { return 0D; } return addRadsToPlayer(playerRads, player, biomeRadiation, updateRate); } */
+	/*public static double transferBackgroundRadsToPlayer(Biome biome, IEntityRads playerRads, EntityPlayer player, int updateRate) {
+		Double biomeRadiation = RadBiomes.RAD_MAP.get(biome);
+		if (biomeRadiation == null) {
+			return 0D;
+		}
+		return addRadsToPlayer(playerRads, player, biomeRadiation, updateRate);
+	}*/
 	
 	// Source -> Entity
 	
@@ -371,7 +377,12 @@ public class RadiationHelper {
 	
 	// Biome -> Entity
 	
-	/* public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) { Double biomeRadiation = RadBiomes.RAD_MAP.get(biome); if (biomeRadiation != null) { entityRads.setRadiationLevel(addRadsToEntity(entityRads, entityLiving, biomeRadiation, updateRate)); } } */
+	/*public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) {
+		Double biomeRadiation = RadBiomes.RAD_MAP.get(biome);
+		if (biomeRadiation != null) {
+			entityRads.setRadiationLevel(addRadsToEntity(entityRads, entityLiving, biomeRadiation, updateRate));
+		}
+	}*/
 	
 	// Entity Symptoms
 	

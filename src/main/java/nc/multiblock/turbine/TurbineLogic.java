@@ -453,7 +453,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			
 			if (getTurbine().isInMinWall(axis, pos)) {
 				EnumFacing thisFlowDir = EnumFacing.getFacingFromAxis(AxisDirection.POSITIVE, axis);
-				if (getTurbine().flowDir != null && getTurbine().flowDir != thisFlowDir) { // make sure that all inlets are in the same wall
+				// Make sure that all inlets are in the same wall
+				if (getTurbine().flowDir != null && getTurbine().flowDir != thisFlowDir) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", pos);
 					return false;
 				}
@@ -463,7 +464,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			else if (getTurbine().isInMaxWall(axis, pos)) {
 				EnumFacing thisFlowDir = EnumFacing.getFacingFromAxis(AxisDirection.NEGATIVE, axis);
-				if (getTurbine().flowDir != null && getTurbine().flowDir != thisFlowDir) { // make sure that all inlets are in the same wall
+				// Make sure that all inlets are in the same wall
+				if (getTurbine().flowDir != null && getTurbine().flowDir != thisFlowDir) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", pos);
 					return false;
 				}

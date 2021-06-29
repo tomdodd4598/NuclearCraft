@@ -66,7 +66,9 @@ public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT
 				// world.updateComparatorOutputLevel(pos, this);
 				// FissionReactor reactor = port.getMultiblock();
 				// world.removeTileEntity(pos);
-				/* if (reactor != null) { reactor.getLogic().refreshPorts(); } */
+				/*if (reactor != null) {
+					reactor.getLogic().refreshPorts();
+				}*/
 			}
 		}
 		// super.breakBlock(world, pos, state);

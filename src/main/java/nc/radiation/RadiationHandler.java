@@ -230,12 +230,21 @@ public class RadiationHandler {
 		if (event.phase != TickEvent.Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) {
 			return;
 		}
-		WorldServer world = (WorldServer) event.world;
 		
+		WorldServer world = (WorldServer) event.world;
 		ChunkProviderServer chunkProvider = world.getChunkProvider();
 		Collection<Chunk> loadedChunks = chunkProvider.getLoadedChunks();
 		int chunkArrSize = loadedChunks.size();
-		Chunk[] chunkArray = loadedChunks.toArray(new Chunk[chunkArrSize]);
+		Chunk[] chunkArray = null;
+		try {
+			chunkArray = loadedChunks.toArray(new Chunk[chunkArrSize]);
+		}
+		catch (Exception e) {}
+		
+		if (chunkArray == null) {
+			return;
+		}
+		
 		int chunkStart = RAND.nextInt(chunkArrSize + 1);
 		int chunksPerTick = Math.min(radiation_world_chunks_per_tick, chunkArrSize);
 		int tickMult = chunkArrSize > 0 ? Math.max(1, chunkArrSize / chunksPerTick) : 1;
@@ -324,10 +333,16 @@ public class RadiationHandler {
 				chunkSource.setEffectiveScrubberCount(0D);
 				
 				Collection<TileEntity> tileCollection = chunk.getTileEntityMap().values();
-				TileEntity[] tileArray = tileCollection.toArray(new TileEntity[tileCollection.size()]);
+				TileEntity[] tileArray = null;
+				try {
+					tileArray = tileCollection.toArray(new TileEntity[tileCollection.size()]);
+				}
+				catch (Exception e) {}
 				
-				for (TileEntity tile : tileArray) {
-					RadiationHelper.transferRadiationFromProviderToChunkBuffer(tile, tile_side, chunkSource);
+				if (tileArray != null) {
+					for (TileEntity tile : tileArray) {
+						RadiationHelper.transferRadiationFromProviderToChunkBuffer(tile, tile_side, chunkSource);
+					}
 				}
 				
 				if (RadWorlds.RAD_MAP.containsKey(dimension)) {

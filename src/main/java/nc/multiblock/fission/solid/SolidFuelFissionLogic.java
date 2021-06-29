@@ -87,7 +87,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	@Override
 	public void refreshAllFuelComponentModerators() {
 		for (TileSolidFissionCell cell : getParts(TileSolidFissionCell.class)) {
-			refreshFuelComponentModerators(cell, assumedValidCache);
+			refreshFuelComponentModerators(cell, componentFailCache, assumedValidCache);
 		}
 	}
 	
@@ -279,8 +279,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
-		fuelComponent.defaultRefreshModerators(assumedValidCache);
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+		fuelComponent.defaultRefreshModerators(componentFailCache, assumedValidCache);
 	}
 	
 	@Override
