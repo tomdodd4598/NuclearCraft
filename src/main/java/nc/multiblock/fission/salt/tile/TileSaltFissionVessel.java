@@ -494,7 +494,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	}
 	
 	public void updateDecayFractions() {
-		if (fission_decay_mechanics) {
+		if (!fission_decay_mechanics) {
 			decayHeatFraction = iodineFraction = poisonFraction = 0D;
 			return;
 		}

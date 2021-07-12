@@ -460,7 +460,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	public void updateDecayFractions() {
-		if (fission_decay_mechanics) {
+		if (!fission_decay_mechanics) {
 			decayHeatFraction = iodineFraction = poisonFraction = 0D;
 			return;
 		}
