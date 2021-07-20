@@ -1,3 +1,8 @@
+v2o.5.5
+
+* Fixed general decay mechanics config not working as intended
+* Clarified turbine dynamo coil connectivity logic in turbine bearing's description tooltip
+
 v2o.5.4
 
 * Updated Russian language file [thanks to artenaft69!]
