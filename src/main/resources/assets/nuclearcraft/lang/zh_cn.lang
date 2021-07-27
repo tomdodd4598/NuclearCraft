@@ -30,7 +30,7 @@ info.nuclearcraft.moderator.fixd=裂变反应堆减速剂
 info.nuclearcraft.moderator.flux_factor.fixd=中子通量增加量：%s
 info.nuclearcraft.moderator.efficiency.fixd=效能倍率：%s
 
-# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多 %s 个共线的减速剂和分别位于两个末端的两个单元或容器 或者 最多 %s 个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它是一条线路中的一部分 并且 与至少一个有效的末端单元或容器相邻才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至另一个单元或容器 或 将中子通量输送至一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
+# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多 %s 个共线的减速剂和分别位于两个末端的两个单元或容器 或 最多 %s 个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它 是一条线路中的一部分 并 与至少一个有效的末端单元或容器相邻 时才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至 另一个单元或容器 或 一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
 
 tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-石墨中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
@@ -110,7 +110,7 @@ tile.nuclearcraft.rock_crusher.name=岩石粉碎机
 tile.nuclearcraft.rock_crusher.desc=粉碎岩石并产出一些矿物粉。
 
 tile.nuclearcraft.machine_interface.name=机器控制界面
-tile.nuclearcraft.machine_interface.desc=凡是与这个方块直接接触（面对面）的机器都可以通过这个方块实现自动化控制，但是这个方块只能接触一个机器。
+tile.nuclearcraft.machine_interface.desc=凡是与这个方块相邻的机器都可以通过这个方块实现自动化控制，但是只能接触一个机器。
 
 tile.nuclearcraft.bin.name=通用垃圾桶
 tile.nuclearcraft.bin.desc=销毁物品、流体与能量。
@@ -128,7 +128,7 @@ tile.nuclearcraft.solar_panel_elite.name=精英太阳能电池板
 tile.nuclearcraft.solar_panel.desc=白天持续产出 %s。
 
 tile.nuclearcraft.decay_generator.name=衰变产能器
-tile.nuclearcraft.decay_generator.desc=以与这个方块直接接触的放射性方块衰变产生的热量发电，一定时间后方块将会衰变为放射性更低的方块，此时产能量会下降。
+tile.nuclearcraft.decay_generator.desc=利用与这个方块相邻的放射性方块衰变产生的热量发电，一定时间后相邻的方块将会衰变为放射性更低的方块，此时产能量会下降。
 
 tile.nuclearcraft.voltaic_pile_basic.name=基础伏打电堆
 tile.nuclearcraft.voltaic_pile_advanced.name=高级伏打电堆
@@ -312,7 +312,7 @@ tile.nuclearcraft.turbine_rotor_blade_extreme.name=极限合金涡轮机转子�
 tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅复合材料涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=效能倍率：%s
 tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=膨胀系数：%s
-tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转动能。膨胀系数一定大于1，因此每当液体通过一个叶片组时体积都会出现增大。必须放置在从转子轴到所对墙壁间的全部位置，并且每个组的叶片都须相同。每个叶片最多能处理%s的液体。
+tile.nuclearcraft.turbine_rotor_blade.desc=用于将流体的能量转换为转子轴的旋转动能。膨胀系数一定大于 1，因此每当液体通过一个叶片组时体积都会增大。必须放置在从转子轴到所对墙壁间的全部位置，并且每组叶片都须相同。每个叶片最多能处理 %s 的液体。
 tile.nuclearcraft.turbine_rotor_stator.name=标准涡轮机转子定子
 tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=膨胀系数：%s
 tile.nuclearcraft.turbine_rotor_stator.desc=用于增加经过的流体的密度，也即通过压低叶片产生的过高膨胀系数来提升涡轮机的效率。必须放置在从转子轴到所对墙壁间的全部位置。
@@ -349,8 +349,8 @@ tile.nuclearcraft.nitrogen_collector_dense.name=致密氮收集器
 tile.nuclearcraft.nitrogen_collector.desc=持续产出 %s 的氮。
 
 tile.nuclearcraft.radiation_scrubber.name=辐射净化仪
-tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。最多以%2$s的效率移除其所在区块中%1$s的辐射。该区块中所有有效的辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于“辐射净化剂”的使用量。
-tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射量。其效用取决于附近的空方块的数量。单独使用时，最多以%2$s的效率移除其所在区块中%1$s的辐射，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来，而一开始的效率只会线性地叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于“辐射净化剂”的使用量。
+tile.nuclearcraft.radiation_scrubber.desc=减少其所在区块的辐射量。其效用取决于附近的空方块数量。最多以 %2$s 的效率移除其所在区块中 %1$s 的辐射。该区块中所有有效辐射净化仪产生的效用能够线性地叠加。效率与能耗取决于辐射净化剂的使用量。
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=减少其所在区块的辐射量。其效用取决于附近的空方块数量。单独使用时，最多以 %2$s 的效率移除其所在区块中 %1$s 的辐射，尽管区块中所有辐射净化仪的效果都会非线性地叠加起来，而一开始的效率只会线性地叠加，但是最终会呈指数级增长，具体效率取决于净化仪的数量。效率与能耗取决于辐射净化剂的使用量。
 nuclearcraft.one_hundred_percent=100%
 
 tile.nuclearcraft.geiger_block.name=盖革计数器方块
@@ -496,7 +496,7 @@ tile.nuclearcraft.fluid_cryotheum.name=熔融凛冰
 fluid.cryotheum=熔融凛冰
 
 tile.nuclearcraft.fluid_plasma.name=等离子体
-tile.nuclearcraft.fluid_plasma.desc=从聚变反应堆中产生。当与未充能的聚变电磁铁发生接触时可能导致火焰与爆炸。
+tile.nuclearcraft.fluid_plasma.desc=产自聚变反应堆。当与未充能的聚变电磁铁发生接触时可能导致火焰与爆炸。
 fluid.plasma=等离子体
 
 tile.nuclearcraft.fluid_lithium_6.name=熔融锂-6
