@@ -317,7 +317,7 @@ tile.nuclearcraft.turbine_rotor_stator.name=标准涡轮机转子定子
 tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=膨胀系数：%s
 tile.nuclearcraft.turbine_rotor_stator.desc=用于增加经过的流体的密度，也即通过压低叶片产生的过高膨胀系数来提升涡轮机的效率。必须放置在从转子轴到所对墙壁间的全部位置。
 tile.nuclearcraft.turbine_rotor_bearing.name=涡轮机转子轴承
-tile.nuclearcraft.turbine_rotor_bearing.desc=将转子轴连接到墙壁和发电机。必须覆盖轴两端的全部区域。发电机线圈皆须与轴承位于同一面墙壁，并且在每个末端轴承都应当连接着至少与轴承数量相同的线圈以避免对效能产生不利影响。
+tile.nuclearcraft.turbine_rotor_bearing.desc=将转子轴连接到墙壁和发电机。必须覆盖轴两端的全部区域。发电机线圈皆须与轴承位于同一面墙壁，并且在涡轮机的两端轴承都应当连接着至少与轴承数量相同的线圈以避免对效能产生不利影响。线圈必须直接或间接（通过其他线圈或连接器）连接到轴承上。
 tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=镁涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.beryllium.name=铍涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=铝涡轮机发电机线圈
@@ -1538,9 +1538,11 @@ item.nuclearcraft.ingot.graphite.name=石墨锭
 item.nuclearcraft.ingot.beryllium.name=铍锭
 item.nuclearcraft.ingot.zirconium.name=锆锭
 item.nuclearcraft.ingot.manganese.name=锰锭
+item.nuclearcraft.ingot.manganese.desc=烧炼菱锰粉三次制得。
 item.nuclearcraft.ingot.aluminum.name=铝锭
 item.nuclearcraft.ingot.silver.name=银锭
 item.nuclearcraft.ingot.manganese_oxide.name=氧化锰锭
+item.nuclearcraft.ingot.manganese_oxide.desc=烧炼菱锰粉两次制得。
 item.nuclearcraft.ingot.manganese_dioxide.name=二氧化锰锭
 
 item.nuclearcraft.dust.copper.name=铜粉
@@ -1553,9 +1555,9 @@ item.nuclearcraft.dust.lithium.name=锂粉
 item.nuclearcraft.dust.magnesium.name=镁粉
 item.nuclearcraft.dust.graphite.name=石墨粉
 item.nuclearcraft.dust.beryllium.name=铍粉
-item.nuclearcraft.dust.beryllium.desc=挖掘煤矿石时掉落。
+#item.nuclearcraft.dust.beryllium.desc=挖掘煤矿石时掉落。
 item.nuclearcraft.dust.zirconium.name=锆粉
-item.nuclearcraft.dust.zirconium.desc=挖掘下界石英矿石时掉落。
+#item.nuclearcraft.dust.zirconium.desc=挖掘下界石英矿石时掉落。
 item.nuclearcraft.dust.manganese.name=锰粉
 item.nuclearcraft.dust.aluminum.name=铝粉
 item.nuclearcraft.dust.silver.name=银粉
@@ -1563,14 +1565,15 @@ item.nuclearcraft.dust.manganese_oxide.name=氧化锰粉
 item.nuclearcraft.dust.manganese_dioxide.name=二氧化锰粉
 
 item.nuclearcraft.gem.rhodochrosite.name=菱锰
-item.nuclearcraft.gem.rhodochrosite.desc=挖掘红石矿石时掉落。
+#item.nuclearcraft.gem.rhodochrosite.desc=挖掘红石矿石时掉落。
+item.nuclearcraft.gem.rhodochrosite.desc=烧炼两次获得氧化锰锭，再烧炼一次获得锰锭。
 item.nuclearcraft.gem.boron_nitride.name=立方氮化硼
 item.nuclearcraft.gem.fluorite.name=氟石
-item.nuclearcraft.gem.fluorite.desc=挖掘青金石矿石时掉落。
+#item.nuclearcraft.gem.fluorite.desc=挖掘青金石矿石时掉落。
 item.nuclearcraft.gem.villiaumite.name=氟盐
-item.nuclearcraft.gem.villiaumite.desc=挖掘钻石矿石时掉落。
+#item.nuclearcraft.gem.villiaumite.desc=挖掘钻石矿石时掉落。
 item.nuclearcraft.gem.carobbiite.name=方氟钾石
-item.nuclearcraft.gem.carobbiite.desc=挖掘钻石矿石时掉落。
+#item.nuclearcraft.gem.carobbiite.desc=挖掘钻石矿石时掉落。
 item.nuclearcraft.gem.boron_arsenide.name=砷化硼
 item.nuclearcraft.gem.silicon.name=硅
 
@@ -1581,7 +1584,7 @@ item.nuclearcraft.gem_dust.obsidian.name=黑曜石粉
 item.nuclearcraft.gem_dust.boron_nitride.name=六方氮化硼
 item.nuclearcraft.gem_dust.fluorite.name=氟石粉
 item.nuclearcraft.gem_dust.sulfur.name=硫磺
-item.nuclearcraft.gem_dust.sulfur.desc=挖掘煤矿石时掉落。
+#item.nuclearcraft.gem_dust.sulfur.desc=挖掘煤矿石时掉落。
 item.nuclearcraft.gem_dust.coal.name=煤炭粉
 item.nuclearcraft.gem_dust.villiaumite.name=氟盐粉
 item.nuclearcraft.gem_dust.carobbiite.name=方氟钾石粉
@@ -2226,8 +2229,8 @@ item.nuclearcraft.rad_x.desc=增加 %s 的辐射抗性（%s 内）。效果可�
 item.nuclearcraft.portable_ender_chest.name=便携末影箱
 item.nuclearcraft.portable_ender_chest.desc=可以在移动中使用的末影箱。
 
-item.nuclearcraft.dominos.name=Domino的大餐
-item.nuclearcraft.dominos.desc=Paul的最爱——这顿盛宴能恢复 16 点饥饿值！
+item.nuclearcraft.dominos.name=Domino 的大餐
+item.nuclearcraft.dominos.desc=Paul 的最爱——这顿盛宴能恢复 16 点饥饿值！
 
 item.nuclearcraft.flour.name=面粉
 item.nuclearcraft.graham_cracker.name=全麦饼干
@@ -2849,7 +2852,7 @@ gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search f
 gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
 gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
 gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
-gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for their efficiencies. It is recommended that you only modify these if you know what you are doing.
+gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(1 + S/c)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for their efficiencies. It is recommended that you only modify these if you know what you are doing.
 gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
 gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. 顺序：borax dust, RadAway, Slow-Acting RadAway
 gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
@@ -3331,7 +3334,7 @@ advancement.nuclearcraft.crystallizer.name=绝命毒师
 # pun or meme
 advancement.nuclearcraft.crystallizer.desc=制作一个结晶器
 
-advancement.nuclearcraft.centrifuge.name=詹姆斯•邦德
+advancement.nuclearcraft.centrifuge.name=詹姆斯·邦德
 # pun or meme
 advancement.nuclearcraft.centrifuge.desc=制作一个离心机
 
@@ -3553,17 +3556,19 @@ nc.sf.placement_rule.adjacent.at_least=至少%1$s
 nc.sf.placement_rule.adjacent.at_least_along_axis=在同一条线上的至少%1$s
 nc.sf.placement_rule.adjacent.at_least_along_axes=在同几条线上的至少%1$s
 nc.sf.placement_rule.adjacent.at_least_at_vertex=在同一个垂直处的至少%1$s
+nc.sf.placement_rule.adjacent.at_least_along_edge=在同一条棱上的至少%1$s
 nc.sf.placement_rule.adjacent.exactly=刚好%1$s
 nc.sf.placement_rule.adjacent.exactly_along_axis=在同一条线上的刚好%1$s
 nc.sf.placement_rule.adjacent.exactly_along_axes=在同几条线上的刚好%1$s
 nc.sf.placement_rule.adjacent.exactly_at_vertex=在同一个垂直处的刚好%1$s
+nc.sf.placement_rule.adjacent.exactly_along_edge=在同一条棱上的刚好%1$s
 nc.sf.placement_rule.adjacent.at_most=最多%1$s
 nc.sf.placement_rule.adjacent.at_most_along_axis=在同一条线上的最多%1$s
 nc.sf.placement_rule.adjacent.at_most_along_axes=在同几条线上的最多%1$s
 nc.sf.placement_rule.adjacent.no=完全%1$s
 
-nc.sf.placement_rule.adjacent.ambiguity0prev=!同一条线&&!同几条线&&!同一个垂直处
-nc.sf.placement_rule.adjacent.ambiguity0last=同一条线||同几条线||同一个垂直处
+nc.sf.placement_rule.adjacent.ambiguity0prev=!同一条线&&!同几条线&&!同一个垂直处&&!同一条棱
+nc.sf.placement_rule.adjacent.ambiguity0last=同一条线||同几条线||同一个垂直处||同一条棱
 nc.sf.placement_rule.adjacent.ambiguity1prev=在同一||在同几
 
 nc.sf.reactor_casing0=%s反应堆外壳
@@ -3579,7 +3584,6 @@ nc.sf.irradiator0=%s有效的中子辐照器
 nc.sf.shield0=%s有效的中子防护屏
 
 nc.sf.any_sink0=%s任意种类的散热器
-nc.sf.any_sink1=任意%s散热器
 nc.sf.water_sink0=%s有效的水散热器
 nc.sf.iron_sink0=%s有效的铁散热器
 nc.sf.redstone_sink0=%s有效的红石散热器
@@ -3614,7 +3618,6 @@ nc.sf.enderium_sink0=%s有效的末影散热器
 nc.sf.cryotheum_sink0=%s有效的凛冰散热器
 
 nc.sf.any_heater0=%s任意种类的加热器
-nc.sf.any_heater1=任意%s加热器
 nc.sf.standard_heater0=%s有效的标准加热器
 nc.sf.iron_heater0=%s有效的铁加热器
 nc.sf.redstone_heater0=%s有效的红石加热器
