@@ -3655,14 +3655,13 @@ nc.sf.turbine_casing0=%s涡轮机外壳
 nc.sf.bearing0=%s有效的转子轴承
 nc.sf.connector0=%s有效的线圈连接器
 
-nc.sf.any_coil0=%s任意种类的发电机线圈
-nc.sf.any_coil1=任意%s发电机线圈
-nc.sf.magnesium_coil0=%s镁发电机线圈
-nc.sf.beryllium_coil0=%s铍发电机线圈
-nc.sf.aluminum_coil0=%s铝发电机线圈
-nc.sf.gold_coil0=%s金发电机线圈
-nc.sf.copper_coil0=%s铜发电机线圈
-nc.sf.silver_coil0=%s银发电机线圈
+nc.sf.any_coil0=%s任意种类的线圈
+nc.sf.magnesium_coil0=%s镁线圈
+nc.sf.beryllium_coil0=%s铍线圈
+nc.sf.aluminum_coil0=%s铝线圈
+nc.sf.gold_coil0=%s金线圈
+nc.sf.copper_coil0=%s铜线圈
+nc.sf.silver_coil0=%s银线圈
 
 nc.sf.power_adverb0=保持恒定
 nc.sf.power_adverb1=线性地%s
