@@ -35,6 +35,9 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileProcessor.FuelReprocessor.class, Global.MOD_ID + ":fuel_reprocessor");
 		GameRegistry.registerTileEntity(TileProcessor.AlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
 		GameRegistry.registerTileEntity(TileProcessor.Infuser.class, Global.MOD_ID + ":infuser");
+		GameRegistry.registerTileEntity(TileProcessor.SteamFurnace.class, Global.MOD_ID + ":steam_furnace");
+		GameRegistry.registerTileEntity(TileProcessor.SteamCrusher.class, Global.MOD_ID + ":steam_crusher");
+		GameRegistry.registerTileEntity(TileProcessor.SteamTransformer.class, Global.MOD_ID + ":steam_transformer");
 		GameRegistry.registerTileEntity(TileProcessor.Melter.class, Global.MOD_ID + ":melter");
 		GameRegistry.registerTileEntity(TileProcessor.Supercooler.class, Global.MOD_ID + ":supercooler");
 		GameRegistry.registerTileEntity(TileProcessor.Electrolyzer.class, Global.MOD_ID + ":electrolyzer");

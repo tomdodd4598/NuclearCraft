@@ -471,9 +471,9 @@ public class NCConfig {
 		Property propertyMushroomGenRate = config.get(CATEGORY_WORLD_GEN, "mushroom_gen_rate", 64, Lang.localise("gui.nc.config.mushroom_gen_rate.comment"), 0, 511);
 		propertyMushroomGenRate.setLanguageKey("gui.nc.config.mushroom_gen_rate");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSOR, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 600, 400, 600, 800, 600, 1600, 600, 2400, 1200, 400}, Lang.localise("gui.nc.config.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSOR, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 600, 400, 600, 800, 600, 1600, 600, 2400, 1200, 400, 900,900, 900}, Lang.localise("gui.nc.config.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.nc.config.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSOR, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 10, 0, 40, 10, 20, 10, 10, 10, 10, 20}, Lang.localise("gui.nc.config.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSOR, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 10, 0, 40, 10, 20, 10, 10, 10, 10, 20, 0, 0, 0}, Lang.localise("gui.nc.config.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.nc.config.processor_power");
 		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSOR, "speed_upgrade_power_laws_fp", new double[] {1D, 2D}, Lang.localise("gui.nc.config.speed_upgrade_power_laws_fp.comment"), 1D, 15D);
 		propertySpeedUpgradePowerLaws.setLanguageKey("gui.nc.config.speed_upgrade_power_laws_fp");
@@ -507,7 +507,7 @@ public class NCConfig {
 		propertyManufactoryWood.setLanguageKey("gui.nc.config.manufactory_wood");
 		Property propertyRockCrusherAlternate = config.get(CATEGORY_PROCESSOR, "rock_crusher_alternate", false, Lang.localise("gui.nc.config.rock_crusher_alternate.comment"));
 		propertyRockCrusherAlternate.setLanguageKey("gui.nc.config.rock_crusher_alternate");
-		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSOR, "gtce_recipe_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.gtce_recipe_integration.comment"));
+		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSOR, "gtce_recipe_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.gtce_recipe_integration.comment"));
 		propertyGTCERecipes.setLanguageKey("gui.nc.config.gtce_recipe_integration");
 		Property propertyGTCERecipeLogging = config.get(CATEGORY_PROCESSOR, "gtce_recipe_logging", false, Lang.localise("gui.nc.config.gtce_recipe_logging.comment"));
 		propertyGTCERecipeLogging.setLanguageKey("gui.nc.config.gtce_recipe_logging");
@@ -1051,7 +1051,7 @@ public class NCConfig {
 		Property propertyRadiationBadgeInfoRate = config.get(CATEGORY_RADIATION, "radiation_badge_info_rate", 0.1D, Lang.localise("gui.nc.config.radiation_badge_info_rate.comment"), 0.000000000000000001D, 1D);
 		propertyRadiationBadgeInfoRate.setLanguageKey("gui.nc.config.radiation_badge_info_rate");
 		
-		Property propertyRegisterProcessor = config.get(CATEGORY_REGISTRATION, "register_processor", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.register_processor.comment"));
+		Property propertyRegisterProcessor = config.get(CATEGORY_REGISTRATION, "register_processor", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.register_processor.comment"));
 		propertyRegisterProcessor.setLanguageKey("gui.nc.config.register_processor");
 		Property propertyRegisterPassive = config.get(CATEGORY_REGISTRATION, "register_passive", new boolean[] {true, true, true}, Lang.localise("gui.nc.config.register_passive.comment"));
 		propertyRegisterPassive.setLanguageKey("gui.nc.config.register_passive");

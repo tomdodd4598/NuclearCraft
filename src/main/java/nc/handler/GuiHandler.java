@@ -105,6 +105,18 @@ public class GuiHandler implements IGuiHandler {
 					if (tile instanceof RockCrusher) {
 						return new ContainerRockCrusher(player, (RockCrusher) tile);
 					}
+				case 20:
+					if (tile instanceof SteamFurnace) {
+						return new ContainerSteamFurnace(player, (SteamFurnace) tile);
+					}
+				case 21:
+					if (tile instanceof SteamCrusher) {
+						return new ContainerSteamCrusher(player, (SteamCrusher) tile);
+					}
+				case 22:
+					if (tile instanceof SteamTransformer) {
+						return new ContainerSteamTransformer(player, (SteamTransformer) tile);
+					}
 				case 100:
 					// if (tile instanceof TileFissionController) return new
 					// ContainerFissionController(player,
@@ -234,6 +246,18 @@ public class GuiHandler implements IGuiHandler {
 					if (tile instanceof RockCrusher) {
 						return new ContainerMachineConfig(player, (RockCrusher) tile);
 					}
+				case 1020:
+					if (tile instanceof SteamFurnace) {
+						return new ContainerMachineConfig(player, (SteamFurnace) tile);
+					}
+				case 1021:
+					if (tile instanceof SteamCrusher) {
+						return new ContainerMachineConfig(player, (SteamCrusher) tile);
+					}
+				case 1022:
+					if (tile instanceof SteamTransformer) {
+						return new ContainerMachineConfig(player, (SteamTransformer) tile);
+					}
 			}
 		}
 		
@@ -324,6 +348,18 @@ public class GuiHandler implements IGuiHandler {
 				case 19:
 					if (tile instanceof RockCrusher) {
 						return new GuiRockCrusher(player, (RockCrusher) tile);
+					}
+				case 20:
+					if (tile instanceof SteamFurnace) {
+						return new GuiSteamFurnace(player, (SteamFurnace) tile);
+					}
+				case 21:
+					if (tile instanceof SteamCrusher) {
+						return new GuiSteamCrusher(player, (SteamCrusher) tile);
+					}
+				case 22:
+					if (tile instanceof SteamTransformer) {
+						return new GuiSteamTransformer(player, (SteamTransformer) tile);
 					}
 				case 100:
 					/*if (tile instanceof TileFissionController) {
@@ -452,6 +488,18 @@ public class GuiHandler implements IGuiHandler {
 				case 1019:
 					if (tile instanceof RockCrusher) {
 						return new GuiRockCrusher.SideConfig(player, (RockCrusher) tile);
+					}
+				case 1020:
+					if (tile instanceof SteamFurnace) {
+						return new GuiSteamFurnace.SideConfig(player, (SteamFurnace) tile);
+					}
+				case 1021:
+					if (tile instanceof SteamCrusher) {
+						return new GuiSteamCrusher.SideConfig(player, (SteamCrusher) tile);
+					}
+				case 1022:
+					if (tile instanceof SteamTransformer) {
+						return new GuiSteamCrusher.SideConfig(player, (SteamTransformer) tile);
 					}
 			}
 		}

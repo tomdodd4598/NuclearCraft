@@ -13,6 +13,7 @@ import nc.recipe.multiblock.*;
 import nc.recipe.other.*;
 import nc.recipe.processor.*;
 import nc.recipe.vanilla.*;
+import nc.tile.processor.TileProcessor;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.*;
@@ -28,6 +29,9 @@ public class NCRecipes {
 	public static FuelReprocessorRecipes fuel_reprocessor;
 	public static AlloyFurnaceRecipes alloy_furnace;
 	public static InfuserRecipes infuser;
+	public static SteamFurnaceRecipes steam_furnace;
+	public static SteamCrusherRecipes steam_crusher;
+	public static SteamTransformerRecipes steam_transformer;
 	public static MelterRecipes melter;
 	public static SupercoolerRecipes supercooler;
 	public static ElectrolyzerRecipes electrolyzer;
@@ -76,6 +80,9 @@ public class NCRecipes {
 		fuel_reprocessor = new FuelReprocessorRecipes();
 		alloy_furnace = new AlloyFurnaceRecipes();
 		infuser = new InfuserRecipes();
+		steam_furnace = new SteamFurnaceRecipes();
+		steam_crusher = new SteamCrusherRecipes();
+		steam_transformer = new SteamTransformerRecipes();
 		melter = new MelterRecipes();
 		supercooler = new SupercoolerRecipes();
 		electrolyzer = new ElectrolyzerRecipes();
@@ -108,7 +115,7 @@ public class NCRecipes {
 		radiation_block_mutation = new RadiationBlockMutation();
 		radiation_block_purification = new RadiationBlockPurification();
 		
-		processor_recipe_handlers = new BasicRecipeHandler[] {manufactory, separator, decay_hastener, fuel_reprocessor, alloy_furnace, infuser, melter, supercooler, electrolyzer, assembler, ingot_former, pressurizer, chemical_reactor, salt_mixer, crystallizer, enricher, extractor, centrifuge, rock_crusher};
+		processor_recipe_handlers = new BasicRecipeHandler[] {manufactory, separator, decay_hastener, fuel_reprocessor, alloy_furnace, infuser, melter, supercooler, electrolyzer, assembler, ingot_former, pressurizer, chemical_reactor, salt_mixer, crystallizer, enricher, extractor, centrifuge, rock_crusher, steam_furnace, steam_crusher};
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
@@ -133,6 +140,7 @@ public class NCRecipes {
 	}
 	
 	public static List<List<String>> infuser_valid_fluids;
+	public static List<List<String>> steam_machines_valid_fluids;
 	public static List<List<String>> melter_valid_fluids;
 	public static List<List<String>> supercooler_valid_fluids;
 	public static List<List<String>> electrolyzer_valid_fluids;
@@ -155,6 +163,7 @@ public class NCRecipes {
 	public static List<List<String>> radiation_scrubber_valid_fluids;
 	
 	public static void init() {
+		steam_machines_valid_fluids = RecipeHelper.validFluids(steam_furnace);
 		infuser_valid_fluids = RecipeHelper.validFluids(infuser);
 		melter_valid_fluids = RecipeHelper.validFluids(melter);
 		supercooler_valid_fluids = RecipeHelper.validFluids(supercooler);
@@ -185,6 +194,9 @@ public class NCRecipes {
 		fuel_reprocessor.refreshCache();
 		alloy_furnace.refreshCache();
 		infuser.refreshCache();
+		steam_furnace.refreshCache();
+		steam_crusher.refreshCache();
+		steam_transformer.refreshCache();
 		melter.refreshCache();
 		supercooler.refreshCache();
 		electrolyzer.refreshCache();

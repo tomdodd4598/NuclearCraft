@@ -128,7 +128,18 @@ public class NCJEI implements IModPlugin {
 			registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUid());
 			registry.addRecipeClickArea(GuiRockCrusher.SideConfig.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUid());
 		}
-		
+		if (register_processor[20]) {
+			registry.addRecipeClickArea(GuiSteamFurnace.class, 83, 34, 37, 18, JEIHandler.STEAM_FURNACE.getUid());
+			registry.addRecipeClickArea(GuiSteamFurnace.SideConfig.class, 83, 34, 37, 18, JEIHandler.STEAM_FURNACE.getUid());
+		}
+		if (register_processor[21]) {
+			registry.addRecipeClickArea(GuiSteamCrusher.class, 83, 34, 37, 18, JEIHandler.STEAM_CRUSHER.getUid());
+			registry.addRecipeClickArea(GuiSteamCrusher.SideConfig.class, 83, 34, 37, 18, JEIHandler.STEAM_CRUSHER.getUid());
+		}
+		if (register_processor[22]) {
+			registry.addRecipeClickArea(GuiSteamTransformer.class, 83, 34, 37, 18, JEIHandler.STEAM_TRANSFORMER.getUid());
+			registry.addRecipeClickArea(GuiSteamTransformer.SideConfig.class, 83, 34, 37, 18, JEIHandler.STEAM_TRANSFORMER.getUid());
+		}
 		registry.addRecipeClickArea(GuiFissionIrradiator.class, 73, 34, 37, 18, JEIHandler.FISSION_IRRADIATOR.getUid());
 		// registry.addRecipeClickArea(GuiPebbleFissionChamber.class, 73, 34, 37, 18, JEIHandler.PEBBLE_FISSION.getUid());
 		registry.addRecipeClickArea(GuiSolidFissionCell.class, 73, 34, 37, 18, JEIHandler.SOLID_FISSION.getUid());
@@ -154,7 +165,10 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, JEIHandler.EXTRACTOR.getUid(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, JEIHandler.CENTRIFUGE.getUid(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUid(), 0, 1, 6, 36);
-		
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSteamFurnace.class, JEIHandler.STEAM_FURNACE.getUid(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSteamCrusher.class, JEIHandler.STEAM_CRUSHER.getUid(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSteamTransformer.class, JEIHandler.STEAM_TRANSFORMER.getUid(), 0, 1, 3, 36);
+
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionIrradiator.class, JEIHandler.FISSION_IRRADIATOR.getUid(), 0, 1, 2, 36);
 		// recipeTransferRegistry.addRecipeTransferHandler(ContainerPebbleFissionChamber.class, JEIHandler.PEBBLE_FISSION.getUid(), 0, 1, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUid(), 0, 1, 2, 36);
@@ -232,6 +246,9 @@ public class NCJEI implements IModPlugin {
 		EXTRACTOR(NCRecipes.extractor, NCBlocks.extractor, "extractor", JEIRecipeWrapper.Extractor.class, 17),
 		CENTRIFUGE(NCRecipes.centrifuge, NCBlocks.centrifuge, "centrifuge", JEIRecipeWrapper.Centrifuge.class, 18),
 		ROCK_CRUSHER(NCRecipes.rock_crusher, NCBlocks.rock_crusher, "rock_crusher", JEIRecipeWrapper.RockCrusher.class, 19),
+		STEAM_FURNACE(NCRecipes.steam_furnace, NCBlocks.steam_furnace, "steam_furnace", JEIRecipeWrapper.SteamFurnace.class, 20),
+		STEAM_CRUSHER(NCRecipes.steam_crusher, NCBlocks.steam_crusher, "steam_crusher", JEIRecipeWrapper.SteamCrusher.class, 21),
+		STEAM_TRANSFORMER(NCRecipes.steam_transformer, NCBlocks.steam_transformer, "steam_transformer", JEIRecipeWrapper.SteamTransformer.class, 22),
 		COLLECTOR(NCRecipes.collector, registeredCollectors(), "collector", JEIRecipeWrapper.Collector.class),
 		DECAY_GENERATOR(NCRecipes.decay_generator, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
 		FISSION_MODERATOR(NCRecipes.fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
@@ -289,6 +306,12 @@ public class NCJEI implements IModPlugin {
 					return new AlloyFurnaceCategory(guiHelper, this);
 				case INFUSER:
 					return new InfuserCategory(guiHelper, this);
+				case STEAM_FURNACE:
+					return new SteamFurnaceCategory(guiHelper, this);
+				case STEAM_CRUSHER:
+					return new SteamCrusherCategory(guiHelper, this);
+				case STEAM_TRANSFORMER:
+					return new SteamTransformerCategory(guiHelper, this);
 				case MELTER:
 					return new MelterCategory(guiHelper, this);
 				case SUPERCOOLER:

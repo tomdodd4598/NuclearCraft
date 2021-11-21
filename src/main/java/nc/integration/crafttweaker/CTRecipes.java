@@ -159,7 +159,97 @@ public class CTRecipes {
 			CraftTweakerAPI.apply(new CTClearRecipes(NCRecipes.alloy_furnace));
 		}
 	}
-	
+
+	@ZenClass("mods.nuclearcraft.SteamTransformer")
+	@ZenRegister
+	public static class SteamTransformerMethods {
+
+		@ZenMethod
+		public static BasicRecipeHandler getRecipeHandler() {
+			return NCRecipes.steam_transformer;
+		}
+
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.steam_transformer, Lists.newArrayList(input1, input2, output, timeMultiplier)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.steam_transformer, IngredientSorption.INPUT, Lists.newArrayList(input1, input2)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.steam_transformer, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new CTClearRecipes(NCRecipes.steam_transformer));
+		}
+	}
+
+	@ZenClass("mods.nuclearcraft.SteamFurnace")
+	@ZenRegister
+	public static class SteamFurnaceMethods {
+
+		@ZenMethod
+		public static BasicRecipeHandler getRecipeHandler() {
+			return NCRecipes.steam_furnace;
+		}
+
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.steam_furnace, Lists.newArrayList(input1, input2, output, timeMultiplier)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.steam_furnace, IngredientSorption.INPUT, Lists.newArrayList(input1, input2)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.steam_furnace, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new CTClearRecipes(NCRecipes.steam_furnace));
+		}
+	}
+
+	@ZenClass("mods.nuclearcraft.SteamFurnnace")
+	@ZenRegister
+	public static class SteamCrusherMethods {
+
+		@ZenMethod
+		public static BasicRecipeHandler getRecipeHandler() {
+			return NCRecipes.steam_crusher;
+		}
+
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier) {
+			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.steam_crusher, Lists.newArrayList(input1, input2, output, timeMultiplier)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.steam_crusher, IngredientSorption.INPUT, Lists.newArrayList(input1, input2)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.steam_crusher, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new CTClearRecipes(NCRecipes.steam_crusher));
+		}
+	}
+
 	@ZenClass("mods.nuclearcraft.Infuser")
 	@ZenRegister
 	public static class InfuserMethods {

@@ -141,6 +141,10 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		GTCE_INTEGRATION.put("extractor", arr[16]);
 		GTCE_INTEGRATION.put("centrifuge", arr[17]);
 		GTCE_INTEGRATION.put("rock_crusher", arr[18]);
+		GTCE_INTEGRATION.put("steam_furnace", arr[19]);
+		GTCE_INTEGRATION.put("steam_crusher", arr[20]);
+		GTCE_INTEGRATION.put("steam_transformer", arr[21]);
+
 	}
 	
 	@Nullable

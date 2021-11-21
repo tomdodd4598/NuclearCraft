@@ -128,7 +128,67 @@ public class JEIRecipeWrapper {
 			return recipe.getBaseProcessPower(processor_power[4]);
 		}
 	}
-	
+
+	public static class SteamTransformer extends JEIMachineRecipeWrapper {
+
+		public SteamTransformer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35, 83, 34, 37, 18);
+		}
+
+		@Override
+		protected double getBaseProcessTime() {
+			if (recipe == null) {
+				return processor_time[20];
+			}
+			return recipe.getBaseProcessTime(processor_time[20]);
+		}
+
+		@Override
+		protected double getBaseProcessPower() {
+			return 0;
+		}
+	}
+
+	public static class SteamFurnace extends JEIMachineRecipeWrapper {
+
+		public SteamFurnace(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35, 83, 34, 37, 18);
+		}
+
+		@Override
+		protected double getBaseProcessTime() {
+			if (recipe == null) {
+				return processor_time[20];
+			}
+			return recipe.getBaseProcessTime(processor_time[20]);
+		}
+
+		@Override
+		protected double getBaseProcessPower() {
+			return 0;
+		}
+	}
+
+	public static class SteamCrusher extends JEIMachineRecipeWrapper {
+
+		public SteamCrusher(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35, 83, 34, 37, 18);
+		}
+
+		@Override
+		protected double getBaseProcessTime() {
+			if (recipe == null) {
+				return processor_time[20];
+			}
+			return recipe.getBaseProcessTime(processor_time[20]);
+		}
+
+		@Override
+		protected double getBaseProcessPower() {
+			return 0;
+		}
+	}
+
 	public static class Infuser extends JEIMachineRecipeWrapper {
 		
 		public Infuser(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {

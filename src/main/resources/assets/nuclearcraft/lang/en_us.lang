@@ -70,6 +70,15 @@ tile.nuclearcraft.alloy_furnace.desc=Combines base metals into alloys.
 tile.nuclearcraft.infuser.name=Fluid Infuser
 tile.nuclearcraft.infuser.desc=Enhances materials with fluids.
 
+tile.nuclearcraft.steam_furnace.name=Steam Furnace
+tile.nuclearcraft.steam_furnace.desc=Melts dusts with the power of steam.
+
+tile.nuclearcraft.steam_crusher.name=Steam Crusher
+tile.nuclearcraft.steam_crusher.desc=Crushes ores into dust with the power of steam.
+
+tile.nuclearcraft.steam_transformer.name=Steam Transformer
+tile.nuclearcraft.steam_transformer.desc=Transforms items with the power of steam.
+
 tile.nuclearcraft.melter.name=Melter
 tile.nuclearcraft.melter.desc=Melts down materials.
 

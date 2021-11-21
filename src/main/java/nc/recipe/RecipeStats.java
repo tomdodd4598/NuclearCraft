@@ -7,8 +7,8 @@ import nc.util.NCMath;
 
 public class RecipeStats {
 	
-	private static double[] processor_max_base_process_time = new double[19];
-	private static double[] processor_max_base_process_power = new double[19];
+	private static double[] processor_max_base_process_time = new double[22];
+	private static double[] processor_max_base_process_power = new double[22];
 	private static int decay_generator_max_power;
 	private static int fission_max_moderator_line_flux;
 	private static int scrubber_max_process_power;

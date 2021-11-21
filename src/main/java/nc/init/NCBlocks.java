@@ -72,7 +72,10 @@ public class NCBlocks {
 	public static Block extractor;
 	public static Block centrifuge;
 	public static Block rock_crusher;
-	
+	public static Block steam_furnace;
+	public static Block steam_crusher;
+	public static Block steam_transformer;
+
 	public static Block machine_interface;
 	
 	public static Block rtg_uranium;
@@ -267,7 +270,19 @@ public class NCBlocks {
 		if (register_processor[19]) {
 			rock_crusher = withName(new BlockProcessor(ProcessorType.ROCK_CRUSHER));
 		}
-		
+
+		if (register_processor[20]) {
+			steam_furnace = withName(new BlockProcessor(ProcessorType.STEAM_FURNACE));
+		}
+
+		if (register_processor[21]) {
+			steam_crusher = withName(new BlockProcessor(ProcessorType.STEAM_CRUSHER));
+		}
+
+		if (register_processor[22]) {
+			steam_transformer = withName(new BlockProcessor(ProcessorType.STEAM_TRANSFORMER));
+		}
+
 		machine_interface = withName(new BlockMachineInterface(SimpleTileType.MACHINE_INTERFACE));
 		
 		rtg_uranium = withName(new BlockRTG(RTGType.URANIUM), "rtg_uranium");
@@ -475,7 +490,16 @@ public class NCBlocks {
 		if (register_processor[19]) {
 			registerBlock(rock_crusher);
 		}
-		
+		if (register_processor[20]) {
+			registerBlock(steam_furnace);
+		}
+		if (register_processor[21]) {
+			registerBlock(steam_crusher);
+		}
+		if (register_processor[22]) {
+			registerBlock(steam_transformer);
+		}
+
 		registerBlock(machine_interface);
 		
 		registerBlock(rtg_uranium, InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(rtg_power[0], 5, "RF/t")));
@@ -690,7 +714,16 @@ public class NCBlocks {
 		if (register_processor[19]) {
 			registerRender(rock_crusher);
 		}
-		
+		if (register_processor[20]) {
+			registerRender(steam_furnace);
+		}
+		if (register_processor[21]) {
+			registerRender(steam_crusher);
+		}
+		if (register_processor[22]) {
+			registerRender(steam_transformer);
+		}
+
 		registerRender(machine_interface);
 		
 		registerRender(rtg_uranium);

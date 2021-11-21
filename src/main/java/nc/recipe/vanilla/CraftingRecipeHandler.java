@@ -129,7 +129,15 @@ public class CraftingRecipeHandler {
 		if (register_processor[19]) {
 			addShapedOreRecipe(NCBlocks.rock_crusher, new Object[] {"PMP", "ACA", "PTP", 'C', "chassis", 'P', "plateAdvanced", 'A', "actuator", 'T', "ingotTough", 'M', "motor"});
 		}
-		
+		if (register_processor[20]) {
+			addShapedOreRecipe(NCBlocks.steam_furnace, new Object[] {"PMP", "ACA", "PTP", 'C', "chassis", 'P', "plateAdvanced", 'A', "actuator", 'T', "ingotTough", 'M', "motor"});
+		}
+		if (register_processor[21]) {
+			addShapedOreRecipe(NCBlocks.steam_crusher, new Object[] {"PMP", "ACA", "PTP", 'C', "chassis", 'P', "plateAdvanced", 'A', "actuator", 'T', "ingotTough", 'M', "motor"});
+		}
+		if (register_processor[22]) {
+			addShapedOreRecipe(NCBlocks.steam_transformer, new Object[] {"PMP", "ACA", "PTP", 'C', "chassis", 'P', "plateAdvanced", 'A', "actuator", 'T', "ingotTough", 'M', "motor"});
+		}
 		addShapedOreRecipe(NCBlocks.machine_interface, new Object[] {" A ", "MCM", " S ", 'C', "chassis", 'A', "actuator", 'M', "motor", 'S', "servo"});
 		
 		addShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateBasic", 'U', "blockUranium238"});

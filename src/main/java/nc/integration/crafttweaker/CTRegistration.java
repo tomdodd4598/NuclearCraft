@@ -840,6 +840,9 @@ public class CTRegistration {
 					NCRecipes.infuser.addRecipe("ingot" + rawOre, AbstractRecipeHandler.fluidStack("nitrogen", BUCKET_VOLUME), "ingot" + rawOre + "Nitride", 1D, 1D);
 					NCRecipes.separator.addRecipe("ingot" + rawOre + "ZA", "ingot" + rawOre, "dustZirconium", 1D, 1D);
 					NCRecipes.separator.addRecipe("ingot" + rawOre + "Carbide", "ingot" + rawOre, "dustGraphite", 1D, 1D);
+					NCRecipes.steam_furnace.addRecipe("dust" + rawOre, AbstractRecipeHandler.fluidStack("steam", BUCKET_VOLUME), "ingot" + rawOre, 1D, 1D);
+					NCRecipes.steam_crusher.addRecipe("ore" + rawOre, AbstractRecipeHandler.fluidStack("steam", BUCKET_VOLUME), "dust" + rawOre, 1D, 1D);
+					NCRecipes.steam_transformer.addRecipe("ore" + rawOre, AbstractRecipeHandler.fluidStack("steam", BUCKET_VOLUME), "dust" + rawOre, 1D, 1D);
 				}
 				
 				if (rawOre != null && rawFluid != null) {

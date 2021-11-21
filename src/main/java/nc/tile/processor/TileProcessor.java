@@ -47,7 +47,27 @@ public class TileProcessor {
 			super("infuser", 1, 1, 1, 0, defaultItemSorptions(1, 1, true), defaultTankCapacities(16000, 1, 0), defaultTankSorptions(1, 0), NCRecipes.infuser_valid_fluids, processor_time[5], processor_power[5], true, NCRecipes.infuser, 6, 0);
 		}
 	}
-	
+
+	public static class SteamFurnace extends TileItemFluidProcessor {
+
+		public SteamFurnace() {
+			super("steam_furnace", 1, 1, 1, 0, defaultItemSorptions(1, 1, true), defaultTankCapacities(16000, 1, 0), defaultTankSorptions(1, 0), NCRecipes.steam_machines_valid_fluids, processor_time[20], 0, true, NCRecipes.steam_furnace, 20, 0);
+		}
+	}
+
+	public static class SteamCrusher extends TileItemFluidProcessor {
+
+		public SteamCrusher() {
+			super("steam_crusher", 1, 1, 1, 0, defaultItemSorptions(1, 1, true), defaultTankCapacities(16000, 1, 0), defaultTankSorptions(1, 0), NCRecipes.steam_machines_valid_fluids, processor_time[20], 0, true, NCRecipes.steam_crusher, 21, 0);
+		}
+	}
+
+	public static class SteamTransformer extends TileItemFluidProcessor {
+		public SteamTransformer() {
+			super("steam_transformer", 1, 1, 1, 0, defaultItemSorptions(1, 1, true), defaultTankCapacities(16000, 1, 0), defaultTankSorptions(1, 0), NCRecipes.steam_machines_valid_fluids, processor_time[20], 0, true, NCRecipes.steam_transformer, 22, 0);
+		}
+	}
+
 	public static class Melter extends TileItemFluidProcessor {
 		
 		public Melter() {

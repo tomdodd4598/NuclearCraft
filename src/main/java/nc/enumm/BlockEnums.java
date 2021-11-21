@@ -34,8 +34,11 @@ public class BlockEnums {
 		ENRICHER("enricher", 16, "splash", "depthsuspend"),
 		EXTRACTOR("extractor", 17, "reddust", "depthsuspend"),
 		CENTRIFUGE("centrifuge", 18, "endRod", "depthsuspend"),
-		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke");
-		
+		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke"),
+		STEAM_FURNACE("steam_furnace", 20, "smoke", "reddust"),
+		STEAM_CRUSHER("steam_crusher", 21, "smoke", "reddust"),
+		STEAM_TRANSFORMER("steam_transformer", 22, "smoke", "reddust");
+
 		private final String name;
 		private final int id;
 		private final String particle1;
@@ -71,6 +74,12 @@ public class BlockEnums {
 					return new TileProcessor.AlloyFurnace();
 				case INFUSER:
 					return new TileProcessor.Infuser();
+				case STEAM_FURNACE:
+					return new TileProcessor.SteamFurnace();
+				case STEAM_CRUSHER:
+					return new TileProcessor.SteamCrusher();
+				case STEAM_TRANSFORMER:
+					return new TileProcessor.SteamTransformer();
 				case MELTER:
 					return new TileProcessor.Melter();
 				case SUPERCOOLER:
@@ -97,7 +106,7 @@ public class BlockEnums {
 					return new TileProcessor.Centrifuge();
 				case ROCK_CRUSHER:
 					return new TileProcessor.RockCrusher();
-				
+
 				default:
 					return null;
 			}
@@ -117,6 +126,12 @@ public class BlockEnums {
 					return NCBlocks.alloy_furnace;
 				case INFUSER:
 					return NCBlocks.infuser;
+				case STEAM_FURNACE:
+					return NCBlocks.steam_furnace;
+				case STEAM_CRUSHER:
+					return NCBlocks.steam_crusher;
+				case STEAM_TRANSFORMER:
+					return NCBlocks.steam_transformer;
 				case MELTER:
 					return NCBlocks.melter;
 				case SUPERCOOLER:
