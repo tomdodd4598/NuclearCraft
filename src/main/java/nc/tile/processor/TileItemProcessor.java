@@ -7,6 +7,8 @@ import java.util.*;
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.init.NCItems;
@@ -24,8 +26,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import li.cil.oc.api.machine.*;
+import li.cil.oc.api.network.SimpleComponent;
+import net.minecraftforge.fml.common.Optional;
 
-public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, ITileGui<ProcessorUpdatePacket>, IUpgradable {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, ITileGui<ProcessorUpdatePacket>, IUpgradable, SimpleComponent {
 	
 	public final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
@@ -41,6 +47,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
+
+	protected String processorName;
+	protected boolean oc_stop_flag = false;
 	
 	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
 		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeHandler, processorID, sideConfigYOffset);
@@ -50,7 +59,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(processorID, 1D, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
-		
+		processorName = name;
 		defaultProcessTime = time;
 		defaultProcessPower = power;
 		baseProcessTime = time;
@@ -65,7 +74,64 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}
-	
+
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public String getComponentName() {
+		return processorName;
+	}
+
+	@Callback(doc = "--function(): returns % of recipe progress")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getRecipeProgress(Context context, Arguments args) {
+		return new Object[] {isProcessing ? (time/getProcessTime())*100 : 0};
+	}
+
+	@Callback(doc = "--function(): returns recipe data")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getRecipeInfo(Context context, Arguments args) {
+		Object2ObjectMap<String, Object> input = new Object2ObjectLinkedOpenHashMap<>();
+		Object2ObjectMap<String, Object> output = new Object2ObjectLinkedOpenHashMap<>();
+		Object2ObjectMap<String, Object> result = new Object2ObjectLinkedOpenHashMap<>();
+		int i = 0;
+
+		for( IItemIngredient ing : recipeInfo.getRecipe().getItemIngredients()) {
+			ItemStack item = getInventoryStacks().get(i);
+			input.put(i+"_name",item.getItem().getTranslationKey());
+			input.put(i+"_qty",item.getCount());
+			i++;
+		}
+
+		i = 0;
+		for( IItemIngredient ing : recipeInfo.getRecipe().getItemProducts()) {
+			output.put(i+"_name",ing.getIngredientName());
+			i++;
+		}
+		result.put("input",input);
+		result.put("output",output);
+		return new Object[] {result};
+	}
+
+	@Callback(doc = "--function(): pause process")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] stopProcessor(Context context, Arguments args) {
+		if( ! oc_stop_flag) {
+			oc_stop_flag = true;
+			isProcessing = false;
+		}
+		return new Object[] {isProcessing};
+	}
+
+	@Callback(doc = "--function(): resume process")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] startProcessor(Context context, Arguments args) {
+		if(oc_stop_flag) {
+			oc_stop_flag = false;
+			isProcessing = true;
+		}
+		return new Object[] {isProcessing};
+	}
+
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, boolean upgrades) {
 		List<ItemSorption> itemSorptions = new ArrayList<>();
 		for (int i = 0; i < inSize; i++) {
@@ -177,7 +243,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess() && !isHaltedByRedstone();
+		return readyToProcess() && !isHaltedByRedstone() && !oc_stop_flag;
 	}
 	
 	public boolean isHaltedByRedstone() {
