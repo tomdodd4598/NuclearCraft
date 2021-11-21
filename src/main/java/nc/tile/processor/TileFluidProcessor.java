@@ -44,8 +44,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	public double time, resetTime;
 	public boolean isProcessing, canProcessInputs;
 	
-	public final boolean shouldLoseProgress, hasUpgrades;
-	public final int processorID, sideConfigYOffset;
+	public final boolean shouldLoseProgress, hasUpgrades;public final int processorID, sideConfigYOffset;
 	
 	public final BasicRecipeHandler recipeHandler;
 	protected RecipeInfo<BasicRecipe> recipeInfo;
