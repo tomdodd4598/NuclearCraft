@@ -117,32 +117,32 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	public Object[] getCoolingEfficiency(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().coolingEfficiency : 0D};
 	}*/
-	
-	@Callback
+
+	@Callback(doc = "--function(): returns number of cells")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfCells(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSolidFissionCell.class).size() : 0};
 	}
-	
-	@Callback
+
+	@Callback(doc = "--function(): returns number of vessels")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfVessels(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionVessel.class).size() : 0};
 	}
-	
-	@Callback
+
+	@Callback(doc = "--function(): returns number of heaters")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfHeaters(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionHeater.class).size() : 0};
 	}
-	
-	@Callback
+
+	@Callback(doc = "--function(): returns number of shields")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfShields(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileFissionShield.class).size() : 0};
 	}
-	
-	@Callback
+
+	@Callback(doc = "--function(): returns number of clusters")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfClusters(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().clusterCount : 0};
@@ -209,9 +209,8 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		}
 		return new Object[] {};
 	}*/
-	
-	//TODO
-	@Callback
+
+	@Callback(doc = "--function(int cellID): returns table")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getCellStats(Context context, Arguments args) {
 		List<Map<String, Object>> cellData = new ArrayList<>();
@@ -244,18 +243,28 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		}
 		return new Object[] {cellData.toArray()};
 	}
-	
-	//TODO - currently broken!
+
+	@Callback(doc = "--function(int shieldID): returns true if success or error text if not. Ignores redstone signal from Shield Manager")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] updateShieldState(Context context, Arguments args) {
+	public Object[] activateShield(Context context, Arguments args) {
+		int shieldId = args.checkInteger(0);
+		return updateShieldState(shieldId,true);
+	}
+
+	@Callback(doc = "--function(int shieldID): returns false if success or error text if not. Ignores redstone signal from Shield Manager")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] deactivateShield(Context context, Arguments args) {
+		int shieldId = args.checkInteger(0);
+		return updateShieldState(shieldId,false);
+	}
+
+	public Object[] updateShieldState(int shieldId, boolean shieldState) {
 		boolean activated = false;
 		if (isMultiblockAssembled()) {
 			Long2ObjectMap<TileFissionShield> shieldMap = getMultiblock().getPartMap(TileFissionShield.class);
 			if (shieldMap.size() == 0) {
 				return new Object[] {"No neutron shields found!"};
 			}
-			int shieldId = args.checkInteger(0);
-			boolean shieldState = args.checkBoolean(1);
 			if (shieldId >= shieldMap.size()) {
 				return new Object[] {"Incorrect neutron shield ID!"};
 			}
@@ -275,9 +284,45 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		}
 		return new Object[] {activated};
 	}
-	
-	//TODO
-	@Callback
+
+	@Callback(doc = "--function(): returns number of irradiators")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfIrradiators(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileFissionIrradiator.class).size() : 0};
+	}
+
+	@Callback(doc = "--function(int irradiatorID): returns table")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getIrradiatorStats(Context context, Arguments args) {
+		List<Map<String, Object>> cellData = new ArrayList<>();
+		if (isMultiblockAssembled()) {
+			Collection<TileFissionIrradiator> irradiators = getMultiblock().getParts(TileFissionIrradiator.class);
+			for (TileFissionIrradiator irradiator : irradiators) {
+				Object2ObjectMap<String, Object> entry = new Object2ObjectLinkedOpenHashMap<>();
+				ItemStack inputItem = irradiator.getInventoryStacks().get(0);
+				if (inputItem.isEmpty()) {
+					entry.put("input", new Object[] {0, "null"});
+				}
+				else {
+					entry.put("input", new Object[] {inputItem.getCount(), StackHelper.stackName(inputItem)});
+				}
+				entry.put("base_process_time", irradiator.baseProcessTime);
+				entry.put("base_process_radiation", irradiator.baseProcessRadiation);
+				entry.put("base_process_efficiency", irradiator.baseProcessEfficiency);
+				entry.put("base_process_heat_per_flux", irradiator.baseProcessHeatPerFlux);
+				entry.put("effective_heating", irradiator.getEffectiveHeating());
+				entry.put("time", irradiator.time);
+				entry.put("is_processing", irradiator.isProcessing);
+				entry.put("flux", irradiator.flux);
+				cellData.add(entry);
+			}
+		}
+		return new Object[] {cellData.toArray()};
+	}
+
+
+
+	@Callback(doc = "--function(int clusterID): return table of components in cluster")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getClusterComponents(Context context, Arguments args) {
 		List<Map<String, Object>> componentsData = new ArrayList<>();
@@ -305,7 +350,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		}
 		return new Object[] {componentsData.toArray()};
 	}
-	
+
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] clearAllMaterial(Context context, Arguments args) {
