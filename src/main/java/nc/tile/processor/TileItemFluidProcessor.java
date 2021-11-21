@@ -5,7 +5,13 @@ import java.util.*;
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
@@ -26,8 +32,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Optional;
 
-public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implements IItemFluidProcessor, ITileGui<ProcessorUpdatePacket>, IUpgradable {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implements IItemFluidProcessor, ITileGui<ProcessorUpdatePacket>, IUpgradable, SimpleComponent {
 	
 	public final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
@@ -43,7 +51,9 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
-	
+	protected boolean oc_stop_flag;
+	protected String processorName;
+
 	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull IntList fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
 		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, itemSorptions, fluidCapacity, tankSorptions, allowedFluids, time, power, shouldLoseProgress, true, recipeHandler, processorID, sideConfigYOffset);
 	}
@@ -59,7 +69,8 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		defaultProcessPower = power;
 		baseProcessTime = time;
 		baseProcessPower = power;
-		
+		processorName = name;
+
 		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
 		this.processorID = processorID;
@@ -70,7 +81,82 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		
 		playersToUpdate = new ObjectOpenHashSet<>();
 	}
-	
+
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public String getComponentName() {
+		return processorName;
+	}
+
+	@Callback(doc = "--function(): returns % of recipe progress")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getRecipeProgress(Context context, Arguments args) {
+		return new Object[] {isProcessing ? (time/getProcessTime())*100 : 0};
+	}
+
+	@Callback(doc = "--function(): returns recipe data")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getRecipeInfo(Context context, Arguments args) {
+		Object2ObjectMap<String, Object> inputItems = new Object2ObjectLinkedOpenHashMap<>();
+		Object2ObjectMap<String, Object> inputFluids = new Object2ObjectLinkedOpenHashMap<>();
+		Object2ObjectMap<String, Object> outputItems = new Object2ObjectLinkedOpenHashMap<>();
+		Object2ObjectMap<String, Object> outputFluids = new Object2ObjectLinkedOpenHashMap<>();
+		Object2ObjectMap<String, Object> result = new Object2ObjectLinkedOpenHashMap<>();
+		int i = 0;
+
+		for( IItemIngredient ing : recipeInfo.getRecipe().getItemIngredients()) {
+			ItemStack item = getInventoryStacks().get(i);
+			inputItems.put(i+"_name",item.getItem().getTranslationKey());
+			inputItems.put(i+"_qty",item.getCount());
+			i++;
+		}
+
+		i = 0;
+		for( IFluidIngredient ing : recipeInfo.getRecipe().getFluidIngredients()) {
+			Tank fluid = getFluidInputs().get(i);
+			inputFluids.put(i+"_name",fluid.getFluid().getUnlocalizedName());
+			inputFluids.put(i+"_qty",fluid.getFluidAmount());
+			i++;
+		}
+
+		i = 0;
+		for( IItemIngredient ing : recipeInfo.getRecipe().getItemProducts()) {
+			outputItems.put(i+"_name",ing.getIngredientName());
+			i++;
+		}
+
+		i = 0;
+		for( IFluidIngredient ing : recipeInfo.getRecipe().getFluidProducts()) {
+			outputFluids.put(i+"_name",ing.getIngredientName());
+			i++;
+		}
+		result.put("input_items",inputItems);
+		result.put("input_fluids",inputFluids);
+		result.put("output_items",outputItems);
+		result.put("output_fluids",outputFluids);
+		return new Object[] {result};
+	}
+
+	@Callback(doc = "--function(): pause process")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] stopProcessor(Context context, Arguments args) {
+		if( ! oc_stop_flag) {
+			oc_stop_flag = true;
+			isProcessing = false;
+		}
+		return new Object[] {isProcessing};
+	}
+
+	@Callback(doc = "--function(): resume process")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] startProcessor(Context context, Arguments args) {
+		if(oc_stop_flag) {
+			oc_stop_flag = false;
+			isProcessing = true;
+		}
+		return new Object[] {isProcessing};
+	}
+
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, boolean upgrades) {
 		List<ItemSorption> itemSorptions = new ArrayList<>();
 		for (int i = 0; i < inSize; i++) {
@@ -201,7 +287,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess() && !isHaltedByRedstone();
+		return readyToProcess() && !isHaltedByRedstone()  && !oc_stop_flag;
 	}
 	
 	public boolean isHaltedByRedstone() {
