@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.FissionReactorLogic;
 import nc.recipe.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,65 +16,65 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileFissionSource extends TileFissionPart {
-	
+
 	protected double efficiency;
-	
+
 	public EnumFacing facing = EnumFacing.DOWN;
-	
+
 	/** Don't use this constructor! */
 	public TileFissionSource() {
 		super(CuboidalPartPositionType.WALL);
 	}
-	
+
 	public TileFissionSource(double efficiency) {
 		this();
 		this.efficiency = efficiency;
 	}
-	
+
 	protected static class Meta extends TileFissionSource {
-		
+
 		protected Meta(MetaEnums.NeutronSourceType type) {
 			super(type.getEfficiency());
 		}
-		
+
 		@Override
 		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 			return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
 		}
 	}
-	
+
 	public static class RadiumBeryllium extends Meta {
-		
+
 		public RadiumBeryllium() {
 			super(MetaEnums.NeutronSourceType.RADIUM_BERYLLIUM);
 		}
 	}
-	
+
 	public static class PoloniumBeryllium extends Meta {
-		
+
 		public PoloniumBeryllium() {
 			super(MetaEnums.NeutronSourceType.POLONIUM_BERYLLIUM);
 		}
 	}
-	
+
 	public static class Californium extends Meta {
-		
+
 		public Californium() {
 			super(MetaEnums.NeutronSourceType.CALIFORNIUM);
 		}
 	}
-	
+
 	@Override
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 	}
-	
+
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
 	}
-	
+
 	@Override
 	public @Nonnull PartPosition getPartPosition() {
 		PartPosition partPos = super.getPartPosition();
@@ -82,7 +83,7 @@ public class TileFissionSource extends TileFissionPart {
 		}
 		return partPos;
 	}
-	
+
 	@Override
 	public int[] weakSidesToCheck(World world, BlockPos pos) {
 		return new int[] {2, 3, 4, 5};
@@ -93,17 +94,20 @@ public class TileFissionSource extends TileFissionPart {
 		world.neighborChanged(pos, getBlockType(), pos);
 		super.onLoad();
 	}*/
-	
+
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasRedstonePowered = getIsRedstonePowered();
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		setActivity(getIsRedstonePowered());
 		if (!world.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
-			getLogic().onSourceUpdated(this);
+			FissionReactorLogic logic = getLogic();
+			if (logic != null) {
+				logic.onSourceUpdated(this);
+			}
 		}
 	}
-	
+
 	public PrimingTargetInfo getPrimingTarget(boolean simulate) {
 		EnumFacing facing = getPartPosition().getFacing();
 		if (facing == null) {
@@ -138,18 +142,18 @@ public class TileFissionSource extends TileFissionPart {
 		}
 		return null;
 	}
-	
+
 	public static class PrimingTargetInfo {
-		
+
 		public final IFissionFuelComponent fuelComponent;
 		public final boolean newSourceEfficiency;
-		
+
 		PrimingTargetInfo(IFissionFuelComponent fuelComponent, boolean newSourceEfficiency) {
 			this.fuelComponent = fuelComponent;
 			this.newSourceEfficiency = newSourceEfficiency;
 		}
 	}
-	
+
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
@@ -157,7 +161,7 @@ public class TileFissionSource extends TileFissionPart {
 		nbt.setDouble("efficiency", efficiency);
 		return nbt;
 	}
-	
+
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
