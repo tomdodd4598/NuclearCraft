@@ -12,7 +12,7 @@
 			"block2": "nuclearcraft:rtg_plutonium",
 			"block3": "nuclearcraft:rtg_americium",
 			"block4": "nuclearcraft:rtg_californium",
-			"text": "这些方块通过放射性元素的衰变来产生能量。当它们相互接触时将会形成多方块结构。"
+			"text": "$(item)放射性热核发电机$()通过放射性元素的衰变来产生能量。它们相互接触会形成多方块结构并共享能量。"
 		}
 	]
 }

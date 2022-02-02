@@ -1,7 +1,7 @@
 {
 	"name": "多功能工具",
 	"icon": "nuclearcraft:multitool",
-	"category": "nuclearcraft:multiblocks",
+	"category": "nuclearcraft:items",
 	"sortnum": 3,
 	"pages": [
 		{
@@ -9,7 +9,7 @@
 			"type": "items/1",
 			"header": "多功能工具",
 			"item": "nuclearcraft:multitool",
-			"text": "这个工具用于与各类多方块结构组件进行各种各样的互动。极度推荐随身携带！"
+			"text": "$(item)多功能工具$()用于与各类多方块结构组件进行各种各样的互动。极度推荐随身携带！"
 		}
 	]
 }
