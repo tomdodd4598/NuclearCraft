@@ -1644,7 +1644,7 @@ item.nuclearcraft.part.pyrolytic_carbon.name=热解碳
 item.nuclearcraft.upgrade.speed.name=速度升级
 item.nuclearcraft.upgrade.speed_desc=以消耗更多能量为代价提高机器的处理速度。可堆叠——每个速度升级都会%s速度，并%s能量消耗。
 item.nuclearcraft.upgrade.energy.name=能量升级
-item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠——每个能量升级都会%s能量消耗，但是最大的有效率量升级数量速度升级的数量。
+item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠——每个能量升级都会%s能量消耗，但是最大的有效能量升级数量等于速度升级的数量。
 
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
