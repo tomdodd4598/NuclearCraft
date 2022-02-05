@@ -1776,67 +1776,67 @@ item.nuclearcraft.californium.252_ni.name=锎-252 氮化物
 item.nuclearcraft.californium.252_za.name=锎-252-锆合金
 
 item.nuclearcraft.pellet_thorium.tbu.name=钍-增殖铀 燃料
-item.nuclearcraft.pellet_thorium.tbu_c.name=钍-增殖铀 燃料 碳化物
+item.nuclearcraft.pellet_thorium.tbu_c.name=钍-增殖铀 燃料碳化物
 
 item.nuclearcraft.pellet_uranium.leu_233.name=低浓缩 铀-233 燃料
-item.nuclearcraft.pellet_uranium.leu_233_c.name=低浓缩 铀-233 燃料 碳化物
+item.nuclearcraft.pellet_uranium.leu_233_c.name=低浓缩 铀-233 燃料碳化物
 item.nuclearcraft.pellet_uranium.heu_233.name=高浓缩 铀-233 燃料
-item.nuclearcraft.pellet_uranium.heu_233_c.name=高浓缩 铀-233 燃料 碳化物
+item.nuclearcraft.pellet_uranium.heu_233_c.name=高浓缩 铀-233 燃料碳化物
 item.nuclearcraft.pellet_uranium.leu_235.name=低浓缩 铀-235 燃料
-item.nuclearcraft.pellet_uranium.leu_235_c.name=低浓缩 铀-235 燃料 碳化物
+item.nuclearcraft.pellet_uranium.leu_235_c.name=低浓缩 铀-235 燃料碳化物
 item.nuclearcraft.pellet_uranium.heu_235.name=高浓缩 铀-235 燃料
-item.nuclearcraft.pellet_uranium.heu_235_c.name=高浓缩 铀-235 燃料 碳化物
+item.nuclearcraft.pellet_uranium.heu_235_c.name=高浓缩 铀-235 燃料碳化物
 
 item.nuclearcraft.pellet_neptunium.len_236.name=低浓缩 镎-236 燃料
-item.nuclearcraft.pellet_neptunium.len_236_c.name=低浓缩 镎-236 燃料 碳化物
+item.nuclearcraft.pellet_neptunium.len_236_c.name=低浓缩 镎-236 燃料碳化物
 item.nuclearcraft.pellet_neptunium.hen_236.name=高浓缩 镎-236 燃料
-item.nuclearcraft.pellet_neptunium.hen_236_c.name=高浓缩 镎-236 燃料 碳化物
+item.nuclearcraft.pellet_neptunium.hen_236_c.name=高浓缩 镎-236 燃料碳化物
 
 item.nuclearcraft.pellet_plutonium.lep_239.name=低浓缩 钚-239 燃料
-item.nuclearcraft.pellet_plutonium.lep_239_c.name=低浓缩 钚-239 燃料 碳化物
+item.nuclearcraft.pellet_plutonium.lep_239_c.name=低浓缩 钚-239 燃料碳化物
 item.nuclearcraft.pellet_plutonium.hep_239.name=高浓缩 钚-239 燃料
-item.nuclearcraft.pellet_plutonium.hep_239_c.name=高浓缩 钚-239 燃料 碳化物
+item.nuclearcraft.pellet_plutonium.hep_239_c.name=高浓缩 钚-239 燃料碳化物
 item.nuclearcraft.pellet_plutonium.lep_241.name=低浓缩 钚-241 燃料
-item.nuclearcraft.pellet_plutonium.lep_241_c.name=低浓缩 钚-241 燃料 碳化物
+item.nuclearcraft.pellet_plutonium.lep_241_c.name=低浓缩 钚-241 燃料碳化物
 item.nuclearcraft.pellet_plutonium.hep_241.name=高浓缩 钚-241 燃料
-item.nuclearcraft.pellet_plutonium.hep_241_c.name=高浓缩 钚-241 燃料 碳化物
+item.nuclearcraft.pellet_plutonium.hep_241_c.name=高浓缩 钚-241 燃料碳化物
 
 item.nuclearcraft.pellet_mixed.mix_239.name=混合物-239 燃料
-item.nuclearcraft.pellet_mixed.mix_239_c.name=混合物-239 燃料 碳化物
+item.nuclearcraft.pellet_mixed.mix_239_c.name=混合物-239 燃料碳化物
 item.nuclearcraft.pellet_mixed.mix_241.name=混合物-241 燃料
-item.nuclearcraft.pellet_mixed.mix_241_c.name=混合物-241 燃料 碳化物
+item.nuclearcraft.pellet_mixed.mix_241_c.name=混合物-241 燃料碳化物
 
 item.nuclearcraft.pellet_americium.lea_242.name=低浓缩 镅-242 燃料
-item.nuclearcraft.pellet_americium.lea_242_c.name=低浓缩 镅-242 燃料 碳化物
+item.nuclearcraft.pellet_americium.lea_242_c.name=低浓缩 镅-242 燃料碳化物
 item.nuclearcraft.pellet_americium.hea_242.name=高浓缩 镅-242 燃料
-item.nuclearcraft.pellet_americium.hea_242_c.name=高浓缩 镅-242 燃料 碳化物
+item.nuclearcraft.pellet_americium.hea_242_c.name=高浓缩 镅-242 燃料碳化物
 
 item.nuclearcraft.pellet_curium.lecm_243.name=低浓缩 锔-243 燃料
-item.nuclearcraft.pellet_curium.lecm_243_c.name=低浓缩 锔-243 燃料 碳化物
+item.nuclearcraft.pellet_curium.lecm_243_c.name=低浓缩 锔-243 燃料碳化物
 item.nuclearcraft.pellet_curium.hecm_243.name=高浓缩 锔-243 燃料
-item.nuclearcraft.pellet_curium.hecm_243_c.name=高浓缩 锔-243 燃料 碳化物
+item.nuclearcraft.pellet_curium.hecm_243_c.name=高浓缩 锔-243 燃料碳化物
 item.nuclearcraft.pellet_curium.lecm_245.name=低浓缩 锔-245 燃料
-item.nuclearcraft.pellet_curium.lecm_245_c.name=低浓缩 锔-245 燃料 碳化物
+item.nuclearcraft.pellet_curium.lecm_245_c.name=低浓缩 锔-245 燃料碳化物
 item.nuclearcraft.pellet_curium.hecm_245.name=高浓缩 锔-245 燃料
-item.nuclearcraft.pellet_curium.hecm_245_c.name=高浓缩 锔-245 燃料 碳化物
+item.nuclearcraft.pellet_curium.hecm_245_c.name=高浓缩 锔-245 燃料碳化物
 item.nuclearcraft.pellet_curium.lecm_247.name=低浓缩 锔-247 燃料
-item.nuclearcraft.pellet_curium.lecm_247_c.name=低浓缩 锔-247 燃料 碳化物
+item.nuclearcraft.pellet_curium.lecm_247_c.name=低浓缩 锔-247 燃料碳化物
 item.nuclearcraft.pellet_curium.hecm_247.name=高浓缩 锔-247 燃料
-item.nuclearcraft.pellet_curium.hecm_247_c.name=高浓缩 锔-247 燃料 碳化物
+item.nuclearcraft.pellet_curium.hecm_247_c.name=高浓缩 锔-247 燃料碳化物
 
 item.nuclearcraft.pellet_berkelium.leb_248.name=低浓缩 锫-248 燃料
-item.nuclearcraft.pellet_berkelium.leb_248_c.name=低浓缩 锫-248 燃料 碳化物
+item.nuclearcraft.pellet_berkelium.leb_248_c.name=低浓缩 锫-248 燃料碳化物
 item.nuclearcraft.pellet_berkelium.heb_248.name=高浓缩 锫-248 燃料
-item.nuclearcraft.pellet_berkelium.heb_248_c.name=高浓缩 锫-248 燃料 碳化物
+item.nuclearcraft.pellet_berkelium.heb_248_c.name=高浓缩 锫-248 燃料碳化物
 
 item.nuclearcraft.pellet_californium.lecf_249.name=低浓缩 锎-249 燃料
-item.nuclearcraft.pellet_californium.lecf_249_c.name=低浓缩 锎-249 燃料 碳化物
+item.nuclearcraft.pellet_californium.lecf_249_c.name=低浓缩 锎-249 燃料碳化物
 item.nuclearcraft.pellet_californium.hecf_249.name=高浓缩 锎-249 燃料
-item.nuclearcraft.pellet_californium.hecf_249_c.name=高浓缩 锎-249 燃料 碳化物
+item.nuclearcraft.pellet_californium.hecf_249_c.name=高浓缩 锎-249 燃料碳化物
 item.nuclearcraft.pellet_californium.lecf_251.name=低浓缩 锎-251 燃料
-item.nuclearcraft.pellet_californium.lecf_251_c.name=低浓缩 锎-251 燃料 碳化物
+item.nuclearcraft.pellet_californium.lecf_251_c.name=低浓缩 锎-251 燃料碳化物
 item.nuclearcraft.pellet_californium.hecf_251.name=高浓缩 锎-251 燃料
-item.nuclearcraft.pellet_californium.hecf_251_c.name=高浓缩 锎-251 燃料 碳化物
+item.nuclearcraft.pellet_californium.hecf_251_c.name=高浓缩 锎-251 燃料碳化物
 
 item.nuclearcraft.fuel_thorium.tbu_tr.name=钍-增殖铀 TRISO 燃料颗粒
 item.nuclearcraft.fuel_thorium.tbu_ox.name=钍-增殖铀 氧化物燃料丸
@@ -3525,7 +3525,7 @@ death.attack.fatal_rads=%s 受到了致命剂量的辐射
 
 # 指导手册
 
-nc.guide_book.name=核电工艺手册（翻译未完成）
+nc.guide_book.name=核电工艺手册
 nc.guide_book.edition=重制版
 nc.guide_book.desc=核电工艺是一个以核能发电为中心的科技模组。尽管出于对游戏体验的考虑存有一定的简化、更改及抽象，本模组的多数特性与机制都以对应的现实科技为基础。
 
@@ -3689,6 +3689,7 @@ nc.sf.power_adverb_preposition=%2$s%1$s
 nc.sf.with=
 
 # 需检查不符合《中文文案排版指北》的内容（不涉及运算符号）
+# QMD 中文维基里面带根号的每个算式都需要维护
 ############################################################################
 ####### 词典 #######
 # 鉴于我比较懒，只收录 容易出错/值得辨析/值得商榷 的内容，但谁要有工夫也可以把别的都挪进来
