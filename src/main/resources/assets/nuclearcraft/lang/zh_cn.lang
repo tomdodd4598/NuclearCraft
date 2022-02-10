@@ -829,14 +829,14 @@ fluid.californium_252=熔融锎-252
 tile.nuclearcraft.fluid_californium_252_za.name=熔融锎-252-锆合金
 fluid.californium_252_za=熔融锎-252-锆合金
 
-tile.nuclearcraft.fluid_tbu.name=熔融钍-增殖铀
-fluid.tbu=熔融钍-增殖铀
-tile.nuclearcraft.fluid_tbu_fluoride.name=熔融钍-增殖铀 氟化物
-fluid.tbu_fluoride=熔融钍-增殖铀 氟化物
-tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=熔融钍-增殖铀 氟化物燃料氟锂铍盐溶液
-fluid.tbu_fluoride_flibe=熔融钍-增殖铀 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_tbu_za.name=熔融钍-增殖铀-锆合金
-fluid.tbu_za=熔融钍-增殖铀-锆合金
+tile.nuclearcraft.fluid_tbu.name=熔融钍增殖铀
+fluid.tbu=熔融钍增殖铀
+tile.nuclearcraft.fluid_tbu_fluoride.name=熔融钍增殖铀 氟化物
+fluid.tbu_fluoride=熔融钍增殖铀 氟化物
+tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=熔融钍增殖铀 氟化物燃料氟锂铍盐溶液
+fluid.tbu_fluoride_flibe=熔融钍增殖铀 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_tbu_za.name=熔融钍增殖铀-锆合金
+fluid.tbu_za=熔融钍增殖铀-锆合金
 
 tile.nuclearcraft.fluid_leu_233.name=熔融低浓缩铀-233
 fluid.leu_233=熔融低浓缩铀-233
@@ -1072,14 +1072,14 @@ fluid.hecf_251_fluoride_flibe=熔融高浓缩锎-251 氟化物燃料氟锂铍盐
 tile.nuclearcraft.fluid_hecf_251_za.name=熔融高浓缩锎-251-锆合金
 fluid.hecf_251_za=熔融高浓缩锎-251-锆合金
 
-tile.nuclearcraft.fluid_depleted_tbu.name=熔融枯竭钍-增殖铀燃料
-fluid.depleted_tbu=熔融枯竭钍-增殖铀燃料
-tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=熔融枯竭钍-增殖铀 氟化物
-fluid.depleted_tbu_fluoride=熔融枯竭钍-增殖铀 氟化物
-tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=熔融枯竭钍-增殖铀 氟化物燃料氟锂铍盐溶液
-fluid.depleted_tbu_fluoride_flibe=熔融枯竭钍-增殖铀 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_tbu_za.name=熔融枯竭钍-增殖铀-锆合金
-fluid.depleted_tbu_za=熔融枯竭钍-增殖铀-锆合金
+tile.nuclearcraft.fluid_depleted_tbu.name=熔融枯竭钍增殖铀燃料
+fluid.depleted_tbu=熔融枯竭钍增殖铀燃料
+tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=熔融枯竭钍增殖铀 氟化物
+fluid.depleted_tbu_fluoride=熔融枯竭钍增殖铀 氟化物
+tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=熔融枯竭钍增殖铀 氟化物燃料氟锂铍盐溶液
+fluid.depleted_tbu_fluoride_flibe=熔融枯竭钍增殖铀 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_tbu_za.name=熔融枯竭钍增殖铀-锆合金
+fluid.depleted_tbu_za=熔融枯竭钍增殖铀-锆合金
 
 tile.nuclearcraft.fluid_depleted_leu_233.name=熔融枯竭低浓缩铀-233
 fluid.depleted_leu_233=熔融枯竭低浓缩铀-233
@@ -1775,8 +1775,8 @@ item.nuclearcraft.californium.252_ox.name=锎-252 氧化物
 item.nuclearcraft.californium.252_ni.name=锎-252 氮化物
 item.nuclearcraft.californium.252_za.name=锎-252-锆合金
 
-item.nuclearcraft.pellet_thorium.tbu.name=钍-增殖铀 燃料
-item.nuclearcraft.pellet_thorium.tbu_c.name=钍-增殖铀 燃料碳化物
+item.nuclearcraft.pellet_thorium.tbu.name=钍增殖铀 燃料
+item.nuclearcraft.pellet_thorium.tbu_c.name=钍增殖铀 燃料碳化物
 
 item.nuclearcraft.pellet_uranium.leu_233.name=低浓缩铀-233 燃料
 item.nuclearcraft.pellet_uranium.leu_233_c.name=低浓缩铀-233 燃料碳化物
@@ -1801,10 +1801,10 @@ item.nuclearcraft.pellet_plutonium.lep_241_c.name=低浓缩钚-241 燃料碳化�
 item.nuclearcraft.pellet_plutonium.hep_241.name=高浓缩钚-241 燃料
 item.nuclearcraft.pellet_plutonium.hep_241_c.name=高浓缩钚-241 燃料碳化物
 
-item.nuclearcraft.pellet_mixed.mix_239.name=混合物-239 燃料
-item.nuclearcraft.pellet_mixed.mix_239_c.name=混合物-239 燃料碳化物
-item.nuclearcraft.pellet_mixed.mix_241.name=混合物-241 燃料
-item.nuclearcraft.pellet_mixed.mix_241_c.name=混合物-241 燃料碳化物
+item.nuclearcraft.pellet_mixed.mix_239.name=混合物-239 
+item.nuclearcraft.pellet_mixed.mix_239_c.name=混合物-239 碳化物
+item.nuclearcraft.pellet_mixed.mix_241.name=混合物-241 
+item.nuclearcraft.pellet_mixed.mix_241_c.name=混合物-241 碳化物
 
 item.nuclearcraft.pellet_americium.lea_242.name=低浓缩镅-242 燃料
 item.nuclearcraft.pellet_americium.lea_242_c.name=低浓缩镅-242 燃料碳化物
@@ -1838,10 +1838,10 @@ item.nuclearcraft.pellet_californium.lecf_251_c.name=低浓缩锎-251 燃料碳�
 item.nuclearcraft.pellet_californium.hecf_251.name=高浓缩锎-251 燃料
 item.nuclearcraft.pellet_californium.hecf_251_c.name=高浓缩锎-251 燃料碳化物
 
-item.nuclearcraft.fuel_thorium.tbu_tr.name=钍-增殖铀 TRISO 燃料颗粒
-item.nuclearcraft.fuel_thorium.tbu_ox.name=钍-增殖铀 氧化物燃料丸
-item.nuclearcraft.fuel_thorium.tbu_ni.name=钍-增殖铀 氮化物燃料丸
-item.nuclearcraft.fuel_thorium.tbu_za.name=钍-增殖铀-锆合金燃料丸
+item.nuclearcraft.fuel_thorium.tbu_tr.name=钍增殖铀 TRISO 燃料颗粒
+item.nuclearcraft.fuel_thorium.tbu_ox.name=钍增殖铀 氧化物燃料丸
+item.nuclearcraft.fuel_thorium.tbu_ni.name=钍增殖铀 氮化物燃料丸
+item.nuclearcraft.fuel_thorium.tbu_za.name=钍增殖铀-锆合金燃料丸
 
 item.nuclearcraft.fuel_uranium.leu_233_tr.name=低浓缩铀-233 TRISO 燃料颗粒
 item.nuclearcraft.fuel_uranium.leu_233_ox.name=低浓缩铀-233 氧化物燃料丸
@@ -1963,10 +1963,10 @@ info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
 info.nuclearcraft.fission_fuel.decay_factor.desc=衰变系数：%s
 info.nuclearcraft.fission_fuel.self_priming.desc=强中子射源！
 
-item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=枯竭钍-增殖铀 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=枯竭钍-增殖铀 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=枯竭钍-增殖铀 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=枯竭钍-增殖铀-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=枯竭钍增殖铀 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=枯竭钍增殖铀 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=枯竭钍增殖铀 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=枯竭钍增殖铀-锆合金燃料丸
 
 item.nuclearcraft.depleted_fuel_uranium.leu_233_tr.name=枯竭低浓缩铀-233 TRISO 燃料颗粒
 item.nuclearcraft.depleted_fuel_uranium.leu_233_ox.name=枯竭低浓缩铀-233 氧化物燃料丸
@@ -3702,13 +3702,15 @@ nc.sf.with=
 # component 组件
 # heat 热量
 # 手册中的Cont. （直接移除）
-# 手册中的DesignConsiderations 设计时需注意
+# 手册中的designConsiderations 设计时需注意
 # occlude 阻挡
 # prime 启动
 # Self-priming 强中子射源
 # layer/group 转子叶片/定子组
 # ideal 理想
 ############################################################################
+############# 核燃料分作两部分，中用 或-隔开以保持美观（混合燃料的分隔位置是特例）。我知道这毫无意义，但是还挺好看的。可以考虑把熔融枯竭分出来变成第零部分。
+############# 混合燃料命名乱七八糟
 ############# moderator 减速剂                             （是不是应当是减速器？）
 ############# moderator line 减速剂列
 ############# heat exchanger/condenser 热交换机/冷凝机             （是不是应当是热交换器？）
@@ -3717,6 +3719,9 @@ nc.sf.with=
 ############# efficiency 效率
 ############# speed 速率
 ############# active valid functional 有效
-############# 中子防护屏open 没翻译呢？？？
+############# 中子防护屏open 我咋还没翻译呢？？？
 ############# factor 系数
 ############# multiplier 倍率
+############# enhanced(moarFuels) 增强
+############# pit 核心/core 弹芯
+############# metallic 金属（此指金属铀等非氧化物的。单质？）
