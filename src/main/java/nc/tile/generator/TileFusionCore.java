@@ -7,15 +7,11 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.cyclops.commoncapabilities.api.capability.temperature.ITemperature;
-import org.cyclops.commoncapabilities.api.capability.work.IWorker;
-
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
-import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
@@ -33,7 +29,6 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
-import nc.util.CommonCapsHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
@@ -59,8 +54,8 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"), @Optional.Interface(iface = "org.cyclops.commoncapabilities.api.capability.temperature.ITemperature", modid = "commoncapabilities"), @Optional.Interface(iface = "org.cyclops.commoncapabilities.api.capability.work.IWorker", modid = "commoncapabilities")})
-public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpdatePacket>, SimpleComponent, ITemperature, IWorker {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
+public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpdatePacket>, SimpleComponent {
 	
 	public static final double ROOM_TEMP = 0.298D;
 	
@@ -615,22 +610,22 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (ModCheck.commonCapabilitiesLoaded() && (capability == CommonCapsHelper.CAPABILITY_TEMPERATURE || capability == CommonCapsHelper.CAPABILITY_WORKER)) {
+		/*if (ModCheck.commonCapabilitiesLoaded() && (capability == CommonCapsHelper.CAPABILITY_TEMPERATURE || capability == CommonCapsHelper.CAPABILITY_WORKER)) {
 			return true;
-		}
+		}*/
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (ModCheck.commonCapabilitiesLoaded()) {
+		/*if (ModCheck.commonCapabilitiesLoaded()) {
 			if (capability == CommonCapsHelper.CAPABILITY_TEMPERATURE) {
 				return CommonCapsHelper.CAPABILITY_TEMPERATURE.cast(this);
 			}
 			if (capability == CommonCapsHelper.CAPABILITY_WORKER) {
 				return CommonCapsHelper.CAPABILITY_WORKER.cast(this);
 			}
-		}
+		}*/
 		return super.getCapability(capability, side);
 	}
 	
@@ -784,7 +779,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	// CommonCapabilities
 	
-	@Override
+	/*@Override
 	@Optional.Method(modid = "commoncapabilities")
 	public double getTemperature() {
 		return 1000D*heat;
@@ -818,5 +813,5 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	@Optional.Method(modid = "commoncapabilities")
 	public boolean canWork() {
 		return readyToProcess();
-	}
+	}*/
 }

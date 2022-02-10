@@ -1,3 +1,15 @@
+v2.18zz
+
+* Fixed ore processing config not correctly disabling ore melting recipes and unnecessarily disabling ingot crushing and melting recipes
+
+* Fixed dungeon loot config not being read from config file
+
+- Removed Common Capabilities support due to unavailable dependency
+
+* Fixed ExampleMod being accidentally left in the mod jar
+
+* Forge 14.23.5.2860 is now required
+
 v2.18z
 
 * Fixed GTCE recipe integration conflicting with base GTCE recipes

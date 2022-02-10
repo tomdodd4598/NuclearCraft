@@ -220,12 +220,12 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING_HORIZONTAL, rot.rotate(state.getValue(FACING_HORIZONTAL)));
+		return super.withRotation(state, rot);
 	}
 	
 	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING_HORIZONTAL)));
+		return super.withMirror(state, mirrorIn);
 	}
 	
 	@Override

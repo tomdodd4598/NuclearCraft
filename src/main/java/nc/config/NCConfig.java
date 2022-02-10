@@ -1845,6 +1845,7 @@ public class NCConfig {
 		propertyCtrlInfo.set(ctrl_info);
 		propertyJEIChanceItemsIncludeNull.set(jei_chance_items_include_null);
 		propertyRareDrops.set(rare_drops);
+		propertyDungeonLoot.set(dungeon_loot);
 		propertyWastelandBiome.set(wasteland_biome);
 		propertyWastelandBiomeWeight.set(wasteland_biome_weight);
 		propertyWastelandDimensionGen.set(wasteland_dimension_gen);

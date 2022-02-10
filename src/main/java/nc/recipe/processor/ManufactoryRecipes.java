@@ -82,15 +82,15 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		// Advanced Rocketry
 		if (NCConfig.ore_processing) {
 			addRecipe("oreDilithium", oreStack("dustDilithium", 2), 1.25D, 1D);
-			addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		}
+		addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		
 		// AE2
 		addRecipe(Items.ENDER_PEARL, oreStackList(Lists.newArrayList("dustEnder", "dustEnderPearl"), 2), 0.5D, 1D);
 		addRecipe("crystalCertusQuartz", "dustCertusQuartz", 0.5D, 1D);
 		addRecipe("crystalFluix", "dustFluix", 0.5D, 1D);
 		
-		if (NCConfig.ore_processing) addMetalProcessingRecipes();
+		addMetalProcessingRecipes();
 		
 		addRecipe("plankWood", new ItemStack(Items.STICK, NCConfig.manufactory_wood[1]), 0.25D, 0.5D);
 		addLogRecipes();
@@ -105,7 +105,9 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 				if (BLACKLIST.contains(type)) continue;
 				String ore = "ore" + type, dust = "dust" + type;
 				if (OreDictHelper.oreExists(dust)) {
-					addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
+					if (NCConfig.ore_processing) {
+						addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
+					}
 					addRecipe(ingot, dust, 1D, 1D);
 				}
 			}

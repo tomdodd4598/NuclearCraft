@@ -49,10 +49,6 @@ repositories {
 		url = "http://chickenbones.net/maven/"
 	}
 	maven {
-		name = "CyclopsMC"
-		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
-	}
-	maven {
 		name = "mcmoddev"
 		url = "https://maven.mcmoddev.com"
 	}
@@ -74,6 +70,7 @@ minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
 	replace "@VERSION@", "${mod_version}"
+	replace "required-after:forge;", "required-after:forge@[14.23.5.2860,);"
 	mappings = "${mapping_version}"
 	makeObfSourceJar = true
 }
@@ -98,7 +95,6 @@ dependencies {
 	deobfCompile "gregtechce:gregtech:${gregtech_version}"
 	deobfCompile "mekanism:Mekanism:${mekanism_version}"
 	deobfCompile "projecte:ProjectE:${projecte_version}"
-	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
 }
 

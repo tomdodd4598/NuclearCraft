@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
@@ -173,7 +174,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 	
 	public void addIngotMeltingRecipes(String oreName, String fluidName) {
 		oreName = StringHelper.capitalize(oreName);
-		addRecipe("ore" + oreName, fluidStack(fluidName, FluidStackHelper.INGOT_ORE_VOLUME), 1.25D, 1.5D);
+		if (NCConfig.ore_processing) {
+			addRecipe("ore" + oreName, fluidStack(fluidName, FluidStackHelper.INGOT_ORE_VOLUME), 1.25D, 1.5D);
+		}
 		addRecipe(Lists.newArrayList("ingot" + oreName, "dust" + oreName), fluidStack(fluidName, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, FluidStackHelper.NUGGET_VOLUME), 1D/9D, 1D);
 		addRecipe("block" + oreName, fluidStack(fluidName, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
@@ -185,7 +188,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 	
 	public void addGemMeltingRecipes(String name) {
 		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.GEM_ORE_VOLUME), 1.25D, 1.5D);
+		if (NCConfig.ore_processing) {
+			addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.GEM_ORE_VOLUME), 1.25D, 1.5D);
+		}
 		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(name, FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
 	}
