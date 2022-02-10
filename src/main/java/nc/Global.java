@@ -1,7 +1,5 @@
 package nc;
 
-import com.google.common.base.Objects;
-
 public class Global {
 	
 	public static final String MOD_ID = "nuclearcraft";
