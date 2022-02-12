@@ -2230,7 +2230,7 @@ item.nuclearcraft.rad_x.desc=增加 %s 的辐射抗性（%s 内）。效果可�
 item.nuclearcraft.portable_ender_chest.name=便携末影箱
 item.nuclearcraft.portable_ender_chest.desc=可以在移动中使用的末影箱。
 
-item.nuclearcraft.dominos.name=Domino 的大餐
+item.nuclearcraft.dominos.name=达美乐大餐
 item.nuclearcraft.dominos.desc=Paul 的最爱——这顿盛宴能恢复 16 点饥饿值！
 
 item.nuclearcraft.flour.name=面粉
@@ -3725,3 +3725,5 @@ nc.sf.with=
 ############# enhanced(moarFuels) 增强
 ############# pit 核心/core 弹芯
 ############# metallic 金属（此指金属铀等非氧化物的。单质？）
+############# DepletedUranium 贫铀 depleted 枯竭
+############# S'more = Some more，这点在现译棉花糖巧克力夹心饼干中体现不出来，很遗憾。
