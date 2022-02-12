@@ -2232,6 +2232,7 @@ item.nuclearcraft.portable_ender_chest.desc=可以在移动中使用的末影箱
 
 item.nuclearcraft.dominos.name=达美乐大餐
 item.nuclearcraft.dominos.desc=Paul 的最爱——这顿盛宴能恢复 16 点饥饿值！
+# Paul 是作者的好友
 
 item.nuclearcraft.flour.name=面粉
 item.nuclearcraft.graham_cracker.name=全麦饼干
