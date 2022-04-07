@@ -5,6 +5,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
 public enum TankOutputSetting implements IStringSerializable, IGuiButton {
+	
 	DEFAULT,
 	VOID_EXCESS,
 	VOID;

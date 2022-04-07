@@ -32,13 +32,13 @@ public class CraftingRecipeHandler {
 			addShapelessOreRecipe(Items.BOOK, new Object[] {ItemModBook.forBook("nuclearcraft:guide")});
 		}
 		
-		for (int i = 0; i < IngotType.values().length; i++) {
+		for (int i = 0; i < IngotType.values().length; ++i) {
 			String type = StringHelper.capitalize(IngotType.values()[i].getName());
 			if (!ore_dict_raw_material_recipes) {
 				blockCompress(NCBlocks.ingot_block, i, "block" + type, new ItemStack(NCItems.ingot, 1, i));
 			}
 			else {
-				for (ItemStack ingot : OreDictionary.getOres("ingot" + type)) {
+				for (ItemStack ingot : OreDictionary.getOres("ingot" + type, false)) {
 					blockCompress(NCBlocks.ingot_block, i, "block" + type, ingot);
 				}
 			}
@@ -47,7 +47,7 @@ public class CraftingRecipeHandler {
 				blockOpen(NCItems.ingot, i, "ingot" + type, new ItemStack(NCBlocks.ingot_block, 1, i));
 			}
 			else {
-				for (ItemStack block : OreDictionary.getOres("block" + type)) {
+				for (ItemStack block : OreDictionary.getOres("block" + type, false)) {
 					blockOpen(NCItems.ingot, i, "ingot" + type, block);
 				}
 			}
@@ -460,7 +460,7 @@ public class CraftingRecipeHandler {
 			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 10), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 1), Blocks.REDSTONE_TORCH});
 			addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 11), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, 2), Blocks.REDSTONE_TORCH});
 			
-			for (int i = 0; i < QuantumGateEnums.SingleType.values().length; i++) {
+			for (int i = 0; i < QuantumGateEnums.SingleType.values().length; ++i) {
 				addShapelessOreRecipe(new ItemStack(NCBlocks.quantum_computer_gate_control, 1, i), new Object[] {new ItemStack(NCBlocks.quantum_computer_gate_single, 1, i), "dustEnergetic"});
 			}
 			
@@ -509,7 +509,7 @@ public class CraftingRecipeHandler {
 	}
 	
 	public static void fissionFuelRecipes(String element, Item pellet, Item fuel, int fertileNo, int... fissileNo) {
-		for (int i = 0; i < fissileNo.length; i++) {
+		for (int i = 0; i < fissileNo.length; ++i) {
 			fissionFuelLowEnrichedRecipeAll(pellet, 4 * i, element + fertileNo, element + fissileNo[i], new int[] {0, 1}, "", "Carbide");
 			fissionFuelLowEnrichedRecipeAll(fuel, 8 * i, element + fertileNo, element + fissileNo[i], new int[] {1, 2, 3}, "Oxide", "Nitride", "ZA");
 			fissionFuelHighlyEnrichedRecipeAll(pellet, 4 * i + 2, element + fertileNo, element + fissileNo[i], new int[] {0, 1}, "", "Carbide");
@@ -518,13 +518,13 @@ public class CraftingRecipeHandler {
 	}
 	
 	public static void fissionFuelLowEnrichedRecipeAll(Item fuel, int startMeta, String fertile, String fissile, int[] offsets, String... types) {
-		for (int i = 0; i < offsets.length; i++) {
+		for (int i = 0; i < offsets.length; ++i) {
 			fissionFuelLowEnrichedRecipe(fuel, startMeta + offsets[i], fertile + types[i], fissile + types[i]);
 		}
 	}
 	
 	public static void fissionFuelHighlyEnrichedRecipeAll(Item fuel, int startMeta, String fertile, String fissile, int[] offsets, String... types) {
-		for (int i = 0; i < offsets.length; i++) {
+		for (int i = 0; i < offsets.length; ++i) {
 			fissionFuelHighlyEnrichedRecipe(fuel, startMeta + offsets[i], fertile + types[i], fissile + types[i]);
 		}
 	}

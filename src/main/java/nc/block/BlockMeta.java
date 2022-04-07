@@ -165,7 +165,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			list.add(new ItemStack(this, 1, i));
 		}
 	}
@@ -186,8 +186,8 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
-		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, type);
+	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType placementType) {
+		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, placementType);
 	}
 	
 	@Override

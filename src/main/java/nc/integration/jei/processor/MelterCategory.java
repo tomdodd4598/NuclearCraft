@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class MelterCategory extends JEIMachineCategory<JEIRecipeWrapper.Melter> {
 	
-	public MelterCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public MelterCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Melter> handler) {
 		super(guiHelper, handler, "melter", 47, 30, 90, 26);
 	}
 	

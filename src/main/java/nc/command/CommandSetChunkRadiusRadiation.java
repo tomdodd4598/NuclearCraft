@@ -43,8 +43,8 @@ public class CommandSetChunkRadiusRadiation extends CommandBase {
 			}
 			
 			int senderX = sender.getPosition().getX() >> 4, senderZ = sender.getPosition().getZ() >> 4;
-			for (int x = -radius; x <= radius; x++) {
-				for (int z = -radius; z <= radius; z++) {
+			for (int x = -radius; x <= radius; ++x) {
+				for (int z = -radius; z <= radius; ++z) {
 					Chunk chunk = sender.getEntityWorld().getChunk(senderX + x, senderZ + z);
 					if (chunk != null && chunk.isLoaded()) {
 						IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);

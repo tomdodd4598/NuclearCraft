@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class RadiationScrubberCategory extends JEIMachineCategory<JEIRecipeWrapper.RadiationScrubber> {
 	
-	public RadiationScrubberCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public RadiationScrubberCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.RadiationScrubber> handler) {
 		super(guiHelper, handler, "radiation_scrubber", 31, 30, 130, 26);
 	}
 	

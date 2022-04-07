@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.*;
 
-public class RadiationSinkProvider implements ICapabilitySerializable {
+public class RadiationSinkProvider implements ICapabilitySerializable<NBTBase> {
 	
 	private final IRadiationSink radiation;
 	

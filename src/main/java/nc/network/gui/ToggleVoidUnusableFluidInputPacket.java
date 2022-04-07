@@ -12,9 +12,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleVoidUnusableFluidInputPacket implements IMessage {
 	
-	private BlockPos pos;
-	private boolean voidUnusableFluidInput;
-	private int tankNumber;
+	protected BlockPos pos;
+	protected boolean voidUnusableFluidInput;
+	protected int tankNumber;
 	
 	public ToggleVoidUnusableFluidInputPacket() {
 		

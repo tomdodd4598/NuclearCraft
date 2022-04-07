@@ -156,7 +156,7 @@ public class RadiationHelper {
 		if (radiation_hardcore_containers > 0D) {
 			IItemHandler inventory = getTileInventory(provider, side);
 			if (inventory != null) {
-				for (int i = 0; i < inventory.getSlots(); i++) {
+				for (int i = 0; i < inventory.getSlots(); ++i) {
 					ItemStack stack = inventory.getStackInSlot(i);
 					rawRadiation += getRadiationFromStack(stack, radiation_hardcore_containers);
 				}
@@ -251,7 +251,7 @@ public class RadiationHelper {
 		if (ModCheck.baublesLoaded() && entity.hasCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null)) {
 			IBaublesItemHandler baublesHandler = entity.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
 			if (baublesHandler != null) {
-				for (int i = 0; i < baublesHandler.getSlots(); i++) {
+				for (int i = 0; i < baublesHandler.getSlots(); ++i) {
 					resistance += getArmorRadResistance(baublesHandler.getStackInSlot(i));
 				}
 			}
@@ -269,8 +269,9 @@ public class RadiationHelper {
 		if (armorResistance != null) {
 			resistance += armorResistance.getTotalRadResistance();
 		}
-		if (armor.hasTagCompound() && armor.getTagCompound().hasKey("ncRadiationResistance")) {
-			resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
+		NBTTagCompound armorNBT;
+		if (armor.hasTagCompound() && (armorNBT = armor.getTagCompound()).hasKey("ncRadiationResistance")) {
+			resistance += armorNBT.getDouble("ncRadiationResistance");
 		}
 		return resistance;
 	}
@@ -392,7 +393,7 @@ public class RadiationHelper {
 		}
 		double radPercentage = entityRads.getRadsPercentage();
 		
-		for (int i = 0; i < radLevelList.size(); i++) {
+		for (int i = 0; i < radLevelList.size(); ++i) {
 			final int j = radLevelList.size() - 1 - i;
 			if (radPercentage >= radLevelList.get(j)) {
 				for (PotionEffect potionEffect : potionList.get(j)) {

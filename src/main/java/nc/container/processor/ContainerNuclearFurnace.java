@@ -21,13 +21,13 @@ public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace> {
 		addSlotToContainer(new SlotNuclearFuel(tile, 1, 56, 53));
 		addSlotToContainer(new SlotFurnace(player, tile, 2, 116, 35));
 		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
 				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + 18 * i));
 			}
 		}
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; ++i) {
 			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142));
 		}
 	}
@@ -37,30 +37,32 @@ public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace> {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
-		for (int i = 0; i < listeners.size(); i++) {
-			IContainerListener icontainerlistener = listeners.get(i);
-			
-			if (furnaceBurnTime != inv.getField(0)) {
-				icontainerlistener.sendWindowProperty(this, 0, inv.getField(0));
+		if (inv != null) {
+			for (int i = 0; i < listeners.size(); ++i) {
+				IContainerListener icontainerlistener = listeners.get(i);
+				
+				if (furnaceBurnTime != inv.getField(0)) {
+					icontainerlistener.sendWindowProperty(this, 0, inv.getField(0));
+				}
+				
+				if (currentItemBurnTime != inv.getField(1)) {
+					icontainerlistener.sendWindowProperty(this, 1, inv.getField(1));
+				}
+				
+				if (cookTime != inv.getField(2)) {
+					icontainerlistener.sendWindowProperty(this, 2, inv.getField(2));
+				}
+				
+				if (totalCookTime != inv.getField(3)) {
+					icontainerlistener.sendWindowProperty(this, 3, inv.getField(3));
+				}
 			}
 			
-			if (currentItemBurnTime != inv.getField(1)) {
-				icontainerlistener.sendWindowProperty(this, 1, inv.getField(1));
-			}
-			
-			if (cookTime != inv.getField(2)) {
-				icontainerlistener.sendWindowProperty(this, 2, inv.getField(2));
-			}
-			
-			if (totalCookTime != inv.getField(3)) {
-				icontainerlistener.sendWindowProperty(this, 3, inv.getField(3));
-			}
+			furnaceBurnTime = inv.getField(0);
+			currentItemBurnTime = inv.getField(1);
+			cookTime = inv.getField(2);
+			totalCookTime = inv.getField(3);
 		}
-		
-		furnaceBurnTime = inv.getField(0);
-		currentItemBurnTime = inv.getField(1);
-		cookTime = inv.getField(2);
-		totalCookTime = inv.getField(3);
 	}
 	
 	@Override

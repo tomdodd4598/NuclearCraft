@@ -18,7 +18,7 @@ public class HeatExchangerRecipes extends BasicRecipeHandler {
 		// Hot NaK -> NaK
 		
 		addRecipe(fluidStack("nak_hot", 1), fluidStack("nak", 1), fission_heater_cooling_rate[0] * heat_exchanger_coolant_mult, 700, 300);
-		for (int i = 1; i < COOLANTS.size(); i++) {
+		for (int i = 1; i < COOLANTS.size(); ++i) {
 			addRecipe(fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fluidStack(COOLANTS.get(i) + "_nak", 1), fission_heater_cooling_rate[i] * heat_exchanger_coolant_mult, 700, 300);
 		}
 		
@@ -40,8 +40,8 @@ public class HeatExchangerRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 16000D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 300);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Integer ? (int) extras.get(2) : 300);
@@ -49,8 +49,8 @@ public class HeatExchangerRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List getFactoredExtras(List extras, int factor) {
-		List factored = new ArrayList(extras);
+	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
+		List<Object> factored = new ArrayList<>(extras);
 		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}

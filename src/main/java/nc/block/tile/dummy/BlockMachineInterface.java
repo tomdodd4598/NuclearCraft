@@ -54,7 +54,7 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 					}
 				}
 				if (tileentity instanceof ITileGui) {
-					ITileGui guiTile = (ITileGui) tileentity;
+					ITileGui<?> guiTile = (ITileGui<?>) tileentity;
 					FMLNetworkHandler.openGui(player, NuclearCraft.instance, guiTile.getGuiID(), world, machinePos.getX(), machinePos.getY(), machinePos.getZ());
 				}
 			}

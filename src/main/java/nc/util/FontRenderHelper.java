@@ -44,7 +44,7 @@ public class FontRenderHelper {
 	
 	private static int sizeString(String string) {
 		int size = 0;
-		for (int i = 0; i < string.length(); i++) {
+		for (int i = 0; i < string.length(); ++i) {
 			char c = string.charAt(i);
 			size += getCharWidth(c);
 		}
@@ -57,26 +57,27 @@ public class FontRenderHelper {
 		int k = 0;
 		int l = -1;
 		
-		for (boolean flag = false; k < i; k++) {
+		for (boolean flag = false; k < i; ++k) {
 			char c0 = string.charAt(k);
 			
 			switch (c0) {
 				case '\n':
-					k--;
+					--k;
 					break;
 				case ' ':
 					l = k;
+					//$FALL-THROUGH$
 				default:
 					j += getCharWidth(c0);
 					
 					if (flag) {
-						j++;
+						++j;
 					}
 					
 					break;
 				case '\u00a7':
 					if (k < i - 1) {
-						k++;
+						++k;
 						char c1 = string.charAt(k);
 						
 						if (c1 != 'l' && c1 != 'L') {
@@ -91,7 +92,7 @@ public class FontRenderHelper {
 			}
 			
 			if (c0 == '\n') {
-				k++;
+				++k;
 				l = k;
 				break;
 			}

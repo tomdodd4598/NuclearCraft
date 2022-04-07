@@ -13,7 +13,7 @@ import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileInventory extends NCTile implements ITileInventory {
+public abstract class TileInventory extends NCTile implements ITileInventory {
 	
 	private @Nonnull final String inventoryName;
 	
@@ -29,7 +29,7 @@ public class TileInventory extends NCTile implements ITileInventory {
 		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
 		itemOutputSettings = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; ++i) {
 			itemOutputSettings.add(ItemOutputSetting.DEFAULT);
 		}
 	}
@@ -99,7 +99,7 @@ public class TileInventory extends NCTile implements ITileInventory {
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandler(null);
+				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(null));
 			}
 			return null;
 		}

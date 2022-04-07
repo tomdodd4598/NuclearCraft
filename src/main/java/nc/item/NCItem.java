@@ -42,10 +42,10 @@ public class NCItem extends Item implements IInfoItem {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		super.addInformation(itemStack, world, tooltip, flag);
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> currentTooltip, ITooltipFlag flag) {
+		super.addInformation(itemStack, world, currentTooltip, flag);
 		if (fixedInfo.length > 0 || info.length > 0) {
-			InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, infoColor, info);
+			InfoHelper.infoFull(currentTooltip, fixedColor, fixedInfo, infoColor, info);
 		}
 	}
 	

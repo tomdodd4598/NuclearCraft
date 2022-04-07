@@ -9,11 +9,11 @@ import nc.recipe.*;
 import nc.util.*;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIMachineRecipeWrapper extends JEIBasicRecipeWrapper {
+public abstract class JEIMachineRecipeWrapper<WRAPPER extends JEIMachineRecipeWrapper<WRAPPER>> extends JEIBasicRecipeWrapper<WRAPPER> {
 	
 	private final int infoX, infoY, infoWidth, infoHeight;
 	
-	public JEIMachineRecipeWrapper(IGuiHelper guiHelper, IJEIHandler handler, BasicRecipeHandler recipeHandler, BasicRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY, int infoX, int infoY, int infoWidth, int infoHeight) {
+	public JEIMachineRecipeWrapper(IGuiHelper guiHelper, IJEIHandler<WRAPPER> handler, BasicRecipeHandler recipeHandler, BasicRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY, int infoX, int infoY, int infoWidth, int infoHeight) {
 		super(guiHelper, handler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
 		this.infoX = infoX - backX;
 		this.infoY = infoY - backY;

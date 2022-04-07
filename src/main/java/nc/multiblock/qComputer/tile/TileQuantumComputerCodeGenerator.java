@@ -54,12 +54,12 @@ public abstract class TileQuantumComputerCodeGenerator extends TileQuantumComput
 	public void onMachineBroken() {}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 		return oldState != newState;
 	}
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!player.isSneaking()) {
 			QuantumComputer qc = getMultiblock();
 			if (qc != null && qc.isAssembled()) {
@@ -76,7 +76,7 @@ public abstract class TileQuantumComputerCodeGenerator extends TileQuantumComput
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
 	protected abstract String getUnlocalizedCodeStartMessage();

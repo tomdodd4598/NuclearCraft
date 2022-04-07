@@ -5,9 +5,9 @@ import java.util.*;
 import nc.Global;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.tile.IHeatExchangerController;
+import nc.multiblock.heatExchanger.tile.*;
 import nc.network.PacketHandler;
-import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.network.multiblock.*;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,11 +15,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiHeatExchangerController extends GuiMultiblock<HeatExchanger, IHeatExchangerController> {
+public class GuiHeatExchangerController extends GuiMultiblock<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket, TileHeatExchangerController> {
 	
 	protected final ResourceLocation gui_texture;
 	
-	public GuiHeatExchangerController(EntityPlayer player, IHeatExchangerController controller) {
+	public GuiHeatExchangerController(EntityPlayer player, TileHeatExchangerController controller) {
 		super(player, controller);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "heat_exchanger_controller" + ".png");
 		xSize = 176;
@@ -47,8 +47,8 @@ public class GuiHeatExchangerController extends GuiMultiblock<HeatExchanger, IHe
 		return info;
 	}
 	
-	public void drawEfficiencyTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
-		drawTooltip(efficiencyInfo(), mouseX, mouseY, x, y, width, height);
+	public void drawEfficiencyTooltip(int mouseX, int mouseY, int x, int y, int drawWidth, int drawHeight) {
+		drawTooltip(efficiencyInfo(), mouseX, mouseY, x, y, drawWidth, drawHeight);
 	}
 	
 	@Override

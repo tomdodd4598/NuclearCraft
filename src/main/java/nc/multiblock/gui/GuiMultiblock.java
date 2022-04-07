@@ -5,20 +5,21 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.gui.NCGui;
-import nc.multiblock.Multiblock;
-import nc.multiblock.tile.IMultiblockGuiPart;
+import nc.multiblock.*;
+import nc.multiblock.tile.*;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.util.Lang;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class GuiMultiblock<MULTIBLOCK extends Multiblock, TILE extends IMultiblockGuiPart<MULTIBLOCK>> extends NCGui {
+public abstract class GuiMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & IPacketMultiblock<MULTIBLOCK, T, PACKET>, T extends ITileMultiblockPart<MULTIBLOCK, T>, PACKET extends MultiblockUpdatePacket, GUITILE extends IMultiblockGuiPart<MULTIBLOCK, T, PACKET, GUITILE>> extends NCGui {
 	
-	protected final TILE tile;
+	protected final GUITILE tile;
 	protected MULTIBLOCK multiblock;
 	
-	public GuiMultiblock(EntityPlayer player, TILE tile) {
+	public GuiMultiblock(EntityPlayer player, GUITILE tile) {
 		super(tile.getContainer(player));
 		this.tile = tile;
 		this.multiblock = tile.getMultiblock();

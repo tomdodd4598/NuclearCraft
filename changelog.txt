@@ -1,3 +1,13 @@
+v2o.6.0
+
+* Fixed ore processing config not correctly disabling ore melting recipes and unnecessarily disabling ingot crushing and melting recipes
+
+* Fixed dungeon loot config not being read from config file
+
+- Removed Common Capabilities support due to unavailable dependency
+
+* Forge 14.23.5.2860 is now required
+
 v2o.5.5
 
 * Fixed general decay mechanics config not working as intended
@@ -5,7 +15,19 @@ v2o.5.5
 
 v2o.5.4
 
+* Fixed bug where fission reactor components would not be correctly recognised to have failed
+
++ Added common edge adjacency rule type for custom heat sinks and coolant heaters
+
++ Added new config for enabling/disabling fission reactor decay mechanics in its entirety
+* Fission fuels' decay factor stats now only show if decay mechanics are enabled
+
+* Updated Chinese language file [thanks to WuzgXY!]
 * Updated Russian language file [thanks to artenaft69!]
+
++ Added tooltip descriptions to rhodochrosite, manganese ingots and manganese oxide ingots to help players find their furnace recipes
+
+* Fixed slightly clumsy grammar in the tooltips generated for wildcard sink or heater placement rules
 
 v2o.5.3
 

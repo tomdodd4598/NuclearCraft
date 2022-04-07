@@ -102,7 +102,7 @@ public class GuiSaltFissionHeater extends NCGui {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (heater.getWorld().isRemote) {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; ++i) {
 				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 					PacketHandler.instance.sendToServer(heater.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(heater, i) : new EmptyTankPacket(heater, i));
 					return;

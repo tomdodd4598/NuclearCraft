@@ -57,7 +57,7 @@ public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockR
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockStateIn, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
 	}
 	

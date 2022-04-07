@@ -13,7 +13,7 @@ import nc.block.tile.processor.*;
 import nc.block.tile.radiation.*;
 import nc.enumm.BlockEnums.*;
 import nc.enumm.MetaEnums;
-import nc.multiblock.battery.BatteryType;
+import nc.multiblock.battery.BatteryBlockType;
 import nc.multiblock.battery.block.BlockBattery;
 import nc.multiblock.fission.block.*;
 import nc.multiblock.fission.block.manager.BlockFissionShieldManager;
@@ -283,17 +283,17 @@ public class NCBlocks {
 		decay_generator = withName(new BlockSimpleTile(SimpleTileType.DECAY_GENERATOR));
 		
 		if (register_battery[0]) {
-			voltaic_pile_basic = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_BASIC), "voltaic_pile_basic");
-			voltaic_pile_advanced = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_ADVANCED), "voltaic_pile_advanced");
-			voltaic_pile_du = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_DU), "voltaic_pile_du");
-			voltaic_pile_elite = withName(new BlockBattery(BatteryType.VOLTAIC_PILE_ELITE), "voltaic_pile_elite");
+			voltaic_pile_basic = withName(new BlockBattery(BatteryBlockType.VOLTAIC_PILE_BASIC), "voltaic_pile_basic");
+			voltaic_pile_advanced = withName(new BlockBattery(BatteryBlockType.VOLTAIC_PILE_ADVANCED), "voltaic_pile_advanced");
+			voltaic_pile_du = withName(new BlockBattery(BatteryBlockType.VOLTAIC_PILE_DU), "voltaic_pile_du");
+			voltaic_pile_elite = withName(new BlockBattery(BatteryBlockType.VOLTAIC_PILE_ELITE), "voltaic_pile_elite");
 		}
 		
 		if (register_battery[1]) {
-			lithium_ion_battery_basic = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_BASIC), "lithium_ion_battery_basic");
-			lithium_ion_battery_advanced = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_ADVANCED), "lithium_ion_battery_advanced");
-			lithium_ion_battery_du = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_DU), "lithium_ion_battery_du");
-			lithium_ion_battery_elite = withName(new BlockBattery(BatteryType.LITHIUM_ION_BATTERY_ELITE), "lithium_ion_battery_elite");
+			lithium_ion_battery_basic = withName(new BlockBattery(BatteryBlockType.LITHIUM_ION_BATTERY_BASIC), "lithium_ion_battery_basic");
+			lithium_ion_battery_advanced = withName(new BlockBattery(BatteryBlockType.LITHIUM_ION_BATTERY_ADVANCED), "lithium_ion_battery_advanced");
+			lithium_ion_battery_du = withName(new BlockBattery(BatteryBlockType.LITHIUM_ION_BATTERY_DU), "lithium_ion_battery_du");
+			lithium_ion_battery_elite = withName(new BlockBattery(BatteryBlockType.LITHIUM_ION_BATTERY_ELITE), "lithium_ion_battery_elite");
 		}
 		
 		bin = withName(new BlockSimpleTile(SimpleTileType.BIN));
@@ -491,17 +491,17 @@ public class NCBlocks {
 		registerBlock(decay_generator);
 		
 		if (register_battery[0]) {
-			registerBlock(voltaic_pile_basic, new ItemBlockBattery(voltaic_pile_basic, BatteryType.VOLTAIC_PILE_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(voltaic_pile_advanced, new ItemBlockBattery(voltaic_pile_advanced, BatteryType.VOLTAIC_PILE_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(voltaic_pile_du, new ItemBlockBattery(voltaic_pile_du, BatteryType.VOLTAIC_PILE_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(voltaic_pile_elite, new ItemBlockBattery(voltaic_pile_elite, BatteryType.VOLTAIC_PILE_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(voltaic_pile_basic, new ItemBlockBattery(voltaic_pile_basic, BatteryBlockType.VOLTAIC_PILE_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(voltaic_pile_advanced, new ItemBlockBattery(voltaic_pile_advanced, BatteryBlockType.VOLTAIC_PILE_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(voltaic_pile_du, new ItemBlockBattery(voltaic_pile_du, BatteryBlockType.VOLTAIC_PILE_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(voltaic_pile_elite, new ItemBlockBattery(voltaic_pile_elite, BatteryBlockType.VOLTAIC_PILE_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
 		}
 		
 		if (register_battery[1]) {
-			registerBlock(lithium_ion_battery_basic, new ItemBlockBattery(lithium_ion_battery_basic, BatteryType.LITHIUM_ION_BATTERY_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(lithium_ion_battery_advanced, new ItemBlockBattery(lithium_ion_battery_advanced, BatteryType.LITHIUM_ION_BATTERY_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(lithium_ion_battery_du, new ItemBlockBattery(lithium_ion_battery_du, BatteryType.LITHIUM_ION_BATTERY_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
-			registerBlock(lithium_ion_battery_elite, new ItemBlockBattery(lithium_ion_battery_elite, BatteryType.LITHIUM_ION_BATTERY_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(lithium_ion_battery_basic, new ItemBlockBattery(lithium_ion_battery_basic, BatteryBlockType.LITHIUM_ION_BATTERY_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(lithium_ion_battery_advanced, new ItemBlockBattery(lithium_ion_battery_advanced, BatteryBlockType.LITHIUM_ION_BATTERY_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(lithium_ion_battery_du, new ItemBlockBattery(lithium_ion_battery_du, BatteryBlockType.LITHIUM_ION_BATTERY_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+			registerBlock(lithium_ion_battery_elite, new ItemBlockBattery(lithium_ion_battery_elite, BatteryBlockType.LITHIUM_ION_BATTERY_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
 		}
 		
 		registerBlock(bin);
@@ -615,14 +615,14 @@ public class NCBlocks {
 	}
 	
 	public static void registerRenders() {
-		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.OreType.values().length; ++i) {
 			registerRender(ore, i, "type=" + MetaEnums.OreType.values()[i].getName());
 		}
-		for (int i = 0; i < MetaEnums.IngotType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.IngotType.values().length; ++i) {
 			registerRender(ingot_block, i, "type=" + MetaEnums.IngotType.values()[i].getName());
 		}
 		
-		for (int i = 0; i < MetaEnums.FertileIsotopeType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.FertileIsotopeType.values().length; ++i) {
 			registerRender(fertile_isotope, i, "type=" + MetaEnums.FertileIsotopeType.values()[i].getName());
 		}
 		
@@ -725,16 +725,16 @@ public class NCBlocks {
 		registerRender(fission_glass);
 		registerRender(fission_conductor);
 		registerRender(fission_monitor);
-		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; ++i) {
 			registerRender(fission_reflector, i, "type=" + MetaEnums.NeutronReflectorType.values()[i].getName());
 		}
 		registerRender(fission_power_port);
 		registerRender(fission_vent);
 		registerRender(fission_irradiator);
-		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; ++i) {
 			registerRender(fission_source, i, "active=false,facing=south,type=" + MetaEnums.NeutronSourceType.values()[i].getName());
 		}
-		for (int i = 0; i < MetaEnums.NeutronShieldType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.NeutronShieldType.values().length; ++i) {
 			registerRender(fission_shield, i, "active=true,type=" + MetaEnums.NeutronShieldType.values()[i].getName());
 		}
 		registerRender(fission_computer_port);
@@ -744,10 +744,10 @@ public class NCBlocks {
 		registerRender(fission_cell_port);
 		
 		registerRender(fission_vessel_port);
-		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; ++i) {
 			registerRender(fission_heater_port, i, "active=false,axis=z,type=" + MetaEnums.CoolantHeaterType.values()[i].getName());
 		}
-		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
+		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; ++i) {
 			registerRender(fission_heater_port2, i, "active=false,axis=z,type=" + MetaEnums.CoolantHeaterType2.values()[i].getName());
 		}
 		
@@ -755,19 +755,19 @@ public class NCBlocks {
 		
 		registerRender(solid_fission_controller);
 		registerRender(solid_fission_cell);
-		for (int i = 0; i < MetaEnums.HeatSinkType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.HeatSinkType.values().length; ++i) {
 			registerRender(solid_fission_sink, i, "type=" + MetaEnums.HeatSinkType.values()[i].getName());
 		}
-		for (int i = 0; i < MetaEnums.HeatSinkType2.values().length; i++) {
+		for (int i = 0; i < MetaEnums.HeatSinkType2.values().length; ++i) {
 			registerRender(solid_fission_sink2, i, "type=" + MetaEnums.HeatSinkType2.values()[i].getName());
 		}
 		
 		registerRender(salt_fission_controller);
 		registerRender(salt_fission_vessel);
-		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.CoolantHeaterType.values().length; ++i) {
 			registerRender(salt_fission_heater, i, "type=" + MetaEnums.CoolantHeaterType.values()[i].getName());
 		}
-		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; i++) {
+		for (int i = 0; i < MetaEnums.CoolantHeaterType2.values().length; ++i) {
 			registerRender(salt_fission_heater2, i, "type=" + MetaEnums.CoolantHeaterType2.values()[i].getName());
 		}
 		
@@ -794,7 +794,7 @@ public class NCBlocks {
 		registerRender(turbine_rotor_blade_sic_sic_cmc);
 		registerRender(turbine_rotor_stator);
 		registerRender(turbine_rotor_bearing);
-		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
+		for (int i = 0; i < TurbineDynamoCoilType.values().length; ++i) {
 			registerRender(turbine_dynamo_coil, i, "type=" + TurbineDynamoCoilType.values()[i].getName());
 		}
 		registerRender(turbine_coil_connector);
@@ -838,19 +838,19 @@ public class NCBlocks {
 			registerRender(quantum_computer_controller);
 			registerRender(quantum_computer_qubit);
 			
-			for (int i = 0; i < QuantumGateEnums.SingleType.values().length; i++) {
+			for (int i = 0; i < QuantumGateEnums.SingleType.values().length; ++i) {
 				registerRender(quantum_computer_gate_single, i, "type=" + QuantumGateEnums.SingleType.values()[i].getName());
 			}
-			for (int i = 0; i < QuantumGateEnums.ControlType.values().length; i++) {
+			for (int i = 0; i < QuantumGateEnums.ControlType.values().length; ++i) {
 				registerRender(quantum_computer_gate_control, i, "type=" + QuantumGateEnums.ControlType.values()[i].getName());
 			}
-			for (int i = 0; i < QuantumGateEnums.SwapType.values().length; i++) {
+			for (int i = 0; i < QuantumGateEnums.SwapType.values().length; ++i) {
 				registerRender(quantum_computer_gate_swap, i, "type=" + QuantumGateEnums.SwapType.values()[i].getName());
 			}
 			
 			registerRender(quantum_computer_connector);
 			
-			for (int i = 0; i < BlockQuantumComputerCodeGenerator.Type.values().length; i++) {
+			for (int i = 0; i < BlockQuantumComputerCodeGenerator.Type.values().length; ++i) {
 				registerRender(quantum_computer_code_generator, i, "type=" + BlockQuantumComputerCodeGenerator.Type.values()[i].getName());
 			}
 		}

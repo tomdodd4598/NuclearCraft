@@ -3,7 +3,7 @@ package nc.multiblock.turbine;
 import static nc.config.NCConfig.turbine_max_size;
 
 import java.lang.reflect.Constructor;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 import javax.vecmath.Vector3f;
@@ -17,7 +17,6 @@ import nc.Global;
 import nc.handler.SoundHandler.SoundInfo;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.tile.*;
@@ -36,16 +35,16 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
-public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacket> implements ILogicMultiblock<TurbineLogic, ITurbinePart> {
+public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implements ILogicMultiblock<Turbine, TurbineLogic, ITurbinePart>, IPacketMultiblock<Turbine, ITurbinePart, TurbineUpdatePacket> {
 	
 	public static final ObjectSet<Class<? extends ITurbinePart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends TurbineLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull TurbineLogic logic = new TurbineLogic(this);
 	
-	protected final PartSuperMap<ITurbinePart> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<Turbine, ITurbinePart> partSuperMap = new PartSuperMap<>();
 	
-	public ITurbineController controller;
+	public ITurbineController<?> controller;
 	
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
@@ -82,6 +81,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public double particleSpeedMult = 1D / 23.2D;
 	public float angVel = 0F, rotorAngle = 0F;
 	
+	@SuppressWarnings("unchecked")
 	public Iterable<MutableBlockPos>[] inputPlane = new Iterable[4];
 	
 	public boolean nbtUpdateRenderDataFlag = false;
@@ -94,11 +94,14 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	public IBlockState[] rotorStateArray = null;
 	public final IntList bladeDepths = new IntArrayList(), statorDepths = new IntArrayList();
 	
+	protected final Set<EntityPlayer> updatePacketListeners;
+	
 	public Turbine(World world) {
-		super(world);
+		super(world, Turbine.class, ITurbinePart.class);
 		for (Class<? extends ITurbinePart> clazz : PART_CLASSES) {
 			partSuperMap.equip(clazz);
 		}
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -117,7 +120,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	// Multiblock Part Getters
 	
 	@Override
-	public PartSuperMap<ITurbinePart> getPartSuperMap() {
+	public PartSuperMap<Turbine, ITurbinePart> getPartSuperMap() {
 		return partSuperMap;
 	}
 	
@@ -141,19 +144,19 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	// Multiblock Methods
 	
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data) {
+	public void onAttachedPartWithMultiblockData(ITurbinePart part, NBTTagCompound data) {
 		logic.onAttachedPartWithMultiblockData(part, data);
 		syncDataFrom(data, SyncReason.FullSync);
 	}
 	
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart) {
+	protected void onBlockAdded(ITurbinePart newPart) {
 		onPartAdded(newPart);
 		logic.onBlockAdded(newPart);
 	}
 	
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart) {
+	protected void onBlockRemoved(ITurbinePart oldPart) {
 		onPartRemoved(oldPart);
 		logic.onBlockRemoved(oldPart);
 	}
@@ -185,7 +188,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		return setLogic(this) && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
-	public boolean setLogic(Multiblock multiblock) {
+	public boolean setLogic(Turbine multiblock) {
 		if (getPartMap(ITurbineController.class).isEmpty()) {
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
@@ -195,7 +198,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 			return false;
 		}
 		
-		for (ITurbineController contr : getParts(ITurbineController.class)) {
+		for (ITurbineController<?> contr : getParts(ITurbineController.class)) {
 			controller = contr;
 		}
 		
@@ -205,12 +208,12 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	}
 	
 	@Override
-	protected void onAssimilate(Multiblock assimilated) {
+	protected void onAssimilate(Turbine assimilated) {
 		logic.onAssimilate(assimilated);
 	}
 	
 	@Override
-	protected void onAssimilated(Multiblock assimilator) {
+	protected void onAssimilated(Turbine assimilator) {
 		logic.onAssimilated(assimilator);
 	}
 	
@@ -240,7 +243,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	
 	// Modified Kurtchekov stuff!
 	
-	protected ITurbineRotorBlade getBlade(BlockPos pos) {
+	protected ITurbineRotorBlade<?> getBlade(BlockPos pos) {
 		long posLong = pos.toLong();
 		TileTurbineRotorBlade blade = getPartMap(TileTurbineRotorBlade.class).get(posLong);
 		return blade == null ? getPartMap(TileTurbineRotorStator.class).get(posLong) : blade;
@@ -273,24 +276,34 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 						return TurbinePartDir.Z;
 					case V:
 						return TurbinePartDir.X;
+					default:
+						break;
 				}
+				break;
 			case Z:
 				switch (planeDir) {
 					case U:
 						return TurbinePartDir.X;
 					case V:
 						return TurbinePartDir.Y;
+					default:
+						break;
 				}
+				break;
 			case X:
 				switch (planeDir) {
 					case U:
 						return TurbinePartDir.Y;
 					case V:
 						return TurbinePartDir.Z;
+					default:
+						break;
 				}
+				break;
 			default:
 				return TurbinePartDir.Y;
 		}
+		return TurbinePartDir.Y;
 	}
 	
 	public enum PlaneDir {
@@ -428,13 +441,18 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 	// Packets
 	
 	@Override
-	protected TurbineUpdatePacket getUpdatePacket() {
-		return logic.getUpdatePacket();
+	public Set<EntityPlayer> getMultiblockUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public void onPacket(TurbineUpdatePacket message) {
-		logic.onPacket(message);
+	public TurbineUpdatePacket getMultiblockUpdatePacket() {
+		return logic.getMultiblockUpdatePacket();
+	}
+	
+	@Override
+	public void onMultiblockUpdatePacket(TurbineUpdatePacket message) {
+		logic.onMultiblockUpdatePacket(message);
 	}
 	
 	protected TurbineRenderPacket getRenderPacket() {
@@ -445,7 +463,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		logic.onRenderPacket(message);
 	}
 	
-	public void sendIndividualRender(EntityPlayer player) {
+	public void sendRenderPacketToPlayer(EntityPlayer player) {
 		if (WORLD.isRemote) {
 			return;
 		}
@@ -456,7 +474,7 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		PacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
 	}
 	
-	public void sendRenderToAllPlayers() {
+	public void sendRenderPacketToAll() {
 		if (WORLD.isRemote) {
 			return;
 		}
@@ -467,17 +485,18 @@ public class Turbine extends CuboidalMultiblock<ITurbinePart, TurbineUpdatePacke
 		PacketHandler.instance.sendToAll(packet);
 	}
 	
-	@Override
-	public void clearAllMaterial() {
-		logic.clearAllMaterial();
-		
-		super.clearAllMaterial();
-	}
-	
 	// Multiblock Validators
 	
 	@Override
 	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return logic.isBlockGoodForInterior(world, pos);
+	}
+	
+	// Clear Material
+	
+	@Override
+	public void clearAllMaterial() {
+		logic.clearAllMaterial();
+		super.clearAllMaterial();
 	}
 }

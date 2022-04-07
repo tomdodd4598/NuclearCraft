@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class FissionHeatingCategory extends JEIMachineCategory<JEIRecipeWrapper.FissionHeating> {
 	
-	public FissionHeatingCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FissionHeatingCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.FissionHeating> handler) {
 		super(guiHelper, handler, "fission_vent", 47, 30, 90, 26);
 	}
 	

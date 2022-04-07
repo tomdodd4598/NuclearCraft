@@ -146,7 +146,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		if (stack.isEmpty() || slot >= recipeHandler.getItemInputSize()) {
 			return false;
 		}
-		return smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+		return smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, null, getInventoryStacks().subList(0, recipeHandler.getItemInputSize()), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(slot, stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
@@ -197,7 +197,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	// IMultitoolLogic
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
 			
 		}
@@ -223,7 +223,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT
@@ -250,7 +250,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
 		int[] counts = new int[inventoryStacks.size()];
-		for (int i = 0; i < inventoryStacks.size(); i++) {
+		for (int i = 0; i < inventoryStacks.size(); ++i) {
 			nbt.setInteger("inventoryStackSize" + i, counts[i] = inventoryStacks.get(i).getCount());
 			if (!inventoryStacks.get(i).isEmpty()) {
 				inventoryStacks.get(i).setCount(1);
@@ -259,7 +259,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		
 		NBTHelper.writeAllItems(nbt, inventoryStacks, filterStacks);
 		
-		for (int i = 0; i < inventoryStacks.size(); i++) {
+		for (int i = 0; i < inventoryStacks.size(); ++i) {
 			if (!inventoryStacks.get(i).isEmpty()) {
 				inventoryStacks.get(i).setCount(counts[i]);
 			}
@@ -272,7 +272,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	public void readInventory(NBTTagCompound nbt) {
 		NBTHelper.readAllItems(nbt, inventoryStacks, filterStacks);
 		
-		for (int i = 0; i < inventoryStacks.size(); i++) {
+		for (int i = 0; i < inventoryStacks.size(); ++i) {
 			if (!inventoryStacks.get(i).isEmpty()) {
 				inventoryStacks.get(i).setCount(nbt.getInteger("inventoryStackSize" + i));
 			}
@@ -293,7 +293,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandler(side);
+				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(side));
 			}
 			return null;
 		}
@@ -303,6 +303,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
 		// ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(this, side));
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler<>(this, side));
 	}
 }

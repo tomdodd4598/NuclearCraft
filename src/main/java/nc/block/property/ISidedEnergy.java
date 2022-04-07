@@ -1,5 +1,7 @@
 package nc.block.property;
 
+import javax.annotation.Nonnull;
+
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import net.minecraft.block.Block;
@@ -26,7 +28,7 @@ public interface ISidedEnergy {
 		return state.withProperty(ENERGY_DOWN, getEnergyConnection(world, pos, EnumFacing.DOWN)).withProperty(ENERGY_UP, getEnergyConnection(world, pos, EnumFacing.UP)).withProperty(ENERGY_NORTH, getEnergyConnection(world, pos, EnumFacing.NORTH)).withProperty(ENERGY_SOUTH, getEnergyConnection(world, pos, EnumFacing.SOUTH)).withProperty(ENERGY_WEST, getEnergyConnection(world, pos, EnumFacing.WEST)).withProperty(ENERGY_EAST, getEnergyConnection(world, pos, EnumFacing.EAST));
 	}
 	
-	public default EnergyConnection getEnergyConnection(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+	public default EnergyConnection getEnergyConnection(IBlockAccess world, BlockPos pos, @Nonnull EnumFacing facing) {
 		TileEntity tile = world.getTileEntity(pos);
 		return tile instanceof ITileEnergy ? ((ITileEnergy) tile).getEnergyConnection(facing) : EnergyConnection.NON;
 	}

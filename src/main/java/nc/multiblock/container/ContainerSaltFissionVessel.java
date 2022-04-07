@@ -11,15 +11,15 @@ public class ContainerSaltFissionVessel extends ContainerFluidGenerator<TileSalt
 	public ContainerSaltFissionVessel(EntityPlayer player, TileSaltFissionVessel vessel) {
 		super(player, vessel, NCRecipes.salt_fission);
 		
-		vessel.beginUpdatingPlayer(player);
+		vessel.addTileUpdatePacketListener(player);
 		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
 				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + 18 * i));
 			}
 		}
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; ++i) {
 			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142));
 		}
 	}

@@ -5,20 +5,18 @@ import javax.annotation.Nonnull;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.Multiblock;
 import nc.multiblock.battery.tile.TileBattery;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdatePacket> {
+public class BatteryMultiblock extends Multiblock<BatteryMultiblock, TileBattery> {
 	
 	public static final ObjectSet<Class<? extends TileBattery>> PART_CLASSES = new ObjectOpenHashSet<>();
 	
-	protected final PartSuperMap<TileBattery> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<BatteryMultiblock, TileBattery> partSuperMap = new PartSuperMap<>();
 	
 	protected final @Nonnull EnergyStorage storage = new EnergyStorage(1);
 	protected int comparatorStrength = 0;
@@ -26,14 +24,14 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 	protected boolean refreshEnergy = false;
 	
 	public BatteryMultiblock(World world) {
-		super(world);
+		super(world, BatteryMultiblock.class, TileBattery.class);
 		for (Class<? extends TileBattery> clazz : PART_CLASSES) {
 			partSuperMap.equip(clazz);
 		}
 	}
 	
 	@Override
-	public PartSuperMap<TileBattery> getPartSuperMap() {
+	public PartSuperMap<BatteryMultiblock, TileBattery> getPartSuperMap() {
 		return partSuperMap;
 	}
 	
@@ -42,17 +40,17 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 	}
 	
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data) {
+	public void onAttachedPartWithMultiblockData(TileBattery part, NBTTagCompound data) {
 		syncDataFrom(data, SyncReason.FullSync);
 	}
 	
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart) {
+	protected void onBlockAdded(TileBattery newPart) {
 		onPartAdded(newPart);
 	}
 	
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart) {
+	protected void onBlockRemoved(TileBattery oldPart) {
 		onPartRemoved(oldPart);
 	}
 	
@@ -111,10 +109,8 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 	}
 	
 	@Override
-	protected void onAssimilate(Multiblock assimilated) {
-		if (assimilated instanceof BatteryMultiblock) {
-			storage.mergeEnergyStorage(((BatteryMultiblock) assimilated).storage);
-		}
+	protected void onAssimilate(BatteryMultiblock assimilated) {
+		storage.mergeEnergyStorage(assimilated.storage);
 		
 		/*if (isAssembled()) {
 			onMultiblockFormed();
@@ -122,7 +118,7 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 	}
 	
 	@Override
-	protected void onAssimilated(Multiblock assimilator) {}
+	protected void onAssimilated(BatteryMultiblock assimilator) {}
 	
 	@Override
 	protected boolean updateServer() {
@@ -169,12 +165,4 @@ public class BatteryMultiblock extends Multiblock<TileBattery, MultiblockUpdateP
 		writeEnergy(storage, data, "energyStorage");
 		data.setInteger("comparatorStrength", comparatorStrength);
 	}
-	
-	@Override
-	protected MultiblockUpdatePacket getUpdatePacket() {
-		return null;
-	}
-	
-	@Override
-	public void onPacket(MultiblockUpdatePacket message) {}
 }

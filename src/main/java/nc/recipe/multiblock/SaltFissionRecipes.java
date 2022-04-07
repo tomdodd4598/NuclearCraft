@@ -29,14 +29,14 @@ public class SaltFissionRecipes extends BasicRecipeHandler {
 	public void addFuelDepleteRecipes(int[] time, int[] heat, double[] efficiency, int[] criticality, double[] decayFactor, boolean[] selfPriming, double[] radiation, String... fuelTypes) {
 		int id = 0;
 		for (String fuelType : fuelTypes) {
-			addRecipe(fluidStack(fuelType + "_fluoride_flibe", 1), fluidStack("depleted_" + fuelType + "_fluoride_flibe", 1), (double) (fission_fuel_time_multiplier * time[id + 4] / INGOT_VOLUME), (int) (fission_fuel_heat_multiplier * heat[id + 4]), fission_fuel_efficiency_multiplier * efficiency[id + 4], criticality[id + 4], decayFactor[id + 4], selfPriming[id + 4], fission_fuel_radiation_multiplier * radiation[id + 4]);
+			addRecipe(fluidStack(fuelType + "_fluoride_flibe", 1), fluidStack("depleted_" + fuelType + "_fluoride_flibe", 1), (double) time[id + 4] / (double) INGOT_VOLUME, heat[id + 4], efficiency[id + 4], criticality[id + 4], decayFactor[id + 4], selfPriming[id + 4], radiation[id + 4]);
 			id += 5;
 		}
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(7);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(7);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
@@ -48,8 +48,8 @@ public class SaltFissionRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List getFactoredExtras(List extras, int factor) {
-		List factored = new ArrayList(extras);
+	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
+		List<Object> factored = new ArrayList<>(extras);
 		factored.set(0, (int) extras.get(0) / factor);
 		return factored;
 	}

@@ -1,6 +1,7 @@
 package nc.multiblock.fission;
 
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -11,27 +12,27 @@ import nc.Global;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.tile.*;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.network.multiblock.FissionUpdatePacket;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpdatePacket> implements ILogicMultiblock<FissionReactorLogic, IFissionPart> {
+public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionPart> implements ILogicMultiblock<FissionReactor, FissionReactorLogic, IFissionPart>, IPacketMultiblock<FissionReactor, IFissionPart, FissionUpdatePacket> {
 	
 	public static final ObjectSet<Class<? extends IFissionPart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends FissionReactorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull FissionReactorLogic logic = new FissionReactorLogic(this);
 	
-	protected final PartSuperMap<IFissionPart> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<FissionReactor, IFissionPart> partSuperMap = new PartSuperMap<>();
 	protected final Int2ObjectMap<FissionCluster> clusterMap = new Int2ObjectOpenHashMap<>();
 	public int clusterCount = 0;
 	
 	protected final ObjectSet<FissionCluster> clustersToRefresh = new ObjectOpenHashSet<>();
 	
-	public IFissionController controller;
+	public IFissionController<?> controller;
 	
 	public final LongSet passiveModeratorCache = new LongOpenHashSet();
 	public final LongSet activeModeratorCache = new LongOpenHashSet();
@@ -44,11 +45,14 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
 	public double meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D;
 	
+	protected final Set<EntityPlayer> updatePacketListeners;
+	
 	public FissionReactor(World world) {
-		super(world);
+		super(world, FissionReactor.class, IFissionPart.class);
 		for (Class<? extends IFissionPart> clazz : PART_CLASSES) {
 			partSuperMap.equip(clazz);
 		}
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -65,7 +69,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	}
 	
 	@Override
-	public PartSuperMap<IFissionPart> getPartSuperMap() {
+	public PartSuperMap<FissionReactor, IFissionPart> getPartSuperMap() {
 		return partSuperMap;
 	}
 	
@@ -96,19 +100,19 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	// Multiblock Methods
 	
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data) {
+	public void onAttachedPartWithMultiblockData(IFissionPart part, NBTTagCompound data) {
 		logic.onAttachedPartWithMultiblockData(part, data);
 		syncDataFrom(data, SyncReason.FullSync);
 	}
 	
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart) {
+	protected void onBlockAdded(IFissionPart newPart) {
 		onPartAdded(newPart);
 		logic.onBlockAdded(newPart);
 	}
 	
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart) {
+	protected void onBlockRemoved(IFissionPart oldPart) {
 		onPartRemoved(oldPart);
 		logic.onBlockRemoved(oldPart);
 	}
@@ -138,7 +142,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		return setLogic(this) && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
-	public boolean setLogic(Multiblock multiblock) {
+	public boolean setLogic(FissionReactor multiblock) {
 		if (getPartMap(IFissionController.class).isEmpty()) {
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
@@ -148,7 +152,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 			return false;
 		}
 		
-		for (IFissionController contr : getParts(IFissionController.class)) {
+		for (IFissionController<?> contr : getParts(IFissionController.class)) {
 			controller = contr;
 		}
 		
@@ -158,12 +162,12 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	}
 	
 	@Override
-	protected void onAssimilate(Multiblock assimilated) {
+	protected void onAssimilate(FissionReactor assimilated) {
 		logic.onAssimilate(assimilated);
 	}
 	
 	@Override
-	protected void onAssimilated(Multiblock assimilator) {
+	protected void onAssimilated(FissionReactor assimilator) {
 		logic.onAssimilated(assimilator);
 	}
 	
@@ -192,7 +196,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		for (FissionCluster cluster : uniqueClusterCache) {
 			cluster.setId(i);
 			clusterMap.put(i, cluster);
-			i++;
+			++i;
 		}
 		clusterCount = clusterMap.size();
 	}
@@ -242,7 +246,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		
 		logic.updateRedstone();
 		if (controller != null) {
-			sendUpdateToListeningPlayers();
+			sendMultiblockUpdatePacketToListeners();
 		}
 		
 		return flag;
@@ -254,7 +258,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		if (isReactorOn != wasReactorOn) {
 			if (controller != null) {
 				controller.setActivity(isReactorOn);
-				sendUpdateToAllPlayers();
+				sendMultiblockUpdatePacketToAll();
 			}
 			for (TileFissionMonitor monitor : getParts(TileFissionMonitor.class)) {
 				monitor.setActivity(isReactorOn);
@@ -308,12 +312,17 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	// Packets
 	
 	@Override
-	protected FissionUpdatePacket getUpdatePacket() {
-		return logic.getUpdatePacket();
+	public Set<EntityPlayer> getMultiblockUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public void onPacket(FissionUpdatePacket message) {
+	public FissionUpdatePacket getMultiblockUpdatePacket() {
+		return logic.getMultiblockUpdatePacket();
+	}
+	
+	@Override
+	public void onMultiblockUpdatePacket(FissionUpdatePacket message) {
 		isReactorOn = message.isReactorOn;
 		clusterCount = message.clusterCount;
 		cooling = message.cooling;
@@ -326,19 +335,7 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 		meanEfficiency = message.meanEfficiency;
 		sparsityEfficiencyMult = message.sparsityEfficiencyMult;
 		
-		logic.onPacket(message);
-	}
-	
-	@Override
-	public void clearAllMaterial() {
-		logic.clearAllMaterial();
-		
-		super.clearAllMaterial();
-		
-		if (!WORLD.isRemote) {
-			logic.refreshReactor();
-			updateActivity();
-		}
+		logic.onMultiblockUpdatePacket(message);
 	}
 	
 	// Multiblock Validators
@@ -346,5 +343,18 @@ public class FissionReactor extends CuboidalMultiblock<IFissionPart, FissionUpda
 	@Override
 	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return logic.isBlockGoodForInterior(world, pos);
+	}
+	
+	// Clear Material
+	
+	@Override
+	public void clearAllMaterial() {
+		logic.clearAllMaterial();
+		super.clearAllMaterial();
+		
+		if (!WORLD.isRemote) {
+			logic.refreshReactor();
+			updateActivity();
+		}
 	}
 }

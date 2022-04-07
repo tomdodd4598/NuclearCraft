@@ -1,6 +1,7 @@
 package nc.recipe;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -148,7 +149,7 @@ public class RecipeHelper {
 		if (list.contains(null)) {
 			return new ArrayList<>();
 		}
-		List stacks = new ArrayList<>();
+		List<ItemStack> stacks = new ArrayList<>();
 		list.forEach(ingredient -> stacks.add(ingredient.getStack()));
 		if (stacks.contains(null)) {
 			return new ArrayList<>();
@@ -161,7 +162,7 @@ public class RecipeHelper {
 		if (list.contains(null)) {
 			return new ArrayList<>();
 		}
-		List stacks = new ArrayList<>();
+		List<FluidStack> stacks = new ArrayList<>();
 		list.forEach(ingredient -> stacks.add(ingredient.getStack()));
 		if (stacks.contains(null)) {
 			return new ArrayList<>();
@@ -196,7 +197,7 @@ public class RecipeHelper {
 			return checkedItemIngredient((IItemIngredient) object);
 		}
 		else if (object instanceof List) {
-			List list = (List) object;
+			List<?> list = (List<?>) object;
 			List<IItemIngredient> buildList = new ArrayList<>();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {
@@ -245,7 +246,7 @@ public class RecipeHelper {
 			return checkedFluidIngredient((IFluidIngredient) object);
 		}
 		else if (object instanceof List) {
-			List list = (List) object;
+			List<?> list = (List<?>) object;
 			List<IFluidIngredient> buildList = new ArrayList<>();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {
@@ -306,7 +307,7 @@ public class RecipeHelper {
 		return fluidStackList;
 	}
 	
-	public static RecipeMatchResult matchIngredients(IngredientSorption sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List items, List fluids, boolean shapeless) {
+	public static RecipeMatchResult matchIngredients(IngredientSorption sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<?> items, List<?> fluids, boolean shapeless) {
 		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()) {
 			return RecipeMatchResult.FAIL;
 		}
@@ -317,7 +318,7 @@ public class RecipeHelper {
 		IntList fluidInputOrder = CollectionHelper.increasingList(fluidIngredients.size());
 		
 		if (!shapeless) {
-			for (int i = 0; i < items.size(); i++) {
+			for (int i = 0; i < items.size(); ++i) {
 				IngredientMatchResult matchResult = itemIngredients.get(i).match(items.get(i), sorption);
 				if (matchResult.matches()) {
 					itemIngredientNumbers.set(i, matchResult.getIngredientNumber());
@@ -325,7 +326,7 @@ public class RecipeHelper {
 				}
 				return RecipeMatchResult.FAIL;
 			}
-			for (int i = 0; i < fluids.size(); i++) {
+			for (int i = 0; i < fluids.size(); ++i) {
 				Object fluid = fluids.get(i) instanceof Tank ? ((Tank) fluids.get(i)).getFluid() : fluids.get(i);
 				IngredientMatchResult matchResult = fluidIngredients.get(i).match(fluid, sorption);
 				if (matchResult.matches()) {
@@ -337,8 +338,8 @@ public class RecipeHelper {
 		}
 		else {
 			List<IItemIngredient> itemIngredientsRemaining = new ArrayList<>(itemIngredients);
-			itemInputs: for (int i = 0; i < items.size(); i++) {
-				for (int j = 0; j < itemIngredients.size(); j++) {
+			itemInputs: for (int i = 0; i < items.size(); ++i) {
+				for (int j = 0; j < itemIngredients.size(); ++j) {
 					IItemIngredient itemIngredient = itemIngredientsRemaining.get(j);
 					if (itemIngredient == null) {
 						continue;
@@ -354,9 +355,9 @@ public class RecipeHelper {
 				return RecipeMatchResult.FAIL;
 			}
 			List<IFluidIngredient> fluidIngredientsRemaining = new ArrayList<>(fluidIngredients);
-			fluidInputs: for (int i = 0; i < fluids.size(); i++) {
+			fluidInputs: for (int i = 0; i < fluids.size(); ++i) {
 				Object fluid = fluids.get(i) instanceof Tank ? ((Tank) fluids.get(i)).getFluid() : fluids.get(i);
-				for (int j = 0; j < fluidIngredients.size(); j++) {
+				for (int j = 0; j < fluidIngredients.size(); ++j) {
 					IFluidIngredient fluidIngredient = fluidIngredientsRemaining.get(j);
 					if (fluidIngredient == null) {
 						continue;
@@ -422,7 +423,7 @@ public class RecipeHelper {
 		return getRecipeString(recipe.getItemIngredients(), recipe.getFluidIngredients(), recipe.getItemProducts(), recipe.getFluidProducts());
 	}
 	
-	public static List<String> buildItemIngredientNames(List ingredientList) {
+	public static List<String> buildItemIngredientNames(List<Object> ingredientList) {
 		List<String> ingredientNames = new ArrayList<>();
 		for (Object obj : ingredientList) {
 			if (obj == null) {
@@ -444,7 +445,7 @@ public class RecipeHelper {
 		return ingredientNames;
 	}
 	
-	public static List<String> buildFluidIngredientNames(List ingredientList) {
+	public static List<String> buildFluidIngredientNames(List<Object> ingredientList) {
 		List<String> ingredientNames = new ArrayList<>();
 		for (Object obj : ingredientList) {
 			if (obj == null) {
@@ -474,24 +475,19 @@ public class RecipeHelper {
 		int fluidInputSize = recipes.getFluidInputSize();
 		int fluidOutputSize = recipes.getFluidOutputSize();
 		
-		List<FluidStack> fluidStackList = new ArrayList<>();
-		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
-			fluidStackList.add(new FluidStack(fluid, 1000));
-		}
-		
 		List<String> fluidNameList = new ArrayList<>();
-		for (FluidStack fluidStack : fluidStackList) {
-			String fluidName = fluidStack.getFluid().getName();
-			if (recipes.isValidFluidInput(fluidStack) && !exceptions.contains(fluidName)) {
+		for (Entry<String, Fluid> entry : FluidRegistry.getRegisteredFluids().entrySet()) {
+			String fluidName = entry.getKey();
+			if (recipes.isValidFluidInput(new FluidStack(entry.getValue(), 1000)) && !exceptions.contains(fluidName)) {
 				fluidNameList.add(fluidName);
 			}
 		}
 		
 		List<List<String>> allowedFluidLists = new ArrayList<>();
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			allowedFluidLists.add(fluidNameList);
 		}
-		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++) {
+		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; ++i) {
 			allowedFluidLists.add(null);
 		}
 		
@@ -556,11 +552,11 @@ public class RecipeHelper {
 		return new FakeCrafting(width, height);
 	}
 	
-	private static class FakeCrafting extends InventoryCrafting {
+	protected static class FakeCrafting extends InventoryCrafting {
 		
-		private static final FakeCraftingContainer FAKE_CONTAINER = new FakeCraftingContainer();
+		protected static final FakeCraftingContainer FAKE_CONTAINER = new FakeCraftingContainer();
 		
-		private static class FakeCraftingContainer extends Container {
+		protected static class FakeCraftingContainer extends Container {
 			
 			@Override
 			public void onCraftMatrixChanged(IInventory inventory) {
@@ -573,7 +569,7 @@ public class RecipeHelper {
 			}
 		}
 		
-		private FakeCrafting(int width, int height) {
+		protected FakeCrafting(int width, int height) {
 			super(FAKE_CONTAINER, width, height);
 		}
 	}

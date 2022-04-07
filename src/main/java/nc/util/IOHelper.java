@@ -1,6 +1,7 @@
 package nc.util;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.zip.*;
 
 public class IOHelper {
@@ -12,19 +13,16 @@ public class IOHelper {
 	
 	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
 	public static void appendFile(File target, File source, String separator) throws IOException {
-		FileWriter writer = new FileWriter(target, true);
-		FileReader reader = new FileReader(source);
-		
-		writer.write(separator);
-		
-		int c = reader.read();
-		while (c != -1) {
-			writer.write(c);
-			c = reader.read();
+		try (FileWriter writer = new FileWriter(target, true); FileReader reader = new FileReader(source)) {
+			
+			writer.write(separator);
+			
+			int c = reader.read();
+			while (c != -1) {
+				writer.write(c);
+				c = reader.read();
+			}
 		}
-		
-		writer.close();
-		reader.close();
 	}
 	
 	/** Modified from Fabian Braun's answer at https://stackoverflow.com/a/47595502 */
@@ -39,52 +37,49 @@ public class IOHelper {
 		return signature == 0x504B0304 || signature == 0x504B0506 || signature == 0x504B0708;
 	}
 	
-	/** Modified from Nam Ha Minh's posts at https://www.codejava.net/file-io-tutorials */
+	/** Thanks to sfPlayer for fixing a bug which caused some script addons not to load! Modified from Nam Ha Minh's posts at https://www.codejava.net/file-io-tutorials */
 	public static void unzip(File zipFile, String dest) throws IOException {
-		File destDir = new File(dest);
-		if (!destDir.exists()) {
-			destDir.mkdir();
-		}
+		Path destDir = Paths.get(dest).toAbsolutePath().normalize();
+		Files.createDirectories(destDir);
 		
 		int bytes = 0;
-		ZipInputStream zipStream = new ZipInputStream(new FileInputStream(zipFile));
-		ZipEntry entry = zipStream.getNextEntry();
-		while (entry != null) {
-			String fileDest = dest + "/" + entry.getName();
-			String canonicalDestDir = new File(dest).getCanonicalPath();
-			String canonicalFileDest = new File(fileDest).getCanonicalPath();
+		
+		try (ZipInputStream zipStream = new ZipInputStream(new FileInputStream(zipFile))) {
+			ZipEntry entry;
 			
-			if (!canonicalFileDest.startsWith(canonicalDestDir + File.separator)) {
-				zipStream.close();
-				throw new IOException("Entry is outside of the target directory \"" + entry.getName() + "\"");
+			while ((entry = zipStream.getNextEntry()) != null) {
+				Path out = destDir.resolve(entry.getName()).normalize();
+				
+				if (!out.startsWith(destDir)) {
+					throw new IOException("Entry is outside of the target directory \"" + entry.getName() + "\"");
+				}
+				
+				if (!entry.isDirectory()) {
+					bytes = extract(zipStream, out, bytes);
+				}
+				else {
+					Files.createDirectories(out);
+				}
 			}
-			
-			if (!entry.isDirectory()) {
-				bytes = extract(zipStream, fileDest, bytes);
-			}
-			else {
-				new File(fileDest).mkdirs();
-			}
-			zipStream.closeEntry();
-			entry = zipStream.getNextEntry();
 		}
-		zipStream.close();
 	}
 	
 	/** Returns the number of bytes extracted plus the original value of currentBytes */
-	private static int extract(ZipInputStream zipStream, String fileDest, int currentBytes) throws IOException {
-		try (BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(fileDest))) {
+	private static int extract(ZipInputStream zipStream, Path fileDest, int currentBytes) throws IOException {
+		Files.createDirectories(fileDest.getParent());
+		
+		try (OutputStream outStream = Files.newOutputStream(fileDest)) {
 			byte[] bytesIn = new byte[ZIP_READ_SIZE];
 			int read = 0;
-			while ((read = zipStream.read(bytesIn)) != -1) {
+			while ((read = zipStream.read(bytesIn)) >= 0) {
 				currentBytes += read;
 				if (currentBytes > MAX_ZIP_SIZE) {
 					throw new IOException("Zip file being extracted to \"" + fileDest + "\" is too big!");
 				}
 				outStream.write(bytesIn, 0, read);
 			}
-			outStream.close();
 		}
+		
 		return currentBytes;
 	}
 }

@@ -11,7 +11,8 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT")
+		// classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT")
+		classpath("net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT")
 		classpath("org.eclipse.jgit:org.eclipse.jgit:5.8.0.202006091008-r")
 		classpath("org.apache.commons:commons-lang3:3.12.0")
 	}
@@ -78,6 +79,7 @@ minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
 	replace "@VERSION@", "${mod_version}"
+	replace "required-after:forge;", "required-after:forge@[14.23.5.2860,);"
 	mappings = "${mapping_version}"
 	makeObfSourceJar = true
 }
@@ -104,7 +106,7 @@ dependencies {
 	deobfCompile "gregtechce:gregtech:${gregtech_version}"
 	deobfCompile "mekanism:Mekanism:${mekanism_version}"
 	deobfCompile "projecte:ProjectE:${projecte_version}"
-	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
+	// deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
 	deobfCompile "net.darkhax.bookshelf:Bookshelf-${mc_version}:${bookshelf_version}"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
 	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"

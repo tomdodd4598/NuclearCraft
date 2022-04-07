@@ -3,6 +3,7 @@ package nc.network.multiblock;
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
+import nc.multiblock.fission.tile.IFissionPart;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
 
@@ -37,10 +38,15 @@ public class SolidFissionUpdatePacket extends FissionUpdatePacket {
 		buf.writeDouble(reservedEffectiveHeat);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<SolidFissionUpdatePacket, FissionReactor, TileSolidFissionController> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<FissionReactor, IFissionPart, FissionUpdatePacket, TileSolidFissionController, SolidFissionUpdatePacket> {
 		
 		public Handler() {
 			super(TileSolidFissionController.class);
+		}
+		
+		@Override
+		protected void onPacket(SolidFissionUpdatePacket message, FissionReactor multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 }

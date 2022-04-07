@@ -122,6 +122,7 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 			case SOUTH:
 				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
 				world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
+				break;
 			default:
 				break;
 		}
@@ -145,15 +146,5 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		return Container.calcRedstone(world.getTileEntity(pos));
-	}
-	
-	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING_HORIZONTAL, rot.rotate(state.getValue(FACING_HORIZONTAL)));
-	}
-	
-	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING_HORIZONTAL)));
 	}
 }

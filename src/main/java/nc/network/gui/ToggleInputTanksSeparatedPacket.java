@@ -12,8 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleInputTanksSeparatedPacket implements IMessage {
 	
-	private BlockPos pos;
-	private boolean inputTanksSeparated;
+	protected BlockPos pos;
+	protected boolean inputTanksSeparated;
 	
 	public ToggleInputTanksSeparatedPacket() {
 		

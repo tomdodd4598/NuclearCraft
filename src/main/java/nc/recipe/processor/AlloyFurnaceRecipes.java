@@ -137,7 +137,7 @@ public class AlloyFurnaceRecipes extends BasicRecipeHandler {
 	}
 	
 	private static final List<String> SILICON = Lists.newArrayList("itemSilicon", "ingotSilicon");
-	private static final List ENDER_PEARL = Lists.newArrayList(Items.ENDER_PEARL, "dustEnder");
+	private static final List<Object> ENDER_PEARL = Lists.newArrayList(Items.ENDER_PEARL, "dustEnder");
 	
 	private static List<String> metalList(String name) {
 		return Lists.newArrayList("ingot" + name, "dust" + name);
@@ -148,8 +148,8 @@ public class AlloyFurnaceRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

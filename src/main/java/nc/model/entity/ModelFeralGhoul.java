@@ -120,6 +120,7 @@ public class ModelFeralGhoul extends ModelBiped {
 			case ITEM:
 				bipedLeftArm.rotateAngleX = bipedLeftArm.rotateAngleX * 0.5F - (float) Math.PI / 10F;
 				bipedLeftArm.rotateAngleY = 0F;
+				break;
 			default:
 				break;
 		}
@@ -135,6 +136,7 @@ public class ModelFeralGhoul extends ModelBiped {
 			case ITEM:
 				bipedRightArm.rotateAngleX = bipedRightArm.rotateAngleX * 0.5F - (float) Math.PI / 10F;
 				bipedRightArm.rotateAngleY = 0F;
+				break;
 			default:
 				break;
 		}

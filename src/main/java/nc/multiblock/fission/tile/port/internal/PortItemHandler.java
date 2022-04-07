@@ -5,9 +5,9 @@ import nc.tile.inventory.ITileInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public class PortItemHandler extends ItemHandler {
+public class PortItemHandler<T extends ITileInventory> extends ItemHandler<T> {
 	
-	public PortItemHandler(ITileInventory tile, EnumFacing side) {
+	public PortItemHandler(T tile, EnumFacing side) {
 		super(tile, side);
 	}
 	

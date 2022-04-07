@@ -22,7 +22,7 @@ import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
 import nc.multiblock.turbine.tile.*;
 import nc.network.multiblock.*;
-import nc.recipe.NCRecipes;
+import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
@@ -38,7 +38,7 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
-public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbinePart, TurbineUpdatePacket> {
+public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbinePart> implements IPacketMultiblockLogic<Turbine, TurbineLogic, ITurbinePart, TurbineUpdatePacket> {
 	
 	public boolean searchFlag = false;
 	
@@ -87,7 +87,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected void onTurbineFormed() {
-		for (ITurbineController contr : getParts(ITurbineController.class)) {
+		for (ITurbineController<?> contr : getParts(ITurbineController.class)) {
 			getTurbine().controller = contr;
 		}
 		setIsTurbineOn();
@@ -161,8 +161,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		if (!getWorld().isRemote) {
 			getTurbine().renderPosArray = new Vector3f[(1 + 4 * shaftWidth) * flowLength];
 			
-			for (int depth = 0; depth < flowLength; depth++) {
-				for (int w = 0; w < shaftWidth; w++) {
+			for (int depth = 0; depth < flowLength; ++depth) {
+				for (int w = 0; w < shaftWidth; ++w) {
 					getTurbine().renderPosArray[w + depth * shaftWidth] = getTurbine().getMiddleInteriorPlaneCoord(oppositeDir, depth, 1 + w + bladeLength, 0, shaftWidth - w + bladeLength, shaftWidth + bladeLength);
 					getTurbine().renderPosArray[w + (depth + flowLength) * shaftWidth] = getTurbine().getMiddleInteriorPlaneCoord(oppositeDir, depth, 0, shaftWidth - w + bladeLength, shaftWidth + bladeLength, 1 + w + bladeLength);
 					getTurbine().renderPosArray[w + (depth + 2 * flowLength) * shaftWidth] = getTurbine().getMiddleInteriorPlaneCoord(oppositeDir, depth, shaftWidth + bladeLength, 1 + w + bladeLength, 0, shaftWidth - w + bladeLength);
@@ -172,7 +172,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			if (getTurbine().controller != null) {
-				getTurbine().sendUpdateToAllPlayers();
+				getTurbine().sendMultiblockUpdatePacketToAll();
 				getTurbine().markReferenceCoordForUpdate();
 			}
 		}
@@ -207,9 +207,9 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 	}
 	
-	protected void iterateDynamoSearch(TileTurbineDynamoPart rootDynamoPart, ObjectSet<TileTurbineDynamoPart> dynamoPartCache) {
+	protected void iterateDynamoSearch(TileTurbineDynamoPart rootDynamoPart, ObjectSet<TileTurbineDynamoPart> currentDynamoPartCache) {
 		final ObjectSet<TileTurbineDynamoPart> searchCache = new ObjectOpenHashSet<>();
-		rootDynamoPart.dynamoSearch(dynamoPartCache, searchCache, componentFailCache, assumedValidCache);
+		rootDynamoPart.dynamoSearch(currentDynamoPartCache, searchCache, componentFailCache, assumedValidCache);
 		
 		do {
 			final Iterator<TileTurbineDynamoPart> searchIterator = searchCache.iterator();
@@ -217,7 +217,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			while (searchIterator.hasNext()) {
 				TileTurbineDynamoPart component = searchIterator.next();
 				searchIterator.remove();
-				component.dynamoSearch(dynamoPartCache, searchSubCache, componentFailCache, assumedValidCache);
+				component.dynamoSearch(currentDynamoPartCache, searchSubCache, componentFailCache, assumedValidCache);
 			}
 			searchCache.addAll(searchSubCache);
 		}
@@ -229,13 +229,13 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		double newConductivity = 0D, newConductivityOpposite = 0D;
 		for (TileTurbineDynamoPart dynamoPart : dynamoPartCache) {
 			if (dynamoPart.conductivity != null) {
-				getTurbine().dynamoCoilCount++;
+				++getTurbine().dynamoCoilCount;
 				newConductivity += dynamoPart.conductivity;
 			}
 		}
 		for (TileTurbineDynamoPart dynamoPart : dynamoPartCacheOpposite) {
 			if (dynamoPart.conductivity != null) {
-				getTurbine().dynamoCoilCountOpposite++;
+				++getTurbine().dynamoCoilCountOpposite;
 				newConductivityOpposite += dynamoPart.conductivity;
 			}
 		}
@@ -497,7 +497,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		
 		int flowLength = getTurbine().getFlowLength();
 		
-		for (int depth = 0; depth < flowLength; depth++) {
+		for (int depth = 0; depth < flowLength; ++depth) {
 			for (BlockPos pos : getTurbine().getInteriorPlane(EnumFacing.getFacingFromAxis(AxisDirection.POSITIVE, axis), depth, getTurbine().bladeLength, getTurbine().bladeLength, getTurbine().bladeLength, getTurbine().bladeLength)) {
 				TileTurbineRotorShaft shaft = getPartMap(TileTurbineRotorShaft.class).get(pos.toLong());
 				if (shaft == null) {
@@ -507,7 +507,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 		}
 		
-		if (!areBladesValid(multiblock)) {
+		if (!areBladesValid()) {
 			return false;
 		}
 		
@@ -516,10 +516,10 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			return false;
 		}
 		
-		for (ITurbineController controller : getParts(ITurbineController.class)) {
+		for (ITurbineController<?> controller : getParts(ITurbineController.class)) {
 			controller.setIsRenderer(false);
 		}
-		for (ITurbineController controller : getParts(ITurbineController.class)) {
+		for (ITurbineController<?> controller : getParts(ITurbineController.class)) {
 			if (getTurbine().shouldSpecialRenderRotor) {
 				controller.setIsRenderer(true);
 			}
@@ -529,7 +529,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		return true;
 	}
 	
-	public boolean areBladesValid(Multiblock multiblock) {
+	public boolean areBladesValid() {
 		int flowLength = getTurbine().getFlowLength();
 		
 		getTurbine().inertia = getTurbine().shaftWidth * (getTurbine().shaftWidth + 4 * getTurbine().bladeLength) * flowLength;
@@ -542,7 +542,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().bladePosArray = new BlockPos[4 * flowLength];
 		getTurbine().bladeAngleArray = new float[4 * flowLength];
 		
-		for (int depth = 0; depth < flowLength; depth++) {
+		for (int depth = 0; depth < flowLength; ++depth) {
 			
 			// Free space
 			
@@ -583,7 +583,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			IRotorBladeType currentBladeType = null;
 			
 			for (BlockPos pos : getTurbine().getInteriorPlane(getTurbine().flowDir.getOpposite(), depth, getTurbine().bladeLength, 0, getTurbine().bladeLength, getTurbine().shaftWidth + getTurbine().bladeLength)) {
-				ITurbineRotorBlade thisBlade = getTurbine().getBlade(pos);
+				ITurbineRotorBlade<?> thisBlade = getTurbine().getBlade(pos);
 				IRotorBladeType thisBladeType = thisBlade == null ? null : thisBlade.getBladeType();
 				if (thisBladeType == null) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
@@ -603,7 +603,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			for (BlockPos pos : getTurbine().getInteriorPlane(getTurbine().flowDir.getOpposite(), depth, 0, getTurbine().bladeLength, getTurbine().shaftWidth + getTurbine().bladeLength, getTurbine().bladeLength)) {
-				ITurbineRotorBlade thisBlade = getTurbine().getBlade(pos);
+				ITurbineRotorBlade<?> thisBlade = getTurbine().getBlade(pos);
 				IRotorBladeType thisBladeType = thisBlade == null ? null : thisBlade.getBladeType();
 				if (thisBladeType == null) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
@@ -620,7 +620,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			for (BlockPos pos : getTurbine().getInteriorPlane(getTurbine().flowDir.getOpposite(), depth, getTurbine().shaftWidth + getTurbine().bladeLength, getTurbine().bladeLength, 0, getTurbine().bladeLength)) {
-				ITurbineRotorBlade thisBlade = getTurbine().getBlade(pos);
+				ITurbineRotorBlade<?> thisBlade = getTurbine().getBlade(pos);
 				IRotorBladeType thisBladeType = thisBlade == null ? null : thisBlade.getBladeType();
 				if (thisBladeType == null) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
@@ -637,7 +637,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			for (BlockPos pos : getTurbine().getInteriorPlane(getTurbine().flowDir.getOpposite(), depth, getTurbine().bladeLength, getTurbine().shaftWidth + getTurbine().bladeLength, getTurbine().bladeLength, 0)) {
-				ITurbineRotorBlade thisBlade = getTurbine().getBlade(pos);
+				ITurbineRotorBlade<?> thisBlade = getTurbine().getBlade(pos);
 				IRotorBladeType thisBladeType = thisBlade == null ? null : thisBlade.getBladeType();
 				if (thisBladeType == null) {
 					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
@@ -667,7 +667,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 				getTurbine().maxStatorExpansionCoefficient = Math.max(currentBladeType.getExpansionCoefficient(), getTurbine().maxStatorExpansionCoefficient);
 			}
 			else {
-				getTurbine().noBladeSets++;
+				++getTurbine().noBladeSets;
 				getTurbine().minBladeExpansionCoefficient = Math.min(currentBladeType.getExpansionCoefficient(), getTurbine().minBladeExpansionCoefficient);
 				getTurbine().maxBladeExpansionCoefficient = Math.max(currentBladeType.getExpansionCoefficient(), getTurbine().maxBladeExpansionCoefficient);
 			}
@@ -682,19 +682,16 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	@Override
-	public void onAssimilate(Multiblock assimilated) {
-		if (assimilated instanceof Turbine) {
-			Turbine assimilatedTurbine = (Turbine) assimilated;
-			getTurbine().energyStorage.mergeEnergyStorage(assimilatedTurbine.energyStorage);
-			getTurbine().rawPower += assimilatedTurbine.rawPower;
-			getTurbine().rawLimitPower += assimilatedTurbine.rawLimitPower;
-			getTurbine().rawMaxPower += assimilatedTurbine.rawMaxPower;
-			assimilatedTurbine.rawPower = assimilatedTurbine.rawLimitPower = assimilatedTurbine.rawMaxPower = 0D;
-		}
+	public void onAssimilate(Turbine assimilated) {
+		getTurbine().energyStorage.mergeEnergyStorage(assimilated.energyStorage);
+		getTurbine().rawPower += assimilated.rawPower;
+		getTurbine().rawLimitPower += assimilated.rawLimitPower;
+		getTurbine().rawMaxPower += assimilated.rawMaxPower;
+		assimilated.rawPower = assimilated.rawLimitPower = assimilated.rawMaxPower = 0D;
 	}
 	
 	@Override
-	public void onAssimilated(Multiblock assimilator) {
+	public void onAssimilated(Turbine assimilator) {
 		if (getWorld().isRemote) {
 			clearSounds();
 		}
@@ -731,10 +728,10 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (turbine_render_rotor_speed * getTurbine().rawPower / getTurbine().rawMaxPower);
 		
 		if (wasProcessing != getTurbine().isProcessing && getTurbine().controller != null) {
-			getTurbine().sendUpdateToAllPlayers();
+			getTurbine().sendMultiblockUpdatePacketToAll();
 		}
 		
-		double tensionFactor = getMaxRecipeRateMultiplier() <= 0 ? 0D : (double) (getTurbine().recipeInputRate - getMaxRecipeRateMultiplier()) / (double) getMaxRecipeRateMultiplier();
+		double tensionFactor = getMaxRecipeRateMultiplier() <= 0 ? 0D : getTurbine().recipeInputRate - getMaxRecipeRateMultiplier() * (1D + turbine_tension_leniency) / getMaxRecipeRateMultiplier();
 		tensionFactor /= Math.max(1D, tensionFactor > 0D ? turbine_tension_throughput_factor - 1D : 1D);
 		if (tensionFactor < 0D) {
 			tensionFactor = -Math.sqrt(-tensionFactor);
@@ -748,8 +745,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().energyStorage.changeEnergyStored((long) getTurbine().power);
 		
 		if (getTurbine().controller != null) {
-			getTurbine().sendUpdateToListeningPlayers();
-			getTurbine().sendRenderToAllPlayers();
+			getTurbine().sendMultiblockUpdatePacketToListeners();
+			getTurbine().sendRenderPacketToAll();
 		}
 		
 		return flag;
@@ -781,7 +778,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		MultiblockRegistry.INSTANCE.addDirtyMultiblock(getWorld(), getTurbine());
 		
 		if (getTurbine().controller != null) {
-			getTurbine().sendUpdateToAllPlayers();
+			getTurbine().sendMultiblockUpdatePacketToAll();
 		}
 	}
 	
@@ -791,7 +788,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		if (getTurbine().isTurbineOn != oldIsTurbineOn) {
 			if (getTurbine().controller != null) {
 				getTurbine().controller.setActivity(getTurbine().isTurbineOn);
-				getTurbine().sendUpdateToAllPlayers();
+				getTurbine().sendMultiblockUpdatePacketToAll();
 			}
 		}
 	}
@@ -821,11 +818,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().recipeInputRate = 0;
 			return false;
 		}
-		getTurbine().basePowerPerMB = getTurbine().recipeInfo.getRecipe().getTurbinePowerPerMB();
-		getTurbine().idealTotalExpansionLevel = getTurbine().recipeInfo.getRecipe().getTurbineExpansionLevel();
-		getTurbine().spinUpMultiplier = getTurbine().recipeInfo.getRecipe().getTurbineSpinUpMultiplier();
-		getTurbine().particleEffect = getTurbine().recipeInfo.getRecipe().getTurbineParticleEffect();
-		getTurbine().particleSpeedMult = getTurbine().recipeInfo.getRecipe().getTurbineParticleSpeedMultiplier();
+		BasicRecipe recipe = getTurbine().recipeInfo.getRecipe();
+		getTurbine().basePowerPerMB = recipe.getTurbinePowerPerMB();
+		getTurbine().idealTotalExpansionLevel = recipe.getTurbineExpansionLevel();
+		getTurbine().spinUpMultiplier = recipe.getTurbineSpinUpMultiplier();
+		getTurbine().particleEffect = recipe.getTurbineParticleEffect();
+		getTurbine().particleSpeedMult = recipe.getTurbineParticleSpeedMultiplier();
 		return true;
 	}
 	
@@ -902,7 +900,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	public void setRotorEfficiency() {
 		getTurbine().rotorEfficiency = 0D;
 		
-		for (int depth = 0; depth < getTurbine().getFlowLength(); depth++) {
+		for (int depth = 0; depth < getTurbine().getFlowLength(); ++depth) {
 			if (getTurbine().rawBladeEfficiencies.get(depth) < 0D) {
 				continue;
 			}
@@ -927,7 +925,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		if (getTurbine().flowDir == null) {
 			return levels;
 		}
-		for (int depth = 0; depth < getTurbine().getFlowLength(); depth++) {
+		for (int depth = 0; depth < getTurbine().getFlowLength(); ++depth) {
 			levels.add(getIdealExpansionLevel(depth));
 		}
 		return levels;
@@ -1143,16 +1141,16 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().rotorStateArray = new IBlockState[1 + 4 * flowLength];
 			getTurbine().rotorStateArray[4 * flowLength] = NCBlocks.turbine_rotor_shaft.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, getTurbine().getShaftDir());
 			
-			for (int i = 0; i < getTurbine().bladePosArray.length; i++) {
+			for (int i = 0; i < getTurbine().bladePosArray.length; ++i) {
 				BlockPos pos = getTurbine().bladePosArray[i];
-				ITurbineRotorBlade thisBlade = getTurbine().getBlade(pos);
+				ITurbineRotorBlade<?> thisBlade = getTurbine().getBlade(pos);
 				getTurbine().rotorStateArray[i] = thisBlade == null ? getWorld().getBlockState(pos).getBlock().getDefaultState() : thisBlade.getRenderState();
 			}
 			
 			getTurbine().bladeDepths.clear();
 			getTurbine().statorDepths.clear();
 			
-			for (int i = 0; i < flowLength; i++) {
+			for (int i = 0; i < flowLength; ++i) {
 				if (getTurbine().getBlade(getTurbine().bladePosArray[i]).getBladeType() instanceof IRotorStatorType) {
 					getTurbine().statorDepths.add(i);
 				}
@@ -1178,12 +1176,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	// Packets
 	
 	@Override
-	public TurbineUpdatePacket getUpdatePacket() {
+	public TurbineUpdatePacket getMultiblockUpdatePacket() {
 		return new TurbineUpdatePacket(getTurbine().controller.getTilePos(), getTurbine().isTurbineOn, getTurbine().energyStorage, getTurbine().power, getTurbine().rawPower, getTurbine().conductivity, getTurbine().rotorEfficiency, getTurbine().powerBonus, getTurbine().totalExpansionLevel, getTurbine().idealTotalExpansionLevel, getTurbine().shaftWidth, getTurbine().bladeLength, getTurbine().noBladeSets, getTurbine().dynamoCoilCount, getTurbine().dynamoCoilCountOpposite, getTurbine().bearingTension);
 	}
 	
 	@Override
-	public void onPacket(TurbineUpdatePacket message) {
+	public void onMultiblockUpdatePacket(TurbineUpdatePacket message) {
 		getTurbine().isTurbineOn = message.isTurbineOn;
 		getTurbine().energyStorage.setEnergyStored(message.energy);
 		getTurbine().energyStorage.setStorageCapacity(message.capacity);
@@ -1220,13 +1218,6 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		getTurbine().recipeInputRateFP = message.recipeInputRateFP;
 	}
 	
-	@Override
-	public void clearAllMaterial() {
-		for (Tank tank : getTurbine().tanks) {
-			tank.setFluidStored(null);
-		}
-	}
-	
 	// Multiblock Validators
 	
 	@Override
@@ -1237,6 +1228,15 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		else {
 			return getTurbine().standardLastError(pos);
+		}
+	}
+	
+	// Clear Material
+	
+	@Override
+	public void clearAllMaterial() {
+		for (Tank tank : getTurbine().tanks) {
+			tank.setFluidStored(null);
 		}
 	}
 }

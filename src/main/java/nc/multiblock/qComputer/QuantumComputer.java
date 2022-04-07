@@ -15,10 +15,7 @@ import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
 import nc.multiblock.qComputer.tile.*;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.network.PacketHandler;
-import nc.network.multiblock.*;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,23 +25,23 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class QuantumComputer extends Multiblock<IQuantumComputerPart, MultiblockUpdatePacket> {
+public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumComputerPart> {
 	
 	public static final ObjectSet<Class<? extends IQuantumComputerPart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	
-	protected final PartSuperMap<IQuantumComputerPart> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<QuantumComputer, IQuantumComputerPart> partSuperMap = new PartSuperMap<>();
 	
 	protected TileQuantumComputerController controller;
 	
 	protected ComplexVector state, cache = null;
 	
-	protected Queue<QuantumGate> queue = new ConcurrentLinkedQueue<>();
+	protected Queue<QuantumGate<?>> queue = new ConcurrentLinkedQueue<>();
 	
 	public int codeStart = -1, codeType = -1;
 	protected StringBuilder codeBuilder;
 	
 	public QuantumComputer(World world) {
-		super(world);
+		super(world, QuantumComputer.class, IQuantumComputerPart.class);
 		for (Class<? extends IQuantumComputerPart> clazz : PART_CLASSES) {
 			partSuperMap.equip(clazz);
 		}
@@ -52,23 +49,23 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	}
 	
 	@Override
-	public PartSuperMap<IQuantumComputerPart> getPartSuperMap() {
+	public PartSuperMap<QuantumComputer, IQuantumComputerPart> getPartSuperMap() {
 		return partSuperMap;
 	}
 	
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data) {
+	public void onAttachedPartWithMultiblockData(IQuantumComputerPart part, NBTTagCompound data) {
 		syncDataFrom(data, SyncReason.FullSync);
 	}
 	
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart) {
+	protected void onBlockAdded(IQuantumComputerPart newPart) {
 		onPartAdded(newPart);
 		refreshState(false);
 	}
 	
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart) {
+	protected void onBlockRemoved(IQuantumComputerPart oldPart) {
 		onPartRemoved(oldPart);
 		refreshState(false);
 	}
@@ -166,14 +163,14 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	}
 	
 	@Override
-	protected void onAssimilate(Multiblock assimilated) {
+	protected void onAssimilate(QuantumComputer assimilated) {
 		/*if (isAssembled()) {
 			onQuantumComputerFormed();
 		}*/
 	}
 	
 	@Override
-	protected void onAssimilated(Multiblock assimilator) {}
+	protected void onAssimilated(QuantumComputer assimilator) {}
 	
 	@Override
 	protected boolean updateServer() {
@@ -186,11 +183,11 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			codeBuilder = new StringBuilder();
 		}
 		
-		QuantumGate gate = queue.poll();
+		QuantumGate<?> gate = queue.poll();
 		if (gate != null) {
 			try {
 				tryLoadStateCache(dim(q));
-				QuantumGate merger = gate, next;
+				QuantumGate<?> merger = gate, next;
 				while (merger != null) {
 					next = queue.peek();
 					
@@ -267,14 +264,6 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		return false;
 	}
 	
-	@Override
-	protected MultiblockUpdatePacket getUpdatePacket() {
-		return null;
-	}
-	
-	@Override
-	public void onPacket(MultiblockUpdatePacket message) {}
-	
 	// Quantum Logic
 	
 	public Collection<TileQuantumComputerQubit> getQubits() {
@@ -292,7 +281,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 					boolean result = NCMath.getBit(o, qubitCount() - qubit.id - 1) == 1;
 					qubit.redstone = result;
 					qubit.measureColor = result ? 1F : -1F;
-					PacketHandler.instance.sendToAll(new QuantumComputerQubitRenderPacket(qubit.getPos(), qubit.measureColor));
+					qubit.sendTileUpdatePacketToAll();
 				}
 			}
 		}
@@ -322,7 +311,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			state.im[j] = 0D;
 		}
 		else {
-			for (int j = 0; j < dim; j++) {
+			for (int j = 0; j < dim; ++j) {
 				if (!i.contains(j)) {
 					state.re[j] = state.im[j] = 0D;
 				}
@@ -356,7 +345,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		checkStateDim(dim);
 		
 		int[] z = new int[_n.size()];
-		for (int j = 0; j < _n.size(); j++) {
+		for (int j = 0; j < _n.size(); ++j) {
 			z[j] = q - _n.getInt(j) - 1;
 		}
 		
@@ -365,7 +354,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		IntList l = new IntArrayList();
 		IntSet i = null;
 		double a, sum = 0D;
-		for (int j = 0; j < dim; j++) {
+		for (int j = 0; j < dim; ++j) {
 			a = Complex.absSq(state.re[j], state.im[j]);
 			sum += a;
 			o = NCMath.onlyBits(j, z);
@@ -396,7 +385,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 	
 	// Gates
 	
-	public Queue<QuantumGate> getGateQueue() {
+	public Queue<QuantumGate<?>> getGateQueue() {
 		return queue;
 	}
 	
@@ -430,7 +419,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		}
 		
 		ComplexMatrix[] t = new ComplexMatrix[q];
-		for (int j = 0; j < q; j++) {
+		for (int j = 0; j < q; ++j) {
 			t[j] = n.contains(j) ? m : I;
 		}
 		
@@ -503,8 +492,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		checkStateDim(dim);
 		
 		double re, im;
-		for (int k = 0; k < dim; k++) {
-			for (int a = 0; a < i_.size(); a++) {
+		for (int k = 0; k < dim; ++k) {
+			for (int a = 0; a < i_.size(); ++a) {
 				i = i_.getInt(a);
 				j = j_.getInt(a);
 				if (i == j) {
@@ -550,9 +539,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		ComplexMatrix m = new ComplexMatrix(dim(q));
 		ComplexMatrix[] e = new ComplexMatrix[q];
 		boolean b;
-		for (int i = 0; i < s; i++) {
+		for (int i = 0; i < s; ++i) {
 			k = 0;
-			for (int j = 0; j < q; j++) {
+			for (int j = 0; j < q; ++j) {
 				b = c.contains(j);
 				e[j] = b ? NCMath.getBit(i, c.size() - k - 1) == 1 ? P_1 : P_0 : t.contains(j) && i == s - 1 ? g : I;
 				if (b) {
@@ -645,9 +634,9 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		ComplexMatrix m = new ComplexMatrix(dim), p;
 		ComplexMatrix[] e = new ComplexMatrix[q];
 		boolean b;
-		for (int u = 0; u < s; u++) {
+		for (int u = 0; u < s; ++u) {
 			k = 0;
-			for (int v = 0; v < q; v++) {
+			for (int v = 0; v < q; ++v) {
 				b = c.contains(v);
 				e[v] = b ? NCMath.getBit(u, c.size() - k - 1) == 1 ? P_1 : P_0 : I;
 				if (b) {
@@ -656,8 +645,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			}
 			p = ComplexMatrix.tensorProduct(e);
 			if (u == s - 1) {
-				for (int l = 0; l < dim; l++) {
-					for (int a = 0; a < i_.size(); a++) {
+				for (int l = 0; l < dim; ++l) {
+					for (int a = 0; a < i_.size(); ++a) {
 						i = i_.getInt(a);
 						j = j_.getInt(a);
 						if (i == j) {
@@ -685,8 +674,8 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			return;
 		}
 		
-		int codeType = this.codeType;
-		this.codeType = -1;
+		int cachedCodeType = codeType;
+		codeType = -1;
 		
 		int q = qubitCount();
 		if (q > quantum_max_qubits_code) {
@@ -697,7 +686,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 		String codeString = codeBuilder.toString();
 		String s = IOHelper.NEW_LINE, d = s + s, time = Long.toString(System.currentTimeMillis() / 100L);
 		
-		if (codeType == 0) {
+		if (cachedCodeType == 0) {
 			if (codeString.isEmpty()) {
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty")));
 				return;
@@ -705,11 +694,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			
 			File out = new File("nc_quantum/qasm/" + q + "_qubit_" + time + ".qasm");
 			
-			codeString = "OPENQASM 2.0;" + s +
-					"include \"qelib1.inc\";" + d +
-					"qreg q[" + q + "];" + s +
-					"creg c[" + q + "];" + d +
-					codeString;
+			codeString = "OPENQASM 2.0;" + s + "include \"qelib1.inc\";" + d + "qreg q[" + q + "];" + s + "creg c[" + q + "];" + d + codeString;
 			
 			try {
 				FileUtils.writeStringToFile(out, codeString);
@@ -722,7 +707,7 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_error", new Object[] {out.getAbsolutePath()}));
 			}
 		}
-		else if (codeType == 1) {
+		else if (cachedCodeType == 1) {
 			if (codeString.isEmpty()) {
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty")));
 				return;
@@ -730,85 +715,31 @@ public class QuantumComputer extends Multiblock<IQuantumComputerPart, Multiblock
 			
 			File out = new File("nc_quantum/qiskit/" + q + "_qubit_" + time + ".ipynb");
 			
-			codeString = "# Jupyter plot output mode" + s +
-					"%matplotlib inline" + d +
+			codeString = "# Jupyter plot output mode" + s + "# %matplotlib inline" + d +
 					
-					"# Standard Qiskit libraries" + s +
-					"from qiskit import *" + s +
-					"from qiskit.compiler import transpile, assemble" + s +
-					"from qiskit.providers.ibmq import least_busy" + s +
-					"from qiskit.visualization import *" + s +
-					"from qiskit.tools.monitor import job_monitor" + s +
-					"from qiskit.tools.jupyter import *" + d +
+					"# Imports" + s + "import qiskit" + s + "from qiskit import IBMQ, QuantumCircuit, visualization" + s + "from qiskit.providers import ibmq" + s + "from qiskit.tools import monitor" + d +
 					
-					"# Python maths" + s +
-					"import numpy as np" + s +
-					"from numpy import pi" + d +
+					"# Number of qubits" + s + "qubits = " + q + d +
 					
-					"# Plotting" + s +
-					"from matplotlib import pyplot as plt" + d +
+					"# Load IBMQ account" + s + "provider = IBMQ.load_account()" + d +
 					
-					"# Number of qubits" + s +
-					"qubits = " + q + d +
+					"# Get backends" + s + "simulator = provider.get_backend('simulator_statevector')" + s + "device = provider.get_backend('ibmq_manila')" + s + "filtered = provider.backends(" + s + "    filters=lambda x:" + s + "    int(x.configuration().num_qubits) >= qubits" + s + "    and not x.configuration().simulator" + s + "    and x.status().operational" + s + ")" + s + "leastbusy = ibmq.least_busy(filtered) if len(filtered) > 0 else device" + d +
 					
-					"# Load IBMQ account" + s +
-					"provider = IBMQ.load_account()" + s +
-					"simulator = provider.get_backend('ibmq_qasm_simulator')" + s +
-					"device = provider.get_backend('" + (q > 5 ? "ibmq_16_melbourne" : (q > 1 ? "ibmq_santiago" : "ibmq_armonk")) + "')" + s +
-					"filtered = provider.backends(filters=lambda x:" + s +
-					"                             x.configuration().n_qubits >= qubits" + s +
-					"                             and not x.configuration().simulator" + s +
-					"                             and x.status().operational)" + s +
-					"leastbusy = least_busy(filtered) if len(filtered) > 0 else device" + d +
+					"# Choice of backend" + s + "qc_backend = " + (q > 5 ? "simulator" : "device") + d +
 					
-					"# Choice of backend" + s +
-					"qc_backend = " + (q > 15 ? "simulator" : "device") + d +
+					"# Construct circuit" + s + "qc = QuantumCircuit(qubits, qubits)" + d +
 					
-					"# Helper function" + s +
-					"def run_job(circuit_, backend_, shots_ = 4096, opt_ = 1):" + s +
-					"    print('Using {}'.format(backend_))" + s +
-					"    job = execute(circuit_, backend = backend_, shots = shots_, optimization_level = opt_)" + s +
-					"    job_monitor(job)" + s +
-					"    return job.result()" + d +
+					"# Generated code" + codeString + d +
 					
-					"# Construct circuit" + s +
-					"qc = QuantumCircuit(qubits, qubits)" + d +
+					"# Helper function" + s + "def run_job(circuit, backend, shots=4096, optimization_level=3):" + s + "    print(f'Using backend {backend}...')" + s + "    job = qiskit.execute(circuit, backend=backend, shots=shots, optimization_level=optimization_level)" + s + "    qiskit.tools.job_monitor(job)" + s + "    return job.result()" + s + d +
 					
-					codeString + s +
+					"# Run circuit" + s + "result = run_job(qc, qc_backend, 4096, 3)" + s + "counts = result.get_counts(qc)" + s + "hist = visualization.plot_histogram(counts)" + s + "print('\\nCounts: ', counts)" + d +
 					
-					"# Optimize circuit before running?" + s +
-					"optimize = True" + d +
+					"# Save circuit diagram to file" + s + "qc.draw(output='mpl', filename='circuit.png')" + d +
 					
-					"# Optimization" + s +
-					"optimization = 1" + s +
-					"if optimize:" + s +
-					"    qc_cx = qc_depth = sys.maxsize" + s +
-					"    for o in range(1, 4):" + s +
-					"        qc_opt = transpile(qc, backend = qc_backend, seed_transpiler = " + Math.abs(rand.nextInt()) + ", optimization_level = o)" + s +
-					"        if (qc_opt.count_ops().get('cx') < qc_cx" + s +
-					"        or (qc_opt.count_ops().get('cx') == qc_cx and qc_opt.depth() <= qc_depth)):" + s +
-					"            optimization = o" + s +
-					"    print('Optimization level: {}'.format(optimization))" + d +
+					"# Save plot to file" + s + "hist.savefig('counts.png')" + d +
 					
-					"# Run circuit" + s +
-					"result = run_job(qc, qc_backend, 4096, optimization)" + s +
-					"counts = result.get_counts(qc)" + s +
-					"hist = plot_histogram(counts)" + s +
-					"print('\\n', counts)" + d +
-					
-					"# Printing results" + s +
-					"# NOTE: only one diagram can be shown per Jupyter cell." + s +
-					"# Either comment out all but one drawing/plotting method" + s +
-					"# or move them into separate cells." + d +
-					
-					"# Draw circuit" + s +
-					"# qc.draw()" + d +
-					
-					"# Plot results - only works in Jupyter" + s +
-					"hist" + d +
-					
-					"# Save plot to file - won't work in IBM Q" + s +
-					"# hist.savefig('counts.png')" + s;
+					"# Plot results in output - only works in Jupyter" + s + "# hist" + s;
 			
 			try {
 				FileUtils.writeStringToFile(out, codeString);

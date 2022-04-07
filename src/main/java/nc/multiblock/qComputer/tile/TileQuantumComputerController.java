@@ -23,7 +23,7 @@ public class TileQuantumComputerController extends TileQuantumComputerPart imple
 	public void onMachineBroken() {}
 	
 	@Override
-	public int[] weakSidesToCheck(World world, BlockPos pos) {
+	public int[] weakSidesToCheck(World worldIn, BlockPos posIn) {
 		return new int[] {2, 3, 4, 5};
 	}
 	

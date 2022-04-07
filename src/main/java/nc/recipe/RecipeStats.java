@@ -1,6 +1,6 @@
 package nc.recipe;
 
-import static nc.config.NCConfig.machine_update_rate;
+import static nc.config.NCConfig.*;
 
 import nc.config.NCConfig;
 import nc.util.NCMath;
@@ -33,13 +33,13 @@ public class RecipeStats {
 	}
 	
 	private static void setProcessorMaxStats() {
-		for (int i = 0; i < NCRecipes.processor_recipe_handlers.length; i++) {
+		for (int i = 0; i < NCRecipes.processor_recipe_handlers.length; ++i) {
 			processor_max_base_process_time[i] = 1D;
 			processor_max_base_process_power[i] = 0D;
 			for (BasicRecipe recipe : NCRecipes.processor_recipe_handlers[i].getRecipeList()) {
 				if (recipe != null) {
-					processor_max_base_process_time[i] = Math.max(processor_max_base_process_time[i], recipe.getBaseProcessTime(NCConfig.processor_time[i]));
-					processor_max_base_process_power[i] = Math.max(processor_max_base_process_power[i], recipe.getBaseProcessPower(NCConfig.processor_power[i]));
+					processor_max_base_process_time[i] = Math.max(processor_max_base_process_time[i], recipe.getBaseProcessTime(processor_time_multiplier * processor_time[i]));
+					processor_max_base_process_power[i] = Math.max(processor_max_base_process_power[i], recipe.getBaseProcessPower(processor_power_multiplier * NCConfig.processor_power[i]));
 				}
 			}
 		}

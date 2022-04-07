@@ -18,11 +18,11 @@ public class CTAddRecipe implements IAction {
 	protected final List<IFluidIngredient> fluidIngredients = new ArrayList<>();
 	protected final List<IItemIngredient> itemProducts = new ArrayList<>();
 	protected final List<IFluidIngredient> fluidProducts = new ArrayList<>();
-	protected final List extras = new ArrayList();;
+	protected final List<Object> extras = new ArrayList<>();
 	
 	protected boolean nullInputs = true, nullIngredient, nullRecipe, wrongSize;
 	
-	public CTAddRecipe(BasicRecipeHandler recipeHandler, List objects) {
+	public CTAddRecipe(BasicRecipeHandler recipeHandler, List<Object> objects) {
 		this.recipeHandler = recipeHandler;
 		
 		int count = 0;
@@ -89,7 +89,7 @@ public class CTAddRecipe implements IAction {
 			else {
 				extras.add(object);
 			}
-			count++;
+			++count;
 		}
 		
 		if (itemIngredients.size() != recipeHandler.getItemInputSize() || fluidIngredients.size() != recipeHandler.getFluidInputSize() || itemProducts.size() != recipeHandler.getItemOutputSize() || fluidProducts.size() != recipeHandler.getFluidOutputSize()) {

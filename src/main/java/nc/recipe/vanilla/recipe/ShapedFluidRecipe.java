@@ -25,7 +25,7 @@ public class ShapedFluidRecipe extends ShapedOreRecipe {
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
 		NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
-		for (int i = 0; i < ret.size(); i++) {
+		for (int i = 0; i < ret.size(); ++i) {
 			ItemStack stack = inv.getStackInSlot(i);
 			IFluidHandlerItem handler = stack.getCount() > 1 ? FluidUtil.getFluidHandler(stack.copy()) : FluidUtil.getFluidHandler(stack);
 			if (handler == null) {

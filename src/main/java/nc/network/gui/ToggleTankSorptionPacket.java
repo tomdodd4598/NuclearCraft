@@ -14,10 +14,10 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleTankSorptionPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int side;
-	private int tank;
-	private int sorption;
+	protected BlockPos pos;
+	protected int side;
+	protected int tank;
+	protected int sorption;
 	
 	public ToggleTankSorptionPacket() {
 		

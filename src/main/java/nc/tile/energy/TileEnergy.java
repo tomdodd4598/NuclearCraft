@@ -169,13 +169,13 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) {
 			if (hasEnergySideCapability(side)) {
-				return (T) getEnergySide(nonNullSide(side));
+				return CapabilityEnergy.ENERGY.cast(getEnergySide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			if (enable_gtce_eu && hasEnergySideCapability(side)) {
-				return (T) getEnergySideGT(nonNullSide(side));
+				return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(getEnergySideGT(nonNullSide(side)));
 			}
 			return null;
 		}

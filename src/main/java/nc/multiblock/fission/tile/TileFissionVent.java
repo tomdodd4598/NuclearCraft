@@ -111,12 +111,13 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 			return;
 		}
 		
-		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) {
+		for (int i = 0; i < getTanks().size(); ++i) {
+			Tank tank = getTanks().get(i);
+			if (tank.getFluid() == null || !getTankSorption(side, i).canDrain()) {
 				continue;
 			}
 			
-			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
+			tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true);
 		}
 	}
 	
@@ -152,7 +153,7 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 	// IMultitoolLogic
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
 			
 		}
@@ -178,7 +179,7 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT
@@ -210,13 +211,13 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}

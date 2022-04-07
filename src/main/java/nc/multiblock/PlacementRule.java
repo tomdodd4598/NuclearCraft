@@ -16,19 +16,19 @@ import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.util.EnumFacing;
 
-public abstract class PlacementRule<T extends ITileMultiblockPart> {
+public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> {
 	
-	protected final @Nullable List<PlacementRule<T>> subRules;
+	protected final @Nullable List<PlacementRule<MULTIBLOCK, T>> subRules;
 	protected final List<String> dependencies;
 	protected final boolean requiresRecheck;
 	
-	public PlacementRule(@Nullable List<PlacementRule<T>> subRules, List<String> dependencies, boolean requiresRecheck) {
+	public PlacementRule(@Nullable List<PlacementRule<MULTIBLOCK, T>> subRules, List<String> dependencies, boolean requiresRecheck) {
 		this.subRules = subRules;
 		this.dependencies = dependencies;
 		this.requiresRecheck = requiresRecheck;
 	}
 	
-	public @Nullable List<PlacementRule<T>> getSubRules() {
+	public @Nullable List<PlacementRule<MULTIBLOCK, T>> getSubRules() {
 		return subRules;
 	}
 	
@@ -73,47 +73,49 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	
 	// Rule Parser
 	
-	public static <T extends ITileMultiblockPart> PlacementRule<T> parse(String string, List<RuleParser<T>> parsers) {
-		for (RuleParser<T> parser : parsers) {
-			PlacementRule<T> rule = parser.parseRule(string);
-			if (rule != null)
+	public static <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> PlacementRule<MULTIBLOCK, T> parse(String string, List<RuleParser<MULTIBLOCK, T>> parsers) {
+		for (RuleParser<MULTIBLOCK, T> parser : parsers) {
+			PlacementRule<MULTIBLOCK, T> rule = parser.parseRule(string);
+			if (rule != null) {
 				return rule;
+			}
 		}
 		throw new IllegalArgumentException("The placement rule string \"" + string + "\" could not be parsed!");
 	}
 	
-	public static abstract class RuleParser<T extends ITileMultiblockPart> {
+	public static abstract class RuleParser<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> {
 		
 		/** Returns non-null PlacementRule if the string is successfully parsed. */
-		protected abstract @Nullable PlacementRule<T> parseRule(String s);
+		protected abstract @Nullable PlacementRule<MULTIBLOCK, T> parseRule(String s);
 	}
 	
-	public static abstract class DefaultRuleParser<T extends ITileMultiblockPart> extends RuleParser<T> {
+	public static abstract class DefaultRuleParser<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends RuleParser<MULTIBLOCK, T> {
 		
 		@Override
-		protected @Nullable PlacementRule<T> parseRule(String string) {
+		protected @Nullable PlacementRule<MULTIBLOCK, T> parseRule(String string) {
 			string = string.toLowerCase(Locale.ROOT);
 			
-			List<PlacementRule<T>> rules = new ArrayList<>();
+			List<PlacementRule<MULTIBLOCK, T>> rules = new ArrayList<>();
 			String pattern = string.contains("&&") ? "&&" : "||";
 			for (String s : string.split(Pattern.quote(pattern))) {
-				PlacementRule<T> rule = partialParse(s);
-				if (rule == null)
+				PlacementRule<MULTIBLOCK, T> rule = partialParse(s);
+				if (rule == null) {
 					return null;
+				}
 				rules.add(rule);
 			}
 			
-			return pattern.equals("&&") ? new And(rules) : new Or(rules);
+			return pattern.equals("&&") ? new And<>(rules) : new Or<>(rules);
 		}
 		
-		protected abstract @Nullable PlacementRule<T> partialParse(String s);
+		protected abstract @Nullable PlacementRule<MULTIBLOCK, T> partialParse(String s);
 	}
 	
 	// Basic Compound Rule Types
 	
-	public abstract static class BasicCompoundRule<T extends ITileMultiblockPart> extends PlacementRule<T> {
+	public abstract static class BasicCompoundRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
 		
-		public BasicCompoundRule(List<PlacementRule<T>> rules) {
+		public BasicCompoundRule(List<PlacementRule<MULTIBLOCK, T>> rules) {
 			super(rules, concatDependencies(rules), mergeRequiresRecheck(rules));
 		}
 		
@@ -121,7 +123,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		public void checkIsRuleAllowed(String ruleID) {
 			Int2IntMap adjacencyMap = new Int2IntOpenHashMap();
 			if (subRules != null) {
-				for (PlacementRule<T> subRule : subRules) {
+				for (PlacementRule<MULTIBLOCK, T> subRule : subRules) {
 					subRule.checkIsRuleAllowed(ruleID);
 					subRule.incrementMinimalAdjacencies(adjacencyMap);
 				}
@@ -138,40 +140,42 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		}
 	}
 	
-	public static class And<T extends ITileMultiblockPart> extends BasicCompoundRule<T> {
+	public static class And<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends BasicCompoundRule<MULTIBLOCK, T> {
 		
-		public And(List<PlacementRule<T>> rules) {
+		public And(List<PlacementRule<MULTIBLOCK, T>> rules) {
 			super(rules);
 		}
 		
 		@Override
 		public boolean isCycle(Object2BooleanMap<String> boolMap) {
 			for (boolean b : boolMap.values()) {
-				if (b)
+				if (b) {
 					return true;
+				}
 			}
 			return false;
 		}
 		
 		@Override
 		public boolean satisfied(T tile) {
-			for (PlacementRule<T> rule : subRules) {
-				if (!rule.satisfied(tile))
+			for (PlacementRule<MULTIBLOCK, T> rule : subRules) {
+				if (!rule.satisfied(tile)) {
 					return false;
+				}
 			}
 			return true;
 		}
 	}
 	
-	public static class Or<T extends ITileMultiblockPart> extends BasicCompoundRule<T> {
+	public static class Or<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends BasicCompoundRule<MULTIBLOCK, T> {
 		
-		public Or(List<PlacementRule<T>> rules) {
+		public Or(List<PlacementRule<MULTIBLOCK, T>> rules) {
 			super(rules);
 		}
 		
 		@Override
 		public boolean isCycle(Object2BooleanMap<String> boolMap) {
-			for (PlacementRule<T> rule : subRules) {
+			for (PlacementRule<MULTIBLOCK, T> rule : subRules) {
 				if (rule.isCycle(boolMap)) {
 					return true;
 				}
@@ -180,25 +184,27 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 				return false;
 			}
 			for (boolean b : boolMap.values()) {
-				if (!b)
+				if (!b) {
 					return false;
+				}
 			}
 			return true;
 		}
 		
 		@Override
 		public boolean satisfied(T tile) {
-			for (PlacementRule<T> rule : subRules) {
-				if (rule.satisfied(tile))
+			for (PlacementRule<MULTIBLOCK, T> rule : subRules) {
+				if (rule.satisfied(tile)) {
 					return true;
+				}
 			}
 			return false;
 		}
 	}
 	
-	public static <T extends ITileMultiblockPart> List<String> concatDependencies(List<PlacementRule<T>> rules) {
+	public static <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> List<String> concatDependencies(List<PlacementRule<MULTIBLOCK, T>> rules) {
 		ObjectSet<String> dependencies = new ObjectOpenHashSet<>();
-		for (PlacementRule<T> rule : rules) {
+		for (PlacementRule<MULTIBLOCK, T> rule : rules) {
 			dependencies.addAll(rule.getDependencies());
 			if (rule.subRules != null) {
 				dependencies.addAll(concatDependencies(rule.subRules));
@@ -207,9 +213,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		return new ArrayList<>(dependencies);
 	}
 	
-	public static <T extends ITileMultiblockPart> boolean mergeRequiresRecheck(List<PlacementRule<T>> rules) {
+	public static <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> boolean mergeRequiresRecheck(List<PlacementRule<MULTIBLOCK, T>> rules) {
 		boolean requiresRecheck = false;
-		for (PlacementRule<T> rule : rules) {
+		for (PlacementRule<MULTIBLOCK, T> rule : rules) {
 			if (rule.requiresRecheck) {
 				requiresRecheck = true;
 			}
@@ -224,7 +230,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	
 	// Basic Sub-Rule
 	
-	public abstract static class Adjacent<T extends ITileMultiblockPart> extends PlacementRule<T> {
+	public abstract static class Adjacent<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
 		
 		protected final int amount;
 		protected final CountType countType;
@@ -298,15 +304,18 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			byte count = 0;
 			if (adjType == AdjacencyType.STANDARD) {
 				for (EnumFacing dir : EnumFacing.VALUES) {
-					if (satisfied(tile, dir))
-						count++;
+					if (satisfied(tile, dir)) {
+						++count;
+					}
 					
 					if (countType == CountType.AT_LEAST) {
-						if (count >= amount)
+						if (count >= amount) {
 							return true;
+						}
 					}
-					else if (count > amount)
+					else if (count > amount) {
 						return false;
+					}
 				}
 				return countType == CountType.AT_MOST || (countType == CountType.EXACTLY && count == amount);
 			}
@@ -315,23 +324,28 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					boolean[] dirs = new boolean[] {false, false, false, false, false, false};
 					for (EnumFacing dir : EnumFacing.VALUES) {
 						if (satisfied(tile, dir)) {
-							count++;
-							if (count > amount)
+							++count;
+							if (count > amount) {
 								return false;
+							}
 							
 							dirs[dir.getIndex()] = true;
 						}
 					}
-					if (count != amount)
+					if (count != amount) {
 						return false;
+					}
 					
 					count = 0;
-					if (dirs[0] && dirs[1])
-						count++;
-					if (dirs[2] && dirs[3])
-						count++;
-					if (dirs[4] && dirs[5])
-						count++;
+					if (dirs[0] && dirs[1]) {
+						++count;
+					}
+					if (dirs[2] && dirs[3]) {
+						++count;
+					}
+					if (dirs[4] && dirs[5]) {
+						++count;
+					}
 					return count == amount / 2;
 				}
 				else {
@@ -341,13 +355,15 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 								continue loop;
 							}
 						}
-						count++;
+						++count;
 						if (countType == CountType.AT_LEAST) {
-							if (count >= amount / 2)
+							if (count >= amount / 2) {
 								return true;
+							}
 						}
-						else if (count > amount / 2)
+						else if (count > amount / 2) {
 							return false;
+						}
 					}
 					return countType == CountType.AT_MOST;
 				}
@@ -357,15 +373,17 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					boolean[] dirs = new boolean[] {false, false, false, false, false, false};
 					for (EnumFacing dir : EnumFacing.VALUES) {
 						if (satisfied(tile, dir)) {
-							count++;
-							if (count > amount)
+							++count;
+							if (count > amount) {
 								return false;
+							}
 							
 							dirs[dir.getIndex()] = true;
 						}
 					}
-					if (count != amount)
+					if (count != amount) {
 						return false;
+					}
 					
 					loop: for (EnumFacing[] typeDirs : (adjType == AdjacencyType.VERTEX ? PosHelper.VERTEX_DIRS : PosHelper.EDGE_DIRS)) {
 						for (EnumFacing dir : typeDirs) {
@@ -395,6 +413,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	}
 	
 	public enum AdjacencyType {
+		
 		STANDARD,
 		AXIAL,
 		VERTEX,
@@ -417,6 +436,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	}
 	
 	public enum CountType {
+		
 		AT_LEAST,
 		EXACTLY,
 		AT_MOST;
@@ -441,17 +461,17 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	
 	// Placement Map
 	
-	public static class PlacementMap<T extends ITileMultiblockPart> extends Object2ObjectOpenHashMap<String, PlacementRule<T>> {
+	public static class PlacementMap<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends Object2ObjectOpenHashMap<String, PlacementRule<MULTIBLOCK, T>> {
 		
 		@Override
-		public PlacementRule<T> put(final String ruleID, final PlacementRule<T> rule) {
+		public PlacementRule<MULTIBLOCK, T> put(final String ruleID, final PlacementRule<MULTIBLOCK, T> rule) {
 			rule.checkIsRuleAllowed(ruleID);
-			PlacementRule<T> ret = super.put(ruleID, rule);
+			PlacementRule<MULTIBLOCK, T> ret = super.put(ruleID, rule);
 			checkCycles(ruleID, rule);
 			return ret;
 		}
 		
-		public void checkCycles(final String ruleID, final PlacementRule<T> rule) {
+		public void checkCycles(final String ruleID, final PlacementRule<MULTIBLOCK, T> rule) {
 			Object2ObjectMap<String, Vertex<String>> vertexMap = new Object2ObjectOpenHashMap<>();
 			Object2ObjectMap<String, Object2BooleanMap<String>> cycleMap = new Object2ObjectOpenHashMap<>();
 			ObjectSet<String> finished = new ObjectOpenHashSet<>();
@@ -461,8 +481,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			
 			while (!vertexStack.isEmpty()) {
 				Vertex<String> v = vertexStack.pop();
-				if (v == null)
+				if (v == null) {
 					continue;
+				}
 				
 				if (vertexMap.containsKey(v.data)) {
 					if (vertexMap.get(v.data).parent == null) {
@@ -490,8 +511,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 						if (!cycleMap.containsKey(s) || !get(s).isCycle(cycleMap.get(s))) {
 							finished.add(s);
 						}
-						else
+						else {
 							break;
+						}
 					}
 				}
 				
@@ -512,8 +534,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			
 			while (!stack.isEmpty()) {
 				Vertex<String> v = vertexMap.get(stack.pop());
-				if (v == null)
+				if (v == null) {
 					continue;
+				}
 				
 				Object2BooleanMap<String> boolMap = cycleMap.get(v.data);
 				
@@ -547,8 +570,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 								if (!cycleMap.containsKey(s) || !get(s).isCycle(cycleMap.get(s))) {
 									finished.add(s);
 								}
-								else
+								else {
 									break;
+								}
 							}
 						}
 						else {
@@ -586,23 +610,23 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 	
 	// Tooltip Builder
 	
-	public static abstract class TooltipBuilder<T extends ITileMultiblockPart> {
+	public static abstract class TooltipBuilder<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> {
 		
 		/** Returns non-null PlacementRule if the tooltip is successfully built. */
-		public abstract String buildTooltip(PlacementRule<T> rule);
+		public abstract String buildTooltip(PlacementRule<MULTIBLOCK, T> rule);
 	}
 	
-	public static class DefaultTooltipBuilder<T extends ITileMultiblockPart> extends TooltipBuilder<T> {
+	public static class DefaultTooltipBuilder<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends TooltipBuilder<MULTIBLOCK, T> {
 		
 		@Override
-		public String buildTooltip(PlacementRule<T> rule) {
+		public String buildTooltip(PlacementRule<MULTIBLOCK, T> rule) {
 			if (rule instanceof Adjacent) {
-				return Lang.localise("nc.sf.placement_rule.and_or.adjacent4", Lang.localise("nc.sf.placement_rule.and_or.adjacent0", Lang.localise("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), ((Adjacent) rule).buildSubTooltip()));
+				return Lang.localise("nc.sf.placement_rule.and_or.adjacent4", Lang.localise("nc.sf.placement_rule.and_or.adjacent0", Lang.localise("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), ((Adjacent<MULTIBLOCK, T>) rule).buildSubTooltip()));
 			}
 			else if (rule instanceof And || rule instanceof Or) {
 				LinkedList<String> subTooltips = new LinkedList<>();
-				for (PlacementRule<T> r : rule.getSubRules()) {
-					subTooltips.add(r instanceof Adjacent ? ((Adjacent) r).buildSubTooltip() : "?");
+				for (PlacementRule<MULTIBLOCK, T> r : rule.getSubRules()) {
+					subTooltips.add(r instanceof Adjacent ? ((Adjacent<MULTIBLOCK, T>) r).buildSubTooltip() : "?");
 				}
 				return Lang.localise("nc.sf.placement_rule.and_or.adjacent4", Lang.localise("nc.sf.placement_rule.and_or.adjacent0", Lang.localise("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), joinSubTooltips(subTooltips, Lang.localise("nc.sf." + (rule instanceof And ? "and" : "or")))));
 			}
@@ -619,8 +643,9 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 			else if (subTooltips.size() == 1) {
 				return subTooltips.get(0);
 			}
-			else
+			else {
 				return "?";
+			}
 		}
 		
 		protected List<String> p_patterns = null, l_patterns = null;
@@ -632,7 +657,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 				setupAmbiguityChecks();
 			}
 			
-			loop: for (int i = 0; i < p_patterns.size(); i++) {
+			loop: for (int i = 0; i < p_patterns.size(); ++i) {
 				boolean p = false;
 				String[] p_split = p_splits.get(i);
 				boolean[] p_inv = p_invs.get(i);
@@ -640,7 +665,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					p = true;
 				}
 				else if (p_patterns.get(i).equals("&&")) {
-					for (int j = 0; j < p_inv.length; j++) {
+					for (int j = 0; j < p_inv.length; ++j) {
 						if (!(p_inv[j] ^ prev.contains(p_split[j]))) {
 							continue loop;
 						}
@@ -648,7 +673,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					p = true;
 				}
 				else {
-					for (int j = 0; j < p_inv.length; j++) {
+					for (int j = 0; j < p_inv.length; ++j) {
 						if (p_inv[j] ^ prev.contains(p_split[j])) {
 							p = true;
 							break;
@@ -664,7 +689,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					return true;
 				}
 				else if (l_patterns.get(i).equals("&&")) {
-					for (int j = 0; j < l_inv.length; j++) {
+					for (int j = 0; j < l_inv.length; ++j) {
 						if (!(l_inv[j] ^ last.contains(l_split[j]))) {
 							continue loop;
 						}
@@ -672,7 +697,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					return true;
 				}
 				else {
-					for (int j = 0; j < l_inv.length; j++) {
+					for (int j = 0; j < l_inv.length; ++j) {
 						if (l_inv[j] ^ last.contains(l_split[j])) {
 							return true;
 						}
@@ -704,10 +729,11 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					p_invs.add(new boolean[p_split.length]);
 					
 					boolean[] p_inv = p_invs.get(i);
-					for (int j = 0; j < p_inv.length; j++) {
+					for (int j = 0; j < p_inv.length; ++j) {
 						p_inv[j] = p_split[j].startsWith("!");
-						if (p_inv[j])
+						if (p_inv[j]) {
 							p_split[j] = p_split[j].substring(1);
+						}
 					}
 				}
 				else {
@@ -726,10 +752,11 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					l_invs.add(new boolean[l_split.length]);
 					
 					boolean[] l_inv = l_invs.get(i);
-					for (int j = 0; j < l_invs.get(i).length; j++) {
+					for (int j = 0; j < l_invs.get(i).length; ++j) {
 						l_inv[j] = l_split[j].startsWith("!");
-						if (l_inv[j])
+						if (l_inv[j]) {
 							l_split[j] = l_split[j].substring(1);
+						}
 					}
 				}
 				else {
@@ -738,7 +765,7 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 					l_invs.add(null);
 				}
 				
-				i++;
+				++i;
 			}
 		}
 	}
@@ -755,8 +782,8 @@ public abstract class PlacementRule<T extends ITileMultiblockPart> {
 		public void addRecipes() {}
 		
 		@Override
-		public List fixExtras(List extras) {
-			List fixed = new ArrayList(1);
+		public List<Object> fixExtras(List<Object> extras) {
+			List<Object> fixed = new ArrayList<>(1);
 			fixed.add(extras.size() > 0 && extras.get(0) instanceof String ? (String) extras.get(0) : "");
 			return fixed;
 		}

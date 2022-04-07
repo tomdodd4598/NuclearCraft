@@ -41,7 +41,7 @@ public abstract class NCTile extends TileEntity implements ITile {
 	}
 	
 	@Override
-	public TileEntity thisTile() {
+	public TileEntity getTile() {
 		return this;
 	}
 	
@@ -76,7 +76,7 @@ public abstract class NCTile extends TileEntity implements ITile {
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 	
@@ -207,7 +207,7 @@ public abstract class NCTile extends TileEntity implements ITile {
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
-			return (T) radiation;
+			return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(radiation);
 		}
 		return super.getCapability(capability, side);
 	}

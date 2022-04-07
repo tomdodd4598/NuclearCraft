@@ -13,9 +13,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleTankOutputSettingPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int tank;
-	private int setting;
+	protected BlockPos pos;
+	protected int tank;
+	protected int setting;
 	
 	public ToggleTankOutputSettingPacket() {
 		

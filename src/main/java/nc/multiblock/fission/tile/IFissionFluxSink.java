@@ -14,7 +14,9 @@ public interface IFissionFluxSink extends IFissionComponent {
 	/** Additional multiplier for the actively searching fuel component's moderator line efficiency. */
 	public double moderatorLineEfficiencyFactor();
 	
-	public void addFlux(int flux);
+	public long getFlux();
+	
+	public void addFlux(long addedFlux);
 	
 	public void refreshIsProcessing(boolean checkCluster);
 }

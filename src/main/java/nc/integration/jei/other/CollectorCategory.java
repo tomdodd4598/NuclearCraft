@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class CollectorCategory extends JEIMachineCategory<JEIRecipeWrapper.Collector> {
 	
-	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Collector> handler) {
 		super(guiHelper, handler, "collector", 33, 30, 118, 26);
 	}
 	

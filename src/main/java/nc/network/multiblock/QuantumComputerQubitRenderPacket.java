@@ -35,8 +35,8 @@ public class QuantumComputerQubitRenderPacket extends TileUpdatePacket {
 	public static class Handler extends TileUpdatePacket.Handler<QuantumComputerQubitRenderPacket, TileQuantumComputerQubit> {
 		
 		@Override
-		protected void onPacket(QuantumComputerQubitRenderPacket message, TileQuantumComputerQubit qubit) {
-			qubit.onRenderPacket(message);
+		protected void onTileUpdatePacket(QuantumComputerQubitRenderPacket message, TileQuantumComputerQubit qubit) {
+			qubit.onTileUpdatePacket(message);
 		}
 	}
 }

@@ -20,7 +20,7 @@ public class GuiMelter extends GuiItemFluidProcessor {
 		this(player, tile, new ContainerMelter(player, tile));
 	}
 	
-	private GuiMelter(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile container) {
+	protected GuiMelter(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile<TileItemFluidProcessor> container) {
 		super("melter", player, tile, container);
 		xSize = 176;
 		ySize = 166;
@@ -78,7 +78,7 @@ public class GuiMelter extends GuiItemFluidProcessor {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; ++i) {
 				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 					PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
 					return;
@@ -97,7 +97,7 @@ public class GuiMelter extends GuiItemFluidProcessor {
 	public static class SideConfig extends GuiMelter {
 		
 		public SideConfig(EntityPlayer player, TileItemFluidProcessor tile) {
-			super(player, tile, new ContainerMachineConfig(player, tile));
+			super(player, tile, new ContainerMachineConfig<>(player, tile));
 		}
 		
 		@Override
@@ -122,7 +122,7 @@ public class GuiMelter extends GuiItemFluidProcessor {
 		protected void drawUpgradeRenderers() {}
 		
 		@Override
-		protected void drawBackgroundExtras() {};
+		protected void drawBackgroundExtras() {}
 		
 		@Override
 		public void initButtons() {
@@ -136,16 +136,16 @@ public class GuiMelter extends GuiItemFluidProcessor {
 		protected void actionPerformed(GuiButton guiButton) {
 			if (tile.getWorld().isRemote) {
 				if (guiButton.id == 0) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input<>(this, tile, 0));
 				}
 				else if (guiButton.id == 1) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output<>(this, tile, 0));
 				}
 				else if (guiButton.id == 2) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 1));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade<>(this, tile, 1));
 				}
 				else if (guiButton.id == 3) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 2));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade<>(this, tile, 2));
 				}
 			}
 		}

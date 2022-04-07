@@ -12,8 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleRedstoneControlPacket implements IMessage {
 	
-	private BlockPos pos;
-	private boolean redstoneControl;
+	protected BlockPos pos;
+	protected boolean redstoneControl;
 	
 	public ToggleRedstoneControlPacket() {
 		

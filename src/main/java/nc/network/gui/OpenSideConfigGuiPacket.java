@@ -14,13 +14,13 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class OpenSideConfigGuiPacket implements IMessage {
 	
-	private BlockPos pos;
+	protected BlockPos pos;
 	
 	public OpenSideConfigGuiPacket() {
 		
 	}
 	
-	public OpenSideConfigGuiPacket(ITileGui machine) {
+	public OpenSideConfigGuiPacket(ITileGui<?> machine) {
 		pos = machine.getTilePos();
 	}
 	
@@ -54,8 +54,8 @@ public class OpenSideConfigGuiPacket implements IMessage {
 			}
 			TileEntity tile = world.getTileEntity(message.pos);
 			if (tile instanceof ITileGui) {
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((ITileGui) tile).getGuiID() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
-				((ITileGui) tile).beginUpdatingPlayer(player);
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((ITileGui<?>) tile).getGuiID() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
+				((ITileGui<?>) tile).addTileUpdatePacketListener(player);
 			}
 		}
 	}

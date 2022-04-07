@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.ints.IntList;
 
 public class RecipeInfo<T extends IRecipe> {
 	
-	private final T recipe;
+	private final @Nonnull T recipe;
 	
 	private final RecipeMatchResult matchResult;
 	

@@ -112,7 +112,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 			double mult = getTubeSpeedMultiplier(dir);
 			speedCount += mult;
 			if (mult > 0D) {
-				adjCount++;
+				++adjCount;
 			}
 		}
 		
@@ -203,8 +203,9 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 			condensingTemperature = 300;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getCondenserProcessTime();
-		condensingTemperature = recipeInfo.getRecipe().getCondenserCondensingTemperature();
+		BasicRecipe recipe = recipeInfo.getRecipe();
+		baseProcessTime = recipe.getCondenserProcessTime();
+		condensingTemperature = recipe.getCondenserCondensingTemperature();
 		return true;
 	}
 	
@@ -227,7 +228,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) {
 				continue;
@@ -274,7 +275,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 			return;
 		}
 		
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
 			if (fluidIngredientStackSize > 0) {
 				tanks.get(i).changeFluidAmount(-fluidIngredientStackSize);
@@ -283,7 +284,7 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 				tanks.get(i).setFluidStored(null);
 			}
 		}
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) {
 				continue;
@@ -440,12 +441,13 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 				return;
 			}
 			
-			for (int i = 0; i < getTanks().size(); i++) {
-				if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) {
+			for (int i = 0; i < getTanks().size(); ++i) {
+				Tank tank = getTanks().get(i);
+				if (tank.getFluid() == null || !getTankSorption(side, i).canDrain()) {
 					continue;
 				}
 				
-				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
+				tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true);
 			}
 		}
 	}
@@ -598,13 +600,13 @@ public class TileCondenserTube extends TileHeatExchangerPart implements IFluidPr
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}

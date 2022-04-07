@@ -29,10 +29,10 @@ public class NCItemDoor extends ItemDoor implements IInfoItem {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		super.addInformation(itemStack, world, tooltip, flag);
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> currentTooltip, ITooltipFlag flag) {
+		super.addInformation(itemStack, world, currentTooltip, flag);
 		if (info.length > 0) {
-			InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
+			InfoHelper.infoFull(currentTooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
 		}
 	}
 }

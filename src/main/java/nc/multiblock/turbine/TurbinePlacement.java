@@ -21,16 +21,16 @@ import net.minecraft.util.math.BlockPos;
 public abstract class TurbinePlacement {
 	
 	/** List of all defined rule parsers. Earlier entries are prioritised! */
-	public static final List<PlacementRule.RuleParser<ITurbinePart>> RULE_PARSER_LIST = new LinkedList<>();
+	public static final List<PlacementRule.RuleParser<Turbine, ITurbinePart>> RULE_PARSER_LIST = new LinkedList<>();
 	
 	/** Map of all placement rule IDs to unparsed rule strings, used for ordered iterations. */
 	public static final Object2ObjectMap<String, String> RULE_MAP_RAW = new Object2ObjectArrayMap<>();
 	
 	/** Map of all defined placement rules. */
-	public static final Object2ObjectMap<String, PlacementRule<ITurbinePart>> RULE_MAP = new PlacementMap<>();
+	public static final Object2ObjectMap<String, PlacementRule<Turbine, ITurbinePart>> RULE_MAP = new PlacementMap<>();
 	
 	/** List of all defined tooltip builders. Earlier entries are prioritised! */
-	public static final List<PlacementRule.TooltipBuilder<ITurbinePart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
+	public static final List<PlacementRule.TooltipBuilder<Turbine, ITurbinePart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
 	
 	public static PlacementRule.RecipeHandler recipe_handler;
 	
@@ -67,26 +67,25 @@ public abstract class TurbinePlacement {
 	}
 	
 	public static void postInit() {
-		for (Object2ObjectMap.Entry<String, PlacementRule<ITurbinePart>> entry : RULE_MAP.object2ObjectEntrySet()) {
-			for (PlacementRule.TooltipBuilder<ITurbinePart> builder : TOOLTIP_BUILDER_LIST) {
+		for (Object2ObjectMap.Entry<String, PlacementRule<Turbine, ITurbinePart>> entry : RULE_MAP.object2ObjectEntrySet()) {
+			for (PlacementRule.TooltipBuilder<Turbine, ITurbinePart> builder : TOOLTIP_BUILDER_LIST) {
 				String tooltip = builder.buildTooltip(entry.getValue());
-				if (tooltip != null)
-					TOOLTIP_MAP.put(entry.getKey(), tooltip);
+				if (tooltip != null) TOOLTIP_MAP.put(entry.getKey(), tooltip);
 			}
 		}
 	}
 	
 	// Default Rule Parser
 	
-	public static PlacementRule<ITurbinePart> parse(String string) {
+	public static PlacementRule<Turbine, ITurbinePart> parse(String string) {
 		return PlacementRule.parse(string, RULE_PARSER_LIST);
 	}
 	
 	/** Rule parser for all rule types available in base NC. */
-	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<ITurbinePart> {
+	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<Turbine, ITurbinePart> {
 		
 		@Override
-		protected @Nullable PlacementRule<ITurbinePart> partialParse(String s) {
+		protected @Nullable PlacementRule<Turbine, ITurbinePart> partialParse(String s) {
 			s = s.toLowerCase(Locale.ROOT);
 			
 			s = s.replaceAll("at exactly one vertex", "vertex");
@@ -94,8 +93,7 @@ public abstract class TurbinePlacement {
 			boolean exact = s.contains("exact"), atMost = s.contains("at most");
 			boolean axial = s.contains("axial"), vertex = s.contains("vertex"), edge = s.contains("edge");
 			
-			if ((exact && atMost) || (axial && vertex))
-				return null;
+			if ((exact && atMost) || (axial && vertex)) return null;
 			
 			s = s.replaceAll("at least", "");
 			s = s.replaceAll("exactly", "");
@@ -119,7 +117,7 @@ public abstract class TurbinePlacement {
 			String rule = null, type = null;
 			
 			String[] split = s.split(Pattern.quote(" "));
-			for (int i = 0; i < split.length; i++) {
+			for (int i = 0; i < split.length; ++i) {
 				if (StringHelper.NUMBER_S2I_MAP.containsKey(split[i])) {
 					amount = StringHelper.NUMBER_S2I_MAP.getInt(split[i]);
 				}
@@ -145,8 +143,7 @@ public abstract class TurbinePlacement {
 				}
 			}
 			
-			if (amount < 0 || rule == null)
-				return null;
+			if (amount < 0 || rule == null) return null;
 			
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
 			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : (edge ? AdjacencyType.EDGE : AdjacencyType.STANDARD));
@@ -170,7 +167,7 @@ public abstract class TurbinePlacement {
 	
 	// Adjacent
 	
-	public static abstract class Adjacent extends PlacementRule.Adjacent<ITurbinePart> {
+	public static abstract class Adjacent extends PlacementRule.Adjacent<Turbine, ITurbinePart> {
 		
 		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) {
 			super(dependency, amount, countType, adjType);
@@ -278,7 +275,7 @@ public abstract class TurbinePlacement {
 	
 	// Default Tooltip Builder
 	
-	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<ITurbinePart> {}
+	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<Turbine, ITurbinePart> {}
 	
 	// Recipe Handler
 	

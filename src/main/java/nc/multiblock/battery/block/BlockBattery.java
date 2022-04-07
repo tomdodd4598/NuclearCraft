@@ -23,9 +23,9 @@ import net.minecraft.world.*;
 
 public class BlockBattery extends BlockMultiblockPart implements IDynamicState, ISidedEnergy, INBTDrop {
 	
-	private final BatteryType type;
+	private final IBatteryBlockType type;
 	
-	public BlockBattery(BatteryType type) {
+	public BlockBattery(IBatteryBlockType type) {
 		super(Material.IRON, NCTabs.MACHINE);
 		this.type = type;
 	}
@@ -128,7 +128,7 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 		}
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileBattery) {
-			NBTTagCompound nbt = stack.getTagCompound();
+			NBTTagCompound nbt = NBTHelper.getStackNBT(stack);
 			TileBattery battery = (TileBattery) tile;
 			
 			battery.waitingEnergy += new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity)).readFromNBT(nbt, "energyStorage").getEnergyStoredLong();

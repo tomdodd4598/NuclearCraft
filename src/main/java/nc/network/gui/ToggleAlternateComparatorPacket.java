@@ -12,8 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleAlternateComparatorPacket implements IMessage {
 	
-	private BlockPos pos;
-	private boolean alternateComparator;
+	protected BlockPos pos;
+	protected boolean alternateComparator;
 	
 	public ToggleAlternateComparatorPacket() {
 		

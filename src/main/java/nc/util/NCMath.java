@@ -62,7 +62,7 @@ public class NCMath {
 	
 	public static byte[] booleansToBytes(boolean[] arr) {
 		byte[] out = new byte[arr.length];
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; ++i) {
 			out[i] = (byte) (arr[i] ? 1 : 0);
 		}
 		return out;
@@ -70,14 +70,14 @@ public class NCMath {
 	
 	public static boolean[] bytesToBooleans(byte[] arr) {
 		boolean[] out = new boolean[arr.length];
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; ++i) {
 			out[i] = arr[i] != 0;
 		}
 		return out;
 	}
 	
 	public static int kroneckerDelta(int... indices) {
-		for (int i = 0; i < indices.length; i++) {
+		for (int i = 0; i < indices.length; ++i) {
 			if (indices[i] != indices[(i + 1) % indices.length]) {
 				return 0;
 			}
@@ -142,7 +142,7 @@ public class NCMath {
 		}
 		
 		double x = 1D;
-		for (int i = 1, m = n; i <= k; i++, m--) {
+		for (int i = 1, m = n; i <= k; ++i, --m) {
 			x *= (double) m / (double) i;
 		}
 		return (int) Math.round(x);
@@ -174,9 +174,9 @@ public class NCMath {
 	
 	public static int getBinomial(int n, int p) {
 		int x = 0;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; ++i) {
 			if (rand.nextInt(100) < p) {
-				x++;
+				++x;
 			}
 		}
 		return x;
@@ -197,7 +197,7 @@ public class NCMath {
 		else {
 			int[] next = new int[l - 1];
 			next[0] = hcf;
-			for (int i = 1; i < l - 1; i++) {
+			for (int i = 1; i < l - 1; ++i) {
 				next[i] = arr[i + 1];
 			}
 			return hcf(next);
@@ -226,7 +226,7 @@ public class NCMath {
 		else {
 			int[] next = new int[l - 1];
 			next[0] = lcm;
-			for (int i = 1; i < l - 1; i++) {
+			for (int i = 1; i < l - 1; ++i) {
 				next[i] = arr[i + 1];
 			}
 			return lcm(next);

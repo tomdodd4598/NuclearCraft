@@ -8,6 +8,7 @@ import net.minecraft.util.IStringSerializable;
 public class QuantumGateEnums {
 	
 	public static enum SingleType implements IStringSerializable, IBlockMetaEnum {
+		
 		X("x", 0),
 		Y("y", 1),
 		Z("z", 2),
@@ -103,6 +104,7 @@ public class QuantumGateEnums {
 	}
 	
 	public static enum ControlType implements IStringSerializable, IBlockMetaEnum {
+		
 		CX("cx", 0),
 		CY("cy", 1),
 		CZ("cz", 2),
@@ -198,6 +200,7 @@ public class QuantumGateEnums {
 	}
 	
 	public static enum SwapType implements IStringSerializable, IBlockMetaEnum {
+		
 		SWAP("swap", 0),
 		CSWAP("cswap", 1);
 		

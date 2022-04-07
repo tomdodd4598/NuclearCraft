@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class FissionModeratorCategory extends JEIMachineCategory<JEIRecipeWrapper.FissionModerator> {
 	
-	public FissionModeratorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FissionModeratorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.FissionModerator> handler) {
 		super(guiHelper, handler, "fission_moderator", 47, 30, 90, 26);
 	}
 	

@@ -41,7 +41,7 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
 		itemOutputSettings = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; ++i) {
 			itemOutputSettings.add(ItemOutputSetting.DEFAULT);
 		}
 	}
@@ -52,7 +52,7 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 		inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
 		itemOutputSettings = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; ++i) {
 			itemOutputSettings.add(ItemOutputSetting.DEFAULT);
 		}
 	}
@@ -122,7 +122,7 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandler(null);
+				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(null));
 			}
 			return null;
 		}

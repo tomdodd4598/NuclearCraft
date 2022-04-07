@@ -10,7 +10,7 @@ import net.minecraft.util.EnumFacing;
 
 public class InventoryConnection {
 	
-	private @Nonnull final List<ItemSorption> sorptionList;
+	private final @Nonnull List<ItemSorption> sorptionList;
 	private final @Nonnull List<ItemSorption> defaultSorptions;
 	
 	public InventoryConnection(@Nonnull List<ItemSorption> sorptionList) {
@@ -29,7 +29,7 @@ public class InventoryConnection {
 	
 	public static InventoryConnection[] cloneArray(@Nonnull InventoryConnection[] connections) {
 		InventoryConnection[] clone = new InventoryConnection[6];
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			clone[i] = connections[i].copy();
 		}
 		return clone;
@@ -58,7 +58,7 @@ public class InventoryConnection {
 	
 	public int[] getSlotsForFace() {
 		IntList slotList = new IntArrayList();
-		for (int i = 0; i < sorptionList.size(); i++) {
+		for (int i = 0; i < sorptionList.size(); ++i) {
 			if (getItemSorption(i).canConnect()) {
 				slotList.add(i);
 			}
@@ -72,7 +72,7 @@ public class InventoryConnection {
 	
 	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {
 		NBTTagCompound connectionTag = new NBTTagCompound();
-		for (int i = 0; i < sorptionList.size(); i++) {
+		for (int i = 0; i < sorptionList.size(); ++i) {
 			connectionTag.setInteger("sorption" + i, getItemSorption(i).ordinal());
 		}
 		nbt.setTag("inventoryConnection" + side.getIndex(), connectionTag);
@@ -83,7 +83,7 @@ public class InventoryConnection {
 	public final InventoryConnection readFromNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {
 		if (nbt.hasKey("inventoryConnection" + side.getIndex())) {
 			NBTTagCompound connectionTag = nbt.getCompoundTag("inventoryConnection" + side.getIndex());
-			for (int i = 0; i < sorptionList.size(); i++) {
+			for (int i = 0; i < sorptionList.size(); ++i) {
 				if (connectionTag.hasKey("sorption" + i)) {
 					setItemSorption(i, ItemSorption.values()[connectionTag.getInteger("sorption" + i)]);
 				}

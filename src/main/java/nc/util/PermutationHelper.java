@@ -19,7 +19,7 @@ public class PermutationHelper {
 			output.add(input);
 		}
 		else {
-			for (int i = l; i <= r; i++) {
+			for (int i = l; i <= r; ++i) {
 				input = swap(input, l, i);
 				permute(input, output, l + 1, r);
 				input = swap(input, l, i);

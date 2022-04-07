@@ -2,10 +2,13 @@ package nc.util;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.*;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.*;
 
@@ -68,11 +71,17 @@ public class StackHelper {
 	public static ItemStack changeStackSize(ItemStack stack, int size) {
 		ItemStack newStack = stack.copy();
 		newStack.setCount(size);
-		return newStack.copy();
+		return newStack;
 	}
 	
 	public static String stackPath(ItemStack stack) {
-		return Item.REGISTRY.getNameForObject(stack.getItem()).getPath();
+		ResourceLocation loc = Item.REGISTRY.getNameForObject(stack.getItem());
+		if (loc == null) {
+			return null;
+		}
+		else {
+			return loc.getPath();
+		}
 	}
 	
 	public static String stackName(ItemStack stack) {
@@ -90,20 +99,24 @@ public class StackHelper {
 	
 	/** Stack tag comparison without checking capabilities such as radiation */
 	public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
-		if (stackA.isEmpty() && stackB.isEmpty()) {
+		boolean isAEmpty = stackA.isEmpty(), isBEmpty = stackB.isEmpty();
+		if (isAEmpty && isBEmpty) {
 			return true;
 		}
-		else if (!stackA.isEmpty() && !stackB.isEmpty()) {
-			if (stackA.getTagCompound() == null && stackB.getTagCompound() != null) {
-				return false;
+		else if (!isAEmpty && !isBEmpty) {
+			NBTTagCompound stackANBT = stackA.getTagCompound(), stackBNBT = stackB.getTagCompound();
+			if (stackANBT == null) {
+				return stackBNBT == null;
 			}
-			return stackA.getTagCompound() == null || stackA.getTagCompound().equals(stackB.getTagCompound());
+			else {
+				return stackANBT.equals(stackBNBT);
+			}
 		}
 		
 		return false;
 	}
 	
-	public static ItemStack getBucket(FluidStack fluidStack) {
+	public static ItemStack getBucket(@Nonnull FluidStack fluidStack) {
 		return FluidUtil.getFilledBucket(fluidStack);
 	}
 	

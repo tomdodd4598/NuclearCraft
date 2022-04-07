@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> extends NCGui {
+public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui<?>> extends NCGui {
 	
 	protected final NCGui parent;
 	protected final T tile;
@@ -29,7 +29,7 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 	protected int[] a, b;
 	
 	public GuiItemSorptions(NCGui parent, T tile, int slot, ItemSorption.Type sorptionType) {
-		super(new ContainerSorptions(tile));
+		super(new ContainerSorptions<>(tile));
 		this.parent = parent;
 		this.tile = tile;
 		EnumFacing facing = tile.getFacingHorizontal();
@@ -64,7 +64,7 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 		GlStateManager.pushMatrix();
 		GlStateManager.color(1F, 1F, 1F, 0.75F);
 		IBlockState state = tile.getBlockState(tile.getTilePos());
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			GuiBlockRenderer.renderGuiBlock(state, dirs[i], a[i] + 1, b[i] + 1, zLevel, 16, 16);
 		}
 		GlStateManager.popMatrix();
@@ -80,7 +80,7 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 	@Override
 	public void initGui() {
 		super.initGui();
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			buttonList.add(new NCEnumButton.ItemSorption(i, guiLeft + a[i], guiTop + b[i], tile.getItemSorption(dirs[i], slot), sorptionType));
 		}
 	}
@@ -88,10 +88,10 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getTileWorld().isRemote) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				if (guiButton.id == i) {
 					if (i == 4 && NCUtil.isModifierKeyDown()) {
-						for (int j = 0; j < 6; j++) {
+						for (int j = 0; j < 6; ++j) {
 							tile.setItemSorption(dirs[j], slot, ItemSorption.NON);
 							((NCEnumButton.ItemSorption) buttonList.get(j)).set(ItemSorption.NON);
 						}
@@ -109,10 +109,10 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 	@Override
 	protected void actionPerformedRight(GuiButton guiButton) {
 		if (tile.getTileWorld().isRemote) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				if (guiButton.id == i) {
 					if (i == 4 && NCUtil.isModifierKeyDown()) {
-						for (int j = 0; j < 6; j++) {
+						for (int j = 0; j < 6; ++j) {
 							ItemSorption sorption = tile.getInventoryConnection(dirs[j]).getDefaultItemSorption(slot);
 							tile.setItemSorption(dirs[j], slot, sorption);
 							((NCEnumButton.ItemSorption) buttonList.get(j)).set(sorption);
@@ -127,9 +127,9 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 		}
 	}
 	
-	public static class Input extends GuiItemSorptions {
+	public static class Input<T extends ITileInventory & ITileGui<?>> extends GuiItemSorptions<T> {
 		
-		public Input(NCGui parent, ITileInventory tile, int slot) {
+		public Input(NCGui parent, T tile, int slot) {
 			super(parent, tile, slot, ItemSorption.Type.INPUT);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/input_item_config.png");
 			a = new int[] {25, 25, 7, 43, 25, 43};
@@ -139,9 +139,9 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 		}
 	}
 	
-	public static class Output extends GuiItemSorptions {
+	public static class Output<T extends ITileInventory & ITileGui<?>> extends GuiItemSorptions<T> {
 		
-		public Output(NCGui parent, ITileInventory tile, int slot) {
+		public Output(NCGui parent, T tile, int slot) {
 			super(parent, tile, slot, ItemSorption.Type.OUTPUT);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/output_item_config.png");
 			a = new int[] {47, 47, 29, 65, 47, 65};
@@ -185,17 +185,17 @@ public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> exte
 		}
 	}
 	
-	public static class SpeedUpgrade extends Input {
+	public static class SpeedUpgrade<T extends ITileInventory & ITileGui<?>> extends Input<T> {
 		
-		public SpeedUpgrade(NCGui parent, ITileInventory tile, int slot) {
+		public SpeedUpgrade(NCGui parent, T tile, int slot) {
 			super(parent, tile, slot);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/speed_upgrade_item_config.png");
 		}
 	}
 	
-	public static class EnergyUpgrade extends Input {
+	public static class EnergyUpgrade<T extends ITileInventory & ITileGui<?>> extends Input<T> {
 		
-		public EnergyUpgrade(NCGui parent, ITileInventory tile, int slot) {
+		public EnergyUpgrade(NCGui parent, T tile, int slot) {
 			super(parent, tile, slot);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/energy_upgrade_item_config.png");
 		}

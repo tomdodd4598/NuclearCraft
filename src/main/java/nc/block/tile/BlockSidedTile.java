@@ -49,16 +49,6 @@ public abstract class BlockSidedTile extends BlockTile {
 	}
 	
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING_HORIZONTAL, rot.rotate(state.getValue(FACING_HORIZONTAL)));
-	}
-	
-	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING_HORIZONTAL)));
-	}
-	
-	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, FACING_HORIZONTAL);
 	}

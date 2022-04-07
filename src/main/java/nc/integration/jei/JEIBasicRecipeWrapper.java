@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class JEIBasicRecipeWrapper implements IRecipeWrapper {
+public abstract class JEIBasicRecipeWrapper<WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> implements IRecipeWrapper {
 	
 	public final BasicRecipeHandler recipeHandler;
 	public final BasicRecipe recipe;
@@ -28,7 +28,7 @@ public abstract class JEIBasicRecipeWrapper implements IRecipeWrapper {
 	public final IDrawable arrow;
 	public final int arrowDrawPosX, arrowDrawPosY;
 	
-	public JEIBasicRecipeWrapper(IGuiHelper guiHelper, IJEIHandler handler, BasicRecipeHandler recipeHandler, BasicRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY) {
+	public JEIBasicRecipeWrapper(IGuiHelper guiHelper, IJEIHandler<WRAPPER> handler, BasicRecipeHandler recipeHandler, BasicRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY) {
 		this.recipeHandler = recipeHandler;
 		this.recipe = recipe;
 		

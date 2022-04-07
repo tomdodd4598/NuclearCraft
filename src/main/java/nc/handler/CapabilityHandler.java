@@ -19,7 +19,7 @@ public class CapabilityHandler {
 		registerCapability(IRadiationSink.class, new RadiationSink(0D));
 	}
 	
-	public static <T extends ICapability> void registerCapability(Class<T> clazz, T defaultImpl) {
+	public static <T extends ICapability<T>> void registerCapability(Class<T> clazz, T defaultImpl) {
 		CapabilityManager.INSTANCE.register(clazz, new IStorage<T>() {
 			
 			@Override

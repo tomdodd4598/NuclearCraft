@@ -60,11 +60,11 @@ public class FissionIrradiatorUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(baseProcessTime);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<FissionIrradiatorUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<FissionIrradiatorUpdatePacket, ITileGui<FissionIrradiatorUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(FissionIrradiatorUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(FissionIrradiatorUpdatePacket message, ITileGui<FissionIrradiatorUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

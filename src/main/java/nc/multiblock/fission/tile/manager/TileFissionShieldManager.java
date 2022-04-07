@@ -18,7 +18,7 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	}
 	
 	@Override
-	public int[] weakSidesToCheck(World world, BlockPos pos) {
+	public int[] weakSidesToCheck(World worldIn, BlockPos posIn) {
 		return new int[] {2, 3, 4, 5};
 	}
 	
@@ -41,15 +41,15 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 		
 		boolean refresh = false;
 		LongSet invalidPosSet = new LongOpenHashSet();
-		for (Long pos : listenerPosSet) {
-			TileFissionShield shield = getMultiblock().getPartMap(TileFissionShield.class).get(pos);
+		for (Long listenerPos : listenerPosSet) {
+			TileFissionShield shield = getMultiblock().getPartMap(TileFissionShield.class).get(listenerPos);
 			if (shield != null) {
 				if (shield.onManagerRefresh(this)) {
 					refresh = true;
 				}
 			}
 			else if (refreshPosSet) {
-				invalidPosSet.add(pos);
+				invalidPosSet.add(listenerPos);
 			}
 		}
 		listenerPosSet.removeAll(invalidPosSet);
@@ -60,11 +60,11 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	}
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
 		boolean wasShieldingActive = isShieldingActive();
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		setActivity(isShieldingActive());
-		if (!world.isRemote && wasShieldingActive != isShieldingActive()) {
+		if (!worldIn.isRemote && wasShieldingActive != isShieldingActive()) {
 			refreshListeners(false);
 		}
 	}
@@ -72,7 +72,7 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 	// IMultitoolLogic
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// TODO
 		if (player.isSneaking()) {
 			
@@ -91,6 +91,6 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 }

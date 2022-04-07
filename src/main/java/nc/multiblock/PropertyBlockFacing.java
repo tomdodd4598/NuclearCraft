@@ -80,7 +80,7 @@ public enum PropertyBlockFacing implements IStringSerializable {
 	PipeEnd_DNSUW(BlockFacing.computeHash(true, true, true, true, true, false)),
 	PipeEnd_ENSUW(BlockFacing.computeHash(false, true, true, true, false, true));
 	
-	public static final PropertyEnum FACINGS = PropertyEnum.create("facings", PropertyBlockFacing.class);
+	public static final PropertyEnum<PropertyBlockFacing> FACINGS = PropertyEnum.create("facings", PropertyBlockFacing.class);
 	
 	public static final EnumSet<PropertyBlockFacing> ALL_AND_NONE;
 	public static final EnumSet<PropertyBlockFacing> FACES;

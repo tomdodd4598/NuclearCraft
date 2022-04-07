@@ -30,6 +30,7 @@ public class CollectionHelper {
 		return out;
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> intersect(List<T> first, List<T>... rest) {
 		List<T> tList = new ArrayList<>();
 		tList.addAll(first);
@@ -39,6 +40,7 @@ public class CollectionHelper {
 		return tList;
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> union(List<T> first, List<T>... rest) {
 		Set<T> set = new ObjectOpenHashSet<>();
 		set.addAll(first);
@@ -48,6 +50,7 @@ public class CollectionHelper {
 		return new ArrayList<>(set);
 	}
 	
+	@SafeVarargs
 	public static <T> T[] concatenate(T[] first, T[]... rest) {
 		int totalLength = first.length;
 		for (T[] array : rest) {
@@ -62,6 +65,7 @@ public class CollectionHelper {
 		return result;
 	}
 	
+	@SafeVarargs
 	public static <T> T[] concatenate(T[] first, T... rest) {
 		int totalLength = first.length + rest.length;
 		T[] result = Arrays.copyOf(first, totalLength);
@@ -70,6 +74,7 @@ public class CollectionHelper {
 		return result;
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> concatenate(List<T> first, List<T>... rest) {
 		List<T> result = new ArrayList<>();
 		result.addAll(first);
@@ -79,15 +84,17 @@ public class CollectionHelper {
 		return result;
 	}
 	
-	public static List concatGeneral(List first, List... rest) {
-		List result = new ArrayList();
+	@SafeVarargs
+	public static List<Object> concatGeneral(List<Object> first, List<Object>... rest) {
+		List<Object> result = new ArrayList<>();
 		result.addAll(first);
-		for (List list : rest) {
+		for (List<Object> list : rest) {
 			result.addAll(list);
 		}
 		return result;
 	}
 	
+	@SafeVarargs
 	public static IntList concatInt(List<? extends Integer> first, List<? extends Integer>... rest) {
 		IntList result = new IntArrayList();
 		result.addAll(first);
@@ -97,6 +104,7 @@ public class CollectionHelper {
 		return result;
 	}
 	
+	@SafeVarargs
 	public static DoubleList concatDouble(List<? extends Double> first, List<? extends Double>... rest) {
 		DoubleList result = new DoubleArrayList();
 		result.addAll(first);
@@ -106,6 +114,7 @@ public class CollectionHelper {
 		return result;
 	}
 	
+	@SafeVarargs
 	public static LongList concatLong(List<? extends Long> first, List<? extends Long>... rest) {
 		LongList result = new LongArrayList();
 		result.addAll(first);
@@ -135,6 +144,7 @@ public class CollectionHelper {
 		return set;
 	}
 	
+	@SafeVarargs
 	public static <T> Set<T> intersect(Set<T> first, Set<T>... rest) {
 		Set<T> tSet = new ObjectOpenHashSet<>();
 		tSet.addAll(first);
@@ -144,6 +154,7 @@ public class CollectionHelper {
 		return tSet;
 	}
 	
+	@SafeVarargs
 	public static <T> Set<T> union(Set<T> first, Set<T>... rest) {
 		Set<T> tSet = new ObjectOpenHashSet<>();
 		tSet.addAll(first);
@@ -235,7 +246,7 @@ public class CollectionHelper {
 	
 	public static int[] asIntegerArray(IntList list) {
 		int[] array = new int[list.size()];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size(); ++i) {
 			array[i] = list.get(i);
 		}
 		return array;
@@ -243,7 +254,7 @@ public class CollectionHelper {
 	
 	public static double[] asDoubleArray(DoubleList list) {
 		double[] array = new double[list.size()];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size(); ++i) {
 			array[i] = list.get(i);
 		}
 		return array;
@@ -251,7 +262,7 @@ public class CollectionHelper {
 	
 	public static float[] asFloatArray(FloatList list) {
 		float[] array = new float[list.size()];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size(); ++i) {
 			array[i] = list.get(i);
 		}
 		return array;
@@ -259,7 +270,7 @@ public class CollectionHelper {
 	
 	public static String[] asStringArray(List<String> list) {
 		String[] array = new String[list.size()];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size(); ++i) {
 			array[i] = list.get(i);
 		}
 		return array;
@@ -269,7 +280,7 @@ public class CollectionHelper {
 	
 	public static int[] increasingArray(int start, int length) {
 		int[] array = new int[length];
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; ++i) {
 			array[i] = start + i;
 		}
 		return array;
@@ -281,7 +292,7 @@ public class CollectionHelper {
 	
 	public static IntList increasingList(int start, int length) {
 		IntList list = new IntArrayList();
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; ++i) {
 			list.add(start + i);
 		}
 		return list;
@@ -293,7 +304,7 @@ public class CollectionHelper {
 	
 	/** Returns true if only the selected entries are true */
 	public static boolean arrayXAND(boolean[] array, int... i) {
-		for (int j = 0; j < array.length; j++) {
+		for (int j = 0; j < array.length; ++j) {
 			boolean b = 2 * i.length > array.length;
 			for (int k : i) {
 				if (b ^ j == k) {

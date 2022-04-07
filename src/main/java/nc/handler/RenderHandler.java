@@ -39,7 +39,7 @@ public class RenderHandler {
 		MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
 	}
 	
-	private static <E extends Entity, R extends Render<E>> void registerEntityRender(Class<E> entityClass, Class<R> renderClass) {
+	protected static <E extends Entity, R extends Render<E>> void registerEntityRender(Class<E> entityClass, Class<R> renderClass) {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, manager -> {
 			R render = null;
 			try {
@@ -52,7 +52,7 @@ public class RenderHandler {
 		});
 	}
 	
-	private static class TextureStichHandler {
+	protected static class TextureStichHandler {
 		
 		@SubscribeEvent
 		public void stitchTextures(TextureStitchEvent.Pre event) {

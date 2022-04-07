@@ -110,7 +110,7 @@ public class DropHandler {
 			if (tile != null) {
 				IRadiationResistance resistance = RadiationHelper.getRadiationResistance(tile);
 				if (resistance != null) {
-					for (int i = MetaEnums.RadShieldingType.values().length; i > 0; i--) {
+					for (int i = MetaEnums.RadShieldingType.values().length; i > 0; --i) {
 						if (resistance.getShieldingRadResistance() >= radiation_shielding_level[i - 1]) {
 							drops.add(new ItemStack(NCItems.rad_shielding, 1, i - 1));
 							break;

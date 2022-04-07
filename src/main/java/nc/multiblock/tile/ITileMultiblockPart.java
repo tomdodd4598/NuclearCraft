@@ -1,6 +1,6 @@
 package nc.multiblock.tile;
 
-import java.util.Set;
+import java.util.*;
 
 import nc.multiblock.Multiblock;
 import nc.tile.IMultitoolLogic;
@@ -16,7 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 /** Basic interface for a multiblock machine part. Preferably, you should derive from MultiblockTileEntityBase, which does all the hard work for you.
  *
  * {@link nc.multiblock.tile.TileMultiblockPart} */
-public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock> extends IMultitoolLogic {
+public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends IMultitoolLogic {
 	
 	/** @return True if this block is connected to a multiblock. False otherwise. */
 	boolean isConnected();
@@ -57,10 +57,9 @@ public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock> extends IMul
 	 * @return A new Multiblock, derived from MultiblockBase. */
 	MULTIBLOCK createNewMultiblock();
 	
-	/** Retrieve the type of multiblock which governs this part. Used to ensure that incompatible multiblocks are not merged.
-	 * 
-	 * @return The class/type of the multiblock which governs this type of part. */
-	Class<MULTIBLOCK> getMultiblockType();
+	Class<MULTIBLOCK> getMultiblockClass();
+	
+	Class<T> getPartClass();
 	
 	/** Called when this block is moved from its current multiblock into a new multiblock. A special case of attach/detach, done here for efficiency to avoid triggering lots of recalculation logic.
 	 * 
@@ -95,14 +94,14 @@ public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock> extends IMul
 	 * This method is chunk-safe on the server; it will not query for parts in chunks that are unloaded. Note that no method is chunk-safe on the client, because ChunkProviderClient is stupid.
 	 * 
 	 * @return An array of references to neighboring IMultiblockPart tile entities. */
-	ITileMultiblockPart<MULTIBLOCK>[] getNeighboringParts();
+	List<T> getNeighboringParts();
 	
 	// Multiblock business-logic callbacks - implement these!
 	/** Called when a machine is fully assembled from the disassembled state, meaning it was broken by a player/entity action, not by chunk unloads. Note that, for non-square machines, the min/max coordinates may not actually be part of the machine! They form an outer bounding box for the whole machine itself.
 	 * 
 	 * @param multiblockBase
 	 *            The multiblock to which this part is being assembled. */
-	void onMachineAssembled(MULTIBLOCK multiblock);
+	void onMachineAssembled(MULTIBLOCK multiblockIn);
 	
 	/** Called when the machine is broken for game reasons, e.g. a player removed a block or an explosion occurred. */
 	void onMachineBroken();

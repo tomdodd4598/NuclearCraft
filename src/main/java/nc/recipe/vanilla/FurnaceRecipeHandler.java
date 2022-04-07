@@ -13,24 +13,24 @@ import net.minecraftforge.oredict.OreDictionary;
 public class FurnaceRecipeHandler {
 	
 	public static void registerFurnaceRecipes() {
-		for (int i = 0; i < OreType.values().length; i++) {
+		for (int i = 0; i < OreType.values().length; ++i) {
 			String type = StringHelper.capitalize(OreType.values()[i].getName());
 			if (!ore_dict_raw_material_recipes) {
 				GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + type), 0.5F);
 			}
 			else {
-				for (ItemStack ore : OreDictionary.getOres("ore" + type)) {
+				for (ItemStack ore : OreDictionary.getOres("ore" + type, false)) {
 					GameRegistry.addSmelting(ore, OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + type), 0.5F);
 				}
 			}
 		}
-		for (int i = 0; i < IngotType.values().length; i++) {
+		for (int i = 0; i < IngotType.values().length; ++i) {
 			String type = StringHelper.capitalize(IngotType.values()[i].getName());
 			if (!ore_dict_raw_material_recipes) {
 				GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + type), 0F);
 			}
 			else {
-				for (ItemStack dust : OreDictionary.getOres("dust" + type)) {
+				for (ItemStack dust : OreDictionary.getOres("dust" + type, false)) {
 					GameRegistry.addSmelting(dust, OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + type), 0F);
 				}
 			}
@@ -70,14 +70,14 @@ public class FurnaceRecipeHandler {
 	}
 	
 	public static void reductionIsotopeRecipes(Item isotope, int noTypes) {
-		for (int i = 0; i < noTypes; i++) {
+		for (int i = 0; i < noTypes; ++i) {
 			GameRegistry.addSmelting(new ItemStack(isotope, 1, 5 * i + 2), new ItemStack(isotope, 1, 5 * i), 0F);
 			GameRegistry.addSmelting(new ItemStack(isotope, 1, 5 * i + 3), new ItemStack(isotope, 1, 5 * i), 0F);
 		}
 	}
 	
 	public static void reductionFissionFuelRecipes(Item pellet, Item fuel, int noTypes) {
-		for (int i = 0; i < noTypes; i++) {
+		for (int i = 0; i < noTypes; ++i) {
 			GameRegistry.addSmelting(new ItemStack(fuel, 1, 4 * i + 1), new ItemStack(pellet, 1, 2 * i), 0F);
 			GameRegistry.addSmelting(new ItemStack(fuel, 1, 4 * i + 2), new ItemStack(pellet, 1, 2 * i), 0F);
 		}

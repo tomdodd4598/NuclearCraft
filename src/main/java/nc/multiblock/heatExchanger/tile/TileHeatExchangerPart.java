@@ -4,12 +4,12 @@ import nc.multiblock.cuboidal.*;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileHeatExchangerPart extends TileCuboidalMultiblockPart<HeatExchanger> implements IHeatExchangerPart {
+public abstract class TileHeatExchangerPart extends TileCuboidalMultiblockPart<HeatExchanger, IHeatExchangerPart> implements IHeatExchangerPart {
 	
 	public boolean isHeatExchangerOn;
 	
 	public TileHeatExchangerPart(CuboidalPartPositionType positionType) {
-		super(HeatExchanger.class, positionType);
+		super(HeatExchanger.class, IHeatExchangerPart.class, positionType);
 	}
 	
 	@Override

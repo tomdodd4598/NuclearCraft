@@ -2,7 +2,7 @@ package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.tile.TileTurbineController;
+import nc.multiblock.turbine.tile.*;
 import nc.tile.internal.energy.EnergyStorage;
 import net.minecraft.util.math.BlockPos;
 
@@ -80,10 +80,15 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeDouble(bearingTension);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineUpdatePacket, Turbine, TileTurbineController> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<Turbine, ITurbinePart, TurbineUpdatePacket, TileTurbineController, TurbineUpdatePacket> {
 		
 		public Handler() {
 			super(TileTurbineController.class);
+		}
+		
+		@Override
+		protected void onPacket(TurbineUpdatePacket message, Turbine multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 }

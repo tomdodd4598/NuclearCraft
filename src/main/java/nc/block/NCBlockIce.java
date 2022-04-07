@@ -30,11 +30,11 @@ public class NCBlockIce extends BlockIce {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
 		Block block = iblockstate.getBlock();
 		
-		return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+		return block == this ? false : super.shouldSideBeRendered(state, blockAccess, pos, side);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class NCBlockIce extends BlockIce {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return new AxisAlignedBB(0.002D, 0.002D, 0.002D, 0.998D, 1D, 0.998D);
 	}
 }

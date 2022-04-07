@@ -7,9 +7,10 @@ import java.util.Calendar;
 import javax.annotation.Nullable;
 
 import nc.capability.radiation.entity.IEntityRads;
+import nc.config.NCConfig;
 import nc.entity.ai.EntityAIFeralGhoulLeap;
 import nc.init.NCSounds;
-import nc.radiation.*;
+import nc.radiation.RadiationHelper;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -97,9 +98,9 @@ public class EntityFeralGhoul extends EntityZombie {
 	}
 	
 	@Override
-	protected SoundEvent getFallSound(int height) {
+	protected SoundEvent getFallSound(int fallHeight) {
 		// return SoundHandler.feral_ghoul_fall;
-		return height > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+		return fallHeight > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
 	}
 	
 	@Override
@@ -155,8 +156,9 @@ public class EntityFeralGhoul extends EntityZombie {
 			
 			IEntityRads entityRads = RadiationHelper.getEntityRadiation(target);
 			if (entityRads != null) {
-				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + RadSources.CAESIUM_137 * mult);
-				entityRads.setRecentPoisonAddition(RadSources.CAESIUM_137 * mult);
+				double attackRadiation = NCConfig.radiation_feral_ghoul_attack * mult;
+				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + attackRadiation);
+				entityRads.setRecentPoisonAddition(attackRadiation);
 				playSound(NCSounds.rad_poisoning, (float) (1.35D * radiation_sound_volumes[7]), 1F + 0.2F * (rand.nextFloat() - rand.nextFloat()));
 			}
 		}
@@ -222,7 +224,10 @@ public class EntityFeralGhoul extends EntityZombie {
 		motionZ *= speedBoost;
 		
 		if (isPotionActive(MobEffects.JUMP_BOOST)) {
-			motionY += (getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1F;
+			PotionEffect jumpBoost = getActivePotionEffect(MobEffects.JUMP_BOOST);
+			if (jumpBoost != null) {
+				motionY += (jumpBoost.getAmplifier() + 1) * 0.1F;
+			}
 		}
 		
 		isAirBorne = true;
@@ -400,7 +405,10 @@ public class EntityFeralGhoul extends EntityZombie {
 						}
 						
 						if (isPotionActive(MobEffects.LEVITATION)) {
-							motionY += (0.05D * (getActivePotionEffect(MobEffects.LEVITATION).getAmplifier() + 1) - motionY) * 0.2D;
+							PotionEffect levitation = getActivePotionEffect(MobEffects.LEVITATION);
+							if (levitation != null) {
+								motionY += (0.05D * (levitation.getAmplifier() + 1) - motionY) * 0.2D;
+							}
 						}
 						else {
 							blockpos$pooledmutableblockpos.setPos(posX, 0D, posZ);

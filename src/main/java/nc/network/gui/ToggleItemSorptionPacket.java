@@ -14,10 +14,10 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleItemSorptionPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int side;
-	private int slot;
-	private int sorption;
+	protected BlockPos pos;
+	protected int side;
+	protected int slot;
+	protected int sorption;
 	
 	public ToggleItemSorptionPacket() {
 		

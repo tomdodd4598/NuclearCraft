@@ -210,7 +210,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		return new Object[] {};
 	}*/
 	
-	//TODO
+	// TODO
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getCellStats(Context context, Arguments args) {
@@ -245,7 +245,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		return new Object[] {cellData.toArray()};
 	}
 	
-	//TODO - currently broken!
+	// TODO - currently broken!
 	@Optional.Method(modid = "opencomputers")
 	public Object[] updateShieldState(Context context, Arguments args) {
 		boolean activated = false;
@@ -276,7 +276,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		return new Object[] {activated};
 	}
 	
-	//TODO
+	// TODO
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getClusterComponents(Context context, Arguments args) {

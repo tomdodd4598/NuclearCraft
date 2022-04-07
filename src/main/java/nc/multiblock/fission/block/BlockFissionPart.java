@@ -27,8 +27,8 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 		}
 		
 		@Override
-		public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-			return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
+		public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+			return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(state, worldIn, pos);
 		}
 		
 		@Override
@@ -38,8 +38,8 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-		return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(blockState, worldIn, pos);
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+		return fission_heat_damage ? BlockHelper.REDUCED_BLOCK_AABB : super.getCollisionBoundingBox(state, worldIn, pos);
 	}
 	
 	@Override

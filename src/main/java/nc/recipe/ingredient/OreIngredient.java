@@ -15,13 +15,18 @@ import net.minecraftforge.fml.common.Optional;
 public class OreIngredient implements IItemIngredient {
 	
 	public String oreName;
-	public final List<ItemStack> cachedStackList;
+	public List<ItemStack> cachedStackList = null;
 	public int stackSize;
 	
 	public OreIngredient(String oreName, int stackSize) {
 		this.oreName = oreName;
 		cachedStackList = OreDictHelper.getPrioritisedStackList(oreName);
 		this.stackSize = stackSize;
+	}
+	
+	@Override
+	public void init() {
+		cachedStackList = OreDictHelper.getPrioritisedStackList(oreName);
 	}
 	
 	@Override

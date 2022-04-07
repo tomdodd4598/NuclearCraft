@@ -56,9 +56,9 @@ public interface ITileEnergy extends ITile, IBigPower {
 		return getEnergyConnection(side).canConnect();
 	}
 	
-	public static EnergyConnection[] energyConnectionAll(@Nonnull EnergyConnection connection) {
+	public static @Nonnull EnergyConnection[] energyConnectionAll(@Nonnull EnergyConnection connection) {
 		EnergyConnection[] array = new EnergyConnection[6];
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			array[i] = connection;
 		}
 		return array;
@@ -245,7 +245,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 	}
 	
 	public default NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			nbt.setInteger("energyConnections" + i, getEnergyConnections()[i].ordinal());
 		}
 		return nbt;
@@ -253,7 +253,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 	
 	public default void readEnergyConnections(NBTTagCompound nbt) {
 		if (hasConfigurableEnergyConnections()) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				if (nbt.hasKey("energyConnections" + i)) {
 					getEnergyConnections()[i] = EnergyConnection.values()[nbt.getInteger("energyConnections" + i)];
 				}

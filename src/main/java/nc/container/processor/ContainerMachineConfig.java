@@ -1,24 +1,24 @@
 package nc.container.processor;
 
 import nc.container.ContainerTile;
-import nc.tile.ITileGui;
+import nc.tile.processor.ITileSideConfigGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineConfig<T extends ITileGui> extends ContainerTile<T> {
+public class ContainerMachineConfig<T extends ITileSideConfigGui<?>> extends ContainerTile<T> {
 	
 	public ContainerMachineConfig(EntityPlayer player, T tile) {
 		super(tile);
 		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + tile.getSideConfigYOffset() + 18 * i));
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + tile.getSideConfigXOffset() + 18 * j, 84 + tile.getSideConfigYOffset() + 18 * i));
 			}
 		}
 		
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142 + tile.getSideConfigYOffset()));
+		for (int i = 0; i < 9; ++i) {
+			addSlotToContainer(new Slot(player.inventory, i, 8 + tile.getSideConfigXOffset() + 18 * i, 142 + tile.getSideConfigYOffset()));
 		}
 	}
 	

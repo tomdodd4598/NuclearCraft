@@ -38,7 +38,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public void setSourceEfficiency(double sourceEfficiency, boolean maximize);
 	
-	public int[] getModeratorLineFluxes();
+	public long[] getModeratorLineFluxes();
 	
 	public Double[] getModeratorLineEfficiencies();
 	
@@ -64,7 +64,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			Double lineEfficiency = getModeratorLineEfficiencies()[dir.getIndex()];
 			if (lineEfficiency != null) {
-				count++;
+				++count;
 				efficiency += getModeratorLineFluxes()[dir.getIndex()] == 0 ? 0D : lineEfficiency;
 			}
 		}
@@ -89,7 +89,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
-	public int getCriticality();
+	public long getCriticality();
 	
 	public double getFloatingPointCriticality();
 	
@@ -118,7 +118,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 				line.flux = activeInfo.fluxFactor;
 				double moderatorEfficiency = activeInfo.efficiency;
 				
-				for (int i = 2; i <= fission_neutron_reach + 1; i++) {
+				for (int i = 2; i <= fission_neutron_reach + 1; ++i) {
 					offPos = getTilePos().offset(dir, i);
 					ModeratorBlockInfo info = componentFailCache.containsKey(offPos.toLong()) ? null : getModeratorBlockInfo(offPos, dir, canSupportActiveModerator(false));
 					if (info != null) {
@@ -161,7 +161,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 								BasicRecipe recipe = RecipeHelper.blockRecipe(NCRecipes.fission_reflector, getTileWorld(), offPos);
 								if (recipe != null) {
 									line.reflectorRecipe = recipe;
-									line.flux = (int) Math.floor(2D * line.flux * recipe.getFissionReflectorReflectivity());
+									line.flux = (long) Math.floor(2D * line.flux * recipe.getFissionReflectorReflectivity());
 									addFlux(line.flux);
 									getModeratorLineFluxes()[dir.getIndex()] = line.flux;
 									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency() * moderatorEfficiency / (i - 1);
@@ -193,7 +193,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		public final IFissionFuelComponent fuelComponent;
 		public IFissionFluxSink fluxSink = null;
 		public BasicRecipe reflectorRecipe = null;
-		public int flux = 0;
+		public long flux = 0;
 		
 		public ModeratorLine(ObjectList<ModeratorBlockInfo> info, IFissionFuelComponent fuelComponent) {
 			this.info = new ObjectArrayList<>(info);
@@ -225,10 +225,10 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		public final IFissionComponent component;
 		public final boolean blockingFlux;
 		public boolean validActiveModeratorPos;
-		public final int fluxFactor;
+		public final long fluxFactor;
 		public final double efficiency;
 		
-		public ModeratorBlockInfo(BlockPos pos, IFissionComponent component, boolean blockingFlux, boolean validActiveModeratorPos, int fluxFactor, double efficiency) {
+		public ModeratorBlockInfo(BlockPos pos, IFissionComponent component, boolean blockingFlux, boolean validActiveModeratorPos, long fluxFactor, double efficiency) {
 			posLong = pos.toLong();
 			this.component = component;
 			this.blockingFlux = blockingFlux;
@@ -237,8 +237,8 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 			this.efficiency = efficiency;
 		}
 		
-		public void updateModeratorPosValidity(boolean validActiveModeratorPos) {
-			this.validActiveModeratorPos = this.validActiveModeratorPos || validActiveModeratorPos;
+		public void updateModeratorPosValidity(boolean validActiveModeratorPosIn) {
+			validActiveModeratorPos |= validActiveModeratorPosIn;
 		}
 	}
 	

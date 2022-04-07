@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class RockCrusherCategory extends JEIMachineCategory<JEIRecipeWrapper.RockCrusher> {
 	
-	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.RockCrusher> handler) {
 		super(guiHelper, handler, "rock_crusher", 29, 30, 122, 26);
 	}
 	

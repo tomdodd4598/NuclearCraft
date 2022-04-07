@@ -53,6 +53,7 @@ public final class ModelTexturedFluid implements IModel {
 	}
 	
 	public static enum FluidTexturedLoader implements ICustomModelLoader {
+		
 		INSTANCE;
 		
 		@Override
@@ -71,8 +72,8 @@ public final class ModelTexturedFluid implements IModel {
 	
 	protected static final class BakedFluidTextured implements IBakedModel {
 		
-		protected static final int x[] = {0, 0, 1, 1};
-		protected static final int z[] = {0, 1, 1, 0};
+		protected static final int X[] = {0, 0, 1, 1};
+		protected static final int Z[] = {0, 1, 1, 0};
 		protected static final float eps = 0.001F;
 		
 		protected final LoadingCache<Long, BakedFluidTextured> modelCache = CacheBuilder.newBuilder().maximumSize(1000).build(new CacheLoader<Long, BakedFluidTextured>() {
@@ -86,7 +87,7 @@ public final class ModelTexturedFluid implements IModel {
 				boolean statePresent = (key & 1) != 0;
 				key >>>= 1;
 				int[] cornerRound = new int[4];
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4; ++i) {
 					cornerRound[i] = (int) (key & 0x3FF);
 					key >>>= 10;
 				}
@@ -109,7 +110,7 @@ public final class ModelTexturedFluid implements IModel {
 			int[] cornerRound = new int[] {0, 0, 0, 0};
 			if (stateOption.isPresent()) {
 				IExtendedBlockState state = stateOption.get();
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4; ++i) {
 					Float level = state.getValue(BlockFluidBase.LEVEL_CORNERS[i]);
 					cornerRound[i] = Math.round((level == null ? 7F / 8 : level) * 768);
 				}
@@ -144,7 +145,7 @@ public final class ModelTexturedFluid implements IModel {
 			
 			if (statePresent) {
 				float[] y = new float[4];
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4; ++i) {
 					if (gas) {
 						y[i] = 1 - cornerRound[i] / 768F;
 					}
@@ -169,14 +170,14 @@ public final class ModelTexturedFluid implements IModel {
 				EnumFacing side = gas ? EnumFacing.DOWN : EnumFacing.UP;
 				UnpackedBakedQuad.Builder builder;
 				ImmutableList.Builder<BakedQuad> topFaceBuilder = ImmutableList.builder();
-				for (int k = 0; k < 2; k++) {
+				for (int k = 0; k < 2; ++k) {
 					builder = new UnpackedBakedQuad.Builder(format);
 					builder.setQuadOrientation(side);
 					builder.setTexture(topSprite);
 					builder.setQuadTint(0);
 					for (int i = gas ? 3 : 0; i != (gas ? -1 : 4); i += gas ? -1 : 1) {
 						int l = k * 3 + (1 - 2 * k) * i;
-						putVertex(builder, side, x[l], y[l], z[l], topSprite.getInterpolatedU(8 + c * (x[l] * 2 - 1) + s * (z[l] * 2 - 1)), topSprite.getInterpolatedV(8 + c * (x[(l + 1) % 4] * 2 - 1) + s * (z[(l + 1) % 4] * 2 - 1)), opacity);
+						putVertex(builder, side, X[l], y[l], Z[l], topSprite.getInterpolatedU(8 + c * (X[l] * 2 - 1) + s * (Z[l] * 2 - 1)), topSprite.getInterpolatedV(8 + c * (X[(l + 1) % 4] * 2 - 1) + s * (Z[(l + 1) % 4] * 2 - 1)), opacity);
 					}
 					topFaceBuilder.add(builder.build());
 				}
@@ -188,26 +189,26 @@ public final class ModelTexturedFluid implements IModel {
 				builder.setTexture(still);
 				builder.setQuadTint(0);
 				for (int i = gas ? 3 : 0; i != (gas ? -1 : 4); i += gas ? -1 : 1) {
-					putVertex(builder, side, z[i], gas ? 1 : 0, x[i], still.getInterpolatedU(z[i] * 16), still.getInterpolatedV(x[i] * 16), opacity);
+					putVertex(builder, side, Z[i], gas ? 1 : 0, X[i], still.getInterpolatedU(Z[i] * 16), still.getInterpolatedV(X[i] * 16), opacity);
 				}
 				faceQuads.put(side, ImmutableList.of(builder.build()));
 				
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4; ++i) {
 					side = EnumFacing.byHorizontalIndex((5 - i) % 4);
 					BakedQuad q[] = new BakedQuad[2];
 					
-					for (int k = 0; k < 2; k++) {
+					for (int k = 0; k < 2; ++k) {
 						builder = new UnpackedBakedQuad.Builder(format);
 						builder.setQuadOrientation(side);
 						builder.setTexture(flowing);
 						builder.setQuadTint(0);
-						for (int j = 0; j < 4; j++) {
+						for (int j = 0; j < 4; ++j) {
 							int l = k * 3 + (1 - 2 * k) * j;
-							float yl = z[l] * y[(i + x[l]) % 4];
-							if (gas && z[l] == 0) {
+							float yl = Z[l] * y[(i + X[l]) % 4];
+							if (gas && Z[l] == 0) {
 								yl = 1;
 							}
-							putVertex(builder, side, x[(i + x[l]) % 4], yl, z[(i + x[l]) % 4], flowing.getInterpolatedU(x[l] * 8), flowing.getInterpolatedV((gas ? yl : 1 - yl) * 8), opacity);
+							putVertex(builder, side, X[(i + X[l]) % 4], yl, Z[(i + X[l]) % 4], flowing.getInterpolatedU(X[l] * 8), flowing.getInterpolatedV((gas ? yl : 1 - yl) * 8), opacity);
 						}
 						q[k] = builder.build();
 					}
@@ -219,15 +220,15 @@ public final class ModelTexturedFluid implements IModel {
 				builder.setQuadOrientation(EnumFacing.UP);
 				builder.setTexture(still);
 				builder.setQuadTint(0);
-				for (int i = 0; i < 4; i++) {
-					putVertex(builder, EnumFacing.UP, z[i], x[i], 0, still.getInterpolatedU(z[i] * 16), still.getInterpolatedV(x[i] * 16), opacity);
+				for (int i = 0; i < 4; ++i) {
+					putVertex(builder, EnumFacing.UP, Z[i], X[i], 0, still.getInterpolatedU(Z[i] * 16), still.getInterpolatedV(X[i] * 16), opacity);
 				}
 				faceQuads.put(EnumFacing.SOUTH, ImmutableList.of(builder.build()));
 			}
 		}
 		
 		protected void putVertex(UnpackedBakedQuad.Builder builder, EnumFacing side, float x, float y, float z, float u, float v, int opacity) {
-			for (int e = 0; e < format.getElementCount(); e++) {
+			for (int e = 0; e < format.getElementCount(); ++e) {
 				switch (format.getElement(e).getUsage()) {
 					case POSITION:
 						float[] data = new float[] {x - side.getDirectionVec().getX() * eps, y, z - side.getDirectionVec().getZ() * eps, 1};
@@ -246,6 +247,7 @@ public final class ModelTexturedFluid implements IModel {
 							builder.put(e, u, v, 0F, 1F);
 							break;
 						}
+						//$FALL-THROUGH$
 					case NORMAL:
 						builder.put(e, side.getXOffset(), side.getYOffset(), side.getZOffset(), 0F);
 						break;
@@ -284,7 +286,7 @@ public final class ModelTexturedFluid implements IModel {
 				int[] cornerRound = getCorners(Optional.of(exState));
 				int flowRound = getFlow(Optional.of(exState));
 				long key = flowRound + 1024;
-				for (int i = 3; i >= 0; i--) {
+				for (int i = 3; i >= 0; --i) {
 					key <<= 10;
 					key |= cornerRound[i];
 				}
@@ -316,14 +318,14 @@ public final class ModelTexturedFluid implements IModel {
 	
 	@Override
 	public IModel retexture(ImmutableMap<String, String> textures) {
-		ResourceLocation still = this.still;
-		ResourceLocation flowing = this.flowing;
+		ResourceLocation stillTexture = still;
+		ResourceLocation flowingTexture = flowing;
 		if (textures.containsKey("still")) {
-			still = new ResourceLocation(textures.get("still"));
+			stillTexture = new ResourceLocation(textures.get("still"));
 		}
 		if (textures.containsKey("flowing")) {
-			flowing = new ResourceLocation(textures.get("flowing"));
+			flowingTexture = new ResourceLocation(textures.get("flowing"));
 		}
-		return new ModelTexturedFluid(still, flowing);
+		return new ModelTexturedFluid(stillTexture, flowingTexture);
 	}
 }

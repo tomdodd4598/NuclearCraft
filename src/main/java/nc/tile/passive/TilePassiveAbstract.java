@@ -114,7 +114,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public void tickCount() {
-		tickCount++;
+		++tickCount;
 		tickCount %= machine_update_rate;
 	}
 	
@@ -375,35 +375,35 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
-			return (T) getRadiationSource();
+			return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(getRadiationSource());
 		}
 		else if (capability == CapabilityEnergy.ENERGY) {
 			if (energyRate != 0 && hasEnergySideCapability(side)) {
-				return (T) getEnergySide(nonNullSide(side));
+				return CapabilityEnergy.ENERGY.cast(getEnergySide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			if (enable_gtce_eu && energyRate != 0 && hasEnergySideCapability(side)) {
-				return (T) getEnergySideGT(nonNullSide(side));
+				return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(getEnergySideGT(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (fluidRate != 0 && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && fluidRate != 0 && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}
 		else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (itemRate != 0) {
-				return (T) getItemHandler(null);
+				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(null));
 			}
 			return null;
 		}

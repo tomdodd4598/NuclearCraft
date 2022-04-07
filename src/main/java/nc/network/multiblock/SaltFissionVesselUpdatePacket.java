@@ -73,11 +73,11 @@ public class SaltFissionVesselUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(baseProcessTime);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<SaltFissionVesselUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<SaltFissionVesselUpdatePacket, ITileGui<SaltFissionVesselUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(SaltFissionVesselUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(SaltFissionVesselUpdatePacket message, ITileGui<SaltFissionVesselUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

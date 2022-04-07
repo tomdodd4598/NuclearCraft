@@ -33,11 +33,11 @@ public class FissionCellPortUpdatePacket extends FissionPortUpdatePacket {
 		ByteBufUtils.writeItemStack(buf, filterStack);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<FissionCellPortUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<FissionCellPortUpdatePacket, ITileGui<FissionCellPortUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(FissionCellPortUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(FissionCellPortUpdatePacket message, ITileGui<FissionCellPortUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

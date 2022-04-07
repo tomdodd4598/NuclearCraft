@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class CentrifugeCategory extends JEIMachineCategory<JEIRecipeWrapper.Centrifuge> {
 	
-	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Centrifuge> handler) {
 		super(guiHelper, handler, "centrifuge", 39, 30, 114, 38);
 	}
 	

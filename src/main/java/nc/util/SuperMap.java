@@ -13,10 +13,12 @@ public abstract class SuperMap<KEY, T, M extends Map<KEY, ? extends T>> {
 		internalMap = new Object2ObjectOpenHashMap<>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <TYPE extends T, MAP extends Map<KEY, TYPE>> MAP put(Class<TYPE> clazz, M map) {
 		return (MAP) internalMap.put(clazz, map);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <TYPE extends T, MAP extends Map<KEY, TYPE>> MAP get(Class<TYPE> clazz) {
 		if (!internalMap.containsKey(clazz)) {
 			internalMap.put(clazz, backup(clazz));
@@ -39,6 +41,7 @@ public abstract class SuperMap<KEY, T, M extends Map<KEY, ? extends T>> {
 		private final Class<T> key;
 		private final Map<KEY, T> value;
 		
+		@SuppressWarnings("unchecked")
 		public SuperMapEntry(Entry<Class<?>, Map<KEY, ?>> superMapEntry) {
 			key = (Class<T>) superMapEntry.getKey();
 			value = (Map<KEY, T>) superMapEntry.getValue();

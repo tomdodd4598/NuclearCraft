@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class AssemblerCategory extends JEIMachineCategory<JEIRecipeWrapper.Assembler> {
 	
-	public AssemblerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public AssemblerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Assembler> handler) {
 		super(guiHelper, handler, "assembler", 45, 30, 102, 38);
 	}
 	

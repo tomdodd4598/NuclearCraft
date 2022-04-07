@@ -21,8 +21,8 @@ public class RadiationScrubberRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(4);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(4);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

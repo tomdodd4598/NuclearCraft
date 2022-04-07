@@ -185,7 +185,7 @@ public class ItemHandler<T extends ITileInventory> implements IItemHandlerModifi
 			return true;
 		}
 		if (obj instanceof ItemHandler) {
-			ItemHandler handler = (ItemHandler) obj;
+			ItemHandler<?> handler = (ItemHandler<?>) obj;
 			return tile.equals(handler.tile) && side == handler.side;
 		}
 		return false;

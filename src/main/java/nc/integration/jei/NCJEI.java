@@ -37,7 +37,7 @@ public class NCJEI implements IModPlugin {
 		for (IJEIHandler<?> handler : JEIHandler.values()) {
 			if (handler.getEnabled()) {
 				registry.addRecipes(handler.getJEIRecipes(guiHelper));
-				JEIBasicCategory category = handler.getCategory(guiHelper);
+				JEIBasicCategory<?> category = handler.getCategory(guiHelper);
 				registry.addRecipeCategories(category);
 				registry.addRecipeHandlers(category);
 				if (handler.getCrafters() != null) {
@@ -161,7 +161,7 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionVessel.class, JEIHandler.SALT_FISSION.getUid(), 0, 0, 0, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionHeater.class, JEIHandler.COOLANT_HEATER.getUid(), 0, 0, 0, 36);
 		
-		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.OreType.values().length; ++i) {
 			if (!ore_gen[i] && ore_hide_disabled) {
 				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i), new ItemStack(NCBlocks.ingot_block, 1, i), new ItemStack(NCItems.ingot, 1, i), new ItemStack(NCItems.dust, 1, i));
 			}
@@ -207,12 +207,13 @@ public class NCJEI implements IModPlugin {
 		if (item == null) {
 			return;
 		}
-		for (int i = 0; i < enumm.getEnumConstants().length; i++) {
+		for (int i = 0; i < enumm.getEnumConstants().length; ++i) {
 			blacklist(jeiHelpers, new ItemStack(item, 1, i));
 		}
 	}
 	
 	public enum JEIHandler implements IJEIHandler {
+		
 		MANUFACTORY(NCRecipes.manufactory, NCBlocks.manufactory, "manufactory", JEIRecipeWrapper.Manufactory.class, 1),
 		SEPARATOR(NCRecipes.separator, NCBlocks.separator, "separator", JEIRecipeWrapper.Separator.class, 2),
 		DECAY_HASTENER(NCRecipes.decay_hastener, NCBlocks.decay_hastener, "decay_hastener", JEIRecipeWrapper.DecayHastener.class, 3),
@@ -275,7 +276,7 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public JEIBasicCategory getCategory(IGuiHelper guiHelper) {
+		public JEIBasicCategory<?> getCategory(IGuiHelper guiHelper) {
 			switch (this) {
 				case MANUFACTORY:
 					return new ManufactoryCategory(guiHelper, this);
@@ -356,12 +357,12 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public Class getRecipeWrapperClass() {
+		public Class<? extends JEIBasicRecipeWrapper> getRecipeWrapperClass() {
 			return recipeWrapper;
 		}
 		
 		@Override
-		public List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) {
+		public List<? extends JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) {
 			return JEIHelper.getJEIRecipes(guiHelper, this, getRecipeHandler(), getRecipeWrapperClass());
 		}
 		
@@ -386,7 +387,7 @@ public class NCJEI implements IModPlugin {
 		}
 	}
 	
-	private static List<ItemStack> fixStacks(List<?> list) {
+	protected static List<ItemStack> fixStacks(List<?> list) {
 		List<ItemStack> stacks = new ArrayList<>();
 		for (Object obj : list) {
 			stacks.add(StackHelper.fixItemStack(obj));
@@ -394,7 +395,7 @@ public class NCJEI implements IModPlugin {
 		return stacks;
 	}
 	
-	private static List<Block> registeredCollectors() {
+	protected static List<Block> registeredCollectors() {
 		List<Block> list = new ArrayList<>();
 		if (register_passive[0]) {
 			list.add(NCBlocks.cobblestone_generator);
@@ -414,28 +415,27 @@ public class NCJEI implements IModPlugin {
 		return list;
 	}
 	
-	private static List<ItemStack> getCoolantHeaters() {
+	protected static List<ItemStack> getCoolantHeaters() {
 		List<ItemStack> list = new ArrayList<>();
 		for (BasicRecipe recipe : FissionPlacement.recipe_handler.getRecipeList()) {
-			if (recipe.getPlacementRuleID().endsWith("_heater"))
-				for (IItemIngredient ingredient : recipe.getItemIngredients()) {
-					for (ItemStack stack : ingredient.getInputStackList()) {
-						list.add(stack);
-					}
+			if (recipe.getPlacementRuleID().endsWith("_heater")) for (IItemIngredient ingredient : recipe.getItemIngredients()) {
+				for (ItemStack stack : ingredient.getInputStackList()) {
+					list.add(stack);
 				}
+			}
 		}
 		return list;
 	}
 	
-	public static interface IJEIHandler<WRAPPER extends JEIBasicRecipeWrapper> {
+	public static interface IJEIHandler<WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> {
 		
-		public JEIBasicCategory getCategory(IGuiHelper guiHelper);
+		public JEIBasicCategory<?> getCategory(IGuiHelper guiHelper);
 		
 		public BasicRecipeHandler getRecipeHandler();
 		
 		public Class<WRAPPER> getRecipeWrapperClass();
 		
-		public List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper);
+		public List<WRAPPER> getJEIRecipes(IGuiHelper guiHelper);
 		
 		public String getUid();
 		

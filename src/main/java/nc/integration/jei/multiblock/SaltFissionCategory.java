@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class SaltFissionCategory extends JEIMachineCategory<JEIRecipeWrapper.SaltFission> {
 	
-	public SaltFissionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public SaltFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.SaltFission> handler) {
 		super(guiHelper, handler, "salt_fission_vessel", 47, 30, 90, 26);
 	}
 	

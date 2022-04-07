@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class ExtractorCategory extends JEIMachineCategory<JEIRecipeWrapper.Extractor> {
 	
-	public ExtractorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public ExtractorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Extractor> handler) {
 		super(guiHelper, handler, "extractor", 33, 30, 118, 26);
 	}
 	

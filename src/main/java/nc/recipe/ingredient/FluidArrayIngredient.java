@@ -111,7 +111,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 			return IngredientMatchResult.PASS_0;
 		}
 		else {
-			for (int i = 0; i < ingredientList.size(); i++) {
+			for (int i = 0; i < ingredientList.size(); ++i) {
 				if (ingredientList.get(i).match(object, sorption).matches()) {
 					return new IngredientMatchResult(true, i);
 				}
@@ -131,7 +131,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	@Optional.Method(modid = "crafttweaker")
 	public crafttweaker.api.item.IIngredient ct() {
 		crafttweaker.api.item.IIngredient[] array = new crafttweaker.api.item.IIngredient[ingredientList.size()];
-		for (int i = 0; i < ingredientList.size(); i++) {
+		for (int i = 0; i < ingredientList.size(); ++i) {
 			array[i] = ingredientList.get(i).ct();
 		}
 		return new IngredientOr(array);

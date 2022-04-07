@@ -49,7 +49,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	}
 	
 	public void tickGenerator() {
-		generatorCount++;
+		++generatorCount;
 		generatorCount %= machine_update_rate;
 	}
 	
@@ -91,8 +91,8 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	}
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		for (EnumFacing side : EnumFacing.VALUES) {
 			refreshRecipe(side);
 		}

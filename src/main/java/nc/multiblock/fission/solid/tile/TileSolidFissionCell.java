@@ -61,7 +61,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected Set<EntityPlayer> updatePacketListeners;
 	
 	protected FissionCluster cluster = null;
 	protected long heat = 0L;
@@ -69,12 +69,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public long clusterHeatStored, clusterHeatCapacity;
 	
 	protected boolean primed = false, fluxSearched = false;
-	protected int flux = 0;
+	protected long flux = 0;
 	
 	public int heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
-	protected int[] moderatorLineFluxes = new int[] {0, 0, 0, 0, 0, 0};
+	protected long[] moderatorLineFluxes = new long[] {0L, 0L, 0L, 0L, 0L, 0L};
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
 	protected IFissionFluxSink[] adjacentFluxSinks = new IFissionFluxSink[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
@@ -92,7 +92,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public TileSolidFissionCell() {
 		super(CuboidalPartPositionType.INTERIOR);
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -167,6 +167,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
+	public boolean isProducingFlux() {
+		return isPrimed() || isProcessing;
+	}
+	
+	@Override
 	public void tryPriming(FissionReactor sourceReactor, boolean fromSource) {
 		if (getMultiblock() != sourceReactor) {
 			return;
@@ -215,7 +220,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public void incrementHeatMultiplier() {
-		heatMult++;
+		++heatMult;
 	}
 	
 	@Override
@@ -229,12 +234,17 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public void addFlux(int flux) {
-		this.flux += flux;
+	public long getFlux() {
+		return flux;
 	}
 	
 	@Override
-	public int[] getModeratorLineFluxes() {
+	public void addFlux(long addedFlux) {
+		flux += addedFlux;
+	}
+	
+	@Override
+	public long[] getModeratorLineFluxes() {
 		return moderatorLineFluxes;
 	}
 	
@@ -324,13 +334,13 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public int getCriticality() {
-		return NCMath.toInt(getFloatingPointCriticality());
+	public long getCriticality() {
+		return fission_decay_mechanics ? NCMath.toInt(getFloatingPointCriticality()) : baseProcessCriticality;
 	}
 	
 	@Override
 	public double getFloatingPointCriticality() {
-		return baseProcessCriticality * (1D - baseProcessDecayFactor + poisonFraction);
+		return fission_decay_mechanics ? baseProcessCriticality * (1D - baseProcessDecayFactor + poisonFraction) : baseProcessCriticality;
 	}
 	
 	@Override
@@ -452,7 +462,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 				getMultiblock().refreshFlag = true;
 			}
 			
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 			if (shouldUpdate) {
 				markDirty();
 			}
@@ -465,7 +475,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			return;
 		}
 		
-		int oldCriticality = getCriticality();
+		long oldCriticality = getCriticality();
 		boolean oldHasEnoughFlux = hasEnoughFlux();
 		int oldDecayHeating = getDecayHeating();
 		
@@ -546,11 +556,11 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	public int getDecayHeating() {
-		return NCMath.toInt(getFloatingPointDecayHeating());
+		return fission_decay_mechanics ? NCMath.toInt(getFloatingPointDecayHeating()) : 0;
 	}
 	
 	public double getFloatingPointDecayHeating() {
-		return decayProcessHeat * decayHeatFraction;
+		return fission_decay_mechanics ? decayProcessHeat * decayHeatFraction : 0D;
 	}
 	
 	@Override
@@ -585,19 +595,20 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			baseProcessHeat = 0;
 			baseProcessEfficiency = 0D;
 			baseProcessCriticality = 1;
-			//baseProcessDecayFactor = 0D;
+			// baseProcessDecayFactor = 0D;
 			selfPriming = false;
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getFissionFuelTime();
-		baseProcessHeat = recipeInfo.getRecipe().getFissionFuelHeat();
+		BasicRecipe recipe = recipeInfo.getRecipe();
+		baseProcessTime = recipe.getFissionFuelTime();
+		baseProcessHeat = recipe.getFissionFuelHeat();
 		decayProcessHeat = baseProcessHeat;
-		baseProcessEfficiency = recipeInfo.getRecipe().getFissionFuelEfficiency();
-		baseProcessCriticality = recipeInfo.getRecipe().getFissionFuelCriticality();
-		baseProcessDecayFactor = recipeInfo.getRecipe().getFissionFuelDecayFactor();
-		selfPriming = recipeInfo.getRecipe().getFissionFuelSelfPriming();
-		baseProcessRadiation = recipeInfo.getRecipe().getFissionFuelRadiation();
+		baseProcessEfficiency = recipe.getFissionFuelEfficiency();
+		baseProcessCriticality = recipe.getFissionFuelCriticality();
+		baseProcessDecayFactor = recipe.getFissionFuelDecayFactor();
+		selfPriming = recipe.getFissionFuelSelfPriming();
+		baseProcessRadiation = recipe.getFissionFuelRadiation();
 		return true;
 	}
 	
@@ -619,7 +630,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		if (world.isRemote) {
 			return hasConsumed;
 		}
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			if (!consumedStacks.get(i).isEmpty()) {
 				return true;
 			}
@@ -630,7 +641,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
 		if (hasConsumed && !validRecipe) {
-			for (int i = 0; i < itemInputSize; i++) {
+			for (int i = 0; i < itemInputSize; ++i) {
 				getItemInputs(true).set(i, ItemStack.EMPTY);
 			}
 			hasConsumed = false;
@@ -642,7 +653,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize(0) <= 0) {
 				continue;
@@ -671,12 +682,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			return;
 		}
 		
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			if (!consumedStacks.get(i).isEmpty()) {
 				consumedStacks.set(i, ItemStack.EMPTY);
 			}
 		}
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			int maxStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
 				consumedStacks.set(i, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, StackHelper.getMetadata(getInventoryStacks().get(i))));
@@ -699,7 +710,8 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	public void finishProcess() {
 		double oldProcessTime = baseProcessTime, oldProcessEfficiency = baseProcessEfficiency, oldProcessDecayFactor = baseProcessDecayFactor;
-		int oldProcessHeat = baseProcessHeat, oldCriticality = getCriticality();
+		int oldProcessHeat = baseProcessHeat;
+		long oldCriticality = getCriticality();
 		produceProducts();
 		refreshRecipe();
 		time = Math.max(0D, time - oldProcessTime);
@@ -727,7 +739,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	public void produceProducts() {
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			consumedStacks.set(i, ItemStack.EMPTY);
 		}
 		
@@ -735,7 +747,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			return;
 		}
 		
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getNextStackSize(0) <= 0) {
 				continue;
@@ -857,7 +869,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		if (stack.isEmpty() || slot >= itemInputSize) {
 			return false;
 		}
-		return smart_processor_input ? NCRecipes.solid_fission.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : NCRecipes.solid_fission.isValidItemInput(stack);
+		return smart_processor_input ? NCRecipes.solid_fission.isValidItemInput(slot, stack, recipeInfo, getItemInputs(false), inputItemStacksExcludingSlot(slot)) : NCRecipes.solid_fission.isValidItemInput(slot, stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
@@ -879,7 +891,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	@Override
 	public void clearAllSlots() {
 		ITileFilteredInventory.super.clearAllSlots();
-		for (int i = 0; i < consumedStacks.size(); i++) {
+		for (int i = 0; i < consumedStacks.size(); ++i) {
 			consumedStacks.set(i, ItemStack.EMPTY);
 		}
 		
@@ -937,17 +949,17 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public SolidFissionCellUpdatePacket getGuiUpdatePacket() {
+	public SolidFissionCellUpdatePacket getTileUpdatePacket() {
 		return new SolidFissionCellUpdatePacket(pos, masterPortPos, getFilterStacks(), cluster, isProcessing, time, baseProcessTime);
 	}
 	
 	@Override
-	public void onGuiPacket(SolidFissionCellUpdatePacket message) {
+	public void onTileUpdatePacket(SolidFissionCellUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();
@@ -985,7 +997,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		nbt.setDouble("iodineFraction", iodineFraction);
 		nbt.setDouble("poisonFraction", poisonFraction);
 		
-		nbt.setInteger("flux", flux);
+		nbt.setLong("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
 		return nbt;
@@ -1014,7 +1026,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 		iodineFraction = nbt.getDouble("iodineFraction");
 		poisonFraction = nbt.getDouble("poisonFraction");
 		
-		flux = nbt.getInteger("flux");
+		flux = nbt.getLong("flux");
 		heat = nbt.getLong("clusterHeat");
 	}
 	
@@ -1043,7 +1055,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
-				return (T) getItemHandler(side);
+				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(side));
 			}
 			return null;
 		}

@@ -27,7 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInventory implements IItemFluidGenerator {
 	
-	protected final int defaultProcessTime, defaultProcessPower;
+	public final double defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime = 1, baseProcessPower = 0, baseProcessRadiation = 0;
 	public double processPower = 0;
 	protected double speedMultiplier = 1;
@@ -55,12 +55,12 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		setInputTanksSeparated(fluidInSize > 1);
 		
 		consumedStacks = NonNullList.withSize(itemInSize, ItemStack.EMPTY);
-		for (int i = 0; i < fluidInSize; i++) {
+		for (int i = 0; i < fluidInSize; ++i) {
 			consumedTanks.add(new Tank(fluidCapacity.getInt(i), new ArrayList<>()));
 		}
 		
-		defaultProcessTime = 1;
-		defaultProcessPower = 0;
+		defaultProcessTime = 1D;
+		defaultProcessPower = 0D;
 		
 		this.recipeHandler = recipeHandler;
 		
@@ -69,10 +69,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, ItemSorption... others) {
 		List<ItemSorption> itemSorptions = new ArrayList<>();
-		for (int i = 0; i < inSize; i++) {
+		for (int i = 0; i < inSize; ++i) {
 			itemSorptions.add(ItemSorption.IN);
 		}
-		for (int i = 0; i < outSize; i++) {
+		for (int i = 0; i < outSize; ++i) {
 			itemSorptions.add(ItemSorption.OUT);
 		}
 		for (ItemSorption other : others) {
@@ -83,7 +83,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	public static IntList defaultTankCapacities(int capacity, int inSize, int outSize) {
 		IntList tankCapacities = new IntArrayList();
-		for (int i = 0; i < inSize + outSize; i++) {
+		for (int i = 0; i < inSize + outSize; ++i) {
 			tankCapacities.add(capacity);
 		}
 		return tankCapacities;
@@ -91,10 +91,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	public static List<TankSorption> defaultTankSorptions(int inSize, int outSize) {
 		List<TankSorption> tankSorptions = new ArrayList<>();
-		for (int i = 0; i < inSize; i++) {
+		for (int i = 0; i < inSize; ++i) {
 			tankSorptions.add(TankSorption.IN);
 		}
-		for (int i = 0; i < outSize; i++) {
+		for (int i = 0; i < outSize; ++i) {
 			tankSorptions.add(TankSorption.OUT);
 		}
 		return tankSorptions;
@@ -147,12 +147,12 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		if (world.isRemote) {
 			return hasConsumed;
 		}
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			if (!consumedStacks.get(i).isEmpty()) {
 				return true;
 			}
 		}
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			if (!consumedTanks.get(i).isEmpty()) {
 				return true;
 			}
@@ -163,7 +163,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
 		if (hasConsumed && !validRecipe) {
-			for (int i = 0; i < itemInputSize; i++) {
+			for (int i = 0; i < itemInputSize; ++i) {
 				getItemInputs(true).set(i, ItemStack.EMPTY);
 			}
 			for (Tank tank : getFluidInputs(true)) {
@@ -178,7 +178,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
 				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
 				continue;
@@ -199,7 +199,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 				}
 			}
 		}
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
 				clearTank(j + fluidInputSize);
 				continue;
@@ -233,17 +233,17 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			return;
 		}
 		
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			if (!consumedStacks.get(i).isEmpty()) {
 				consumedStacks.set(i, ItemStack.EMPTY);
 			}
 		}
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			if (!consumedTanks.get(i).isEmpty()) {
 				consumedTanks.get(i).setFluid(null);
 			}
 		}
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			int maxStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
 				consumedStacks.set(i, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, StackHelper.getMetadata(getInventoryStacks().get(i))));
@@ -253,14 +253,15 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 				getInventoryStacks().set(i, ItemStack.EMPTY);
 			}
 		}
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
+			Tank tank = getTanks().get(i);
 			int maxStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
-				consumedTanks.get(i).setFluidStored(new FluidStack(getTanks().get(i).getFluid(), maxStackSize));
-				getTanks().get(i).changeFluidAmount(-maxStackSize);
+				consumedTanks.get(i).setFluidStored(new FluidStack(tank.getFluid(), maxStackSize));
+				tank.changeFluidAmount(-maxStackSize);
 			}
-			if (getTanks().get(i).isEmpty()) {
-				getTanks().get(i).setFluid(null);
+			if (tank.isEmpty()) {
+				tank.setFluid(null);
 			}
 		}
 		hasConsumed = true;
@@ -283,7 +284,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		refreshActivityOnProduction();
 		if (!canProcessInputs) {
 			time = 0;
-			for (int i = 0; i < fluidInputSize; i++) {
+			for (int i = 0; i < fluidInputSize; ++i) {
 				if (getVoidUnusableFluidInput(i)) {
 					getTanks().get(i).setFluid(null);
 				}
@@ -292,10 +293,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 	
 	public void produceProducts() {
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			consumedStacks.set(i, ItemStack.EMPTY);
 		}
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			consumedTanks.get(i).setFluid(null);
 		}
 		
@@ -303,7 +304,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			return;
 		}
 		
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
 				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
 				continue;
@@ -320,7 +321,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
 		}
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
 				clearTank(j + fluidInputSize);
 				continue;
@@ -442,7 +443,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) {
 			return false;
 		}
-		return smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+		return smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, recipeInfo, getItemInputs(false), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(slot, stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
@@ -464,7 +465,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	@Override
 	public void clearAllSlots() {
 		IItemFluidGenerator.super.clearAllSlots();
-		for (int i = 0; i < consumedStacks.size(); i++) {
+		for (int i = 0; i < consumedStacks.size(); ++i) {
 			consumedStacks.set(i, ItemStack.EMPTY);
 		}
 		
@@ -514,7 +515,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	@Override
 	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		super.writeTanks(nbt);
-		for (int i = 0; i < consumedTanks.size(); i++) {
+		for (int i = 0; i < consumedTanks.size(); ++i) {
 			consumedTanks.get(i).writeToNBT(nbt, "consumedTanks" + i);
 		}
 		return nbt;
@@ -523,7 +524,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	@Override
 	public void readTanks(NBTTagCompound nbt) {
 		super.readTanks(nbt);
-		for (int i = 0; i < consumedTanks.size(); i++) {
+		for (int i = 0; i < consumedTanks.size(); ++i) {
 			consumedTanks.get(i).readFromNBT(nbt, "consumedTanks" + i);
 		}
 	}

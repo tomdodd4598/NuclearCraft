@@ -106,7 +106,7 @@ public class TConstructExtras {
 				FluidStack result = new FluidStack(fluid, (int) objects[1]);
 				List<FluidStack> inputs = new ArrayList<>();
 				
-				for (int i = 1; i < objects.length / 2; i++) {
+				for (int i = 1; i < objects.length / 2; ++i) {
 					fluid = FluidRegistry.getFluid((String) objects[2 * i]);
 					if (fluid == null) {
 						return;

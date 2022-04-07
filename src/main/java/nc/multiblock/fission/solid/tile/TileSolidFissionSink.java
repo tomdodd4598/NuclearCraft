@@ -23,7 +23,7 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	public int coolingRate;
 	
 	public String ruleID;
-	public PlacementRule<IFissionPart> placementRule;
+	public PlacementRule<FissionReactor, IFissionPart> placementRule;
 	
 	private FissionCluster cluster = null;
 	private long heat = 0L;
@@ -49,7 +49,7 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 		}
 		
 		@Override
-		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 			return oldState != newState;
 		}
 	}
@@ -373,10 +373,8 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("sinkName"))
-			sinkType = nbt.getString("sinkName");
-		if (nbt.hasKey("coolingRate"))
-			coolingRate = nbt.getInteger("coolingRate");
+		if (nbt.hasKey("sinkName")) sinkType = nbt.getString("sinkName");
+		if (nbt.hasKey("coolingRate")) coolingRate = nbt.getInteger("coolingRate");
 		if (nbt.hasKey("ruleID")) {
 			ruleID = nbt.getString("ruleID");
 			placementRule = FissionPlacement.RULE_MAP.get(ruleID);

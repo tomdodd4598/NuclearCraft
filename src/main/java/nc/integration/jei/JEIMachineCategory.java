@@ -11,13 +11,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipeWrapper> extends JEIBasicCategory<WRAPPER> {
+public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> extends JEIBasicCategory<WRAPPER> {
 	
 	protected final IDrawable background;
 	protected final String title;
 	protected final int backPosX, backPosY;
 	
-	public JEIMachineCategory(IGuiHelper guiHelper, IJEIHandler handler, String blockName, int backX, int backY, int backWidth, int backHeight) {
+	public JEIMachineCategory(IGuiHelper guiHelper, IJEIHandler<WRAPPER> handler, String blockName, int backX, int backY, int backWidth, int backHeight) {
 		super(handler);
 		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, backX, backY, backWidth, backHeight);

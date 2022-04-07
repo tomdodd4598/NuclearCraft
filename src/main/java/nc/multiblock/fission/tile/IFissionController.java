@@ -4,8 +4,9 @@ import java.util.Iterator;
 
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.tile.ILogicMultiblockController;
+import nc.network.multiblock.FissionUpdatePacket;
 
-public interface IFissionController extends IFissionPart, ILogicMultiblockController<FissionReactor> {
+public interface IFissionController<CONTROLLER extends IFissionController<CONTROLLER>> extends IFissionPart, ILogicMultiblockController<FissionReactor, IFissionPart, FissionUpdatePacket, CONTROLLER> {
 	
-	public void doMeltdown(Iterator<IFissionController> controllerIterator);
+	public void doMeltdown(Iterator<IFissionController<?>> controllerIterator);
 }

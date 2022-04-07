@@ -19,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraftforge.items.*;
 
-public interface ITileInventory<T extends TileEntity & ITileInventory> extends ITile<T>, ISidedInventory {
+public interface ITileInventory extends ITile, ISidedInventory {
 	
 	// Inventory
 	
@@ -32,7 +32,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 	}
 	
 	public default void clearAllSlots() {
-		for (int i = 0; i < getInventoryStacks().size(); i++) {
+		for (int i = 0; i < getInventoryStacks().size(); ++i) {
 			clearSlot(i);
 		}
 	}
@@ -181,7 +181,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 	
 	public static InventoryConnection[] inventoryConnectionAll(@Nonnull List<ItemSorption> sorptionList) {
 		InventoryConnection[] array = new InventoryConnection[6];
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			array[i] = new InventoryConnection(sorptionList);
 		}
 		return array;
@@ -225,7 +225,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 			
 			boolean pushed = false;
 			
-			for (int i = 0; i < getInventoryStacks().size(); i++) {
+			for (int i = 0; i < getInventoryStacks().size(); ++i) {
 				if (!getItemSorption(side, i).canExtract() || getInventoryStacks().get(i).isEmpty()) {
 					continue;
 				}
@@ -251,7 +251,7 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 					((IProcessor) this).refreshActivity();
 				}
 				if (this instanceof ITilePort) {
-					((ITilePort) this).setRefreshTargetsFlag(true);
+					((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);
 				}
 			}
 		}
@@ -285,14 +285,14 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 	}
 	
 	public default NBTTagCompound writeSlotSettings(NBTTagCompound nbt) {
-		for (int i = 0; i < getSizeInventory(); i++) {
+		for (int i = 0; i < getSizeInventory(); ++i) {
 			nbt.setInteger("itemOutputSetting" + i, getItemOutputSetting(i).ordinal());
 		}
 		return nbt;
 	}
 	
 	public default void readSlotSettings(NBTTagCompound nbt) {
-		for (int i = 0; i < getSizeInventory(); i++) {
+		for (int i = 0; i < getSizeInventory(); ++i) {
 			setItemOutputSetting(i, ItemOutputSetting.values()[nbt.getInteger("itemOutputSetting" + i)]);
 		}
 	}
@@ -310,6 +310,6 @@ public interface ITileInventory<T extends TileEntity & ITileInventory> extends I
 	}
 	
 	public default IItemHandler getItemHandler(@Nullable EnumFacing side) {
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new ItemHandler(thisTile(), side));
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new ItemHandler<>(this, side));
 	}
 }

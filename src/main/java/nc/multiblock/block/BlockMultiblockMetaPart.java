@@ -49,7 +49,7 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 		}
 		if (!world.isRemote && player.getHeldItem(hand).isEmpty()) {
 			if (tile instanceof ITileMultiblockPart) {
-				Multiblock controller = ((ITileMultiblockPart) tile).getMultiblock();
+				Multiblock<?, ?> controller = ((ITileMultiblockPart<?, ?>) tile).getMultiblock();
 				if (controller != null) {
 					MultiblockValidationError e = controller.getLastError();
 					if (e != null) {

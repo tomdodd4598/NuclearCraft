@@ -7,6 +7,7 @@ import nc.radiation.RadSources;
 import net.minecraft.tileentity.TileEntity;
 
 public enum RTGType {
+	
 	URANIUM(0, RadSources.URANIUM_238),
 	PLUTONIUM(1, RadSources.PLUTONIUM_238),
 	AMERICIUM(2, RadSources.AMERICIUM_241),

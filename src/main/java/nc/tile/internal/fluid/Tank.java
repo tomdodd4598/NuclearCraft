@@ -20,12 +20,12 @@ public class Tank extends FluidTank {
 	// FluidTank
 	
 	@Override
-	public boolean canFillFluidType(FluidStack fluid) {
-		return fluid != null && canFillFluidType(fluid.getFluid());
+	public boolean canFillFluidType(FluidStack fluidIn) {
+		return fluidIn != null && canFillFluidType(fluidIn.getFluid());
 	}
 	
-	public boolean canFillFluidType(Fluid fluid) {
-		return fluid != null && (allowedFluids == null || allowedFluids.contains(fluid.getName()));
+	public boolean canFillFluidType(Fluid fluidIn) {
+		return fluidIn != null && (allowedFluids == null || allowedFluids.contains(fluidIn.getName()));
 	}
 	
 	public void setAllowedFluids(List<String> allowedFluids) {
@@ -45,13 +45,13 @@ public class Tank extends FluidTank {
 	
 	// Tank Methods
 	
-	public void changeFluidStored(Fluid fluid, int amount) {
+	public void changeFluidStored(Fluid fluidIn, int amount) {
 		amount += getFluidAmount();
-		if (fluid == null || amount <= 0) {
+		if (fluidIn == null || amount <= 0) {
 			this.fluid = null;
 			return;
 		}
-		this.fluid = new FluidStack(fluid, amount > capacity ? capacity : amount);
+		this.fluid = new FluidStack(fluidIn, amount > capacity ? capacity : amount);
 	}
 	
 	public void changeFluidAmount(int amount) {
@@ -181,7 +181,7 @@ public class Tank extends FluidTank {
 		
 		public static List<TankInfo> readBuf(ByteBuf buf, byte numberOfTanks) {
 			List<TankInfo> infoList = new ArrayList<>();
-			for (byte i = 0; i < numberOfTanks; i++) {
+			for (byte i = 0; i < numberOfTanks; ++i) {
 				infoList.add(new TankInfo(ByteBufUtils.readUTF8String(buf), buf.readInt()));
 			}
 			return infoList;

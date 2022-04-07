@@ -16,6 +16,7 @@ import nc.recipe.*;
 import nc.util.*;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.*;
@@ -104,8 +105,9 @@ public class TooltipHandler {
 			return;
 		}
 		IRadiationResistance armorResistance = RadiationHelper.getRadiationResistance(stack);
-		boolean nbt = stack.hasTagCompound() && stack.getTagCompound().hasKey("ncRadiationResistance");
-		if (armorResistance == null && !nbt) {
+		NBTTagCompound nbt = NBTHelper.getStackNBT(stack);
+		boolean hasRadResistanceNBT = stack.hasTagCompound() && nbt.hasKey("ncRadiationResistance");
+		if (armorResistance == null && !hasRadResistanceNBT) {
 			return;
 		}
 		
@@ -113,8 +115,8 @@ public class TooltipHandler {
 		if (armorResistance != null) {
 			resistance += armorResistance.getTotalRadResistance();
 		}
-		if (nbt) {
-			resistance += stack.getTagCompound().getDouble("ncRadiationResistance");
+		if (hasRadResistanceNBT) {
+			resistance += nbt.getDouble("ncRadiationResistance");
 		}
 		
 		if (resistance > 0D) {

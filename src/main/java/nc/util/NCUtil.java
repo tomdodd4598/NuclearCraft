@@ -28,7 +28,7 @@ public class NCUtil {
 	
 	public static Class<?>[] getClasses(Object... objects) {
 		Class<?>[] classes = new Class<?>[objects.length];
-		for (int i = 0; i < objects.length; i++) {
+		for (int i = 0; i < objects.length; ++i) {
 			classes[i] = objects[i].getClass();
 		}
 		return classes;

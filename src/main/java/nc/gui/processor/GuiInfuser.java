@@ -20,7 +20,7 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 		this(player, tile, new ContainerInfuser(player, tile));
 	}
 	
-	private GuiInfuser(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile container) {
+	protected GuiInfuser(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile<TileItemFluidProcessor> container) {
 		super("infuser", player, tile, container);
 		xSize = 176;
 		ySize = 166;
@@ -78,7 +78,7 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; ++i) {
 				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 					PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
 					return;
@@ -97,7 +97,7 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 	public static class SideConfig extends GuiInfuser {
 		
 		public SideConfig(EntityPlayer player, TileItemFluidProcessor tile) {
-			super(player, tile, new ContainerMachineConfig(player, tile));
+			super(player, tile, new ContainerMachineConfig<>(player, tile));
 		}
 		
 		@Override
@@ -123,7 +123,7 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 		protected void drawUpgradeRenderers() {}
 		
 		@Override
-		protected void drawBackgroundExtras() {};
+		protected void drawBackgroundExtras() {}
 		
 		@Override
 		public void initButtons() {
@@ -138,19 +138,19 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 		protected void actionPerformed(GuiButton guiButton) {
 			if (tile.getWorld().isRemote) {
 				if (guiButton.id == 0) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input<>(this, tile, 0));
 				}
 				else if (guiButton.id == 1) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input<>(this, tile, 0));
 				}
 				else if (guiButton.id == 2) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 1));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output<>(this, tile, 1));
 				}
 				else if (guiButton.id == 3) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 2));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade<>(this, tile, 2));
 				}
 				else if (guiButton.id == 4) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 3));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade<>(this, tile, 3));
 				}
 			}
 		}

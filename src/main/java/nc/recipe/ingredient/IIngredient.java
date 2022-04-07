@@ -8,6 +8,10 @@ import net.minecraftforge.fml.common.Optional;
 
 public interface IIngredient<T> {
 	
+	public default void init() {
+		
+	}
+	
 	public T getStack();
 	
 	public T getNextStack(int ingredientNumber);

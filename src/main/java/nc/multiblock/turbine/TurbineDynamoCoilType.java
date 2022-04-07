@@ -5,6 +5,7 @@ import static nc.config.NCConfig.turbine_coil_conductivity;
 import net.minecraft.util.IStringSerializable;
 
 public enum TurbineDynamoCoilType implements IStringSerializable {
+	
 	MAGNESIUM("magnesium", 0, turbine_coil_conductivity[0]),
 	BERYLLIUM("beryllium", 1, turbine_coil_conductivity[1]),
 	ALUMINUM("aluminum", 2, turbine_coil_conductivity[2]),

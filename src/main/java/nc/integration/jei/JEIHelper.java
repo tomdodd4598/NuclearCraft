@@ -15,8 +15,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class JEIHelper {
 	
-	public static List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, Class<? extends JEIBasicRecipeWrapper> recipeWrapper) {
-		ArrayList<JEIBasicRecipeWrapper> recipes = new ArrayList<>();
+	public static <WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> List<WRAPPER> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler<WRAPPER> jeiHandler, BasicRecipeHandler recipeHandler, Class<? extends WRAPPER> recipeWrapper) {
+		ArrayList<WRAPPER> recipes = new ArrayList<>();
 		if (recipeHandler != null) {
 			for (BasicRecipe recipe : recipeHandler.getRecipeList()) {
 				try {
@@ -49,17 +49,12 @@ public class JEIHelper {
 		
 		public void mapItemsTo(IGuiItemStackGroup items, IIngredients ingredients) {
 			for (Object2ObjectMap.Entry<IngredientSorption, Int2ObjectMap<RecipeItemMapping>> entry : map.object2ObjectEntrySet()) {
-				List objects = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(ItemStack.class) : ingredients.getOutputs(ItemStack.class);
+				List<List<ItemStack>> stackLists = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(ItemStack.class) : ingredients.getOutputs(ItemStack.class);
 				for (Int2ObjectMap.Entry<RecipeItemMapping> mapping : entry.getValue().int2ObjectEntrySet()) {
 					RecipeItemMapping recipe = mapping.getValue();
 					items.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos, recipe.yPos);
-					Object obj = objects.get(mapping.getIntKey());
-					if (obj instanceof List) {
-						items.set(recipe.slotPos, (List<ItemStack>) obj);
-					}
-					else {
-						items.set(recipe.slotPos, (ItemStack) obj);
-					}
+					List<ItemStack> stackList = stackLists.get(mapping.getIntKey());
+					items.set(recipe.slotPos, stackList);
 				}
 			}
 		}
@@ -84,21 +79,13 @@ public class JEIHelper {
 		
 		public void mapFluidsTo(IGuiFluidStackGroup fluids, IIngredients ingredients) {
 			for (Object2ObjectMap.Entry<IngredientSorption, Int2ObjectMap<RecipeFluidMapping>> entry : map.object2ObjectEntrySet()) {
-				List objects = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(FluidStack.class) : ingredients.getOutputs(FluidStack.class);
+				List<List<FluidStack>> fluidLists = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(FluidStack.class) : ingredients.getOutputs(FluidStack.class);
 				for (Int2ObjectMap.Entry<RecipeFluidMapping> mapping : entry.getValue().int2ObjectEntrySet()) {
 					RecipeFluidMapping recipe = mapping.getValue();
-					Object obj = objects.get(mapping.getIntKey());
-					if (obj instanceof List) {
-						List<FluidStack> list = (List<FluidStack>) obj;
-						FluidStack stack = list.isEmpty() ? null : list.get(list.size() - 1);
-						fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
-						fluids.set(recipe.slotPos, stack == null ? null : (List<FluidStack>) obj);
-					}
-					else {
-						FluidStack stack = (FluidStack) obj;
-						fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
-						fluids.set(recipe.slotPos, stack);
-					}
+					List<FluidStack> fluidList = fluidLists.get(mapping.getIntKey());
+					FluidStack stack = fluidList.isEmpty() ? null : fluidList.get(fluidList.size() - 1);
+					fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
+					fluids.set(recipe.slotPos, stack == null ? null : fluidList);
 				}
 			}
 		}

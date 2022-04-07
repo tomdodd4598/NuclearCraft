@@ -23,7 +23,7 @@ public class TileTurbineDynamoCoil extends TileTurbineDynamoPart {
 		}
 		
 		@Override
-		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 			return oldState != newState;
 		}
 	}

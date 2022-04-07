@@ -13,7 +13,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipeWrapper.HeatExchanger> {
 	
-	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.HeatExchanger> handler) {
 		super(guiHelper, handler, "heat_exchanger_controller", 47, 30, 90, 26);
 	}
 	

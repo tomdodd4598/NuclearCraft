@@ -68,7 +68,7 @@ public class GuiFissionHeaterPort extends NCGui {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (port.getWorld().isRemote) {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; ++i) {
 				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 					PacketHandler.instance.sendToServer(port.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(port, i) : new EmptyTankPacket(port, i));
 					return;

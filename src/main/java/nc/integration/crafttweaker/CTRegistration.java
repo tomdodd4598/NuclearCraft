@@ -78,7 +78,7 @@ public class CTRegistration {
 	@ZenMethod
 	public static void registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 		
-		Block port = NCBlocks.withName(new BlockFissionFluidPort(TileFissionHeaterPort.class, 303) {
+		Block port = NCBlocks.withName(new BlockFissionFluidPort<TileFissionHeaterPort, TileSaltFissionHeater>(TileFissionHeaterPort.class, 303) {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {
@@ -706,42 +706,20 @@ public class CTRegistration {
 			StringBuilder builder = new StringBuilder();
 			String s = IOHelper.NEW_LINE;
 			
-			builder.append(
-					"{" + s +
-					"	\"forge_marker\": 1," + s +
-					"	\"defaults\": {" + s +
-					"		\"model\": \"builtin/generated\"," + s +
-					"		\"transform\": \"forge:default-item\"" + s +
-					"	}," + s +
-					"	\"variants\": {" + s +
-					"		\"type\": {" + s
-			);
+			builder.append("{" + s + "	\"forge_marker\": 1," + s + "	\"defaults\": {" + s + "		\"model\": \"builtin/generated\"," + s + "		\"transform\": \"forge:default-item\"" + s + "	}," + s + "	\"variants\": {" + s + "		\"type\": {" + s);
 			
-			for (int i = 0; i < types.size(); i++) {
-				builder.append(
-						"			\"" + types.get(i) + "\": {" + s
-				);
+			for (int i = 0; i < types.size(); ++i) {
+				builder.append("			\"" + types.get(i) + "\": {" + s);
 				
 				String model = models.get(i);
 				if (model != null) {
-					builder.append(
-							"				\"model\": \"" + model + "\"," + s
-					);
+					builder.append("				\"model\": \"" + model + "\"," + s);
 				}
 				
-				builder.append(
-						"				\"textures\": {" + s +
-						"					\"layer0\": \"nuclearcraft:items/" + name + "/" + textures.get(i) + "\"" + s +
-						"				}" + s +
-						"			" + (i < types.size() - 1 ? "}," : "}") + s
-				);
+				builder.append("				\"textures\": {" + s + "					\"layer0\": \"nuclearcraft:items/" + name + "/" + textures.get(i) + "\"" + s + "				}" + s + "			" + (i < types.size() - 1 ? "}," : "}") + s);
 			}
 			
-			builder.append(
-					"		}" + s +
-					"	}" + s +
-					"}" + s
-			);
+			builder.append("		}" + s + "	}" + s + "}" + s);
 			
 			try {
 				FileUtils.writeStringToFile(new File("resources/nuclearcraft/blockstates/items/" + name + ".json"), builder.toString());
@@ -773,7 +751,7 @@ public class CTRegistration {
 		}
 		
 		public void registerRender() {
-			for (int i = 0; i < types.size(); i++) {
+			for (int i = 0; i < types.size(); ++i) {
 				NCItems.registerRender(item, i, types.get(i));
 			}
 		}
@@ -802,12 +780,12 @@ public class CTRegistration {
 			super.preInit();
 			
 			if (item != null) {
-				for (int i = 0; i < types.size(); i++) {
+				for (int i = 0; i < types.size(); ++i) {
 					OreDictHandler.registerOre(item, i, ores.get(i));
 				}
 			}
 			
-			for (int i = 0; i < rawFluids.size(); i++) {
+			for (int i = 0; i < rawFluids.size(); ++i) {
 				String rawFluid = rawFluids.get(i);
 				if (rawFluid != null) {
 					NCFissionFluids.addIsotopeFluids(rawFluid, rawFluidColors.getInt(i));
@@ -821,7 +799,7 @@ public class CTRegistration {
 				return;
 			}
 			
-			for (int i = 0; i < rawOres.size(); i++) {
+			for (int i = 0; i < rawOres.size(); ++i) {
 				String rawOre = rawOres.get(i), rawFluid = rawFluids.get(i);
 				
 				if (rawOre != null) {
@@ -881,12 +859,12 @@ public class CTRegistration {
 			super.preInit();
 			
 			if (item != null) {
-				for (int i = 0; i < types.size(); i++) {
+				for (int i = 0; i < types.size(); ++i) {
 					OreDictHandler.registerOre(item, i, ores.get(i));
 				}
 			}
 			
-			for (int i = 0; i < rawFluids.size(); i++) {
+			for (int i = 0; i < rawFluids.size(); ++i) {
 				String rawFluid = rawFluids.get(i);
 				if (rawFluid != null) {
 					NCFissionFluids.addFuelFluids(rawFluid, rawFluidColors.getInt(i));
@@ -901,7 +879,7 @@ public class CTRegistration {
 				return;
 			}
 			
-			for (int i = 0; i < rawOres.size(); i++) {
+			for (int i = 0; i < rawOres.size(); ++i) {
 				String rawOre = rawOres.get(i), rawFluid = rawFluids.get(i);
 				FissionFuelStats stats = fissionStats.get(i);
 				
@@ -938,7 +916,7 @@ public class CTRegistration {
 					NCRecipes.centrifuge.addRecipe(AbstractRecipeHandler.fluidStack(rawFluid + "_fluoride_flibe", INGOT_VOLUME / 2), AbstractRecipeHandler.fluidStack(rawFluid + "_fluoride", INGOT_VOLUME / 2), AbstractRecipeHandler.fluidStack("flibe", INGOT_VOLUME / 2), empty, empty, empty, empty, 0.5D, 1D);
 					NCRecipes.centrifuge.addRecipe(AbstractRecipeHandler.fluidStack("depleted_" + rawFluid + "_fluoride_flibe", INGOT_VOLUME / 2), AbstractRecipeHandler.fluidStack("depleted_" + rawFluid + "_fluoride", INGOT_VOLUME / 2), AbstractRecipeHandler.fluidStack("flibe", INGOT_VOLUME / 2), empty, empty, empty, empty, 0.5D, 1D);
 					
-					NCRecipes.salt_fission.addRecipe(AbstractRecipeHandler.fluidStack(rawFluid + "_fluoride_flibe", 1), AbstractRecipeHandler.fluidStack("depleted_" + rawFluid + "_fluoride_flibe", 1), (double) (MSR_TIME_MULT * stats.time / INGOT_VOLUME), (int) (MSR_HEAT_MULT * stats.heat), stats.efficiency, MSR_CRIT_MULT * stats.crit, stats.decay, stats.prime, stats.radiation);
+					NCRecipes.salt_fission.addRecipe(AbstractRecipeHandler.fluidStack(rawFluid + "_fluoride_flibe", 1), AbstractRecipeHandler.fluidStack("depleted_" + rawFluid + "_fluoride_flibe", 1), MSR_TIME_MULT * stats.time / INGOT_VOLUME, (int) (MSR_HEAT_MULT * stats.heat), stats.efficiency, MSR_CRIT_MULT * stats.crit, stats.decay, stats.prime, stats.radiation);
 				}
 				
 				if (rawOre != null && rawFluid != null) {

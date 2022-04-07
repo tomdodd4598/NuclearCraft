@@ -102,7 +102,7 @@ public class GuiSaltFissionVessel extends NCGui {
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (vessel.getWorld().isRemote) {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; ++i) {
 				if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 					PacketHandler.instance.sendToServer(vessel.getTanks().get(i).isEmpty() ? new EmptyFilterTankPacket(vessel, i) : new EmptyTankPacket(vessel, i));
 					return;

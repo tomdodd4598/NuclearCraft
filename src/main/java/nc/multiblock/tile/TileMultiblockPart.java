@@ -13,10 +13,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLLog;
 
 /** Base logic class for Multiblock-connected tile entities. Most multiblock machines should derive from this and implement their game logic in certain abstract methods. */
-public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends TileBeefAbstract implements ITileMultiblockPart<MULTIBLOCK> {
+public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends TileBeefAbstract implements ITileMultiblockPart<MULTIBLOCK, T> {
 	
 	private MULTIBLOCK multiblock;
-	protected final Class<MULTIBLOCK> multiblockClass;
+	public final Class<MULTIBLOCK> multiblockClass;
+	public final Class<T> tClass;
 	
 	private boolean visited;
 	
@@ -24,19 +25,15 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	private NBTTagCompound cachedMultiblockData;
 	// private boolean paused;
 	
-	public TileMultiblockPart(Class<MULTIBLOCK> multiblockClass) {
+	public TileMultiblockPart(Class<MULTIBLOCK> multiblockClass, Class<T> tClass) {
 		super();
 		multiblock = null;
 		this.multiblockClass = multiblockClass;
+		this.tClass = tClass;
 		visited = false;
 		saveMultiblockData = false;
 		// paused = false;
 		cachedMultiblockData = null;
-	}
-	
-	@Override
-	public Class<MULTIBLOCK> getMultiblockType() {
-		return multiblockClass;
 	}
 	
 	///// Multiblock Connection Base Logic
@@ -46,11 +43,11 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		MULTIBLOCK bestMultiblock = null;
 		
 		// Look for a compatible multiblock in our neighboring parts.
-		ITileMultiblockPart<MULTIBLOCK>[] partsToCheck = getNeighboringParts();
-		for (ITileMultiblockPart<MULTIBLOCK> neighborPart : partsToCheck) {
+		List<T> partsToCheck = getNeighboringParts();
+		for (T neighborPart : partsToCheck) {
 			if (neighborPart.isConnected()) {
 				MULTIBLOCK candidate = neighborPart.getMultiblock();
-				if (!candidate.getClass().equals(getMultiblockType())) {
+				if (!candidate.getClass().equals(multiblockClass)) {
 					// Skip multiblocks with incompatible types
 					continue;
 				}
@@ -70,8 +67,8 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		// If we've located a valid neighboring multiblock, attach to it.
 		if (bestMultiblock != null) {
 			// attachBlock will call onAttached, which will set the multiblock.
-			this.multiblock = bestMultiblock;
-			bestMultiblock.attachBlock(this);
+			multiblock = bestMultiblock;
+			bestMultiblock.attachBlock(tClass.cast(this));
 		}
 		
 		return multiblocks;
@@ -79,11 +76,11 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	
 	@Override
 	public void assertDetached() {
-		if (this.multiblock != null) {
+		if (multiblock != null) {
 			BlockPos coord = pos;
 			
 			FMLLog.info("[assert] Part @ (%d, %d, %d) should be detached already, but detected that it was not. This is not a fatal error, and will be repaired, but is unusual.", coord.getX(), coord.getY(), coord.getZ());
-			this.multiblock = null;
+			multiblock = null;
 		}
 	}
 	
@@ -93,7 +90,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 			// We can't directly initialize a multiblock controller yet, so we cache the data here until
 			// we receive a validate() call, which creates the controller and hands off the cached data.
 			if (data.hasKey("multiblockData")) {
-				this.cachedMultiblockData = data.getCompoundTag("multiblockData");
+				cachedMultiblockData = data.getCompoundTag("multiblockData");
 			}
 		}
 		else {
@@ -104,7 +101,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 				}
 				else {
 					// This part hasn't been added to a machine yet, so cache the data.
-					this.cachedMultiblockData = tag;
+					cachedMultiblockData = tag;
 				}
 			}
 		}
@@ -151,7 +148,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		detachSelf(true);
 	}
 	
-	/** This is called when a block is being marked as valid by the chunk, but has not yet fully been placed into the world's TileEntity cache. this.WORLD, xCoord, yCoord and zCoord have been initialized, but any attempts to read data about the world can cause infinite loops - if you call getTileEntity on this TileEntity's coordinate from within validate(), you will blow your call stack.
+	/** This is called when a block is being marked as valid by the chunk, but has not yet fully been placed into the world's TileEntity cache. WORLD, xCoord, yCoord and zCoord have been initialized, but any attempts to read data about the world can cause infinite loops - if you call getTileEntity on this TileEntity's coordinate from within validate(), you will blow your call stack.
 	 * 
 	 * TL;DR: Here there be dragons.
 	 * 
@@ -159,35 +156,35 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	@Override
 	public void validate() {
 		super.validate();
-		MultiblockRegistry.INSTANCE.onPartAdded(getWorld(), this);
+		MultiblockRegistry.INSTANCE.onPartAdded(world, tClass.cast(this));
 	}
 	
 	@Override
 	public boolean hasMultiblockSaveData() {
-		return this.cachedMultiblockData != null;
+		return cachedMultiblockData != null;
 	}
 	
 	@Override
 	public NBTTagCompound getMultiblockSaveData() {
-		return this.cachedMultiblockData;
+		return cachedMultiblockData;
 	}
 	
 	@Override
 	public void onMultiblockDataAssimilated() {
-		this.cachedMultiblockData = null;
+		cachedMultiblockData = null;
 	}
 	
 	@Override
-	public abstract void onMachineAssembled(MULTIBLOCK multiblock);
+	public abstract void onMachineAssembled(MULTIBLOCK multiblockIn);
 	
 	@Override
 	public abstract void onMachineBroken();
 	
 	@Override
-	public void onMachineActivated() {};
+	public void onMachineActivated() {}
 	
 	@Override
-	public void onMachineDeactivated() {};
+	public void onMachineDeactivated() {}
 	
 	@Override
 	public boolean isConnected() {
@@ -201,75 +198,85 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	
 	@Override
 	public void becomeMultiblockSaveDelegate() {
-		this.saveMultiblockData = true;
+		saveMultiblockData = true;
 	}
 	
 	@Override
 	public void forfeitMultiblockSaveDelegate() {
-		this.saveMultiblockData = false;
+		saveMultiblockData = false;
 	}
 	
 	@Override
 	public boolean isMultiblockSaveDelegate() {
-		return this.saveMultiblockData;
+		return saveMultiblockData;
 	}
 	
 	@Override
 	public void setUnvisited() {
-		this.visited = false;
+		visited = false;
 	}
 	
 	@Override
 	public void setVisited() {
-		this.visited = true;
+		visited = true;
 	}
 	
 	@Override
 	public boolean isVisited() {
-		return this.visited;
+		return visited;
 	}
 	
 	@Override
 	public void onAssimilated(MULTIBLOCK newMultiblock) {
-		assert this.multiblock != newMultiblock;
-		this.multiblock = newMultiblock;
+		assert multiblock != newMultiblock;
+		multiblock = newMultiblock;
 	}
 	
 	@Override
 	public void onAttached(MULTIBLOCK newMultiblock) {
-		this.multiblock = newMultiblock;
+		multiblock = newMultiblock;
 	}
 	
 	@Override
 	public void onDetached(MULTIBLOCK oldMultiblock) {
-		this.multiblock = null;
+		multiblock = null;
 	}
 	
 	@Override
 	public abstract MULTIBLOCK createNewMultiblock();
 	
 	@Override
-	public ITileMultiblockPart<MULTIBLOCK>[] getNeighboringParts() {
+	public Class<MULTIBLOCK> getMultiblockClass() {
+		return multiblockClass;
+	}
+	
+	@Override
+	public Class<T> getPartClass() {
+		return tClass;
+	}
+	
+	@Override
+	public List<T> getNeighboringParts() {
 		
 		TileEntity te;
-		List<ITileMultiblockPart<MULTIBLOCK>> neighborParts = new ArrayList<>();
+		List<T> neighborParts = new ArrayList<>();
 		BlockPos neighborPosition, partPosition = pos;
 		
 		for (EnumFacing facing : EnumFacing.VALUES) {
 			
 			neighborPosition = partPosition.offset(facing);
-			te = getWorld().getTileEntity(neighborPosition);
+			te = world.getTileEntity(neighborPosition);
 			
-			if (te instanceof ITileMultiblockPart) {
-				neighborParts.add((ITileMultiblockPart<MULTIBLOCK>) te);
+			if (tClass.isInstance(te)) {
+				neighborParts.add(tClass.cast(te));
 			}
 		}
 		
-		return neighborParts.toArray(new ITileMultiblockPart[neighborParts.size()]);
+		return neighborParts;
 	}
 	
 	@Override
-	public void onOrphaned(MULTIBLOCK multiblock, int oldSize, int newSize) {
+	public void onOrphaned(MULTIBLOCK oldMultiblock, int oldSize, int newSize) {
 		markDirty();
 	}
 	
@@ -295,7 +302,7 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 		}
 	}
 	
-	protected void setStandardLastError(Multiblock multiblock) {
+	protected void setStandardLastError(MULTIBLOCK multiblock) {
 		multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", getPos(), getPos().getX(), getPos().getY(), getPos().getZ(), getBlock(getPos()).getLocalizedName());
 	}
 	
@@ -310,16 +317,16 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock> extends 
 	// Private/Protected Logic Helpers
 	/** Detaches this block from its multiblock. Calls detachBlock() and clears the multiblock member. */
 	protected void detachSelf(boolean chunkUnloading) {
-		if (this.multiblock != null) {
+		if (multiblock != null) {
 			// Clean part out of multiblock
-			this.multiblock.detachBlock(this, chunkUnloading);
+			multiblock.detachBlock(tClass.cast(this), chunkUnloading);
 			
 			// The above should call onDetached, but, just in case...
-			this.multiblock = null;
+			multiblock = null;
 		}
 		
 		// Clean part out of lists in the registry
-		MultiblockRegistry.INSTANCE.onPartRemovedFromWorld(getWorld(), this);
+		MultiblockRegistry.INSTANCE.onPartRemovedFromWorld(world, tClass.cast(this));
 	}
 	
 	/** IF the part is connected to a multiblock, marks the whole multiblock for a render update on the client. On the server, this does nothing */

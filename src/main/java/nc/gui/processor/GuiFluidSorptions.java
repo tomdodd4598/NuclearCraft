@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends NCGui {
+public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui<?>> extends NCGui {
 	
 	protected final NCGui parent;
 	protected final T tile;
@@ -29,7 +29,7 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 	protected int[] a, b;
 	
 	public GuiFluidSorptions(NCGui parent, T tile, int slot, TankSorption.Type sorptionType) {
-		super(new ContainerSorptions(tile));
+		super(new ContainerSorptions<>(tile));
 		this.parent = parent;
 		this.tile = tile;
 		EnumFacing facing = tile.getFacingHorizontal();
@@ -64,7 +64,7 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 		GlStateManager.pushMatrix();
 		GlStateManager.color(1F, 1F, 1F, 0.75F);
 		IBlockState state = tile.getBlockState(tile.getTilePos());
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			GuiBlockRenderer.renderGuiBlock(state, dirs[i], a[i] + 1, b[i] + 1, zLevel, 16, 16);
 		}
 		GlStateManager.popMatrix();
@@ -80,7 +80,7 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 	@Override
 	public void initGui() {
 		super.initGui();
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			buttonList.add(new NCEnumButton.TankSorption(i, guiLeft + a[i], guiTop + b[i], tile.getTankSorption(dirs[i], slot), sorptionType));
 		}
 	}
@@ -88,10 +88,10 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getTileWorld().isRemote) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				if (guiButton.id == i) {
 					if (i == 4 && NCUtil.isModifierKeyDown()) {
-						for (int j = 0; j < 6; j++) {
+						for (int j = 0; j < 6; ++j) {
 							tile.setTankSorption(dirs[j], slot, TankSorption.NON);
 							((NCEnumButton.TankSorption) buttonList.get(j)).set(TankSorption.NON);
 						}
@@ -109,10 +109,10 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 	@Override
 	protected void actionPerformedRight(GuiButton guiButton) {
 		if (tile.getTileWorld().isRemote) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				if (guiButton.id == i) {
 					if (i == 4 && NCUtil.isModifierKeyDown()) {
-						for (int j = 0; j < 6; j++) {
+						for (int j = 0; j < 6; ++j) {
 							TankSorption sorption = tile.getFluidConnection(dirs[j]).getDefaultTankSorption(slot);
 							tile.setTankSorption(dirs[j], slot, sorption);
 							((NCEnumButton.TankSorption) buttonList.get(j)).set(sorption);
@@ -127,9 +127,9 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 		}
 	}
 	
-	public static class Input extends GuiFluidSorptions {
+	public static class Input<T extends ITileFluid & ITileGui<?>> extends GuiFluidSorptions<T> {
 		
-		public Input(NCGui parent, ITileFluid tile, int slot) {
+		public Input(NCGui parent, T tile, int slot) {
 			super(parent, tile, slot, TankSorption.Type.INPUT);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/input_fluid_config.png");
 			a = new int[] {25, 25, 7, 43, 25, 43};
@@ -139,9 +139,9 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends
 		}
 	}
 	
-	public static class Output extends GuiFluidSorptions {
+	public static class Output<T extends ITileFluid & ITileGui<?>> extends GuiFluidSorptions<T> {
 		
-		public Output(NCGui parent, ITileFluid tile, int slot) {
+		public Output(NCGui parent, T tile, int slot) {
 			super(parent, tile, slot, TankSorption.Type.OUTPUT);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/output_fluid_config.png");
 			a = new int[] {47, 47, 29, 65, 47, 65};

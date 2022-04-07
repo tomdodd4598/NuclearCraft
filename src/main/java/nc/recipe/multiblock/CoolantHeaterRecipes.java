@@ -27,7 +27,7 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addRecipe(new ItemStack(NCBlocks.salt_fission_heater, 1, 0), fluidStack("nak", 1), fluidStack("nak_hot", 1), fission_heater_cooling_rate[0], "standard_heater");
-		for (int i = 1; i < COOLANTS.size(); i++) {
+		for (int i = 1; i < COOLANTS.size(); ++i) {
 			ItemStack heater = new ItemStack(i < 16 ? NCBlocks.salt_fission_heater : NCBlocks.salt_fission_heater2, 1, i % 16);
 			String ruleName = COOLANTS.get(i) + "_heater";
 			addRecipe(heater, fluidStack(COOLANTS.get(i) + "_nak", 1), fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fission_heater_cooling_rate[i], ruleName);
@@ -35,8 +35,8 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(2);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(2);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 0);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof String ? (String) extras.get(1) : "");
 		return fixed;
@@ -51,7 +51,7 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 					CoolantHeaterRecipe heaterRecipe = (CoolantHeaterRecipe) recipe;
 					RecipeMatchResult matchResult = heaterRecipe.matchHeaterInputs(heaterType, fluidInputs);
 					if (matchResult.matches()) {
-						return new RecipeInfo(heaterRecipe, matchResult);
+						return new RecipeInfo<>(heaterRecipe, matchResult);
 					}
 				}
 			}
@@ -85,13 +85,13 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public BasicRecipe newRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+	public BasicRecipe newRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<Object> extras, boolean shapeless) {
 		return new CoolantHeaterRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
 	}
 	
 	public static class CoolantHeaterRecipe extends BasicRecipe {
 		
-		public CoolantHeaterRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+		public CoolantHeaterRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<Object> extras, boolean shapeless) {
 			super(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
 		}
 		

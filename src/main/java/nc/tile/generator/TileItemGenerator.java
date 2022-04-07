@@ -23,7 +23,7 @@ import net.minecraft.util.math.MathHelper;
 
 public abstract class TileItemGenerator extends TileEnergySidedInventory implements IItemGenerator {
 	
-	protected final int defaultProcessTime, defaultProcessPower;
+	public final double defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime = 1, baseProcessPower = 0, baseProcessRadiation = 0;
 	public double processPower = 0;
 	protected double speedMultiplier = 1;
@@ -48,8 +48,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		
 		consumedStacks = NonNullList.withSize(itemInSize, ItemStack.EMPTY);
 		
-		defaultProcessTime = 1;
-		defaultProcessPower = 0;
+		defaultProcessTime = 1D;
+		defaultProcessPower = 0D;
 		
 		this.recipeHandler = recipeHandler;
 		
@@ -58,10 +58,10 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, ItemSorption... others) {
 		List<ItemSorption> itemSorptions = new ArrayList<>();
-		for (int i = 0; i < inSize; i++) {
+		for (int i = 0; i < inSize; ++i) {
 			itemSorptions.add(ItemSorption.IN);
 		}
-		for (int i = 0; i < outSize; i++) {
+		for (int i = 0; i < outSize; ++i) {
 			itemSorptions.add(ItemSorption.OUT);
 		}
 		for (ItemSorption other : others) {
@@ -119,7 +119,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		if (world.isRemote) {
 			return hasConsumed;
 		}
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			if (!consumedStacks.get(i).isEmpty()) {
 				return true;
 			}
@@ -130,7 +130,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
 		if (hasConsumed && !validRecipe) {
-			for (int i = 0; i < itemInputSize; i++) {
+			for (int i = 0; i < itemInputSize; ++i) {
 				getItemInputs(true).set(i, ItemStack.EMPTY);
 			}
 			hasConsumed = false;
@@ -142,7 +142,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
 				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
 				continue;
@@ -175,12 +175,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			return;
 		}
 		
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			if (!consumedStacks.get(i).isEmpty()) {
 				consumedStacks.set(i, ItemStack.EMPTY);
 			}
 		}
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			int maxStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
 				consumedStacks.set(i, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, StackHelper.getMetadata(getInventoryStacks().get(i))));
@@ -214,7 +214,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	}
 	
 	public void produceProducts() {
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			consumedStacks.set(i, ItemStack.EMPTY);
 		}
 		
@@ -222,7 +222,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			return;
 		}
 		
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
 				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
 				continue;
@@ -320,7 +320,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) {
 			return false;
 		}
-		return smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+		return smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, recipeInfo, getItemInputs(false), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(slot, stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
@@ -342,7 +342,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	@Override
 	public void clearAllSlots() {
 		IItemGenerator.super.clearAllSlots();
-		for (int i = 0; i < consumedStacks.size(); i++) {
+		for (int i = 0; i < consumedStacks.size(); ++i) {
 			consumedStacks.set(i, ItemStack.EMPTY);
 		}
 		

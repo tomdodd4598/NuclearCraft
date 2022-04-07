@@ -28,14 +28,14 @@ public class RecipeTupleGenerator {
 		List<ItemStack> itemInputs = new ArrayList<>();
 		List<FluidStack> fluidInputs = new ArrayList<>();
 		
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			ItemStack stack = itemInputLists.get(i).get(inputNumbers[i]);
 			if (!removeEmptyStacks || (stack != null && !stack.isEmpty())) {
 				itemInputs.add(stack);
 			}
 		}
 		
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			FluidStack stack = fluidInputLists.get(i).get(inputNumbers[i + itemInputSize]);
 			if (!removeEmptyStacks || stack != null) {
 				fluidInputs.add(stack);
@@ -49,9 +49,9 @@ public class RecipeTupleGenerator {
 			itemEnd = true;
 		}
 		else {
-			for (int i = 0; i < itemInputSize; i++) {
+			for (int i = 0; i < itemInputSize; ++i) {
 				if (inputNumbers[i] < maxNumbers[i]) {
-					inputNumbers[i]++;
+					++inputNumbers[i];
 					break;
 				}
 				else {
@@ -68,9 +68,9 @@ public class RecipeTupleGenerator {
 			fluidEnd = true;
 		}
 		else if (itemEnd) {
-			for (int i = 0; i < fluidInputSize; i++) {
+			for (int i = 0; i < fluidInputSize; ++i) {
 				if (inputNumbers[i + itemInputSize] < maxNumbers[i + itemInputSize]) {
-					inputNumbers[i + itemInputSize]++;
+					++inputNumbers[i + itemInputSize];
 					break;
 				}
 				else {

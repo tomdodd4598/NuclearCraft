@@ -152,12 +152,12 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		
 		for (IFissionComponent component : cluster.getComponentMap().values()) {
 			if (component.isFunctional()) {
-				cluster.componentCount++;
+				++cluster.componentCount;
 				if (component instanceof IFissionHeatingComponent) {
 					if (component instanceof TileSaltFissionVessel) {
 						SaltFissionVesselBunch bunch = ((TileSaltFissionVessel) component).getVesselBunch();
-						cluster.fuelComponentCount++;
-						if (!bunch.statsRetrieved) {
+						++cluster.fuelComponentCount;
+						if (bunch != null && !bunch.statsRetrieved) {
 							bunch.statsRetrieved = true;
 							cluster.rawHeating += bunch.getRawHeating();
 							cluster.rawHeatingIgnoreCoolingPenalty += bunch.getRawHeatingIgnoreCoolingPenalty();
@@ -210,7 +210,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 					TileSaltFissionHeater heater = (TileSaltFissionHeater) component;
 					heater.heatingSpeedMultiplier = cluster.meanEfficiency * getReactor().sparsityEfficiencyMult * (cluster.rawHeating >= cluster.cooling ? 1D : (double) cluster.rawHeating / (double) cluster.cooling);
 					cluster.totalHeatingSpeedMultiplier += heater.heatingSpeedMultiplier;
-					clusterHeaters++;
+					++clusterHeaters;
 				}
 			}
 			cluster.meanHeatingSpeedMultiplier = clusterHeaters == 0 ? 0D : cluster.totalHeatingSpeedMultiplier / clusterHeaters;
@@ -339,7 +339,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	// Component Logic
 	
 	@Override
-	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache, final Long2ObjectMap<IFissionComponent> currentAssumedValidCache) {
 		fuelComponent.defaultDistributeFlux(fluxSearchCache, lineFailCache, assumedValidCache);
 	}
 	
@@ -354,7 +354,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> currentComponentFailCache, final Long2ObjectMap<IFissionComponent> currentAssumedValidCache) {
 		fuelComponent.defaultRefreshModerators(componentFailCache, assumedValidCache);
 	}
 	
@@ -399,19 +399,21 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	// Packets
 	
 	@Override
-	public SaltFissionUpdatePacket getUpdatePacket() {
+	public SaltFissionUpdatePacket getMultiblockUpdatePacket() {
 		return new SaltFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, getReactor().sparsityEfficiencyMult, meanHeatingSpeedMultiplier, totalHeatingSpeedMultiplier);
 	}
 	
 	@Override
-	public void onPacket(FissionUpdatePacket message) {
-		super.onPacket(message);
+	public void onMultiblockUpdatePacket(FissionUpdatePacket message) {
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof SaltFissionUpdatePacket) {
 			SaltFissionUpdatePacket packet = (SaltFissionUpdatePacket) message;
 			meanHeatingSpeedMultiplier = packet.meanHeatingSpeedMultiplier;
 			totalHeatingSpeedMultiplier = packet.totalHeatingSpeedMultiplier;
 		}
 	}
+	
+	// Clear Material
 	
 	@Override
 	public void clearAllMaterial() {

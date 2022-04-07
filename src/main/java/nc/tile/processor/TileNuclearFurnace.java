@@ -34,14 +34,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui, IInterfaceable {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui<TileUpdatePacket>, IInterfaceable {
 	
-	private final NonNullList<ItemStack> furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
+	private final @Nonnull NonNullList<ItemStack> furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
 	
 	private final InventoryConnection outputConnection = new InventoryConnection(Lists.newArrayList(ItemSorption.NON, ItemSorption.IN, ItemSorption.OUT));
 	private final InventoryConnection inputConnection = new InventoryConnection(Lists.newArrayList(ItemSorption.IN, ItemSorption.NON, ItemSorption.NON));
 	
-	private InventoryConnection[] inventoryConnections = new InventoryConnection[] {outputConnection, inputConnection, outputConnection, outputConnection, outputConnection, outputConnection};
+	private @Nonnull InventoryConnection[] inventoryConnections = new InventoryConnection[] {outputConnection, inputConnection, outputConnection, outputConnection, outputConnection, outputConnection};
 	
 	private final List<ItemOutputSetting> itemOutputSettings = Lists.newArrayList(ItemOutputSetting.DEFAULT, ItemOutputSetting.DEFAULT, ItemOutputSetting.DEFAULT);
 	
@@ -55,7 +55,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
-	public TileEntity thisTile() {
+	public TileEntity getTile() {
 		return this;
 	}
 	
@@ -362,6 +362,9 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 				break;
 			case 3:
 				totalCookTime = value;
+				break;
+			default:
+				break;
 		}
 	}
 	
@@ -371,7 +374,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 	
@@ -389,10 +392,10 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
-			return (T) radiation;
+			return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(radiation);
 		}
 		else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) getItemHandler(side);
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(side));
 		}
 		return super.getCapability(capability, side);
 	}
@@ -425,7 +428,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
 		
 	}
 	
@@ -471,30 +474,30 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
 		return null;
 	}
 	
 	@Override
-	public TileUpdatePacket getGuiUpdatePacket() {
+	public TileUpdatePacket getTileUpdatePacket() {
 		return null;
 	}
 	
 	@Override
-	public void onGuiPacket(TileUpdatePacket message) {}
+	public void onTileUpdatePacket(TileUpdatePacket message) {}
 	
 	@Override
-	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {}
+	public void addTileUpdatePacketListener(EntityPlayer playerToUpdate) {}
 	
 	@Override
-	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {}
+	public void removeTileUpdatePacketListener(EntityPlayer playerToRemove) {}
 	
 	@Override
-	public void sendUpdateToListeningPlayers() {}
+	public void sendTileUpdatePacketToListeners() {}
 	
 	@Override
-	public void sendIndividualUpdate(EntityPlayer player) {}
+	public void sendTileUpdatePacketToPlayer(EntityPlayer player) {}
 	
 	@Override
-	public void sendUpdateToAllPlayers() {}
+	public void sendTileUpdatePacketToAll() {}
 }

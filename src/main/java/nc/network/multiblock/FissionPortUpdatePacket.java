@@ -34,11 +34,11 @@ public class FissionPortUpdatePacket extends TileUpdatePacket {
 		buf.writeInt(masterPortPos.getZ());
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<FissionPortUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<FissionPortUpdatePacket, ITileGui<FissionPortUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(FissionPortUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(FissionPortUpdatePacket message, ITileGui<FissionPortUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

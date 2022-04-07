@@ -50,32 +50,32 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			}
 			
 			@Override
-			public void setEnergyStored(long energy) {
+			public void setEnergyStored(long newEnergy) {
 				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
 				if (nbt != null && nbt.hasKey("energy")) {
-					nbt.setLong("energy", energy);
+					nbt.setLong("energy", newEnergy);
 				}
 			}
 			
 			@Override
-			public void changeEnergyStored(long energy) {
+			public void changeEnergyStored(long changeEnergy) {
 				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
 				if (nbt != null && nbt.hasKey("energy")) {
-					nbt.setLong("energy", NCMath.clamp(nbt.getLong("energy") + energy / stack.getCount(), 0, getMaxEnergyStored()));
+					nbt.setLong("energy", NCMath.clamp(nbt.getLong("energy") + changeEnergy / stack.getCount(), 0, getMaxEnergyStored()));
 				}
 			}
 			
 			@Override
-			public void setStorageCapacity(long capacity) {
+			public void setStorageCapacity(long newCapacity) {
 				NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
 				if (nbt != null && nbt.hasKey("capacity")) {
-					nbt.setLong("capacity", capacity);
+					nbt.setLong("capacity", newCapacity);
 				}
 				
 			}
 			
 			@Override
-			public void setMaxTransfer(int maxTransfer) {}
+			public void setMaxTransfer(int newMaxTransfer) {}
 			
 			@Override
 			public boolean canReceive() {
@@ -145,13 +145,13 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			if (wrapper == null) {
 				wrapper = new ItemEnergyWrapper(storage);
 			}
-			return (T) wrapper;
+			return CapabilityEnergy.ENERGY.cast(wrapper);
 		}
 		if (ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ELECTRIC_ITEM) {
 			if (wrapperGT == null) {
 				wrapperGT = new ItemEnergyWrapperGT(stack, storage, energyTier);
 			}
-			return (T) wrapperGT;
+			return GregtechCapabilities.CAPABILITY_ELECTRIC_ITEM.cast(wrapperGT);
 		}
 		return null;
 	}

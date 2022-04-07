@@ -17,15 +17,15 @@ public class InfoHelper {
 	public static final String[] EMPTY_ARRAY = {}, NULL_ARRAY = {null};
 	public static final String[][] EMPTY_ARRAYS = {}, NULL_ARRAYS = {null};
 	
-	public static void infoLine(List list, TextFormatting fixedColor, String line) {
+	public static void infoLine(List<String> list, TextFormatting fixedColor, String line) {
 		list.add(fixedColor + line);
 	}
 	
-	public static void shiftInfo(List list) {
+	public static void shiftInfo(List<String> list) {
 		list.add(TextFormatting.ITALIC + (ctrl_info ? CTRL_STRING : SHIFT_STRING));
 	}
 	
-	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting fixedColor, String... fixedLines) {
+	public static void fixedInfoList(List<String> list, boolean infoBelow, TextFormatting fixedColor, String... fixedLines) {
 		for (String fixedLine : fixedLines) {
 			infoLine(list, fixedColor, fixedLine);
 		}
@@ -34,8 +34,8 @@ public class InfoHelper {
 		}
 	}
 	
-	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting[] fixedColors, String... fixedLines) {
-		for (int i = 0; i < fixedLines.length; i++) {
+	public static void fixedInfoList(List<String> list, boolean infoBelow, TextFormatting[] fixedColors, String... fixedLines) {
+		for (int i = 0; i < fixedLines.length; ++i) {
 			infoLine(list, fixedColors[i], fixedLines[i]);
 		}
 		if (infoBelow) {
@@ -43,19 +43,19 @@ public class InfoHelper {
 		}
 	}
 	
-	public static void infoList(List list, TextFormatting infoColor, String... lines) {
+	public static void infoList(List<String> list, TextFormatting infoColor, String... lines) {
 		for (String line : lines) {
 			infoLine(list, infoColor, line);
 		}
 	}
 	
-	public static void infoList(List list, TextFormatting[] infoColors, String... lines) {
-		for (int i = 0; i < lines.length; i++) {
+	public static void infoList(List<String> list, TextFormatting[] infoColors, String... lines) {
+		for (int i = 0; i < lines.length; ++i) {
 			infoLine(list, infoColors[i], lines[i]);
 		}
 	}
 	
-	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, TextFormatting infoColor, String... lines) {
+	public static void infoFull(List<String> list, TextFormatting fixedColor, String[] fixedLines, TextFormatting infoColor, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
 			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColor, fixedLines);
 		}
@@ -67,7 +67,7 @@ public class InfoHelper {
 		}
 	}
 	
-	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
+	public static void infoFull(List<String> list, TextFormatting fixedColor, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
 			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColor, fixedLines);
 		}
@@ -79,7 +79,7 @@ public class InfoHelper {
 		}
 	}
 	
-	public static void infoFull(List list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting infoColor, String... lines) {
+	public static void infoFull(List<String> list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting infoColor, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
 			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColors, fixedLines);
 		}
@@ -91,7 +91,7 @@ public class InfoHelper {
 		}
 	}
 	
-	public static void infoFull(List list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
+	public static void infoFull(List<String> list, TextFormatting[] fixedColors, String[] fixedLines, TextFormatting[] infoColors, String... lines) {
 		if (showFixedInfo(fixedLines, lines)) {
 			fixedInfoList(list, !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY), fixedColors, fixedLines);
 		}
@@ -115,11 +115,11 @@ public class InfoHelper {
 		return !Arrays.equals(lines, EMPTY_ARRAY) && !Arrays.equals(lines, NULL_ARRAY);
 	}
 	
-	public static void infoFull(List list, TextFormatting infoColor, String... lines) {
+	public static void infoFull(List<String> list, TextFormatting infoColor, String... lines) {
 		infoFull(list, TextFormatting.AQUA, EMPTY_ARRAY, infoColor, lines);
 	}
 	
-	public static void infoFull(List list, TextFormatting[] infoColors, String... lines) {
+	public static void infoFull(List<String> list, TextFormatting[] infoColors, String... lines) {
 		infoFull(list, new TextFormatting[] {}, EMPTY_ARRAY, infoColors, lines);
 	}
 	
@@ -148,7 +148,7 @@ public class InfoHelper {
 	public static <T extends Enum<T> & IStringSerializable> String[] getEnumNames(Class<T> enumm) {
 		T[] values = enumm.getEnumConstants();
 		String[] names = new String[values.length];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			names[i] = values[i].getName();
 		}
 		return names;
@@ -174,13 +174,13 @@ public class InfoHelper {
 		String[][] strings = new String[types.length][];
 		
 		if (Arrays.equals(tooltips, NULL_ARRAYS)) {
-			for (int i = 0; i < types.length; i++) {
+			for (int i = 0; i < types.length; ++i) {
 				strings[i] = NULL_ARRAY;
 			}
 			return strings;
 		}
 		
-		for (int i = 0; i < types.length; i++) {
+		for (int i = 0; i < types.length; ++i) {
 			if (CollectionHelper.isNull(tooltips, i)) {
 				strings[i] = EMPTY_ARRAY;
 			}
@@ -220,7 +220,7 @@ public class InfoHelper {
 		int line = 1;
 		while (Lang.canLocalise(base + line)) {
 			info = CollectionHelper.concatenate(info, Lang.localise(base + line));
-			line++;
+			++line;
 		}
 		return info;
 	}

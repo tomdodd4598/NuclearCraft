@@ -1,6 +1,7 @@
 package nc.item.energy;
 
 import nc.tile.internal.energy.*;
+import nc.util.NBTHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -11,11 +12,7 @@ public interface IChargableItem {
 			return null;
 		}
 		
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
-		}
-		
-		NBTTagCompound nbt = stack.getTagCompound();
+		NBTTagCompound nbt = NBTHelper.getStackNBT(stack);
 		IChargableItem item = (IChargableItem) stack.getItem();
 		if (!nbt.hasKey("energyStorage")) {
 			new EnergyStorage(item.getMaxEnergyStored(stack), item.getMaxTransfer(stack), 0L).writeToNBT(nbt, "energyStorage");

@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor & ITileGui> extends ContainerTile<PROCESSOR> {
+public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor & ITileGui<?>> extends ContainerTile<PROCESSOR> {
 	
 	protected final PROCESSOR tile;
 	protected final BasicRecipeHandler recipeHandler;
@@ -23,7 +23,7 @@ public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor 
 		tile = tileEntity;
 		this.recipeHandler = recipeHandler;
 		
-		tileEntity.beginUpdatingPlayer(player);
+		tileEntity.addTileUpdatePacketListener(player);
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor 
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		tile.stopUpdatingPlayer(player);
+		tile.removeTileUpdatePacketListener(player);
 	}
 	
 	@Override

@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class SupercoolerCategory extends JEIMachineCategory<JEIRecipeWrapper.Supercooler> {
 	
-	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Supercooler> handler) {
 		super(guiHelper, handler, "supercooler", 47, 30, 90, 26);
 	}
 	

@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class SolidFissionCategory extends JEIMachineCategory<JEIRecipeWrapper.SolidFission> {
 	
-	public SolidFissionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public SolidFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.SolidFission> handler) {
 		super(guiHelper, handler, "solid_fission_cell", 47, 30, 90, 26);
 	}
 	

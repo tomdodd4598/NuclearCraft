@@ -16,9 +16,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public interface ITile<T extends TileEntity> {
+public interface ITile {
 	
-	public T thisTile();
+	public TileEntity getTile();
 	
 	public World getTileWorld();
 	
@@ -47,7 +47,7 @@ public interface ITile<T extends TileEntity> {
 	}
 	
 	public default void setActivity(boolean isActive) {
-		setState(isActive, thisTile());
+		setState(isActive, getTile());
 	}
 	
 	@Deprecated
@@ -148,7 +148,7 @@ public interface ITile<T extends TileEntity> {
 	
 	// HWYLA
 	
-	public default @Nonnull List<String> addToHWYLATooltip(List<String> tooltip) {
+	public default @Nonnull List<String> addToHWYLATooltip(@Nonnull List<String> tooltip) {
 		return tooltip;
 	}
 }

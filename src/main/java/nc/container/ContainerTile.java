@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraftforge.fml.relauncher.*;
 
-public class ContainerTile<T extends ITileGui> extends NCContainer {
+public class ContainerTile<T extends ITileGui<?>> extends NCContainer {
 	
 	protected final @Nullable IInventory inv;
 	

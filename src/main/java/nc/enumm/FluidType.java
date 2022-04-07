@@ -5,6 +5,7 @@ import nc.fluid.*;
 import net.minecraftforge.fluids.Fluid;
 
 public enum FluidType {
+	
 	LIQUID(FluidLiquid.class, BlockFluidLiquid.class),
 	GAS(FluidGas.class, BlockFluidGas.class),
 	HOT_GAS(FluidHotGas.class, BlockFluidHotGas.class),
@@ -32,10 +33,12 @@ public enum FluidType {
 		this.blockClass = blockClass;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T extends Fluid> Class<T> getFluidClass() {
 		return (Class<T>) fluidClass;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T extends NCBlockFluid> Class<T> getBlockClass() {
 		return (Class<T>) blockClass;
 	}

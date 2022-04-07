@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.*;
 
-public class EntityRadsProvider implements ICapabilitySerializable {
+public class EntityRadsProvider implements ICapabilitySerializable<NBTBase> {
 	
 	private final IEntityRads entityRads;
 	

@@ -39,7 +39,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public boolean isSearched = false, isInValidPosition = false;
 	
 	public String ruleID;
-	public PlacementRule<ITurbinePart> placementRule;
+	public PlacementRule<Turbine, ITurbinePart> placementRule;
 	
 	/** Don't use this constructor! */
 	public TileTurbineDynamoPart() {
@@ -104,8 +104,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	public boolean isSearchRoot() {
 		for (String dep : placementRule.getDependencies()) {
-			if (dep.equals("bearing"))
-				return true;
+			if (dep.equals("bearing")) return true;
 		}
 		return false;
 	}
@@ -213,8 +212,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("partName", partName);
-		if (conductivity != null)
-			nbt.setDouble("conductivity", conductivity);
+		if (conductivity != null) nbt.setDouble("conductivity", conductivity);
 		nbt.setString("ruleID", ruleID);
 		
 		writeEnergyConnections(nbt);
@@ -225,10 +223,8 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("partName"))
-			partName = nbt.getString("partName");
-		if (nbt.hasKey("conductivity"))
-			conductivity = nbt.getDouble("conductivity");
+		if (nbt.hasKey("partName")) partName = nbt.getString("partName");
+		if (nbt.hasKey("conductivity")) conductivity = nbt.getDouble("conductivity");
 		if (nbt.hasKey("ruleID")) {
 			ruleID = nbt.getString("ruleID");
 			placementRule = TurbinePlacement.RULE_MAP.get(ruleID);
@@ -252,13 +248,13 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) {
 			if (hasEnergySideCapability(side)) {
-				return (T) getEnergySide(nonNullSide(side));
+				return CapabilityEnergy.ENERGY.cast(getEnergySide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			if (enable_gtce_eu && hasEnergySideCapability(side)) {
-				return (T) getEnergySideGT(nonNullSide(side));
+				return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(getEnergySideGT(nonNullSide(side)));
 			}
 			return null;
 		}

@@ -42,7 +42,7 @@ public class BlockPortalWasteland extends NCBlockPortal {
 						break;
 					}
 					
-					i++;
+					++i;
 				}
 				
 				if (i >= 10) {

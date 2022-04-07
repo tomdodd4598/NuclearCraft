@@ -5,6 +5,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
 public enum ItemSorption implements IStringSerializable, IGuiButton {
+	
 	IN,
 	OUT,
 	BOTH,

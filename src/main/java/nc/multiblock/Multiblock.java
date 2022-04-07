@@ -7,8 +7,6 @@ import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.multiblock.tile.*;
-import nc.network.PacketHandler;
-import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -16,7 +14,6 @@ import nc.tile.inventory.ITileInventory;
 import nc.util.SuperMap;
 import nc.util.SuperMap.SuperMapEntry;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.*;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,7 +27,7 @@ import net.minecraftforge.fml.common.FMLLog;
 /** This class contains the base logic for "multiblocks". Conceptually, they are meta-TileEntities. They govern the logic for an associated group of TileEntities.
  * 
  * Subordinate TileEntities implement the IMultiblockPart class and, generally, should not have an update() loop. */
-public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> {
+public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> implements IMultiblock<MULTIBLOCK, T> {
 	
 	public static final short DIMENSION_UNBOUNDED = -1;
 	
@@ -46,7 +43,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	public AssemblyState assemblyState;
 	
-	protected ObjectOpenHashSet<ITileMultiblockPart> connectedParts;
+	protected ObjectOpenHashSet<T> connectedParts;
 	
 	public Random rand = new Random();
 	
@@ -67,11 +64,16 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	private boolean debugMode;
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	public final Class<MULTIBLOCK> multiblockClass;
+	public final Class<T> tClass;
 	
-	protected Multiblock(World world) {
+	protected Multiblock(World world, Class<MULTIBLOCK> multiblockClass, Class<T> tClass) {
 		// Multiblock stuff
 		WORLD = world;
+		
+		this.multiblockClass = multiblockClass;
+		this.tClass = tClass;
+		
 		connectedParts = new ObjectOpenHashSet<>();
 		
 		referenceCoord = null;
@@ -84,8 +86,11 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		lastValidationError = null;
 		
 		debugMode = false;
-		
-		playersToUpdate = new ObjectOpenHashSet<>();
+	}
+	
+	@Override
+	public World getWorld() {
+		return WORLD;
 	}
 	
 	public void setDebugMode(boolean active) {
@@ -100,7 +105,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * 
 	 * @param part
 	 *            The NBT tag containing this multiblock's data. */
-	public abstract void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data);
+	public abstract void onAttachedPartWithMultiblockData(T part, NBTTagCompound data);
 	
 	/** Check if a block is being tracked by this machine.
 	 * 
@@ -111,11 +116,17 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return connectedParts.contains(blockCoord);
 	}*/
 	
+	public void attachBlockRaw(ITileMultiblockPart<?, ?> part) {
+		if (tClass.isInstance(part)) {
+			attachBlock(tClass.cast(part));
+		}
+	}
+	
 	/** Attach a new part to this machine.
 	 * 
 	 * @param part
 	 *            The part to add. */
-	public void attachBlock(ITileMultiblockPart part) {
+	public void attachBlock(T part) {
 		// IMultiblockPart candidate;
 		BlockPos coord = part.getTilePos();
 		
@@ -123,8 +134,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			FMLLog.warning("[%s] Multiblock %s is double-adding part %d @ %s. This is unusual. If you encounter odd behavior, please tear down the multiblock and rebuild it.", WORLD.isRemote ? "CLIENT" : "SERVER", hashCode(), part.hashCode(), coord);
 		}
 		
-		part.onAttached(this);
-		this.onBlockAdded(part);
+		part.onAttached(multiblockClass.cast(this));
+		onBlockAdded(part);
 		
 		if (part.hasMultiblockSaveData()) {
 			NBTTagCompound savedData = part.getMultiblockSaveData();
@@ -133,12 +144,12 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 		
 		TileEntity te = referenceCoord == null ? null : WORLD.getTileEntity(referenceCoord);
-		if (!(te instanceof ITileMultiblockPart)) {
+		if (!tClass.isInstance(te)) {
 			referenceCoord = coord;
 			part.becomeMultiblockSaveDelegate();
 		}
 		else if (coord.compareTo(referenceCoord) < 0) {
-			((ITileMultiblockPart) te).forfeitMultiblockSaveDelegate();
+			tClass.cast(te).forfeitMultiblockSaveDelegate();
 			referenceCoord = coord;
 			part.becomeMultiblockSaveDelegate();
 		}
@@ -151,11 +162,11 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		int newX, newY, newZ;
 		int partCoord;
 		
-		if (this.minimumCoord != null) {
+		if (minimumCoord != null) {
 			
-			curX = this.minimumCoord.getX();
-			curY = this.minimumCoord.getY();
-			curZ = this.minimumCoord.getZ();
+			curX = minimumCoord.getX();
+			curY = minimumCoord.getY();
+			curZ = minimumCoord.getZ();
 			
 			partCoord = partPos.getX();
 			newX = partCoord < curX ? partCoord : curX;
@@ -167,15 +178,15 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			newZ = partCoord < curZ ? partCoord : curZ;
 			
 			if (newX != curX || newY != curY || newZ != curZ) {
-				this.minimumCoord = new BlockPos(newX, newY, newZ);
+				minimumCoord = new BlockPos(newX, newY, newZ);
 			}
 		}
 		
-		if (this.maximumCoord != null) {
+		if (maximumCoord != null) {
 			
-			curX = this.maximumCoord.getX();
-			curY = this.maximumCoord.getY();
-			curZ = this.maximumCoord.getZ();
+			curX = maximumCoord.getX();
+			curY = maximumCoord.getY();
+			curZ = maximumCoord.getZ();
 			
 			partCoord = partPos.getX();
 			newX = partCoord > curX ? partCoord : curX;
@@ -187,24 +198,24 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			newZ = partCoord > curZ ? partCoord : curZ;
 			
 			if (newX != curX || newY != curY || newZ != curZ) {
-				this.maximumCoord = new BlockPos(newX, newY, newZ);
+				maximumCoord = new BlockPos(newX, newY, newZ);
 			}
 		}
 		
-		MultiblockRegistry.INSTANCE.addDirtyMultiblock(WORLD, this);
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(WORLD, multiblockClass.cast(this));
 	}
 	
 	/** Called when a new part is added to the machine. Good time to register things into lists.
 	 * 
 	 * @param newPart
 	 *            The part being added. */
-	protected abstract void onBlockAdded(ITileMultiblockPart newPart);
+	protected abstract void onBlockAdded(T newPart);
 	
 	/** Called when a part is removed from the machine. Good time to clean up lists.
 	 * 
 	 * @param oldPart
 	 *            The part being removed. */
-	protected abstract void onBlockRemoved(ITileMultiblockPart oldPart);
+	protected abstract void onBlockRemoved(T oldPart);
 	
 	/** Called when a machine is assembled from a disassembled state. */
 	protected abstract void onMachineAssembled();
@@ -222,10 +233,10 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * 
 	 * @param part
 	 *            The part being removed. */
-	private void onDetachBlock(ITileMultiblockPart part) {
+	private void onDetachBlock(T part) {
 		// Strip out this part
-		part.onDetached(this);
-		this.onBlockRemoved(part);
+		part.onDetached(multiblockClass.cast(this));
+		onBlockRemoved(part);
 		part.forfeitMultiblockSaveDelegate();
 		
 		minimumCoord = maximumCoord = null;
@@ -243,10 +254,10 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 *            The part to detach from this machine.
 	 * @param chunkUnloading
 	 *            Is this entity detaching due to the chunk unloading? If true, the multiblock will be paused instead of broken. */
-	public void detachBlock(ITileMultiblockPart part, boolean chunkUnloading) {
-		if (chunkUnloading && this.assemblyState == AssemblyState.Assembled) {
-			this.assemblyState = AssemblyState.Paused;
-			this.onMachinePaused();
+	public void detachBlock(T part, boolean chunkUnloading) {
+		if (chunkUnloading && assemblyState == AssemblyState.Assembled) {
+			assemblyState = AssemblyState.Paused;
+			onMachinePaused();
 		}
 		
 		// Strip out this part
@@ -254,16 +265,16 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		if (!connectedParts.remove(part)) {
 			BlockPos position = part.getTilePos();
 			
-			FMLLog.warning("[%s] Double-removing part (%d) @ %d, %d, %d, this is unexpected and may cause problems. If you encounter anomalies, please tear down the multiblock and rebuild it.", this.WORLD.isRemote ? "CLIENT" : "SERVER", part.hashCode(), position.getX(), position.getY(), position.getZ());
+			FMLLog.warning("[%s] Double-removing part (%d) @ %d, %d, %d, this is unexpected and may cause problems. If you encounter anomalies, please tear down the multiblock and rebuild it.", WORLD.isRemote ? "CLIENT" : "SERVER", part.hashCode(), position.getX(), position.getY(), position.getZ());
 		}
 		
 		if (connectedParts.isEmpty()) {
 			// Destroy/unregister
-			MultiblockRegistry.INSTANCE.addDeadMultiblock(this.WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, multiblockClass.cast(this));
 			return;
 		}
 		
-		MultiblockRegistry.INSTANCE.addDirtyMultiblock(this.WORLD, this);
+		MultiblockRegistry.INSTANCE.addDirtyMultiblock(WORLD, multiblockClass.cast(this));
 		
 		// Find new save delegate if we need to.
 		if (referenceCoord == null) {
@@ -314,7 +325,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	/** @return the last validation error encountered when trying to assemble the multiblock, or null if there is no error. */
 	public MultiblockValidationError getLastError() {
-		return this.lastValidationError;
+		return lastValidationError;
 	}
 	
 	/** Set a validation error
@@ -326,7 +337,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			throw new IllegalArgumentException("The validation error can't be null");
 		}
 		
-		this.lastValidationError = error;
+		lastValidationError = error;
 	}
 	
 	/** Set a validation error
@@ -336,7 +347,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * @param messageParameters
 	 *            optional parameters for a message format string */
 	public void setLastError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters) {
-		this.lastValidationError = new MultiblockValidationError(messageFormatStringResourceKey, pos, messageParameters);
+		lastValidationError = new MultiblockValidationError(messageFormatStringResourceKey, pos, messageParameters);
 	}
 	
 	/** Checks if a machine is whole. If not, set a validation error using IMultiblockValidator. */
@@ -346,28 +357,28 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * 
 	 * @return */
 	public void checkIfMachineIsWhole() {
-		AssemblyState oldState = this.assemblyState;
+		AssemblyState oldState = assemblyState;
 		
-		this.lastValidationError = null;
+		lastValidationError = null;
 		
-		if (this.isMachineWhole()) {
+		if (isMachineWhole()) {
 			// This will alter assembly state
 			assembleMachine(oldState);
 		}
 		else if (oldState == AssemblyState.Assembled) {
 			// This will alter assembly state
-			disassembleMachine();
+			_disassembleMachine();
 		}
 		// Else Paused, do nothing
 	}
 	
 	/** Called when a machine becomes "whole" and should begin functioning as a game-logically finished machine. Calls onMachineAssembled on all attached parts. */
 	private void assembleMachine(AssemblyState oldState) {
-		for (ITileMultiblockPart part : connectedParts) {
-			part.onMachineAssembled(this);
+		for (T part : connectedParts) {
+			part.onMachineAssembled(multiblockClass.cast(this));
 		}
 		
-		this.assemblyState = AssemblyState.Assembled;
+		assemblyState = AssemblyState.Assembled;
 		if (oldState == AssemblyState.Paused) {
 			onMachineRestored();
 		}
@@ -377,63 +388,69 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	}
 	
 	/** Called when the machine needs to be disassembled. It is not longer "whole" and should not be functional, usually as a result of a block being removed. Calls onMachineBroken on all attached parts. */
-	private void disassembleMachine() {
-		for (ITileMultiblockPart part : connectedParts) {
+	protected void _disassembleMachine() {
+		for (T part : connectedParts) {
 			part.onMachineBroken();
 		}
 		
-		this.assemblyState = AssemblyState.Disassembled;
+		assemblyState = AssemblyState.Disassembled;
 		onMachineDisassembled();
+	}
+	
+	public void assimilateRaw(Multiblock<?, ?> other) {
+		if (multiblockClass.isInstance(other)) {
+			assimilate(multiblockClass.cast(other));
+		}
 	}
 	
 	/** Assimilate another multiblock into this multiblock. Acquire all of the other multiblock's blocks and attach them to this one.
 	 * 
 	 * @param other
 	 *            The multiblock to merge into this one. */
-	public void assimilate(Multiblock other) {
+	public void assimilate(MULTIBLOCK other) {
 		BlockPos otherReferenceCoord = other.getReferenceCoord();
 		if (otherReferenceCoord != null && getReferenceCoord().compareTo(otherReferenceCoord) >= 0) {
 			throw new IllegalArgumentException("The multiblock with the lowest minimum-coord value must consume the one with the higher coords");
 		}
 		
-		Set<ITileMultiblockPart> partsToAcquire = new ObjectOpenHashSet<ITileMultiblockPart>(other.connectedParts);
+		Set<T> partsToAcquire = new ObjectOpenHashSet<>(other.connectedParts);
 		
 		// Force disassembly of assimilated multiblock
 		if (other.assemblyState == AssemblyState.Assembled) {
-			other.disassembleMachine();
+			other._disassembleMachine();
 		}
 		
 		// Releases all blocks and references gently so they can be incorporated into another multiblock
-		other._onAssimilated(this);
+		other._onAssimilated(multiblockClass.cast(this));
 		
-		for (ITileMultiblockPart acquiredPart : partsToAcquire) {
+		for (T acquiredPart : partsToAcquire) {
 			// By definition, none of these can be the minimum block.
 			if (acquiredPart.isPartInvalid()) {
 				continue;
 			}
 			
 			connectedParts.add(acquiredPart);
-			acquiredPart.onAssimilated(this);
-			this.onBlockAdded(acquiredPart);
+			acquiredPart.onAssimilated(multiblockClass.cast(this));
+			onBlockAdded(acquiredPart);
 		}
 		
-		this.onAssimilate(other);
-		other.onAssimilated(this);
+		onAssimilate(other);
+		other.onAssimilated(multiblockClass.cast(this));
 	}
 	
 	/** Called when this machine is consumed by another multiblock. Essentially, forcibly tear down this object.
 	 * 
 	 * @param otherMultiblock
 	 *            The multiblock consuming this multiblock. */
-	private void _onAssimilated(Multiblock otherMultiblock) {
+	protected void _onAssimilated(MULTIBLOCK otherMultiblock) {
 		if (referenceCoord != null) {
-			if (this.WORLD.isBlockLoaded(this.referenceCoord)) {
-				TileEntity te = this.WORLD.getTileEntity(this.referenceCoord);
-				if (te instanceof ITileMultiblockPart) {
-					((ITileMultiblockPart) te).forfeitMultiblockSaveDelegate();
+			if (WORLD.isBlockLoaded(referenceCoord)) {
+				TileEntity te = WORLD.getTileEntity(referenceCoord);
+				if (tClass.isInstance(te)) {
+					tClass.cast(te).forfeitMultiblockSaveDelegate();
 				}
 			}
-			this.referenceCoord = null;
+			referenceCoord = null;
 		}
 		
 		connectedParts.clear();
@@ -443,13 +460,13 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * 
 	 * @param assimilated
 	 *            The multiblock whose uniqueness was added to our own. */
-	protected abstract void onAssimilate(Multiblock assimilated);
+	protected abstract void onAssimilate(MULTIBLOCK assimilated);
 	
 	/** Callback. Called after this multiblock is assimilated into another multiblock. All blocks have been stripped out of this object and handed over to the other multiblock. This is intended primarily for cleanup.
 	 * 
 	 * @param assimilator
 	 *            The multiblock which has assimilated this multiblock. */
-	protected abstract void onAssimilated(Multiblock assimilator);
+	protected abstract void onAssimilated(MULTIBLOCK assimilator);
 	
 	/** Driver for the update loop. If the machine is assembled, runs the game logic update method.
 	 * 
@@ -457,11 +474,11 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	public final void updateMultiblockEntity() {
 		if (connectedParts.isEmpty()) {
 			// This shouldn't happen, but just in case...
-			MultiblockRegistry.INSTANCE.addDeadMultiblock(this.WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, multiblockClass.cast(this));
 			return;
 		}
 		
-		if (this.assemblyState != AssemblyState.Assembled) {
+		if (assemblyState != AssemblyState.Assembled) {
 			// Not assembled - don't run game logic
 			return;
 		}
@@ -478,17 +495,17 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	}
 	
 	public void markChunksDirty() {
-		if (minimumCoord != null && maximumCoord != null && this.WORLD.isAreaLoaded(this.minimumCoord, this.maximumCoord)) {
+		if (minimumCoord != null && maximumCoord != null && WORLD.isAreaLoaded(minimumCoord, maximumCoord)) {
 			
-			int minChunkX = WorldHelper.getChunkXFromBlock(this.minimumCoord);
-			int minChunkZ = WorldHelper.getChunkZFromBlock(this.minimumCoord);
-			int maxChunkX = WorldHelper.getChunkXFromBlock(this.maximumCoord);
-			int maxChunkZ = WorldHelper.getChunkZFromBlock(this.maximumCoord);
+			int minChunkX = WorldHelper.getChunkXFromBlock(minimumCoord);
+			int minChunkZ = WorldHelper.getChunkZFromBlock(minimumCoord);
+			int maxChunkX = WorldHelper.getChunkXFromBlock(maximumCoord);
+			int maxChunkZ = WorldHelper.getChunkZFromBlock(maximumCoord);
 			
-			for (int x = minChunkX; x <= maxChunkX; x++) {
-				for (int z = minChunkZ; z <= maxChunkZ; z++) {
+			for (int x = minChunkX; x <= maxChunkX; ++x) {
+				for (int z = minChunkZ; z <= maxChunkZ; ++z) {
 					// Ensure that we save our data, even if the our save delegate is in has no TEs.
-					Chunk chunkToSave = this.WORLD.getChunk(x, z);
+					Chunk chunkToSave = WORLD.getChunk(x, z);
 					chunkToSave.markDirty();
 				}
 			}
@@ -619,14 +636,14 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	}
 	
 	public NBTTagCompound writeTanks(List<Tank> tanks, NBTTagCompound data, String name) {
-		for (int i = 0; i < tanks.size(); i++) {
+		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).writeToNBT(data, name + i);
 		}
 		return data;
 	}
 	
 	public void readTanks(List<Tank> tanks, NBTTagCompound data, String name) {
-		for (int i = 0; i < tanks.size(); i++) {
+		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).readFromNBT(data, name + i);
 		}
 	}
@@ -650,7 +667,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		minX = minY = minZ = Integer.MAX_VALUE;
 		maxX = maxY = maxZ = Integer.MIN_VALUE;
 		
-		for (ITileMultiblockPart part : this.connectedParts) {
+		for (T part : connectedParts) {
 			
 			partPos = part.getTilePos();
 			
@@ -679,8 +696,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			}
 		}
 		
-		this.minimumCoord = new BlockPos(minX, minY, minZ);
-		this.maximumCoord = new BlockPos(maxX, maxY, maxZ);
+		minimumCoord = new BlockPos(minX, minY, minZ);
+		maximumCoord = new BlockPos(maxX, maxY, maxZ);
 	}
 	
 	/** @return The minimum bounding-box coordinate containing this machine's blocks. */
@@ -765,7 +782,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * @param otherMultiblock
 	 *            The other multiblock.
 	 * @return True if this multiblock should consume the other, false otherwise. */
-	public boolean shouldConsume(Multiblock otherMultiblock) {
+	public boolean shouldConsume(@SuppressWarnings("rawtypes") Multiblock otherMultiblock) {
 		if (!otherMultiblock.getClass().equals(getClass())) {
 			throw new IllegalArgumentException("Attempting to merge two multiblocks with different master classes - this should never happen!");
 		}
@@ -783,7 +800,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 		else {
 			// Strip dead parts from both and retry
-			FMLLog.warning("[%s] Encountered two multiblocks with the same reference coordinate. Auditing connected parts and retrying.", this.WORLD.isRemote ? "CLIENT" : "SERVER");
+			FMLLog.warning("[%s] Encountered two multiblocks with the same reference coordinate. Auditing connected parts and retrying.", WORLD.isRemote ? "CLIENT" : "SERVER");
 			auditParts();
 			otherMultiblock.auditParts();
 			
@@ -795,15 +812,15 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 				return false;
 			}
 			else {
-				FMLLog.severe("My Multiblock (%d): size (%d), parts: %s", hashCode(), this.connectedParts.size(), this.getPartsListString());
+				FMLLog.severe("My Multiblock (%d): size (%d), parts: %s", hashCode(), connectedParts.size(), getPartsListString());
 				FMLLog.severe("Other Multiblock (%d): size (%d), coords: %s", otherMultiblock.hashCode(), otherMultiblock.connectedParts.size(), otherMultiblock.getPartsListString());
-				throw new IllegalArgumentException("[" + (this.WORLD.isRemote ? "CLIENT" : "SERVER") + "] Two multiblocks with the same reference coord that somehow both have valid parts - this should never happen!");
+				throw new IllegalArgumentException("[" + (WORLD.isRemote ? "CLIENT" : "SERVER") + "] Two multiblocks with the same reference coord that somehow both have valid parts - this should never happen!");
 			}
 			
 		}
 	}
 	
-	private int _shouldConsume(Multiblock otherMultiblock) {
+	private int _shouldConsume(@SuppressWarnings("rawtypes") Multiblock otherMultiblock) {
 		BlockPos myCoord = getReferenceCoord();
 		BlockPos theirCoord = otherMultiblock.getReferenceCoord();
 		
@@ -821,7 +838,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		BlockPos partPos;
-		for (ITileMultiblockPart part : connectedParts) {
+		for (T part : connectedParts) {
 			if (!first) {
 				sb.append(", ");
 			}
@@ -835,8 +852,8 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	
 	/** Checks all of the parts in the multiblock. If any are dead or do not exist in the world, they are removed. */
 	private void auditParts() {
-		ObjectOpenHashSet<ITileMultiblockPart> deadParts = new ObjectOpenHashSet<>();
-		for (ITileMultiblockPart part : connectedParts) {
+		ObjectOpenHashSet<T> deadParts = new ObjectOpenHashSet<>();
+		for (T part : connectedParts) {
 			if (part.isPartInvalid() || WORLD.getTileEntity(part.getTilePos()) != part) {
 				onDetachBlock(part);
 				deadParts.add(part);
@@ -844,19 +861,19 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 		
 		connectedParts.removeAll(deadParts);
-		FMLLog.warning("[%s] Multiblock found %d dead parts during an audit, %d parts remain attached", this.WORLD.isRemote ? "CLIENT" : "SERVER", deadParts.size(), this.connectedParts.size());
+		FMLLog.warning("[%s] Multiblock found %d dead parts during an audit, %d parts remain attached", WORLD.isRemote ? "CLIENT" : "SERVER", deadParts.size(), connectedParts.size());
 	}
 	
 	/** Called when this machine may need to check for blocks that are no longer physically connected to the reference coordinate.
 	 * 
 	 * @return */
-	public Set<ITileMultiblockPart> checkForDisconnections() {
-		if (!this.shouldCheckForDisconnections) {
+	public Set<T> checkForDisconnections() {
+		if (!shouldCheckForDisconnections) {
 			return null;
 		}
 		
-		if (this.isEmpty()) {
-			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, this);
+		if (isEmpty()) {
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, multiblockClass.cast(this));
 			return null;
 		}
 		
@@ -867,16 +884,16 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		referenceCoord = null;
 		
 		// Reset visitations and find the minimum coordinate
-		Set<ITileMultiblockPart> deadParts = new ObjectOpenHashSet<>();
+		Set<T> deadParts = new ObjectOpenHashSet<>();
 		BlockPos position;
-		ITileMultiblockPart referencePart = null;
+		T referencePart = null;
 		
 		int originalSize = connectedParts.size();
 		
-		for (ITileMultiblockPart part : connectedParts) {
+		for (T part : connectedParts) {
 			position = part.getTilePos();
 			// This happens during chunk unload.
-			if (!this.WORLD.isBlockLoaded(position) || part.isPartInvalid()) {
+			if (!WORLD.isBlockLoaded(position) || part.isPartInvalid()) {
 				deadParts.add(part);
 				onDetachBlock(part);
 				continue;
@@ -908,7 +925,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			// There are no valid parts remaining. The entire multiblock was
 			// unloaded during a chunk unload. Halt.
 			shouldCheckForDisconnections = false;
-			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, this);
+			MultiblockRegistry.INSTANCE.addDeadMultiblock(WORLD, multiblockClass.cast(this));
 			return null;
 		}
 		else {
@@ -917,9 +934,9 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		
 		// Now visit all connected parts, breadth-first, starting from reference
 		// coord's part
-		ITileMultiblockPart part;
-		LinkedList<ITileMultiblockPart> partsToCheck = new LinkedList<>();
-		ITileMultiblockPart[] nearbyParts = null;
+		T part;
+		LinkedList<T> partsToCheck = new LinkedList<>();
+		List<T> nearbyParts = null;
 		int visitedParts = 0;
 		
 		partsToCheck.add(referencePart);
@@ -927,11 +944,11 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		while (!partsToCheck.isEmpty()) {
 			part = partsToCheck.removeFirst();
 			part.setVisited();
-			visitedParts++;
+			++visitedParts;
 			
 			nearbyParts = part.getNeighboringParts(); // Chunk-safe on server,
 														// but not on client
-			for (ITileMultiblockPart nearbyPart : nearbyParts) {
+			for (T nearbyPart : nearbyParts) {
 				// Ignore different machines
 				if (nearbyPart.getMultiblock() != this) {
 					continue;
@@ -945,11 +962,11 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 		
 		// Finally, remove all parts that remain disconnected.
-		Set<ITileMultiblockPart> removedParts = new ObjectOpenHashSet<>();
-		for (ITileMultiblockPart orphanCandidate : connectedParts) {
+		Set<T> removedParts = new ObjectOpenHashSet<>();
+		for (T orphanCandidate : connectedParts) {
 			if (!orphanCandidate.isVisited()) {
 				deadParts.add(orphanCandidate);
-				orphanCandidate.onOrphaned(this, originalSize, visitedParts);
+				orphanCandidate.onOrphaned(multiblockClass.cast(this), originalSize, visitedParts);
 				onDetachBlock(orphanCandidate);
 				removedParts.add(orphanCandidate);
 			}
@@ -975,38 +992,38 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	/** Detach all parts. Return a set of all parts which still have a valid tile entity. Chunk-safe.
 	 * 
 	 * @return A set of all parts which still have a valid tile entity. */
-	public Set<ITileMultiblockPart> detachAllBlocks() {
+	public Set<T> detachAllBlocks() {
 		if (WORLD == null) {
 			return new ObjectOpenHashSet<>();
 		}
 		
 		// IChunkProvider chunkProvider = WORLD.getChunkProvider();
-		for (ITileMultiblockPart part : connectedParts) {
-			if (this.WORLD.isBlockLoaded(part.getTilePos())) {
+		for (T part : connectedParts) {
+			if (WORLD.isBlockLoaded(part.getTilePos())) {
 				onDetachBlock(part);
 			}
 		}
 		
-		Set<ITileMultiblockPart> detachedParts = connectedParts;
+		Set<T> detachedParts = connectedParts;
 		connectedParts = new ObjectOpenHashSet<>();
 		return detachedParts;
 	}
 	
 	/** @return True if this multiblock machine is considered assembled and ready to go. */
 	public boolean isAssembled() {
-		return this.assemblyState == AssemblyState.Assembled;
+		return assemblyState == AssemblyState.Assembled;
 	}
 	
 	private void selectNewReferenceCoord() {
 		// IChunkProvider chunkProvider = WORLD.getChunkProvider();
-		ITileMultiblockPart theChosenOne = null;
+		T theChosenOne = null;
 		BlockPos position;
 		
 		referenceCoord = null;
 		
-		for (ITileMultiblockPart part : connectedParts) {
+		for (T part : connectedParts) {
 			position = part.getTilePos();
-			if (part.isPartInvalid() || !this.WORLD.isBlockLoaded(position)) {
+			if (part.isPartInvalid() || !WORLD.isBlockLoaded(position)) {
 				// Chunk is unloading, skip this coord to prevent chunk
 				// thrashing
 				continue;
@@ -1030,7 +1047,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 	 * On the client, this will mark the block for a rendering update. */
 	public void markReferenceCoordForUpdate() {
 		
-		BlockPos rc = this.getReferenceCoord();
+		BlockPos rc = getReferenceCoord();
 		
 		if (WORLD != null && rc != null) {
 			IBlockState state = WORLD.getBlockState(rc);
@@ -1050,70 +1067,23 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 			return;
 		}
 		
-		BlockPos referenceCoord = this.getReferenceCoord();
-		if (referenceCoord == null) {
+		BlockPos referencePos = getReferenceCoord();
+		if (referencePos == null) {
 			return;
 		}
 		
-		TileEntity saveTe = WORLD.getTileEntity(referenceCoord);
-		WORLD.markChunkDirty(referenceCoord, saveTe);
+		TileEntity saveTe = WORLD.getTileEntity(referencePos);
+		WORLD.markChunkDirty(referencePos, saveTe);
 	}
 	
 	/** Marks the whole multiblock for a render update on the client. On the server, this does nothing */
 	public void markMultiblockForRenderUpdate() {
-		this.WORLD.markBlockRangeForRenderUpdate(this.getMinimumCoord(), this.getMaximumCoord());
-	}
-	
-	// Packets
-	
-	protected abstract PACKET getUpdatePacket();
-	
-	public abstract void onPacket(PACKET message);
-	
-	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
-		playersToUpdate.add(playerToUpdate);
-		sendIndividualUpdate(playerToUpdate);
-	}
-	
-	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
-		playersToUpdate.remove(playerToRemove);
-	}
-	
-	public void sendUpdateToListeningPlayers() {
-		PACKET packet = getUpdatePacket();
-		if (packet == null) {
-			return;
-		}
-		for (EntityPlayer player : playersToUpdate) {
-			PacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
-		}
-	}
-	
-	public void sendIndividualUpdate(EntityPlayer player) {
-		if (WORLD.isRemote) {
-			return;
-		}
-		PACKET packet = getUpdatePacket();
-		if (packet == null) {
-			return;
-		}
-		PacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
-	}
-	
-	public void sendUpdateToAllPlayers() {
-		if (WORLD.isRemote) {
-			return;
-		}
-		PACKET packet = getUpdatePacket();
-		if (packet == null) {
-			return;
-		}
-		PacketHandler.instance.sendToAll(packet);
+		WORLD.markBlockRangeForRenderUpdate(getMinimumCoord(), getMaximumCoord());
 	}
 	
 	// Multiblock Parts
 	
-	public static class PartSuperMap<T extends ITileMultiblockPart> extends SuperMap<Long, T, Long2ObjectMap<? extends T>> {
+	public static class PartSuperMap<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends SuperMap<Long, T, Long2ObjectMap<? extends T>> {
 		
 		@Override
 		public <TYPE extends T> Long2ObjectMap<? extends T> backup(Class<TYPE> clazz) {
@@ -1121,7 +1091,7 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		}
 	}
 	
-	public abstract PartSuperMap<T> getPartSuperMap();
+	public abstract PartSuperMap<MULTIBLOCK, T> getPartSuperMap();
 	
 	public <TYPE extends T> Long2ObjectMap<TYPE> getPartMap(Class<TYPE> type) {
 		return getPartSuperMap().get(type);
@@ -1139,29 +1109,33 @@ public abstract class Multiblock<T extends ITileMultiblockPart, PACKET extends M
 		return getParts(type).iterator();
 	}
 	
-	public void onPartAdded(ITileMultiblockPart newPart) {
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void onPartAdded(T newPart) {
 		for (Entry<Class<? extends T>, Long2ObjectMap<? extends T>> superMapEntryRaw : getPartSuperMap().entrySet()) {
 			addBlockForSuperMapEntry(new SuperMapEntry(superMapEntryRaw), newPart);
 		}
 	}
 	
-	public <TYPE extends T> void addBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, ITileMultiblockPart newPart) {
+	public <TYPE extends T> void addBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, T newPart) {
 		if (superMapEntry.getKey().isInstance(newPart)) {
 			superMapEntry.getValue().put(newPart.getTilePos().toLong(), superMapEntry.getKey().cast(newPart));
 		}
 	}
 	
-	public void onPartRemoved(ITileMultiblockPart oldPart) {
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void onPartRemoved(T oldPart) {
 		for (Entry<Class<? extends T>, Long2ObjectMap<? extends T>> superMapEntryRaw : getPartSuperMap().entrySet()) {
 			removeBlockForSuperMapEntry(new SuperMapEntry(superMapEntryRaw), oldPart);
 		}
 	}
 	
-	public <TYPE extends T> void removeBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, ITileMultiblockPart oldPart) {
+	public <TYPE extends T> void removeBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, T oldPart) {
 		if (superMapEntry.getKey().isInstance(oldPart)) {
 			superMapEntry.getValue().remove(oldPart.getTilePos().toLong());
 		}
 	}
+	
+	// Clear Material
 	
 	public void clearAllMaterial() {
 		for (Entry<Class<? extends T>, Long2ObjectMap<? extends T>> superMapEntryRaw : getPartSuperMap().entrySet()) {

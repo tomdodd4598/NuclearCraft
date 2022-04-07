@@ -2,7 +2,7 @@ package nc.multiblock.turbine.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
-import nc.multiblock.container.*;
+import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.util.NCMath;
@@ -13,7 +13,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
-public class TileTurbineController extends TileTurbinePart implements ITurbineController {
+public class TileTurbineController extends TileTurbinePart implements ITurbineController<TileTurbineController> {
 	
 	private boolean isRenderer = false;
 	
@@ -41,12 +41,12 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	}
 	
 	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
+	public ContainerTurbineController getContainer(EntityPlayer player) {
 		return new ContainerTurbineController(player, this);
 	}
 	
 	@Override
-	public int[] weakSidesToCheck(World world, BlockPos pos) {
+	public int[] weakSidesToCheck(World worldIn, BlockPos posIn) {
 		return new int[] {2, 3, 4, 5};
 	}
 	
@@ -86,8 +86,8 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	}
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		if (getMultiblock() != null) {
 			getLogic().setIsTurbineOn();
 		}

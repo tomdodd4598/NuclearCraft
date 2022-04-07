@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class FissionReflectorCategory extends JEIMachineCategory<JEIRecipeWrapper.FissionReflector> {
 	
-	public FissionReflectorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FissionReflectorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.FissionReflector> handler) {
 		super(guiHelper, handler, "fission_reflector", 47, 30, 90, 26);
 	}
 	

@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class TurbineCategory extends JEIMachineCategory<JEIRecipeWrapper.Turbine> {
 	
-	public TurbineCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public TurbineCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Turbine> handler) {
 		super(guiHelper, handler, "turbine_controller", 47, 30, 90, 26);
 	}
 	

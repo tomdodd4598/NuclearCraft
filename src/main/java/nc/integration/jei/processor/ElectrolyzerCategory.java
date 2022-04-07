@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class ElectrolyzerCategory extends JEIMachineCategory<JEIRecipeWrapper.Electrolyzer> {
 	
-	public ElectrolyzerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public ElectrolyzerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Electrolyzer> handler) {
 		super(guiHelper, handler, "electrolyzer", 49, 30, 94, 38);
 	}
 	

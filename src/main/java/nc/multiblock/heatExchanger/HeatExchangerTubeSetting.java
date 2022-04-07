@@ -3,6 +3,7 @@ package nc.multiblock.heatExchanger;
 import net.minecraft.util.IStringSerializable;
 
 public enum HeatExchangerTubeSetting implements IStringSerializable {
+	
 	DISABLED,
 	DEFAULT,
 	PRODUCT_OUT,

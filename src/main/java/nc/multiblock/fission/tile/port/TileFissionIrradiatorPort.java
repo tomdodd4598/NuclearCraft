@@ -14,12 +14,12 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIrradiatorPort, TileFissionIrradiator> implements ITileGui<FissionIrradiatorPortUpdatePacket> {
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected Set<EntityPlayer> updatePacketListeners;
 	
 	public TileFissionIrradiatorPort() {
 		super(TileFissionIrradiatorPort.class, "irradiator", NCRecipes.fission_irradiator);
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIr
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 		}
 	}
 	
@@ -45,17 +45,17 @@ public class TileFissionIrradiatorPort extends TileFissionItemPort<TileFissionIr
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public FissionIrradiatorPortUpdatePacket getGuiUpdatePacket() {
+	public FissionIrradiatorPortUpdatePacket getTileUpdatePacket() {
 		return new FissionIrradiatorPortUpdatePacket(pos, masterPortPos, getFilterStacks());
 	}
 	
 	@Override
-	public void onGuiPacket(FissionIrradiatorPortUpdatePacket message) {
+	public void onTileUpdatePacket(FissionIrradiatorPortUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();

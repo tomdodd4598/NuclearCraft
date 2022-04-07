@@ -52,7 +52,7 @@ public class BlockFluidCorium extends BlockFluidFission {
 			int count = 0;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				if (isSourceBlock(world, pos.offset(side))) {
-					count++;
+					++count;
 					if (count > 3) {
 						return;
 					}

@@ -52,10 +52,10 @@ public abstract class NCButton extends GuiButton {
 		}
 		
 		@Override
-		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
+		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
 			if (visible) {
 				GL11.glColor4f(1F, 1F, 1F, 1F);
-				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
+				hovered = drawX >= this.x && drawY >= this.y && drawX < this.x + width && drawY < this.y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
 				drawTexturedModalRect(this.x, this.y, textureX, textureY, textureWidth, textureHeight);
 			}
@@ -84,9 +84,9 @@ public abstract class NCButton extends GuiButton {
 		}
 		
 		@Override
-		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
+		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
 			if (visible) {
-				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
+				hovered = drawX >= this.x && drawY >= this.y && drawX < this.x + width && drawY < this.y + height;
 				itemRenderer.draw();
 			}
 		}
@@ -100,7 +100,7 @@ public abstract class NCButton extends GuiButton {
 		}
 		
 		@Override
-		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {}
+		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {}
 	}
 	
 	@SideOnly(Side.CLIENT)

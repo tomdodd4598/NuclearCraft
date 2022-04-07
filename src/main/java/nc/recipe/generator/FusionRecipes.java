@@ -55,8 +55,8 @@ public class FusionRecipes extends BasicRecipeHandler {
 	}*/
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(4);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(4);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 0D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 1000D);
@@ -65,8 +65,8 @@ public class FusionRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List getFactoredExtras(List extras, int factor) {
-		List factored = new ArrayList(extras);
+	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
+		List<Object> factored = new ArrayList<>(extras);
 		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}

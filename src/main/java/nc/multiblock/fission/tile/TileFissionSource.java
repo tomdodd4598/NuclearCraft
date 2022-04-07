@@ -37,7 +37,7 @@ public class TileFissionSource extends TileFissionPart {
 		}
 		
 		@Override
-		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 			return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
 		}
 	}
@@ -84,7 +84,7 @@ public class TileFissionSource extends TileFissionPart {
 	}
 	
 	@Override
-	public int[] weakSidesToCheck(World world, BlockPos pos) {
+	public int[] weakSidesToCheck(World worldIn, BlockPos posIn) {
 		return new int[] {2, 3, 4, 5};
 	}
 	
@@ -95,25 +95,25 @@ public class TileFissionSource extends TileFissionPart {
 	}*/
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
 		boolean wasRedstonePowered = getIsRedstonePowered();
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		setActivity(getIsRedstonePowered());
-		if (!world.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
+		if (!worldIn.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
 			getLogic().onSourceUpdated(this);
 		}
 	}
 	
 	public PrimingTargetInfo getPrimingTarget(boolean simulate) {
-		EnumFacing facing = getPartPosition().getFacing();
-		if (facing == null) {
-			facing = this.facing;
-			if (facing == null) {
+		EnumFacing posFacing = getPartPosition().getFacing();
+		if (posFacing == null) {
+			posFacing = facing;
+			if (posFacing == null) {
 				return null;
 			}
 		}
-		EnumFacing dir = facing.getOpposite();
-		for (int i = 1; i <= fission_max_size; i++) {
+		EnumFacing dir = posFacing.getOpposite();
+		for (int i = 1; i <= fission_max_size; ++i) {
 			BlockPos offPos = pos.offset(dir, i);
 			BasicRecipe blockRecipe = RecipeHelper.blockRecipe(NCRecipes.fission_reflector, world, offPos);
 			if (blockRecipe != null && blockRecipe.getFissionReflectorReflectivity() >= 1D) {
@@ -121,7 +121,7 @@ public class TileFissionSource extends TileFissionPart {
 			}
 			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
 			// First check if source is blocked by a flux sink
-			if (component != null && component.isNullifyingSources(facing)) {
+			if (component != null && component.isNullifyingSources(posFacing)) {
 				return null;
 			}
 			if (component instanceof IFissionFuelComponent) {
@@ -129,7 +129,7 @@ public class TileFissionSource extends TileFissionPart {
 				if (simulate) {
 					return new PrimingTargetInfo(fuelComponent, false);
 				}
-				else if (fuelComponent.isAcceptingFlux(facing)) {
+				else if (fuelComponent.isAcceptingFlux(posFacing)) {
 					double oldSourceEfficiency = fuelComponent.getSourceEfficiency();
 					fuelComponent.setSourceEfficiency(efficiency, true);
 					return new PrimingTargetInfo(fuelComponent, oldSourceEfficiency != fuelComponent.getSourceEfficiency());

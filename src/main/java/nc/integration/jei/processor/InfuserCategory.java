@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class InfuserCategory extends JEIMachineCategory<JEIRecipeWrapper.Infuser> {
 	
-	public InfuserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public InfuserCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Infuser> handler) {
 		super(guiHelper, handler, "infuser", 45, 30, 102, 26);
 	}
 	

@@ -255,7 +255,7 @@ public class RadiationHandler {
 		String randomStructure = ModCheck.cubicChunksLoaded() || RadStructures.STRUCTURE_LIST.isEmpty() ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
 		
 		if (chunkArrSize > 0) {
-			for (int i = chunkStart; i < chunkStart + chunksPerTick; i++) {
+			for (int i = chunkStart; i < chunkStart + chunksPerTick; ++i) {
 				Chunk chunk = chunkArray[i % chunkArrSize];
 				if (!chunk.isLoaded()) {
 					continue;
@@ -267,7 +267,7 @@ public class RadiationHandler {
 				}
 				
 				ClassInheritanceMultiMap<Entity>[] entityListArray = chunk.getEntityLists();
-				for (int j = 0; j < entityListArray.length; j++) {
+				for (int j = 0; j < entityListArray.length; ++j) {
 					Entity[] entityArray = entityListArray[j].toArray(new Entity[entityListArray[j].size()]);
 					for (Entity entity : entityArray) {
 						if (entity instanceof EntityPlayer) {
@@ -372,11 +372,13 @@ public class RadiationHandler {
 				}
 				
 				double currentLevel = chunkSource.getRadiationLevel(), currentBuffer = chunkSource.getRadiationBuffer();
-				for (TileEntity tile : tileArray) {
-					if (tile instanceof ITileRadiationEnvironment) {
-						((ITileRadiationEnvironment) tile).setCurrentChunkRadiationLevel(currentLevel);
-						((ITileRadiationEnvironment) tile).setCurrentChunkRadiationBuffer(currentBuffer);
-						RadiationHelper.addScrubbingFractionToChunk(RadiationHelper.getRadiationSource(chunk), (ITileRadiationEnvironment) tile);
+				if (tileArray != null) {
+					for (TileEntity tile : tileArray) {
+						if (tile instanceof ITileRadiationEnvironment) {
+							((ITileRadiationEnvironment) tile).setCurrentChunkRadiationLevel(currentLevel);
+							((ITileRadiationEnvironment) tile).setCurrentChunkRadiationBuffer(currentBuffer);
+							RadiationHelper.addScrubbingFractionToChunk(RadiationHelper.getRadiationSource(chunk), (ITileRadiationEnvironment) tile);
+						}
 					}
 				}
 				
@@ -409,7 +411,7 @@ public class RadiationHandler {
 		}
 		
 		if (chunkArrSize > 0) {
-			for (int i = chunkStart; i < chunkStart + chunksPerTick; i++) {
+			for (int i = chunkStart; i < chunkStart + chunksPerTick; ++i) {
 				Chunk chunk = chunkArray[i % chunkArrSize];
 				// Emptying buffers here too!
 				RadiationHelper.spreadRadiationFromChunk(chunk, getRandomAdjacentChunk(chunkProvider, chunk));
@@ -450,7 +452,7 @@ public class RadiationHandler {
 	private static void mutateTerrain(World world, Chunk chunk, double radiation) {
 		long j = Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + radiation / RecipeStats.getBlockMutationThreshold()));
 		while (j > 0) {
-			j--;
+			--j;
 			BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
 			IBlockState state = world.getBlockState(randomChunkPos);
 			
@@ -471,7 +473,7 @@ public class RadiationHandler {
 		
 		j = radiation == 0D ? radiation_block_effect_max_rate : Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + RecipeStats.getBlockPurificationThreshold() / radiation));
 		while (j > 0) {
-			j--;
+			--j;
 			BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
 			IBlockState state = world.getBlockState(randomChunkPos);
 			ItemStack stack = StackHelper.blockStateToStack(state);
@@ -504,7 +506,7 @@ public class RadiationHandler {
 		
 		double soundChance = Math.cbrt(entityRads.getRawRadiationLevel() / 200D);
 		double soundVolume = MathHelper.clamp(8D * soundChance, 0.55D, 1.1D);
-		for (int i = 0; i < loops; i++) {
+		for (int i = 0; i < loops; ++i) {
 			if (RAND.nextDouble() < soundChance) {
 				player.playSound(NCSounds.geiger_tick, (float) ((soundVolume + RAND.nextDouble() * 0.12D) * radiation_sound_volumes[0]), 0.92F + RAND.nextFloat() * 0.16F);
 			}

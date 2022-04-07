@@ -242,13 +242,13 @@ public class OreDictHandler {
 	}
 	
 	public static void registerIsotopes(Item item, String name, int... types) {
-		for (int i = 0; i < types.length; i++) {
+		for (int i = 0; i < types.length; ++i) {
 			registerIsotopeAll(item, 5 * i, name + types[i]);
 		}
 	}
 	
 	public static void registerFuels(Item pellet, Item fuel, Item depleted, String... types) {
-		for (int i = 0; i < types.length; i++) {
+		for (int i = 0; i < types.length; ++i) {
 			registerOre(pellet, 2 * i, "ingot" + types[i]);
 			registerOre(pellet, 2 * i + 1, "ingot" + types[i] + "Carbide");
 			registerOre(fuel, 4 * i, "ingot" + types[i] + "TRISO");

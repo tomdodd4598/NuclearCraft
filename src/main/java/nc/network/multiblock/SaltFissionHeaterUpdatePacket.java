@@ -70,11 +70,11 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(time);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<SaltFissionHeaterUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<SaltFissionHeaterUpdatePacket, ITileGui<SaltFissionHeaterUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(SaltFissionHeaterUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(SaltFissionHeaterUpdatePacket message, ITileGui<SaltFissionHeaterUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

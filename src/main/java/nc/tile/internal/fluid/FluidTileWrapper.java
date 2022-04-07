@@ -1,5 +1,7 @@
 package nc.tile.internal.fluid;
 
+import javax.annotation.Nonnull;
+
 import nc.tile.fluid.ITileFluid;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
@@ -8,9 +10,9 @@ import net.minecraftforge.fluids.capability.*;
 public class FluidTileWrapper implements IFluidHandler {
 	
 	public final ITileFluid tile;
-	public final EnumFacing side;
+	public final @Nonnull EnumFacing side;
 	
-	public FluidTileWrapper(ITileFluid tile, EnumFacing side) {
+	public FluidTileWrapper(ITileFluid tile, @Nonnull EnumFacing side) {
 		this.tile = tile;
 		this.side = side;
 	}

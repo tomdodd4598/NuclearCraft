@@ -24,7 +24,7 @@ public class OreGenerator implements IWorldGenerator {
 	protected static class WorldGenOre extends WorldGenMinable {
 		
 		public WorldGenOre(int meta) {
-			super(((BlockMeta) NCBlocks.ore).getStateFromMeta(meta), ore_size[meta] + 2, new UniversalOrePredicate());
+			super(((BlockMeta<?>) NCBlocks.ore).getStateFromMeta(meta), ore_size[meta] + 2, new UniversalOrePredicate());
 		}
 	}
 	
@@ -34,7 +34,7 @@ public class OreGenerator implements IWorldGenerator {
 		}
 		
 		ores = new WorldGenOre[8];
-		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.OreType.values().length; ++i) {
 			ores[i] = new WorldGenOre(i);
 		}
 	}
@@ -47,7 +47,7 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	protected void generateOres(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.OreType.values().length; ++i) {
 			if (ore_gen[i]) {
 				generateOre(ores[i], world, random, chunkX, chunkZ, ore_rate[i], ore_min_height[i], ore_max_height[i]);
 			}
@@ -60,7 +60,7 @@ public class OreGenerator implements IWorldGenerator {
 		}
 		
 		int heightDiff = maxHeight - minHeight + 1;
-		for (int i = 0; i < chancesToSpawn; i++) {
+		for (int i = 0; i < chancesToSpawn; ++i) {
 			int x = chunk_X * 16 + rand.nextInt(16);
 			int y = minHeight + rand.nextInt(heightDiff);
 			int z = chunk_Z * 16 + rand.nextInt(16);

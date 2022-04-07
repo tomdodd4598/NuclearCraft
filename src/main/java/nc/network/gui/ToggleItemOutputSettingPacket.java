@@ -14,9 +14,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleItemOutputSettingPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int slot;
-	private int setting;
+	protected BlockPos pos;
+	protected int slot;
+	protected int setting;
 	
 	public ToggleItemOutputSettingPacket() {
 		

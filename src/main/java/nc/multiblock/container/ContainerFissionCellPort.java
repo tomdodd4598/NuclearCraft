@@ -16,19 +16,19 @@ public class ContainerFissionCellPort extends ContainerTile<TileFissionCellPort>
 		super(port);
 		this.port = port;
 		
-		port.beginUpdatingPlayer(player);
+		port.addTileUpdatePacketListener(player);
 		
 		addSlotToContainer(new SlotFiltered.ProcessorInput(port, NCRecipes.solid_fission, 0, 44, 35));
 		
 		addSlotToContainer(new SlotFurnace(player, port, 1, 116, 35));
 		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
 				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + 18 * i));
 			}
 		}
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; ++i) {
 			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142));
 		}
 	}
@@ -41,7 +41,7 @@ public class ContainerFissionCellPort extends ContainerTile<TileFissionCellPort>
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		port.stopUpdatingPlayer(player);
+		port.removeTileUpdatePacketListener(player);
 	}
 	
 	@Override

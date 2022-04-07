@@ -21,44 +21,44 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.*;
 
-public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidSidedInventory implements ITickable {
+public abstract class TileDummy<MASTER extends IDummyMaster> extends TileEnergyFluidSidedInventory implements ITickable {
 	
 	public BlockPos masterPosition = null;
 	protected final int updateRate;
 	
 	protected int checkCount;
 	
-	protected final Class<T> tClass;
+	protected final Class<MASTER> tClass;
 	
-	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids) {
+	public TileDummy(Class<MASTER> tClass, String name, int updateRate, List<String> allowedFluids) {
 		this(tClass, name, ITileInventory.inventoryConnectionAll(ItemSorption.NON), ITileEnergy.energyConnectionAll(EnergyConnection.NON), updateRate, allowedFluids, ITileFluid.fluidConnectionAll(TankSorption.NON));
 	}
 	
-	public TileDummy(Class<T> tClass, String name, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
+	public TileDummy(Class<MASTER> tClass, String name, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
 		this(tClass, name, ITileInventory.inventoryConnectionAll(ItemSorption.NON), energyConnections, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(TankSorption.NON));
 	}
 	
-	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+	public TileDummy(Class<MASTER> tClass, String name, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
 		this(tClass, name, ITileInventory.inventoryConnectionAll(ItemSorption.NON), ITileEnergy.energyConnectionAll(EnergyConnection.NON), updateRate, allowedFluids, fluidConnections);
 	}
 	
-	public TileDummy(Class<T> tClass, String name, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+	public TileDummy(Class<MASTER> tClass, String name, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
 		this(tClass, name, ITileInventory.inventoryConnectionAll(ItemSorption.NON), energyConnections, updateRate, allowedFluids, fluidConnections);
 	}
 	
-	public TileDummy(Class<T> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, int updateRate, List<String> allowedFluids) {
+	public TileDummy(Class<MASTER> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, int updateRate, List<String> allowedFluids) {
 		this(tClass, name, inventoryConnections, ITileEnergy.energyConnectionAll(EnergyConnection.NON), updateRate, allowedFluids, ITileFluid.fluidConnectionAll(TankSorption.NON));
 	}
 	
-	public TileDummy(Class<T> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
+	public TileDummy(Class<MASTER> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
 		this(tClass, name, inventoryConnections, energyConnections, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(TankSorption.NON));
 	}
 	
-	public TileDummy(Class<T> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+	public TileDummy(Class<MASTER> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
 		this(tClass, name, inventoryConnections, ITileEnergy.energyConnectionAll(EnergyConnection.NON), updateRate, allowedFluids, fluidConnections);
 	}
 	
-	public TileDummy(Class<T> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+	public TileDummy(Class<MASTER> tClass, String name, @Nonnull InventoryConnection[] inventoryConnections, @Nonnull EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
 		super(name, 1, inventoryConnections, 1, energyConnections, 1, allowedFluids, fluidConnections);
 		this.updateRate = updateRate;
 		this.tClass = tClass;
@@ -83,15 +83,15 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	public void tickDummy() {
-		checkCount++;
+		++checkCount;
 		checkCount %= updateRate;
 	}
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		if (hasMaster()) {
-			getMaster().onDummyNeighborChanged(state, world, pos, fromPos);
+			getMaster().onDummyNeighborChanged(state, worldIn, posIn, fromPos);
 		}
 	}
 	
@@ -155,7 +155,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
 		ITileInventory tile = getMaster() instanceof ITileInventory ? (ITileInventory) getMaster() : this;
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new ItemHandler(tile, side));
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new ItemHandler<>(tile, side));
 	}
 	
 	// ITileEnergy
@@ -366,13 +366,13 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		return isMaster(masterPosition);
 	}
 	
-	public boolean isMaster(BlockPos pos) {
-		return tClass.isInstance(world.getTileEntity(pos));
+	public boolean isMaster(BlockPos posIn) {
+		return tClass.isInstance(world.getTileEntity(posIn));
 	}
 	
-	public T getMaster() {
+	public MASTER getMaster() {
 		if (hasMaster()) {
-			return (T) world.getTileEntity(masterPosition);
+			return tClass.cast(world.getTileEntity(masterPosition));
 		}
 		return null;
 	}
@@ -410,7 +410,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	
 	@Override
 	public NBTTagCompound writeSlotSettings(NBTTagCompound nbt) {
-		for (int i = 0; i < super.getInventoryStacks().size(); i++) {
+		for (int i = 0; i < super.getInventoryStacks().size(); ++i) {
 			nbt.setInteger("itemOutputSetting" + i, super.getItemOutputSetting(i).ordinal());
 		}
 		return nbt;
@@ -418,14 +418,14 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	
 	@Override
 	public void readSlotSettings(NBTTagCompound nbt) {
-		for (int i = 0; i < super.getInventoryStacks().size(); i++) {
+		for (int i = 0; i < super.getInventoryStacks().size(); ++i) {
 			super.setItemOutputSetting(i, ItemOutputSetting.values()[nbt.getInteger("itemOutputSetting" + i)]);
 		}
 	}
 	
 	@Override
 	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
-		for (int i = 0; i < super.getTanks().size(); i++) {
+		for (int i = 0; i < super.getTanks().size(); ++i) {
 			super.getTanks().get(i).writeToNBT(nbt, "tanks" + i);
 		}
 		return nbt;
@@ -433,7 +433,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	
 	@Override
 	public void readTanks(NBTTagCompound nbt) {
-		for (int i = 0; i < super.getTanks().size(); i++) {
+		for (int i = 0; i < super.getTanks().size(); ++i) {
 			super.getTanks().get(i).readFromNBT(nbt, "tanks" + i);
 		}
 	}
@@ -459,7 +459,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	@Override
 	public NBTTagCompound writeTankSettings(NBTTagCompound nbt) {
 		nbt.setBoolean("inputTanksSeparated", super.getInputTanksSeparated());
-		for (int i = 0; i < super.getTanks().size(); i++) {
+		for (int i = 0; i < super.getTanks().size(); ++i) {
 			nbt.setBoolean("voidUnusableFluidInput" + i, super.getVoidUnusableFluidInput(i));
 			nbt.setInteger("tankOutputSetting" + i, super.getTankOutputSetting(i).ordinal());
 		}
@@ -469,7 +469,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	@Override
 	public void readTankSettings(NBTTagCompound nbt) {
 		super.setInputTanksSeparated(nbt.getBoolean("inputTanksSeparated"));
-		for (int i = 0; i < super.getTanks().size(); i++) {
+		for (int i = 0; i < super.getTanks().size(); ++i) {
 			super.setVoidUnusableFluidInput(i, nbt.getBoolean("voidUnusableFluidInput" + i));
 			int ordinal = nbt.hasKey("voidExcessFluidOutput" + i) ? nbt.getBoolean("voidExcessFluidOutput" + i) ? 1 : 0 : nbt.getInteger("tankOutputSetting" + i);
 			super.setTankOutputSetting(i, TankOutputSetting.values()[ordinal]);
@@ -489,7 +489,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	
 	@Override
 	public NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			nbt.setInteger("energyConnections" + i, super.getEnergyConnections()[i].ordinal());
 		}
 		return nbt;
@@ -498,7 +498,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	@Override
 	public void readEnergyConnections(NBTTagCompound nbt) {
 		if (super.hasConfigurableEnergyConnections()) {
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; ++i) {
 				if (nbt.hasKey("energyConnections" + i)) {
 					super.getEnergyConnections()[i] = EnergyConnection.values()[nbt.getInteger("energyConnections" + i)];
 				}

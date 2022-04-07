@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerFluidGenerator<GENERATOR extends IFluidGenerator & ITileGui> extends ContainerTile<GENERATOR> {
+public abstract class ContainerFluidGenerator<GENERATOR extends IFluidGenerator & ITileGui<?>> extends ContainerTile<GENERATOR> {
 	
 	protected final GENERATOR tile;
 	protected final BasicRecipeHandler recipeHandler;
@@ -18,7 +18,7 @@ public abstract class ContainerFluidGenerator<GENERATOR extends IFluidGenerator 
 		tile = tileEntity;
 		this.recipeHandler = recipeHandler;
 		
-		tileEntity.beginUpdatingPlayer(player);
+		tileEntity.addTileUpdatePacketListener(player);
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public abstract class ContainerFluidGenerator<GENERATOR extends IFluidGenerator 
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		tile.stopUpdatingPlayer(player);
+		tile.removeTileUpdatePacketListener(player);
 	}
 	
 	@Override

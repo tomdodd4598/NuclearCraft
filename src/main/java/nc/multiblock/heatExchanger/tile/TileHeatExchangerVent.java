@@ -64,7 +64,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITic
 	}
 	
 	public void tickVent() {
-		ventCount++;
+		++ventCount;
 		ventCount %= machine_update_rate / 4;
 	}
 	
@@ -176,13 +176,13 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITic
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}

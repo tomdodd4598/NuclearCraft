@@ -107,8 +107,8 @@ public class CentrifugeRecipes extends BasicRecipeHandler {
 		addReprocessingRecipe("hecf_251", "californium_252", 2, "californium_252", 2, "californium_252", 2, "californium_252", 1, "ruthenium_106", "europium_155", 1.5D, 60);
 	}
 	
-	public void addCoolantNAKRecipe(String name, int amount) {
-		addRecipe(fluidStack(name + "_nak", INGOT_VOLUME), fluidStack(name, amount), fluidStack("nak", INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
+	public void addCoolantNAKRecipe(String fluidName, int amount) {
+		addRecipe(fluidStack(fluidName + "_nak", INGOT_VOLUME), fluidStack(fluidName, amount), fluidStack("nak", INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 	}
 	
 	public void addFissionFuelIsotopeRecipes(String suffix, String element, int fertile, int... fissiles) {
@@ -130,8 +130,8 @@ public class CentrifugeRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
@@ -139,8 +139,8 @@ public class CentrifugeRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List getFactoredExtras(List extras, int factor) {
-		List factored = new ArrayList(extras);
+	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
+		List<Object> factored = new ArrayList<>(extras);
 		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}

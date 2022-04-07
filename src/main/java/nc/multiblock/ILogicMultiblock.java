@@ -8,7 +8,7 @@ import nc.multiblock.tile.ITileLogicMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface ILogicMultiblock<LOGIC extends MultiblockLogic, T extends ITileLogicMultiblockPart> {
+public interface ILogicMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILogicMultiblock<MULTIBLOCK, LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> extends IMultiblock<MULTIBLOCK, T> {
 	
 	public @Nonnull LOGIC getLogic();
 	

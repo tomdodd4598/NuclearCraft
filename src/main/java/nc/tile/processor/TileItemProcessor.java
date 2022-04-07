@@ -1,6 +1,6 @@
 package nc.tile.processor;
 
-import static nc.config.NCConfig.smart_processor_input;
+import static nc.config.NCConfig.*;
 
 import java.util.*;
 
@@ -13,7 +13,6 @@ import nc.init.NCItems;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
-import nc.tile.ITileGui;
 import nc.tile.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.inventory.*;
@@ -25,9 +24,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 
-public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, ITileGui<ProcessorUpdatePacket>, IUpgradable {
+public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, ITileSideConfigGui<ProcessorUpdatePacket>, IUpgradable {
 	
-	public final int defaultProcessTime, defaultProcessPower;
+	public final double defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
 	protected final int itemInputSize, itemOutputSize;
 	
@@ -35,43 +34,44 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
-	public final int processorID, sideConfigYOffset;
+	public final int processorID, sideConfigXOffset, sideConfigYOffset;
 	
 	public final BasicRecipeHandler recipeHandler;
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected Set<EntityPlayer> updatePacketListeners;
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
-		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeHandler, processorID, sideConfigYOffset);
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, double time, double power, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler, int processorID, int sideConfigXOffset, int sideConfigYOffset) {
+		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeHandler, processorID, sideConfigXOffset, sideConfigYOffset);
 	}
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull BasicRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, double time, double power, boolean shouldLoseProgress, boolean upgrades, @Nonnull BasicRecipeHandler recipeHandler, int processorID, int sideConfigXOffset, int sideConfigYOffset) {
 		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(processorID, 1D, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
-		defaultProcessTime = time;
-		defaultProcessPower = power;
-		baseProcessTime = time;
-		baseProcessPower = power;
+		defaultProcessTime = processor_time_multiplier * time;
+		defaultProcessPower = processor_power_multiplier * power;
+		baseProcessTime = processor_time_multiplier * time;
+		baseProcessPower = processor_power_multiplier * power;
 		
 		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
 		this.processorID = processorID;
+		this.sideConfigXOffset = sideConfigXOffset;
 		this.sideConfigYOffset = sideConfigYOffset;
 		
 		this.recipeHandler = recipeHandler;
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, boolean upgrades) {
 		List<ItemSorption> itemSorptions = new ArrayList<>();
-		for (int i = 0; i < inSize; i++) {
+		for (int i = 0; i < inSize; ++i) {
 			itemSorptions.add(ItemSorption.IN);
 		}
-		for (int i = 0; i < outSize; i++) {
+		for (int i = 0; i < outSize; ++i) {
 			itemSorptions.add(ItemSorption.OUT);
 		}
 		if (upgrades) {
@@ -112,9 +112,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				setActivity(isProcessing);
-				sendUpdateToAllPlayers();
+				sendTileUpdatePacketToAll();
 			}
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 			if (shouldUpdate) {
 				markDirty();
 			}
@@ -157,9 +157,10 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getBaseProcessTime(defaultProcessTime);
-		baseProcessPower = recipeInfo.getRecipe().getBaseProcessPower(defaultProcessPower);
-		baseProcessRadiation = recipeInfo.getRecipe().getBaseProcessRadiation();
+		BasicRecipe recipe = recipeInfo.getRecipe();
+		baseProcessTime = recipe.getBaseProcessTime(defaultProcessTime);
+		baseProcessPower = recipe.getBaseProcessPower(defaultProcessPower);
+		baseProcessRadiation = recipe.getBaseProcessRadiation();
 		return true;
 	}
 	
@@ -201,7 +202,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
 				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
 				continue;
@@ -254,7 +255,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			return;
 		}
 		
-		for (int i = 0; i < itemInputSize; i++) {
+		for (int i = 0; i < itemInputSize; ++i) {
 			int itemIngredientStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 			if (itemIngredientStackSize > 0) {
 				getInventoryStacks().get(i).shrink(itemIngredientStackSize);
@@ -263,7 +264,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 				getInventoryStacks().set(i, ItemStack.EMPTY);
 			}
 		}
-		for (int j = 0; j < itemOutputSize; j++) {
+		for (int j = 0; j < itemOutputSize; ++j) {
 			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
 				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
 				continue;
@@ -423,7 +424,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		if (slot >= itemInputSize) {
 			return false;
 		}
-		return smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+		return smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, recipeInfo, getItemInputs(), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(slot, stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
@@ -477,22 +478,27 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public ProcessorUpdatePacket getGuiUpdatePacket() {
+	public ProcessorUpdatePacket getTileUpdatePacket() {
 		return new ProcessorUpdatePacket(pos, isProcessing, time, getEnergyStored(), baseProcessTime, baseProcessPower, new ArrayList<>());
 	}
 	
 	@Override
-	public void onGuiPacket(ProcessorUpdatePacket message) {
+	public void onTileUpdatePacket(ProcessorUpdatePacket message) {
 		isProcessing = message.isProcessing;
 		time = message.time;
 		getEnergyStorage().setEnergyStored(message.energyStored);
 		baseProcessTime = message.baseProcessTime;
 		baseProcessPower = message.baseProcessPower;
+	}
+	
+	@Override
+	public int getSideConfigXOffset() {
+		return sideConfigXOffset;
 	}
 	
 	@Override

@@ -32,7 +32,7 @@ public abstract class NCBlockMushroom extends BlockMushroom {
 			int count = 0;
 			for (BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4))) {
 				if (world.getBlockState(blockpos).getBlock() == this) {
-					count++;
+					++count;
 					if (count > 4) {
 						return;
 					}
@@ -40,7 +40,7 @@ public abstract class NCBlockMushroom extends BlockMushroom {
 			}
 			
 			BlockPos spreadPos;
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; ++i) {
 				spreadPos = pos.add(rand.nextInt(4) - rand.nextInt(4), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(4) - rand.nextInt(4));
 				if (world.isAirBlock(spreadPos) && canBlockStay(world, spreadPos, getDefaultState())) {
 					world.setBlockState(spreadPos, getDefaultState(), 2);
@@ -234,7 +234,7 @@ public abstract class NCBlockMushroom extends BlockMushroom {
 							}
 						}
 						
-						for (int j = 0; j < i; j++) {
+						for (int j = 0; j < i; ++j) {
 							IBlockState iblockstate = worldIn.getBlockState(pos.up(j));
 							
 							if (iblockstate.getBlock().canBeReplacedByLeaves(iblockstate, worldIn, pos.up(j))) {
