@@ -281,20 +281,20 @@ tile.nuclearcraft.salt_fission_heater2.cryotheum.name=凛冰裂变冷却剂加�
 
 tile.nuclearcraft.salt_fission_heater.cooling_rate=冷却速率：
 
-tile.nuclearcraft.heat_exchanger_controller.name=热交换机控制器（多方块结构未完成！）
-tile.nuclearcraft.heat_exchanger_casing.name=热交换机外壳
-tile.nuclearcraft.heat_exchanger_glass.name=透明热交换机外壳
-tile.nuclearcraft.heat_exchanger_vent.name=热交换机出入口
+tile.nuclearcraft.heat_exchanger_controller.name=热交换器控制器（多方块结构未完成！）
+tile.nuclearcraft.heat_exchanger_casing.name=热交换器外壳
+tile.nuclearcraft.heat_exchanger_glass.name=透明热交换器外壳
+tile.nuclearcraft.heat_exchanger_vent.name=热交换器出入口
 tile.nuclearcraft.heat_exchanger_vent.desc=用于热交换流体的输入输出。由 [接收] 管道接收 [推动] 管道的内容物。
 tile.nuclearcraft.heat_exchanger_tube_copper.name=铜热交换管道
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=硬碳合金热交换管道
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=导热合金热交换管道
 tile.nuclearcraft.heat_exchanger_tube.fixd=导热倍率：%s
 tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如果正在加热/冷却并且与另一个正在冷却/加热的热交换管道相邻，那么其将会以与另一个管道的配方温差成正比的速率接收更多的热量/被以该速率提取热量。如果被冷却的流体的输出温度低于被加热的流体的输出温度，则相邻的管道流向不得平行。潜行以已存在的热交换管道为基础放置另一个热交换管道以复制其侧面配置。
-tile.nuclearcraft.heat_exchanger_computer_port.name=热交换机电脑端口
-tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电脑来操控热交换机。
+tile.nuclearcraft.heat_exchanger_computer_port.name=热交换器电脑端口
+tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电脑来操控热交换器。
 
-tile.nuclearcraft.condenser_controller.name=冷凝机控制器（多方块结构未完成！）
+tile.nuclearcraft.condenser_controller.name=冷凝器控制器（多方块结构未完成！）
 tile.nuclearcraft.condenser_tube_copper.name=铜冷凝管道
 tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳合金冷凝管道
 tile.nuclearcraft.condenser_tube_thermoconducting.name=导热合金冷凝管道
@@ -708,8 +708,8 @@ fluid.manganese_dioxide=熔融二氧化锰
 tile.nuclearcraft.fluid_alugentum.name=熔融银铝
 fluid.alugentum=熔融银铝
 
-tile.nuclearcraft.fluid_alumina.name=熔融铁矾土
-fluid.alumina=熔融铁矾土
+tile.nuclearcraft.fluid_alumina.name=熔融矾土
+fluid.alumina=熔融矾土
 
 tile.nuclearcraft.fluid_strontium_90.name=熔融锶-90
 fluid.strontium_90=熔融锶-90
@@ -1072,248 +1072,248 @@ fluid.hecf_251_fluoride_flibe=熔融高浓缩锎-251 氟化物燃料氟锂铍盐
 tile.nuclearcraft.fluid_hecf_251_za.name=熔融高浓缩锎-251-锆合金
 fluid.hecf_251_za=熔融高浓缩锎-251-锆合金
 
-tile.nuclearcraft.fluid_depleted_tbu.name=熔融枯竭钍增殖铀燃料
-fluid.depleted_tbu=熔融枯竭钍增殖铀燃料
-tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=熔融枯竭钍增殖铀 氟化物
-fluid.depleted_tbu_fluoride=熔融枯竭钍增殖铀 氟化物
-tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=熔融枯竭钍增殖铀 氟化物燃料氟锂铍盐溶液
-fluid.depleted_tbu_fluoride_flibe=熔融枯竭钍增殖铀 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_tbu_za.name=熔融枯竭钍增殖铀-锆合金
-fluid.depleted_tbu_za=熔融枯竭钍增殖铀-锆合金
+tile.nuclearcraft.fluid_depleted_tbu.name=熔融枯竭 钍增殖铀燃料
+fluid.depleted_tbu=熔融枯竭 钍增殖铀燃料
+tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=熔融枯竭 钍增殖铀 氟化物
+fluid.depleted_tbu_fluoride=熔融枯竭 钍增殖铀 氟化物
+tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=熔融枯竭 钍增殖铀 氟化物燃料氟锂铍盐溶液
+fluid.depleted_tbu_fluoride_flibe=熔融枯竭 钍增殖铀 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_tbu_za.name=熔融枯竭 钍增殖铀-锆合金
+fluid.depleted_tbu_za=熔融枯竭 钍增殖铀-锆合金
 
-tile.nuclearcraft.fluid_depleted_leu_233.name=熔融枯竭低浓缩铀-233
-fluid.depleted_leu_233=熔融枯竭低浓缩铀-233
-tile.nuclearcraft.fluid_depleted_leu_233_fluoride.name=熔融枯竭低浓缩铀-233 氟化物
-fluid.depleted_leu_233_fluoride=熔融枯竭低浓缩铀-233 氟化物
-tile.nuclearcraft.fluid_depleted_leu_233_fluoride_flibe.name=熔融枯竭低浓缩铀-233 氟化物燃料氟锂铍盐溶液
-fluid.depleted_leu_233_fluoride_flibe=熔融枯竭低浓缩铀-233 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_leu_233_za.name=熔融枯竭低浓缩铀-233-锆合金
-fluid.depleted_leu_233_za=熔融枯竭低浓缩铀-233-锆合金
+tile.nuclearcraft.fluid_depleted_leu_233.name=熔融枯竭 低浓缩铀-233
+fluid.depleted_leu_233=熔融枯竭 低浓缩铀-233
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride.name=熔融枯竭 低浓缩铀-233 氟化物
+fluid.depleted_leu_233_fluoride=熔融枯竭 低浓缩铀-233 氟化物
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride_flibe.name=熔融枯竭 低浓缩铀-233 氟化物燃料氟锂铍盐溶液
+fluid.depleted_leu_233_fluoride_flibe=熔融枯竭 低浓缩铀-233 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_leu_233_za.name=熔融枯竭 低浓缩铀-233-锆合金
+fluid.depleted_leu_233_za=熔融枯竭 低浓缩铀-233-锆合金
 
-tile.nuclearcraft.fluid_depleted_heu_233.name=熔融枯竭高浓缩铀-233
-fluid.depleted_heu_233=熔融枯竭高浓缩铀-233
-tile.nuclearcraft.fluid_depleted_heu_233_fluoride.name=熔融枯竭高浓缩铀-233 氟化物
-fluid.depleted_heu_233_fluoride=熔融枯竭高浓缩铀-233 氟化物
-tile.nuclearcraft.fluid_depleted_heu_233_fluoride_flibe.name=熔融枯竭高浓缩铀-233 氟化物燃料氟锂铍盐溶液
-fluid.depleted_heu_233_fluoride_flibe=熔融枯竭高浓缩铀-233 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_heu_233_za.name=熔融枯竭高浓缩铀-233-锆合金
-fluid.depleted_heu_233_za=熔融枯竭高浓缩铀-233-锆合金
+tile.nuclearcraft.fluid_depleted_heu_233.name=熔融枯竭 高浓缩铀-233
+fluid.depleted_heu_233=熔融枯竭 高浓缩铀-233
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride.name=熔融枯竭 高浓缩铀-233 氟化物
+fluid.depleted_heu_233_fluoride=熔融枯竭 高浓缩铀-233 氟化物
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride_flibe.name=熔融枯竭 高浓缩铀-233 氟化物燃料氟锂铍盐溶液
+fluid.depleted_heu_233_fluoride_flibe=熔融枯竭 高浓缩铀-233 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_heu_233_za.name=熔融枯竭 高浓缩铀-233-锆合金
+fluid.depleted_heu_233_za=熔融枯竭 高浓缩铀-233-锆合金
 
-tile.nuclearcraft.fluid_depleted_leu_235.name=熔融枯竭低浓缩铀-235
-fluid.depleted_leu_235=熔融枯竭低浓缩铀-235
-tile.nuclearcraft.fluid_depleted_leu_235_fluoride.name=熔融枯竭低浓缩铀-235 氟化物
-fluid.depleted_leu_235_fluoride=熔融枯竭低浓缩铀-235 氟化物
-tile.nuclearcraft.fluid_depleted_leu_235_fluoride_flibe.name=熔融枯竭低浓缩铀-235 氟化物燃料氟锂铍盐溶液
-fluid.depleted_leu_235_fluoride_flibe=熔融枯竭低浓缩铀-235 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_leu_235_za.name=熔融枯竭低浓缩铀-235-锆合金
-fluid.depleted_leu_235_za=熔融枯竭低浓缩铀-235-锆合金
+tile.nuclearcraft.fluid_depleted_leu_235.name=熔融枯竭 低浓缩铀-235
+fluid.depleted_leu_235=熔融枯竭 低浓缩铀-235
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride.name=熔融枯竭 低浓缩铀-235 氟化物
+fluid.depleted_leu_235_fluoride=熔融枯竭 低浓缩铀-235 氟化物
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride_flibe.name=熔融枯竭 低浓缩铀-235 氟化物燃料氟锂铍盐溶液
+fluid.depleted_leu_235_fluoride_flibe=熔融枯竭 低浓缩铀-235 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_leu_235_za.name=熔融枯竭 低浓缩铀-235-锆合金
+fluid.depleted_leu_235_za=熔融枯竭 低浓缩铀-235-锆合金
 
-tile.nuclearcraft.fluid_depleted_heu_235.name=熔融枯竭高浓缩铀-235
-fluid.depleted_heu_235=熔融枯竭高浓缩铀-235
-tile.nuclearcraft.fluid_depleted_heu_235_fluoride.name=熔融枯竭高浓缩铀-235 氟化物
-fluid.depleted_heu_235_fluoride=熔融枯竭高浓缩铀-235 氟化物
-tile.nuclearcraft.fluid_depleted_heu_235_fluoride_flibe.name=熔融枯竭高浓缩铀-235 氟化物燃料氟锂铍盐溶液
-fluid.depleted_heu_235_fluoride_flibe=熔融枯竭高浓缩铀-235 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_heu_235_za.name=熔融枯竭高浓缩铀-235-锆合金
-fluid.depleted_heu_235_za=熔融枯竭高浓缩铀-235-锆合金
+tile.nuclearcraft.fluid_depleted_heu_235.name=熔融枯竭 高浓缩铀-235
+fluid.depleted_heu_235=熔融枯竭 高浓缩铀-235
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride.name=熔融枯竭 高浓缩铀-235 氟化物
+fluid.depleted_heu_235_fluoride=熔融枯竭 高浓缩铀-235 氟化物
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride_flibe.name=熔融枯竭 高浓缩铀-235 氟化物燃料氟锂铍盐溶液
+fluid.depleted_heu_235_fluoride_flibe=熔融枯竭 高浓缩铀-235 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_heu_235_za.name=熔融枯竭 高浓缩铀-235-锆合金
+fluid.depleted_heu_235_za=熔融枯竭 高浓缩铀-235-锆合金
 
-tile.nuclearcraft.fluid_depleted_len_236.name=熔融枯竭低浓缩镎-236
-fluid.depleted_len_236=熔融枯竭低浓缩镎-236
-tile.nuclearcraft.fluid_depleted_len_236_fluoride.name=熔融枯竭低浓缩镎-236 氟化物
-fluid.depleted_len_236_fluoride=熔融枯竭低浓缩镎-236 氟化物
-tile.nuclearcraft.fluid_depleted_len_236_fluoride_flibe.name=熔融枯竭低浓缩镎-236 氟化物燃料氟锂铍盐溶液
-fluid.depleted_len_236_fluoride_flibe=熔融枯竭低浓缩镎-236 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_len_236_za.name=熔融枯竭低浓缩镎-236-锆合金
-fluid.depleted_len_236_za=熔融枯竭低浓缩镎-236-锆合金
+tile.nuclearcraft.fluid_depleted_len_236.name=熔融枯竭 低浓缩镎-236
+fluid.depleted_len_236=熔融枯竭 低浓缩镎-236
+tile.nuclearcraft.fluid_depleted_len_236_fluoride.name=熔融枯竭 低浓缩镎-236 氟化物
+fluid.depleted_len_236_fluoride=熔融枯竭 低浓缩镎-236 氟化物
+tile.nuclearcraft.fluid_depleted_len_236_fluoride_flibe.name=熔融枯竭 低浓缩镎-236 氟化物燃料氟锂铍盐溶液
+fluid.depleted_len_236_fluoride_flibe=熔融枯竭 低浓缩镎-236 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_len_236_za.name=熔融枯竭 低浓缩镎-236-锆合金
+fluid.depleted_len_236_za=熔融枯竭 低浓缩镎-236-锆合金
 
-tile.nuclearcraft.fluid_depleted_hen_236.name=熔融枯竭高浓缩镎-236
-fluid.depleted_hen_236=熔融枯竭高浓缩镎-236
-tile.nuclearcraft.fluid_depleted_hen_236_fluoride.name=熔融枯竭高浓缩镎-236 氟化物
-fluid.depleted_hen_236_fluoride=熔融枯竭高浓缩镎-236 氟化物
-tile.nuclearcraft.fluid_depleted_hen_236_fluoride_flibe.name=熔融枯竭高浓缩镎-236 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hen_236_fluoride_flibe=熔融枯竭高浓缩镎-236 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hen_236_za.name=熔融枯竭高浓缩镎-236-锆合金
-fluid.depleted_hen_236_za=熔融枯竭高浓缩镎-236-锆合金
+tile.nuclearcraft.fluid_depleted_hen_236.name=熔融枯竭 高浓缩镎-236
+fluid.depleted_hen_236=熔融枯竭 高浓缩镎-236
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride.name=熔融枯竭 高浓缩镎-236 氟化物
+fluid.depleted_hen_236_fluoride=熔融枯竭 高浓缩镎-236 氟化物
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride_flibe.name=熔融枯竭 高浓缩镎-236 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hen_236_fluoride_flibe=熔融枯竭 高浓缩镎-236 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hen_236_za.name=熔融枯竭 高浓缩镎-236-锆合金
+fluid.depleted_hen_236_za=熔融枯竭 高浓缩镎-236-锆合金
 
-tile.nuclearcraft.fluid_depleted_lep_239.name=熔融枯竭低浓缩钚-239
-fluid.depleted_lep_239=熔融枯竭低浓缩钚-239
-tile.nuclearcraft.fluid_depleted_lep_239_fluoride.name=熔融枯竭低浓缩钚-239 氟化物
-fluid.depleted_lep_239_fluoride=熔融枯竭低浓缩钚-239 氟化物
-tile.nuclearcraft.fluid_depleted_lep_239_fluoride_flibe.name=熔融枯竭低浓缩钚-239 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lep_239_fluoride_flibe=熔融枯竭低浓缩钚-239 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lep_239_za.name=熔融枯竭低浓缩钚-239-锆合金
-fluid.depleted_lep_239_za=熔融枯竭低浓缩钚-239-锆合金
+tile.nuclearcraft.fluid_depleted_lep_239.name=熔融枯竭 低浓缩钚-239
+fluid.depleted_lep_239=熔融枯竭 低浓缩钚-239
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride.name=熔融枯竭 低浓缩钚-239 氟化物
+fluid.depleted_lep_239_fluoride=熔融枯竭 低浓缩钚-239 氟化物
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride_flibe.name=熔融枯竭 低浓缩钚-239 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lep_239_fluoride_flibe=熔融枯竭 低浓缩钚-239 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lep_239_za.name=熔融枯竭 低浓缩钚-239-锆合金
+fluid.depleted_lep_239_za=熔融枯竭 低浓缩钚-239-锆合金
 
-tile.nuclearcraft.fluid_depleted_hep_239.name=熔融枯竭高浓缩钚-239
-fluid.depleted_hep_239=熔融枯竭高浓缩钚-239
-tile.nuclearcraft.fluid_depleted_hep_239_fluoride.name=熔融枯竭高浓缩钚-239 氟化物
-fluid.depleted_hep_239_fluoride=熔融枯竭高浓缩钚-239 氟化物
-tile.nuclearcraft.fluid_depleted_hep_239_fluoride_flibe.name=熔融枯竭高浓缩钚-239 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hep_239_fluoride_flibe=熔融枯竭高浓缩钚-239 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hep_239_za.name=熔融枯竭高浓缩钚-239-锆合金
-fluid.depleted_hep_239_za=熔融枯竭高浓缩钚-239-锆合金
+tile.nuclearcraft.fluid_depleted_hep_239.name=熔融枯竭 高浓缩钚-239
+fluid.depleted_hep_239=熔融枯竭 高浓缩钚-239
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride.name=熔融枯竭 高浓缩钚-239 氟化物
+fluid.depleted_hep_239_fluoride=熔融枯竭 高浓缩钚-239 氟化物
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride_flibe.name=熔融枯竭 高浓缩钚-239 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hep_239_fluoride_flibe=熔融枯竭 高浓缩钚-239 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hep_239_za.name=熔融枯竭 高浓缩钚-239-锆合金
+fluid.depleted_hep_239_za=熔融枯竭 高浓缩钚-239-锆合金
 
-tile.nuclearcraft.fluid_depleted_lep_241.name=熔融枯竭低浓缩钚-241
-fluid.depleted_lep_241=熔融枯竭低浓缩钚-241
-tile.nuclearcraft.fluid_depleted_lep_241_fluoride.name=熔融枯竭低浓缩钚-241 氟化物
-fluid.depleted_lep_241_fluoride=熔融枯竭低浓缩钚-241 氟化物
-tile.nuclearcraft.fluid_depleted_lep_241_fluoride_flibe.name=熔融枯竭低浓缩钚-241 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lep_241_fluoride_flibe=熔融枯竭低浓缩钚-241 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lep_241_za.name=熔融枯竭低浓缩钚-241-锆合金
-fluid.depleted_lep_241_za=熔融枯竭低浓缩钚-241-锆合金
+tile.nuclearcraft.fluid_depleted_lep_241.name=熔融枯竭 低浓缩钚-241
+fluid.depleted_lep_241=熔融枯竭 低浓缩钚-241
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride.name=熔融枯竭 低浓缩钚-241 氟化物
+fluid.depleted_lep_241_fluoride=熔融枯竭 低浓缩钚-241 氟化物
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride_flibe.name=熔融枯竭 低浓缩钚-241 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lep_241_fluoride_flibe=熔融枯竭 低浓缩钚-241 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lep_241_za.name=熔融枯竭 低浓缩钚-241-锆合金
+fluid.depleted_lep_241_za=熔融枯竭 低浓缩钚-241-锆合金
 
-tile.nuclearcraft.fluid_depleted_hep_241.name=熔融枯竭高浓缩钚-241
-fluid.depleted_hep_241=熔融枯竭高浓缩钚-241
-tile.nuclearcraft.fluid_depleted_hep_241_fluoride.name=熔融枯竭高浓缩钚-241 氟化物
-fluid.depleted_hep_241_fluoride=熔融枯竭高浓缩钚-241 氟化物
-tile.nuclearcraft.fluid_depleted_hep_241_fluoride_flibe.name=熔融枯竭高浓缩钚-241 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hep_241_fluoride_flibe=熔融枯竭高浓缩钚-241 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hep_241_za.name=熔融枯竭高浓缩钚-241-锆合金
-fluid.depleted_hep_241_za=熔融枯竭高浓缩钚-241-锆合金
+tile.nuclearcraft.fluid_depleted_hep_241.name=熔融枯竭 高浓缩钚-241
+fluid.depleted_hep_241=熔融枯竭 高浓缩钚-241
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride.name=熔融枯竭 高浓缩钚-241 氟化物
+fluid.depleted_hep_241_fluoride=熔融枯竭 高浓缩钚-241 氟化物
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride_flibe.name=熔融枯竭 高浓缩钚-241 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hep_241_fluoride_flibe=熔融枯竭 高浓缩钚-241 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hep_241_za.name=熔融枯竭 高浓缩钚-241-锆合金
+fluid.depleted_hep_241_za=熔融枯竭 高浓缩钚-241-锆合金
 
-tile.nuclearcraft.fluid_depleted_mix_239.name=熔融枯竭混合燃料-239
-fluid.depleted_mix_239=熔融枯竭混合燃料-239
-tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭混合燃料氟化物-239
-fluid.depleted_mix_239_fluoride=熔融枯竭混合燃料氟化物-239
-tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭混合燃料氟化物-239
-fluid.depleted_mix_239_fluoride_flibe=熔融枯竭混合燃料氟化物-239
-tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭混合燃料锆合金-239
-fluid.depleted_mix_239_za=熔融枯竭混合燃料锆合金-239
+tile.nuclearcraft.fluid_depleted_mix_239.name=熔融枯竭 混合燃料-239
+fluid.depleted_mix_239=熔融枯竭 混合燃料-239
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=熔融枯竭 混合燃料氟化物-239
+fluid.depleted_mix_239_fluoride=熔融枯竭 混合燃料氟化物-239
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=熔融枯竭 混合燃料氟化物-239
+fluid.depleted_mix_239_fluoride_flibe=熔融枯竭 混合燃料氟化物-239
+tile.nuclearcraft.fluid_depleted_mix_239_za.name=熔融枯竭 混合燃料锆合金-239
+fluid.depleted_mix_239_za=熔融枯竭 混合燃料锆合金-239
 
-tile.nuclearcraft.fluid_depleted_mix_241.name=熔融枯竭混合燃料-241
-fluid.depleted_mix_241=熔融枯竭混合燃料-241
-tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭混合燃料氟化物-241
-fluid.depleted_mix_241_fluoride=熔融枯竭混合燃料氟化物-241
-tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭混合燃料氟化物-241
-fluid.depleted_mix_241_fluoride_flibe=熔融枯竭混合燃料氟化物-241
-tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭混合燃料锆合金-241
-fluid.depleted_mix_241_za=熔融枯竭混合燃料锆合金-241
+tile.nuclearcraft.fluid_depleted_mix_241.name=熔融枯竭 混合燃料-241
+fluid.depleted_mix_241=熔融枯竭 混合燃料-241
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=熔融枯竭 混合燃料氟化物-241
+fluid.depleted_mix_241_fluoride=熔融枯竭 混合燃料氟化物-241
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=熔融枯竭 混合燃料氟化物-241
+fluid.depleted_mix_241_fluoride_flibe=熔融枯竭 混合燃料氟化物-241
+tile.nuclearcraft.fluid_depleted_mix_241_za.name=熔融枯竭 混合燃料锆合金-241
+fluid.depleted_mix_241_za=熔融枯竭 混合燃料锆合金-241
 
-tile.nuclearcraft.fluid_depleted_lea_242.name=熔融枯竭低浓缩镅-242
-fluid.depleted_lea_242=熔融枯竭低浓缩镅-242
-tile.nuclearcraft.fluid_depleted_lea_242_fluoride.name=熔融枯竭低浓缩镅-242 氟化物
-fluid.depleted_lea_242_fluoride=熔融枯竭低浓缩镅-242 氟化物
-tile.nuclearcraft.fluid_depleted_lea_242_fluoride_flibe.name=熔融枯竭低浓缩镅-242 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lea_242_fluoride_flibe=熔融枯竭低浓缩镅-242 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lea_242_za.name=熔融枯竭低浓缩镅-242-锆合金
-fluid.depleted_lea_242_za=熔融枯竭低浓缩镅-242-锆合金
+tile.nuclearcraft.fluid_depleted_lea_242.name=熔融枯竭 低浓缩镅-242
+fluid.depleted_lea_242=熔融枯竭 低浓缩镅-242
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride.name=熔融枯竭 低浓缩镅-242 氟化物
+fluid.depleted_lea_242_fluoride=熔融枯竭 低浓缩镅-242 氟化物
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride_flibe.name=熔融枯竭 低浓缩镅-242 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lea_242_fluoride_flibe=熔融枯竭 低浓缩镅-242 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lea_242_za.name=熔融枯竭 低浓缩镅-242-锆合金
+fluid.depleted_lea_242_za=熔融枯竭 低浓缩镅-242-锆合金
 
-tile.nuclearcraft.fluid_depleted_hea_242.name=熔融枯竭高浓缩镅-242
-fluid.depleted_hea_242=熔融枯竭高浓缩镅-242
-tile.nuclearcraft.fluid_depleted_hea_242_fluoride.name=熔融枯竭高浓缩镅-242 氟化物
-fluid.depleted_hea_242_fluoride=熔融枯竭高浓缩镅-242 氟化物
-tile.nuclearcraft.fluid_depleted_hea_242_fluoride_flibe.name=熔融枯竭高浓缩镅-242 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hea_242_fluoride_flibe=熔融枯竭高浓缩镅-242 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hea_242_za.name=熔融枯竭高浓缩镅-242-锆合金
-fluid.depleted_hea_242_za=熔融枯竭高浓缩镅-242-锆合金
+tile.nuclearcraft.fluid_depleted_hea_242.name=熔融枯竭 高浓缩镅-242
+fluid.depleted_hea_242=熔融枯竭 高浓缩镅-242
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride.name=熔融枯竭 高浓缩镅-242 氟化物
+fluid.depleted_hea_242_fluoride=熔融枯竭 高浓缩镅-242 氟化物
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride_flibe.name=熔融枯竭 高浓缩镅-242 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hea_242_fluoride_flibe=熔融枯竭 高浓缩镅-242 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hea_242_za.name=熔融枯竭 高浓缩镅-242-锆合金
+fluid.depleted_hea_242_za=熔融枯竭 高浓缩镅-242-锆合金
 
-tile.nuclearcraft.fluid_depleted_lecm_243.name=熔融枯竭低浓缩锔-243
-fluid.depleted_lecm_243=熔融枯竭低浓缩锔-243
-tile.nuclearcraft.fluid_depleted_lecm_243_fluoride.name=熔融枯竭低浓缩锔-243 氟化物
-fluid.depleted_lecm_243_fluoride=熔融枯竭低浓缩锔-243 氟化物
-tile.nuclearcraft.fluid_depleted_lecm_243_fluoride_flibe.name=熔融枯竭低浓缩锔-243 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lecm_243_fluoride_flibe=熔融枯竭低浓缩锔-243 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lecm_243_za.name=熔融枯竭低浓缩锔-243-锆合金
-fluid.depleted_lecm_243_za=熔融枯竭低浓缩锔-243-锆合金
+tile.nuclearcraft.fluid_depleted_lecm_243.name=熔融枯竭 低浓缩锔-243
+fluid.depleted_lecm_243=熔融枯竭 低浓缩锔-243
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride.name=熔融枯竭 低浓缩锔-243 氟化物
+fluid.depleted_lecm_243_fluoride=熔融枯竭 低浓缩锔-243 氟化物
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride_flibe.name=熔融枯竭 低浓缩锔-243 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lecm_243_fluoride_flibe=熔融枯竭 低浓缩锔-243 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lecm_243_za.name=熔融枯竭 低浓缩锔-243-锆合金
+fluid.depleted_lecm_243_za=熔融枯竭 低浓缩锔-243-锆合金
 
-tile.nuclearcraft.fluid_depleted_hecm_243.name=熔融枯竭高浓缩锔-243
-fluid.depleted_hecm_243=熔融枯竭高浓缩锔-243
-tile.nuclearcraft.fluid_depleted_hecm_243_fluoride.name=熔融枯竭高浓缩锔-243 氟化物
-fluid.depleted_hecm_243_fluoride=熔融枯竭高浓缩锔-243 氟化物
-tile.nuclearcraft.fluid_depleted_hecm_243_fluoride_flibe.name=熔融枯竭高浓缩锔-243 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hecm_243_fluoride_flibe=熔融枯竭高浓缩锔-243 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hecm_243_za.name=熔融枯竭高浓缩锔-243-锆合金
-fluid.depleted_hecm_243_za=熔融枯竭高浓缩锔-243-锆合金
+tile.nuclearcraft.fluid_depleted_hecm_243.name=熔融枯竭 高浓缩锔-243
+fluid.depleted_hecm_243=熔融枯竭 高浓缩锔-243
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride.name=熔融枯竭 高浓缩锔-243 氟化物
+fluid.depleted_hecm_243_fluoride=熔融枯竭 高浓缩锔-243 氟化物
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride_flibe.name=熔融枯竭 高浓缩锔-243 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hecm_243_fluoride_flibe=熔融枯竭 高浓缩锔-243 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hecm_243_za.name=熔融枯竭 高浓缩锔-243-锆合金
+fluid.depleted_hecm_243_za=熔融枯竭 高浓缩锔-243-锆合金
 
-tile.nuclearcraft.fluid_depleted_lecm_245.name=熔融枯竭低浓缩锔-245
-fluid.depleted_lecm_245=熔融枯竭低浓缩锔-245
-tile.nuclearcraft.fluid_depleted_lecm_245_fluoride.name=熔融枯竭低浓缩锔-245 氟化物
-fluid.depleted_lecm_245_fluoride=熔融枯竭低浓缩锔-245 氟化物
-tile.nuclearcraft.fluid_depleted_lecm_245_fluoride_flibe.name=熔融枯竭低浓缩锔-245 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lecm_245_fluoride_flibe=熔融枯竭低浓缩锔-245 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lecm_245_za.name=熔融枯竭低浓缩锔-245-锆合金
-fluid.depleted_lecm_245_za=熔融枯竭低浓缩锔-245-锆合金
+tile.nuclearcraft.fluid_depleted_lecm_245.name=熔融枯竭 低浓缩锔-245
+fluid.depleted_lecm_245=熔融枯竭 低浓缩锔-245
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride.name=熔融枯竭 低浓缩锔-245 氟化物
+fluid.depleted_lecm_245_fluoride=熔融枯竭 低浓缩锔-245 氟化物
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride_flibe.name=熔融枯竭 低浓缩锔-245 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lecm_245_fluoride_flibe=熔融枯竭 低浓缩锔-245 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lecm_245_za.name=熔融枯竭 低浓缩锔-245-锆合金
+fluid.depleted_lecm_245_za=熔融枯竭 低浓缩锔-245-锆合金
 
-tile.nuclearcraft.fluid_depleted_hecm_245.name=熔融枯竭高浓缩锔-245
-fluid.depleted_hecm_245=熔融枯竭高浓缩锔-245
-tile.nuclearcraft.fluid_depleted_hecm_245_fluoride.name=熔融枯竭高浓缩锔-245 氟化物
-fluid.depleted_hecm_245_fluoride=熔融枯竭高浓缩锔-245 氟化物
-tile.nuclearcraft.fluid_depleted_hecm_245_fluoride_flibe.name=熔融枯竭高浓缩锔-245 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hecm_245_fluoride_flibe=熔融枯竭高浓缩锔-245 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hecm_245_za.name=熔融枯竭高浓缩锔-245-锆合金
-fluid.depleted_hecm_245_za=熔融枯竭高浓缩锔-245-锆合金
+tile.nuclearcraft.fluid_depleted_hecm_245.name=熔融枯竭 高浓缩锔-245
+fluid.depleted_hecm_245=熔融枯竭 高浓缩锔-245
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride.name=熔融枯竭 高浓缩锔-245 氟化物
+fluid.depleted_hecm_245_fluoride=熔融枯竭 高浓缩锔-245 氟化物
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride_flibe.name=熔融枯竭 高浓缩锔-245 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hecm_245_fluoride_flibe=熔融枯竭 高浓缩锔-245 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hecm_245_za.name=熔融枯竭 高浓缩锔-245-锆合金
+fluid.depleted_hecm_245_za=熔融枯竭 高浓缩锔-245-锆合金
 
-tile.nuclearcraft.fluid_depleted_lecm_247.name=熔融枯竭低浓缩锔-247
-fluid.depleted_lecm_247=熔融枯竭低浓缩锔-247
-tile.nuclearcraft.fluid_depleted_lecm_247_fluoride.name=熔融枯竭低浓缩锔-247 氟化物
-fluid.depleted_lecm_247_fluoride=熔融枯竭低浓缩锔-247 氟化物
-tile.nuclearcraft.fluid_depleted_lecm_247_fluoride_flibe.name=熔融枯竭低浓缩锔-247 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lecm_247_fluoride_flibe=熔融枯竭低浓缩锔-247 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lecm_247_za.name=熔融枯竭低浓缩锔-247-锆合金
-fluid.depleted_lecm_247_za=熔融枯竭低浓缩锔-247-锆合金
+tile.nuclearcraft.fluid_depleted_lecm_247.name=熔融枯竭 低浓缩锔-247
+fluid.depleted_lecm_247=熔融枯竭 低浓缩锔-247
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride.name=熔融枯竭 低浓缩锔-247 氟化物
+fluid.depleted_lecm_247_fluoride=熔融枯竭 低浓缩锔-247 氟化物
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride_flibe.name=熔融枯竭 低浓缩锔-247 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lecm_247_fluoride_flibe=熔融枯竭 低浓缩锔-247 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lecm_247_za.name=熔融枯竭 低浓缩锔-247-锆合金
+fluid.depleted_lecm_247_za=熔融枯竭 低浓缩锔-247-锆合金
 
-tile.nuclearcraft.fluid_depleted_hecm_247.name=熔融枯竭高浓缩锔-247
-fluid.depleted_hecm_247=熔融枯竭高浓缩锔-247
-tile.nuclearcraft.fluid_depleted_hecm_247_fluoride.name=熔融枯竭高浓缩锔-247 氟化物
-fluid.depleted_hecm_247_fluoride=熔融枯竭高浓缩锔-247 氟化物
-tile.nuclearcraft.fluid_depleted_hecm_247_fluoride_flibe.name=熔融枯竭高浓缩锔-247 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hecm_247_fluoride_flibe=熔融枯竭高浓缩锔-247 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hecm_247_za.name=熔融枯竭高浓缩锔-247-锆合金
-fluid.depleted_hecm_247_za=熔融枯竭高浓缩锔-247-锆合金
+tile.nuclearcraft.fluid_depleted_hecm_247.name=熔融枯竭 高浓缩锔-247
+fluid.depleted_hecm_247=熔融枯竭 高浓缩锔-247
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride.name=熔融枯竭 高浓缩锔-247 氟化物
+fluid.depleted_hecm_247_fluoride=熔融枯竭 高浓缩锔-247 氟化物
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride_flibe.name=熔融枯竭 高浓缩锔-247 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hecm_247_fluoride_flibe=熔融枯竭 高浓缩锔-247 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hecm_247_za.name=熔融枯竭 高浓缩锔-247-锆合金
+fluid.depleted_hecm_247_za=熔融枯竭 高浓缩锔-247-锆合金
 
-tile.nuclearcraft.fluid_depleted_leb_248.name=熔融枯竭低浓缩锫-248
-fluid.depleted_leb_248=熔融枯竭低浓缩锫-248
-tile.nuclearcraft.fluid_depleted_leb_248_fluoride.name=熔融枯竭低浓缩锫-248 氟化物
-fluid.depleted_leb_248_fluoride=熔融枯竭低浓缩锫-248 氟化物
-tile.nuclearcraft.fluid_depleted_leb_248_fluoride_flibe.name=熔融枯竭低浓缩锫-248 氟化物燃料氟锂铍盐溶液
-fluid.depleted_leb_248_fluoride_flibe=熔融枯竭低浓缩锫-248 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_leb_248_za.name=熔融枯竭低浓缩锫-248-锆合金
-fluid.depleted_leb_248_za=熔融枯竭低浓缩锫-248-锆合金
+tile.nuclearcraft.fluid_depleted_leb_248.name=熔融枯竭 低浓缩锫-248
+fluid.depleted_leb_248=熔融枯竭 低浓缩锫-248
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride.name=熔融枯竭 低浓缩锫-248 氟化物
+fluid.depleted_leb_248_fluoride=熔融枯竭 低浓缩锫-248 氟化物
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride_flibe.name=熔融枯竭 低浓缩锫-248 氟化物燃料氟锂铍盐溶液
+fluid.depleted_leb_248_fluoride_flibe=熔融枯竭 低浓缩锫-248 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_leb_248_za.name=熔融枯竭 低浓缩锫-248-锆合金
+fluid.depleted_leb_248_za=熔融枯竭 低浓缩锫-248-锆合金
 
-tile.nuclearcraft.fluid_depleted_heb_248.name=熔融枯竭高浓缩锫-248
-fluid.depleted_heb_248=熔融枯竭高浓缩锫-248
-tile.nuclearcraft.fluid_depleted_heb_248_fluoride.name=熔融枯竭高浓缩锫-248 氟化物
-fluid.depleted_heb_248_fluoride=熔融枯竭高浓缩锫-248 氟化物
-tile.nuclearcraft.fluid_depleted_heb_248_fluoride_flibe.name=熔融枯竭高浓缩锫-248 氟化物燃料氟锂铍盐溶液
-fluid.depleted_heb_248_fluoride_flibe=熔融枯竭高浓缩锫-248 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_heb_248_za.name=熔融枯竭高浓缩锫-248-锆合金
-fluid.depleted_heb_248_za=熔融枯竭高浓缩锫-248-锆合金
+tile.nuclearcraft.fluid_depleted_heb_248.name=熔融枯竭 高浓缩锫-248
+fluid.depleted_heb_248=熔融枯竭 高浓缩锫-248
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride.name=熔融枯竭 高浓缩锫-248 氟化物
+fluid.depleted_heb_248_fluoride=熔融枯竭 高浓缩锫-248 氟化物
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride_flibe.name=熔融枯竭 高浓缩锫-248 氟化物燃料氟锂铍盐溶液
+fluid.depleted_heb_248_fluoride_flibe=熔融枯竭 高浓缩锫-248 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_heb_248_za.name=熔融枯竭 高浓缩锫-248-锆合金
+fluid.depleted_heb_248_za=熔融枯竭 高浓缩锫-248-锆合金
 
-tile.nuclearcraft.fluid_depleted_lecf_249.name=熔融枯竭低浓缩锎-249
-fluid.depleted_lecf_249=熔融枯竭低浓缩锎-249
-tile.nuclearcraft.fluid_depleted_lecf_249_fluoride.name=熔融枯竭低浓缩锎-249 氟化物
-fluid.depleted_lecf_249_fluoride=熔融枯竭低浓缩锎-249 氟化物
-tile.nuclearcraft.fluid_depleted_lecf_249_fluoride_flibe.name=熔融枯竭低浓缩锎-249 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lecf_249_fluoride_flibe=熔融枯竭低浓缩锎-249 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lecf_249_za.name=熔融枯竭低浓缩锎-249-锆合金
-fluid.depleted_lecf_249_za=熔融枯竭低浓缩锎-249-锆合金
+tile.nuclearcraft.fluid_depleted_lecf_249.name=熔融枯竭 低浓缩锎-249
+fluid.depleted_lecf_249=熔融枯竭 低浓缩锎-249
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride.name=熔融枯竭 低浓缩锎-249 氟化物
+fluid.depleted_lecf_249_fluoride=熔融枯竭 低浓缩锎-249 氟化物
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride_flibe.name=熔融枯竭 低浓缩锎-249 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lecf_249_fluoride_flibe=熔融枯竭 低浓缩锎-249 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lecf_249_za.name=熔融枯竭 低浓缩锎-249-锆合金
+fluid.depleted_lecf_249_za=熔融枯竭 低浓缩锎-249-锆合金
 
-tile.nuclearcraft.fluid_depleted_hecf_249.name=熔融枯竭高浓缩锎-249
-fluid.depleted_hecf_249=熔融枯竭高浓缩锎-249
-tile.nuclearcraft.fluid_depleted_hecf_249_fluoride.name=熔融枯竭高浓缩锎-249 氟化物
-fluid.depleted_hecf_249_fluoride=熔融枯竭高浓缩锎-249 氟化物
-tile.nuclearcraft.fluid_depleted_hecf_249_fluoride_flibe.name=熔融枯竭高浓缩锎-249 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hecf_249_fluoride_flibe=熔融枯竭高浓缩锎-249 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hecf_249_za.name=熔融枯竭高浓缩锎-249-锆合金
-fluid.depleted_hecf_249_za=熔融枯竭高浓缩锎-249-锆合金
+tile.nuclearcraft.fluid_depleted_hecf_249.name=熔融枯竭 高浓缩锎-249
+fluid.depleted_hecf_249=熔融枯竭 高浓缩锎-249
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride.name=熔融枯竭 高浓缩锎-249 氟化物
+fluid.depleted_hecf_249_fluoride=熔融枯竭 高浓缩锎-249 氟化物
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride_flibe.name=熔融枯竭 高浓缩锎-249 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hecf_249_fluoride_flibe=熔融枯竭 高浓缩锎-249 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hecf_249_za.name=熔融枯竭 高浓缩锎-249-锆合金
+fluid.depleted_hecf_249_za=熔融枯竭 高浓缩锎-249-锆合金
 
-tile.nuclearcraft.fluid_depleted_lecf_251.name=熔融枯竭低浓缩锎-251
-fluid.depleted_lecf_251=熔融枯竭低浓缩锎-251
-tile.nuclearcraft.fluid_depleted_lecf_251_fluoride.name=熔融枯竭低浓缩锎-251 氟化物
-fluid.depleted_lecf_251_fluoride=熔融枯竭低浓缩锎-251 氟化物
-tile.nuclearcraft.fluid_depleted_lecf_251_fluoride_flibe.name=熔融枯竭低浓缩锎-251 氟化物燃料氟锂铍盐溶液
-fluid.depleted_lecf_251_fluoride_flibe=熔融枯竭低浓缩锎-251 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_lecf_251_za.name=熔融枯竭低浓缩锎-251-锆合金
-fluid.depleted_lecf_251_za=熔融枯竭低浓缩锎-251-锆合金
+tile.nuclearcraft.fluid_depleted_lecf_251.name=熔融枯竭 低浓缩锎-251
+fluid.depleted_lecf_251=熔融枯竭 低浓缩锎-251
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride.name=熔融枯竭 低浓缩锎-251 氟化物
+fluid.depleted_lecf_251_fluoride=熔融枯竭 低浓缩锎-251 氟化物
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride_flibe.name=熔融枯竭 低浓缩锎-251 氟化物燃料氟锂铍盐溶液
+fluid.depleted_lecf_251_fluoride_flibe=熔融枯竭 低浓缩锎-251 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_lecf_251_za.name=熔融枯竭 低浓缩锎-251-锆合金
+fluid.depleted_lecf_251_za=熔融枯竭 低浓缩锎-251-锆合金
 
-tile.nuclearcraft.fluid_depleted_hecf_251.name=熔融枯竭高浓缩锎-251
-fluid.depleted_hecf_251=熔融枯竭高浓缩锎-251
-tile.nuclearcraft.fluid_depleted_hecf_251_fluoride.name=熔融枯竭高浓缩锎-251 氟化物
-fluid.depleted_hecf_251_fluoride=熔融枯竭高浓缩锎-251 氟化物
-tile.nuclearcraft.fluid_depleted_hecf_251_fluoride_flibe.name=熔融枯竭高浓缩锎-251 氟化物燃料氟锂铍盐溶液
-fluid.depleted_hecf_251_fluoride_flibe=熔融枯竭高浓缩锎-251 氟化物燃料氟锂铍盐溶液
-tile.nuclearcraft.fluid_depleted_hecf_251_za.name=熔融枯竭高浓缩锎-251-锆合金
-fluid.depleted_hecf_251_za=熔融枯竭高浓缩锎-251-锆合金
+tile.nuclearcraft.fluid_depleted_hecf_251.name=熔融枯竭 高浓缩锎-251
+fluid.depleted_hecf_251=熔融枯竭 高浓缩锎-251
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride.name=熔融枯竭 高浓缩锎-251 氟化物
+fluid.depleted_hecf_251_fluoride=熔融枯竭 高浓缩锎-251 氟化物
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride_flibe.name=熔融枯竭 高浓缩锎-251 氟化物燃料氟锂铍盐溶液
+fluid.depleted_hecf_251_fluoride_flibe=熔融枯竭 高浓缩锎-251 氟化物燃料氟锂铍盐溶液
+tile.nuclearcraft.fluid_depleted_hecf_251_za.name=熔融枯竭 高浓缩锎-251-锆合金
+fluid.depleted_hecf_251_za=熔融枯竭 高浓缩锎-251-锆合金
 
 tile.nuclearcraft.fluid_iron.name=熔融铁
 fluid.iron=熔融铁
@@ -1963,125 +1963,125 @@ info.nuclearcraft.fission_fuel.criticality.desc=临界系数：%s
 info.nuclearcraft.fission_fuel.decay_factor.desc=衰变系数：%s
 info.nuclearcraft.fission_fuel.self_priming.desc=强中子射源！
 
-item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=枯竭钍增殖铀 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=枯竭钍增殖铀 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=枯竭钍增殖铀 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=枯竭钍增殖铀-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=枯竭 钍增殖铀 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=枯竭 钍增殖铀 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=枯竭 钍增殖铀 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=枯竭 钍增殖铀-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_uranium.leu_233_tr.name=枯竭低浓缩铀-233 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_uranium.leu_233_ox.name=枯竭低浓缩铀-233 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.leu_233_ni.name=枯竭低浓缩铀-233 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.leu_233_za.name=枯竭低浓缩铀-233-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_uranium.heu_233_tr.name=枯竭高浓缩铀-233 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_uranium.heu_233_ox.name=枯竭高浓缩铀-233 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.heu_233_ni.name=枯竭高浓缩铀-233 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.heu_233_za.name=枯竭高浓缩铀-233-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_uranium.leu_235_tr.name=枯竭低浓缩铀-235 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_uranium.leu_235_ox.name=枯竭低浓缩铀-235 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.leu_235_ni.name=枯竭低浓缩铀-235 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.leu_235_za.name=枯竭低浓缩铀-235-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_uranium.heu_235_tr.name=枯竭高浓缩铀-235 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_uranium.heu_235_ox.name=枯竭高浓缩铀-235 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.heu_235_ni.name=枯竭高浓缩铀-235 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_uranium.heu_235_za.name=枯竭高浓缩铀-235-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_uranium.leu_233_tr.name=枯竭 低浓缩铀-233 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_uranium.leu_233_ox.name=枯竭 低浓缩铀-233 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.leu_233_ni.name=枯竭 低浓缩铀-233 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.leu_233_za.name=枯竭 低浓缩铀-233-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_uranium.heu_233_tr.name=枯竭 高浓缩铀-233 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_uranium.heu_233_ox.name=枯竭 高浓缩铀-233 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.heu_233_ni.name=枯竭 高浓缩铀-233 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.heu_233_za.name=枯竭 高浓缩铀-233-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_uranium.leu_235_tr.name=枯竭 低浓缩铀-235 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_uranium.leu_235_ox.name=枯竭 低浓缩铀-235 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.leu_235_ni.name=枯竭 低浓缩铀-235 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.leu_235_za.name=枯竭 低浓缩铀-235-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_uranium.heu_235_tr.name=枯竭 高浓缩铀-235 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_uranium.heu_235_ox.name=枯竭 高浓缩铀-235 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.heu_235_ni.name=枯竭 高浓缩铀-235 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_uranium.heu_235_za.name=枯竭 高浓缩铀-235-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_neptunium.len_236_tr.name=枯竭低浓缩镎-236 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_neptunium.len_236_ox.name=枯竭低浓缩镎-236 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_neptunium.len_236_ni.name=枯竭低浓缩镎-236 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_neptunium.len_236_za.name=枯竭低浓缩镎-236-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_neptunium.hen_236_tr.name=枯竭高浓缩镎-236 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_neptunium.hen_236_ox.name=枯竭高浓缩镎-236 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_neptunium.hen_236_ni.name=枯竭高浓缩镎-236 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_neptunium.hen_236_za.name=枯竭高浓缩镎-236-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_neptunium.len_236_tr.name=枯竭 低浓缩镎-236 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_neptunium.len_236_ox.name=枯竭 低浓缩镎-236 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_neptunium.len_236_ni.name=枯竭 低浓缩镎-236 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_neptunium.len_236_za.name=枯竭 低浓缩镎-236-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_tr.name=枯竭 高浓缩镎-236 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_ox.name=枯竭 高浓缩镎-236 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_ni.name=枯竭 高浓缩镎-236 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_za.name=枯竭 高浓缩镎-236-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_plutonium.lep_239_tr.name=枯竭低浓缩钚-239 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_plutonium.lep_239_ox.name=枯竭低浓缩钚-239 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.lep_239_ni.name=枯竭低浓缩钚-239 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.lep_239_za.name=枯竭低浓缩钚-239-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.hep_239_tr.name=枯竭高浓缩钚-239 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_plutonium.hep_239_ox.name=枯竭高浓缩钚-239 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.hep_239_ni.name=枯竭高浓缩钚-239 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.hep_239_za.name=枯竭高浓缩钚-239-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.lep_241_tr.name=枯竭低浓缩钚-241 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_plutonium.lep_241_ox.name=枯竭低浓缩钚-241 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.lep_241_ni.name=枯竭低浓缩钚-241 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.lep_241_za.name=枯竭低浓缩钚-241-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.hep_241_tr.name=枯竭高浓缩钚-241 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_plutonium.hep_241_ox.name=枯竭高浓缩钚-241 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=枯竭高浓缩钚-241 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=枯竭高浓缩钚-241-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_tr.name=枯竭 低浓缩钚-239 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_ox.name=枯竭 低浓缩钚-239 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_ni.name=枯竭 低浓缩钚-239 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_za.name=枯竭 低浓缩钚-239-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_tr.name=枯竭 高浓缩钚-239 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_ox.name=枯竭 高浓缩钚-239 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_ni.name=枯竭 高浓缩钚-239 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_za.name=枯竭 高浓缩钚-239-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_tr.name=枯竭 低浓缩钚-241 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_ox.name=枯竭 低浓缩钚-241 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_ni.name=枯竭 低浓缩钚-241 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_za.name=枯竭 低浓缩钚-241-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_tr.name=枯竭 高浓缩钚-241 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_ox.name=枯竭 高浓缩钚-241 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=枯竭 高浓缩钚-241 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=枯竭 高浓缩钚-241-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=枯竭混合 TRISO-239 燃料颗粒
-item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=枯竭混合氧化物-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=枯竭混合氮化物-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=枯竭混合锆合金-239 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=枯竭混合 TRISO-241 燃料颗粒
-item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=枯竭混合氧化物-241 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=枯竭混合氮化物-241 燃料丸
-item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=枯竭混合锆合金-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=枯竭 混合 TRISO-239 燃料颗粒
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=枯竭 混合氧化物-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=枯竭 混合氮化物-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=枯竭 混合锆合金-239 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=枯竭 混合 TRISO-241 燃料颗粒
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=枯竭 混合氧化物-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=枯竭 混合氮化物-241 燃料丸
+item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=枯竭 混合锆合金-241 燃料丸
 
-item.nuclearcraft.depleted_fuel_americium.lea_242_tr.name=枯竭低浓缩镅-242 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_americium.lea_242_ox.name=枯竭低浓缩镅-242 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_americium.lea_242_ni.name=枯竭低浓缩镅-242 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_americium.lea_242_za.name=枯竭低浓缩镅-242-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_americium.hea_242_tr.name=枯竭高浓缩镅-242 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_americium.hea_242_ox.name=枯竭高浓缩镅-242 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_americium.hea_242_ni.name=枯竭高浓缩镅-242 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_americium.hea_242_za.name=枯竭高浓缩镅-242-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_americium.lea_242_tr.name=枯竭 低浓缩镅-242 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_americium.lea_242_ox.name=枯竭 低浓缩镅-242 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_americium.lea_242_ni.name=枯竭 低浓缩镅-242 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_americium.lea_242_za.name=枯竭 低浓缩镅-242-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_americium.hea_242_tr.name=枯竭 高浓缩镅-242 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_americium.hea_242_ox.name=枯竭 高浓缩镅-242 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_americium.hea_242_ni.name=枯竭 高浓缩镅-242 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_americium.hea_242_za.name=枯竭 高浓缩镅-242-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_curium.lecm_243_tr.name=枯竭低浓缩锔-243 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_curium.lecm_243_ox.name=枯竭低浓缩锔-243 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_243_ni.name=枯竭低浓缩锔-243 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_243_za.name=枯竭低浓缩锔-243-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_243_tr.name=枯竭高浓缩锔-243 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_curium.hecm_243_ox.name=枯竭高浓缩锔-243 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_243_ni.name=枯竭高浓缩锔-243 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_243_za.name=枯竭高浓缩锔-243-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_245_tr.name=枯竭低浓缩锔-245 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_curium.lecm_245_ox.name=枯竭低浓缩锔-245 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_245_ni.name=枯竭低浓缩锔-245 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_245_za.name=枯竭低浓缩锔-245-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_245_tr.name=枯竭高浓缩锔-245 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_curium.hecm_245_ox.name=枯竭高浓缩锔-245 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_245_ni.name=枯竭高浓缩锔-245 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_245_za.name=枯竭高浓缩锔-245-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_247_tr.name=枯竭低浓缩锔-247 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_curium.lecm_247_ox.name=枯竭低浓缩锔-247 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_247_ni.name=枯竭低浓缩锔-247 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.lecm_247_za.name=枯竭低浓缩锔-247-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_247_tr.name=枯竭高浓缩锔-247 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_curium.hecm_247_ox.name=枯竭高浓缩锔-247 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_247_ni.name=枯竭高浓缩锔-247 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_curium.hecm_247_za.name=枯竭高浓缩锔-247-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_243_tr.name=枯竭 低浓缩锔-243 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_curium.lecm_243_ox.name=枯竭 低浓缩锔-243 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_243_ni.name=枯竭 低浓缩锔-243 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_243_za.name=枯竭 低浓缩锔-243-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_243_tr.name=枯竭 高浓缩锔-243 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_curium.hecm_243_ox.name=枯竭 高浓缩锔-243 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_243_ni.name=枯竭 高浓缩锔-243 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_243_za.name=枯竭 高浓缩锔-243-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_245_tr.name=枯竭 低浓缩锔-245 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_curium.lecm_245_ox.name=枯竭 低浓缩锔-245 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_245_ni.name=枯竭 低浓缩锔-245 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_245_za.name=枯竭 低浓缩锔-245-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_245_tr.name=枯竭 高浓缩锔-245 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_curium.hecm_245_ox.name=枯竭 高浓缩锔-245 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_245_ni.name=枯竭 高浓缩锔-245 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_245_za.name=枯竭 高浓缩锔-245-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_247_tr.name=枯竭 低浓缩锔-247 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_curium.lecm_247_ox.name=枯竭 低浓缩锔-247 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_247_ni.name=枯竭 低浓缩锔-247 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.lecm_247_za.name=枯竭 低浓缩锔-247-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_247_tr.name=枯竭 高浓缩锔-247 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_curium.hecm_247_ox.name=枯竭 高浓缩锔-247 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_247_ni.name=枯竭 高浓缩锔-247 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_curium.hecm_247_za.name=枯竭 高浓缩锔-247-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_berkelium.leb_248_tr.name=枯竭低浓缩锫-248 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_berkelium.leb_248_ox.name=枯竭低浓缩锫-248 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_berkelium.leb_248_ni.name=枯竭低浓缩锫-248 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_berkelium.leb_248_za.name=枯竭低浓缩锫-248-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_berkelium.heb_248_tr.name=枯竭高浓缩锫-248 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_berkelium.heb_248_ox.name=枯竭高浓缩锫-248 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_berkelium.heb_248_ni.name=枯竭高浓缩锫-248 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_berkelium.heb_248_za.name=枯竭高浓缩锫-248-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_tr.name=枯竭 低浓缩锫-248 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_ox.name=枯竭 低浓缩锫-248 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_ni.name=枯竭 低浓缩锫-248 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_za.name=枯竭 低浓缩锫-248-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_tr.name=枯竭 高浓缩锫-248 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_ox.name=枯竭 高浓缩锫-248 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_ni.name=枯竭 高浓缩锫-248 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_za.name=枯竭 高浓缩锫-248-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_californium.lecf_249_tr.name=枯竭低浓缩锎-249 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_californium.lecf_249_ox.name=枯竭低浓缩锎-249 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.lecf_249_ni.name=枯竭低浓缩锎-249 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.lecf_249_za.name=枯竭低浓缩锎-249-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_californium.hecf_249_tr.name=枯竭高浓缩锎-249 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_californium.hecf_249_ox.name=枯竭高浓缩锎-249 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.hecf_249_ni.name=枯竭高浓缩锎-249 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.hecf_249_za.name=枯竭高浓缩锎-249-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_californium.lecf_251_tr.name=枯竭低浓缩锎-251 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_californium.lecf_251_ox.name=枯竭低浓缩锎-251 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.lecf_251_ni.name=枯竭低浓缩锎-251 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.lecf_251_za.name=枯竭低浓缩锎-251-锆合金燃料丸
-item.nuclearcraft.depleted_fuel_californium.hecf_251_tr.name=枯竭高浓缩锎-251 TRISO 燃料颗粒
-item.nuclearcraft.depleted_fuel_californium.hecf_251_ox.name=枯竭高浓缩锎-251 氧化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=枯竭高浓缩锎-251 氮化物燃料丸
-item.nuclearcraft.depleted_fuel_californium.hecf_251_za.name=枯竭高浓缩锎-251-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_californium.lecf_249_tr.name=枯竭 低浓缩锎-249 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_californium.lecf_249_ox.name=枯竭 低浓缩锎-249 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.lecf_249_ni.name=枯竭 低浓缩锎-249 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.lecf_249_za.name=枯竭 低浓缩锎-249-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_californium.hecf_249_tr.name=枯竭 高浓缩锎-249 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_californium.hecf_249_ox.name=枯竭 高浓缩锎-249 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.hecf_249_ni.name=枯竭 高浓缩锎-249 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.hecf_249_za.name=枯竭 高浓缩锎-249-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_californium.lecf_251_tr.name=枯竭 低浓缩锎-251 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_californium.lecf_251_ox.name=枯竭 低浓缩锎-251 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.lecf_251_ni.name=枯竭 低浓缩锎-251 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.lecf_251_za.name=枯竭 低浓缩锎-251-锆合金燃料丸
+item.nuclearcraft.depleted_fuel_californium.hecf_251_tr.name=枯竭 高浓缩锎-251 TRISO 燃料颗粒
+item.nuclearcraft.depleted_fuel_californium.hecf_251_ox.name=枯竭 高浓缩锎-251 氧化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=枯竭 高浓缩锎-251 氮化物燃料丸
+item.nuclearcraft.depleted_fuel_californium.hecf_251_za.name=枯竭 高浓缩锎-251-锆合金燃料丸
 
-item.nuclearcraft.depleted_fuel_ic2.u.name=枯竭铀核燃料
-item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭混合氧化物核燃料
+item.nuclearcraft.depleted_fuel_ic2.u.name=枯竭 铀核燃料
+item.nuclearcraft.depleted_fuel_ic2.mox.name=枯竭 混合氧化物核燃料
 
 item.nuclearcraft.boron.10.name=硼-10
 item.nuclearcraft.boron.11.name=硼-11
@@ -2276,9 +2276,12 @@ jei.nuclearcraft.base_process_radiation=基础辐射：
 
 jei.nuclearcraft.collector_production_rate=产量：
 
-jei.nuclearcraft.irradiator_flux_required=中子通量需求：
+jei.nuclearcraft.irradiator_flux_required=总中子通量需求：
 jei.nuclearcraft.irradiator_heat_per_flux=单位中子通量产热：
 jei.nuclearcraft.irradiator_process_efficiency=效率提升倍率：
+jei.nuclearcraft.irradiator_valid_flux_minimum=最小有效中子通量：
+jei.nuclearcraft.irradiator_valid_flux_maximum=最大有效中子通量：
+jei.nuclearcraft.irradiator_valid_flux_range=有效中子通量范围：
 jei.nuclearcraft.radiation_per_flux=每中子通量辐射：
 
 jei.nuclearcraft.pebble_fuel_time=基础衰竭时间：
@@ -2286,7 +2289,7 @@ jei.nuclearcraft.pebble_fuel_heat=基础产热：
 jei.nuclearcraft.pebble_fuel_efficiency=基础效率：
 jei.nuclearcraft.pebble_fuel_criticality=临界系数：
 jei.nuclearcraft.pebble_fuel_decay_factor=衰变系数：
-jei.nuclearcraft.pebble_fuel_radiation=衰竭辐射：
+jei.nuclearcraft.pebble_fuel_radiation=基础衰竭辐射：
 jei.nuclearcraft.pebble_fuel_self_priming=强中子射源！
 
 jei.nuclearcraft.solid_fuel_time=基础衰竭时间：
@@ -2294,7 +2297,7 @@ jei.nuclearcraft.solid_fuel_heat=基础产热：
 jei.nuclearcraft.solid_fuel_efficiency=基础效率：
 jei.nuclearcraft.solid_fuel_criticality=临界系数：
 jei.nuclearcraft.solid_fuel_decay_factor=衰变系数：
-jei.nuclearcraft.solid_fuel_radiation=衰竭辐射：
+jei.nuclearcraft.solid_fuel_radiation=基础衰竭辐射：
 jei.nuclearcraft.solid_fuel_self_priming=强中子射源！
 
 jei.nuclearcraft.fission_heating_heat_per_mb=单位热容：
@@ -2304,17 +2307,17 @@ jei.nuclearcraft.salt_fuel_heat=基础产热：
 jei.nuclearcraft.salt_fuel_efficiency=基础效率：
 jei.nuclearcraft.salt_fuel_criticality=临界系数：
 jei.nuclearcraft.salt_fuel_decay_factor=衰变系数：
-jei.nuclearcraft.salt_fuel_radiation=衰竭辐射：
+jei.nuclearcraft.salt_fuel_radiation=基础衰竭辐射：
 jei.nuclearcraft.salt_fuel_self_priming=强中子射源！
 
 jei.nuclearcraft.fission_emergency_cooling_per_mb=每 mB 输入提供冷却:
 
 jei.nuclearcraft.fusion_time=基础连续时间：
-jei.nuclearcraft.fusion_power=基础能量上限：
-jei.nuclearcraft.fusion_temp=最佳温度：
+jei.nuclearcraft.fusion_heat=基础产热：
+jei.nuclearcraft.fusion_temp=可选温度（未完成：被 R 除）：
 
 jei.nuclearcraft.decay_gen_lifetime=平均寿命：
-jei.nuclearcraft.decay_gen_power=能量产出：
+jei.nuclearcraft.decay_gen_power=产能：
 jei.nuclearcraft.decay_gen_radiation=衰变辐射：
 
 jei.nuclearcraft.salt_fuel_time=处理时间：
@@ -2449,30 +2452,44 @@ gui.nc.config.processor_particles.comment=机器会在处理时散发出粒子�
 gui.nc.config.category.generator=产能器配置
 gui.nc.config.category.generator.tooltip=配置能产能的机器。
 
-gui.nc.config.rtg_power=放射性热电发电机能量产出
-gui.nc.config.rtg_power.comment=放射性热电发电机的能量产出（单位：RF/t）。顺序：铀，钚，镅，锎。
-gui.nc.config.solar_power=太阳能电池板能量产出
-gui.nc.config.solar_power.comment=太阳能电池板的能量产出（单位：RF/t）。顺序：基础，高级，贫铀，精英。
+gui.nc.config.rtg_power=放射性热电发电机产能
+gui.nc.config.rtg_power.comment=放射性热电发电机的产能（单位：RF/t）。顺序：铀，钚，镅，锎。
+gui.nc.config.solar_power=太阳能电池板产能
+gui.nc.config.solar_power.comment=太阳能电池板的产能（单位：RF/t）。顺序：基础，高级，贫铀，精英。
 gui.nc.config.decay_lifetime=衰变产能器平均寿命
 gui.nc.config.decay_lifetime.comment=与衰变产能器接触的放射性方块的平均寿命。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
-gui.nc.config.decay_power=衰变产能器能量产出
-gui.nc.config.decay_power.comment=与衰变产能器接触的放射性方块的能量产出。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
+gui.nc.config.decay_power=衰变产能器产能
+gui.nc.config.decay_power.comment=与衰变产能器接触的放射性方块的产能。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
 
-gui.nc.config.category.energy_storage=能量储存配置
+gui.nc.config.category.energy_storage=储能配置
 gui.nc.config.category.energy_storage.tooltip=配置对能量的储存。
 
-gui.nc.config.battery_capacity=电容容量
-gui.nc.config.battery_capacity.comment=最大的电量储存（单位：RF）。顺序：[基础，高级，贫铀，精英]伏打电堆，[基础，高级，贫铀，精英]锂离子电池块。
+gui.nc.config.battery_block_capacity=电容方块容量
+gui.nc.config.battery_block_capacity.comment=最大的电量储存（单位：RF）。顺序：[基础，高级，贫铀，精英]伏打电堆，[基础，高级，贫铀，精英]锂离子电池块。
+gui.nc.config.battery_block_max_transfer=电容方块传输速率
+gui.nc.config.battery_block_max_transfer.comment=最大的电量传输速率（单位：RF/t）。顺序：[基础，高级，贫铀，精英]伏打电堆，[基础，高级，贫铀，精英]锂离子电池块。
+gui.nc.config.battery_block_energy_tier=电容方块能量等级
+gui.nc.config.battery_block_energy_tier.comment=[IC2]工业2 或[GTCE]格雷科技：社区版的 EU 能量等级。顺序：[基础，高级，贫铀，精英]伏打电堆，[基础，高级，贫铀，精英]锂离子电池块。
+gui.nc.config.battery_item_capacity=电容方块容量
+gui.nc.config.battery_item_capacity.comment=最大的电量储存（单位：RF）。顺序：锂离子电池。
+gui.nc.config.battery_item_max_transfer=电容方块传输速率
+gui.nc.config.battery_item_max_transfer.comment=最大的电量传输速率（单位：RF/t）。顺序：锂离子电池。
+gui.nc.config.battery_item_energy_tier=电容物品能量等级
+gui.nc.config.battery_item_energy_tier.comment=[IC2]工业2 或[GTCE]格雷科技：社区版的 EU 能量等级。顺序：锂离子电池。
 
 gui.nc.config.category.fission=裂变配置
 gui.nc.config.category.fission.tooltip=配置与核裂变相关的内容。
 
-gui.nc.config.fission_power=产能倍率
-gui.nc.config.fission_power.comment=调整裂变反应堆的产能。
-gui.nc.config.fission_fuel_use=燃料使用倍率
-gui.nc.config.fission_fuel_use.comment=调整裂变反应堆使用燃料的速度。
-gui.nc.config.fission_heat_generation=产热倍率
-gui.nc.config.fission_heat_generation.comment=调整裂变反应堆的产热。
+# gui.nc.config.fission_power=产能倍率
+# gui.nc.config.fission_power.comment=调整裂变反应堆的产能。
+# gui.nc.config.fission_fuel_use=燃料使用倍率
+# gui.nc.config.fission_fuel_use.comment=调整裂变反应堆使用燃料的速度。
+# gui.nc.config.fission_heat_generation=产热倍率
+# gui.nc.config.fission_heat_generation.comment=调整裂变反应堆的产热。
+gui.nc.config.fission_fuel_time_multiplier=燃料衰竭时间倍率
+gui.nc.config.fission_fuel_time_multiplier.comment=调整裂变反应堆消耗燃料的速率。
+gui.nc.config.fission_fuel_heat_multiplier=产热倍率
+gui.nc.config.fission_fuel_heat_multiplier.comment=调整裂变反应堆产热的速率。
 gui.nc.config.fission_cooling_rate=冷却器冷却
 gui.nc.config.fission_cooling_rate.comment=冷却器减少的热量（单位：H/t）。顺序：水，铁，红石，石英，黑曜石，地狱砖，荧石，青金石，金，海晶石，史莱姆，末地石，紫珀，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，氟石，氟盐，方氟钾石，砷，液氮，液氦，末影，凛冰。
 gui.nc.config.fission_overheat=启用熔毁
@@ -2488,7 +2505,7 @@ gui.nc.config.fission_max_size.comment=裂变结构的最大边长。
 gui.nc.config.fission_comparator_max_heat=比较器产生信号最大热量
 gui.nc.config.fission_comparator_max_heat.comment=会导致与控制器相邻的比较器产生满级红石信号强度的热量等级（单位：%）。
 gui.nc.config.fission_force_heat_comparator=热量比较器
-gui.nc.config.fission_force_heat_comparator.comment=如果设定为 (true) ，一个不产热或产热为负的控制器也会像产热为正的控制器一样向比较器产生强度基于热量的红石信号，而不是默认地在不产热或产热为负时采用以能量储存为基础的信号输出。
+gui.nc.config.fission_force_heat_comparator.comment=如果设定为 (true) ，一个不产热或产热为负的控制器也会像产热为正的控制器一样向比较器产生强度基于热量的红石信号，而不是默认地在不产热或产热为负时采用以储能为基础的信号输出。
 gui.nc.config.fission_sound_volume=裂变音效范围
 gui.nc.config.fission_sound_volume.comment=调整能听到裂变音效的范围。
 
@@ -2608,14 +2625,18 @@ gui.nc.config.fission_californium_radiation.comment=燃料在处理时会产生�
 gui.nc.config.category.fusion=聚变配置
 gui.nc.config.category.fusion.tooltip=配置与核聚变相关的内容。
 
-gui.nc.config.fusion_base_power=功率倍率
-gui.nc.config.fusion_base_power.comment=调整聚变的能量产出功率。
-gui.nc.config.fusion_fuel_use=燃料使用倍率
-gui.nc.config.fusion_fuel_use.comment=调整聚变反应堆使用燃料的速度。
-gui.nc.config.fusion_heat_generation=产热倍率
-gui.nc.config.fusion_heat_generation.comment=调整聚变反应堆的产热。
-gui.nc.config.fusion_heating_multiplier=产热速度倍率
-gui.nc.config.fusion_heating_multiplier.comment=在运行前调整聚变反应堆的产热速度。
+# gui.nc.config.fusion_base_power=功率倍率
+# gui.nc.config.fusion_base_power.comment=调整聚变的产能功率。
+# gui.nc.config.fusion_fuel_use=燃料使用倍率
+# gui.nc.config.fusion_fuel_use.comment=调整聚变反应堆使用燃料的速度。
+# gui.nc.config.fusion_heat_generation=产热倍率
+# gui.nc.config.fusion_heat_generation.comment=调整聚变反应堆的产热。
+# gui.nc.config.fusion_heating_multiplier=产热速度倍率
+# gui.nc.config.fusion_heating_multiplier.comment=在运行前调整聚变反应堆的产热速度。
+gui.nc.config.fusion_fuel_time_multiplier=燃料使用倍率
+gui.nc.config.fusion_fuel_time_multiplier.comment=调整聚变反应堆消耗燃料的速率。
+gui.nc.config.fusion_fuel_heat_multiplier=产能倍率
+gui.nc.config.fusion_fuel_heat_multiplier.comment=调整聚变反应堆产热的速率。
 gui.nc.config.fusion_overheat=启用熔毁
 gui.nc.config.fusion_overheat.comment=聚变反应堆会过热吗？
 gui.nc.config.fusion_meltdown_radiation_multiplier=熔毁辐射倍率
@@ -2639,19 +2660,25 @@ gui.nc.config.fusion_sound_volume.comment=调整能听到聚变声音的范围�
 # 。。。接下来这段未翻译完全。。。 #
 ##################################
 
-gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
+# gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
+# gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+# gui.nc.config.fusion_power=Fusion Fuel Combo Power Gen
+# gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+# gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
+# gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+gui.nc.config.fusion_fuel_time=聚变燃料联用寿命
 gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_power=Fusion Fuel Combo Power Gen
-gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
-gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_radiation=Fusion Fuel Combo Radiation
+gui.nc.config.fusion_heat_generation=聚变燃料联用产热
+gui.nc.config.fusion_heat_generation.comment=Base H/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+gui.nc.config.fusion_optimal_temperature=Fusion Fuel Combo Optimal Temperatures
+gui.nc.config.fusion_optimal_temperature.comment=Optimal temperatures of the fuel combos. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+gui.nc.config.fusion_radiation=聚变燃料联用辐射
 gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_electromagnet_power=Electromagnet Power
+gui.nc.config.fusion_electromagnet_power=电磁铁功率
 gui.nc.config.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
 
-gui.nc.config.category.heat_exchanger=热交换机配置
-gui.nc.config.category.heat_exchanger.tooltip=配置与热交换机相关的内容。
+gui.nc.config.category.heat_exchanger=热交换器配置
+gui.nc.config.category.heat_exchanger.tooltip=配置与热交换器相关的内容。
 
 gui.nc.config.heat_exchanger_min_size=最小结构边长
 gui.nc.config.heat_exchanger_min_size.comment=热交换结构的最小边长。
@@ -2680,7 +2707,7 @@ gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rot
 gui.nc.config.turbine_coil_conductivity=发电机线圈导电率
 gui.nc.config.turbine_coil_conductivity.comment=参与效率计算时的倍率。顺序：镁，铍，铝，金，铜，银。
 gui.nc.config.turbine_power_per_mb=蒸汽基础能量密度
-gui.nc.config.turbine_power_per_mb.comment=不同种类的蒸汽被处理时的基础能量产出（单位：RF/mB）。顺序：高压蒸汽，低压蒸汽，蒸汽。
+gui.nc.config.turbine_power_per_mb.comment=不同种类的蒸汽被处理时的基础产能（单位：RF/mB）。顺序：高压蒸汽，低压蒸汽，蒸汽。
 gui.nc.config.turbine_expansion_level=蒸汽膨胀
 gui.nc.config.turbine_expansion_level.comment=不同种类的蒸汽的基础膨胀系数。顺序：高压蒸汽，低压蒸汽，蒸汽。
 gui.nc.config.turbine_spin_up_multiplier=蒸汽旋转加速系数
@@ -3033,7 +3060,7 @@ nc.block.salt_heater_fluid_side.coolant_spread=冷却剂分配
 
 nc.block.salt_vessel_fluid_side.default=默认
 nc.block.salt_vessel_fluid_side.disabled=禁用
-nc.block.salt_vessel_fluid_side.depleted_out=枯竭燃料输出
+nc.block.salt_vessel_fluid_side.depleted_out=枯竭 燃料输出
 nc.block.salt_vessel_fluid_side.fuel_spread=燃料分配
 
 nc.block.exchanger_tube_fluid_side.disabled=禁用
@@ -3134,7 +3161,7 @@ gui.nc.container.fusion_core.fuels=现有燃料：
 gui.nc.container.fusion_core.empty=空
 gui.nc.container.fusion_core.reactor_not_found=未能与聚变反应堆建立连接——结构无效
 
-gui.nc.container.heat_exchanger_controller.heat_exchanger=热交换机（半成品）
+gui.nc.container.heat_exchanger_controller.heat_exchanger=热交换器（半成品）
 gui.nc.container.heat_exchanger_controller.tubes=管道数量：
 gui.nc.container.heat_exchanger_controller.efficiency=平均效率：
 gui.nc.container.heat_exchanger_controller.efficiency_max=最大平均效率：
@@ -3149,9 +3176,9 @@ gui.nc.container.turbine_controller.rotor_efficiency=转子效率：
 gui.nc.container.turbine_controller.fluid_rate=输入：
 gui.nc.container.turbine_controller.power_bonus=输入加成：
 
-gui.nc.container.energy_stored=能量储存：
+gui.nc.container.energy_stored=储能：
 gui.nc.container.process_power=功率：
-gui.nc.container.power_gen=能量产出：
+gui.nc.container.power_gen=产能：
 gui.nc.container.speed_multiplier=速度提升倍率：
 gui.nc.container.power_multiplier=能量消耗倍率：
 gui.nc.container.no_energy=无需能量供应！
@@ -3187,7 +3214,7 @@ gui.nc.container.out_config=输出
 gui.nc.container.both_config=输入/输出
 gui.nc.container.non_config=无
 
-info.nuclearcraft.item_energy.energy_stored=能量储存：
+info.nuclearcraft.item_energy.energy_stored=储能：
 info.nuclearcraft.item_energy.power_tier=EU 能量等级：
 
 gui.nc.container.shift_clear_multiblock=按住 Shift 单击以 彻底 清除所有材料
@@ -3204,8 +3231,8 @@ nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=这不是一
 nuclearcraft.multiblock.fission_reactor_source.no_target=没有目标！
 nuclearcraft.multiblock.fission_reactor_source.target=目标为位于 [%1$d, %2$d, %3$d] 的%4$s
 
-nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=这不是一个热交换机——这里不应当有热交换管道！
-nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=这不是一个冷凝机——这里不应当有冷凝管道！
+nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=这不是一个热交换器——这里不应当有热交换管道！
+nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=这不是一个冷凝器——这里不应当有冷凝管道！
 
 nuclearcraft.multiblock_validation.turbine.need_bearings=需要两组相对的转子轴承。
 nuclearcraft.multiblock_validation.turbine.bearings_side_square=转子轴承所在的墙壁必须是矩形的。
@@ -3380,13 +3407,13 @@ advancement.nuclearcraft.salt_fission_controller.name=下一代核电 [1/2]
 advancement.nuclearcraft.salt_fission_controller.desc=制作一个熔盐裂变控制器
 
 advancement.nuclearcraft.heat_exchanger_controller.name=热力连接 [1/2]
-advancement.nuclearcraft.heat_exchanger_controller.desc=制作一个热交换机控制器
+advancement.nuclearcraft.heat_exchanger_controller.desc=制作一个热交换器控制器
 
 advancement.nuclearcraft.turbine_controller.name=敬爱的朗肯 [1/2]
 advancement.nuclearcraft.turbine_controller.desc=制作一个涡轮机控制器
 
 advancement.nuclearcraft.condenser_controller.name=啊，循环连上了！ [1/2]
-advancement.nuclearcraft.condenser_controller.desc=制作一个冷凝机控制器
+advancement.nuclearcraft.condenser_controller.desc=制作一个冷凝器控制器
 
 advancement.nuclearcraft.solid_fission_reactor_assembled.name=原子分裂 [2/2]
 advancement.nuclearcraft.solid_fission_reactor_assembled.desc=建造一个固态燃料裂变反应堆
@@ -3395,13 +3422,13 @@ advancement.nuclearcraft.salt_fission_reactor_assembled.name=下一代核电 [2/
 advancement.nuclearcraft.salt_fission_reactor_assembled.desc=建造一个熔盐裂变反应堆
 
 advancement.nuclearcraft.heat_exchanger_assembled.name=热力连接 [2/2]
-advancement.nuclearcraft.heat_exchanger_assembled.desc=建造一个热交换机
+advancement.nuclearcraft.heat_exchanger_assembled.desc=建造一个热交换器
 
 advancement.nuclearcraft.turbine_assembled.name=敬爱的朗肯 [2/2]
 advancement.nuclearcraft.turbine_assembled.desc=建造一个涡轮机
 
 advancement.nuclearcraft.condenser_assembled.name=啊，循环连上了！ [2/2]
-advancement.nuclearcraft.condenser_assembled.desc=建造一个冷凝机
+advancement.nuclearcraft.condenser_assembled.desc=建造一个冷凝器
 
 advancement.nuclearcraft.geiger_counter.name=进入普里皮亚季前的准备
 advancement.nuclearcraft.geiger_counter.desc=制作一个盖革计数器
@@ -3427,8 +3454,8 @@ advancement.nuclearcraft.smore.name=快来到篝火边！
 advancement.nuclearcraft.smore.desc=制作一块棉花糖巧克力夹心饼干
 
 advancement.nuclearcraft.moresmore.name=更多一些
-advancement.nuclearcraft.moresmore.desc=制作一块双层棉花糖巧克力夹心饼干
 # pun or meme
+advancement.nuclearcraft.moresmore.desc=制作一块双层棉花糖巧克力夹心饼干
 
 advancement.nuclearcraft.foursmore.name=再多一些
 advancement.nuclearcraft.foursmore.desc=制作一块四层棉花糖巧克力夹心饼干
@@ -3657,13 +3684,13 @@ nc.sf.turbine_casing0=%s涡轮机外壳
 nc.sf.bearing0=%s有效的转子轴承
 nc.sf.connector0=%s有效的线圈连接器
 
-nc.sf.any_coil0=%s任意种类的线圈
-nc.sf.magnesium_coil0=%s镁线圈
-nc.sf.beryllium_coil0=%s铍线圈
-nc.sf.aluminum_coil0=%s铝线圈
-nc.sf.gold_coil0=%s金线圈
-nc.sf.copper_coil0=%s铜线圈
-nc.sf.silver_coil0=%s银线圈
+nc.sf.any_coil0=%s任意种类的发电机线圈
+nc.sf.magnesium_coil0=%s镁发电机线圈
+nc.sf.beryllium_coil0=%s铍发电机线圈
+nc.sf.aluminum_coil0=%s铝发电机线圈
+nc.sf.gold_coil0=%s金发电机线圈
+nc.sf.copper_coil0=%s铜发电机线圈
+nc.sf.silver_coil0=%s银发电机线圈
 
 nc.sf.power_adverb0=保持恒定
 nc.sf.power_adverb1=线性地%s
@@ -3703,22 +3730,22 @@ nc.sf.with=
 # component 组件
 # heat 热量
 # 手册中的Cont. （直接移除）
-# 手册中的designConsiderations 设计时需注意
+# 手册中的design_considerations 设计时需注意
 # occlude 阻挡
 # prime 启动
 # Self-priming 强中子射源
 # layer/group 转子叶片/定子组
 # ideal 理想
 ############################################################################
-############# 核燃料分作两部分，中用 或-隔开以保持美观（混合燃料的分隔位置是特例）。我知道这毫无意义，但是还挺好看的。可以考虑把熔融枯竭分出来变成第零部分。
+### fixed ### 核燃料分作两部分，中用 或-隔开以保持美观（混合燃料的分隔位置是特例）。我知道这毫无意义，但是还挺好看的。可以考虑把熔融枯竭分出来变成第零部分。枯竭分了，但是熔融没分
 ############# 混合燃料命名乱七八糟
 ############# moderator 减速剂                             （是不是应当是减速器？）
 ############# moderator line 减速剂列
-############# heat exchanger/condenser 热交换机/冷凝机             （是不是应当是热交换器？）
+### fixed ### heat exchanger/condenser 热交换机/冷凝机             （是不是应当是器？）
 ############# overcooling penalty 过冷负效应                  （没见到更权威的翻译，自己攒了一个）
 ############# amount 数量
 ############# efficiency 效率
-############# speed 速率
+############# speed 速率/rate
 ############# active valid functional 有效
 ############# 中子防护屏open 我咋还没翻译呢？？？
 ############# factor 系数
@@ -3726,5 +3753,8 @@ nc.sf.with=
 ############# enhanced(moarFuels) 增强
 ############# pit 核心/core 弹芯
 ############# metallic 金属（此指金属铀等非氧化物的。单质？）
-############# DepletedUranium 贫铀 depleted 枯竭
+############# DepletedUranium 贫铀 depleted 枯竭 DepletedUF6 贫化铀 deplation_radiation 衰竭辐射
 ############# S'more = Some more，这点在现译棉花糖巧克力夹心饼干中体现不出来，很遗憾。
+############# battery/cell (电池块/电容)/电池 能否令其更无关联些？原文是两个单词，译文却几乎相同。配置中 battery 为电容，但电容是伏打电堆和 battery 的统称
+############# product gen 产；产能/产热 储能
+############# lifetime 寿命/持续时间
