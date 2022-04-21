@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 public class BlockSolidFissionMetaSink extends BlockFissionMetaPart<MetaEnums.HeatSinkType> {
 	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.HeatSinkType.class);
+	public final static PropertyEnum<MetaEnums.HeatSinkType> TYPE = PropertyEnum.create("type", MetaEnums.HeatSinkType.class);
 	
 	public BlockSolidFissionMetaSink() {
 		super(MetaEnums.HeatSinkType.class, TYPE);
@@ -59,6 +59,8 @@ public class BlockSolidFissionMetaSink extends BlockFissionMetaPart<MetaEnums.He
 				return new TileSolidFissionSink.Emerald();
 			case 15:
 				return new TileSolidFissionSink.Copper();
+			default:
+				break;
 		}
 		return new TileSolidFissionSink.Water();
 	}

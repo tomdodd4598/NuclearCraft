@@ -3,6 +3,7 @@ package nc.tile.internal.energy;
 import net.minecraft.util.IStringSerializable;
 
 public enum EnergyConnection implements IStringSerializable {
+	
 	IN,
 	OUT,
 	BOTH,

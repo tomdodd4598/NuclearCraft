@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class BlockSaltFissionMetaHeater2 extends BlockFissionMetaPart<MetaEnums.CoolantHeaterType2> {
 	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType2.class);
+	public final static PropertyEnum<MetaEnums.CoolantHeaterType2> TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType2.class);
 	
 	public BlockSaltFissionMetaHeater2() {
 		super(MetaEnums.CoolantHeaterType2.class, TYPE);
@@ -64,6 +64,8 @@ public class BlockSaltFissionMetaHeater2 extends BlockFissionMetaPart<MetaEnums.
 				return new TileSaltFissionHeater.Enderium();
 			case 15:
 				return new TileSaltFissionHeater.Cryotheum();
+			default:
+				break;
 		}
 		return new TileSaltFissionHeater.Tin();
 	}

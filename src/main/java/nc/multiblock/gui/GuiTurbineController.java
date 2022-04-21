@@ -5,20 +5,20 @@ import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.*;
 import nc.network.PacketHandler;
-import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.network.multiblock.*;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-public class GuiTurbineController extends GuiMultiblock<Turbine, ITurbineController> {
+public class GuiTurbineController extends GuiMultiblock<Turbine, ITurbinePart, TurbineUpdatePacket, TileTurbineController> {
 	
 	protected final ResourceLocation gui_texture;
 	
 	int inputRateWidth = 0;
 	
-	public GuiTurbineController(EntityPlayer player, ITurbineController controller) {
+	public GuiTurbineController(EntityPlayer player, TileTurbineController controller) {
 		super(player, controller);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "turbine_controller" + ".png");
 		xSize = 176;

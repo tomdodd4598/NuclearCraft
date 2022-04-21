@@ -4,7 +4,7 @@ import static nc.config.NCConfig.radiation_horse_armor_public;
 
 import javax.annotation.Nonnull;
 
-import nc.util.ArmorHelper;
+import nc.util.*;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,20 +26,17 @@ public class ShapelessArmorRadShieldingRecipe extends ShapelessOreRecipe {
 	
 	@Override
 	public @Nonnull ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
-		for (int i = 0; i < inv.getSizeInventory(); i++) {
+		for (int i = 0; i < inv.getSizeInventory(); ++i) {
 			ItemStack stack = inv.getStackInSlot(i).copy();
 			if (!stack.isEmpty() && ArmorHelper.isArmor(stack.getItem(), radiation_horse_armor_public)) {
-				if (!stack.hasTagCompound()) {
-					stack.setTagCompound(new NBTTagCompound());
-				}
 				if (output.hasTagCompound()) {
-					NBTTagCompound tag = stack.getTagCompound().copy();
-					if (tag.getDouble("ncRadiationResistance") >= output.getTagCompound().getDouble("ncRadiationResistance")) {
+					NBTTagCompound nbt = NBTHelper.getStackNBT(stack), nbtCopy = nbt.copy(), outputNBT = output.getTagCompound();
+					if (nbtCopy.getDouble("ncRadiationResistance") >= outputNBT.getDouble("ncRadiationResistance")) {
 						return ItemStack.EMPTY;
 					}
-					stack.getTagCompound().merge(output.getTagCompound());
-					stack.getTagCompound().merge(tag);
-					stack.getTagCompound().setDouble("ncRadiationResistance", output.getTagCompound().getDouble("ncRadiationResistance"));
+					nbt.merge(outputNBT);
+					nbt.merge(nbtCopy);
+					nbt.setDouble("ncRadiationResistance", outputNBT.getDouble("ncRadiationResistance"));
 				}
 				return stack;
 			}

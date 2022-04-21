@@ -23,7 +23,7 @@ import net.minecraft.world.*;
 
 public class BlockFissionMetaSource extends BlockFissionMetaPart<MetaEnums.NeutronSourceType> implements IActivatable {
 	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronSourceType.class);
+	public final static PropertyEnum<MetaEnums.NeutronSourceType> TYPE = PropertyEnum.create("type", MetaEnums.NeutronSourceType.class);
 	
 	public BlockFissionMetaSource() {
 		super(MetaEnums.NeutronSourceType.class, TYPE);
@@ -55,6 +55,8 @@ public class BlockFissionMetaSource extends BlockFissionMetaPart<MetaEnums.Neutr
 				return new TileFissionSource.PoloniumBeryllium();
 			case 2:
 				return new TileFissionSource.Californium();
+			default:
+				break;
 		}
 		return new TileFissionSource.RadiumBeryllium();
 	}

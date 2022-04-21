@@ -20,61 +20,61 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implements ITickable, ITileEnergy, IEnergySink, IEnergySource, IInterfaceable {
+public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBattery> implements ITickable, ITileEnergy, IEnergySink, IEnergySource, IInterfaceable {
 	
 	public static class VoltaicPileBasic extends TileBattery {
 		
 		public VoltaicPileBasic() {
-			super(BatteryType.VOLTAIC_PILE_BASIC);
+			super(BatteryBlockType.VOLTAIC_PILE_BASIC);
 		}
 	}
 	
 	public static class VoltaicPileAdvanced extends TileBattery {
 		
 		public VoltaicPileAdvanced() {
-			super(BatteryType.VOLTAIC_PILE_ADVANCED);
+			super(BatteryBlockType.VOLTAIC_PILE_ADVANCED);
 		}
 	}
 	
 	public static class VoltaicPileDU extends TileBattery {
 		
 		public VoltaicPileDU() {
-			super(BatteryType.VOLTAIC_PILE_DU);
+			super(BatteryBlockType.VOLTAIC_PILE_DU);
 		}
 	}
 	
 	public static class VoltaicPileElite extends TileBattery {
 		
 		public VoltaicPileElite() {
-			super(BatteryType.VOLTAIC_PILE_ELITE);
+			super(BatteryBlockType.VOLTAIC_PILE_ELITE);
 		}
 	}
 	
 	public static class LithiumIonBatteryBasic extends TileBattery {
 		
 		public LithiumIonBatteryBasic() {
-			super(BatteryType.LITHIUM_ION_BATTERY_BASIC);
+			super(BatteryBlockType.LITHIUM_ION_BATTERY_BASIC);
 		}
 	}
 	
 	public static class LithiumIonBatteryAdvanced extends TileBattery {
 		
 		public LithiumIonBatteryAdvanced() {
-			super(BatteryType.LITHIUM_ION_BATTERY_ADVANCED);
+			super(BatteryBlockType.LITHIUM_ION_BATTERY_ADVANCED);
 		}
 	}
 	
 	public static class LithiumIonBatteryDU extends TileBattery {
 		
 		public LithiumIonBatteryDU() {
-			super(BatteryType.LITHIUM_ION_BATTERY_DU);
+			super(BatteryBlockType.LITHIUM_ION_BATTERY_DU);
 		}
 	}
 	
 	public static class LithiumIonBatteryElite extends TileBattery {
 		
 		public LithiumIonBatteryElite() {
-			super(BatteryType.LITHIUM_ION_BATTERY_ELITE);
+			super(BatteryBlockType.LITHIUM_ION_BATTERY_ELITE);
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 	
 	/** Don't use this constructor! */
 	public TileBattery() {
-		super(BatteryMultiblock.class);
+		super(BatteryMultiblock.class, TileBattery.class);
 		energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.IN);
 		energySides = ITileEnergy.getDefaultEnergySides(this);
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
@@ -106,7 +106,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 		this.energyTier = energyTier;
 	}
 	
-	protected TileBattery(BatteryType type) {
+	protected TileBattery(IBatteryBlockType type) {
 		this(type.getCapacity(), type.getEnergyTier());
 	}
 	
@@ -303,13 +303,13 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock> implement
 		if (!ignoreSide(side)) {
 			if (capability == CapabilityEnergy.ENERGY) {
 				if (hasEnergySideCapability(side)) {
-					return (T) getEnergySide(nonNullSide(side));
+					return CapabilityEnergy.ENERGY.cast(getEnergySide(nonNullSide(side)));
 				}
 				return null;
 			}
 			else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 				if (enable_gtce_eu && hasEnergySideCapability(side)) {
-					return (T) getEnergySideGT(nonNullSide(side));
+					return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(getEnergySideGT(nonNullSide(side)));
 				}
 				return null;
 			}

@@ -1,7 +1,7 @@
 package nc.network.multiblock;
 
-import nc.multiblock.Multiblock;
-import nc.multiblock.tile.IMultiblockController;
+import nc.multiblock.*;
+import nc.multiblock.tile.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +16,7 @@ public abstract class MultiblockUpdatePacket implements IMessage {
 		
 	}
 	
-	public static abstract class Handler<MESSAGE extends MultiblockUpdatePacket, MULTIBLOCK extends Multiblock, CONTROLLER extends IMultiblockController<MULTIBLOCK>> implements IMessageHandler<MESSAGE, IMessage> {
+	public static abstract class Handler<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & IPacketMultiblock<MULTIBLOCK, T, PACKET>, T extends ITileMultiblockPart<MULTIBLOCK, T>, PACKET extends MultiblockUpdatePacket, CONTROLLER extends IMultiblockController<MULTIBLOCK, T, PACKET, CONTROLLER>, P extends MultiblockUpdatePacket> implements IMessageHandler<P, IMessage> {
 		
 		protected final Class<CONTROLLER> controllerClass;
 		
@@ -25,25 +25,23 @@ public abstract class MultiblockUpdatePacket implements IMessage {
 		}
 		
 		@Override
-		public IMessage onMessage(MESSAGE message, MessageContext ctx) {
+		public IMessage onMessage(P message, MessageContext ctx) {
 			if (ctx.side == Side.CLIENT) {
 				Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
 			}
 			return null;
 		}
 		
-		protected void processMessage(MESSAGE message) {
+		protected void processMessage(P message) {
 			TileEntity tile = Minecraft.getMinecraft().player.world.getTileEntity(message.pos);
 			if (controllerClass.isInstance(tile)) {
-				CONTROLLER controller = (CONTROLLER) tile;
+				CONTROLLER controller = controllerClass.cast(tile);
 				if (controller.getMultiblock() != null) {
 					onPacket(message, controller.getMultiblock());
 				}
 			}
 		}
 		
-		protected void onPacket(MESSAGE message, MULTIBLOCK multiblock) {
-			multiblock.onPacket(message);
-		}
+		protected abstract void onPacket(P message, MULTIBLOCK multiblock);
 	}
 }

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ClearAllMaterialPacket implements IMessage {
 	
-	private BlockPos pos;
+	protected BlockPos pos;
 	
 	public ClearAllMaterialPacket() {
 		
@@ -53,7 +53,7 @@ public class ClearAllMaterialPacket implements IMessage {
 			}
 			TileEntity tile = world.getTileEntity(message.pos);
 			if (tile instanceof ITileMultiblockPart) {
-				Multiblock multiblock = ((ITileMultiblockPart) tile).getMultiblock();
+				Multiblock<?, ?> multiblock = ((ITileMultiblockPart<?, ?>) tile).getMultiblock();
 				multiblock.clearAllMaterial();
 			}
 		}

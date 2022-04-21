@@ -13,9 +13,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int voidExcessFluidOutput;
-	private int tankNumber;
+	protected BlockPos pos;
+	protected int voidExcessFluidOutput;
+	protected int tankNumber;
 	
 	public ToggleVoidExcessFluidOutputPacket() {
 		

@@ -1,6 +1,6 @@
 package nc.block.tile;
 
-import javax.annotation.Nullable;
+import javax.annotation.*;
 
 import nc.NuclearCraft;
 import nc.block.NCBlock;
@@ -37,6 +37,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		return getDefaultState();
 	}
 	
+	// TODO move this logic into tile entities with ITile method
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null || hand != EnumHand.MAIN_HAND) {
@@ -57,10 +58,11 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			return false;
 		}
 		
-		if (!(tile instanceof ITileFluid) && !(tile instanceof ITileGui)) {
+		boolean isTileFluid = tile instanceof ITileFluid, isTileGui = tile instanceof ITileGui;
+		if (!isTileFluid && !isTileGui) {
 			return false;
 		}
-		if (tile instanceof ITileFluid && !(tile instanceof ITileGui) && FluidUtil.getFluidHandler(player.getHeldItem(hand)) == null) {
+		if (isTileFluid && !isTileGui && FluidUtil.getFluidHandler(player.getHeldItem(hand)) == null) {
 			return false;
 		}
 		
@@ -78,7 +80,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 				return true;
 			}
 		}
-		if (tile instanceof ITileGui) {
+		if (isTileGui) {
 			if (world.isRemote) {
 				onGuiOpened(world, pos);
 				return true;
@@ -89,7 +91,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 					((IProcessor) tile).refreshRecipe();
 					((IProcessor) tile).refreshActivity();
 				}
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((ITileGui) tile).getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((ITileGui<?>) tile).getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		else {
@@ -99,13 +101,14 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		return true;
 	}
 	
-	protected boolean installUpgrade(TileEntity tile, int slot, EntityPlayer player, EnumHand hand, EnumFacing facing, ItemStack stack) {
-		if (player.getHeldItem(hand).isItemEqual(stack)) {
+	protected boolean installUpgrade(TileEntity tile, int slot, EntityPlayer player, EnumHand hand, EnumFacing facing, @Nonnull ItemStack stack) {
+		ItemStack held = player.getHeldItem(hand);
+		if (held.isItemEqual(stack)) {
 			IItemHandler inv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
 			
-			if (inv != null && inv.isItemValid(slot, player.getHeldItem(hand))) {
+			if (inv != null && inv.isItemValid(slot, held)) {
 				if (player.isSneaking()) {
-					player.setHeldItem(EnumHand.MAIN_HAND, inv.insertItem(slot, player.getHeldItem(hand), false));
+					player.setHeldItem(EnumHand.MAIN_HAND, inv.insertItem(slot, held, false));
 					return true;
 				}
 				else {

@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import nc.util.*;
@@ -56,7 +56,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 				if (recipe != null) {
 					RecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs);
 					if (matchResult.matches()) {
-						return new RecipeInfo(recipe, matchResult);
+						return new RecipeInfo<>(recipe, matchResult);
 					}
 				}
 			}
@@ -95,36 +95,29 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 		recipeCache.clear();
 	}
 	
+	public void init() {
+		for (RECIPE recipe : recipeList) {
+			for (IItemIngredient item : recipe.getItemIngredients()) {
+				item.init();
+			}
+			for (IFluidIngredient fluid : recipe.getFluidIngredients()) {
+				fluid.init();
+			}
+			for (IItemIngredient item : recipe.getItemProducts()) {
+				item.init();
+			}
+			for (IFluidIngredient fluid : recipe.getFluidProducts()) {
+				fluid.init();
+			}
+		}
+	}
+	
 	public void refreshCache() {
 		recipeCache.clear();
 		fillHashCache();
 	}
 	
-	protected void fillHashCache() {
-		for (RECIPE recipe : recipeList) {
-			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
-			
-			if (!prepareMaterialListTuples(recipe, materialListTuples)) {
-				continue;
-			}
-			
-			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
-				for (List<ItemStack> items : PermutationHelper.permutations(materials.getLeft())) {
-					for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
-						long hash = RecipeHelper.hashMaterials(items, fluids);
-						if (recipeCache.containsKey(hash)) {
-							recipeCache.get(hash).add(recipe);
-						}
-						else {
-							ObjectSet<RECIPE> set = new ObjectOpenHashSet<>();
-							set.add(recipe);
-							recipeCache.put(hash, set);
-						}
-					}
-				}
-			}
-		}
-	}
+	protected abstract void fillHashCache();
 	
 	protected boolean prepareMaterialListTuples(RECIPE recipe, List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples) {
 		List<List<ItemStack>> itemInputLists = new ArrayList<>();
@@ -142,14 +135,14 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 		Arrays.fill(inputNumbers, 0);
 		
 		int[] maxNumbers = new int[arrSize];
-		for (int i = 0; i < itemInputLists.size(); i++) {
+		for (int i = 0; i < itemInputLists.size(); ++i) {
 			int maxNumber = itemInputLists.get(i).size() - 1;
 			if (maxNumber < 0) {
 				return false;
 			}
 			maxNumbers[i] = maxNumber;
 		}
-		for (int i = 0; i < fluidInputLists.size(); i++) {
+		for (int i = 0; i < fluidInputLists.size(); ++i) {
 			int maxNumber = fluidInputLists.get(i).size() - 1;
 			if (maxNumber < 0) {
 				return false;
@@ -181,7 +174,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	public static boolean isValidItemInputType(Object itemInput) {
 		for (Class<?> itemInputType : validItemInputs) {
 			if (itemInput instanceof ArrayList && itemInputType == ArrayList.class) {
-				ArrayList list = (ArrayList) itemInput;
+				ArrayList<?> list = (ArrayList<?>) itemInput;
 				for (Object obj : list) {
 					if (isValidItemInputType(obj)) {
 						return true;
@@ -198,7 +191,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	public static boolean isValidFluidInputType(Object fluidInput) {
 		for (Class<?> fluidInputType : validFluidInputs) {
 			if (fluidInput instanceof ArrayList && fluidInputType == ArrayList.class) {
-				ArrayList list = (ArrayList) fluidInput;
+				ArrayList<?> list = (ArrayList<?>) fluidInput;
 				for (Object obj : list) {
 					if (isValidFluidInputType(obj)) {
 						return true;
@@ -289,54 +282,6 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 				}
 			}
 		}
-		return false;
-	}
-	
-	/** Smart item insertion */
-	public boolean isValidItemInput(ItemStack stack, ItemStack slotStack, List<ItemStack> otherInputs) {
-		if (otherInputs.isEmpty() || stack.isItemEqual(slotStack) && StackHelper.areItemStackTagsEqual(stack, slotStack)) {
-			return isValidItemInput(stack);
-		}
-		
-		List<ItemStack> otherStacks = new ArrayList<>();
-		for (ItemStack otherInput : otherInputs) {
-			if (!otherInput.isEmpty()) {
-				otherStacks.add(otherInput);
-			}
-		}
-		if (otherStacks.isEmpty()) {
-			return isValidItemInput(stack);
-		}
-		
-		List<ItemStack> allStacks = Lists.newArrayList(stack);
-		allStacks.addAll(otherStacks);
-		
-		List<RECIPE> recipeList = new ArrayList(this.recipeList);
-		recipeLoop: for (RECIPE recipe : this.recipeList) {
-			objLoop: for (ItemStack obj : allStacks) {
-				for (IItemIngredient input : recipe.getItemIngredients()) {
-					if (input.match(obj, IngredientSorption.NEUTRAL).matches()) {
-						continue objLoop;
-					}
-				}
-				recipeList.remove(recipe);
-				continue recipeLoop;
-			}
-		}
-		
-		for (RECIPE recipe : recipeList) {
-			for (IItemIngredient input : recipe.getItemIngredients()) {
-				if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
-					for (ItemStack other : otherStacks) {
-						if (input.match(other, IngredientSorption.NEUTRAL).matches()) {
-							return false;
-						}
-					}
-					return true;
-				}
-			}
-		}
-		
 		return false;
 	}
 	

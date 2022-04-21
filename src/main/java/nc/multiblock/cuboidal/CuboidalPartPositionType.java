@@ -1,6 +1,7 @@
 package nc.multiblock.cuboidal;
 
 public enum CuboidalPartPositionType {
+	
 	WALL,
 	FRAME,
 	INTERIOR,

@@ -40,6 +40,7 @@ public class BlockQuantumComputerCodeGenerator extends BlockQuantumComputerMetaP
 	}
 	
 	public static enum Type implements IStringSerializable, IBlockMetaEnum {
+		
 		QASM("qasm", 0),
 		QISKIT("qiskit", 1);
 		

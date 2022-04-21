@@ -30,7 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 
-public class FissionReactorLogic extends MultiblockLogic<FissionReactor, FissionReactorLogic, IFissionPart, FissionUpdatePacket> {
+public class FissionReactorLogic extends MultiblockLogic<FissionReactor, FissionReactorLogic, IFissionPart> implements IPacketMultiblockLogic<FissionReactor, FissionReactorLogic, IFissionPart, FissionUpdatePacket> {
 	
 	public final HeatBuffer heatBuffer = new HeatBuffer(FissionReactor.BASE_MAX_HEAT);
 	
@@ -84,7 +84,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	public void onReactorFormed() {
-		for (IFissionController contr : getParts(IFissionController.class)) {
+		for (IFissionController<?> contr : getParts(IFissionController.class)) {
 			getReactor().controller = contr;
 		}
 		
@@ -131,11 +131,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	@Override
-	public void onAssimilate(Multiblock assimilated) {
-		if (assimilated instanceof FissionReactor) {
-			FissionReactor assimilatedReactor = (FissionReactor) assimilated;
-			heatBuffer.mergeHeatBuffers(assimilatedReactor.getLogic().heatBuffer);
-		}
+	public void onAssimilate(FissionReactor assimilated) {
+		heatBuffer.mergeHeatBuffers(assimilated.getLogic().heatBuffer);
 		
 		/*if (getReactor().isAssembled()) {
 			onReactorFormed();
@@ -146,7 +143,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	}
 	
 	@Override
-	public void onAssimilated(Multiblock assimilator) {}
+	public void onAssimilated(FissionReactor assimilator) {}
 	
 	public void refreshConnections() {
 		refreshFilteredPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
@@ -339,14 +336,14 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	public void incrementClusterStatsFromComponents(FissionCluster cluster) {
 		for (IFissionComponent component : cluster.getComponentMap().values()) {
 			if (component.isFunctional()) {
-				cluster.componentCount++;
+				++cluster.componentCount;
 				if (component instanceof IFissionHeatingComponent) {
 					cluster.rawHeating += ((IFissionHeatingComponent) component).getRawHeating();
 					cluster.rawHeatingIgnoreCoolingPenalty += ((IFissionHeatingComponent) component).getRawHeatingIgnoreCoolingPenalty();
 					cluster.effectiveHeating += ((IFissionHeatingComponent) component).getEffectiveHeating();
 					cluster.effectiveHeatingIgnoreCoolingPenalty += ((IFissionHeatingComponent) component).getEffectiveHeatingIgnoreCoolingPenalty();
 					if (component instanceof IFissionFuelComponent) {
-						cluster.fuelComponentCount++;
+						++cluster.fuelComponentCount;
 						cluster.totalHeatMult += ((IFissionFuelComponent) component).getHeatMultiplier();
 						cluster.totalEfficiency += ((IFissionFuelComponent) component).getEfficiency();
 						cluster.totalEfficiencyIgnoreCoolingPenalty += ((IFissionFuelComponent) component).getEfficiencyIgnoreCoolingPenalty();
@@ -401,7 +398,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	@Override
 	public boolean onUpdateServer() {
-		if (!getReactor().isReactorOn) {
+		if (fission_heat_dissipation[getReactor().isReactorOn ? 1 : 0]) {
 			heatBuffer.changeHeatStored(-getHeatDissipation());
 		}
 		return false;
@@ -440,6 +437,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		return false;
 	}
 	
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void casingMeltdown() {
 		Iterator<IFissionController> controllerIterator = getPartIterator(IFissionController.class);
 		while (controllerIterator.hasNext()) {
@@ -499,7 +497,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		}
 	}
 	
-	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {}
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> currentComponentFailCache, final Long2ObjectMap<IFissionComponent> currentAssumedValidCache) {}
 	
 	public IFissionFuelComponent getNextFuelComponent(IFissionFuelComponent fuelComponent, BlockPos pos) {
 		IFissionComponent component = getPartMap(IFissionComponent.class).get(pos.toLong());
@@ -508,7 +506,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	public void refreshFuelComponentLocal(IFissionFuelComponent fuelComponent) {}
 	
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {}
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> currentComponentFailCache, final Long2ObjectMap<IFissionComponent> currentAssumedValidCache) {}
 	
 	public boolean isShieldActiveModerator(TileFissionShield shield, boolean activeModeratorPos) {
 		return false;
@@ -554,15 +552,17 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	// Packets
 	
 	@Override
-	public FissionUpdatePacket getUpdatePacket() {
+	public FissionUpdatePacket getMultiblockUpdatePacket() {
 		return null;
 	}
 	
 	@Override
-	public void onPacket(FissionUpdatePacket message) {
+	public void onMultiblockUpdatePacket(FissionUpdatePacket message) {
 		heatBuffer.setHeatStored(message.heatStored);
 		heatBuffer.setHeatCapacity(message.heatCapacity);
 	}
+	
+	// Clear Material
 	
 	@Override
 	public void clearAllMaterial() {}

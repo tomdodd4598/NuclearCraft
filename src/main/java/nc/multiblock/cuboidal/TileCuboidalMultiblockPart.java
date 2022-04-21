@@ -2,27 +2,28 @@ package nc.multiblock.cuboidal;
 
 import javax.annotation.*;
 
-import nc.multiblock.*;
+import nc.multiblock.BlockFacing;
 import nc.multiblock.tile.TileMultiblockPart;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMultiblock> extends TileMultiblockPart<MULTIBLOCK> {
+public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMultiblock<MULTIBLOCK, T>, T extends ITileCuboidalMultiblockPart<MULTIBLOCK, T>> extends TileMultiblockPart<MULTIBLOCK, T> implements ITileCuboidalMultiblockPart<MULTIBLOCK, T> {
 	
 	protected final CuboidalPartPositionType positionType;
-	protected PartPosition position;
+	protected PartPosition partPosition;
 	protected BlockFacing outwardFacings;
 	
-	public TileCuboidalMultiblockPart(Class<MULTIBLOCK> tClass, CuboidalPartPositionType positionType) {
-		super(tClass);
+	public TileCuboidalMultiblockPart(Class<MULTIBLOCK> multiblockClass, Class<T> tClass, CuboidalPartPositionType positionType) {
+		super(multiblockClass, tClass);
 		
 		this.positionType = positionType;
-		position = PartPosition.Unknown;
+		partPosition = PartPosition.Unknown;
 		outwardFacings = BlockFacing.NONE;
 	}
 	
 	// Positional Data
 	
+	@Override
 	public CuboidalPartPositionType getPartPositionType() {
 		return positionType;
 	}
@@ -30,14 +31,16 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 	/** Get the position of the part in the formed multiblock
 	 *
 	 * @return the position of the part */
+	@Override
 	@Nonnull
 	public PartPosition getPartPosition() {
-		return position;
+		return partPosition;
 	}
 	
 	/** Get the outward facing of the part in the formed multiblock
 	 *
 	 * @return the outward facing of the part. A face is "set" in the BlockFacings object if that face is facing outward */
+	@Override
 	@Nonnull
 	public BlockFacing getOutwardsDir() {
 		return outwardFacings;
@@ -46,9 +49,10 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 	/** Return the single direction this part is facing if the part is in one side of the multiblock
 	 *
 	 * @return the direction toward with the part is facing or null if the part is not in one side of the multiblock */
+	@Override
 	@Nullable
 	public EnumFacing getOutwardFacing() {
-		EnumFacing facing = null != this.position ? this.position.getFacing() : null;
+		EnumFacing facing = null != partPosition ? partPosition.getFacing() : null;
 		
 		if (null == facing) {
 			BlockFacing out = this.getOutwardsDir();
@@ -62,6 +66,7 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 	/** Return the single direction this part is facing based on it's position in the multiblock
 	 *
 	 * @return the direction toward with the part is facing or null if the part is not in one side of the multiblock */
+	@Override
 	@Nullable
 	public EnumFacing getOutwardFacingFromWorldPosition() {
 		BlockFacing facings = null;
@@ -95,12 +100,13 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 	
 	@Override
 	public void onMachineBroken() {
-		position = PartPosition.Unknown;
+		partPosition = PartPosition.Unknown;
 		outwardFacings = BlockFacing.NONE;
 	}
 	
 	// Positional helpers
 	
+	@Override
 	public void recalculateOutwardsDirection(BlockPos minCoord, BlockPos maxCoord) {
 		BlockPos myPosition = getPos();
 		int myX = myPosition.getX();
@@ -134,48 +140,49 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		// what is our position in the multiblock structure?
 		
 		if (facesMatching <= 0) {
-			this.position = PartPosition.Interior;
+			partPosition = PartPosition.Interior;
 		}
 		else if (facesMatching >= 3) {
-			this.position = PartPosition.FrameCorner;
+			partPosition = PartPosition.FrameCorner;
 		}
 		else if (facesMatching == 2) {
 			if (!eastFacing && !westFacing) {
-				this.position = PartPosition.FrameEastWest;
+				partPosition = PartPosition.FrameEastWest;
 			}
 			else if (!southFacing && !northFacing) {
-				this.position = PartPosition.FrameSouthNorth;
+				partPosition = PartPosition.FrameSouthNorth;
 			}
 			else {
-				this.position = PartPosition.FrameUpDown;
+				partPosition = PartPosition.FrameUpDown;
 			}
 		}
 		else {
 			// only 1 face matches
 			if (eastFacing) {
-				this.position = PartPosition.EastFace;
+				partPosition = PartPosition.EastFace;
 			}
 			else if (westFacing) {
-				this.position = PartPosition.WestFace;
+				partPosition = PartPosition.WestFace;
 			}
 			else if (southFacing) {
-				this.position = PartPosition.SouthFace;
+				partPosition = PartPosition.SouthFace;
 			}
 			else if (northFacing) {
-				this.position = PartPosition.NorthFace;
+				partPosition = PartPosition.NorthFace;
 			}
 			else if (upFacing) {
-				this.position = PartPosition.TopFace;
+				partPosition = PartPosition.TopFace;
 			}
 			else {
-				this.position = PartPosition.BottomFace;
+				partPosition = PartPosition.BottomFace;
 			}
 		}
 	}
 	
-	///// Validation Helpers (IMultiblockPart)
+	// Validation Helpers
 	
-	public boolean isGoodForFrame(Multiblock multiblock) {
+	@Override
+	public boolean isGoodForFrame(MULTIBLOCK multiblock) {
 		if (positionType.isGoodForFrame()) {
 			return true;
 		}
@@ -183,7 +190,8 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		return false;
 	}
 	
-	public boolean isGoodForSides(Multiblock multiblock) {
+	@Override
+	public boolean isGoodForSides(MULTIBLOCK multiblock) {
 		if (positionType.isGoodForWall()) {
 			return true;
 		}
@@ -191,7 +199,8 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		return false;
 	}
 	
-	public boolean isGoodForTop(Multiblock multiblock) {
+	@Override
+	public boolean isGoodForTop(MULTIBLOCK multiblock) {
 		if (positionType.isGoodForWall()) {
 			return true;
 		}
@@ -199,7 +208,8 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		return false;
 	}
 	
-	public boolean isGoodForBottom(Multiblock multiblock) {
+	@Override
+	public boolean isGoodForBottom(MULTIBLOCK multiblock) {
 		if (positionType.isGoodForWall()) {
 			return true;
 		}
@@ -207,7 +217,8 @@ public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMult
 		return false;
 	}
 	
-	public boolean isGoodForInterior(Multiblock multiblock) {
+	@Override
+	public boolean isGoodForInterior(MULTIBLOCK multiblock) {
 		if (positionType.isGoodForInterior()) {
 			return true;
 		}

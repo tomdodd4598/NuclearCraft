@@ -2,7 +2,7 @@ package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.tile.TileTurbineController;
+import nc.multiblock.turbine.tile.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
@@ -52,7 +52,7 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 		buf.writeDouble(recipeInputRateFP);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineRenderPacket, Turbine, TileTurbineController> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<Turbine, ITurbinePart, TurbineUpdatePacket, TileTurbineController, TurbineRenderPacket> {
 		
 		public Handler() {
 			super(TileTurbineController.class);

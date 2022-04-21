@@ -1,6 +1,6 @@
 package nc.recipe.processor;
 
-import static nc.config.NCConfig.processor_time;
+import static nc.config.NCConfig.*;
 
 import java.util.*;
 
@@ -67,7 +67,7 @@ public class DecayHastenerRecipes extends BasicRecipeHandler {
 	
 	public void addDecayRecipes(String input, String output, double radiation) {
 		String inputName = (OreDictHelper.oreExists("ingot" + input) ? "ingot" : "dust") + input;
-		double timeMult = NCMath.roundTo(RecipeHelper.getDecayTimeMultiplier(1E-6D, radiation, 3.16E-7D), 5D / processor_time[2]);
+		double timeMult = NCMath.roundTo(RecipeHelper.getDecayTimeMultiplier(1E-6D, radiation, 3.16E-7D), 5D / (processor_time_multiplier * processor_time[2]));
 		if (NON_FISSION.contains(output)) {
 			addRecipe(Lists.newArrayList(inputName, inputName + "Oxide", inputName + "Nitride"), "dust" + output, timeMult, 1D, radiation);
 		}
@@ -79,8 +79,8 @@ public class DecayHastenerRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

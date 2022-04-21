@@ -7,6 +7,7 @@ import net.minecraft.util.IStringSerializable;
 public class MetaEnums {
 	
 	public static enum OreType implements IStringSerializable, IBlockMetaEnum {
+		
 		COPPER("copper", 0, ore_harvest_levels[0], "pickaxe", 3, 15, 0),
 		TIN("tin", 1, ore_harvest_levels[1], "pickaxe", 3, 15, 0),
 		LEAD("lead", 2, ore_harvest_levels[2], "pickaxe", 3, 15, 0),
@@ -76,6 +77,7 @@ public class MetaEnums {
 	}
 	
 	public static enum IngotType implements IStringSerializable, IBlockMetaEnum {
+		
 		COPPER("copper", 0, 0, "pickaxe", 4, 30, 0, 0, 0, false),
 		TIN("tin", 1, 0, "pickaxe", 4, 30, 0, 0, 0, false),
 		LEAD("lead", 2, 0, "pickaxe", 4, 30, 0, 0, 0, false),
@@ -171,6 +173,7 @@ public class MetaEnums {
 	}
 	
 	public static enum FertileIsotopeType implements IStringSerializable, IBlockMetaEnum {
+		
 		URANIUM("uranium", 0, 0, "pickaxe", 3, 15, 0),
 		NEPTUNIUM("neptunium", 1, 0, "pickaxe", 3, 15, 0),
 		PLUTONIUM("plutonium", 2, 0, "pickaxe", 3, 15, 0),
@@ -239,6 +242,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeutronSourceType implements IStringSerializable, IBlockMetaEnum {
+		
 		RADIUM_BERYLLIUM("radium_beryllium", 0, fission_source_efficiency[0], 0, "pickaxe", 2, 15, 0),
 		POLONIUM_BERYLLIUM("polonium_beryllium", 1, fission_source_efficiency[1], 0, "pickaxe", 2, 15, 0),
 		CALIFORNIUM("californium", 2, fission_source_efficiency[2], 0, "pickaxe", 2, 15, 0);
@@ -309,6 +313,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum {
+		
 		BERYLLIUM_CARBON("beryllium_carbon", 0, fission_reflector_efficiency[0], fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
 		LEAD_STEEL("lead_steel", 1, fission_reflector_efficiency[1], fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
 		
@@ -384,6 +389,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum {
+		
 		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
@@ -458,6 +464,7 @@ public class MetaEnums {
 	}
 	
 	public static enum HeatSinkType implements IStringSerializable, ICoolingComponentEnum {
+		
 		WATER("water", 0, fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
 		IRON("iron", 1, fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
 		REDSTONE("redstone", 2, fission_sink_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
@@ -542,6 +549,7 @@ public class MetaEnums {
 	}
 	
 	public static enum HeatSinkType2 implements IStringSerializable, ICoolingComponentEnum {
+		
 		TIN("tin", 0, fission_sink_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
 		LEAD("lead", 1, fission_sink_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
 		BORON("boron", 2, fission_sink_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
@@ -626,6 +634,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CoolantHeaterType implements IStringSerializable, ICoolingComponentEnum {
+		
 		STANDARD("standard", 0, fission_heater_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
 		IRON("iron", 1, fission_heater_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
 		REDSTONE("redstone", 2, fission_heater_cooling_rate[2], 0, "pickaxe", 2, 15, 7),
@@ -710,6 +719,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CoolantHeaterType2 implements IStringSerializable, ICoolingComponentEnum {
+		
 		TIN("tin", 0, fission_heater_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
 		LEAD("lead", 1, fission_heater_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
 		BORON("boron", 2, fission_heater_cooling_rate[18], 0, "pickaxe", 2, 15, 0),
@@ -794,6 +804,7 @@ public class MetaEnums {
 	}
 	
 	public static enum DustType implements IStringSerializable, IMetaEnum {
+		
 		COPPER("copper", 0),
 		TIN("tin", 1),
 		LEAD("lead", 2),
@@ -836,6 +847,7 @@ public class MetaEnums {
 	}
 	
 	public static enum GemType implements IStringSerializable, IMetaEnum {
+		
 		RHODOCHROSITE("rhodochrosite", 0),
 		BORON_NITRIDE("boron_nitride", 1),
 		FLUORITE("fluorite", 2),
@@ -869,6 +881,7 @@ public class MetaEnums {
 	}
 	
 	public static enum GemDustType implements IStringSerializable, IMetaEnum {
+		
 		DIAMOND("diamond", 0),
 		RHODOCHROSITE("rhodochrosite", 1),
 		QUARTZ("quartz", 2),
@@ -907,6 +920,7 @@ public class MetaEnums {
 	}
 	
 	public static enum AlloyType implements IStringSerializable, IMetaEnum {
+		
 		BRONZE("bronze", 0),
 		TOUGH("tough", 1),
 		HARD_CARBON("hard_carbon", 2),
@@ -950,6 +964,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CompoundType implements IStringSerializable, IMetaEnum {
+		
 		CALCIUM_SULFATE("calcium_sulfate", 0),
 		CRYSTAL_BINDER("crystal_binder", 1),
 		ENERGETIC_BLEND("energetic_blend", 2),
@@ -988,6 +1003,7 @@ public class MetaEnums {
 	}
 	
 	public static enum PartType implements IStringSerializable, IMetaEnum {
+		
 		PLATE_BASIC("plate_basic", 0),
 		PLATE_ADVANCED("plate_advanced", 1),
 		PLATE_DU("plate_du", 2),
@@ -1030,6 +1046,7 @@ public class MetaEnums {
 	}
 	
 	public static enum UpgradeType implements IStringSerializable, IMetaEnum {
+		
 		SPEED("speed", 0),
 		ENERGY("energy", 1);
 		
@@ -1064,6 +1081,7 @@ public class MetaEnums {
 	}
 	
 	public static enum FissionDustType implements IStringSerializable, IMetaEnum {
+		
 		BISMUTH("bismuth", 0),
 		RADIUM("radium", 1),
 		POLONIUM("polonium", 2),
@@ -1101,6 +1119,7 @@ public class MetaEnums {
 	}
 	
 	public static enum UraniumType implements IStringSerializable, IMetaEnum {
+		
 		_233("233", 0),
 		_233_C("233_c", 1),
 		_233_OX("233_ox", 2),
@@ -1142,6 +1161,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeptuniumType implements IStringSerializable, IMetaEnum {
+		
 		_236("236", 0),
 		_236_C("236_c", 1),
 		_236_OX("236_ox", 2),
@@ -1178,6 +1198,7 @@ public class MetaEnums {
 	}
 	
 	public static enum PlutoniumType implements IStringSerializable, IMetaEnum {
+		
 		_238("238", 0),
 		_238_C("238_c", 1),
 		_238_OX("238_ox", 2),
@@ -1224,6 +1245,7 @@ public class MetaEnums {
 	}
 	
 	public static enum AmericiumType implements IStringSerializable, IMetaEnum {
+		
 		_241("241", 0),
 		_241_C("241_c", 1),
 		_241_OX("241_ox", 2),
@@ -1265,6 +1287,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CuriumType implements IStringSerializable, IMetaEnum {
+		
 		_243("243", 0),
 		_243_C("243_c", 1),
 		_243_OX("243_ox", 2),
@@ -1311,6 +1334,7 @@ public class MetaEnums {
 	}
 	
 	public static enum BerkeliumType implements IStringSerializable, IMetaEnum {
+		
 		_247("247", 0),
 		_247_C("247_c", 1),
 		_247_OX("247_ox", 2),
@@ -1347,6 +1371,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CaliforniumType implements IStringSerializable, IMetaEnum {
+		
 		_249("249", 0),
 		_249_C("249_c", 1),
 		_249_OX("249_ox", 2),
@@ -1393,6 +1418,7 @@ public class MetaEnums {
 	}
 	
 	public static enum ThoriumPelletType implements IStringSerializable, IMetaEnum {
+		
 		TBU("tbu", 0),
 		TBU_C("tbu_c", 1);
 		
@@ -1421,6 +1447,7 @@ public class MetaEnums {
 	}
 	
 	public static enum UraniumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LEU_233("leu_233", 0),
 		LEU_233_C("leu_233_c", 1),
 		HEU_233("heu_233", 2),
@@ -1455,6 +1482,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeptuniumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LEN_236("len_236", 0),
 		LEN_236_C("len_236_c", 1),
 		HEN_236("hen_236", 2),
@@ -1485,6 +1513,7 @@ public class MetaEnums {
 	}
 	
 	public static enum PlutoniumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LEP_239("lep_239", 0),
 		LEP_239_C("lep_239_c", 1),
 		HEP_239("hep_239", 2),
@@ -1519,6 +1548,7 @@ public class MetaEnums {
 	}
 	
 	public static enum MixedPelletType implements IStringSerializable, IMetaEnum {
+		
 		MIX_239("mix_239", 0),
 		MIX_239_C("mix_239_c", 1),
 		MIX_241("mix_241", 2),
@@ -1549,6 +1579,7 @@ public class MetaEnums {
 	}
 	
 	public static enum AmericiumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LEA_242("lea_242", 0),
 		LEA_242_C("lea_242_c", 1),
 		HEA_242("hea_242", 2),
@@ -1579,6 +1610,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CuriumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LECm_243("lecm_243", 0),
 		LECm_243_C("lecm_243_c", 1),
 		HECm_243("hecm_243", 2),
@@ -1617,6 +1649,7 @@ public class MetaEnums {
 	}
 	
 	public static enum BerkeliumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LEB_248("leb_248", 0),
 		LEB_248_C("leb_248_c", 1),
 		HEB_248("heb_248", 2),
@@ -1647,6 +1680,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CaliforniumPelletType implements IStringSerializable, IMetaEnum {
+		
 		LECf_249("lecf_249", 0),
 		LECf_249_C("lecf_249_c", 1),
 		HECf_249("hecf_249", 2),
@@ -1681,6 +1715,7 @@ public class MetaEnums {
 	}
 	
 	public static enum ThoriumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		TBU_TR("tbu_tr", 0),
 		TBU_OX("tbu_ox", 1),
 		TBU_NI("tbu_ni", 2),
@@ -1744,6 +1779,7 @@ public class MetaEnums {
 	}
 	
 	public static enum UraniumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LEU_233_TR("leu_233_tr", 0),
 		LEU_233_OX("leu_233_ox", 1),
 		LEU_233_NI("leu_233_ni", 2),
@@ -1819,6 +1855,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeptuniumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LEN_236_TR("len_236_tr", 0),
 		LEN_236_OX("len_236_ox", 1),
 		LEN_236_NI("len_236_ni", 2),
@@ -1886,6 +1923,7 @@ public class MetaEnums {
 	}
 	
 	public static enum PlutoniumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LEP_239_TR("lep_239_tr", 0),
 		LEP_239_OX("lep_239_ox", 1),
 		LEP_239_NI("lep_239_ni", 2),
@@ -1961,6 +1999,7 @@ public class MetaEnums {
 	}
 	
 	public static enum MixedFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		MIX_239_TR("mix_239_tr", 0),
 		MIX_239_OX("mix_239_ox", 1),
 		MIX_239_NI("mix_239_ni", 2),
@@ -2028,6 +2067,7 @@ public class MetaEnums {
 	}
 	
 	public static enum AmericiumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LEA_242_TR("lea_242_tr", 0),
 		LEA_242_OX("lea_242_ox", 1),
 		LEA_242_NI("lea_242_ni", 2),
@@ -2095,6 +2135,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CuriumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LECm_243_TR("lecm_243_tr", 0),
 		LECm_243_OX("lecm_243_ox", 1),
 		LECm_243_NI("lecm_243_ni", 2),
@@ -2178,6 +2219,7 @@ public class MetaEnums {
 	}
 	
 	public static enum BerkeliumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LEB_248_TR("leb_248_tr", 0),
 		LEB_248_OX("leb_248_ox", 1),
 		LEB_248_NI("leb_248_ni", 2),
@@ -2245,6 +2287,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CaliforniumFuelType implements IStringSerializable, IFissionFuelEnum {
+		
 		LECf_249_TR("lecf_249_tr", 0),
 		LECf_249_OX("lecf_249_ox", 1),
 		LECf_249_NI("lecf_249_ni", 2),
@@ -2320,6 +2363,7 @@ public class MetaEnums {
 	}
 	
 	public static enum ThoriumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		TBU_TR("tbu_tr", 0),
 		TBU_OX("tbu_ox", 1),
 		TBU_NI("tbu_ni", 2),
@@ -2350,6 +2394,7 @@ public class MetaEnums {
 	}
 	
 	public static enum UraniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LEU_233_TR("leu_233_tr", 0),
 		LEU_233_OX("leu_233_ox", 1),
 		LEU_233_NI("leu_233_ni", 2),
@@ -2392,6 +2437,7 @@ public class MetaEnums {
 	}
 	
 	public static enum NeptuniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LEN_236_TR("len_236_tr", 0),
 		LEN_236_OX("len_236_ox", 1),
 		LEN_236_NI("len_236_ni", 2),
@@ -2426,6 +2472,7 @@ public class MetaEnums {
 	}
 	
 	public static enum PlutoniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LEP_239_TR("lep_239_tr", 0),
 		LEP_239_OX("lep_239_ox", 1),
 		LEP_239_NI("lep_239_ni", 2),
@@ -2468,6 +2515,7 @@ public class MetaEnums {
 	}
 	
 	public static enum MixedDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		MIX_239_TR("mix_239_tr", 0),
 		MIX_239_OX("mix_239_ox", 1),
 		MIX_239_NI("mix_239_ni", 2),
@@ -2502,6 +2550,7 @@ public class MetaEnums {
 	}
 	
 	public static enum AmericiumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LEA_242_TR("lea_242_tr", 0),
 		LEA_242_OX("lea_242_ox", 1),
 		LEA_242_NI("lea_242_ni", 2),
@@ -2536,6 +2585,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CuriumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LECm_243_TR("lecm_243_tr", 0),
 		LECm_243_OX("lecm_243_ox", 1),
 		LECm_243_NI("lecm_243_ni", 2),
@@ -2586,6 +2636,7 @@ public class MetaEnums {
 	}
 	
 	public static enum BerkeliumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LEB_248_TR("leb_248_tr", 0),
 		LEB_248_OX("leb_248_ox", 1),
 		LEB_248_NI("leb_248_ni", 2),
@@ -2620,6 +2671,7 @@ public class MetaEnums {
 	}
 	
 	public static enum CaliforniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		LECf_249_TR("lecf_249_tr", 0),
 		LECf_249_OX("lecf_249_ox", 1),
 		LECf_249_NI("lecf_249_ni", 2),
@@ -2662,6 +2714,7 @@ public class MetaEnums {
 	}
 	
 	public static enum IC2DepletedFuelType implements IStringSerializable, IMetaEnum {
+		
 		U("u", 0),
 		MOX("mox", 1);
 		
@@ -2690,6 +2743,7 @@ public class MetaEnums {
 	}
 	
 	public static enum BoronType implements IStringSerializable, IMetaEnum {
+		
 		_10("10", 0),
 		_11("11", 1);
 		
@@ -2718,6 +2772,7 @@ public class MetaEnums {
 	}
 	
 	public static enum LithiumType implements IStringSerializable, IMetaEnum {
+		
 		_6("6", 0),
 		_7("7", 1);
 		
@@ -2746,6 +2801,7 @@ public class MetaEnums {
 	}
 	
 	public static enum RadShieldingType implements IStringSerializable, IMetaEnum {
+		
 		LIGHT("light", 0),
 		MEDIUM("medium", 1),
 		HEAVY("heavy", 2);

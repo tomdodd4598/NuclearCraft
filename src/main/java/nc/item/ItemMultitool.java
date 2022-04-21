@@ -47,18 +47,17 @@ public class ItemMultitool extends NCItem {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof IMultitoolLogic) {
 				if (!world.isRemote) {
-					if (stack.getTagCompound() == null) {
-						clearNBT(stack);
-					}
-					NBTTagCompound nbt = stack.getTagCompound();
+					NBTTagCompound nbt = NBTHelper.getStackNBT(stack);
 					
-					boolean multitoolUsed = ((IMultitoolLogic) tile).onUseMultitool(stack, player, world, facing, hitX, hitY, hitZ);
-					nbt.setBoolean("multitoolUsed", multitoolUsed);
+					if (nbt != null) {
+						boolean multitoolUsed = ((IMultitoolLogic) tile).onUseMultitool(stack, player, world, facing, hitX, hitY, hitZ);
+						nbt.setBoolean("multitoolUsed", multitoolUsed);
 					
-					tile.markDirty();
-					
-					if (multitoolUsed) {
-						return EnumActionResult.SUCCESS;
+						tile.markDirty();
+						
+						if (multitoolUsed) {
+							return EnumActionResult.SUCCESS;
+						}
 					}
 				}
 			}
@@ -71,9 +70,6 @@ public class ItemMultitool extends NCItem {
 		ItemStack stack = player.getHeldItem(hand);
 		if (isMultitool(stack)) {
 			if (!world.isRemote) {
-				if (stack.getTagCompound() == null) {
-					clearNBT(stack);
-				}
 				for (MultitoolRightClickLogic logic : MULTITOOL_RIGHT_CLICK_LOGIC) {
 					ActionResult<ItemStack> result = logic.onRightClick(this, world, player, hand, stack);
 					if (result != null) {
@@ -101,8 +97,8 @@ public class ItemMultitool extends NCItem {
 			
 			@Override
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
-				NBTTagCompound nbt = heldItem.getTagCompound();
-				if (!player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
+				NBTTagCompound nbt = NBTHelper.getStackNBT(heldItem);
+				if (nbt != null && !player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
 					double angle = NCMath.roundTo(player.rotationYaw + 360D, 360D / quantum_angle_precision) % 360D;
 					nbt.setDouble("gateAngle", angle);
 					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.tool_set_angle", NCMath.decimalPlaces(angle, 5))));
@@ -116,8 +112,9 @@ public class ItemMultitool extends NCItem {
 			
 			@Override
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
-				NBTTagCompound nbt = heldItem.getTagCompound();
-				if (player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
+				NBTTagCompound nbt = NBTHelper.getStackNBT(heldItem);
+				if (nbt != null && player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
+					@SuppressWarnings("synthetic-access")
 					RayTraceResult raytraceresult = itemMultitool.rayTrace(world, player, false);
 					if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
 						return itemMultitool.actionResult(false, heldItem);
@@ -139,7 +136,10 @@ public class ItemMultitool extends NCItem {
 			
 			@Override
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
-				heldItem.getTagCompound().removeTag("multitoolUsed");
+				NBTTagCompound nbt = NBTHelper.getStackNBT(heldItem);
+				if (nbt != null) {
+					nbt.removeTag("multitoolUsed");
+				}
 				return null;
 			}
 		});

@@ -54,7 +54,7 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 		}
 		
 		@Override
-		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 			return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
 		}
 	}
@@ -164,8 +164,8 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	// Moderator Line
 	
 	@Override
-	public ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPos) {
-		this.validActiveModeratorPos[dir.getIndex()] = getMultiblock() == null ? false : getLogic().isShieldActiveModerator(this, validActiveModeratorPos);
+	public ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPosIn) {
+		this.validActiveModeratorPos[dir.getIndex()] = getMultiblock() == null ? false : getLogic().isShieldActiveModerator(this, validActiveModeratorPosIn);
 		return getMultiblock() != null ? getLogic().getShieldModeratorBlockInfo(this, this.validActiveModeratorPos[dir.getIndex()]) : null;
 	}
 	
@@ -241,11 +241,11 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	}
 	
 	@Override
-	public boolean onManagerRefresh(TileFissionShieldManager manager) {
-		this.manager = manager;
-		managerPos = manager.getPos();
+	public boolean onManagerRefresh(TileFissionShieldManager managerIn) {
+		manager = managerIn;
+		managerPos = managerIn.getPos();
 		boolean wasShielding = isShielding;
-		isShielding = manager.isShieldingActive();
+		isShielding = managerIn.isShieldingActive();
 		if (wasShielding != isShielding) {
 			if (!world.isRemote) {
 				setActivity(isShielding);
@@ -258,11 +258,11 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	// Ticking
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
 		boolean wasShielding = isShielding;
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		setActivity(isShielding);
-		if (!world.isRemote && wasShielding != isShielding) {
+		if (!worldIn.isRemote && wasShielding != isShielding) {
 			getLogic().onShieldUpdated(this);
 		}
 	}

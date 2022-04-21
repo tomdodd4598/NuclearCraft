@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class CondenserCategory extends JEIMachineCategory<JEIRecipeWrapper.Condenser> {
 	
-	public CondenserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public CondenserCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Condenser> handler) {
 		super(guiHelper, handler, "condenser_controller", 47, 30, 90, 26);
 	}
 	

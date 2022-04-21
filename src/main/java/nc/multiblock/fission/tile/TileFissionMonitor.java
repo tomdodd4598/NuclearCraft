@@ -5,7 +5,7 @@ import static nc.util.PosHelper.DEFAULT_NON;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,20 +43,20 @@ public class TileFissionMonitor extends TileFissionPart {
 	// IMultitoolLogic
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		// TODO
 		if (player.isSneaking()) {
 			
 		}
 		else {
-			NBTTagCompound nbt = multitoolStack.getTagCompound();
-			if (nbt.hasKey("componentPos", 99)) {
+			NBTTagCompound nbt = NBTHelper.getStackNBT(multitool);
+			if (nbt != null && nbt.hasKey("componentPos", 99)) {
 				componentPos = BlockPos.fromLong(nbt.getLong("componentPos"));
 				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.connect_component_monitor")));
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT

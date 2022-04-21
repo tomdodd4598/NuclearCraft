@@ -14,12 +14,12 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class TileFissionVesselPort extends TileFissionFluidPort<TileFissionVesselPort, TileSaltFissionVessel> implements ITileGui<FissionVesselPortUpdatePacket> {
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected Set<EntityPlayer> updatePacketListeners;
 	
 	public TileFissionVesselPort() {
 		super(TileFissionVesselPort.class, INGOT_BLOCK_VOLUME, NCRecipes.salt_fission_valid_fluids.get(0), NCRecipes.salt_fission);
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class TileFissionVesselPort extends TileFissionFluidPort<TileFissionVesse
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 		}
 	}
 	
@@ -50,25 +50,25 @@ public class TileFissionVesselPort extends TileFissionFluidPort<TileFissionVesse
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public FissionVesselPortUpdatePacket getGuiUpdatePacket() {
+	public FissionVesselPortUpdatePacket getTileUpdatePacket() {
 		return new FissionVesselPortUpdatePacket(pos, masterPortPos, getTanks(), getFilterTanks());
 	}
 	
 	@Override
-	public void onGuiPacket(FissionVesselPortUpdatePacket message) {
+	public void onTileUpdatePacket(FissionVesselPortUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();
 		}
-		for (int i = 0; i < getTanks().size(); i++) {
+		for (int i = 0; i < getTanks().size(); ++i) {
 			getTanks().get(i).readInfo(message.tanksInfo.get(i));
 		}
-		for (int i = 0; i < getFilterTanks().size(); i++) {
+		for (int i = 0; i < getFilterTanks().size(); ++i) {
 			getFilterTanks().get(i).readInfo(message.filterTanksInfo.get(i));
 		}
 	}

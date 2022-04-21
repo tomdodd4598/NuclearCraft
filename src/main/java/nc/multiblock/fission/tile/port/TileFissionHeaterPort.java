@@ -23,13 +23,13 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	
 	protected String heaterType, coolantName;
 	
-	protected final Set<EntityPlayer> playersToUpdate;
+	protected final Set<EntityPlayer> updatePacketListeners;
 	
 	/** Don't use this constructor! */
 	public TileFissionHeaterPort() {
 		super(TileFissionHeaterPort.class, INGOT_BLOCK_VOLUME, null, NCRecipes.coolant_heater);
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	public TileFissionHeaterPort(String heaterType, String coolantName) {
@@ -50,7 +50,7 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 		}
 		
 		@Override
-		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 			return oldState.getBlock() != newState.getBlock() || oldState.getBlock().getMetaFromState(oldState) != newState.getBlock().getMetaFromState(newState);
 		}
 	}
@@ -300,7 +300,7 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 		}
 	}
 	
@@ -312,25 +312,25 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public FissionHeaterPortUpdatePacket getGuiUpdatePacket() {
+	public FissionHeaterPortUpdatePacket getTileUpdatePacket() {
 		return new FissionHeaterPortUpdatePacket(pos, masterPortPos, getTanks(), getFilterTanks());
 	}
 	
 	@Override
-	public void onGuiPacket(FissionHeaterPortUpdatePacket message) {
+	public void onTileUpdatePacket(FissionHeaterPortUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();
 		}
-		for (int i = 0; i < getTanks().size(); i++) {
+		for (int i = 0; i < getTanks().size(); ++i) {
 			getTanks().get(i).readInfo(message.tanksInfo.get(i));
 		}
-		for (int i = 0; i < getFilterTanks().size(); i++) {
+		for (int i = 0; i < getFilterTanks().size(); ++i) {
 			getFilterTanks().get(i).readInfo(message.filterTanksInfo.get(i));
 		}
 	}

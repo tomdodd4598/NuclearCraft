@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class FuelReprocessorCategory extends JEIMachineCategory<JEIRecipeWrapper.FuelReprocessor> {
 	
-	public FuelReprocessorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FuelReprocessorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.FuelReprocessor> handler) {
 		super(guiHelper, handler, "fuel_reprocessor", 29, 30, 134, 38);
 	}
 	

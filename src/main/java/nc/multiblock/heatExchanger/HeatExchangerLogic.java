@@ -13,7 +13,7 @@ import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.network.multiblock.HeatExchangerUpdatePacket;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart, HeatExchangerUpdatePacket> {
+public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart> implements IPacketMultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart, HeatExchangerUpdatePacket> {
 	
 	public HeatExchangerLogic(HeatExchanger exchanger) {
 		super(exchanger);
@@ -91,11 +91,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	}
 	
 	@Override
-	public void onAssimilate(Multiblock assimilated) {
-		if (assimilated instanceof HeatExchanger) {
-			
-		}
-		
+	public void onAssimilate(HeatExchanger assimilated) {
 		/*if (getExchanger().isAssembled()) {
 			onExchangerFormed();
 		}
@@ -105,7 +101,7 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	}
 	
 	@Override
-	public void onAssimilated(Multiblock assimilator) {}
+	public void onAssimilated(HeatExchanger assimilator) {}
 	
 	// Server
 	
@@ -136,16 +132,18 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExcha
 	// Packets
 	
 	@Override
-	public HeatExchangerUpdatePacket getUpdatePacket() {
+	public HeatExchangerUpdatePacket getMultiblockUpdatePacket() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public void onPacket(HeatExchangerUpdatePacket message) {
+	public void onMultiblockUpdatePacket(HeatExchangerUpdatePacket message) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	// Clear Material
 	
 	@Override
 	public void clearAllMaterial() {

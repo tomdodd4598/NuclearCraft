@@ -18,12 +18,7 @@ public class NCInfo {
 	// Fission Fuel
 	
 	public static String[] fissionFuelInfo(BasicRecipe fuelInfo) {
-		List<String> list = Lists.newArrayList(
-				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"),
-				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime(), 3)),
-				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")),
-				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", NCMath.pcDecimalPlaces(fuelInfo.getFissionFuelEfficiency(), 1)),
-				Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t"));
+		List<String> list = Lists.newArrayList(Lang.localise("info." + Global.MOD_ID + ".fission_fuel.desc"), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(fuelInfo.getFissionFuelTime(), 3)), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(fuelInfo.getFissionFuelHeat(), 5, "H/t")), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", NCMath.pcDecimalPlaces(fuelInfo.getFissionFuelEfficiency(), 1)), Lang.localise("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", fuelInfo.getFissionFuelCriticality() + " N/t"));
 		if (fission_decay_mechanics) {
 			list.add(Lang.localise("info." + Global.MOD_ID + ".fission_fuel.decay_factor.desc", NCMath.pcDecimalPlaces(fuelInfo.getFissionFuelDecayFactor(), 1)));
 		}
@@ -37,7 +32,7 @@ public class NCInfo {
 	
 	public static <T extends Enum<T> & IStringSerializable & ICoolingComponentEnum> String[][] coolingFixedInfo(T[] values, String name) {
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			info[i] = coolingRateInfo(values[i], name);
 		}
 		return info;
@@ -72,7 +67,7 @@ public class NCInfo {
 	public static String[][] neutronSourceFixedInfo() {
 		MetaEnums.NeutronSourceType[] values = MetaEnums.NeutronSourceType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			info[i] = neutronSourceEfficiencyInfo(values[i].getEfficiency());
 		}
 		return info;
@@ -85,7 +80,7 @@ public class NCInfo {
 	public static String[][] neutronSourceInfo() {
 		MetaEnums.NeutronSourceType[] values = MetaEnums.NeutronSourceType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			info[i] = neutronSourceDescriptionInfo();
 		}
 		return info;
@@ -100,23 +95,21 @@ public class NCInfo {
 	public static String[][] neutronShieldFixedInfo() {
 		MetaEnums.NeutronShieldType[] values = MetaEnums.NeutronShieldType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			info[i] = neutronShieldStatInfo(values[i].getHeatPerFlux(), values[i].getEfficiency());
 		}
 		return info;
 	}
 	
 	public static String[] neutronShieldStatInfo(double heatPerFlux, double efficiency) {
-		return new String[] {
-				Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(heatPerFlux, 5, "H/N")),
-				Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", NCMath.pcDecimalPlaces(efficiency, 1))
+		return new String[] {Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd", UnitHelper.prefix(heatPerFlux, 5, "H/N")), Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd", NCMath.pcDecimalPlaces(efficiency, 1))
 		};
 	}
 	
 	public static String[][] neutronShieldInfo() {
 		MetaEnums.NeutronShieldType[] values = MetaEnums.NeutronShieldType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			info[i] = neutronShieldDescriptionInfo();
 		}
 		return info;
@@ -129,10 +122,7 @@ public class NCInfo {
 	// Fission Moderators
 	
 	public static String[] fissionModeratorFixedInfo(BasicRecipe moderatorInfo) {
-		return new String[] {
-				Lang.localise("info." + Global.MOD_ID + ".moderator.fixd"),
-				Lang.localise("info." + Global.MOD_ID + ".moderator.flux_factor.fixd", moderatorInfo.getFissionModeratorFluxFactor() + " N/t"),
-				Lang.localise("info." + Global.MOD_ID + ".moderator.efficiency.fixd", NCMath.pcDecimalPlaces(moderatorInfo.getFissionModeratorEfficiency(), 1))
+		return new String[] {Lang.localise("info." + Global.MOD_ID + ".moderator.fixd"), Lang.localise("info." + Global.MOD_ID + ".moderator.flux_factor.fixd", moderatorInfo.getFissionModeratorFluxFactor() + " N/t"), Lang.localise("info." + Global.MOD_ID + ".moderator.efficiency.fixd", NCMath.pcDecimalPlaces(moderatorInfo.getFissionModeratorEfficiency(), 1))
 		};
 	}
 	
@@ -143,10 +133,7 @@ public class NCInfo {
 	// Fission Reflectors
 	
 	public static String[] fissionReflectorFixedInfo(BasicRecipe reflectorInfo) {
-		return new String[] {
-				Lang.localise("info." + Global.MOD_ID + ".reflector.fixd"),
-				Lang.localise("info." + Global.MOD_ID + ".reflector.reflectivity.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorReflectivity(), 1)),
-				Lang.localise("info." + Global.MOD_ID + ".reflector.efficiency.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorEfficiency(), 1))
+		return new String[] {Lang.localise("info." + Global.MOD_ID + ".reflector.fixd"), Lang.localise("info." + Global.MOD_ID + ".reflector.reflectivity.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorReflectivity(), 1)), Lang.localise("info." + Global.MOD_ID + ".reflector.efficiency.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorEfficiency(), 1))
 		};
 	}
 	
@@ -158,7 +145,7 @@ public class NCInfo {
 	
 	public static String[][] dynamoCoilFixedInfo() {
 		String[][] info = new String[TurbineDynamoCoilType.values().length][];
-		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
+		for (int i = 0; i < TurbineDynamoCoilType.values().length; ++i) {
 			info[i] = coilConductivityInfo(i);
 		}
 		return info;
@@ -176,11 +163,11 @@ public class NCInfo {
 	
 	public static String[][] upgradeInfo() {
 		String[][] info = new String[MetaEnums.UpgradeType.values().length][];
-		for (int i = 0; i < MetaEnums.UpgradeType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.UpgradeType.values().length; ++i) {
 			info[i] = InfoHelper.EMPTY_ARRAY;
 		}
-		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", powerAdverb(speed_upgrade_power_laws[0], "increase", "with"), powerAdverb(speed_upgrade_power_laws[1], "increase", "")));
-		info[1] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.energy_desc", powerAdverb(energy_upgrade_power_laws[0], "decrease", "with")));
+		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", powerAdverb(speed_upgrade_power_laws_fp[0], "increase", "with"), powerAdverb(speed_upgrade_power_laws_fp[1], "increase", "")));
+		info[1] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.energy_desc", powerAdverb(energy_upgrade_power_laws_fp[0], "decrease", "with")));
 		return info;
 	}
 	
@@ -200,10 +187,10 @@ public class NCInfo {
 	
 	/*public static <T extends Enum<T> & IStringSerializable & IMetaEnum> String[][] oreDropInfo(String type, T[] values, int[] configIds, int[] metas) {
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			info[i] = null;
 		}
-		for (int i = 0; i < configIds.length; i++) {
+		for (int i = 0; i < configIds.length; ++i) {
 			String unloc = "item." + Global.MOD_ID + "." + type + "." + values[metas[i]].getName() + ".desc";
 			if (Lang.canLocalise(unloc) && ore_drops[configIds[i]]) {
 				info[metas[i]] = InfoHelper.formattedInfo(Lang.localise(unloc));
@@ -229,7 +216,7 @@ public class NCInfo {
 	
 	public static String[][] radShieldingInfo() {
 		String[][] info = new String[MetaEnums.RadShieldingType.values().length][];
-		for (int i = 0; i < MetaEnums.RadShieldingType.values().length; i++) {
+		for (int i = 0; i < MetaEnums.RadShieldingType.values().length; ++i) {
 			info[i] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.rad_shielding.desc" + (radiation_hardcore_containers > 0D ? "_hardcore" : ""), RadiationHelper.resistanceSigFigs(radiation_shielding_level[i])));
 		}
 		return info;

@@ -16,6 +16,7 @@ import net.minecraft.util.IStringSerializable;
 public class BlockEnums {
 	
 	public enum ProcessorType implements IStringSerializable {
+		
 		MANUFACTORY("manufactory", 1, "reddust", "crit"),
 		SEPARATOR("separator", 2, "reddust", "smoke"),
 		DECAY_HASTENER("decay_hastener", 3, "reddust", "reddust"),
@@ -165,6 +166,7 @@ public class BlockEnums {
 	}
 	
 	public enum SimpleTileType implements IStringSerializable {
+		
 		MACHINE_INTERFACE("machine_interface", NCTabs.MACHINE),
 		DECAY_GENERATOR("decay_generator", NCTabs.MACHINE),
 		BIN("bin", NCTabs.MACHINE),

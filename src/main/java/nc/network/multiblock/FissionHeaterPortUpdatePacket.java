@@ -46,11 +46,11 @@ public class FissionHeaterPortUpdatePacket extends FissionPortUpdatePacket {
 		}
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<FissionHeaterPortUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<FissionHeaterPortUpdatePacket, ITileGui<FissionHeaterPortUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(FissionHeaterPortUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(FissionHeaterPortUpdatePacket message, ITileGui<FissionHeaterPortUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

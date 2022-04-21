@@ -39,9 +39,9 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	public void onLoad() {
 		super.onLoad();
 		if (!world.isRemote) {
-			for (int x = -radiation_scrubber_radius; x <= radiation_scrubber_radius; x++) {
-				for (int y = -radiation_scrubber_radius; y <= radiation_scrubber_radius; y++) {
-					for (int z = -radiation_scrubber_radius; z <= radiation_scrubber_radius; z++) {
+			for (int x = -radiation_scrubber_radius; x <= radiation_scrubber_radius; ++x) {
+				for (int y = -radiation_scrubber_radius; y <= radiation_scrubber_radius; ++y) {
+					for (int z = -radiation_scrubber_radius; z <= radiation_scrubber_radius; ++z) {
 						RadiationEnvironmentHandler.addTile(getFourPos().add(x, y, z), this);
 					}
 				}
@@ -82,9 +82,10 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 			efficiency = 0D;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getScrubberProcessTime();
-		baseProcessPower = recipeInfo.getRecipe().getScrubberProcessPower();
-		efficiency = recipeInfo.getRecipe().getScrubberProcessEfficiency();
+		BasicRecipe recipe = recipeInfo.getRecipe();
+		baseProcessTime = recipe.getScrubberProcessTime();
+		baseProcessPower = recipe.getScrubberProcessPower();
+		efficiency = recipe.getScrubberProcessEfficiency();
 		return true;
 	}
 	
@@ -104,7 +105,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	}
 	
 	public void tickRadCount() {
-		radCheckCount++;
+		++radCheckCount;
 		radCheckCount %= machine_update_rate * 20;
 	}
 	
@@ -136,7 +137,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	
 	@Override
 	public void process() {
-		time++;
+		++time;
 		getEnergyStorage().changeEnergyStored((int) -baseProcessPower);
 		if (time >= baseProcessTime) {
 			finishProcess();
@@ -170,7 +171,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 			
 			if (isOcclusive(pos, world, occlusion.getKey())) {
 				newScrubberFraction -= getOcclusionPenalty() / pos.distanceSq(occlusion.getKey());
-				occlusionCount++;
+				++occlusionCount;
 				tileCount += Math.max(1D, Math.sqrt(occlusion.getValue()));
 			}
 			else {

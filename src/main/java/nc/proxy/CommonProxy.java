@@ -40,13 +40,8 @@ import slimeknights.tconstruct.library.materials.Material;
 
 public class CommonProxy {
 	
-	public void onConstruction(FMLConstructionEvent constructionEvent) {
-		try {
-			ScriptAddonHandler.init();
-		}
-		catch (IOException e) {
-			NCUtil.getLogger().catching(e);
-		}
+	public void onConstruction(FMLConstructionEvent constructionEvent) throws IOException {
+		ScriptAddonHandler.init();
 	}
 	
 	public void preInit(FMLPreInitializationEvent preEvent) {

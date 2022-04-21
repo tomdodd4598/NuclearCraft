@@ -59,11 +59,11 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		}
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<ProcessorUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<ProcessorUpdatePacket, ITileGui<ProcessorUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(ProcessorUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(ProcessorUpdatePacket message, ITileGui<ProcessorUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

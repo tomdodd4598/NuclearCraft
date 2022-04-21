@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class IngotFormerCategory extends JEIMachineCategory<JEIRecipeWrapper.IngotFormer> {
 	
-	public IngotFormerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public IngotFormerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.IngotFormer> handler) {
 		super(guiHelper, handler, "ingot_former", 47, 30, 90, 26);
 	}
 	

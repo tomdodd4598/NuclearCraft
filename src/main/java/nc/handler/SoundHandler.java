@@ -1,6 +1,6 @@
 package nc.handler;
 
-import javax.annotation.*;
+import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.*;
 import nc.init.NCSounds;
@@ -16,10 +16,10 @@ import net.minecraftforge.fml.relauncher.*;
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
 	
-	private static final Minecraft MC = Minecraft.getMinecraft();
-	private static Long2ObjectMap<ISound> soundMap = new Long2ObjectOpenHashMap<>();
+	protected static final Minecraft MC = Minecraft.getMinecraft();
+	protected static Long2ObjectMap<ISound> soundMap = new Long2ObjectOpenHashMap<>();
 	
-	private static void playSound(ISound sound) {
+	protected static void playSound(ISound sound) {
 		MC.getSoundHandler().playSound(sound);
 	}
 	
@@ -116,7 +116,7 @@ public class SoundHandler {
 		}
 		
 		@Override
-		public @Nonnull ResourceLocation getSoundLocation() {
+		public ResourceLocation getSoundLocation() {
 			return sound.getSoundLocation();
 		}
 		
@@ -126,12 +126,12 @@ public class SoundHandler {
 		}
 		
 		@Override
-		public @Nonnull Sound getSound() {
+		public Sound getSound() {
 			return sound.getSound();
 		}
 		
 		@Override
-		public @Nonnull SoundCategory getCategory() {
+		public SoundCategory getCategory() {
 			return sound.getCategory();
 		}
 		
@@ -171,7 +171,7 @@ public class SoundHandler {
 		}
 		
 		@Override
-		public @Nonnull AttenuationType getAttenuationType() {
+		public AttenuationType getAttenuationType() {
 			return sound.getAttenuationType();
 		}
 	}

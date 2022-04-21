@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class DecayGeneratorCategory extends JEIMachineCategory<JEIRecipeWrapper.DecayGenerator> {
 	
-	public DecayGeneratorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public DecayGeneratorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.DecayGenerator> handler) {
 		super(guiHelper, handler, "decay_generator", 47, 30, 90, 26);
 	}
 	

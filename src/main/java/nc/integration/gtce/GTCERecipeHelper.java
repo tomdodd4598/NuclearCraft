@@ -6,7 +6,7 @@ import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import gregtech.api.items.metaitem.MetaItem.MetaValueItem;
+import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.recipes.*;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.common.items.MetaItems;
@@ -104,6 +104,8 @@ public class GTCERecipeHelper {
 				recipeMap = RecipeMaps.MACERATOR_RECIPES;
 				builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 12);
 				return;
+			default:
+				break;
 		}
 		
 		if (recipeMap == null || builder == null) {
@@ -125,14 +127,14 @@ public class GTCERecipeHelper {
 		Arrays.fill(inputNumbers, 0);
 		
 		int[] maxNumbers = new int[arrSize];
-		for (int i = 0; i < itemInputLists.size(); i++) {
+		for (int i = 0; i < itemInputLists.size(); ++i) {
 			int maxNumber = itemInputLists.get(i).size() - 1;
 			if (maxNumber < 0) {
 				return;
 			}
 			maxNumbers[i] = maxNumber;
 		}
-		for (int i = 0; i < fluidInputLists.size(); i++) {
+		for (int i = 0; i < fluidInputLists.size(); ++i) {
 			int maxNumber = fluidInputLists.get(i).size() - 1;
 			if (maxNumber < 0) {
 				return;
@@ -192,7 +194,7 @@ public class GTCERecipeHelper {
 		}
 		
 		if (recipeMap == RecipeMaps.FLUID_SOLIDFICATION_RECIPES) {
-			MetaValueItem mold = getIngotFormerMold(recipe);
+			MetaItem<?>.MetaValueItem mold = getIngotFormerMold(recipe);
 			for (RecipeBuilder<?> builderVariant : builders) {
 				builderVariant.notConsumable(mold);
 			}
@@ -326,7 +328,7 @@ public class GTCERecipeHelper {
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static MetaValueItem getIngotFormerMold(BasicRecipe recipe) {
+	private static MetaItem<?>.MetaValueItem getIngotFormerMold(BasicRecipe recipe) {
 		ItemStack output = recipe.getItemProducts().get(0).getStack();
 		if (output != null) {
 			if (OreDictHelper.hasOrePrefix(output, "ingot")) {

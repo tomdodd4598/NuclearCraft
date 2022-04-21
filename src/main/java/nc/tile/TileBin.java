@@ -202,20 +202,20 @@ public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfa
 			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new InvWrapper(this));
 		}
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return (T) CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas) {
-				return (T) tank;
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(tank);
 			}
 			return null;
 		}
 		else if (capability == CapabilityEnergy.ENERGY) {
-			return (T) CapabilityEnergy.ENERGY.cast(energyStorage);
+			return CapabilityEnergy.ENERGY.cast(energyStorage);
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			if (enable_gtce_eu) {
-				return (T) GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(energyStorageGT);
+				return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(energyStorageGT);
 			}
 			return null;
 		}

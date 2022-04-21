@@ -14,9 +14,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ResetItemSorptionsPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int slot;
-	private boolean defaults;
+	protected BlockPos pos;
+	protected int slot;
+	protected boolean defaults;
 	
 	public ResetItemSorptionsPacket() {
 		

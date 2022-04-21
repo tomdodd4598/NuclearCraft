@@ -1,5 +1,6 @@
 package nc.recipe.processor;
 
+import static nc.config.NCConfig.ore_processing;
 import static nc.util.FissionHelper.*;
 import static nc.util.FluidStackHelper.*;
 
@@ -34,10 +35,10 @@ public class MelterRecipes extends BasicRecipeHandler {
 		
 		addRecipe(Lists.newArrayList("ingotSilicon", "itemSilicon"), fluidStack("silicon", INGOT_VOLUME), 1D, 1D);
 		
-		addIngotMeltingRecipes("boron_10");
-		addIngotMeltingRecipes("boron_11");
-		addIngotMeltingRecipes("lithium_6");
-		addIngotMeltingRecipes("lithium_7");
+		addIngotMeltingRecipes("Boron10", "boron_10");
+		addIngotMeltingRecipes("Boron11", "boron_11");
+		addIngotMeltingRecipes("Lithium6", "lithium_6");
+		addIngotMeltingRecipes("Lithium7", "lithium_7");
 		
 		addIngotMeltingRecipes("HardCarbon", "hard_carbon");
 		addIngotMeltingRecipes("ManganeseDioxide", "manganese_dioxide");
@@ -158,36 +159,46 @@ public class MelterRecipes extends BasicRecipeHandler {
 		addFissionMeltingRecipes();
 		
 		addIngotMeltingRecipes("Strontium90", "strontium_90");
-		//addIngotMeltingRecipes("Molybdenum", "molybdenum");
+		addIngotMeltingRecipes("Molybdenum", "molybdenum");
 		addIngotMeltingRecipes("Ruthenium106", "ruthenium_106");
 		addIngotMeltingRecipes("Caesium137", "caesium_137");
 		addIngotMeltingRecipes("Promethium147", "promethium_147");
 		addIngotMeltingRecipes("Europium155", "europium_155");
 	}
 	
+	private static final Set<String> ORE_PREFIX_LIST = Sets.newHashSet("ore", "oreGravel", "oreNetherrack", "oreEndstone", "oreSand", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt");
+	
 	public void addIngotMeltingRecipes(String oreName, String fluidName) {
-		addRecipe("ore" + oreName, fluidStack(fluidName, INGOT_ORE_VOLUME), 1.25D, 1.5D);
+		if (ore_processing) {
+			for (String prefix : ORE_PREFIX_LIST) {
+				addRecipe(prefix + oreName, fluidStack(fluidName, INGOT_ORE_VOLUME), 1.25D, 1.5D);
+			}
+		}
 		addRecipe(Lists.newArrayList("ingot" + oreName, "dust" + oreName), fluidStack(fluidName, INGOT_VOLUME), 1D, 1D);
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, NUGGET_VOLUME), 1D / 9D, 1D);
 		addRecipe("block" + oreName, fluidStack(fluidName, INGOT_BLOCK_VOLUME), 9D, 1D);
 	}
 	
-	public void addIngotMeltingRecipes(String name) {
-		addIngotMeltingRecipes(StringHelper.capitalize(name), name);
+	public void addIngotMeltingRecipes(String fluidName) {
+		addIngotMeltingRecipes(StringHelper.capitalize(fluidName), fluidName);
 	}
 	
 	public void addGemMeltingRecipes(String oreName, String fluidName) {
-		addRecipe("ore" + oreName, fluidStack(fluidName, GEM_ORE_VOLUME), 1.25D, 1.5D);
+		if (ore_processing) {
+			for (String prefix : ORE_PREFIX_LIST) {
+				addRecipe(prefix + oreName, fluidStack(fluidName, GEM_ORE_VOLUME), 1.25D, 1.5D);
+			}
+		}
 		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(fluidName, GEM_VOLUME), 1D, 1D);
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, GEM_NUGGET_VOLUME), 1D / 9D, 1D);
 	}
 	
-	public void addGemMeltingRecipes(String name) {
-		addGemMeltingRecipes(StringHelper.capitalize(name), name);
+	public void addGemMeltingRecipes(String fluidName) {
+		addGemMeltingRecipes(StringHelper.capitalize(fluidName), fluidName);
 	}
 	
 	public void addFissionMeltingRecipes() {
-		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
+		for (int i = 0; i < FISSION_ORE_DICT.length; ++i) {
 			addRecipe("ingot" + FISSION_ORE_DICT[i], fluidStack(FISSION_FLUID[i], INGOT_VOLUME), 1D, 1D);
 		}
 	}
@@ -195,7 +206,7 @@ public class MelterRecipes extends BasicRecipeHandler {
 	private static final Set<String> MELTING_BLACKLIST = Sets.newHashSet("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addOreMeltingRecipes() {
-		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
+		ArrayList<String> fluidList = new ArrayList<>(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
 			if (MELTING_BLACKLIST.contains(fluidName)) {
 				continue;
@@ -215,8 +226,8 @@ public class MelterRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

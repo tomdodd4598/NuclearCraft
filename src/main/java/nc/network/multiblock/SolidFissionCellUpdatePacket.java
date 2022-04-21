@@ -60,11 +60,11 @@ public class SolidFissionCellUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(baseProcessTime);
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<SolidFissionCellUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<SolidFissionCellUpdatePacket, ITileGui<SolidFissionCellUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(SolidFissionCellUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(SolidFissionCellUpdatePacket message, ITileGui<SolidFissionCellUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

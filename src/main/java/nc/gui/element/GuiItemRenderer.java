@@ -33,13 +33,13 @@ public class GuiItemRenderer {
 		this.alpha = alpha;
 	}
 	
-	public GuiItemRenderer(@Nonnull Item item, int meta, int x, int y, float alpha) {
+	public GuiItemRenderer(Item item, int meta, int x, int y, float alpha) {
 		this(new ItemStack(item, 1, meta), x, y, alpha);
 	}
 	
-	public GuiItemRenderer size(int width, int height) {
-		this.width = width;
-		this.height = height;
+	public GuiItemRenderer size(int newWidth, int newHeight) {
+		width = newWidth;
+		height = newHeight;
 		return this;
 	}
 	
@@ -88,18 +88,18 @@ public class GuiItemRenderer {
 		}
 	}
 	
-	protected void renderModelAndEffect(ItemStack stack, IBakedModel model) {
+	protected void renderModelAndEffect(ItemStack itemStack, IBakedModel model) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 		
 		if (model.isBuiltInRenderer()) {
 			GlStateManager.color(1F, 1F, 1F, alpha);
 			GlStateManager.enableRescaleNormal();
-			stack.getItem().getTileEntityItemStackRenderer().renderByItem(stack);
+			itemStack.getItem().getTileEntityItemStackRenderer().renderByItem(itemStack);
 		}
 		else {
-			renderModel(model, new Color(1F, 1F, 1F, alpha).getRGB(), stack);
-			if (stack.hasEffect()) {
+			renderModel(model, new Color(1F, 1F, 1F, alpha).getRGB(), itemStack);
+			if (itemStack.hasEffect()) {
 				renderEffect(model);
 			}
 		}
@@ -136,9 +136,9 @@ public class GuiItemRenderer {
 		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}
 	
-	protected void renderModel(IBakedModel model, int color, ItemStack stack) {
+	protected void renderModel(IBakedModel model, int color, ItemStack itemStack) {
 		if (ForgeModContainer.allowEmissiveItems) {
-			ForgeHooksClient.renderLitItem(MC.getRenderItem(), model, color, stack);
+			ForgeHooksClient.renderLitItem(MC.getRenderItem(), model, color, itemStack);
 			return;
 		}
 		
@@ -147,10 +147,10 @@ public class GuiItemRenderer {
 		bufferbuilder.begin(7, DefaultVertexFormats.ITEM);
 		
 		for (EnumFacing facing : EnumFacing.VALUES) {
-			MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, facing, 0L), color, stack);
+			MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, facing, 0L), color, itemStack);
 		}
 		
-		MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, null, 0L), color, stack);
+		MC.getRenderItem().renderQuads(bufferbuilder, model.getQuads(null, null, 0L), color, itemStack);
 		tessellator.draw();
 	}
 	
@@ -183,12 +183,12 @@ public class GuiItemRenderer {
 		}
 	}
 	
-	protected void draw(BufferBuilder bufferbuilder, int x, int y, int width, int height, int red, int green, int blue, int alpha) {
+	protected void draw(BufferBuilder bufferbuilder, int drawX, int drawY, int drawWidth, int drawHeight, int r, int g, int b, int a) {
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		bufferbuilder.pos(x, y, 0D).color(red, green, blue, alpha).endVertex();
-		bufferbuilder.pos(x, y + height, 0D).color(red, green, blue, alpha).endVertex();
-		bufferbuilder.pos(x + width, y + height, 0D).color(red, green, blue, alpha).endVertex();
-		bufferbuilder.pos(x + width, y, 0D).color(red, green, blue, alpha).endVertex();
+		bufferbuilder.pos(drawX, drawY, 0D).color(r, g, b, a).endVertex();
+		bufferbuilder.pos(drawX, drawY + drawHeight, 0D).color(r, g, b, a).endVertex();
+		bufferbuilder.pos(drawX + drawWidth, drawY + drawHeight, 0D).color(r, g, b, a).endVertex();
+		bufferbuilder.pos(drawX + drawWidth, drawY, 0D).color(r, g, b, a).endVertex();
 		Tessellator.getInstance().draw();
 	}
 }

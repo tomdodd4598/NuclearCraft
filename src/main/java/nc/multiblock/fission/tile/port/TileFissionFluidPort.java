@@ -149,7 +149,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	// IMultitoolLogic
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
 			
 		}
@@ -175,7 +175,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT
@@ -200,7 +200,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	@Override
 	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		ITileFilteredFluid.super.writeTanks(nbt);
-		for (int i = 0; i < filterTanks.size(); i++) {
+		for (int i = 0; i < filterTanks.size(); ++i) {
 			getTanks().get(i).writeToNBT(nbt, "filterTanks" + i + filterTanks.size());
 		}
 		return nbt;
@@ -209,7 +209,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	@Override
 	public void readTanks(NBTTagCompound nbt) {
 		ITileFilteredFluid.super.readTanks(nbt);
-		for (int i = 0; i < filterTanks.size(); i++) {
+		for (int i = 0; i < filterTanks.size(); ++i) {
 			getTanks().get(i).readFromNBT(nbt, "filterTanks" + i + filterTanks.size());
 		}
 	}
@@ -228,13 +228,13 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}

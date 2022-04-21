@@ -1,6 +1,6 @@
 package nc.network.tile;
 
-import nc.tile.ITile;
+import nc.tile.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +15,7 @@ public abstract class TileUpdatePacket implements IMessage {
 		
 	}
 	
-	public static abstract class Handler<MESSAGE extends TileUpdatePacket, TILE> implements IMessageHandler<MESSAGE, IMessage> {
+	public static abstract class Handler<MESSAGE extends TileUpdatePacket, TILE extends ITilePacket<MESSAGE>> implements IMessageHandler<MESSAGE, IMessage> {
 		
 		@Override
 		public IMessage onMessage(MESSAGE message, MessageContext ctx) {
@@ -25,13 +25,14 @@ public abstract class TileUpdatePacket implements IMessage {
 			return null;
 		}
 		
+		@SuppressWarnings("unchecked")
 		protected void processMessage(MESSAGE message) {
 			TileEntity tile = Minecraft.getMinecraft().player.world.getTileEntity(message.pos);
-			if (tile instanceof ITile) {
-				onPacket(message, (TILE) tile);
+			if (tile instanceof ITileGui) {
+				onTileUpdatePacket(message, (TILE) tile);
 			}
 		}
 		
-		protected abstract void onPacket(MESSAGE message, TILE processor);
+		protected abstract void onTileUpdatePacket(MESSAGE message, TILE processor);
 	}
 }

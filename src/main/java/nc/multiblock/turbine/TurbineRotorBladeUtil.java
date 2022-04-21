@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 public class TurbineRotorBladeUtil {
 	
 	public enum TurbineRotorBladeType implements IRotorBladeType {
+		
 		STEEL("steel", turbine_blade_efficiency[0], turbine_blade_expansion[0]),
 		EXTREME("extreme", turbine_blade_efficiency[1], turbine_blade_expansion[1]),
 		SIC_SIC_CMC("sic_sic_cmc", turbine_blade_efficiency[2], turbine_blade_expansion[2]);
@@ -59,6 +60,7 @@ public class TurbineRotorBladeUtil {
 	}
 	
 	public enum TurbineRotorStatorType implements IRotorStatorType {
+		
 		STATOR("stator", turbine_stator_expansion);
 		
 		private final String name;
@@ -93,7 +95,7 @@ public class TurbineRotorBladeUtil {
 		}
 	}
 	
-	public interface ITurbineRotorBlade<BLADE extends ITurbineRotorBlade> {
+	public interface ITurbineRotorBlade<BLADE extends ITurbineRotorBlade<?>> {
 		
 		public BlockPos bladePos();
 		
@@ -113,6 +115,7 @@ public class TurbineRotorBladeUtil {
 	}
 	
 	public enum TurbinePartDir implements IStringSerializable {
+		
 		INVISIBLE("invisible"),
 		X("x"),
 		Y("y"),

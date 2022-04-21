@@ -46,13 +46,13 @@ public abstract class NCEnumButton<T extends Enum<T>> extends NCButton {
 		}
 		
 		@Override
-		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
+		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
 			if (visible) {
 				GL11.glColor4f(1F, 1F, 1F, 1F);
-				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
+				hovered = drawX >= x && drawY >= y && drawX < x + width && drawY < y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
 				setTexturePosition();
-				drawTexturedModalRect(this.x, this.y, textureX, textureY, textureWidth, textureHeight);
+				drawTexturedModalRect(x, y, textureX, textureY, textureWidth, textureHeight);
 			}
 		}
 		

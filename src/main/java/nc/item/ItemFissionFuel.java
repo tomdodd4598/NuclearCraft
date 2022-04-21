@@ -30,7 +30,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionF
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (isInCreativeTab(tab)) {
-			for (int i = 0; i < values.length; i++) {
+			for (int i = 0; i < values.length; ++i) {
 				items.add(new ItemStack(this, 1, i));
 			}
 		}
@@ -38,7 +38,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionF
 	
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; ++i) {
 			if (StackHelper.getMetadata(stack) == i) {
 				return getTranslationKey() + "." + values[i].getName();
 			}

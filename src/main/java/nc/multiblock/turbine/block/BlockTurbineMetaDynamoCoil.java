@@ -17,7 +17,7 @@ import net.minecraft.world.*;
 
 public class BlockTurbineMetaDynamoCoil extends BlockTurbinePart implements IBlockMeta {
 	
-	private final static PropertyEnum TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
+	private final static PropertyEnum<TurbineDynamoCoilType> TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
 	
 	public BlockTurbineMetaDynamoCoil() {
 		super();
@@ -67,7 +67,7 @@ public class BlockTurbineMetaDynamoCoil extends BlockTurbinePart implements IBlo
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((TurbineDynamoCoilType) state.getValue(TYPE)).getID();
+		return state.getValue(TYPE).getID();
 	}
 	
 	@Override
@@ -77,7 +77,7 @@ public class BlockTurbineMetaDynamoCoil extends BlockTurbinePart implements IBlo
 	
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
+		for (int i = 0; i < TurbineDynamoCoilType.values().length; ++i) {
 			list.add(new ItemStack(this, 1, i));
 		}
 	}

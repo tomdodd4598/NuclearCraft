@@ -15,9 +15,9 @@ public class MultiblockButton {
 		}
 		
 		@Override
-		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
+		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
 			visible = NCUtil.isModifierKeyDown();
-			super.drawButton(minecraft, x, y, partialTicks);
+			super.drawButton(minecraft, drawX, drawY, partialTicks);
 		}
 		
 		@Override

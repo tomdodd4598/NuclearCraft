@@ -37,7 +37,7 @@ public class Lang {
 	
 	public static String[] localiseAll(Lang lang, String... unloc) {
 		String[] ret = new String[unloc.length];
-		for (int i = 0; i < ret.length; i++) {
+		for (int i = 0; i < ret.length; ++i) {
 			ret[i] = Lang.localise(unloc[i]);
 		}
 		return ret;

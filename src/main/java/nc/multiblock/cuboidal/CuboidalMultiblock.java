@@ -3,8 +3,6 @@ package nc.multiblock.cuboidal;
 import javax.vecmath.Vector3f;
 
 import nc.multiblock.*;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.util.NCMath;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -12,10 +10,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 
-public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> extends Multiblock<T, PACKET> {
+public abstract class CuboidalMultiblock<MULTIBLOCK extends CuboidalMultiblock<MULTIBLOCK, T>, T extends ITileCuboidalMultiblockPart<MULTIBLOCK, T>> extends Multiblock<MULTIBLOCK, T> {
 	
-	protected CuboidalMultiblock(World world) {
-		super(world);
+	protected CuboidalMultiblock(World world, Class<MULTIBLOCK> multiblockClass, Class<T> tClass) {
+		super(world, multiblockClass, tClass);
 	}
 	
 	/** @return True if the machine is "whole" and should be assembled. False otherwise. */
@@ -77,23 +75,22 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 		// Now we run a simple check on each block within that volume.
 		// Any block deviating = NO DEAL SIR
 		TileEntity te;
-		TileCuboidalMultiblockPart part;
-		Class<? extends CuboidalMultiblock> myClass = getClass();
+		T part;
 		int extremes;
 		boolean isPartValid;
 		
-		for (int x = minX; x <= maxX; x++) {
-			for (int y = minY; y <= maxY; y++) {
-				for (int z = minZ; z <= maxZ; z++) {
+		for (int x = minX; x <= maxX; ++x) {
+			for (int y = minY; y <= maxY; ++y) {
+				for (int z = minZ; z <= maxZ; ++z) {
 					// Okay, figure out what sort of block this should be.
 					BlockPos pos = new BlockPos(x, y, z);
 					
 					te = WORLD.getTileEntity(pos);
-					if (te instanceof TileCuboidalMultiblockPart) {
-						part = (TileCuboidalMultiblockPart) te;
+					if (tClass.isInstance(te)) {
+						part = tClass.cast(te);
 						
 						// Ensure this part should actually be allowed within a cuboid of this multiblock's type
-						if (!myClass.equals(part.getMultiblockType())) {
+						if (!multiblockClass.equals(part.getMultiblockClass())) {
 							setLastError("zerocore.api.nc.multiblock.validation.invalid_part", pos, x, y, z);
 							return false;
 						}
@@ -113,28 +110,28 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					extremes = 0;
 					
 					if (x == minX) {
-						extremes++;
+						++extremes;
 					}
 					if (y == minY) {
-						extremes++;
+						++extremes;
 					}
 					if (z == minZ) {
-						extremes++;
+						++extremes;
 					}
 					
 					if (x == maxX) {
-						extremes++;
+						++extremes;
 					}
 					if (y == maxY) {
-						extremes++;
+						++extremes;
 					}
 					if (z == maxZ) {
-						extremes++;
+						++extremes;
 					}
 					
 					if (extremes >= 2) {
 						
-						isPartValid = part != null ? part.isGoodForFrame(this) : isBlockGoodForFrame(WORLD, pos);
+						isPartValid = part != null ? part.isGoodForFrame(multiblockClass.cast(this)) : isBlockGoodForFrame(WORLD, pos);
 						
 						if (!isPartValid) {
 							if (getLastError() == null) {
@@ -146,7 +143,7 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					else if (extremes == 1) {
 						if (y == maxY) {
 							
-							isPartValid = part != null ? part.isGoodForTop(this) : isBlockGoodForTop(WORLD, pos);
+							isPartValid = part != null ? part.isGoodForTop(multiblockClass.cast(this)) : isBlockGoodForTop(WORLD, pos);
 							
 							if (!isPartValid) {
 								if (getLastError() == null) {
@@ -157,7 +154,7 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 						}
 						else if (y == minY) {
 							
-							isPartValid = part != null ? part.isGoodForBottom(this) : isBlockGoodForBottom(WORLD, pos);
+							isPartValid = part != null ? part.isGoodForBottom(multiblockClass.cast(this)) : isBlockGoodForBottom(WORLD, pos);
 							
 							if (!isPartValid) {
 								if (getLastError() == null) {
@@ -168,7 +165,7 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 						}
 						else {
 							// Side
-							isPartValid = part != null ? part.isGoodForSides(this) : isBlockGoodForSides(WORLD, pos);
+							isPartValid = part != null ? part.isGoodForSides(multiblockClass.cast(this)) : isBlockGoodForSides(WORLD, pos);
 							
 							if (!isPartValid) {
 								if (getLastError() == null) {
@@ -180,7 +177,7 @@ public abstract class CuboidalMultiblock<T extends ITileMultiblockPart, PACKET e
 					}
 					else {
 						
-						isPartValid = part != null ? part.isGoodForInterior(this) : isBlockGoodForInterior(WORLD, pos);
+						isPartValid = part != null ? part.isGoodForInterior(multiblockClass.cast(this)) : isBlockGoodForInterior(WORLD, pos);
 						
 						if (!isPartValid) {
 							if (getLastError() == null) {

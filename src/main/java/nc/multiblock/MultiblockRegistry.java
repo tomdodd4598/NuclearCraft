@@ -24,7 +24,7 @@ public final class MultiblockRegistry {
 	 *            The world into which this part is loading.
 	 * @param part
 	 *            The part being loaded. */
-	public void onPartAdded(final World world, final ITileMultiblockPart part) {
+	public <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> void onPartAdded(final World world, final T part) {
 		if (world == null) {
 			FMLLog.warning("Attempted to add a new multiblock part to a null world! Ignoring...");
 		}
@@ -39,7 +39,7 @@ public final class MultiblockRegistry {
 	 *            The world from which a multiblock part is being removed.
 	 * @param part
 	 *            The part being removed. */
-	public void onPartRemovedFromWorld(final World world, final ITileMultiblockPart part) {
+	public <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> void onPartRemovedFromWorld(final World world, final T part) {
 		if (_registries.containsKey(world)) {
 			_registries.get(world).onPartRemovedFromWorld(part);
 		}
@@ -51,7 +51,7 @@ public final class MultiblockRegistry {
 	 *            The world formerly containing the multiblock
 	 * @param multiblock
 	 *            The dead multiblock */
-	public void addDeadMultiblock(final World world, final Multiblock multiblock) {
+	public <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> void addDeadMultiblock(final World world, final MULTIBLOCK multiblock) {
 		if (_registries.containsKey(world)) {
 			_registries.get(world).addDeadMultiblock(multiblock);
 		}
@@ -66,7 +66,7 @@ public final class MultiblockRegistry {
 	 *            The world containing the multiblock
 	 * @param multiblock
 	 *            The dirty multiblock */
-	public void addDirtyMultiblock(final World world, final Multiblock multiblock) {
+	public <MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> void addDirtyMultiblock(final World world, final MULTIBLOCK multiblock) {
 		if (!_registries.containsKey(world)) {
 			if (world == null) {
 				FMLLog.warning("Attempted to add a dirty multiblock to a null world! Ignoring...");

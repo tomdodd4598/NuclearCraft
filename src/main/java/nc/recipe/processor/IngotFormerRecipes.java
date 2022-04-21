@@ -23,6 +23,11 @@ public class IngotFormerRecipes extends BasicRecipeHandler {
 	public void addRecipes() {
 		addIngotFormingRecipes();
 		
+		addIngotFormingRecipe("boron_10", "Boron10");
+		addIngotFormingRecipe("boron_11", "Boron11");
+		addIngotFormingRecipe("lithium_6", "Lithium6");
+		addIngotFormingRecipe("lithium_7", "Lithium7");
+		
 		addIngotFormingRecipe("hard_carbon", "HardCarbon");
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
 		addIngotFormingRecipe("lead_platinum", "LeadPlatinum");
@@ -99,7 +104,7 @@ public class IngotFormerRecipes extends BasicRecipeHandler {
 	}
 	
 	public void addFissionFormingRecipes() {
-		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
+		for (int i = 0; i < FISSION_ORE_DICT.length; ++i) {
 			addRecipe(fluidStack(FISSION_FLUID[i], INGOT_VOLUME), "ingot" + FISSION_ORE_DICT[i], 1D, 1D);
 		}
 	}
@@ -107,7 +112,7 @@ public class IngotFormerRecipes extends BasicRecipeHandler {
 	private static final Set<String> CASTING_BLACKLIST = Sets.newHashSet("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addIngotFormingRecipes() {
-		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
+		ArrayList<String> fluidList = new ArrayList<>(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
 			if (CASTING_BLACKLIST.contains(fluidName)) {
 				continue;
@@ -126,8 +131,8 @@ public class IngotFormerRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

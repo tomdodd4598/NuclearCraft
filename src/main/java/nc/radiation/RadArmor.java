@@ -8,7 +8,6 @@ import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.*;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class RadArmor {
 	
@@ -68,10 +67,7 @@ public class RadArmor {
 		if (!ArmorHelper.isArmor(armor.getItem(), radiation_horse_armor_public)) {
 			return stack;
 		}
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
-		}
-		stack.getTagCompound().setDouble("ncRadiationResistance", resistance);
+		NBTHelper.getStackNBT(stack).setDouble("ncRadiationResistance", resistance);
 		return stack;
 	}
 	

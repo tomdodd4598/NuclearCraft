@@ -82,8 +82,8 @@ public class ManufactoryRecipes extends BasicRecipeHandler {
 		// Advanced Rocketry
 		if (ore_processing) {
 			addRecipe("oreDilithium", oreStack("dustDilithium", 2), 1.25D, 1D);
-			addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		}
+		addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		
 		// AE2
 		addRecipe(Items.ENDER_PEARL, oreStackList(Lists.newArrayList("dustEnder", "dustEnderPearl"), 2), 0.5D, 1D);
@@ -92,26 +92,29 @@ public class ManufactoryRecipes extends BasicRecipeHandler {
 		addRecipe("crystalCertusQuartz", "dustCertusQuartz", 0.5D, 1D);
 		addRecipe("crystalFluix", "dustFluix", 0.5D, 1D);
 		
-		if (ore_processing) {
-			addMetalProcessingRecipes();
-		}
+		addMetalProcessingRecipes();
 		
 		addRecipe("plankWood", new ItemStack(Items.STICK, manufactory_wood[1]), 0.25D, 0.5D);
 		addLogRecipes();
 	}
 	
-	private static final Set<String> BLACKLIST = Sets.newHashSet("Silicon");
+	private static final Set<String> INGOT_BLACKLIST = Sets.newHashSet("Silicon");
+	private static final Set<String> ORE_PREFIX_LIST = Sets.newHashSet("ore", "oreGravel", "oreNetherrack", "oreEndstone", "oreSand", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt");
 	
 	public void addMetalProcessingRecipes() {
 		for (String ingot : OreDictionary.getOreNames()) {
 			if (ingot.startsWith("ingot")) {
 				String type = ingot.substring(5);
-				if (BLACKLIST.contains(type)) {
+				if (INGOT_BLACKLIST.contains(type)) {
 					continue;
 				}
-				String ore = "ore" + type, dust = "dust" + type;
+				String dust = "dust" + type;
 				if (OreDictHelper.oreExists(dust)) {
-					addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
+					if (ore_processing) {
+						for (String prefix : ORE_PREFIX_LIST) {
+							addRecipe(prefix + type, oreStack(dust, 2), 1.25D, 1D);
+						}
+					}
 					addRecipe(ingot, dust, 1D, 1D);
 				}
 			}
@@ -151,8 +154,8 @@ public class ManufactoryRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

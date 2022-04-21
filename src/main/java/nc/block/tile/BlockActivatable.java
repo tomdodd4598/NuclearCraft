@@ -85,7 +85,7 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 			if (!smartRender) {
 				return true;
 			}
@@ -93,11 +93,11 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 			IBlockState otherState = world.getBlockState(pos.offset(side));
 			Block block = otherState.getBlock();
 			
-			if (blockState != otherState) {
+			if (state != otherState) {
 				return true;
 			}
 			
-			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
+			return block == this ? false : super.shouldSideBeRendered(state, world, pos, side);
 		}
 	}
 }

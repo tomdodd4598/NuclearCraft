@@ -6,6 +6,8 @@ import java.util.*;
 
 import javax.annotation.*;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
@@ -13,6 +15,8 @@ import nc.ModCheck;
 import nc.integration.gtce.GTCERecipeHelper;
 import nc.recipe.ingredient.*;
 import nc.util.*;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mods.nuclearcraft.BasicRecipeHandler")
@@ -39,8 +43,8 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	
 	@Override
 	public void addRecipe(Object... objects) {
-		List itemInputs = new ArrayList(), fluidInputs = new ArrayList(), itemOutputs = new ArrayList(), fluidOutputs = new ArrayList(), extras = new ArrayList();
-		for (int i = 0; i < objects.length; i++) {
+		List<Object> itemInputs = new ArrayList<>(), fluidInputs = new ArrayList<>(), itemOutputs = new ArrayList<>(), fluidOutputs = new ArrayList<>(), extras = new ArrayList<>();
+		for (int i = 0; i < objects.length; ++i) {
 			Object object = objects[i];
 			if (i < itemInputSize) {
 				itemInputs.add(object);
@@ -62,7 +66,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		addRecipe(factor_recipes ? factorRecipe(recipe) : recipe);
 	}
 	
-	public BasicRecipe newRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+	public BasicRecipe newRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<Object> extras, boolean shapeless) {
 		return new BasicRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
 	}
 	
@@ -74,7 +78,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		}
 	}
 	
-	public abstract List fixExtras(List extras);
+	public abstract List<Object> fixExtras(List<Object> extras);
 	
 	public BasicRecipe factorRecipe(BasicRecipe recipe) {
 		if (recipe == null) {
@@ -110,11 +114,11 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		return newRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
 	}
 	
-	public IntList getExtraFactors(List extras) {
+	public IntList getExtraFactors(List<Object> extras) {
 		return new IntArrayList();
 	}
 	
-	public List getFactoredExtras(List extras, int factor) {
+	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
 		return extras;
 	}
 	
@@ -144,7 +148,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	}
 	
 	@Nullable
-	public BasicRecipe buildRecipe(List itemInputs, List fluidInputs, List itemOutputs, List fluidOutputs, List extras, boolean shapeless) {
+	public BasicRecipe buildRecipe(List<?> itemInputs, List<?> fluidInputs, List<?> itemOutputs, List<?> fluidOutputs, List<Object> extras, boolean shapeless) {
 		List<IItemIngredient> itemIngredients = new ArrayList<>(), itemProducts = new ArrayList<>();
 		List<IFluidIngredient> fluidIngredients = new ArrayList<>(), fluidProducts = new ArrayList<>();
 		for (Object obj : itemInputs) {
@@ -239,5 +243,153 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	@ZenMethod
 	public boolean isShapeless() {
 		return isShapeless;
+	}
+	
+	@Override
+	protected void fillHashCache() {
+		for (BasicRecipe recipe : recipeList) {
+			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
+			
+			if (!prepareMaterialListTuples(recipe, materialListTuples)) {
+				continue;
+			}
+			
+			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
+				if (isShapeless) {
+					for (List<ItemStack> items : PermutationHelper.permutations(materials.getLeft())) {
+						for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
+							addToHashCache(recipe, items, fluids);
+						}
+					}
+				}
+				else {
+					addToHashCache(recipe, materials.getLeft(), materials.getRight());
+				}
+			}
+		}
+	}
+	
+	protected void addToHashCache(BasicRecipe recipe, List<ItemStack> items, List<FluidStack> fluids) {
+		long hash = RecipeHelper.hashMaterials(items, fluids);
+		if (recipeCache.containsKey(hash)) {
+			recipeCache.get(hash).add(recipe);
+		}
+		else {
+			ObjectSet<BasicRecipe> set = new ObjectOpenHashSet<>();
+			set.add(recipe);
+			recipeCache.put(hash, set);
+		}
+	}
+	
+	public boolean isValidItemInput(int slot, ItemStack stack) {
+		for (BasicRecipe recipe : recipeList) {
+			if (isShapeless) {
+				for (IItemIngredient input : recipe.getItemIngredients()) {
+					if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
+						return true;
+					}
+				}
+			}
+			else {
+				if (recipe.getItemIngredients().get(slot).match(stack, IngredientSorption.NEUTRAL).matches()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean isValidFluidInput(int tankNumber, FluidStack stack) {
+		for (BasicRecipe recipe : recipeList) {
+			if (isShapeless) {
+				for (IFluidIngredient input : recipe.getFluidIngredients()) {
+					if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
+						return true;
+					}
+				}
+			}
+			else {
+				if (recipe.getFluidIngredients().get(tankNumber).match(stack, IngredientSorption.NEUTRAL).matches()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/** Smart item insertion - don't insert if matching item is already present in another input slot */
+	public boolean isValidItemInput(int slot, ItemStack stack, RecipeInfo<BasicRecipe> recipeInfo, List<ItemStack> allInputs, List<ItemStack> otherInputs) {
+		ItemStack slotStack = allInputs.get(slot);
+		if (otherInputs.isEmpty() || (stack.isItemEqual(slotStack) && StackHelper.areItemStackTagsEqual(stack, slotStack))) {
+			return isValidItemInput(slot, stack);
+		}
+		
+		boolean othersAllEmpty = true;
+		for (ItemStack otherInput : otherInputs) {
+			if (!otherInput.isEmpty()) {
+				othersAllEmpty = false;
+				break;
+			}
+		}
+		if (othersAllEmpty) {
+			return isValidItemInput(slot, stack);
+		}
+		
+		if (recipeInfo == null) {
+			List<BasicRecipe> recipes = new ArrayList<>(recipeList);
+			recipeLoop: for (BasicRecipe recipe : recipeList) {
+				if (isShapeless) {
+					stackLoop: for (ItemStack inputStack : allInputs) {
+						if (!inputStack.isEmpty()) {
+							for (IItemIngredient recipeInput : recipe.getItemIngredients()) {
+								if (recipeInput.match(inputStack, IngredientSorption.NEUTRAL).matches()) {
+									continue stackLoop;
+								}
+							}
+							recipes.remove(recipe);
+							continue recipeLoop;
+						}
+					}
+				}
+				else {
+					for (int i = 0; i < itemInputSize; ++i) {
+						ItemStack inputStack = allInputs.get(i);
+						if (!inputStack.isEmpty() && !recipe.getItemIngredients().get(i).match(inputStack, IngredientSorption.NEUTRAL).matches()) {
+							recipes.remove(recipe);
+							continue recipeLoop;
+						}
+					}
+				}
+			}
+			
+			for (BasicRecipe recipe : recipes) {
+				if (isValidItemInputInternal(slot, stack, recipe, otherInputs)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		else {
+			return isValidItemInputInternal(slot, stack, recipeInfo.getRecipe(), otherInputs);
+		}
+	}
+	
+	protected boolean isValidItemInputInternal(int slot, ItemStack stack, BasicRecipe recipe, List<ItemStack> otherInputs) {
+		if (isShapeless) {
+			for (IItemIngredient input : recipe.getItemIngredients()) {
+				if (input.match(stack, IngredientSorption.NEUTRAL).matches()) {
+					for (ItemStack other : otherInputs) {
+						if (!other.isEmpty() && input.match(other, IngredientSorption.NEUTRAL).matches()) {
+							return false;
+						}
+					}
+					return true;
+				}
+			}
+			return false;
+		}
+		else {
+			return recipe.getItemIngredients().get(slot).match(stack, IngredientSorption.NEUTRAL).matches();
+		}
 	}
 }

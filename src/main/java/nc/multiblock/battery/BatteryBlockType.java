@@ -1,41 +1,43 @@
 package nc.multiblock.battery;
 
-import static nc.config.NCConfig.battery_capacity;
-
+import nc.config.NCConfig;
 import nc.multiblock.battery.tile.TileBattery;
 import net.minecraft.tileentity.TileEntity;
 
-public enum BatteryType {
-	VOLTAIC_PILE_BASIC(0, 1),
-	VOLTAIC_PILE_ADVANCED(1, 2),
-	VOLTAIC_PILE_DU(2, 3),
-	VOLTAIC_PILE_ELITE(3, 4),
+public enum BatteryBlockType implements IBatteryBlockType {
 	
-	LITHIUM_ION_BATTERY_BASIC(4, 3),
-	LITHIUM_ION_BATTERY_ADVANCED(5, 4),
-	LITHIUM_ION_BATTERY_DU(6, 5),
-	LITHIUM_ION_BATTERY_ELITE(7, 6);
+	VOLTAIC_PILE_BASIC(0),
+	VOLTAIC_PILE_ADVANCED(1),
+	VOLTAIC_PILE_DU(2),
+	VOLTAIC_PILE_ELITE(3),
+	
+	LITHIUM_ION_BATTERY_BASIC(4),
+	LITHIUM_ION_BATTERY_ADVANCED(5),
+	LITHIUM_ION_BATTERY_DU(6),
+	LITHIUM_ION_BATTERY_ELITE(7);
 	
 	private int id;
-	private int energyTier;
 	
-	private BatteryType(int id, int energyTier) {
+	private BatteryBlockType(int id) {
 		this.id = id;
-		this.energyTier = energyTier;
 	}
 	
-	public int getCapacity() {
-		return battery_capacity[id];
+	@Override
+	public long getCapacity() {
+		return NCConfig.battery_block_capacity[id];
 	}
 	
+	@Override
 	public int getMaxTransfer() {
-		return battery_capacity[id];
+		return NCConfig.battery_block_max_transfer[id];
 	}
 	
+	@Override
 	public int getEnergyTier() {
-		return energyTier;
+		return NCConfig.battery_block_energy_tier[id];
 	}
 	
+	@Override
 	public TileEntity getTile() {
 		switch (this) {
 			case VOLTAIC_PILE_BASIC:

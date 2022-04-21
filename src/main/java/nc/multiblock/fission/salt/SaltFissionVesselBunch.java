@@ -23,7 +23,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 				int i = 6;
 				for (EnumFacing dir : EnumFacing.VALUES) {
 					if (partMap.containsKey(vessel.getPos().offset(dir).toLong())) {
-						i--;
+						--i;
 					}
 				}
 				openFaces += i;
@@ -40,7 +40,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		return openFaces / 6L;
 	}
 	
-	public long getCriticalityFactor(int criticalityFactor) {
+	public long getCriticalityFactor(long criticalityFactor) {
 		return getSurfaceFactor() * criticalityFactor;
 	}
 	

@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class ManufactoryCategory extends JEIMachineCategory<JEIRecipeWrapper.Manufactory> {
 	
-	public ManufactoryCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public ManufactoryCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Manufactory> handler) {
 		super(guiHelper, handler, "manufactory", 47, 30, 90, 26);
 	}
 	

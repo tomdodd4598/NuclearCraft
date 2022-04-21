@@ -14,12 +14,12 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort, TileSolidFissionCell> implements ITileGui<FissionCellPortUpdatePacket> {
 	
-	protected Set<EntityPlayer> playersToUpdate;
+	protected Set<EntityPlayer> updatePacketListeners;
 	
 	public TileFissionCellPort() {
 		super(TileFissionCellPort.class, "cell", NCRecipes.solid_fission);
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 		}
 	}
 	
@@ -45,17 +45,17 @@ public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public FissionCellPortUpdatePacket getGuiUpdatePacket() {
+	public FissionCellPortUpdatePacket getTileUpdatePacket() {
 		return new FissionCellPortUpdatePacket(pos, masterPortPos, getFilterStacks());
 	}
 	
 	@Override
-	public void onGuiPacket(FissionCellPortUpdatePacket message) {
+	public void onTileUpdatePacket(FissionCellPortUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();

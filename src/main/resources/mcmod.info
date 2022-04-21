@@ -10,5 +10,6 @@
 	"credits": "Thanks to all suggestors, bug reporters, modders whose APIs I have used and those who have made language files!",
 	"logoFile": "logo.png",
 	"screenshots": [],
-	"dependencies": []
+	"dependencies": [],
+    "requiredMods": ["forge@[14.23.5.2860,)"]
 }]

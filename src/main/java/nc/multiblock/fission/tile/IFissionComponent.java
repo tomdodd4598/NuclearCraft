@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.tile.IFissionFuelComponent.*;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -117,16 +117,18 @@ public interface IFissionComponent extends IFissionPart {
 	// IMultitoolLogic
 	
 	@Override
-	public default boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public default boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
-			NBTTagCompound nbt = multitoolStack.getTagCompound();
-			nbt.setLong("componentPos", getTilePos().toLong());
-			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.copy_component_info")));
-			return true;
+			NBTTagCompound nbt = NBTHelper.getStackNBT(multitool);
+			if (nbt != null) {
+				nbt.setLong("componentPos", getTilePos().toLong());
+				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.copy_component_info")));
+				return true;
+			}
 		}
 		else {
 			
 		}
-		return IFissionPart.super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return IFissionPart.super.onUseMultitool(multitool, player, world, facing, hitX, hitY, hitZ);
 	}
 }

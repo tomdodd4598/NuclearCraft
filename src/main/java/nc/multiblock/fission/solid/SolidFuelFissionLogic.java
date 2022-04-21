@@ -264,7 +264,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	// Component Logic
 	
 	@Override
-	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	public void distributeFluxFromFuelComponent(IFissionFuelComponent fuelComponent, final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> lineFailCache, final Long2ObjectMap<IFissionComponent> currentAssumedValidCache) {
 		fuelComponent.defaultDistributeFlux(fluxSearchCache, lineFailCache, assumedValidCache);
 	}
 	
@@ -279,7 +279,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	@Override
-	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	public void refreshFuelComponentModerators(IFissionFuelComponent fuelComponent, final Long2ObjectMap<IFissionComponent> currentComponentFailCache, final Long2ObjectMap<IFissionComponent> currentAssumedValidCache) {
 		fuelComponent.defaultRefreshModerators(componentFailCache, assumedValidCache);
 	}
 	
@@ -320,13 +320,13 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	// Packets
 	
 	@Override
-	public SolidFissionUpdatePacket getUpdatePacket() {
+	public SolidFissionUpdatePacket getMultiblockUpdatePacket() {
 		return new SolidFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, getReactor().sparsityEfficiencyMult, effectiveHeating, heatingOutputRateFP, reservedEffectiveHeat);
 	}
 	
 	@Override
-	public void onPacket(FissionUpdatePacket message) {
-		super.onPacket(message);
+	public void onMultiblockUpdatePacket(FissionUpdatePacket message) {
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof SolidFissionUpdatePacket) {
 			SolidFissionUpdatePacket packet = (SolidFissionUpdatePacket) message;
 			effectiveHeating = packet.effectiveHeating;
@@ -334,6 +334,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			reservedEffectiveHeat = packet.reservedEffectiveHeat;
 		}
 	}
+	
+	// Clear Material
 	
 	@Override
 	public void clearAllMaterial() {

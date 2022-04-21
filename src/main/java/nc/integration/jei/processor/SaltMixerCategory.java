@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class SaltMixerCategory extends JEIMachineCategory<JEIRecipeWrapper.SaltMixer> {
 	
-	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.SaltMixer> handler) {
 		super(guiHelper, handler, "salt_mixer", 45, 30, 102, 26);
 	}
 	

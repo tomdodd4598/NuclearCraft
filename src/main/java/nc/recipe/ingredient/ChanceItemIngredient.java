@@ -42,7 +42,7 @@ public class ChanceItemIngredient implements IChanceItemIngredient {
 	public List<ItemStack> getInputStackList() {
 		List<ItemStack> stackList = new ArrayList<>();
 		for (ItemStack stack : ingredient.getInputStackList()) {
-			for (int i = minStackSize; i <= getMaxStackSize(0); i++) {
+			for (int i = minStackSize; i <= getMaxStackSize(0); ++i) {
 				if (i <= 0) {
 					// stackList.add(null);
 				}
@@ -59,7 +59,7 @@ public class ChanceItemIngredient implements IChanceItemIngredient {
 	@Override
 	public List<ItemStack> getOutputStackList() {
 		List<ItemStack> stackList = new ArrayList<>();
-		for (int i = minStackSize; i <= getMaxStackSize(0); i++) {
+		for (int i = minStackSize; i <= getMaxStackSize(0); ++i) {
 			if (i == 0) {
 				if (jei_chance_items_include_null) {
 					stackList.add(null);

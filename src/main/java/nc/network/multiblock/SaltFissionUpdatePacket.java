@@ -3,6 +3,7 @@ package nc.network.multiblock;
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
+import nc.multiblock.fission.tile.IFissionPart;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
 
@@ -34,10 +35,15 @@ public class SaltFissionUpdatePacket extends FissionUpdatePacket {
 		buf.writeDouble(totalHeatingSpeedMultiplier);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<SaltFissionUpdatePacket, FissionReactor, TileSaltFissionController> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<FissionReactor, IFissionPart, FissionUpdatePacket, TileSaltFissionController, SaltFissionUpdatePacket> {
 		
 		public Handler() {
 			super(TileSaltFissionController.class);
+		}
+		
+		@Override
+		protected void onPacket(SaltFissionUpdatePacket message, FissionReactor multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 }

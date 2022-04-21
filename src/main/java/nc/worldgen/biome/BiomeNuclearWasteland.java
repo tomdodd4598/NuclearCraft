@@ -94,7 +94,7 @@ public class BiomeNuclearWasteland extends NCBiome {
 					}
 				}
 				else {
-					wasteland.portalGenChance--;
+					--wasteland.portalGenChance;
 				}
 			}
 		}

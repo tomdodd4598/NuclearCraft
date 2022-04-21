@@ -171,7 +171,7 @@ public class TileFissionPowerPort extends TileFissionPart implements ITickable, 
 	// IMultitoolLogic
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
 			
 		}
@@ -195,7 +195,7 @@ public class TileFissionPowerPort extends TileFissionPart implements ITickable, 
 				return true;
 			}
 		}
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT
@@ -227,13 +227,13 @@ public class TileFissionPowerPort extends TileFissionPart implements ITickable, 
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) {
 			if (hasEnergySideCapability(side)) {
-				return (T) getEnergySide(nonNullSide(side));
+				return CapabilityEnergy.ENERGY.cast(getEnergySide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 			if (enable_gtce_eu && hasEnergySideCapability(side)) {
-				return (T) getEnergySideGT(nonNullSide(side));
+				return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(getEnergySideGT(nonNullSide(side)));
 			}
 			return null;
 		}

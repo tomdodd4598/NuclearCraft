@@ -4,6 +4,8 @@ import static nc.config.NCConfig.processor_particles;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import nc.block.property.BlockProperties;
 import nc.tile.fluid.ITileFluid;
 import net.minecraft.block.properties.PropertyEnum;
@@ -86,6 +88,7 @@ public class BlockHelper {
 				break;
 			case SOUTH:
 				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
+				break;
 			default:
 				break;
 		}
@@ -104,7 +107,7 @@ public class BlockHelper {
 				if (container == null) {
 					return false;
 				}
-				for (int i = 0; i < tile.getTanks().size(); i++) {
+				for (int i = 0; i < tile.getTanks().size(); ++i) {
 					FluidActionResult fluidActionResult = !tile.getTankSorption(facing, i).canDrain() ? FluidActionResult.FAILURE : FluidUtil.tryFillContainerAndStow(heldItem, tile.getTanks().get(i), playerInventory, Integer.MAX_VALUE, player, true);
 					if (!fluidActionResult.isSuccess()) {
 						if (tile.getTankSorption(facing, i).canFill() && tile.isNextToFill(facing, i, container.drain(Integer.MAX_VALUE, false))) {
@@ -132,27 +135,27 @@ public class BlockHelper {
 	private static final byte[] FRONT = {0, 1, 2, 3, 4, 5};
 	private static final byte[] BACK = {1, 0, 3, 2, 5, 4};
 	
-	public static EnumFacing bottom(EnumFacing facing) {
-		return EnumFacing.byIndex(BOTTOM[facing.getIndex()]);
+	public static EnumFacing bottom(@Nullable EnumFacing facing) {
+		return facing == null ? EnumFacing.DOWN : EnumFacing.byIndex(BOTTOM[facing.getIndex()]);
 	}
 	
-	public static EnumFacing top(EnumFacing facing) {
-		return EnumFacing.byIndex(TOP[facing.getIndex()]);
+	public static EnumFacing top(@Nullable EnumFacing facing) {
+		return facing == null ? EnumFacing.UP : EnumFacing.byIndex(TOP[facing.getIndex()]);
 	}
 	
-	public static EnumFacing left(EnumFacing facing) {
-		return EnumFacing.byIndex(LEFT[facing.getIndex()]);
+	public static EnumFacing left(@Nullable EnumFacing facing) {
+		return facing == null ? EnumFacing.NORTH : EnumFacing.byIndex(LEFT[facing.getIndex()]);
 	}
 	
-	public static EnumFacing right(EnumFacing facing) {
-		return EnumFacing.byIndex(RIGHT[facing.getIndex()]);
+	public static EnumFacing right(@Nullable EnumFacing facing) {
+		return facing == null ? EnumFacing.SOUTH : EnumFacing.byIndex(RIGHT[facing.getIndex()]);
 	}
 	
-	public static EnumFacing front(EnumFacing facing) {
-		return EnumFacing.byIndex(FRONT[facing.getIndex()]);
+	public static EnumFacing front(@Nullable EnumFacing facing) {
+		return facing == null ? EnumFacing.WEST : EnumFacing.byIndex(FRONT[facing.getIndex()]);
 	}
 	
-	public static EnumFacing back(EnumFacing facing) {
-		return EnumFacing.byIndex(BACK[facing.getIndex()]);
+	public static EnumFacing back(@Nullable EnumFacing facing) {
+		return facing == null ? EnumFacing.EAST : EnumFacing.byIndex(BACK[facing.getIndex()]);
 	}
 }

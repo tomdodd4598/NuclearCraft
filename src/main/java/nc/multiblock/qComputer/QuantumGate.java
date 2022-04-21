@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.util.*;
 
-public abstract class QuantumGate<GATE extends QuantumGate> {
+public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 	
 	protected final QuantumComputer qc;
 	protected final Class<GATE> gateClass;
@@ -22,7 +22,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 	
 	public abstract void run();
 	
-	public final QuantumGate merge(QuantumGate next) {
+	public final QuantumGate<?> merge(QuantumGate<?> next) {
 		if (gateClass.isInstance(next) && matchingID(next.getID(), mergerIDs())) {
 			return mergeInernal(gateClass.cast(next));
 		}
@@ -41,7 +41,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 	public abstract ComplexMatrix singleQubitOperation();
 	
 	/** Adds the required decomposition of this gate to the list. */
-	public abstract void addRequiredDecomposition(List<QuantumGate> decomposition);
+	public abstract void addRequiredDecomposition(List<QuantumGate<?>> decomposition);
 	
 	public abstract List<String> getCode(int type);
 	
@@ -51,7 +51,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		public IntSet t();
 		
-		public QuantumGate withoutControl();
+		public QuantumGate<?> withoutControl();
 	}
 	
 	public static class Measurement extends QuantumGate<Measurement> {
@@ -82,9 +82,9 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		
 		@Override
 		public Measurement mergeInernal(Measurement next) {
-			IntSet n = new IntOpenHashSet(this.n);
-			n.addAll(next.n);
-			return new Measurement(qc, n);
+			IntSet nCopy = new IntOpenHashSet(n);
+			nCopy.addAll(next.n);
+			return new Measurement(qc, nCopy);
 		}
 		
 		@Override
@@ -98,7 +98,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (!n.isEmpty()) {
 				decomposition.add(this);
 			}
@@ -110,14 +110,14 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < l.size(); i++) {
+				for (int i = 0; i < l.size(); ++i) {
 					out.add("measure q[" + l.getInt(i) + "] -> c[" + l.getInt(i) + "];");
 				}
 			}
 			else if (type == 1) {
 				if (!l.isEmpty()) {
 					String s = pythonArray(l);
-					//out.add("qc.barrier(" + s + ")");
+					// out.add("qc.barrier(" + s + ")");
 					out.add("qc.measure(" + s + ", " + s + ")");
 				}
 			}
@@ -165,7 +165,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			decomposition.add(this);
 		}
 		
@@ -175,14 +175,14 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < q; i++) {
+				for (int i = 0; i < q; ++i) {
 					out.add("reset q[" + i + "];");
 				}
 			}
 			else if (type == 1) {
 				if (q != 0) {
 					String s = pythonArray(CollectionHelper.increasingList(q));
-					//out.add("qc.barrier(" + s + ")");
+					// out.add("qc.barrier(" + s + ")");
 					out.add("qc.reset(" + s + ")");
 				}
 			}
@@ -212,15 +212,15 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			
-			IntSet n = new IntOpenHashSet(this.n);
-			n.addAll(next.n);
-			return newMerged(S0, n);
+			IntSet nCopy = new IntOpenHashSet(n);
+			nCopy.addAll(next.n);
+			return newMerged(S0, nCopy);
 		}
 		
-		public abstract Basic newMerged(IntSet c, IntSet t);
+		public abstract Basic newMerged(IntSet cIn, IntSet tIn);
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (!n.isEmpty()) {
 				decomposition.add(this);
 			}
@@ -232,7 +232,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < l.size(); i++) {
+				for (int i = 0; i < l.size(); ++i) {
 					out.add(qasmLine(l.getInt(i)));
 				}
 			}
@@ -274,8 +274,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new X(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new X(qc, tIn);
 		}
 		
 		@Override
@@ -318,8 +318,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new Y(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new Y(qc, tIn);
 		}
 		
 		@Override
@@ -362,8 +362,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new Z(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new Z(qc, tIn);
 		}
 		
 		@Override
@@ -406,8 +406,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new H(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new H(qc, tIn);
 		}
 		
 		@Override
@@ -450,8 +450,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new S(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new S(qc, tIn);
 		}
 		
 		@Override
@@ -494,8 +494,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new Sdg(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new Sdg(qc, tIn);
 		}
 		
 		@Override
@@ -538,8 +538,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new T(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new T(qc, tIn);
 		}
 		
 		@Override
@@ -582,8 +582,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new Tdg(qc, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new Tdg(qc, tIn);
 		}
 		
 		@Override
@@ -629,12 +629,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			
-			IntSet n = new IntOpenHashSet(this.n);
-			n.addAll(next.n);
-			return newMerged(angle, S0, n);
+			IntSet nCopy = new IntOpenHashSet(n);
+			nCopy.addAll(next.n);
+			return newMerged(angle, S0, nCopy);
 		}
 		
-		public abstract BasicAngle newMerged(double angle, IntSet c, IntSet t);
+		public abstract BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn);
 		
 		@Override
 		public List<String> getCode(int type) {
@@ -642,7 +642,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < l.size(); i++) {
+				for (int i = 0; i < l.size(); ++i) {
 					out.add(qasmLine(angle, l.getInt(i)));
 				}
 			}
@@ -656,15 +656,15 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (!n.isEmpty()) {
 				decomposition.add(this);
 			}
 		}
 		
-		public abstract String qasmLine(double angle, int i);
+		public abstract String qasmLine(double angleIn, int i);
 		
-		public abstract String qiskitLine(double angle, IntList l);
+		public abstract String qiskitLine(double angleIn, IntList l);
 	}
 	
 	public static class P extends BasicAngle {
@@ -691,8 +691,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new P(qc, angle, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new P(qc, angleIn, tIn);
 		}
 		
 		@Override
@@ -701,13 +701,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String qasmLine(double angle, int i) {
-			return "p(" + Math.toRadians(angle) + ") q[" + i + "];";
+		public String qasmLine(double angleIn, int i) {
+			return "p(" + Math.toRadians(angleIn) + ") q[" + i + "];";
 		}
 		
 		@Override
-		public String qiskitLine(double angle, IntList l) {
-			return "qc.p(" + Math.toRadians(angle) + ", " + pythonArray(l) + ")";
+		public String qiskitLine(double angleIn, IntList l) {
+			return "qc.p(" + Math.toRadians(angleIn) + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -735,8 +735,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new RX(qc, angle, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new RX(qc, angleIn, tIn);
 		}
 		
 		@Override
@@ -745,13 +745,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String qasmLine(double angle, int i) {
-			return "rx(" + Math.toRadians(angle) + ") q[" + i + "];";
+		public String qasmLine(double angleIn, int i) {
+			return "rx(" + Math.toRadians(angleIn) + ") q[" + i + "];";
 		}
 		
 		@Override
-		public String qiskitLine(double angle, IntList l) {
-			return "qc.rx(" + Math.toRadians(angle) + ", " + pythonArray(l) + ")";
+		public String qiskitLine(double angleIn, IntList l) {
+			return "qc.rx(" + Math.toRadians(angleIn) + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -779,8 +779,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new RY(qc, angle, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new RY(qc, angleIn, tIn);
 		}
 		
 		@Override
@@ -789,13 +789,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String qasmLine(double angle, int i) {
-			return "ry(" + Math.toRadians(angle) + ") q[" + i + "];";
+		public String qasmLine(double angleIn, int i) {
+			return "ry(" + Math.toRadians(angleIn) + ") q[" + i + "];";
 		}
 		
 		@Override
-		public String qiskitLine(double angle, IntList l) {
-			return "qc.ry(" + Math.toRadians(angle) + ", " + pythonArray(l) + ")";
+		public String qiskitLine(double angleIn, IntList l) {
+			return "qc.ry(" + Math.toRadians(angleIn) + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -823,8 +823,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new RZ(qc, angle, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new RZ(qc, angleIn, tIn);
 		}
 		
 		@Override
@@ -833,13 +833,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String qasmLine(double angle, int i) {
-			return "rz(" + Math.toRadians(angle) + ") q[" + i + "];";
+		public String qasmLine(double angleIn, int i) {
+			return "rz(" + Math.toRadians(angleIn) + ") q[" + i + "];";
 		}
 		
 		@Override
-		public String qiskitLine(double angle, IntList l) {
-			return "qc.rz(" + Math.toRadians(angle) + ", " + pythonArray(l) + ")";
+		public String qiskitLine(double angleIn, IntList l) {
+			return "qc.rz(" + Math.toRadians(angleIn) + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -874,13 +874,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			
-			IntSet n = new IntOpenHashSet(this.n);
-			n.addAll(next.n);
-			return newMerged(c, n);
+			IntSet nCopy = new IntOpenHashSet(n);
+			nCopy.addAll(next.n);
+			return newMerged(c, nCopy);
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (c.size() == 1) {
 				if (!n.isEmpty()) {
 					decomposition.add(this);
@@ -900,11 +900,11 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				return singleControlCode(type);
 			}
 			
-			List<QuantumGate> decomposition = new ArrayList<>();
+			List<QuantumGate<?>> decomposition = new ArrayList<>();
 			addRequiredDecomposition(decomposition);
 			
 			List<String> out = new ArrayList<>();
-			for (QuantumGate gate : decomposition) {
+			for (QuantumGate<?> gate : decomposition) {
 				out.addAll(gate.getCode(type));
 			}
 			
@@ -922,27 +922,27 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		public List<String> singleControlCode(int type) {
-			int c = list(this.c).getInt(0);
+			int c0 = list(c).getInt(0);
 			IntList l = list(n);
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < l.size(); i++) {
-					out.add(singleControlQasmLine(c, l.getInt(i)));
+				for (int i = 0; i < l.size(); ++i) {
+					out.add(singleControlQasmLine(c0, l.getInt(i)));
 				}
 			}
 			else if (type == 1) {
 				if (!l.isEmpty()) {
-					out.add(singleControlQiskitLine(c, l));
+					out.add(singleControlQiskitLine(c0, l));
 				}
 			}
 			
 			return out;
 		}
 		
-		public abstract String singleControlQasmLine(int c, int i);
+		public abstract String singleControlQasmLine(int cIn, int i);
 		
-		public abstract String singleControlQiskitLine(int c, IntList l);
+		public abstract String singleControlQiskitLine(int cIn, IntList l);
 	}
 	
 	public static class CX extends Control {
@@ -969,12 +969,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CX(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CX(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new X(qc, n);
 		}
 		
@@ -984,7 +984,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (n.isEmpty()) {
 				return;
 			}
@@ -1011,7 +1011,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				for (int t : list(n)) {
 					if (toffoli) {
 						IntList anc = new IntArrayList(q - c_size - 1);
-						for (int i = 0; i < q; i++) {
+						for (int i = 0; i < q; ++i) {
 							if (i != t && !c.contains(i)) {
 								anc.add(i);
 							}
@@ -1020,7 +1020,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 						final CX[] repeat = new CX[2 * (c_size - 2)];
 						
 						repeat[0] = new CX(qc, set(anc.getInt(0), c_list.getInt(0)), set(t));
-						for (int i = 1; i < c_size - 2; i++) {
+						for (int i = 1; i < c_size - 2; ++i) {
 							repeat[i] = new CX(qc, set(anc.getInt(i), c_list.getInt(i)), set(anc.getInt(i - 1)));
 							repeat[2 * (c_size - 2) - i] = repeat[i];
 						}
@@ -1038,7 +1038,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 						final int m_1 = (int) Math.ceil((c_size + 1D) / 2D), m_2 = c_size - m_1 + 1;
 						
 						int anc = -1;
-						for (int i = 0; i < q; i++) {
+						for (int i = 0; i < q; ++i) {
 							if (i != t && !c.contains(i)) {
 								anc = i;
 								break;
@@ -1082,23 +1082,23 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			}
 			
 			List<String> out = new ArrayList<>();
-			List<QuantumGate> decomposition = new ArrayList<>();
+			List<QuantumGate<?>> decomposition = new ArrayList<>();
 			
 			addRequiredDecomposition(decomposition);
-			for (QuantumGate gate : decomposition) {
+			for (QuantumGate<?> gate : decomposition) {
 				out.addAll(gate.getCode(type));
 			}
 			return out;
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cx q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cx q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cx(" + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cx(" + cIn + ", " + pythonArray(l) + ")";
 		}
 		
 		public List<String> doubleControlCode(int type) {
@@ -1108,7 +1108,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < l.size(); i++) {
+				for (int i = 0; i < l.size(); ++i) {
 					out.add(doubleControlQasmLine(c1, c2, l.getInt(i)));
 				}
 			}
@@ -1154,12 +1154,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CY(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CY(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new Y(qc, n);
 		}
 		
@@ -1169,13 +1169,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cy q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cy q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cy(" + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cy(" + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1203,12 +1203,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CZ(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CZ(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new Z(qc, n);
 		}
 		
@@ -1218,13 +1218,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cz q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cz q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cz(" + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cz(" + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1252,12 +1252,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CH(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CH(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new H(qc, n);
 		}
 		
@@ -1267,13 +1267,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "ch q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "ch q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.ch(" + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.ch(" + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1301,12 +1301,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CS(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CS(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new S(qc, n);
 		}
 		
@@ -1316,13 +1316,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cp(pi/2) q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cp(pi/2) q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cp(pi/2, " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cp(pi/2, " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1350,12 +1350,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CSdg(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CSdg(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new Sdg(qc, n);
 		}
 		
@@ -1365,13 +1365,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cp(-pi/2) q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cp(-pi/2) q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cp(-pi/2, " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cp(-pi/2, " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1399,12 +1399,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CT(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CT(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new T(qc, n);
 		}
 		
@@ -1414,13 +1414,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cp(pi/4) q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cp(pi/4) q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cp(pi/4, " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cp(pi/4, " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1448,12 +1448,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public Basic newMerged(IntSet c, IntSet t) {
-			return new CTdg(qc, c, t);
+		public Basic newMerged(IntSet cIn, IntSet tIn) {
+			return new CTdg(qc, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new Tdg(qc, n);
 		}
 		
@@ -1463,13 +1463,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(int c, int i) {
-			return "cp(-pi/4) q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(int cIn, int i) {
+			return "cp(-pi/4) q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(int c, IntList l) {
-			return "qc.cp(-pi/4, " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(int cIn, IntList l) {
+			return "qc.cp(-pi/4, " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1508,13 +1508,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				}
 			}
 			
-			IntSet n = new IntOpenHashSet(this.n);
-			n.addAll(next.n);
-			return newMerged(angle, c, n);
+			IntSet nCopy = new IntOpenHashSet(n);
+			nCopy.addAll(next.n);
+			return newMerged(angle, c, nCopy);
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (c.size() == 1) {
 				if (!n.isEmpty()) {
 					decomposition.add(this);
@@ -1534,11 +1534,11 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 				return singleControlCode(type);
 			}
 			
-			List<QuantumGate> decomposition = new ArrayList<>();
+			List<QuantumGate<?>> decomposition = new ArrayList<>();
 			addRequiredDecomposition(decomposition);
 			
 			List<String> out = new ArrayList<>();
-			for (QuantumGate gate : decomposition) {
+			for (QuantumGate<?> gate : decomposition) {
 				out.addAll(gate.getCode(type));
 			}
 			
@@ -1546,37 +1546,37 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public final String qasmLine(double angle, int i) {
+		public final String qasmLine(double angleIn, int i) {
 			return ";";
 		}
 		
 		@Override
-		public final String qiskitLine(double angle, IntList l) {
+		public final String qiskitLine(double angleIn, IntList l) {
 			return "";
 		}
 		
 		public List<String> singleControlCode(int type) {
-			int c = list(this.c).getInt(0);
+			int c0 = list(c).getInt(0);
 			IntList l = list(n);
 			List<String> out = new ArrayList<>();
 			
 			if (type == 0) {
-				for (int i = 0; i < l.size(); i++) {
-					out.add(singleControlQasmLine(angle, c, l.getInt(i)));
+				for (int i = 0; i < l.size(); ++i) {
+					out.add(singleControlQasmLine(angle, c0, l.getInt(i)));
 				}
 			}
 			else if (type == 1) {
 				if (!l.isEmpty()) {
-					out.add(singleControlQiskitLine(angle, c, l));
+					out.add(singleControlQiskitLine(angle, c0, l));
 				}
 			}
 			
 			return out;
 		}
 		
-		public abstract String singleControlQasmLine(double angle, int c, int i);
+		public abstract String singleControlQasmLine(double angleIn, int cIn, int i);
 		
-		public abstract String singleControlQiskitLine(double angle, int c, IntList l);
+		public abstract String singleControlQiskitLine(double angleIn, int cIn, IntList l);
 	}
 	
 	public static class CP extends ControlAngle {
@@ -1603,12 +1603,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new CP(qc, angle, c, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new CP(qc, angleIn, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new P(qc, angle, n);
 		}
 		
@@ -1618,13 +1618,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(double angle, int c, int i) {
-			return "cp(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(double angleIn, int cIn, int i) {
+			return "cp(" + Math.toRadians(angleIn) + ") q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(double angle, int c, IntList l) {
-			return "qc.cp(" + Math.toRadians(angle) + ", " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(double angleIn, int cIn, IntList l) {
+			return "qc.cp(" + Math.toRadians(angleIn) + ", " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1652,12 +1652,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new CRX(qc, angle, c, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new CRX(qc, angleIn, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new RX(qc, angle, n);
 		}
 		
@@ -1667,13 +1667,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(double angle, int c, int i) {
-			return "crx(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(double angleIn, int cIn, int i) {
+			return "crx(" + Math.toRadians(angleIn) + ") q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(double angle, int c, IntList l) {
-			return "qc.crx(" + Math.toRadians(angle) + ", " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(double angleIn, int cIn, IntList l) {
+			return "qc.crx(" + Math.toRadians(angleIn) + ", " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1701,12 +1701,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new CRY(qc, angle, c, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new CRY(qc, angleIn, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new RY(qc, angle, n);
 		}
 		
@@ -1716,13 +1716,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(double angle, int c, int i) {
-			return "cry(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(double angleIn, int cIn, int i) {
+			return "cry(" + Math.toRadians(angleIn) + ") q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(double angle, int c, IntList l) {
-			return "qc.cry(" + Math.toRadians(angle) + ", " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(double angleIn, int cIn, IntList l) {
+			return "qc.cry(" + Math.toRadians(angleIn) + ", " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1750,12 +1750,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public BasicAngle newMerged(double angle, IntSet c, IntSet t) {
-			return new CRZ(qc, angle, c, t);
+		public BasicAngle newMerged(double angleIn, IntSet cIn, IntSet tIn) {
+			return new CRZ(qc, angleIn, cIn, tIn);
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new RZ(qc, angle, n);
 		}
 		
@@ -1765,13 +1765,13 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public String singleControlQasmLine(double angle, int c, int i) {
-			return "crz(" + Math.toRadians(angle) + ") q[" + c + "], q[" + i + "];";
+		public String singleControlQasmLine(double angleIn, int cIn, int i) {
+			return "crz(" + Math.toRadians(angleIn) + ") q[" + cIn + "], q[" + i + "];";
 		}
 		
 		@Override
-		public String singleControlQiskitLine(double angle, int c, IntList l) {
-			return "qc.crz(" + Math.toRadians(angle) + ", " + c + ", " + pythonArray(l) + ")";
+		public String singleControlQiskitLine(double angleIn, int cIn, IntList l) {
+			return "qc.crz(" + Math.toRadians(angleIn) + ", " + cIn + ", " + pythonArray(l) + ")";
 		}
 	}
 	
@@ -1810,10 +1810,10 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		public Swap newMerged(IntSet c, IntList i1, IntList j1, IntList i2, IntList j2) {
-			IntList i = new IntArrayList(i1), j = new IntArrayList(j1);
-			i.addAll(i2);
-			j.addAll(j2);
-			return c.isEmpty() ? new Swap(qc, i, j) : new ControlSwap(qc, c, i, j);
+			IntList iCopy = new IntArrayList(i1), jCopy = new IntArrayList(j1);
+			iCopy.addAll(i2);
+			jCopy.addAll(j2);
+			return c.isEmpty() ? new Swap(qc, iCopy, jCopy) : new ControlSwap(qc, c, iCopy, jCopy);
 		}
 		
 		@Override
@@ -1822,7 +1822,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (!i.isEmpty() && i.size() == j.size()) {
 				decomposition.add(this);
 			}
@@ -1834,12 +1834,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 			
 			if (i.size() == j.size()) {
 				if (type == 0) {
-					for (int k = 0; k < i.size(); k++) {
+					for (int k = 0; k < i.size(); ++k) {
 						out.add("swap q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
 					}
 				}
 				else if (type == 1) {
-					for (int k = 0; k < i.size(); k++) {
+					for (int k = 0; k < i.size(); ++k) {
 						out.add("qc.swap(" + i.getInt(k) + ", " + j.getInt(k) + ")");
 					}
 				}
@@ -1893,12 +1893,12 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		}
 		
 		@Override
-		public QuantumGate withoutControl() {
+		public QuantumGate<?> withoutControl() {
 			return new Swap(qc, i, j);
 		}
 		
 		@Override
-		public void addRequiredDecomposition(List<QuantumGate> decomposition) {
+		public void addRequiredDecomposition(List<QuantumGate<?>> decomposition) {
 			if (!i.isEmpty() && i.size() == j.size()) {
 				if (c.isEmpty()) {
 					decomposition.add(withoutControl());
@@ -1907,7 +1907,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 					decomposition.add(this);
 				}
 				else {
-					for (int k = 0; k < i.size(); k++) {
+					for (int k = 0; k < i.size(); ++k) {
 						IntSet c_1 = set(i.getInt(k));
 						c_1.addAll(c);
 						CX cx_1 = new CX(qc, c_1, set(j.getInt(k)));
@@ -1937,22 +1937,22 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 					IntList l = list(c);
 					if (type == 0) {
 						String s = "cswap q[" + l.getInt(0) + "], ";
-						for (int k = 0; k < i.size(); k++) {
+						for (int k = 0; k < i.size(); ++k) {
 							out.add(s + "q[" + i.getInt(k) + "], q[" + j.getInt(k) + "];");
 						}
 					}
 					else if (type == 1) {
 						String s = "qc.cswap(" + l.getInt(0) + ", ";
-						for (int k = 0; k < i.size(); k++) {
+						for (int k = 0; k < i.size(); ++k) {
 							out.add(s + i.getInt(k) + ", " + j.getInt(k) + ")");
 						}
 					}
 				}
 				else {
-					List<QuantumGate> decomposition = new ArrayList<>();
+					List<QuantumGate<?>> decomposition = new ArrayList<>();
 					addRequiredDecomposition(decomposition);
 					
-					for (QuantumGate gate : decomposition) {
+					for (QuantumGate<?> gate : decomposition) {
 						out.addAll(gate.getCode(type));
 					}
 				}
@@ -1980,7 +1980,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 	
 	public static IntList list(IntSet n) {
 		IntList l = new IntArrayList();
-		for (int i = 0; i < QuantumComputer.getMaxQubits(); i++) {
+		for (int i = 0; i < QuantumComputer.getMaxQubits(); ++i) {
 			if (n.contains(i)) {
 				l.add(i);
 			}
@@ -2077,8 +2077,7 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Tdg, new double[] {-22.5D, -22.5D, 0D, -22.5D});
 	}
 	
-	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees.
-	 * Translated from https://qiskit.org/documentation/_modules/qiskit/quantum_info/synthesis/one_qubit_decompose.html#OneQubitEulerDecomposer */
+	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees. Translated from https://qiskit.org/documentation/_modules/qiskit/quantum_info/synthesis/one_qubit_decompose.html#OneQubitEulerDecomposer */
 	public static double[] getZYZDecompositionAngles(ComplexMatrix matrix) {
 		if (ZYZ_DECOMPOSITION_ANGLES_CACHE.containsKey(matrix)) {
 			return ZYZ_DECOMPOSITION_ANGLES_CACHE.get(matrix);
@@ -2096,11 +2095,8 @@ public abstract class QuantumGate<GATE extends QuantumGate> {
 		return new double[] {-Math.toDegrees(Complex.arg(phase[0], phase[1])), Math.toDegrees((ppl + pml) / 2D), Math.toDegrees(2D * Math.atan2(Complex.abs(m.re[1][0], m.im[1][0]), Complex.abs(m.re[0][0], m.im[0][0]))), Math.toDegrees((ppl - pml) / 2D)};
 	}
 	
-	/** Adds the ZYZ decomposition of this gate to the list.
-	 * Combines results from:
-	 * https://arxiv.org/abs/quant-ph/9503016,
-	 * Nielsen, Michael A.; Chuang, Isaac L. Quantum Computation and Quantum Information */
-	public static <GATE extends QuantumGate<?> & IControl> void addZYZDecomposition(GATE gate, List<QuantumGate> decomposition) {
+	/** Adds the ZYZ decomposition of this gate to the list. Combines results from: https://arxiv.org/abs/quant-ph/9503016, Nielsen, Michael A.; Chuang, Isaac L. Quantum Computation and Quantum Information */
+	public static <GATE extends QuantumGate<?> & IControl> void addZYZDecomposition(GATE gate, List<QuantumGate<?>> decomposition) {
 		IntSet t = gate.t();
 		if (t.isEmpty()) {
 			return;

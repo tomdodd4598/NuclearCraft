@@ -46,7 +46,7 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	}
 	
 	@Override
-	public TileEntity thisTile() {
+	public TileEntity getTile() {
 		return this;
 	}
 	
@@ -81,7 +81,7 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+	public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
 	}
 	
@@ -153,7 +153,7 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
-			return (T) radiation;
+			return IRadiationSource.CAPABILITY_RADIATION_SOURCE.cast(radiation);
 		}
 		return super.getCapability(capability, side);
 	}
@@ -161,7 +161,7 @@ public abstract class TileBeefAbstract extends TileEntity implements ITile {
 	// GUI management
 	
 	/** Check if the tile entity has a GUI or not Override in derived classes to return true if your tile entity got a GUI */
-	public boolean canOpenGui(World world, BlockPos posistion, IBlockState state) {
+	public boolean canOpenGui(World worldIn, BlockPos posistion, IBlockState state) {
 		return false;
 	}
 	

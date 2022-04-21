@@ -58,7 +58,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		BlockRendererDispatcher renderer = MC.getBlockRendererDispatcher();
 		
 		brightness[count] = controller.getWorld().getLightBrightness(turbine.getExtremeInteriorCoord(NCMath.getBit(count, 0) == 1, NCMath.getBit(count, 1) == 1, NCMath.getBit(count, 2) == 1));
-		count++;
+		++count;
 		count %= 8;
 		float bright = (brightness[0] + brightness[1] + brightness[2] + brightness[3] + brightness[4] + brightness[5] + brightness[6] + brightness[7]) / 8F;
 		
@@ -160,7 +160,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			return;
 		}
 		
-		for (int w = 0; w < shaftWidth; w++) {
+		for (int w = 0; w < shaftWidth; ++w) {
 			GlStateManager.pushMatrix();
 			
 			renderPos = turbine.renderPosArray[w + i * shaftWidth];

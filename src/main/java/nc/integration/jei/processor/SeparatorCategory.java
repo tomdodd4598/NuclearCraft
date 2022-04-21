@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class SeparatorCategory extends JEIMachineCategory<JEIRecipeWrapper.Separator> {
 	
-	public SeparatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public SeparatorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Separator> handler) {
 		super(guiHelper, handler, "separator", 33, 30, 118, 26);
 	}
 	

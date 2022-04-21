@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class PebbleFissionCategory extends JEIMachineCategory<JEIRecipeWrapper.PebbleFission> {
 	
-	public PebbleFissionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public PebbleFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.PebbleFission> handler) {
 		super(guiHelper, handler, "pebble_fission_chamber", 47, 30, 90, 26);
 	}
 	

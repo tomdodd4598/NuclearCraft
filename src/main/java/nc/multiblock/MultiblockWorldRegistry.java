@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.FMLLog;
 /** This class manages all the multiblocks that exist in a given world, either client- or server-side. You must create different registries for server and client worlds.
  *
  * @author Erogenous Beef */
+@SuppressWarnings("rawtypes")
 final class MultiblockWorldRegistry {
 	
 	private World worldObj;
@@ -123,8 +124,8 @@ final class MultiblockWorldRegistry {
 					if (compatibleMultiblocks == null) {
 						// FOREVER ALONE! Create and register a new multiblock.
 						// THIS IS THE ONLY PLACE WHERE NEW CONTROLLERS ARE CREATED.
-						Multiblock newMultiblock = orphan.createNewMultiblock();
-						newMultiblock.attachBlock(orphan);
+						Multiblock<?, ?> newMultiblock = orphan.createNewMultiblock();
+						newMultiblock.attachBlockRaw(orphan);
 						multiblocks.add(newMultiblock);
 					}
 					else if (compatibleMultiblocks.size() > 1) {
@@ -156,7 +157,7 @@ final class MultiblockWorldRegistry {
 							// Multiple pools- merge into one, then add the compatible multiblocks
 							Set<Multiblock> masterPool = candidatePools.get(0);
 							Set<Multiblock> consumedPool;
-							for (int i = 1; i < candidatePools.size(); i++) {
+							for (int i = 1; i < candidatePools.size(); ++i) {
 								consumedPool = candidatePools.get(i);
 								masterPool.addAll(consumedPool);
 								mergePools.remove(consumedPool);
@@ -173,7 +174,7 @@ final class MultiblockWorldRegistry {
 			// To do this, we combine lists of machines that are touching one another and therefore should voltron the fuck up.
 			for (Set<Multiblock> mergePool : mergePools) {
 				// Search for the new master machine, which will take over all the blocks contained in the other machines
-				Multiblock newMaster = null;
+				Multiblock<?, ?> newMaster = null;
 				for (Multiblock multiblock : mergePool) {
 					if (newMaster == null || multiblock.shouldConsume(newMaster)) {
 						newMaster = multiblock;
@@ -188,7 +189,7 @@ final class MultiblockWorldRegistry {
 					addDirtyMultiblock(newMaster);
 					for (Multiblock multiblock : mergePool) {
 						if (multiblock != newMaster) {
-							newMaster.assimilate(multiblock);
+							newMaster.assimilateRaw(multiblock);
 							addDeadMultiblock(multiblock);
 							addDirtyMultiblock(newMaster);
 						}

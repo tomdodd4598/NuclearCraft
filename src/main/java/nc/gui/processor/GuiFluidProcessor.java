@@ -59,22 +59,22 @@ public abstract class GuiFluidProcessor extends NCGui {
 	}
 	
 	@Override
-	public void drawEnergyTooltip(ITileEnergy tile, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if (this.tile.defaultProcessPower != 0) {
-			super.drawEnergyTooltip(tile, mouseX, mouseY, x, y, width, height);
+	public void drawEnergyTooltip(ITileEnergy tileEnergy, int mouseX, int mouseY, int x, int y, int drawWidth, int drawHeight) {
+		if (tile.defaultProcessPower != 0) {
+			super.drawEnergyTooltip(tileEnergy, mouseX, mouseY, x, y, drawWidth, drawHeight);
 		}
 		else {
-			drawNoEnergyTooltip(mouseX, mouseY, x, y, width, height);
+			drawNoEnergyTooltip(mouseX, mouseY, x, y, drawWidth, drawHeight);
 		}
 	}
 	
 	@Override
-	public List<String> energyInfo(ITileEnergy tile) {
-		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStoredLong(), tile.getEnergyStorage().getMaxEnergyStoredLong(), 5, "RF");
-		String power = UnitHelper.prefix(this.tile.getProcessPower(), 5, "RF/t");
+	public List<String> energyInfo(ITileEnergy tileEnergy) {
+		String energy = UnitHelper.prefix(tileEnergy.getEnergyStorage().getEnergyStoredLong(), tileEnergy.getEnergyStorage().getMaxEnergyStoredLong(), 5, "RF");
+		String power = UnitHelper.prefix(tile.getProcessPower(), 5, "RF/t");
 		
-		String speedMultiplier = "x" + NCMath.decimalPlaces(this.tile.getSpeedMultiplier(), 2);
-		String powerMultiplier = "x" + NCMath.decimalPlaces(this.tile.getPowerMultiplier(), 2);
+		String speedMultiplier = "x" + NCMath.decimalPlaces(tile.getSpeedMultiplier(), 2);
+		String powerMultiplier = "x" + NCMath.decimalPlaces(tile.getPowerMultiplier(), 2);
 		
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.process_power") + TextFormatting.WHITE + " " + power, TextFormatting.AQUA + Lang.localise("gui.nc.container.speed_multiplier") + TextFormatting.WHITE + " " + speedMultiplier, TextFormatting.AQUA + Lang.localise("gui.nc.container.power_multiplier") + TextFormatting.WHITE + " " + powerMultiplier);
 	}

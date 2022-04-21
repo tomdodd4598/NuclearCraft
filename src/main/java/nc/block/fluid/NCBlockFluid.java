@@ -82,7 +82,7 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 	
 	protected void triggerMixEffects(World world, BlockPos pos) {
 		world.playSound(null, pos, SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 8; ++i) {
 			world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + Math.random(), pos.getY() + 1.2D, pos.getZ() + Math.random(), 0D, 0D, 0D);
 		}
 	}
@@ -97,7 +97,7 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 				
 				if (i > 0) {
 					BlockPos firePos = pos;
-					for (int j = 0; j < i; j++) {
+					for (int j = 0; j < i; ++j) {
 						firePos = firePos.add(rand.nextInt(3) - 1, 1, rand.nextInt(3) - 1);
 						
 						if (firePos.getY() >= 0 && firePos.getY() < world.getHeight() && !world.isBlockLoaded(firePos)) {
@@ -118,7 +118,7 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 					}
 				}
 				else {
-					for (int k = 0; k < 3; k++) {
+					for (int k = 0; k < 3; ++k) {
 						BlockPos firePos = pos.add(rand.nextInt(3) - 1, 0, rand.nextInt(3) - 1);
 						
 						if (firePos.getY() >= 0 && firePos.getY() < world.getHeight() && !world.isBlockLoaded(firePos)) {

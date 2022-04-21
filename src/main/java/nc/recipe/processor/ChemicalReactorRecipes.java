@@ -23,8 +23,8 @@ public class ChemicalReactorRecipes extends BasicRecipeHandler {
 		
 		addRecipe(fluidStack("boric_acid", BUCKET_VOLUME / 2), fluidStack("ammonia", BUCKET_VOLUME / 2), fluidStack("boron_nitride_solution", GEM_VOLUME / 2), fluidStack("water", BUCKET_VOLUME), 0.5D, 0.5D);
 		
-		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
-		addRecipe(fluidStack("deuterium", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("heavy_water", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
+		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
+		addRecipe(fluidStack("deuterium", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("heavy_water", BUCKET_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
 		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 4), fluidStack("fluorine", BUCKET_VOLUME / 4), fluidStack("hydrofluoric_acid", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
 		
 		addRecipe(fluidStack("lithium", INGOT_VOLUME / 2), fluidStack("fluorine", BUCKET_VOLUME / 4), fluidStack("lif", INGOT_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
@@ -75,8 +75,8 @@ public class ChemicalReactorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
@@ -84,8 +84,8 @@ public class ChemicalReactorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List getFactoredExtras(List extras, int factor) {
-		List factored = new ArrayList(extras);
+	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
+		List<Object> factored = new ArrayList<>(extras);
 		factored.set(0, (double) extras.get(0) / factor);
 		return factored;
 	}

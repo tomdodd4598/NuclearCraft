@@ -3,6 +3,7 @@ package nc.multiblock.heatExchanger;
 import static nc.config.NCConfig.*;
 
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -11,35 +12,38 @@ import nc.Global;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.heatExchanger.tile.*;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.network.multiblock.HeatExchangerUpdatePacket;
 import nc.util.NCMath;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatExchangerUpdatePacket> implements ILogicMultiblock<HeatExchangerLogic, IHeatExchangerPart> {
+public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchangerPart> implements ILogicMultiblock<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart>, IPacketMultiblock<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket> {
 	
 	public static final ObjectSet<Class<? extends IHeatExchangerPart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends HeatExchangerLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
-	protected final ObjectSet<IHeatExchangerController> controllers = new ObjectOpenHashSet<>();
+	protected final ObjectSet<IHeatExchangerController<?>> controllers = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerVent> vents = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerTube> tubes = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileCondenserTube> condenserTubes = new ObjectOpenHashSet<>();
 	
 	protected @Nonnull HeatExchangerLogic logic = new HeatExchangerLogic(this);
 	
-	protected final PartSuperMap<IHeatExchangerPart> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<HeatExchanger, IHeatExchangerPart> partSuperMap = new PartSuperMap<>();
 	
-	protected IHeatExchangerController controller;
+	protected IHeatExchangerController<?> controller;
 	
 	public boolean isHeatExchangerOn, computerActivated;
 	public double fractionOfTubesActive, efficiency, maxEfficiency;
 	
+	protected final Set<EntityPlayer> updatePacketListeners;
+	
 	public HeatExchanger(World world) {
-		super(world);
+		super(world, HeatExchanger.class, IHeatExchangerPart.class);
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	@Override
@@ -58,11 +62,11 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	// Multiblock Part Getters
 	
 	@Override
-	public PartSuperMap<IHeatExchangerPart> getPartSuperMap() {
+	public PartSuperMap<HeatExchanger, IHeatExchangerPart> getPartSuperMap() {
 		return partSuperMap;
 	}
 	
-	public ObjectSet<IHeatExchangerController> getControllers() {
+	public ObjectSet<IHeatExchangerController<?>> getControllers() {
 		return controllers;
 	}
 	
@@ -98,14 +102,14 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	// Multiblock Methods
 	
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data) {
+	public void onAttachedPartWithMultiblockData(IHeatExchangerPart part, NBTTagCompound data) {
 		syncDataFrom(data, SyncReason.FullSync);
 	}
 	
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart) {
+	protected void onBlockAdded(IHeatExchangerPart newPart) {
 		if (newPart instanceof IHeatExchangerController) {
-			controllers.add((IHeatExchangerController) newPart);
+			controllers.add((IHeatExchangerController<?>) newPart);
 		}
 		if (newPart instanceof TileHeatExchangerVent) {
 			vents.add((TileHeatExchangerVent) newPart);
@@ -119,18 +123,18 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart) {
+	protected void onBlockRemoved(IHeatExchangerPart oldPart) {
 		if (oldPart instanceof IHeatExchangerController) {
-			controllers.remove(oldPart);
+			controllers.remove((IHeatExchangerController<?>) oldPart);
 		}
 		if (oldPart instanceof TileHeatExchangerVent) {
-			vents.remove(oldPart);
+			vents.remove((TileHeatExchangerVent) oldPart);
 		}
 		if (oldPart instanceof TileHeatExchangerTube) {
-			tubes.remove(oldPart);
+			tubes.remove((TileHeatExchangerTube) oldPart);
 		}
 		if (oldPart instanceof TileCondenserTube) {
-			condenserTubes.remove(oldPart);
+			condenserTubes.remove((TileCondenserTube) oldPart);
 		}
 	}
 	
@@ -145,7 +149,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	protected void onHeatExchangerFormed() {
-		for (IHeatExchangerController contr : controllers) {
+		for (IHeatExchangerController<?> contr : controllers) {
 			controller = contr;
 		}
 		setIsHeatExchangerOn();
@@ -194,12 +198,12 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	}
 	
 	@Override
-	protected void onAssimilate(Multiblock assimilated) {
+	protected void onAssimilate(HeatExchanger assimilated) {
 		logic.onAssimilate(assimilated);
 	}
 	
 	@Override
-	protected void onAssimilated(Multiblock assimilator) {
+	protected void onAssimilated(HeatExchanger assimilator) {
 		logic.onAssimilated(assimilator);
 	}
 	
@@ -214,7 +218,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 			flag = true;
 		}
 		if (controller != null) {
-			sendUpdateToListeningPlayers();
+			sendMultiblockUpdatePacketToListeners();
 		}
 		return flag;
 	}
@@ -225,7 +229,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 		if (isHeatExchangerOn != oldIsHeatExchangerOn) {
 			if (controller != null) {
 				controller.setActivity(isHeatExchangerOn);
-				sendUpdateToAllPlayers();
+				sendMultiblockUpdatePacketToAll();
 			}
 		}
 	}
@@ -248,7 +252,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 		for (TileHeatExchangerTube tube : tubes) {
 			int[] eff = tube.checkPosition();
 			if (eff[0] > 0) {
-				activeCount++;
+				++activeCount;
 			}
 			efficiencyCount += eff[0];
 			maxEfficiencyCount += eff[1];
@@ -257,7 +261,7 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 		for (TileCondenserTube condenserTube : condenserTubes) {
 			int eff = condenserTube.checkPosition();
 			if (eff > 0) {
-				activeCount++;
+				++activeCount;
 			}
 			efficiencyCount += eff;
 			maxEfficiencyCount += eff;
@@ -302,21 +306,21 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	// Packets
 	
 	@Override
-	protected HeatExchangerUpdatePacket getUpdatePacket() {
+	public Set<EntityPlayer> getMultiblockUpdatePacketListeners() {
+		return updatePacketListeners;
+	}
+	
+	@Override
+	public HeatExchangerUpdatePacket getMultiblockUpdatePacket() {
 		return new HeatExchangerUpdatePacket(controller.getTilePos(), isHeatExchangerOn, fractionOfTubesActive, efficiency, maxEfficiency);
 	}
 	
 	@Override
-	public void onPacket(HeatExchangerUpdatePacket message) {
+	public void onMultiblockUpdatePacket(HeatExchangerUpdatePacket message) {
 		isHeatExchangerOn = message.isHeatExchangerOn;
 		fractionOfTubesActive = message.fractionOfTubesActive;
 		efficiency = message.efficiency;
 		maxEfficiency = message.maxEfficiency;
-	}
-	
-	@Override
-	public void clearAllMaterial() {
-		super.clearAllMaterial();
 	}
 	
 	// Multiblock Validators
@@ -324,5 +328,13 @@ public class HeatExchanger extends CuboidalMultiblock<IHeatExchangerPart, HeatEx
 	@Override
 	protected boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
+	}
+	
+	// Clear Material
+	
+	@Override
+	public void clearAllMaterial() {
+		logic.clearAllMaterial();
+		super.clearAllMaterial();
 	}
 }

@@ -1,5 +1,7 @@
 package nc;
 
+import java.io.IOException;
+
 import nc.config.NCConfig;
 import nc.handler.GuiHandler;
 import nc.proxy.CommonProxy;
@@ -26,7 +28,7 @@ public class NuclearCraft {
 	public BlockHighlightTracker blockOverlayTracker = new BlockHighlightTracker();
 	
 	@EventHandler
-	public void onConstruction(FMLConstructionEvent constructionEvent) {
+	public void onConstruction(FMLConstructionEvent constructionEvent) throws IOException {
 		proxy.onConstruction(constructionEvent);
 	}
 	

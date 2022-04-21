@@ -32,10 +32,10 @@ public class NCItemRecord extends ItemRecord implements IInfoItem {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		// super.addInformation(itemStack, player, tooltip, advanced);
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> currentTooltip, ITooltipFlag flag) {
+		// super.addInformation(itemStack, player, currentTooltip, advanced);
 		if (info.length > 0) {
-			InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
+			InfoHelper.infoFull(currentTooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
 		}
 	}
 	

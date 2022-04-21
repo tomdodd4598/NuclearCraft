@@ -28,14 +28,14 @@ public class PebbleFissionRecipes extends BasicRecipeHandler {
 	public void addFuelDepleteRecipes(int[] time, int[] heat, double[] efficiency, int[] criticality, double[] decayFactor, boolean[] selfPriming, double[] radiation, String... fuelTypes) {
 		int id = 0;
 		for (String fuelType : fuelTypes) {
-			addRecipe("ingot" + fuelType + "TRISO", "ingotDepleted" + fuelType + "TRISO", (int) (fission_fuel_time_multiplier * time[id]), (int) (fission_fuel_heat_multiplier * heat[id]), fission_fuel_efficiency_multiplier * efficiency[id], criticality[id], decayFactor[id], selfPriming[id], fission_fuel_radiation_multiplier * radiation[id]);
+			addRecipe("ingot" + fuelType + "TRISO", "ingotDepleted" + fuelType + "TRISO", time[id], heat[id], efficiency[id], criticality[id], decayFactor[id], selfPriming[id], radiation[id]);
 			id += 5;
 		}
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(7);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(7);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

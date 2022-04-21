@@ -35,7 +35,7 @@ public class NCItemMetaArray extends Item implements IInfoItem {
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (isInCreativeTab(tab)) {
-			for (int i = 0; i < types.length; i++) {
+			for (int i = 0; i < types.length; ++i) {
 				items.add(new ItemStack(this, 1, i));
 			}
 		}
@@ -43,7 +43,7 @@ public class NCItemMetaArray extends Item implements IInfoItem {
 	
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		for (int i = 0; i < types.length; i++) {
+		for (int i = 0; i < types.length; ++i) {
 			if (StackHelper.getMetadata(stack) == i) {
 				return getTranslationKey() + "." + types[i];
 			}

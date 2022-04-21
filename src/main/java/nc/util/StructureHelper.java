@@ -21,7 +21,7 @@ public class StructureHelper {
 		structureCache.clear();
 	}
 	
-	public boolean isInStructure(World world, String structure, BlockPos pos) {
+	public boolean isInStructure(World world, @Nonnull String structure, BlockPos pos) {
 		int dimension = world.provider.getDimension();
 		ChunkPos cp = new ChunkPos(pos);
 		long cplong = ChunkPos.asLong(cp.x, cp.z);

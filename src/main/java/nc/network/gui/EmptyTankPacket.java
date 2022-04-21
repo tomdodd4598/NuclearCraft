@@ -12,8 +12,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class EmptyTankPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int tankNo;
+	protected BlockPos pos;
+	protected int tankNo;
 	
 	public EmptyTankPacket() {
 		

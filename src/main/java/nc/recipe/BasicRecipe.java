@@ -1,5 +1,7 @@
 package nc.recipe;
 
+import static nc.config.NCConfig.*;
+
 import java.util.List;
 
 import crafttweaker.annotations.ZenRegister;
@@ -18,10 +20,10 @@ public class BasicRecipe implements IRecipe {
 	protected List<IItemIngredient> itemIngredients, itemProducts;
 	protected List<IFluidIngredient> fluidIngredients, fluidProducts;
 	
-	protected List extras;
+	protected List<Object> extras;
 	protected boolean isShapeless;
 	
-	public BasicRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List extras, boolean shapeless) {
+	public BasicRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<Object> extras, boolean shapeless) {
 		this.itemIngredients = itemIngredients;
 		this.fluidIngredients = fluidIngredients;
 		this.itemProducts = itemProducts;
@@ -52,7 +54,7 @@ public class BasicRecipe implements IRecipe {
 	}
 	
 	@Override
-	public List getExtras() {
+	public List<Object> getExtras() {
 		return extras;
 	}
 	
@@ -71,13 +73,13 @@ public class BasicRecipe implements IRecipe {
 	}
 	
 	@Override
-	public RecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
-		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, this.itemIngredients, this.fluidIngredients, itemIngredients, fluidIngredients, isShapeless);
+	public RecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredientsIn, List<IFluidIngredient> fluidIngredientsIn) {
+		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients, itemIngredientsIn, fluidIngredientsIn, isShapeless);
 	}
 	
 	@Override
-	public RecipeMatchResult matchProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
-		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
+	public RecipeMatchResult matchProducts(List<IItemIngredient> itemProductsIn, List<IFluidIngredient> fluidProductsIn) {
+		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, itemProducts, fluidProducts, itemProductsIn, fluidProductsIn, isShapeless);
 	}
 	
 	// Recipe Extras
@@ -156,26 +158,34 @@ public class BasicRecipe implements IRecipe {
 		return (double) extras.get(2);
 	}
 	
+	public int getIrradiatorMinFluxPerTick() {
+		return (int) extras.get(3);
+	}
+	
+	public int getIrradiatorMaxFluxPerTick() {
+		return (int) extras.get(4);
+	}
+	
 	public double getIrradiatorBaseProcessRadiation() {
-		return (double) extras.get(3);
+		return (double) extras.get(5);
 	}
 	
 	// Fission
 	
 	public int getFissionFuelTime() {
-		return (int) extras.get(0);
+		return (int) (fission_fuel_time_multiplier * (int) extras.get(0));
 	}
 	
 	public double getSaltFissionFuelTime() {
-		return (double) extras.get(0);
+		return fission_fuel_time_multiplier * (double) extras.get(0);
 	}
 	
 	public int getFissionFuelHeat() {
-		return (int) extras.get(1);
+		return (int) (fission_fuel_heat_multiplier * (int) extras.get(1));
 	}
 	
 	public double getFissionFuelEfficiency() {
-		return (double) extras.get(2);
+		return fission_fuel_efficiency_multiplier * (double) extras.get(2);
 	}
 	
 	public int getFissionFuelCriticality() {
@@ -191,7 +201,7 @@ public class BasicRecipe implements IRecipe {
 	}
 	
 	public double getFissionFuelRadiation() {
-		return (double) extras.get(6);
+		return fission_fuel_radiation_multiplier * (double) extras.get(6);
 	}
 	
 	// Fission Heating
@@ -209,19 +219,19 @@ public class BasicRecipe implements IRecipe {
 	// Fusion
 	
 	public double getFusionComboTime() {
-		return (double) extras.get(0);
+		return fusion_fuel_time_multiplier * (double) extras.get(0);
 	}
 	
-	public double getFusionComboPower() {
-		return (double) extras.get(1);
+	public double getFusionComboHeat() {
+		return fusion_fuel_heat_multiplier * (double) extras.get(1);
 	}
 	
-	public double getFusionComboHeatVariable() {
+	public double getFusionComboOptimalTemperature() {
 		return (double) extras.get(2);
 	}
 	
 	public double getFusionComboRadiation() {
-		return (double) extras.get(3);
+		return fusion_fuel_radiation_multiplier * (double) extras.get(3);
 	}
 	
 	// Coolant Heater

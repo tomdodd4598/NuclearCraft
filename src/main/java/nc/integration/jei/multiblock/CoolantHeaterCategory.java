@@ -12,7 +12,7 @@ import nc.util.Lang;
 
 public class CoolantHeaterCategory extends JEIMachineCategory<JEIRecipeWrapper.CoolantHeater> {
 	
-	public CoolantHeaterCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public CoolantHeaterCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.CoolantHeater> handler) {
 		super(guiHelper, handler, "salt_fission_heater", 45, 30, 102, 26);
 	}
 	

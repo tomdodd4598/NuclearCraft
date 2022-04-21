@@ -55,7 +55,7 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 		}
 		if (!world.isRemote && player.getHeldItem(hand).isEmpty()) {
 			if (tile instanceof ITileMultiblockPart) {
-				Multiblock controller = ((ITileMultiblockPart) tile).getMultiblock();
+				Multiblock<?, ?> controller = ((ITileMultiblockPart<?, ?>) tile).getMultiblock();
 				if (controller != null) {
 					MultiblockValidationError e = controller.getLastError();
 					if (e != null) {
@@ -137,7 +137,7 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 			if (!smartRender) {
 				return true;
 			}
@@ -145,11 +145,11 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 			IBlockState otherState = world.getBlockState(pos.offset(side));
 			Block block = otherState.getBlock();
 			
-			if (blockState != otherState) {
+			if (state != otherState) {
 				return true;
 			}
 			
-			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
+			return block == this ? false : super.shouldSideBeRendered(state, world, pos, side);
 		}
 	}
 }

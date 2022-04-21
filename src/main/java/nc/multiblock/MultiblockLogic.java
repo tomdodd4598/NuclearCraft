@@ -10,12 +10,11 @@ import nc.multiblock.fission.*;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.fission.solid.SolidFuelFissionLogic;
 import nc.multiblock.heatExchanger.*;
-import nc.multiblock.tile.*;
+import nc.multiblock.tile.ITileLogicMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.tile.manager.*;
 import nc.multiblock.tile.port.*;
 import nc.multiblock.turbine.*;
-import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.ITileFiltered;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -27,7 +26,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> & ILogicMultiblock<LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T, PACKET>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T, PACKET>, PACKET extends MultiblockUpdatePacket> {
+public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILogicMultiblock<MULTIBLOCK, LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> implements IMultiblockLogic<MULTIBLOCK, LOGIC, T> {
 	
 	protected final MULTIBLOCK multiblock;
 	
@@ -37,13 +36,15 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		this.multiblock = multiblock;
 	}
 	
-	public MultiblockLogic(MultiblockLogic<MULTIBLOCK, LOGIC, T, PACKET> oldLogic) {
+	public MultiblockLogic(MultiblockLogic<MULTIBLOCK, LOGIC, T> oldLogic) {
 		multiblock = oldLogic.multiblock;
 	}
 	
+	@Override
 	public abstract String getID();
 	
-	protected World getWorld() {
+	@Override
+	public World getWorld() {
 		return multiblock.WORLD;
 	}
 	
@@ -79,11 +80,11 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	// Multiblock Methods
 	
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data) {}
+	public void onAttachedPartWithMultiblockData(T part, NBTTagCompound data) {}
 	
-	public void onBlockAdded(ITileMultiblockPart newPart) {}
+	public void onBlockAdded(T newPart) {}
 	
-	public void onBlockRemoved(ITileMultiblockPart oldPart) {}
+	public void onBlockRemoved(T oldPart) {}
 	
 	public abstract void onMachineAssembled();
 	
@@ -93,9 +94,9 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	public abstract void onMachineDisassembled();
 	
-	public abstract void onAssimilate(Multiblock assimilated);
+	public abstract void onAssimilate(MULTIBLOCK assimilated);
 	
-	public abstract void onAssimilated(Multiblock assimilator);
+	public abstract void onAssimilated(MULTIBLOCK assimilator);
 	
 	public abstract boolean isMachineWhole();
 	
@@ -117,11 +118,13 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	
 	// Utility Methods
 	
-	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET, PACKET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET, PACKET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
+	@SuppressWarnings("unchecked")
+	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
 		refreshFilteredPorts(portClass, (Class<PRT>) portClass, targetClass, (Class<TRGT>) targetClass);
 	}
 	
-	private <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET, PACKET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET, PACKET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<PRT> portClz, Class<TARGET> targetClass, Class<TRGT> targetClz) {
+	@SuppressWarnings("unchecked")
+	private <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<PRT> portClz, Class<TARGET> targetClass, Class<TRGT> targetClz) {
 		Long2ObjectMap<PORT> portMap = (Long2ObjectMap<PORT>) getPartMap(portClz);
 		Long2ObjectMap<TARGET> targetMap = (Long2ObjectMap<TARGET>) getPartMap(targetClz);
 		
@@ -183,11 +186,13 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		}
 	}
 	
-	public <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER, PACKET>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER, PACKET>, LSTNR extends T> void refreshManagers(Class<MANAGER> managerClass) {
+	@SuppressWarnings("unchecked")
+	public <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>> void refreshManagers(Class<MANAGER> managerClass) {
 		refreshManagers(managerClass, (Class<MNGR>) managerClass);
 	}
 	
-	private <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER, PACKET>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER, PACKET>, LSTNR extends T> void refreshManagers(Class<MANAGER> managerClass, Class<MNGR> managerClz) {
+	@SuppressWarnings("unchecked")
+	private <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>> void refreshManagers(Class<MANAGER> managerClass, Class<MNGR> managerClz) {
 		for (MANAGER manager : ((Long2ObjectMap<MANAGER>) getPartMap(managerClz)).values()) {
 			manager.refreshManager();
 		}
@@ -209,14 +214,14 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 	}
 	
 	public NBTTagCompound writeTanks(List<Tank> tanks, NBTTagCompound data, String name) {
-		for (int i = 0; i < tanks.size(); i++) {
+		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).writeToNBT(data, name + i);
 		}
 		return data;
 	}
 	
 	public void readTanks(List<Tank> tanks, NBTTagCompound data, String name) {
-		for (int i = 0; i < tanks.size(); i++) {
+		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).readFromNBT(data, name + i);
 		}
 	}
@@ -230,19 +235,15 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<T, PACKET> &
 		storage.readFromNBT(data, name);
 	}
 	
-	// Packets
-	
-	public abstract PACKET getUpdatePacket();
-	
-	public abstract void onPacket(PACKET message);
-	
-	public abstract void clearAllMaterial();
-	
 	// Multiblock Validators
 	
 	public boolean isBlockGoodForInterior(World world, BlockPos pos) {
 		return true;
 	}
+	
+	// Clear Material
+	
+	public abstract void clearAllMaterial();
 	
 	// Init
 	

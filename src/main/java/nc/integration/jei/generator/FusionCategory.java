@@ -11,7 +11,7 @@ import nc.util.Lang;
 
 public class FusionCategory extends JEIMachineCategory<JEIRecipeWrapper.Fusion> {
 	
-	public FusionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public FusionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Fusion> handler) {
 		super(guiHelper, handler, "fusion_core", 55, 30, 94, 26);
 	}
 	

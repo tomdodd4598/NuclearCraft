@@ -35,7 +35,7 @@ public abstract class NCBlockPortal extends NCBlock {
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return BlockHelper.REDUCED_BLOCK_AABB;
 	}
 	

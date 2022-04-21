@@ -93,16 +93,16 @@ public abstract class NCGui extends GuiContainer {
 		return keyCode == 1 || mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode);
 	}
 	
-	protected void drawTooltip(List<String> text, int mouseX, int mouseY, int x, int y, int width, int height) {
+	protected void drawTooltip(List<String> text, int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
 		int xPos = x + guiLeft;
 		int yPos = y + guiTop;
-		if (mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height) {
+		if (mouseX >= xPos && mouseY >= yPos && mouseX < xPos + tooltipWidth && mouseY < yPos + tooltipHeight) {
 			drawHoveringText(text, mouseX, mouseY);
 		}
 	}
 	
-	protected void drawTooltip(String text, int mouseX, int mouseY, int x, int y, int width, int height) {
-		drawTooltip(Lists.newArrayList(text), mouseX, mouseY, x, y, width, height);
+	protected void drawTooltip(String text, int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
+		drawTooltip(Lists.newArrayList(text), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight);
 	}
 	
 	protected List<String> fluidInfo(Tank tank) {
@@ -116,20 +116,20 @@ public abstract class NCGui extends GuiContainer {
 		return Lists.newArrayList(TextFormatting.GREEN + fluidName + TextFormatting.WHITE, TextFormatting.ITALIC + Lang.localise("gui.nc.container.shift_clear_filter"));
 	}
 	
-	protected void drawFluidTooltip(Tank tank, int mouseX, int mouseY, int x, int y, int width, int height) {
+	protected void drawFluidTooltip(Tank tank, int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
 		if (!tank.isEmpty()) {
-			drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+			drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight + 1);
 		}
 	}
 	
-	protected void drawFilteredFluidTooltip(Tank tank, Tank filterTank, int mouseX, int mouseY, int x, int y, int width, int height) {
+	protected void drawFilteredFluidTooltip(Tank tank, Tank filterTank, int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
 		if (tank.isEmpty()) {
 			if (!filterTank.isEmpty()) {
-				drawTooltip(fluidFilterInfo(filterTank), mouseX, mouseY, x, y, width, height + 1);
+				drawTooltip(fluidFilterInfo(filterTank), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight + 1);
 			}
 		}
 		else {
-			drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
+			drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight + 1);
 		}
 	}
 	
@@ -142,12 +142,12 @@ public abstract class NCGui extends GuiContainer {
 		return Lists.newArrayList(TextFormatting.RED + Lang.localise("gui.nc.container.no_energy"));
 	}
 	
-	protected void drawEnergyTooltip(ITileEnergy tile, int mouseX, int mouseY, int x, int y, int width, int height) {
-		drawTooltip(energyInfo(tile), mouseX, mouseY, x, y, width, height);
+	protected void drawEnergyTooltip(ITileEnergy tile, int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
+		drawTooltip(energyInfo(tile), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight);
 	}
 	
-	protected void drawNoEnergyTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
-		drawTooltip(noEnergyInfo(), mouseX, mouseY, x, y, width, height);
+	protected void drawNoEnergyTooltip(int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
+		drawTooltip(noEnergyInfo(), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight);
 	}
 	
 	protected int width(String string) {

@@ -31,6 +31,7 @@ public class ChanceFluidIngredient implements IChanceFluidIngredient {
 		this.stackDiff = Math.max(1, stackDiff);
 		this.minStackSize = MathHelper.clamp(minStackSize, 0, ingredient.getMaxStackSize(0));
 		
+		@SuppressWarnings("hiding")
 		int sizeIncrSteps = (ingredient.getMaxStackSize(0) - this.minStackSize) / this.stackDiff;
 		int sizeShift = ingredient.getMaxStackSize(0) - this.minStackSize - sizeIncrSteps * this.stackDiff;
 		

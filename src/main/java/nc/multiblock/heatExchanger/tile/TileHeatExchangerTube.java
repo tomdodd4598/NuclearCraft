@@ -104,10 +104,10 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 			SpeedMultiplierInfo info = getTubeSpeedMultiplier(dir);
 			speedCount += info.multiplier;
 			if (info.multiplier > 0D) {
-				adjRealCount++;
+				++adjRealCount;
 			}
 			if (info.contributeMax) {
-				adjMaxCount++;
+				++adjMaxCount;
 			}
 		}
 		
@@ -231,9 +231,10 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 			outputTemperature = 300;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getHeatExchangerProcessTime();
-		inputTemperature = recipeInfo.getRecipe().getHeatExchangerInputTemperature();
-		outputTemperature = recipeInfo.getRecipe().getHeatExchangerOutputTemperature();
+		BasicRecipe recipe = recipeInfo.getRecipe();
+		baseProcessTime = recipe.getHeatExchangerProcessTime();
+		inputTemperature = recipe.getHeatExchangerInputTemperature();
+		outputTemperature = recipe.getHeatExchangerOutputTemperature();
 		return true;
 	}
 	
@@ -256,7 +257,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) {
 				continue;
@@ -303,7 +304,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 			return;
 		}
 		
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
 			if (fluidIngredientStackSize > 0) {
 				tanks.get(i).changeFluidAmount(-fluidIngredientStackSize);
@@ -312,7 +313,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 				tanks.get(i).setFluidStored(null);
 			}
 		}
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) {
 				continue;
@@ -497,12 +498,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 				return;
 			}
 			
-			for (int i = 0; i < getTanks().size(); i++) {
-				if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) {
+			for (int i = 0; i < getTanks().size(); ++i) {
+				Tank tank = getTanks().get(i);
+				if (tank.getFluid() == null || !getTankSorption(side, i).canDrain()) {
 					continue;
 				}
 				
-				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
+				tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true);
 			}
 		}
 	}
@@ -653,13 +655,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}

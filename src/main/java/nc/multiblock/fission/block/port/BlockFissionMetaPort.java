@@ -31,7 +31,7 @@ public abstract class BlockFissionMetaPort<PORT extends TileFissionPort<PORT, TA
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (portClass.isInstance(tile)) {
-			PORT port = (PORT) tile;
+			PORT port = portClass.cast(tile);
 			EnumFacing facing = port.getPartPosition().getFacing();
 			return state.withProperty(AXIS_ALL, facing != null ? facing.getAxis() : port.axis).withProperty(ACTIVE, getActualStateActive(port));
 		}
@@ -55,7 +55,7 @@ public abstract class BlockFissionMetaPort<PORT extends TileFissionPort<PORT, TA
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (portClass.isInstance(tile)) {
-			PORT port = (PORT) tile;
+			PORT port = portClass.cast(tile);
 			port.axis = state.getValue(AXIS_ALL);
 			world.setBlockState(pos, state.withProperty(AXIS_ALL, port.axis), 2);
 		}

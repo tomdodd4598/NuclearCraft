@@ -14,9 +14,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ResetTankSorptionsPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int tank;
-	private boolean defaults;
+	protected BlockPos pos;
+	protected int tank;
+	protected boolean defaults;
 	
 	public ResetTankSorptionsPacket() {
 		

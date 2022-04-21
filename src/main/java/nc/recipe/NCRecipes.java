@@ -155,6 +155,44 @@ public class NCRecipes {
 	public static List<List<String>> radiation_scrubber_valid_fluids;
 	
 	public static void init() {
+		manufactory.init();
+		separator.init();
+		decay_hastener.init();
+		fuel_reprocessor.init();
+		alloy_furnace.init();
+		infuser.init();
+		melter.init();
+		supercooler.init();
+		electrolyzer.init();
+		assembler.init();
+		ingot_former.init();
+		pressurizer.init();
+		chemical_reactor.init();
+		salt_mixer.init();
+		crystallizer.init();
+		enricher.init();
+		extractor.init();
+		centrifuge.init();
+		rock_crusher.init();
+		collector.init();
+		decay_generator.init();
+		fission_moderator.init();
+		fission_reflector.init();
+		fission_irradiator.init();
+		pebble_fission.init();
+		solid_fission.init();
+		fission_heating.init();
+		salt_fission.init();
+		fusion.init();
+		coolant_heater.init();
+		fission_emergency_cooling.init();
+		heat_exchanger.init();
+		condenser.init();
+		turbine.init();
+		radiation_scrubber.init();
+		radiation_block_mutation.init();
+		radiation_block_purification.init();
+		
 		infuser_valid_fluids = RecipeHelper.validFluids(infuser);
 		melter_valid_fluids = RecipeHelper.validFluids(melter);
 		supercooler_valid_fluids = RecipeHelper.validFluids(supercooler);

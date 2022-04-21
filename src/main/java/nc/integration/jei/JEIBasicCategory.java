@@ -6,9 +6,9 @@ import mezz.jei.api.recipe.*;
 import nc.Global;
 import nc.integration.jei.NCJEI.IJEIHandler;
 
-public abstract class JEIBasicCategory<WRAPPER extends JEIBasicRecipeWrapper> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
+public abstract class JEIBasicCategory<WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
 	
-	protected final IJEIHandler jeiHandler;
+	protected final IJEIHandler<WRAPPER> jeiHandler;
 	
 	public JEIBasicCategory(IJEIHandler<WRAPPER> jeiHandler) {
 		this.jeiHandler = jeiHandler;
@@ -30,7 +30,7 @@ public abstract class JEIBasicCategory<WRAPPER extends JEIBasicRecipeWrapper> ex
 	}
 	
 	@Override
-	public Class getRecipeClass() {
+	public Class<WRAPPER> getRecipeClass() {
 		return jeiHandler.getRecipeWrapperClass();
 	}
 	

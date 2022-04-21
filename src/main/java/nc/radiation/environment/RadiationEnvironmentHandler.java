@@ -34,7 +34,7 @@ public class RadiationEnvironmentHandler {
 		Entry<FourPos, RadiationEnvironmentInfo> environmentEntry;
 		
 		while (count > 0) {
-			count--;
+			--count;
 			
 			if (environmentIter.hasNext()) {
 				environmentEntry = environmentIter.next();

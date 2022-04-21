@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.NeutronShieldType> implements IActivatable {
 	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.NeutronShieldType.class);
+	public final static PropertyEnum<MetaEnums.NeutronShieldType> TYPE = PropertyEnum.create("type", MetaEnums.NeutronShieldType.class);
 	
 	public BlockFissionMetaShield() {
 		super(MetaEnums.NeutronShieldType.class, TYPE);
@@ -46,6 +46,8 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 		switch (metadata) {
 			case 0:
 				return new TileFissionShield.BoronSilver();
+			default:
+				break;
 		}
 		return new TileFissionShield.BoronSilver();
 	}
@@ -95,14 +97,14 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+	public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		IBlockState otherState = world.getBlockState(pos.offset(side));
 		Block block = otherState.getBlock();
 		
-		if (blockState != otherState) {
+		if (state != otherState) {
 			return true;
 		}
 		
-		return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
+		return block == this ? false : super.shouldSideBeRendered(state, world, pos, side);
 	}
 }

@@ -15,8 +15,19 @@ import net.minecraft.util.math.BlockPos;
 
 public class NBTHelper {
 	
+	// ItemStack
+	
+	public static NBTTagCompound getStackNBT(ItemStack stack) {
+		NBTTagCompound nbt = stack.getTagCompound();
+		if (nbt == null && !stack.isEmpty()) {
+			stack.setTagCompound(nbt = new NBTTagCompound());
+		}
+		return nbt;
+	}
+	
 	// Inventory
 	
+	@SafeVarargs
 	public static NBTTagCompound writeAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
 		if (lists.length == 0) {
 			return tag;
@@ -32,7 +43,7 @@ public class NBTHelper {
 					stack.writeToNBT(nbttagcompound);
 					nbttaglist.appendTag(nbttagcompound);
 				}
-				i++;
+				++i;
 			}
 		}
 		
@@ -41,6 +52,7 @@ public class NBTHelper {
 		return tag;
 	}
 	
+	@SafeVarargs
 	public static void readAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
 		if (lists.length == 0) {
 			return;
@@ -54,7 +66,7 @@ public class NBTHelper {
 			
 			while (j - offset >= lists[n].size()) {
 				offset += lists[n].size();
-				n++;
+				++n;
 			}
 			if (j - offset >= 0 && j - offset < lists[n].size()) {
 				lists[n].set(j - offset, new ItemStack(nbttagcompound));
@@ -106,7 +118,7 @@ public class NBTHelper {
 		if (array != null) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("length", array.length);
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				tag.setLong("long" + i, array[i]);
 			}
 			nbt.setTag(name, tag);
@@ -118,7 +130,7 @@ public class NBTHelper {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound tag = nbt.getCompoundTag(name);
 			long[] array = new long[tag.getInteger("length")];
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				array[i] = tag.getLong("long" + i);
 			}
 			return array;
@@ -132,7 +144,7 @@ public class NBTHelper {
 		if (array != null) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("length", array.length);
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				tag.setFloat("float" + i, array[i]);
 			}
 			nbt.setTag(name, tag);
@@ -144,7 +156,7 @@ public class NBTHelper {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound tag = nbt.getCompoundTag(name);
 			float[] array = new float[tag.getInteger("length")];
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				array[i] = tag.getFloat("float" + i);
 			}
 			return array;
@@ -158,7 +170,7 @@ public class NBTHelper {
 		if (array != null) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("length", array.length);
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				tag.setDouble("double" + i, array[i]);
 			}
 			nbt.setTag(name, tag);
@@ -170,7 +182,7 @@ public class NBTHelper {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound tag = nbt.getCompoundTag(name);
 			double[] array = new double[tag.getInteger("length")];
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				array[i] = tag.getDouble("double" + i);
 			}
 			return array;
@@ -184,7 +196,7 @@ public class NBTHelper {
 		if (array != null) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("length", array.length);
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				writeBlockPos(tag, array[i], "pos" + i);
 			}
 			nbt.setTag(name, tag);
@@ -196,7 +208,7 @@ public class NBTHelper {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound tag = nbt.getCompoundTag(name);
 			BlockPos[] array = new BlockPos[tag.getInteger("length")];
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				array[i] = readBlockPos(tag, "pos" + i);
 			}
 			return array;
@@ -210,7 +222,7 @@ public class NBTHelper {
 		if (array != null) {
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setInteger("length", array.length);
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				writeVector3f(tag, array[i], "vector" + i);
 			}
 			nbt.setTag(name, tag);
@@ -222,7 +234,7 @@ public class NBTHelper {
 		if (nbt.hasKey(name, 10)) {
 			NBTTagCompound tag = nbt.getCompoundTag(name);
 			Vector3f[] array = new Vector3f[tag.getInteger("length")];
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < array.length; ++i) {
 				array[i] = readVector3f(tag, "vector" + i);
 			}
 			return array;

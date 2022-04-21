@@ -58,8 +58,7 @@ public class Vertex<T> {
 		ObjectSet<Vertex<T>> set = new ObjectOpenHashSet<>();
 		Vertex<T> v = this;
 		while (v != null) {
-			if (set.contains(v))
-				return true;
+			if (set.contains(v)) return true;
 			set.add(v);
 			v = v.parent;
 		}

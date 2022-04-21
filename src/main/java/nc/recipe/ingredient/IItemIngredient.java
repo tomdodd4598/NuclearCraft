@@ -26,7 +26,7 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 				NonNullList<ItemStack> subStacks = NonNullList.create();
 				Item item = stack.getItem();
 				if (item instanceof ItemBlock) {
-					for (int i = 0; i < 16; i++) {
+					for (int i = 0; i < 16; ++i) {
 						subStacks.add(new ItemStack(item, stack.getCount(), i));
 					}
 				}

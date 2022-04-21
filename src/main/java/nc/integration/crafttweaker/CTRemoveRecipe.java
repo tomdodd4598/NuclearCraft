@@ -29,7 +29,7 @@ public class CTRemoveRecipe implements IAction {
 		int itemSize = type == INPUT ? recipeHandler.getItemInputSize() : recipeHandler.getItemOutputSize();
 		int fluidSize = type == INPUT ? recipeHandler.getFluidInputSize() : recipeHandler.getFluidOutputSize();
 		
-		for (int i = 0; i < itemSize; i++) {
+		for (int i = 0; i < itemSize; ++i) {
 			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i));
 			if (ingredient == null) {
 				nullIngredient = true;
@@ -37,7 +37,7 @@ public class CTRemoveRecipe implements IAction {
 			}
 			itemIngredients.add(ingredient);
 		}
-		for (int i = itemSize; i < fluidSize; i++) {
+		for (int i = itemSize; i < itemSize + fluidSize; ++i) {
 			IFluidIngredient ingredient = CTHelper.buildRemovalFluidIngredient(ctIngredients.get(i));
 			if (ingredient == null) {
 				nullIngredient = true;

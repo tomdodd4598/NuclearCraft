@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class BlockFissionHeaterPort2 extends BlockFissionFluidMetaPort<TileFissionHeaterPort, TileSaltFissionHeater, MetaEnums.CoolantHeaterType2> {
 	
-	public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType2.class);
+	public final static PropertyEnum<MetaEnums.CoolantHeaterType2> TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType2.class);
 	
 	public BlockFissionHeaterPort2() {
 		super(TileFissionHeaterPort.class, MetaEnums.CoolantHeaterType2.class, TYPE, 303);
@@ -68,6 +68,8 @@ public class BlockFissionHeaterPort2 extends BlockFissionFluidMetaPort<TileFissi
 				return new TileFissionHeaterPort.Enderium();
 			case 15:
 				return new TileFissionHeaterPort.Cryotheum();
+			default:
+				break;
 		}
 		return new TileFissionHeaterPort.Tin();
 	}

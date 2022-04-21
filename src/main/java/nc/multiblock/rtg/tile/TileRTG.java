@@ -19,7 +19,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")
-public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITickable, ITileEnergy, IEnergySource {
+public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implements ITickable, ITileEnergy, IEnergySource {
 	
 	public static class Uranium extends TileRTG {
 		
@@ -63,7 +63,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITicka
 	
 	/** Don't use this constructor! */
 	public TileRTG() {
-		super(RTGMultiblock.class);
+		super(RTGMultiblock.class, TileRTG.class);
 		energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.OUT);
 		energySides = ITileEnergy.getDefaultEnergySides(this);
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
@@ -246,13 +246,13 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock> implements ITicka
 		if (!ignoreSide(side)) {
 			if (capability == CapabilityEnergy.ENERGY) {
 				if (hasEnergySideCapability(side)) {
-					return (T) getEnergySide(nonNullSide(side));
+					return CapabilityEnergy.ENERGY.cast(getEnergySide(nonNullSide(side)));
 				}
 				return null;
 			}
 			else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
 				if (enable_gtce_eu && hasEnergySideCapability(side)) {
-					return (T) getEnergySideGT(nonNullSide(side));
+					return GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(getEnergySideGT(nonNullSide(side)));
 				}
 				return null;
 			}

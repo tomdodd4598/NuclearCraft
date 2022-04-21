@@ -54,7 +54,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
 	protected int baseProcessCooling;
-	protected PlacementRule<IFissionPart> placementRule = FissionPlacement.RULE_MAP.get("");
+	protected PlacementRule<FissionReactor, IFissionPart> placementRule = FissionPlacement.RULE_MAP.get("");
 	
 	public double heatingSpeedMultiplier; // Based on the cluster efficiency, but with heat/cooling taken into account
 	
@@ -63,7 +63,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	protected RecipeInfo<BasicRecipe> recipeInfo;
 	
-	protected final Set<EntityPlayer> playersToUpdate;
+	protected final Set<EntityPlayer> updatePacketListeners;
 	
 	public String heaterType, coolantName;
 	
@@ -82,7 +82,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
 		
-		playersToUpdate = new ObjectOpenHashSet<>();
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 	
 	public TileSaltFissionHeater(String heaterType, String coolantName) {
@@ -104,7 +104,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		}
 		
 		@Override
-		public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		public boolean shouldRefresh(World worldIn, BlockPos posIn, IBlockState oldState, IBlockState newState) {
 			return oldState != newState;
 		}
 	}
@@ -511,7 +511,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 				getMultiblock().refreshFlag = true;
 			}
 			
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 			if (shouldUpdate) {
 				markDirty();
 			}
@@ -546,8 +546,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 			placementRule = FissionPlacement.RULE_MAP.get("");
 			return false;
 		}
-		baseProcessCooling = recipeInfo.getRecipe().getCoolantHeaterCoolingRate();
-		placementRule = FissionPlacement.RULE_MAP.get(recipeInfo.getRecipe().getCoolantHeaterPlacementRule());
+		BasicRecipe recipe = recipeInfo.getRecipe();
+		baseProcessCooling = recipe.getCoolantHeaterCoolingRate();
+		placementRule = FissionPlacement.RULE_MAP.get(recipe.getCoolantHeaterPlacementRule());
 		return true;
 	}
 	
@@ -565,7 +566,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		if (world.isRemote) {
 			return hasConsumed;
 		}
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			if (!consumedTanks.get(i).isEmpty()) {
 				return true;
 			}
@@ -588,7 +589,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	public boolean canProduceProducts() {
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) {
 				continue;
@@ -617,19 +618,20 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 			return;
 		}
 		
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			if (!consumedTanks.get(i).isEmpty()) {
 				consumedTanks.get(i).setFluid(null);
 			}
 		}
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
+			Tank tank = getTanks().get(i);
 			int maxStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
-				consumedTanks.get(i).setFluidStored(new FluidStack(getTanks().get(i).getFluid(), maxStackSize));
-				getTanks().get(i).changeFluidAmount(-maxStackSize);
+				consumedTanks.get(i).setFluidStored(new FluidStack(tank.getFluid(), maxStackSize));
+				tank.changeFluidAmount(-maxStackSize);
 			}
-			if (getTanks().get(i).isEmpty()) {
-				getTanks().get(i).setFluid(null);
+			if (tank.isEmpty()) {
+				tank.setFluid(null);
 			}
 		}
 		hasConsumed = true;
@@ -665,7 +667,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	public void produceProducts() {
-		for (int i = 0; i < fluidInputSize; i++) {
+		for (int i = 0; i < fluidInputSize; ++i) {
 			consumedTanks.get(i).setFluid(null);
 		}
 		
@@ -673,7 +675,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 			return;
 		}
 		
-		for (int j = 0; j < fluidOutputSize; j++) {
+		for (int j = 0; j < fluidOutputSize; ++j) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getNextStackSize(0) <= 0) {
 				continue;
@@ -824,25 +826,25 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	}
 	
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate() {
-		return playersToUpdate;
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 	
 	@Override
-	public SaltFissionHeaterUpdatePacket getGuiUpdatePacket() {
+	public SaltFissionHeaterUpdatePacket getTileUpdatePacket() {
 		return new SaltFissionHeaterUpdatePacket(pos, masterPortPos, getTanks(), getFilterTanks(), cluster, isProcessing, time);
 	}
 	
 	@Override
-	public void onGuiPacket(SaltFissionHeaterUpdatePacket message) {
+	public void onTileUpdatePacket(SaltFissionHeaterUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();
 		}
-		for (int i = 0; i < getTanks().size(); i++) {
+		for (int i = 0; i < getTanks().size(); ++i) {
 			getTanks().get(i).readInfo(message.tanksInfo.get(i));
 		}
-		for (int i = 0; i < getFilterTanks().size(); i++) {
+		for (int i = 0; i < getFilterTanks().size(); ++i) {
 			getFilterTanks().get(i).readInfo(message.filterTanksInfo.get(i));
 		}
 		clusterHeatStored = message.clusterHeatStored;
@@ -900,13 +902,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public NBTTagCompound writeTanks(NBTTagCompound nbt) {
-		for (int i = 0; i < tanks.size(); i++) {
+		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).writeToNBT(nbt, "tanks" + i);
 		}
-		for (int i = 0; i < filterTanks.size(); i++) {
+		for (int i = 0; i < filterTanks.size(); ++i) {
 			filterTanks.get(i).writeToNBT(nbt, "filterTanks" + i);
 		}
-		for (int i = 0; i < consumedTanks.size(); i++) {
+		for (int i = 0; i < consumedTanks.size(); ++i) {
 			consumedTanks.get(i).writeToNBT(nbt, "consumedTanks" + i);
 		}
 		return nbt;
@@ -914,13 +916,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void readTanks(NBTTagCompound nbt) {
-		for (int i = 0; i < tanks.size(); i++) {
+		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).readFromNBT(nbt, "tanks" + i);
 		}
-		for (int i = 0; i < filterTanks.size(); i++) {
+		for (int i = 0; i < filterTanks.size(); ++i) {
 			filterTanks.get(i).readFromNBT(nbt, "filterTanks" + i);
 		}
-		for (int i = 0; i < consumedTanks.size(); i++) {
+		for (int i = 0; i < consumedTanks.size(); ++i) {
 			consumedTanks.get(i).readFromNBT(nbt, "consumedTanks" + i);
 		}
 	}
@@ -939,13 +941,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getFluidSide(nonNullSide(side));
+				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
 			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
-				return (T) getGasWrapper();
+				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;
 		}

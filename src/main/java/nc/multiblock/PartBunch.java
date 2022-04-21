@@ -2,9 +2,8 @@ package nc.multiblock;
 
 import it.unimi.dsi.fastutil.longs.*;
 import nc.multiblock.tile.ITileMultiblockPart;
-import nc.network.multiblock.MultiblockUpdatePacket;
 
-public abstract class PartBunch<TYPE extends T, MULTIBLOCK extends Multiblock<T, PACKET>, T extends ITileMultiblockPart<MULTIBLOCK>, PACKET extends MultiblockUpdatePacket> {
+public abstract class PartBunch<TYPE extends T, MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> {
 	
 	protected boolean initialized = false;
 	

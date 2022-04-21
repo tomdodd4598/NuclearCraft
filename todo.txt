@@ -1,21 +1,29 @@
-Radiation text colours config
-Optional minimum and maximum N/t for irradiator recipes
+QMD feature merge: nitrogen collector -> air collector
 
-Move fission recipe stat multipliers to logic (instead of recipe addition)
+Refactor BasicRecipe and BasicRecipeHandler subclasses to recipes easier for addons
 
-Fix irradiators still running on flux from decay-heating cells/vessels
-Fix fuel being depleted in decay-heating cells/vessels
+Refactor multiblock NBT
 
-Read Pu + Fatmice neutron poison discussion (+ "Technically, almost all of the neutron poisons were removed with the spent fuel")
-Reduce neutron poison lifetime
+Refactor 'multiblock' packages, rename 'handler' package to 'event' and move out non-event classes
+
+Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
+
+Move multitool NBT to player NBT to fix universal tool bug and allow for generalisation of multitool logic to any wrench item
+
+Move multiblock component ticking from TE to multiblock logic
+Tick vessel bunches as one entity
+Add multithreading where appropriate
+
+Refactor old tile entity hierarchy - modularise item/fluid/energy handling
+Modularise processor classes (remove arrays!)
+Refactor GUIs
+
+Wiki/Patchouli documentation
+
+CT Registration of machines
+Add auto-outputting to machines
 
 Multiblock monitors: show cluster information, meltdown locations, side configurations, etc.
-
-Tweak MSR vessel bunches? ("it might lead to more interesting grouped vessels formation because currently the efficiency loss...")
-
-v2o.6: QMD feature merge: nitrogen collector -> air collector
-
-v2o.6: Refactor multiblock NBT
 
 Show potential (pre-primed) stats if reactor is idle
 Keep clusters running even when multiblock is invalidated
@@ -34,26 +42,19 @@ Add component heat dissipation while invalid?
 Configurable reactor rainbow bonus?
 Recipe-based moderator and reflector components?
 
-Refactor old tile entity hierarchy - modularise item/fluid/energy handling
-Modularise processor classes
-Refactor GUIs
-
-CT Registration of machines?
+Read Pu + Fatmice neutron poison discussion (+ "Technically, almost all of the neutron poisons were removed with the spent fuel")
+Reduce default neutron poison lifetime
 
 Multitool support for side configurations
 OC support for side configurations
+
+Show recipe progress in TOP/HWYLA
 
 OC support for port filtering
 
 CC Tweaked support
 
-Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
-
 Weapons based on acids and toxic materials?
-
-Configurable hardcore reactor maintenance mechanics?
-
-Patchouli documentation
 
 Sorption colours:
 Items: 007FFF, FF7F00

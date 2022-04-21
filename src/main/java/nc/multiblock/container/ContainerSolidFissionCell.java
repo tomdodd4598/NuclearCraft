@@ -12,19 +12,19 @@ public class ContainerSolidFissionCell extends ContainerFilteredItemGenerator<Ti
 	public ContainerSolidFissionCell(EntityPlayer player, TileSolidFissionCell cell) {
 		super(player, cell, NCRecipes.solid_fission);
 		
-		cell.beginUpdatingPlayer(player);
+		cell.addTileUpdatePacketListener(player);
 		
 		addSlotToContainer(new SlotFiltered.ProcessorInput(cell, NCRecipes.solid_fission, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnace(player, cell, 1, 116, 35));
 		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
 				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 84 + 18 * i));
 			}
 		}
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; ++i) {
 			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 142));
 		}
 	}

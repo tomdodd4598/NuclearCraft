@@ -37,6 +37,7 @@ public class StringHelper {
 		return String.join(", ", list);
 	}
 	
+	@SafeVarargs
 	public static String stringListConcat(List<String> first, List<String>... others) {
 		return String.join(", ", CollectionHelper.concatenate(first, others));
 	}

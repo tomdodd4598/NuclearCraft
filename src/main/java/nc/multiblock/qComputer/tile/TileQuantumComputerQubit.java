@@ -3,6 +3,7 @@ package nc.multiblock.qComputer.tile;
 import it.unimi.dsi.fastutil.ints.*;
 import nc.multiblock.qComputer.*;
 import nc.network.multiblock.QuantumComputerQubitRenderPacket;
+import nc.tile.ITilePacket;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class TileQuantumComputerQubit extends TileQuantumComputerPart implements ITickable {
+public class TileQuantumComputerQubit extends TileQuantumComputerPart implements ITickable, ITilePacket<QuantumComputerQubitRenderPacket> {
 	
 	public int id = -1;
 	public boolean redstone = false, pulsed = false;
@@ -29,7 +30,7 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart implements
 	public void onMachineBroken() {}
 	
 	@Override
-	public int[] weakSidesToCheck(World world, BlockPos pos) {
+	public int[] weakSidesToCheck(World worldIn, BlockPos posIn) {
 		return new int[] {2, 3, 4, 5};
 	}
 	
@@ -51,46 +52,53 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart implements
 	}
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		NBTTagCompound nbt = multitoolStack.getTagCompound();
-		String mode = nbt.getString("qubitMode");
-		boolean s = mode.equals("set"), l = mode.equals("list");
-		if (s || l) {
-			IntCollection idColl = s ? new IntOpenHashSet() : new IntArrayList();
-			if (s) {
-				NBTHelper.readIntCollection(nbt, idColl, "qubitIDSet");
-				NBTHelper.writeIntCollection(nbt, new IntArrayList(), "qubitIDList");
-			}
-			else {
-				NBTHelper.readIntCollection(nbt, idColl, "qubitIDList");
-				NBTHelper.writeIntCollection(nbt, new IntOpenHashSet(), "qubitIDSet");
-			}
-			
-			if (!player.isSneaking()) {
-				boolean wasEmpty = idColl.isEmpty();
-				if (idColl.add(id)) {
-					if (wasEmpty) {
-						player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.start_qubit_" + mode, id)));
-					}
-					else {
-						player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.add_qubit", id)));
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World worldIn, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		NBTTagCompound nbt = NBTHelper.getStackNBT(multitool);
+		if (nbt != null) {
+			String mode = nbt.getString("qubitMode");
+			boolean s = mode.equals("set"), l = mode.equals("list");
+			if (s || l) {
+				IntCollection idColl = s ? new IntOpenHashSet() : new IntArrayList();
+				if (s) {
+					NBTHelper.readIntCollection(nbt, idColl, "qubitIDSet");
+					NBTHelper.writeIntCollection(nbt, new IntArrayList(), "qubitIDList");
+				}
+				else {
+					NBTHelper.readIntCollection(nbt, idColl, "qubitIDList");
+					NBTHelper.writeIntCollection(nbt, new IntOpenHashSet(), "qubitIDSet");
+				}
+				
+				if (!player.isSneaking()) {
+					boolean wasEmpty = idColl.isEmpty();
+					if (idColl.add(id)) {
+						if (wasEmpty) {
+							player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.start_qubit_" + mode, id)));
+						}
+						else {
+							player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.add_qubit", id)));
+						}
 					}
 				}
+				
+				if (s) {
+					NBTHelper.writeIntCollection(nbt, idColl, "qubitIDSet");
+				}
+				else {
+					NBTHelper.writeIntCollection(nbt, idColl, "qubitIDList");
+				}
+				return true;
 			}
-			
-			if (s) {
-				NBTHelper.writeIntCollection(nbt, idColl, "qubitIDSet");
-			}
-			else {
-				NBTHelper.writeIntCollection(nbt, idColl, "qubitIDList");
-			}
-			return true;
 		}
-		
-		return super.onUseMultitool(multitoolStack, player, world, facing, hitX, hitY, hitZ);
+		return super.onUseMultitool(multitool, player, worldIn, facing, hitX, hitY, hitZ);
 	}
 	
-	public void onRenderPacket(QuantumComputerQubitRenderPacket message) {
+	@Override
+	public QuantumComputerQubitRenderPacket getTileUpdatePacket() {
+		return new QuantumComputerQubitRenderPacket(pos, measureColor);
+	}
+	
+	@Override
+	public void onTileUpdatePacket(QuantumComputerQubitRenderPacket message) {
 		measureColor = message.measureColor;
 	}
 	

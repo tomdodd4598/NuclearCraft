@@ -247,7 +247,6 @@ public final class BlockFacing {
 		}
 		
 		for (int i = 0; i < len; ++i) {
-			
 			if (facings[i]) {
 				hash |= 1 << EnumFacing.VALUES[i].getIndex();
 			}

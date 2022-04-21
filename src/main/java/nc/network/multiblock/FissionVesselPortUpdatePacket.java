@@ -46,11 +46,11 @@ public class FissionVesselPortUpdatePacket extends FissionPortUpdatePacket {
 		}
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<FissionVesselPortUpdatePacket, ITileGui> {
+	public static class Handler extends TileUpdatePacket.Handler<FissionVesselPortUpdatePacket, ITileGui<FissionVesselPortUpdatePacket>> {
 		
 		@Override
-		protected void onPacket(FissionVesselPortUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(FissionVesselPortUpdatePacket message, ITileGui<FissionVesselPortUpdatePacket> processor) {
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

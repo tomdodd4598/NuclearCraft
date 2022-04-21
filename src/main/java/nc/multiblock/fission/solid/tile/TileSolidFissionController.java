@@ -4,7 +4,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import java.util.Iterator;
 
-import nc.multiblock.container.*;
+import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.*;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class TileSolidFissionController extends TileFissionPart implements IFissionController {
+public class TileSolidFissionController extends TileFissionPart implements IFissionController<TileSolidFissionController> {
 	
 	public TileSolidFissionController() {
 		super(CuboidalPartPositionType.WALL);
@@ -40,20 +40,20 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
+	public ContainerSolidFissionController getContainer(EntityPlayer player) {
 		return new ContainerSolidFissionController(player, this);
 	}
 	
 	@Override
-	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
-		super.onBlockNeighborChanged(state, world, pos, fromPos);
+	public void onBlockNeighborChanged(IBlockState state, World worldIn, BlockPos posIn, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, worldIn, posIn, fromPos);
 		if (getMultiblock() != null) {
 			getMultiblock().updateActivity();
 		}
 	}
 	
 	@Override
-	public void doMeltdown(Iterator<IFissionController> controllerIterator) {
+	public void doMeltdown(Iterator<IFissionController<?>> controllerIterator) {
 		controllerIterator.remove();
 		world.removeTileEntity(pos);
 		

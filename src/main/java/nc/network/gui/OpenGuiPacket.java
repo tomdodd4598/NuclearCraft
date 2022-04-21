@@ -14,8 +14,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class OpenGuiPacket implements IMessage {
 	
-	private BlockPos pos;
-	private int guiID = -1;
+	protected BlockPos pos;
+	protected int guiID = -1;
 	
 	public OpenGuiPacket() {
 		
@@ -59,7 +59,7 @@ public class OpenGuiPacket implements IMessage {
 			TileEntity tile = world.getTileEntity(message.pos);
 			FMLNetworkHandler.openGui(player, NuclearCraft.instance, message.guiID, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
 			if (tile instanceof ITileGui) {
-				((ITileGui) tile).beginUpdatingPlayer(player);
+				((ITileGui<?>) tile).addTileUpdatePacketListener(player);
 			}
 		}
 	}

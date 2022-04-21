@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class ChemicalReactorCategory extends JEIMachineCategory<JEIRecipeWrapper.ChemicalReactor> {
 	
-	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.ChemicalReactor> handler) {
 		super(guiHelper, handler, "chemical_reactor", 31, 30, 130, 26);
 	}
 	

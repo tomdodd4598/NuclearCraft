@@ -135,8 +135,8 @@ public abstract class TileFissionPort<PORT extends TileFissionPort<PORT, TARGET>
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		// masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
-		Axis axis = Axis.byName(nbt.getString("axis"));
-		this.axis = axis == null ? Axis.Z : axis;
+		Axis ax = Axis.byName(nbt.getString("axis"));
+		this.axis = ax == null ? Axis.Z : ax;
 	}
 	
 	// Capability

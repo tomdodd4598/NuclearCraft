@@ -70,7 +70,7 @@ public class InfuserRecipes extends BasicRecipeHandler {
 		
 		addRecipe("sandstone", fluidStack("ender", EUM_DUST_VOLUME), Blocks.END_STONE, 1D, 1D);
 		
-		for (int meta = 0; meta < 16; meta++) {
+		for (int meta = 0; meta < 16; ++meta) {
 			addRecipe(new ItemStack(Blocks.CONCRETE_POWDER, 1, meta), fluidStack("water", BUCKET_VOLUME), new ItemStack(Blocks.CONCRETE, 1, meta), 0.5D, 0.5D);
 		}
 		
@@ -94,8 +94,8 @@ public class InfuserRecipes extends BasicRecipeHandler {
 		addFissionInfusionRecipes();
 	}
 	
-	public void addOxidizingRecipe(String name, int oxygenAmount) {
-		addRecipe(name, fluidStack("oxygen", oxygenAmount), name + "Oxide", 1D, 1D);
+	public void addOxidizingRecipe(String fluidName, int oxygenAmount) {
+		addRecipe(fluidName, fluidStack("oxygen", oxygenAmount), fluidName + "Oxide", 1D, 1D);
 	}
 	
 	public void addIngotInfusionRecipes(String in, String fluid, int amount, String out, double time, double power) {
@@ -111,8 +111,8 @@ public class InfuserRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List fixExtras(List extras) {
-		List fixed = new ArrayList(3);
+	public List<Object> fixExtras(List<Object> extras) {
+		List<Object> fixed = new ArrayList<>(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
 		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);

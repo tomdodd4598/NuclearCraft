@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class EnricherCategory extends JEIMachineCategory<JEIRecipeWrapper.Enricher> {
 	
-	public EnricherCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public EnricherCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Enricher> handler) {
 		super(guiHelper, handler, "enricher", 45, 30, 102, 26);
 	}
 	

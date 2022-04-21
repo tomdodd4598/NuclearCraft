@@ -10,7 +10,7 @@ import nc.recipe.IngredientSorption;
 
 public class PressurizerCategory extends JEIMachineCategory<JEIRecipeWrapper.Pressurizer> {
 	
-	public PressurizerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+	public PressurizerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Pressurizer> handler) {
 		super(guiHelper, handler, "pressurizer", 47, 30, 90, 26);
 	}
 	

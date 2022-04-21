@@ -6,7 +6,7 @@ import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerFuelReprocessor extends ContainerItemProcessor {
+public class ContainerFuelReprocessor extends ContainerItemProcessor<TileItemProcessor> {
 	
 	public ContainerFuelReprocessor(EntityPlayer player, TileItemProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.fuel_reprocessor);
@@ -25,13 +25,13 @@ public class ContainerFuelReprocessor extends ContainerItemProcessor {
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 9, 132, 76, SPEED_UPGRADE));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 10, 152, 76, ENERGY_UPGRADE));
 		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
 				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + 18 * j, 96 + 18 * i));
 			}
 		}
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; ++i) {
 			addSlotToContainer(new Slot(player.inventory, i, 8 + 18 * i, 154));
 		}
 	}
