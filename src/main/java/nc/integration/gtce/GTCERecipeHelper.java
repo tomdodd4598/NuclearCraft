@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraftforge.fml.common.Loader;
 import org.apache.commons.lang3.tuple.Pair;
 
 import gregtech.api.items.metaitem.MetaItem.MetaValueItem;
@@ -32,6 +33,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
 public class GTCERecipeHelper {
+
+	private static RecipeMap<?> EXTRACTOR_MAP;
+
+	@Optional.Method(modid = "gregtech")
+	public static void checkGtVersion() {
+		String version = Loader.instance().getIndexedModList().get("gregtech").getVersion();
+		EXTRACTOR_MAP = getExtractorMap(Integer.parseInt(version.split("\\.")[0]));
+	}
 	
 	// Thanks so much to Firew0lf for the original method!
 	@Optional.Method(modid = "gregtech")
@@ -63,8 +72,9 @@ public class GTCERecipeHelper {
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 12);
 			break;
 		case "melter":
-			recipeMap = RecipeMaps.FLUID_EXTRACTION_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 32, 16);
+			recipeMap = EXTRACTOR_MAP;
+			if (recipeMap != null)
+			    builder = addStats(recipeMap.recipeBuilder(), recipe, 32, 16);
 			break;
 		case "supercooler":
 			recipeMap = RecipeMaps.VACUUM_RECIPES;
@@ -107,8 +117,9 @@ public class GTCERecipeHelper {
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20).notConsumable(new IntCircuitIngredient(1));
 			break;
 		case "extractor":
-			recipeMap = RecipeMaps.FLUID_EXTRACTION_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 12);
+			recipeMap = EXTRACTOR_MAP;
+			if (recipeMap != null)
+			    builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 12);
 			break;
 		case "centrifuge":
 			recipeMap = RecipeMaps.CENTRIFUGE_RECIPES;
@@ -323,5 +334,17 @@ public class GTCERecipeHelper {
 			else if (OreDictHelper.hasOrePrefix(output, "block")) return MetaItems.SHAPE_MOLD_BLOCK;
 		}
 		return MetaItems.SHAPE_MOLD_BALL;
+	}
+
+	@Optional.Method(modid = "gregtech")
+	private static RecipeMap<?> getExtractorMap(int gtVersion) {
+		if (gtVersion == 2) {
+			return RecipeMaps.EXTRACTOR_RECIPES;
+		} else {
+			try {
+				return (RecipeMap<?>) RecipeMaps.class.getField("FLUID_EXTRACTION_RECIPES").get(null);
+			} catch (NoSuchFieldException | IllegalAccessException ignored) {}
+		}
+		return null;
 	}
 }
