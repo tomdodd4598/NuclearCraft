@@ -16,11 +16,11 @@ import net.minecraft.world.World;
 
 public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredInventory> extends BlockFissionPort<PORT, TARGET> {
 	
-	protected final int guiId;
+	protected final int guiID;
 	
-	public BlockFissionItemPort(Class<PORT> portClass, int guiId) {
+	public BlockFissionItemPort(Class<PORT> portClass, int guiID) {
 		super(portClass);
-		this.guiId = guiId;
+		this.guiID = guiID;
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT
 						port.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
+						player.openGui(NuclearCraft.instance, guiID, world, pos.getX(), pos.getY(), pos.getZ());
 					}
 					return true;
 				}

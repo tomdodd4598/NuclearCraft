@@ -18,11 +18,11 @@ import net.minecraft.world.World;
 
 public abstract class BlockFissionItemMetaPort<PORT extends TileFissionItemPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredInventory, T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockFissionMetaPort<PORT, TARGET, T> {
 	
-	protected final int guiId;
+	protected final int guiID;
 	
-	public BlockFissionItemMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property, int guiId) {
+	public BlockFissionItemMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property, int guiID) {
 		super(portClass, enumm, property);
-		this.guiId = guiId;
+		this.guiID = guiID;
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public abstract class BlockFissionItemMetaPort<PORT extends TileFissionItemPort<
 						port.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
+						player.openGui(NuclearCraft.instance, guiID, world, pos.getX(), pos.getY(), pos.getZ());
 					}
 					return true;
 				}

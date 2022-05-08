@@ -17,13 +17,13 @@ import net.minecraft.world.*;
 public abstract class BlockFissionPart extends BlockMultiblockPart {
 	
 	public BlockFissionPart() {
-		super(Material.IRON, NCTabs.multiblock());
+		super(Material.IRON, NCTabs.MULTIBLOCK);
 	}
 	
 	public static abstract class Transparent extends BlockMultiblockPart.Transparent {
 		
 		public Transparent(boolean smartRender) {
-			super(Material.IRON, NCTabs.multiblock(), smartRender);
+			super(Material.IRON, NCTabs.MULTIBLOCK, smartRender);
 		}
 		
 		@Override

@@ -420,7 +420,7 @@ public class CTRegistration {
 		
 		public abstract void preInit();
 		
-		public abstract void recipeInit();
+		public void recipeInit() {}
 		
 		public abstract void init();
 		
@@ -451,9 +451,6 @@ public class CTRegistration {
 		public void registerRender() {
 			NCBlocks.registerRender(block);
 		}
-		
-		@Override
-		public void recipeInit() {}
 		
 		@Override
 		public void init() {}
@@ -684,9 +681,6 @@ public class CTRegistration {
 		}
 		
 		@Override
-		public void recipeInit() {}
-		
-		@Override
 		public void init() {}
 		
 		@Override
@@ -763,9 +757,6 @@ public class CTRegistration {
 		}
 		
 		@Override
-		public void recipeInit() {}
-		
-		@Override
 		public void init() {}
 		
 		@Override
@@ -781,7 +772,7 @@ public class CTRegistration {
 		public final List<String> ores = new ArrayList<>();
 		
 		public FissionIsotopeRegistrationInfo(String name) {
-			super(name, NCTabs.material());
+			super(name, NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -860,7 +851,7 @@ public class CTRegistration {
 		public final List<String> ores = new ArrayList<>();
 		
 		public FissionFuelRegistrationInfo(String name) {
-			super(name, NCTabs.material());
+			super(name, NCTabs.MATERIAL);
 		}
 		
 		@Override

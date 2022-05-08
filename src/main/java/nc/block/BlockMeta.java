@@ -50,7 +50,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockOre() {
 			super(MetaEnums.OreType.class, TYPE, Material.ROCK);
-			setCreativeTab(NCTabs.material());
+			setCreativeTab(NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -71,7 +71,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockIngot() {
 			super(MetaEnums.IngotType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.material());
+			setCreativeTab(NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -101,7 +101,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockFertileIsotope() {
 			super(MetaEnums.FertileIsotopeType.class, TYPE, Material.ROCK);
-			setCreativeTab(NCTabs.material());
+			setCreativeTab(NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -116,7 +116,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockFissionReflector() {
 			super(MetaEnums.NeutronReflectorType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.multiblock());
+			setCreativeTab(NCTabs.MULTIBLOCK);
 		}
 		
 		@Override

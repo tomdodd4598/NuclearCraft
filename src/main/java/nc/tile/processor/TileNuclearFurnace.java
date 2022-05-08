@@ -168,18 +168,19 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 		boolean flag = isBurning();
 		boolean flag1 = false;
 		
-		if (flag) {
+		if (isBurning()) {
 			--furnaceBurnTime;
+			getRadiationSource().setRadiationLevel(RadSources.LEU_235_FISSION);
+		}
+		else {
+			getRadiationSource().setRadiationLevel(0D);
 		}
 		
 		if (!world.isRemote) {
-			getRadiationSource().setRadiationLevel(flag ? RadSources.LEU_235_FISSION : 0D);
-			
 			ItemStack itemstack = furnaceItemStacks.get(1);
-			if (flag || !itemstack.isEmpty() && !furnaceItemStacks.get(0).isEmpty()) {
-				SmeltQuery smeltQuery = SmeltQuery.FAIL;
-				
-				if (!flag && (smeltQuery = smeltQuery()).canSmelt) {
+			
+			if (isBurning() || !itemstack.isEmpty() && !furnaceItemStacks.get(0).isEmpty()) {
+				if (!isBurning() && canSmelt()) {
 					furnaceBurnTime = getItemBurnTime(itemstack);
 					currentItemBurnTime = furnaceBurnTime;
 					
@@ -198,13 +199,14 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 					}
 				}
 				
-				if (smeltQuery.canSmelt && isBurning()) {
+				if (isBurning() && canSmelt()) {
 					++cookTime;
 					
 					if (cookTime == totalCookTime) {
 						cookTime = 0;
+						// totalCookTime = getCookTime(furnaceItemStacks.get(0));
 						totalCookTime = getCookTime();
-						smeltItem(smeltQuery.smeltResult);
+						smeltItem();
 						flag1 = true;
 					}
 				}
@@ -212,14 +214,13 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 					cookTime = 0;
 				}
 			}
-			else if (!flag && cookTime > 0) {
+			else if (!isBurning() && cookTime > 0) {
 				cookTime = MathHelper.clamp(cookTime - 2, 0, totalCookTime);
 			}
 			
-			boolean isBurning = isBurning();
-			if (flag != isBurning) {
+			if (flag != isBurning()) {
 				flag1 = true;
-				setActivity(isBurning);
+				setActivity(isBurning());
 			}
 			
 			if (flag1) {
@@ -228,67 +229,51 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 		}
 	}
 	
-	private static class SmeltQuery {
-		
-		final boolean canSmelt;
-		final ItemStack smeltResult;
-		
-		static final SmeltQuery FAIL = new SmeltQuery(false, null);
-		
-		SmeltQuery(boolean canSmelt, ItemStack smeltResult) {
-			this.canSmelt = canSmelt;
-			this.smeltResult = smeltResult;
-		}
-	}
-	
 	public int getCookTime() {
 		return 10;
 	}
 	
-	private SmeltQuery smeltQuery() {
-		ItemStack input = furnaceItemStacks.get(0);
-		if (input.isEmpty()) {
-			return SmeltQuery.FAIL;
+	private boolean canSmelt() {
+		if (furnaceItemStacks.get(0).isEmpty()) {
+			return false;
 		}
 		else {
-			ItemStack result = FurnaceRecipes.instance().getSmeltingResult(input);
+			ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(furnaceItemStacks.get(0));
 			
-			if (result.isEmpty()) {
-				return SmeltQuery.FAIL;
+			if (itemstack.isEmpty()) {
+				return false;
 			}
 			else {
-				ItemStack output = furnaceItemStacks.get(2);
-				if (output.isEmpty()) {
-					return new SmeltQuery(true, result);
+				ItemStack itemstack1 = furnaceItemStacks.get(2);
+				if (itemstack1.isEmpty()) {
+					return true;
 				}
-				if (!output.isItemEqual(result)) {
-					return SmeltQuery.FAIL;
+				if (!itemstack1.isItemEqual(itemstack)) {
+					return false;
 				}
-				int resultSize = output.getCount() + result.getCount();
-				if (resultSize > getInventoryStackLimit() || resultSize > output.getMaxStackSize()) {
-					return SmeltQuery.FAIL;
-				}
-				else {
-					return new SmeltQuery(true, result);
-				}
+				int result = itemstack1.getCount() + itemstack.getCount();
+				return result <= getInventoryStackLimit() && result <= itemstack1.getMaxStackSize();
 			}
 		}
 	}
 	
-	public void smeltItem(ItemStack result) {
-		ItemStack input = furnaceItemStacks.get(0);
-		ItemStack output = furnaceItemStacks.get(2);
-		
-		if (output.isEmpty()) {
-			furnaceItemStacks.set(2, result.copy());
+	public void smeltItem() {
+		if (canSmelt()) {
+			ItemStack itemstack = furnaceItemStacks.get(0);
+			ItemStack itemstack1 = FurnaceRecipes.instance().getSmeltingResult(itemstack);
+			ItemStack itemstack2 = furnaceItemStacks.get(2);
+			
+			if (itemstack2.isEmpty()) {
+				furnaceItemStacks.set(2, itemstack1.copy());
+			}
+			else if (itemstack2.getItem() == itemstack1.getItem()) {
+				itemstack2.grow(itemstack1.getCount());
+			}
+			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && StackHelper.getMetadata(itemstack) == 1 && !furnaceItemStacks.get(1).isEmpty() && furnaceItemStacks.get(1).getItem() == Items.BUCKET) {
+				furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
+			}
+			itemstack.shrink(1);
 		}
-		else if (output.getItem() == result.getItem()) {
-			output.grow(result.getCount());
-		}
-		if (input.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && StackHelper.getMetadata(input) == 1 && !furnaceItemStacks.get(1).isEmpty() && furnaceItemStacks.get(1).getItem() == Items.BUCKET) {
-			furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
-		}
-		input.shrink(1);
 	}
 	
 	public static int getItemBurnTime(ItemStack stack) {

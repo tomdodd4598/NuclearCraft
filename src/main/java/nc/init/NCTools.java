@@ -175,7 +175,7 @@ public class NCTools {
 	}
 	
 	public static void registerItem(Item item) {
-		item.setCreativeTab(NCTabs.misc());
+		item.setCreativeTab(NCTabs.MISC);
 		ForgeRegistries.ITEMS.register(item);
 	}
 	

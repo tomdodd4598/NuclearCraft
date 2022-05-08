@@ -41,8 +41,8 @@ public abstract class ContainerFluidProcessor<PROCESSOR extends IFluidProcessor 
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
-		final boolean hasUpgrades = tile instanceof IBasicUpgradable && ((IBasicUpgradable) tile).hasUpgrades();
-		int upgrades = hasUpgrades ? ((IBasicUpgradable) tile).getNumberOfUpgrades() : 0;
+		final boolean hasUpgrades = tile instanceof IUpgradable && ((IUpgradable) tile).hasUpgrades();
+		int upgrades = hasUpgrades ? ((IUpgradable) tile).getNumberOfUpgrades() : 0;
 		int invStart = upgrades;
 		int speedUpgradeSlot = 0;
 		int otherUpgradeSlot = 1;

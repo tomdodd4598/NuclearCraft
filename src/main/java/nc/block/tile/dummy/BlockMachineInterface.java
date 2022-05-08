@@ -1,5 +1,7 @@
 package nc.block.tile.dummy;
 
+import nc.NuclearCraft;
+import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.ITileGui;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.fluid.ITileFluid;
@@ -11,11 +13,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 public class BlockMachineInterface extends BlockSimpleDummy {
 	
-	public BlockMachineInterface(String name) {
-		super(name);
+	public BlockMachineInterface(SimpleTileType type) {
+		super(type);
 	}
 	
 	@Override
@@ -36,22 +39,23 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 			if (iface.masterPosition == null) {
 				return false;
 			}
-			BlockPos masterPos = iface.masterPosition;
-			if (masterPos != null) {
-				TileEntity master = world.getTileEntity(masterPos);
-				if (master instanceof ITileFluid) {
-					ITileFluid tileFluid = (ITileFluid) master;
+			BlockPos machinePos = iface.masterPosition;
+			if (machinePos != null) {
+				TileEntity tileentity = world.getTileEntity(machinePos);
+				if (tileentity instanceof ITileFluid) {
+					ITileFluid tileFluid = (ITileFluid) tileentity;
 					boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 					if (accessedTanks) {
-						if (master instanceof IProcessor) {
-							((IProcessor) master).refreshRecipe();
-							((IProcessor) master).refreshActivity();
+						if (tileentity instanceof IProcessor) {
+							((IProcessor) tileentity).refreshRecipe();
+							((IProcessor) tileentity).refreshActivity();
 						}
 						return true;
 					}
 				}
-				if (master instanceof ITileGui) {
-					((ITileGui<?, ?>) master).openGui(world, masterPos, player);
+				if (tileentity instanceof ITileGui) {
+					ITileGui<?> guiTile = (ITileGui<?>) tileentity;
+					FMLNetworkHandler.openGui(player, NuclearCraft.instance, guiTile.getGuiID(), world, machinePos.getX(), machinePos.getY(), machinePos.getZ());
 				}
 			}
 		}

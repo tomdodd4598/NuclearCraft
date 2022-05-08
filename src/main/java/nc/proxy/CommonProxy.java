@@ -23,7 +23,6 @@ import nc.radiation.*;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.*;
 import nc.recipe.vanilla.CraftingRecipeHandler;
-import nc.tab.NCTabs;
 import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.MushroomGenerator;
@@ -48,15 +47,11 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
 		
-		NCTabs.init();
-		
 		MinecraftForge.EVENT_BUS.register(new MultiblockHandler());
 		
 		if (ModCheck.craftTweakerLoaded()) {
 			CraftTweakerAPI.tweaker.loadScript(false, "nc_preinit");
 		}
-		
-		TileInfo.init();
 		
 		NCSounds.init();
 		

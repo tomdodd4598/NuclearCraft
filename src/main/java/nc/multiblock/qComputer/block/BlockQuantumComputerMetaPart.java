@@ -10,6 +10,6 @@ import net.minecraft.util.IStringSerializable;
 public abstract class BlockQuantumComputerMetaPart<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockMultiblockMetaPart<T> {
 	
 	public BlockQuantumComputerMetaPart(Class<T> enumm, PropertyEnum<T> property) {
-		super(enumm, property, Material.IRON, NCTabs.multiblock());
+		super(enumm, property, Material.IRON, NCTabs.MISC);
 	}
 }

@@ -718,7 +718,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 		
 		for (int i = 0; i < fluidInputSize; ++i) {
 			if (!consumedTanks.get(i).isEmpty()) {
-				consumedTanks.get(i).setFluidStored(null);
+				consumedTanks.get(i).setFluid(null);
 			}
 		}
 		for (int i = 0; i < fluidInputSize; ++i) {
@@ -729,7 +729,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 				tank.changeFluidAmount(-maxStackSize);
 			}
 			if (tank.isEmpty()) {
-				tank.setFluidStored(null);
+				tank.setFluid(null);
 			}
 		}
 		hasConsumed = true;
@@ -775,7 +775,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements ITileFilte
 	
 	public void produceProducts() {
 		for (int i = 0; i < fluidInputSize; ++i) {
-			consumedTanks.get(i).setFluidStored(null);
+			consumedTanks.get(i).setFluid(null);
 		}
 		
 		if (!hasConsumed || recipeInfo == null) {

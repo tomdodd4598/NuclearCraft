@@ -15,21 +15,21 @@ import net.minecraftforge.fml.relauncher.Side;
 public class OpenGuiPacket implements IMessage {
 	
 	protected BlockPos pos;
-	protected int guiId = -1;
+	protected int guiID = -1;
 	
 	public OpenGuiPacket() {
 		
 	}
 	
-	public OpenGuiPacket(BlockPos pos, int guiId) {
+	public OpenGuiPacket(BlockPos pos, int guiID) {
 		this.pos = pos;
-		this.guiId = guiId;
+		this.guiID = guiID;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		guiId = buf.readInt();
+		guiID = buf.readInt();
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class OpenGuiPacket implements IMessage {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		buf.writeInt(guiId);
+		buf.writeInt(guiID);
 	}
 	
 	public static class Handler implements IMessageHandler<OpenGuiPacket, IMessage> {
@@ -57,9 +57,9 @@ public class OpenGuiPacket implements IMessage {
 				return;
 			}
 			TileEntity tile = world.getTileEntity(message.pos);
-			FMLNetworkHandler.openGui(player, NuclearCraft.instance, message.guiId, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
+			FMLNetworkHandler.openGui(player, NuclearCraft.instance, message.guiID, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
 			if (tile instanceof ITileGui) {
-				((ITileGui<?, ?>) tile).addTileUpdatePacketListener(player);
+				((ITileGui<?>) tile).addTileUpdatePacketListener(player);
 			}
 		}
 	}

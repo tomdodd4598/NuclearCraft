@@ -2,14 +2,13 @@ package nc.recipe;
 
 import static nc.config.NCConfig.*;
 
-import it.unimi.dsi.fastutil.objects.*;
 import nc.config.NCConfig;
 import nc.util.NCMath;
 
 public class RecipeStats {
 	
-	private static final Object2DoubleMap<String> PROCESSOR_MAX_BASE_PROCESS_TIME_MAP = new Object2DoubleOpenHashMap<>();
-	private static final Object2DoubleMap<String> PROCESSOR_MAX_BASE_PROCESS_POWER_MAP = new Object2DoubleOpenHashMap<>();
+	private static double[] processor_max_base_process_time = new double[19];
+	private static double[] processor_max_base_process_power = new double[19];
 	private static int decay_generator_max_power;
 	private static int fission_max_moderator_line_flux;
 	private static int scrubber_max_process_power;
@@ -25,12 +24,12 @@ public class RecipeStats {
 		setBlockPurificationThreshold();
 	}
 	
-	public static double getProcessorMaxBaseProcessTime(String name) {
-		return PROCESSOR_MAX_BASE_PROCESS_TIME_MAP.getDouble(name);
+	public static double getProcessorMaxBaseProcessTime(int processorID) {
+		return processor_max_base_process_time[processorID - 1];
 	}
 	
-	public static double getProcessorMaxBaseProcessPower(String name) {
-		return PROCESSOR_MAX_BASE_PROCESS_POWER_MAP.getDouble(name);
+	public static double getProcessorMaxBaseProcessPower(int processorID) {
+		return processor_max_base_process_power[processorID - 1];
 	}
 	
 	private static void setProcessorMaxStats() {

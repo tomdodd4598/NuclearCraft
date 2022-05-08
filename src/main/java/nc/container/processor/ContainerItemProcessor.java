@@ -40,8 +40,8 @@ public abstract class ContainerItemProcessor<PROCESSOR extends IItemProcessor & 
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
-		final boolean hasUpgrades = tile instanceof IBasicUpgradable && ((IBasicUpgradable) tile).hasUpgrades();
-		int upgrades = hasUpgrades ? ((IBasicUpgradable) tile).getNumberOfUpgrades() : 0;
+		final boolean hasUpgrades = tile instanceof IUpgradable && ((IUpgradable) tile).hasUpgrades();
+		int upgrades = hasUpgrades ? ((IUpgradable) tile).getNumberOfUpgrades() : 0;
 		int invStart = tile.getItemInputSize() + tile.getItemOutputSize() + upgrades;
 		int speedUpgradeSlot = tile.getItemInputSize() + tile.getItemOutputSize();
 		int otherUpgradeSlot = tile.getItemInputSize() + tile.getItemOutputSize() + 1;

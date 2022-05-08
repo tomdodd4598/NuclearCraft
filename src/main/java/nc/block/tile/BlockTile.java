@@ -2,6 +2,7 @@ package nc.block.tile;
 
 import javax.annotation.*;
 
+import nc.NuclearCraft;
 import nc.block.NCBlock;
 import nc.init.NCItems;
 import nc.tile.ITileGui;
@@ -20,6 +21,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.items.*;
 
 public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
@@ -43,11 +45,11 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		}
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IBasicUpgradable) {
-			if (installUpgrade(tile, ((IBasicUpgradable) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) {
+		if (tile instanceof IUpgradable) {
+			if (installUpgrade(tile, ((IUpgradable) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) {
 				return true;
 			}
-			if (installUpgrade(tile, ((IBasicUpgradable) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) {
+			if (installUpgrade(tile, ((IUpgradable) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) {
 				return true;
 			}
 		}
@@ -89,7 +91,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 					((IProcessor) tile).refreshRecipe();
 					((IProcessor) tile).refreshActivity();
 				}
-				((ITileGui<?, ?>) tile).openGui(world, pos, player);
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((ITileGui<?>) tile).getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		else {
