@@ -84,7 +84,7 @@ public class BlockFissionHeaterPort extends BlockFissionFluidMetaPort<TileFissio
 		}
 		
 		if (!world.isRemote) {
-			player.openGui(NuclearCraft.instance, guiID, world, pos.getX(), pos.getY(), pos.getZ());
+			player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);

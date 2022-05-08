@@ -17,6 +17,8 @@ import net.minecraftforge.fluids.IFluidBlock;
 
 public class BlockPortalWasteland extends NCBlockPortal {
 	
+	protected final Random rand = new Random();
+	
 	public BlockPortalWasteland() {
 		super(Material.ROCK, wasteland_dimension, 0);
 	}
@@ -27,7 +29,6 @@ public class BlockPortalWasteland extends NCBlockPortal {
 			
 			@Override
 			public void placeEntity(World world, Entity entity, float yaw) {
-				Random rand = new Random();
 				BlockPos teleportPos = world.getTopSolidOrLiquidBlock(new BlockPos(entity.posX, entity.posY, entity.posZ));
 				
 				int i = 0;

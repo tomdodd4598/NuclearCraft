@@ -3,7 +3,6 @@ package nc.block.tile.radiation;
 import static nc.config.NCConfig.radiation_lowest_rate;
 
 import nc.block.tile.BlockSimpleTile;
-import nc.enumm.BlockEnums.SimpleTileType;
 import nc.radiation.RadiationHelper;
 import nc.tile.radiation.TileGeigerCounter;
 import nc.util.Lang;
@@ -19,8 +18,8 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 	
 	private static final String RADIATION = Lang.localise("item.nuclearcraft.geiger_counter.rads");
 	
-	public BlockGeigerCounter() {
-		super(SimpleTileType.GEIGER_BLOCK);
+	public BlockGeigerCounter(String name) {
+		super(name);
 	}
 	
 	@Override

@@ -26,7 +26,7 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 	private final IBatteryBlockType type;
 	
 	public BlockBattery(IBatteryBlockType type) {
-		super(Material.IRON, NCTabs.MACHINE);
+		super(Material.IRON, NCTabs.multiblock());
 		this.type = type;
 	}
 	

@@ -5,10 +5,12 @@ import static nc.block.property.BlockProperties.*;
 import java.util.Random;
 
 import nc.block.tile.*;
-import nc.enumm.BlockEnums.ProcessorType;
+import nc.handler.TileInfo;
+import nc.tile.processor.ProcessorBlockInfo;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.*;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -18,24 +20,25 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class BlockProcessor extends BlockSidedTile implements IActivatable, ITileType {
 	
-	protected final ProcessorType type;
+	protected final ProcessorBlockInfo<?> tileInfo;
 	
-	public BlockProcessor(ProcessorType type) {
+	public BlockProcessor(String name) {
 		super(Material.IRON);
-		if (type.getCreativeTab() != null) {
-			setCreativeTab(type.getCreativeTab());
+		tileInfo = TileInfo.getBlockProcessorInfo(name);
+		CreativeTabs tab = tileInfo.getCreativeTab();
+		if (tab != null) {
+			setCreativeTab(tab);
 		}
-		this.type = type;
 	}
 	
 	@Override
 	public String getTileName() {
-		return type.getName();
+		return tileInfo.getName();
 	}
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return type.getTile();
+		return tileInfo.getNewTile();
 	}
 	
 	@Override
@@ -72,7 +75,8 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 		if (!state.getValue(ACTIVE)) {
 			return;
 		}
-		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle1());
-		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle2());
+		for (String particle : tileInfo.getParticles()) {
+			BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), particle);
+		}
 	}
 }

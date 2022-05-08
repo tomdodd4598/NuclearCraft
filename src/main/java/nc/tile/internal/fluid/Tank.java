@@ -107,7 +107,7 @@ public class Tank extends FluidTank {
 		}
 		setFluidAmount(getFluidAmount() + other.getFluidAmount());
 		setTankCapacity(capacity + other.capacity);
-		other.setFluid(null);
+		other.setFluidStored(null);
 	}
 	
 	public IFluidTankProperties getFluidTankProperties() {

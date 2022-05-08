@@ -1,15 +1,14 @@
 package nc.block.tile.dummy;
 
 import nc.block.tile.BlockSimpleSidedTile;
-import nc.enumm.BlockEnums.SimpleTileType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockSimpleSidedDummy extends BlockSimpleSidedTile {
 	
-	public BlockSimpleSidedDummy(SimpleTileType type) {
-		super(type);
+	public BlockSimpleSidedDummy(String name) {
+		super(name);
 	}
 	
 	@Override

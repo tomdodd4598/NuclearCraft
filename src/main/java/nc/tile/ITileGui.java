@@ -2,13 +2,22 @@ package nc.tile;
 
 import java.util.Set;
 
+import nc.NuclearCraft;
+import nc.handler.GuiHandler;
 import nc.network.PacketHandler;
 import nc.network.tile.TileUpdatePacket;
 import net.minecraft.entity.player.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
-public interface ITileGui<PACKET extends TileUpdatePacket> extends ITilePacket<PACKET> {
+public interface ITileGui<PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<?>> extends ITilePacket<PACKET> {
 	
-	public int getGuiID();
+	public INFO getContainerInfo();
+	
+	public default void openGui(World world, BlockPos pos, EntityPlayer player) {
+		FMLNetworkHandler.openGui(player, NuclearCraft.instance, GuiHandler.getGuiId(getContainerInfo().name), world, pos.getX(), pos.getY(), pos.getZ());
+	}
 	
 	public Set<EntityPlayer> getTileUpdatePacketListeners();
 	

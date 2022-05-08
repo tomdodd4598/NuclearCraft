@@ -18,11 +18,11 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class BlockFissionFluidMetaPort<PORT extends TileFissionFluidPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredFluid, T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockFissionMetaPort<PORT, TARGET, T> {
 	
-	protected final int guiID;
+	protected final int guiId;
 	
-	public BlockFissionFluidMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property, int guiID) {
+	public BlockFissionFluidMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property, int guiId) {
 		super(portClass, enumm, property);
-		this.guiID = guiID;
+		this.guiId = guiId;
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public abstract class BlockFissionFluidMetaPort<PORT extends TileFissionFluidPor
 						port.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, guiID, world, pos.getX(), pos.getY(), pos.getZ());
+						player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 					}
 					return true;
 				}

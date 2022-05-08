@@ -3,7 +3,6 @@ package nc.block.tile.radiation;
 import static nc.config.NCConfig.radiation_lowest_rate;
 
 import nc.block.tile.BlockSimpleTile;
-import nc.enumm.BlockEnums.SimpleTileType;
 import nc.radiation.RadiationHelper;
 import nc.tile.radiation.TileRadiationScrubber;
 import nc.util.*;
@@ -17,8 +16,8 @@ import net.minecraft.world.World;
 
 public class BlockScrubber extends BlockSimpleTile {
 	
-	public BlockScrubber() {
-		super(SimpleTileType.RADIATION_SCRUBBER);
+	public BlockScrubber(String name) {
+		super(name);
 	}
 	
 	@Override
