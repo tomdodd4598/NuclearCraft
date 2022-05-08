@@ -72,6 +72,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	
 	public void addGTCERecipes() {
 		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(name)) {
+			GTCERecipeHelper.checkGtVersion();
 			for (BasicRecipe recipe : recipeList) {
 				GTCERecipeHelper.addGTCERecipe(name, recipe);
 			}
