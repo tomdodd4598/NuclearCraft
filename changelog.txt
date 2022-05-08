@@ -1,3 +1,7 @@
+v2.18zzz
+
+* Fixed crash when GTCEu is installed [thanks to DStrand1!]
+
 v2.18zz
 
 * Fixed ore processing config not correctly disabling ore melting recipes and unnecessarily disabling ingot crushing and melting recipes
