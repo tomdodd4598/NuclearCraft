@@ -1538,11 +1538,11 @@ item.nuclearcraft.ingot.graphite.name=Graphite Ingot
 item.nuclearcraft.ingot.beryllium.name=Beryllium Ingot
 item.nuclearcraft.ingot.zirconium.name=Zirconium Ingot
 item.nuclearcraft.ingot.manganese.name=Manganese Ingot
-item.nuclearcraft.ingot.manganese.desc=Produced by smelting rhodochrosite dust three times.
+item.nuclearcraft.ingot.manganese.desc=Produced by smelting crushed rhodochrosite three times.
 item.nuclearcraft.ingot.aluminum.name=Aluminum Ingot
 item.nuclearcraft.ingot.silver.name=Silver Ingot
 item.nuclearcraft.ingot.manganese_oxide.name=Manganese Oxide Ingot
-item.nuclearcraft.ingot.manganese_oxide.desc=Produced by smelting rhodochrosite dust twice.
+item.nuclearcraft.ingot.manganese_oxide.desc=Produced by smelting crushed rhodochrosite twice.
 item.nuclearcraft.ingot.manganese_dioxide.name=Manganese Dioxide Ingot
 
 item.nuclearcraft.dust.copper.name=Copper Dust
@@ -1562,12 +1562,11 @@ item.nuclearcraft.dust.manganese.name=Manganese Dust
 item.nuclearcraft.dust.aluminum.name=Aluminum Dust
 item.nuclearcraft.dust.silver.name=Silver Dust
 item.nuclearcraft.dust.manganese_oxide.name=Manganese Oxide Dust
-item.nuclearcraft.dust.manganese_oxide.desc=Produced by smelting rhodochrosite dust.
+item.nuclearcraft.dust.manganese_oxide.desc=Produced by smelting crushed rhodochrosite.
 item.nuclearcraft.dust.manganese_dioxide.name=Manganese Dioxide Dust
 
 item.nuclearcraft.gem.rhodochrosite.name=Rhodochrosite
 #item.nuclearcraft.gem.rhodochrosite.desc=Obtained alongside Redstone when breaking Redstone Ore.
-item.nuclearcraft.gem.rhodochrosite.desc=Smelt twice to produce a manganese oxide ingot, and once more to produce a manganese ingot.
 item.nuclearcraft.gem.boron_nitride.name=Cubic Boron Nitride
 item.nuclearcraft.gem.fluorite.name=Fluorite
 #item.nuclearcraft.gem.fluorite.desc=Obtained alongside Lapis Lazuli when breaking Lapis Lazuli Ore.
@@ -1580,6 +1579,7 @@ item.nuclearcraft.gem.silicon.name=Silicon
 
 item.nuclearcraft.gem_dust.diamond.name=Crushed Diamond
 item.nuclearcraft.gem_dust.rhodochrosite.name=Crushed Rhodochrosite
+item.nuclearcraft.gem_dust.rhodochrosite.desc=Smelt twice to produce a manganese oxide ingot, and once more to produce a manganese ingot.
 item.nuclearcraft.gem_dust.quartz.name=Crushed Quartz
 item.nuclearcraft.gem_dust.obsidian.name=Crushed Obsidian
 item.nuclearcraft.gem_dust.boron_nitride.name=Hexagonal Boron Nitride
