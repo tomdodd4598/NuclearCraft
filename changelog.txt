@@ -1,3 +1,14 @@
+v2o.6.2
+
+* Fixed crash when GTCEu is installed [thanks to DStrand1!]
+
+* Updated Chinese language file [thanks to WuzgXY and TheRealKamisama!]
+* Updated Russian language file [thanks to thedeadferryman!]
+
+v2o.6.1
+
+* Fixed turbine bearings failing for valid steam throughput rates
+
 v2o.6.0
 
 * Fixed ore processing config not correctly disabling ore melting recipes and unnecessarily disabling ingot crushing and melting recipes
