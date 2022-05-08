@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.handler.TileInfo;
+import nc.handler.TileInfoHandler;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
@@ -50,7 +50,7 @@ public class TileAbstractProcessor<INFO extends ProcessorContainerInfo<?>> exten
 	
 	@SuppressWarnings("unchecked")
 	public TileAbstractProcessor(String name, List<List<String>> allowedFluids, double baseProcessTime, double baseProcessPower) {
-		this(name, (INFO) TileInfo.getContainerInfoProcessorInfo(name), allowedFluids, baseProcessTime, baseProcessPower);
+		this(name, (INFO) TileInfoHandler.getContainerInfoProcessorInfo(name), allowedFluids, baseProcessTime, baseProcessPower);
 	}
 	
 	protected TileAbstractProcessor(String name, INFO containerInfo, List<List<String>> allowedFluids, double baseProcessTime, double baseProcessPower) {

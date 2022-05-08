@@ -21,7 +21,7 @@ import nc.tile.radiation.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileInfo {
+public class TileInfoHandler {
 	
 	private static final Object2ObjectMap<String, BlockSimpleTileInfo<?>> BLOCK_SIMPLE_TILE_INFO_MAP = new Object2ObjectOpenHashMap<>();
 	

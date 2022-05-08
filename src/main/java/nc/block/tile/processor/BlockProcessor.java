@@ -5,7 +5,7 @@ import static nc.block.property.BlockProperties.*;
 import java.util.Random;
 
 import nc.block.tile.*;
-import nc.handler.TileInfo;
+import nc.handler.TileInfoHandler;
 import nc.tile.processor.ProcessorBlockInfo;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
@@ -24,7 +24,7 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 	
 	public BlockProcessor(String name) {
 		super(Material.IRON);
-		tileInfo = TileInfo.getBlockProcessorInfo(name);
+		tileInfo = TileInfoHandler.getBlockProcessorInfo(name);
 		CreativeTabs tab = tileInfo.getCreativeTab();
 		if (tab != null) {
 			setCreativeTab(tab);

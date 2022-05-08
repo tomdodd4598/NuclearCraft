@@ -56,7 +56,7 @@ public class CommonProxy {
 			CraftTweakerAPI.tweaker.loadScript(false, "nc_preinit");
 		}
 		
-		TileInfo.init();
+		TileInfoHandler.init();
 		
 		NCSounds.init();
 		

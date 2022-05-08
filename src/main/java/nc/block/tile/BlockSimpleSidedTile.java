@@ -1,6 +1,6 @@
 package nc.block.tile;
 
-import nc.handler.TileInfo;
+import nc.handler.TileInfoHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -11,7 +11,7 @@ public class BlockSimpleSidedTile extends BlockSidedTile implements ITileType {
 	
 	public BlockSimpleSidedTile(String name) {
 		super(Material.IRON);
-		tileInfo = TileInfo.getBlockSimpleTileInfo(name);
+		tileInfo = TileInfoHandler.getBlockSimpleTileInfo(name);
 		setCreativeTab(tileInfo.getCreativeTab());
 	}
 	
