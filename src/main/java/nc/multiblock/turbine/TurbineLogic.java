@@ -731,9 +731,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().sendMultiblockUpdatePacketToAll();
 		}
 		
-		double tensionFactor = getMaxRecipeRateMultiplier() <= 0 ? 0D : getTurbine().recipeInputRate - getMaxRecipeRateMultiplier() * (1D + turbine_tension_leniency) / getMaxRecipeRateMultiplier();
-		tensionFactor /= Math.max(1D, tensionFactor > 0D ? turbine_tension_throughput_factor - 1D : 1D);
-		if (tensionFactor < 0D) {
+		int maxRecipeRateMultiplier = getMaxRecipeRateMultiplier();
+		double tensionFactor = maxRecipeRateMultiplier <= 0 ? 0D : (getTurbine().recipeInputRate - maxRecipeRateMultiplier * (1D + turbine_tension_leniency)) / maxRecipeRateMultiplier;
+		if (tensionFactor > 0D) {
+			tensionFactor /= (turbine_tension_throughput_factor < 2D ? 1D : turbine_tension_throughput_factor - 1D);
+		}
+		else {
 			tensionFactor = -Math.sqrt(-tensionFactor);
 		}
 		getTurbine().bearingTension = Math.max(0D, getTurbine().bearingTension + Math.min(1D, tensionFactor) / (1200D * getPartCount(TileTurbineRotorBearing.class)));

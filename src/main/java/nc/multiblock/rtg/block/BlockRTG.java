@@ -16,7 +16,7 @@ public class BlockRTG extends BlockMultiblockPart {
 	private final RTGType type;
 	
 	public BlockRTG(RTGType type) {
-		super(Material.IRON, NCTabs.MACHINE);
+		super(Material.IRON, NCTabs.multiblock());
 		this.type = type;
 	}
 	

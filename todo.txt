@@ -1,6 +1,6 @@
 QMD feature merge: nitrogen collector -> air collector
 
-Refactor BasicRecipe and BasicRecipeHandler subclasses to recipes easier for addons
+Refactor BasicRecipe and BasicRecipeHandler subclasses to make recipes easier for addons
 
 Refactor multiblock NBT
 

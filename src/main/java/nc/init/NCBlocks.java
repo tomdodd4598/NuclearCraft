@@ -11,7 +11,6 @@ import nc.block.tile.*;
 import nc.block.tile.dummy.BlockMachineInterface;
 import nc.block.tile.processor.*;
 import nc.block.tile.radiation.*;
-import nc.enumm.BlockEnums.*;
 import nc.enumm.MetaEnums;
 import nc.multiblock.battery.BatteryBlockType;
 import nc.multiblock.battery.block.BlockBattery;
@@ -203,84 +202,84 @@ public class NCBlocks {
 		
 		fertile_isotope = withName(new BlockMeta.BlockFertileIsotope(), "fertile_isotope");
 		
-		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.MATERIAL), "supercold_ice");
+		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.material()), "supercold_ice");
 		
-		heavy_water_moderator = withName(new NCBlock(Material.IRON).setCreativeTab(NCTabs.MISC), "heavy_water_moderator");
+		heavy_water_moderator = withName(new NCBlock(Material.IRON).setCreativeTab(NCTabs.misc()), "heavy_water_moderator");
 		
 		if (register_processor[0]) {
 			nuclear_furnace = withName(new BlockNuclearFurnace(), "nuclear_furnace");
 		}
 		if (register_processor[1]) {
-			manufactory = withName(new BlockProcessor(ProcessorType.MANUFACTORY));
+			manufactory = withName(new BlockProcessor("manufactory"));
 		}
 		if (register_processor[2]) {
-			separator = withName(new BlockProcessor(ProcessorType.SEPARATOR));
+			separator = withName(new BlockProcessor("separator"));
 		}
 		if (register_processor[3]) {
-			decay_hastener = withName(new BlockProcessor(ProcessorType.DECAY_HASTENER));
+			decay_hastener = withName(new BlockProcessor("decay_hastener"));
 		}
 		if (register_processor[4]) {
-			fuel_reprocessor = withName(new BlockProcessor(ProcessorType.FUEL_REPROCESSOR));
+			fuel_reprocessor = withName(new BlockProcessor("fuel_reprocessor"));
 		}
 		if (register_processor[5]) {
-			alloy_furnace = withName(new BlockProcessor(ProcessorType.ALLOY_FURNACE));
+			alloy_furnace = withName(new BlockProcessor("alloy_furnace"));
 		}
 		if (register_processor[6]) {
-			infuser = withName(new BlockProcessor(ProcessorType.INFUSER));
+			infuser = withName(new BlockProcessor("infuser"));
 		}
 		if (register_processor[7]) {
-			melter = withName(new BlockProcessor(ProcessorType.MELTER));
+			melter = withName(new BlockProcessor("melter"));
 		}
 		if (register_processor[8]) {
-			supercooler = withName(new BlockProcessor(ProcessorType.SUPERCOOLER));
+			supercooler = withName(new BlockProcessor("supercooler"));
 		}
 		if (register_processor[9]) {
-			electrolyzer = withName(new BlockProcessor(ProcessorType.ELECTROLYZER));
+			electrolyzer = withName(new BlockProcessor("electrolyzer"));
 		}
 		if (register_processor[10]) {
-			assembler = withName(new BlockProcessor(ProcessorType.ASSEMBLER));
+			assembler = withName(new BlockProcessor("assembler"));
 		}
 		if (register_processor[11]) {
-			ingot_former = withName(new BlockProcessor(ProcessorType.INGOT_FORMER));
+			ingot_former = withName(new BlockProcessor("ingot_former"));
 		}
 		if (register_processor[12]) {
-			pressurizer = withName(new BlockProcessor(ProcessorType.PRESSURIZER));
+			pressurizer = withName(new BlockProcessor("pressurizer"));
 		}
 		if (register_processor[13]) {
-			chemical_reactor = withName(new BlockProcessor(ProcessorType.CHEMICAL_REACTOR));
+			chemical_reactor = withName(new BlockProcessor("chemical_reactor"));
 		}
 		if (register_processor[14]) {
-			salt_mixer = withName(new BlockProcessor(ProcessorType.SALT_MIXER));
+			salt_mixer = withName(new BlockProcessor("salt_mixer"));
 		}
 		if (register_processor[15]) {
-			crystallizer = withName(new BlockProcessor(ProcessorType.CRYSTALLIZER));
+			crystallizer = withName(new BlockProcessor("crystallizer"));
 		}
 		if (register_processor[16]) {
-			enricher = withName(new BlockProcessor(ProcessorType.ENRICHER));
+			enricher = withName(new BlockProcessor("enricher"));
 		}
 		if (register_processor[17]) {
-			extractor = withName(new BlockProcessor(ProcessorType.EXTRACTOR));
+			extractor = withName(new BlockProcessor("extractor"));
 		}
 		if (register_processor[18]) {
-			centrifuge = withName(new BlockProcessor(ProcessorType.CENTRIFUGE));
+			centrifuge = withName(new BlockProcessor("centrifuge"));
 		}
 		if (register_processor[19]) {
-			rock_crusher = withName(new BlockProcessor(ProcessorType.ROCK_CRUSHER));
+			rock_crusher = withName(new BlockProcessor("rock_crusher"));
 		}
 		
-		machine_interface = withName(new BlockMachineInterface(SimpleTileType.MACHINE_INTERFACE));
+		machine_interface = withName(new BlockMachineInterface("machine_interface"));
 		
 		rtg_uranium = withName(new BlockRTG(RTGType.URANIUM), "rtg_uranium");
 		rtg_plutonium = withName(new BlockRTG(RTGType.PLUTONIUM), "rtg_plutonium");
 		rtg_americium = withName(new BlockRTG(RTGType.AMERICIUM), "rtg_americium");
 		rtg_californium = withName(new BlockRTG(RTGType.CALIFORNIUM), "rtg_californium");
 		
-		solar_panel_basic = withName(new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_BASIC));
-		solar_panel_advanced = withName(new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_ADVANCED));
-		solar_panel_du = withName(new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_DU));
-		solar_panel_elite = withName(new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_ELITE));
+		solar_panel_basic = withName(new BlockSimpleTile("solar_panel_basic"));
+		solar_panel_advanced = withName(new BlockSimpleTile("solar_panel_advanced"));
+		solar_panel_du = withName(new BlockSimpleTile("solar_panel_du"));
+		solar_panel_elite = withName(new BlockSimpleTile("solar_panel_elite"));
 		
-		decay_generator = withName(new BlockSimpleTile(SimpleTileType.DECAY_GENERATOR));
+		decay_generator = withName(new BlockSimpleTile("decay_generator"));
 		
 		if (register_battery[0]) {
 			voltaic_pile_basic = withName(new BlockBattery(BatteryBlockType.VOLTAIC_PILE_BASIC), "voltaic_pile_basic");
@@ -296,7 +295,7 @@ public class NCBlocks {
 			lithium_ion_battery_elite = withName(new BlockBattery(BatteryBlockType.LITHIUM_ION_BATTERY_ELITE), "lithium_ion_battery_elite");
 		}
 		
-		bin = withName(new BlockSimpleTile(SimpleTileType.BIN));
+		bin = withName(new BlockSimpleTile("bin"));
 		
 		fission_casing = withName(new BlockFissionCasing(), "fission_casing");
 		fission_glass = withName(new BlockFissionGlass(), "fission_glass");
@@ -360,36 +359,36 @@ public class NCBlocks {
 		turbine_computer_port = withName(new BlockTurbineComputerPort(), "turbine_computer_port");
 		
 		if (register_passive[0]) {
-			cobblestone_generator = withName(new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR));
-			cobblestone_generator_compact = withName(new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR_COMPACT));
-			cobblestone_generator_dense = withName(new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR_DENSE));
+			cobblestone_generator = withName(new BlockSimpleTile("cobblestone_generator"));
+			cobblestone_generator_compact = withName(new BlockSimpleTile("cobblestone_generator_compact"));
+			cobblestone_generator_dense = withName(new BlockSimpleTile("cobblestone_generator_dense"));
 		}
 		
 		if (register_passive[1]) {
-			water_source = withName(new BlockSimpleTile(SimpleTileType.WATER_SOURCE));
-			water_source_compact = withName(new BlockSimpleTile(SimpleTileType.WATER_SOURCE_COMPACT));
-			water_source_dense = withName(new BlockSimpleTile(SimpleTileType.WATER_SOURCE_DENSE));
+			water_source = withName(new BlockSimpleTile("water_source"));
+			water_source_compact = withName(new BlockSimpleTile("water_source_compact"));
+			water_source_dense = withName(new BlockSimpleTile("water_source_dense"));
 		}
 		
 		if (register_passive[2]) {
-			nitrogen_collector = withName(new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR));
-			nitrogen_collector_compact = withName(new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_COMPACT));
-			nitrogen_collector_dense = withName(new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_DENSE));
+			nitrogen_collector = withName(new BlockSimpleTile("nitrogen_collector"));
+			nitrogen_collector_compact = withName(new BlockSimpleTile("nitrogen_collector_compact"));
+			nitrogen_collector_dense = withName(new BlockSimpleTile("nitrogen_collector_dense"));
 		}
 		
-		radiation_scrubber = withName(new BlockScrubber(), "radiation_scrubber");
+		radiation_scrubber = withName(new BlockScrubber("radiation_scrubber"));
 		
-		geiger_block = withName(new BlockGeigerCounter(), "geiger_block");
+		geiger_block = withName(new BlockGeigerCounter("geiger_block"));
 		
-		glowing_mushroom = withName(new BlockGlowingMushroom().setCreativeTab(NCTabs.RADIATION), "glowing_mushroom");
-		glowing_mushroom_block = withName(new BlockHugeGlowingMushroom().setCreativeTab(NCTabs.RADIATION), "glowing_mushroom_block");
-		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.RADIATION), "wasteland_earth");
+		glowing_mushroom = withName(new BlockGlowingMushroom().setCreativeTab(NCTabs.radiation()), "glowing_mushroom");
+		glowing_mushroom_block = withName(new BlockHugeGlowingMushroom().setCreativeTab(NCTabs.radiation()), "glowing_mushroom_block");
+		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.radiation()), "wasteland_earth");
 		
-		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.RADIATION), "wasteland_portal");
+		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.radiation()), "wasteland_portal");
 		
-		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.MISC).setLightLevel(1F), "tritium_lamp");
+		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.misc()).setLightLevel(1F), "tritium_lamp");
 		
-		solidified_corium = withName(new NCBlockMagma(DamageSources.CORIUM_BURN, 1F).setCreativeTab(NCTabs.MISC), "solidified_corium");
+		solidified_corium = withName(new NCBlockMagma(DamageSources.CORIUM_BURN, 1F).setCreativeTab(NCTabs.misc()), "solidified_corium");
 		
 		if (register_quantum) {
 			quantum_computer_controller = withName(new BlockQuantumComputerController(), "quantum_computer_controller");

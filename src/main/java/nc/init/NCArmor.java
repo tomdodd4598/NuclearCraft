@@ -88,37 +88,37 @@ public class NCArmor {
 	
 	public static void register() {
 		if (register_armor[0]) {
-			registerItem(helm_boron, NCTabs.MISC);
-			registerItem(chest_boron, NCTabs.MISC);
-			registerItem(legs_boron, NCTabs.MISC);
-			registerItem(boots_boron, NCTabs.MISC);
+			registerItem(helm_boron, NCTabs.misc());
+			registerItem(chest_boron, NCTabs.misc());
+			registerItem(legs_boron, NCTabs.misc());
+			registerItem(boots_boron, NCTabs.misc());
 		}
 		
 		if (register_armor[1]) {
-			registerItem(helm_tough, NCTabs.MISC);
-			registerItem(chest_tough, NCTabs.MISC);
-			registerItem(legs_tough, NCTabs.MISC);
-			registerItem(boots_tough, NCTabs.MISC);
+			registerItem(helm_tough, NCTabs.misc());
+			registerItem(chest_tough, NCTabs.misc());
+			registerItem(legs_tough, NCTabs.misc());
+			registerItem(boots_tough, NCTabs.misc());
 		}
 		
 		if (register_armor[2]) {
-			registerItem(helm_hard_carbon, NCTabs.MISC);
-			registerItem(chest_hard_carbon, NCTabs.MISC);
-			registerItem(legs_hard_carbon, NCTabs.MISC);
-			registerItem(boots_hard_carbon, NCTabs.MISC);
+			registerItem(helm_hard_carbon, NCTabs.misc());
+			registerItem(chest_hard_carbon, NCTabs.misc());
+			registerItem(legs_hard_carbon, NCTabs.misc());
+			registerItem(boots_hard_carbon, NCTabs.misc());
 		}
 		
 		if (register_armor[3]) {
-			registerItem(helm_boron_nitride, NCTabs.MISC);
-			registerItem(chest_boron_nitride, NCTabs.MISC);
-			registerItem(legs_boron_nitride, NCTabs.MISC);
-			registerItem(boots_boron_nitride, NCTabs.MISC);
+			registerItem(helm_boron_nitride, NCTabs.misc());
+			registerItem(chest_boron_nitride, NCTabs.misc());
+			registerItem(legs_boron_nitride, NCTabs.misc());
+			registerItem(boots_boron_nitride, NCTabs.misc());
 		}
 		
-		registerItem(helm_hazmat, NCTabs.RADIATION);
-		registerItem(chest_hazmat, NCTabs.RADIATION);
-		registerItem(legs_hazmat, NCTabs.RADIATION);
-		registerItem(boots_hazmat, NCTabs.RADIATION);
+		registerItem(helm_hazmat, NCTabs.radiation());
+		registerItem(chest_hazmat, NCTabs.radiation());
+		registerItem(legs_hazmat, NCTabs.radiation());
+		registerItem(boots_hazmat, NCTabs.radiation());
 	}
 	
 	public static void registerRenders() {

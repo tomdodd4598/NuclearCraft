@@ -1,6 +1,6 @@
 package nc.block.tile;
 
-import nc.enumm.BlockEnums.SimpleTileType;
+import nc.handler.TileInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,30 +12,30 @@ import net.minecraftforge.fml.relauncher.*;
 
 public class BlockSimpleTile extends BlockTile implements ITileType {
 	
-	private final SimpleTileType type;
+	protected final BlockSimpleTileInfo<?> tileInfo;
 	
-	public BlockSimpleTile(SimpleTileType type) {
+	public BlockSimpleTile(String name) {
 		super(Material.IRON);
-		this.type = type;
-		setCreativeTab(type.getCreativeTab());
+		tileInfo = TileInfo.getBlockSimpleTileInfo(name);
+		setCreativeTab(tileInfo.getCreativeTab());
 	}
 	
 	@Override
 	public String getTileName() {
-		return type.getName();
+		return tileInfo.getName();
 	}
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return type.getTile();
+		return tileInfo.getNewTile();
 	}
 	
 	public static class Transparent extends BlockSimpleTile {
 		
 		protected final boolean smartRender;
 		
-		public Transparent(SimpleTileType type, boolean smartRender) {
-			super(type);
+		public Transparent(String name, boolean smartRender) {
+			super(name);
 			setHardness(1.5F);
 			setResistance(10F);
 			this.smartRender = smartRender;
