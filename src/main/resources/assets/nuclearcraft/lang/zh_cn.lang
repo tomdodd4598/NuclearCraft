@@ -32,7 +32,7 @@ info.nuclearcraft.moderator.efficiency.fixd=效率倍率：%s
 
 # info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多 %s 个共线的减速剂和分别位于两个末端的两个单元或容器 或 最多 %s 个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它 是一条线路中的一部分 并 与至少一个有效的末端单元或容器相邻 时才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至 另一个单元或容器 或 一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
 
-tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-石墨中子反射器
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-碳中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
 
 info.nuclearcraft.reflector.fixd=裂变反应堆反射器
@@ -1607,11 +1607,12 @@ item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
 item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅陶瓷基复合材料锭
 # 碳化硅纤维增韧型碳化硅陶瓷基复合材料
+# 碳化硅-碳化硅陶瓷基复合材料
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
 item.nuclearcraft.alloy.zirconium_molybdenum.name=锆钼合金锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
-item.nuclearcraft.compound.crystal_binder.name=水晶粘合剂
+item.nuclearcraft.compound.crystal_binder.name=晶体粘合剂
 item.nuclearcraft.compound.energetic_blend.name=充能混合物
 item.nuclearcraft.compound.sodium_fluoride.name=氟化钠
 item.nuclearcraft.compound.potassium_fluoride.name=氟化钾
@@ -1620,7 +1621,7 @@ item.nuclearcraft.compound.potassium_hydroxide.name=氢氧化钾
 item.nuclearcraft.compound.borax.name=硼砂
 item.nuclearcraft.compound.irradiated_borax.name=辐照硼砂
 item.nuclearcraft.compound.dimensional_blend.name=维度混合物
-item.nuclearcraft.compound.c_mn_blend.name=碳-锰混合物
+item.nuclearcraft.compound.c_mn_blend.name=碳锰混合物
 item.nuclearcraft.compound.alugentum.name=银铝粉
 
 item.nuclearcraft.part.plate_basic.name=基础板
@@ -1649,7 +1650,7 @@ item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠—
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
-item.nuclearcraft.fission_dust.tbp.name=镤-浓缩钍粉
+item.nuclearcraft.fission_dust.tbp.name=镤浓缩钍粉
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233 粉
 item.nuclearcraft.fission_dust.strontium_90.name=锶-90 粉
 item.nuclearcraft.fission_dust.molybdenum.name=钼粉
@@ -3495,7 +3496,7 @@ modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料�
 # Lindt
 modifier.uplifting.name=振奋
 modifier.uplifting.desc=§o今天我们奋战！§r\n在你使用你的工具时偶尔恢复生命值。
-# Megadeth or LotR Movies
+# LotR Movies, not Megadeth
 modifier.withering.name=凋零
 modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。
 # Patti Lather's Book or Hannibal
@@ -3553,9 +3554,9 @@ death.attack.fatal_rads=%s 受到了致命剂量的辐射
 
 # 指导手册
 
-nc.guide_book.name=核电工艺手册
+nc.guide_book.name=核电工艺指导手册
 nc.guide_book.edition=重制版
-nc.guide_book.desc=核电工艺是一个以核能发电为中心的科技模组。尽管出于对游戏体验的考虑存有一定的简化、更改及抽象，本模组的多数特性与机制都以对应的现实科技为基础。
+nc.guide_book.desc=核电工艺是一个以核能发电为中心的科技模组。为了游戏体验，这些特性比之现实，有大幅简化与抽象，故和现实有一定差异。
 
 # 字符串
 
@@ -3751,6 +3752,7 @@ nc.sf.with=
 ############# active valid functional 有效
 ############# 中子防护屏open 我咋还没翻译呢？？？
 ############# factor 系数
+############# 合金和混合物中的「-」（连接符） 删了，中文一般不用加
 ############# multiplier 倍率
 ############# enhanced(moarFuels) 增强
 ############# pit 核心/core 弹芯
@@ -3769,6 +3771,8 @@ nc.sf.with=
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 # 极其重要
+# 不要把 NC/NCO 自身的语言文件放进来！由于 NC 与 NCO 的 ModID 相同，本库不容纳核电本体的翻译。
+# 可以放 NCO 的手册，因为 NC 没有手册
 # 由于语言文件加载时会把所有 key 整合到一个 map 里，基于 CrT/CoT/NCO 的脚本组件（script-addon）的会全部存在这
 # 标好 CurseForge 地址、版本、中英名称
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
@@ -6223,7 +6227,7 @@ fluid.depleted_cbcf_fluoride_flibe=熔融枯竭 锔增殖锎 氟化物燃料
 #=================================================================================================================#
 # https://www.curseforge.com/minecraft/customization/nuclearcraft-overhauled-unrealistic-turbine
 # NCOUTO+v1.6
-# 非真实涡轮机丨Nuclearcraft: Overhauled Unrealistic Turbine Overhaul
+# 不真实涡轮机丨Nuclearcraft: Overhauled Unrealistic Turbine Overhaul
 #-----------------------------------------------------------------------------------------------------------------#
 tile.nuclearcraft.turbine_dynamo_coil_redstone.name=红石涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil_graphite.name=石墨涡轮机发电机线圈
@@ -6454,44 +6458,44 @@ item.nuclearcraft.thoriumfuels.bat248_za.name=活化钍锫-248-锆合金燃料�
 item.nuclearcraft.thoriumfuels.cfat249_za.name=活化钍锎-249-锆合金燃料丸
 item.nuclearcraft.thoriumfuels.cfat251_za.name=活化钍锎-251-锆合金燃料丸
 
-item.nuclearcraft.thoriumfuels.depleted_uat233_ni.name=活化钍枯竭 铀-233 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_uat235_ni.name=活化钍枯竭 铀-235 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_nat236_ni.name=活化钍枯竭 镎-236 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat239_ni.name=活化钍枯竭 钚-239 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat241_ni.name=活化钍枯竭 钚-241 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_aat242_ni.name=活化钍枯竭 镅-242 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat243_ni.name=活化钍枯竭 锔-243 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat245_ni.name=活化钍枯竭 锔-245 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat247_ni.name=活化钍枯竭 锔-247 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_bat248_ni.name=活化钍枯竭 锫-248 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat249_ni.name=活化钍枯竭 锎-249 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat251_ni.name=活化钍枯竭 锎-251 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat233_ni.name=枯竭 活化钍铀-233 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat235_ni.name=枯竭 活化钍铀-235 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_nat236_ni.name=枯竭 活化钍镎-236 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat239_ni.name=枯竭 活化钍钚-239 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat241_ni.name=枯竭 活化钍钚-241 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_aat242_ni.name=枯竭 活化钍镅-242 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat243_ni.name=枯竭 活化钍锔-243 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat245_ni.name=枯竭 活化钍锔-245 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat247_ni.name=枯竭 活化钍锔-247 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_bat248_ni.name=枯竭 活化钍锫-248 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat249_ni.name=枯竭 活化钍锎-249 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat251_ni.name=枯竭 活化钍锎-251 氮化物燃料丸
 
-item.nuclearcraft.thoriumfuels.depleted_uat233_ox.name=活化钍枯竭 铀-233 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_uat235_ox.name=活化钍枯竭 铀-235 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_nat236_ox.name=活化钍枯竭 镎-236 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat239_ox.name=活化钍枯竭 钚-239 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat241_ox.name=活化钍枯竭 钚-241 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_aat242_ox.name=活化钍枯竭 镅-242 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat243_ox.name=活化钍枯竭 锔-243 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat245_ox.name=活化钍枯竭 锔-245 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat247_ox.name=活化钍枯竭 锔-247 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_bat248_ox.name=活化钍枯竭 锫-248 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat249_ox.name=活化钍枯竭 锎-249 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat251_ox.name=活化钍枯竭 锎-251 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat233_ox.name=枯竭 活化钍铀-233 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat235_ox.name=枯竭 活化钍铀-235 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_nat236_ox.name=枯竭 活化钍镎-236 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat239_ox.name=枯竭 活化钍钚-239 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat241_ox.name=枯竭 活化钍钚-241 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_aat242_ox.name=枯竭 活化钍镅-242 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat243_ox.name=枯竭 活化钍锔-243 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat245_ox.name=枯竭 活化钍锔-245 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat247_ox.name=枯竭 活化钍锔-247 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_bat248_ox.name=枯竭 活化钍锫-248 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat249_ox.name=枯竭 活化钍锎-249 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat251_ox.name=枯竭 活化钍锎-251 氧化物燃料丸
 
-item.nuclearcraft.thoriumfuels.depleted_uat233_za.name=活化钍枯竭 铀-233-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_uat235_za.name=活化钍枯竭 铀-235-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_nat236_za.name=活化钍枯竭 镎-236-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat239_za.name=活化钍枯竭 钚-239-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat241_za.name=活化钍枯竭 钚-241-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_aat242_za.name=活化钍枯竭 镅-242-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat243_za.name=活化钍枯竭 锔-243-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat245_za.name=活化钍枯竭 锔-245-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat247_za.name=活化钍枯竭 锔-247-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_bat248_za.name=活化钍枯竭 锫-248-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat249_za.name=活化钍枯竭 锎-249-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat251_za.name=活化钍枯竭 锎-251-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat233_za.name=枯竭 活化钍铀-233-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat235_za.name=枯竭 活化钍铀-235-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_nat236_za.name=枯竭 活化钍镎-236-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat239_za.name=枯竭 活化钍钚-239-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat241_za.name=枯竭 活化钍钚-241-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_aat242_za.name=枯竭 活化钍镅-242-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat243_za.name=枯竭 活化钍锔-243-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat245_za.name=枯竭 活化钍锔-245-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat247_za.name=枯竭 活化钍锔-247-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_bat248_za.name=枯竭 活化钍锫-248-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat249_za.name=枯竭 活化钍锎-249-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat251_za.name=枯竭 活化钍锎-251-锆合金燃料丸
 #=================================================================================================================#
 
 #=================================================================================================================#
@@ -6499,8 +6503,6 @@ item.nuclearcraft.thoriumfuels.depleted_cfat251_za.name=活化钍枯竭 锎-251-
 # MoarHeatSinks-1.4.1
 # 更多散热器丨Moar Heat Sinks
 #-----------------------------------------------------------------------------------------------------------------#
-# https://github.com/CFPAOrg/Minecraft-Mod-Language-Package/pull/1616
-
 tile.nuclearcraft.solid_fission_sink_steel.name=钢裂变散热器
 tile.nuclearcraft.solid_fission_sink_ferroboron.name=硼铁合金裂变散热器
 tile.nuclearcraft.solid_fission_sink_tough_alloy.name=高强合金裂变散热器
