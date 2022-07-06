@@ -27,6 +27,8 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	protected final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	protected final boolean isShapeless;
 	
+	public List<List<String>> validFluids = null;
+	
 	public BasicRecipeHandler(@Nonnull String name, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
 		this(name, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
 	}
@@ -243,6 +245,12 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	@ZenMethod
 	public boolean isShapeless() {
 		return isShapeless;
+	}
+	
+	@Override
+	public void init() {
+		super.init();
+		validFluids = RecipeHelper.validFluids(this);
 	}
 	
 	@Override

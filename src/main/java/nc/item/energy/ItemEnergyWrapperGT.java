@@ -7,7 +7,7 @@ import java.util.function.BiConsumer;
 
 import gregtech.api.capability.IElectricItem;
 import nc.tile.internal.energy.EnergyStorage;
-import nc.util.EnergyHelper;
+import nc.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
@@ -45,7 +45,7 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 			if (!ignoreTransferLimit) {
 				amount = Math.min(amount, EnergyHelper.getMaxEUFromTier(energyTier));
 			}
-			int charged = (int) Math.min(Math.min(amount, getMaxCharge() - getCharge()), Integer.MAX_VALUE);
+			int charged = NCMath.toInt(Math.min(amount, getMaxCharge() - getCharge()));
 			if (!simulate) {
 				changeCharge(charged);
 			}
@@ -61,7 +61,7 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 			if (!ignoreTransferLimit) {
 				amount = Math.min(amount, EnergyHelper.getMaxEUFromTier(energyTier));
 			}
-			int discharged = (int) Math.min(Math.min(amount, getCharge()), Integer.MAX_VALUE);
+			int discharged = NCMath.toInt(Math.min(amount, getCharge()));
 			if (!simulate) {
 				changeCharge(-discharged);
 			}
@@ -75,9 +75,9 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 		return storage.getEnergyStored() / rf_per_eu;
 	}
 	
-	public void changeCharge(int change) {
+	public void changeCharge(long change) {
 		storage.changeEnergyStored(change * rf_per_eu);
-		listeners.forEach(listener -> listener.accept(stack, (long) change));
+		listeners.forEach(listener -> listener.accept(stack, change));
 	}
 	
 	@Override

@@ -44,8 +44,8 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 					boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 					if (accessedTanks) {
 						if (master instanceof IProcessor) {
-							((IProcessor) master).refreshRecipe();
-							((IProcessor) master).refreshActivity();
+							((IProcessor<?>) master).refreshRecipe();
+							((IProcessor<?>) master).refreshActivity();
 						}
 						return true;
 					}

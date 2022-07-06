@@ -4,7 +4,7 @@ import static nc.config.NCConfig.rf_per_eu;
 
 import gregtech.api.capability.IEnergyContainer;
 import nc.tile.energy.ITileEnergy;
-import nc.util.EnergyHelper;
+import nc.util.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Optional;
@@ -27,7 +27,7 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 			return 0L;
 		}
 		long amperesAccepted = Math.min(1L + MathHelper.floor((tile.getMaxEnergyStored() - tile.getEnergyStored()) / (double) rf_per_eu) / voltage, Math.min(amperage, getInputAmperage()));
-		tile.getEnergyStorage().changeEnergyStored((int) Math.min(voltage * amperesAccepted * rf_per_eu, Integer.MAX_VALUE));
+		tile.getEnergyStorage().changeEnergyStored(NCMath.toInt(voltage * amperesAccepted * rf_per_eu));
 		return amperesAccepted;
 	}
 	
@@ -45,7 +45,7 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 	
 	@Override
 	public long changeEnergy(long differenceAmount) {
-		int amount = (int) Math.min(differenceAmount, Integer.MAX_VALUE);
+		int amount = NCMath.toInt(differenceAmount);
 		int energyReceived = tile.getEnergyStorage().receiveEnergy(rf_per_eu * amount, true);
 		tile.receiveEnergy(energyReceived, side, false);
 		return amount - energyReceived / rf_per_eu;

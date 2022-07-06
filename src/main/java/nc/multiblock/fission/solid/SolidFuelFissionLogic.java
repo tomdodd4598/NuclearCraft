@@ -23,6 +23,7 @@ import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 
@@ -197,10 +198,10 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		
 		double usedInput = Math.min(tanks.get(0).getFluidAmount(), getEffectiveHeat() / heatPerMB);
-		heatingRecipeRate = heatingOutputRateFP = Math.min(Integer.MAX_VALUE, Math.min((tanks.get(1).getCapacity() - tanks.get(1).getFluidAmount()) / productSize, usedInput / inputSize));
-		reservedEffectiveHeat += (heatingRecipeRate - (int) heatingRecipeRate) * inputSize * heatPerMB;
+		heatingRecipeRate = heatingOutputRateFP = NCMath.toInt(Math.min((tanks.get(1).getCapacity() - tanks.get(1).getFluidAmount()) / productSize, usedInput / inputSize));
+		reservedEffectiveHeat += (heatingRecipeRate - NCMath.toInt(heatingRecipeRate)) * inputSize * heatPerMB;
 		
-		int extraRecipeRate = (int) Math.min(Integer.MAX_VALUE - heatingRecipeRate, reservedEffectiveHeat / (heatPerMB * inputSize));
+		int extraRecipeRate = NCMath.toInt(Math.min(Integer.MAX_VALUE - heatingRecipeRate, reservedEffectiveHeat / (heatPerMB * inputSize)));
 		heatingRecipeRate += extraRecipeRate;
 		reservedEffectiveHeat -= extraRecipeRate * inputSize * heatPerMB;
 		

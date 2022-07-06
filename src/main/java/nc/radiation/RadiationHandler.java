@@ -49,6 +49,8 @@ public class RadiationHandler {
 	public static boolean default_rad_immunity = false;
 	public static String[] rad_immunity_stages = new String[] {};
 	
+	public static BasicRecipeHandler radiation_block_purification = null;
+	
 	@SubscribeEvent
 	public void updatePlayerRadiation(TickEvent.PlayerTickEvent event) {
 		if (radiation_enabled_public && !radiation_require_counter && event.phase == TickEvent.Phase.START && event.side == Side.CLIENT) {
@@ -458,7 +460,7 @@ public class RadiationHandler {
 			
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<BasicRecipe> mutationInfo = NCRecipes.radiation_block_mutation.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+				RecipeInfo<BasicRecipe> mutationInfo = getRadiationBlockPurificationRecipeHandler().getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 				if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
 					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
 					if (output != null) {
@@ -478,7 +480,7 @@ public class RadiationHandler {
 			IBlockState state = world.getBlockState(randomChunkPos);
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<BasicRecipe> mutationInfo = NCRecipes.radiation_block_purification.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+				RecipeInfo<BasicRecipe> mutationInfo = getRadiationBlockPurificationRecipeHandler().getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
 				if (mutationInfo != null && radiation < mutationInfo.getRecipe().getBlockMutationThreshold()) {
 					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
 					if (output != null) {
@@ -490,6 +492,13 @@ public class RadiationHandler {
 				}
 			}
 		}
+	}
+	
+	private static BasicRecipeHandler getRadiationBlockPurificationRecipeHandler() {
+		if (radiation_block_purification == null) {
+			radiation_block_purification = NCRecipes.getHandler("radiation_block_purification");
+		}
+		return radiation_block_purification;
 	}
 	
 	public static void playGeigerSound(EntityPlayer player) {

@@ -25,7 +25,7 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 	public BlockProcessor(String name) {
 		super(Material.IRON);
 		tileInfo = TileInfoHandler.getBlockProcessorInfo(name);
-		CreativeTabs tab = tileInfo.getCreativeTab();
+		CreativeTabs tab = tileInfo.creativeTab;
 		if (tab != null) {
 			setCreativeTab(tab);
 		}
@@ -33,7 +33,7 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 	
 	@Override
 	public String getTileName() {
-		return tileInfo.getName();
+		return tileInfo.name;
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 		if (!state.getValue(ACTIVE)) {
 			return;
 		}
-		for (String particle : tileInfo.getParticles()) {
+		for (String particle : tileInfo.particles) {
 			BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), particle);
 		}
 	}

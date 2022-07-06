@@ -2,6 +2,8 @@ v2o.6.2
 
 * Fixed crash when GTCEu is installed [thanks to DStrand1!]
 
+* Attempted to prevent crashes caused by unexpected null multiblocks [thanks to thedeadferryman!]
+
 * Fixed rhodochrosite smelting info tooltip
 
 * Updated Chinese language file [thanks to WuzgXY and TheRealKamisama!]

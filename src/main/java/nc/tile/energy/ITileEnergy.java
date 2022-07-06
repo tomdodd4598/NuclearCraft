@@ -13,7 +13,7 @@ import nc.tile.ITile;
 import nc.tile.internal.energy.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.passive.ITilePassive;
-import nc.util.EnergyHelper;
+import nc.util.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -227,7 +227,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
 				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored() / rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getSourceTier()));
-				getEnergyStorage().extractEnergy((int) Math.min(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu, Integer.MAX_VALUE), false);
+				getEnergyStorage().extractEnergy(NCMath.toInt(voltage * adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1) * rf_per_eu), false);
 				return;
 			}
 		}

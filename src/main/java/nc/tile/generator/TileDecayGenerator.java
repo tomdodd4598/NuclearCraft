@@ -20,12 +20,14 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	Random rand = new Random();
 	public int tickCount;
 	
+	protected final BasicRecipeHandler recipeHandler;
 	protected BasicRecipe[] recipes = new BasicRecipe[6];
 	
 	protected int generatorCount;
 	
 	public TileDecayGenerator() {
 		super(2 * RecipeStats.getDecayGeneratorMaxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
+		recipeHandler = NCRecipes.getHandler("decay_generator");
 	}
 	
 	@Override
@@ -99,7 +101,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	}
 	
 	public void refreshRecipe(EnumFacing side) {
-		recipes[side.getIndex()] = RecipeHelper.blockRecipe(NCRecipes.decay_generator, world, pos.offset(side));
+		recipes[side.getIndex()] = RecipeHelper.blockRecipe(recipeHandler, world, pos.offset(side));
 	}
 	
 	// IC2

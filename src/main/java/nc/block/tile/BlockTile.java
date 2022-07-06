@@ -72,8 +72,8 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 			if (accessedTanks) {
 				if (tile instanceof IProcessor) {
-					((IProcessor) tile).refreshRecipe();
-					((IProcessor) tile).refreshActivity();
+					((IProcessor<?>) tile).refreshRecipe();
+					((IProcessor<?>) tile).refreshActivity();
 				}
 				return true;
 			}
@@ -86,8 +86,8 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			else {
 				onGuiOpened(world, pos);
 				if (tile instanceof IProcessor) {
-					((IProcessor) tile).refreshRecipe();
-					((IProcessor) tile).refreshActivity();
+					((IProcessor<?>) tile).refreshRecipe();
+					((IProcessor<?>) tile).refreshActivity();
 				}
 				((ITileGui<?, ?>) tile).openGui(world, pos, player);
 			}

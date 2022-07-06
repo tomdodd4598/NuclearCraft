@@ -1579,7 +1579,6 @@ item.nuclearcraft.gem.silicon.name=Silicon
 
 item.nuclearcraft.gem_dust.diamond.name=Crushed Diamond
 item.nuclearcraft.gem_dust.rhodochrosite.name=Crushed Rhodochrosite
-item.nuclearcraft.gem_dust.rhodochrosite.desc=Smelt twice to produce a manganese oxide ingot, and once more to produce a manganese ingot.
 item.nuclearcraft.gem_dust.quartz.name=Crushed Quartz
 item.nuclearcraft.gem_dust.obsidian.name=Crushed Obsidian
 item.nuclearcraft.gem_dust.boron_nitride.name=Hexagonal Boron Nitride

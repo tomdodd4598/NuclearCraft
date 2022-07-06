@@ -4,19 +4,46 @@ import static nc.config.NCConfig.*;
 
 import java.util.List;
 
+import nc.handler.TileInfoHandler;
 import nc.init.NCItems;
-import nc.util.StackHelper;
+import nc.recipe.*;
+import nc.tile.energy.ITileEnergy;
+import nc.tile.fluid.ITileFluid;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
+import nc.util.*;
 import net.minecraft.item.ItemStack;
 
 public class TileBasicUpgradeProcessor extends TileAbstractProcessor<BasicUpgradeProcessorContainerInfo<?>> implements IBasicUpgradable {
 	
-	public TileBasicUpgradeProcessor(String name, List<List<String>> allowedFluids, double baseProcessTime, double baseProcessPower) {
-		super(name, allowedFluids, baseProcessTime, baseProcessPower);
+	protected TileBasicUpgradeProcessor(String name) {
+		this(name, (BasicUpgradeProcessorContainerInfo<?>) TileInfoHandler.getContainerInfoProcessorInfo(name));
+	}
+	
+	protected TileBasicUpgradeProcessor(String name, BasicUpgradeProcessorContainerInfo<?> containerInfo) {
+		super(name, containerInfo, ITileInventory.inventoryConnectionAll(defaultItemSorptions(containerInfo)), energyCapacity(containerInfo, 1D, 1D), ITileEnergy.energyConnectionAll(defaultEnergyConnection(containerInfo)), IProcessor.defaultTankCapacities(containerInfo), NCRecipes.getValidFluids(name), ITileFluid.fluidConnectionAll(IProcessor.defaultTankSorptions(containerInfo)));
+	}
+	
+	public static int energyCapacity(ProcessorContainerInfo<?> containerInfo, double speedMultiplier, double powerMultiplier) {
+		String name = containerInfo.name;
+		return NCMath.toInt(Math.ceil(RecipeStats.getProcessorMaxBaseProcessTime(name) / speedMultiplier) * Math.ceil(RecipeStats.getProcessorMaxBaseProcessPower(name) * powerMultiplier));
+	}
+	
+	public static EnergyConnection defaultEnergyConnection(ProcessorContainerInfo<?> containerInfo) {
+		return containerInfo.defaultProcessPower == 0 ? EnergyConnection.NON : EnergyConnection.IN;
+	}
+	
+	public static List<ItemSorption> defaultItemSorptions(ProcessorContainerInfo<?> containerInfo) {
+		List<ItemSorption> itemSorptions = IProcessor.defaultItemSorptions(containerInfo);
+		itemSorptions.add(ItemSorption.IN);
+		itemSorptions.add(ItemSorption.IN);
+		return itemSorptions;
 	}
 	
 	@Override
 	public void refreshEnergyCapacity() {
-		int capacity = IProcessor.energyCapacity(containerInfo, getSpeedMultiplier(), getPowerMultiplier());
+		int capacity = energyCapacity(containerInfo, getSpeedMultiplier(), getPowerMultiplier());
 		getEnergyStorage().setStorageCapacity(capacity);
 		getEnergyStorage().setMaxTransfer(capacity);
 	}
@@ -49,11 +76,11 @@ public class TileBasicUpgradeProcessor extends TileAbstractProcessor<BasicUpgrad
 	public ItemStack decrStackSize(int slot, int amount) {
 		ItemStack stack = super.decrStackSize(slot, amount);
 		if (!world.isRemote) {
-			if (slot < getItemInputSize()) {
+			if (slot < containerInfo.itemInputSize) {
 				refreshRecipe();
 				refreshActivity();
 			}
-			else if (slot < getItemInputSize() + getItemOutputSize()) {
+			else if (slot < containerInfo.itemInputSize + containerInfo.itemOutputSize) {
 				refreshActivity();
 			}
 			else if (slot == getSpeedUpgradeSlot() || slot == getEnergyUpgradeSlot()) {
