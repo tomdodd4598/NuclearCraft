@@ -79,7 +79,6 @@ minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
 	replace "@VERSION@", "${mod_version}"
-	replace "required-after:forge;", "required-after:forge@[14.23.5.2860,);"
 	mappings = "${mapping_version}"
 	makeObfSourceJar = true
 }

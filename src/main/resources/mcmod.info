@@ -11,5 +11,5 @@
 	"logoFile": "logo.png",
 	"screenshots": [],
 	"dependencies": [],
-    "requiredMods": ["forge@[14.23.5.2860,)"]
+    "requiredMods": ["forge@[14.23.5.2847,)"]
 }]
