@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeFluidMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class SupercoolerCategory extends JEIMachineCategory<JEIRecipeWrapper.Supercooler> {
+public class SupercoolerCategory extends JEIMachineCategory<JEIRecipe.Supercooler> {
 	
-	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Supercooler> handler) {
+	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Supercooler> handler) {
 		super(guiHelper, handler, "supercooler", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Supercooler recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Supercooler recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

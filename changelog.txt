@@ -1,4 +1,4 @@
-v2o.6.2
+v2o.6.3
 
 * Fixed crash when GTCEu is installed [thanks to DStrand1!]
 
@@ -8,6 +8,10 @@ v2o.6.2
 
 * Updated Chinese language file [thanks to WuzgXY and TheRealKamisama!]
 * Updated Russian language file [thanks to thedeadferryman!]
+
+v2o.6.2
+
+* The requirement of Forge 14.23.5.2860 has been replaced by a requirement of Forge 14.23.5.2847 or above
 
 v2o.6.1
 

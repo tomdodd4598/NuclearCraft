@@ -1,24 +1,30 @@
 package nc.container.processor;
 
 import nc.container.ContainerTile;
-import nc.tile.processor.ITileSideConfigGui;
+import nc.network.tile.ProcessorUpdatePacket;
+import nc.tile.processor.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
-public class ContainerMachineConfig<T extends ITileSideConfigGui<?>> extends ContainerTile<T> {
+public class ContainerMachineConfig<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends ContainerTile<TILE, ProcessorUpdatePacket, INFO> {
 	
-	public ContainerMachineConfig(EntityPlayer player, T tile) {
+	public ContainerMachineConfig(EntityPlayer player, TILE tile) {
 		super(tile);
 		
+		addPlayerSlots(player);
+	}
+	
+	protected void addPlayerSlots(EntityPlayer player) {
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + tile.getSideConfigXOffset() + 18 * j, 84 + tile.getSideConfigYOffset() + 18 * i));
+				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + info.playerGuiX + 18 * j, 84 + info.playerGuiY + 18 * i));
 			}
 		}
 		
 		for (int i = 0; i < 9; ++i) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + tile.getSideConfigXOffset() + 18 * i, 142 + tile.getSideConfigYOffset()));
+			addSlotToContainer(new Slot(player.inventory, i, 8 + info.playerGuiX + 18 * i, 142 + info.playerGuiY));
 		}
 	}
 	
@@ -26,9 +32,11 @@ public class ContainerMachineConfig<T extends ITileSideConfigGui<?>> extends Con
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
+		
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
+			
 			if (index < 0) {
 				if (!mergeItemStack(itemstack1, 0, 36, false)) {
 					return ItemStack.EMPTY;
@@ -48,12 +56,14 @@ public class ContainerMachineConfig<T extends ITileSideConfigGui<?>> extends Con
 			else if (!mergeItemStack(itemstack1, 0, 36, false)) {
 				return ItemStack.EMPTY;
 			}
+			
 			if (itemstack1.isEmpty()) {
 				slot.putStack(ItemStack.EMPTY);
 			}
 			else {
 				slot.onSlotChanged();
 			}
+			
 			if (itemstack1.getCount() == itemstack.getCount()) {
 				return ItemStack.EMPTY;
 			}

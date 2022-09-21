@@ -2,18 +2,22 @@ package nc.container;
 
 import javax.annotation.Nullable;
 
-import nc.tile.ITileGui;
+import nc.network.tile.TileUpdatePacket;
+import nc.tile.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.*;
 
-public class ContainerTile<T extends ITileGui<?>> extends NCContainer {
+public class ContainerTile<TILE extends TileEntity & ITileGui<TILE, PACKET, INFO>, PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<TILE>> extends NCContainer {
 	
 	protected final @Nullable IInventory inv;
+	protected final INFO info;
 	
-	public ContainerTile(T tile) {
+	public ContainerTile(TILE tile) {
 		super();
 		inv = tile instanceof IInventory ? (IInventory) tile : null;
+		info = tile.getContainerInfo();
 	}
 	
 	@Override

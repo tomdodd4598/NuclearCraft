@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeFluidMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class ChemicalReactorCategory extends JEIMachineCategory<JEIRecipeWrapper.ChemicalReactor> {
+public class ChemicalReactorCategory extends JEIMachineCategory<JEIRecipe.ChemicalReactor> {
 	
-	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.ChemicalReactor> handler) {
+	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.ChemicalReactor> handler) {
 		super(guiHelper, handler, "chemical_reactor", 31, 30, 130, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.ChemicalReactor recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.ChemicalReactor recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

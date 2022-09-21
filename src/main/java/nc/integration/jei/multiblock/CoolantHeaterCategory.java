@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CoolantHeaterCategory extends JEIMachineCategory<JEIRecipeWrapper.CoolantHeater> {
+public class CoolantHeaterCategory extends JEIMachineCategory<JEIRecipe.CoolantHeater> {
 	
-	public CoolantHeaterCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.CoolantHeater> handler) {
+	public CoolantHeaterCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.CoolantHeater> handler) {
 		super(guiHelper, handler, "salt_fission_heater", 45, 30, 102, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.CoolantHeater recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.CoolantHeater recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

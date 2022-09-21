@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.*;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class CrystallizerCategory extends JEIMachineCategory<JEIRecipeWrapper.Crystallizer> {
+public class CrystallizerCategory extends JEIMachineCategory<JEIRecipe.Crystallizer> {
 	
-	public CrystallizerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Crystallizer> handler) {
+	public CrystallizerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Crystallizer> handler) {
 		super(guiHelper, handler, "crystallizer", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Crystallizer recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Crystallizer recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

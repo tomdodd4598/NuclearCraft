@@ -6,7 +6,7 @@ import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerIngotFormer extends ContainerItemFluidProcessor<TileItemFluidProcessor> {
+public class ContainerIngotFormer extends ContainerProcessor<TileItemFluidProcessor> {
 	
 	public ContainerIngotFormer(EntityPlayer player, TileItemFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.ingot_former);

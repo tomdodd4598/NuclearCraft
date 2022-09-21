@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeItemMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class PressurizerCategory extends JEIMachineCategory<JEIRecipeWrapper.Pressurizer> {
+public class PressurizerCategory extends JEIMachineCategory<JEIRecipe.Pressurizer> {
 	
-	public PressurizerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Pressurizer> handler) {
+	public PressurizerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Pressurizer> handler) {
 		super(guiHelper, handler, "pressurizer", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Pressurizer recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Pressurizer recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

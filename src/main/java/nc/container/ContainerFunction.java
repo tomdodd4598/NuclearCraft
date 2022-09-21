@@ -1,10 +1,11 @@
 package nc.container;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
 @FunctionalInterface
 public interface ContainerFunction<TILE extends TileEntity> {
 	
-	Object apply(EntityPlayer player, TILE tile);
+	Container apply(EntityPlayer player, TILE tile);
 }

@@ -43,11 +43,11 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		}
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IBasicUpgradable) {
-			if (installUpgrade(tile, ((IBasicUpgradable) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) {
+		if (tile instanceof IBasicUpgradeProcessor) {
+			if (installUpgrade(tile, ((IBasicUpgradeProcessor) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) {
 				return true;
 			}
-			if (installUpgrade(tile, ((IBasicUpgradable) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) {
+			if (installUpgrade(tile, ((IBasicUpgradeProcessor) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) {
 				return true;
 			}
 		}

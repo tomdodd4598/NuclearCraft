@@ -248,7 +248,7 @@ public interface ITileInventory extends ITile, ISidedInventory {
 			
 			if (pushed) {
 				if (this instanceof IProcessor) {
-					((IProcessor<?>) this).refreshActivity();
+					((IProcessor<?, ?>) this).refreshActivity();
 				}
 				if (this instanceof ITilePort) {
 					((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);

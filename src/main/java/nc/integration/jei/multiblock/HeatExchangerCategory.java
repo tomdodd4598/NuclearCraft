@@ -11,14 +11,14 @@ import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
-public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipeWrapper.HeatExchanger> {
+public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipe.HeatExchanger> {
 	
-	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.HeatExchanger> handler) {
+	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.HeatExchanger> handler) {
 		super(guiHelper, handler, "heat_exchanger_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.HeatExchanger recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.HeatExchanger recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

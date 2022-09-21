@@ -26,7 +26,7 @@ public class TileInfoHandler {
 	private static final Object2ObjectMap<String, BlockSimpleTileInfo<?>> BLOCK_SIMPLE_TILE_INFO_MAP = new Object2ObjectOpenHashMap<>();
 	
 	private static final Object2ObjectMap<String, ProcessorBlockInfo<?>> BLOCK_PROCESSOR_INFO_MAP = new Object2ObjectOpenHashMap<>();
-	private static final Object2ObjectMap<String, ProcessorContainerInfo<?>> GUI_PROCESSOR_INFO_MAP = new Object2ObjectOpenHashMap<>();
+	private static final Object2ObjectMap<String, ProcessorContainerInfo<?, ?>> GUI_PROCESSOR_INFO_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public static void init() {
 		putBlockSimpleTileInfo("machine_interface", TileMachineInterface::new, NCTabs.machine());
@@ -54,45 +54,48 @@ public class TileInfoHandler {
 		
 		putBlockSimpleTileInfo("geiger_block", TileGeigerCounter::new, NCTabs.radiation());
 		
-		putProcessorInfo("manufactory", TileProcessor.Manufactory::new, Lists.newArrayList("reddust", "crit"), ContainerManufactory::new, GuiManufactory::new, ContainerMachineConfig::new, GuiManufactory.SideConfig::new, 1, 0, 1, 0, false);
-		putProcessorInfo("separator", TileProcessor.Separator::new, Lists.newArrayList("reddust", "smoke"));
-		putProcessorInfo("decay_hastener", TileProcessor.DecayHastener::new, Lists.newArrayList("reddust"));
-		putProcessorInfo("fuel_reprocessor", TileProcessor.FuelReprocessor::new, Lists.newArrayList("reddust", "smoke"));
-		putProcessorInfo("alloy_furnace", TileProcessor.AlloyFurnace::new, Lists.newArrayList("smoke", "reddust"));
-		putProcessorInfo("infuser", TileProcessor.Infuser::new, Lists.newArrayList("portal", "reddust"));
-		putProcessorInfo("melter", TileProcessor.Melter::new, Lists.newArrayList("flame", "lava"));
-		putProcessorInfo("supercooler", TileProcessor.Supercooler::new, Lists.newArrayList("snowshovel", "smoke"));
-		putProcessorInfo("electrolyzer", TileProcessor.Electrolyzer::new, Lists.newArrayList("reddust", "splash"));
-		putProcessorInfo("assembler", TileProcessor.Assembler::new, Lists.newArrayList("smoke", "crit"));
-		putProcessorInfo("ingot_former", TileProcessor.IngotFormer::new, Lists.newArrayList("smoke"));
-		putProcessorInfo("pressurizer", TileProcessor.Pressurizer::new, Lists.newArrayList("smoke"));
-		putProcessorInfo("chemical_reactor", TileProcessor.ChemicalReactor::new, Lists.newArrayList("reddust"));
-		putProcessorInfo("salt_mixer", TileProcessor.SaltMixer::new, Lists.newArrayList("reddust", "endRod"));
-		putProcessorInfo("crystallizer", TileProcessor.Crystallizer::new, Lists.newArrayList("depthsuspend"));
-		putProcessorInfo("enricher", TileProcessor.Enricher::new, Lists.newArrayList("splash", "depthsuspend"));
-		putProcessorInfo("extractor", TileProcessor.Extractor::new, Lists.newArrayList("reddust", "depthsuspend"));
-		putProcessorInfo("centrifuge", TileProcessor.Centrifuge::new, Lists.newArrayList("endRod", "depthsuspend"));
-		putProcessorInfo("rock_crusher", TileProcessor.RockCrusher::new, Lists.newArrayList("smoke"));
+		putProcessorInfo("manufactory", TileBasicProcessor.Manufactory::new, Lists.newArrayList("reddust", "crit"), ContainerManufactory::new, GuiManufactory::new, ContainerMachineConfig::new, GuiManufactory.SideConfig::new, 1, 0, 1, 0, false);
+		putProcessorInfo("separator", TileBasicProcessor.Separator::new, Lists.newArrayList("reddust", "smoke"));
+		putProcessorInfo("decay_hastener", TileBasicProcessor.DecayHastener::new, Lists.newArrayList("reddust"));
+		putProcessorInfo("fuel_reprocessor", TileBasicProcessor.FuelReprocessor::new, Lists.newArrayList("reddust", "smoke"));
+		putProcessorInfo("alloy_furnace", TileBasicProcessor.AlloyFurnace::new, Lists.newArrayList("smoke", "reddust"));
+		putProcessorInfo("infuser", TileBasicProcessor.Infuser::new, Lists.newArrayList("portal", "reddust"));
+		putProcessorInfo("melter", TileBasicProcessor.Melter::new, Lists.newArrayList("flame", "lava"));
+		putProcessorInfo("supercooler", TileBasicProcessor.Supercooler::new, Lists.newArrayList("snowshovel", "smoke"));
+		putProcessorInfo("electrolyzer", TileBasicProcessor.Electrolyzer::new, Lists.newArrayList("reddust", "splash"));
+		putProcessorInfo("assembler", TileBasicProcessor.Assembler::new, Lists.newArrayList("smoke", "crit"));
+		putProcessorInfo("ingot_former", TileBasicProcessor.IngotFormer::new, Lists.newArrayList("smoke"));
+		putProcessorInfo("pressurizer", TileBasicProcessor.Pressurizer::new, Lists.newArrayList("smoke"));
+		putProcessorInfo("chemical_reactor", TileBasicProcessor.ChemicalReactor::new, Lists.newArrayList("reddust"));
+		putProcessorInfo("salt_mixer", TileBasicProcessor.SaltMixer::new, Lists.newArrayList("reddust", "endRod"));
+		putProcessorInfo("crystallizer", TileBasicProcessor.Crystallizer::new, Lists.newArrayList("depthsuspend"));
+		putProcessorInfo("enricher", TileBasicProcessor.Enricher::new, Lists.newArrayList("splash", "depthsuspend"));
+		putProcessorInfo("extractor", TileBasicProcessor.Extractor::new, Lists.newArrayList("reddust", "depthsuspend"));
+		putProcessorInfo("centrifuge", TileBasicProcessor.Centrifuge::new, Lists.newArrayList("endRod", "depthsuspend"));
+		putProcessorInfo("rock_crusher", TileBasicProcessor.RockCrusher::new, Lists.newArrayList("smoke"));
 	}
 	
 	public static <TILE extends TileEntity> void putBlockSimpleTileInfo(String name, Supplier<TILE> tileSupplier, CreativeTabs creativeTab) {
 		BLOCK_SIMPLE_TILE_INFO_MAP.put(name, new BlockSimpleTileInfo<>(name, tileSupplier, creativeTab));
 	}
 	
-	public static BlockSimpleTileInfo<?> getBlockSimpleTileInfo(String name) {
-		return BLOCK_SIMPLE_TILE_INFO_MAP.get(name);
+	@SuppressWarnings("unchecked")
+	public static <TILE extends TileEntity, INFO extends BlockSimpleTileInfo<TILE>> INFO getBlockSimpleTileInfo(String name) {
+		return (INFO) BLOCK_SIMPLE_TILE_INFO_MAP.get(name);
 	}
 	
-	public static <TILE extends TileEntity> void putProcessorInfo(String name, Supplier<TILE> tileSupplier, List<String> particles, ContainerFunction<TILE> containerFunction, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean consumesInputs) {
+	public static <TILE extends TileEntity> void putProcessorInfo(String name, Supplier<TILE> tileSupplier, List<String> particles, ContainerFunction<TILE> containerFunction, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean consumesInputs, boolean losesProgress, int playerInventoryX, int playerInventoryY) {
 		BLOCK_PROCESSOR_INFO_MAP.put(name, new ProcessorBlockInfo<>(name, tileSupplier, particles));
-		GUI_PROCESSOR_INFO_MAP.put(name, new ProcessorContainerInfo<>(name, containerFunction, guiFunction, configContainerFunction, configGuiFunction, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, consumesInputs));
+		GUI_PROCESSOR_INFO_MAP.put(name, new ProcessorContainerInfo<>(name, containerFunction, guiFunction, configContainerFunction, configGuiFunction, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, consumesInputs, losesProgress, playerInventoryX, playerInventoryY));
 	}
 	
-	public static ProcessorBlockInfo<?> getBlockProcessorInfo(String name) {
-		return BLOCK_PROCESSOR_INFO_MAP.get(name);
+	@SuppressWarnings("unchecked")
+	public static <TILE extends TileEntity, INFO extends ProcessorBlockInfo<TILE>> INFO getBlockProcessorInfo(String name) {
+		return (INFO) BLOCK_PROCESSOR_INFO_MAP.get(name);
 	}
 	
-	public static ProcessorContainerInfo<?> getContainerInfoProcessorInfo(String name) {
-		return GUI_PROCESSOR_INFO_MAP.get(name);
+	@SuppressWarnings("unchecked")
+	public static <TILE extends TileProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> INFO getContainerInfoProcessorInfo(String name) {
+		return (INFO) GUI_PROCESSOR_INFO_MAP.get(name);
 	}
 }

@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeItemMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class DecayHastenerCategory extends JEIMachineCategory<JEIRecipeWrapper.DecayHastener> {
+public class DecayHastenerCategory extends JEIMachineCategory<JEIRecipe.DecayHastener> {
 	
-	public DecayHastenerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.DecayHastener> handler) {
+	public DecayHastenerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.DecayHastener> handler) {
 		super(guiHelper, handler, "decay_hastener", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.DecayHastener recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.DecayHastener recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

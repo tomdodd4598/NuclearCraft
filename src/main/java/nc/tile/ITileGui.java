@@ -7,11 +7,12 @@ import nc.handler.GuiHandler;
 import nc.network.PacketHandler;
 import nc.network.tile.TileUpdatePacket;
 import net.minecraft.entity.player.*;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
-public interface ITileGui<PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<?>> extends ITilePacket<PACKET> {
+public interface ITileGui<TILE extends TileEntity & ITileGui<TILE, PACKET, INFO>, PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<TILE>> extends ITilePacket<PACKET> {
 	
 	public INFO getContainerInfo();
 	

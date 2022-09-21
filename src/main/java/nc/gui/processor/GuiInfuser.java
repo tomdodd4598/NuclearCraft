@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiInfuser extends GuiItemFluidProcessor {
+public class GuiInfuser extends GuiProcessor {
 	
 	public GuiInfuser(EntityPlayer player, TileItemFluidProcessor tile) {
 		this(player, tile, new ContainerInfuser(player, tile));

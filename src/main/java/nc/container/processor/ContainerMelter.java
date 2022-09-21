@@ -6,7 +6,7 @@ import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerMelter extends ContainerItemFluidProcessor<TileItemFluidProcessor> {
+public class ContainerMelter extends ContainerProcessor<TileItemFluidProcessor> {
 	
 	public ContainerMelter(EntityPlayer player, TileItemFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.melter);

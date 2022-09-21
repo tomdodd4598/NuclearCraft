@@ -6,7 +6,7 @@ import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerEnricher extends ContainerItemFluidProcessor<TileItemFluidProcessor> {
+public class ContainerEnricher extends ContainerProcessor<TileItemFluidProcessor> {
 	
 	public ContainerEnricher(EntityPlayer player, TileItemFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.enricher);

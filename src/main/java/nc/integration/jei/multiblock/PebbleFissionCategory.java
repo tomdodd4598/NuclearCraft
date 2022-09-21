@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class PebbleFissionCategory extends JEIMachineCategory<JEIRecipeWrapper.PebbleFission> {
+public class PebbleFissionCategory extends JEIMachineCategory<JEIRecipe.PebbleFission> {
 	
-	public PebbleFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.PebbleFission> handler) {
+	public PebbleFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.PebbleFission> handler) {
 		super(guiHelper, handler, "pebble_fission_chamber", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.PebbleFission recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.PebbleFission recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

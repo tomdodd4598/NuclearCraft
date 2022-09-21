@@ -3,7 +3,7 @@ package nc.network.tile;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import nc.tile.ITileGui;
+import nc.tile.ITilePacket;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import net.minecraft.util.math.BlockPos;
@@ -59,10 +59,10 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		}
 	}
 	
-	public static class Handler extends TileUpdatePacket.Handler<ProcessorUpdatePacket, ITileGui<ProcessorUpdatePacket>> {
+	public static class Handler extends TileUpdatePacket.Handler<ProcessorUpdatePacket, ITilePacket<ProcessorUpdatePacket>> {
 		
 		@Override
-		protected void onTileUpdatePacket(ProcessorUpdatePacket message, ITileGui<ProcessorUpdatePacket> processor) {
+		protected void onTileUpdatePacket(ProcessorUpdatePacket message, ITilePacket<ProcessorUpdatePacket> processor) {
 			processor.onTileUpdatePacket(message);
 		}
 	}

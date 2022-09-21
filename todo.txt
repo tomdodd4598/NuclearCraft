@@ -2,9 +2,15 @@ QMD feature merge: nitrogen collector -> air collector
 
 Refactor BasicRecipe and BasicRecipeHandler subclasses to make recipes easier for addons
 
-Refactor multiblock NBT
+Refactor multiblock NBT?
 
-Refactor 'multiblock' packages, rename 'handler' package to 'event' and move out non-event classes
+Global turbine spin-up and spin-down multipliers
+
+Rename 'handler' package to 'event' and move out non-event classes
+
+Add lists of lambdas to parts of radiation tick loop for custom addon radiation logic
+
+GTCE EU: add multiblock hatches for energy input/output (configurable min/max tier), scale single-block generator amperage with configurable tier
 
 Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
 

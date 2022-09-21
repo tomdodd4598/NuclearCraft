@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeItemMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class AlloyFurnaceCategory extends JEIMachineCategory<JEIRecipeWrapper.AlloyFurnace> {
+public class AlloyFurnaceCategory extends JEIMachineCategory<JEIRecipe.AlloyFurnace> {
 	
-	public AlloyFurnaceCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.AlloyFurnace> handler) {
+	public AlloyFurnaceCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.AlloyFurnace> handler) {
 		super(guiHelper, handler, "alloy_furnace", 45, 30, 102, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.AlloyFurnace recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.AlloyFurnace recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

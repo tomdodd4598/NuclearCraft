@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CondenserCategory extends JEIMachineCategory<JEIRecipeWrapper.Condenser> {
+public class CondenserCategory extends JEIMachineCategory<JEIRecipe.Condenser> {
 	
-	public CondenserCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Condenser> handler) {
+	public CondenserCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Condenser> handler) {
 		super(guiHelper, handler, "condenser_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Condenser recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Condenser recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

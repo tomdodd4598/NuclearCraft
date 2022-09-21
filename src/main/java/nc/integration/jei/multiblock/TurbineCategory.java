@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class TurbineCategory extends JEIMachineCategory<JEIRecipeWrapper.Turbine> {
+public class TurbineCategory extends JEIMachineCategory<JEIRecipe.Turbine> {
 	
-	public TurbineCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Turbine> handler) {
+	public TurbineCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Turbine> handler) {
 		super(guiHelper, handler, "turbine_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Turbine recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Turbine recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

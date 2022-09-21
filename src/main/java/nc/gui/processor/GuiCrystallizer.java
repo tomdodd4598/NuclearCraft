@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiCrystallizer extends GuiItemFluidProcessor {
+public class GuiCrystallizer extends GuiProcessor {
 	
 	public GuiCrystallizer(EntityPlayer player, TileItemFluidProcessor tile) {
 		this(player, tile, new ContainerCrystallizer(player, tile));

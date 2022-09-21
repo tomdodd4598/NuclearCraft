@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeFluidMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class SaltMixerCategory extends JEIMachineCategory<JEIRecipeWrapper.SaltMixer> {
+public class SaltMixerCategory extends JEIMachineCategory<JEIRecipe.SaltMixer> {
 	
-	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.SaltMixer> handler) {
+	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.SaltMixer> handler) {
 		super(guiHelper, handler, "salt_mixer", 45, 30, 102, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.SaltMixer recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.SaltMixer recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

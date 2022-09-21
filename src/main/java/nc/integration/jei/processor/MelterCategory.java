@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.*;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class MelterCategory extends JEIMachineCategory<JEIRecipeWrapper.Melter> {
+public class MelterCategory extends JEIMachineCategory<JEIRecipe.Melter> {
 	
-	public MelterCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Melter> handler) {
+	public MelterCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Melter> handler) {
 		super(guiHelper, handler, "melter", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Melter recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Melter recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

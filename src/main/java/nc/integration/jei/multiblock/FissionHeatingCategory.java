@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class FissionHeatingCategory extends JEIMachineCategory<JEIRecipeWrapper.FissionHeating> {
+public class FissionHeatingCategory extends JEIMachineCategory<JEIRecipe.FissionHeating> {
 	
-	public FissionHeatingCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.FissionHeating> handler) {
+	public FissionHeatingCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.FissionHeating> handler) {
 		super(guiHelper, handler, "fission_vent", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.FissionHeating recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.FissionHeating recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

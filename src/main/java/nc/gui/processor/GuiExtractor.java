@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiExtractor extends GuiItemFluidProcessor {
+public class GuiExtractor extends GuiProcessor {
 	
 	public GuiExtractor(EntityPlayer player, TileItemFluidProcessor tile) {
 		this(player, tile, new ContainerExtractor(player, tile));

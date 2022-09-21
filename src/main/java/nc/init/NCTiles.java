@@ -29,25 +29,25 @@ public class NCTiles {
 	
 	public static void register() {
 		GameRegistry.registerTileEntity(TileNuclearFurnace.class, Global.MOD_ID + ":nuclear_furnace");
-		GameRegistry.registerTileEntity(TileProcessor.Manufactory.class, Global.MOD_ID + ":manufactory");
-		GameRegistry.registerTileEntity(TileProcessor.Separator.class, Global.MOD_ID + ":separator");
-		GameRegistry.registerTileEntity(TileProcessor.DecayHastener.class, Global.MOD_ID + ":decay_hastener");
-		GameRegistry.registerTileEntity(TileProcessor.FuelReprocessor.class, Global.MOD_ID + ":fuel_reprocessor");
-		GameRegistry.registerTileEntity(TileProcessor.AlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
-		GameRegistry.registerTileEntity(TileProcessor.Infuser.class, Global.MOD_ID + ":infuser");
-		GameRegistry.registerTileEntity(TileProcessor.Melter.class, Global.MOD_ID + ":melter");
-		GameRegistry.registerTileEntity(TileProcessor.Supercooler.class, Global.MOD_ID + ":supercooler");
-		GameRegistry.registerTileEntity(TileProcessor.Electrolyzer.class, Global.MOD_ID + ":electrolyzer");
-		GameRegistry.registerTileEntity(TileProcessor.Assembler.class, Global.MOD_ID + ":assembler");
-		GameRegistry.registerTileEntity(TileProcessor.IngotFormer.class, Global.MOD_ID + ":ingot_former");
-		GameRegistry.registerTileEntity(TileProcessor.Pressurizer.class, Global.MOD_ID + ":pressurizer");
-		GameRegistry.registerTileEntity(TileProcessor.ChemicalReactor.class, Global.MOD_ID + ":chemical_reactor");
-		GameRegistry.registerTileEntity(TileProcessor.SaltMixer.class, Global.MOD_ID + ":salt_mixer");
-		GameRegistry.registerTileEntity(TileProcessor.Crystallizer.class, Global.MOD_ID + ":crystallizer");
-		GameRegistry.registerTileEntity(TileProcessor.Enricher.class, Global.MOD_ID + ":enricher");
-		GameRegistry.registerTileEntity(TileProcessor.Extractor.class, Global.MOD_ID + ":extractor");
-		GameRegistry.registerTileEntity(TileProcessor.Centrifuge.class, Global.MOD_ID + ":centrifuge");
-		GameRegistry.registerTileEntity(TileProcessor.RockCrusher.class, Global.MOD_ID + ":rock_crusher");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Manufactory.class, Global.MOD_ID + ":manufactory");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Separator.class, Global.MOD_ID + ":separator");
+		GameRegistry.registerTileEntity(TileBasicProcessor.DecayHastener.class, Global.MOD_ID + ":decay_hastener");
+		GameRegistry.registerTileEntity(TileBasicProcessor.FuelReprocessor.class, Global.MOD_ID + ":fuel_reprocessor");
+		GameRegistry.registerTileEntity(TileBasicProcessor.AlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Infuser.class, Global.MOD_ID + ":infuser");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Melter.class, Global.MOD_ID + ":melter");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Supercooler.class, Global.MOD_ID + ":supercooler");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Electrolyzer.class, Global.MOD_ID + ":electrolyzer");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Assembler.class, Global.MOD_ID + ":assembler");
+		GameRegistry.registerTileEntity(TileBasicProcessor.IngotFormer.class, Global.MOD_ID + ":ingot_former");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Pressurizer.class, Global.MOD_ID + ":pressurizer");
+		GameRegistry.registerTileEntity(TileBasicProcessor.ChemicalReactor.class, Global.MOD_ID + ":chemical_reactor");
+		GameRegistry.registerTileEntity(TileBasicProcessor.SaltMixer.class, Global.MOD_ID + ":salt_mixer");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Crystallizer.class, Global.MOD_ID + ":crystallizer");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Enricher.class, Global.MOD_ID + ":enricher");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Extractor.class, Global.MOD_ID + ":extractor");
+		GameRegistry.registerTileEntity(TileBasicProcessor.Centrifuge.class, Global.MOD_ID + ":centrifuge");
+		GameRegistry.registerTileEntity(TileBasicProcessor.RockCrusher.class, Global.MOD_ID + ":rock_crusher");
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		

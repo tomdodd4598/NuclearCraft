@@ -38,13 +38,18 @@ public abstract class NCButton extends GuiButton {
 	@SideOnly(Side.CLIENT)
 	public static abstract class Image extends NCButton {
 		
-		public final ResourceLocation unpressedTexture = new ResourceLocation(Global.MOD_ID + ":textures/gui/buttons/off.png");
-		public final ResourceLocation pressedTexture = new ResourceLocation(Global.MOD_ID + ":textures/gui/buttons/on.png");
+		public static final String BUTTONS_OFF = Global.MOD_ID + ":textures/gui/buttons/off.png";
+		public static final String BUTTONS_ON = Global.MOD_ID + ":textures/gui/buttons/on.png";
+		
+		public final ResourceLocation unpressedTexture;
+		public final ResourceLocation pressedTexture;
 		protected int textureX, textureY;
 		protected int textureWidth, textureHeight;
 		
-		public Image(int id, int x, int y, int textureX, int textureY, int textureWidth, int textureHeight) {
+		public Image(int id, int x, int y, String unpressedTexture, String pressedTexture, int textureX, int textureY, int textureWidth, int textureHeight) {
 			super(id, x, y, textureWidth, textureHeight);
+			this.unpressedTexture = new ResourceLocation(unpressedTexture);
+			this.pressedTexture = new ResourceLocation(pressedTexture);
 			this.textureX = textureX;
 			this.textureY = textureY;
 			this.textureWidth = textureWidth;
@@ -55,9 +60,9 @@ public abstract class NCButton extends GuiButton {
 		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
 			if (visible) {
 				GL11.glColor4f(1F, 1F, 1F, 1F);
-				hovered = drawX >= this.x && drawY >= this.y && drawX < this.x + width && drawY < this.y + height;
+				hovered = drawX >= x && drawY >= y && drawX < x + width && drawY < y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
-				drawTexturedModalRect(this.x, this.y, textureX, textureY, textureWidth, textureHeight);
+				drawTexturedModalRect(x, y, textureX, textureY, textureWidth, textureHeight);
 			}
 		}
 		
@@ -86,7 +91,7 @@ public abstract class NCButton extends GuiButton {
 		@Override
 		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
 			if (visible) {
-				hovered = drawX >= this.x && drawY >= this.y && drawX < this.x + width && drawY < this.y + height;
+				hovered = drawX >= x && drawY >= y && drawX < x + width && drawY < y + height;
 				itemRenderer.draw();
 			}
 		}
@@ -121,78 +126,80 @@ public abstract class NCButton extends GuiButton {
 	public static class MachineConfig extends Image {
 		
 		public MachineConfig(int id, int x, int y) {
-			super(id, x, y, 90, 0, 18, 18);
+			super(id, x, y, BUTTONS_OFF, BUTTONS_ON, 90, 0, 18, 18);
 		}
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static abstract class SorptionConfig extends Image {
+	public static abstract class SorptionConfig extends NCButton {
 		
-		public SorptionConfig(int id, int x, int y, int textureX, int textureY, int width, int height) {
-			super(id, x, y, textureX, textureY, width, height);
+		protected final ResourceLocation texture;
+		protected final int textureWidth, textureHeight;
+		
+		public SorptionConfig(int id, int x, int y, String texture, int width, int height) {
+			super(id, x, y, width, height);
+			this.texture = new ResourceLocation(texture);
+			textureWidth = width;
+			textureHeight = height;
+		}
+		
+		@Override
+		public void drawButton(Minecraft minecraft, int drawX, int drawY, float partialTicks) {
+			if (visible) {
+				GL11.glColor4f(1F, 1F, 1F, 1F);
+				hovered = drawX >= x && drawY >= y && drawX < x + width && drawY < y + height;
+				minecraft.getTextureManager().bindTexture(texture);
+				drawTexturedModalRect(x, y, 0, 0, textureWidth - 1, textureHeight - 1);
+				drawTexturedModalRect(x, y + textureHeight - 1, 0, 255, textureWidth, 1);
+				drawTexturedModalRect(x + textureWidth - 1, y, 255, 0, 1, textureHeight - 1);
+			}
 		}
 		
 		@SideOnly(Side.CLIENT)
 		public static class ItemInput extends SorptionConfig {
 			
-			public ItemInput(int id, int x, int y) {
-				super(id, x, y, 0, 191, 18, 18);
-			}
-		}
-		
-		@SideOnly(Side.CLIENT)
-		public static class ItemOutputSmall extends SorptionConfig {
-			
-			public ItemOutputSmall(int id, int x, int y) {
-				super(id, x, y, 18, 191, 18, 18);
-			}
-		}
-		
-		@SideOnly(Side.CLIENT)
-		public static class ItemOutput extends SorptionConfig {
-			
-			public ItemOutput(int id, int x, int y) {
-				super(id, x, y, 0, 209, 26, 26);
+			public ItemInput(int id, int x, int y, int width, int height) {
+				super(id, x, y, Global.MOD_ID + ":textures/gui/buttons/item_input.png", width, height);
 			}
 		}
 		
 		@SideOnly(Side.CLIENT)
 		public static class FluidInput extends SorptionConfig {
 			
-			public FluidInput(int id, int x, int y) {
-				super(id, x, y, 36, 191, 18, 18);
+			public FluidInput(int id, int x, int y, int width, int height) {
+				super(id, x, y, Global.MOD_ID + ":textures/gui/buttons/fluid_input.png", width, height);
+			}
+		}
+		
+		@SideOnly(Side.CLIENT)
+		public static class ItemOutput extends SorptionConfig {
+			
+			public ItemOutput(int id, int x, int y, int width, int height) {
+				super(id, x, y, Global.MOD_ID + ":textures/gui/buttons/item_output.png", width, height);
 			}
 		}
 		
 		@SideOnly(Side.CLIENT)
 		public static class FluidOutput extends SorptionConfig {
 			
-			public FluidOutput(int id, int x, int y) {
-				super(id, x, y, 26, 209, 26, 26);
-			}
-		}
-		
-		@SideOnly(Side.CLIENT)
-		public static class FluidOutputSmall extends SorptionConfig {
-			
-			public FluidOutputSmall(int id, int x, int y) {
-				super(id, x, y, 54, 191, 18, 18);
+			public FluidOutput(int id, int x, int y, int width, int height) {
+				super(id, x, y, Global.MOD_ID + ":textures/gui/buttons/fluid_output.png", width, height);
 			}
 		}
 		
 		@SideOnly(Side.CLIENT)
 		public static class SpeedUpgrade extends SorptionConfig {
 			
-			public SpeedUpgrade(int id, int x, int y) {
-				super(id, x, y, 72, 191, 18, 18);
+			public SpeedUpgrade(int id, int x, int y, int width, int height) {
+				super(id, x, y, Global.MOD_ID + ":textures/gui/buttons/speed_upgrade.png", width, height);
 			}
 		}
 		
 		@SideOnly(Side.CLIENT)
 		public static class EnergyUpgrade extends SorptionConfig {
 			
-			public EnergyUpgrade(int id, int x, int y) {
-				super(id, x, y, 90, 191, 18, 18);
+			public EnergyUpgrade(int id, int x, int y, int width, int height) {
+				super(id, x, y, Global.MOD_ID + ":textures/gui/buttons/energy_upgrade.png", width, height);
 			}
 		}
 	}

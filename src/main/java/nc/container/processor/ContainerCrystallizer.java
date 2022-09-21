@@ -6,7 +6,7 @@ import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerCrystallizer extends ContainerItemFluidProcessor<TileItemFluidProcessor> {
+public class ContainerCrystallizer extends ContainerProcessor<TileItemFluidProcessor> {
 	
 	public ContainerCrystallizer(EntityPlayer player, TileItemFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.crystallizer);

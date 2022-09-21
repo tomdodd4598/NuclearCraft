@@ -18,9 +18,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
-public class BlockProcessor extends BlockSidedTile implements IActivatable, ITileType {
+public class BlockProcessor<TILE extends TileEntity> extends BlockSidedTile implements IActivatable, ITileType {
 	
-	protected final ProcessorBlockInfo<?> tileInfo;
+	protected final ProcessorBlockInfo<TILE> tileInfo;
 	
 	public BlockProcessor(String name) {
 		super(Material.IRON);

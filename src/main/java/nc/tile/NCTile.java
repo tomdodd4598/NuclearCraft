@@ -72,7 +72,8 @@ public abstract class NCTile extends TileEntity implements ITile {
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return getBlockType() == null ? null : new TextComponentTranslation(getBlockType().getLocalizedName());
+		Block block = getBlockType();
+		return block == null ? null : new TextComponentTranslation(block.getLocalizedName());
 	}
 	
 	@Override

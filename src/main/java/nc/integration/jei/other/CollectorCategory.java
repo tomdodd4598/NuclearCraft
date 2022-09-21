@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CollectorCategory extends JEIMachineCategory<JEIRecipeWrapper.Collector> {
+public class CollectorCategory extends JEIMachineCategory<JEIRecipe.Collector> {
 	
-	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.Collector> handler) {
+	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Collector> handler) {
 		super(guiHelper, handler, "collector", 33, 30, 118, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Collector recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Collector recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

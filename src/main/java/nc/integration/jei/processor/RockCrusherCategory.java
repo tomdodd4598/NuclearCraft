@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeItemMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class RockCrusherCategory extends JEIMachineCategory<JEIRecipeWrapper.RockCrusher> {
+public class RockCrusherCategory extends JEIMachineCategory<JEIRecipe.RockCrusher> {
 	
-	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapper.RockCrusher> handler) {
+	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.RockCrusher> handler) {
 		super(guiHelper, handler, "rock_crusher", 29, 30, 122, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.RockCrusher recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.RockCrusher recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

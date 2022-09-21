@@ -11,7 +11,7 @@ public class MultiblockButton {
 	public static class ClearAllMaterial extends NCButton.Image {
 		
 		public ClearAllMaterial(int id, int x, int y) {
-			super(id, x, y, 216, 0, 18, 18);
+			super(id, x, y, BUTTONS_OFF, BUTTONS_ON, 216, 0, 18, 18);
 		}
 		
 		@Override
