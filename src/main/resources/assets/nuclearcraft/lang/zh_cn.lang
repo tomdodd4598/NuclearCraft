@@ -3521,7 +3521,7 @@ message.nuclearcraft.filter=设定过滤器：
 message.nuclearcraft.qubit_id=量子位 ID：
 
 message.nuclearcraft.rad_x_wore_off=你降辐剂的效果结束了……
-message.nuclearcraft.rad_warning=伴随着剧烈的头痛，一种金属的恶臭在你的嘴里蔓延……你正在受到可怕的辐射！最好使用盖革计数器查看当前辐射的严重程度……
+message.nuclearcraft.rad_warning=伴随着剧烈的头痛，一种金属恶臭在你嘴里蔓延……你正受到可怕的辐射！最好使用盖革计数器查看当前的辐射有多严重……
 message.nuclearcraft.radaway_cooling_down=你抗辐宁的效果剩余的冷却时间：
 message.nuclearcraft.rad_x_cooling_down=你降辐剂的效果剩余的冷却时间：
 message.nuclearcraft.scrubber_removal_rate=主动背景辐射消除速率：
@@ -3782,9 +3782,9 @@ nc.sf.with=
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 # 极其重要
-# 不要把 NC/NCO 自身的语言文件放进来！由于 NC 与 NCO 的 ModID 相同，本库不容纳核电本体的翻译。
-# 可以放 NCO 的手册，因为 NC 没有手册
-# 由于语言文件加载时会把所有 key 整合到一个 map 里，基于 CrT/CoT/NCO 的脚本组件（script-addon）的会全部存在这
+# 对于自动更新库：不要把 NC/NCO 自身的语言文件放进来！由于 NC 与 NCO 的 ModID 相同，本库不容纳核电本体的翻译。
+# 　　　　　　　可以放 NCO 的手册，因为 NC 没有手册
+# 由于语言文件加载时会把所有 key 整合到同一个 map 里，基于 CrT/CoT/NCO 的脚本插件（script-addon）的可以全部存在这
 # 标好 CurseForge 地址、版本、中英名称
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
