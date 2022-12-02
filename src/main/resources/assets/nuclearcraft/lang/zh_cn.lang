@@ -4182,11 +4182,11 @@ item.contenttweaker.mendelevium58carbide.name=钔-258 碳化物
 item.contenttweaker.mendelevium58oxide.name=钔-258 氧化物
 item.contenttweaker.mendelevium58nitride.name=钔-258 氮化物
 item.contenttweaker.mendelevium58zirconium.name=钔-258-锆合金
-item.contenttweaker.flerovium98.name=[[钅夫]]-298
-item.contenttweaker.flerovium98carbide.name=[[钅夫]]-298 碳化物
-item.contenttweaker.flerovium98oxide.name=[[钅夫]]-298 氧化物
-item.contenttweaker.flerovium98nitride.name=[[钅夫]]-298 氮化物
-item.contenttweaker.flerovium98zirconium.name=[[钅夫]]-298-锆合金
+item.contenttweaker.flerovium98.name=钅夫-298
+item.contenttweaker.flerovium98carbide.name=钅夫-298 碳化物
+item.contenttweaker.flerovium98oxide.name=钅夫-298 氧化物
+item.contenttweaker.flerovium98nitride.name=钅夫-298 氮化物
+item.contenttweaker.flerovium98zirconium.name=钅夫-298-锆合金
 
 item.contenttweaker.protactinium_fuel.name=轻质锕系混合物-231
 item.contenttweaker.protactinium_fuel_carbide.name=轻质锕系混合物-231 碳化物
@@ -4304,11 +4304,11 @@ item.contenttweaker.thorium229carbide.name=增强钍-229 碳化物
 item.contenttweaker.thorium229oxide.name=增强钍-229 氧化物
 item.contenttweaker.thorium229nitride.name=增强钍-229 氮化物
 item.contenttweaker.thorium229zirconium.name=增强钍-229-锆合金
-item.contenttweaker.darmstadtium294.name=[[钅达]]-294
-item.contenttweaker.darmstadtium294carbide.name=[[钅达]]-294 碳化物
-item.contenttweaker.darmstadtium294oxide.name=[[钅达]]-294 氧化物
-item.contenttweaker.darmstadtium294nitride.name=[[钅达]]-294 氮化物
-item.contenttweaker.darmstadtium294zirconium.name=[[钅达]]-294-锆合金
+item.contenttweaker.darmstadtium294.name=钅达-294
+item.contenttweaker.darmstadtium294carbide.name=钅达-294 碳化物
+item.contenttweaker.darmstadtium294oxide.name=钅达-294 氧化物
+item.contenttweaker.darmstadtium294nitride.name=钅达-294 氮化物
+item.contenttweaker.darmstadtium294zirconium.name=钅达-294-锆合金
 
 item.contenttweaker.darmstadtium_fuel.name=混合物-294
 item.contenttweaker.darmstadtium_fuel_carbide.name=混合物-294 碳化物
@@ -6144,11 +6144,13 @@ item.contenttweaker.uranium_oxide.name=氧化铀锭
 item.contenttweaker.pre_candu.name=未加压 CANDU 燃料束
 item.contenttweaker.candu.name=加压 CANDU 燃料束
 item.contenttweaker.dcandu.name=枯竭 CANDU 燃料束
+# 加拿大重水铀
 
 item.contenttweaker.thorium_oxide.name=氧化钍锭
 item.contenttweaker.pre_aneel.name=未加压 ANEEL 燃料束
 item.contenttweaker.aneel.name=加压 ANEEL 燃料束
 item.contenttweaker.daneel.name=枯竭 ANEEL 燃料束
+# Advanced Nuclear Energy for Enriched Life 丰富生活下更先进的核能
 
 item.contenttweaker.eightsmore.name=八层棉花糖巧克力夹心饼干
 item.contenttweaker.sixteensmore.name=十六层棉花糖巧克力夹心饼干
@@ -6239,6 +6241,8 @@ fluid.depleted_cbcf_fluoride_flibe=熔融枯竭 锔增殖锎 氟化物燃料
 # https://www.curseforge.com/minecraft/customization/nuclearcraft-overhauled-unrealistic-turbine
 # NCOUTO+v1.6
 # 不真实涡轮机丨Nuclearcraft: Overhauled Unrealistic Turbine Overhaul
+# 涡轮机新部件丨New Turbine Parts for Nuclearcraft:Overhauled
+# 暂未更新 NTP
 #-----------------------------------------------------------------------------------------------------------------#
 tile.nuclearcraft.turbine_dynamo_coil_redstone.name=红石涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil_graphite.name=石墨涡轮机发电机线圈
@@ -6386,7 +6390,7 @@ tile.nuclearcraft.turbine_rotor_blade_sicnio.name=碳化硅铌陶瓷基复合材
 tile.nuclearcraft.turbine_rotor_blade_elektron90.name=低质埃勒克特龙-90 合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_elektron192.name=低质埃勒克特龙-192 合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_elektron231.name=低质埃勒克特龙-231 合金涡轮机转子叶片
-tile.nuclearcraft.turbine_rotor_blade_edelstahl.name=超轻贵钢涡轮机转子叶片
+tile.nuclearcraft.turbine_rotor_blade_edelstahl.name=超轻贵钢合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_legierung.name=超轻贵埃勒克特龙合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_matrix.name=超轻陶瓷基合金涡轮机转子叶片
 
@@ -6407,7 +6411,7 @@ tile.nuclearcraft.turbine_rotor_stator_trinitite.name=覆玻璃石涡轮机转�
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 item.contenttweaker.elektron60_ingot.name=埃勒克特龙-60 合金锭
 item.contenttweaker.blade_core.name=锕系涡轮机转子叶片核心
-item.contenttweaker.steel_mould.name=超轻贵钢模
+item.contenttweaker.steel_mould.name=超轻贵钢合金模
 item.contenttweaker.alloy_mould.name=超轻贵埃勒克特龙合金模
 item.contenttweaker.sic_mould.name=超轻陶瓷基合金模
 #=================================================================================================================#
@@ -6851,7 +6855,7 @@ fluid.mithril=熔融秘银
 
 fluid.fluxed_electrum=熔融红石琥珀金
 fluid.flux_crystal=熔融红石水晶
-fluid.certus=熔融赛特斯石英
+fluid.certus=熔融赛特斯石英水晶
 fluid.fluix=熔融福鲁伊克斯水晶
 fluid.fluix_steel=熔融福鲁伊克斯钢
 # flux fluix
@@ -6886,15 +6890,15 @@ nc.sf.certus_heater1=%s赛特斯石英裂变冷却液加热器
 fluid.certus_nak=共晶钠钾-赛特斯石英混合物
 fluid.certus_nak_hot=热共晶钠钾-赛特斯石英混合物
 
-tile.nuclearcraft.solid_fission_sink_fluix.name=福鲁伊克斯水晶裂变散热器
-nc.sf.fluix_sink0=%s福鲁伊克斯水晶裂变散热器
-nc.sf.fluix_sink1=%s福鲁伊克斯水晶裂变散热器
-tile.nuclearcraft.fission_heater_port_fluix.name=福鲁伊克斯水晶裂变冷却液加热器端口
-tile.nuclearcraft.salt_fission_heater_fluix.name=福鲁伊克斯水晶裂变冷却液加热器
-nc.sf.fluix_heater0=%s福鲁伊克斯水晶裂变冷却液加热器
-nc.sf.fluix_heater1=%s福鲁伊克斯水晶裂变冷却液加热器
-fluid.fluix_nak=共晶钠钾-福鲁伊克斯水晶混合物
-fluid.fluix_nak_hot=热共晶钠钾-福鲁伊克斯水晶混合物
+tile.nuclearcraft.solid_fission_sink_fluix.name=福鲁伊克斯裂变散热器
+nc.sf.fluix_sink0=%s福鲁伊克斯裂变散热器
+nc.sf.fluix_sink1=%s福鲁伊克斯裂变散热器
+tile.nuclearcraft.fission_heater_port_fluix.name=福鲁伊克斯裂变冷却液加热器端口
+tile.nuclearcraft.salt_fission_heater_fluix.name=福鲁伊克斯裂变冷却液加热器
+nc.sf.fluix_heater0=%s福鲁伊克斯裂变冷却液加热器
+nc.sf.fluix_heater1=%s福鲁伊克斯裂变冷却液加热器
+fluid.fluix_nak=共晶钠钾-福鲁伊克斯混合物
+fluid.fluix_nak_hot=热共晶钠钾-福鲁伊克斯混合物
 
 tile.nuclearcraft.solid_fission_sink_fluix_steel.name=福鲁伊克斯钢裂变散热器
 nc.sf.fluix_steel_sink0=%s福鲁伊克斯钢裂变散热器
