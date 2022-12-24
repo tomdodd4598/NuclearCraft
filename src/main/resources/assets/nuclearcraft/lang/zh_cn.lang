@@ -59,7 +59,7 @@ tile.nuclearcraft.separator.name=分离器
 tile.nuclearcraft.separator.desc=将材料分离为它们的成分。
 
 tile.nuclearcraft.decay_hastener.name=衰变加速器
-tile.nuclearcraft.decay_hastener.desc=强制加速放射性物质进行衰变。
+tile.nuclearcraft.decay_hastener.desc=强制加速放射性物质衰变。
 
 tile.nuclearcraft.fuel_reprocessor.name=燃料再处理机
 tile.nuclearcraft.fuel_reprocessor.desc=从衰竭核燃料中获取材料。
@@ -2773,7 +2773,7 @@ gui.nc.config.category.entity=实体配置
 gui.nc.config.category.entity.tooltip=配置实体
 
 gui.nc.config.entity_tracking_range=追踪范围
-gui.nc.config.entity_tracking_range.comment=对于核电工艺的实体游戏会进行追踪性更新的范围。
+gui.nc.config.entity_tracking_range.comment=对于核电工艺的实体，游戏会追踪性更新的范围。
 
 gui.nc.config.category.radiation=辐射配置
 gui.nc.config.category.radiation.tooltip=配置与核辐射相关的内容。
@@ -3516,7 +3516,7 @@ modifier.withering_armor.name=凋零
 modifier.withering_armor.desc=§o不论还能活几年，或者几个小时……§r\n凋零目标。
 # Grim Fandango
 
-message.nuclearcraft.filter=设定过滤器：
+message.nuclearcraft.filter=设定筛选器：
 
 message.nuclearcraft.qubit_id=量子位 ID：
 
@@ -7048,3 +7048,7 @@ fluid.bismuth=熔融铋
 fluid.sponge=熔融海绵
 fluid.magma_slime=熔融岩浆膏
 #=================================================================================================================#
+
+info.reactorbuilder.pass.setting_filters=筛选器设定中
+info.reactorbuilder.template.irradiator_filters=辐照器筛选器
+info.reactorbuilder.template.components=组件
