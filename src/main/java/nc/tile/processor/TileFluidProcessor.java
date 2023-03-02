@@ -20,16 +20,26 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import nc.util.FluidStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements IFluidProcessor, IGui<ProcessorUpdatePacket>, IUpgradable {
 	
@@ -42,7 +52,9 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
 	public final int processorID, sideConfigYOffset;
-	
+
+	private int pushCooldown;
+
 	public final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
@@ -123,6 +135,16 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			else {
 				getRadiationSource().setRadiationLevel(0D);
 				if (time > 0 && (!isHaltedByRedstone() || !readyToProcess())) loseProgress();
+				if (wasProcessing) {
+					pushCooldown = 50;
+				}
+				if (pushCooldown <= 0) {
+					for (int i = 0; i < fluidOutputSize; i++) {
+						shouldUpdate |= pushFluidProducts(i + fluidInputSize);
+					}
+					pushCooldown = 50;
+				}
+				pushCooldown--;
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -282,7 +304,33 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			} else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
+			pushFluidProducts(j + fluidInputSize);
 		}
+	}
+
+	private boolean pushFluidProducts(int slot) {
+		Tank tank = getTanks().get(slot);
+		FluidStack fluidInTank = tank.getFluid();
+		if (fluidInTank == null) return false;
+		FluidConnection[] connections = getFluidConnections();;
+		boolean hasDoneWork = false;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			if (connections[side.ordinal()].getTankSorption(slot) == TankSorption.PUSH)	{
+				TileEntity tile = world.getTileEntity(pos.offset(side));
+				if (tile == null) continue;
+				IFluidHandler externalTanks = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+				if (externalTanks == null) continue;
+				int filledAmount = externalTanks.fill(fluidInTank, true);
+				hasDoneWork |= filledAmount > 0;
+				fluidInTank.amount -= filledAmount;
+				if (fluidInTank.amount <= 0) {
+					fluidInTank = null;
+					break;
+				}
+			}
+		}
+		tank.setFluid(fluidInTank);
+		return hasDoneWork;
 	}
 	
 	public void loseProgress() {
@@ -418,6 +466,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		nbt.setDouble("resetTime", resetTime);
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
+		nbt.setInteger("pushCooldown", pushCooldown);
 		return nbt;
 	}
 	
@@ -431,6 +480,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		if (nbt.hasKey("redstoneControl")) {
 			setRedstoneControl(nbt.getBoolean("redstoneControl"));
 		} else setRedstoneControl(true);
+		pushCooldown = nbt.getInteger("pushCooldown");
 	}
 	
 	// IGui

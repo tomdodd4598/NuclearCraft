@@ -5,14 +5,14 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
 public enum TankSorption implements IStringSerializable, IButtonEnum {
-	IN, OUT, BOTH, NON;
+	IN, OUT, BOTH, NON, PUSH;
 	
 	public boolean canFill() {
 		return this == IN || this == BOTH;
 	}
 	
 	public boolean canDrain() {
-		return this == OUT || this == BOTH;
+		return this == OUT || this == PUSH || this == BOTH;
 	}
 	
 	public boolean canConnect() {
@@ -38,6 +38,8 @@ public enum TankSorption implements IStringSerializable, IButtonEnum {
 				case OUT:
 					return NON;
 				case NON:
+					return PUSH;
+				case PUSH:
 					return OUT;
 				default:
 					return OUT;
@@ -73,6 +75,8 @@ public enum TankSorption implements IStringSerializable, IButtonEnum {
 			case OUTPUT:
 				switch (this) {
 				case OUT:
+					return PUSH;
+				case PUSH:
 					return NON;
 				case NON:
 					return OUT;
@@ -103,6 +107,8 @@ public enum TankSorption implements IStringSerializable, IButtonEnum {
 			return "in";
 		case OUT:
 			return "out";
+		case PUSH:
+			return "push";
 		case BOTH:
 			return "both";
 		case NON:
@@ -118,6 +124,8 @@ public enum TankSorption implements IStringSerializable, IButtonEnum {
 			return TextFormatting.DARK_AQUA;
 		case OUT:
 			return TextFormatting.RED;
+		case PUSH:
+			return TextFormatting.DARK_PURPLE;
 		case BOTH:
 			return TextFormatting.BOLD;
 		case NON:
@@ -133,6 +141,7 @@ public enum TankSorption implements IStringSerializable, IButtonEnum {
 		case IN:
 			return 162;
 		case OUT:
+		case PUSH:
 			return 180;
 		case NON:
 			return 198;
@@ -143,7 +152,7 @@ public enum TankSorption implements IStringSerializable, IButtonEnum {
 	
 	@Override
 	public int getTextureY() {
-		return 0;
+		return this == PUSH ? 18 : 0;
 	}
 	
 	@Override
