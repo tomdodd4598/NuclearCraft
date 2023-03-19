@@ -28,6 +28,7 @@ public class ItemConfigurationBlueprint extends NCItem {
 
     public ItemConfigurationBlueprint(boolean isEmpty) {
         this.isEmpty = isEmpty;
+        this.setMaxStackSize(1);
     }
 
     @Override
@@ -57,15 +58,16 @@ public class ItemConfigurationBlueprint extends NCItem {
         if (items == null || !items.hasConfigurableInventoryConnections()) {
             return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
         }
+        EnumFacing facing = items.getFacingHorizontal();
         if (player.isSneaking()) {
             playSoundAt(player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.35F, 1.0F);
             ItemStack stack = new ItemStack(NCItems.configuration_blueprint);
             NBTTagCompound stackNbt = new NBTTagCompound();
-            stackNbt.setTag("inventory_connections", items.writeInventoryConnections(new NBTTagCompound()));
+            stackNbt.setTag("inventory_connections", items.writeInventoryConnectionsNormalized(new NBTTagCompound(), facing));
             stackNbt.setTag("slot_settings", items.writeSlotSettings(new NBTTagCompound()));
             stackNbt.setBoolean("redstone_control", items.getRedstoneControl());
             if (fluids != null && fluids.hasConfigurableFluidConnections()) {
-                stackNbt.setTag("fluid_connections", fluids.writeFluidConnections(new NBTTagCompound()));
+                stackNbt.setTag("fluid_connections", fluids.writeFluidConnectionsNormalized(new NBTTagCompound(), facing));
                 stackNbt.setTag("tank_settings", fluids.writeTankSettings(new NBTTagCompound()));
             }
             stackNbt.setString("name", ((items.getName())));
@@ -78,11 +80,11 @@ public class ItemConfigurationBlueprint extends NCItem {
             NBTTagCompound nbt = player.getHeldItem(hand).getTagCompound();
             if (nbt != null && nbt.getString("class").equals(items.getClass().getName())) {
                 playSoundAt(player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.35F, 0.9F);
-                items.readInventoryConnections(nbt.getCompoundTag("inventory_connections"));
+                items.readInventoryConnectionsNormalized(nbt.getCompoundTag("inventory_connections"), facing);
                 items.readSlotSettings(nbt.getCompoundTag("slot_settings"));
                 items.setRedstoneControl(nbt.getBoolean("redstone_control"));
                 if (fluids != null && nbt.hasKey("fluid_connections")) {
-                    fluids.readFluidConnections(nbt.getCompoundTag("fluid_connections"));
+                    fluids.readFluidConnectionsNormalized(nbt.getCompoundTag("fluid_connections"), facing);
                     fluids.readTankSettings(nbt.getCompoundTag("tank_settings"));
                 }
                 items.markDirtyAndNotify();
