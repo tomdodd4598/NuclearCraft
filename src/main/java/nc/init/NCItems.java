@@ -4,18 +4,7 @@ import nc.Global;
 import nc.NCInfo;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
-import nc.item.IInfoItem;
-import nc.item.ItemDepletedFissionFuel;
-import nc.item.ItemFissionFuel;
-import nc.item.ItemPortableEnderChest;
-import nc.item.ItemRadShielding;
-import nc.item.ItemRadX;
-import nc.item.ItemRadaway;
-import nc.item.NCItem;
-import nc.item.NCItemDoor;
-import nc.item.NCItemFood;
-import nc.item.NCItemMeta;
-import nc.item.NCItemRecord;
+import nc.item.*;
 import nc.item.bauble.ItemGeigerCounter;
 import nc.item.bauble.ItemRadiationBadge;
 import nc.item.energy.ItemBattery;
@@ -120,6 +109,9 @@ public class NCItems {
 	public static Item record_end_of_the_world;
 	public static Item record_money_for_nothing;
 	public static Item record_hyperspace;
+
+	public static Item configuration_blueprint_empty;
+	public static Item configuration_blueprint;
 	
 	public static void init() {
 		ingot = withName(new NCItemMeta(MetaEnums.IngotType.class), "ingot");
@@ -208,6 +200,9 @@ public class NCItems {
 		record_end_of_the_world = withName(new NCItemRecord("record_end_of_the_world", NCSounds.end_of_the_world), "record_end_of_the_world");
 		record_money_for_nothing = withName(new NCItemRecord("record_money_for_nothing", NCSounds.money_for_nothing), "record_money_for_nothing");
 		record_hyperspace = withName(new NCItemRecord("record_hyperspace", NCSounds.hyperspace), "record_hyperspace");
+
+		configuration_blueprint_empty = withName(new ItemConfigurationBlueprint(true), "configuration_blueprint_empty");
+		configuration_blueprint = withName(new ItemConfigurationBlueprint(false), "configuration_blueprint");
 	}
 	
 	public static void register() {
@@ -296,6 +291,9 @@ public class NCItems {
 		registerItem(record_end_of_the_world, NCTabs.MISC);
 		registerItem(record_money_for_nothing, NCTabs.MISC);
 		registerItem(record_hyperspace, NCTabs.MISC);
+
+		registerItem(configuration_blueprint_empty, NCTabs.MISC);
+		registerItem(configuration_blueprint, NCTabs.MISC);
 	}
 	
 	public static void registerRenders() {
@@ -496,6 +494,9 @@ public class NCItems {
 		registerRender(record_end_of_the_world);
 		registerRender(record_money_for_nothing);
 		registerRender(record_hyperspace);
+
+		registerRender(configuration_blueprint_empty);
+		registerRender(configuration_blueprint);
 	}
 	
 	public static <T extends Item & IInfoItem> Item withName(T item, String name) {

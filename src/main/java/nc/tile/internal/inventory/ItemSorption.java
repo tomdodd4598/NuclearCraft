@@ -5,14 +5,14 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 
 public enum ItemSorption implements IStringSerializable, IButtonEnum {
-	IN, OUT, BOTH, NON;
+	IN, OUT, BOTH, NON, PUSH;
 	
 	public boolean canReceive() {
 		return this == IN || this == BOTH;
 	}
 	
 	public boolean canExtract() {
-		return this == OUT || this == BOTH;
+		return this == OUT || this == PUSH || this == BOTH;
 	}
 	
 	public boolean canConnect() {
@@ -38,6 +38,8 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 				case OUT:
 					return NON;
 				case NON:
+					return PUSH;
+				case PUSH:
 					return OUT;
 				default:
 					return OUT;
@@ -73,6 +75,8 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 			case OUTPUT:
 				switch (this) {
 				case OUT:
+					return PUSH;
+				case PUSH:
 					return NON;
 				case NON:
 					return OUT;
@@ -103,6 +107,8 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 			return "in";
 		case OUT:
 			return "out";
+		case PUSH:
+			return "push";
 		case BOTH:
 			return "both";
 		case NON:
@@ -118,6 +124,8 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 			return TextFormatting.BLUE;
 		case OUT:
 			return TextFormatting.GOLD;
+		case PUSH:
+			return TextFormatting.RED;
 		case BOTH:
 			return TextFormatting.BOLD;
 		case NON:
@@ -133,6 +141,7 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 		case IN:
 			return 108;
 		case OUT:
+		case PUSH:
 			return 126;
 		case NON:
 			return 144;
@@ -143,7 +152,7 @@ public enum ItemSorption implements IStringSerializable, IButtonEnum {
 	
 	@Override
 	public int getTextureY() {
-		return 0;
+		return this == PUSH ? 18 : 0;
 	}
 	
 	@Override

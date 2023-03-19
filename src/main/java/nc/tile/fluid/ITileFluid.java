@@ -16,6 +16,7 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
+import nc.util.BlockHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -250,14 +251,21 @@ public interface ITileFluid extends ITile {
 			}
 		}
 	}
-	
+
 	public default NBTTagCompound writeFluidConnections(NBTTagCompound nbt) {
-		for (EnumFacing side : EnumFacing.VALUES) {
-			getFluidConnection(side).writeToNBT(nbt, side);
-		}
+		return writeFluidConnectionsNormalized(nbt, EnumFacing.WEST);
+	}
+
+	public default NBTTagCompound writeFluidConnectionsNormalized(NBTTagCompound nbt, EnumFacing facing) {
+		getFluidConnection(BlockHelper.bottom(facing)).writeToNBT(nbt, EnumFacing.DOWN);
+		getFluidConnection(BlockHelper.top(facing)).writeToNBT(nbt, EnumFacing.UP);
+		getFluidConnection(BlockHelper.left(facing)).writeToNBT(nbt, EnumFacing.NORTH);
+		getFluidConnection(BlockHelper.right(facing)).writeToNBT(nbt, EnumFacing.SOUTH);
+		getFluidConnection(BlockHelper.front(facing)).writeToNBT(nbt, EnumFacing.WEST);
+		getFluidConnection(BlockHelper.back(facing)).writeToNBT(nbt, EnumFacing.EAST);
 		return nbt;
 	}
-	
+
 	public default void readFluidConnections(NBTTagCompound nbt) {
 		if (!hasConfigurableFluidConnections()) {
 			return;
@@ -272,10 +280,20 @@ public interface ITileFluid extends ITile {
 			}
 		}
 		else {
-			for (EnumFacing side : EnumFacing.VALUES) {
-				getFluidConnection(side).readFromNBT(nbt, side);
-			}
+			readFluidConnectionsNormalized(nbt, EnumFacing.WEST);
 		}
+	}
+
+	public default void readFluidConnectionsNormalized(NBTTagCompound nbt, EnumFacing facing) {
+		if (!hasConfigurableFluidConnections()) {
+			return;
+		}
+		getFluidConnection(BlockHelper.bottom(facing)).readFromNBT(nbt, EnumFacing.DOWN);
+		getFluidConnection(BlockHelper.top(facing)).readFromNBT(nbt, EnumFacing.UP);
+		getFluidConnection(BlockHelper.left(facing)).readFromNBT(nbt, EnumFacing.NORTH);
+		getFluidConnection(BlockHelper.right(facing)).readFromNBT(nbt, EnumFacing.SOUTH);
+		getFluidConnection(BlockHelper.front(facing)).readFromNBT(nbt, EnumFacing.WEST);
+		getFluidConnection(BlockHelper.back(facing)).readFromNBT(nbt, EnumFacing.EAST);
 	}
 	
 	public default NBTTagCompound writeTankSettings(NBTTagCompound nbt) {

@@ -12,6 +12,7 @@ import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.InventoryTileWrapper;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
+import nc.util.BlockHelper;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ItemStackHelper;
@@ -221,19 +222,33 @@ public interface ITileInventory extends ITile {
 	}
 	
 	public default NBTTagCompound writeInventoryConnections(NBTTagCompound nbt) {
-		for (EnumFacing side : EnumFacing.VALUES) {
-			getInventoryConnection(side).writeToNBT(nbt, side);
-		}
+		return writeInventoryConnectionsNormalized(nbt, EnumFacing.WEST);
+	}
+
+	public default NBTTagCompound writeInventoryConnectionsNormalized(NBTTagCompound nbt, EnumFacing facing) {
+		getInventoryConnection(BlockHelper.bottom(facing)).writeToNBT(nbt, EnumFacing.DOWN);
+		getInventoryConnection(BlockHelper.top(facing)).writeToNBT(nbt, EnumFacing.UP);
+		getInventoryConnection(BlockHelper.left(facing)).writeToNBT(nbt, EnumFacing.NORTH);
+		getInventoryConnection(BlockHelper.right(facing)).writeToNBT(nbt, EnumFacing.SOUTH);
+		getInventoryConnection(BlockHelper.front(facing)).writeToNBT(nbt, EnumFacing.WEST);
+		getInventoryConnection(BlockHelper.back(facing)).writeToNBT(nbt, EnumFacing.EAST);
 		return nbt;
 	}
 	
 	public default void readInventoryConnections(NBTTagCompound nbt) {
+		readInventoryConnectionsNormalized(nbt, EnumFacing.WEST);
+	}
+
+	public default void readInventoryConnectionsNormalized(NBTTagCompound nbt, EnumFacing facing) {
 		if (!hasConfigurableInventoryConnections()) {
 			return;
 		}
-		for (EnumFacing side : EnumFacing.VALUES) {
-			getInventoryConnection(side).readFromNBT(nbt, side);
-		}
+		getInventoryConnection(BlockHelper.bottom(facing)).readFromNBT(nbt, EnumFacing.DOWN);
+		getInventoryConnection(BlockHelper.top(facing)).readFromNBT(nbt, EnumFacing.UP);
+		getInventoryConnection(BlockHelper.left(facing)).readFromNBT(nbt, EnumFacing.NORTH);
+		getInventoryConnection(BlockHelper.right(facing)).readFromNBT(nbt, EnumFacing.SOUTH);
+		getInventoryConnection(BlockHelper.front(facing)).readFromNBT(nbt, EnumFacing.WEST);
+		getInventoryConnection(BlockHelper.back(facing)).readFromNBT(nbt, EnumFacing.EAST);
 	}
 	
 	public default NBTTagCompound writeSlotSettings(NBTTagCompound nbt) {

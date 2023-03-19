@@ -1734,6 +1734,9 @@ item.nuclearcraft.record_hyperspace.name=Music Disc
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=Originally by Riku Nuottajärvi
 
+item.nuclearcraft.configuration_blueprint_empty.name=Configuration Blueprint (Empty)
+item.nuclearcraft.configuration_blueprint.name=Configuration Blueprint
+
 entity.nuclearcraft.feral_ghoul.name=Feral Ghoul
 
 jei.nuclearcraft.chance_output=Output: %s-%s [Mean: %s]
@@ -2638,6 +2641,7 @@ gui.container.front_config=FRONT:
 gui.container.back_config=BACK:
 gui.container.in_config=INPUT
 gui.container.out_config=OUTPUT
+gui.container.push_config=OUTPUT (PUSH)
 gui.container.both_config=BOTH
 gui.container.non_config=DISABLED
 
