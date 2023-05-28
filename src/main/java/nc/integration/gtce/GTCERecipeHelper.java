@@ -90,16 +90,6 @@ public class GTCERecipeHelper {
 			recipeMap = RecipeMaps.FLUID_SOLIDFICATION_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 8, 1);
 			break;
-		case "pressurizer":
-			if (isPlateRecipe(recipe)) {
-				recipeMap = RecipeMaps.BENDER_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 10).notConsumable(new IntCircuitIngredient(0));
-			}
-			else {
-				recipeMap = RecipeMaps.COMPRESSOR_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 2, 20);
-			}
-			break;
 		case "chemical_reactor":
 			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 30);
@@ -108,22 +98,10 @@ public class GTCERecipeHelper {
 			recipeMap = RecipeMaps.MIXER_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 8, 12);
 			break;
-		case "crystallizer":
-			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10).notConsumable(new IntCircuitIngredient(0));
-			break;
-		case "dissolver":
-			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20).notConsumable(new IntCircuitIngredient(1));
-			break;
 		case "extractor":
 			recipeMap = EXTRACTOR_MAP;
 			if (recipeMap != null)
 			    builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 12);
-			break;
-		case "centrifuge":
-			recipeMap = RecipeMaps.CENTRIFUGE_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 80).notConsumable(new IntCircuitIngredient(0));
 			break;
 		case "rock_crusher":
 			recipeMap = RecipeMaps.MACERATOR_RECIPES;
