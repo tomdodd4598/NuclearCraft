@@ -3,6 +3,7 @@ package nc.container.processor;
 import nc.container.ContainerTile;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.*;
+import nc.tile.processor.info.ProcessorContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -13,19 +14,7 @@ public class ContainerMachineConfig<TILE extends TileEntity & IProcessor<TILE, I
 	public ContainerMachineConfig(EntityPlayer player, TILE tile) {
 		super(tile);
 		
-		addPlayerSlots(player);
-	}
-	
-	protected void addPlayerSlots(EntityPlayer player) {
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + info.playerGuiX + 18 * j, 84 + info.playerGuiY + 18 * i));
-			}
-		}
-		
-		for (int i = 0; i < 9; ++i) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + info.playerGuiX + 18 * i, 142 + info.playerGuiY));
-		}
+		info.addPlayerSlots(this::addSlotToContainer, player);
 	}
 	
 	@Override

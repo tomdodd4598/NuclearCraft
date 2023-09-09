@@ -2,8 +2,6 @@ package nc.util;
 
 public class Complex {
 	
-	private Complex() {}
-	
 	public static double abs(double re, double im) {
 		return Math.hypot(re, im);
 	}

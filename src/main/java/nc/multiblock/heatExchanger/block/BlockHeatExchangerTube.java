@@ -99,7 +99,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPart implements ID
 		HeatExchangerTubeSetting setting = tube.getTubeSetting(side);
 		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
 		TextFormatting color = setting == HeatExchangerTubeSetting.PRODUCT_OUT ? TextFormatting.LIGHT_PURPLE : setting == HeatExchangerTubeSetting.INPUT_SPREAD ? TextFormatting.GREEN : setting == HeatExchangerTubeSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY;
-		return new TextComponentString(Lang.localise(message) + " " + color + Lang.localise("nc.block.exchanger_tube_fluid_side." + setting.getName()));
+		return new TextComponentString(Lang.localize(message) + " " + color + Lang.localize("nc.block.exchanger_tube_fluid_side." + setting.getName()));
 	}
 	
 	@Override

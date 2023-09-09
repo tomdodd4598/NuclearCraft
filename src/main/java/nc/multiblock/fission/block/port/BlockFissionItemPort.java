@@ -40,7 +40,7 @@ public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT
 				if (reactor != null) {
 					ItemStack heldStack = player.getHeldItem(hand);
 					if (port.canModifyFilter(0) && port.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(port.getFilterStacks().get(0)) && port.isItemValidForSlotInternal(0, heldStack)) {
-						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + heldStack.getDisplayName()));
+						player.sendMessage(new TextComponentString(Lang.localize("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + heldStack.getDisplayName()));
 						ItemStack filter = heldStack.copy();
 						filter.setCount(1);
 						port.getFilterStacks().set(0, filter);

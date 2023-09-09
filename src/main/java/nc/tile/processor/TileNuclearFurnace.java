@@ -1,6 +1,6 @@
 package nc.tile.processor;
 
-import java.util.*;
+import java.util.List;
 
 import javax.annotation.*;
 
@@ -10,7 +10,7 @@ import nc.Global;
 import nc.capability.radiation.source.*;
 import nc.network.tile.TileUpdatePacket;
 import nc.radiation.RadSources;
-import nc.tile.ITileGui;
+import nc.tile.ITilePacket;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
@@ -34,7 +34,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITileGui<TileUpdatePacket>, IInterfaceable {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITilePacket<TileUpdatePacket>, IInterfaceable {
 	
 	private final @Nonnull NonNullList<ItemStack> furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
 	
@@ -483,15 +483,15 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	
 	// ITileGui
 	
-	@Override
+	/*@Override
 	public int getGuiID() {
 		return 0;
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public Set<EntityPlayer> getTileUpdatePacketListeners() {
 		return null;
-	}
+	}*/
 	
 	@Override
 	public TileUpdatePacket getTileUpdatePacket() {
@@ -501,14 +501,14 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	@Override
 	public void onTileUpdatePacket(TileUpdatePacket message) {}
 	
-	@Override
-	public void addTileUpdatePacketListener(EntityPlayer playerToUpdate) {}
+	/*@Override
+	public void addTileUpdatePacketListener(EntityPlayer playerToUpdate) {}*/
 	
-	@Override
-	public void removeTileUpdatePacketListener(EntityPlayer playerToRemove) {}
+	/*@Override
+	public void removeTileUpdatePacketListener(EntityPlayer playerToRemove) {}*/
 	
-	@Override
-	public void sendTileUpdatePacketToListeners() {}
+	/*@Override
+	public void sendTileUpdatePacketToListeners() {}*/
 	
 	@Override
 	public void sendTileUpdatePacketToPlayer(EntityPlayer player) {}

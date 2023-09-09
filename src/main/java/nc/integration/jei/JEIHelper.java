@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class JEIHelper {
 	
-	public static <WRAPPER extends JEIBasicRecipe<WRAPPER>> List<WRAPPER> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler<WRAPPER> jeiHandler, BasicRecipeHandler recipeHandler, Class<? extends WRAPPER> recipeWrapper) {
+	public static <WRAPPER extends JEIRecipeWrapper<WRAPPER>> List<WRAPPER> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler<WRAPPER> jeiHandler, BasicRecipeHandler recipeHandler, Class<? extends WRAPPER> recipeWrapper) {
 		ArrayList<WRAPPER> recipes = new ArrayList<>();
 		if (recipeHandler != null) {
 			for (BasicRecipe recipe : recipeHandler.getRecipeList()) {

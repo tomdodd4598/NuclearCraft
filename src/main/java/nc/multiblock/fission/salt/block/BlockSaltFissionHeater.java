@@ -37,7 +37,7 @@ public abstract class BlockSaltFissionHeater extends BlockFissionPart {
 				if (reactor != null) {
 					FluidStack fluidStack = FluidStackHelper.getFluid(player.getHeldItem(hand));
 					if (heater.canModifyFilter(0) && heater.getTanks().get(0).isEmpty() && fluidStack != null && !FluidStackHelper.stacksEqual(heater.getFilterTanks().get(0).getFluid(), fluidStack) && heater.getTanks().get(0).canFillFluidType(fluidStack)) {
-						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(fluidStack.getUnlocalizedName())));
+						player.sendMessage(new TextComponentString(Lang.localize("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localize(fluidStack.getUnlocalizedName())));
 						FluidStack filter = fluidStack.copy();
 						filter.amount = 1000;
 						heater.getFilterTanks().get(0).setFluid(filter);

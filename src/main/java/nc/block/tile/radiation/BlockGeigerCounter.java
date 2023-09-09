@@ -14,9 +14,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class BlockGeigerCounter extends BlockSimpleTile {
+public class BlockGeigerCounter extends BlockSimpleTile<TileGeigerCounter> {
 	
-	private static final String RADIATION = Lang.localise("item.nuclearcraft.geiger_counter.rads");
+	private static final String RADIATION = Lang.localize("item.nuclearcraft.geiger_counter.rads");
 	
 	public BlockGeigerCounter(String name) {
 		super(name);

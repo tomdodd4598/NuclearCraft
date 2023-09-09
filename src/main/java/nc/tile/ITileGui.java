@@ -3,7 +3,6 @@ package nc.tile;
 import java.util.Set;
 
 import nc.NuclearCraft;
-import nc.handler.GuiHandler;
 import nc.network.PacketHandler;
 import nc.network.tile.TileUpdatePacket;
 import net.minecraft.entity.player.*;
@@ -17,7 +16,7 @@ public interface ITileGui<TILE extends TileEntity & ITileGui<TILE, PACKET, INFO>
 	public INFO getContainerInfo();
 	
 	public default void openGui(World world, BlockPos pos, EntityPlayer player) {
-		FMLNetworkHandler.openGui(player, NuclearCraft.instance, GuiHandler.getGuiId(getContainerInfo().name), world, pos.getX(), pos.getY(), pos.getZ());
+		FMLNetworkHandler.openGui(player, NuclearCraft.instance, getContainerInfo().getGuiId(), world, pos.getX(), pos.getY(), pos.getZ());
 	}
 	
 	public Set<EntityPlayer> getTileUpdatePacketListeners();

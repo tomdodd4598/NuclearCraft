@@ -11,8 +11,6 @@ public class RecipeTupleGenerator {
 	
 	public static final RecipeTupleGenerator INSTANCE = new RecipeTupleGenerator();
 	
-	private RecipeTupleGenerator() {}
-	
 	private boolean itemEnd, fluidEnd;
 	
 	public void generateMaterialListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, boolean removeEmptyStacks) {

@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CondenserCategory extends JEIMachineCategory<JEIRecipe.Condenser> {
+public class CondenserCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.Condenser> {
 	
-	public CondenserCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Condenser> handler) {
+	public CondenserCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.Condenser> handler) {
 		super(guiHelper, handler, "condenser_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Condenser recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.Condenser recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
@@ -28,6 +28,6 @@ public class CondenserCategory extends JEIMachineCategory<JEIRecipe.Condenser> {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".multiblock_gui.condenser.jei_name");
+		return Lang.localize(Global.MOD_ID + ".multiblock_gui.condenser.jei_name");
 	}
 }

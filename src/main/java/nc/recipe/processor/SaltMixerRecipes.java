@@ -5,9 +5,7 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.BasicRecipeHandler;
-
-public class SaltMixerRecipes extends BasicRecipeHandler {
+public class SaltMixerRecipes extends BasicProcessorRecipeHandler {
 	
 	public SaltMixerRecipes() {
 		super("salt_mixer", 0, 2, 0, 1);
@@ -105,15 +103,6 @@ public class SaltMixerRecipes extends BasicRecipeHandler {
 		for (String element : FISSION_FLUID) {
 			addRecipe(fluidStack(element + "_fluoride", INGOT_VOLUME / 2), fluidStack("flibe", INGOT_VOLUME / 2), fluidStack(element + "_fluoride_flibe", INGOT_VOLUME / 2), 0.5D, 1D);
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 	
 	@Override

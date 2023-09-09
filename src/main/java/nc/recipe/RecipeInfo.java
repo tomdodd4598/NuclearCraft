@@ -6,17 +6,13 @@ import it.unimi.dsi.fastutil.ints.IntList;
 
 public class RecipeInfo<T extends IRecipe> {
 	
-	private final @Nonnull T recipe;
+	public final @Nonnull T recipe;
 	
-	private final RecipeMatchResult matchResult;
+	public final RecipeMatchResult matchResult;
 	
 	public RecipeInfo(@Nonnull T recipe, RecipeMatchResult matchResult) {
 		this.recipe = recipe;
 		this.matchResult = matchResult;
-	}
-	
-	public @Nonnull T getRecipe() {
-		return recipe;
 	}
 	
 	/** Already takes item input order into account! */

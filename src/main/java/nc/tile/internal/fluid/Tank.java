@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class Tank extends FluidTank {
 	
-	private List<String> allowedFluids;
+	protected List<String> allowedFluids;
 	
 	public Tank(int capacity, List<String> allowedFluids) {
 		super(capacity);

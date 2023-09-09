@@ -1,11 +1,8 @@
 package nc.recipe.processor;
 
-import java.util.*;
-
-import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 
-public class FuelReprocessorRecipes extends BasicRecipeHandler {
+public class FuelReprocessorRecipes extends BasicProcessorRecipeHandler {
 	
 	public FuelReprocessorRecipes() {
 		super("fuel_reprocessor", 1, 0, 8, 0);
@@ -60,14 +57,5 @@ public class FuelReprocessorRecipes extends BasicRecipeHandler {
 		addRecipe(oreStack("ingotDepleted" + fuel + "Oxide", 9), oreStack("ingot" + out1 + "Oxide", n1), oreStack("ingot" + out2 + "Oxide", n2), chanceOreStack("dust" + waste1, 1, (int) (m * r)), emptyItemStack(), oreStack("ingot" + out3 + "Oxide", n3), oreStack("ingot" + out4 + "Oxide", n4), chanceOreStack("dust" + waste2, 1, (int) (m * (100 - r))), emptyItemStack(), 1D, 1D);
 		addRecipe(oreStack("ingotDepleted" + fuel + "Nitride", 9), oreStack("ingot" + out1 + "Nitride", n1), oreStack("ingot" + out2 + "Nitride", n2), chanceOreStack("dust" + waste1, 1, (int) (m * r)), emptyItemStack(), oreStack("ingot" + out3 + "Nitride", n3), oreStack("ingot" + out4 + "Nitride", n4), chanceOreStack("dust" + waste2, 1, (int) (m * (100 - r))), emptyItemStack(), 1D, 1D);
 		addRecipe(oreStack("ingotDepleted" + fuel + "ZA", 9), oreStack("ingot" + out1 + "ZA", n1), oreStack("ingot" + out2 + "ZA", n2), chanceOreStack("dust" + waste1, 1, (int) (m * r)), oreStack("dustZirconium", extraReturn), oreStack("ingot" + out3 + "ZA", n3), oreStack("ingot" + out4 + "ZA", n4), chanceOreStack("dust" + waste2, 1, (int) (m * (100 - r))), emptyItemStack(), 1D, 1D);
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 }

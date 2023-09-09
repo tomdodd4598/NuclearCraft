@@ -43,11 +43,11 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		}
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IBasicUpgradeProcessor) {
-			if (installUpgrade(tile, ((IBasicUpgradeProcessor) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) {
+		if (tile instanceof IUpgradableProcessor) {
+			if (installUpgrade(tile, ((IUpgradableProcessor) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) {
 				return true;
 			}
-			if (installUpgrade(tile, ((IBasicUpgradeProcessor) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) {
+			if (installUpgrade(tile, ((IUpgradableProcessor) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) {
 				return true;
 			}
 		}
@@ -72,8 +72,8 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 			if (accessedTanks) {
 				if (tile instanceof IProcessor) {
-					((IProcessor<?>) tile).refreshRecipe();
-					((IProcessor<?>) tile).refreshActivity();
+					((IProcessor<?, ?>) tile).refreshRecipe();
+					((IProcessor<?, ?>) tile).refreshActivity();
 				}
 				return true;
 			}
@@ -86,10 +86,10 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			else {
 				onGuiOpened(world, pos);
 				if (tile instanceof IProcessor) {
-					((IProcessor<?>) tile).refreshRecipe();
-					((IProcessor<?>) tile).refreshActivity();
+					((IProcessor<?, ?>) tile).refreshRecipe();
+					((IProcessor<?, ?>) tile).refreshActivity();
 				}
-				((ITileGui<?, ?>) tile).openGui(world, pos, player);
+				((ITileGui<?, ?, ?>) tile).openGui(world, pos, player);
 			}
 		}
 		else {

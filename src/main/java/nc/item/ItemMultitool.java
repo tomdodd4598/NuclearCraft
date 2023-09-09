@@ -52,7 +52,7 @@ public class ItemMultitool extends NCItem {
 					if (nbt != null) {
 						boolean multitoolUsed = ((IMultitoolLogic) tile).onUseMultitool(stack, player, world, facing, hitX, hitY, hitZ);
 						nbt.setBoolean("multitoolUsed", multitoolUsed);
-					
+						
 						tile.markDirty();
 						
 						if (multitoolUsed) {
@@ -87,7 +87,7 @@ public class ItemMultitool extends NCItem {
 		return false;
 	}
 	
-	public abstract static class MultitoolRightClickLogic {
+	public static abstract class MultitoolRightClickLogic {
 		
 		public abstract ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem);
 	}
@@ -101,7 +101,7 @@ public class ItemMultitool extends NCItem {
 				if (nbt != null && !player.isSneaking() && nbt.getString("gateMode").equals("angle")) {
 					double angle = NCMath.roundTo(player.rotationYaw + 360D, 360D / quantum_angle_precision) % 360D;
 					nbt.setDouble("gateAngle", angle);
-					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.tool_set_angle", NCMath.decimalPlaces(angle, 5))));
+					player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.tool_set_angle", NCMath.decimalPlaces(angle, 5))));
 					return itemMultitool.actionResult(true, heldItem);
 				}
 				return null;
@@ -114,7 +114,6 @@ public class ItemMultitool extends NCItem {
 			public ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem) {
 				NBTTagCompound nbt = NBTHelper.getStackNBT(heldItem);
 				if (nbt != null && player.isSneaking() && !nbt.isEmpty() && !nbt.getBoolean("multitoolUsed")) {
-					@SuppressWarnings("synthetic-access")
 					RayTraceResult raytraceresult = itemMultitool.rayTrace(world, player, false);
 					if (raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
 						return itemMultitool.actionResult(false, heldItem);
@@ -124,7 +123,7 @@ public class ItemMultitool extends NCItem {
 					TileEntity tile = world.getTileEntity(pos);
 					if (!(tile instanceof IMultitoolLogic)) {
 						clearNBT(heldItem);
-						player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.clear_info")));
+						player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.clear_info")));
 						return itemMultitool.actionResult(true, heldItem);
 					}
 				}

@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeItemMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class FuelReprocessorCategory extends JEIMachineCategory<JEIRecipe.FuelReprocessor> {
+public class FuelReprocessorCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.FuelReprocessor> {
 	
-	public FuelReprocessorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.FuelReprocessor> handler) {
+	public FuelReprocessorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.FuelReprocessor> handler) {
 		super(guiHelper, handler, "fuel_reprocessor", 29, 30, 134, 38);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.FuelReprocessor recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.FuelReprocessor recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

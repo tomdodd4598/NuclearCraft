@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipe<WRAPPER>> extends JEIBasicCategory<WRAPPER> {
+public abstract class JEIMachineCategory<WRAPPER extends JEIRecipeWrapper<WRAPPER>> extends JEIBasicCategory<WRAPPER> {
 	
 	protected final IDrawable background;
 	protected final String title;
@@ -21,7 +21,7 @@ public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipe<WRAPPER>
 		super(handler);
 		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + ".png");
 		background = guiHelper.createDrawable(location, backX, backY, backWidth, backHeight);
-		title = Lang.localise("tile." + Global.MOD_ID + "." + blockName + ".name");
+		title = Lang.localize("tile." + Global.MOD_ID + "." + blockName + ".name");
 		backPosX = backX + 1;
 		backPosY = backY + 1;
 	}
@@ -42,7 +42,7 @@ public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipe<WRAPPER>
 			int outputIndex = slotIndex - recipeWrapper.recipeHandler.getItemInputSize();
 			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.getItemOutputSize() && recipeWrapper.recipe.getItemProducts().get(outputIndex) instanceof IChanceItemIngredient) {
 				IChanceItemIngredient chanceIngredient = (IChanceItemIngredient) recipeWrapper.recipe.getItemProducts().get(outputIndex);
-				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.getMinStackSize(), chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.getMeanStackSize(), 2)));
+				tooltip.add(TextFormatting.WHITE + Lang.localize("jei.nuclearcraft.chance_output", chanceIngredient.getMinStackSize(), chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.getMeanStackSize(), 2)));
 			}
 		});
 		
@@ -50,7 +50,7 @@ public abstract class JEIMachineCategory<WRAPPER extends JEIBasicRecipe<WRAPPER>
 			int outputIndex = slotIndex - recipeWrapper.recipeHandler.getFluidInputSize();
 			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.getFluidOutputSize() && recipeWrapper.recipe.getFluidProducts().get(outputIndex) instanceof IChanceFluidIngredient) {
 				IChanceFluidIngredient chanceIngredient = (IChanceFluidIngredient) recipeWrapper.recipe.getFluidProducts().get(outputIndex);
-				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.getMinStackSize(), chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.getMeanStackSize(), 2)));
+				tooltip.add(TextFormatting.WHITE + Lang.localize("jei.nuclearcraft.chance_output", chanceIngredient.getMinStackSize(), chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.getMeanStackSize(), 2)));
 			}
 		});
 	}

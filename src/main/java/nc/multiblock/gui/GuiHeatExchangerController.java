@@ -42,8 +42,8 @@ public class GuiHeatExchangerController extends GuiMultiblock<HeatExchanger, IHe
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<>();
-		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.fractionOfTubesActive * 100D, 1) + "%");
-		info.add(TextFormatting.AQUA + Lang.localise("gui.nc.container.heat_exchanger_controller.efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxEfficiency : multiblock.efficiency) * 100D, 1) + "%");
+		info.add(TextFormatting.LIGHT_PURPLE + Lang.localize("gui.nc.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.fractionOfTubesActive * 100D, 1) + "%");
+		info.add(TextFormatting.AQUA + Lang.localize("gui.nc.container.heat_exchanger_controller.efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxEfficiency : multiblock.efficiency) * 100D, 1) + "%");
 		return info;
 	}
 	
@@ -54,17 +54,17 @@ public class GuiHeatExchangerController extends GuiMultiblock<HeatExchanger, IHe
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isHeatExchangerOn ? 4210752 : 15619328;
-		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localise("gui.nc.container.heat_exchanger_controller.heat_exchanger");
-		fontRenderer.drawString(title, xSize / 2 - width(title) / 2, 6, fontColor);
+		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.heat_exchanger_controller.heat_exchanger");
+		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
 		
-		String underline = StringHelper.charLine('-', MathHelper.ceil((double) width(title) / width("-")));
-		fontRenderer.drawString(underline, xSize / 2 - width(underline) / 2, 12, fontColor);
+		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
+		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
 		
-		String tubes = Lang.localise("gui.nc.container.heat_exchanger_controller.tubes") + " " + (multiblock.getTubes().size() + multiblock.getCondenserTubes().size());
-		fontRenderer.drawString(tubes, xSize / 2 - width(tubes) / 2, 24, fontColor);
+		String tubes = Lang.localize("gui.nc.container.heat_exchanger_controller.tubes") + " " + (multiblock.getTubes().size() + multiblock.getCondenserTubes().size());
+		fontRenderer.drawString(tubes, xSize / 2 - fontRenderer.getStringWidth(tubes) / 2, 24, fontColor);
 		
-		String efficiency = Lang.localise("gui.nc.container.heat_exchanger_controller.efficiency") + " " + (int) (multiblock.efficiency * 100D) + "%";
-		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 40, fontColor);
+		String efficiency = Lang.localize("gui.nc.container.heat_exchanger_controller.efficiency") + " " + (int) (multiblock.efficiency * 100D) + "%";
+		fontRenderer.drawString(efficiency, xSize / 2 - fontRenderer.getStringWidth(efficiency) / 2, 40, fontColor);
 	}
 	
 	@Override

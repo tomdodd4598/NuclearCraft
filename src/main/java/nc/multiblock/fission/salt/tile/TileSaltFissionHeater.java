@@ -546,7 +546,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 			placementRule = FissionPlacement.RULE_MAP.get("");
 			return false;
 		}
-		BasicRecipe recipe = recipeInfo.getRecipe();
+		BasicRecipe recipe = recipeInfo.recipe;
 		baseProcessCooling = recipe.getCoolantHeaterCoolingRate();
 		placementRule = FissionPlacement.RULE_MAP.get(recipe.getCoolantHeaterPlacementRule());
 		return true;
@@ -714,12 +714,12 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().getFluidIngredients();
+		return recipeInfo.recipe.getFluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().getFluidProducts();
+		return recipeInfo.recipe.getFluidProducts();
 	}
 	
 	// Fluids
@@ -931,7 +931,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY)) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);

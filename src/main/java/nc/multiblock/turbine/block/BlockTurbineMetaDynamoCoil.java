@@ -7,6 +7,7 @@ import nc.util.StackHelper;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.*;
@@ -93,7 +94,7 @@ public class BlockTurbineMetaDynamoCoil extends BlockTurbinePart implements IBlo
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
+	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, SpawnPlacementType type) {
 		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, type);
 	}
 	

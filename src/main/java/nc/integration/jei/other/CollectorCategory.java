@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CollectorCategory extends JEIMachineCategory<JEIRecipe.Collector> {
+public class CollectorCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.Collector> {
 	
-	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Collector> handler) {
+	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.Collector> handler) {
 		super(guiHelper, handler, "collector", 33, 30, 118, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Collector recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.Collector recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
@@ -31,6 +31,6 @@ public class CollectorCategory extends JEIMachineCategory<JEIRecipe.Collector> {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".collector.jei_name");
+		return Lang.localize(Global.MOD_ID + ".collector.jei_name");
 	}
 }

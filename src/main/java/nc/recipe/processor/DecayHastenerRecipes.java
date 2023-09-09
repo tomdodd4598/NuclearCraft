@@ -10,7 +10,7 @@ import nc.radiation.RadSources;
 import nc.recipe.*;
 import nc.util.*;
 
-public class DecayHastenerRecipes extends BasicRecipeHandler {
+public class DecayHastenerRecipes extends BasicProcessorRecipeHandler {
 	
 	public DecayHastenerRecipes() {
 		super("decay_hastener", 1, 0, 1, 0);
@@ -76,14 +76,5 @@ public class DecayHastenerRecipes extends BasicRecipeHandler {
 				addRecipe(inputName + type, "ingot" + output + type, timeMult, 1D, radiation);
 			}
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 }

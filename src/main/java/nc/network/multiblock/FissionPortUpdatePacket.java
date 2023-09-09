@@ -10,25 +10,23 @@ public class FissionPortUpdatePacket extends TileUpdatePacket {
 	public BlockPos masterPortPos;
 	
 	public FissionPortUpdatePacket() {
-		
+		super();
 	}
 	
 	public FissionPortUpdatePacket(BlockPos pos, BlockPos masterPortPos) {
-		this.pos = pos;
+		super(pos);
 		this.masterPortPos = masterPortPos;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		masterPortPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeInt(masterPortPos.getX());
 		buf.writeInt(masterPortPos.getY());
 		buf.writeInt(masterPortPos.getZ());

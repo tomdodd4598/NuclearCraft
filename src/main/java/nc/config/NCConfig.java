@@ -867,7 +867,7 @@ public class NCConfig {
 	}
 	
 	public static int sync(String category, String name, int defaultValue) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		int value = property.getInt();
@@ -876,7 +876,7 @@ public class NCConfig {
 	}
 	
 	public static int sync(String category, String name, int defaultValue, int minValue, int maxValue) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		int value = property.getInt();
@@ -885,7 +885,7 @@ public class NCConfig {
 	}
 	
 	public static boolean sync(String category, String name, boolean defaultValue) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		boolean value = property.getBoolean();
@@ -894,7 +894,7 @@ public class NCConfig {
 	}
 	
 	public static double sync(String category, String name, double defaultValue) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		double value = property.getDouble();
@@ -903,7 +903,7 @@ public class NCConfig {
 	}
 	
 	public static double sync(String category, String name, double defaultValue, double minValue, double maxValue) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		double value = property.getDouble();
@@ -912,7 +912,7 @@ public class NCConfig {
 	}
 	
 	public static String sync(String category, String name, String defaultValue) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		String value = property.getString();
@@ -921,7 +921,7 @@ public class NCConfig {
 	}
 	
 	public static int[] sync(String category, String name, int[] defaultValue, boolean fixedArray) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		int[] value = fixedArray ? readIntegerArray(property) : property.getIntList();
@@ -930,7 +930,7 @@ public class NCConfig {
 	}
 	
 	public static int[] sync(String category, String name, int[] defaultValue, int minValue, int maxValue, boolean fixedArray) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		int[] value = fixedArray ? readIntegerArray(property) : property.getIntList();
@@ -939,7 +939,7 @@ public class NCConfig {
 	}
 	
 	public static boolean[] sync(String category, String name, boolean[] defaultValue, boolean fixedArray) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		boolean[] value = fixedArray ? readBooleanArray(property) : property.getBooleanList();
@@ -948,7 +948,7 @@ public class NCConfig {
 	}
 	
 	public static double[] sync(String category, String name, double[] defaultValue, boolean fixedArray) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		double[] value = fixedArray ? readDoubleArray(property) : property.getDoubleList();
@@ -957,7 +957,7 @@ public class NCConfig {
 	}
 	
 	public static double[] sync(String category, String name, double[] defaultValue, double minValue, double maxValue, boolean fixedArray) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"), minValue, maxValue);
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		double[] value = fixedArray ? readDoubleArray(property) : property.getDoubleList();
@@ -966,7 +966,7 @@ public class NCConfig {
 	}
 	
 	public static String[] sync(String category, String name, String[] defaultValue, boolean fixedArray) {
-		Property property = config.get(category, name, defaultValue, Lang.localise("gui.nc.config." + category + "." + name + ".comment"));
+		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + category + "." + name + ".comment"));
 		property.setLanguageKey("gui.nc.config." + category + "." + name);
 		PROPERTY_ORDER_MAP.get(category).add(property.getName());
 		String[] value = fixedArray ? readStringArray(property) : property.getStringList();
@@ -1107,7 +1107,7 @@ public class NCConfig {
 	public static void onConfigPacket(ConfigUpdatePacket message) {
 		if (!radiation_enabled_public && message.radiation_enabled) {
 			String unloc = "message.nuclearcraft.radiation_config_info" + (ModCheck.jeiLoaded() ? "_jei" : "");
-			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GOLD + Lang.localise(unloc)));
+			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GOLD + Lang.localize(unloc)));
 		}
 		radiation_enabled_public = message.radiation_enabled;
 		radiation_horse_armor_public = message.radiation_horse_armor;

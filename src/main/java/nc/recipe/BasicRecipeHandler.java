@@ -81,9 +81,30 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		}
 	}
 	
-	public abstract List<Object> fixExtras(List<Object> extras);
+	protected abstract List<Object> fixedExtras(List<Object> extras);
 	
-	public BasicRecipe factorRecipe(BasicRecipe recipe) {
+	public static class ExtrasFixer {
+		
+		private final List<Object> extras;
+		public final List<Object> fixed = new ArrayList<>();
+		
+		private final int extrasCount;
+		private int currentIndex = 0;
+		
+		public ExtrasFixer(List<Object> extras) {
+			this.extras = extras;
+			extrasCount = extras.size();
+		}
+		
+		@SuppressWarnings("unchecked")
+		public <T> void add(Class<? extends T> clazz, T defaultValue) {
+			int index = currentIndex++;
+			Object extra = extras.get(index);
+			fixed.add(extrasCount > index && clazz.isInstance(extra) ? (T) extra : defaultValue);
+		}
+	}
+	
+	protected BasicRecipe factorRecipe(BasicRecipe recipe) {
 		if (recipe == null) {
 			return null;
 		}
@@ -117,11 +138,11 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		return newRecipe(recipe.getItemIngredients(), fluidIngredients, recipe.getItemProducts(), fluidProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
 	}
 	
-	public IntList getExtraFactors(List<Object> extras) {
+	protected IntList getExtraFactors(List<Object> extras) {
 		return new IntArrayList();
 	}
 	
-	public List<Object> getFactoredExtras(List<Object> extras, int factor) {
+	protected List<Object> getFactoredExtras(List<Object> extras, int factor) {
 		return extras;
 	}
 	
@@ -204,7 +225,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		if (!isValidRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts)) {
 			NCUtil.getLogger().info(name + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
-		return newRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixExtras(extras), shapeless);
+		return newRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, fixedExtras(extras), shapeless);
 	}
 	
 	public boolean isValidRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
@@ -252,6 +273,13 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		super.init();
 		validFluids = RecipeHelper.validFluids(this);
 	}
+	
+	@Override
+	public void postInit() {
+		setStats();
+	}
+	
+	protected abstract void setStats();
 	
 	@Override
 	protected void fillHashCache() {
@@ -378,7 +406,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 			return false;
 		}
 		else {
-			return isValidItemInputInternal(slot, stack, recipeInfo.getRecipe(), otherInputs);
+			return isValidItemInputInternal(slot, stack, recipeInfo.recipe, otherInputs);
 		}
 	}
 	

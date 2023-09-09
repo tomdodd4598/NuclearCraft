@@ -1,16 +1,15 @@
+CT Registration of machines
+Add auto-outputting to machines
+
 QMD feature merge: nitrogen collector -> air collector
 
 Refactor BasicRecipe and BasicRecipeHandler subclasses to make recipes easier for addons
 
-Refactor multiblock NBT?
+Global fission radiation configs
 
-Global turbine spin-up and spin-down multipliers
-
-Rename 'handler' package to 'event' and move out non-event classes
+Global turbine spin-up and spin-down multiplier configs
 
 Add lists of lambdas to parts of radiation tick loop for custom addon radiation logic
-
-GTCE EU: add multiblock hatches for energy input/output (configurable min/max tier), scale single-block generator amperage with configurable tier
 
 Complete printing of registered multiblock component stats and rules to separate nuclearcraft.info file
 
@@ -20,14 +19,7 @@ Move multiblock component ticking from TE to multiblock logic
 Tick vessel bunches as one entity
 Add multithreading where appropriate
 
-Refactor old tile entity hierarchy - modularise item/fluid/energy handling
-Modularise processor classes (remove arrays!)
-Refactor GUIs
-
 Wiki/Patchouli documentation
-
-CT Registration of machines
-Add auto-outputting to machines
 
 Multiblock monitors: show cluster information, meltdown locations, side configurations, etc.
 

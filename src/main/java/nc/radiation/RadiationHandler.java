@@ -41,8 +41,8 @@ public class RadiationHandler {
 	
 	private static final Random RAND = new Random();
 	
-	private static final String RAD_X_WORE_OFF = Lang.localise("message.nuclearcraft.rad_x_wore_off");
-	private static final String RAD_WARNING = Lang.localise("message.nuclearcraft.rad_warning");
+	private static final String RAD_X_WORE_OFF = Lang.localize("message.nuclearcraft.rad_x_wore_off");
+	private static final String RAD_WARNING = Lang.localize("message.nuclearcraft.rad_warning");
 	
 	private static EnumFacing tile_side = EnumFacing.DOWN;
 	
@@ -461,8 +461,8 @@ public class RadiationHandler {
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
 				RecipeInfo<BasicRecipe> mutationInfo = getRadiationBlockPurificationRecipeHandler().getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
-				if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
-					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
+				if (mutationInfo != null && radiation >= mutationInfo.recipe.getBlockMutationThreshold()) {
+					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.recipe.getItemProducts(), 0);
 					if (output != null) {
 						IBlockState result = StackHelper.getBlockStateFromStack(output);
 						if (result != null) {
@@ -481,8 +481,8 @@ public class RadiationHandler {
 			ItemStack stack = StackHelper.blockStateToStack(state);
 			if (stack != null && !stack.isEmpty()) {
 				RecipeInfo<BasicRecipe> mutationInfo = getRadiationBlockPurificationRecipeHandler().getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
-				if (mutationInfo != null && radiation < mutationInfo.getRecipe().getBlockMutationThreshold()) {
-					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().getItemProducts(), 0);
+				if (mutationInfo != null && radiation < mutationInfo.recipe.getBlockMutationThreshold()) {
+					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.recipe.getItemProducts(), 0);
 					if (output != null) {
 						IBlockState result = StackHelper.getBlockStateFromStack(output);
 						if (result != null) {
@@ -496,7 +496,7 @@ public class RadiationHandler {
 	
 	private static BasicRecipeHandler getRadiationBlockPurificationRecipeHandler() {
 		if (radiation_block_purification == null) {
-			radiation_block_purification = NCRecipes.getHandler("radiation_block_purification");
+			radiation_block_purification = NCRecipes.radiation_block_purification;
 		}
 		return radiation_block_purification;
 	}

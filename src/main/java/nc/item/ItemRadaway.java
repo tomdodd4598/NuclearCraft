@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class ItemRadaway extends NCItem {
 	
-	private static final String RADAWAY_COOLDOWN = Lang.localise("message.nuclearcraft.radaway_cooling_down");
+	private static final String RADAWAY_COOLDOWN = Lang.localize("message.nuclearcraft.radaway_cooling_down");
 	
 	private final boolean slow;
 	

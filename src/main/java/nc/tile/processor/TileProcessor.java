@@ -6,30 +6,38 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import li.cil.oc.api.network.SimpleComponent;
 import nc.ModCheck;
 import nc.config.NCConfig;
+import nc.handler.TileInfoHandler;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
 import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.inventory.ITileInventory;
+import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Optional;
 
-public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends TileEnergyFluidSidedInventory implements IProcessor<TILE, INFO> {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public abstract class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends TileEnergyFluidSidedInventory implements IProcessor<TILE, INFO>, SimpleComponent {
 	
-	protected final INFO containerInfo;
+	protected final INFO info;
 	
 	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
 	
 	protected final @Nonnull NonNullList<ItemStack> consumedStacks;
-	protected final @Nonnull List<Tank> consumedTanks = new ArrayList<>();
+	protected final @Nonnull List<Tank> consumedTanks;
 	
 	public double time, resetTime;
 	public boolean isProcessing, canProcessInputs, hasConsumed;
@@ -39,32 +47,47 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 	
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
-	protected TileProcessor(String name, INFO containerInfo, @Nonnull InventoryConnection[] inventoryConnections, long capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, containerInfo.getInventorySize(), inventoryConnections, capacity, energyConnections, fluidCapacity, allowedFluids, fluidConnections);
-		this.containerInfo = containerInfo;
+	protected TileProcessor(String name) {
+		this(name, TileInfoHandler.getContainerProcessorInfo(name));
+	}
+	
+	private TileProcessor(String name, INFO info) {
+		this(name, info, ITileInventory.inventoryConnectionAll(info.defaultItemSorptions()), IProcessor.energyCapacity(info, 1D, 1D), ITileEnergy.energyConnectionAll(info.defaultEnergyConnection()), info.defaultTankCapacities(), NCRecipes.getValidFluids(name), ITileFluid.fluidConnectionAll(info.defaultTankSorptions()));
+	}
+	
+	private TileProcessor(String name, INFO info, @Nonnull InventoryConnection[] inventoryConnections, long capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, info.getInventorySize(), inventoryConnections, capacity, energyConnections, fluidCapacity, allowedFluids, fluidConnections);
+		this.info = info;
 		
-		this.baseProcessTime = containerInfo.defaultProcessTime;
-		this.baseProcessPower = containerInfo.defaultProcessPower;
+		baseProcessTime = info.defaultProcessTime;
+		baseProcessPower = info.defaultProcessPower;
 		
-		setInputTanksSeparated(containerInfo.fluidInputSize > 1);
+		setInputTanksSeparated(info.fluidInputSize > 1);
 		
-		if (containerInfo.consumesInputs) {
-			consumedStacks = NonNullList.withSize(containerInfo.itemInputSize, ItemStack.EMPTY);
-			List<Tank> tanks = getTanks();
-			for (int i = 0; i < containerInfo.fluidInputSize; ++i) {
-				consumedTanks.add(new Tank(tanks.get(i).getCapacity(), new ArrayList<>()));
-			}
-		}
-		else {
-			consumedStacks = NonNullList.withSize(0, ItemStack.EMPTY);
-		}
+		consumedStacks = info.getConsumedStacks();
+		consumedTanks = info.getConsumedTanks();
 		
-		recipeHandler = containerInfo.getRecipeHandler();
+		recipeHandler = info.getRecipeHandler();
 	}
 	
 	@Override
 	public INFO getContainerInfo() {
-		return containerInfo;
+		return info;
+	}
+	
+	@Override
+	public BasicRecipeHandler getRecipeHandler() {
+		return recipeHandler;
+	}
+	
+	@Override
+	public double getCurrentTime() {
+		return time;
+	}
+	
+	@Override
+	public boolean getIsProcessing() {
+		return isProcessing;
 	}
 	
 	@Override
@@ -99,7 +122,7 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 			else {
 				getRadiationSource().setRadiationLevel(0D);
 				if (time > 0) {
-					if (containerInfo.losesProgress && !isHaltedByRedstone()) {
+					if (info.losesProgress && !isHaltedByRedstone()) {
 						loseProgress();
 					}
 					else if (!canProcessInputs) {
@@ -120,9 +143,18 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 	}
 	
 	@Override
+	public void refreshAll() {
+		refreshRecipe();
+		refreshActivity();
+		refreshEnergyCapacity();
+		isProcessing = isProcessing();
+		hasConsumed = hasConsumed();
+	}
+	
+	@Override
 	public void refreshRecipe() {
 		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
-		if (containerInfo.consumesInputs) {
+		if (info.consumesInputs) {
 			consumeInputs();
 		}
 	}
@@ -132,72 +164,63 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		canProcessInputs = canProcessInputs();
 	}
 	
+	@Override
 	public void refreshActivityOnProduction() {
 		canProcessInputs = canProcessInputs();
 	}
 	
 	public void refreshEnergyCapacity() {}
 	
-	public void refreshAll() {
-		refreshRecipe();
-		refreshActivity();
-		refreshEnergyCapacity();
-		isProcessing = isProcessing();
-		hasConsumed = hasConsumed();
-	}
-	
 	// Processor Stats
 	
-	public int getProcessTime() {
-		return Math.max(1, NCMath.toInt(Math.round(Math.ceil(baseProcessTime / getSpeedMultiplier()))));
+	@Override
+	public double getBaseProcessTime() {
+		return baseProcessTime;
 	}
 	
-	public int getProcessPower() {
-		return NCMath.toInt(Math.ceil(baseProcessPower * getPowerMultiplier()));
+	@Override
+	public double getBaseProcessPower() {
+		return baseProcessPower;
 	}
 	
-	public int getProcessEnergy() {
-		return getProcessTime() * getProcessPower();
-	}
-	
+	@Override
 	public boolean setRecipeStats() {
 		if (recipeInfo == null) {
-			baseProcessTime = containerInfo.defaultProcessTime;
-			baseProcessPower = containerInfo.defaultProcessPower;
+			baseProcessTime = info.defaultProcessTime;
+			baseProcessPower = info.defaultProcessPower;
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		BasicRecipe recipe = recipeInfo.getRecipe();
-		baseProcessTime = recipe.getBaseProcessTime(containerInfo.defaultProcessTime);
-		baseProcessPower = recipe.getBaseProcessPower(containerInfo.defaultProcessPower);
+		BasicRecipe recipe = recipeInfo.recipe;
+		baseProcessTime = recipe.getBaseProcessTime(info.defaultProcessTime);
+		baseProcessPower = recipe.getBaseProcessPower(info.defaultProcessPower);
 		baseProcessRadiation = recipe.getBaseProcessRadiation();
 		return true;
 	}
 	
-	// Needed for Galacticraft
-	protected int getMaxEnergyModified() {
-		return ModCheck.galacticraftLoaded() ? Math.max(0, getMaxEnergyStored() - 16) : getMaxEnergyStored();
-	}
-	
 	// Processing
 	
+	@Override
 	public boolean isProcessing() {
 		return readyToProcess() && !isHaltedByRedstone();
 	}
 	
+	@Override
 	public boolean isHaltedByRedstone() {
 		return getRedstoneControl() && getIsRedstonePowered();
 	}
 	
+	@Override
 	public boolean readyToProcess() {
-		return canProcessInputs && (!containerInfo.consumesInputs || hasConsumed) && hasSufficientEnergy();
+		return canProcessInputs && (!info.consumesInputs || hasConsumed) && hasSufficientEnergy();
 	}
 	
+	@Override
 	public boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats();
 		if (hasConsumed && !validRecipe) {
 			List<ItemStack> itemInputs = getItemInputs(true);
-			for (int i = 0; i < containerInfo.itemInputSize; ++i) {
+			for (int i = 0; i < info.itemInputSize; ++i) {
 				itemInputs.set(i, ItemStack.EMPTY);
 			}
 			for (Tank tank : getFluidInputs(true)) {
@@ -213,10 +236,16 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		return canProcess;
 	}
 	
+	// Needed for Galacticraft
+	protected int getMaxEnergyModified() {
+		return ModCheck.galacticraftLoaded() ? Math.max(0, getMaxEnergyStored() - 16) : getMaxEnergyStored();
+	}
+	
 	public boolean hasSufficientEnergy() {
 		return time <= resetTime && (getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified() || getProcessEnergy() <= getEnergyStored()) || time > resetTime && getEnergyStored() >= getProcessPower();
 	}
 	
+	@Override
 	public void process() {
 		time += getSpeedMultiplier();
 		getEnergyStorage().changeEnergyStored(-getProcessPower());
@@ -226,6 +255,7 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		}
 	}
 	
+	@Override
 	public void finishProcess() {
 		double oldProcessTime = baseProcessTime;
 		produceProducts();
@@ -235,7 +265,7 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		if (!canProcessInputs) {
 			time = resetTime = 0;
 			List<Tank> tanks = getTanks();
-			for (int i = 0; i < containerInfo.fluidInputSize; ++i) {
+			for (int i = 0; i < info.fluidInputSize; ++i) {
 				if (getVoidUnusableFluidInput(i)) {
 					tanks.get(i).setFluidStored(null);
 				}
@@ -243,6 +273,7 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		}
 	}
 	
+	@Override
 	public void loseProgress() {
 		time = MathHelper.clamp(time - 1.5D * getSpeedMultiplier(), 0D, baseProcessTime);
 		if (time < resetTime) {
@@ -250,24 +281,16 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		}
 	}
 	
-	public double getSpeedMultiplier() {
-		return 1D;
-	}
-	
-	public double getPowerMultiplier() {
-		return 1D;
-	}
-	
 	// IProcessor
 	
 	@Override
 	public List<ItemStack> getItemInputs(boolean consumed) {
-		return consumed ? consumedStacks : getInventoryStacks().subList(0, containerInfo.itemInputSize);
+		return consumed ? consumedStacks : getInventoryStacks().subList(0, info.itemInputSize);
 	}
 	
 	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
-		return consumed ? consumedTanks : getTanks().subList(0, containerInfo.fluidInputSize);
+		return consumed ? consumedTanks : getTanks().subList(0, info.fluidInputSize);
 	}
 	
 	@Override
@@ -287,22 +310,32 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 	
 	@Override
 	public List<IItemIngredient> getItemIngredients() {
-		return recipeInfo.getRecipe().getItemIngredients();
+		return recipeInfo.recipe.getItemIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().getFluidIngredients();
+		return recipeInfo.recipe.getFluidIngredients();
 	}
 	
 	@Override
 	public List<IItemIngredient> getItemProducts() {
-		return recipeInfo.getRecipe().getItemProducts();
+		return recipeInfo.recipe.getItemProducts();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().getFluidProducts();
+		return recipeInfo.recipe.getFluidProducts();
+	}
+	
+	@Override
+	public double getSpeedMultiplier() {
+		return 1D;
+	}
+	
+	@Override
+	public double getPowerMultiplier() {
+		return 1D;
 	}
 	
 	// IC2 Tiers
@@ -323,11 +356,11 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 	public ItemStack decrStackSize(int slot, int amount) {
 		ItemStack stack = super.decrStackSize(slot, amount);
 		if (!world.isRemote) {
-			if (slot < containerInfo.itemInputSize) {
+			if (slot < info.itemInputSize) {
 				refreshRecipe();
 				refreshActivity();
 			}
-			else if (slot < containerInfo.itemInputSize + containerInfo.itemOutputSize) {
+			else if (slot < info.itemInputSize + info.itemOutputSize) {
 				refreshActivity();
 			}
 		}
@@ -338,11 +371,11 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 	public void setInventorySlotContents(int slot, ItemStack stack) {
 		super.setInventorySlotContents(slot, stack);
 		if (!world.isRemote) {
-			if (slot < containerInfo.itemInputSize) {
+			if (slot < info.itemInputSize) {
 				refreshRecipe();
 				refreshActivity();
 			}
-			else if (slot < containerInfo.itemInputSize + containerInfo.itemOutputSize) {
+			else if (slot < info.itemInputSize + info.itemOutputSize) {
 				refreshActivity();
 			}
 		}
@@ -361,7 +394,7 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		if (stack.isEmpty()) {
 			return false;
 		}
-		if (slot >= containerInfo.itemInputSize && slot < containerInfo.itemInputSize + containerInfo.itemOutputSize) {
+		if (slot >= info.itemInputSize && slot < info.itemInputSize + info.itemOutputSize) {
 			return false;
 		}
 		
@@ -492,5 +525,13 @@ public class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO extends 
 		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).readInfo(message.tanksInfo.get(i));
 		}
+	}
+	
+	// OpenComputers
+	
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public String getComponentName() {
+		return info.ocComponentName;
 	}
 }

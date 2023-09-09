@@ -40,17 +40,17 @@ public class GuiSaltFissionVessel extends NCGui {
 	
 	public List<String> heatInfo() {
 		String heat = UnitHelper.prefix(vessel.clusterHeatStored, vessel.clusterHeatCapacity, 5, "H");
-		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_vessel.heat_stored") + TextFormatting.WHITE + " " + heat);
+		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localize("gui.nc.container.salt_fission_vessel.heat_stored") + TextFormatting.WHITE + " " + heat);
 	}
 	
 	public List<String> noClusterInfo() {
-		return Lists.newArrayList(TextFormatting.RED + Lang.localise("gui.nc.container.no_cluster"));
+		return Lists.newArrayList(TextFormatting.RED + Lang.localize("gui.nc.container.no_cluster"));
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = vessel.getMultiblock() != null && vessel.getMultiblock().isReactorOn ? -1 : 15641088;
-		String s = Lang.localise("gui.nc.container.salt_fission_vessel.vessel");
+		String s = Lang.localize("gui.nc.container.salt_fission_vessel.vessel");
 		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
 	}
 	

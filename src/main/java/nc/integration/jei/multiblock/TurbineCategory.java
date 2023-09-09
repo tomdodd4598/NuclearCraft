@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class TurbineCategory extends JEIMachineCategory<JEIRecipe.Turbine> {
+public class TurbineCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.Turbine> {
 	
-	public TurbineCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Turbine> handler) {
+	public TurbineCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.Turbine> handler) {
 		super(guiHelper, handler, "turbine_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Turbine recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.Turbine recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
@@ -28,6 +28,6 @@ public class TurbineCategory extends JEIMachineCategory<JEIRecipe.Turbine> {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".multiblock_gui.turbine.jei_name");
+		return Lang.localize(Global.MOD_ID + ".multiblock_gui.turbine.jei_name");
 	}
 }

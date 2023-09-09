@@ -161,7 +161,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 						setTankSorption(side, 1, TankSorption.NON);
 					}
 					setActivity(false);
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localize("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				else {
 					for (EnumFacing side : EnumFacing.VALUES) {
@@ -169,7 +169,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 						setTankSorption(side, 1, TankSorption.OUT);
 					}
 					setActivity(true);
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.RED + Lang.localise("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.RED + Lang.localize("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				markDirtyAndNotify(true);
 				return true;
@@ -218,7 +218,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY)) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);

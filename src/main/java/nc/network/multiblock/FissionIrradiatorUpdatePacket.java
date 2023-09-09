@@ -18,11 +18,11 @@ public class FissionIrradiatorUpdatePacket extends TileUpdatePacket {
 	public double time, baseProcessTime;
 	
 	public FissionIrradiatorUpdatePacket() {
-		
+		super();
 	}
 	
 	public FissionIrradiatorUpdatePacket(BlockPos pos, BlockPos masterPortPos, NonNullList<ItemStack> filterStacks, FissionCluster cluster, boolean isProcessing, double time, double baseProcessTime) {
-		this.pos = pos;
+		super(pos);
 		this.masterPortPos = masterPortPos;
 		filterStack = filterStacks.get(0);
 		clusterHeatStored = cluster == null ? -1L : cluster.heatBuffer.getHeatStored();
@@ -34,7 +34,7 @@ public class FissionIrradiatorUpdatePacket extends TileUpdatePacket {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		masterPortPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		filterStack = ByteBufUtils.readItemStack(buf);
 		clusterHeatStored = buf.readLong();
@@ -46,9 +46,7 @@ public class FissionIrradiatorUpdatePacket extends TileUpdatePacket {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeInt(masterPortPos.getX());
 		buf.writeInt(masterPortPos.getY());
 		buf.writeInt(masterPortPos.getZ());

@@ -306,7 +306,7 @@ tile.nuclearcraft.turbine_controller.desc=The heart of the turbine - one is need
 tile.nuclearcraft.turbine_casing.name=Turbine Casing
 tile.nuclearcraft.turbine_glass.name=Turbine Glass
 tile.nuclearcraft.turbine_rotor_shaft.name=Turbine Rotor Shaft
-tile.nuclearcraft.turbine_rotor_shaft.desc=Connects the rotor blades to the dynamo to convert the generated kinetic energy into electrical energy. Must be placed axially as a cuboid along the centre of the turbine interior.
+tile.nuclearcraft.turbine_rotor_shaft.desc=Connects the rotor blades to the dynamo to convert the generated kinetic energy into electrical energy. Must be placed axially as a cuboid along the center of the turbine interior.
 tile.nuclearcraft.turbine_rotor_blade_steel.name=Steel Turbine Rotor Blade
 tile.nuclearcraft.turbine_rotor_blade_extreme.name=Extreme Alloy Turbine Rotor Blade
 tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=SiC-SiC CMC Turbine Rotor Blade
@@ -2877,7 +2877,7 @@ gui.nc.config.radiation_shielding_default_levels.comment=List of armor item stac
 gui.nc.config.radiation_hud_size=Radiation HUD Size
 gui.nc.config.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.
 gui.nc.config.radiation_hud_position=Radiation HUD Position
-gui.nc.config.radiation_hud_position.comment=Angle from the centre of the screen at which radiation info appears on the HUD. 0 degrees is the top of the screen, 45 is top-right, etc.
+gui.nc.config.radiation_hud_position.comment=Angle from the center of the screen at which radiation info appears on the HUD. 0 degrees is the top of the screen, 45 is top-right, etc.
 gui.nc.config.radiation_hud_position_cartesian=HUD Cartesian Position
 gui.nc.config.radiation_hud_position_cartesian.comment=Optional config to specify where the rads overlay should appear on the screen if not wanted on a side or at a corner - if used, this config will be used in place of the angle-based one. Two doubles are required [x, y] which specify how far right (x) and how far down (y) from the top-left corner of the screen the overlay is drawn at.
 gui.nc.config.radiation_hud_text_outline=HUD Text Outline
@@ -2981,7 +2981,7 @@ gui.nc.computer.invalid_argument_error=Invalid argument %s, expected %s
 gui.nc.computer.integer_too_small_error=Number argument %s too small, expected at least %s
 gui.nc.computer.integer_too_large_error=Number argument %s too large, expected %s at most
 
-# Localisation for ZeroCore multiblock API
+# Localization for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=Multiblock validation was successful
 zerocore.api.nc.multiblock.validation.too_few_parts=Multiblock is too small
 zerocore.api.nc.multiblock.validation.machine_too_large=Multiblock is too large, it may be at most %1$d blocks in the %2$s dimension
@@ -3192,8 +3192,8 @@ nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=This 
 nuclearcraft.multiblock_validation.turbine.need_bearings=There must be two sets of rotor bearings in opposing walls of the turbine for it to form
 nuclearcraft.multiblock_validation.turbine.bearings_side_square=The walls housing the rotor bearings must be square for the turbine to form
 nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=Inlets and outlets must be installed opposite each other on the walls housing the rotor bearings for the turbine to form
-nuclearcraft.multiblock_validation.turbine.bearings_centre_and_square=The sets of rotor bearings must be square and centred in the middle of each opposing wall for the turbine to form
-nuclearcraft.multiblock_validation.turbine.shaft_centre=The rotor shaft must be fully connected to each set of rotor bearings for the turbine to form
+nuclearcraft.multiblock_validation.turbine.bearings_center_and_square=The sets of rotor bearings must be square and centered in the middle of each opposing wall for the turbine to form
+nuclearcraft.multiblock_validation.turbine.shaft_center=The rotor shaft must be fully connected to each set of rotor bearings for the turbine to form
 nuclearcraft.multiblock_validation.turbine.space_between_blades=The space between the sets of rotor blades and stators must be empty for the turbine to form
 nuclearcraft.multiblock_validation.turbine.different_type_blades=The rotor blades or stators about each section of the rotor shaft must be of the same type for the turbine to form
 nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the rotor shaft must have rotor blades or stators of the same type extend fully to the wall for the turbine to form

@@ -40,33 +40,33 @@ public class GuiTurbineController extends GuiMultiblock<Turbine, ITurbinePart, T
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isTurbineOn ? -1 : 15641088;
-		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localise("gui.nc.container.turbine_controller." + "turbine");
-		fontRenderer.drawString(title, xSize / 2 - width(title) / 2, 6, fontColor);
+		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.turbine_controller." + "turbine");
+		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
 		
-		String underline = StringHelper.charLine('-', MathHelper.ceil((double) width(title) / width("-")));
-		fontRenderer.drawString(underline, xSize / 2 - width(underline) / 2, 12, fontColor);
+		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
+		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
 		
-		String power = Lang.localise("gui.nc.container.turbine_controller.power") + " " + UnitHelper.prefix(Math.round(multiblock.power), 6, "RF/t");
-		fontRenderer.drawString(power, xSize / 2 - width(power) / 2, 24, fontColor);
+		String power = Lang.localize("gui.nc.container.turbine_controller.power") + " " + UnitHelper.prefix(Math.round(multiblock.power), 6, "RF/t");
+		fontRenderer.drawString(power, xSize / 2 - fontRenderer.getStringWidth(power) / 2, 24, fontColor);
 		
 		int bearingCount = multiblock.getPartCount(TileTurbineRotorBearing.class);
-		String coils = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (bearingCount == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + bearingCount / 2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + bearingCount / 2) : Lang.localise("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.conductivity, 1);
-		fontRenderer.drawString(coils, xSize / 2 - width(coils) / 2, 36, fontColor);
+		String coils = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (bearingCount == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + bearingCount / 2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + bearingCount / 2) : Lang.localize("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.conductivity, 1);
+		fontRenderer.drawString(coils, xSize / 2 - fontRenderer.getStringWidth(coils) / 2, 36, fontColor);
 		
-		String rotor = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel, 1) + " [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel / multiblock.idealTotalExpansionLevel, 1) + "]") : Lang.localise("gui.nc.container.turbine_controller.rotor_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.rotorEfficiency, 1);
-		fontRenderer.drawString(rotor, xSize / 2 - width(rotor) / 2, 48, fontColor);
+		String rotor = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel, 1) + " [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel / multiblock.idealTotalExpansionLevel, 1) + "]") : Lang.localize("gui.nc.container.turbine_controller.rotor_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.rotorEfficiency, 1);
+		fontRenderer.drawString(rotor, xSize / 2 - fontRenderer.getStringWidth(rotor) / 2, 48, fontColor);
 		
 		String inputRate;
 		if (NCUtil.isModifierKeyDown()) {
-			inputRate = Lang.localise("gui.nc.container.turbine_controller.power_bonus") + " " + NCMath.pcDecimalPlaces(multiblock.powerBonus, 1);
+			inputRate = Lang.localize("gui.nc.container.turbine_controller.power_bonus") + " " + NCMath.pcDecimalPlaces(multiblock.powerBonus, 1);
 		}
 		else {
 			double rateRatio = multiblock.recipeInputRate / (double) multiblock.getLogic().getMaxRecipeRateMultiplier();
 			double rateRatioFP = multiblock.recipeInputRateFP / multiblock.getLogic().getMaxRecipeRateMultiplier();
-			inputRate = Lang.localise("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(NCMath.roundTo(multiblock.recipeInputRateFP, 0.1D), 6, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatio > 1D ? "] [!]" : "]");
-			inputRateWidth = inputRateWidth - width(inputRate) > 1 ? width(inputRate) : Math.max(inputRateWidth, width(inputRate));
+			inputRate = Lang.localize("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(NCMath.roundTo(multiblock.recipeInputRateFP, 0.1D), 6, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatio > 1D ? "] [!]" : "]");
+			inputRateWidth = inputRateWidth - fontRenderer.getStringWidth(inputRate) > 1 ? fontRenderer.getStringWidth(inputRate) : Math.max(inputRateWidth, fontRenderer.getStringWidth(inputRate));
 		}
-		fontRenderer.drawString(inputRate, xSize / 2 - (NCUtil.isModifierKeyDown() ? width(inputRate) : inputRateWidth) / 2, 60, multiblock.bearingTension <= 0D ? fontColor : multiblock.isTurbineOn ? 0xFFFFFF - (int) (255D * MathHelper.clamp(2D * multiblock.bearingTension, 0D, 1D)) - 256 * (int) (255D * MathHelper.clamp(2D * multiblock.bearingTension - 1D, 0D, 1D)) : ColorHelper.blend(15641088, 0xFF0000, (float) multiblock.bearingTension));
+		fontRenderer.drawString(inputRate, xSize / 2 - (NCUtil.isModifierKeyDown() ? fontRenderer.getStringWidth(inputRate) : inputRateWidth) / 2, 60, multiblock.bearingTension <= 0D ? fontColor : multiblock.isTurbineOn ? 0xFFFFFF - (int) (255D * MathHelper.clamp(2D * multiblock.bearingTension, 0D, 1D)) - 256 * (int) (255D * MathHelper.clamp(2D * multiblock.bearingTension - 1D, 0D, 1D)) : ColorHelper.blend(15641088, 0xFF0000, (float) multiblock.bearingTension));
 	}
 	
 	@Override

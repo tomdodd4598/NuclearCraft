@@ -29,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
-	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_heating_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_heating.validFluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
 	
 	public RecipeInfo<BasicRecipe> heatingRecipeInfo;
 	
@@ -187,7 +187,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean canProduceProducts() {
-		BasicRecipe recipe = heatingRecipeInfo.getRecipe();
+		BasicRecipe recipe = heatingRecipeInfo.recipe;
 		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		int productSize = fluidProduct.getMaxStackSize(0);
 		if (productSize <= 0 || fluidProduct.getStack() == null) {
@@ -209,7 +209,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void produceProducts() {
-		BasicRecipe recipe = heatingRecipeInfo.getRecipe();
+		BasicRecipe recipe = heatingRecipeInfo.recipe;
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		int heatingRecipeRateInt = (int) heatingRecipeRate;
 		

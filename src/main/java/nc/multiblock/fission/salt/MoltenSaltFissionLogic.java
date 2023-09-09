@@ -32,7 +32,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public final ObjectSet<SaltFissionVesselBunch> vesselBunches = new ObjectOpenHashSet<>();
 	
-	public final List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_emergency_cooling_valid_fluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
+	public final List<Tank> tanks = Lists.newArrayList(new Tank(FissionReactor.BASE_TANK_CAPACITY, NCRecipes.fission_emergency_cooling.validFluids.get(0)), new Tank(FissionReactor.BASE_TANK_CAPACITY, null));
 	
 	public RecipeInfo<BasicRecipe> emergencyCoolingRecipeInfo;
 	
@@ -289,7 +289,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean canProduceProducts() {
-		BasicRecipe recipe = emergencyCoolingRecipeInfo.getRecipe();
+		BasicRecipe recipe = emergencyCoolingRecipeInfo.recipe;
 		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		int productSize = fluidProduct.getMaxStackSize(0);
 		if (productSize <= 0 || fluidProduct.getStack() == null) {
@@ -300,7 +300,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	public void produceProducts() {
-		BasicRecipe recipe = emergencyCoolingRecipeInfo.getRecipe();
+		BasicRecipe recipe = emergencyCoolingRecipeInfo.recipe;
 		int usedInput = NCMath.toInt(Math.min(tanks.get(0).getFluidAmount() / recipe.getEmergencyCoolingHeatPerInputMB(), Math.min(heatBuffer.getHeatStored(), FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
 		
 		tanks.get(0).changeFluidAmount(-usedInput);

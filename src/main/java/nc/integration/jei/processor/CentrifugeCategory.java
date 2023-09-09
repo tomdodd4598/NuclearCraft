@@ -8,14 +8,14 @@ import nc.integration.jei.JEIHelper.RecipeFluidMapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class CentrifugeCategory extends JEIMachineCategory<JEIRecipe.Centrifuge> {
+public class CentrifugeCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.Centrifuge> {
 	
-	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Centrifuge> handler) {
+	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.Centrifuge> handler) {
 		super(guiHelper, handler, "centrifuge", 39, 30, 114, 38);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Centrifuge recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.Centrifuge recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

@@ -10,6 +10,7 @@ public abstract class BlockTileInfo<TILE extends TileEntity> {
 	public final String name;
 	
 	protected final Supplier<TILE> tileSupplier;
+	
 	public final CreativeTabs creativeTab;
 	
 	public BlockTileInfo(String name, Supplier<TILE> tileSupplier, CreativeTabs creativeTab) {

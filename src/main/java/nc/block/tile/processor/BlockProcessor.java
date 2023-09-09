@@ -6,7 +6,7 @@ import java.util.Random;
 
 import nc.block.tile.*;
 import nc.handler.TileInfoHandler;
-import nc.tile.processor.ProcessorBlockInfo;
+import nc.tile.processor.info.ProcessorBlockInfo;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.*;

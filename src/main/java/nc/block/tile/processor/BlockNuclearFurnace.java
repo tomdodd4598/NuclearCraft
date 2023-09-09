@@ -28,7 +28,7 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	public BlockNuclearFurnace() {
 		super(Material.IRON);
 		setDefaultState(blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
-		setCreativeTab(NCTabs.machine());
+		setCreativeTab(NCTabs.machine);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

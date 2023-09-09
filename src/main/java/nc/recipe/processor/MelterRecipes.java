@@ -9,12 +9,11 @@ import java.util.*;
 import com.google.common.collect.*;
 
 import nc.init.NCItems;
-import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class MelterRecipes extends BasicRecipeHandler {
+public class MelterRecipes extends BasicProcessorRecipeHandler {
 	
 	public MelterRecipes() {
 		super("melter", 1, 0, 0, 1);
@@ -223,14 +222,5 @@ public class MelterRecipes extends BasicRecipeHandler {
 				addGemMeltingRecipes(fluidName);
 			}
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 }

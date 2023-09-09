@@ -28,7 +28,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 	public static class NCConfigGui extends GuiConfig {
 		
 		public NCConfigGui(GuiScreen parentScreen) {
-			super(parentScreen, getConfigElements(), Global.MOD_ID, false, false, Lang.localise("gui.nc.config.main_title"));
+			super(parentScreen, getConfigElements(), Global.MOD_ID, false, false, Lang.localize("gui.nc.config.main_title"));
 		}
 		
 		private static List<IConfigElement> getConfigElements() {
@@ -52,7 +52,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 		}
 		
 		private static DummyCategoryElement categoryElement(String categoryName, Class<? extends IConfigEntry> categoryClass) {
-			return new DummyCategoryElement(Lang.localise("gui.nc.config.category." + categoryName), "gui.nc.config.category." + categoryName, categoryClass);
+			return new DummyCategoryElement(Lang.localize("gui.nc.config.category." + categoryName), "gui.nc.config.category." + categoryName, categoryClass);
 		}
 		
 		public static class CategoryEntryWorldGen extends CategoryEntry implements IConfigCategory {

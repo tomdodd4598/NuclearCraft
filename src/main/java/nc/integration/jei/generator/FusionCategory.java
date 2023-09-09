@@ -9,14 +9,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class FusionCategory extends JEIMachineCategory<JEIRecipe.Fusion> {
+public class FusionCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.Fusion> {
 	
-	public FusionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.Fusion> handler) {
+	public FusionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.Fusion> handler) {
 		super(guiHelper, handler, "fusion_core", 55, 30, 94, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.Fusion recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.Fusion recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
@@ -31,6 +31,6 @@ public class FusionCategory extends JEIMachineCategory<JEIRecipe.Fusion> {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise("gui.container.fusion_core.reactor");
+		return Lang.localize("gui.container.fusion_core.reactor");
 	}
 }

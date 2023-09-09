@@ -6,7 +6,7 @@ import mezz.jei.api.recipe.*;
 import nc.Global;
 import nc.integration.jei.NCJEI.IJEIHandler;
 
-public abstract class JEIBasicCategory<WRAPPER extends JEIBasicRecipe<WRAPPER>> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
+public abstract class JEIBasicCategory<WRAPPER extends JEIRecipeWrapper<WRAPPER>> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
 	
 	protected final IJEIHandler<WRAPPER> jeiHandler;
 	

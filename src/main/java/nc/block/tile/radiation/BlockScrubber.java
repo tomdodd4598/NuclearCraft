@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class BlockScrubber extends BlockSimpleTile {
+public class BlockScrubber extends BlockSimpleTile<TileRadiationScrubber> {
 	
 	public BlockScrubber(String name) {
 		super(name);
@@ -32,7 +32,7 @@ public class BlockScrubber extends BlockSimpleTile {
 				TileRadiationScrubber scrubber = (TileRadiationScrubber) tile;
 				scrubber.checkRadiationEnvironmentInfo();
 				double radRemoval = scrubber.getRawScrubberRate();
-				player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radRemoval, true)) + " [" + NCMath.pcDecimalPlaces(Math.abs(scrubber.getRadiationContributionFraction() / TileRadiationScrubber.getMaxScrubberFraction()), 1) + "]"));
+				player.sendMessage(new TextComponentString(Lang.localize("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radRemoval, true)) + " [" + NCMath.pcDecimalPlaces(Math.abs(scrubber.getRadiationContributionFraction() / TileRadiationScrubber.getMaxScrubberFraction()), 1) + "]"));
 			}
 			return true;
 		}

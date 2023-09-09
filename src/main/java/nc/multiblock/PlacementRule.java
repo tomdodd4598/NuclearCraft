@@ -113,7 +113,7 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 	
 	// Basic Compound Rule Types
 	
-	public abstract static class BasicCompoundRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
+	public static abstract class BasicCompoundRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
 		
 		public BasicCompoundRule(List<PlacementRule<MULTIBLOCK, T>> rules) {
 			super(rules, concatDependencies(rules), mergeRequiresRecheck(rules));
@@ -230,7 +230,7 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 	
 	// Basic Sub-Rule
 	
-	public abstract static class Adjacent<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
+	public static abstract class Adjacent<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
 		
 		protected final int amount;
 		protected final CountType countType;
@@ -294,9 +294,9 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 		
 		public String buildSubTooltip() {
 			if (countType == CountType.EXACTLY && amount == 0) {
-				return Lang.localise("nc.sf.placement_rule.adjacent.no", I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), 0, Lang.localise("nc.sf.no")));
+				return Lang.localize("nc.sf.placement_rule.adjacent.no", I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), 0, Lang.localize("nc.sf.no")));
 			}
-			return Lang.localise("nc.sf.placement_rule.adjacent." + countType.tooltipSubstring(amount) + adjType.tooltipSubstring(amount), I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), amount, Lang.localise("nc.sf." + StringHelper.NUMBER_I2S_MAP.get(amount))));
+			return Lang.localize("nc.sf.placement_rule.adjacent." + countType.tooltipSubstring(amount) + adjType.tooltipSubstring(amount), I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), amount, Lang.localize("nc.sf." + StringHelper.NUMBER_I2S_MAP.get(amount))));
 		}
 		
 		@Override
@@ -621,24 +621,24 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 		@Override
 		public String buildTooltip(PlacementRule<MULTIBLOCK, T> rule) {
 			if (rule instanceof Adjacent) {
-				return Lang.localise("nc.sf.placement_rule.and_or.adjacent4", Lang.localise("nc.sf.placement_rule.and_or.adjacent0", Lang.localise("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), ((Adjacent<MULTIBLOCK, T>) rule).buildSubTooltip()));
+				return Lang.localize("nc.sf.placement_rule.and_or.adjacent4", Lang.localize("nc.sf.placement_rule.and_or.adjacent0", Lang.localize("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), ((Adjacent<MULTIBLOCK, T>) rule).buildSubTooltip()));
 			}
 			else if (rule instanceof And || rule instanceof Or) {
 				LinkedList<String> subTooltips = new LinkedList<>();
 				for (PlacementRule<MULTIBLOCK, T> r : rule.getSubRules()) {
 					subTooltips.add(r instanceof Adjacent ? ((Adjacent<MULTIBLOCK, T>) r).buildSubTooltip() : "?");
 				}
-				return Lang.localise("nc.sf.placement_rule.and_or.adjacent4", Lang.localise("nc.sf.placement_rule.and_or.adjacent0", Lang.localise("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), joinSubTooltips(subTooltips, Lang.localise("nc.sf." + (rule instanceof And ? "and" : "or")))));
+				return Lang.localize("nc.sf.placement_rule.and_or.adjacent4", Lang.localize("nc.sf.placement_rule.and_or.adjacent0", Lang.localize("nc.sf.placement_rule.adjacent.must_be_adjacent_to"), joinSubTooltips(subTooltips, Lang.localize("nc.sf." + (rule instanceof And ? "and" : "or")))));
 			}
 			return rule.getDependencies().toString();
 		}
 		
 		protected String joinSubTooltips(LinkedList<String> subTooltips, String conj) {
 			if (subTooltips.size() > 2) {
-				return Lang.localise("nc.sf.placement_rule.and_or.adjacent1", subTooltips.removeFirst(), joinSubTooltips(subTooltips, conj));
+				return Lang.localize("nc.sf.placement_rule.and_or.adjacent1", subTooltips.removeFirst(), joinSubTooltips(subTooltips, conj));
 			}
 			else if (subTooltips.size() == 2) {
-				return Lang.localise("nc.sf.placement_rule.and_or.adjacent" + (hasPotentialAmbiguity(subTooltips.get(0), subTooltips.get(1)) ? 3 : 2), subTooltips.get(0), conj, subTooltips.get(1));
+				return Lang.localize("nc.sf.placement_rule.and_or.adjacent" + (hasPotentialAmbiguity(subTooltips.get(0), subTooltips.get(1)) ? 3 : 2), subTooltips.get(0), conj, subTooltips.get(1));
 			}
 			else if (subTooltips.size() == 1) {
 				return subTooltips.get(0);
@@ -717,10 +717,10 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 			
 			int i = 0;
 			String s = "nc.sf.placement_rule.adjacent.ambiguity";
-			while (Lang.canLocalise(s + i + "prev") || Lang.canLocalise(s + i + "last")) {
+			while (Lang.canLocalize(s + i + "prev") || Lang.canLocalize(s + i + "last")) {
 				
-				if (Lang.canLocalise(s + i + "prev")) {
-					String p = Lang.localise(s + i + "prev");
+				if (Lang.canLocalize(s + i + "prev")) {
+					String p = Lang.localize(s + i + "prev");
 					p_patterns.add(p.contains("&&") ? "&&" : "||");
 					
 					p_splits.add(p.split(Pattern.quote(p_patterns.get(i))));
@@ -742,8 +742,8 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 					p_invs.add(null);
 				}
 				
-				if (Lang.canLocalise(s + i + "last")) {
-					String l = Lang.localise(s + i + "last");
+				if (Lang.canLocalize(s + i + "last")) {
+					String l = Lang.localize(s + i + "last");
 					l_patterns.add(l.contains("&&") ? "&&" : "||");
 					
 					l_splits.add(l.split(Pattern.quote(l_patterns.get(i))));

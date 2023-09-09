@@ -8,12 +8,11 @@ import java.util.*;
 import com.google.common.collect.Sets;
 
 import nc.init.NCItems;
-import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class IngotFormerRecipes extends BasicRecipeHandler {
+public class IngotFormerRecipes extends BasicProcessorRecipeHandler {
 	
 	public IngotFormerRecipes() {
 		super("ingot_former", 0, 1, 1, 0);
@@ -128,14 +127,5 @@ public class IngotFormerRecipes extends BasicRecipeHandler {
 				addRecipe(fluidStack(fluidName, GEM_VOLUME), gem, 1D, 1D);
 			}
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 }

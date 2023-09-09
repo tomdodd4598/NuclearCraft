@@ -25,10 +25,10 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		super(MetaEnums.RadShieldingType.class, tooltips);
 	}
 	
-	private static final String NOT_HARDCORE = Lang.localise("item.nuclearcraft.rad_shielding.not_hardcore");
-	// private static final String FAILED_NOT_HARDCORE = Lang.localise("item.nuclearcraft.rad_shielding.failed_not_hardcore");
-	private static final String INSTALL_FAIL = Lang.localise("item.nuclearcraft.rad_shielding.install_fail");
-	private static final String INSTALL_SUCCESS = Lang.localise("item.nuclearcraft.rad_shielding.install_success");
+	private static final String NOT_HARDCORE = Lang.localize("item.nuclearcraft.rad_shielding.not_hardcore");
+	// private static final String FAILED_NOT_HARDCORE = Lang.localize("item.nuclearcraft.rad_shielding.failed_not_hardcore");
+	private static final String INSTALL_FAIL = Lang.localize("item.nuclearcraft.rad_shielding.install_fail");
+	private static final String INSTALL_SUCCESS = Lang.localize("item.nuclearcraft.rad_shielding.install_success");
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
@@ -44,7 +44,9 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		
 		if (radiation_hardcore_containers <= 0D) {
 			if (!world.isRemote) {
-				if (playerRads != null) playerRads.setMessageCooldownTime(20);
+				if (playerRads != null) {
+					playerRads.setMessageCooldownTime(20);
+				}
 				player.sendMessage(new TextComponentString(NOT_HARDCORE));
 			}
 			return actionResult(false, stack);
@@ -71,7 +73,9 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		double newResistance = radiation_shielding_level[StackHelper.getMetadata(stack)];
 		if (newResistance <= resistance.getShieldingRadResistance()) {
 			if (!world.isRemote) {
-				if (playerRads != null) playerRads.setMessageCooldownTime(20);
+				if (playerRads != null) {
+					playerRads.setMessageCooldownTime(20);
+				}
 				player.sendMessage(new TextComponentString(INSTALL_FAIL + " " + RadiationHelper.resistanceSigFigs(resistance.getShieldingRadResistance())));
 			}
 			return actionResult(false, stack);

@@ -2918,7 +2918,7 @@ gui.nc.computer.invalid_argument_error=Argument %s invalide, %s attendu
 gui.nc.computer.integer_too_small_error=Argument numérique %s trop petit, au moins %s attendu
 gui.nc.computer.integer_too_large_error=Argument numérique %s trop grand, au plus %s attendu
 
-# Localisation for ZeroCore multiblock API# Localisation for ZeroCore multiblock API
+# Localization for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=Validation du multibloc est réussie
 zerocore.api.nc.multiblock.validation.too_few_parts=Le multibloc est trop petit
 zerocore.api.nc.multiblock.validation.machine_too_large=Le multibloc est trop grand, il doit être au plus %1$d blocs dans la dimension %2$s

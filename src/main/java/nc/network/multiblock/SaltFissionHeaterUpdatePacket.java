@@ -20,11 +20,11 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 	public double time;
 	
 	public SaltFissionHeaterUpdatePacket() {
-		
+		super();
 	}
 	
 	public SaltFissionHeaterUpdatePacket(BlockPos pos, BlockPos masterPortPos, List<Tank> tanks, List<Tank> filterTanks, FissionCluster cluster, boolean isProcessing, double time) {
-		this.pos = pos;
+		super(pos);
 		this.masterPortPos = masterPortPos;
 		tanksInfo = TankInfo.infoList(tanks);
 		filterTanksInfo = TankInfo.infoList(filterTanks);
@@ -36,7 +36,7 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		masterPortPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		byte numberOfTanks = buf.readByte();
 		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
@@ -50,9 +50,7 @@ public class SaltFissionHeaterUpdatePacket extends TileUpdatePacket {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeInt(masterPortPos.getX());
 		buf.writeInt(masterPortPos.getY());
 		buf.writeInt(masterPortPos.getZ());

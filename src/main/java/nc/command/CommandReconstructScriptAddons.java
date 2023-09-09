@@ -30,14 +30,14 @@ public class CommandReconstructScriptAddons extends CommandBase {
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		try {
 			ScriptAddonHandler.init();
-			sender.sendMessage(new TextComponentTranslation(TextFormatting.GREEN + Lang.localise("commands.nuclearcraft.reconstruct_script_addons.success")));
+			sender.sendMessage(new TextComponentTranslation(TextFormatting.GREEN + Lang.localize("commands.nuclearcraft.reconstruct_script_addons.success")));
 			
 			if (ModCheck.craftTweakerLoaded() && args.length > 0 && "syntax".equals(args[0])) {
 				server.getCommandManager().executeCommand(sender, "/ct syntax");
 			}
 		}
 		catch (IOException e) {
-			sender.sendMessage(new TextComponentTranslation(TextFormatting.RED + Lang.localise("commands.nuclearcraft.reconstruct_script_addons.fail")));
+			sender.sendMessage(new TextComponentTranslation(TextFormatting.RED + Lang.localize("commands.nuclearcraft.reconstruct_script_addons.fail")));
 			NCUtil.getLogger().catching(e);
 		}
 	}

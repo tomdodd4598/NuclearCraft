@@ -8,27 +8,29 @@ import nc.gui.NCGui;
 import nc.gui.element.*;
 import nc.network.PacketHandler;
 import nc.network.gui.*;
-import nc.tile.ITileGui;
+import nc.network.tile.TileUpdatePacket;
+import nc.tile.*;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui<?>> extends NCGui {
+public abstract class GuiFluidSorptions<TILE extends TileEntity & ITileGui<TILE, PACKET, INFO> & ITileFluid, PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<TILE>> extends NCGui {
 	
 	protected final NCGui parent;
-	protected final T tile;
+	protected final TILE tile;
 	protected final EnumFacing[] dirs;
 	protected final int slot;
 	protected final TankSorption.Type sorptionType;
 	protected static ResourceLocation gui_textures;
 	protected int[] a, b;
 	
-	public GuiFluidSorptions(NCGui parent, T tile, int slot, TankSorption.Type sorptionType) {
+	public GuiFluidSorptions(NCGui parent, TILE tile, int slot, TankSorption.Type sorptionType) {
 		super(new ContainerSorptions<>(tile));
 		this.parent = parent;
 		this.tile = tile;
@@ -50,12 +52,12 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui<?>> exte
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawTooltip(Lang.localise("gui.nc.container.bottom_config") + " " + tile.getTankSorption(dirs[0], slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankSorption(dirs[0], slot).getName() + "_config"), mouseX, mouseY, a[0], b[0], 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.top_config") + " " + tile.getTankSorption(dirs[1], slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankSorption(dirs[1], slot).getName() + "_config"), mouseX, mouseY, a[1], b[1], 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.left_config") + " " + tile.getTankSorption(dirs[2], slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankSorption(dirs[2], slot).getName() + "_config"), mouseX, mouseY, a[2], b[2], 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.right_config") + " " + tile.getTankSorption(dirs[3], slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankSorption(dirs[3], slot).getName() + "_config"), mouseX, mouseY, a[3], b[3], 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.front_config") + " " + tile.getTankSorption(dirs[4], slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankSorption(dirs[4], slot).getName() + "_config"), mouseX, mouseY, a[4], b[4], 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.back_config") + " " + tile.getTankSorption(dirs[5], slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankSorption(dirs[5], slot).getName() + "_config"), mouseX, mouseY, a[5], b[5], 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.bottom_config") + " " + tile.getTankSorption(dirs[0], slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankSorption(dirs[0], slot).getName() + "_config"), mouseX, mouseY, a[0], b[0], 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.top_config") + " " + tile.getTankSorption(dirs[1], slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankSorption(dirs[1], slot).getName() + "_config"), mouseX, mouseY, a[1], b[1], 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.left_config") + " " + tile.getTankSorption(dirs[2], slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankSorption(dirs[2], slot).getName() + "_config"), mouseX, mouseY, a[2], b[2], 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.right_config") + " " + tile.getTankSorption(dirs[3], slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankSorption(dirs[3], slot).getName() + "_config"), mouseX, mouseY, a[3], b[3], 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.front_config") + " " + tile.getTankSorption(dirs[4], slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankSorption(dirs[4], slot).getName() + "_config"), mouseX, mouseY, a[4], b[4], 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.back_config") + " " + tile.getTankSorption(dirs[5], slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankSorption(dirs[5], slot).getName() + "_config"), mouseX, mouseY, a[5], b[5], 18, 18);
 	}
 	
 	@Override
@@ -127,9 +129,9 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui<?>> exte
 		}
 	}
 	
-	public static class Input<T extends ITileFluid & ITileGui<?>> extends GuiFluidSorptions<T> {
+	public static class Input<TILE extends TileEntity & ITileGui<TILE, PACKET, INFO> & ITileFluid, PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<TILE>> extends GuiFluidSorptions<TILE, PACKET, INFO> {
 		
-		public Input(NCGui parent, T tile, int slot) {
+		public Input(NCGui parent, TILE tile, int slot) {
 			super(parent, tile, slot, TankSorption.Type.INPUT);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/input_fluid_config.png");
 			a = new int[] {25, 25, 7, 43, 25, 43};
@@ -139,9 +141,9 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui<?>> exte
 		}
 	}
 	
-	public static class Output<T extends ITileFluid & ITileGui<?>> extends GuiFluidSorptions<T> {
+	public static class Output<TILE extends TileEntity & ITileGui<TILE, PACKET, INFO> & ITileFluid, PACKET extends TileUpdatePacket, INFO extends TileContainerInfo<TILE>> extends GuiFluidSorptions<TILE, PACKET, INFO> {
 		
-		public Output(NCGui parent, T tile, int slot) {
+		public Output(NCGui parent, TILE tile, int slot) {
 			super(parent, tile, slot, TankSorption.Type.OUTPUT);
 			gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/output_fluid_config.png");
 			a = new int[] {47, 47, 29, 65, 47, 65};
@@ -153,7 +155,7 @@ public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui<?>> exte
 		@Override
 		public void renderTooltips(int mouseX, int mouseY) {
 			super.renderTooltips(mouseX, mouseY);
-			drawTooltip(Lang.localise("gui.nc.container.tank_setting_config") + " " + tile.getTankOutputSetting(slot).getTextColor() + Lang.localise("gui.nc.container." + tile.getTankOutputSetting(slot).getName() + "_setting_config"), mouseX, mouseY, 7, 25, 18, 18);
+			drawTooltip(Lang.localize("gui.nc.container.tank_setting_config") + " " + tile.getTankOutputSetting(slot).getTextColor() + Lang.localize("gui.nc.container." + tile.getTankOutputSetting(slot).getName() + "_setting_config"), mouseX, mouseY, 7, 25, 18, 18);
 		}
 		
 		@Override

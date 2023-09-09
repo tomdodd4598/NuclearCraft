@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class ItemRadX extends NCItem {
 	
-	private static final String RAD_X_COOLDOWN = Lang.localise("message.nuclearcraft.rad_x_cooling_down");
+	private static final String RAD_X_COOLDOWN = Lang.localize("message.nuclearcraft.rad_x_cooling_down");
 	
 	public ItemRadX(String... tooltip) {
 		super(tooltip);

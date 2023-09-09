@@ -125,16 +125,16 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	@Override
 	protected void onBlockRemoved(IHeatExchangerPart oldPart) {
 		if (oldPart instanceof IHeatExchangerController) {
-			controllers.remove((IHeatExchangerController<?>) oldPart);
+			controllers.remove(oldPart);
 		}
 		if (oldPart instanceof TileHeatExchangerVent) {
-			vents.remove((TileHeatExchangerVent) oldPart);
+			vents.remove(oldPart);
 		}
 		if (oldPart instanceof TileHeatExchangerTube) {
-			tubes.remove((TileHeatExchangerTube) oldPart);
+			tubes.remove(oldPart);
 		}
 		if (oldPart instanceof TileCondenserTube) {
-			condenserTubes.remove((TileCondenserTube) oldPart);
+			condenserTubes.remove(oldPart);
 		}
 	}
 	

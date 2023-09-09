@@ -87,7 +87,7 @@ public class TileFissionShieldManager extends TileFissionManager<TileFissionShie
 				}
 				markDirty();
 				getMultiblock().refreshFlag = true;
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.fission.connect_shield_manager", listenerPosSet.size())));
+				player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.fission.connect_shield_manager", listenerPosSet.size())));
 				return true;
 			}
 		}

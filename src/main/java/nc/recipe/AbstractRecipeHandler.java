@@ -55,7 +55,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 			for (RECIPE recipe : set) {
 				if (recipe != null) {
 					RecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs);
-					if (matchResult.matches()) {
+					if (matchResult.isMatch) {
 						return new RecipeInfo<>(recipe, matchResult);
 					}
 				}
@@ -66,7 +66,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
 	public @Nullable RECIPE getRecipeFromIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
 		for (RECIPE recipe : recipeList) {
-			if (recipe.matchIngredients(itemIngredients, fluidIngredients).matches()) {
+			if (recipe.matchIngredients(itemIngredients, fluidIngredients).isMatch) {
 				return recipe;
 			}
 		}
@@ -75,7 +75,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
 	public @Nullable RECIPE getRecipeFromProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
 		for (RECIPE recipe : recipeList) {
-			if (recipe.matchProducts(itemProducts, fluidProducts).matches()) {
+			if (recipe.matchProducts(itemProducts, fluidProducts).isMatch) {
 				return recipe;
 			}
 		}
@@ -111,6 +111,8 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 			}
 		}
 	}
+	
+	public abstract void postInit();
 	
 	public void refreshCache() {
 		recipeCache.clear();

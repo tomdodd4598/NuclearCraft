@@ -59,7 +59,7 @@ public class OpenGuiPacket implements IMessage {
 			TileEntity tile = world.getTileEntity(message.pos);
 			FMLNetworkHandler.openGui(player, NuclearCraft.instance, message.guiId, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
 			if (tile instanceof ITileGui) {
-				((ITileGui<?, ?>) tile).addTileUpdatePacketListener(player);
+				((ITileGui<?, ?, ?>) tile).addTileUpdatePacketListener(player);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package nc.network.tile;
 
+import io.netty.buffer.ByteBuf;
 import nc.tile.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
@@ -13,6 +14,22 @@ public abstract class TileUpdatePacket implements IMessage {
 	
 	public TileUpdatePacket() {
 		
+	}
+	
+	public TileUpdatePacket(BlockPos pos) {
+		this.pos = pos;
+	}
+	
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+	}
+	
+	@Override
+	public void toBytes(ByteBuf buf) {
+		buf.writeInt(pos.getX());
+		buf.writeInt(pos.getY());
+		buf.writeInt(pos.getZ());
 	}
 	
 	public static abstract class Handler<MESSAGE extends TileUpdatePacket, TILE extends ITilePacket<MESSAGE>> implements IMessageHandler<MESSAGE, IMessage> {

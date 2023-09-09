@@ -11,14 +11,14 @@ import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
-public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipe.HeatExchanger> {
+public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.HeatExchanger> {
 	
-	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.HeatExchanger> handler) {
+	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.HeatExchanger> handler) {
 		super(guiHelper, handler, "heat_exchanger_controller", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.HeatExchanger recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.HeatExchanger recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
@@ -38,10 +38,10 @@ public class HeatExchangerCategory extends JEIMachineCategory<JEIRecipe.HeatExch
 		});
 	}
 	
-	private static final String TEMPERATURE = Lang.localise("jei.nuclearcraft.exchanger_fluid_temp");
+	private static final String TEMPERATURE = Lang.localize("jei.nuclearcraft.exchanger_fluid_temp");
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".multiblock_gui.heat_exchanger.jei_name");
+		return Lang.localize(Global.MOD_ID + ".multiblock_gui.heat_exchanger.jei_name");
 	}
 }

@@ -62,7 +62,7 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 					}
 				}
 				else {
-					player.sendMessage(new TextComponentString(Lang.localise(Global.MOD_ID + ".multiblock_validation.no_controller")));
+					player.sendMessage(new TextComponentString(Lang.localize(Global.MOD_ID + ".multiblock_validation.no_controller")));
 					return true;
 				}
 			}

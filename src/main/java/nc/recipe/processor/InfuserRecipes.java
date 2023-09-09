@@ -3,17 +3,14 @@ package nc.recipe.processor;
 import static nc.util.FissionHelper.FISSION_ORE_DICT;
 import static nc.util.FluidStackHelper.*;
 
-import java.util.*;
-
 import com.google.common.collect.Lists;
 
 import nc.init.*;
-import nc.recipe.BasicRecipeHandler;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
 
-public class InfuserRecipes extends BasicRecipeHandler {
+public class InfuserRecipes extends BasicProcessorRecipeHandler {
 	
 	public InfuserRecipes() {
 		super("infuser", 1, 1, 1, 0);
@@ -108,14 +105,5 @@ public class InfuserRecipes extends BasicRecipeHandler {
 			addRecipe("ingot" + element, fluidStack("oxygen", BUCKET_VOLUME), "ingot" + element + "Oxide", 1D, 1D);
 			addRecipe("ingot" + element, fluidStack("nitrogen", BUCKET_VOLUME), "ingot" + element + "Nitride", 1D, 1D);
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 }

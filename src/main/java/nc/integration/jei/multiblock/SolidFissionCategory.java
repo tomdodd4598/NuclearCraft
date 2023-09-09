@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class SolidFissionCategory extends JEIMachineCategory<JEIRecipe.SolidFission> {
+public class SolidFissionCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.SolidFission> {
 	
-	public SolidFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.SolidFission> handler) {
+	public SolidFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.SolidFission> handler) {
 		super(guiHelper, handler, "solid_fission_cell", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.SolidFission recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.SolidFission recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
@@ -28,6 +28,6 @@ public class SolidFissionCategory extends JEIMachineCategory<JEIRecipe.SolidFiss
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".multiblock_gui.solid_fission.jei_name");
+		return Lang.localize(Global.MOD_ID + ".multiblock_gui.solid_fission.jei_name");
 	}
 }

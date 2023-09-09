@@ -2967,7 +2967,7 @@ gui.nc.computer.invalid_argument_error=Неверный аргумент %s, о�
 gui.nc.computer.integer_too_small_error=Числовой аргумент %s слишком мал, ожидается не менее %s
 gui.nc.computer.integer_too_large_error=Числовой аргумент %s слишком большой, ожидается не более %s
 
-# Localisation for ZeroCore multiblock API
+# Localization for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=Проверка машины прошла успешно.
 zerocore.api.nc.multiblock.validation.too_few_parts=Недостаточно компонентов!
 zerocore.api.nc.multiblock.validation.machine_too_large=Машина слишком велика, она может составлять не более %1$d блоков в измерении %2$s.

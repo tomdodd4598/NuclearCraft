@@ -35,6 +35,6 @@ public abstract class GuiMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 	protected abstract ResourceLocation getGuiTexture();
 	
 	public List<String> clearAllInfo() {
-		return Lists.newArrayList(TextFormatting.ITALIC + Lang.localise("gui.nc.container.shift_clear_multiblock"));
+		return Lists.newArrayList(TextFormatting.ITALIC + Lang.localize("gui.nc.container.shift_clear_multiblock"));
 	}
 }

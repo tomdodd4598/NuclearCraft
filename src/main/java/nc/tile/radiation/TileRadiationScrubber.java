@@ -7,13 +7,12 @@ import java.util.Map.Entry;
 import java.util.concurrent.*;
 
 import li.cil.oc.api.machine.*;
-import li.cil.oc.api.network.SimpleComponent;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.radiation.RadiationHelper;
 import nc.radiation.environment.*;
 import nc.recipe.*;
-import nc.tile.generator.TileItemFluidGenerator;
 import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.processor.TileProcessorImpl.TileBasicProcessor;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileRadiationScrubber extends TileItemFluidGenerator implements ITileRadiationEnvironment, SimpleComponent {
+public class TileRadiationScrubber extends TileBasicProcessor<TileRadiationScrubber> implements ITileRadiationEnvironment {
 	
 	private double efficiency = 0D, scrubberFraction = 0D, currentChunkLevel = 0D, currentChunkBuffer = 0D;
 	
@@ -82,7 +81,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 			efficiency = 0D;
 			return false;
 		}
-		BasicRecipe recipe = recipeInfo.getRecipe();
+		BasicRecipe recipe = recipeInfo.recipe;
 		baseProcessTime = recipe.getScrubberProcessTime();
 		baseProcessPower = recipe.getScrubberProcessPower();
 		efficiency = recipe.getScrubberProcessEfficiency();
@@ -131,6 +130,7 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 		return canProcessInputs && hasConsumed && hasSufficientEnergy();
 	}
 	
+	@Override
 	public boolean hasSufficientEnergy() {
 		return getEnergyStored() >= (int) baseProcessPower;
 	}
@@ -284,12 +284,6 @@ public class TileRadiationScrubber extends TileItemFluidGenerator implements ITi
 	}
 	
 	// OpenComputers
-	
-	@Override
-	@Optional.Method(modid = "opencomputers")
-	public String getComponentName() {
-		return "nc_radiation_scrubber";
-	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")

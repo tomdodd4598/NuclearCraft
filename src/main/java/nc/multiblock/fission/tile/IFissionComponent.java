@@ -122,7 +122,7 @@ public interface IFissionComponent extends IFissionPart {
 			NBTTagCompound nbt = NBTHelper.getStackNBT(multitool);
 			if (nbt != null) {
 				nbt.setLong("componentPos", getTilePos().toLong());
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.copy_component_info")));
+				player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.copy_component_info")));
 				return true;
 			}
 		}

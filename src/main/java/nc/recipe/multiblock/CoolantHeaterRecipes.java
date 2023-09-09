@@ -50,7 +50,7 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 				if (recipe instanceof CoolantHeaterRecipe) {
 					CoolantHeaterRecipe heaterRecipe = (CoolantHeaterRecipe) recipe;
 					RecipeMatchResult matchResult = heaterRecipe.matchHeaterInputs(heaterType, fluidInputs);
-					if (matchResult.matches()) {
+					if (matchResult.isMatch) {
 						return new RecipeInfo<>(heaterRecipe, matchResult);
 					}
 				}

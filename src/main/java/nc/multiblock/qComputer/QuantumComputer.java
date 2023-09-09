@@ -679,7 +679,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 		
 		int q = qubitCount();
 		if (q > quantum_max_qubits_code) {
-			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits")));
+			player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits")));
 			return;
 		}
 		
@@ -688,7 +688,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 		
 		if (cachedCodeType == 0) {
 			if (codeString.isEmpty()) {
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty")));
+				player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty")));
 				return;
 			}
 			
@@ -709,7 +709,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 		}
 		else if (cachedCodeType == 1) {
 			if (codeString.isEmpty()) {
-				player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty")));
+				player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty")));
 				return;
 			}
 			
@@ -753,7 +753,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 			}
 		}
 		else {
-			player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty")));
+			player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty")));
 			return;
 		}
 		

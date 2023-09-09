@@ -79,12 +79,12 @@ public abstract class BlockFissionSource extends BlockFissionPart implements IAc
 			if (!world.isRemote) {
 				PrimingTargetInfo targetInfo = source.getPrimingTarget(true);
 				if (targetInfo == null) {
-					player.sendMessage(new TextComponentString(Lang.localise("nuclearcraft.multiblock.fission_reactor_source.no_target")));
+					player.sendMessage(new TextComponentString(Lang.localize("nuclearcraft.multiblock.fission_reactor_source.no_target")));
 				}
 				else {
 					BlockPos p = targetInfo.fuelComponent.getTilePos();
 					BlockHighlightTracker.sendPacket((EntityPlayerMP) player, p, 5000);
-					player.sendMessage(new TextComponentString(Lang.localise("nuclearcraft.multiblock.fission_reactor_source.target", p.getX(), p.getY(), p.getZ(), world.getBlockState(p).getBlock().getLocalizedName())));
+					player.sendMessage(new TextComponentString(Lang.localize("nuclearcraft.multiblock.fission_reactor_source.target", p.getX(), p.getY(), p.getZ(), world.getBlockState(p).getBlock().getLocalizedName())));
 				}
 			}
 			return true;

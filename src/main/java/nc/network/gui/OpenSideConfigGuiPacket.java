@@ -20,7 +20,7 @@ public class OpenSideConfigGuiPacket implements IMessage {
 		
 	}
 	
-	public OpenSideConfigGuiPacket(ITileGui<?> machine) {
+	public OpenSideConfigGuiPacket(ITileGui<?, ?, ?> machine) {
 		pos = machine.getTilePos();
 	}
 	
@@ -54,8 +54,9 @@ public class OpenSideConfigGuiPacket implements IMessage {
 			}
 			TileEntity tile = world.getTileEntity(message.pos);
 			if (tile instanceof ITileGui) {
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((ITileGui<?>) tile).getGuiID() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
-				((ITileGui<?>) tile).addTileUpdatePacketListener(player);
+				ITileGui<?, ?, ?> tileGui = (ITileGui<?, ?, ?>) tile;
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getContainerInfo().getGuiId() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
+				tileGui.addTileUpdatePacketListener(player);
 			}
 		}
 	}

@@ -34,7 +34,7 @@ public class GuiFissionHeaterPort extends NCGui {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = port.getMultiblock() != null && port.getMultiblock().isReactorOn ? -1 : 15641088;
-		String s = Lang.localise("gui.nc.container.fission_heater_port.name");
+		String s = Lang.localize("gui.nc.container.fission_heater_port.name");
 		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
 	}
 	

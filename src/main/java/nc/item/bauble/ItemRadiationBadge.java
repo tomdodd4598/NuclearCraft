@@ -20,8 +20,8 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
 public class ItemRadiationBadge extends NCItem implements IBauble {
 	
-	private static final String EXPOSURE = Lang.localise("item.nuclearcraft.radiation_badge.exposure");
-	private static final String BADGE_BROKEN = Lang.localise("item.nuclearcraft.radiation_badge.broken");
+	private static final String EXPOSURE = Lang.localize("item.nuclearcraft.radiation_badge.exposure");
+	private static final String BADGE_BROKEN = Lang.localize("item.nuclearcraft.radiation_badge.broken");
 	
 	public ItemRadiationBadge(String... tooltip) {
 		super(tooltip);

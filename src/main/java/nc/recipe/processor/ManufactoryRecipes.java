@@ -2,12 +2,12 @@ package nc.recipe.processor;
 
 import static nc.config.NCConfig.*;
 
-import java.util.*;
+import java.util.Set;
 
 import com.google.common.collect.*;
 
 import nc.init.NCItems;
-import nc.recipe.*;
+import nc.recipe.RecipeHelper;
 import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.init.*;
@@ -17,7 +17,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ManufactoryRecipes extends BasicRecipeHandler {
+public class ManufactoryRecipes extends BasicProcessorRecipeHandler {
 	
 	public ManufactoryRecipes() {
 		super("manufactory", 1, 0, 1, 0);
@@ -151,14 +151,5 @@ public class ManufactoryRecipes extends BasicRecipeHandler {
 				}
 			}
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 }

@@ -10,25 +10,23 @@ public class QuantumComputerQubitRenderPacket extends TileUpdatePacket {
 	public float measureColor;
 	
 	public QuantumComputerQubitRenderPacket() {
-		
+		super();
 	}
 	
 	public QuantumComputerQubitRenderPacket(BlockPos pos, float measureColor) {
-		this.pos = pos;
+		super(pos);
 		this.measureColor = measureColor;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		measureColor = buf.readFloat();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeFloat(measureColor);
 	}
 	

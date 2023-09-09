@@ -1,6 +1,6 @@
 package nc.recipe;
 
-import java.util.List;
+import java.util.*;
 
 import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
@@ -25,8 +25,13 @@ public class NCRecipes {
 	
 	public static final Object2ObjectMap<String, BasicRecipeHandler> RECIPE_HANDLER_MAP = new Object2ObjectOpenHashMap<>();
 	
-	public static BasicRecipeHandler getHandler(String name) {
-		return RECIPE_HANDLER_MAP.get(name);
+	@SuppressWarnings("unchecked")
+	public static <T extends BasicRecipeHandler> T getHandler(String name) {
+		return (T) RECIPE_HANDLER_MAP.get(name);
+	}
+	
+	public static Collection<BasicRecipeHandler> getHandlers() {
+		return RECIPE_HANDLER_MAP.values();
 	}
 	
 	public static List<BasicRecipe> getRecipeList(String name) {
@@ -94,6 +99,85 @@ public class NCRecipes {
 		initialized = true;
 	}
 	
+	public static ManufactoryRecipes manufactory;
+	public static SeparatorRecipes separator;
+	public static DecayHastenerRecipes decay_hastener;
+	public static FuelReprocessorRecipes fuel_reprocessor;
+	public static AlloyFurnaceRecipes alloy_furnace;
+	public static InfuserRecipes infuser;
+	public static MelterRecipes melter;
+	public static SupercoolerRecipes supercooler;
+	public static ElectrolyzerRecipes electrolyzer;
+	public static AssemblerRecipes assembler;
+	public static IngotFormerRecipes ingot_former;
+	public static PressurizerRecipes pressurizer;
+	public static ChemicalReactorRecipes chemical_reactor;
+	public static SaltMixerRecipes salt_mixer;
+	public static CrystallizerRecipes crystallizer;
+	public static EnricherRecipes enricher;
+	public static ExtractorRecipes extractor;
+	public static CentrifugeRecipes centrifuge;
+	public static RockCrusherRecipes rock_crusher;
+	public static CollectorRecipes collector;
+	public static DecayGeneratorRecipes decay_generator;
+	public static FissionModeratorRecipes fission_moderator;
+	public static FissionReflectorRecipes fission_reflector;
+	public static FissionIrradiatorRecipes fission_irradiator;
+	public static PebbleFissionRecipes pebble_fission;
+	public static SolidFissionRecipes solid_fission;
+	public static FissionHeatingRecipes fission_heating;
+	public static SaltFissionRecipes salt_fission;
+	public static FusionRecipes fusion;
+	public static CoolantHeaterRecipes coolant_heater;
+	public static FissionEmergencyCoolingRecipes fission_emergency_cooling;
+	public static HeatExchangerRecipes heat_exchanger;
+	public static CondenserRecipes condenser;
+	public static TurbineRecipes turbine;
+	public static RadiationScrubberRecipes radiation_scrubber;
+	public static RadiationBlockMutation radiation_block_mutation;
+	public static RadiationBlockPurification radiation_block_purification;
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void registerShortcuts(RegistryEvent.Register<IRecipe> event) {
+		manufactory = getHandler("manufactory");
+		separator = getHandler("separator");
+		decay_hastener = getHandler("decay_hastener");
+		fuel_reprocessor = getHandler("fuel_reprocessor");
+		alloy_furnace = getHandler("alloy_furnace");
+		infuser = getHandler("infuser");
+		melter = getHandler("melter");
+		supercooler = getHandler("supercooler");
+		electrolyzer = getHandler("electrolyzer");
+		assembler = getHandler("assembler");
+		ingot_former = getHandler("ingot_former");
+		pressurizer = getHandler("pressurizer");
+		chemical_reactor = getHandler("chemical_reactor");
+		salt_mixer = getHandler("salt_mixer");
+		crystallizer = getHandler("crystallizer");
+		enricher = getHandler("enricher");
+		extractor = getHandler("extractor");
+		centrifuge = getHandler("centrifuge");
+		rock_crusher = getHandler("rock_crusher");
+		collector = getHandler("collector");
+		decay_generator = getHandler("decay_generator");
+		fission_moderator = getHandler("fission_moderator");
+		fission_reflector = getHandler("fission_reflector");
+		fission_irradiator = getHandler("fission_irradiator");
+		pebble_fission = getHandler("pebble_fission");
+		solid_fission = getHandler("solid_fission");
+		fission_heating = getHandler("fission_heating");
+		salt_fission = getHandler("salt_fission");
+		fusion = getHandler("fusion");
+		coolant_heater = getHandler("coolant_heater");
+		fission_emergency_cooling = getHandler("fission_emergency_cooling");
+		heat_exchanger = getHandler("heat_exchanger");
+		condenser = getHandler("condenser");
+		turbine = getHandler("turbine");
+		radiation_scrubber = getHandler("radiation_scrubber");
+		radiation_block_mutation = getHandler("radiation_block_mutation");
+		radiation_block_purification = getHandler("radiation_block_purification");
+	}
+	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void registerIntegrationRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (ModCheck.tinkersLoaded()) {
@@ -106,13 +190,19 @@ public class NCRecipes {
 	}
 	
 	public static void init() {
-		for (BasicRecipeHandler handler : RECIPE_HANDLER_MAP.values()) {
+		for (BasicRecipeHandler handler : getHandlers()) {
 			handler.init();
 		}
 	}
 	
+	public static void postInit() {
+		for (BasicRecipeHandler handler : getHandlers()) {
+			handler.postInit();
+		}
+	}
+	
 	public static void refreshRecipeCaches() {
-		for (BasicRecipeHandler handler : RECIPE_HANDLER_MAP.values()) {
+		for (BasicRecipeHandler handler : getHandlers()) {
 			handler.refreshCache();
 		}
 	}

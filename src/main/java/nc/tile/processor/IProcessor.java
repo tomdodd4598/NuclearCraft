@@ -1,20 +1,20 @@
 package nc.tile.processor;
 
-import java.util.*;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.IntList;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.tile.ITileGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
-import nc.tile.internal.inventory.*;
+import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.inventory.ITileInventory;
+import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +25,50 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	
 	@Override
 	public INFO getContainerInfo();
+	
+	public BasicRecipeHandler getRecipeHandler();
+	
+	public double getBaseProcessTime();
+	
+	public double getBaseProcessPower();
+	
+	public boolean setRecipeStats();
+	
+	public boolean isProcessing();
+	
+	public boolean isHaltedByRedstone();
+	
+	public boolean readyToProcess();
+	
+	public boolean canProcessInputs();
+	
+	public void process();
+	
+	public void finishProcess();
+	
+	public default void loseProgress() {
+		
+	}
+	
+	public default int getProcessTime() {
+		return Math.max(1, NCMath.toInt(Math.ceil(getBaseProcessTime() / getSpeedMultiplier())));
+	}
+	
+	public default int getProcessPower() {
+		return NCMath.toInt(Math.ceil(getBaseProcessPower() * getPowerMultiplier()));
+	}
+	
+	public default int getProcessEnergy() {
+		return getProcessTime() * getProcessPower();
+	}
+	
+	public double getSpeedMultiplier();
+	
+	public double getPowerMultiplier();
+	
+	public double getCurrentTime();
+	
+	public boolean getIsProcessing();
 	
 	public boolean getHasConsumed();
 	
@@ -48,9 +92,13 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	
 	public List<IFluidIngredient> getFluidProducts();
 	
+	public void refreshAll();
+	
 	public void refreshRecipe();
 	
 	public void refreshActivity();
+	
+	public void refreshActivityOnProduction();
 	
 	public default boolean hasConsumed() {
 		if (!getContainerInfo().consumesInputs) {
@@ -312,45 +360,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> int energyCapacity(INFO containerInfo, double speedMultiplier, double powerMultiplier) {
-		String name = containerInfo.name;
-		return NCMath.toInt(Math.ceil(RecipeStats.getProcessorMaxBaseProcessTime(name) / speedMultiplier) * Math.ceil(RecipeStats.getProcessorMaxBaseProcessPower(name) * powerMultiplier));
-	}
-	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> EnergyConnection defaultEnergyConnection(INFO containerInfo) {
-		return containerInfo.defaultProcessPower == 0 ? EnergyConnection.NON : EnergyConnection.IN;
-	}
-	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> List<ItemSorption> defaultItemSorptions(INFO containerInfo) {
-		List<ItemSorption> itemSorptions = new ArrayList<>();
-		for (int i = 0; i < containerInfo.itemInputSize; ++i) {
-			itemSorptions.add(ItemSorption.IN);
-		}
-		for (int i = 0; i < containerInfo.itemOutputSize; ++i) {
-			itemSorptions.add(ItemSorption.OUT);
-		}
-		return itemSorptions;
-	}
-	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> IntList defaultTankCapacities(INFO containerInfo) {
-		IntList tankCapacities = new IntArrayList();
-		for (int i = 0; i < containerInfo.fluidInputSize; ++i) {
-			tankCapacities.add(containerInfo.inputTankCapacity);
-		}
-		for (int i = 0; i < containerInfo.fluidOutputSize; ++i) {
-			tankCapacities.add(containerInfo.outputTankCapacity);
-		}
-		return tankCapacities;
-	}
-	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> List<TankSorption> defaultTankSorptions(INFO containerInfo) {
-		List<TankSorption> tankSorptions = new ArrayList<>();
-		for (int i = 0; i < containerInfo.fluidInputSize; ++i) {
-			tankSorptions.add(TankSorption.IN);
-		}
-		for (int i = 0; i < containerInfo.fluidOutputSize; ++i) {
-			tankSorptions.add(TankSorption.OUT);
-		}
-		return tankSorptions;
+	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> int energyCapacity(INFO info, double speedMultiplier, double powerMultiplier) {
+		return NCMath.toInt(Math.ceil(RecipeStats.getProcessorMaxBaseProcessTime(info.name) / speedMultiplier) * Math.ceil(RecipeStats.getProcessorMaxBaseProcessPower(info.name) * powerMultiplier));
 	}
 }

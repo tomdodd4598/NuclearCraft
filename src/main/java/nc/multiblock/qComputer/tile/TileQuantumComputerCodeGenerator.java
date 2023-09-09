@@ -68,10 +68,10 @@ public abstract class TileQuantumComputerCodeGenerator extends TileQuantumComput
 				}
 				else if (qc.qubitCount() <= quantum_max_qubits_code) {
 					qc.codeStart = codeType;
-					player.sendMessage(new TextComponentString(Lang.localise(getUnlocalizedCodeStartMessage())));
+					player.sendMessage(new TextComponentString(Lang.localize(getUnlocalizedCodeStartMessage())));
 				}
 				else {
-					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits")));
+					player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits")));
 				}
 				return true;
 			}

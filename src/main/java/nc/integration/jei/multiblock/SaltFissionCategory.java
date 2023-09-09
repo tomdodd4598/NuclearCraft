@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class SaltFissionCategory extends JEIMachineCategory<JEIRecipe.SaltFission> {
+public class SaltFissionCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.SaltFission> {
 	
-	public SaltFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.SaltFission> handler) {
+	public SaltFissionCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.SaltFission> handler) {
 		super(guiHelper, handler, "salt_fission_vessel", 47, 30, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.SaltFission recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.SaltFission recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
@@ -28,6 +28,6 @@ public class SaltFissionCategory extends JEIMachineCategory<JEIRecipe.SaltFissio
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".multiblock_gui.salt_fission.jei_name");
+		return Lang.localize(Global.MOD_ID + ".multiblock_gui.salt_fission.jei_name");
 	}
 }

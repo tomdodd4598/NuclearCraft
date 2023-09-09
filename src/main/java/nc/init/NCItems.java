@@ -211,99 +211,99 @@ public class NCItems {
 	}
 	
 	public static void register() {
-		registerItem(ingot, NCTabs.material());
-		registerItem(dust, NCTabs.material());
-		registerItem(gem, NCTabs.material());
-		registerItem(gem_dust, NCTabs.material());
-		registerItem(alloy, NCTabs.material());
-		registerItem(compound, NCTabs.material());
+		registerItem(ingot, NCTabs.material);
+		registerItem(dust, NCTabs.material);
+		registerItem(gem, NCTabs.material);
+		registerItem(gem_dust, NCTabs.material);
+		registerItem(alloy, NCTabs.material);
+		registerItem(compound, NCTabs.material);
 		
-		registerItem(part, NCTabs.material());
-		registerItem(upgrade, NCTabs.machine());
+		registerItem(part, NCTabs.material);
+		registerItem(upgrade, NCTabs.machine);
 		
-		registerItem(fission_dust, NCTabs.material());
+		registerItem(fission_dust, NCTabs.material);
 		
-		registerItem(uranium, NCTabs.material());
-		registerItem(neptunium, NCTabs.material());
-		registerItem(plutonium, NCTabs.material());
-		registerItem(americium, NCTabs.material());
-		registerItem(curium, NCTabs.material());
-		registerItem(berkelium, NCTabs.material());
-		registerItem(californium, NCTabs.material());
+		registerItem(uranium, NCTabs.material);
+		registerItem(neptunium, NCTabs.material);
+		registerItem(plutonium, NCTabs.material);
+		registerItem(americium, NCTabs.material);
+		registerItem(curium, NCTabs.material);
+		registerItem(berkelium, NCTabs.material);
+		registerItem(californium, NCTabs.material);
 		
-		registerItem(pellet_thorium, NCTabs.material());
-		registerItem(pellet_uranium, NCTabs.material());
-		registerItem(pellet_neptunium, NCTabs.material());
-		registerItem(pellet_plutonium, NCTabs.material());
-		registerItem(pellet_mixed, NCTabs.material());
-		registerItem(pellet_americium, NCTabs.material());
-		registerItem(pellet_curium, NCTabs.material());
-		registerItem(pellet_berkelium, NCTabs.material());
-		registerItem(pellet_californium, NCTabs.material());
+		registerItem(pellet_thorium, NCTabs.material);
+		registerItem(pellet_uranium, NCTabs.material);
+		registerItem(pellet_neptunium, NCTabs.material);
+		registerItem(pellet_plutonium, NCTabs.material);
+		registerItem(pellet_mixed, NCTabs.material);
+		registerItem(pellet_americium, NCTabs.material);
+		registerItem(pellet_curium, NCTabs.material);
+		registerItem(pellet_berkelium, NCTabs.material);
+		registerItem(pellet_californium, NCTabs.material);
 		
-		registerItem(fuel_thorium, NCTabs.material());
-		registerItem(fuel_uranium, NCTabs.material());
-		registerItem(fuel_neptunium, NCTabs.material());
-		registerItem(fuel_plutonium, NCTabs.material());
-		registerItem(fuel_mixed, NCTabs.material());
-		registerItem(fuel_americium, NCTabs.material());
-		registerItem(fuel_curium, NCTabs.material());
-		registerItem(fuel_berkelium, NCTabs.material());
-		registerItem(fuel_californium, NCTabs.material());
+		registerItem(fuel_thorium, NCTabs.material);
+		registerItem(fuel_uranium, NCTabs.material);
+		registerItem(fuel_neptunium, NCTabs.material);
+		registerItem(fuel_plutonium, NCTabs.material);
+		registerItem(fuel_mixed, NCTabs.material);
+		registerItem(fuel_americium, NCTabs.material);
+		registerItem(fuel_curium, NCTabs.material);
+		registerItem(fuel_berkelium, NCTabs.material);
+		registerItem(fuel_californium, NCTabs.material);
 		
-		registerItem(depleted_fuel_thorium, NCTabs.material());
-		registerItem(depleted_fuel_uranium, NCTabs.material());
-		registerItem(depleted_fuel_neptunium, NCTabs.material());
-		registerItem(depleted_fuel_plutonium, NCTabs.material());
-		registerItem(depleted_fuel_mixed, NCTabs.material());
-		registerItem(depleted_fuel_americium, NCTabs.material());
-		registerItem(depleted_fuel_curium, NCTabs.material());
-		registerItem(depleted_fuel_berkelium, NCTabs.material());
-		registerItem(depleted_fuel_californium, NCTabs.material());
+		registerItem(depleted_fuel_thorium, NCTabs.material);
+		registerItem(depleted_fuel_uranium, NCTabs.material);
+		registerItem(depleted_fuel_neptunium, NCTabs.material);
+		registerItem(depleted_fuel_plutonium, NCTabs.material);
+		registerItem(depleted_fuel_mixed, NCTabs.material);
+		registerItem(depleted_fuel_americium, NCTabs.material);
+		registerItem(depleted_fuel_curium, NCTabs.material);
+		registerItem(depleted_fuel_berkelium, NCTabs.material);
+		registerItem(depleted_fuel_californium, NCTabs.material);
 		
-		registerItem(depleted_fuel_ic2, NCTabs.material());
+		registerItem(depleted_fuel_ic2, NCTabs.material);
 		
-		registerItem(boron, NCTabs.material());
-		registerItem(lithium, NCTabs.material());
+		registerItem(boron, NCTabs.material);
+		registerItem(lithium, NCTabs.material);
 		
-		registerItem(lithium_ion_cell, NCTabs.machine());
+		registerItem(lithium_ion_cell, NCTabs.machine);
 		
-		registerItem(multitool, NCTabs.machine());
+		registerItem(multitool, NCTabs.machine);
 		
-		registerItem(geiger_counter, NCTabs.radiation());
-		registerItem(rad_shielding, NCTabs.radiation());
-		registerItem(radiation_badge, NCTabs.radiation());
+		registerItem(geiger_counter, NCTabs.radiation);
+		registerItem(rad_shielding, NCTabs.radiation);
+		registerItem(radiation_badge, NCTabs.radiation);
 		
-		registerItem(radaway, NCTabs.radiation());
-		registerItem(radaway_slow, NCTabs.radiation());
-		registerItem(rad_x, NCTabs.radiation());
+		registerItem(radaway, NCTabs.radiation);
+		registerItem(radaway_slow, NCTabs.radiation);
+		registerItem(rad_x, NCTabs.radiation);
 		
-		registerItem(portable_ender_chest, NCTabs.misc());
+		registerItem(portable_ender_chest, NCTabs.misc);
 		
-		registerItem(dominos, NCTabs.misc());
+		registerItem(dominos, NCTabs.misc);
 		
-		registerItem(flour, NCTabs.misc());
-		registerItem(graham_cracker, NCTabs.misc());
+		registerItem(flour, NCTabs.misc);
+		registerItem(graham_cracker, NCTabs.misc);
 		
-		registerItem(roasted_cocoa_beans, NCTabs.misc());
-		registerItem(ground_cocoa_nibs, NCTabs.misc());
-		registerItem(cocoa_butter, NCTabs.misc());
-		registerItem(cocoa_solids, NCTabs.misc());
-		registerItem(unsweetened_chocolate, NCTabs.misc());
-		registerItem(dark_chocolate, NCTabs.misc());
-		registerItem(milk_chocolate, NCTabs.misc());
+		registerItem(roasted_cocoa_beans, NCTabs.misc);
+		registerItem(ground_cocoa_nibs, NCTabs.misc);
+		registerItem(cocoa_butter, NCTabs.misc);
+		registerItem(cocoa_solids, NCTabs.misc);
+		registerItem(unsweetened_chocolate, NCTabs.misc);
+		registerItem(dark_chocolate, NCTabs.misc);
+		registerItem(milk_chocolate, NCTabs.misc);
 		
-		registerItem(gelatin, NCTabs.misc());
-		registerItem(marshmallow, NCTabs.misc());
+		registerItem(gelatin, NCTabs.misc);
+		registerItem(marshmallow, NCTabs.misc);
 		
-		registerItem(smore, NCTabs.misc());
-		registerItem(moresmore, NCTabs.misc());
+		registerItem(smore, NCTabs.misc);
+		registerItem(moresmore, NCTabs.misc);
 		registerItem(foursmore, null);
 		
-		registerItem(record_wanderer, NCTabs.misc());
-		registerItem(record_end_of_the_world, NCTabs.misc());
-		registerItem(record_money_for_nothing, NCTabs.misc());
-		registerItem(record_hyperspace, NCTabs.misc());
+		registerItem(record_wanderer, NCTabs.misc);
+		registerItem(record_end_of_the_world, NCTabs.misc);
+		registerItem(record_money_for_nothing, NCTabs.misc);
+		registerItem(record_hyperspace, NCTabs.misc);
 	}
 	
 	public static void registerRenders() {

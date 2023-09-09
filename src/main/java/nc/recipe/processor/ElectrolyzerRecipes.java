@@ -5,9 +5,7 @@ import static nc.util.FluidStackHelper.*;
 
 import java.util.*;
 
-import nc.recipe.BasicRecipeHandler;
-
-public class ElectrolyzerRecipes extends BasicRecipeHandler {
+public class ElectrolyzerRecipes extends BasicProcessorRecipeHandler {
 	
 	public ElectrolyzerRecipes() {
 		super("electrolyzer", 0, 1, 0, 4);
@@ -33,15 +31,6 @@ public class ElectrolyzerRecipes extends BasicRecipeHandler {
 			addRecipe(fluidStack(element + "_fluoride", INGOT_VOLUME / 2), fluidStack(element, INGOT_VOLUME / 2), fluidStack("fluorine", BUCKET_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 			addRecipe(fluidStack("depleted_" + element + "_fluoride", INGOT_VOLUME / 2), fluidStack("depleted_" + element, INGOT_VOLUME / 2), fluidStack("fluorine", BUCKET_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 		}
-	}
-	
-	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
 	}
 	
 	@Override

@@ -86,12 +86,20 @@ public class BasicRecipe implements IRecipe {
 	
 	// Processors
 	
+	public double getProcessTimeMultiplier() {
+		return (double) extras.get(0);
+	}
+	
+	public double getProcessPowerMultiplier() {
+		return (double) extras.get(1);
+	}
+	
 	public double getBaseProcessTime(double defaultProcessTime) {
-		return (double) extras.get(0) * defaultProcessTime;
+		return getProcessTimeMultiplier() * defaultProcessTime;
 	}
 	
 	public double getBaseProcessPower(double defaultProcessPower) {
-		return (double) extras.get(1) * defaultProcessPower;
+		return getProcessPowerMultiplier() * defaultProcessPower;
 	}
 	
 	public double getBaseProcessRadiation() {

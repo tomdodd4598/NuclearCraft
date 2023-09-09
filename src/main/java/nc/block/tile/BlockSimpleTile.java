@@ -4,6 +4,7 @@ import nc.handler.TileInfoHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -17,7 +18,10 @@ public class BlockSimpleTile<TILE extends TileEntity> extends BlockTile implemen
 	public BlockSimpleTile(String name) {
 		super(Material.IRON);
 		tileInfo = TileInfoHandler.getBlockSimpleTileInfo(name);
-		setCreativeTab(tileInfo.creativeTab);
+		CreativeTabs tab = tileInfo.creativeTab;
+		if (tab != null) {
+			setCreativeTab(tab);
+		}
 	}
 	
 	@Override

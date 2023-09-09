@@ -31,8 +31,8 @@ public class RadiationRenders {
 	
 	private static final ResourceLocation RADS_BAR = new ResourceLocation(Global.MOD_ID + ":textures/hud/" + "rads_bar" + ".png");
 	
-	private static final String IMMUNE = Lang.localise("hud.nuclearcraft.rad_immune");
-	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune_for");
+	private static final String IMMUNE = Lang.localize("hud.nuclearcraft.rad_immune");
+	private static final String IMMUNE_FOR = Lang.localize("hud.nuclearcraft.rad_immune_for");
 	
 	/** Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
 	@SubscribeEvent(priority = EventPriority.LOWEST)

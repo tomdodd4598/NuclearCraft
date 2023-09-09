@@ -416,7 +416,7 @@ public class CTRegistration {
 	
 	// Registration Wrapper
 	
-	public abstract static class RegistrationInfo {
+	public static abstract class RegistrationInfo {
 		
 		public abstract void preInit();
 		
@@ -605,7 +605,7 @@ public class CTRegistration {
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(efficiency, 1)), Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+			NCBlocks.registerBlock(block, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(efficiency, 1)), Lang.localize(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
 		}
 	}
 	
@@ -620,7 +620,7 @@ public class CTRegistration {
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block, TextFormatting.GRAY, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_stator")));
+			NCBlocks.registerBlock(block, TextFormatting.GRAY, new String[] {Lang.localize(NCBlocks.fixedLine("turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_stator")));
 		}
 	}
 	
@@ -781,7 +781,7 @@ public class CTRegistration {
 		public final List<String> ores = new ArrayList<>();
 		
 		public FissionIsotopeRegistrationInfo(String name) {
-			super(name, NCTabs.material());
+			super(name, NCTabs.material);
 		}
 		
 		@Override
@@ -860,7 +860,7 @@ public class CTRegistration {
 		public final List<String> ores = new ArrayList<>();
 		
 		public FissionFuelRegistrationInfo(String name) {
-			super(name, NCTabs.material());
+			super(name, NCTabs.material);
 		}
 		
 		@Override

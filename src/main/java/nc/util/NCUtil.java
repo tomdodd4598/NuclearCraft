@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import org.apache.logging.log4j.*;
 import org.lwjgl.input.Keyboard;
 
+import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 
 public class NCUtil {
@@ -57,5 +58,20 @@ public class NCUtil {
 	
 	public static boolean isModifierKeyDown() {
 		return NCUtil.isCtrlKeyDown() || NCUtil.isShiftKeyDown();
+	}
+	
+	private static final Object2ObjectMap<String, String> SHORT_MOD_ID_MAP = new Object2ObjectOpenHashMap<>();
+	
+	static {
+		putShortModId(Global.MOD_ID, "nc");
+	}
+	
+	public static void putShortModId(String modId, String shortModId) {
+		SHORT_MOD_ID_MAP.put(modId, shortModId);
+	}
+	
+	public static String getShortModId(String modId) {
+		String shortModId = SHORT_MOD_ID_MAP.get(modId);
+		return shortModId == null ? modId : shortModId;
 	}
 }

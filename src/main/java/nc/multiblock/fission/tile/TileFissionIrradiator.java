@@ -307,7 +307,7 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		BasicRecipe recipe = recipeInfo.getRecipe();
+		BasicRecipe recipe = recipeInfo.recipe;
 		baseProcessTime = recipe.getIrradiatorFluxRequired();
 		baseProcessHeatPerFlux = recipe.getIrradiatorHeatPerFlux();
 		baseProcessEfficiency = recipe.getIrradiatorProcessEfficiency();
@@ -480,12 +480,12 @@ public class TileFissionIrradiator extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public List<IItemIngredient> getItemIngredients() {
-		return recipeInfo.getRecipe().getItemIngredients();
+		return recipeInfo.recipe.getItemIngredients();
 	}
 	
 	@Override
 	public List<IItemIngredient> getItemProducts() {
-		return recipeInfo.getRecipe().getItemProducts();
+		return recipeInfo.recipe.getItemProducts();
 	}
 	
 	// ITileInventory

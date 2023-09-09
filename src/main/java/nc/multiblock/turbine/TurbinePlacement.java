@@ -34,7 +34,7 @@ public abstract class TurbinePlacement {
 	
 	public static PlacementRule.RecipeHandler recipe_handler;
 	
-	/** Map of all localised tooltips. */
+	/** Map of all localized tooltips. */
 	public static final Object2ObjectMap<String, String> TOOLTIP_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public static void preInit() {
@@ -70,7 +70,8 @@ public abstract class TurbinePlacement {
 		for (Object2ObjectMap.Entry<String, PlacementRule<Turbine, ITurbinePart>> entry : RULE_MAP.object2ObjectEntrySet()) {
 			for (PlacementRule.TooltipBuilder<Turbine, ITurbinePart> builder : TOOLTIP_BUILDER_LIST) {
 				String tooltip = builder.buildTooltip(entry.getValue());
-				if (tooltip != null) TOOLTIP_MAP.put(entry.getKey(), tooltip);
+				if (tooltip != null)
+					TOOLTIP_MAP.put(entry.getKey(), tooltip);
 			}
 		}
 	}
@@ -93,7 +94,8 @@ public abstract class TurbinePlacement {
 			boolean exact = s.contains("exact"), atMost = s.contains("at most");
 			boolean axial = s.contains("axial"), vertex = s.contains("vertex"), edge = s.contains("edge");
 			
-			if ((exact && atMost) || (axial && vertex)) return null;
+			if ((exact && atMost) || (axial && vertex))
+				return null;
 			
 			s = s.replaceAll("at least", "");
 			s = s.replaceAll("exactly", "");
@@ -143,7 +145,8 @@ public abstract class TurbinePlacement {
 				}
 			}
 			
-			if (amount < 0 || rule == null) return null;
+			if (amount < 0 || rule == null)
+				return null;
 			
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
 			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : (edge ? AdjacencyType.EDGE : AdjacencyType.STANDARD));

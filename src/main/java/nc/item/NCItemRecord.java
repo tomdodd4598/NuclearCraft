@@ -47,6 +47,6 @@ public class NCItemRecord extends ItemRecord implements IInfoItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getRecordNameLocal() {
-		return Lang.localise("item." + Global.MOD_ID + "." + name + ".des0");
+		return Lang.localize("item." + Global.MOD_ID + "." + name + ".des0");
 	}
 }

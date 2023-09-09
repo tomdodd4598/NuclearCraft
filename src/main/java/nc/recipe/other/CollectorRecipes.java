@@ -19,7 +19,7 @@ public class CollectorRecipes extends BasicRecipeHandler {
 	@Override
 	public void addRecipes() {
 		if (register_passive[0]) {
-			String cobblePerTick = " " + Lang.localise("nuclearcraft.cobblestone") + "/t";
+			String cobblePerTick = " " + Lang.localize("nuclearcraft.cobblestone") + "/t";
 			addRecipe(NCBlocks.cobblestone_generator, new ItemStack(Blocks.COBBLESTONE), emptyFluidStack(), NCMath.sigFigs(processor_passive_rate[0], 5) + cobblePerTick);
 			addRecipe(NCBlocks.cobblestone_generator_compact, new ItemStack(Blocks.COBBLESTONE), emptyFluidStack(), NCMath.sigFigs(processor_passive_rate[0] * 8, 5) + cobblePerTick);
 			addRecipe(NCBlocks.cobblestone_generator_dense, new ItemStack(Blocks.COBBLESTONE), emptyFluidStack(), NCMath.sigFigs(processor_passive_rate[0] * 64, 5) + cobblePerTick);

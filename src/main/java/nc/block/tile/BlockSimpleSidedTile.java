@@ -2,6 +2,7 @@ package nc.block.tile;
 
 import nc.handler.TileInfoHandler;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -12,7 +13,10 @@ public class BlockSimpleSidedTile<TILE extends TileEntity> extends BlockSidedTil
 	public BlockSimpleSidedTile(String name) {
 		super(Material.IRON);
 		tileInfo = TileInfoHandler.getBlockSimpleTileInfo(name);
-		setCreativeTab(tileInfo.creativeTab);
+		CreativeTabs tab = tileInfo.creativeTab;
+		if (tab != null) {
+			setCreativeTab(tab);
+		}
 	}
 	
 	@Override

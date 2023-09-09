@@ -104,7 +104,8 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	public boolean isSearchRoot() {
 		for (String dep : placementRule.getDependencies()) {
-			if (dep.equals("bearing")) return true;
+			if (dep.equals("bearing"))
+				return true;
 		}
 		return false;
 	}
@@ -212,7 +213,8 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("partName", partName);
-		if (conductivity != null) nbt.setDouble("conductivity", conductivity);
+		if (conductivity != null)
+			nbt.setDouble("conductivity", conductivity);
 		nbt.setString("ruleID", ruleID);
 		
 		writeEnergyConnections(nbt);
@@ -223,8 +225,10 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("partName")) partName = nbt.getString("partName");
-		if (nbt.hasKey("conductivity")) conductivity = nbt.getDouble("conductivity");
+		if (nbt.hasKey("partName"))
+			partName = nbt.getString("partName");
+		if (nbt.hasKey("conductivity"))
+			conductivity = nbt.getDouble("conductivity");
 		if (nbt.hasKey("ruleID")) {
 			ruleID = nbt.getString("ruleID");
 			placementRule = TurbinePlacement.RULE_MAP.get(ruleID);
@@ -238,7 +242,7 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+		if (capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
 			return hasEnergySideCapability(side);
 		}
 		return super.hasCapability(capability, side);

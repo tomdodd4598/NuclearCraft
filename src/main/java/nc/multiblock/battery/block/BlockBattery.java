@@ -26,7 +26,7 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 	private final IBatteryBlockType type;
 	
 	public BlockBattery(IBatteryBlockType type) {
-		super(Material.IRON, NCTabs.multiblock());
+		super(Material.IRON, NCTabs.multiblock);
 		this.type = type;
 	}
 	
@@ -65,7 +65,7 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 			}
 			else if (!world.isRemote) {
 				EnergyStorage storage = battery.getEnergyStorage();
-				player.sendMessage(new TextComponentString(Lang.localise("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStoredLong(), storage.getMaxEnergyStoredLong(), 5, "RF")));
+				player.sendMessage(new TextComponentString(Lang.localize("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStoredLong(), storage.getMaxEnergyStoredLong(), 5, "RF")));
 			}
 			return true;
 		}

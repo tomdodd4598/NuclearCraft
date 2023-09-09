@@ -537,7 +537,7 @@ public class RecipeHelper {
 	
 	public static BasicRecipe blockRecipe(BasicRecipeHandler recipeHandler, World world, BlockPos pos) {
 		RecipeInfo<BasicRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(world.getBlockState(pos))), new ArrayList<>());
-		return recipeInfo == null ? null : recipeInfo.getRecipe();
+		return recipeInfo == null ? null : recipeInfo.recipe;
 	}
 	
 	public static double getDecayTimeMultiplier(double baseRads, double radiation, double scaleFactor) {

@@ -11,8 +11,8 @@ public class InfoHelper {
 	
 	public static final int MAXIMUM_TEXT_WIDTH = 225;
 	
-	public static final String SHIFT_STRING = Lang.localise("gui.nc.inventory.shift_for_info");
-	public static final String CTRL_STRING = Lang.localise("gui.nc.inventory.ctrl_for_info");
+	public static final String SHIFT_STRING = Lang.localize("gui.nc.inventory.shift_for_info");
+	public static final String CTRL_STRING = Lang.localize("gui.nc.inventory.ctrl_for_info");
 	
 	public static final String[] EMPTY_ARRAY = {}, NULL_ARRAY = {null};
 	public static final String[][] EMPTY_ARRAYS = {}, NULL_ARRAYS = {null};
@@ -124,7 +124,7 @@ public class InfoHelper {
 	}
 	
 	public static String[] formattedInfo(String tooltip, Object... args) {
-		return FontRenderHelper.wrapString(Lang.localise(tooltip, args), MAXIMUM_TEXT_WIDTH);
+		return FontRenderHelper.wrapString(Lang.localize(tooltip, args), MAXIMUM_TEXT_WIDTH);
 	}
 	
 	public static String[] buildFixedInfo(String unlocName, String... tooltip) {
@@ -204,7 +204,7 @@ public class InfoHelper {
 	
 	public static String[] standardGeneralInfo(String unlocName, String generalName, String desc, String des) {
 		for (String name : new String[] {unlocName, generalName}) {
-			if (Lang.canLocalise(name + desc)) {
+			if (Lang.canLocalize(name + desc)) {
 				return formattedInfo(name + desc);
 			}
 		}
@@ -213,13 +213,13 @@ public class InfoHelper {
 	
 	public static String[] getNumberedInfo(String base) {
 		String firstLine = base + 0;
-		if (!Lang.canLocalise(firstLine)) {
+		if (!Lang.canLocalize(firstLine)) {
 			return EMPTY_ARRAY;
 		}
-		String[] info = new String[] {Lang.localise(firstLine)};
+		String[] info = new String[] {Lang.localize(firstLine)};
 		int line = 1;
-		while (Lang.canLocalise(base + line)) {
-			info = CollectionHelper.concatenate(info, Lang.localise(base + line));
+		while (Lang.canLocalize(base + line)) {
+			info = CollectionHelper.concatenate(info, Lang.localize(base + line));
 			++line;
 		}
 		return info;

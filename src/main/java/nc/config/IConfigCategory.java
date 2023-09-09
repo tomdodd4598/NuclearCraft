@@ -13,7 +13,7 @@ public interface IConfigCategory {
 		Configuration config = NCConfig.getConfig();
 		ConfigElement newElement = new ConfigElement(config.getCategory(categoryName));
 		List<IConfigElement> propertiesOnScreen = newElement.getChildElements();
-		String windowTitle = Lang.localise("gui.nc.config.category." + categoryName);
+		String windowTitle = Lang.localize("gui.nc.config.category." + categoryName);
 		return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 	}
 }

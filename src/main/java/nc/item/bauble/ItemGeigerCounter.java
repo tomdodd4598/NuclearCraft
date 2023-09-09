@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
 public class ItemGeigerCounter extends NCItem implements IBauble {
 	
-	private static final String RADIATION = Lang.localise("item.nuclearcraft.geiger_counter.rads");
+	private static final String RADIATION = Lang.localize("item.nuclearcraft.geiger_counter.rads");
 	
 	public ItemGeigerCounter(String... tooltip) {
 		super(tooltip);

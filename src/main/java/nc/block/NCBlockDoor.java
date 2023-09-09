@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +21,7 @@ public abstract class NCBlockDoor extends BlockDoor {
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
+	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, SpawnPlacementType type) {
 		return false;
 	}
 	

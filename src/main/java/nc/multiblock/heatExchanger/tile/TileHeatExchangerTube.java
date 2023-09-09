@@ -231,7 +231,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 			outputTemperature = 300;
 			return false;
 		}
-		BasicRecipe recipe = recipeInfo.getRecipe();
+		BasicRecipe recipe = recipeInfo.recipe;
 		baseProcessTime = recipe.getHeatExchangerProcessTime();
 		inputTemperature = recipe.getHeatExchangerInputTemperature();
 		outputTemperature = recipe.getHeatExchangerOutputTemperature();
@@ -346,12 +346,12 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.getRecipe().getFluidIngredients();
+		return recipeInfo.recipe.getFluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.getRecipe().getFluidProducts();
+		return recipeInfo.recipe.getFluidProducts();
 	}
 	
 	// Fluids
@@ -645,7 +645,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFlu
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY)) {
 			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);

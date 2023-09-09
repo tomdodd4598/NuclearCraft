@@ -182,14 +182,14 @@ public class TileFissionPowerPort extends TileFissionPart implements ITickable, 
 						setEnergyConnection(EnergyConnection.OUT, side);
 					}
 					setActivity(false);
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.GOLD + Lang.localise("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.GOLD + Lang.localize("nc.block.fission_port_mode.output") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				else {
 					for (EnumFacing side : EnumFacing.VALUES) {
 						setEnergyConnection(EnergyConnection.IN, side);
 					}
 					setActivity(true);
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localise("nc.block.port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localize("nc.block.fission_port_mode.input") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				markDirtyAndNotify(true);
 				return true;
@@ -217,7 +217,7 @@ public class TileFissionPowerPort extends TileFissionPart implements ITickable, 
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityEnergy.ENERGY || ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+		if (capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
 			return hasEnergySideCapability(side);
 		}
 		return super.hasCapability(capability, side);

@@ -10,14 +10,14 @@ import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class RadiationScrubberCategory extends JEIMachineCategory<JEIRecipe.RadiationScrubber> {
+public class RadiationScrubberCategory extends JEIMachineCategory<JEIRecipeWrapperImpl.RadiationScrubber> {
 	
-	public RadiationScrubberCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipe.RadiationScrubber> handler) {
+	public RadiationScrubberCategory(IGuiHelper guiHelper, IJEIHandler<JEIRecipeWrapperImpl.RadiationScrubber> handler) {
 		super(guiHelper, handler, "radiation_scrubber", 31, 30, 130, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipe.RadiationScrubber recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapperImpl.RadiationScrubber recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
@@ -32,6 +32,6 @@ public class RadiationScrubberCategory extends JEIMachineCategory<JEIRecipe.Radi
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".radiation_scrubber.jei_name");
+		return Lang.localize(Global.MOD_ID + ".radiation_scrubber.jei_name");
 	}
 }

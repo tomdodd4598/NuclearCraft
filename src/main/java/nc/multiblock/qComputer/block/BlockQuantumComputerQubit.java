@@ -38,7 +38,7 @@ public class BlockQuantumComputerQubit extends BlockQuantumComputerPart {
 			if (tile instanceof TileQuantumComputerQubit) {
 				if (!world.isRemote) {
 					TileQuantumComputerQubit qubit = (TileQuantumComputerQubit) tile;
-					player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.qubit_id", qubit.id)));
+					player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.qubit_id", qubit.id)));
 				}
 				return true;
 			}

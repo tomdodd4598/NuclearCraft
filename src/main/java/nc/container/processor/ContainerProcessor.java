@@ -4,7 +4,8 @@ import nc.container.ContainerTile;
 import nc.container.slot.*;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
-import nc.tile.processor.*;
+import nc.tile.processor.IProcessor;
+import nc.tile.processor.info.ProcessorContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -15,13 +16,13 @@ public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TI
 	protected final TILE tile;
 	protected final BasicRecipeHandler recipeHandler;
 	
-	public ContainerProcessor(EntityPlayer player, TILE tile, BasicRecipeHandler recipeHandler) {
+	public ContainerProcessor(EntityPlayer player, TILE tile) {
 		super(tile);
 		this.tile = tile;
-		this.recipeHandler = recipeHandler;
+		this.recipeHandler = tile.getRecipeHandler();
 		
 		addMachineSlots(player);
-		addPlayerSlots(player);
+		info.addPlayerSlots(this::addSlotToContainer, player);
 		tile.addTileUpdatePacketListener(player);
 	}
 	
@@ -34,18 +35,6 @@ public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TI
 		for (int i = 0; i < info.itemOutputSize; ++i) {
 			int[] stackXY = info.getItemOutputStackXY(i);
 			addSlotToContainer(new SlotFurnace(player, tile, i + info.itemInputSize, stackXY[0], stackXY[1]));
-		}
-	}
-	
-	protected void addPlayerSlots(EntityPlayer player) {
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				addSlotToContainer(new Slot(player.inventory, j + 9 * i + 9, 8 + info.playerGuiX + 18 * j, 84 + info.playerGuiY + 18 * i));
-			}
-		}
-		
-		for (int i = 0; i < 9; ++i) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + info.playerGuiX + 18 * i, 142 + info.playerGuiY));
 		}
 	}
 	

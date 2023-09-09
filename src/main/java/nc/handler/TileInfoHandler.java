@@ -1,23 +1,25 @@
 package nc.handler;
 
-import java.util.List;
+import static nc.config.NCConfig.*;
+
 import java.util.function.Supplier;
 
-import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.objects.*;
+import nc.Global;
 import nc.block.tile.BlockSimpleTileInfo;
-import nc.container.ContainerFunction;
-import nc.container.processor.*;
-import nc.gui.GuiFunction;
-import nc.gui.processor.GuiManufactory;
+import nc.container.processor.ContainerProcessorImpl.*;
+import nc.gui.processor.GuiProcessorImpl.*;
 import nc.tab.NCTabs;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.generator.*;
 import nc.tile.passive.TilePassive;
-import nc.tile.processor.*;
-import nc.tile.radiation.*;
+import nc.tile.processor.IProcessor;
+import nc.tile.processor.TileProcessorImpl.*;
+import nc.tile.processor.info.*;
+import nc.tile.processor.info.builder.ProcessorContainerInfoBuilder;
+import nc.tile.processor.info.builder.ProcessorContainerInfoBuilderImpl.BasicUpgradableProcessorContainerInfoBuilder;
+import nc.tile.radiation.TileGeigerCounter;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 
@@ -29,53 +31,53 @@ public class TileInfoHandler {
 	private static final Object2ObjectMap<String, ProcessorContainerInfo<?, ?>> GUI_PROCESSOR_INFO_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public static void init() {
-		putBlockSimpleTileInfo("machine_interface", TileMachineInterface::new, NCTabs.machine());
-		putBlockSimpleTileInfo("decay_generator", TileDecayGenerator::new, NCTabs.machine());
-		putBlockSimpleTileInfo("bin", TileBin::new, NCTabs.machine());
+		putBlockSimpleTileInfo(Global.MOD_ID, "machine_interface", TileMachineInterface::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "decay_generator", TileDecayGenerator::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "bin", TileBin::new, NCTabs.machine);
 		
-		putBlockSimpleTileInfo("solar_panel_basic", TileSolarPanel.Basic::new, NCTabs.machine());
-		putBlockSimpleTileInfo("solar_panel_advanced", TileSolarPanel.Advanced::new, NCTabs.machine());
-		putBlockSimpleTileInfo("solar_panel_du", TileSolarPanel.DU::new, NCTabs.machine());
-		putBlockSimpleTileInfo("solar_panel_elite", TileSolarPanel.Elite::new, NCTabs.machine());
+		putBlockSimpleTileInfo(Global.MOD_ID, "solar_panel_basic", TileSolarPanel.Basic::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "solar_panel_advanced", TileSolarPanel.Advanced::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "solar_panel_du", TileSolarPanel.DU::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "solar_panel_elite", TileSolarPanel.Elite::new, NCTabs.machine);
 		
-		putBlockSimpleTileInfo("cobblestone_generator", TilePassive.CobblestoneGenerator::new, NCTabs.machine());
-		putBlockSimpleTileInfo("cobblestone_generator_compact", TilePassive.CobblestoneGeneratorCompact::new, NCTabs.machine());
-		putBlockSimpleTileInfo("cobblestone_generator_dense", TilePassive.CobblestoneGeneratorDense::new, NCTabs.machine());
+		putBlockSimpleTileInfo(Global.MOD_ID, "cobblestone_generator", TilePassive.CobblestoneGenerator::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "cobblestone_generator_compact", TilePassive.CobblestoneGeneratorCompact::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "cobblestone_generator_dense", TilePassive.CobblestoneGeneratorDense::new, NCTabs.machine);
 		
-		putBlockSimpleTileInfo("water_source", TilePassive.WaterSource::new, NCTabs.machine());
-		putBlockSimpleTileInfo("water_source_compact", TilePassive.WaterSourceCompact::new, NCTabs.machine());
-		putBlockSimpleTileInfo("water_source_dense", TilePassive.WaterSourceDense::new, NCTabs.machine());
+		putBlockSimpleTileInfo(Global.MOD_ID, "water_source", TilePassive.WaterSource::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "water_source_compact", TilePassive.WaterSourceCompact::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "water_source_dense", TilePassive.WaterSourceDense::new, NCTabs.machine);
 		
-		putBlockSimpleTileInfo("nitrogen_collector", TilePassive.NitrogenCollector::new, NCTabs.machine());
-		putBlockSimpleTileInfo("nitrogen_collector_compact", TilePassive.NitrogenCollectorCompact::new, NCTabs.machine());
-		putBlockSimpleTileInfo("nitrogen_collector_dense", TilePassive.NitrogenCollectorDense::new, NCTabs.machine());
+		putBlockSimpleTileInfo(Global.MOD_ID, "nitrogen_collector", TilePassive.NitrogenCollector::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "nitrogen_collector_compact", TilePassive.NitrogenCollectorCompact::new, NCTabs.machine);
+		putBlockSimpleTileInfo(Global.MOD_ID, "nitrogen_collector_dense", TilePassive.NitrogenCollectorDense::new, NCTabs.machine);
 		
-		putBlockSimpleTileInfo("radiation_scrubber", TileRadiationScrubber::new, NCTabs.radiation());
+		putBlockSimpleTileInfo(Global.MOD_ID, "geiger_block", TileGeigerCounter::new, NCTabs.radiation);
 		
-		putBlockSimpleTileInfo("geiger_block", TileGeigerCounter::new, NCTabs.radiation());
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "manufactory", Manufactory::new, ContainerManufactory::new, GuiManufactory::new).setParticles("crit", "reddust").setDefaultProcessTime(processor_time[0]).setDefaultProcessPower(processor_power[0]).setItemInputSlots(standardSlot(56, 35)).setItemOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "separator", Separator::new, ContainerSeparator::new, GuiSeparator::new).setParticles("reddust", "smoke").setDefaultProcessTime(processor_time[1]).setDefaultProcessPower(processor_power[1]).setItemInputSlots(standardSlot(42, 35)).setItemOutputSlots(bigSlot(98, 31), bigSlot(126, 31)).setProgressBarGuiXYWHUV(60, 34, 37, 18, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "decay_hastener", DecayHastener::new, ContainerDecayHastener::new, GuiDecayHastener::new).setParticles("reddust").setDefaultProcessTime(processor_time[2]).setDefaultProcessPower(processor_power[2]).setItemInputSlots(standardSlot(56, 35)).setItemOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "fuel_reprocessor", FuelReprocessor::new, ContainerFuelReprocessor::new, GuiFuelReprocessor::new).setParticles("reddust", "smoke").setDefaultProcessTime(processor_time[3]).setDefaultProcessPower(processor_power[3]).standardExtend(0, 12).setItemInputSlots(standardSlot(30, 41)).setItemOutputSlots(standardSlot(86, 31), standardSlot(106, 31), standardSlot(126, 31), standardSlot(146, 31), standardSlot(86, 51), standardSlot(106, 51), standardSlot(126, 51), standardSlot(146, 51)).setProgressBarGuiXYWHUV(48, 30, 37, 38, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "alloy_furnace", AlloyFurnace::new, ContainerAlloyFurnace::new, GuiAlloyFurnace::new).setParticles("reddust", "smoke").setDefaultProcessTime(processor_time[4]).setDefaultProcessPower(processor_power[4]).setLosesProgress(true).setItemInputSlots(standardSlot(46, 35), standardSlot(66, 35)).setItemOutputSlots(bigSlot(122, 31)).setProgressBarGuiXYWHUV(84, 35, 37, 16, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "infuser", Infuser::new, ContainerInfuser::new, GuiInfuser::new).setParticles("portal", "reddust").setDefaultProcessTime(processor_time[5]).setDefaultProcessPower(processor_power[5]).setLosesProgress(true).setItemInputSlots(standardSlot(46, 35)).setFluidInputSlots(standardSlot(66, 35)).setItemOutputSlots(bigSlot(122, 31)).setProgressBarGuiXYWHUV(84, 35, 37, 16, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "melter", Melter::new, ContainerMelter::new, GuiMelter::new).setParticles("flame", "lava").setDefaultProcessTime(processor_time[6]).setDefaultProcessPower(processor_power[6]).setLosesProgress(true).setItemInputSlots(standardSlot(56, 35)).setFluidOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "supercooler", Supercooler::new, ContainerSupercooler::new, GuiSupercooler::new).setParticles("smoke", "snowshovel").setDefaultProcessTime(processor_time[7]).setDefaultProcessPower(processor_power[7]).setLosesProgress(true).setFluidInputSlots(standardSlot(56, 35)).setFluidOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "electrolyzer", Electrolyzer::new, ContainerElectrolyzer::new, GuiElectrolyzer::new).setParticles("reddust", "splash").setDefaultProcessTime(processor_time[8]).setDefaultProcessPower(processor_power[8]).setLosesProgress(true).standardExtend(0, 12).setFluidInputSlots(standardSlot(50, 41)).setFluidOutputSlots(standardSlot(106, 31), standardSlot(126, 31), standardSlot(106, 51), standardSlot(126, 51)).setProgressBarGuiXYWHUV(68, 30, 37, 38, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "assembler", Assembler::new, ContainerAssembler::new, GuiAssembler::new).setParticles("crit", "smoke").setDefaultProcessTime(processor_time[9]).setDefaultProcessPower(processor_power[9]).standardExtend(0, 12).setItemInputSlots(standardSlot(46, 31), standardSlot(66, 31), standardSlot(46, 51), standardSlot(66, 51)).setItemOutputSlots(bigSlot(122, 37)).setProgressBarGuiXYWHUV(84, 31, 37, 36, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "ingot_former", IngotFormer::new, ContainerIngotFormer::new, GuiIngotFormer::new).setParticles("smoke").setDefaultProcessTime(processor_time[10]).setDefaultProcessPower(processor_power[10]).setFluidInputSlots(standardSlot(56, 35)).setItemOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "pressurizer", Pressurizer::new, ContainerPressurizer::new, GuiPressurizer::new).setParticles("smoke").setDefaultProcessTime(processor_time[11]).setDefaultProcessPower(processor_power[11]).setLosesProgress(true).setItemInputSlots(standardSlot(56, 35)).setItemOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "chemical_reactor", ChemicalReactor::new, ContainerChemicalReactor::new, GuiChemicalReactor::new).setParticles("reddust").setDefaultProcessTime(processor_time[12]).setDefaultProcessPower(processor_power[12]).setLosesProgress(true).setFluidInputSlots(standardSlot(32, 35), standardSlot(52, 35)).setFluidOutputSlots(bigSlot(108, 31), bigSlot(136, 31)).setProgressBarGuiXYWHUV(70, 34, 37, 18, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "salt_mixer", SaltMixer::new, ContainerSaltMixer::new, GuiSaltMixer::new).setParticles("endRod", "reddust").setDefaultProcessTime(processor_time[13]).setDefaultProcessPower(processor_power[13]).setFluidInputSlots(standardSlot(46, 35), standardSlot(66, 35)).setFluidOutputSlots(bigSlot(122, 31)).setProgressBarGuiXYWHUV(84, 34, 37, 18, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "crystallizer", Crystallizer::new, ContainerCrystallizer::new, GuiCrystallizer::new).setParticles("depthsuspend").setDefaultProcessTime(processor_time[14]).setDefaultProcessPower(processor_power[14]).setLosesProgress(true).setFluidInputSlots(standardSlot(56, 35)).setItemOutputSlots(bigSlot(112, 31)));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "enricher", Enricher::new, ContainerEnricher::new, GuiEnricher::new).setParticles("depthsuspend", "splash").setDefaultProcessTime(processor_time[15]).setDefaultProcessPower(processor_power[15]).setLosesProgress(true).setItemInputSlots(standardSlot(46, 35)).setFluidInputSlots(standardSlot(66, 35)).setFluidOutputSlots(bigSlot(122, 31)).setProgressBarGuiXYWHUV(84, 35, 37, 16, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "extractor", Extractor::new, ContainerExtractor::new, GuiExtractor::new).setParticles("depthsuspend", "reddust").setDefaultProcessTime(processor_time[16]).setDefaultProcessPower(processor_power[16]).setLosesProgress(true).setItemInputSlots(standardSlot(42, 35)).setItemOutputSlots(bigSlot(98, 31)).setFluidOutputSlots(bigSlot(126, 31)).setProgressBarGuiXYWHUV(60, 34, 37, 18, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "centrifuge", Centrifuge::new, ContainerCentrifuge::new, GuiCentrifuge::new).setParticles("depthsuspend", "endRod").setDefaultProcessTime(processor_time[17]).setDefaultProcessPower(processor_power[17]).standardExtend(0, 12).setFluidInputSlots(standardSlot(40, 41)).setFluidOutputSlots(standardSlot(96, 31), standardSlot(116, 31), standardSlot(136, 31), standardSlot(96, 51), standardSlot(116, 51), standardSlot(136, 51)).setProgressBarGuiXYWHUV(58, 30, 37, 38, 176, 3));
+		putProcessorInfo(new BasicUpgradableProcessorContainerInfoBuilder<>(Global.MOD_ID, "rock_crusher", RockCrusher::new, ContainerRockCrusher::new, GuiRockCrusher::new).setParticles("smoke").setDefaultProcessTime(processor_time[18]).setDefaultProcessPower(processor_power[18]).setItemInputSlots(standardSlot(38, 35)).setItemOutputSlots(standardSlot(94, 35), standardSlot(114, 35), standardSlot(134, 35)).setProgressBarGuiXYWHUV(56, 35, 37, 16, 176, 3));
 		
-		putProcessorInfo("manufactory", TileBasicProcessor.Manufactory::new, Lists.newArrayList("reddust", "crit"), ContainerManufactory::new, GuiManufactory::new, ContainerMachineConfig::new, GuiManufactory.SideConfig::new, 1, 0, 1, 0, false);
-		putProcessorInfo("separator", TileBasicProcessor.Separator::new, Lists.newArrayList("reddust", "smoke"));
-		putProcessorInfo("decay_hastener", TileBasicProcessor.DecayHastener::new, Lists.newArrayList("reddust"));
-		putProcessorInfo("fuel_reprocessor", TileBasicProcessor.FuelReprocessor::new, Lists.newArrayList("reddust", "smoke"));
-		putProcessorInfo("alloy_furnace", TileBasicProcessor.AlloyFurnace::new, Lists.newArrayList("smoke", "reddust"));
-		putProcessorInfo("infuser", TileBasicProcessor.Infuser::new, Lists.newArrayList("portal", "reddust"));
-		putProcessorInfo("melter", TileBasicProcessor.Melter::new, Lists.newArrayList("flame", "lava"));
-		putProcessorInfo("supercooler", TileBasicProcessor.Supercooler::new, Lists.newArrayList("snowshovel", "smoke"));
-		putProcessorInfo("electrolyzer", TileBasicProcessor.Electrolyzer::new, Lists.newArrayList("reddust", "splash"));
-		putProcessorInfo("assembler", TileBasicProcessor.Assembler::new, Lists.newArrayList("smoke", "crit"));
-		putProcessorInfo("ingot_former", TileBasicProcessor.IngotFormer::new, Lists.newArrayList("smoke"));
-		putProcessorInfo("pressurizer", TileBasicProcessor.Pressurizer::new, Lists.newArrayList("smoke"));
-		putProcessorInfo("chemical_reactor", TileBasicProcessor.ChemicalReactor::new, Lists.newArrayList("reddust"));
-		putProcessorInfo("salt_mixer", TileBasicProcessor.SaltMixer::new, Lists.newArrayList("reddust", "endRod"));
-		putProcessorInfo("crystallizer", TileBasicProcessor.Crystallizer::new, Lists.newArrayList("depthsuspend"));
-		putProcessorInfo("enricher", TileBasicProcessor.Enricher::new, Lists.newArrayList("splash", "depthsuspend"));
-		putProcessorInfo("extractor", TileBasicProcessor.Extractor::new, Lists.newArrayList("reddust", "depthsuspend"));
-		putProcessorInfo("centrifuge", TileBasicProcessor.Centrifuge::new, Lists.newArrayList("endRod", "depthsuspend"));
-		putProcessorInfo("rock_crusher", TileBasicProcessor.RockCrusher::new, Lists.newArrayList("smoke"));
+		// putProcessorInfo(Global.MOD_ID, "radiation_scrubber", TileRadiationScrubber::new, NCTabs.radiation);
 	}
 	
-	public static <TILE extends TileEntity> void putBlockSimpleTileInfo(String name, Supplier<TILE> tileSupplier, CreativeTabs creativeTab) {
+	public static <TILE extends TileEntity> void putBlockSimpleTileInfo(String modId, String name, Supplier<TILE> tileSupplier, CreativeTabs creativeTab) {
 		BLOCK_SIMPLE_TILE_INFO_MAP.put(name, new BlockSimpleTileInfo<>(name, tileSupplier, creativeTab));
 	}
 	
@@ -84,9 +86,9 @@ public class TileInfoHandler {
 		return (INFO) BLOCK_SIMPLE_TILE_INFO_MAP.get(name);
 	}
 	
-	public static <TILE extends TileEntity> void putProcessorInfo(String name, Supplier<TILE> tileSupplier, List<String> particles, ContainerFunction<TILE> containerFunction, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean consumesInputs, boolean losesProgress, int playerInventoryX, int playerInventoryY) {
-		BLOCK_PROCESSOR_INFO_MAP.put(name, new ProcessorBlockInfo<>(name, tileSupplier, particles));
-		GUI_PROCESSOR_INFO_MAP.put(name, new ProcessorContainerInfo<>(name, containerFunction, guiFunction, configContainerFunction, configGuiFunction, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, consumesInputs, losesProgress, playerInventoryX, playerInventoryY));
+	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, BUILDER extends ProcessorContainerInfoBuilder<TILE, INFO, BUILDER>> void putProcessorInfo(BUILDER builder) {
+		BLOCK_PROCESSOR_INFO_MAP.put(builder.name, builder.buildBlockInfo());
+		GUI_PROCESSOR_INFO_MAP.put(builder.name, builder.buildContainerInfo());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -95,7 +97,15 @@ public class TileInfoHandler {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <TILE extends TileProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> INFO getContainerInfoProcessorInfo(String name) {
+	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> INFO getContainerProcessorInfo(String name) {
 		return (INFO) GUI_PROCESSOR_INFO_MAP.get(name);
+	}
+	
+	public static int[] standardSlot(int x, int y) {
+		return new int[] {x, y, 16, 16};
+	}
+	
+	public static int[] bigSlot(int x, int y) {
+		return new int[] {x, y, 24, 24};
 	}
 }

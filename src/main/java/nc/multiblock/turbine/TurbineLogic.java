@@ -413,11 +413,11 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (!validAmountOfBearings) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_centre_and_square", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_center_and_square", null);
 			return false;
 		}
 		
-		// Last thing that needs to be checked concerning bearings is whether they are grouped correctly at the centre of their respective walls
+		// Last thing that needs to be checked concerning bearings is whether they are grouped correctly at the center of their respective walls
 		
 		getTurbine().bladeLength = (internalDiameter - getTurbine().shaftWidth) / 2;
 		
@@ -425,7 +425,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			if (getPartMap(TileTurbineRotorBearing.class).containsKey(pos.toLong())) {
 				continue;
 			}
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_centre_and_square", pos);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_center_and_square", pos);
 			return false;
 		}
 		
@@ -433,7 +433,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			if (getPartMap(TileTurbineRotorBearing.class).containsKey(pos.toLong())) {
 				continue;
 			}
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_centre_and_square", pos);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_center_and_square", pos);
 			return false;
 		}
 		
@@ -501,7 +501,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			for (BlockPos pos : getTurbine().getInteriorPlane(EnumFacing.getFacingFromAxis(AxisDirection.POSITIVE, axis), depth, getTurbine().bladeLength, getTurbine().bladeLength, getTurbine().bladeLength, getTurbine().bladeLength)) {
 				TileTurbineRotorShaft shaft = getPartMap(TileTurbineRotorShaft.class).get(pos.toLong());
 				if (shaft == null) {
-					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.shaft_centre", pos);
+					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.shaft_center", pos);
 					return false;
 				}
 			}
@@ -821,7 +821,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().recipeInputRate = 0;
 			return false;
 		}
-		BasicRecipe recipe = getTurbine().recipeInfo.getRecipe();
+		BasicRecipe recipe = getTurbine().recipeInfo.recipe;
 		getTurbine().basePowerPerMB = recipe.getTurbinePowerPerMB();
 		getTurbine().idealTotalExpansionLevel = recipe.getTurbineExpansionLevel();
 		getTurbine().spinUpMultiplier = recipe.getTurbineSpinUpMultiplier();
@@ -831,7 +831,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected boolean canProduceProducts() {
-		IFluidIngredient fluidProduct = getTurbine().recipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidProduct = getTurbine().recipeInfo.recipe.getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) {
 			return false;
 		}
@@ -855,7 +855,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected void produceProducts() {
-		int fluidIngredientStackSize = getTurbine().recipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(getTurbine().recipeInfo.getFluidIngredientNumbers().get(0)) * getTurbine().recipeInputRate;
+		int fluidIngredientStackSize = getTurbine().recipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(getTurbine().recipeInfo.getFluidIngredientNumbers().get(0)) * getTurbine().recipeInputRate;
 		if (fluidIngredientStackSize > 0) {
 			getTurbine().tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
 		}
@@ -863,7 +863,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			getTurbine().tanks.get(0).setFluidStored(null);
 		}
 		
-		IFluidIngredient fluidProduct = getTurbine().recipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidProduct = getTurbine().recipeInfo.recipe.getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0) {
 			return;
 		}

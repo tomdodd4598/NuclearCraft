@@ -72,10 +72,10 @@ public class TileQuantumComputerQubit extends TileQuantumComputerPart implements
 					boolean wasEmpty = idColl.isEmpty();
 					if (idColl.add(id)) {
 						if (wasEmpty) {
-							player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.start_qubit_" + mode, id)));
+							player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.start_qubit_" + mode, id)));
 						}
 						else {
-							player.sendMessage(new TextComponentString(Lang.localise("info.nuclearcraft.multitool.quantum_computer.add_qubit", id)));
+							player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.quantum_computer.add_qubit", id)));
 						}
 					}
 				}

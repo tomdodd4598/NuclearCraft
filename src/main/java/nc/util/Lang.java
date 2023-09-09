@@ -8,37 +8,34 @@ import net.minecraft.util.text.translation.I18n;
 
 public class Lang {
 	
-	// private static final String REGEX = "\\|";
-	public static final char CHAR = '|';
-	
-	public static String localise(String unloc, Object... args) {
+	public static String localize(String unloc, Object... args) {
 		return I18n.translateToLocalFormatted(unloc, args);
 	}
 	
-	public static String localise(String unloc) {
+	public static String localize(String unloc) {
 		return I18n.translateToLocal(unloc);
 	}
 	
-	public static String[] localiseList(String unloc, String... args) {
-		return splitList(localise(unloc, (Object[]) args));
+	public static String[] localizeList(String unloc, String... args) {
+		return splitList(localize(unloc, (Object[]) args));
 	}
 	
-	public static String[] localiseList(String unloc) {
-		return splitList(localise(unloc));
+	public static String[] localizeList(String unloc) {
+		return splitList(localize(unloc));
 	}
 	
-	public static List<String> localiseAll(List<String> unloc) {
+	public static List<String> localizeAll(List<String> unloc) {
 		List<String> ret = Lists.newArrayList();
 		for (String s : unloc) {
-			ret.add(localise(s));
+			ret.add(localize(s));
 		}
 		return ret;
 	}
 	
-	public static String[] localiseAll(Lang lang, String... unloc) {
+	public static String[] localizeAll(Lang lang, String... unloc) {
 		String[] ret = new String[unloc.length];
 		for (int i = 0; i < ret.length; ++i) {
-			ret[i] = Lang.localise(unloc[i]);
+			ret[i] = Lang.localize(unloc[i]);
 		}
 		return ret;
 	}
@@ -51,7 +48,7 @@ public class Lang {
 		return list.split(split);
 	}
 	
-	public static boolean canLocalise(String unloc) {
+	public static boolean canLocalize(String unloc) {
 		return I18n.canTranslate(unloc);
 	}
 }

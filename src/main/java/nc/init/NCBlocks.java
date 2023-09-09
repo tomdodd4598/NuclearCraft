@@ -202,69 +202,69 @@ public class NCBlocks {
 		
 		fertile_isotope = withName(new BlockMeta.BlockFertileIsotope(), "fertile_isotope");
 		
-		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.material()), "supercold_ice");
+		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.material), "supercold_ice");
 		
-		heavy_water_moderator = withName(new NCBlock(Material.IRON).setCreativeTab(NCTabs.misc()), "heavy_water_moderator");
+		heavy_water_moderator = withName(new NCBlock(Material.IRON).setCreativeTab(NCTabs.misc), "heavy_water_moderator");
 		
 		if (register_processor[0]) {
 			nuclear_furnace = withName(new BlockNuclearFurnace(), "nuclear_furnace");
 		}
 		if (register_processor[1]) {
-			manufactory = withName(new BlockProcessor("manufactory"));
+			manufactory = withName(new BlockProcessor<>("manufactory"));
 		}
 		if (register_processor[2]) {
-			separator = withName(new BlockProcessor("separator"));
+			separator = withName(new BlockProcessor<>("separator"));
 		}
 		if (register_processor[3]) {
-			decay_hastener = withName(new BlockProcessor("decay_hastener"));
+			decay_hastener = withName(new BlockProcessor<>("decay_hastener"));
 		}
 		if (register_processor[4]) {
-			fuel_reprocessor = withName(new BlockProcessor("fuel_reprocessor"));
+			fuel_reprocessor = withName(new BlockProcessor<>("fuel_reprocessor"));
 		}
 		if (register_processor[5]) {
-			alloy_furnace = withName(new BlockProcessor("alloy_furnace"));
+			alloy_furnace = withName(new BlockProcessor<>("alloy_furnace"));
 		}
 		if (register_processor[6]) {
-			infuser = withName(new BlockProcessor("infuser"));
+			infuser = withName(new BlockProcessor<>("infuser"));
 		}
 		if (register_processor[7]) {
-			melter = withName(new BlockProcessor("melter"));
+			melter = withName(new BlockProcessor<>("melter"));
 		}
 		if (register_processor[8]) {
-			supercooler = withName(new BlockProcessor("supercooler"));
+			supercooler = withName(new BlockProcessor<>("supercooler"));
 		}
 		if (register_processor[9]) {
-			electrolyzer = withName(new BlockProcessor("electrolyzer"));
+			electrolyzer = withName(new BlockProcessor<>("electrolyzer"));
 		}
 		if (register_processor[10]) {
-			assembler = withName(new BlockProcessor("assembler"));
+			assembler = withName(new BlockProcessor<>("assembler"));
 		}
 		if (register_processor[11]) {
-			ingot_former = withName(new BlockProcessor("ingot_former"));
+			ingot_former = withName(new BlockProcessor<>("ingot_former"));
 		}
 		if (register_processor[12]) {
-			pressurizer = withName(new BlockProcessor("pressurizer"));
+			pressurizer = withName(new BlockProcessor<>("pressurizer"));
 		}
 		if (register_processor[13]) {
-			chemical_reactor = withName(new BlockProcessor("chemical_reactor"));
+			chemical_reactor = withName(new BlockProcessor<>("chemical_reactor"));
 		}
 		if (register_processor[14]) {
-			salt_mixer = withName(new BlockProcessor("salt_mixer"));
+			salt_mixer = withName(new BlockProcessor<>("salt_mixer"));
 		}
 		if (register_processor[15]) {
-			crystallizer = withName(new BlockProcessor("crystallizer"));
+			crystallizer = withName(new BlockProcessor<>("crystallizer"));
 		}
 		if (register_processor[16]) {
-			enricher = withName(new BlockProcessor("enricher"));
+			enricher = withName(new BlockProcessor<>("enricher"));
 		}
 		if (register_processor[17]) {
-			extractor = withName(new BlockProcessor("extractor"));
+			extractor = withName(new BlockProcessor<>("extractor"));
 		}
 		if (register_processor[18]) {
-			centrifuge = withName(new BlockProcessor("centrifuge"));
+			centrifuge = withName(new BlockProcessor<>("centrifuge"));
 		}
 		if (register_processor[19]) {
-			rock_crusher = withName(new BlockProcessor("rock_crusher"));
+			rock_crusher = withName(new BlockProcessor<>("rock_crusher"));
 		}
 		
 		machine_interface = withName(new BlockMachineInterface("machine_interface"));
@@ -274,12 +274,12 @@ public class NCBlocks {
 		rtg_americium = withName(new BlockRTG(RTGType.AMERICIUM), "rtg_americium");
 		rtg_californium = withName(new BlockRTG(RTGType.CALIFORNIUM), "rtg_californium");
 		
-		solar_panel_basic = withName(new BlockSimpleTile("solar_panel_basic"));
-		solar_panel_advanced = withName(new BlockSimpleTile("solar_panel_advanced"));
-		solar_panel_du = withName(new BlockSimpleTile("solar_panel_du"));
-		solar_panel_elite = withName(new BlockSimpleTile("solar_panel_elite"));
+		solar_panel_basic = withName(new BlockSimpleTile<>("solar_panel_basic"));
+		solar_panel_advanced = withName(new BlockSimpleTile<>("solar_panel_advanced"));
+		solar_panel_du = withName(new BlockSimpleTile<>("solar_panel_du"));
+		solar_panel_elite = withName(new BlockSimpleTile<>("solar_panel_elite"));
 		
-		decay_generator = withName(new BlockSimpleTile("decay_generator"));
+		decay_generator = withName(new BlockSimpleTile<>("decay_generator"));
 		
 		if (register_battery[0]) {
 			voltaic_pile_basic = withName(new BlockBattery(BatteryBlockType.VOLTAIC_PILE_BASIC), "voltaic_pile_basic");
@@ -295,7 +295,7 @@ public class NCBlocks {
 			lithium_ion_battery_elite = withName(new BlockBattery(BatteryBlockType.LITHIUM_ION_BATTERY_ELITE), "lithium_ion_battery_elite");
 		}
 		
-		bin = withName(new BlockSimpleTile("bin"));
+		bin = withName(new BlockSimpleTile<>("bin"));
 		
 		fission_casing = withName(new BlockFissionCasing(), "fission_casing");
 		fission_glass = withName(new BlockFissionGlass(), "fission_glass");
@@ -359,36 +359,36 @@ public class NCBlocks {
 		turbine_computer_port = withName(new BlockTurbineComputerPort(), "turbine_computer_port");
 		
 		if (register_passive[0]) {
-			cobblestone_generator = withName(new BlockSimpleTile("cobblestone_generator"));
-			cobblestone_generator_compact = withName(new BlockSimpleTile("cobblestone_generator_compact"));
-			cobblestone_generator_dense = withName(new BlockSimpleTile("cobblestone_generator_dense"));
+			cobblestone_generator = withName(new BlockSimpleTile<>("cobblestone_generator"));
+			cobblestone_generator_compact = withName(new BlockSimpleTile<>("cobblestone_generator_compact"));
+			cobblestone_generator_dense = withName(new BlockSimpleTile<>("cobblestone_generator_dense"));
 		}
 		
 		if (register_passive[1]) {
-			water_source = withName(new BlockSimpleTile("water_source"));
-			water_source_compact = withName(new BlockSimpleTile("water_source_compact"));
-			water_source_dense = withName(new BlockSimpleTile("water_source_dense"));
+			water_source = withName(new BlockSimpleTile<>("water_source"));
+			water_source_compact = withName(new BlockSimpleTile<>("water_source_compact"));
+			water_source_dense = withName(new BlockSimpleTile<>("water_source_dense"));
 		}
 		
 		if (register_passive[2]) {
-			nitrogen_collector = withName(new BlockSimpleTile("nitrogen_collector"));
-			nitrogen_collector_compact = withName(new BlockSimpleTile("nitrogen_collector_compact"));
-			nitrogen_collector_dense = withName(new BlockSimpleTile("nitrogen_collector_dense"));
+			nitrogen_collector = withName(new BlockSimpleTile<>("nitrogen_collector"));
+			nitrogen_collector_compact = withName(new BlockSimpleTile<>("nitrogen_collector_compact"));
+			nitrogen_collector_dense = withName(new BlockSimpleTile<>("nitrogen_collector_dense"));
 		}
 		
 		radiation_scrubber = withName(new BlockScrubber("radiation_scrubber"));
 		
 		geiger_block = withName(new BlockGeigerCounter("geiger_block"));
 		
-		glowing_mushroom = withName(new BlockGlowingMushroom().setCreativeTab(NCTabs.radiation()), "glowing_mushroom");
-		glowing_mushroom_block = withName(new BlockHugeGlowingMushroom().setCreativeTab(NCTabs.radiation()), "glowing_mushroom_block");
-		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.radiation()), "wasteland_earth");
+		glowing_mushroom = withName(new BlockGlowingMushroom().setCreativeTab(NCTabs.radiation), "glowing_mushroom");
+		glowing_mushroom_block = withName(new BlockHugeGlowingMushroom().setCreativeTab(NCTabs.radiation), "glowing_mushroom_block");
+		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.radiation), "wasteland_earth");
 		
-		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.radiation()), "wasteland_portal");
+		wasteland_portal = withName(new BlockPortalWasteland().setCreativeTab(NCTabs.radiation), "wasteland_portal");
 		
-		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.misc()).setLightLevel(1F), "tritium_lamp");
+		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.misc).setLightLevel(1F), "tritium_lamp");
 		
-		solidified_corium = withName(new NCBlockMagma(DamageSources.CORIUM_BURN, 1F).setCreativeTab(NCTabs.misc()), "solidified_corium");
+		solidified_corium = withName(new NCBlockMagma(DamageSources.CORIUM_BURN, 1F).setCreativeTab(NCTabs.misc), "solidified_corium");
 		
 		if (register_quantum) {
 			quantum_computer_controller = withName(new BlockQuantumComputerController(), "quantum_computer_controller");
@@ -555,10 +555,10 @@ public class NCBlocks {
 		registerBlock(turbine_casing);
 		registerBlock(turbine_glass);
 		registerBlock(turbine_rotor_shaft);
-		registerBlock(turbine_rotor_blade_steel, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[0], 1)), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[0], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_blade_extreme, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[1], 1)), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[1], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_blade_sic_sic_cmc, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[2], 1)), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[2], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(turbine_stator_expansion, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
+		registerBlock(turbine_rotor_blade_steel, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[0], 1)), Lang.localize(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[0], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_blade_extreme, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[1], 1)), Lang.localize(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[1], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_blade_sic_sic_cmc, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(fixedLine("turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[2], 1)), Lang.localize(fixedLine("turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[2], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localize(fixedLine("turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(turbine_stator_expansion, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
 		registerBlock(turbine_rotor_bearing);
 		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, InfoHelper.NULL_ARRAYS));
 		registerBlock(turbine_coil_connector);
@@ -567,7 +567,7 @@ public class NCBlocks {
 		registerBlock(turbine_computer_port);
 		
 		if (register_passive[0]) {
-			String cobblePerTick = " " + Lang.localise("nuclearcraft.cobblestone") + "/t";
+			String cobblePerTick = " " + Lang.localize("nuclearcraft.cobblestone") + "/t";
 			registerBlock(cobblestone_generator, cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", NCMath.sigFigs(processor_passive_rate[0], 5) + cobblePerTick, UnitHelper.prefix(cobble_gen_power, 5, "RF/t")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", NCMath.sigFigs(processor_passive_rate[0], 5) + cobblePerTick));
 			registerBlock(cobblestone_generator_compact, cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", NCMath.sigFigs(processor_passive_rate[0] * 8, 5) + cobblePerTick, UnitHelper.prefix(cobble_gen_power * 8, 5, "RF/t")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", NCMath.sigFigs(processor_passive_rate[0] * 8, 5) + cobblePerTick));
 			registerBlock(cobblestone_generator_dense, cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", NCMath.sigFigs(processor_passive_rate[0] * 64, 5) + cobblePerTick, UnitHelper.prefix(cobble_gen_power * 64, 5, "RF/t")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", NCMath.sigFigs(processor_passive_rate[0] * 64, 5) + cobblePerTick));
@@ -585,7 +585,7 @@ public class NCBlocks {
 			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.prefix(processor_passive_rate[2] * 64, 5, "B/t", -1)));
 		}
 		
-		registerBlock(radiation_scrubber, radiation_scrubber_non_linear ? InfoHelper.formattedInfo(infoLine("radiation_scrubber_non_linear"), NCMath.pcDecimalPlaces(RadiationHelper.getAltScrubbingFraction(1D), 1), Lang.localise("nuclearcraft.one_hundred_percent")) : InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.pcDecimalPlaces(radiation_scrubber_fraction, 1), Lang.localise("nuclearcraft.one_hundred_percent")));
+		registerBlock(radiation_scrubber, radiation_scrubber_non_linear ? InfoHelper.formattedInfo(infoLine("radiation_scrubber_non_linear"), NCMath.pcDecimalPlaces(RadiationHelper.getAltScrubbingFraction(1D), 1), Lang.localize("nuclearcraft.one_hundred_percent")) : InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.pcDecimalPlaces(radiation_scrubber_fraction, 1), Lang.localize("nuclearcraft.one_hundred_percent")));
 		
 		registerBlock(geiger_block);
 		

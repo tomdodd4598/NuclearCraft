@@ -600,7 +600,7 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		BasicRecipe recipe = recipeInfo.getRecipe();
+		BasicRecipe recipe = recipeInfo.recipe;
 		baseProcessTime = recipe.getFissionFuelTime();
 		baseProcessHeat = recipe.getFissionFuelHeat();
 		decayProcessHeat = baseProcessHeat;
@@ -787,12 +787,12 @@ public class TileSolidFissionCell extends TileFissionPart implements ITileFilter
 	
 	@Override
 	public List<IItemIngredient> getItemIngredients() {
-		return recipeInfo.getRecipe().getItemIngredients();
+		return recipeInfo.recipe.getItemIngredients();
 	}
 	
 	@Override
 	public List<IItemIngredient> getItemProducts() {
-		return recipeInfo.getRecipe().getItemProducts();
+		return recipeInfo.recipe.getItemProducts();
 	}
 	
 	// ITileInventory

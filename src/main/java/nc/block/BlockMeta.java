@@ -14,6 +14,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.*;
@@ -50,7 +51,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockOre() {
 			super(MetaEnums.OreType.class, TYPE, Material.ROCK);
-			setCreativeTab(NCTabs.material());
+			setCreativeTab(NCTabs.material);
 		}
 		
 		@Override
@@ -71,7 +72,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockIngot() {
 			super(MetaEnums.IngotType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.material());
+			setCreativeTab(NCTabs.material);
 		}
 		
 		@Override
@@ -101,7 +102,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockFertileIsotope() {
 			super(MetaEnums.FertileIsotopeType.class, TYPE, Material.ROCK);
-			setCreativeTab(NCTabs.material());
+			setCreativeTab(NCTabs.material);
 		}
 		
 		@Override
@@ -116,7 +117,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockFissionReflector() {
 			super(MetaEnums.NeutronReflectorType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.multiblock());
+			setCreativeTab(NCTabs.multiblock);
 		}
 		
 		@Override
@@ -186,7 +187,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType placementType) {
+	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, SpawnPlacementType placementType) {
 		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, placementType);
 	}
 	

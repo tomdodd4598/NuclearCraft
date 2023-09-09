@@ -12,7 +12,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockMachineInterface extends BlockSimpleDummy {
+public class BlockMachineInterface extends BlockSimpleDummy<TileMachineInterface> {
 	
 	public BlockMachineInterface(String name) {
 		super(name);
@@ -44,14 +44,14 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 					boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 					if (accessedTanks) {
 						if (master instanceof IProcessor) {
-							((IProcessor<?>) master).refreshRecipe();
-							((IProcessor<?>) master).refreshActivity();
+							((IProcessor<?, ?>) master).refreshRecipe();
+							((IProcessor<?, ?>) master).refreshActivity();
 						}
 						return true;
 					}
 				}
 				if (master instanceof ITileGui) {
-					((ITileGui<?, ?>) master).openGui(world, masterPos, player);
+					((ITileGui<?, ?, ?>) master).openGui(world, masterPos, player);
 				}
 			}
 		}
