@@ -255,6 +255,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 5), new Object[] {"SSS", "HTH", "SSS", 'S', "ingotSilver", 'T', "ingotTough", 'H', "ingotHSLASteel"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_inlet, 4), new Object[] {"SSS", "TFT", "SVS", 'S', "ingotHSLASteel", 'T', "ingotTough", 'V', "servo", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_outlet, 4), new Object[] {"SSS", "VFV", "SSS", 'S', "ingotHSLASteel", 'V', "servo", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_coil_connector,4),new Object[]{"HHH", "HTH", "HHH", 'T', "ingotTough", 'H', "ingotHSLASteel"});
 		if (ModCheck.openComputersLoaded()) {
 			addShapedOreRecipe(NCBlocks.turbine_computer_port, new Object[] {" M ", "CWC", " P ", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'W', NCBlocks.turbine_wall});
 		}

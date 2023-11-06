@@ -123,7 +123,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		case MAGNESIUM: {
 			if (dynamoCoilCheckCount != 0) return 0D;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isRotorBearing(dir)) {
+				if (isRotorBearing(dir) || isValidCoilConnector(dir)) {
 					isInValidPosition = true;
 					checked = true;
 					return coilType.getConductivity();
@@ -217,6 +217,16 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	
 	private boolean isRotorBearing(EnumFacing dir) {
 		return world.getTileEntity(pos.offset(dir)) instanceof TileTurbineRotorBearing;
+	}
+
+	private boolean isValidCoilConnector(EnumFacing dir){
+		TileEntity entity = world.getTileEntity(pos.offset(dir));
+		if (entity instanceof TileTurbineCoilConnector){
+			TileTurbineCoilConnector turbineCoilConnector = (TileTurbineCoilConnector) entity;
+			return turbineCoilConnector.isValidPosition(dir);
+		}
+
+		return false;
 	}
 	
 	private boolean isDynamoCoil(EnumFacing dir, TurbineDynamoCoilType coilType) {

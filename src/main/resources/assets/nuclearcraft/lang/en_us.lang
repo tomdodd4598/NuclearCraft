@@ -318,7 +318,7 @@ tile.nuclearcraft.turbine_rotor_stator.desc=Used to increase the density of the 
 tile.nuclearcraft.turbine_rotor_bearing.name=Turbine Rotor Bearing
 tile.nuclearcraft.turbine_rotor_bearing.desc=Connects the rotor shaft to the turbine wall and dynamo. Must cover the full area of each end of the shaft.
 tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=Magnesium Turbine Dynamo Coil
-tile.nuclearcraft.turbine_dynamo_coil.magnesium.desc=Must be adjacent to at least one Rotor Bearing Block.
+tile.nuclearcraft.turbine_dynamo_coil.magnesium.desc=Must be adjacent to at least one Rotor Bearing Block or Dynamo Coil Connector.
 tile.nuclearcraft.turbine_dynamo_coil.beryllium.name=Beryllium Turbine Dynamo Coil
 tile.nuclearcraft.turbine_dynamo_coil.beryllium.desc=Must be adjacent to at least one valid Magnesium Dynamo Coil.
 tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=Aluminum Turbine Dynamo Coil
@@ -334,6 +334,8 @@ tile.nuclearcraft.turbine_inlet.name=Turbine Fluid Inlet
 tile.nuclearcraft.turbine_outlet.name=Turbine Fluid Outlet
 tile.nuclearcraft.turbine_computer_port.name=Turbine Computer Port
 tile.nuclearcraft.turbine_computer_port.desc=Used to access the turbine via OpenComputers.
+tile.nuclearcraft.turbine_coil_connector.name=Turbine Dynamo Coil Connector
+tile.nuclearcraft.turbine_coil_connector.desc=Must be adjacent to at least one valid generator coil
 
 tile.nuclearcraft.fusion_electromagnet_idle.name=Fusion Electromagnet
 tile.nuclearcraft.fusion_electromagnet_idle.desc=Requires %s to stay active.
