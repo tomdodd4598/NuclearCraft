@@ -11,7 +11,8 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT")
+//		classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT")
+		classpath("net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT")
 		classpath("org.eclipse.jgit:org.eclipse.jgit:5.8.0.202006091008-r")
 		classpath("org.apache.commons:commons-lang3:3.12.0")
 	}
@@ -22,31 +23,31 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 repositories {
 	maven {
 		name = "CurseForge"
-		url = "https://minecraft.curseforge.com/api/maven/"
+		url = "https://www.cursemaven.com"
 	}
 	maven {
 		name = "progwml6"
-		url = "http://dvs1.progwml6.com/files/maven/"
+		url = "https://dvs1.progwml6.com/files/maven/"
 	}
 	maven {
 		name = "blamejared"
 		url = "http://maven.blamejared.com/"
 	}
-	maven {
-		name = "ic2"
-		url = "http://maven.ic2.player.to/"
-	}
+//	maven {
+//		name = "ic2"
+//		url = "http://maven.ic2.player.to/"
+//	}
 	maven {
 		name = "cil"
-		url = "http://maven.cil.li/"
+		url = "https://maven.cil.li/"
 	}
 	maven {
 		name = "CoFH Maven"
-		url = "http://maven.covers1624.net"
+		url = "https://maven.covers1624.net"
 	}
 	maven {
 		name = "CCL Maven"
-		url = "http://chickenbones.net/maven/"
+		url = "https://chickenbones.net/maven/"
 	}
 	maven {
 		name = "mcmoddev"
@@ -80,7 +81,7 @@ dependencies {
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
 	// at runtime, use the full JEI jar
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-	deobfCompile "baubles:Baubles:${baubles_version}"
+	deobfCompile "curse.maven:baubles-227083:2518667"
 	deobfCompile ("cofh:CoFHCore:${cofh_core_version}:universal") {
 		transitive = false
 	}
@@ -88,13 +89,13 @@ dependencies {
 	deobfCompile "cofh:RedstoneFlux:1.12-+:universal"
 	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
 	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
-	deobfCompile "slimeknights.mantle:Mantle:${mantle_version}"
-	deobfCompile "slimeknights:TConstruct:${tic_version}"
-	deobfCompile "constructs-armory:conarm:${conarm_version}"
+	deobfCompile "curse.maven:mantle-74924:2713386"
+	deobfCompile "curse.maven:tinkers-construct-74072:2902483"
+	deobfCompile "curse.maven:constructs-armory-287683:3174535"
 	deobfCompile "li.cil.oc:OpenComputers:${oc_version}"
-	deobfCompile "gregtechce:gregtech:${gregtech_version}"
-	deobfCompile "mekanism:Mekanism:${mekanism_version}"
-	deobfCompile "projecte:ProjectE:${projecte_version}"
+	deobfCompile "curse.maven:gregtechce-293327:3478805"
+	deobfCompile "curse.maven:mekanism-268560:2835175"
+	deobfCompile "curse.maven:projecte-226410:2702991"
 	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
 }
 
