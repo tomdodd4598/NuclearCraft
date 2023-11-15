@@ -332,6 +332,9 @@ Returns the fluid input rate.
 int getNumberOfDynamoCoils()
 Returns the number of coils.
 
+int getNumberOfCoilConnectors()
+Returns the number of coil connectors.
+
 Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPosition},...}
 Returns the position, types and validity of each coil in a table.
 
