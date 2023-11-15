@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+//        maven {
+//            name  'Garden of Fancy'
+//            url  'https://maven.gofancy.wtf/releases'
+//        }
+    }
+}

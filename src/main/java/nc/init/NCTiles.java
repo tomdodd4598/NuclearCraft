@@ -25,18 +25,7 @@ import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.saltFission.tile.TileSaltFissionWall;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
-import nc.multiblock.turbine.tile.TileTurbineComputerPort;
-import nc.multiblock.turbine.tile.TileTurbineController;
-import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
-import nc.multiblock.turbine.tile.TileTurbineFrame;
-import nc.multiblock.turbine.tile.TileTurbineGlass;
-import nc.multiblock.turbine.tile.TileTurbineInlet;
-import nc.multiblock.turbine.tile.TileTurbineOutlet;
-import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
-import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
-import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
-import nc.multiblock.turbine.tile.TileTurbineRotorStator;
-import nc.multiblock.turbine.tile.TileTurbineWall;
+import nc.multiblock.turbine.tile.*;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
@@ -136,6 +125,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineInlet.class, Global.MOD_ID + ":turbine_inlet");
 		GameRegistry.registerTileEntity(TileTurbineOutlet.class, Global.MOD_ID + ":turbine_outlet");
 		GameRegistry.registerTileEntity(TileTurbineComputerPort.class, Global.MOD_ID + ":turbine_computer_port");
+		GameRegistry.registerTileEntity(TileTurbineCoilConnector.class,Global.MOD_ID + ":turbine_coil_connector");
 		
 		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");

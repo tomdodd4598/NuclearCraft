@@ -59,18 +59,7 @@ import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
-import nc.multiblock.turbine.block.BlockTurbineComputerPort;
-import nc.multiblock.turbine.block.BlockTurbineController;
-import nc.multiblock.turbine.block.BlockTurbineDynamoCoil;
-import nc.multiblock.turbine.block.BlockTurbineFrame;
-import nc.multiblock.turbine.block.BlockTurbineGlass;
-import nc.multiblock.turbine.block.BlockTurbineInlet;
-import nc.multiblock.turbine.block.BlockTurbineOutlet;
-import nc.multiblock.turbine.block.BlockTurbineRotorBearing;
-import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
-import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
-import nc.multiblock.turbine.block.BlockTurbineRotorStator;
-import nc.multiblock.turbine.block.BlockTurbineWall;
+import nc.multiblock.turbine.block.*;
 import nc.radiation.RadiationHelper;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
@@ -237,6 +226,7 @@ public class NCBlocks {
 	public static Block turbine_inlet;
 	public static Block turbine_outlet;
 	public static Block turbine_computer_port;
+	public static Block turbine_coil_connector;
 	
 	public static Block condenser_controller;
 	public static Block condenser_wall;
@@ -426,6 +416,7 @@ public class NCBlocks {
 		turbine_inlet = withName(new BlockTurbineInlet(), "turbine_inlet");
 		turbine_outlet = withName(new BlockTurbineOutlet(), "turbine_outlet");
 		turbine_computer_port = withName(new BlockTurbineComputerPort(), "turbine_computer_port");
+		turbine_coil_connector = withName(new BlockTurbineCoilConnector(),"turbine_coil_connector");
 		
 		accelerator_electromagnet_idle = withName(new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, false));
 		accelerator_electromagnet_active = withName(new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, true));
@@ -617,6 +608,7 @@ public class NCBlocks {
 		registerBlock(turbine_inlet);
 		registerBlock(turbine_outlet);
 		registerBlock(turbine_computer_port);
+		registerBlock(turbine_coil_connector);
 		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
@@ -822,6 +814,7 @@ public class NCBlocks {
 		registerRender(turbine_inlet);
 		registerRender(turbine_outlet);
 		registerRender(turbine_computer_port);
+		registerRender(turbine_coil_connector);
 		
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);
