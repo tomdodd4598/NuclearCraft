@@ -155,14 +155,9 @@ public class NCFluids {
 	}
 	
 	private static <T extends Fluid, V extends NCBlockFluid> void addFluidPair(FluidType fluidType, Object... fluidArgs) {
-		try {
-			T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
-			V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
-			fluidPairList.add(Pair.of(fluid, block));
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		T fluid = ReflectionHelper.newInstance(fluidType.getFluidClass(), fluidArgs);
+		V block = ReflectionHelper.newInstance(fluidType.getBlockClass(), fluid);
+		fluidPairList.add(Pair.of(fluid, block));
 	}
 	
 	public static void register() {

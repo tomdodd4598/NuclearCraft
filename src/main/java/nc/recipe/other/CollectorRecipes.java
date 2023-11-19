@@ -2,7 +2,7 @@ package nc.recipe.other;
 
 import static nc.config.NCConfig.*;
 
-import java.util.*;
+import java.util.List;
 
 import nc.init.NCBlocks;
 import nc.recipe.BasicRecipeHandler;
@@ -39,9 +39,12 @@ public class CollectorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof String ? (String) extras.get(0) : null);
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	public List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(String.class, null);
+		return fixer.fixed;
 	}
 }

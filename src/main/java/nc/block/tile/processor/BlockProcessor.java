@@ -24,7 +24,7 @@ public class BlockProcessor<TILE extends TileEntity> extends BlockSidedTile impl
 	
 	public BlockProcessor(String name) {
 		super(Material.IRON);
-		tileInfo = TileInfoHandler.getBlockProcessorInfo(name);
+		tileInfo = TileInfoHandler.<TILE, ProcessorBlockInfo<TILE>>getProcessorBlockInfo(name);
 		CreativeTabs tab = tileInfo.creativeTab;
 		if (tab != null) {
 			setCreativeTab(tab);

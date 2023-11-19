@@ -663,7 +663,7 @@ public class NCConfig {
 		turbine_blade_expansion = sync(CATEGORY_TURBINE, "turbine_blade_expansion", new double[] {1.4D, 1.6D, 1.8D}, 1D, 15D, ARRAY);
 		turbine_stator_expansion = sync(CATEGORY_TURBINE, "turbine_stator_expansion", 0.75D, 0.01D, 1D);
 		turbine_coil_conductivity = sync(CATEGORY_TURBINE, "turbine_coil_conductivity", new double[] {0.88D, 0.9D, 1D, 1.04D, 1.06D, 1.12D}, 0.01D, 15D, ARRAY);
-		turbine_coil_rule = sync(CATEGORY_TURBINE, "turbine_coil_rule", new String[] {"one bearing || one connector", "one magnesium coils", "two magnesium coil", "one aluminum coil", "one beryllium coil", "one gold coil && one copper coil"}, ARRAY);
+		turbine_coil_rule = sync(CATEGORY_TURBINE, "turbine_coil_rule", new String[] {"one bearing || one connector", "one magnesium coil", "two magnesium coils", "one aluminum coil", "one beryllium coil", "one gold coil && one copper coil"}, ARRAY);
 		turbine_connector_rule = sync(CATEGORY_TURBINE, "turbine_connector_rule", new String[] {"one of any coil"}, ARRAY);
 		turbine_power_per_mb = sync(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D}, 0D, 255D, ARRAY);
 		turbine_expansion_level = sync(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D}, 1D, 255D, ARRAY);

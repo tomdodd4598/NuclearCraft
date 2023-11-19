@@ -511,7 +511,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			return false;
 		}
 		
-		if (!NCUtil.areEqual(getTurbine().getFlowLength(), getTurbine().expansionLevels.size(), getTurbine().rawBladeEfficiencies.size())) {
+		if (!NCMath.allEqual(getTurbine().getFlowLength(), getTurbine().expansionLevels.size(), getTurbine().rawBladeEfficiencies.size())) {
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", null);
 			return false;
 		}

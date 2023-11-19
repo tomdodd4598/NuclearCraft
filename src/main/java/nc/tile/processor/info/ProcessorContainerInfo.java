@@ -16,8 +16,9 @@ import nc.tile.internal.fluid.*;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.processor.IProcessor;
 import nc.util.*;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
@@ -93,6 +94,10 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	public final int redstoneControlGuiX;
 	public final int redstoneControlGuiY;
 	
+	public final boolean jeiCategoryEnabled;
+	
+	public final String jeiCategoryUid;
+	public final String jeiTitle;
 	public final String jeiTexture;
 	
 	public final int jeiBackgroundX;
@@ -102,11 +107,16 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	
 	public final int jeiTooltipX;
 	public final int jeiTooltipY;
-	public final int jeiTooltipWidth;
-	public final int jeiTooltipHeight;
+	public final int jeiTooltipW;
+	public final int jeiTooltipH;
 	
-	protected ProcessorContainerInfo(String modId, String name, ContainerFunction<TILE> containerFunction, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiAlternateTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH) {
-		super(modId, name, containerFunction, guiFunction);
+	public final int jeiClickAreaX;
+	public final int jeiClickAreaY;
+	public final int jeiClickAreaW;
+	public final int jeiClickAreaH;
+	
+	protected ProcessorContainerInfo(String modId, String name, Class<TILE> tileClass, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
+		super(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction);
 		
 		this.configContainerFunction = configContainerFunction;
 		this.configGuiFunction = configGuiFunction;
@@ -133,7 +143,7 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		this.consumesInputs = consumesInputs;
 		this.losesProgress = losesProgress;
 		
-		ocComponentName = NCUtil.getShortModId(modId) + "_" + name;
+		this.ocComponentName = ocComponentName;
 		
 		guiWidth = guiWH[0];
 		guiHeight = guiWH[1];
@@ -177,7 +187,11 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		redstoneControlGuiX = redstoneControlGuiXY[0];
 		redstoneControlGuiY = redstoneControlGuiXY[1];
 		
-		jeiTexture = modId + ":textures/gui/container/" + name + (jeiAlternateTexture ? "_jei" : "") + ".png";
+		this.jeiCategoryEnabled = jeiCategoryEnabled;
+		
+		this.jeiCategoryUid = jeiCategoryUid;
+		this.jeiTitle = jeiTitle;
+		this.jeiTexture = jeiTexture;
 		
 		jeiBackgroundX = jeiBackgroundXYWH[0];
 		jeiBackgroundY = jeiBackgroundXYWH[1];
@@ -186,8 +200,13 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		
 		jeiTooltipX = jeiTooltipXYWH[0];
 		jeiTooltipY = jeiTooltipXYWH[1];
-		jeiTooltipWidth = jeiTooltipXYWH[2];
-		jeiTooltipHeight = jeiTooltipXYWH[3];
+		jeiTooltipW = jeiTooltipXYWH[2];
+		jeiTooltipH = jeiTooltipXYWH[3];
+		
+		jeiClickAreaX = jeiClickAreaXYWH[0];
+		jeiClickAreaY = jeiClickAreaXYWH[1];
+		jeiClickAreaW = jeiClickAreaXYWH[2];
+		jeiClickAreaH = jeiClickAreaXYWH[3];
 	}
 	
 	public static List<int[]> stackXYList(List<int[]> slotXYWHList) {
@@ -236,30 +255,6 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 			}
 		}
 		return consumedTanks;
-	}
-	
-	public int[] getItemInputGuiXYWH(int i) {
-		return itemInputGuiXYWH.get(i);
-	}
-	
-	public int[] getFluidInputGuiXYWH(int i) {
-		return fluidInputGuiXYWH.get(i);
-	}
-	
-	public int[] getItemOutputGuiXYWH(int i) {
-		return itemOutputGuiXYWH.get(i);
-	}
-	
-	public int[] getFluidOutputGuiXYWH(int i) {
-		return fluidOutputGuiXYWH.get(i);
-	}
-	
-	public int[] getItemInputStackXY(int i) {
-		return itemInputStackXY.get(i);
-	}
-	
-	public int[] getItemOutputStackXY(int i) {
-		return itemOutputStackXY.get(i);
 	}
 	
 	public int getMachineConfigButtonID() {

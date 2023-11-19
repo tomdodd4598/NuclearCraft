@@ -2,14 +2,14 @@ package nc.recipe.multiblock;
 
 import static nc.config.NCConfig.fission_emergency_cooling_multiplier;
 
-import java.util.*;
+import java.util.List;
 
 import nc.recipe.BasicRecipeHandler;
 
 public class FissionEmergencyCoolingRecipes extends BasicRecipeHandler {
 	
 	public FissionEmergencyCoolingRecipes() {
-		super("emergency_cooling", 0, 1, 0, 1);
+		super("fission_emergency_cooling", 0, 1, 0, 1);
 	}
 	
 	@Override
@@ -18,9 +18,12 @@ public class FissionEmergencyCoolingRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	protected List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(Double.class, 1D);
+		return fixer.fixed;
 	}
 }

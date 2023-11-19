@@ -2,154 +2,176 @@ package nc.gui.processor;
 
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
+import nc.tile.radiation.TileRadiationScrubber;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
 public class GuiProcessorImpl {
 	
-	public static abstract class GuiBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends GuiProcessor<TILE, BasicProcessorContainerInfo<TILE>> {
+	public static class GuiBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends GuiProcessor<TILE, BasicProcessorContainerInfo<TILE>> {
 		
 		public GuiBasicProcessor(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static abstract class GuiBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends GuiUpgradableProcessor<TILE, BasicUpgradableProcessorContainerInfo<TILE>> {
+	public static class GuiBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends GuiUpgradableProcessor<TILE, BasicUpgradableProcessorContainerInfo<TILE>> {
 		
 		public GuiBasicUpgradableProcessor(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiManufactory extends GuiBasicUpgradableProcessor<Manufactory> {
+	public static class GuiBasicProcessorDyn extends GuiBasicProcessor<TileBasicProcessorDyn> {
 		
-		public GuiManufactory(Container inventory, EntityPlayer player, Manufactory tile, String textureLocation) {
+		public GuiBasicProcessorDyn(Container inventory, EntityPlayer player, TileBasicProcessorDyn tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiSeparator extends GuiBasicUpgradableProcessor<Separator> {
+	public static class GuiBasicUpgradableProcessorDyn extends GuiBasicUpgradableProcessor<TileBasicUpgradableProcessorDyn> {
 		
-		public GuiSeparator(Container inventory, EntityPlayer player, Separator tile, String textureLocation) {
+		public GuiBasicUpgradableProcessorDyn(Container inventory, EntityPlayer player, TileBasicUpgradableProcessorDyn tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiDecayHastener extends GuiBasicUpgradableProcessor<DecayHastener> {
+	public static class GuiManufactory extends GuiBasicUpgradableProcessor<TileManufactory> {
 		
-		public GuiDecayHastener(Container inventory, EntityPlayer player, DecayHastener tile, String textureLocation) {
+		public GuiManufactory(Container inventory, EntityPlayer player, TileManufactory tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiFuelReprocessor extends GuiBasicUpgradableProcessor<FuelReprocessor> {
+	public static class GuiSeparator extends GuiBasicUpgradableProcessor<TileSeparator> {
 		
-		public GuiFuelReprocessor(Container inventory, EntityPlayer player, FuelReprocessor tile, String textureLocation) {
+		public GuiSeparator(Container inventory, EntityPlayer player, TileSeparator tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiAlloyFurnace extends GuiBasicUpgradableProcessor<AlloyFurnace> {
+	public static class GuiDecayHastener extends GuiBasicUpgradableProcessor<TileDecayHastener> {
 		
-		public GuiAlloyFurnace(Container inventory, EntityPlayer player, AlloyFurnace tile, String textureLocation) {
+		public GuiDecayHastener(Container inventory, EntityPlayer player, TileDecayHastener tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiInfuser extends GuiBasicUpgradableProcessor<Infuser> {
+	public static class GuiFuelReprocessor extends GuiBasicUpgradableProcessor<TileFuelReprocessor> {
 		
-		public GuiInfuser(Container inventory, EntityPlayer player, Infuser tile, String textureLocation) {
+		public GuiFuelReprocessor(Container inventory, EntityPlayer player, TileFuelReprocessor tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiMelter extends GuiBasicUpgradableProcessor<Melter> {
+	public static class GuiAlloyFurnace extends GuiBasicUpgradableProcessor<TileAlloyFurnace> {
 		
-		public GuiMelter(Container inventory, EntityPlayer player, Melter tile, String textureLocation) {
+		public GuiAlloyFurnace(Container inventory, EntityPlayer player, TileAlloyFurnace tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiSupercooler extends GuiBasicUpgradableProcessor<Supercooler> {
+	public static class GuiInfuser extends GuiBasicUpgradableProcessor<TileInfuser> {
 		
-		public GuiSupercooler(Container inventory, EntityPlayer player, Supercooler tile, String textureLocation) {
+		public GuiInfuser(Container inventory, EntityPlayer player, TileInfuser tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiElectrolyzer extends GuiBasicUpgradableProcessor<Electrolyzer> {
+	public static class GuiMelter extends GuiBasicUpgradableProcessor<TileMelter> {
 		
-		public GuiElectrolyzer(Container inventory, EntityPlayer player, Electrolyzer tile, String textureLocation) {
+		public GuiMelter(Container inventory, EntityPlayer player, TileMelter tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiAssembler extends GuiBasicUpgradableProcessor<Assembler> {
+	public static class GuiSupercooler extends GuiBasicUpgradableProcessor<TileSupercooler> {
 		
-		public GuiAssembler(Container inventory, EntityPlayer player, Assembler tile, String textureLocation) {
+		public GuiSupercooler(Container inventory, EntityPlayer player, TileSupercooler tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiIngotFormer extends GuiBasicUpgradableProcessor<IngotFormer> {
+	public static class GuiElectrolyzer extends GuiBasicUpgradableProcessor<TileElectrolyzer> {
 		
-		public GuiIngotFormer(Container inventory, EntityPlayer player, IngotFormer tile, String textureLocation) {
+		public GuiElectrolyzer(Container inventory, EntityPlayer player, TileElectrolyzer tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiPressurizer extends GuiBasicUpgradableProcessor<Pressurizer> {
+	public static class GuiAssembler extends GuiBasicUpgradableProcessor<TileAssembler> {
 		
-		public GuiPressurizer(Container inventory, EntityPlayer player, Pressurizer tile, String textureLocation) {
+		public GuiAssembler(Container inventory, EntityPlayer player, TileAssembler tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiChemicalReactor extends GuiBasicUpgradableProcessor<ChemicalReactor> {
+	public static class GuiIngotFormer extends GuiBasicUpgradableProcessor<TileIngotFormer> {
 		
-		public GuiChemicalReactor(Container inventory, EntityPlayer player, ChemicalReactor tile, String textureLocation) {
+		public GuiIngotFormer(Container inventory, EntityPlayer player, TileIngotFormer tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiSaltMixer extends GuiBasicUpgradableProcessor<SaltMixer> {
+	public static class GuiPressurizer extends GuiBasicUpgradableProcessor<TilePressurizer> {
 		
-		public GuiSaltMixer(Container inventory, EntityPlayer player, SaltMixer tile, String textureLocation) {
+		public GuiPressurizer(Container inventory, EntityPlayer player, TilePressurizer tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiCrystallizer extends GuiBasicUpgradableProcessor<Crystallizer> {
+	public static class GuiChemicalReactor extends GuiBasicUpgradableProcessor<TileChemicalReactor> {
 		
-		public GuiCrystallizer(Container inventory, EntityPlayer player, Crystallizer tile, String textureLocation) {
+		public GuiChemicalReactor(Container inventory, EntityPlayer player, TileChemicalReactor tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiEnricher extends GuiBasicUpgradableProcessor<Enricher> {
+	public static class GuiSaltMixer extends GuiBasicUpgradableProcessor<TileSaltMixer> {
 		
-		public GuiEnricher(Container inventory, EntityPlayer player, Enricher tile, String textureLocation) {
+		public GuiSaltMixer(Container inventory, EntityPlayer player, TileSaltMixer tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiExtractor extends GuiBasicUpgradableProcessor<Extractor> {
+	public static class GuiCrystallizer extends GuiBasicUpgradableProcessor<TileCrystallizer> {
 		
-		public GuiExtractor(Container inventory, EntityPlayer player, Extractor tile, String textureLocation) {
+		public GuiCrystallizer(Container inventory, EntityPlayer player, TileCrystallizer tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiCentrifuge extends GuiBasicUpgradableProcessor<Centrifuge> {
+	public static class GuiEnricher extends GuiBasicUpgradableProcessor<TileEnricher> {
 		
-		public GuiCentrifuge(Container inventory, EntityPlayer player, Centrifuge tile, String textureLocation) {
+		public GuiEnricher(Container inventory, EntityPlayer player, TileEnricher tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiRockCrusher extends GuiBasicUpgradableProcessor<RockCrusher> {
+	public static class GuiExtractor extends GuiBasicUpgradableProcessor<TileExtractor> {
 		
-		public GuiRockCrusher(Container inventory, EntityPlayer player, RockCrusher tile, String textureLocation) {
+		public GuiExtractor(Container inventory, EntityPlayer player, TileExtractor tile, String textureLocation) {
+			super(inventory, player, tile, textureLocation);
+		}
+	}
+	
+	public static class GuiCentrifuge extends GuiBasicUpgradableProcessor<TileCentrifuge> {
+		
+		public GuiCentrifuge(Container inventory, EntityPlayer player, TileCentrifuge tile, String textureLocation) {
+			super(inventory, player, tile, textureLocation);
+		}
+	}
+	
+	public static class GuiRockCrusher extends GuiBasicUpgradableProcessor<TileRockCrusher> {
+		
+		public GuiRockCrusher(Container inventory, EntityPlayer player, TileRockCrusher tile, String textureLocation) {
+			super(inventory, player, tile, textureLocation);
+		}
+	}
+	
+	public static class GuiRadiationScrubber extends GuiBasicProcessor<TileRadiationScrubber> {
+		
+		public GuiRadiationScrubber(Container inventory, EntityPlayer player, TileRadiationScrubber tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}

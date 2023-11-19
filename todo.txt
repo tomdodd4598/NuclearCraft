@@ -1,6 +1,10 @@
 CT Registration of machines
 Add auto-outputting to machines
 
+Replace specialised NCO packet handler instance references
+
+Add IC2 reactor radiation multiplier config
+
 QMD feature merge: nitrogen collector -> air collector
 
 Refactor BasicRecipe and BasicRecipeHandler subclasses to make recipes easier for addons
@@ -120,7 +124,7 @@ ________________________________________________________________________________
 Fusion Reactor: https://discordapp.com/channels/425461908712325130/425471153067524098/621412674948825134
 Allow for variable lining thickness? https://discordapp.com/channels/425461908712325130/425471153067524098/635267993294733312
 Change Fusion Reactor to produce steam instead of energy: Water -> High Pressure Steam from Heating Blanket in Electromagnet Ring
-New reactivity curve: R = z*(T/(1.5*h))^(-1.5)*exp(-1.5*h/T), z ≡ 200/9*sqrt(6)*exp(1.5) ≈ 243.952253514146, T = temperature (kK), h = optimal temperature (kK)
+New reactivity curve: R = z*(T/(1.5*h))^(-1.5)*exp(-1.5*h/T), z ≡ sqrt(8/27)*exp(1.5) ≈ 2.43952253514146, T = temperature (kK), h = optimal temperature (kK)
 Superconducting e-magnets can be used instead for an efficiency bonus?
 
 ___________________________________________________________________________________________________________________________

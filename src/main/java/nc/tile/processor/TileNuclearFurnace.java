@@ -1,6 +1,7 @@
 package nc.tile.processor;
 
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
 
 import javax.annotation.*;
 
@@ -8,18 +9,27 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.capability.radiation.source.*;
-import nc.network.tile.TileUpdatePacket;
+import nc.container.ContainerFunction;
+import nc.container.processor.ContainerMachineConfig;
+import nc.gui.GuiFunction;
+import nc.gui.processor.*;
+import nc.handler.TileInfoHandler;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.radiation.RadSources;
-import nc.tile.ITilePacket;
-import nc.tile.dummy.IInterfaceable;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
+import nc.tile.internal.fluid.*;
 import nc.tile.internal.inventory.*;
-import nc.tile.inventory.ITileInventory;
+import nc.tile.processor.TileNuclearFurnace.NuclearFurnaceContainerInfo;
+import nc.tile.processor.info.ProcessorContainerInfo;
+import nc.tile.processor.info.builder.ProcessorContainerInfoBuilder;
 import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.*;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,7 +44,31 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, ITilePacket<TileUpdatePacket>, IInterfaceable {
+public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuclearFurnace, NuclearFurnaceContainerInfo> {
+	
+	public static class NuclearFurnaceContainerInfo extends ProcessorContainerInfo<TileNuclearFurnace, NuclearFurnaceContainerInfo> {
+		
+		public NuclearFurnaceContainerInfo(String modId, String name, Class<TileNuclearFurnace> tileClass, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TileNuclearFurnace> guiFunction, ContainerFunction<TileNuclearFurnace> configContainerFunction, GuiFunction<TileNuclearFurnace> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
+			super(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
+		}
+	}
+	
+	public static class NuclearFurnaceContainerInfoBuilder extends ProcessorContainerInfoBuilder<TileNuclearFurnace, NuclearFurnaceContainerInfo, NuclearFurnaceContainerInfoBuilder> {
+		
+		public NuclearFurnaceContainerInfoBuilder(String modId, String name, Class<TileNuclearFurnace> tileClass, Supplier<TileNuclearFurnace> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, BasicProcessorGuiFunction<TileNuclearFurnace> guiFunction) {
+			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction), ContainerMachineConfig::new, GuiFunction.of(modId, name, ContainerMachineConfig::new, GuiProcessor.SideConfig::new));
+		}
+		
+		@Override
+		protected NuclearFurnaceContainerInfoBuilder getThis() {
+			return this;
+		}
+		
+		@Override
+		public NuclearFurnaceContainerInfo buildContainerInfo() {
+			return new NuclearFurnaceContainerInfo(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
+		}
+	}
 	
 	private final @Nonnull NonNullList<ItemStack> furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
 	
@@ -149,8 +183,8 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static boolean isBurning(IInventory inventory) {
-		return inventory.getField(0) > 0;
+	public boolean isBurningClient() {
+		return getField(0) > 0;
 	}
 	
 	@Override
@@ -328,7 +362,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return ITileInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
+		return IProcessor.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
 	
 	@Override
@@ -339,7 +373,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 				return false;
 			}
 		}
-		return ITileInventory.super.canExtractItem(slot, stack, side);
+		return IProcessor.super.canExtractItem(slot, stack, side);
 	}
 	
 	@Override
@@ -483,36 +517,229 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	
 	// ITileGui
 	
-	/*@Override
-	public int getGuiID() {
-		return 0;
-	}*/
-	
-	/*@Override
-	public Set<EntityPlayer> getTileUpdatePacketListeners() {
-		return null;
-	}*/
+	protected final NuclearFurnaceContainerInfo info = TileInfoHandler.<TileNuclearFurnace, NuclearFurnaceContainerInfo>getProcessorContainerInfo("nuclear_furnace");
 	
 	@Override
-	public TileUpdatePacket getTileUpdatePacket() {
+	public NuclearFurnaceContainerInfo getContainerInfo() {
+		return info;
+	}
+	
+	@Override
+	public Set<EntityPlayer> getTileUpdatePacketListeners() {
 		return null;
 	}
 	
 	@Override
-	public void onTileUpdatePacket(TileUpdatePacket message) {}
+	public ProcessorUpdatePacket getTileUpdatePacket() {
+		return null;
+	}
 	
-	/*@Override
-	public void addTileUpdatePacketListener(EntityPlayer playerToUpdate) {}*/
-	
-	/*@Override
-	public void removeTileUpdatePacketListener(EntityPlayer playerToRemove) {}*/
-	
-	/*@Override
-	public void sendTileUpdatePacketToListeners() {}*/
+	@Override
+	public void onTileUpdatePacket(ProcessorUpdatePacket message) {}
 	
 	@Override
 	public void sendTileUpdatePacketToPlayer(EntityPlayer player) {}
 	
 	@Override
 	public void sendTileUpdatePacketToAll() {}
+	
+	// IProcessor
+	
+	protected final List<Tank> tanks = new ArrayList<>();
+	
+	@Override
+	public List<Tank> getTanks() {
+		return tanks;
+	}
+	
+	protected final FluidConnection[] fluidConnections = {};
+	
+	@Override
+	public FluidConnection[] getFluidConnections() {
+		return fluidConnections;
+	}
+	
+	@Override
+	public void setFluidConnections(FluidConnection[] connections) {
+		
+	}
+	
+	protected final FluidTileWrapper[] fluidSides = {};
+	
+	@Override
+	public FluidTileWrapper[] getFluidSides() {
+		return fluidSides;
+	}
+	
+	protected final GasTileWrapper gasTileWrapper = new GasTileWrapper(this);
+	
+	@Override
+	public GasTileWrapper getGasWrapper() {
+		return gasTileWrapper;
+	}
+	
+	@Override
+	public boolean getInputTanksSeparated() {
+		return false;
+	}
+	
+	@Override
+	public void setInputTanksSeparated(boolean separated) {}
+	
+	@Override
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
+		return false;
+	}
+	
+	@Override
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
+	
+	@Override
+	public TankOutputSetting getTankOutputSetting(int tankNumber) {
+		return null;
+	}
+	
+	@Override
+	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting) {}
+	
+	@Override
+	public BasicRecipeHandler getRecipeHandler() {
+		return null;
+	}
+	
+	@Override
+	public double getBaseProcessTime() {
+		return 0;
+	}
+	
+	@Override
+	public double getBaseProcessPower() {
+		return 0;
+	}
+	
+	@Override
+	public boolean setRecipeStats() {
+		return false;
+	}
+	
+	@Override
+	public boolean isProcessing() {
+		return false;
+	}
+	
+	@Override
+	public boolean isHaltedByRedstone() {
+		return false;
+	}
+	
+	@Override
+	public boolean readyToProcess() {
+		return false;
+	}
+	
+	@Override
+	public boolean canProcessInputs() {
+		return false;
+	}
+	
+	@Override
+	public void process() {
+		
+	}
+	
+	@Override
+	public void finishProcess() {
+		
+	}
+	
+	@Override
+	public double getSpeedMultiplier() {
+		return 0;
+	}
+	
+	@Override
+	public double getPowerMultiplier() {
+		return 0;
+	}
+	
+	@Override
+	public double getCurrentTime() {
+		return 0;
+	}
+	
+	@Override
+	public boolean getIsProcessing() {
+		return false;
+	}
+	
+	@Override
+	public boolean getHasConsumed() {
+		return false;
+	}
+	
+	@Override
+	public void setHasConsumed(boolean hasConsumed) {
+		
+	}
+	
+	@Override
+	public List<ItemStack> getItemInputs(boolean consumed) {
+		return null;
+	}
+	
+	@Override
+	public List<Tank> getFluidInputs(boolean consumed) {
+		return null;
+	}
+	
+	protected final NonNullList<ItemStack> consumedStacks = NonNullList.create();
+	
+	@Override
+	public NonNullList<ItemStack> getConsumedStacks() {
+		return consumedStacks;
+	}
+	
+	protected final List<Tank> consumedTanks = new ArrayList<>();
+	
+	@Override
+	public List<Tank> getConsumedTanks() {
+		return consumedTanks;
+	}
+	
+	@Override
+	public RecipeInfo<BasicRecipe> getRecipeInfo() {
+		return null;
+	}
+	
+	@Override
+	public List<IItemIngredient> getItemIngredients() {
+		return null;
+	}
+	
+	@Override
+	public List<IItemIngredient> getItemProducts() {
+		return null;
+	}
+	
+	@Override
+	public List<IFluidIngredient> getFluidIngredients() {
+		return null;
+	}
+	
+	@Override
+	public List<IFluidIngredient> getFluidProducts() {
+		return null;
+	}
+	
+	@Override
+	public void refreshAll() {}
+	
+	@Override
+	public void refreshRecipe() {}
+	
+	@Override
+	public void refreshActivity() {}
+	
+	@Override
+	public void refreshActivityOnProduction() {}
 }

@@ -2,13 +2,15 @@ package nc.container.processor;
 
 import nc.container.ContainerTile;
 import nc.container.slot.*;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.TileNuclearFurnace;
+import nc.tile.processor.TileNuclearFurnace.NuclearFurnaceContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace> {
+public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo> {
 	
 	private int cookTime;
 	private int totalCookTime;

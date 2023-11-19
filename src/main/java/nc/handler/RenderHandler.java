@@ -11,7 +11,7 @@ import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.render.BlockHighlightHandler;
 import nc.render.entity.RenderFeralGhoul;
 import nc.render.tile.*;
-import nc.util.NCUtil;
+import nc.util.ReflectionHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
@@ -40,16 +40,7 @@ public class RenderHandler {
 	}
 	
 	protected static <E extends Entity, R extends Render<E>> void registerEntityRender(Class<E> entityClass, Class<R> renderClass) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, manager -> {
-			R render = null;
-			try {
-				render = NCUtil.newInstance(renderClass, manager);
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			return render;
-		});
+		RenderingRegistry.registerEntityRenderingHandler(entityClass, manager -> ReflectionHelper.newInstance(renderClass, manager));
 	}
 	
 	protected static class TextureStichHandler {

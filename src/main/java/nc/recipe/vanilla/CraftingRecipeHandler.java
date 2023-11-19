@@ -570,30 +570,30 @@ public class CraftingRecipeHandler {
 	private static final Object2IntMap<String> RECIPE_COUNT_MAP = new Object2IntOpenHashMap<>();
 	
 	public static void addShapedOreRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapedOreRecipe.class, out, inputs);
+		registerRecipe(ShapedOreRecipe::new, out, inputs);
 	}
 	
 	public static void addShapedEnergyRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapedEnergyRecipe.class, out, inputs);
+		registerRecipe(ShapedEnergyRecipe::new, out, inputs);
 	}
 	
 	public static void addShapedFluidRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapedFluidRecipe.class, out, inputs);
+		registerRecipe(ShapedFluidRecipe::new, out, inputs);
 	}
 	
 	public static void addShapelessOreRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapelessOreRecipe.class, out, inputs);
+		registerRecipe(ShapelessOreRecipe::new, out, inputs);
 	}
 	
 	public static void addShapelessFluidRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapelessFluidRecipe.class, out, inputs);
+		registerRecipe(ShapelessFluidRecipe::new, out, inputs);
 	}
 	
 	public static void addShapelessArmorUpgradeRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapelessArmorRadShieldingRecipe.class, out, inputs);
+		registerRecipe(ShapelessArmorRadShieldingRecipe::new, out, inputs);
 	}
 	
-	public static void registerRecipe(Class<? extends IRecipe> clazz, Object out, Object... inputs) {
+	public static <T extends IRecipe> void registerRecipe(RecipeSupplier<T> supplier, Object out, Object... inputs) {
 		if (out == null || Lists.newArrayList(inputs).contains(null)) {
 			return;
 		}
@@ -609,14 +609,9 @@ public class CraftingRecipeHandler {
 				RECIPE_COUNT_MAP.put(outName, 1);
 			}
 			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
-			try {
-				IRecipe recipe = NCUtil.newInstance(clazz, location, outStack, inputs);
-				recipe.setRegistryName(location);
-				ForgeRegistries.RECIPES.register(recipe);
-			}
-			catch (Exception e) {
-				
-			}
+			IRecipe recipe = supplier.get(location, outStack, inputs);
+			recipe.setRegistryName(location);
+			ForgeRegistries.RECIPES.register(recipe);
 		}
 	}
 }

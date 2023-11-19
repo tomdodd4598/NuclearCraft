@@ -842,37 +842,6 @@ public class CTRecipes {
 	}
 	
 	// TODO
-	@ZenClass("mods.nuclearcraft.Fusion")
-	@ZenRegister
-	public static class FusionMethods {
-		
-		@ZenMethod
-		public static BasicRecipeHandler getRecipeHandler() {
-			return NCRecipes.fusion;
-		}
-		
-		@ZenMethod
-		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int time, int power, int optimalTemp, double radiation) {
-			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.fusion, Lists.newArrayList(input1, input2, output1, output2, output3, output4, time, power, optimalTemp, radiation)));
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2) {
-			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.fusion, IngredientSorption.INPUT, Lists.newArrayList(input1, input2)));
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new CTRemoveRecipe(NCRecipes.fusion, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
-		}
-		
-		@ZenMethod
-		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new CTClearRecipes(NCRecipes.fusion));
-		}
-	}
-	
-	// TODO
 	@ZenClass("mods.nuclearcraft.HeatExchanger")
 	@ZenRegister
 	public static class HeatExchangerMethods {

@@ -1,5 +1,6 @@
 package nc.util;
 
+import java.lang.reflect.*;
 import java.util.function.*;
 
 import nc.util.PrimitiveFunction.*;
@@ -171,6 +172,60 @@ public class Lazy<T> {
 				value = supplier.getAsChar();
 			}
 			return value;
+		}
+	}
+	
+	public static class LazyMethod<T> {
+		
+		protected final Class<?> source;
+		protected final String name;
+		protected final Class<?>[] parameterTypes;
+		
+		protected boolean initialized = false;
+		protected Method method;
+		
+		/** Can access parent methods, but not hidden methods. */
+		public LazyMethod(Class<?> source, String name, Class<?>... parameterTypes) {
+			this.source = source;
+			this.name = name;
+			this.parameterTypes = parameterTypes;
+		}
+		
+		protected void initialize() throws NoSuchMethodException, SecurityException {
+			method = source.getMethod(name, parameterTypes);
+		}
+		
+		@SuppressWarnings("unchecked")
+		public T invoke(Object obj, Object... args) {
+			if (!initialized) {
+				try {
+					initialize();
+				}
+				catch (NoSuchMethodException | SecurityException e) {
+					throw new UnsupportedOperationException();
+				}
+			}
+			
+			try {
+				return (T) method.invoke(obj, args);
+			}
+			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				throw new UnsupportedOperationException();
+			}
+		}
+	}
+	
+	public static class LazyDeclaredMethod<T> extends LazyMethod<T> {
+		
+		/** Can access hidden methods, but not parent methods. */
+		public LazyDeclaredMethod(Class<?> source, String name, Class<?>... parameterTypes) {
+			super(source, name, parameterTypes);
+		}
+		
+		@Override
+		protected void initialize() throws NoSuchMethodException, SecurityException {
+			method = source.getDeclaredMethod(name, parameterTypes);
+			method.setAccessible(true);
 		}
 	}
 }

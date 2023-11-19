@@ -85,6 +85,15 @@ public class NCMath {
 		return 1;
 	}
 	
+	public static boolean allEqual(int value, int... values) {
+		for (int i : values) {
+			if (value != i) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static double sin_d(double deg) {
 		return Math.sin(Math.toRadians(deg));
 	}

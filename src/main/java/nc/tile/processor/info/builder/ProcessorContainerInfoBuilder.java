@@ -12,8 +12,11 @@ import nc.gui.GuiFunction;
 import nc.tab.NCTabs;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.*;
+import nc.util.NCUtil;
 import nc.util.MinMax.MinMaxInt;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, BUILDER extends ProcessorContainerInfoBuilder<TILE, INFO, BUILDER>> {
@@ -21,13 +24,17 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 	public final String modId;
 	public final String name;
 	
+	protected final Class<TILE> tileClass;
 	protected final Supplier<TILE> tileSupplier;
 	
 	protected CreativeTabs creativeTab = NCTabs.machine;
 	
 	protected List<String> particles = Lists.newArrayList();
 	
+	protected final Class<? extends Container> containerClass;
 	protected final ContainerFunction<TILE> containerFunction;
+	
+	protected final Class<? extends GuiContainer> guiClass;
 	protected final GuiFunction<TILE> guiFunction;
 	
 	protected final ContainerFunction<TILE> configContainerFunction;
@@ -44,6 +51,8 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 	protected boolean consumesInputs = false;
 	protected boolean losesProgress = false;
 	
+	protected String ocComponentName;
+	
 	protected int[] guiWH = new int[] {176, 166};
 	
 	protected List<int[]> itemInputGuiXYWH = Lists.newArrayList();
@@ -59,22 +68,37 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 	protected int[] machineConfigGuiXY = new int[] {27, 63};
 	protected int[] redstoneControlGuiXY = new int[] {47, 63};
 	
-	protected boolean jeiAlternateTexture = false;
+	protected boolean jeiCategoryEnabled = true;
+	
+	protected String jeiCategoryUid;
+	protected String jeiTitle;
+	protected String jeiTexture;
 	
 	protected int[] jeiBackgroundXYWH = new int[] {51, 30, 86, 26};
 	protected int[] jeiTooltipXYWH = new int[] {73, 34, 38, 18};
+	protected int[] jeiClickAreaXYWH = new int[] {73, 34, 38, 18};
 	
-	public ProcessorContainerInfoBuilder(String modId, String name, Supplier<TILE> tileSupplier, ContainerFunction<TILE> containerFunction, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction) {
+	public ProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction) {
 		this.modId = modId;
 		this.name = name;
 		
+		this.tileClass = tileClass;
 		this.tileSupplier = tileSupplier;
 		
+		this.containerClass = containerClass;
 		this.containerFunction = containerFunction;
+		
+		this.guiClass = guiClass;
 		this.guiFunction = guiFunction;
 		
 		this.configContainerFunction = configContainerFunction;
 		this.configGuiFunction = configGuiFunction;
+		
+		ocComponentName = NCUtil.getShortModId(modId) + "_" + name;
+		
+		jeiCategoryUid = modId + "_" + name;
+		jeiTitle = "tile." + modId + "." + name + ".name";
+		jeiTexture = modId + ":textures/gui/container/" + name + ".png";
 	}
 	
 	protected abstract BUILDER getThis();
@@ -136,6 +160,11 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 		return getThis();
 	}
 	
+	public BUILDER setOCComponentName(String ocComponentName) {
+		this.ocComponentName = ocComponentName;
+		return getThis();
+	}
+	
 	public BUILDER setGuiWH(int w, int h) {
 		guiWH = new int[] {w, h};
 		return getThis();
@@ -173,6 +202,7 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 	public BUILDER setProgressBarGuiXYWHUV(int x, int y, int w, int h, int u, int v) {
 		progressBarGuiXYWHUV = new int[] {x, y, w, h, u, v};
 		jeiTooltipXYWH = new int[] {x - 1, y - 1, w + 1, h + 2};
+		jeiClickAreaXYWH = new int[] {x - 1, y - 1, w + 1, h + 2};
 		return getThis();
 	}
 	
@@ -191,8 +221,23 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 		return getThis();
 	}
 	
-	public BUILDER setJeiAlternateTexture(boolean jeiAlternateTexture) {
-		this.jeiAlternateTexture = jeiAlternateTexture;
+	public BUILDER setJeiCategoryEnabled(boolean jeiCategoryEnabled) {
+		this.jeiCategoryEnabled = jeiCategoryEnabled;
+		return getThis();
+	}
+	
+	public BUILDER setJeiCategoryUid(String jeiCategoryUid) {
+		this.jeiCategoryUid = jeiCategoryUid;
+		return getThis();
+	}
+	
+	public BUILDER setJeiTitle(String jeiTitle) {
+		this.jeiTitle = jeiTitle;
+		return getThis();
+	}
+	
+	public BUILDER setJeiTexture(String jeiTexture) {
+		this.jeiTexture = jeiTexture;
 		return getThis();
 	}
 	
@@ -203,6 +248,11 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 	
 	public BUILDER setJeiTooltipXYWH(int x, int y, int w, int h) {
 		jeiTooltipXYWH = new int[] {x, y, w, h};
+		return getThis();
+	}
+	
+	public BUILDER setJeiClickAreaXYWH(int x, int y, int w, int h) {
+		jeiClickAreaXYWH = new int[] {x, y, w, h};
 		return getThis();
 	}
 	
@@ -221,6 +271,11 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 		redstoneControlGuiXY[0] += x;
 		redstoneControlGuiXY[1] += y;
 		
+		return getThis();
+	}
+	
+	public BUILDER setStandardJeiAlternateTexture() {
+		jeiTexture = modId + ":textures/gui/container/" + name + "_jei.png";
 		return getThis();
 	}
 	

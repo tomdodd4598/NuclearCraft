@@ -13,6 +13,7 @@ import nc.recipe.generator.*;
 import nc.recipe.multiblock.*;
 import nc.recipe.other.*;
 import nc.recipe.processor.*;
+import nc.recipe.radiation.RadiationScrubberRecipes;
 import nc.recipe.vanilla.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
@@ -23,7 +24,11 @@ public class NCRecipes {
 	
 	private static boolean initialized = false;
 	
-	public static final Object2ObjectMap<String, BasicRecipeHandler> RECIPE_HANDLER_MAP = new Object2ObjectOpenHashMap<>();
+	private static final Object2ObjectMap<String, BasicRecipeHandler> RECIPE_HANDLER_MAP = new Object2ObjectOpenHashMap<>();
+	
+	public static void putHandler(BasicRecipeHandler handler) {
+		RECIPE_HANDLER_MAP.put(handler.getName(), handler);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends BasicRecipeHandler> T getHandler(String name) {
@@ -50,43 +55,42 @@ public class NCRecipes {
 		
 		RadSources.init();
 		
-		RECIPE_HANDLER_MAP.put("manufactory", new ManufactoryRecipes());
-		RECIPE_HANDLER_MAP.put("separator", new SeparatorRecipes());
-		RECIPE_HANDLER_MAP.put("decay_hastener", new DecayHastenerRecipes());
-		RECIPE_HANDLER_MAP.put("fuel_reprocessor", new FuelReprocessorRecipes());
-		RECIPE_HANDLER_MAP.put("alloy_furnace", new AlloyFurnaceRecipes());
-		RECIPE_HANDLER_MAP.put("infuser", new InfuserRecipes());
-		RECIPE_HANDLER_MAP.put("melter", new MelterRecipes());
-		RECIPE_HANDLER_MAP.put("supercooler", new SupercoolerRecipes());
-		RECIPE_HANDLER_MAP.put("electrolyzer", new ElectrolyzerRecipes());
-		RECIPE_HANDLER_MAP.put("assembler", new AssemblerRecipes());
-		RECIPE_HANDLER_MAP.put("ingot_former", new IngotFormerRecipes());
-		RECIPE_HANDLER_MAP.put("pressurizer", new PressurizerRecipes());
-		RECIPE_HANDLER_MAP.put("chemical_reactor", new ChemicalReactorRecipes());
-		RECIPE_HANDLER_MAP.put("salt_mixer", new SaltMixerRecipes());
-		RECIPE_HANDLER_MAP.put("crystallizer", new CrystallizerRecipes());
-		RECIPE_HANDLER_MAP.put("enricher", new EnricherRecipes());
-		RECIPE_HANDLER_MAP.put("extractor", new ExtractorRecipes());
-		RECIPE_HANDLER_MAP.put("centrifuge", new CentrifugeRecipes());
-		RECIPE_HANDLER_MAP.put("rock_crusher", new RockCrusherRecipes());
-		RECIPE_HANDLER_MAP.put("collector", new CollectorRecipes());
-		RECIPE_HANDLER_MAP.put("decay_generator", new DecayGeneratorRecipes());
-		RECIPE_HANDLER_MAP.put("fission_moderator", new FissionModeratorRecipes());
-		RECIPE_HANDLER_MAP.put("fission_reflector", new FissionReflectorRecipes());
-		RECIPE_HANDLER_MAP.put("fission_irradiator", new FissionIrradiatorRecipes());
-		RECIPE_HANDLER_MAP.put("pebble_fission", new PebbleFissionRecipes());
-		RECIPE_HANDLER_MAP.put("solid_fission", new SolidFissionRecipes());
-		RECIPE_HANDLER_MAP.put("fission_heating", new FissionHeatingRecipes());
-		RECIPE_HANDLER_MAP.put("salt_fission", new SaltFissionRecipes());
-		RECIPE_HANDLER_MAP.put("fusion", new FusionRecipes());
-		RECIPE_HANDLER_MAP.put("coolant_heater", new CoolantHeaterRecipes());
-		RECIPE_HANDLER_MAP.put("fission_emergency_cooling", new FissionEmergencyCoolingRecipes());
-		RECIPE_HANDLER_MAP.put("heat_exchanger", new HeatExchangerRecipes());
-		RECIPE_HANDLER_MAP.put("condenser", new CondenserRecipes());
-		RECIPE_HANDLER_MAP.put("turbine", new TurbineRecipes());
-		RECIPE_HANDLER_MAP.put("radiation_scrubber", new RadiationScrubberRecipes());
-		RECIPE_HANDLER_MAP.put("radiation_block_mutation", new RadiationBlockMutation());
-		RECIPE_HANDLER_MAP.put("radiation_block_purification", new RadiationBlockPurification());
+		putHandler(new ManufactoryRecipes());
+		putHandler(new SeparatorRecipes());
+		putHandler(new DecayHastenerRecipes());
+		putHandler(new FuelReprocessorRecipes());
+		putHandler(new AlloyFurnaceRecipes());
+		putHandler(new InfuserRecipes());
+		putHandler(new MelterRecipes());
+		putHandler(new SupercoolerRecipes());
+		putHandler(new ElectrolyzerRecipes());
+		putHandler(new AssemblerRecipes());
+		putHandler(new IngotFormerRecipes());
+		putHandler(new PressurizerRecipes());
+		putHandler(new ChemicalReactorRecipes());
+		putHandler(new SaltMixerRecipes());
+		putHandler(new CrystallizerRecipes());
+		putHandler(new EnricherRecipes());
+		putHandler(new ExtractorRecipes());
+		putHandler(new CentrifugeRecipes());
+		putHandler(new RockCrusherRecipes());
+		putHandler(new CollectorRecipes());
+		putHandler(new DecayGeneratorRecipes());
+		putHandler(new FissionModeratorRecipes());
+		putHandler(new FissionReflectorRecipes());
+		putHandler(new FissionIrradiatorRecipes());
+		putHandler(new PebbleFissionRecipes());
+		putHandler(new SolidFissionRecipes());
+		putHandler(new FissionHeatingRecipes());
+		putHandler(new SaltFissionRecipes());
+		putHandler(new CoolantHeaterRecipes());
+		putHandler(new FissionEmergencyCoolingRecipes());
+		putHandler(new HeatExchangerRecipes());
+		putHandler(new CondenserRecipes());
+		putHandler(new TurbineRecipes());
+		putHandler(new RadiationScrubberRecipes());
+		putHandler(new RadiationBlockMutation());
+		putHandler(new RadiationBlockPurification());
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
@@ -127,7 +131,6 @@ public class NCRecipes {
 	public static SolidFissionRecipes solid_fission;
 	public static FissionHeatingRecipes fission_heating;
 	public static SaltFissionRecipes salt_fission;
-	public static FusionRecipes fusion;
 	public static CoolantHeaterRecipes coolant_heater;
 	public static FissionEmergencyCoolingRecipes fission_emergency_cooling;
 	public static HeatExchangerRecipes heat_exchanger;
@@ -167,7 +170,6 @@ public class NCRecipes {
 		solid_fission = getHandler("solid_fission");
 		fission_heating = getHandler("fission_heating");
 		salt_fission = getHandler("salt_fission");
-		fusion = getHandler("fusion");
 		coolant_heater = getHandler("coolant_heater");
 		fission_emergency_cooling = getHandler("fission_emergency_cooling");
 		heat_exchanger = getHandler("heat_exchanger");

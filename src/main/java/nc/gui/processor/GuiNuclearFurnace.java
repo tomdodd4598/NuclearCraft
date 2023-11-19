@@ -6,6 +6,7 @@ import nc.gui.NCGui;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.*;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiNuclearFurnace extends NCGui {
@@ -15,7 +16,7 @@ public class GuiNuclearFurnace extends NCGui {
 	private final InventoryPlayer playerInventory;
 	private final TileNuclearFurnace furnace;
 	
-	public GuiNuclearFurnace(EntityPlayer player, TileNuclearFurnace furnace) {
+	public GuiNuclearFurnace(Container inventory, EntityPlayer player, TileNuclearFurnace furnace, String textureLocation) {
 		super(new ContainerNuclearFurnace(player, furnace));
 		playerInventory = player.inventory;
 		this.furnace = furnace;
@@ -38,7 +39,7 @@ public class GuiNuclearFurnace extends NCGui {
 		int j = (height - ySize) / 2;
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if (TileNuclearFurnace.isBurning(furnace)) {
+		if (furnace.isBurningClient()) {
 			int k = getBurnLeftScaled(13);
 			drawTexturedModalRect(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
 		}

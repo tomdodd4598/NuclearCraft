@@ -1,117 +1,98 @@
 package nc.integration.jei;
 
-import java.util.*;
+import java.util.List;
 
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
-import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.NCJEI.IJEIHandler;
-import nc.recipe.*;
-import nc.util.NCUtil;
+import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class JEIHelper {
 	
-	public static <WRAPPER extends JEIRecipeWrapper<WRAPPER>> List<WRAPPER> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler<WRAPPER> jeiHandler, BasicRecipeHandler recipeHandler, Class<? extends WRAPPER> recipeWrapper) {
-		ArrayList<WRAPPER> recipes = new ArrayList<>();
-		if (recipeHandler != null) {
-			for (BasicRecipe recipe : recipeHandler.getRecipeList()) {
-				try {
-					recipes.add(recipeWrapper.getConstructor(IGuiHelper.class, IJEIHandler.class, BasicRecipeHandler.class, BasicRecipe.class).newInstance(guiHelper, jeiHandler, recipeHandler, recipe));
-				}
-				catch (Exception e) {
-					NCUtil.getLogger().catching(e);
-				}
-			}
+	protected static abstract class RecipeIngredientMapper<T, INFO> {
+		
+		public Object2ObjectMap<IngredientSorption, Int2ObjectMap<INFO>> internal = new Object2ObjectOpenHashMap<>();
+		
+		protected RecipeIngredientMapper() {
+			internal.put(IngredientSorption.INPUT, new Int2ObjectOpenHashMap<>());
+			internal.put(IngredientSorption.OUTPUT, new Int2ObjectOpenHashMap<>());
 		}
-		return recipes;
+		
+		protected void put(IngredientSorption type, int groupIndex, INFO info) {
+			internal.get(type).put(groupIndex, info);
+		}
+		
+		public abstract void apply(T group, IIngredients ingredients);
 	}
 	
-	public static class RecipeItemMapper {
+	public static class RecipeItemMapper extends RecipeIngredientMapper<IGuiItemStackGroup, RecipeItemInfo> {
 		
-		public Object2ObjectMap<IngredientSorption, Int2ObjectMap<RecipeItemMapping>> map = new Object2ObjectOpenHashMap<>();
-		
-		public RecipeItemMapper() {}
-		
-		public void map(IngredientSorption type, int recipePos, int slotPos, int xPos, int yPos) {
-			this.map(type, recipePos, new RecipeItemMapping(slotPos, xPos, yPos));
+		public void put(IngredientSorption type, int groupIndex, int slotIndex, int stackX, int stackY) {
+			put(type, groupIndex, new RecipeItemInfo(slotIndex, stackX, stackY));
 		}
 		
-		public void map(IngredientSorption type, int recipePos, RecipeItemMapping mapping) {
-			if (map.get(type) == null) {
-				map.put(type, new Int2ObjectOpenHashMap<>());
-			}
-			map.get(type).put(recipePos, mapping);
-		}
-		
-		public void mapItemsTo(IGuiItemStackGroup items, IIngredients ingredients) {
-			for (Object2ObjectMap.Entry<IngredientSorption, Int2ObjectMap<RecipeItemMapping>> entry : map.object2ObjectEntrySet()) {
-				List<List<ItemStack>> stackLists = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(ItemStack.class) : ingredients.getOutputs(ItemStack.class);
-				for (Int2ObjectMap.Entry<RecipeItemMapping> mapping : entry.getValue().int2ObjectEntrySet()) {
-					RecipeItemMapping recipe = mapping.getValue();
-					items.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos, recipe.yPos);
-					List<ItemStack> stackList = stackLists.get(mapping.getIntKey());
-					items.set(recipe.slotPos, stackList);
+		@Override
+		public void apply(IGuiItemStackGroup items, IIngredients ingredients) {
+			for (Object2ObjectMap.Entry<IngredientSorption, Int2ObjectMap<RecipeItemInfo>> entry : internal.object2ObjectEntrySet()) {
+				boolean isInput = entry.getKey().equals(IngredientSorption.INPUT);
+				List<List<ItemStack>> stackLists = isInput ? ingredients.getInputs(ItemStack.class) : ingredients.getOutputs(ItemStack.class);
+				
+				for (Int2ObjectMap.Entry<RecipeItemInfo> mapping : entry.getValue().int2ObjectEntrySet()) {
+					RecipeItemInfo info = mapping.getValue();
+					items.init(info.slotIndex, isInput, info.stackX, info.stackY);
+					items.set(info.slotIndex, stackLists.get(mapping.getIntKey()));
 				}
 			}
 		}
 	}
 	
-	public static class RecipeFluidMapper {
+	public static class RecipeFluidMapper extends RecipeIngredientMapper<IGuiFluidStackGroup, RecipeFluidInfo> {
 		
-		public Object2ObjectMap<IngredientSorption, Int2ObjectMap<RecipeFluidMapping>> map = new Object2ObjectOpenHashMap<>();
-		
-		public RecipeFluidMapper() {}
-		
-		public void map(IngredientSorption type, int recipePos, int slotPos, int xPos, int yPos, int xSize, int ySize) {
-			this.map(type, recipePos, new RecipeFluidMapping(slotPos, xPos, yPos, xSize, ySize));
+		public void put(IngredientSorption type, int groupIndex, int tankIndex, int tankX, int tankY, int tankW, int tankH) {
+			put(type, groupIndex, new RecipeFluidInfo(tankIndex, tankX, tankY, tankW, tankH));
 		}
 		
-		public void map(IngredientSorption type, int recipePos, RecipeFluidMapping mapping) {
-			if (map.get(type) == null) {
-				map.put(type, new Int2ObjectOpenHashMap<>());
-			}
-			map.get(type).put(recipePos, mapping);
-		}
-		
-		public void mapFluidsTo(IGuiFluidStackGroup fluids, IIngredients ingredients) {
-			for (Object2ObjectMap.Entry<IngredientSorption, Int2ObjectMap<RecipeFluidMapping>> entry : map.object2ObjectEntrySet()) {
-				List<List<FluidStack>> fluidLists = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(FluidStack.class) : ingredients.getOutputs(FluidStack.class);
-				for (Int2ObjectMap.Entry<RecipeFluidMapping> mapping : entry.getValue().int2ObjectEntrySet()) {
-					RecipeFluidMapping recipe = mapping.getValue();
+		@Override
+		public void apply(IGuiFluidStackGroup fluids, IIngredients ingredients) {
+			for (Object2ObjectMap.Entry<IngredientSorption, Int2ObjectMap<RecipeFluidInfo>> entry : internal.object2ObjectEntrySet()) {
+				boolean isInput = entry.getKey().equals(IngredientSorption.INPUT);
+				List<List<FluidStack>> fluidLists = isInput ? ingredients.getInputs(FluidStack.class) : ingredients.getOutputs(FluidStack.class);
+				
+				for (Int2ObjectMap.Entry<RecipeFluidInfo> mapping : entry.getValue().int2ObjectEntrySet()) {
+					RecipeFluidInfo info = mapping.getValue();
 					List<FluidStack> fluidList = fluidLists.get(mapping.getIntKey());
 					FluidStack stack = fluidList.isEmpty() ? null : fluidList.get(fluidList.size() - 1);
-					fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
-					fluids.set(recipe.slotPos, stack == null ? null : fluidList);
+					fluids.init(info.tankIndex, isInput, info.tankX, info.tankY, info.tankW, info.tankH, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
+					fluids.set(info.tankIndex, stack == null ? null : fluidList);
 				}
 			}
 		}
 	}
 	
-	protected static class RecipeItemMapping {
+	protected static class RecipeItemInfo {
 		
-		public int slotPos, xPos, yPos;
+		public int slotIndex, stackX, stackY;
 		
-		public RecipeItemMapping(int slotPos, int xPos, int yPos) {
-			this.slotPos = slotPos;
-			this.xPos = xPos;
-			this.yPos = yPos;
+		public RecipeItemInfo(int slotIndex, int stackX, int stackY) {
+			this.slotIndex = slotIndex;
+			this.stackX = stackX;
+			this.stackY = stackY;
 		}
 	}
 	
-	protected static class RecipeFluidMapping {
+	protected static class RecipeFluidInfo {
 		
-		public int slotPos, xPos, yPos, xSize, ySize;
+		public int tankIndex, tankX, tankY, tankW, tankH;
 		
-		public RecipeFluidMapping(int slotPos, int xPos, int yPos, int xSize, int ySize) {
-			this.slotPos = slotPos;
-			this.xPos = xPos;
-			this.yPos = yPos;
-			this.xSize = xSize;
-			this.ySize = ySize;
+		public RecipeFluidInfo(int tankIndex, int tankX, int tankY, int tankW, int tankH) {
+			this.tankIndex = tankIndex;
+			this.tankX = tankX;
+			this.tankY = tankY;
+			this.tankW = tankW;
+			this.tankH = tankH;
 		}
 	}
 }

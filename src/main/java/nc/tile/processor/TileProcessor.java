@@ -48,7 +48,7 @@ public abstract class TileProcessor<TILE extends TileProcessor<TILE, INFO>, INFO
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
 	protected TileProcessor(String name) {
-		this(name, TileInfoHandler.getContainerProcessorInfo(name));
+		this(name, TileInfoHandler.<TILE, INFO>getProcessorContainerInfo(name));
 	}
 	
 	private TileProcessor(String name, INFO info) {

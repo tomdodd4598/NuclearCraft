@@ -35,11 +35,14 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(2);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 0);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof String ? (String) extras.get(1) : "");
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	protected List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(Integer.class, 0);
+		fixer.add(String.class, "");
+		return fixer.fixed;
 	}
 	
 	public @Nullable RecipeInfo<BasicRecipe> getRecipeInfoFromHeaterInputs(String heaterType, List<Tank> fluidInputs) {

@@ -2,7 +2,7 @@ package nc.recipe.multiblock;
 
 import static nc.config.NCConfig.*;
 
-import java.util.*;
+import java.util.List;
 
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
@@ -23,10 +23,13 @@ public class FissionReflectorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>();
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 0D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 0D);
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	protected List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(Double.class, 0D);
+		fixer.add(Double.class, 0D);
+		return fixer.fixed;
 	}
 }

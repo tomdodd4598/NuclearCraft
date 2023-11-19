@@ -2,153 +2,175 @@ package nc.container.processor;
 
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
+import nc.tile.radiation.TileRadiationScrubber;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerProcessorImpl {
 	
-	public static abstract class ContainerBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends ContainerProcessor<TILE, BasicProcessorContainerInfo<TILE>> {
+	public static class ContainerBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends ContainerProcessor<TILE, BasicProcessorContainerInfo<TILE>> {
 		
 		public ContainerBasicProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static abstract class ContainerBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends ContainerUpgradableProcessor<TILE, BasicUpgradableProcessorContainerInfo<TILE>> {
+	public static class ContainerBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends ContainerUpgradableProcessor<TILE, BasicUpgradableProcessorContainerInfo<TILE>> {
 		
 		public ContainerBasicUpgradableProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerManufactory extends ContainerBasicUpgradableProcessor<Manufactory> {
+	public static class ContainerBasicProcessorDyn extends ContainerBasicProcessor<TileBasicProcessorDyn> {
 		
-		public ContainerManufactory(EntityPlayer player, Manufactory tile) {
+		public ContainerBasicProcessorDyn(EntityPlayer player, TileBasicProcessorDyn tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerSeparator extends ContainerBasicUpgradableProcessor<Separator> {
+	public static class ContainerBasicUpgradableProcessorDyn extends ContainerBasicUpgradableProcessor<TileBasicUpgradableProcessorDyn> {
 		
-		public ContainerSeparator(EntityPlayer player, Separator tile) {
+		public ContainerBasicUpgradableProcessorDyn(EntityPlayer player, TileBasicUpgradableProcessorDyn tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerDecayHastener extends ContainerBasicUpgradableProcessor<DecayHastener> {
+	public static class ContainerManufactory extends ContainerBasicUpgradableProcessor<TileManufactory> {
 		
-		public ContainerDecayHastener(EntityPlayer player, DecayHastener tile) {
+		public ContainerManufactory(EntityPlayer player, TileManufactory tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerFuelReprocessor extends ContainerBasicUpgradableProcessor<FuelReprocessor> {
+	public static class ContainerSeparator extends ContainerBasicUpgradableProcessor<TileSeparator> {
 		
-		public ContainerFuelReprocessor(EntityPlayer player, FuelReprocessor tile) {
+		public ContainerSeparator(EntityPlayer player, TileSeparator tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerAlloyFurnace extends ContainerBasicUpgradableProcessor<AlloyFurnace> {
+	public static class ContainerDecayHastener extends ContainerBasicUpgradableProcessor<TileDecayHastener> {
 		
-		public ContainerAlloyFurnace(EntityPlayer player, AlloyFurnace tile) {
+		public ContainerDecayHastener(EntityPlayer player, TileDecayHastener tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerInfuser extends ContainerBasicUpgradableProcessor<Infuser> {
+	public static class ContainerFuelReprocessor extends ContainerBasicUpgradableProcessor<TileFuelReprocessor> {
 		
-		public ContainerInfuser(EntityPlayer player, Infuser tile) {
+		public ContainerFuelReprocessor(EntityPlayer player, TileFuelReprocessor tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerMelter extends ContainerBasicUpgradableProcessor<Melter> {
+	public static class ContainerAlloyFurnace extends ContainerBasicUpgradableProcessor<TileAlloyFurnace> {
 		
-		public ContainerMelter(EntityPlayer player, Melter tile) {
+		public ContainerAlloyFurnace(EntityPlayer player, TileAlloyFurnace tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerSupercooler extends ContainerBasicUpgradableProcessor<Supercooler> {
+	public static class ContainerInfuser extends ContainerBasicUpgradableProcessor<TileInfuser> {
 		
-		public ContainerSupercooler(EntityPlayer player, Supercooler tile) {
+		public ContainerInfuser(EntityPlayer player, TileInfuser tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerElectrolyzer extends ContainerBasicUpgradableProcessor<Electrolyzer> {
+	public static class ContainerMelter extends ContainerBasicUpgradableProcessor<TileMelter> {
 		
-		public ContainerElectrolyzer(EntityPlayer player, Electrolyzer tile) {
+		public ContainerMelter(EntityPlayer player, TileMelter tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerAssembler extends ContainerBasicUpgradableProcessor<Assembler> {
+	public static class ContainerSupercooler extends ContainerBasicUpgradableProcessor<TileSupercooler> {
 		
-		public ContainerAssembler(EntityPlayer player, Assembler tile) {
+		public ContainerSupercooler(EntityPlayer player, TileSupercooler tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerIngotFormer extends ContainerBasicUpgradableProcessor<IngotFormer> {
+	public static class ContainerElectrolyzer extends ContainerBasicUpgradableProcessor<TileElectrolyzer> {
 		
-		public ContainerIngotFormer(EntityPlayer player, IngotFormer tile) {
+		public ContainerElectrolyzer(EntityPlayer player, TileElectrolyzer tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerPressurizer extends ContainerBasicUpgradableProcessor<Pressurizer> {
+	public static class ContainerAssembler extends ContainerBasicUpgradableProcessor<TileAssembler> {
 		
-		public ContainerPressurizer(EntityPlayer player, Pressurizer tile) {
+		public ContainerAssembler(EntityPlayer player, TileAssembler tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerChemicalReactor extends ContainerBasicUpgradableProcessor<ChemicalReactor> {
+	public static class ContainerIngotFormer extends ContainerBasicUpgradableProcessor<TileIngotFormer> {
 		
-		public ContainerChemicalReactor(EntityPlayer player, ChemicalReactor tile) {
+		public ContainerIngotFormer(EntityPlayer player, TileIngotFormer tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerSaltMixer extends ContainerBasicUpgradableProcessor<SaltMixer> {
+	public static class ContainerPressurizer extends ContainerBasicUpgradableProcessor<TilePressurizer> {
 		
-		public ContainerSaltMixer(EntityPlayer player, SaltMixer tile) {
+		public ContainerPressurizer(EntityPlayer player, TilePressurizer tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerCrystallizer extends ContainerBasicUpgradableProcessor<Crystallizer> {
+	public static class ContainerChemicalReactor extends ContainerBasicUpgradableProcessor<TileChemicalReactor> {
 		
-		public ContainerCrystallizer(EntityPlayer player, Crystallizer tile) {
+		public ContainerChemicalReactor(EntityPlayer player, TileChemicalReactor tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerEnricher extends ContainerBasicUpgradableProcessor<Enricher> {
+	public static class ContainerSaltMixer extends ContainerBasicUpgradableProcessor<TileSaltMixer> {
 		
-		public ContainerEnricher(EntityPlayer player, Enricher tile) {
+		public ContainerSaltMixer(EntityPlayer player, TileSaltMixer tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerExtractor extends ContainerBasicUpgradableProcessor<Extractor> {
+	public static class ContainerCrystallizer extends ContainerBasicUpgradableProcessor<TileCrystallizer> {
 		
-		public ContainerExtractor(EntityPlayer player, Extractor tile) {
+		public ContainerCrystallizer(EntityPlayer player, TileCrystallizer tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerCentrifuge extends ContainerBasicUpgradableProcessor<Centrifuge> {
+	public static class ContainerEnricher extends ContainerBasicUpgradableProcessor<TileEnricher> {
 		
-		public ContainerCentrifuge(EntityPlayer player, Centrifuge tile) {
+		public ContainerEnricher(EntityPlayer player, TileEnricher tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerRockCrusher extends ContainerBasicUpgradableProcessor<RockCrusher> {
+	public static class ContainerExtractor extends ContainerBasicUpgradableProcessor<TileExtractor> {
 		
-		public ContainerRockCrusher(EntityPlayer player, RockCrusher tile) {
+		public ContainerExtractor(EntityPlayer player, TileExtractor tile) {
+			super(player, tile);
+		}
+	}
+	
+	public static class ContainerCentrifuge extends ContainerBasicUpgradableProcessor<TileCentrifuge> {
+		
+		public ContainerCentrifuge(EntityPlayer player, TileCentrifuge tile) {
+			super(player, tile);
+		}
+	}
+	
+	public static class ContainerRockCrusher extends ContainerBasicUpgradableProcessor<TileRockCrusher> {
+		
+		public ContainerRockCrusher(EntityPlayer player, TileRockCrusher tile) {
+			super(player, tile);
+		}
+	}
+	
+	public static class ContainerRadiationScrubber extends ContainerBasicProcessor<TileRadiationScrubber> {
+		
+		public ContainerRadiationScrubber(EntityPlayer player, TileRadiationScrubber tile) {
 			super(player, tile);
 		}
 	}

@@ -13,10 +13,13 @@ import nc.container.processor.ContainerProcessorImpl.*;
 import nc.enumm.MetaEnums;
 import nc.gui.processor.GuiProcessorImpl.*;
 import nc.init.*;
-import nc.integration.jei.generator.DecayGeneratorCategory;
-import nc.integration.jei.multiblock.*;
-import nc.integration.jei.other.*;
-import nc.integration.jei.processor.*;
+import nc.integration.jei.category.JEIRecipeCategory;
+import nc.integration.jei.category.generator.DecayGeneratorCategory;
+import nc.integration.jei.category.multiblock.*;
+import nc.integration.jei.category.other.*;
+import nc.integration.jei.category.processor.*;
+import nc.integration.jei.category.radiation.RadiationScrubberCategory;
+import nc.integration.jei.wrapper.*;
 import nc.multiblock.container.*;
 import nc.multiblock.fission.FissionPlacement;
 import nc.multiblock.gui.*;
@@ -33,11 +36,12 @@ public class NCJEI implements IModPlugin {
 	public void register(IModRegistry registry) {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
+		IRecipeTransferRegistry transferRegistry = registry.getRecipeTransferRegistry();
 		
 		for (IJEIHandler<?> handler : JEIHandler.values()) {
 			if (handler.getEnabled()) {
 				registry.addRecipes(handler.getJEIRecipes(guiHelper));
-				JEIBasicCategory<?> category = handler.getCategory(guiHelper);
+				JEIRecipeCategory<?> category = handler.getCategory(guiHelper);
 				registry.addRecipeCategories(category);
 				registry.addRecipeHandlers(category);
 				if (handler.getCrafters() != null) {
@@ -49,8 +53,6 @@ public class NCJEI implements IModPlugin {
 				}
 			}
 		}
-		
-		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		
 		if (register_processor[1]) {
 			registry.addRecipeClickArea(GuiManufactory.class, 73, 34, 37, 18, JEIHandler.MANUFACTORY.getUid());
@@ -135,31 +137,31 @@ public class NCJEI implements IModPlugin {
 		registry.addRecipeClickArea(GuiSaltFissionVessel.class, 73, 34, 37, 18, JEIHandler.SALT_FISSION.getUid());
 		registry.addRecipeClickArea(GuiSaltFissionHeater.class, 73, 34, 37, 18, JEIHandler.COOLANT_HEATER.getUid());
 		
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, JEIHandler.MANUFACTORY.getUid(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSeparator.class, JEIHandler.SEPARATOR.getUid(), 0, 1, 5, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerDecayHastener.class, JEIHandler.DECAY_HASTENER.getUid(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerFuelReprocessor.class, JEIHandler.FUEL_REPROCESSOR.getUid(), 0, 1, 9, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerAlloyFurnace.class, JEIHandler.ALLOY_FURNACE.getUid(), 0, 2, 5, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerInfuser.class, JEIHandler.INFUSER.getUid(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerMelter.class, JEIHandler.MELTER.getUid(), 0, 1, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSupercooler.class, JEIHandler.SUPERCOOLER.getUid(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerElectrolyzer.class, JEIHandler.ELECTROLYZER.getUid(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerAssembler.class, JEIHandler.ASSEMBLER.getUid(), 0, 4, 7, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerIngotFormer.class, JEIHandler.INGOT_FORMER.getUid(), 0, 0, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerPressurizer.class, JEIHandler.PRESSURIZER.getUid(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerChemicalReactor.class, JEIHandler.CHEMICAL_REACTOR.getUid(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, JEIHandler.SALT_MIXER.getUid(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, JEIHandler.CRYSTALLIZER.getUid(), 0, 0, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerEnricher.class, JEIHandler.ENRICHER.getUid(), 0, 1, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, JEIHandler.EXTRACTOR.getUid(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, JEIHandler.CENTRIFUGE.getUid(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUid(), 0, 1, 6, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerManufactory.class, JEIHandler.MANUFACTORY.getUid(), 0, 1, 4, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerSeparator.class, JEIHandler.SEPARATOR.getUid(), 0, 1, 5, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerDecayHastener.class, JEIHandler.DECAY_HASTENER.getUid(), 0, 1, 4, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerFuelReprocessor.class, JEIHandler.FUEL_REPROCESSOR.getUid(), 0, 1, 9, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerAlloyFurnace.class, JEIHandler.ALLOY_FURNACE.getUid(), 0, 2, 5, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerInfuser.class, JEIHandler.INFUSER.getUid(), 0, 1, 4, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerMelter.class, JEIHandler.MELTER.getUid(), 0, 1, 3, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerSupercooler.class, JEIHandler.SUPERCOOLER.getUid(), 0, 0, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerElectrolyzer.class, JEIHandler.ELECTROLYZER.getUid(), 0, 0, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerAssembler.class, JEIHandler.ASSEMBLER.getUid(), 0, 4, 7, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerIngotFormer.class, JEIHandler.INGOT_FORMER.getUid(), 0, 0, 3, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerPressurizer.class, JEIHandler.PRESSURIZER.getUid(), 0, 1, 4, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerChemicalReactor.class, JEIHandler.CHEMICAL_REACTOR.getUid(), 0, 0, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, JEIHandler.SALT_MIXER.getUid(), 0, 0, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, JEIHandler.CRYSTALLIZER.getUid(), 0, 0, 3, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerEnricher.class, JEIHandler.ENRICHER.getUid(), 0, 1, 3, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerExtractor.class, JEIHandler.EXTRACTOR.getUid(), 0, 1, 4, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, JEIHandler.CENTRIFUGE.getUid(), 0, 0, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUid(), 0, 1, 6, 36);
 		
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionIrradiator.class, JEIHandler.FISSION_IRRADIATOR.getUid(), 0, 1, 2, 36);
-		// recipeTransferRegistry.addRecipeTransferHandler(ContainerPebbleFissionChamber.class, JEIHandler.PEBBLE_FISSION.getUid(), 0, 1, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUid(), 0, 1, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionVessel.class, JEIHandler.SALT_FISSION.getUid(), 0, 0, 0, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltFissionHeater.class, JEIHandler.COOLANT_HEATER.getUid(), 0, 0, 0, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerFissionIrradiator.class, JEIHandler.FISSION_IRRADIATOR.getUid(), 0, 1, 2, 36);
+		// transferRegistry.addRecipeTransferHandler(ContainerPebbleFissionChamber.class, JEIHandler.PEBBLE_FISSION.getUid(), 0, 1, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUid(), 0, 1, 2, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerSaltFissionVessel.class, JEIHandler.SALT_FISSION.getUid(), 0, 0, 0, 36);
+		transferRegistry.addRecipeTransferHandler(ContainerSaltFissionHeater.class, JEIHandler.COOLANT_HEATER.getUid(), 0, 0, 0, 36);
 		
 		for (int i = 0; i < MetaEnums.OreType.values().length; ++i) {
 			if (!ore_gen[i] && ore_hide_disabled) {
@@ -276,7 +278,7 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public JEIBasicCategory<?> getCategory(IGuiHelper guiHelper) {
+		public JEIRecipeCategory<?> getCategory(IGuiHelper guiHelper) {
 			switch (this) {
 				case MANUFACTORY:
 					return new ManufactoryCategory(guiHelper, this);
@@ -426,24 +428,5 @@ public class NCJEI implements IModPlugin {
 				}
 		}
 		return list;
-	}
-	
-	public static interface IJEIHandler<WRAPPER extends JEIRecipeWrapper<WRAPPER>> {
-		
-		public JEIBasicCategory<?> getCategory(IGuiHelper guiHelper);
-		
-		public BasicRecipeHandler getRecipeHandler();
-		
-		public Class<WRAPPER> getRecipeWrapperClass();
-		
-		public List<WRAPPER> getJEIRecipes(IGuiHelper guiHelper);
-		
-		public String getUid();
-		
-		public boolean getEnabled();
-		
-		public List<ItemStack> getCrafters();
-		
-		public String getTextureName();
 	}
 }

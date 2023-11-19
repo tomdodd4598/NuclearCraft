@@ -28,12 +28,12 @@ public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TI
 	
 	protected void addMachineSlots(EntityPlayer player) {
 		for (int i = 0; i < info.itemInputSize; ++i) {
-			int[] stackXY = info.getItemInputStackXY(i);
+			int[] stackXY = info.itemInputStackXY.get(i);
 			addSlotToContainer(new SlotProcessorInput(tile, recipeHandler, i, stackXY[0], stackXY[1]));
 		}
 		
 		for (int i = 0; i < info.itemOutputSize; ++i) {
-			int[] stackXY = info.getItemOutputStackXY(i);
+			int[] stackXY = info.itemOutputStackXY.get(i);
 			addSlotToContainer(new SlotFurnace(player, tile, i + info.itemInputSize, stackXY[0], stackXY[1]));
 		}
 	}

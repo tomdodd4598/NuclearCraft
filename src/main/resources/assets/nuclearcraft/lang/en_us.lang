@@ -3216,7 +3216,6 @@ nuclearcraft.multiblock_gui.coolant_heater.jei_name=Molten Salt Cooling
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Heat Exchanger Tube
 nuclearcraft.multiblock_gui.condenser.jei_name=Condensation Tube
 nuclearcraft.multiblock_gui.turbine.jei_name=Turbine
-nuclearcraft.radiation_scrubber.jei_name=Radiation Scrubber
 
 advancement.nuclearcraft.root.name=NuclearCraft
 advancement.nuclearcraft.root.desc=Nuclear Physics, Minecraft Style
@@ -3236,7 +3235,7 @@ advancement.nuclearcraft.electrolyzer.desc=Craft an Electrolyzer
 advancement.nuclearcraft.decay_generator.name=Alpha Power
 advancement.nuclearcraft.decay_generator.desc=Craft a Decay Generator
 
-advancement.nuclearcraft.bin.name=Mr. Dilkington
+advancement.nuclearcraft.bin.name=Mr Dilkington
 advancement.nuclearcraft.bin.desc=Craft a Universal Bin
 
 advancement.nuclearcraft.portable_ender_chest.name=Mary Poppins
@@ -3688,20 +3687,20 @@ nc.sf.bearing0=%s rotor bearing
 nc.sf.connector0=%s valid coil connector
 nc.sf.connector1=%s valid coil connectors
 
-nc.sf.any_coil0=%s of any dynamo coil
-nc.sf.any_coil1=any %s dynamo coils
-nc.sf.magnesium_coil0=%s magnesium dynamo coil
-nc.sf.magnesium_coil1=%s magnesium dynamo coils
-nc.sf.beryllium_coil0=%s beryllium dynamo coil
-nc.sf.beryllium_coil1=%s beryllium dynamo coils
-nc.sf.aluminum_coil0=%s aluminum dynamo coil
-nc.sf.aluminum_coil1=%s aluminum dynamo coils
-nc.sf.gold_coil0=%s gold dynamo coil
-nc.sf.gold_coil1=%s gold dynamo coils
-nc.sf.copper_coil0=%s copper dynamo coil
-nc.sf.copper_coil1=%s copper dynamo coils
-nc.sf.silver_coil0=%s silver dynamo coil
-nc.sf.silver_coil1=%s silver dynamo coils
+nc.sf.any_coil0=%s of any valid dynamo coil
+nc.sf.any_coil1=any %s valid dynamo coils
+nc.sf.magnesium_coil0=%s valid magnesium dynamo coil
+nc.sf.magnesium_coil1=%s valid magnesium dynamo coils
+nc.sf.beryllium_coil0=%s valid beryllium dynamo coil
+nc.sf.beryllium_coil1=%s valid beryllium dynamo coils
+nc.sf.aluminum_coil0=%s valid aluminum dynamo coil
+nc.sf.aluminum_coil1=%s valid aluminum dynamo coils
+nc.sf.gold_coil0=%s valid gold dynamo coil
+nc.sf.gold_coil1=%s valid gold dynamo coils
+nc.sf.copper_coil0=%s valid copper dynamo coil
+nc.sf.copper_coil1=%s valid copper dynamo coils
+nc.sf.silver_coil0=%s valid silver dynamo coil
+nc.sf.silver_coil1=%s valid silver dynamo coils
 
 nc.sf.power_adverb0=be constant
 nc.sf.power_adverb1=%s linearly

@@ -1,6 +1,6 @@
 package nc.radiation;
 
-import java.util.*;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
@@ -24,10 +24,13 @@ public class RadBlockEffects {
 		}
 		
 		@Override
-		public List<Object> fixExtras(List<Object> extras) {
-			List<Object> fixed = new ArrayList<>(1);
-			fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : Double.MAX_VALUE);
-			return fixed;
+		protected void setStats() {}
+		
+		@Override
+		public List<Object> fixedExtras(List<Object> extras) {
+			ExtrasFixer fixer = new ExtrasFixer(extras);
+			fixer.add(Double.class, Double.MAX_VALUE);
+			return fixer.fixed;
 		}
 	}
 	
@@ -43,10 +46,13 @@ public class RadBlockEffects {
 		}
 		
 		@Override
-		public List<Object> fixExtras(List<Object> extras) {
-			List<Object> fixed = new ArrayList<>(1);
-			fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 0D);
-			return fixed;
+		protected void setStats() {}
+		
+		@Override
+		public List<Object> fixedExtras(List<Object> extras) {
+			ExtrasFixer fixer = new ExtrasFixer(extras);
+			fixer.add(Double.class, 0D);
+			return fixer.fixed;
 		}
 	}
 }

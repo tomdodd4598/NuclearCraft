@@ -10,8 +10,7 @@ import li.cil.oc.api.machine.*;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.radiation.RadiationHelper;
 import nc.radiation.environment.*;
-import nc.recipe.*;
-import nc.tile.internal.energy.EnergyConnection;
+import nc.recipe.BasicRecipe;
 import nc.tile.processor.TileProcessorImpl.TileBasicProcessor;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
@@ -30,8 +29,7 @@ public class TileRadiationScrubber extends TileBasicProcessor<TileRadiationScrub
 	private int radCheckCount = 0;
 	
 	public TileRadiationScrubber() {
-		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.radiation_scrubber_valid_fluids, NCMath.toInt(20 * RecipeStats.getScrubberMaxProcessPower()), NCRecipes.radiation_scrubber);
-		setEnergyConnectionAll(EnergyConnection.IN);
+		super("radiation_scrubber");
 	}
 	
 	@Override

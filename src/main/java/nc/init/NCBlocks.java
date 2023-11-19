@@ -376,7 +376,7 @@ public class NCBlocks {
 			nitrogen_collector_dense = withName(new BlockSimpleTile<>("nitrogen_collector_dense"));
 		}
 		
-		radiation_scrubber = withName(new BlockScrubber("radiation_scrubber"));
+		radiation_scrubber = withName(new BlockRadiationScrubber("radiation_scrubber"));
 		
 		geiger_block = withName(new BlockGeigerCounter("geiger_block"));
 		

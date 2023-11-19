@@ -46,16 +46,19 @@ public class SolidFissionRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(7);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Integer ? (int) extras.get(1) : 0);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		fixed.add(extras.size() > 3 && extras.get(3) instanceof Integer ? (int) extras.get(3) : 1);
-		fixed.add(extras.size() > 4 && extras.get(4) instanceof Double ? (double) extras.get(4) : 0D);
-		fixed.add(extras.size() > 5 && extras.get(5) instanceof Boolean ? (boolean) extras.get(5) : false);
-		fixed.add(extras.size() > 6 && extras.get(6) instanceof Double ? (double) extras.get(6) : 0D);
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	protected List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(Integer.class, 1);
+		fixer.add(Integer.class, 0);
+		fixer.add(Double.class, 0D);
+		fixer.add(Integer.class, 1);
+		fixer.add(Double.class, 0D);
+		fixer.add(Boolean.class, false);
+		fixer.add(Double.class, 0D);
+		return fixer.fixed;
 	}
 	
 	// Explicitly exclude uranium and plutonium ingots

@@ -2,7 +2,7 @@ package nc.recipe.multiblock;
 
 import static nc.config.NCConfig.*;
 
-import java.util.*;
+import java.util.List;
 
 import nc.recipe.BasicRecipeHandler;
 
@@ -20,13 +20,16 @@ public class TurbineRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(5);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 0D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 1D);
-		fixed.add(extras.size() > 3 && extras.get(3) instanceof String ? (String) extras.get(3) : "cloud");
-		fixed.add(extras.size() > 4 && extras.get(4) instanceof Double ? (double) extras.get(4) : 1D / 23.2D);
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	protected List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(Double.class, 0D);
+		fixer.add(Double.class, 1D);
+		fixer.add(Double.class, 1D);
+		fixer.add(String.class, "cloud");
+		fixer.add(Double.class, 1D / 23.2D);
+		return fixer.fixed;
 	}
 }

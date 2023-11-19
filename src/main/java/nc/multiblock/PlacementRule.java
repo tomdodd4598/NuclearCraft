@@ -782,10 +782,13 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 		public void addRecipes() {}
 		
 		@Override
-		public List<Object> fixExtras(List<Object> extras) {
-			List<Object> fixed = new ArrayList<>(1);
-			fixed.add(extras.size() > 0 && extras.get(0) instanceof String ? (String) extras.get(0) : "");
-			return fixed;
+		protected void setStats() {}
+		
+		@Override
+		protected List<Object> fixedExtras(List<Object> extras) {
+			ExtrasFixer fixer = new ExtrasFixer(extras);
+			fixer.add(String.class, "");
+			return fixer.fixed;
 		}
 	}
 }

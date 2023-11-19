@@ -18,135 +18,149 @@ public class TileProcessorImpl {
 		}
 	}
 	
-	public static class Manufactory extends TileBasicUpgradableProcessor<Manufactory> {
+	public static class TileBasicProcessorDyn extends TileBasicProcessor<TileBasicProcessorDyn> {
 		
-		public Manufactory() {
+		public TileBasicProcessorDyn() {
+			super("basic_processor_dyn");
+		}
+	}
+	
+	public static class TileBasicUpgradableProcessorDyn extends TileBasicUpgradableProcessor<TileBasicUpgradableProcessorDyn> {
+		
+		public TileBasicUpgradableProcessorDyn() {
+			super("basic_upgradable_processor_dyn");
+		}
+	}
+	
+	public static class TileManufactory extends TileBasicUpgradableProcessor<TileManufactory> {
+		
+		public TileManufactory() {
 			super("manufactory");
 		}
 	}
 	
-	public static class Separator extends TileBasicUpgradableProcessor<Separator> {
+	public static class TileSeparator extends TileBasicUpgradableProcessor<TileSeparator> {
 		
-		public Separator() {
+		public TileSeparator() {
 			super("separator");
 		}
 	}
 	
-	public static class DecayHastener extends TileBasicUpgradableProcessor<DecayHastener> {
+	public static class TileDecayHastener extends TileBasicUpgradableProcessor<TileDecayHastener> {
 		
-		public DecayHastener() {
+		public TileDecayHastener() {
 			super("decay_hastener");
 		}
 	}
 	
-	public static class FuelReprocessor extends TileBasicUpgradableProcessor<FuelReprocessor> {
+	public static class TileFuelReprocessor extends TileBasicUpgradableProcessor<TileFuelReprocessor> {
 		
-		public FuelReprocessor() {
+		public TileFuelReprocessor() {
 			super("fuel_reprocessor");
 		}
 	}
 	
-	public static class AlloyFurnace extends TileBasicUpgradableProcessor<AlloyFurnace> {
+	public static class TileAlloyFurnace extends TileBasicUpgradableProcessor<TileAlloyFurnace> {
 		
-		public AlloyFurnace() {
+		public TileAlloyFurnace() {
 			super("alloy_furnace");
 		}
 	}
 	
-	public static class Infuser extends TileBasicUpgradableProcessor<Infuser> {
+	public static class TileInfuser extends TileBasicUpgradableProcessor<TileInfuser> {
 		
-		public Infuser() {
+		public TileInfuser() {
 			super("infuser");
 		}
 	}
 	
-	public static class Melter extends TileBasicUpgradableProcessor<Melter> {
+	public static class TileMelter extends TileBasicUpgradableProcessor<TileMelter> {
 		
-		public Melter() {
+		public TileMelter() {
 			super("melter");
 		}
 	}
 	
-	public static class Supercooler extends TileBasicUpgradableProcessor<Supercooler> {
+	public static class TileSupercooler extends TileBasicUpgradableProcessor<TileSupercooler> {
 		
-		public Supercooler() {
+		public TileSupercooler() {
 			super("supercooler");
 		}
 	}
 	
-	public static class Electrolyzer extends TileBasicUpgradableProcessor<Electrolyzer> {
+	public static class TileElectrolyzer extends TileBasicUpgradableProcessor<TileElectrolyzer> {
 		
-		public Electrolyzer() {
+		public TileElectrolyzer() {
 			super("electrolyzer");
 		}
 	}
 	
-	public static class Assembler extends TileBasicUpgradableProcessor<Assembler> {
+	public static class TileAssembler extends TileBasicUpgradableProcessor<TileAssembler> {
 		
-		public Assembler() {
+		public TileAssembler() {
 			super("assembler");
 		}
 	}
 	
-	public static class IngotFormer extends TileBasicUpgradableProcessor<IngotFormer> {
+	public static class TileIngotFormer extends TileBasicUpgradableProcessor<TileIngotFormer> {
 		
-		public IngotFormer() {
+		public TileIngotFormer() {
 			super("ingot_former");
 		}
 	}
 	
-	public static class Pressurizer extends TileBasicUpgradableProcessor<Pressurizer> {
+	public static class TilePressurizer extends TileBasicUpgradableProcessor<TilePressurizer> {
 		
-		public Pressurizer() {
+		public TilePressurizer() {
 			super("pressurizer");
 		}
 	}
 	
-	public static class ChemicalReactor extends TileBasicUpgradableProcessor<ChemicalReactor> {
+	public static class TileChemicalReactor extends TileBasicUpgradableProcessor<TileChemicalReactor> {
 		
-		public ChemicalReactor() {
+		public TileChemicalReactor() {
 			super("chemical_reactor");
 		}
 	}
 	
-	public static class SaltMixer extends TileBasicUpgradableProcessor<SaltMixer> {
+	public static class TileSaltMixer extends TileBasicUpgradableProcessor<TileSaltMixer> {
 		
-		public SaltMixer() {
+		public TileSaltMixer() {
 			super("salt_mixer");
 		}
 	}
 	
-	public static class Crystallizer extends TileBasicUpgradableProcessor<Crystallizer> {
+	public static class TileCrystallizer extends TileBasicUpgradableProcessor<TileCrystallizer> {
 		
-		public Crystallizer() {
+		public TileCrystallizer() {
 			super("crystallizer");
 		}
 	}
 	
-	public static class Enricher extends TileBasicUpgradableProcessor<Enricher> {
+	public static class TileEnricher extends TileBasicUpgradableProcessor<TileEnricher> {
 		
-		public Enricher() {
+		public TileEnricher() {
 			super("enricher");
 		}
 	}
 	
-	public static class Extractor extends TileBasicUpgradableProcessor<Extractor> {
+	public static class TileExtractor extends TileBasicUpgradableProcessor<TileExtractor> {
 		
-		public Extractor() {
+		public TileExtractor() {
 			super("extractor");
 		}
 	}
 	
-	public static class Centrifuge extends TileBasicUpgradableProcessor<Centrifuge> {
+	public static class TileCentrifuge extends TileBasicUpgradableProcessor<TileCentrifuge> {
 		
-		public Centrifuge() {
+		public TileCentrifuge() {
 			super("centrifuge");
 		}
 	}
 	
-	public static class RockCrusher extends TileBasicUpgradableProcessor<RockCrusher> {
+	public static class TileRockCrusher extends TileBasicUpgradableProcessor<TileRockCrusher> {
 		
-		public RockCrusher() {
+		public TileRockCrusher() {
 			super("rock_crusher");
 		}
 	}

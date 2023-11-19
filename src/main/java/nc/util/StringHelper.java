@@ -11,14 +11,21 @@ public class StringHelper {
 		return s.isEmpty() ? s : (s.substring(0, 1).toUpperCase(Locale.ROOT) + s.substring(1));
 	}
 	
+	public static String toPascalCase(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (String word : s.split("_")) {
+			sb.append(word.substring(0, 1).toUpperCase(Locale.ROOT));
+			sb.append(word.substring(1));
+		}
+		return sb.toString();
+	}
+	
 	public static String starting(String s, int length) {
-		int fixedLength = Math.min(length, s.length());
-		return s.substring(0, fixedLength);
+		return s.substring(0, Math.min(length, s.length()));
 	}
 	
 	public static String ending(String s, int length) {
-		int fixedLength = Math.min(length, s.length());
-		return s.substring(s.length() - fixedLength);
+		return s.substring(Math.max(0, s.length() - length));
 	}
 	
 	public static String removePrefix(String s, int length) {
@@ -31,10 +38,6 @@ public class StringHelper {
 	
 	public static boolean beginsWith(String s, String check) {
 		return starting(s, check.length()).equals(check);
-	}
-	
-	public static String stringListConcat(List<String> list) {
-		return String.join(", ", list);
 	}
 	
 	@SafeVarargs

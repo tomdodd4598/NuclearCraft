@@ -2,7 +2,7 @@ package nc.recipe.multiblock;
 
 import static nc.config.NCConfig.rf_per_eu;
 
-import java.util.*;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
@@ -22,9 +22,12 @@ public class FissionHeatingRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	public List<Object> fixExtras(List<Object> extras) {
-		List<Object> fixed = new ArrayList<>(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 64);
-		return fixed;
+	protected void setStats() {}
+	
+	@Override
+	protected List<Object> fixedExtras(List<Object> extras) {
+		ExtrasFixer fixer = new ExtrasFixer(extras);
+		fixer.add(Integer.class, 64);
+		return fixer.fixed;
 	}
 }
