@@ -2,13 +2,13 @@ package nc.tile.radiation;
 
 import static nc.config.NCConfig.*;
 
-import java.util.Iterator;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 
 import li.cil.oc.api.machine.*;
 import nc.capability.radiation.source.IRadiationSource;
-import nc.radiation.RadiationHelper;
+import nc.radiation.*;
 import nc.radiation.environment.*;
 import nc.recipe.BasicRecipe;
 import nc.tile.processor.TileProcessorImpl.TileBasicProcessor;
@@ -26,7 +26,7 @@ public class TileRadiationScrubber extends TileBasicProcessor<TileRadiationScrub
 	
 	public final ConcurrentMap<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<>();
 	
-	private int radCheckCount = 0;
+	private int radCheckCount = RadiationHandler.RAND.nextInt(machine_update_rate * 20);
 	
 	public TileRadiationScrubber() {
 		super("radiation_scrubber");

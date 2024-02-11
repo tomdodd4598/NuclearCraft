@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import it.unimi.dsi.fastutil.ints.*;
 import nc.container.ContainerFunction;
 import nc.gui.GuiFunction;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyConnection;
@@ -23,7 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 
-public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends TileContainerInfo<TILE> {
+public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends TileContainerInfo<TILE> {
 	
 	protected final ContainerFunction<TILE> configContainerFunction;
 	protected final GuiFunction<TILE> configGuiFunction;

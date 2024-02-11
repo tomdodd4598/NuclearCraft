@@ -186,7 +186,7 @@ public class NCRecipes {
 			TConstructExtras.init();
 		}
 		
-		for (BasicRecipeHandler handler : processor_recipe_handlers) {
+		for (BasicRecipeHandler handler : getHandlers()) {
 			handler.addGTCERecipes();
 		}
 	}

@@ -6,11 +6,12 @@ import java.util.Map.Entry;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
-import nc.multiblock.tile.*;
+import nc.multiblock.internal.MultiblockValidationError;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.inventory.ITileInventory;
+import nc.tile.multiblock.*;
 import nc.util.SuperMap;
 import nc.util.SuperMap.SuperMapEntry;
 import net.minecraft.block.state.IBlockState;
@@ -497,10 +498,10 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	public void markChunksDirty() {
 		if (minimumCoord != null && maximumCoord != null && WORLD.isAreaLoaded(minimumCoord, maximumCoord)) {
 			
-			int minChunkX = WorldHelper.getChunkXFromBlock(minimumCoord);
-			int minChunkZ = WorldHelper.getChunkZFromBlock(minimumCoord);
-			int maxChunkX = WorldHelper.getChunkXFromBlock(maximumCoord);
-			int maxChunkZ = WorldHelper.getChunkZFromBlock(maximumCoord);
+			int minChunkX = MultiblockWorldHelper.getChunkXFromBlock(minimumCoord);
+			int minChunkZ = MultiblockWorldHelper.getChunkZFromBlock(minimumCoord);
+			int maxChunkX = MultiblockWorldHelper.getChunkXFromBlock(maximumCoord);
+			int maxChunkZ = MultiblockWorldHelper.getChunkZFromBlock(maximumCoord);
 			
 			for (int x = minChunkX; x <= maxChunkX; ++x) {
 				for (int z = minChunkZ; z <= maxChunkZ; ++z) {

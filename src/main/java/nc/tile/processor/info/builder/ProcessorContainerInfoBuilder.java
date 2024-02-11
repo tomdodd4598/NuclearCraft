@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import nc.container.ContainerFunction;
 import nc.gui.GuiFunction;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tab.NCTabs;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.*;
@@ -19,7 +20,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, BUILDER extends ProcessorContainerInfoBuilder<TILE, INFO, BUILDER>> {
+public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>, BUILDER extends ProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER>> {
 	
 	public final String modId;
 	public final String name;

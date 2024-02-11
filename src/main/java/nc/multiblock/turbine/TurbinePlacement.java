@@ -11,7 +11,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import nc.init.NCBlocks;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.PlacementRule.*;
-import nc.multiblock.turbine.tile.*;
+import nc.tile.turbine.*;
 import nc.util.StringHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

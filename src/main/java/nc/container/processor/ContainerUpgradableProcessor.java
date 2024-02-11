@@ -2,6 +2,7 @@ package nc.container.processor;
 
 import nc.container.slot.SlotSpecificInput;
 import nc.init.NCItems;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.UpgradableProcessorContainerInfo;
 import nc.util.Lazy;
@@ -9,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class ContainerUpgradableProcessor<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends UpgradableProcessorContainerInfo<TILE, INFO>> extends ContainerProcessor<TILE, INFO> {
+public abstract class ContainerUpgradableProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerProcessor<TILE, PACKET, INFO> {
 	
 	public ContainerUpgradableProcessor(EntityPlayer player, TILE tile) {
 		super(player, tile);

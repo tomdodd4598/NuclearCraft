@@ -6,9 +6,9 @@ import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
-import nc.multiblock.tile.port.ITilePort;
 import nc.tile.ITile;
 import nc.tile.internal.inventory.*;
+import nc.tile.multiblock.port.ITilePort;
 import nc.tile.processor.IProcessor;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -248,7 +248,7 @@ public interface ITileInventory extends ITile, ISidedInventory {
 			
 			if (pushed) {
 				if (this instanceof IProcessor) {
-					((IProcessor<?, ?>) this).refreshActivity();
+					((IProcessor<?, ?, ?>) this).refreshActivity();
 				}
 				if (this instanceof ITilePort) {
 					((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);

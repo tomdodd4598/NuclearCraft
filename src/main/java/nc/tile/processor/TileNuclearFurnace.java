@@ -44,16 +44,16 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuclearFurnace, NuclearFurnaceContainerInfo> {
+public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo> {
 	
-	public static class NuclearFurnaceContainerInfo extends ProcessorContainerInfo<TileNuclearFurnace, NuclearFurnaceContainerInfo> {
+	public static class NuclearFurnaceContainerInfo extends ProcessorContainerInfo<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo> {
 		
 		public NuclearFurnaceContainerInfo(String modId, String name, Class<TileNuclearFurnace> tileClass, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TileNuclearFurnace> guiFunction, ContainerFunction<TileNuclearFurnace> configContainerFunction, GuiFunction<TileNuclearFurnace> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
 			super(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
 		}
 	}
 	
-	public static class NuclearFurnaceContainerInfoBuilder extends ProcessorContainerInfoBuilder<TileNuclearFurnace, NuclearFurnaceContainerInfo, NuclearFurnaceContainerInfoBuilder> {
+	public static class NuclearFurnaceContainerInfoBuilder extends ProcessorContainerInfoBuilder<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo, NuclearFurnaceContainerInfoBuilder> {
 		
 		public NuclearFurnaceContainerInfoBuilder(String modId, String name, Class<TileNuclearFurnace> tileClass, Supplier<TileNuclearFurnace> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, BasicProcessorGuiFunction<TileNuclearFurnace> guiFunction) {
 			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction), ContainerMachineConfig::new, GuiFunction.of(modId, name, ContainerMachineConfig::new, GuiProcessor.SideConfig::new));
@@ -517,7 +517,7 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	
 	// ITileGui
 	
-	protected final NuclearFurnaceContainerInfo info = TileInfoHandler.<TileNuclearFurnace, NuclearFurnaceContainerInfo>getProcessorContainerInfo("nuclear_furnace");
+	protected final NuclearFurnaceContainerInfo info = TileInfoHandler.<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo>getProcessorContainerInfo("nuclear_furnace");
 	
 	@Override
 	public NuclearFurnaceContainerInfo getContainerInfo() {
@@ -613,8 +613,18 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	}
 	
 	@Override
+	public void setBaseProcessTime(double baseProcessTime) {
+		
+	}
+	
+	@Override
 	public double getBaseProcessPower() {
 		return 0;
+	}
+	
+	@Override
+	public void setBaseProcessPower(double baseProcessPower) {
+		
 	}
 	
 	@Override
@@ -628,7 +638,7 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	}
 	
 	@Override
-	public boolean isHaltedByRedstone() {
+	public boolean isHalted() {
 		return false;
 	}
 	
@@ -668,8 +678,38 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	}
 	
 	@Override
+	public void setCurrentTime(double time) {
+		
+	}
+	
+	@Override
+	public double getResetTime() {
+		return 0;
+	}
+	
+	@Override
+	public void setResetTime(double resetTime) {
+		
+	}
+	
+	@Override
 	public boolean getIsProcessing() {
 		return false;
+	}
+	
+	@Override
+	public void setIsProcessing(boolean isProcessing) {
+		
+	}
+	
+	@Override
+	public boolean getCanProcessInputs() {
+		return false;
+	}
+	
+	@Override
+	public void setCanProcessInputs(boolean canProcessInputs) {
+		
 	}
 	
 	@Override
@@ -709,6 +749,11 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	@Override
 	public RecipeInfo<BasicRecipe> getRecipeInfo() {
 		return null;
+	}
+	
+	@Override
+	public void setRecipeInfo(RecipeInfo<BasicRecipe> recipeInfo) {
+		
 	}
 	
 	@Override

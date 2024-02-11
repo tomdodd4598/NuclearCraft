@@ -5,7 +5,9 @@ import static nc.config.NCConfig.*;
 import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
+import nc.integration.jei.category.JEIRecipeCategoryImpl.*;
 import nc.integration.jei.category.info.JEICategoryInfoImpl.*;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.*;
 import nc.tile.processor.TileProcessorImpl.*;
@@ -17,14 +19,14 @@ import net.minecraft.util.text.TextFormatting;
 
 public class JEIRecipeWrapperImpl {
 	
-	public static class JEIBasicProcessorRecipeWrapper<TILE extends TileBasicProcessor<TILE>, WRAPPER extends JEIBasicProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, BasicProcessorContainerInfo<TILE>, JEIBasicProcessorRecipeWrapper<TILE, WRAPPER>> {
+	public static class JEIBasicProcessorRecipeWrapper<TILE extends TileBasicProcessor<TILE>, WRAPPER extends JEIBasicProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>, WRAPPER, JEIBasicProcessorRecipeCategory<TILE, WRAPPER>, JEIBasicProcessorCategoryInfo<TILE, WRAPPER>> {
 		
 		public JEIBasicProcessorRecipeWrapper(IGuiHelper guiHelper, JEIBasicProcessorCategoryInfo<TILE, WRAPPER> categoryInfo, BasicRecipe recipe) {
 			super(guiHelper, categoryInfo, recipe);
 		}
 	}
 	
-	public static class JEIBasicUpgradableProcessorRecipeWrapper<TILE extends TileBasicUpgradableProcessor<TILE>, WRAPPER extends JEIBasicUpgradableProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, BasicUpgradableProcessorContainerInfo<TILE>, JEIBasicUpgradableProcessorRecipeWrapper<TILE, WRAPPER>> {
+	public static class JEIBasicUpgradableProcessorRecipeWrapper<TILE extends TileBasicUpgradableProcessor<TILE>, WRAPPER extends JEIBasicUpgradableProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>, WRAPPER, JEIBasicUpgradableProcessorRecipeCategory<TILE, WRAPPER>, JEIBasicUpgradableProcessorCategoryInfo<TILE, WRAPPER>> {
 		
 		public JEIBasicUpgradableProcessorRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TILE, WRAPPER> categoryInfo, BasicRecipe recipe) {
 			super(guiHelper, categoryInfo, recipe);

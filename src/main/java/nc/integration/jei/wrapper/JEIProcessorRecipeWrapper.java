@@ -3,7 +3,9 @@ package nc.integration.jei.wrapper;
 import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
+import nc.integration.jei.category.JEIProcessorRecipeCategory;
 import nc.integration.jei.category.info.JEIProcessorCategoryInfo;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.BasicRecipe;
 import nc.tile.processor.IProcessor;
@@ -12,17 +14,17 @@ import nc.util.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIProcessorRecipeWrapper<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, INFO, WRAPPER>> extends JEIRecipeWrapper {
+public abstract class JEIProcessorRecipeWrapper<TILE extends TileEntity & IProcessor<TILE, PACKET, CONTAINER_INFO>, PACKET extends ProcessorUpdatePacket, CONTAINER_INFO extends ProcessorContainerInfo<TILE, PACKET, CONTAINER_INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY extends JEIProcessorRecipeCategory<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEIProcessorCategoryInfo<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>> extends JEIRecipeWrapper {
 	
-	protected final INFO info;
+	protected final CONTAINER_INFO info;
 	
 	protected final int tooltipX, tooltipY, tooltipW, tooltipH;
 	
-	protected JEIProcessorRecipeWrapper(IGuiHelper guiHelper, JEIProcessorCategoryInfo<TILE, INFO, WRAPPER> categoryInfo, BasicRecipe recipe) {
+	protected JEIProcessorRecipeWrapper(IGuiHelper guiHelper, CATEGORY_INFO categoryInfo, BasicRecipe recipe) {
 		this(guiHelper, categoryInfo.containerInfo, recipe);
 	}
 	
-	private JEIProcessorRecipeWrapper(IGuiHelper guiHelper, INFO info, BasicRecipe recipe) {
+	private JEIProcessorRecipeWrapper(IGuiHelper guiHelper, CONTAINER_INFO info, BasicRecipe recipe) {
 		super(guiHelper, info.getRecipeHandler(), recipe, info.jeiTexture, info.jeiBackgroundX, info.jeiBackgroundY, info.progressBarGuiX, info.progressBarGuiY, info.progressBarGuiW, info.progressBarGuiH, info.progressBarGuiU, info.progressBarGuiV);
 		this.info = info;
 		

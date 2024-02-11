@@ -5,13 +5,14 @@ import java.util.function.Supplier;
 import nc.container.ContainerFunction;
 import nc.gui.GuiFunction;
 import nc.handler.TileInfoHandler;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.UpgradableProcessorContainerInfo;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class UpgradableProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends UpgradableProcessorContainerInfo<TILE, INFO>, BUILDER extends UpgradableProcessorContainerInfoBuilder<TILE, INFO, BUILDER>> extends ProcessorContainerInfoBuilder<TILE, INFO, BUILDER> {
+public abstract class UpgradableProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>, BUILDER extends UpgradableProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER>> extends ProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER> {
 	
 	protected int[] speedUpgradeGuiXYWH = TileInfoHandler.standardSlot(132, 64);
 	protected int[] energyUpgradeGuiXYWH = TileInfoHandler.standardSlot(152, 64);

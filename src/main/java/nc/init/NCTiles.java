@@ -1,28 +1,26 @@
 package nc.init;
 
 import nc.Global;
+import nc.block.quantum.BlockQuantumComputerCodeGenerator;
 import nc.enumm.MetaEnums;
-import nc.multiblock.battery.tile.TileBattery;
-import nc.multiblock.fission.salt.tile.*;
-import nc.multiblock.fission.solid.tile.*;
-import nc.multiblock.fission.tile.*;
-import nc.multiblock.fission.tile.manager.TileFissionShieldManager;
-import nc.multiblock.fission.tile.port.*;
-import nc.multiblock.heatExchanger.HeatExchangerTubeType;
-import nc.multiblock.heatExchanger.tile.*;
-import nc.multiblock.qComputer.QuantumGateEnums;
-import nc.multiblock.qComputer.block.BlockQuantumComputerCodeGenerator;
-import nc.multiblock.qComputer.tile.*;
-import nc.multiblock.rtg.tile.TileRTG;
+import nc.multiblock.hx.HeatExchangerTubeType;
+import nc.multiblock.quantum.QuantumGateEnums;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
-import nc.multiblock.turbine.tile.*;
 import nc.tile.TileBin;
+import nc.tile.battery.TileBattery;
 import nc.tile.dummy.TileMachineInterface;
+import nc.tile.fission.*;
+import nc.tile.fission.manager.TileFissionShieldManager;
+import nc.tile.fission.port.*;
 import nc.tile.generator.*;
+import nc.tile.hx.*;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.*;
+import nc.tile.quantum.*;
 import nc.tile.radiation.*;
+import nc.tile.rtg.TileRTG;
+import nc.tile.turbine.*;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCTiles {

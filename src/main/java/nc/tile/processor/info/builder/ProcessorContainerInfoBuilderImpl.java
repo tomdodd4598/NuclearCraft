@@ -6,6 +6,7 @@ import nc.container.ContainerFunction;
 import nc.container.processor.ContainerMachineConfig;
 import nc.gui.GuiFunction;
 import nc.gui.processor.*;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,7 +14,7 @@ import net.minecraft.inventory.Container;
 
 public class ProcessorContainerInfoBuilderImpl {
 	
-	public static class BasicProcessorContainerInfoBuilder<TILE extends TileBasicProcessor<TILE>> extends ProcessorContainerInfoBuilder<TILE, BasicProcessorContainerInfo<TILE>, BasicProcessorContainerInfoBuilder<TILE>> {
+	public static class BasicProcessorContainerInfoBuilder<TILE extends TileBasicProcessor<TILE>> extends ProcessorContainerInfoBuilder<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>, BasicProcessorContainerInfoBuilder<TILE>> {
 		
 		public BasicProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, BasicProcessorGuiFunction<TILE> guiFunction) {
 			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction), ContainerMachineConfig::new, GuiFunction.of(modId, name, ContainerMachineConfig::new, GuiProcessor.SideConfig::new));
@@ -30,7 +31,7 @@ public class ProcessorContainerInfoBuilderImpl {
 		}
 	}
 	
-	public static class BasicUpgradableProcessorContainerInfoBuilder<TILE extends TileBasicUpgradableProcessor<TILE>> extends UpgradableProcessorContainerInfoBuilder<TILE, BasicUpgradableProcessorContainerInfo<TILE>, BasicUpgradableProcessorContainerInfoBuilder<TILE>> {
+	public static class BasicUpgradableProcessorContainerInfoBuilder<TILE extends TileBasicUpgradableProcessor<TILE>> extends UpgradableProcessorContainerInfoBuilder<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>, BasicUpgradableProcessorContainerInfoBuilder<TILE>> {
 		
 		public BasicUpgradableProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, BasicProcessorGuiFunction<TILE> guiFunction) {
 			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction), ContainerMachineConfig::new, GuiFunction.of(modId, name, ContainerMachineConfig::new, GuiUpgradableProcessor.SideConfig::new));

@@ -1,5 +1,6 @@
 package nc.container.processor;
 
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
 import nc.tile.radiation.TileRadiationScrubber;
@@ -7,14 +8,14 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerProcessorImpl {
 	
-	public static class ContainerBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends ContainerProcessor<TILE, BasicProcessorContainerInfo<TILE>> {
+	public static class ContainerBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends ContainerProcessor<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>> {
 		
 		public ContainerBasicProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends ContainerUpgradableProcessor<TILE, BasicUpgradableProcessorContainerInfo<TILE>> {
+	public static class ContainerBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends ContainerUpgradableProcessor<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>> {
 		
 		public ContainerBasicUpgradableProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);

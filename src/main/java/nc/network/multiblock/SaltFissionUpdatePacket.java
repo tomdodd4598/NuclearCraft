@@ -2,8 +2,7 @@ package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.salt.tile.TileSaltFissionController;
-import nc.multiblock.fission.tile.IFissionPart;
+import nc.tile.fission.*;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
 

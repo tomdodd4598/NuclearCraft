@@ -7,6 +7,7 @@ import nc.gui.NCGui;
 import nc.gui.element.*;
 import nc.network.PacketHandler;
 import nc.network.gui.*;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.*;
@@ -22,7 +23,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends NCGui {
+public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends NCGui {
 	
 	protected final EntityPlayer player;
 	
@@ -270,7 +271,7 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, IN
 		return info;
 	}
 	
-	public static class SideConfig<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends GuiProcessor<TILE, INFO> {
+	public static class SideConfig<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends GuiProcessor<TILE, PACKET, INFO> {
 		
 		public SideConfig(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);

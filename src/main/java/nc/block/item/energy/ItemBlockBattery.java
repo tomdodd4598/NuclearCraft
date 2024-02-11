@@ -1,6 +1,6 @@
 package nc.block.item.energy;
 
-import nc.multiblock.battery.IBatteryBlockType;
+import nc.block.battery.IBatteryBlockType;
 import nc.tile.internal.energy.EnergyConnection;
 import net.minecraft.block.Block;
 

@@ -7,6 +7,7 @@ import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import nc.handler.TileInfoHandler;
 import nc.integration.jei.category.*;
 import nc.integration.jei.wrapper.*;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.ProcessorContainerInfo;
@@ -14,19 +15,19 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class JEIProcessorCategoryInfo<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, INFO, WRAPPER>> implements IJEICategoryInfo<WRAPPER> {
+public abstract class JEIProcessorCategoryInfo<TILE extends TileEntity & IProcessor<TILE, PACKET, CONTAINER_INFO>, PACKET extends ProcessorUpdatePacket, CONTAINER_INFO extends ProcessorContainerInfo<TILE, PACKET, CONTAINER_INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY extends JEIProcessorRecipeCategory<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEIProcessorCategoryInfo<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>> implements IJEICategoryInfo<WRAPPER> {
 	
-	public final INFO containerInfo;
+	public final CONTAINER_INFO containerInfo;
 	
-	public final JEIProcessorRecipeCategoryFunction<TILE, INFO, WRAPPER> jeiCategoryFunction;
+	public final JEIProcessorRecipeCategoryFunction<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO> jeiCategoryFunction;
 	
 	public final Class<WRAPPER> jeiRecipeClass;
-	public final JEIProcessorRecipeWrapperFunction<TILE, INFO, WRAPPER> jeiRecipeFunction;
+	public final JEIProcessorRecipeWrapperFunction<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO> jeiRecipeFunction;
 	
 	public final List<Object> jeiCrafters;
 	
-	protected JEIProcessorCategoryInfo(String name, JEIProcessorRecipeCategoryFunction<TILE, INFO, WRAPPER> jeiCategoryFunction, Class<WRAPPER> jeiRecipeClass, JEIProcessorRecipeWrapperFunction<TILE, INFO, WRAPPER> jeiRecipeFunction, List<Object> jeiCrafters) {
-		this.containerInfo = TileInfoHandler.<TILE, INFO>getProcessorContainerInfo(name);
+	protected JEIProcessorCategoryInfo(String name, JEIProcessorRecipeCategoryFunction<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO> jeiCategoryFunction, Class<WRAPPER> jeiRecipeClass, JEIProcessorRecipeWrapperFunction<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO> jeiRecipeFunction, List<Object> jeiCrafters) {
+		this.containerInfo = TileInfoHandler.<TILE, PACKET, CONTAINER_INFO>getProcessorContainerInfo(name);
 		
 		this.jeiCategoryFunction = jeiCategoryFunction;
 		
@@ -161,9 +162,10 @@ public abstract class JEIProcessorCategoryInfo<TILE extends TileEntity & IProces
 		return containerInfo.jeiBackgroundH;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public JEIRecipeCategory<WRAPPER> getJEICategory(IGuiHelper guiHelper) {
-		return jeiCategoryFunction.apply(guiHelper, this);
+		return jeiCategoryFunction.apply(guiHelper, (CATEGORY_INFO) this);
 	}
 	
 	@Override
@@ -171,9 +173,10 @@ public abstract class JEIProcessorCategoryInfo<TILE extends TileEntity & IProces
 		return jeiRecipeClass;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public WRAPPER getJEIRecipe(IGuiHelper guiHelper, BasicRecipe recipe) {
-		return jeiRecipeFunction.apply(guiHelper, this, recipe);
+		return jeiRecipeFunction.apply(guiHelper, (CATEGORY_INFO) this, recipe);
 	}
 	
 	@Override

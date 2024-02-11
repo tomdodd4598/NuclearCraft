@@ -4,8 +4,8 @@ import java.lang.reflect.Constructor;
 
 import javax.annotation.Nonnull;
 
-import nc.multiblock.tile.ITileLogicMultiblockPart;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.ITileLogicMultiblockPart;
+import nc.tile.multiblock.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface ILogicMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILogicMultiblock<MULTIBLOCK, LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> extends IMultiblock<MULTIBLOCK, T> {

@@ -2,8 +2,8 @@ package nc.multiblock.cuboidal;
 
 import javax.annotation.*;
 
-import nc.multiblock.BlockFacing;
-import nc.multiblock.tile.TileMultiblockPart;
+import nc.multiblock.internal.BlockFacing;
+import nc.tile.multiblock.TileMultiblockPart;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 

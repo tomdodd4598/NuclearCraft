@@ -2,6 +2,7 @@ package nc.network.multiblock;
 
 import nc.multiblock.*;
 import nc.multiblock.tile.*;
+import nc.tile.multiblock.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.*;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.turbine.*;
 import net.minecraft.util.math.BlockPos;
 
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {

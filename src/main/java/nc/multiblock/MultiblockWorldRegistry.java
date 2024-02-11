@@ -4,7 +4,7 @@ import java.util.*;
 
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
-import nc.multiblock.tile.ITileMultiblockPart;
+import nc.tile.multiblock.ITileMultiblockPart;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
@@ -265,7 +265,7 @@ final class MultiblockWorldRegistry {
 		if (!worldObj.isBlockLoaded(worldLocation)) {
 			// Part goes into the waiting-for-chunk-load list
 			Set<ITileMultiblockPart> partSet;
-			long chunkHash = WorldHelper.getChunkXZHashFromBlock(worldLocation);
+			long chunkHash = MultiblockWorldHelper.getChunkXZHashFromBlock(worldLocation);
 			
 			synchronized (partsAwaitingChunkLoadMutex) {
 				if (!partsAwaitingChunkLoad.containsKey(chunkHash)) {
@@ -292,7 +292,7 @@ final class MultiblockWorldRegistry {
 	public void onPartRemovedFromWorld(final ITileMultiblockPart part) {
 		final BlockPos coord = part.getTilePos();
 		if (coord != null) {
-			long hash = WorldHelper.getChunkXZHashFromBlock(coord);
+			long hash = MultiblockWorldHelper.getChunkXZHashFromBlock(coord);
 			
 			if (partsAwaitingChunkLoad.containsKey(hash)) {
 				synchronized (partsAwaitingChunkLoadMutex) {

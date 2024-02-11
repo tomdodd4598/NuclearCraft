@@ -4,13 +4,14 @@ import java.util.List;
 
 import nc.container.ContainerFunction;
 import nc.gui.GuiFunction;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.processor.IProcessor;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class UpgradableProcessorContainerInfo<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends UpgradableProcessorContainerInfo<TILE, INFO>> extends ProcessorContainerInfo<TILE, INFO> {
+public abstract class UpgradableProcessorContainerInfo<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>> extends ProcessorContainerInfo<TILE, PACKET, INFO> {
 	
 	public final int speedUpgradeSlot;
 	public final int energyUpgradeSlot;

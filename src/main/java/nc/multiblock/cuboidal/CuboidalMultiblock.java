@@ -3,6 +3,7 @@ package nc.multiblock.cuboidal;
 import javax.vecmath.Vector3f;
 
 import nc.multiblock.*;
+import nc.multiblock.internal.MultiblockValidationError;
 import nc.util.NCMath;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

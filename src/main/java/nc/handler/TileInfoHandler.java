@@ -13,11 +13,13 @@ import nc.container.processor.ContainerProcessorImpl.*;
 import nc.gui.processor.GuiNuclearFurnace;
 import nc.gui.processor.GuiProcessorImpl.*;
 import nc.init.NCBlocks;
+import nc.integration.jei.category.JEIProcessorRecipeCategory;
 import nc.integration.jei.category.JEIRecipeCategoryImpl.JEIBasicUpgradableProcessorRecipeCategory;
 import nc.integration.jei.category.info.JEICategoryInfoImpl.JEIBasicUpgradableProcessorCategoryInfo;
 import nc.integration.jei.category.info.JEIProcessorCategoryInfo;
 import nc.integration.jei.wrapper.JEIProcessorRecipeWrapper;
-import nc.integration.jei.wrapper.JEIRecipeWrapperImpl.ManufactoryRecipeWrapper;
+import nc.integration.jei.wrapper.JEIRecipeWrapperImpl.*;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tab.NCTabs;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileMachineInterface;
@@ -38,8 +40,8 @@ public class TileInfoHandler {
 	private static final Object2ObjectMap<String, BlockSimpleTileInfo<?>> BLOCK_SIMPLE_TILE_INFO_MAP = new Object2ObjectOpenHashMap<>();
 	
 	private static final Object2ObjectMap<String, ProcessorBlockInfo<?>> PROCESSOR_BLOCK_INFO_MAP = new Object2ObjectOpenHashMap<>();
-	private static final Object2ObjectMap<String, ProcessorContainerInfo<?, ?>> PROCESSOR_CONTAINER_INFO_MAP = new Object2ObjectOpenHashMap<>();
-	private static final Object2ObjectMap<String, JEIProcessorCategoryInfo<?, ?, ?>> JEI_PROCESSOR_CATEGORY_INFO_MAP = new Object2ObjectOpenHashMap<>();
+	private static final Object2ObjectMap<String, ProcessorContainerInfo<?, ?, ?>> PROCESSOR_CONTAINER_INFO_MAP = new Object2ObjectOpenHashMap<>();
+	private static final Object2ObjectMap<String, JEIProcessorCategoryInfo<?, ?, ?, ?, ?, ?>> JEI_PROCESSOR_CATEGORY_INFO_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public static void init() {
 		putBlockSimpleTileInfo(Global.MOD_ID, "machine_interface", TileMachineInterface::new, NCTabs.machine);
@@ -90,6 +92,24 @@ public class TileInfoHandler {
 		putProcessorInfo(new BasicProcessorContainerInfoBuilder<>(Global.MOD_ID, "radiation_scrubber", TileRadiationScrubber.class, TileRadiationScrubber::new, ContainerRadiationScrubber.class, ContainerRadiationScrubber::new, GuiRadiationScrubber.class, GuiRadiationScrubber::new).setCreativeTab(NCTabs.radiation).setParticles("reddust").setConsumesInputs(true).setItemInputSlots(standardSlot(32, 35)).setFluidInputSlots(standardSlot(52, 35)).setItemOutputSlots(bigSlot(108, 31)).setFluidOutputSlots(bigSlot(136, 31)).setProgressBarGuiXYWHUV(70, 35, 37, 16, 176, 3));
 		
 		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("manufactory", JEIBasicUpgradableProcessorRecipeCategory::new, ManufactoryRecipeWrapper.class, ManufactoryRecipeWrapper::new, Arrays.asList(NCBlocks.manufactory)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("separator", JEIBasicUpgradableProcessorRecipeCategory::new, SeparatorRecipeWrapper.class, SeparatorRecipeWrapper::new, Arrays.asList(NCBlocks.separator)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("decay_hastener", JEIBasicUpgradableProcessorRecipeCategory::new, DecayHastenerRecipeWrapper.class, DecayHastenerRecipeWrapper::new, Arrays.asList(NCBlocks.decay_hastener)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("fuel_reprocessor", JEIBasicUpgradableProcessorRecipeCategory::new, FuelReprocessorRecipeWrapper.class, FuelReprocessorRecipeWrapper::new, Arrays.asList(NCBlocks.fuel_reprocessor)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("alloy_furnace", JEIBasicUpgradableProcessorRecipeCategory::new, AlloyFurnaceRecipeWrapper.class, AlloyFurnaceRecipeWrapper::new, Arrays.asList(NCBlocks.alloy_furnace)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("infuser", JEIBasicUpgradableProcessorRecipeCategory::new, InfuserRecipeWrapper.class, InfuserRecipeWrapper::new, Arrays.asList(NCBlocks.infuser)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("melter", JEIBasicUpgradableProcessorRecipeCategory::new, MelterRecipeWrapper.class, MelterRecipeWrapper::new, Arrays.asList(NCBlocks.melter)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("supercooler", JEIBasicUpgradableProcessorRecipeCategory::new, SupercoolerRecipeWrapper.class, SupercoolerRecipeWrapper::new, Arrays.asList(NCBlocks.supercooler)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("electrolyzer", JEIBasicUpgradableProcessorRecipeCategory::new, ElectrolyzerRecipeWrapper.class, ElectrolyzerRecipeWrapper::new, Arrays.asList(NCBlocks.electrolyzer)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("assembler", JEIBasicUpgradableProcessorRecipeCategory::new, AssemblerRecipeWrapper.class, AssemblerRecipeWrapper::new, Arrays.asList(NCBlocks.assembler)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("ingot_former", JEIBasicUpgradableProcessorRecipeCategory::new, IngotFormerRecipeWrapper.class, IngotFormerRecipeWrapper::new, Arrays.asList(NCBlocks.ingot_former)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("pressurizer", JEIBasicUpgradableProcessorRecipeCategory::new, PressurizerRecipeWrapper.class, PressurizerRecipeWrapper::new, Arrays.asList(NCBlocks.pressurizer)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("chemical_reactor", JEIBasicUpgradableProcessorRecipeCategory::new, ChemicalReactorRecipeWrapper.class, ChemicalReactorRecipeWrapper::new, Arrays.asList(NCBlocks.chemical_reactor)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("salt_mixer", JEIBasicUpgradableProcessorRecipeCategory::new, SaltMixerRecipeWrapper.class, SaltMixerRecipeWrapper::new, Arrays.asList(NCBlocks.salt_mixer)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("crystallizer", JEIBasicUpgradableProcessorRecipeCategory::new, CrystallizerRecipeWrapper.class, CrystallizerRecipeWrapper::new, Arrays.asList(NCBlocks.crystallizer)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("enricher", JEIBasicUpgradableProcessorRecipeCategory::new, EnricherRecipeWrapper.class, EnricherRecipeWrapper::new, Arrays.asList(NCBlocks.enricher)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("extractor", JEIBasicUpgradableProcessorRecipeCategory::new, ExtractorRecipeWrapper.class, ExtractorRecipeWrapper::new, Arrays.asList(NCBlocks.extractor)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("centrifuge", JEIBasicUpgradableProcessorRecipeCategory::new, CentrifugeRecipeWrapper.class, CentrifugeRecipeWrapper::new, Arrays.asList(NCBlocks.centrifuge)));
+		putJEIProcessorCategoryInfo(new JEIBasicUpgradableProcessorCategoryInfo<>("rock_crusher", JEIBasicUpgradableProcessorRecipeCategory::new, RockCrusherRecipeWrapper.class, RockCrusherRecipeWrapper::new, Arrays.asList(NCBlocks.rock_crusher)));
 	}
 	
 	public static <TILE extends TileEntity> void putBlockSimpleTileInfo(String modId, String name, Supplier<TILE> tileSupplier, CreativeTabs creativeTab) {
@@ -101,12 +121,12 @@ public class TileInfoHandler {
 		return (INFO) BLOCK_SIMPLE_TILE_INFO_MAP.get(name);
 	}
 	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, BUILDER extends ProcessorContainerInfoBuilder<TILE, INFO, BUILDER>> void putProcessorInfo(BUILDER builder) {
+	public static <TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>, BUILDER extends ProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER>> void putProcessorInfo(BUILDER builder) {
 		PROCESSOR_BLOCK_INFO_MAP.put(builder.name, builder.buildBlockInfo());
 		PROCESSOR_CONTAINER_INFO_MAP.put(builder.name, builder.buildContainerInfo());
 	}
 	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, INFO, WRAPPER>> void putJEIProcessorCategoryInfo(JEIProcessorCategoryInfo<TILE, INFO, WRAPPER> info) {
+	public static <TILE extends TileEntity & IProcessor<TILE, PACKET, CONTAINER_INFO>, PACKET extends ProcessorUpdatePacket, CONTAINER_INFO extends ProcessorContainerInfo<TILE, PACKET, CONTAINER_INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY extends JEIProcessorRecipeCategory<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEIProcessorCategoryInfo<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>> void putJEIProcessorCategoryInfo(CATEGORY_INFO info) {
 		JEI_PROCESSOR_CATEGORY_INFO_MAP.put(info.getName(), info);
 	}
 	
@@ -116,13 +136,13 @@ public class TileInfoHandler {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> INFO getProcessorContainerInfo(String name) {
+	public static <TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> INFO getProcessorContainerInfo(String name) {
 		return (INFO) PROCESSOR_CONTAINER_INFO_MAP.get(name);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, INFO, WRAPPER>> JEIProcessorCategoryInfo<TILE, INFO, WRAPPER> getJEIProcessorCategoryInfo(String name) {
-		return (JEIProcessorCategoryInfo<TILE, INFO, WRAPPER>) JEI_PROCESSOR_CATEGORY_INFO_MAP.get(name);
+	public static <TILE extends TileEntity & IProcessor<TILE, PACKET, CONTAINER_INFO>, PACKET extends ProcessorUpdatePacket, CONTAINER_INFO extends ProcessorContainerInfo<TILE, PACKET, CONTAINER_INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY extends JEIProcessorRecipeCategory<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEIProcessorCategoryInfo<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>> CATEGORY_INFO getJEIProcessorCategoryInfo(String name) {
+		return (CATEGORY_INFO) JEI_PROCESSOR_CATEGORY_INFO_MAP.get(name);
 	}
 	
 	public static int[] standardSlot(int x, int y) {

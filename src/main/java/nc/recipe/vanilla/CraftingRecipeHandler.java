@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import nc.*;
 import nc.enumm.MetaEnums.IngotType;
 import nc.init.*;
-import nc.multiblock.qComputer.QuantumGateEnums;
+import nc.multiblock.quantum.QuantumGateEnums;
 import nc.radiation.RadArmor;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.*;

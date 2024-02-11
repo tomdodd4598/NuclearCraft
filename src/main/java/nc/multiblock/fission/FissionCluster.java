@@ -1,7 +1,7 @@
 package nc.multiblock.fission;
 
 import it.unimi.dsi.fastutil.longs.*;
-import nc.multiblock.fission.tile.IFissionComponent;
+import nc.tile.fission.IFissionComponent;
 import nc.tile.internal.heat.HeatBuffer;
 
 public class FissionCluster {

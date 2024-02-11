@@ -2,8 +2,8 @@ package nc.multiblock.rtg;
 
 import static nc.config.NCConfig.rtg_power;
 
-import nc.multiblock.rtg.tile.TileRTG;
 import nc.radiation.RadSources;
+import nc.tile.rtg.TileRTG;
 import net.minecraft.tileentity.TileEntity;
 
 public enum RTGType {

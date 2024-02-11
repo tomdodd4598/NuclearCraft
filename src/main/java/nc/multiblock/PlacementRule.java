@@ -10,9 +10,9 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.fission.FissionPlacement;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.turbine.TurbinePlacement;
 import nc.recipe.BasicRecipeHandler;
+import nc.tile.multiblock.ITileMultiblockPart;
 import nc.util.*;
 import net.minecraft.util.EnumFacing;
 

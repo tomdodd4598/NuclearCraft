@@ -1,6 +1,8 @@
 CT Registration of machines
 Add auto-outputting to machines
 
+Fix smart insertion for fluid recipes
+
 Replace specialised NCO packet handler instance references
 
 Add IC2 reactor radiation multiplier config

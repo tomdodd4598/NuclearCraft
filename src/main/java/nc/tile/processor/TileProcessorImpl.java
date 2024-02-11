@@ -1,20 +1,31 @@
 package nc.tile.processor;
 
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
 
 public class TileProcessorImpl {
 	
-	public static abstract class TileBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends TileProcessor<TILE, BasicProcessorContainerInfo<TILE>> {
+	public static abstract class TileBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends TileProcessor<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>> {
 		
 		protected TileBasicProcessor(String name) {
 			super(name);
 		}
+		
+		@Override
+		public ProcessorUpdatePacket getTileUpdatePacket() {
+			return new ProcessorUpdatePacket(pos, isProcessing, time, getEnergyStored(), baseProcessTime, baseProcessPower, getTanks());
+		}
 	}
 	
-	public static abstract class TileBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends TileUpgradableProcessor<TILE, BasicUpgradableProcessorContainerInfo<TILE>> {
+	public static abstract class TileBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends TileUpgradableProcessor<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>> {
 		
 		protected TileBasicUpgradableProcessor(String name) {
 			super(name);
+		}
+		
+		@Override
+		public ProcessorUpdatePacket getTileUpdatePacket() {
+			return new ProcessorUpdatePacket(pos, isProcessing, time, getEnergyStored(), baseProcessTime, baseProcessPower, getTanks());
 		}
 	}
 	

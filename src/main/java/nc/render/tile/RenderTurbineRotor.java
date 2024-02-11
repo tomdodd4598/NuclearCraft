@@ -7,7 +7,7 @@ import javax.vecmath.Vector3f;
 import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.Turbine.PlaneDir;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
-import nc.multiblock.turbine.tile.TileTurbineController;
+import nc.tile.turbine.TileTurbineController;
 import nc.util.NCMath;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

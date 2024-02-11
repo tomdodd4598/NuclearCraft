@@ -4,9 +4,9 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.Multiblock;
-import nc.multiblock.battery.tile.TileBattery;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.battery.TileBattery;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.multiblock.TileBeefAbstract.SyncReason;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;

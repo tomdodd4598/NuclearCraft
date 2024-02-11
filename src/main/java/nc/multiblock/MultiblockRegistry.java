@@ -1,7 +1,7 @@
 package nc.multiblock;
 
 import it.unimi.dsi.fastutil.objects.*;
-import nc.multiblock.tile.ITileMultiblockPart;
+import nc.tile.multiblock.ITileMultiblockPart;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 

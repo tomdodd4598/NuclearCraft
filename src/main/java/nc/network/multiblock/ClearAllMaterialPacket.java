@@ -2,7 +2,7 @@ package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.Multiblock;
-import nc.multiblock.tile.ITileMultiblockPart;
+import nc.tile.multiblock.ITileMultiblockPart;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

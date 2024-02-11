@@ -1,6 +1,6 @@
 package nc.render.tile;
 
-import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
+import nc.tile.quantum.TileQuantumComputerQubit;
 import nc.util.*;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

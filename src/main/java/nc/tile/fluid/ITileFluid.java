@@ -7,9 +7,9 @@ import javax.annotation.*;
 import com.google.common.collect.Lists;
 
 import mekanism.api.gas.GasStack;
-import nc.multiblock.tile.port.ITilePort;
 import nc.tile.ITile;
 import nc.tile.internal.fluid.*;
+import nc.tile.multiblock.port.ITilePort;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IProcessor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -171,8 +171,8 @@ public interface ITileFluid extends ITile {
 	public default void onWrapperFill(int fillAmount, boolean doFill) {
 		if (doFill && fillAmount != 0) {
 			if (this instanceof IProcessor) {
-				((IProcessor<?, ?>) this).refreshRecipe();
-				((IProcessor<?, ?>) this).refreshActivity();
+				((IProcessor<?, ?, ?>) this).refreshRecipe();
+				((IProcessor<?, ?, ?>) this).refreshActivity();
 			}
 			if (this instanceof ITilePort) {
 				((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);
@@ -183,7 +183,7 @@ public interface ITileFluid extends ITile {
 	public default void onWrapperDrain(FluidStack drainStack, boolean doDrain) {
 		if (doDrain && drainStack != null && drainStack.amount != 0) {
 			if (this instanceof IProcessor) {
-				((IProcessor<?, ?>) this).refreshActivity();
+				((IProcessor<?, ?, ?>) this).refreshActivity();
 			}
 			if (this instanceof ITilePort) {
 				((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);
@@ -194,8 +194,8 @@ public interface ITileFluid extends ITile {
 	public default void onWrapperReceiveGas(int receiveAmount, boolean doTransfer) {
 		if (doTransfer && receiveAmount != 0) {
 			if (this instanceof IProcessor) {
-				((IProcessor<?, ?>) this).refreshRecipe();
-				((IProcessor<?, ?>) this).refreshActivity();
+				((IProcessor<?, ?, ?>) this).refreshRecipe();
+				((IProcessor<?, ?, ?>) this).refreshActivity();
 			}
 			if (this instanceof ITilePort) {
 				((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);
@@ -206,7 +206,7 @@ public interface ITileFluid extends ITile {
 	public default void onWrapperDrawGas(GasStack drawStack, boolean doTransfer) {
 		if (doTransfer && drawStack != null && drawStack.amount != 0) {
 			if (this instanceof IProcessor) {
-				((IProcessor<?, ?>) this).refreshActivity();
+				((IProcessor<?, ?, ?>) this).refreshActivity();
 			}
 			if (this instanceof ITilePort) {
 				((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);
@@ -260,7 +260,7 @@ public interface ITileFluid extends ITile {
 		
 		if (drained) {
 			if (this instanceof IProcessor) {
-				((IProcessor<?, ?>) this).refreshActivity();
+				((IProcessor<?, ?, ?>) this).refreshActivity();
 			}
 			if (this instanceof ITilePort) {
 				((ITilePort<?, ?, ?, ?, ?>) this).setRefreshTargetsFlag(true);

@@ -3,11 +3,12 @@ package nc.tile.processor;
 import static nc.config.NCConfig.*;
 
 import nc.init.NCItems;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.info.UpgradableProcessorContainerInfo;
 import nc.util.StackHelper;
 import net.minecraft.item.ItemStack;
 
-public abstract class TileUpgradableProcessor<TILE extends TileUpgradableProcessor<TILE, INFO>, INFO extends UpgradableProcessorContainerInfo<TILE, INFO>> extends TileProcessor<TILE, INFO> implements IUpgradableProcessor {
+public abstract class TileUpgradableProcessor<TILE extends TileUpgradableProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>> extends TileProcessor<TILE, PACKET, INFO> implements IUpgradableProcessor {
 	
 	protected TileUpgradableProcessor(String name) {
 		super(name);

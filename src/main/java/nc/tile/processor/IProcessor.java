@@ -1,10 +1,12 @@
 package nc.tile.processor;
 
-import java.util.List;
+import java.util.*;
 
-import javax.annotation.Nonnull;
+import javax.annotation.*;
 
 import it.unimi.dsi.fastutil.ints.IntList;
+import li.cil.oc.api.network.SimpleComponent;
+import nc.config.NCConfig;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
@@ -17,11 +19,15 @@ import nc.tile.inventory.ITileInventory;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.util.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
-public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, ProcessorUpdatePacket, INFO> {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, PACKET, INFO>, SimpleComponent {
 	
 	@Override
 	public INFO getContainerInfo();
@@ -30,24 +36,95 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	
 	public double getBaseProcessTime();
 	
+	public void setBaseProcessTime(double baseProcessTime);
+	
 	public double getBaseProcessPower();
 	
-	public boolean setRecipeStats();
+	public void setBaseProcessPower(double baseProcessPower);
 	
-	public boolean isProcessing();
+	public default boolean setRecipeStats() {
+		RecipeInfo<BasicRecipe> recipeInfo = getRecipeInfo();
+		setRecipeStats(recipeInfo == null ? null : recipeInfo.recipe);
+		return recipeInfo != null;
+	}
 	
-	public boolean isHaltedByRedstone();
+	public default void setRecipeStats(@Nullable BasicRecipe recipe) {
+		INFO info = getContainerInfo();
+		if (recipe == null) {
+			setBaseProcessTime(info.defaultProcessTime);
+			setBaseProcessPower(info.defaultProcessPower);
+		}
+		else {
+			setBaseProcessTime(recipe.getBaseProcessTime(info.defaultProcessTime));
+			setBaseProcessPower(recipe.getBaseProcessPower(info.defaultProcessPower));
+		}
+	}
 	
-	public boolean readyToProcess();
+	public default boolean isProcessing() {
+		return readyToProcess();
+	}
 	
-	public boolean canProcessInputs();
+	public boolean isHalted();
 	
-	public void process();
+	public default boolean readyToProcess() {
+		return getCanProcessInputs() && (!getContainerInfo().consumesInputs || getHasConsumed());
+	}
 	
-	public void finishProcess();
+	public default boolean canProcessInputs() {
+		boolean validRecipe = setRecipeStats();
+		if (getHasConsumed() && !validRecipe) {
+			int itemInputSize = getContainerInfo().itemInputSize;
+			List<ItemStack> itemInputs = getItemInputs(true);
+			for (int i = 0; i < itemInputSize; ++i) {
+				itemInputs.set(i, ItemStack.EMPTY);
+			}
+			for (Tank tank : getFluidInputs(true)) {
+				tank.setFluidStored(null);
+			}
+			setHasConsumed(false);
+		}
+		
+		boolean canProcess = validRecipe && canProduceProducts();
+		if (!canProcess) {
+			setCurrentTime(MathHelper.clamp(getCurrentTime(), 0D, getBaseProcessTime() - 1D));
+		}
+		return canProcess;
+	}
+	
+	public default void process() {
+		setCurrentTime(getCurrentTime() + getSpeedMultiplier());
+		while (getCurrentTime() >= getBaseProcessTime()) {
+			finishProcess();
+		}
+	}
+	
+	public default void finishProcess() {
+		double oldProcessTime = getBaseProcessTime();
+		produceProducts();
+		refreshRecipe();
+		double newTime = Math.max(0D, getCurrentTime() - oldProcessTime);
+		setCurrentTime(newTime);
+		setResetTime(newTime);
+		refreshActivityOnProduction();
+		if (!getCanProcessInputs()) {
+			setCurrentTime(0D);
+			setResetTime(0D);
+			int fluidInputSize = getContainerInfo().fluidInputSize;
+			List<Tank> tanks = getTanks();
+			for (int i = 0; i < fluidInputSize; ++i) {
+				if (getVoidUnusableFluidInput(i)) {
+					tanks.get(i).setFluidStored(null);
+				}
+			}
+		}
+	}
 	
 	public default void loseProgress() {
-		
+		double newTime = MathHelper.clamp(getCurrentTime() - 1.5D * getSpeedMultiplier(), 0D, getBaseProcessTime());
+		setCurrentTime(newTime);
+		if (newTime < getResetTime()) {
+			setResetTime(newTime);
+		}
 	}
 	
 	public default int getProcessTime() {
@@ -68,37 +145,82 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	
 	public double getCurrentTime();
 	
+	public void setCurrentTime(double time);
+	
+	public double getResetTime();
+	
+	public void setResetTime(double resetTime);
+	
 	public boolean getIsProcessing();
+	
+	public void setIsProcessing(boolean isProcessing);
+	
+	public boolean getCanProcessInputs();
+	
+	public void setCanProcessInputs(boolean canProcessInputs);
 	
 	public boolean getHasConsumed();
 	
 	public void setHasConsumed(boolean hasConsumed);
 	
-	public List<ItemStack> getItemInputs(boolean consumed);
-	
-	public List<Tank> getFluidInputs(boolean consumed);
-	
 	public @Nonnull NonNullList<ItemStack> getConsumedStacks();
 	
 	public @Nonnull List<Tank> getConsumedTanks();
 	
+	public default List<ItemStack> getItemInputs(boolean consumed) {
+		return consumed ? getConsumedStacks() : getInventoryStacks().subList(0, getContainerInfo().itemInputSize);
+	}
+	
+	public default List<Tank> getFluidInputs(boolean consumed) {
+		return consumed ? getConsumedTanks() : getTanks().subList(0, getContainerInfo().fluidInputSize);
+	}
+	
 	public RecipeInfo<BasicRecipe> getRecipeInfo();
 	
-	public List<IItemIngredient> getItemIngredients();
+	public void setRecipeInfo(RecipeInfo<BasicRecipe> recipeInfo);
 	
-	public List<IItemIngredient> getItemProducts();
+	public default List<IItemIngredient> getItemIngredients() {
+		return getRecipeInfo().recipe.getItemIngredients();
+	}
 	
-	public List<IFluidIngredient> getFluidIngredients();
+	public default List<IFluidIngredient> getFluidIngredients() {
+		return getRecipeInfo().recipe.getFluidIngredients();
+	}
 	
-	public List<IFluidIngredient> getFluidProducts();
+	public default List<IItemIngredient> getItemProducts() {
+		return getRecipeInfo().recipe.getItemProducts();
+	}
 	
-	public void refreshAll();
+	public default List<IFluidIngredient> getFluidProducts() {
+		return getRecipeInfo().recipe.getFluidProducts();
+	}
 	
-	public void refreshRecipe();
+	public default void refreshAll() {
+		refreshDirty();
+		setIsProcessing(isProcessing());
+		setHasConsumed(hasConsumed());
+	}
 	
-	public void refreshActivity();
+	public default void refreshDirty() {
+		refreshRecipe();
+		refreshActivity();
+	}
 	
-	public void refreshActivityOnProduction();
+	public default void refreshRecipe() {
+		boolean hasConsumed = getHasConsumed();
+		setRecipeInfo(getRecipeHandler().getRecipeInfoFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed)));
+		if (getContainerInfo().consumesInputs) {
+			consumeInputs();
+		}
+	}
+	
+	public default void refreshActivity() {
+		setCanProcessInputs(canProcessInputs());
+	}
+	
+	public default void refreshActivityOnProduction() {
+		setCanProcessInputs(canProcessInputs());
+	}
 	
 	public default boolean hasConsumed() {
 		if (!getContainerInfo().consumesInputs) {
@@ -360,7 +482,201 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public static <TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, INFO>> int energyCapacity(INFO info, double speedMultiplier, double powerMultiplier) {
+	public static <TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> int energyCapacity(INFO info, double speedMultiplier, double powerMultiplier) {
 		return NCMath.toInt(Math.ceil(RecipeStats.getProcessorMaxBaseProcessTime(info.name) / speedMultiplier) * Math.ceil(RecipeStats.getProcessorMaxBaseProcessPower(info.name) * powerMultiplier));
+	}
+	
+	// ITickable
+	
+	public default void onTick() {
+		boolean wasProcessing = getIsProcessing();
+		setIsProcessing(isProcessing());
+		boolean shouldUpdate = false;
+		
+		if (getIsProcessing()) {
+			process();
+		}
+		else {
+			getRadiationSource().setRadiationLevel(0D);
+			if (getCurrentTime() > 0D) {
+				if (getContainerInfo().losesProgress && !isHalted()) {
+					loseProgress();
+				}
+				else if (!getCanProcessInputs()) {
+					setCurrentTime(0D);
+					setResetTime(0D);
+				}
+			}
+		}
+		
+		boolean isProcessing = getIsProcessing();
+		if (wasProcessing != isProcessing) {
+			shouldUpdate = true;
+			setActivity(isProcessing);
+			sendTileUpdatePacketToAll();
+		}
+		
+		sendTileUpdatePacketToListeners();
+		
+		if (shouldUpdate) {
+			markDirty();
+		}
+	}
+	
+	// ITileInventory
+	
+	@Override
+	public default ItemStack decrStackSize(int slot, int amount) {
+		ItemStack stack = ITileInventory.super.decrStackSize(slot, amount);
+		if (!getTileWorld().isRemote) {
+			INFO info = getContainerInfo();
+			if (slot < info.itemInputSize) {
+				refreshRecipe();
+				refreshActivity();
+			}
+			else if (slot < info.itemInputSize + info.itemOutputSize) {
+				refreshActivity();
+			}
+		}
+		return stack;
+	}
+	
+	@Override
+	public default void setInventorySlotContents(int slot, ItemStack stack) {
+		ITileInventory.super.setInventorySlotContents(slot, stack);
+		if (!getTileWorld().isRemote) {
+			INFO info = getContainerInfo();
+			if (slot < info.itemInputSize) {
+				refreshRecipe();
+				refreshActivity();
+			}
+			else if (slot < info.itemInputSize + info.itemOutputSize) {
+				refreshActivity();
+			}
+		}
+	}
+	
+	@Override
+	public default boolean isItemValidForSlot(int slot, ItemStack stack) {
+		INFO info = getContainerInfo();
+		if (stack.isEmpty() || (slot >= info.itemInputSize && slot < info.itemInputSize + info.itemOutputSize)) {
+			return false;
+		}
+		
+		if (NCConfig.smart_processor_input) {
+			return getRecipeHandler().isValidItemInput(slot, stack, getRecipeInfo(), getItemInputs(false), inputItemStacksExcludingSlot(slot));
+		}
+		else {
+			return getRecipeHandler().isValidItemInput(slot, stack);
+		}
+	}
+	
+	public default List<ItemStack> inputItemStacksExcludingSlot(int slot) {
+		List<ItemStack> inputItemsExcludingSlot = new ArrayList<>(getItemInputs(false));
+		inputItemsExcludingSlot.remove(slot);
+		return inputItemsExcludingSlot;
+	}
+	
+	@Override
+	public default boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+		return ITileInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
+	}
+	
+	@Override
+	public default void clearAllSlots() {
+		ITileInventory.super.clearAllSlots();
+		@Nonnull NonNullList<ItemStack> consumedStacks = getConsumedStacks();
+		for (int i = 0; i < consumedStacks.size(); ++i) {
+			consumedStacks.set(i, ItemStack.EMPTY);
+		}
+		refreshAll();
+	}
+	
+	@Override
+	public default NBTTagCompound writeInventory(NBTTagCompound nbt) {
+		NBTHelper.writeAllItems(nbt, getInventoryStacks(), getConsumedStacks());
+		return nbt;
+	}
+	
+	@Override
+	public default void readInventory(NBTTagCompound nbt) {
+		if (nbt.hasKey("hasConsumed")) {
+			NBTHelper.readAllItems(nbt, getInventoryStacks(), getConsumedStacks());
+		}
+		else {
+			ITileInventory.super.readInventory(nbt);
+		}
+	}
+	
+	// ITileFluid
+	
+	@Override
+	public default void clearAllTanks() {
+		ITileFluid.super.clearAllTanks();
+		for (Tank tank : getConsumedTanks()) {
+			tank.setFluidStored(null);
+		}
+		refreshAll();
+	}
+	
+	@Override
+	public default NBTTagCompound writeTanks(NBTTagCompound nbt) {
+		ITileFluid.super.writeTanks(nbt);
+		@Nonnull List<Tank> consumedTanks = getConsumedTanks();
+		for (int i = 0; i < consumedTanks.size(); ++i) {
+			consumedTanks.get(i).writeToNBT(nbt, "consumedTanks" + i);
+		}
+		return nbt;
+	}
+	
+	@Override
+	public default void readTanks(NBTTagCompound nbt) {
+		ITileFluid.super.readTanks(nbt);
+		@Nonnull List<Tank> consumedTanks = getConsumedTanks();
+		for (int i = 0; i < consumedTanks.size(); ++i) {
+			consumedTanks.get(i).readFromNBT(nbt, "consumedTanks" + i);
+		}
+	}
+	
+	// IGui
+	
+	@Override
+	public default void onTileUpdatePacket(PACKET message) {
+		setIsProcessing(message.isProcessing);
+		setCurrentTime(message.time);
+		setBaseProcessTime(message.baseProcessTime);
+		setBaseProcessPower(message.baseProcessPower);
+		
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
+			tanks.get(i).readInfo(message.tanksInfo.get(i));
+		}
+	}
+	
+	// NBT
+	
+	public default NBTTagCompound writeProcessorNBT(NBTTagCompound nbt) {
+		nbt.setDouble("time", getCurrentTime());
+		nbt.setDouble("resetTime", getResetTime());
+		nbt.setBoolean("isProcessing", getIsProcessing());
+		nbt.setBoolean("canProcessInputs", getCanProcessInputs());
+		nbt.setBoolean("hasConsumed", getHasConsumed());
+		return nbt;
+	}
+	
+	public default void readProcessorNBT(NBTTagCompound nbt) {
+		setCurrentTime(nbt.getDouble("time"));
+		setResetTime(nbt.getDouble("resetTime"));
+		setIsProcessing(nbt.getBoolean("isProcessing"));
+		setCanProcessInputs(nbt.getBoolean("canProcessInputs"));
+		setHasConsumed(nbt.getBoolean("hasConsumed"));
+	}
+	
+	// OpenComputers
+	
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public default String getComponentName() {
+		return getContainerInfo().ocComponentName;
 	}
 }

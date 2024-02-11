@@ -7,6 +7,7 @@ import nc.gui.element.*;
 import nc.init.NCItems;
 import nc.network.PacketHandler;
 import nc.network.gui.OpenTileGuiPacket;
+import nc.network.tile.ProcessorUpdatePacket;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.UpgradableProcessorContainerInfo;
 import nc.util.*;
@@ -18,7 +19,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends UpgradableProcessorContainerInfo<TILE, INFO>> extends GuiProcessor<TILE, INFO> {
+public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>> extends GuiProcessor<TILE, PACKET, INFO> {
 	
 	protected GuiItemRenderer speedUpgradeRenderer = null, energyUpgradeRenderer = null;
 	
@@ -85,7 +86,7 @@ public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcesso
 		return TextFormatting.AQUA + Lang.localize(unloc) + TextFormatting.WHITE + " x" + NCMath.decimalPlaces(mult, 2);
 	}
 	
-	public static class SideConfig<TILE extends TileEntity & IProcessor<TILE, INFO>, INFO extends UpgradableProcessorContainerInfo<TILE, INFO>> extends GuiUpgradableProcessor<TILE, INFO> {
+	public static class SideConfig<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>> extends GuiUpgradableProcessor<TILE, PACKET, INFO> {
 		
 		public SideConfig(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);

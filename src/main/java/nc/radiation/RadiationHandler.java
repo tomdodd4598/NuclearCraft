@@ -39,7 +39,7 @@ import vazkii.patchouli.common.item.ItemModBook;
 
 public class RadiationHandler {
 	
-	private static final Random RAND = new Random();
+	public static final Random RAND = new Random();
 	
 	private static final String RAD_X_WORE_OFF = Lang.localize("message.nuclearcraft.rad_x_wore_off");
 	private static final String RAD_WARNING = Lang.localize("message.nuclearcraft.rad_warning");

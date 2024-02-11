@@ -1,8 +1,8 @@
 package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
-import nc.multiblock.qComputer.tile.TileQuantumComputerQubit;
 import nc.network.tile.TileUpdatePacket;
+import nc.tile.quantum.TileQuantumComputerQubit;
 import net.minecraft.util.math.BlockPos;
 
 public class QuantumComputerQubitRenderPacket extends TileUpdatePacket {
