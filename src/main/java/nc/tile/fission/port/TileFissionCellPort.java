@@ -3,23 +3,42 @@ package nc.tile.fission.port;
 import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import nc.network.multiblock.FissionCellPortUpdatePacket;
+import nc.container.ContainerFunction;
+import nc.gui.*;
+import nc.handler.TileInfoHandler;
+import nc.network.tile.multiblock.port.ItemPortUpdatePacket;
 import nc.recipe.NCRecipes;
-import nc.tile.ITileGui;
+import nc.tile.*;
 import nc.tile.fission.TileSolidFissionCell;
+import nc.tile.fission.port.TileFissionCellPort.FissionCellPortContainerInfo;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 
-public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort, TileSolidFissionCell> implements ITileGui<FissionCellPortUpdatePacket> {
+public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort, TileSolidFissionCell> implements ITileGui<TileFissionCellPort, ItemPortUpdatePacket, FissionCellPortContainerInfo> {
 	
-	protected Set<EntityPlayer> updatePacketListeners;
+	public static class FissionCellPortContainerInfo extends TileContainerInfo<TileFissionCellPort> {
+		
+		public FissionCellPortContainerInfo(String modId, String name, Class<? extends Container> containerClass, ContainerFunction<TileFissionCellPort> containerFunction, Class<? extends GuiContainer> guiClass, GuiInfoTileFunction<TileFissionCellPort> guiFunction) {
+			super(modId, name, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction));
+		}
+	}
+	
+	protected final FissionCellPortContainerInfo info = TileInfoHandler.getTileContainerInfo("fission_cell_port");
+	
+	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
 	public TileFissionCellPort() {
 		super(TileFissionCellPort.class, "cell", NCRecipes.solid_fission);
-		
-		updatePacketListeners = new ObjectOpenHashSet<>();
+	}
+	
+	@Override
+	public FissionCellPortContainerInfo getContainerInfo() {
+		return info;
 	}
 	
 	@Override
@@ -40,26 +59,21 @@ public class TileFissionCellPort extends TileFissionItemPort<TileFissionCellPort
 	// ITileGui
 	
 	@Override
-	public int getGuiID() {
-		return 301;
-	}
-	
-	@Override
 	public Set<EntityPlayer> getTileUpdatePacketListeners() {
 		return updatePacketListeners;
 	}
 	
 	@Override
-	public FissionCellPortUpdatePacket getTileUpdatePacket() {
-		return new FissionCellPortUpdatePacket(pos, masterPortPos, getFilterStacks());
+	public ItemPortUpdatePacket getTileUpdatePacket() {
+		return new ItemPortUpdatePacket(pos, masterPortPos, getFilterStacks());
 	}
 	
 	@Override
-	public void onTileUpdatePacket(FissionCellPortUpdatePacket message) {
+	public void onTileUpdatePacket(ItemPortUpdatePacket message) {
 		masterPortPos = message.masterPortPos;
 		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();
 		}
-		getFilterStacks().set(0, message.filterStack);
+		IntStream.range(0, filterStacks.size()).forEach(x -> filterStacks.set(x, message.filterStacks.get(x)));
 	}
 }

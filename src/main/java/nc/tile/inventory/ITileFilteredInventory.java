@@ -10,11 +10,7 @@ public interface ITileFilteredInventory extends ITileFiltered, ITileInventory {
 	
 	public @Nonnull NonNullList<ItemStack> getInventoryStacksInternal();
 	
-	public boolean isItemValidForSlotInternal(int slot, ItemStack stack);
-	
 	public @Nonnull NonNullList<ItemStack> getFilterStacks();
 	
-	// public ItemStack getFilterStack(int slot);
-	
-	// public ItemStack setFilterStack(int slot, ItemStack stack);
+	public boolean isItemValidForSlotInternal(int slot, ItemStack stack);
 }

@@ -6,63 +6,96 @@ import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
 import static nc.util.PosHelper.DEFAULT_NON;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 import javax.annotation.*;
 
 import com.google.common.collect.Lists;
 
-import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
-import nc.ModCheck;
+import nc.*;
+import nc.container.ContainerFunction;
+import nc.container.processor.ContainerMachineConfig;
+import nc.gui.*;
+import nc.gui.processor.*;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
-import nc.network.multiblock.SaltFissionHeaterUpdatePacket;
+import nc.network.tile.multiblock.SaltFissionHeaterUpdatePacket;
 import nc.recipe.*;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.tile.ITileGui;
 import nc.tile.fission.IFissionFuelComponent.ModeratorBlockInfo;
+import nc.tile.fission.TileSaltFissionHeater.SaltFissionHeaterContainerInfo;
 import nc.tile.fission.port.*;
 import nc.tile.fluid.*;
-import nc.tile.generator.IFluidGenerator;
 import nc.tile.internal.fluid.*;
+import nc.tile.internal.fluid.Tank.TankInfo;
+import nc.tile.internal.inventory.*;
+import nc.tile.inventory.ITileInventory;
+import nc.tile.processor.IProcessor;
+import nc.tile.processor.info.ProcessorContainerInfo;
+import nc.tile.processor.info.builder.ProcessorContainerInfoBuilder;
 import nc.util.CapabilityHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileSaltFissionHeater extends TileFissionPart implements ITileFilteredFluid, ITileGui<SaltFissionHeaterUpdatePacket>, IFluidGenerator, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
+public class TileSaltFissionHeater extends TileFissionPart implements IProcessor<TileSaltFissionHeater, SaltFissionHeaterUpdatePacket, SaltFissionHeaterContainerInfo>, ITileFilteredFluid, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, null), new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
-	protected final @Nonnull List<Tank> filterTanks = Lists.newArrayList(new Tank(1000, null), new Tank(1000, new ArrayList<>()));
-	protected final @Nonnull List<Tank> consumedTanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
+	public static class SaltFissionHeaterContainerInfo extends ProcessorContainerInfo<TileSaltFissionHeater, SaltFissionHeaterUpdatePacket, SaltFissionHeaterContainerInfo> {
+		
+		public SaltFissionHeaterContainerInfo(String modId, String name, Class<? extends Container> containerClass, ContainerFunction<TileSaltFissionHeater> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TileSaltFissionHeater> guiFunction, ContainerFunction<TileSaltFissionHeater> configContainerFunction, GuiFunction<TileSaltFissionHeater> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
+			super(modId, name, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
+		}
+	}
 	
-	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
+	public static class SaltFissionHeaterContainerInfoBuilder extends ProcessorContainerInfoBuilder<TileSaltFissionHeater, SaltFissionHeaterUpdatePacket, SaltFissionHeaterContainerInfo, SaltFissionHeaterContainerInfoBuilder> {
+		
+		public SaltFissionHeaterContainerInfoBuilder(String modId, String name, Class<TileSaltFissionHeater> tileClass, Supplier<TileSaltFissionHeater> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TileSaltFissionHeater> containerFunction, Class<? extends GuiContainer> guiClass, GuiInfoTileFunction<TileSaltFissionHeater> guiFunction) {
+			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction), ContainerMachineConfig::new, GuiFunction.of(modId, name, ContainerMachineConfig::new, GuiProcessor.SideConfig::new));
+			infoFunction = SaltFissionHeaterContainerInfo::new;
+		}
+	}
 	
-	protected @Nonnull FluidTileWrapper[] fluidSides;
+	protected final SaltFissionHeaterContainerInfo info;
 	
-	protected @Nonnull GasTileWrapper gasWrapper;
+	protected final @Nonnull String inventoryName;
 	
-	protected final int fluidInputSize = 1, fluidOutputSize = 1;
+	protected final @Nonnull NonNullList<ItemStack> inventoryStacks;
+	protected final @Nonnull NonNullList<ItemStack> consumedStacks;
+	
+	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList());
+	
+	protected final @Nonnull List<Tank> tanks;
+	protected final @Nonnull List<Tank> consumedTanks;
+	
+	protected final @Nonnull List<Tank> filterTanks;
+	
+	protected @Nonnull FluidConnection[] fluidConnections;
+	
+	protected @Nonnull FluidTileWrapper[] fluidSides = ITileFluid.getDefaultFluidSides(this);
+	protected @Nonnull GasTileWrapper gasWrapper = new GasTileWrapper(this);
 	
 	protected int baseProcessCooling;
 	protected PlacementRule<FissionReactor, IFissionPart> placementRule = FissionPlacement.RULE_MAP.get("");
 	
 	public double heatingSpeedMultiplier; // Based on the cluster efficiency, but with heat/cooling taken into account
 	
-	public double time;
-	public boolean isProcessing, hasConsumed, canProcessInputs;
+	public double time, resetTime;
+	public boolean isProcessing, canProcessInputs, hasConsumed;
 	
-	protected RecipeInfo<BasicRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo = null;
 	
-	protected final Set<EntityPlayer> updatePacketListeners;
+	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
 	public String heaterType, coolantName;
 	
@@ -78,10 +111,19 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	/** Don't use this constructor! */
 	public TileSaltFissionHeater() {
 		super(CuboidalPartPositionType.INTERIOR);
-		fluidSides = ITileFluid.getDefaultFluidSides(this);
-		gasWrapper = new GasTileWrapper(this);
+		info = TileInfoHandler.getProcessorContainerInfo("coolant_heater");
 		
-		updatePacketListeners = new ObjectOpenHashSet<>();
+		inventoryName = Global.MOD_ID + ".container." + info.name;
+		
+		inventoryStacks = NonNullList.create();
+		consumedStacks = info.getConsumedStacks();
+		
+		tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, null), new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
+		consumedTanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, new ArrayList<>()));
+		
+		filterTanks = Lists.newArrayList(new Tank(1000, null), new Tank(1000, new ArrayList<>()));
+		
+		fluidConnections = ITileFluid.fluidConnectionAll(info.nonTankSorptions());
 	}
 	
 	public TileSaltFissionHeater(String heaterType, String coolantName) {
@@ -92,7 +134,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		filterTanks.get(0).setAllowedFluids(Lists.newArrayList(coolantName));
 	}
 	
-	protected static class Meta extends TileSaltFissionHeater {
+	public static class Meta extends TileSaltFissionHeater {
 		
 		public Meta(String heaterType, String coolantName) {
 			super(heaterType, coolantName);
@@ -383,9 +425,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		isInValidPosition = false;
 		heatingSpeedMultiplier = 0;
 		
-		refreshRecipe();
-		refreshActivity();
-		refreshIsProcessing(true, true);
+		refreshAll();
 	}
 	
 	@Override
@@ -395,8 +435,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
-		refreshRecipe();
-		refreshActivity();
+		refreshDirty();
 		
 		IFissionCoolingComponent.super.clusterSearch(id, clusterSearchCache, componentFailCache, assumedValidCache);
 		
@@ -471,56 +510,47 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public boolean onPortRefresh() {
-		refreshRecipe();
-		refreshActivity();
-		refreshIsProcessing(true, true);
-		
+		refreshAll();
 		return isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false, true);
 	}
 	
-	// Processing
+	// Ticking
 	
 	@Override
 	public void onLoad() {
 		super.onLoad();
 		if (!world.isRemote) {
 			refreshMasterPort();
-			refreshRecipe();
-			refreshActivity();
-			refreshIsProcessing(true, true);
+			refreshAll();
 		}
 	}
 	
 	@Override
 	public void update() {
 		if (!world.isRemote) {
-			boolean wasProcessing = isProcessing;
-			isProcessing = isProcessing(true, true);
-			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing && isProcessing(false, true);
-			boolean shouldUpdate = wasProcessing != isProcessing;
+			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing(true, true) && isProcessing(false, true);
 			
-			if (isProcessing) {
-				process();
-			}
-			else {
-				getRadiationSource().setRadiationLevel(0D);
-			}
+			onTick();
 			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
-			}
-			
-			sendTileUpdatePacketToListeners();
-			if (shouldUpdate) {
-				markDirty();
 			}
 		}
 	}
 	
 	@Override
+	public void refreshAll() {
+		refreshDirty();
+		refreshIsProcessing(true, true);
+	}
+	
+	@Override
 	public void refreshRecipe() {
+		boolean hasConsumed = getHasConsumed();
 		recipeInfo = NCRecipes.coolant_heater.getRecipeInfoFromHeaterInputs(heaterType, getFluidInputs(hasConsumed));
-		consumeInputs();
+		if (info.consumesInputs) {
+			consumeInputs();
+		}
 	}
 	
 	@Override
@@ -528,30 +558,120 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		canProcessInputs = canProcessInputs();
 	}
 	
+	// IProcessor
+	
 	@Override
-	public void refreshActivityOnProduction() {
-		canProcessInputs = canProcessInputs();
+	public SaltFissionHeaterContainerInfo getContainerInfo() {
+		return info;
 	}
 	
-	// Processor Stats
+	@Override
+	public BasicRecipeHandler getRecipeHandler() {
+		return NCRecipes.coolant_heater;
+	}
 	
+	@Override
+	public RecipeInfo<BasicRecipe> getRecipeInfo() {
+		return recipeInfo;
+	}
+	
+	@Override
+	public void setRecipeInfo(RecipeInfo<BasicRecipe> recipeInfo) {
+		this.recipeInfo = recipeInfo;
+	}
+	
+	@Override
+	public void setRecipeStats(@Nullable BasicRecipe recipe) {
+		// IProcessor.super.setRecipeStats(recipe);
+		baseProcessCooling = recipe == null ? 0 : recipe.getCoolantHeaterCoolingRate();
+		placementRule = FissionPlacement.RULE_MAP.get(recipe == null ? "" : recipe.getCoolantHeaterPlacementRule());
+	}
+	
+	@Override
+	public @Nonnull NonNullList<ItemStack> getConsumedStacks() {
+		return consumedStacks;
+	}
+	
+	@Override
+	public @Nonnull List<Tank> getConsumedTanks() {
+		return consumedTanks;
+	}
+	
+	@Override
+	public double getBaseProcessTime() {
+		return 1D;
+	}
+	
+	@Override
+	public void setBaseProcessTime(double baseProcessTime) {}
+	
+	@Override
+	public double getBaseProcessPower() {
+		return 0D;
+	}
+	
+	@Override
+	public void setBaseProcessPower(double baseProcessPower) {}
+	
+	@Override
+	public double getCurrentTime() {
+		return time;
+	}
+	
+	@Override
+	public void setCurrentTime(double time) {
+		this.time = time;
+	}
+	
+	@Override
+	public double getResetTime() {
+		return resetTime;
+	}
+	
+	@Override
+	public void setResetTime(double resetTime) {
+		this.resetTime = resetTime;
+	}
+	
+	@Override
+	public boolean getIsProcessing() {
+		return isProcessing;
+	}
+	
+	@Override
+	public void setIsProcessing(boolean isProcessing) {
+		this.isProcessing = isProcessing;
+	}
+	
+	@Override
+	public boolean getCanProcessInputs() {
+		return canProcessInputs;
+	}
+	
+	@Override
+	public void setCanProcessInputs(boolean canProcessInputs) {
+		this.canProcessInputs = canProcessInputs;
+	}
+	
+	@Override
+	public boolean getHasConsumed() {
+		return hasConsumed;
+	}
+	
+	@Override
+	public void setHasConsumed(boolean hasConsumed) {
+		this.hasConsumed = hasConsumed;
+	}
+	
+	@Override
 	public double getSpeedMultiplier() {
 		return heatingSpeedMultiplier;
 	}
 	
-	public boolean setRecipeStats() {
-		if (recipeInfo == null) {
-			baseProcessCooling = 0;
-			placementRule = FissionPlacement.RULE_MAP.get("");
-			return false;
-		}
-		BasicRecipe recipe = recipeInfo.recipe;
-		baseProcessCooling = recipe.getCoolantHeaterCoolingRate();
-		placementRule = FissionPlacement.RULE_MAP.get(recipe.getCoolantHeaterPlacementRule());
-		return true;
+	@Override
+	public double getPowerMultiplier() {
+		return 0D;
 	}
-	
-	// Processing
 	
 	public boolean isProcessing(boolean checkCluster, boolean checkValid) {
 		return readyToProcess(checkCluster, checkValid);
@@ -561,88 +681,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		return canProcessInputs && hasConsumed && isMultiblockAssembled() && !(checkCluster && cluster == null) && !(checkValid && !isInValidPosition);
 	}
 	
-	public boolean hasConsumed() {
-		if (world.isRemote) {
-			return hasConsumed;
-		}
-		for (int i = 0; i < fluidInputSize; ++i) {
-			if (!consumedTanks.get(i).isEmpty()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean canProcessInputs() {
-		boolean validRecipe = setRecipeStats(), canProcess = validRecipe && canProduceProducts();
-		if (hasConsumed && !validRecipe) {
-			for (Tank tank : getFluidInputs(true)) {
-				tank.setFluidStored(null);
-			}
-			hasConsumed = false;
-		}
-		if (!canProcess) {
-			time = 0D;
-		}
-		return canProcess;
-	}
-	
-	public boolean canProduceProducts() {
-		for (int j = 0; j < fluidOutputSize; ++j) {
-			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize(0) <= 0) {
-				continue;
-			}
-			if (fluidProduct.getStack() == null) {
-				return false;
-			}
-			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
-				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-					return false;
-				}
-				else if (getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	public void consumeInputs() {
-		if (hasConsumed || recipeInfo == null) {
-			return;
-		}
-		IntList fluidInputOrder = recipeInfo.getFluidInputOrder();
-		if (fluidInputOrder == AbstractRecipeHandler.INVALID) {
-			return;
-		}
-		
-		for (int i = 0; i < fluidInputSize; ++i) {
-			if (!consumedTanks.get(i).isEmpty()) {
-				consumedTanks.get(i).setFluidStored(null);
-			}
-		}
-		for (int i = 0; i < fluidInputSize; ++i) {
-			Tank tank = getTanks().get(i);
-			int maxStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
-			if (maxStackSize > 0) {
-				consumedTanks.get(i).setFluidStored(new FluidStack(tank.getFluid(), maxStackSize));
-				tank.changeFluidAmount(-maxStackSize);
-			}
-			if (tank.isEmpty()) {
-				tank.setFluidStored(null);
-			}
-		}
-		hasConsumed = true;
-	}
-	
-	public void process() {
-		time += getSpeedMultiplier();
-		while (time >= 1D) {
-			finishProcess();
-		}
-	}
-	
+	@Override
 	public void finishProcess() {
 		int oldProcessCooling = baseProcessCooling;
 		produceProducts();
@@ -665,63 +704,43 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		}
 	}
 	
-	public void produceProducts() {
-		for (int i = 0; i < fluidInputSize; ++i) {
-			consumedTanks.get(i).setFluidStored(null);
-		}
-		
-		if (!hasConsumed || recipeInfo == null) {
-			return;
-		}
-		
-		for (int j = 0; j < fluidOutputSize; ++j) {
-			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getNextStackSize(0) <= 0) {
-				continue;
-			}
-			if (getTanks().get(j + fluidInputSize).isEmpty()) {
-				getTanks().get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
-			}
-			else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
-			}
-		}
-		hasConsumed = false;
-	}
-	
-	// IProcessor
+	// ITileInventory
 	
 	@Override
-	public int getFluidInputSize() {
-		return fluidInputSize;
+	public String getName() {
+		return inventoryName;
 	}
 	
 	@Override
-	public int getFluidOutputputSize() {
-		return fluidOutputSize;
+	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
+		return inventoryStacks;
 	}
 	
 	@Override
-	public int getOtherSlotsSize() {
-		return 0;
+	public void markDirty() {
+		refreshDirty();
+		super.markDirty();
 	}
 	
 	@Override
-	public List<Tank> getFluidInputs(boolean consumed) {
-		return consumed ? consumedTanks : getTanks().subList(0, fluidInputSize);
+	public @Nonnull InventoryConnection[] getInventoryConnections() {
+		return inventoryConnections;
 	}
 	
 	@Override
-	public List<IFluidIngredient> getFluidIngredients() {
-		return recipeInfo.recipe.getFluidIngredients();
+	public void setInventoryConnections(@Nonnull InventoryConnection[] connections) {
+		inventoryConnections = connections;
 	}
 	
 	@Override
-	public List<IFluidIngredient> getFluidProducts() {
-		return recipeInfo.recipe.getFluidProducts();
+	public ItemOutputSetting getItemOutputSetting(int slot) {
+		return ItemOutputSetting.DEFAULT;
 	}
 	
-	// Fluids
+	@Override
+	public void setItemOutputSetting(int slot, ItemOutputSetting setting) {}
+	
+	// ITileFluid
 	
 	@Override
 	public @Nonnull List<Tank> getTanks() {
@@ -779,15 +798,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	
 	@Override
 	public void clearAllTanks() {
-		IFluidGenerator.super.clearAllTanks();
+		for (Tank tank : tanks) {
+			tank.setFluidStored(null);
+		}
 		for (Tank tank : consumedTanks) {
 			tank.setFluidStored(null);
 		}
-		
-		hasConsumed = false;
-		refreshRecipe();
-		refreshActivity();
-		refreshIsProcessing(true, true);
+		refreshAll();
 	}
 	
 	// ITileFilteredFluid
@@ -820,36 +837,24 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 	// ITileGui
 	
 	@Override
-	public int getGuiID() {
-		return 203;
-	}
-	
-	@Override
 	public Set<EntityPlayer> getTileUpdatePacketListeners() {
 		return updatePacketListeners;
 	}
 	
 	@Override
 	public SaltFissionHeaterUpdatePacket getTileUpdatePacket() {
-		return new SaltFissionHeaterUpdatePacket(pos, masterPortPos, getTanks(), getFilterTanks(), cluster, isProcessing, time);
+		return new SaltFissionHeaterUpdatePacket(pos, isProcessing, time, 1D, getTanks(), masterPortPos, getFilterTanks(), cluster);
 	}
 	
 	@Override
 	public void onTileUpdatePacket(SaltFissionHeaterUpdatePacket message) {
-		masterPortPos = message.masterPortPos;
-		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
+		IProcessor.super.onTileUpdatePacket(message);
+		if (DEFAULT_NON.equals(masterPortPos = message.masterPortPos) ^ masterPort == null) {
 			refreshMasterPort();
 		}
-		for (int i = 0; i < getTanks().size(); ++i) {
-			getTanks().get(i).readInfo(message.tanksInfo.get(i));
-		}
-		for (int i = 0; i < getFilterTanks().size(); ++i) {
-			getFilterTanks().get(i).readInfo(message.filterTanksInfo.get(i));
-		}
+		TankInfo.readInfoList(message.filterTankInfos, getFilterTanks());
 		clusterHeatStored = message.clusterHeatStored;
 		clusterHeatCapacity = message.clusterHeatCapacity;
-		isProcessing = message.isProcessing;
-		time = message.time;
 	}
 	
 	// NBT
@@ -861,13 +866,10 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		nbt.setString("coolantName", coolantName);
 		writeTanks(nbt);
 		
+		writeProcessorNBT(nbt);
+		
 		nbt.setInteger("baseProcessCooling", baseProcessCooling);
 		nbt.setDouble("heatingSpeedMultiplier", heatingSpeedMultiplier);
-		
-		nbt.setDouble("time", time);
-		nbt.setBoolean("isProcessing", isProcessing);
-		nbt.setBoolean("hasConsumed", hasConsumed);
-		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		
 		nbt.setLong("clusterHeat", heat);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
@@ -887,13 +889,10 @@ public class TileSaltFissionHeater extends TileFissionPart implements ITileFilte
 		}
 		readTanks(nbt);
 		
+		readProcessorNBT(nbt);
+		
 		baseProcessCooling = nbt.getInteger("baseProcessCooling");
 		heatingSpeedMultiplier = nbt.getDouble("heatingSpeedMultiplier");
-		
-		time = nbt.getDouble("time");
-		isProcessing = nbt.getBoolean("isProcessing");
-		hasConsumed = nbt.getBoolean("hasConsumed");
-		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		
 		heat = nbt.getLong("clusterHeat");
 		isInValidPosition = nbt.getBoolean("isInValidPosition");

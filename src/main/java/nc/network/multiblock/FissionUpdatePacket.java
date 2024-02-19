@@ -12,11 +12,11 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	public double meanHeatMult, totalEfficiency, meanEfficiency, sparsityEfficiencyMult;
 	
 	public FissionUpdatePacket() {
-		
+		super();
 	}
 	
 	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, HeatBuffer heatBuffer, int clusterCount, long cooling, long rawHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult) {
-		this.pos = pos;
+		super(pos);
 		this.isReactorOn = isReactorOn;
 		heatStored = heatBuffer.getHeatStored();
 		heatCapacity = heatBuffer.getHeatCapacity();
@@ -34,7 +34,7 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		isReactorOn = buf.readBoolean();
 		heatStored = buf.readLong();
 		heatCapacity = buf.readLong();
@@ -52,9 +52,7 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeBoolean(isReactorOn);
 		buf.writeLong(heatStored);
 		buf.writeLong(heatCapacity);

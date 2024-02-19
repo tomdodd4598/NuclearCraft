@@ -24,7 +24,7 @@ import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.turbine.*;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;

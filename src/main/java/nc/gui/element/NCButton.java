@@ -109,9 +109,9 @@ public abstract class NCButton extends GuiButton {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static class EmptyTank extends Blank {
+	public static class ClearTank extends Blank {
 		
-		public EmptyTank(int id, int x, int y, int width, int height) {
+		public ClearTank(int id, int x, int y, int width, int height) {
 			super(id, x, y, width, height);
 		}
 		

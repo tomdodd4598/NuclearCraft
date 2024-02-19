@@ -2,7 +2,7 @@ package nc.tile.turbine;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
-import nc.container.multiblock.ContainerTurbineController;
+import nc.container.multiblock.controller.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.util.NCMath;

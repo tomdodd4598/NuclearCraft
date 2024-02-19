@@ -10,7 +10,7 @@ import nc.Global;
 import nc.multiblock.*;
 import nc.network.multiblock.HeatExchangerUpdatePacket;
 import nc.tile.hx.*;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart> implements IPacketMultiblockLogic<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart, HeatExchangerUpdatePacket> {

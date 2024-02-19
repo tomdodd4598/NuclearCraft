@@ -11,12 +11,11 @@ import com.google.common.collect.Lists;
 
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.hx.*;
+import nc.multiblock.hx.HeatExchanger;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.*;
 import nc.util.CapabilityHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -104,7 +103,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITic
 			return;
 		}
 		
-		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		/*TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile instanceof TileHeatExchangerTube) {
 			TileHeatExchangerTube tube = (TileHeatExchangerTube) tile;
 			
@@ -118,7 +117,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITic
 			if (condenserTube.getTubeSetting(side.getOpposite()) == HeatExchangerTubeSetting.DEFAULT) {
 				getTanks().get(0).drain(condenserTube.getTanks().get(0).fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);
 			}
-		}
+		}*/
 	}
 	
 	@Override

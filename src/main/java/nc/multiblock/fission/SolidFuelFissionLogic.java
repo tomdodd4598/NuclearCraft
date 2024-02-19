@@ -19,7 +19,7 @@ import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fission.*;
 import nc.tile.fission.port.TileFissionCellPort;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;

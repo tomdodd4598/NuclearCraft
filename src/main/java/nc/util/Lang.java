@@ -1,8 +1,6 @@
 package nc.util;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
+import java.util.*;
 
 import net.minecraft.util.text.translation.I18n;
 
@@ -25,7 +23,7 @@ public class Lang {
 	}
 	
 	public static List<String> localizeAll(List<String> unloc) {
-		List<String> ret = Lists.newArrayList();
+		List<String> ret = new ArrayList<>();
 		for (String s : unloc) {
 			ret.add(localize(s));
 		}

@@ -3,9 +3,8 @@ package nc.integration.jei.wrapper;
 import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
-import nc.integration.jei.category.JEIProcessorRecipeCategory;
-import nc.integration.jei.category.info.JEIProcessorCategoryInfo;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.handler.TileInfoHandler;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.BasicRecipe;
 import nc.tile.processor.IProcessor;
@@ -14,24 +13,24 @@ import nc.util.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIProcessorRecipeWrapper<TILE extends TileEntity & IProcessor<TILE, PACKET, CONTAINER_INFO>, PACKET extends ProcessorUpdatePacket, CONTAINER_INFO extends ProcessorContainerInfo<TILE, PACKET, CONTAINER_INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY extends JEIProcessorRecipeCategory<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEIProcessorCategoryInfo<TILE, PACKET, CONTAINER_INFO, WRAPPER, CATEGORY, CATEGORY_INFO>> extends JEIRecipeWrapper {
+public abstract class JEIProcessorRecipeWrapper<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, INFO, WRAPPER>> extends JEIRecipeWrapper {
 	
-	protected final CONTAINER_INFO info;
+	protected final INFO info;
 	
 	protected final int tooltipX, tooltipY, tooltipW, tooltipH;
 	
-	protected JEIProcessorRecipeWrapper(IGuiHelper guiHelper, CATEGORY_INFO categoryInfo, BasicRecipe recipe) {
-		this(guiHelper, categoryInfo.containerInfo, recipe);
+	protected JEIProcessorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+		this(guiHelper, TileInfoHandler.<TILE, PACKET, INFO>getProcessorContainerInfo(name), recipe);
 	}
 	
-	private JEIProcessorRecipeWrapper(IGuiHelper guiHelper, CONTAINER_INFO info, BasicRecipe recipe) {
+	private JEIProcessorRecipeWrapper(IGuiHelper guiHelper, INFO info, BasicRecipe recipe) {
 		super(guiHelper, info.getRecipeHandler(), recipe, info.jeiTexture, info.jeiBackgroundX, info.jeiBackgroundY, info.progressBarGuiX, info.progressBarGuiY, info.progressBarGuiW, info.progressBarGuiH, info.progressBarGuiU, info.progressBarGuiV);
 		this.info = info;
 		
-		this.tooltipX = info.jeiTooltipX - info.jeiBackgroundX;
-		this.tooltipY = info.jeiTooltipY - info.jeiBackgroundY;
-		this.tooltipW = info.jeiTooltipW;
-		this.tooltipH = info.jeiTooltipH;
+		tooltipX = info.jeiTooltipX - info.jeiBackgroundX;
+		tooltipY = info.jeiTooltipY - info.jeiBackgroundY;
+		tooltipW = info.jeiTooltipW;
+		tooltipH = info.jeiTooltipH;
 	}
 	
 	@Override

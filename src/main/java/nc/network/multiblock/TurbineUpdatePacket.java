@@ -2,7 +2,6 @@ package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.tile.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.turbine.*;
 import net.minecraft.util.math.BlockPos;
@@ -10,18 +9,19 @@ import net.minecraft.util.math.BlockPos;
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isTurbineOn;
+	public long energy, capacity;
 	public double power, rawPower, conductivity, rotorEfficiency, powerBonus, totalExpansionLevel, idealTotalExpansionLevel, bearingTension;
-	public int energy, capacity, shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite;
+	public int shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite;
 	
 	public TurbineUpdatePacket() {
-		
+		super();
 	}
 	
 	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double rotorEfficiency, double powerBonus, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, double bearingTension) {
-		this.pos = pos;
+		super(pos);
 		this.isTurbineOn = isTurbineOn;
-		energy = energyStorage.getEnergyStored();
-		capacity = energyStorage.getMaxEnergyStored();
+		energy = energyStorage.getEnergyStoredLong();
+		capacity = energyStorage.getMaxEnergyStoredLong();
 		this.power = power;
 		this.rawPower = rawPower;
 		this.conductivity = conductivity;
@@ -39,10 +39,10 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		isTurbineOn = buf.readBoolean();
-		energy = buf.readInt();
-		capacity = buf.readInt();
+		energy = buf.readLong();
+		capacity = buf.readLong();
 		power = buf.readDouble();
 		rawPower = buf.readDouble();
 		conductivity = buf.readDouble();
@@ -60,12 +60,10 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeBoolean(isTurbineOn);
-		buf.writeInt(energy);
-		buf.writeInt(capacity);
+		buf.writeLong(energy);
+		buf.writeLong(capacity);
 		buf.writeDouble(power);
 		buf.writeDouble(rawPower);
 		buf.writeDouble(conductivity);

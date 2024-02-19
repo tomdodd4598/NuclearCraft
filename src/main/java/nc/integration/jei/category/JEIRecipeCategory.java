@@ -7,7 +7,7 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.*;
 import nc.integration.jei.JEIHelper.*;
-import nc.integration.jei.category.info.IJEICategoryInfo;
+import nc.integration.jei.category.info.JEICategoryInfo;
 import nc.integration.jei.wrapper.JEIRecipeWrapper;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
@@ -16,14 +16,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIRecipeCategory<WRAPPER extends JEIRecipeWrapper> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
+public abstract class JEIRecipeCategory<WRAPPER extends JEIRecipeWrapper, CATEGORY extends JEIRecipeCategory<WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEICategoryInfo<WRAPPER, CATEGORY, CATEGORY_INFO>> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
 	
-	protected final IJEICategoryInfo<WRAPPER> categoryInfo;
+	protected final CATEGORY_INFO categoryInfo;
 	
 	protected final String localizedTitle;
 	protected final IDrawable background;
 	
-	public JEIRecipeCategory(IGuiHelper guiHelper, IJEICategoryInfo<WRAPPER> categoryInfo) {
+	public JEIRecipeCategory(IGuiHelper guiHelper, CATEGORY_INFO categoryInfo) {
 		this.categoryInfo = categoryInfo;
 		localizedTitle = Lang.localize(categoryInfo.getJEITitle());
 		background = guiHelper.createDrawable(new ResourceLocation(categoryInfo.getJEITexture()), categoryInfo.getJEIBackgroundX(), categoryInfo.getJEIBackgroundY(), categoryInfo.getJEIBackgroundW(), categoryInfo.getJEIBackgroundH());
@@ -131,7 +131,7 @@ public abstract class JEIRecipeCategory<WRAPPER extends JEIRecipeWrapper> extend
 	
 	@Override
 	public Class<WRAPPER> getRecipeClass() {
-		return categoryInfo.getJEIRecipeClass();
+		return categoryInfo.jeiRecipeClass;
 	}
 	
 	@Override

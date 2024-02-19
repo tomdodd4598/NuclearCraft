@@ -4,84 +4,59 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.Global;
-import nc.container.multiblock.ContainerFissionIrradiator;
-import nc.gui.NCGui;
-import nc.gui.element.GuiItemRenderer;
+import nc.gui.processor.GuiFilteredProcessor;
+import nc.network.tile.multiblock.FissionIrradiatorUpdatePacket;
 import nc.tile.fission.TileFissionIrradiator;
+import nc.tile.fission.TileFissionIrradiator.FissionIrradiatorContainerInfo;
 import nc.util.*;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiFissionIrradiator extends NCGui {
+public class GuiFissionIrradiator extends GuiFilteredProcessor<TileFissionIrradiator, FissionIrradiatorUpdatePacket, FissionIrradiatorContainerInfo> {
 	
-	protected final TileFissionIrradiator irradiator;
-	protected final ResourceLocation gui_textures;
-	
-	public GuiFissionIrradiator(EntityPlayer player, TileFissionIrradiator irradiator) {
-		super(new ContainerFissionIrradiator(player, irradiator));
-		this.irradiator = irradiator;
-		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fission_irradiator" + ".png");
+	public GuiFissionIrradiator(Container inventory, EntityPlayer player, TileFissionIrradiator tile, String textureLocation) {
+		super(inventory, player, tile, textureLocation);
 	}
 	
 	@Override
-	public void renderTooltips(int mouseX, int mouseY) {
-		drawTooltip(irradiator.clusterHeatCapacity >= 0L ? heatInfo() : noClusterInfo(), mouseX, mouseY, 8, 6, 16, 74);
-	}
-	
-	public List<String> heatInfo() {
-		String heat = UnitHelper.prefix(irradiator.clusterHeatStored, irradiator.clusterHeatCapacity, 5, "H");
-		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localize("gui.nc.container.fission_irradiator.heat_stored") + TextFormatting.WHITE + " " + heat);
-	}
-	
-	public List<String> noClusterInfo() {
-		return Lists.newArrayList(TextFormatting.RED + Lang.localize("gui.nc.container.no_cluster"));
-	}
+	protected void initConfigButtons() {}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = irradiator.getMultiblock() != null && irradiator.getMultiblock().isReactorOn ? -1 : 15641088;
-		String s = Lang.localize("gui.nc.container.fission_irradiator.irradiator");
-		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
+		int fontColor = tile.getMultiblock() != null && tile.getMultiblock().isReactorOn ? -1 : 15641088;
+		fontRenderer.drawString(guiName.get(), xSize / 2 - nameWidth.get() / 2, 6, fontColor);
 	}
 	
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1F, 1F, 1F, 1F);
-		mc.getTextureManager().bindTexture(gui_textures);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+	protected void drawBars() {
+		drawProgressBar();
 		
-		new GuiItemRenderer(irradiator.getFilterStacks().get(0), guiLeft + 56, guiTop + 35, 0.5F).draw();
-		mc.getTextureManager().bindTexture(gui_textures);
-		
-		if (irradiator.clusterHeatCapacity >= 0L) {
-			int e = (int) Math.round(74D * irradiator.clusterHeatStored / irradiator.clusterHeatCapacity);
+		if (tile.clusterHeatCapacity >= 0L) {
+			int e = (int) Math.round(74D * tile.clusterHeatStored / tile.clusterHeatCapacity);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
 		else {
 			drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFF777777, 0xFF535353);
 		}
-		
-		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, getCookProgressScaled(37), 16);
-	}
-	
-	protected int getCookProgressScaled(int pixels) {
-		if (irradiator.baseProcessTime / irradiator.getSpeedMultiplier() < 4D) {
-			return irradiator.isProcessing ? pixels : 0;
-		}
-		double i = irradiator.time, j = irradiator.baseProcessTime;
-		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
 	}
 	
 	@Override
-	public void initGui() {
-		super.initGui();
-		initButtons();
+	protected boolean configButtonActionPerformed(GuiButton button) {
+		return false;
 	}
 	
-	public void initButtons() {
-		
+	@Override
+	protected void renderBarTooltips(int mouseX, int mouseY) {
+		drawTooltip(tile.clusterHeatCapacity >= 0L ? heatInfo() : noClusterInfo(), mouseX, mouseY, 8, 6, 16, 74);
 	}
+	
+	public List<String> heatInfo() {
+		String heat = UnitHelper.prefix(tile.clusterHeatStored, tile.clusterHeatCapacity, 5, "H");
+		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localize("gui.nc.container.fission_tile.heat_stored") + TextFormatting.WHITE + " " + heat);
+	}
+	
+	@Override
+	protected void renderConfigButtonTooltips(int mouseX, int mouseY) {}
 }

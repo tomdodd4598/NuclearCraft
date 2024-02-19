@@ -3,49 +3,28 @@ package nc.gui.processor;
 import java.io.IOException;
 import java.util.List;
 
-import nc.gui.NCGui;
+import nc.gui.GuiInfoTile;
 import nc.gui.element.*;
 import nc.network.PacketHandler;
 import nc.network.gui.*;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.processor.IProcessor;
-import nc.tile.processor.info.*;
+import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.util.*;
-import nc.util.Lazy.LazyInt;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends NCGui {
-	
-	protected final EntityPlayer player;
-	
-	protected final TILE tile;
-	protected final INFO info;
-	
-	protected final ResourceLocation guiTextures;
-	
-	protected final Lazy<String> guiName;
-	protected final LazyInt nameWidth;
+public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends GuiInfoTile<TILE, PACKET, INFO> {
 	
 	public GuiProcessor(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
-		super(inventory);
-		this.player = player;
-		
-		this.tile = tile;
-		info = tile.getContainerInfo();
-		
-		guiTextures = new ResourceLocation(textureLocation);
-		
-		guiName = new Lazy<>(() -> tile.getDisplayName().getUnformattedText());
-		nameWidth = new LazyInt(() -> fontRenderer.getStringWidth(guiName.get()));
+		super(inventory, player, tile, textureLocation);
 		
 		xSize = info.guiWidth;
 		ySize = info.guiHeight;
@@ -58,16 +37,23 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 	}
 	
 	protected void initButtons() {
+		initTankButtons();
+		initConfigButtons();
+	}
+	
+	protected void initTankButtons() {
 		for (int i = 0; i < info.fluidInputSize; ++i) {
 			int[] tankXYWH = info.fluidInputGuiXYWH.get(i);
-			buttonList.add(new NCButton.EmptyTank(i, guiLeft + tankXYWH[0], guiTop + tankXYWH[1], tankXYWH[2], tankXYWH[3]));
+			buttonList.add(new NCButton.ClearTank(i, guiLeft + tankXYWH[0], guiTop + tankXYWH[1], tankXYWH[2], tankXYWH[3]));
 		}
 		
 		for (int i = 0; i < info.fluidOutputSize; ++i) {
 			int[] tankXYWH = info.fluidOutputGuiXYWH.get(i);
-			buttonList.add(new NCButton.EmptyTank(i + info.fluidInputSize, guiLeft + tankXYWH[0], guiTop + tankXYWH[1], tankXYWH[2], tankXYWH[3]));
+			buttonList.add(new NCButton.ClearTank(i + info.fluidInputSize, guiLeft + tankXYWH[0], guiTop + tankXYWH[1], tankXYWH[2], tankXYWH[3]));
 		}
-		
+	}
+	
+	protected void initConfigButtons() {
 		buttonList.add(new NCButton.MachineConfig(info.getMachineConfigButtonID(), guiLeft + info.machineConfigGuiX, guiTop + info.machineConfigGuiY));
 		buttonList.add(new NCToggleButton.RedstoneControl(info.getRedstoneControlButtonID(), guiLeft + info.redstoneControlGuiX, guiTop + info.redstoneControlGuiY, tile));
 	}
@@ -101,10 +87,18 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		drawMainBackground();
+		drawTanks();
+		drawBars();
+	}
+	
+	protected void drawMainBackground() {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(guiTextures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
+	}
+	
+	protected void drawTanks() {
 		List<Tank> tanks = tile.getTanks();
 		for (int i = 0; i < info.fluidInputSize; ++i) {
 			int[] tankXYWH = info.fluidInputGuiXYWH.get(i);
@@ -116,6 +110,10 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 			GuiFluidRenderer.renderGuiTank(tanks.get(i + info.fluidInputSize), guiLeft + tankXYWH[0], guiTop + tankXYWH[1], zLevel, tankXYWH[2], tankXYWH[3]);
 		}
 		
+		mc.getTextureManager().bindTexture(guiTextures);
+	}
+	
+	protected void drawBars() {
 		drawProgressBar();
 		
 		if (tile.hasCapability(CapabilityEnergy.ENERGY, null)) {
@@ -156,62 +154,84 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (tile.getWorld().isRemote) {
-			if (NCUtil.isModifierKeyDown()) {
-				for (int i = 0; i < info.fluidInputSize + info.fluidOutputSize; ++i) {
-					if (button.id == i) {
-						PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
-						return;
-					}
-				}
-			}
-			else if (button.id == info.getMachineConfigButtonID()) {
-				PacketHandler.instance.sendToServer(new OpenSideConfigGuiPacket(tile));
-			}
-			else if (button.id == info.getRedstoneControlButtonID()) {
-				tile.setRedstoneControl(!tile.getRedstoneControl());
-				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
-			}
+			buttonActionPerformed(button);
 		}
 	}
 	
-	protected void sorptionButtonActionPerformed(GuiButton button) {
-		if (tile.getWorld().isRemote) {
-			for (int i = 0; i < info.itemInputSize; ++i) {
-				if (button.id == info.itemInputSorptionButtonID[i]) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input<>(this, tile, info.itemInputSlots[i]));
-					return;
-				}
-			}
-			
-			for (int i = 0; i < info.fluidInputSize; ++i) {
-				if (button.id == info.fluidInputSorptionButtonID[i]) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input<>(this, tile, info.fluidInputTanks[i]));
-					return;
-				}
-			}
-			
-			for (int i = 0; i < info.itemOutputSize; ++i) {
-				if (button.id == info.itemOutputSorptionButtonID[i]) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output<>(this, tile, info.itemOutputSlots[i]));
-					return;
-				}
-			}
-			
-			for (int i = 0; i < info.fluidOutputSize; ++i) {
-				if (button.id == info.fluidOutputSorptionButtonID[i]) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output<>(this, tile, info.fluidOutputTanks[i]));
-					return;
-				}
+	protected boolean buttonActionPerformed(GuiButton button) {
+		if (NCUtil.isModifierKeyDown()) {
+			if (button.id >= 0 && button.id < info.getTankCount()) {
+				clearTankAction(button.id);
+				return true;
 			}
 		}
+		
+		return configButtonActionPerformed(button);
+	}
+	
+	protected void clearTankAction(int tankNumber) {
+		PacketHandler.instance.sendToServer(new ClearTankPacket(tile, tankNumber));
+	}
+	
+	protected boolean configButtonActionPerformed(GuiButton button) {
+		if (button.id == info.getMachineConfigButtonID()) {
+			PacketHandler.instance.sendToServer(new OpenSideConfigGuiPacket(tile));
+			return true;
+		}
+		else if (button.id == info.getRedstoneControlButtonID()) {
+			tile.setRedstoneControl(!tile.getRedstoneControl());
+			PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	protected boolean sorptionButtonActionPerformed(GuiButton button) {
+		for (int i = 0; i < info.itemInputSize; ++i) {
+			if (button.id == info.itemInputSorptionButtonID[i]) {
+				FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input<>(this, tile, info.itemInputSlots[i]));
+				return true;
+			}
+		}
+		
+		for (int i = 0; i < info.fluidInputSize; ++i) {
+			if (button.id == info.fluidInputSorptionButtonID[i]) {
+				FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input<>(this, tile, info.fluidInputTanks[i]));
+				return true;
+			}
+		}
+		
+		for (int i = 0; i < info.itemOutputSize; ++i) {
+			if (button.id == info.itemOutputSorptionButtonID[i]) {
+				FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output<>(this, tile, info.itemOutputSlots[i]));
+				return true;
+			}
+		}
+		
+		for (int i = 0; i < info.fluidOutputSize; ++i) {
+			if (button.id == info.fluidOutputSorptionButtonID[i]) {
+				FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Output<>(this, tile, info.fluidOutputTanks[i]));
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	@Override
 	protected void renderTooltips(int mouseX, int mouseY) {
-		renderButtonTooltips(mouseX, mouseY);
+		renderProcessorTooltips(mouseX, mouseY);
 	}
 	
-	protected void renderButtonTooltips(int mouseX, int mouseY) {
+	protected void renderProcessorTooltips(int mouseX, int mouseY) {
+		renderTankTooltips(mouseX, mouseY);
+		renderBarTooltips(mouseX, mouseY);
+		renderConfigButtonTooltips(mouseX, mouseY);
+	}
+	
+	protected void renderTankTooltips(int mouseX, int mouseY) {
 		List<Tank> tanks = tile.getTanks();
 		for (int i = 0; i < info.fluidInputSize; ++i) {
 			int[] tankXYWH = info.fluidInputGuiXYWH.get(i);
@@ -222,12 +242,16 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 			int[] tankXYWH = info.fluidOutputGuiXYWH.get(i);
 			drawFluidTooltip(tanks.get(i + info.fluidInputSize), mouseX, mouseY, tankXYWH[0], tankXYWH[1], tankXYWH[2], tankXYWH[3]);
 		}
-		
+	}
+	
+	protected void renderBarTooltips(int mouseX, int mouseY) {
 		IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, null);
 		if (energyStorage != null) {
 			drawEnergyTooltip(energyStorage, mouseX, mouseY, info.energyBarGuiX, info.energyBarGuiY, info.energyBarGuiW, info.energyBarGuiH);
 		}
-		
+	}
+	
+	protected void renderConfigButtonTooltips(int mouseX, int mouseY) {
 		drawTooltip(Lang.localize("gui.nc.container.machine_side_config"), mouseX, mouseY, info.machineConfigGuiX, info.machineConfigGuiY, 18, 18);
 		drawTooltip(Lang.localize("gui.nc.container.redstone_control"), mouseX, mouseY, info.redstoneControlGuiX, info.redstoneControlGuiY, 18, 18);
 	}
@@ -283,12 +307,12 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 		}
 		
 		@Override
-		protected void actionPerformed(GuiButton button) {
-			sorptionButtonActionPerformed(button);
+		protected boolean buttonActionPerformed(GuiButton button) {
+			return sorptionButtonActionPerformed(button);
 		}
 		
 		@Override
-		public void renderButtonTooltips(int mouseX, int mouseY) {
+		public void renderProcessorTooltips(int mouseX, int mouseY) {
 			renderSorptionButtonTooltips(mouseX, mouseY);
 		}
 		

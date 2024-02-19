@@ -149,4 +149,8 @@ public abstract class NCGui extends GuiContainer {
 	protected void drawNoEnergyTooltip(int mouseX, int mouseY, int x, int y, int tooltipWidth, int tooltipHeight) {
 		drawTooltip(noEnergyInfo(), mouseX, mouseY, x, y, tooltipWidth, tooltipHeight);
 	}
+	
+	public List<String> noClusterInfo() {
+		return Lists.newArrayList(TextFormatting.RED + Lang.localize("gui.nc.container.no_cluster"));
+	}
 }

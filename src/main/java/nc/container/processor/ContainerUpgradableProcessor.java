@@ -2,7 +2,7 @@ package nc.container.processor;
 
 import nc.container.slot.SlotSpecificInput;
 import nc.init.NCItems;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.UpgradableProcessorContainerInfo;
 import nc.util.Lazy;
@@ -28,16 +28,13 @@ public abstract class ContainerUpgradableProcessor<TILE extends TileEntity & IPr
 	@Override
 	public ItemStack transferPlayerStack(EntityPlayer player, int index, int invStart, int invEnd, ItemStack stack) {
 		if (stack.getItem() == NCItems.upgrade) {
-			int speedUpgradeSlot = info.itemInputSize + info.itemOutputSize;
-			int energyUpgradeSlot = info.itemInputSize + info.itemOutputSize + 1;
-			
-			if (tile.isItemValidForSlot(speedUpgradeSlot, stack)) {
-				if (!mergeItemStack(stack, speedUpgradeSlot, speedUpgradeSlot + 1, false)) {
+			if (tile.isItemValidForSlot(info.speedUpgradeSlot, stack)) {
+				if (!mergeItemStack(stack, info.speedUpgradeSlot, info.speedUpgradeSlot + 1, false)) {
 					return ItemStack.EMPTY;
 				}
 			}
-			else if (tile.isItemValidForSlot(energyUpgradeSlot, stack)) {
-				if (!mergeItemStack(stack, energyUpgradeSlot, energyUpgradeSlot + 1, false)) {
+			else if (tile.isItemValidForSlot(info.energyUpgradeSlot, stack)) {
+				if (!mergeItemStack(stack, info.energyUpgradeSlot, info.energyUpgradeSlot + 1, false)) {
 					return ItemStack.EMPTY;
 				}
 			}

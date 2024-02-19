@@ -2,11 +2,9 @@ package nc.tile.internal.fluid;
 
 import java.util.*;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.*;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class Tank extends FluidTank {
 	
@@ -144,52 +142,35 @@ public class Tank extends FluidTank {
 	// Packets
 	
 	public void readInfo(TankInfo info) {
-		String name = info.name();
-		setFluid(name.equals("null") ? null : new FluidStack(FluidRegistry.getFluid(name), info.amount()));
+		setFluid(info.name.equals("null") ? null : new FluidStack(FluidRegistry.getFluid(info.name), info.amount));
 	}
 	
 	public static class TankInfo {
 		
-		private final String name;
-		private final int amount;
+		public final String name;
+		public final int amount;
 		
-		public TankInfo(Tank tank) {
-			name = tank.getFluidName();
-			amount = tank.getFluidAmount();
-		}
-		
-		private TankInfo(String name, int amount) {
+		public TankInfo(String name, int amount) {
 			this.name = name;
 			this.amount = amount;
 		}
 		
-		public String name() {
-			return name;
+		public TankInfo(Tank tank) {
+			this(tank.getFluidName(), tank.getFluidAmount());
 		}
 		
-		public int amount() {
-			return amount;
-		}
-		
-		public static List<TankInfo> infoList(List<Tank> tanks) {
-			List<TankInfo> infoList = new ArrayList<>();
+		public static List<TankInfo> getInfoList(List<Tank> tanks) {
+			List<TankInfo> tankInfos = new ArrayList<>();
 			for (Tank tank : tanks) {
-				infoList.add(new TankInfo(tank));
+				tankInfos.add(new TankInfo(tank));
 			}
-			return infoList;
+			return tankInfos;
 		}
 		
-		public static List<TankInfo> readBuf(ByteBuf buf, byte numberOfTanks) {
-			List<TankInfo> infoList = new ArrayList<>();
-			for (byte i = 0; i < numberOfTanks; ++i) {
-				infoList.add(new TankInfo(ByteBufUtils.readUTF8String(buf), buf.readInt()));
+		public static void readInfoList(List<TankInfo> tankInfos, List<Tank> tanks) {
+			for (int i = 0; i < tanks.size(); ++i) {
+				tanks.get(i).readInfo(tankInfos.get(i));
 			}
-			return infoList;
-		}
-		
-		public void writeBuf(ByteBuf buf) {
-			ByteBufUtils.writeUTF8String(buf, name);
-			buf.writeInt(amount);
 		}
 	}
 }

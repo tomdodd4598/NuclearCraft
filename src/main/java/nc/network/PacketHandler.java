@@ -5,7 +5,9 @@ import nc.network.gui.*;
 import nc.network.multiblock.*;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.network.render.BlockHighlightUpdatePacket;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.multiblock.*;
+import nc.network.tile.multiblock.port.*;
+import nc.network.tile.processor.EnergyProcessorUpdatePacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,8 +25,8 @@ public class PacketHandler {
 	
 	public static void registerMessages() {
 		// SERVER
-		instance.registerMessage(EmptyTankPacket.Handler.class, EmptyTankPacket.class, nextID(), Side.SERVER);
-		instance.registerMessage(EmptyFilterTankPacket.Handler.class, EmptyFilterTankPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ClearTankPacket.Handler.class, ClearTankPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ClearFilterTankPacket.Handler.class, ClearFilterTankPacket.class, nextID(), Side.SERVER);
 		
 		instance.registerMessage(ToggleInputTanksSeparatedPacket.Handler.class, ToggleInputTanksSeparatedPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ToggleVoidUnusableFluidInputPacket.Handler.class, ToggleVoidUnusableFluidInputPacket.class, nextID(), Side.SERVER);
@@ -49,12 +51,10 @@ public class PacketHandler {
 		
 		instance.registerMessage(BlockHighlightUpdatePacket.Handler.class, BlockHighlightUpdatePacket.class, nextID(), Side.CLIENT);
 		
-		instance.registerMessage(ProcessorUpdatePacket.Handler.class, ProcessorUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(EnergyProcessorUpdatePacket.Handler.class, EnergyProcessorUpdatePacket.class, nextID(), Side.CLIENT);
 		
-		instance.registerMessage(FissionIrradiatorPortUpdatePacket.Handler.class, FissionIrradiatorPortUpdatePacket.class, nextID(), Side.CLIENT);
-		instance.registerMessage(FissionCellPortUpdatePacket.Handler.class, FissionCellPortUpdatePacket.class, nextID(), Side.CLIENT);
-		instance.registerMessage(FissionVesselPortUpdatePacket.Handler.class, FissionVesselPortUpdatePacket.class, nextID(), Side.CLIENT);
-		instance.registerMessage(FissionHeaterPortUpdatePacket.Handler.class, FissionHeaterPortUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(ItemPortUpdatePacket.Handler.class, ItemPortUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(FluidPortUpdatePacket.Handler.class, FluidPortUpdatePacket.class, nextID(), Side.CLIENT);
 		
 		instance.registerMessage(FissionIrradiatorUpdatePacket.Handler.class, FissionIrradiatorUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SolidFissionUpdatePacket.Handler.class, SolidFissionUpdatePacket.class, nextID(), Side.CLIENT);

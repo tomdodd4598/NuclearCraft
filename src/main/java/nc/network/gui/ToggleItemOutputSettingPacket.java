@@ -6,61 +6,40 @@ import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
-import net.minecraftforge.fml.relauncher.Side;
 
-public class ToggleItemOutputSettingPacket implements IMessage {
+public class ToggleItemOutputSettingPacket extends TileGuiPacket {
 	
-	protected BlockPos pos;
 	protected int slot;
 	protected int setting;
 	
 	public ToggleItemOutputSettingPacket() {
-		
+		super();
 	}
 	
-	public ToggleItemOutputSettingPacket(ITileInventory machine, int slot, ItemOutputSetting setting) {
-		pos = machine.getTilePos();
+	public ToggleItemOutputSettingPacket(ITileInventory tile, int slot, ItemOutputSetting setting) {
+		super(tile);
 		this.slot = slot;
 		this.setting = setting.ordinal();
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		slot = buf.readInt();
 		setting = buf.readInt();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeInt(slot);
 		buf.writeInt(setting);
 	}
 	
-	public static class Handler implements IMessageHandler<ToggleItemOutputSettingPacket, IMessage> {
+	public static class Handler extends TileGuiPacket.Handler<ToggleItemOutputSettingPacket> {
 		
 		@Override
-		public IMessage onMessage(ToggleItemOutputSettingPacket message, MessageContext ctx) {
-			if (ctx.side == Side.SERVER) {
-				FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
-			}
-			return null;
-		}
-		
-		void processMessage(ToggleItemOutputSettingPacket message, MessageContext ctx) {
-			EntityPlayerMP player = ctx.getServerHandler().player;
-			World world = player.getServerWorld();
-			if (!world.isBlockLoaded(message.pos) || !world.isBlockModifiable(player, message.pos)) {
-				return;
-			}
-			TileEntity tile = world.getTileEntity(message.pos);
+		protected void onPacket(ToggleItemOutputSettingPacket message, EntityPlayerMP player, TileEntity tile) {
 			if (tile instanceof ITileInventory) {
 				ITileInventory machine = (ITileInventory) tile;
 				ItemOutputSetting setting = ItemOutputSetting.values()[message.setting];

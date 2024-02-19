@@ -2,10 +2,8 @@ package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.tile.*;
 import nc.tile.turbine.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	
@@ -16,11 +14,11 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	public int recipeInputRate;
 	
 	public TurbineRenderPacket() {
-		
+		super();
 	}
 	
 	public TurbineRenderPacket(BlockPos pos, String particleEffect, double particleSpeedMult, float angVel, boolean isProcessing, int recipeInputRate, double recipeInputRateFP) {
-		this.pos = pos;
+		super(pos);
 		this.particleEffect = particleEffect;
 		this.particleSpeedMult = particleSpeedMult;
 		this.angVel = angVel;
@@ -31,8 +29,8 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		particleEffect = ByteBufUtils.readUTF8String(buf);
+		super.fromBytes(buf);
+		particleEffect = readString(buf);
 		particleSpeedMult = buf.readDouble();
 		angVel = buf.readFloat();
 		isProcessing = buf.readBoolean();
@@ -42,10 +40,8 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
-		ByteBufUtils.writeUTF8String(buf, particleEffect);
+		super.toBytes(buf);
+		writeString(buf, particleEffect);
 		buf.writeDouble(particleSpeedMult);
 		buf.writeFloat(angVel);
 		buf.writeBoolean(isProcessing);

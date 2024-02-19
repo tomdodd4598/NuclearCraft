@@ -1,7 +1,5 @@
 package nc.tile.hx;
 
-import java.util.*;
-
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -86,36 +84,6 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfCondensationTubes(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getCondenserTubes().size() : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getExchangerTubeStats(Context context, Arguments args) {
-		if (isMultiblockAssembled()) {
-			List<Object[]> stats = new ArrayList<>();
-			for (TileHeatExchangerTube tube : getMultiblock().getTubes()) {
-				stats.add(new Object[] {new Object[] {tube.getPos().getX(), tube.getPos().getY(), tube.getPos().getZ()}, tube.conductivity, tube.isProcessing, tube.time, tube.recipeInfo != null ? tube.baseProcessTime / tube.getSpeedMultiplier() : 0D, tube.getSpeedMultiplier(), tube.inputTemperature, tube.outputTemperature, tube.flowDir == null ? "null" : tube.flowDir.getName()});
-			}
-			return new Object[] {stats.toArray()};
-		}
-		else {
-			return new Object[] {};
-		}
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getCondensationTubeStats(Context context, Arguments args) {
-		if (isMultiblockAssembled()) {
-			List<Object[]> stats = new ArrayList<>();
-			for (TileCondenserTube condenserTube : getMultiblock().getCondenserTubes()) {
-				stats.add(new Object[] {new Object[] {condenserTube.getPos().getX(), condenserTube.getPos().getY(), condenserTube.getPos().getZ()}, condenserTube.conductivity, condenserTube.isProcessing, condenserTube.time, condenserTube.recipeInfo != null ? condenserTube.baseProcessTime / condenserTube.getSpeedMultiplier() : 0D, condenserTube.getSpeedMultiplier(), condenserTube.condensingTemperature, condenserTube.adjacentTemperatures});
-			}
-			return new Object[] {stats.toArray()};
-		}
-		else {
-			return new Object[] {};
-		}
 	}
 	
 	@Callback

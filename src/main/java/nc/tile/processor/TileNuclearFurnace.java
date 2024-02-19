@@ -11,10 +11,10 @@ import nc.Global;
 import nc.capability.radiation.source.*;
 import nc.container.ContainerFunction;
 import nc.container.processor.ContainerMachineConfig;
-import nc.gui.GuiFunction;
+import nc.gui.*;
 import nc.gui.processor.*;
 import nc.handler.TileInfoHandler;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.radiation.RadSources;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
@@ -48,25 +48,16 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	
 	public static class NuclearFurnaceContainerInfo extends ProcessorContainerInfo<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo> {
 		
-		public NuclearFurnaceContainerInfo(String modId, String name, Class<TileNuclearFurnace> tileClass, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TileNuclearFurnace> guiFunction, ContainerFunction<TileNuclearFurnace> configContainerFunction, GuiFunction<TileNuclearFurnace> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
-			super(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
+		public NuclearFurnaceContainerInfo(String modId, String name, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TileNuclearFurnace> guiFunction, ContainerFunction<TileNuclearFurnace> configContainerFunction, GuiFunction<TileNuclearFurnace> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
+			super(modId, name, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
 		}
 	}
 	
 	public static class NuclearFurnaceContainerInfoBuilder extends ProcessorContainerInfoBuilder<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo, NuclearFurnaceContainerInfoBuilder> {
 		
-		public NuclearFurnaceContainerInfoBuilder(String modId, String name, Class<TileNuclearFurnace> tileClass, Supplier<TileNuclearFurnace> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, BasicProcessorGuiFunction<TileNuclearFurnace> guiFunction) {
+		public NuclearFurnaceContainerInfoBuilder(String modId, String name, Class<TileNuclearFurnace> tileClass, Supplier<TileNuclearFurnace> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TileNuclearFurnace> containerFunction, Class<? extends GuiContainer> guiClass, GuiInfoTileFunction<TileNuclearFurnace> guiFunction) {
 			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, GuiFunction.of(modId, name, containerFunction, guiFunction), ContainerMachineConfig::new, GuiFunction.of(modId, name, ContainerMachineConfig::new, GuiProcessor.SideConfig::new));
-		}
-		
-		@Override
-		protected NuclearFurnaceContainerInfoBuilder getThis() {
-			return this;
-		}
-		
-		@Override
-		public NuclearFurnaceContainerInfo buildContainerInfo() {
-			return new NuclearFurnaceContainerInfo(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
+			infoFunction = NuclearFurnaceContainerInfo::new;
 		}
 	}
 	

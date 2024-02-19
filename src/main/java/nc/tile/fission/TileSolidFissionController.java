@@ -4,7 +4,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import java.util.Iterator;
 
-import nc.container.multiblock.ContainerSolidFissionController;
+import nc.container.multiblock.controller.ContainerSolidFissionController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import net.minecraft.block.state.IBlockState;

@@ -12,14 +12,6 @@ public class CollectionHelper {
 	
 	// Lists
 	
-	public static <T> List<T> asList(T[] array) {
-		List<T> list = new ArrayList<>();
-		for (T t : array) {
-			list.add(t);
-		}
-		return list;
-	}
-	
 	public static <T> List<T> intersect(List<T> list, Collection<T> collection) {
 		List<T> out = new ArrayList<>();
 		for (T t : list) {
@@ -85,16 +77,6 @@ public class CollectionHelper {
 	}
 	
 	@SafeVarargs
-	public static List<Object> concatGeneral(List<Object> first, List<Object>... rest) {
-		List<Object> result = new ArrayList<>();
-		result.addAll(first);
-		for (List<Object> list : rest) {
-			result.addAll(list);
-		}
-		return result;
-	}
-	
-	@SafeVarargs
 	public static IntList concatInt(List<? extends Integer> first, List<? extends Integer>... rest) {
 		IntList result = new IntArrayList();
 		result.addAll(first);
@@ -125,14 +107,6 @@ public class CollectionHelper {
 	}
 	
 	// Sets
-	
-	public static <T> Set<T> asSet(T[] array) {
-		Set<T> set = new ObjectOpenHashSet<>();
-		for (T t : array) {
-			set.add(t);
-		}
-		return set;
-	}
 	
 	public static <T> Set<T> intersect(Set<T> set1, Collection<T> set2) {
 		Set<T> set = new ObjectOpenHashSet<>();

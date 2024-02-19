@@ -1,6 +1,12 @@
 package nc.container.processor;
 
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.multiblock.*;
+import nc.network.tile.processor.EnergyProcessorUpdatePacket;
+import nc.tile.fission.*;
+import nc.tile.fission.TileFissionIrradiator.FissionIrradiatorContainerInfo;
+import nc.tile.fission.TileSaltFissionHeater.SaltFissionHeaterContainerInfo;
+import nc.tile.fission.TileSaltFissionVessel.SaltFissionVesselContainerInfo;
+import nc.tile.fission.TileSolidFissionCell.SolidFissionCellContainerInfo;
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
 import nc.tile.radiation.TileRadiationScrubber;
@@ -8,14 +14,14 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerProcessorImpl {
 	
-	public static class ContainerBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends ContainerProcessor<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>> {
+	public static class ContainerBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends ContainerProcessor<TILE, EnergyProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>> {
 		
 		public ContainerBasicProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);
 		}
 	}
 	
-	public static class ContainerBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends ContainerUpgradableProcessor<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>> {
+	public static class ContainerBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends ContainerUpgradableProcessor<TILE, EnergyProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>> {
 		
 		public ContainerBasicUpgradableProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);
@@ -173,6 +179,34 @@ public class ContainerProcessorImpl {
 		
 		public ContainerRadiationScrubber(EntityPlayer player, TileRadiationScrubber tile) {
 			super(player, tile);
+		}
+	}
+	
+	public static class ContainerFissionIrradiator extends ContainerFilteredProcessor<TileFissionIrradiator, FissionIrradiatorUpdatePacket, FissionIrradiatorContainerInfo> {
+		
+		public ContainerFissionIrradiator(EntityPlayer player, TileFissionIrradiator irradiator) {
+			super(player, irradiator);
+		}
+	}
+	
+	public static class ContainerSolidFissionCell extends ContainerFilteredProcessor<TileSolidFissionCell, SolidFissionCellUpdatePacket, SolidFissionCellContainerInfo> {
+		
+		public ContainerSolidFissionCell(EntityPlayer player, TileSolidFissionCell cell) {
+			super(player, cell);
+		}
+	}
+	
+	public static class ContainerSaltFissionVessel extends ContainerProcessor<TileSaltFissionVessel, SaltFissionVesselUpdatePacket, SaltFissionVesselContainerInfo> {
+		
+		public ContainerSaltFissionVessel(EntityPlayer player, TileSaltFissionVessel vessel) {
+			super(player, vessel);
+		}
+	}
+	
+	public static class ContainerSaltFissionHeater extends ContainerProcessor<TileSaltFissionHeater, SaltFissionHeaterUpdatePacket, SaltFissionHeaterContainerInfo> {
+		
+		public ContainerSaltFissionHeater(EntityPlayer player, TileSaltFissionHeater heater) {
+			super(player, heater);
 		}
 	}
 }

@@ -617,7 +617,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	 *            the data
 	 * @param syncReason
 	 *            the reason why the synchronization is necessary */
-	public abstract void syncDataFrom(NBTTagCompound data, TileBeefAbstract.SyncReason syncReason);
+	public abstract void syncDataFrom(NBTTagCompound data, TilePartAbstract.SyncReason syncReason);
 	
 	/** Sync multiblock data to the given NBT compound
 	 * 
@@ -625,7 +625,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	 *            the data
 	 * @param syncReason
 	 *            the reason why the synchronization is necessary */
-	public abstract void syncDataTo(NBTTagCompound data, TileBeefAbstract.SyncReason syncReason);
+	public abstract void syncDataTo(NBTTagCompound data, TilePartAbstract.SyncReason syncReason);
 	
 	public NBTTagCompound writeStacks(NonNullList<ItemStack> stacks, NBTTagCompound data) {
 		ItemStackHelper.saveAllItems(data, stacks);

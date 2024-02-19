@@ -1,15 +1,15 @@
 package nc.container.processor;
 
-import nc.container.ContainerTile;
-import nc.network.tile.ProcessorUpdatePacket;
-import nc.tile.processor.*;
+import nc.container.ContainerInfoTile;
+import nc.network.tile.processor.ProcessorUpdatePacket;
+import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public class ContainerMachineConfig<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerTile<TILE, PACKET, INFO> {
+public class ContainerMachineConfig<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerInfoTile<TILE, PACKET, INFO> {
 	
 	public ContainerMachineConfig(EntityPlayer player, TILE tile) {
 		super(tile);

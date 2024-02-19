@@ -35,7 +35,7 @@ public class RecipeStats {
 	}
 	
 	private static void setProcessorMaxStats() {
-		for (BasicRecipeHandler handler : NCRecipes.getHandlers()) {
+		/*for (BasicRecipeHandler handler : NCRecipes.getHandlers()) {
 			
 			processor_max_base_process_time[i] = 1D;
 			processor_max_base_process_power[i] = 0D;
@@ -45,7 +45,7 @@ public class RecipeStats {
 					processor_max_base_process_power[i] = Math.max(processor_max_base_process_power[i], recipe.getBaseProcessPower(processor_power_multiplier * NCConfig.processor_power[i]));
 				}
 			}
-		}
+		}*/
 	}
 	
 	public static int getDecayGeneratorMaxPower() {

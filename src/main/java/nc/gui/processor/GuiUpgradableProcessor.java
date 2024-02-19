@@ -7,7 +7,7 @@ import nc.gui.element.*;
 import nc.init.NCItems;
 import nc.network.PacketHandler;
 import nc.network.gui.OpenTileGuiPacket;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.UpgradableProcessorContainerInfo;
 import nc.util.*;
@@ -55,14 +55,20 @@ public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcesso
 	}
 	
 	@Override
-	protected void sorptionButtonActionPerformed(GuiButton button) {
-		super.sorptionButtonActionPerformed(button);
-		
-		if (button.id == info.speedUpgradeSorptionButtonID) {
+	protected boolean sorptionButtonActionPerformed(GuiButton button) {
+		if (super.sorptionButtonActionPerformed(button)) {
+			return true;
+		}
+		else if (button.id == info.speedUpgradeSorptionButtonID) {
 			FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade<>(this, tile, info.speedUpgradeSlot));
+			return true;
 		}
 		else if (button.id == info.energyUpgradeSorptionButtonID) {
 			FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade<>(this, tile, info.energyUpgradeSlot));
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	
@@ -101,12 +107,12 @@ public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcesso
 		protected void drawUpgradeRenderers() {}
 		
 		@Override
-		protected void actionPerformed(GuiButton button) {
-			sorptionButtonActionPerformed(button);
+		protected boolean buttonActionPerformed(GuiButton button) {
+			return sorptionButtonActionPerformed(button);
 		}
 		
 		@Override
-		public void renderButtonTooltips(int mouseX, int mouseY) {
+		public void renderProcessorTooltips(int mouseX, int mouseY) {
 			renderSorptionButtonTooltips(mouseX, mouseY);
 		}
 		

@@ -32,8 +32,10 @@ public interface ITileFluid extends ITile {
 		if (!getInputTanksSeparated()) {
 			return true;
 		}
-		for (int i = 0; i < getTanks().size(); ++i) {
-			Tank tank = getTanks().get(i);
+		
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
+			Tank tank = tanks.get(i);
 			if (i != tankNumber && getTankSorption(side, i).canFill()) {
 				FluidStack fluid = tank.getFluid();
 				if (fluid != null && fluid.isFluidEqual(resource)) {
@@ -103,20 +105,22 @@ public interface ITileFluid extends ITile {
 	// Fluid Wrapper Methods
 	
 	public default @Nonnull IFluidTankProperties[] getTankProperties(@Nonnull EnumFacing side) {
-		if (getTanks().isEmpty()) {
+		List<Tank> tanks = getTanks();
+		if (tanks.isEmpty()) {
 			return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
 		}
-		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().size()];
-		for (int i = 0; i < getTanks().size(); ++i) {
-			properties[i] = getTanks().get(i).getFluidTankProperties();
+		IFluidTankProperties[] properties = new IFluidTankProperties[tanks.size()];
+		for (int i = 0; i < tanks.size(); ++i) {
+			properties[i] = tanks.get(i).getFluidTankProperties();
 		}
 		return properties;
 	}
 	
 	public default int fill(@Nonnull EnumFacing side, FluidStack resource, boolean doFill) {
-		for (int i = 0; i < getTanks().size(); ++i) {
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
 			if (getTankSorption(side, i).canFill()) {
-				Tank tank = getTanks().get(i);
+				Tank tank = tanks.get(i);
 				if (tank.canFillFluidType(resource) && isNextToFill(side, i, resource) && tank.getFluidAmount() < tank.getCapacity()) {
 					FluidStack fluid = tank.getFluid();
 					if (fluid == null || fluid.isFluidEqual(resource)) {
@@ -129,9 +133,10 @@ public interface ITileFluid extends ITile {
 	}
 	
 	public default FluidStack drain(@Nonnull EnumFacing side, FluidStack resource, boolean doDrain) {
-		for (int i = 0; i < getTanks().size(); ++i) {
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
 			if (getTankSorption(side, i).canDrain()) {
-				Tank tank = getTanks().get(i);
+				Tank tank = tanks.get(i);
 				if (tank.getFluidAmount() > 0 && resource.isFluidEqual(tank.getFluid()) && tank.drain(resource, false) != null) {
 					if (tank.drain(resource, false) != null) {
 						return tank.drain(resource, doDrain);
@@ -143,9 +148,10 @@ public interface ITileFluid extends ITile {
 	}
 	
 	public default FluidStack drain(@Nonnull EnumFacing side, int maxDrain, boolean doDrain) {
-		for (int i = 0; i < getTanks().size(); ++i) {
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
 			if (getTankSorption(side, i).canDrain()) {
-				Tank tank = getTanks().get(i);
+				Tank tank = tanks.get(i);
 				if (tank.getFluidAmount() > 0 && tank.drain(maxDrain, false) != null) {
 					if (tank.drain(maxDrain, false) != null) {
 						return tank.drain(maxDrain, doDrain);
@@ -246,9 +252,10 @@ public interface ITileFluid extends ITile {
 		
 		boolean drained = false;
 		
-		for (int i = 0; i < getTanks().size(); ++i) {
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
 			Tank tank;
-			if (!getTankSorption(side, i).canDrain() || (tank = getTanks().get(i)).getFluid() == null) {
+			if (!getTankSorption(side, i).canDrain() || (tank = tanks.get(i)).getFluid() == null) {
 				continue;
 			}
 			
@@ -271,15 +278,17 @@ public interface ITileFluid extends ITile {
 	// NBT
 	
 	public default NBTTagCompound writeTanks(NBTTagCompound nbt) {
-		for (int i = 0; i < getTanks().size(); ++i) {
-			getTanks().get(i).writeToNBT(nbt, "tanks" + i);
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
+			tanks.get(i).writeToNBT(nbt, "tanks" + i);
 		}
 		return nbt;
 	}
 	
 	public default void readTanks(NBTTagCompound nbt) {
-		for (int i = 0; i < getTanks().size(); ++i) {
-			getTanks().get(i).readFromNBT(nbt, "tanks" + i);
+		List<Tank> tanks = getTanks();
+		for (int i = 0; i < tanks.size(); ++i) {
+			tanks.get(i).readFromNBT(nbt, "tanks" + i);
 		}
 	}
 	
@@ -301,7 +310,8 @@ public interface ITileFluid extends ITile {
 	
 	public default NBTTagCompound writeTankSettings(NBTTagCompound nbt) {
 		nbt.setBoolean("inputTanksSeparated", getInputTanksSeparated());
-		for (int i = 0; i < getTanks().size(); ++i) {
+		int tankCount = getTanks().size();
+		for (int i = 0; i < tankCount; ++i) {
 			nbt.setBoolean("voidUnusableFluidInput" + i, getVoidUnusableFluidInput(i));
 			nbt.setInteger("tankOutputSetting" + i, getTankOutputSetting(i).ordinal());
 		}
@@ -310,7 +320,8 @@ public interface ITileFluid extends ITile {
 	
 	public default void readTankSettings(NBTTagCompound nbt) {
 		setInputTanksSeparated(nbt.getBoolean("inputTanksSeparated"));
-		for (int i = 0; i < getTanks().size(); ++i) {
+		int tankCount = getTanks().size();
+		for (int i = 0; i < tankCount; ++i) {
 			setVoidUnusableFluidInput(i, nbt.getBoolean("voidUnusableFluidInput" + i));
 			int ordinal = nbt.hasKey("voidExcessFluidOutput" + i) ? nbt.getBoolean("voidExcessFluidOutput" + i) ? 1 : 0 : nbt.getInteger("tankOutputSetting" + i);
 			setTankOutputSetting(i, TankOutputSetting.values()[ordinal]);

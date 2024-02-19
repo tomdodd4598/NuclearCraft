@@ -13,7 +13,7 @@ import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.network.multiblock.HeatExchangerUpdatePacket;
 import nc.tile.hx.*;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -155,12 +155,12 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 		setIsHeatExchangerOn();
 		
 		if (!WORLD.isRemote) {
-			for (TileHeatExchangerTube tube : tubes) {
+			/*for (TileHeatExchangerTube tube : tubes) {
 				tube.updateFlowDir();
 			}
 			for (TileCondenserTube condenserTube : condenserTubes) {
 				condenserTube.updateAdjacentTemperatures();
-			}
+			}*/
 			
 			updateHeatExchangerStats();
 		}
@@ -249,7 +249,7 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 		}
 		int activeCount = 0, efficiencyCount = 0, maxEfficiencyCount = 0;
 		
-		for (TileHeatExchangerTube tube : tubes) {
+		/*for (TileHeatExchangerTube tube : tubes) {
 			int[] eff = tube.checkPosition();
 			if (eff[0] > 0) {
 				++activeCount;
@@ -265,7 +265,7 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 			}
 			efficiencyCount += eff;
 			maxEfficiencyCount += eff;
-		}
+		}*/
 		
 		fractionOfTubesActive = (double) activeCount / numberOfTubes;
 		efficiency = activeCount == 0 ? 0D : (double) efficiencyCount / activeCount;

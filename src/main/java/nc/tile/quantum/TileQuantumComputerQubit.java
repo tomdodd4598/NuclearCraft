@@ -2,7 +2,7 @@ package nc.tile.quantum;
 
 import it.unimi.dsi.fastutil.ints.*;
 import nc.multiblock.quantum.*;
-import nc.network.multiblock.QuantumComputerQubitRenderPacket;
+import nc.network.tile.multiblock.QuantumComputerQubitRenderPacket;
 import nc.tile.ITilePacket;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;

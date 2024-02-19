@@ -1,6 +1,6 @@
 package nc.gui.processor;
 
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.EnergyProcessorUpdatePacket;
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
 import nc.tile.radiation.TileRadiationScrubber;
@@ -9,14 +9,14 @@ import net.minecraft.inventory.Container;
 
 public class GuiProcessorImpl {
 	
-	public static class GuiBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends GuiProcessor<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>> {
+	public static class GuiBasicProcessor<TILE extends TileBasicProcessor<TILE>> extends GuiProcessor<TILE, EnergyProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>> {
 		
 		public GuiBasicProcessor(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);
 		}
 	}
 	
-	public static class GuiBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends GuiUpgradableProcessor<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>> {
+	public static class GuiBasicUpgradableProcessor<TILE extends TileBasicUpgradableProcessor<TILE>> extends GuiUpgradableProcessor<TILE, EnergyProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>> {
 		
 		public GuiBasicUpgradableProcessor(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 			super(inventory, player, tile, textureLocation);

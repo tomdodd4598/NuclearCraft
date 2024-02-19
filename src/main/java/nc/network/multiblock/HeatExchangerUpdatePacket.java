@@ -1,7 +1,6 @@
 package nc.network.multiblock;
 
 import io.netty.buffer.ByteBuf;
-import nc.multiblock.heatExchanger.tile.*;
 import nc.multiblock.hx.HeatExchanger;
 import nc.tile.hx.*;
 import net.minecraft.util.math.BlockPos;
@@ -14,11 +13,11 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	public double maxEfficiency;
 	
 	public HeatExchangerUpdatePacket() {
-		
+		super();
 	}
 	
 	public HeatExchangerUpdatePacket(BlockPos pos, boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency, double maxEfficiency) {
-		this.pos = pos;
+		super(pos);
 		this.isHeatExchangerOn = isHeatExchangerOn;
 		this.fractionOfTubesActive = fractionOfTubesActive;
 		this.efficiency = efficiency;
@@ -27,7 +26,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		isHeatExchangerOn = buf.readBoolean();
 		fractionOfTubesActive = buf.readDouble();
 		efficiency = buf.readDouble();
@@ -36,9 +35,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeBoolean(isHeatExchangerOn);
 		buf.writeDouble(fractionOfTubesActive);
 		buf.writeDouble(efficiency);

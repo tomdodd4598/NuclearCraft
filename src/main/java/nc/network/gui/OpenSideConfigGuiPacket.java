@@ -5,54 +5,32 @@ import nc.NuclearCraft;
 import nc.tile.ITileGui;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
-import net.minecraftforge.fml.relauncher.Side;
 
-public class OpenSideConfigGuiPacket implements IMessage {
-	
-	protected BlockPos pos;
+public class OpenSideConfigGuiPacket extends TileGuiPacket {
 	
 	public OpenSideConfigGuiPacket() {
-		
+		super();
 	}
 	
-	public OpenSideConfigGuiPacket(ITileGui<?, ?, ?> machine) {
-		pos = machine.getTilePos();
+	public OpenSideConfigGuiPacket(ITileGui<?, ?, ?> tile) {
+		super(tile);
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 	}
 	
-	public static class Handler implements IMessageHandler<OpenSideConfigGuiPacket, IMessage> {
+	public static class Handler extends TileGuiPacket.Handler<OpenSideConfigGuiPacket> {
 		
 		@Override
-		public IMessage onMessage(OpenSideConfigGuiPacket message, MessageContext ctx) {
-			if (ctx.side == Side.SERVER) {
-				FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
-			}
-			return null;
-		}
-		
-		void processMessage(OpenSideConfigGuiPacket message, MessageContext ctx) {
-			EntityPlayerMP player = ctx.getServerHandler().player;
-			World world = player.getServerWorld();
-			if (!world.isBlockLoaded(message.pos) || !world.isBlockModifiable(player, message.pos)) {
-				return;
-			}
-			TileEntity tile = world.getTileEntity(message.pos);
+		protected void onPacket(OpenSideConfigGuiPacket message, EntityPlayerMP player, TileEntity tile) {
 			if (tile instanceof ITileGui) {
 				ITileGui<?, ?, ?> tileGui = (ITileGui<?, ?, ?>) tile;
 				FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getContainerInfo().getGuiId() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());

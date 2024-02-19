@@ -5,7 +5,6 @@ import nc.block.tile.IDynamicState;
 import nc.item.ItemMultitool;
 import nc.multiblock.hx.*;
 import nc.tile.hx.TileHeatExchangerTube;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
@@ -121,7 +120,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPart implements ID
 		if (tile instanceof TileHeatExchangerTube && otherTile instanceof TileHeatExchangerTube) {
 			TileHeatExchangerTube tube = (TileHeatExchangerTube) tile;
 			TileHeatExchangerTube other = (TileHeatExchangerTube) otherTile;
-			tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
+			// tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			tube.setTubeSettings(other.getTubeSettings().clone());
 			tube.markDirtyAndNotify(true);
 		}

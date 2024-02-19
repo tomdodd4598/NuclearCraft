@@ -13,7 +13,7 @@ import nc.tile.ITileFiltered;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.*;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.multiblock.manager.*;
 import nc.tile.multiblock.port.*;
 import nc.util.*;

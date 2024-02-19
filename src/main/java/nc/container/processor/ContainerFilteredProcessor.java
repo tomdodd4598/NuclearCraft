@@ -1,16 +1,24 @@
 package nc.container.processor;
 
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.container.slot.*;
+import nc.network.tile.processor.ProcessorUpdatePacket;
+import nc.tile.inventory.ITileFilteredInventory;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 
-public abstract class ContainerFilteredProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerProcessor<TILE, PACKET, INFO> {
+public abstract class ContainerFilteredProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO> & ITileFilteredInventory, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerProcessor<TILE, PACKET, INFO> {
 	
 	public ContainerFilteredProcessor(EntityPlayer player, TILE tile) {
 		super(player, tile);
+	}
+	
+	@Override
+	protected void addInputSlot(EntityPlayer player, int index, int xPosition, int yPosition) {
+		addSlotToContainer(new SlotFiltered.ProcessorInput(tile, recipeHandler, index, xPosition, yPosition));
 	}
 	
 	@Override
@@ -20,20 +28,17 @@ public abstract class ContainerFilteredProcessor<TILE extends TileEntity & IProc
 				return ItemStack.EMPTY;
 			}
 		}
-		else if (tile.canModifyFilter(0) && !tile.getFilterStacks().get(0).isEmpty()) {
-			tile.getFilterStacks().set(0, ItemStack.EMPTY);
-			tile.onFilterChanged(0);
-			inventorySlots.get(0).onSlotChanged();
-			return ItemStack.EMPTY;
-		}
-		else if (index >= invStart && index < invEnd - 9) {
-			if (!mergeItemStack(stack, invEnd - 9, invEnd, false)) {
-				return ItemStack.EMPTY;
+		else {
+			NonNullList<ItemStack> filterStacks = tile.getFilterStacks();
+			for (int i = 0; i < filterStacks.size(); ++i) {
+				if (tile.canModifyFilter(i) && !filterStacks.get(i).isEmpty()) {
+					filterStacks.set(i, ItemStack.EMPTY);
+					tile.onFilterChanged(i);
+					inventorySlots.get(i).onSlotChanged();
+					return ItemStack.EMPTY;
+				}
 			}
 		}
-		else if (index >= invEnd - 9 && index < invEnd && !mergeItemStack(stack, invStart, invEnd - 9, false)) {
-			return ItemStack.EMPTY;
-		}
-		return null;
+		return transferPlayerStackDefault(player, index, invStart, invEnd, stack);
 	}
 }

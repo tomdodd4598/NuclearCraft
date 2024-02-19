@@ -2,12 +2,13 @@ package nc.network.radiation;
 
 import io.netty.buffer.ByteBuf;
 import nc.capability.radiation.entity.IEntityRads;
+import nc.network.NCPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class PlayerRadsUpdatePacket implements IMessage {
+public class PlayerRadsUpdatePacket extends NCPacket {
 	
 	protected double totalRads;
 	protected double radiationLevel;
@@ -29,10 +30,11 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected boolean giveGuidebook;
 	
 	public PlayerRadsUpdatePacket() {
-		
+		super();
 	}
 	
 	public PlayerRadsUpdatePacket(IEntityRads playerRads) {
+		super();
 		totalRads = playerRads.getTotalRads();
 		radiationLevel = playerRads.getRadiationLevel();
 		internalRadiationResistance = playerRads.getInternalRadiationResistance();
@@ -57,6 +59,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
+		super.fromBytes(buf);
 		totalRads = buf.readDouble();
 		radiationLevel = buf.readDouble();
 		internalRadiationResistance = buf.readDouble();
@@ -81,6 +84,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
+		super.toBytes(buf);
 		buf.writeDouble(totalRads);
 		buf.writeDouble(radiationLevel);
 		buf.writeDouble(internalRadiationResistance);
@@ -108,40 +112,39 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		@Override
 		public IMessage onMessage(PlayerRadsUpdatePacket message, MessageContext ctx) {
 			if (ctx.side == Side.CLIENT) {
-				Minecraft.getMinecraft().addScheduledTask(() -> processMessage(message));
+				Minecraft.getMinecraft().addScheduledTask(() -> {
+					EntityPlayerSP player = Minecraft.getMinecraft().player;
+					if (player == null || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+						return;
+					}
+					
+					IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+					if (playerRads == null)
+						return;
+					
+					playerRads.setTotalRads(message.totalRads, false);
+					playerRads.setRadiationLevel(message.radiationLevel);
+					playerRads.setInternalRadiationResistance(message.internalRadiationResistance);
+					playerRads.setExternalRadiationResistance(message.externalRadiationResistance);
+					playerRads.setRadXUsed(message.radXUsed);
+					playerRads.setRadXWoreOff(message.radXWoreOff);
+					playerRads.setRadawayBuffer(false, message.radawayBuffer);
+					playerRads.setRadawayBuffer(true, message.radawayBufferSlow);
+					playerRads.setPoisonBuffer(message.poisonBuffer);
+					playerRads.setConsumedMedicine(message.consumed);
+					playerRads.setRadawayCooldown(message.radawayCooldown);
+					playerRads.setRecentRadawayAddition(message.recentRadawayAddition);
+					playerRads.setRadXCooldown(message.radXCooldown);
+					playerRads.setRecentRadXAddition(message.recentRadXAddition);
+					playerRads.setMessageCooldownTime(message.messageCooldownTime);
+					playerRads.setRecentPoisonAddition(message.recentPoisonAddition);
+					playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
+					playerRads.setRadiationImmunityStage(message.radiationImmunityStage);
+					playerRads.setShouldWarn(message.shouldWarn);
+					playerRads.setGiveGuidebook(message.giveGuidebook);
+				});
 			}
 			return null;
-		}
-		
-		void processMessage(PlayerRadsUpdatePacket message) {
-			EntityPlayerSP player = Minecraft.getMinecraft().player;
-			if (player == null || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
-				return;
-			}
-			
-			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-			if (playerRads == null) return;
-			
-			playerRads.setTotalRads(message.totalRads, false);
-			playerRads.setRadiationLevel(message.radiationLevel);
-			playerRads.setInternalRadiationResistance(message.internalRadiationResistance);
-			playerRads.setExternalRadiationResistance(message.externalRadiationResistance);
-			playerRads.setRadXUsed(message.radXUsed);
-			playerRads.setRadXWoreOff(message.radXWoreOff);
-			playerRads.setRadawayBuffer(false, message.radawayBuffer);
-			playerRads.setRadawayBuffer(true, message.radawayBufferSlow);
-			playerRads.setPoisonBuffer(message.poisonBuffer);
-			playerRads.setConsumedMedicine(message.consumed);
-			playerRads.setRadawayCooldown(message.radawayCooldown);
-			playerRads.setRecentRadawayAddition(message.recentRadawayAddition);
-			playerRads.setRadXCooldown(message.radXCooldown);
-			playerRads.setRecentRadXAddition(message.recentRadXAddition);
-			playerRads.setMessageCooldownTime(message.messageCooldownTime);
-			playerRads.setRecentPoisonAddition(message.recentPoisonAddition);
-			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
-			playerRads.setRadiationImmunityStage(message.radiationImmunityStage);
-			playerRads.setShouldWarn(message.shouldWarn);
-			playerRads.setGiveGuidebook(message.giveGuidebook);
 		}
 	}
 }

@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.Multiblock;
 import nc.tile.battery.TileBattery;
 import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;

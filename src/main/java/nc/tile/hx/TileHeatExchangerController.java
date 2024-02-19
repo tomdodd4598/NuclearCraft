@@ -2,7 +2,7 @@ package nc.tile.hx;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
-import nc.container.multiblock.ContainerHeatExchangerController;
+import nc.container.multiblock.controller.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.hx.HeatExchanger;
 import net.minecraft.block.state.IBlockState;

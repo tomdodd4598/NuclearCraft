@@ -4,21 +4,28 @@ import java.util.function.Supplier;
 
 import nc.container.ContainerFunction;
 import nc.gui.GuiFunction;
-import nc.handler.TileInfoHandler;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
+import nc.tile.TileContainerInfoHelper;
 import nc.tile.processor.IProcessor;
-import nc.tile.processor.info.UpgradableProcessorContainerInfo;
+import nc.tile.processor.info.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class UpgradableProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>, BUILDER extends UpgradableProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER>> extends ProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER> {
 	
-	protected int[] speedUpgradeGuiXYWH = TileInfoHandler.standardSlot(132, 64);
-	protected int[] energyUpgradeGuiXYWH = TileInfoHandler.standardSlot(152, 64);
+	protected int[] speedUpgradeGuiXYWH = TileContainerInfoHelper.standardSlot(132, 64);
+	protected int[] energyUpgradeGuiXYWH = TileContainerInfoHelper.standardSlot(152, 64);
+	
+	protected UpgradableProcessorContainerInfoFunction<TILE, PACKET, INFO> infoFunction = null;
 	
 	public UpgradableProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction) {
 		super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction);
+	}
+	
+	@Override
+	public INFO buildContainerInfo() {
+		return infoFunction.get(modId, name, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH, speedUpgradeGuiXYWH, energyUpgradeGuiXYWH);
 	}
 	
 	public BUILDER setSpeedUpgradeSlot(int x, int y, int w, int h) {

@@ -75,7 +75,7 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			}
 			
 			@Override
-			public void setMaxTransfer(int newMaxTransfer) {}
+			public void setMaxTransfer(long newMaxTransfer) {}
 			
 			@Override
 			public boolean canReceive() {

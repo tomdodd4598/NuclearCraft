@@ -5,61 +5,40 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.TankOutputSetting;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
-import net.minecraftforge.fml.relauncher.Side;
 
-public class ToggleTankOutputSettingPacket implements IMessage {
+public class ToggleTankOutputSettingPacket extends TileGuiPacket {
 	
-	protected BlockPos pos;
 	protected int tank;
 	protected int setting;
 	
 	public ToggleTankOutputSettingPacket() {
-		
+		super();
 	}
 	
-	public ToggleTankOutputSettingPacket(ITileFluid machine, int tank, TankOutputSetting setting) {
-		pos = machine.getTilePos();
+	public ToggleTankOutputSettingPacket(ITileFluid tile, int tank, TankOutputSetting setting) {
+		super(tile);
 		this.tank = tank;
 		this.setting = setting.ordinal();
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		tank = buf.readInt();
 		setting = buf.readInt();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeInt(tank);
 		buf.writeInt(setting);
 	}
 	
-	public static class Handler implements IMessageHandler<ToggleTankOutputSettingPacket, IMessage> {
+	public static class Handler extends TileGuiPacket.Handler<ToggleTankOutputSettingPacket> {
 		
 		@Override
-		public IMessage onMessage(ToggleTankOutputSettingPacket message, MessageContext ctx) {
-			if (ctx.side == Side.SERVER) {
-				FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
-			}
-			return null;
-		}
-		
-		void processMessage(ToggleTankOutputSettingPacket message, MessageContext ctx) {
-			EntityPlayerMP player = ctx.getServerHandler().player;
-			World world = player.getServerWorld();
-			if (!world.isBlockLoaded(message.pos) || !world.isBlockModifiable(player, message.pos)) {
-				return;
-			}
-			TileEntity tile = world.getTileEntity(message.pos);
+		protected void onPacket(ToggleTankOutputSettingPacket message, EntityPlayerMP player, TileEntity tile) {
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				TankOutputSetting setting = TankOutputSetting.values()[message.setting];

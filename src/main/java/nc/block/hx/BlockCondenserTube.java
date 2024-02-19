@@ -5,7 +5,6 @@ import nc.block.tile.IDynamicState;
 import nc.item.ItemMultitool;
 import nc.multiblock.hx.*;
 import nc.tile.hx.TileCondenserTube;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
@@ -121,7 +120,7 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements IDynam
 		if (tile instanceof TileCondenserTube && otherTile instanceof TileCondenserTube) {
 			TileCondenserTube tube = (TileCondenserTube) tile;
 			TileCondenserTube other = (TileCondenserTube) otherTile;
-			tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
+			// tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			tube.setTubeSettings(other.getTubeSettings().clone());
 			tube.markDirtyAndNotify(true);
 		}

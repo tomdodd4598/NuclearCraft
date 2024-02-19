@@ -1,6 +1,6 @@
 package nc.tile.multiblock;
 
-import nc.container.multiblock.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.multiblock.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import net.minecraft.entity.player.EntityPlayer;

@@ -100,8 +100,8 @@ public class EnergyStorage implements IEnergyStorage {
 		// cullEnergyStored();
 	}
 	
-	public void setMaxTransfer(int newMaxTransfer) {
-		maxTransfer = Math.max(newMaxTransfer, rf_per_eu);
+	public void setMaxTransfer(long newMaxTransfer) {
+		maxTransfer = Math.max(NCMath.toInt(newMaxTransfer), rf_per_eu);
 	}
 	
 	/** Use to remove excess stored energy */

@@ -2,21 +2,20 @@ package nc.tile.processor.info;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.*;
 import nc.container.ContainerFunction;
 import nc.gui.GuiFunction;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.recipe.*;
-import nc.tile.TileContainerInfo;
+import nc.tile.*;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.processor.IProcessor;
-import nc.util.*;
+import nc.util.CollectionHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
@@ -69,9 +68,6 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	public final int[] itemOutputSorptionButtonID;
 	public final int[] fluidOutputSorptionButtonID;
 	
-	public final int machineConfigButtonID;
-	public final int redstoneControlButtonID;
-	
 	public final int playerGuiX;
 	public final int playerGuiY;
 	
@@ -116,8 +112,8 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	public final int jeiClickAreaW;
 	public final int jeiClickAreaH;
 	
-	protected ProcessorContainerInfo(String modId, String name, Class<TILE> tileClass, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
-		super(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction);
+	protected ProcessorContainerInfo(String modId, String name, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
+		super(modId, name, containerClass, containerFunction, guiClass, guiFunction);
 		
 		this.configContainerFunction = configContainerFunction;
 		this.configGuiFunction = configGuiFunction;
@@ -154,16 +150,13 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		this.itemOutputGuiXYWH = itemOutputGuiXYWH;
 		this.fluidOutputGuiXYWH = fluidOutputGuiXYWH;
 		
-		itemInputStackXY = stackXYList(itemInputGuiXYWH);
-		itemOutputStackXY = stackXYList(itemOutputGuiXYWH);
+		itemInputStackXY = TileContainerInfoHelper.stackXYList(itemInputGuiXYWH);
+		itemOutputStackXY = TileContainerInfoHelper.stackXYList(itemOutputGuiXYWH);
 		
 		itemInputSorptionButtonID = CollectionHelper.increasingArray(itemInputSize);
 		fluidInputSorptionButtonID = CollectionHelper.increasingArray(itemInputSize, fluidInputSize);
 		itemOutputSorptionButtonID = CollectionHelper.increasingArray(itemInputSize + fluidInputSize, itemOutputSize);
 		fluidOutputSorptionButtonID = CollectionHelper.increasingArray(itemInputSize + fluidInputSize + itemOutputSize, fluidOutputSize);
-		
-		machineConfigButtonID = fluidInputSize + fluidOutputSize;
-		redstoneControlButtonID = machineConfigButtonID + 1;
 		
 		playerGuiX = playerGuiXY[0];
 		playerGuiY = playerGuiXY[1];
@@ -210,26 +203,18 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		jeiClickAreaH = jeiClickAreaXYWH[3];
 	}
 	
-	public static List<int[]> stackXYList(List<int[]> slotXYWHList) {
-		return slotXYWHList.stream().map(ProcessorContainerInfo::stackXY).collect(Collectors.toList());
-	}
-	
-	public static int[] stackXY(int[] slotXYWH) {
-		return new int[] {slotXYWH[0] + (16 - slotXYWH[2]) / 2, slotXYWH[1] + (16 - slotXYWH[3]) / 2};
-	}
-	
 	public BasicRecipeHandler getRecipeHandler() {
 		return NCRecipes.getHandler(name);
 	}
 	
 	@Override
-	public Object getNewContainer(int ID, EntityPlayer player, TILE tile) {
-		return (ID == getGuiId() ? containerFunction : configContainerFunction).apply(player, tile);
+	public Object getNewContainer(int id, EntityPlayer player, TILE tile) {
+		return (id == getGuiId() ? containerFunction : configContainerFunction).apply(player, tile);
 	}
 	
 	@Override
-	public Object getNewGui(int ID, EntityPlayer player, TILE tile) {
-		return (ID == getGuiId() ? guiFunction : configGuiFunction).apply(player, tile);
+	public Object getNewGui(int id, EntityPlayer player, TILE tile) {
+		return (id == getGuiId() ? guiFunction : configGuiFunction).apply(player, tile);
 	}
 	
 	public int getInventorySize() {
@@ -240,8 +225,16 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		return 36 + getInventorySize();
 	}
 	
+	public int getTankCount() {
+		return fluidInputSize + fluidOutputSize;
+	}
+	
 	public EnergyConnection defaultEnergyConnection() {
 		return defaultProcessPower == 0 ? EnergyConnection.NON : (isGenerator ? EnergyConnection.OUT : EnergyConnection.IN);
+	}
+	
+	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
+		return NonNullList.withSize(getInventorySize(), ItemStack.EMPTY);
 	}
 	
 	public @Nonnull NonNullList<ItemStack> getConsumedStacks() {
@@ -259,11 +252,11 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	}
 	
 	public int getMachineConfigButtonID() {
-		return fluidInputSize + fluidOutputSize;
+		return getTankCount();
 	}
 	
 	public int getRedstoneControlButtonID() {
-		return fluidInputSize + fluidOutputSize + 1;
+		return getTankCount() + 1;
 	}
 	
 	public List<ItemSorption> defaultItemSorptions() {
@@ -273,6 +266,14 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		}
 		for (int i = 0; i < itemOutputSize; ++i) {
 			itemSorptions.add(ItemSorption.OUT);
+		}
+		return itemSorptions;
+	}
+	
+	public List<ItemSorption> nonItemSorptions() {
+		List<ItemSorption> itemSorptions = new ArrayList<>();
+		for (int i = 0; i < getInventorySize(); ++i) {
+			itemSorptions.add(ItemSorption.NON);
 		}
 		return itemSorptions;
 	}
@@ -295,6 +296,14 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		}
 		for (int i = 0; i < fluidOutputSize; ++i) {
 			tankSorptions.add(TankSorption.OUT);
+		}
+		return tankSorptions;
+	}
+	
+	public List<TankSorption> nonTankSorptions() {
+		List<TankSorption> tankSorptions = new ArrayList<>();
+		for (int i = 0; i < getTankCount(); ++i) {
+			tankSorptions.add(TankSorption.NON);
 		}
 		return tankSorptions;
 	}

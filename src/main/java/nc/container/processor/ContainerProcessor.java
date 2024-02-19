@@ -1,8 +1,8 @@
 package nc.container.processor;
 
-import nc.container.ContainerTile;
+import nc.container.ContainerInfoTile;
 import nc.container.slot.*;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.ProcessorContainerInfo;
@@ -11,7 +11,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerTile<TILE, PACKET, INFO> {
+public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ContainerInfoTile<TILE, PACKET, INFO> {
 	
 	protected final TILE tile;
 	protected final BasicRecipeHandler recipeHandler;
@@ -29,13 +29,21 @@ public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TI
 	protected void addMachineSlots(EntityPlayer player) {
 		for (int i = 0; i < info.itemInputSize; ++i) {
 			int[] stackXY = info.itemInputStackXY.get(i);
-			addSlotToContainer(new SlotProcessorInput(tile, recipeHandler, i, stackXY[0], stackXY[1]));
+			addInputSlot(player, i, stackXY[0], stackXY[1]);
 		}
 		
 		for (int i = 0; i < info.itemOutputSize; ++i) {
 			int[] stackXY = info.itemOutputStackXY.get(i);
-			addSlotToContainer(new SlotFurnace(player, tile, i + info.itemInputSize, stackXY[0], stackXY[1]));
+			addOutputSlot(player, i + info.itemInputSize, stackXY[0], stackXY[1]);
 		}
+	}
+	
+	protected void addInputSlot(EntityPlayer player, int index, int xPosition, int yPosition) {
+		addSlotToContainer(new SlotProcessorInput(tile, recipeHandler, index, xPosition, yPosition));
+	}
+	
+	protected void addOutputSlot(EntityPlayer player, int index, int xPosition, int yPosition) {
+		addSlotToContainer(new SlotFurnace(player, tile, index, xPosition, yPosition));
 	}
 	
 	@Override
@@ -97,14 +105,6 @@ public abstract class ContainerProcessor<TILE extends TileEntity & IProcessor<TI
 				return ItemStack.EMPTY;
 			}
 		}
-		else if (index >= invStart && index < invEnd - 9) {
-			if (!mergeItemStack(stack, invEnd - 9, invEnd, false)) {
-				return ItemStack.EMPTY;
-			}
-		}
-		else if (index >= invEnd - 9 && index < invEnd && !mergeItemStack(stack, invStart, invEnd - 9, false)) {
-			return ItemStack.EMPTY;
-		}
-		return null;
+		return transferPlayerStackDefault(player, index, invStart, invEnd, stack);
 	}
 }

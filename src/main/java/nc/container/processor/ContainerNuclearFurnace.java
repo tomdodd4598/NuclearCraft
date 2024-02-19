@@ -1,8 +1,8 @@
 package nc.container.processor;
 
-import nc.container.ContainerTile;
+import nc.container.ContainerInfoTile;
 import nc.container.slot.*;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.tile.processor.TileNuclearFurnace.NuclearFurnaceContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +10,7 @@ import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo> {
+public class ContainerNuclearFurnace extends ContainerInfoTile<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo> {
 	
 	private int cookTime;
 	private int totalCookTime;
@@ -40,23 +40,18 @@ public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace, P
 		super.detectAndSendChanges();
 		
 		if (inv != null) {
-			for (int i = 0; i < listeners.size(); ++i) {
-				IContainerListener icontainerlistener = listeners.get(i);
-				
+			for (IContainerListener listener : listeners) {
 				if (furnaceBurnTime != inv.getField(0)) {
-					icontainerlistener.sendWindowProperty(this, 0, inv.getField(0));
+					listener.sendWindowProperty(this, 0, inv.getField(0));
 				}
-				
 				if (currentItemBurnTime != inv.getField(1)) {
-					icontainerlistener.sendWindowProperty(this, 1, inv.getField(1));
+					listener.sendWindowProperty(this, 1, inv.getField(1));
 				}
-				
 				if (cookTime != inv.getField(2)) {
-					icontainerlistener.sendWindowProperty(this, 2, inv.getField(2));
+					listener.sendWindowProperty(this, 2, inv.getField(2));
 				}
-				
 				if (totalCookTime != inv.getField(3)) {
-					icontainerlistener.sendWindowProperty(this, 3, inv.getField(3));
+					listener.sendWindowProperty(this, 3, inv.getField(3));
 				}
 			}
 			

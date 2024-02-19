@@ -1,6 +1,8 @@
 CT Registration of machines
 Add auto-outputting to machines
 
+Add proper port container info system
+
 Fix smart insertion for fluid recipes
 
 Replace specialised NCO packet handler instance references

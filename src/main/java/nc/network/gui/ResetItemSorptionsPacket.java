@@ -6,61 +6,40 @@ import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
-import net.minecraftforge.fml.relauncher.Side;
 
-public class ResetItemSorptionsPacket implements IMessage {
+public class ResetItemSorptionsPacket extends TileGuiPacket {
 	
-	protected BlockPos pos;
 	protected int slot;
 	protected boolean defaults;
 	
 	public ResetItemSorptionsPacket() {
-		
+		super();
 	}
 	
-	public ResetItemSorptionsPacket(ITileInventory machine, int slot, boolean defaults) {
-		pos = machine.getTilePos();
+	public ResetItemSorptionsPacket(ITileInventory tile, int slot, boolean defaults) {
+		super(tile);
 		this.slot = slot;
 		this.defaults = defaults;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		super.fromBytes(buf);
 		slot = buf.readInt();
 		defaults = buf.readBoolean();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(pos.getX());
-		buf.writeInt(pos.getY());
-		buf.writeInt(pos.getZ());
+		super.toBytes(buf);
 		buf.writeInt(slot);
 		buf.writeBoolean(defaults);
 	}
 	
-	public static class Handler implements IMessageHandler<ResetItemSorptionsPacket, IMessage> {
+	public static class Handler extends TileGuiPacket.Handler<ResetItemSorptionsPacket> {
 		
 		@Override
-		public IMessage onMessage(ResetItemSorptionsPacket message, MessageContext ctx) {
-			if (ctx.side == Side.SERVER) {
-				FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
-			}
-			return null;
-		}
-		
-		void processMessage(ResetItemSorptionsPacket message, MessageContext ctx) {
-			EntityPlayerMP player = ctx.getServerHandler().player;
-			World world = player.getServerWorld();
-			if (!world.isBlockLoaded(message.pos) || !world.isBlockModifiable(player, message.pos)) {
-				return;
-			}
-			TileEntity tile = world.getTileEntity(message.pos);
+		protected void onPacket(ResetItemSorptionsPacket message, EntityPlayerMP player, TileEntity tile) {
 			if (tile instanceof ITileInventory) {
 				ITileInventory machine = (ITileInventory) tile;
 				for (EnumFacing side : EnumFacing.VALUES) {

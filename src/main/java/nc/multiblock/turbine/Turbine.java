@@ -23,7 +23,7 @@ import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.turbine.*;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;

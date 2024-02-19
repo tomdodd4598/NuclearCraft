@@ -13,7 +13,7 @@ import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.network.multiblock.FissionUpdatePacket;
 import nc.tile.fission.*;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;

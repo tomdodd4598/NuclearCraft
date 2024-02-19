@@ -78,6 +78,14 @@ public interface ITileEnergy extends ITile, IBigPower {
 		return getEnergyStorage().getMaxEnergyStored();
 	}
 	
+	public default long getEnergyStoredLong() {
+		return getEnergyStorage().getEnergyStoredLong();
+	}
+	
+	public default long getMaxEnergyStoredLong() {
+		return getEnergyStorage().getMaxEnergyStoredLong();
+	}
+	
 	public default boolean canReceiveEnergy(EnumFacing side) {
 		return getEnergyConnection(side).canReceive();
 	}

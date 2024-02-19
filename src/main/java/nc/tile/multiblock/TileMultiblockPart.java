@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLLog;
 
 /** Base logic class for Multiblock-connected tile entities. Most multiblock machines should derive from this and implement their game logic in certain abstract methods. */
-public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends TileBeefAbstract implements ITileMultiblockPart<MULTIBLOCK, T> {
+public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends TilePartAbstract implements ITileMultiblockPart<MULTIBLOCK, T> {
 	
 	private MULTIBLOCK multiblock;
 	public final Class<MULTIBLOCK> multiblockClass;

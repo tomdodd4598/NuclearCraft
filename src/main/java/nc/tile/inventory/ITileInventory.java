@@ -10,7 +10,7 @@ import nc.tile.ITile;
 import nc.tile.internal.inventory.*;
 import nc.tile.multiblock.port.ITilePort;
 import nc.tile.processor.IProcessor;
-import nc.util.NCInventoryHelper;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
@@ -25,15 +25,10 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks();
 	
-	// Inventory Logic
-	
-	public default void clearSlot(int slot) {
-		getInventoryStacks().set(slot, ItemStack.EMPTY);
-	}
-	
 	public default void clearAllSlots() {
-		for (int i = 0; i < getInventoryStacks().size(); ++i) {
-			clearSlot(i);
+		@Nonnull NonNullList<ItemStack> stacks = getInventoryStacks();
+		for (int i = 0; i < stacks.size(); ++i) {
+			stacks.set(i, ItemStack.EMPTY);
 		}
 	}
 	
@@ -51,8 +46,8 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	@Override
 	public default boolean isEmpty() {
-		for (ItemStack itemstack : getInventoryStacks()) {
-			if (!itemstack.isEmpty()) {
+		for (ItemStack stack : getInventoryStacks()) {
+			if (!stack.isEmpty()) {
 				return false;
 			}
 		}
@@ -76,14 +71,15 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	@Override
 	public default void setInventorySlotContents(int slot, ItemStack stack) {
-		ItemStack itemstack = getInventoryStacks().get(slot);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.StackHelper.areItemStackTagsEqual(stack, itemstack);
+		@Nonnull NonNullList<ItemStack> stacks = getInventoryStacks();
+		ItemStack itemstack = stacks.get(slot);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && StackHelper.areItemStackTagsEqual(stack, itemstack);
 		
 		if (stack.getCount() > getInventoryStackLimit()) {
 			stack.setCount(getInventoryStackLimit());
 		}
 		
-		getInventoryStacks().set(slot, stack);
+		stacks.set(slot, stack);
 		
 		if (!flag) {
 			markTileDirty();
@@ -113,7 +109,7 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	@Override
 	public default boolean isUsableByPlayer(EntityPlayer player) {
-		return player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
+		return ITile.super.isUsableByPlayer(player);
 	}
 	
 	@Override
@@ -225,12 +221,15 @@ public interface ITileInventory extends ITile, ISidedInventory {
 			
 			boolean pushed = false;
 			
-			for (int i = 0; i < getInventoryStacks().size(); ++i) {
-				if (!getItemSorption(side, i).canExtract() || getInventoryStacks().get(i).isEmpty()) {
+			@Nonnull NonNullList<ItemStack> stacks = getInventoryStacks();
+			int stacksCount = stacks.size();
+			for (int i = 0; i < stacksCount; ++i) {
+				ItemStack stack;
+				if (!getItemSorption(side, i).canExtract() || (stack = stacks.get(i)).isEmpty()) {
 					continue;
 				}
 				
-				ItemStack initialStack = getInventoryStacks().get(i).copy();
+				ItemStack initialStack = stack.copy();
 				ItemStack remaining = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
 				
 				if (remaining.getCount() >= initialStack.getCount()) {
@@ -239,10 +238,10 @@ public interface ITileInventory extends ITile, ISidedInventory {
 				
 				pushed = true;
 				
-				getInventoryStacks().get(i).shrink(initialStack.getCount() - remaining.getCount());
+				stack.shrink(initialStack.getCount() - remaining.getCount());
 				
-				if (getInventoryStacks().get(i).getCount() <= 0) {
-					getInventoryStacks().set(i, ItemStack.EMPTY);
+				if (stack.getCount() <= 0) {
+					stacks.set(i, ItemStack.EMPTY);
 				}
 			}
 			

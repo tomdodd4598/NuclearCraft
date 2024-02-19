@@ -5,11 +5,15 @@ import static nc.config.NCConfig.*;
 import java.util.*;
 
 import mezz.jei.api.IGuiHelper;
-import nc.integration.jei.category.JEIRecipeCategoryImpl.*;
-import nc.integration.jei.category.info.JEICategoryInfoImpl.*;
-import nc.network.tile.ProcessorUpdatePacket;
+import nc.integration.jei.category.info.JEISimpleCategoryInfo;
+import nc.network.tile.multiblock.*;
+import nc.network.tile.processor.EnergyProcessorUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.*;
+import nc.tile.fission.*;
+import nc.tile.fission.TileFissionIrradiator.FissionIrradiatorContainerInfo;
+import nc.tile.fission.TileSaltFissionVessel.SaltFissionVesselContainerInfo;
+import nc.tile.fission.TileSolidFissionCell.SolidFissionCellContainerInfo;
 import nc.tile.processor.TileProcessorImpl.*;
 import nc.tile.processor.info.ProcessorContainerInfoImpl.*;
 import nc.tile.radiation.TileRadiationScrubber;
@@ -19,171 +23,171 @@ import net.minecraft.util.text.TextFormatting;
 
 public class JEIRecipeWrapperImpl {
 	
-	public static class JEIBasicProcessorRecipeWrapper<TILE extends TileBasicProcessor<TILE>, WRAPPER extends JEIBasicProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, ProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>, WRAPPER, JEIBasicProcessorRecipeCategory<TILE, WRAPPER>, JEIBasicProcessorCategoryInfo<TILE, WRAPPER>> {
+	public static class JEIBasicProcessorRecipeWrapper<TILE extends TileBasicProcessor<TILE>, WRAPPER extends JEIBasicProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, EnergyProcessorUpdatePacket, BasicProcessorContainerInfo<TILE>, WRAPPER> {
 		
-		public JEIBasicProcessorRecipeWrapper(IGuiHelper guiHelper, JEIBasicProcessorCategoryInfo<TILE, WRAPPER> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public JEIBasicProcessorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
-	public static class JEIBasicUpgradableProcessorRecipeWrapper<TILE extends TileBasicUpgradableProcessor<TILE>, WRAPPER extends JEIBasicUpgradableProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, ProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>, WRAPPER, JEIBasicUpgradableProcessorRecipeCategory<TILE, WRAPPER>, JEIBasicUpgradableProcessorCategoryInfo<TILE, WRAPPER>> {
+	public static class JEIBasicUpgradableProcessorRecipeWrapper<TILE extends TileBasicUpgradableProcessor<TILE>, WRAPPER extends JEIBasicUpgradableProcessorRecipeWrapper<TILE, WRAPPER>> extends JEIProcessorRecipeWrapper<TILE, EnergyProcessorUpdatePacket, BasicUpgradableProcessorContainerInfo<TILE>, WRAPPER> {
 		
-		public JEIBasicUpgradableProcessorRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TILE, WRAPPER> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public JEIBasicUpgradableProcessorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class JEIBasicProcessorRecipeWrapperDyn extends JEIBasicProcessorRecipeWrapper<TileBasicProcessorDyn, JEIBasicProcessorRecipeWrapperDyn> {
 		
-		public JEIBasicProcessorRecipeWrapperDyn(IGuiHelper guiHelper, JEIBasicProcessorCategoryInfo<TileBasicProcessorDyn, JEIBasicProcessorRecipeWrapperDyn> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public JEIBasicProcessorRecipeWrapperDyn(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class JEIBasicUpgradableProcessorRecipeWrapperDyn extends JEIBasicUpgradableProcessorRecipeWrapper<TileBasicUpgradableProcessorDyn, JEIBasicUpgradableProcessorRecipeWrapperDyn> {
 		
-		public JEIBasicUpgradableProcessorRecipeWrapperDyn(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileBasicUpgradableProcessorDyn, JEIBasicUpgradableProcessorRecipeWrapperDyn> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public JEIBasicUpgradableProcessorRecipeWrapperDyn(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class ManufactoryRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileManufactory, ManufactoryRecipeWrapper> {
 		
-		public ManufactoryRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileManufactory, ManufactoryRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public ManufactoryRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class SeparatorRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileSeparator, SeparatorRecipeWrapper> {
 		
-		public SeparatorRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileSeparator, SeparatorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public SeparatorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class DecayHastenerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileDecayHastener, DecayHastenerRecipeWrapper> {
 		
-		public DecayHastenerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileDecayHastener, DecayHastenerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public DecayHastenerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class FuelReprocessorRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileFuelReprocessor, FuelReprocessorRecipeWrapper> {
 		
-		public FuelReprocessorRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileFuelReprocessor, FuelReprocessorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public FuelReprocessorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class AlloyFurnaceRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileAlloyFurnace, AlloyFurnaceRecipeWrapper> {
 		
-		public AlloyFurnaceRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileAlloyFurnace, AlloyFurnaceRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public AlloyFurnaceRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class InfuserRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileInfuser, InfuserRecipeWrapper> {
 		
-		public InfuserRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileInfuser, InfuserRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public InfuserRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class MelterRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileMelter, MelterRecipeWrapper> {
 		
-		public MelterRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileMelter, MelterRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public MelterRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class SupercoolerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileSupercooler, SupercoolerRecipeWrapper> {
 		
-		public SupercoolerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileSupercooler, SupercoolerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public SupercoolerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class ElectrolyzerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileElectrolyzer, ElectrolyzerRecipeWrapper> {
 		
-		public ElectrolyzerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileElectrolyzer, ElectrolyzerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public ElectrolyzerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class AssemblerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileAssembler, AssemblerRecipeWrapper> {
 		
-		public AssemblerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileAssembler, AssemblerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public AssemblerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class IngotFormerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileIngotFormer, IngotFormerRecipeWrapper> {
 		
-		public IngotFormerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileIngotFormer, IngotFormerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public IngotFormerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class PressurizerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TilePressurizer, PressurizerRecipeWrapper> {
 		
-		public PressurizerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TilePressurizer, PressurizerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public PressurizerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class ChemicalReactorRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileChemicalReactor, ChemicalReactorRecipeWrapper> {
 		
-		public ChemicalReactorRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileChemicalReactor, ChemicalReactorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public ChemicalReactorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class SaltMixerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileSaltMixer, SaltMixerRecipeWrapper> {
 		
-		public SaltMixerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileSaltMixer, SaltMixerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public SaltMixerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class CrystallizerRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileCrystallizer, CrystallizerRecipeWrapper> {
 		
-		public CrystallizerRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileCrystallizer, CrystallizerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public CrystallizerRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class EnricherRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileEnricher, EnricherRecipeWrapper> {
 		
-		public EnricherRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileEnricher, EnricherRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public EnricherRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class ExtractorRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileExtractor, ExtractorRecipeWrapper> {
 		
-		public ExtractorRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileExtractor, ExtractorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public ExtractorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class CentrifugeRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileCentrifuge, CentrifugeRecipeWrapper> {
 		
-		public CentrifugeRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileCentrifuge, CentrifugeRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public CentrifugeRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class RockCrusherRecipeWrapper extends JEIBasicUpgradableProcessorRecipeWrapper<TileRockCrusher, RockCrusherRecipeWrapper> {
 		
-		public RockCrusherRecipeWrapper(IGuiHelper guiHelper, JEIBasicUpgradableProcessorCategoryInfo<TileRockCrusher, RockCrusherRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public RockCrusherRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 	}
 	
 	public static class RadiationScrubberRecipeWrapper extends JEIBasicProcessorRecipeWrapper<TileRadiationScrubber, RadiationScrubberRecipeWrapper> {
 		
-		public RadiationScrubberRecipeWrapper(IGuiHelper guiHelper, JEIBasicProcessorCategoryInfo<TileRadiationScrubber, RadiationScrubberRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public RadiationScrubberRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 		
 		@Override
@@ -230,10 +234,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String PROCESS_EFFICIENCY = Lang.localize("jei.nuclearcraft.scrubber_process_efficiency");
 	}
 	
-	public static class CollectorRecipeWrapper extends JEIRecipeWrapper {
+	public static class CollectorRecipeWrapper extends JEISimpleRecipeWrapper<CollectorRecipeWrapper> {
 		
-		public CollectorRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34);
+		public CollectorRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<CollectorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -252,7 +256,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.GREEN + PRODUCTION_RATE + " " + TextFormatting.WHITE + getCollectorProductionRate());
 			}
 			
@@ -262,10 +266,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String PRODUCTION_RATE = Lang.localize("jei.nuclearcraft.collector_production_rate");
 	}
 	
-	public static class DecayGeneratorRecipeWrapper extends JEIRecipeWrapper {
+	public static class DecayGeneratorRecipeWrapper extends JEISimpleRecipeWrapper<DecayGeneratorRecipeWrapper> {
 		
-		public DecayGeneratorRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public DecayGeneratorRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<DecayGeneratorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -298,7 +302,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getDecayGeneratorLifetime(), 3, 1));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayGeneratorPower(), 5, "RF/t"));
 				double radiation = getDecayGeneratorRadiation();
@@ -315,10 +319,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String BLOCK_RADIATION = Lang.localize("jei.nuclearcraft.decay_gen_radiation");
 	}
 	
-	public static class FissionModeratorRecipeWrapper extends JEIRecipeWrapper {
+	public static class FissionModeratorRecipeWrapper extends JEISimpleRecipeWrapper<FissionModeratorRecipeWrapper> {
 		
-		public FissionModeratorRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, -1, -1, 74, 35);
+		public FissionModeratorRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<FissionModeratorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -327,10 +331,10 @@ public class JEIRecipeWrapperImpl {
 		}
 	}
 	
-	public static class FissionReflectorRecipeWrapper extends JEIRecipeWrapper {
+	public static class FissionReflectorRecipeWrapper extends JEISimpleRecipeWrapper<FissionReflectorRecipeWrapper> {
 		
-		public FissionReflectorRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, -1, -1, 74, 35);
+		public FissionReflectorRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<FissionReflectorRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -339,10 +343,10 @@ public class JEIRecipeWrapperImpl {
 		}
 	}
 	
-	public static class FissionIrradiatorRecipeWrapper extends JEIRecipeWrapper {
+	public static class FissionIrradiatorRecipeWrapper extends JEIProcessorRecipeWrapper<TileFissionIrradiator, FissionIrradiatorUpdatePacket, FissionIrradiatorContainerInfo, FissionIrradiatorRecipeWrapper> {
 		
-		public FissionIrradiatorRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public FissionIrradiatorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 		
 		@Override
@@ -396,7 +400,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.RED + FLUX_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getIrradiatorFluxRequired(), 5, "N"));
 				double heatPerFlux = getIrradiatorHeatPerFlux();
 				if (heatPerFlux > 0D) {
@@ -436,10 +440,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String RADIATION_PER_FLUX = Lang.localize("jei.nuclearcraft.radiation_per_flux");
 	}
 	
-	public static class PebbleFissionRecipeWrapper extends JEIRecipeWrapper {
+	public static class PebbleFissionRecipeWrapper extends JEISimpleRecipeWrapper<PebbleFissionRecipeWrapper> {
 		
-		public PebbleFissionRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public PebbleFissionRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<PebbleFissionRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -500,7 +504,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime(), 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
@@ -529,10 +533,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String FUEL_RADIATION = Lang.localize("jei.nuclearcraft.pebble_fuel_radiation");
 	}
 	
-	public static class SolidFissionRecipeWrapper extends JEIRecipeWrapper {
+	public static class SolidFissionRecipeWrapper extends JEIProcessorRecipeWrapper<TileSolidFissionCell, SolidFissionCellUpdatePacket, SolidFissionCellContainerInfo, SolidFissionRecipeWrapper> {
 		
-		public SolidFissionRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public SolidFissionRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 		
 		@Override
@@ -593,7 +597,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getFissionFuelTime(), 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
@@ -622,10 +626,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String FUEL_RADIATION = Lang.localize("jei.nuclearcraft.solid_fuel_radiation");
 	}
 	
-	public static class FissionHeatingRecipeWrapper extends JEIRecipeWrapper {
+	public static class FissionHeatingRecipeWrapper extends JEISimpleRecipeWrapper<FissionHeatingRecipeWrapper> {
 		
-		public FissionHeatingRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public FissionHeatingRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<FissionHeatingRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -644,7 +648,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.YELLOW + HEAT_PER_MB + " " + TextFormatting.WHITE + getFissionHeatingHeatPerInputMB() + " H/mB");
 			}
 			
@@ -654,10 +658,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String HEAT_PER_MB = Lang.localize("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
-	public static class SaltFissionRecipeWrapper extends JEIRecipeWrapper {
+	public static class SaltFissionRecipeWrapper extends JEIProcessorRecipeWrapper<TileSaltFissionVessel, SaltFissionVesselUpdatePacket, SaltFissionVesselContainerInfo, SaltFissionRecipeWrapper> {
 		
-		public SaltFissionRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public SaltFissionRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 		
 		@Override
@@ -718,7 +722,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getSaltFissionFuelTime(), 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
@@ -747,10 +751,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String FUEL_RADIATION = Lang.localize("jei.nuclearcraft.salt_fuel_radiation");
 	}
 	
-	public static class CoolantHeaterRecipeWrapper extends JEIRecipeWrapper {
+	public static class CoolantHeaterRecipeWrapper extends JEISimpleRecipeWrapper<CoolantHeaterRecipeWrapper> {
 		
-		public CoolantHeaterRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35);
+		public CoolantHeaterRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<CoolantHeaterRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -776,7 +780,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getCoolantHeaterCoolingRate(), 5, "H/t"));
 				if (getCoolantHeaterJEIInfo() != null) {
 					for (String posInfo : getCoolantHeaterJEIInfo()) {
@@ -791,10 +795,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String COOLING = Lang.localize("jei.nuclearcraft.coolant_heater_rate");
 	}
 	
-	public static class FissionEmergencyCoolingRecipeWrapper extends JEIRecipeWrapper {
+	public static class FissionEmergencyCoolingRecipeWrapper extends JEISimpleRecipeWrapper<FissionEmergencyCoolingRecipeWrapper> {
 		
-		public FissionEmergencyCoolingRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public FissionEmergencyCoolingRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<FissionEmergencyCoolingRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -813,7 +817,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.BLUE + COOLING_PER_MB + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getEmergencyCoolingHeatPerInputMB(), 2) + " H/mB");
 			}
 			
@@ -823,10 +827,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String COOLING_PER_MB = Lang.localize("jei.nuclearcraft.fission_emergency_cooling_per_mb");
 	}
 	
-	public static class HeatExchangerRecipeWrapper extends JEIRecipeWrapper {
+	public static class HeatExchangerRecipeWrapper extends JEISimpleRecipeWrapper<HeatExchangerRecipeWrapper> {
 		
-		public HeatExchangerRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, recipe != null && recipe.getHeatExchangerIsHeating() ? 3 : 19, 37, 16, 74, 35);
+		public HeatExchangerRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<HeatExchangerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -845,10 +849,13 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				boolean heating = recipe.getHeatExchangerIsHeating();
 				int inputTemp = recipe.getHeatExchangerInputTemperature();
 				int outputTemp = recipe.getHeatExchangerOutputTemperature();
+				
+				tooltip.add((heating ? TextFormatting.AQUA : TextFormatting.RED) + TEMPERATURE + TextFormatting.WHITE + " " + inputTemp + "K");
+				tooltip.add((heating ? TextFormatting.RED : TextFormatting.AQUA) + TEMPERATURE + TextFormatting.WHITE + " " + outputTemp + "K");
 				
 				tooltip.add((heating ? TextFormatting.AQUA + COOLING_PROVIDED : TextFormatting.RED + HEATING_PROVIDED) + TextFormatting.WHITE + " " + Math.abs(inputTemp - outputTemp) + "/t");
 				tooltip.add((heating ? TextFormatting.RED + HEATING_REQUIRED : TextFormatting.AQUA + COOLING_REQUIRED) + TextFormatting.WHITE + " " + getHeatExchangerProcessTime());
@@ -857,16 +864,17 @@ public class JEIRecipeWrapperImpl {
 			return tooltip;
 		}
 		
+		private static final String TEMPERATURE = Lang.localize("jei.nuclearcraft.exchanger_fluid_temp");
 		private static final String HEATING_PROVIDED = Lang.localize("jei.nuclearcraft.exchanger_heating_provided");
 		private static final String COOLING_PROVIDED = Lang.localize("jei.nuclearcraft.exchanger_cooling_provided");
 		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.exchanger_heating_required");
 		private static final String COOLING_REQUIRED = Lang.localize("jei.nuclearcraft.exchanger_cooling_required");
 	}
 	
-	public static class CondenserRecipeWrapper extends JEIRecipeWrapper {
+	public static class CondenserRecipeWrapper extends JEISimpleRecipeWrapper<CondenserRecipeWrapper> {
 		
-		public CondenserRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public CondenserRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<CondenserRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -892,7 +900,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.YELLOW + CONDENSING_TEMPERATURE + TextFormatting.WHITE + " " + getCondenserCondensingTemperature() + "K");
 				tooltip.add(TextFormatting.BLUE + HEAT_REMOVAL_REQUIRED + TextFormatting.WHITE + " " + NCMath.sigFigs(getCondenserProcessTime(), 5));
 			}
@@ -904,10 +912,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String HEAT_REMOVAL_REQUIRED = Lang.localize("jei.nuclearcraft.condenser_heat_removal_req");
 	}
 	
-	public static class TurbineRecipeWrapper extends JEIRecipeWrapper {
+	public static class TurbineRecipeWrapper extends JEISimpleRecipeWrapper<TurbineRecipeWrapper> {
 		
-		public TurbineRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe) {
-			super(guiHelper, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		public TurbineRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<TurbineRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
 		}
 		
 		@Override
@@ -940,7 +948,7 @@ public class JEIRecipeWrapperImpl {
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getTurbinePowerPerMB(), 2) + " RF/mB");
 				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineExpansionLevel(), 1));
 				tooltip.add(TextFormatting.GREEN + SPIN_UP + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineSpinUpMultiplier(), 1));

@@ -14,7 +14,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
-import nc.tile.multiblock.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.quantum.*;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
