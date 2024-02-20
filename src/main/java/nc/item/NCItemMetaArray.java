@@ -23,7 +23,7 @@ public class NCItemMetaArray extends Item implements IInfoItem {
 	
 	public NCItemMetaArray(List<String> types, TextFormatting infoColor, String[]... tooltips) {
 		setHasSubtypes(true);
-		this.types = types.toArray(new String[types.size()]);
+		this.types = types.toArray(new String[0]);
 		this.infoColor = infoColor;
 		this.tooltips = tooltips;
 	}

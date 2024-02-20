@@ -26,12 +26,12 @@ public class CommandSetChunkRadiation extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 1) {
-			double newRadiation = 0D;
+			double newRadiation;
 			try {
 				newRadiation = Double.parseDouble(args[0]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
 			Chunk chunk = sender.getEntityWorld().getChunk(sender.getPosition());
@@ -44,28 +44,28 @@ public class CommandSetChunkRadiation extends CommandBase {
 		}
 		
 		else if (args.length == 3) {
-			double newRadiation = 0D;
+			double newRadiation;
 			try {
 				newRadiation = Double.parseDouble(args[0]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
-			int x = sender.getPosition().getX();
+			int x;
 			try {
 				x = Integer.parseInt(args[1]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
-			int z = sender.getPosition().getZ();
+			int z;
 			try {
 				z = Integer.parseInt(args[2]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
 			Chunk chunk = sender.getEntityWorld().getChunk(x >> 4, z >> 4);
@@ -77,7 +77,7 @@ public class CommandSetChunkRadiation extends CommandBase {
 			}
 		}
 		else {
-			throw new WrongUsageException(getUsage(sender), new Object[0]);
+			throw new WrongUsageException(getUsage(sender));
 		}
 	}
 }

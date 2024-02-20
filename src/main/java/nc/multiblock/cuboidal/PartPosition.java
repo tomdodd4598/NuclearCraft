@@ -24,7 +24,7 @@ public enum PartPosition implements IStringSerializable {
 	EastFace(EnumFacing.EAST, Type._Face),
 	WestFace(EnumFacing.WEST, Type._Face);
 	
-	protected enum Type {
+	public enum Type {
 		_Unknown,
 		_Interior,
 		_Frame,
@@ -61,6 +61,6 @@ public enum PartPosition implements IStringSerializable {
 		_type = type;
 	}
 	
-	private EnumFacing _facing;
-	private Type _type;
+	private final EnumFacing _facing;
+	private final Type _type;
 }

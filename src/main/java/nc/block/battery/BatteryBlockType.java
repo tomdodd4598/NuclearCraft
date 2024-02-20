@@ -16,9 +16,9 @@ public enum BatteryBlockType implements IBatteryBlockType {
 	LITHIUM_ION_BATTERY_DU(6),
 	LITHIUM_ION_BATTERY_ELITE(7);
 	
-	private int id;
+	private final int id;
 	
-	private BatteryBlockType(int id) {
+	BatteryBlockType(int id) {
 		this.id = id;
 	}
 	
@@ -39,27 +39,15 @@ public enum BatteryBlockType implements IBatteryBlockType {
 	
 	@Override
 	public TileEntity getTile() {
-		switch (this) {
-			case VOLTAIC_PILE_BASIC:
-				return new TileBattery.VoltaicPileBasic();
-			case VOLTAIC_PILE_ADVANCED:
-				return new TileBattery.VoltaicPileAdvanced();
-			case VOLTAIC_PILE_DU:
-				return new TileBattery.VoltaicPileDU();
-			case VOLTAIC_PILE_ELITE:
-				return new TileBattery.VoltaicPileElite();
-			
-			case LITHIUM_ION_BATTERY_BASIC:
-				return new TileBattery.LithiumIonBatteryBasic();
-			case LITHIUM_ION_BATTERY_ADVANCED:
-				return new TileBattery.LithiumIonBatteryAdvanced();
-			case LITHIUM_ION_BATTERY_DU:
-				return new TileBattery.LithiumIonBatteryDU();
-			case LITHIUM_ION_BATTERY_ELITE:
-				return new TileBattery.LithiumIonBatteryElite();
-			
-			default:
-				return null;
-		}
+        return switch (this) {
+            case VOLTAIC_PILE_BASIC -> new TileBattery.VoltaicPileBasic();
+            case VOLTAIC_PILE_ADVANCED -> new TileBattery.VoltaicPileAdvanced();
+            case VOLTAIC_PILE_DU -> new TileBattery.VoltaicPileDU();
+            case VOLTAIC_PILE_ELITE -> new TileBattery.VoltaicPileElite();
+            case LITHIUM_ION_BATTERY_BASIC -> new TileBattery.LithiumIonBatteryBasic();
+            case LITHIUM_ION_BATTERY_ADVANCED -> new TileBattery.LithiumIonBatteryAdvanced();
+            case LITHIUM_ION_BATTERY_DU -> new TileBattery.LithiumIonBatteryDU();
+            case LITHIUM_ION_BATTERY_ELITE -> new TileBattery.LithiumIonBatteryElite();
+        };
 	}
 }

@@ -700,11 +700,11 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 				FileUtils.writeStringToFile(out, codeString);
 				ITextComponent link = new TextComponentString(out.getName());
 				link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
-				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_print", new Object[] {link}));
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_print", link));
 			}
 			catch (IOException e) {
 				NCUtil.getLogger().catching(e);
-				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_error", new Object[] {out.getAbsolutePath()}));
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qasm_error", out.getAbsolutePath()));
 			}
 		}
 		else if (cachedCodeType == 1) {
@@ -745,11 +745,11 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 				FileUtils.writeStringToFile(out, codeString);
 				ITextComponent link = new TextComponentString(out.getName());
 				link.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, out.getAbsolutePath())).setBold(true).setUnderlined(true);
-				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print", new Object[] {link}));
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print", link));
 			}
 			catch (IOException e) {
 				NCUtil.getLogger().catching(e);
-				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error", new Object[] {out.getAbsolutePath()}));
+				player.sendMessage(new TextComponentTranslation("info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error", out.getAbsolutePath()));
 			}
 		}
 		else {

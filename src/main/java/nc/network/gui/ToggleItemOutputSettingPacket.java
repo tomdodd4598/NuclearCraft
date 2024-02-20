@@ -40,9 +40,8 @@ public class ToggleItemOutputSettingPacket extends TileGuiPacket {
 		
 		@Override
 		protected void onPacket(ToggleItemOutputSettingPacket message, EntityPlayerMP player, TileEntity tile) {
-			if (tile instanceof ITileInventory) {
-				ITileInventory machine = (ITileInventory) tile;
-				ItemOutputSetting setting = ItemOutputSetting.values()[message.setting];
+			if (tile instanceof ITileInventory machine) {
+                ItemOutputSetting setting = ItemOutputSetting.values()[message.setting];
 				machine.setItemOutputSetting(message.slot, setting);
 				if (setting == ItemOutputSetting.VOID) {
 					machine.getInventoryStacks().set(message.slot, ItemStack.EMPTY);

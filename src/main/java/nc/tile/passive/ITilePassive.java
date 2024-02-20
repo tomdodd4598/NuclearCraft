@@ -7,15 +7,15 @@ import net.minecraft.util.ITickable;
 
 public interface ITilePassive extends ITickable, ITileEnergy, ITileInventory, ITileFluid {
 	
-	public double getEnergyRate();
+	double getEnergyRate();
 	
-	public double getItemRate();
+	double getItemRate();
 	
-	public double getFluidRate();
+	double getFluidRate();
 	
-	public boolean canPushEnergyTo();
+	boolean canPushEnergyTo();
 	
-	public boolean canPushItemsTo();
+	boolean canPushItemsTo();
 	
-	public boolean canPushFluidsTo();
+	boolean canPushFluidsTo();
 }

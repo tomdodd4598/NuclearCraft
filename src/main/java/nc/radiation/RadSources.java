@@ -358,7 +358,7 @@ public class RadSources {
 	}
 	
 	public static void postInit() {
-		ORE_MAP.entrySet().forEach(ent -> OreDictionary.getOres(ent.getKey(), false).forEach(s -> addToStackMap(s, ent.getValue())));
+		ORE_MAP.forEach((key, value) -> OreDictionary.getOres(key, false).forEach(s -> addToStackMap(s, value)));
 	}
 	
 	public static void refreshRadSources(boolean postInit) {

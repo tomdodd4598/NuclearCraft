@@ -175,9 +175,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			
 			final ObjectSet<IFissionFuelComponent> primedCache = new ObjectOpenHashSet<>();
 			for (IFissionComponent component : getParts(IFissionComponent.class)) {
-				if (component instanceof IFissionFuelComponent) {
-					IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
-					fuelComponent.refreshIsProcessing(false);
+				if (component instanceof IFissionFuelComponent fuelComponent) {
+                    fuelComponent.refreshIsProcessing(false);
 					if ((fuelComponent.isFunctional() || fuelComponent.isSelfPriming()) && !primedFailCache.containsKey(fuelComponent.getTilePos().toLong())) {
 						fuelComponent.tryPriming(getReactor(), false);
 						if (fuelComponent.isPrimed()) {
@@ -326,9 +325,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		cluster.meanEfficiency = cluster.fuelComponentCount == 0 ? 0D : cluster.totalEfficiency / cluster.fuelComponentCount;
 		
 		for (IFissionComponent component : cluster.getComponentMap().values()) {
-			if (component instanceof IFissionFuelComponent) {
-				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
-				fuelComponent.setUndercoolingLifetimeFactor(cluster.undercoolingLifetimeFactor);
+			if (component instanceof IFissionFuelComponent fuelComponent) {
+                fuelComponent.setUndercoolingLifetimeFactor(cluster.undercoolingLifetimeFactor);
 			}
 		}
 	}

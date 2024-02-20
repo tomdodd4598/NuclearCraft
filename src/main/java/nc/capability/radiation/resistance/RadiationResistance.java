@@ -5,7 +5,7 @@ import net.minecraft.util.EnumFacing;
 
 public class RadiationResistance implements IRadiationResistance {
 	
-	private double baseRadResistance = 0D, shieldingRadResistance = 0D;
+	private double baseRadResistance, shieldingRadResistance = 0D;
 	
 	public RadiationResistance(double baseRadResistance) {
 		this.baseRadResistance = baseRadResistance;

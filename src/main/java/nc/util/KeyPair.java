@@ -34,9 +34,8 @@ public final class KeyPair<L, R> extends Pair<L, R> {
 		if (obj == this) {
 			return true;
 		}
-		if (obj instanceof Map.Entry<?, ?>) {
-			final Map.Entry<?, ?> other = (Map.Entry<?, ?>) obj;
-			return Objects.equals(getKey(), other.getKey());
+		if (obj instanceof Map.Entry<?, ?> other) {
+            return Objects.equals(getKey(), other.getKey());
 		}
 		return false;
 	}

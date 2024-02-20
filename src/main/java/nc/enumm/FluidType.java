@@ -28,7 +28,7 @@ public enum FluidType {
 	private final Class<? extends Fluid> fluidClass;
 	private final Class<? extends NCBlockFluid> blockClass;
 	
-	private <T extends Fluid, V extends NCBlockFluid> FluidType(Class<T> fluidClass, Class<V> blockClass) {
+	<T extends Fluid, V extends NCBlockFluid> FluidType(Class<T> fluidClass, Class<V> blockClass) {
 		this.fluidClass = fluidClass;
 		this.blockClass = blockClass;
 	}

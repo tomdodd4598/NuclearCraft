@@ -6,5 +6,5 @@ import net.minecraft.world.IBlockAccess;
 
 public interface ISidedProperty<T extends Enum<T> & IStringSerializable> {
 	
-	public T getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing);
+	T getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing);
 }

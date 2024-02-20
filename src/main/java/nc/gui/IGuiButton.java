@@ -2,11 +2,11 @@ package nc.gui;
 
 public interface IGuiButton {
 	
-	public int getTextureX();
+	int getTextureX();
 	
-	public int getTextureY();
+	int getTextureY();
 	
-	public int getTextureWidth();
+	int getTextureWidth();
 	
-	public int getTextureHeight();
+	int getTextureHeight();
 }

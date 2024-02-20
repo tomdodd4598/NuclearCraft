@@ -3,12 +3,12 @@ package nc.block.battery;
 import net.minecraft.tileentity.TileEntity;
 
 public interface IBatteryBlockType {
+
+	long getCapacity();
+
+	int getMaxTransfer();
 	
-	public long getCapacity();
+	int getEnergyTier();
 	
-	public int getMaxTransfer();
-	
-	public int getEnergyTier();
-	
-	public TileEntity getTile();
+	TileEntity getTile();
 }

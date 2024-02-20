@@ -13,10 +13,10 @@ public enum RTGType {
 	AMERICIUM(2, RadSources.AMERICIUM_241),
 	CALIFORNIUM(3, RadSources.CALIFORNIUM_250);
 	
-	private int id;
-	private double radiation;
+	private final int id;
+	private final double radiation;
 	
-	private RTGType(int id, double radiation) {
+	RTGType(int id, double radiation) {
 		this.id = id;
 		this.radiation = radiation;
 	}
@@ -30,17 +30,11 @@ public enum RTGType {
 	}
 	
 	public TileEntity getTile() {
-		switch (this) {
-			case URANIUM:
-				return new TileRTG.Uranium();
-			case PLUTONIUM:
-				return new TileRTG.Plutonium();
-			case AMERICIUM:
-				return new TileRTG.Americium();
-			case CALIFORNIUM:
-				return new TileRTG.Californium();
-			default:
-				return null;
-		}
+        return switch (this) {
+            case URANIUM -> new TileRTG.Uranium();
+            case PLUTONIUM -> new TileRTG.Plutonium();
+            case AMERICIUM -> new TileRTG.Americium();
+            case CALIFORNIUM -> new TileRTG.Californium();
+        };
 	}
 }

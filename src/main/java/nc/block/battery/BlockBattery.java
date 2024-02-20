@@ -52,14 +52,13 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null || hand != EnumHand.MAIN_HAND) {
+		if (hand != EnumHand.MAIN_HAND) {
 			return false;
 		}
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileBattery) {
-			TileBattery battery = (TileBattery) tile;
-			if (ItemMultitool.isMultitool(player.getHeldItem(hand))) {
+		if (tile instanceof TileBattery battery) {
+            if (ItemMultitool.isMultitool(player.getHeldItem(hand))) {
 				EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
 				battery.toggleEnergyConnection(side, EnergyConnection.Type.DEFAULT);
 			}
@@ -96,11 +95,10 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 	public ItemStack getNBTDrop(IBlockAccess world, BlockPos pos, IBlockState state) {
 		ItemStack stack = new ItemStack(this);
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileBattery) {
+		if (tile instanceof TileBattery battery) {
 			NBTTagCompound nbt = new NBTTagCompound();
-			
-			TileBattery battery = (TileBattery) tile;
-			BatteryMultiblock multiblock = battery.getMultiblock();
+
+            BatteryMultiblock multiblock = battery.getMultiblock();
 			
 			if (multiblock != null) {
 				EnergyStorage storage = multiblock.getEnergyStorage();
@@ -127,11 +125,10 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 			return;
 		}
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileBattery) {
+		if (tile instanceof TileBattery battery) {
 			NBTTagCompound nbt = NBTHelper.getStackNBT(stack);
-			TileBattery battery = (TileBattery) tile;
-			
-			battery.waitingEnergy += new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity)).readFromNBT(nbt, "energyStorage").getEnergyStoredLong();
+
+            battery.waitingEnergy += new EnergyStorage(battery.capacity, NCMath.toInt(battery.capacity)).readFromNBT(nbt, "energyStorage").getEnergyStoredLong();
 			
 			if (player.isSneaking()) {
 				battery.readEnergyConnections(nbt);

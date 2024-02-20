@@ -30,59 +30,37 @@ public class BlockSaltFissionMetaHeater extends BlockFissionMetaPart<MetaEnums.C
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileSaltFissionHeater.Standard();
-			case 1:
-				return new TileSaltFissionHeater.Iron();
-			case 2:
-				return new TileSaltFissionHeater.Redstone();
-			case 3:
-				return new TileSaltFissionHeater.Quartz();
-			case 4:
-				return new TileSaltFissionHeater.Obsidian();
-			case 5:
-				return new TileSaltFissionHeater.NetherBrick();
-			case 6:
-				return new TileSaltFissionHeater.Glowstone();
-			case 7:
-				return new TileSaltFissionHeater.Lapis();
-			case 8:
-				return new TileSaltFissionHeater.Gold();
-			case 9:
-				return new TileSaltFissionHeater.Prismarine();
-			case 10:
-				return new TileSaltFissionHeater.Slime();
-			case 11:
-				return new TileSaltFissionHeater.EndStone();
-			case 12:
-				return new TileSaltFissionHeater.Purpur();
-			case 13:
-				return new TileSaltFissionHeater.Diamond();
-			case 14:
-				return new TileSaltFissionHeater.Emerald();
-			case 15:
-				return new TileSaltFissionHeater.Copper();
-			default:
-				break;
-		}
-		return new TileSaltFissionHeater.Standard();
-	}
+        return switch (metadata) {
+            case 0 -> new TileSaltFissionHeater.Standard();
+            case 1 -> new TileSaltFissionHeater.Iron();
+            case 2 -> new TileSaltFissionHeater.Redstone();
+            case 3 -> new TileSaltFissionHeater.Quartz();
+            case 4 -> new TileSaltFissionHeater.Obsidian();
+            case 5 -> new TileSaltFissionHeater.NetherBrick();
+            case 6 -> new TileSaltFissionHeater.Glowstone();
+            case 7 -> new TileSaltFissionHeater.Lapis();
+            case 8 -> new TileSaltFissionHeater.Gold();
+            case 9 -> new TileSaltFissionHeater.Prismarine();
+            case 10 -> new TileSaltFissionHeater.Slime();
+            case 11 -> new TileSaltFissionHeater.EndStone();
+            case 12 -> new TileSaltFissionHeater.Purpur();
+            case 13 -> new TileSaltFissionHeater.Diamond();
+            case 14 -> new TileSaltFissionHeater.Emerald();
+            case 15 -> new TileSaltFissionHeater.Copper();
+            default -> new TileSaltFissionHeater.Standard();
+        };
+    }
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		if (!world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileSaltFissionHeater) {
-				TileSaltFissionHeater heater = (TileSaltFissionHeater) tile;
-				FissionReactor reactor = heater.getMultiblock();
+			if (tile instanceof TileSaltFissionHeater heater) {
+                FissionReactor reactor = heater.getMultiblock();
 				if (reactor != null) {
 					FluidStack fluidStack = FluidStackHelper.getFluid(player.getHeldItem(hand));
 					if (heater.canModifyFilter(0) && heater.getTanks().get(0).isEmpty() && fluidStack != null && !FluidStackHelper.stacksEqual(heater.getFilterTanks().get(0).getFluid(), fluidStack) && heater.getTanks().get(0).canFillFluidType(fluidStack)) {

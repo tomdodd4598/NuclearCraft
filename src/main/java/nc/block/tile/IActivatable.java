@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public interface IActivatable extends IDynamicState {
 	
-	public default void setActivity(boolean isActive, TileEntity tile) {
+	default void setActivity(boolean isActive, TileEntity tile) {
 		World world = tile.getWorld();
 		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);

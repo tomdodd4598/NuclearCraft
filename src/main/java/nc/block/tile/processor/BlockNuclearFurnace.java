@@ -27,7 +27,7 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	
 	public BlockNuclearFurnace() {
 		super(Material.IRON);
-		setDefaultState(blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 		setCreativeTab(NCTabs.machine);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
@@ -45,13 +45,13 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
 			enumfacing = EnumFacing.NORTH;
 		}
-		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_HORIZONTAL).getIndex();
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 		return i;
@@ -64,7 +64,7 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.FALSE);
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		if (world.isRemote) {

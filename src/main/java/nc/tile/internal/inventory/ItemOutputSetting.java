@@ -12,70 +12,45 @@ public enum ItemOutputSetting implements IStringSerializable, IGuiButton {
 	
 	public ItemOutputSetting next(boolean reverse) {
 		if (reverse) {
-			switch (this) {
-				case DEFAULT:
-					return VOID;
-				case VOID_EXCESS:
-					return DEFAULT;
-				case VOID:
-					return VOID_EXCESS;
-				default:
-					return DEFAULT;
-			}
+            return switch (this) {
+                case DEFAULT -> VOID;
+                case VOID_EXCESS -> DEFAULT;
+                case VOID -> VOID_EXCESS;
+            };
 		}
 		else {
-			switch (this) {
-				case DEFAULT:
-					return VOID_EXCESS;
-				case VOID_EXCESS:
-					return VOID;
-				case VOID:
-					return DEFAULT;
-				default:
-					return DEFAULT;
-			}
+            return switch (this) {
+                case DEFAULT -> VOID_EXCESS;
+                case VOID_EXCESS -> VOID;
+                case VOID -> DEFAULT;
+            };
 		}
 	}
 	
 	@Override
 	public String getName() {
-		switch (this) {
-			case DEFAULT:
-				return "default";
-			case VOID_EXCESS:
-				return "void_excess";
-			case VOID:
-				return "void";
-			default:
-				return "default";
-		}
+        return switch (this) {
+            case DEFAULT -> "default";
+            case VOID_EXCESS -> "void_excess";
+            case VOID -> "void";
+        };
 	}
 	
 	public TextFormatting getTextColor() {
-		switch (this) {
-			case DEFAULT:
-				return TextFormatting.WHITE;
-			case VOID_EXCESS:
-				return TextFormatting.LIGHT_PURPLE;
-			case VOID:
-				return TextFormatting.DARK_PURPLE;
-			default:
-				return TextFormatting.WHITE;
-		}
+        return switch (this) {
+            case DEFAULT -> TextFormatting.WHITE;
+            case VOID_EXCESS -> TextFormatting.LIGHT_PURPLE;
+            case VOID -> TextFormatting.DARK_PURPLE;
+        };
 	}
 	
 	@Override
 	public int getTextureX() {
-		switch (this) {
-			case DEFAULT:
-				return 0;
-			case VOID_EXCESS:
-				return 18;
-			case VOID:
-				return 36;
-			default:
-				return 0;
-		}
+        return switch (this) {
+            case DEFAULT -> 0;
+            case VOID_EXCESS -> 18;
+            case VOID -> 36;
+        };
 	}
 	
 	@Override

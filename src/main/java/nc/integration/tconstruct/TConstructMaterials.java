@@ -44,7 +44,7 @@ public class TConstructMaterials {
 	private static void registerMaterial(String materialName, String oreSuffix, String repairItem, String fluidName, boolean casted, ITrait[] headTraits, ITrait[] extraTraits, int colorLow, int colorMed, int colorHigh, boolean transparent, int durability, double miningSpeed, double attackDamage, int miningLevel, double handleModifier) {
 		for (MaterialIntegration matInteg : TinkerRegistry.getMaterialIntegrations()) {
 			if (matInteg != null && matInteg.material != null) {
-				if (matInteg.material.getIdentifier() == materialName) {
+				if (matInteg.material.getIdentifier().equals(materialName)) {
 					return;
 				}
 			}

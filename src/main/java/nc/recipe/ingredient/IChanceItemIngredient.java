@@ -2,11 +2,11 @@ package nc.recipe.ingredient;
 
 public interface IChanceItemIngredient extends IItemIngredient {
 	
-	public IItemIngredient getRawIngredient();
+	IItemIngredient getRawIngredient();
 	
-	public int getChancePercent();
+	int getChancePercent();
 	
-	public int getMinStackSize();
+	int getMinStackSize();
 	
-	public double getMeanStackSize();
+	double getMeanStackSize();
 }

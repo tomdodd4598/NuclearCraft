@@ -44,7 +44,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		dataManager.register(CLIMBING, Byte.valueOf((byte) 0));
+		dataManager.register(CLIMBING, (byte) 0);
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class EntityFeralGhoul extends EntityZombie {
 		
 		tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1D, false));
 		
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, EntityPigZombie.class));
 		
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
 		targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityVillager.class, true));
@@ -149,9 +149,8 @@ public class EntityFeralGhoul extends EntityZombie {
 	public boolean attackEntityAsMob(Entity entityIn) {
 		boolean flag = super.attackEntityAsMob(entityIn);
 		
-		if (flag && entityIn instanceof EntityLivingBase && !(entityIn instanceof IMob)) {
-			EntityLivingBase target = (EntityLivingBase) entityIn;
-			int mult = (int) (30F * MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 2.5F));
+		if (flag && entityIn instanceof EntityLivingBase target && !(entityIn instanceof IMob)) {
+            int mult = (int) (30F * MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 2.5F));
 			target.addPotionEffect(new PotionEffect(MobEffects.POISON, mult));
 			
 			IEntityRads entityRads = RadiationHelper.getEntityRadiation(target);
@@ -192,7 +191,7 @@ public class EntityFeralGhoul extends EntityZombie {
 		if (getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty()) {
 			Calendar calendar = world.getCurrentDate();
 			
-			if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {
+			if (calendar.get(Calendar.MONTH) + 1 == 10 && calendar.get(Calendar.DATE) == 31 && rand.nextFloat() < 0.25F) {
 				setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
 				inventoryArmorDropChances[EntityEquipmentSlot.HEAD.getIndex()] = 0F;
 			}
@@ -276,7 +275,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	}
 	
 	public boolean isBesideClimbableBlock() {
-		return (dataManager.get(CLIMBING).byteValue() & 1) != 0;
+		return (dataManager.get(CLIMBING) & 1) != 0;
 	}
 	
 	@Override
@@ -285,7 +284,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	}
 	
 	public void setBesideClimbableBlock(boolean climbing) {
-		byte b0 = dataManager.get(CLIMBING).byteValue();
+		byte b0 = dataManager.get(CLIMBING);
 		
 		if (climbing) {
 			b0 = (byte) (b0 | 1);
@@ -294,7 +293,7 @@ public class EntityFeralGhoul extends EntityZombie {
 			b0 = (byte) (b0 & -2);
 		}
 		
-		dataManager.set(CLIMBING, Byte.valueOf(b0));
+		dataManager.set(CLIMBING, b0);
 	}
 	
 	@Override
@@ -526,7 +525,7 @@ public class EntityFeralGhoul extends EntityZombie {
 		return ItemStack.EMPTY;
 	}
 	
-	class Data implements IEntityLivingData {
+	static class Data implements IEntityLivingData {
 		
 	}
 }

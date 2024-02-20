@@ -23,12 +23,12 @@ public interface ITileFluid extends ITile {
 	
 	// Tanks
 	
-	public @Nonnull List<Tank> getTanks();
+	@Nonnull List<Tank> getTanks();
 	
 	// Tank Logic
 	
 	/** Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption */
-	public default boolean isNextToFill(@Nonnull EnumFacing side, int tankNumber, FluidStack resource) {
+	default boolean isNextToFill(@Nonnull EnumFacing side, int tankNumber, FluidStack resource) {
 		if (!getInputTanksSeparated()) {
 			return true;
 		}
@@ -46,11 +46,11 @@ public interface ITileFluid extends ITile {
 		return true;
 	}
 	
-	public default void clearTank(int tankNumber) {
+	default void clearTank(int tankNumber) {
 		getTanks().get(tankNumber).setFluidStored(null);
 	}
 	
-	public default void clearAllTanks() {
+	default void clearAllTanks() {
 		for (Tank tank : getTanks()) {
 			tank.setFluidStored(null);
 		}
@@ -58,23 +58,23 @@ public interface ITileFluid extends ITile {
 	
 	// Fluid Connections
 	
-	public @Nonnull FluidConnection[] getFluidConnections();
+	@Nonnull FluidConnection[] getFluidConnections();
 	
-	public void setFluidConnections(@Nonnull FluidConnection[] connections);
+	void setFluidConnections(@Nonnull FluidConnection[] connections);
 	
-	public default @Nonnull FluidConnection getFluidConnection(@Nonnull EnumFacing side) {
+	default @Nonnull FluidConnection getFluidConnection(@Nonnull EnumFacing side) {
 		return getFluidConnections()[side.getIndex()];
 	}
 	
-	public default @Nonnull TankSorption getTankSorption(@Nonnull EnumFacing side, int tankNumber) {
+	default @Nonnull TankSorption getTankSorption(@Nonnull EnumFacing side, int tankNumber) {
 		return getFluidConnections()[side.getIndex()].getTankSorption(tankNumber);
 	}
 	
-	public default void setTankSorption(@Nonnull EnumFacing side, int tankNumber, @Nonnull TankSorption sorption) {
+	default void setTankSorption(@Nonnull EnumFacing side, int tankNumber, @Nonnull TankSorption sorption) {
 		getFluidConnections()[side.getIndex()].setTankSorption(tankNumber, sorption);
 	}
 	
-	public default void toggleTankSorption(@Nonnull EnumFacing side, int tankNumber, TankSorption.Type type, boolean reverse) {
+	default void toggleTankSorption(@Nonnull EnumFacing side, int tankNumber, TankSorption.Type type, boolean reverse) {
 		if (!hasConfigurableFluidConnections()) {
 			return;
 		}
@@ -82,11 +82,11 @@ public interface ITileFluid extends ITile {
 		markDirtyAndNotify(true);
 	}
 	
-	public default boolean canConnectFluid(@Nonnull EnumFacing side) {
+	default boolean canConnectFluid(@Nonnull EnumFacing side) {
 		return getFluidConnection(side).canConnect();
 	}
 	
-	public static FluidConnection[] fluidConnectionAll(@Nonnull List<TankSorption> sorptionList) {
+	static FluidConnection[] fluidConnectionAll(@Nonnull List<TankSorption> sorptionList) {
 		FluidConnection[] array = new FluidConnection[6];
 		for (int i = 0; i < 6; ++i) {
 			array[i] = new FluidConnection(sorptionList);
@@ -94,17 +94,17 @@ public interface ITileFluid extends ITile {
 		return array;
 	}
 	
-	public static FluidConnection[] fluidConnectionAll(TankSorption sorption) {
+	static FluidConnection[] fluidConnectionAll(TankSorption sorption) {
 		return fluidConnectionAll(Lists.newArrayList(sorption));
 	}
 	
-	public default boolean hasConfigurableFluidConnections() {
+	default boolean hasConfigurableFluidConnections() {
 		return false;
 	}
 	
 	// Fluid Wrapper Methods
 	
-	public default @Nonnull IFluidTankProperties[] getTankProperties(@Nonnull EnumFacing side) {
+	default @Nonnull IFluidTankProperties[] getTankProperties(@Nonnull EnumFacing side) {
 		List<Tank> tanks = getTanks();
 		if (tanks.isEmpty()) {
 			return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
@@ -116,7 +116,7 @@ public interface ITileFluid extends ITile {
 		return properties;
 	}
 	
-	public default int fill(@Nonnull EnumFacing side, FluidStack resource, boolean doFill) {
+	default int fill(@Nonnull EnumFacing side, FluidStack resource, boolean doFill) {
 		List<Tank> tanks = getTanks();
 		for (int i = 0; i < tanks.size(); ++i) {
 			if (getTankSorption(side, i).canFill()) {
@@ -132,7 +132,7 @@ public interface ITileFluid extends ITile {
 		return 0;
 	}
 	
-	public default FluidStack drain(@Nonnull EnumFacing side, FluidStack resource, boolean doDrain) {
+	default FluidStack drain(@Nonnull EnumFacing side, FluidStack resource, boolean doDrain) {
 		List<Tank> tanks = getTanks();
 		for (int i = 0; i < tanks.size(); ++i) {
 			if (getTankSorption(side, i).canDrain()) {
@@ -147,7 +147,7 @@ public interface ITileFluid extends ITile {
 		return null;
 	}
 	
-	public default FluidStack drain(@Nonnull EnumFacing side, int maxDrain, boolean doDrain) {
+	default FluidStack drain(@Nonnull EnumFacing side, int maxDrain, boolean doDrain) {
 		List<Tank> tanks = getTanks();
 		for (int i = 0; i < tanks.size(); ++i) {
 			if (getTankSorption(side, i).canDrain()) {
@@ -164,17 +164,17 @@ public interface ITileFluid extends ITile {
 	
 	// Fluid Wrappers
 	
-	public @Nonnull FluidTileWrapper[] getFluidSides();
+	@Nonnull FluidTileWrapper[] getFluidSides();
 	
-	public default @Nonnull FluidTileWrapper getFluidSide(@Nonnull EnumFacing side) {
+	default @Nonnull FluidTileWrapper getFluidSide(@Nonnull EnumFacing side) {
 		return getFluidSides()[side.getIndex()];
 	}
 	
-	public static @Nonnull FluidTileWrapper[] getDefaultFluidSides(@Nonnull ITileFluid tile) {
+	static @Nonnull FluidTileWrapper[] getDefaultFluidSides(@Nonnull ITileFluid tile) {
 		return new FluidTileWrapper[] {new FluidTileWrapper(tile, EnumFacing.DOWN), new FluidTileWrapper(tile, EnumFacing.UP), new FluidTileWrapper(tile, EnumFacing.NORTH), new FluidTileWrapper(tile, EnumFacing.SOUTH), new FluidTileWrapper(tile, EnumFacing.WEST), new FluidTileWrapper(tile, EnumFacing.EAST)};
 	}
 	
-	public default void onWrapperFill(int fillAmount, boolean doFill) {
+	default void onWrapperFill(int fillAmount, boolean doFill) {
 		if (doFill && fillAmount != 0) {
 			if (this instanceof IProcessor) {
 				((IProcessor<?, ?, ?>) this).refreshRecipe();
@@ -186,7 +186,7 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	public default void onWrapperDrain(FluidStack drainStack, boolean doDrain) {
+	default void onWrapperDrain(FluidStack drainStack, boolean doDrain) {
 		if (doDrain && drainStack != null && drainStack.amount != 0) {
 			if (this instanceof IProcessor) {
 				((IProcessor<?, ?, ?>) this).refreshActivity();
@@ -197,7 +197,7 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	public default void onWrapperReceiveGas(int receiveAmount, boolean doTransfer) {
+	default void onWrapperReceiveGas(int receiveAmount, boolean doTransfer) {
 		if (doTransfer && receiveAmount != 0) {
 			if (this instanceof IProcessor) {
 				((IProcessor<?, ?, ?>) this).refreshRecipe();
@@ -209,7 +209,7 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	public default void onWrapperDrawGas(GasStack drawStack, boolean doTransfer) {
+	default void onWrapperDrawGas(GasStack drawStack, boolean doTransfer) {
 		if (doTransfer && drawStack != null && drawStack.amount != 0) {
 			if (this instanceof IProcessor) {
 				((IProcessor<?, ?, ?>) this).refreshActivity();
@@ -222,11 +222,11 @@ public interface ITileFluid extends ITile {
 	
 	// Mekanism Gas Wrapper
 	
-	public @Nonnull GasTileWrapper getGasWrapper();
+	@Nonnull GasTileWrapper getGasWrapper();
 	
 	// Fluid Distribution
 	
-	public default void pushFluid() {
+	default void pushFluid() {
 		if (getTanks().isEmpty()) {
 			return;
 		}
@@ -235,7 +235,7 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	public default void pushFluidToSide(@Nonnull EnumFacing side) {
+	default void pushFluidToSide(@Nonnull EnumFacing side) {
 		if (!getFluidConnection(side).canConnect()) {
 			return;
 		}
@@ -277,7 +277,7 @@ public interface ITileFluid extends ITile {
 	
 	// NBT
 	
-	public default NBTTagCompound writeTanks(NBTTagCompound nbt) {
+	default NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		List<Tank> tanks = getTanks();
 		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).writeToNBT(nbt, "tanks" + i);
@@ -285,21 +285,21 @@ public interface ITileFluid extends ITile {
 		return nbt;
 	}
 	
-	public default void readTanks(NBTTagCompound nbt) {
+	default void readTanks(NBTTagCompound nbt) {
 		List<Tank> tanks = getTanks();
 		for (int i = 0; i < tanks.size(); ++i) {
 			tanks.get(i).readFromNBT(nbt, "tanks" + i);
 		}
 	}
 	
-	public default NBTTagCompound writeFluidConnections(NBTTagCompound nbt) {
+	default NBTTagCompound writeFluidConnections(NBTTagCompound nbt) {
 		for (EnumFacing side : EnumFacing.VALUES) {
 			getFluidConnection(side).writeToNBT(nbt, side);
 		}
 		return nbt;
 	}
 	
-	public default void readFluidConnections(NBTTagCompound nbt) {
+	default void readFluidConnections(NBTTagCompound nbt) {
 		if (!hasConfigurableFluidConnections()) {
 			return;
 		}
@@ -308,7 +308,7 @@ public interface ITileFluid extends ITile {
 		}
 	}
 	
-	public default NBTTagCompound writeTankSettings(NBTTagCompound nbt) {
+	default NBTTagCompound writeTankSettings(NBTTagCompound nbt) {
 		nbt.setBoolean("inputTanksSeparated", getInputTanksSeparated());
 		int tankCount = getTanks().size();
 		for (int i = 0; i < tankCount; ++i) {
@@ -318,7 +318,7 @@ public interface ITileFluid extends ITile {
 		return nbt;
 	}
 	
-	public default void readTankSettings(NBTTagCompound nbt) {
+	default void readTankSettings(NBTTagCompound nbt) {
 		setInputTanksSeparated(nbt.getBoolean("inputTanksSeparated"));
 		int tankCount = getTanks().size();
 		for (int i = 0; i < tankCount; ++i) {
@@ -330,21 +330,21 @@ public interface ITileFluid extends ITile {
 	
 	// Fluid Functions
 	
-	public boolean getInputTanksSeparated();
+	boolean getInputTanksSeparated();
 	
-	public void setInputTanksSeparated(boolean separated);
+	void setInputTanksSeparated(boolean separated);
 	
-	public boolean getVoidUnusableFluidInput(int tankNumber);
+	boolean getVoidUnusableFluidInput(int tankNumber);
 	
-	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput);
+	void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput);
 	
-	public TankOutputSetting getTankOutputSetting(int tankNumber);
+	TankOutputSetting getTankOutputSetting(int tankNumber);
 	
-	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting);
+	void setTankOutputSetting(int tankNumber, TankOutputSetting setting);
 	
 	// Capabilities
 	
-	public default boolean hasFluidSideCapability(@Nullable EnumFacing side) {
+	default boolean hasFluidSideCapability(@Nullable EnumFacing side) {
 		return side == null || getFluidConnection(side).canConnect();
 	}
 }

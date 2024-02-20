@@ -162,15 +162,15 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileHeatExchangerCasing.class, Global.MOD_ID + ":heat_exchanger_casing");
 		GameRegistry.registerTileEntity(TileHeatExchangerGlass.class, Global.MOD_ID + ":heat_exchanger_glass");
 		GameRegistry.registerTileEntity(TileHeatExchangerVent.class, Global.MOD_ID + ":heat_exchanger_vent");
-		GameRegistry.registerTileEntity(TileHeatExchangerTube.Copper.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.COPPER.toString());
-		GameRegistry.registerTileEntity(TileHeatExchangerTube.HardCarbon.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.HARD_CARBON.toString());
-		GameRegistry.registerTileEntity(TileHeatExchangerTube.Thermoconducting.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.THERMOCONDUCTING.toString());
+		GameRegistry.registerTileEntity(TileHeatExchangerTube.Copper.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.COPPER);
+		GameRegistry.registerTileEntity(TileHeatExchangerTube.HardCarbon.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.HARD_CARBON);
+		GameRegistry.registerTileEntity(TileHeatExchangerTube.Thermoconducting.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.THERMOCONDUCTING);
 		GameRegistry.registerTileEntity(TileHeatExchangerComputerPort.class, Global.MOD_ID + ":heat_exchanger_computer_port");
 		
 		GameRegistry.registerTileEntity(TileCondenserController.class, Global.MOD_ID + ":condenser_controller");
-		GameRegistry.registerTileEntity(TileCondenserTube.Copper.class, Global.MOD_ID + ":condenser_tube_" + HeatExchangerTubeType.COPPER.toString());
-		GameRegistry.registerTileEntity(TileCondenserTube.HardCarbon.class, Global.MOD_ID + ":condenser_tube_" + HeatExchangerTubeType.HARD_CARBON.toString());
-		GameRegistry.registerTileEntity(TileCondenserTube.Thermoconducting.class, Global.MOD_ID + ":condenser_tube_" + HeatExchangerTubeType.THERMOCONDUCTING.toString());
+		GameRegistry.registerTileEntity(TileCondenserTube.Copper.class, Global.MOD_ID + ":condenser_tube_" + HeatExchangerTubeType.COPPER);
+		GameRegistry.registerTileEntity(TileCondenserTube.HardCarbon.class, Global.MOD_ID + ":condenser_tube_" + HeatExchangerTubeType.HARD_CARBON);
+		GameRegistry.registerTileEntity(TileCondenserTube.Thermoconducting.class, Global.MOD_ID + ":condenser_tube_" + HeatExchangerTubeType.THERMOCONDUCTING);
 		
 		GameRegistry.registerTileEntity(TileTurbineController.class, Global.MOD_ID + ":turbine_controller");
 		GameRegistry.registerTileEntity(TileTurbineCasing.class, Global.MOD_ID + ":turbine_casing");
@@ -178,9 +178,9 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineRotorShaft.class, Global.MOD_ID + ":turbine_rotor_shaft");
 		
 		GameRegistry.registerTileEntity(TileTurbineRotorBlade.class, Global.MOD_ID + ":turbine_rotor_blade_");
-		GameRegistry.registerTileEntity(TileTurbineRotorBlade.Steel.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.STEEL.toString());
-		GameRegistry.registerTileEntity(TileTurbineRotorBlade.Extreme.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.EXTREME.toString());
-		GameRegistry.registerTileEntity(TileTurbineRotorBlade.SicSicCMC.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.SIC_SIC_CMC.toString());
+		GameRegistry.registerTileEntity(TileTurbineRotorBlade.Steel.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.STEEL);
+		GameRegistry.registerTileEntity(TileTurbineRotorBlade.Extreme.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.EXTREME);
+		GameRegistry.registerTileEntity(TileTurbineRotorBlade.SicSicCMC.class, Global.MOD_ID + ":turbine_rotor_blade_" + TurbineRotorBladeType.SIC_SIC_CMC);
 		
 		GameRegistry.registerTileEntity(TileTurbineRotorStator.class, Global.MOD_ID + ":turbine_rotor_stator_");
 		GameRegistry.registerTileEntity(TileTurbineRotorStator.Standard.class, Global.MOD_ID + ":turbine_rotor_stator_standard");
@@ -188,12 +188,12 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineRotorBearing.class, Global.MOD_ID + ":turbine_rotor_bearing");
 		
 		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.class, Global.MOD_ID + ":turbine_dynamo_coil");
-		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Magnesium.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.MAGNESIUM.toString());
-		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Beryllium.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.BERYLLIUM.toString());
-		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Aluminum.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.ALUMINUM.toString());
-		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Gold.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.GOLD.toString());
-		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Copper.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.COPPER.toString());
-		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Silver.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.SILVER.toString());
+		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Magnesium.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.MAGNESIUM);
+		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Beryllium.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.BERYLLIUM);
+		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Aluminum.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.ALUMINUM);
+		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Gold.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.GOLD);
+		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Copper.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.COPPER);
+		GameRegistry.registerTileEntity(TileTurbineDynamoCoil.Silver.class, Global.MOD_ID + ":turbine_dynamo_coil_" + TurbineDynamoCoilType.SILVER);
 		
 		GameRegistry.registerTileEntity(TileTurbineCoilConnector.class, Global.MOD_ID + ":turbine_coil_connector");
 		GameRegistry.registerTileEntity(TileTurbineInlet.class, Global.MOD_ID + ":turbine_inlet");

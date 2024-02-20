@@ -20,22 +20,14 @@ public class PosHelper {
 	private static final EnumFacing[] HORIZONTALS_Z = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.UP, EnumFacing.WEST, EnumFacing.EAST};
 	
 	public static EnumFacing[] getHorizontals(EnumFacing dir) {
-		switch (dir) {
-			case DOWN:
-				return HORIZONTALS_Y;
-			case UP:
-				return HORIZONTALS_Y;
-			case NORTH:
-				return HORIZONTALS_Z;
-			case SOUTH:
-				return HORIZONTALS_Z;
-			case WEST:
-				return HORIZONTALS_X;
-			case EAST:
-				return HORIZONTALS_X;
-			default:
-				return HORIZONTALS_Y;
-		}
+        return switch (dir) {
+            case DOWN -> HORIZONTALS_Y;
+            case UP -> HORIZONTALS_Y;
+            case NORTH -> HORIZONTALS_Z;
+            case SOUTH -> HORIZONTALS_Z;
+            case WEST -> HORIZONTALS_X;
+            case EAST -> HORIZONTALS_X;
+        };
 	}
 	
 	// Axials
@@ -49,22 +41,14 @@ public class PosHelper {
 	}
 	
 	public static EnumFacing[] getAxialDirs(EnumFacing dir) {
-		switch (dir) {
-			case DOWN:
-				return AXIALS_Y;
-			case UP:
-				return AXIALS_Y;
-			case NORTH:
-				return AXIALS_Z;
-			case SOUTH:
-				return AXIALS_Z;
-			case WEST:
-				return AXIALS_X;
-			case EAST:
-				return AXIALS_X;
-			default:
-				return AXIALS_Y;
-		}
+        return switch (dir) {
+            case DOWN -> AXIALS_Y;
+            case UP -> AXIALS_Y;
+            case NORTH -> AXIALS_Z;
+            case SOUTH -> AXIALS_Z;
+            case WEST -> AXIALS_X;
+            case EAST -> AXIALS_X;
+        };
 	}
 	
 	// Vertices

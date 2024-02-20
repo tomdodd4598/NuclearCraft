@@ -100,8 +100,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITic
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
 		if (!getTankSorption(side, 0).canDrain()) {
-			return;
-		}
+        }
 		
 		/*TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile instanceof TileHeatExchangerTube) {

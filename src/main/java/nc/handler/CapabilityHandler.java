@@ -20,7 +20,7 @@ public class CapabilityHandler {
 	}
 	
 	public static <T extends ICapability<T>> void registerCapability(Class<T> clazz, T defaultImpl) {
-		CapabilityManager.INSTANCE.register(clazz, new IStorage<T>() {
+		CapabilityManager.INSTANCE.register(clazz, new IStorage<>() {
 			
 			@Override
 			public NBTBase writeNBT(Capability<T> capability, T instance, EnumFacing side) {

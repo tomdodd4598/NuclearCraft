@@ -4,7 +4,7 @@ import java.util.*;
 
 import it.unimi.dsi.fastutil.objects.*;
 
-/** Modified from jjnguy's answer at https://stackoverflow.com/a/3522481 */
+/** Modified from jjnguy's answer at <a href="https://stackoverflow.com/a/3522481">...</a> */
 public class Vertex<T> {
 	
 	public T data;

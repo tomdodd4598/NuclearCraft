@@ -29,7 +29,7 @@ public class RenderHandler {
 		NCTools.registerRenders();
 		NCArmor.registerRenders();
 		
-		// MinecraftForge.EVENT_BUS.register(new TextureStichHandler());
+		// MinecraftForge.EVENT_BUS.register(new TextureStitchHandler());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTurbineController.class, new RenderTurbineRotor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumComputerQubit.class, new RenderQuantumComputerQubit());
@@ -43,7 +43,7 @@ public class RenderHandler {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, manager -> ReflectionHelper.newInstance(renderClass, manager));
 	}
 	
-	protected static class TextureStichHandler {
+	protected static class TextureStitchHandler {
 		
 		@SubscribeEvent
 		public void stitchTextures(TextureStitchEvent.Pre event) {

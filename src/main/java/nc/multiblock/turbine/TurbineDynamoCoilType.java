@@ -13,11 +13,11 @@ public enum TurbineDynamoCoilType implements IStringSerializable {
 	COPPER("copper", 4, turbine_coil_conductivity[4]),
 	SILVER("silver", 5, turbine_coil_conductivity[5]);
 	
-	private String name;
-	private int id;
-	private double conductivity;
+	private final String name;
+	private final int id;
+	private final double conductivity;
 	
-	private TurbineDynamoCoilType(String name, int id, double conductivity) {
+	TurbineDynamoCoilType(String name, int id, double conductivity) {
 		this.name = name;
 		this.id = id;
 		this.conductivity = conductivity;

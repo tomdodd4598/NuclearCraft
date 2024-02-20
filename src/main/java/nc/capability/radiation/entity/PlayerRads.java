@@ -8,7 +8,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class PlayerRads implements IEntityRads {
 	
-	protected double maxRads = 0D;
+	protected double maxRads;
 	protected double totalRads = 0D;
 	protected double radiationLevel = 0D;
 	protected double internalRadiationResistance = 0D, externalRadiationResistance = 0D;

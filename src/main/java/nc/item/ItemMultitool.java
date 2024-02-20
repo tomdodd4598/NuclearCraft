@@ -33,7 +33,7 @@ public class ItemMultitool extends NCItem {
 	}
 	
 	public static boolean isMultitool(ItemStack stack) {
-		return stack.isEmpty() ? false : stack.getItem() instanceof ItemMultitool;
+		return !stack.isEmpty() && stack.getItem() instanceof ItemMultitool;
 	}
 	
 	protected static void clearNBT(ItemStack stack) {

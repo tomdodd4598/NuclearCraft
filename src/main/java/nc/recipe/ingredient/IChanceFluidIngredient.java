@@ -2,15 +2,15 @@ package nc.recipe.ingredient;
 
 public interface IChanceFluidIngredient extends IFluidIngredient {
 	
-	public IFluidIngredient getRawIngredient();
+	IFluidIngredient getRawIngredient();
 	
-	public int getChancePercent();
+	int getChancePercent();
 	
-	public int getStackDiff();
+	int getStackDiff();
 	
-	public int getMinStackSize();
+	int getMinStackSize();
 	
-	public int getSizeIncrSteps();
+	int getSizeIncrSteps();
 	
-	public double getMeanStackSize();
+	double getMeanStackSize();
 }

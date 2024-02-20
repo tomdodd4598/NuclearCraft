@@ -29,16 +29,11 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements IDynam
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (tubeType) {
-			case COPPER:
-				return new TileCondenserTube.Copper();
-			case HARD_CARBON:
-				return new TileCondenserTube.HardCarbon();
-			case THERMOCONDUCTING:
-				return new TileCondenserTube.Thermoconducting();
-			default:
-				return null;
-		}
+        return switch (tubeType) {
+            case COPPER -> new TileCondenserTube.Copper();
+            case HARD_CARBON -> new TileCondenserTube.HardCarbon();
+            case THERMOCONDUCTING -> new TileCondenserTube.Thermoconducting();
+        };
 	}
 	
 	private static final PropertySidedEnum<HeatExchangerTubeSetting> DOWN = PropertySidedEnum.create("down", HeatExchangerTubeSetting.class, EnumFacing.DOWN);
@@ -74,15 +69,14 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements IDynam
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (hand != EnumHand.MAIN_HAND || player == null) {
+		if (hand != EnumHand.MAIN_HAND) {
 			return false;
 		}
 		
 		if (ItemMultitool.isMultitool(player.getHeldItem(hand))) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileCondenserTube) {
-				TileCondenserTube tube = (TileCondenserTube) tile;
-				EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
+			if (tile instanceof TileCondenserTube tube) {
+                EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
 				tube.toggleTubeSetting(side);
 				if (!world.isRemote) {
 					player.sendMessage(getToggleMessage(player, tube, side));
@@ -104,7 +98,7 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements IDynam
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		placementSide = null;
-		if (placer != null && placer.isSneaking()) {
+		if (placer.isSneaking()) {
 			placementSide = facing.getOpposite();
 		}
 		return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
@@ -117,10 +111,8 @@ public class BlockCondenserTube extends BlockHeatExchangerPart implements IDynam
 		}
 		BlockPos from = pos.offset(placementSide);
 		TileEntity tile = world.getTileEntity(pos), otherTile = world.getTileEntity(from);
-		if (tile instanceof TileCondenserTube && otherTile instanceof TileCondenserTube) {
-			TileCondenserTube tube = (TileCondenserTube) tile;
-			TileCondenserTube other = (TileCondenserTube) otherTile;
-			// tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
+		if (tile instanceof TileCondenserTube tube && otherTile instanceof TileCondenserTube other) {
+            // tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			tube.setTubeSettings(other.getTubeSettings().clone());
 			tube.markDirtyAndNotify(true);
 		}

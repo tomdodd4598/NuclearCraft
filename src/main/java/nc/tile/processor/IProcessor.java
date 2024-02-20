@@ -28,24 +28,24 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, PACKET, INFO>, SimpleComponent {
+public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, PACKET, INFO>, SimpleComponent {
 	
 	@Override
-	public INFO getContainerInfo();
+    INFO getContainerInfo();
 	
-	public BasicRecipeHandler getRecipeHandler();
+	BasicRecipeHandler getRecipeHandler();
 	
-	public RecipeInfo<BasicRecipe> getRecipeInfo();
+	RecipeInfo<BasicRecipe> getRecipeInfo();
 	
-	public void setRecipeInfo(RecipeInfo<BasicRecipe> recipeInfo);
+	void setRecipeInfo(RecipeInfo<BasicRecipe> recipeInfo);
 	
-	public default boolean setRecipeStats() {
+	default boolean setRecipeStats() {
 		RecipeInfo<BasicRecipe> recipeInfo = getRecipeInfo();
 		setRecipeStats(recipeInfo == null ? null : recipeInfo.recipe);
 		return recipeInfo != null;
 	}
 	
-	public default void setRecipeStats(@Nullable BasicRecipe recipe) {
+	default void setRecipeStats(@Nullable BasicRecipe recipe) {
 		INFO info = getContainerInfo();
 		if (recipe == null) {
 			setBaseProcessTime(info.defaultProcessTime);
@@ -57,91 +57,91 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public @Nonnull NonNullList<ItemStack> getConsumedStacks();
+	@Nonnull NonNullList<ItemStack> getConsumedStacks();
 	
-	public @Nonnull List<Tank> getConsumedTanks();
+	@Nonnull List<Tank> getConsumedTanks();
 	
-	public default List<ItemStack> getItemInputs(boolean consumed) {
+	default List<ItemStack> getItemInputs(boolean consumed) {
 		return consumed ? getConsumedStacks() : getInventoryStacks().subList(0, getContainerInfo().itemInputSize);
 	}
 	
-	public default List<Tank> getFluidInputs(boolean consumed) {
+	default List<Tank> getFluidInputs(boolean consumed) {
 		return consumed ? getConsumedTanks() : getTanks().subList(0, getContainerInfo().fluidInputSize);
 	}
 	
-	public default List<IItemIngredient> getItemIngredients() {
+	default List<IItemIngredient> getItemIngredients() {
 		return getRecipeInfo().recipe.getItemIngredients();
 	}
 	
-	public default List<IFluidIngredient> getFluidIngredients() {
+	default List<IFluidIngredient> getFluidIngredients() {
 		return getRecipeInfo().recipe.getFluidIngredients();
 	}
 	
-	public default List<IItemIngredient> getItemProducts() {
+	default List<IItemIngredient> getItemProducts() {
 		return getRecipeInfo().recipe.getItemProducts();
 	}
 	
-	public default List<IFluidIngredient> getFluidProducts() {
+	default List<IFluidIngredient> getFluidProducts() {
 		return getRecipeInfo().recipe.getFluidProducts();
 	}
 	
-	public double getBaseProcessTime();
+	double getBaseProcessTime();
 	
-	public void setBaseProcessTime(double baseProcessTime);
+	void setBaseProcessTime(double baseProcessTime);
 	
-	public double getBaseProcessPower();
+	double getBaseProcessPower();
 	
-	public void setBaseProcessPower(double baseProcessPower);
+	void setBaseProcessPower(double baseProcessPower);
 	
-	public double getCurrentTime();
+	double getCurrentTime();
 	
-	public void setCurrentTime(double time);
+	void setCurrentTime(double time);
 	
-	public double getResetTime();
+	double getResetTime();
 	
-	public void setResetTime(double resetTime);
+	void setResetTime(double resetTime);
 	
-	public boolean getIsProcessing();
+	boolean getIsProcessing();
 	
-	public void setIsProcessing(boolean isProcessing);
+	void setIsProcessing(boolean isProcessing);
 	
-	public boolean getCanProcessInputs();
+	boolean getCanProcessInputs();
 	
-	public void setCanProcessInputs(boolean canProcessInputs);
+	void setCanProcessInputs(boolean canProcessInputs);
 	
-	public boolean getHasConsumed();
+	boolean getHasConsumed();
 	
-	public void setHasConsumed(boolean hasConsumed);
+	void setHasConsumed(boolean hasConsumed);
 	
-	public double getSpeedMultiplier();
+	double getSpeedMultiplier();
 	
-	public double getPowerMultiplier();
+	double getPowerMultiplier();
 	
-	public default int getProcessTime() {
+	default int getProcessTime() {
 		return Math.max(1, NCMath.toInt(Math.ceil(getBaseProcessTime() / getSpeedMultiplier())));
 	}
 	
-	public default int getProcessPower() {
+	default int getProcessPower() {
 		return NCMath.toInt(Math.ceil(getBaseProcessPower() * getPowerMultiplier()));
 	}
 	
-	public default int getProcessEnergy() {
+	default int getProcessEnergy() {
 		return getProcessTime() * getProcessPower();
 	}
 	
-	public default boolean isProcessing() {
+	default boolean isProcessing() {
 		return readyToProcess() && !isHalted();
 	}
 	
-	public default boolean isHalted() {
+	default boolean isHalted() {
 		return false;
 	}
 	
-	public default boolean readyToProcess() {
+	default boolean readyToProcess() {
 		return getCanProcessInputs() && (!getContainerInfo().consumesInputs || getHasConsumed());
 	}
 	
-	public default boolean canProcessInputs() {
+	default boolean canProcessInputs() {
 		boolean validRecipe = setRecipeStats();
 		if (getHasConsumed() && !validRecipe) {
 			int itemInputSize = getContainerInfo().itemInputSize;
@@ -162,14 +162,14 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		return canProcess;
 	}
 	
-	public default void process() {
+	default void process() {
 		setCurrentTime(getCurrentTime() + getSpeedMultiplier());
 		while (getCurrentTime() >= getBaseProcessTime()) {
 			finishProcess();
 		}
 	}
 	
-	public default void finishProcess() {
+	default void finishProcess() {
 		double oldProcessTime = getBaseProcessTime();
 		produceProducts();
 		refreshRecipe();
@@ -190,7 +190,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public default boolean hasConsumed() {
+	default boolean hasConsumed() {
 		if (!getContainerInfo().consumesInputs) {
 			return false;
 		}
@@ -212,7 +212,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		return false;
 	}
 	
-	public default boolean canProduceProducts() {
+	default boolean canProduceProducts() {
 		INFO info = getContainerInfo();
 		int itemInputSize = info.itemInputSize;
 		int itemOutputSize = info.itemOutputSize;
@@ -288,7 +288,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		return true;
 	}
 	
-	public default void consumeInputs() {
+	default void consumeInputs() {
 		RecipeInfo<BasicRecipe> recipeInfo;
 		if (getHasConsumed() || (recipeInfo = getRecipeInfo()) == null) {
 			return;
@@ -362,7 +362,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public default void produceProducts() {
+	default void produceProducts() {
 		INFO info = getContainerInfo();
 		boolean consumesInputs = info.consumesInputs;
 		int itemInputSize = info.itemInputSize;
@@ -450,13 +450,13 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public static <TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> int energyCapacity(INFO info, double speedMultiplier, double powerMultiplier) {
+	static <TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> int energyCapacity(INFO info, double speedMultiplier, double powerMultiplier) {
 		return NCMath.toInt(Math.ceil(RecipeStats.getProcessorMaxBaseProcessTime(info.name) / speedMultiplier) * Math.ceil(RecipeStats.getProcessorMaxBaseProcessPower(info.name) * powerMultiplier));
 	}
 	
 	// ITickable
 	
-	public default void onTick() {
+	default void onTick() {
 		boolean wasProcessing = getIsProcessing();
 		setIsProcessing(isProcessing());
 		boolean shouldUpdate = false;
@@ -492,7 +492,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public default void loseProgress() {
+	default void loseProgress() {
 		double newTime = MathHelper.clamp(getCurrentTime() - 1.5D * getSpeedMultiplier(), 0D, getBaseProcessTime());
 		setCurrentTime(newTime);
 		if (newTime < getResetTime()) {
@@ -500,18 +500,18 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public default void refreshAll() {
+	default void refreshAll() {
 		refreshDirty();
 		setIsProcessing(isProcessing());
 		setHasConsumed(hasConsumed());
 	}
 	
-	public default void refreshDirty() {
+	default void refreshDirty() {
 		refreshRecipe();
 		refreshActivity();
 	}
 	
-	public default void refreshRecipe() {
+	default void refreshRecipe() {
 		boolean hasConsumed = getHasConsumed();
 		setRecipeInfo(getRecipeHandler().getRecipeInfoFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed)));
 		if (getContainerInfo().consumesInputs) {
@@ -519,18 +519,18 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public default void refreshActivity() {
+	default void refreshActivity() {
 		setCanProcessInputs(canProcessInputs());
 	}
 	
-	public default void refreshActivityOnProduction() {
+	default void refreshActivityOnProduction() {
 		setCanProcessInputs(canProcessInputs());
 	}
 	
 	// ITileInventory
 	
 	@Override
-	public default ItemStack decrStackSize(int slot, int amount) {
+    default ItemStack decrStackSize(int slot, int amount) {
 		ItemStack stack = ITileInventory.super.decrStackSize(slot, amount);
 		if (!getTileWorld().isRemote) {
 			INFO info = getContainerInfo();
@@ -546,7 +546,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	}
 	
 	@Override
-	public default void setInventorySlotContents(int slot, ItemStack stack) {
+    default void setInventorySlotContents(int slot, ItemStack stack) {
 		ITileInventory.super.setInventorySlotContents(slot, stack);
 		if (!getTileWorld().isRemote) {
 			INFO info = getContainerInfo();
@@ -561,7 +561,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	}
 	
 	@Override
-	public default boolean isItemValidForSlot(int slot, ItemStack stack) {
+    default boolean isItemValidForSlot(int slot, ItemStack stack) {
 		INFO info = getContainerInfo();
 		if (stack.isEmpty() || (slot >= info.itemInputSize && slot < info.itemInputSize + info.itemOutputSize)) {
 			return false;
@@ -575,35 +575,33 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		}
 	}
 	
-	public default List<ItemStack> inputItemStacksExcludingSlot(int slot) {
+	default List<ItemStack> inputItemStacksExcludingSlot(int slot) {
 		List<ItemStack> inputItemsExcludingSlot = new ArrayList<>(getItemInputs(false));
 		inputItemsExcludingSlot.remove(slot);
 		return inputItemsExcludingSlot;
 	}
 	
 	@Override
-	public default boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+    default boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return ITileInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
 	
 	@Override
-	public default void clearAllSlots() {
+    default void clearAllSlots() {
 		ITileInventory.super.clearAllSlots();
 		@Nonnull NonNullList<ItemStack> consumedStacks = getConsumedStacks();
-		for (int i = 0; i < consumedStacks.size(); ++i) {
-			consumedStacks.set(i, ItemStack.EMPTY);
-		}
+        Collections.fill(consumedStacks, ItemStack.EMPTY);
 		refreshAll();
 	}
 	
 	@Override
-	public default NBTTagCompound writeInventory(NBTTagCompound nbt) {
+    default NBTTagCompound writeInventory(NBTTagCompound nbt) {
 		NBTHelper.writeAllItems(nbt, getInventoryStacks(), getConsumedStacks());
 		return nbt;
 	}
 	
 	@Override
-	public default void readInventory(NBTTagCompound nbt) {
+    default void readInventory(NBTTagCompound nbt) {
 		if (nbt.hasKey("hasConsumed")) {
 			NBTHelper.readAllItems(nbt, getInventoryStacks(), getConsumedStacks());
 		}
@@ -615,7 +613,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	// ITileFluid
 	
 	@Override
-	public default void clearAllTanks() {
+    default void clearAllTanks() {
 		ITileFluid.super.clearAllTanks();
 		for (Tank tank : getConsumedTanks()) {
 			tank.setFluidStored(null);
@@ -624,7 +622,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	}
 	
 	@Override
-	public default NBTTagCompound writeTanks(NBTTagCompound nbt) {
+    default NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		ITileFluid.super.writeTanks(nbt);
 		@Nonnull List<Tank> consumedTanks = getConsumedTanks();
 		for (int i = 0; i < consumedTanks.size(); ++i) {
@@ -634,7 +632,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	}
 	
 	@Override
-	public default void readTanks(NBTTagCompound nbt) {
+    default void readTanks(NBTTagCompound nbt) {
 		ITileFluid.super.readTanks(nbt);
 		@Nonnull List<Tank> consumedTanks = getConsumedTanks();
 		for (int i = 0; i < consumedTanks.size(); ++i) {
@@ -645,7 +643,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	// IGui
 	
 	@Override
-	public default void onTileUpdatePacket(PACKET message) {
+    default void onTileUpdatePacket(PACKET message) {
 		setIsProcessing(message.isProcessing);
 		setCurrentTime(message.time);
 		setBaseProcessTime(message.baseProcessTime);
@@ -654,7 +652,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	
 	// NBT
 	
-	public default NBTTagCompound writeProcessorNBT(NBTTagCompound nbt) {
+	default NBTTagCompound writeProcessorNBT(NBTTagCompound nbt) {
 		nbt.setDouble("time", getCurrentTime());
 		nbt.setDouble("resetTime", getResetTime());
 		nbt.setBoolean("isProcessing", getIsProcessing());
@@ -663,7 +661,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 		return nbt;
 	}
 	
-	public default void readProcessorNBT(NBTTagCompound nbt) {
+	default void readProcessorNBT(NBTTagCompound nbt) {
 		setCurrentTime(nbt.getDouble("time"));
 		setResetTime(nbt.getDouble("resetTime"));
 		setIsProcessing(nbt.getBoolean("isProcessing"));
@@ -675,7 +673,7 @@ public abstract interface IProcessor<TILE extends TileEntity & IProcessor<TILE, 
 	
 	@Override
 	@Optional.Method(modid = "opencomputers")
-	public default String getComponentName() {
+    default String getComponentName() {
 		return getContainerInfo().ocComponentName;
 	}
 }

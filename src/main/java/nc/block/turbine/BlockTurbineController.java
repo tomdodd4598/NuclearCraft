@@ -21,7 +21,7 @@ public class BlockTurbineController extends BlockTurbinePart implements IActivat
 	
 	public BlockTurbineController() {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -32,14 +32,14 @@ public class BlockTurbineController extends BlockTurbinePart implements IActivat
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
-		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_ALL).getIndex();
 		
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 		
@@ -53,7 +53,7 @@ public class BlockTurbineController extends BlockTurbinePart implements IActivat
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.FALSE);
 	}
 	
 	@Override
@@ -64,18 +64,14 @@ public class BlockTurbineController extends BlockTurbinePart implements IActivat
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		if (!world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileTurbineController) {
-				TileTurbineController controller = (TileTurbineController) tile;
-				if (controller.isMultiblockAssembled()) {
+			if (tile instanceof TileTurbineController controller) {
+                if (controller.isMultiblockAssembled()) {
 					NCCriterions.TURBINE_ASSEMBLED.trigger((EntityPlayerMP) player);
 					player.openGui(NuclearCraft.instance, 104, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;

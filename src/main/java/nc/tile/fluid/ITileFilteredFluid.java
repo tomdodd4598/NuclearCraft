@@ -9,11 +9,11 @@ import nc.tile.internal.fluid.Tank;
 
 public interface ITileFilteredFluid extends ITileFiltered, ITileFluid {
 	
-	public @Nonnull List<Tank> getTanksInternal();
+	@Nonnull List<Tank> getTanksInternal();
 	
-	public @Nonnull List<Tank> getFilterTanks();
+	@Nonnull List<Tank> getFilterTanks();
 	
-	public default void clearFilterTank(int tankNumber) {
+	default void clearFilterTank(int tankNumber) {
 		getFilterTanks().get(tankNumber).setFluidStored(null);
 	}
 }

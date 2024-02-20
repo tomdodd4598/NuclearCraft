@@ -1,15 +1,12 @@
 package nc.multiblock.hx;
 
-import static nc.config.NCConfig.*;
-
-import java.lang.reflect.Constructor;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
-import nc.multiblock.*;
+import nc.multiblock.ILogicMultiblock;
+import nc.multiblock.IPacketMultiblock;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.network.multiblock.HeatExchangerUpdatePacket;
 import nc.tile.hx.*;
@@ -20,10 +17,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.util.Set;
+import java.util.function.UnaryOperator;
+
+import static nc.config.NCConfig.heat_exchanger_max_size;
+import static nc.config.NCConfig.heat_exchanger_min_size;
+
 public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchangerPart> implements ILogicMultiblock<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart>, IPacketMultiblock<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket> {
 	
 	public static final ObjectSet<Class<? extends IHeatExchangerPart>> PART_CLASSES = new ObjectOpenHashSet<>();
-	public static final Object2ObjectMap<String, Constructor<? extends HeatExchangerLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+	public static final Object2ObjectMap<String, UnaryOperator<HeatExchangerLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected final ObjectSet<IHeatExchangerController<?>> controllers = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerVent> vents = new ObjectOpenHashSet<>();
@@ -185,7 +189,7 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 		
 		// Only one controller
 		
-		if (controllers.size() == 0) {
+		if (controllers.isEmpty()) {
 			setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
 		}

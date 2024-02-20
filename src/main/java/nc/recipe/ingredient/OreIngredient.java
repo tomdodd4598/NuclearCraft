@@ -93,18 +93,16 @@ public class OreIngredient implements IItemIngredient {
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
-		if (object instanceof OreIngredient) {
-			OreIngredient oreStack = (OreIngredient) object;
-			if (oreStack.oreName.equals(oreName) && sorption.checkStackSize(stackSize, oreStack.stackSize)) {
+		if (object instanceof OreIngredient oreStack) {
+            if (oreStack.oreName.equals(oreName) && sorption.checkStackSize(stackSize, oreStack.stackSize)) {
 				return IngredientMatchResult.PASS_0;
 			}
 		}
 		else if (object instanceof String) {
 			return new IngredientMatchResult(oreName.equals(object), 0);
 		}
-		else if (object instanceof ItemStack && sorption.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
-			ItemStack itemstack = (ItemStack) object;
-			if (itemstack.isEmpty()) {
+		else if (object instanceof ItemStack itemstack && sorption.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
+            if (itemstack.isEmpty()) {
 				return IngredientMatchResult.FAIL;
 			}
 			if (OreDictHelper.getOreNames(itemstack).contains(oreName)) {

@@ -23,7 +23,7 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 	
 	public BlockFissionMetaShield() {
 		super(MetaEnums.NeutronShieldType.class, TYPE);
-		setDefaultState(getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(getDefaultState().withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -34,22 +34,18 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionShield) {
-			TileFissionShield shield = (TileFissionShield) tile;
-			return state.withProperty(ACTIVE, shield.isShielding);
+		if (tile instanceof TileFissionShield shield) {
+            return state.withProperty(ACTIVE, shield.isShielding);
 		}
 		return state;
 	}
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileFissionShield.BoronSilver();
-			default:
-				break;
-		}
-		return new TileFissionShield.BoronSilver();
+		return switch (metadata) {
+			case 0 -> new TileFissionShield.BoronSilver();
+			default -> new TileFissionShield.BoronSilver();
+		};
 	}
 	
 	@Override
@@ -60,18 +56,14 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionShield) {
-			TileFissionShield shield = (TileFissionShield) tile;
-			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding), 2);
+		if (tile instanceof TileFissionShield shield) {
+            world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding), 2);
 		}
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);
@@ -105,6 +97,6 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 			return true;
 		}
 		
-		return block == this ? false : super.shouldSideBeRendered(state, world, pos, side);
+		return block != this && super.shouldSideBeRendered(state, world, pos, side);
 	}
 }

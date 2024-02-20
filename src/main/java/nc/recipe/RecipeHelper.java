@@ -196,9 +196,8 @@ public class RecipeHelper {
 		if (object instanceof IItemIngredient) {
 			return checkedItemIngredient((IItemIngredient) object);
 		}
-		else if (object instanceof List) {
-			List<?> list = (List<?>) object;
-			List<IItemIngredient> buildList = new ArrayList<>();
+		else if (object instanceof List<?> list) {
+            List<IItemIngredient> buildList = new ArrayList<>();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {
 					if (listObject instanceof IItemIngredient) {
@@ -245,9 +244,8 @@ public class RecipeHelper {
 		if (object instanceof IFluidIngredient) {
 			return checkedFluidIngredient((IFluidIngredient) object);
 		}
-		else if (object instanceof List) {
-			List<?> list = (List<?>) object;
-			List<IFluidIngredient> buildList = new ArrayList<>();
+		else if (object instanceof List<?> list) {
+            List<IFluidIngredient> buildList = new ArrayList<>();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {
 					if (listObject instanceof IFluidIngredient) {
@@ -507,31 +505,23 @@ public class RecipeHelper {
 	
 	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {
 		long hash = 1L;
-		Iterator<ItemStack> itemIter = items.iterator();
-		while (itemIter.hasNext()) {
-			ItemStack stack = itemIter.next();
-			hash = 31L * hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
-		}
-		Iterator<Tank> fluidIter = fluids.iterator();
-		while (fluidIter.hasNext()) {
-			Tank tank = fluidIter.next();
-			hash = 31L * hash + (tank == null || tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
-		}
+        for (ItemStack stack : items) {
+            hash = 31L * hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
+        }
+        for (Tank tank : fluids) {
+            hash = 31L * hash + (tank == null || tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
+        }
 		return hash;
 	}
 	
 	public static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids) {
 		long hash = 1L;
-		Iterator<ItemStack> itemIter = items.iterator();
-		while (itemIter.hasNext()) {
-			ItemStack stack = itemIter.next();
-			hash = 31L * hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
-		}
-		Iterator<FluidStack> fluidIter = fluids.iterator();
-		while (fluidIter.hasNext()) {
-			FluidStack stack = fluidIter.next();
-			hash = 31L * hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
-		}
+        for (ItemStack stack : items) {
+            hash = 31L * hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
+        }
+        for (FluidStack stack : fluids) {
+            hash = 31L * hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
+        }
 		return hash;
 	}
 	

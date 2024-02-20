@@ -49,7 +49,7 @@ public class Tank extends FluidTank {
 			this.fluid = null;
 			return;
 		}
-		this.fluid = new FluidStack(fluidIn, amount > capacity ? capacity : amount);
+		this.fluid = new FluidStack(fluidIn, Math.min(amount, capacity));
 	}
 	
 	public void changeFluidAmount(int amount) {
@@ -58,7 +58,7 @@ public class Tank extends FluidTank {
 			fluid = null;
 			return;
 		}
-		fluid = new FluidStack(fluid, amount > capacity ? capacity : amount);
+		fluid = new FluidStack(fluid, Math.min(amount, capacity));
 	}
 	
 	public void setFluidStored(FluidStack stack) {

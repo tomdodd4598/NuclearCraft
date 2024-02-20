@@ -27,7 +27,7 @@ public class CommandReconstructScriptAddons extends CommandBase {
 	}
 	
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 		try {
 			ScriptAddonHandler.init();
 			sender.sendMessage(new TextComponentTranslation(TextFormatting.GREEN + Lang.localize("commands.nuclearcraft.reconstruct_script_addons.success")));

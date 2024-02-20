@@ -26,12 +26,12 @@ public class CommandSetPlayerRadiation extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length >= 1 && args.length <= 2) {
-			double newRadiation = 0D;
+			double newRadiation;
 			try {
 				newRadiation = Double.parseDouble(args[0]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
 			EntityPlayer player = args.length == 2 ? getPlayer(server, sender, args[1]) : getCommandSenderAsPlayer(sender);
@@ -43,7 +43,7 @@ public class CommandSetPlayerRadiation extends CommandBase {
 			}
 		}
 		else {
-			throw new WrongUsageException(getUsage(sender), new Object[0]);
+			throw new WrongUsageException(getUsage(sender));
 		}
 	}
 }

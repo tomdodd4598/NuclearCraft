@@ -11,119 +11,119 @@ import net.minecraftforge.common.capabilities.*;
 public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	@CapabilityInject(IEntityRads.class)
-	public static Capability<IEntityRads> CAPABILITY_ENTITY_RADS = null;
+    Capability<IEntityRads> CAPABILITY_ENTITY_RADS = null;
 	
-	public static final ResourceLocation CAPABILITY_ENTITY_RADS_NAME = new ResourceLocation(Global.MOD_ID, "capability_entity_rads");
+	ResourceLocation CAPABILITY_ENTITY_RADS_NAME = new ResourceLocation(Global.MOD_ID, "capability_entity_rads");
 	
-	public double getTotalRads();
+	double getTotalRads();
 	
-	public void setTotalRads(double newTotalRads, boolean useImmunity);
+	void setTotalRads(double newTotalRads, boolean useImmunity);
 	
-	public default boolean isTotalRadsNegligible() {
+	default boolean isTotalRadsNegligible() {
 		return getTotalRads() < radiation_lowest_rate;
 	}
 	
-	public double getMaxRads();
+	double getMaxRads();
 	
-	public default double getRadsPercentage() {
+	default double getRadsPercentage() {
 		return Math.min(100D, 100D * getTotalRads() / getMaxRads());
 	}
 	
-	public default double getRawRadiationLevel() {
+	default double getRawRadiationLevel() {
 		return getFullRadiationResistance() > 0D ? 0.5D * (getRadiationLevel() + Math.sqrt(getRadiationLevel() * (getRadiationLevel() + 4D * getFullRadiationResistance()))) : getFullRadiationResistance() < 0D ? getRadiationLevel() / (1D - getFullRadiationResistance()) : getRadiationLevel();
 	}
 	
-	public default boolean isRawRadiationNegligible() {
+	default boolean isRawRadiationNegligible() {
 		return getRawRadiationLevel() < radiation_lowest_rate;
 	}
 	
-	public double getInternalRadiationResistance();
+	double getInternalRadiationResistance();
 	
-	public void setInternalRadiationResistance(double newInternalRadiationResistance);
+	void setInternalRadiationResistance(double newInternalRadiationResistance);
 	
-	public double getExternalRadiationResistance();
+	double getExternalRadiationResistance();
 	
-	public void setExternalRadiationResistance(double newExternalRadiationResistance);
+	void setExternalRadiationResistance(double newExternalRadiationResistance);
 	
-	public default double getFullRadiationResistance() {
+	default double getFullRadiationResistance() {
 		return getInternalRadiationResistance() + getExternalRadiationResistance();
 	}
 	
-	public boolean getRadXUsed();
+	boolean getRadXUsed();
 	
-	public void setRadXUsed(boolean radXUsed);
+	void setRadXUsed(boolean radXUsed);
 	
-	public boolean getRadXWoreOff();
+	boolean getRadXWoreOff();
 	
-	public void setRadXWoreOff(boolean radXWoreOff);
+	void setRadXWoreOff(boolean radXWoreOff);
 	
-	public double getRadawayBuffer(boolean slow);
+	double getRadawayBuffer(boolean slow);
 	
-	public void setRadawayBuffer(boolean slow, double newCount);
+	void setRadawayBuffer(boolean slow, double newCount);
 	
-	public double getPoisonBuffer();
+	double getPoisonBuffer();
 	
-	public void setPoisonBuffer(double newBuffer);
+	void setPoisonBuffer(double newBuffer);
 	
-	public default boolean isFatal() {
+	default boolean isFatal() {
 		return getTotalRads() >= getMaxRads();
 	}
 	
-	public boolean getConsumedMedicine();
+	boolean getConsumedMedicine();
 	
-	public void setConsumedMedicine(boolean consumed);
+	void setConsumedMedicine(boolean consumed);
 	
-	public double getRadawayCooldown();
+	double getRadawayCooldown();
 	
-	public void setRadawayCooldown(double cooldown);
+	void setRadawayCooldown(double cooldown);
 	
-	public boolean canConsumeRadaway();
+	boolean canConsumeRadaway();
 	
-	public double getRecentRadawayAddition();
+	double getRecentRadawayAddition();
 	
-	public void setRecentRadawayAddition(double newRecentRadawayAddition);
+	void setRecentRadawayAddition(double newRecentRadawayAddition);
 	
-	public void resetRecentRadawayAddition();
+	void resetRecentRadawayAddition();
 	
-	public double getRadXCooldown();
+	double getRadXCooldown();
 	
-	public void setRadXCooldown(double cooldown);
+	void setRadXCooldown(double cooldown);
 	
-	public boolean canConsumeRadX();
+	boolean canConsumeRadX();
 	
-	public double getRecentRadXAddition();
+	double getRecentRadXAddition();
 	
-	public void setRecentRadXAddition(double newRecentRadXAddition);
+	void setRecentRadXAddition(double newRecentRadXAddition);
 	
-	public void resetRecentRadXAddition();
+	void resetRecentRadXAddition();
 	
-	public int getMessageCooldownTime();
+	int getMessageCooldownTime();
 	
-	public void setMessageCooldownTime(int messageTime);
+	void setMessageCooldownTime(int messageTime);
 	
-	public double getRecentPoisonAddition();
+	double getRecentPoisonAddition();
 	
-	public void setRecentPoisonAddition(double newRecentPoisonAddition);
+	void setRecentPoisonAddition(double newRecentPoisonAddition);
 	
-	public void resetRecentPoisonAddition();
+	void resetRecentPoisonAddition();
 	
-	public double getRadiationImmunityTime();
+	double getRadiationImmunityTime();
 	
-	public void setRadiationImmunityTime(double newRadiationImmunityTime);
+	void setRadiationImmunityTime(double newRadiationImmunityTime);
 	
-	public boolean getRadiationImmunityStage();
+	boolean getRadiationImmunityStage();
 	
-	public void setRadiationImmunityStage(boolean newRadiationImmunityStage);
+	void setRadiationImmunityStage(boolean newRadiationImmunityStage);
 	
-	public default boolean isImmune() {
+	default boolean isImmune() {
 		return getRadiationImmunityStage() || getRadiationImmunityTime() > 0D;
 	}
 	
-	public boolean getShouldWarn();
+	boolean getShouldWarn();
 	
-	public void setShouldWarn(boolean shouldWarn);
+	void setShouldWarn(boolean shouldWarn);
 	
-	public boolean getGiveGuidebook();
+	boolean getGiveGuidebook();
 	
-	public void setGiveGuidebook(boolean giveGuidebook);
+	void setGiveGuidebook(boolean giveGuidebook);
 }

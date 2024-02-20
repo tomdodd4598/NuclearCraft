@@ -6,9 +6,9 @@ public enum BatteryItemType implements IBatteryItemType {
 	
 	LITHIUM_ION_CELL(0);
 	
-	private int id;
+	private final int id;
 	
-	private BatteryItemType(int id) {
+	BatteryItemType(int id) {
 		this.id = id;
 	}
 	

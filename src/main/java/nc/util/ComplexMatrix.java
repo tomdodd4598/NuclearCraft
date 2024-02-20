@@ -150,7 +150,7 @@ public class ComplexMatrix {
 		im[i2][j2] = imTemp;
 	}
 	
-	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
+	/** Modified from Srikanth A's answer at <a href="https://stackoverflow.com/a/45951007">...</a> */
 	public double[] det() {
 		if (dim == 0) {
 			return new double[] {1D, 0D};
@@ -337,13 +337,11 @@ public class ComplexMatrix {
 			return true;
 		}
 		
-		if (!(obj instanceof ComplexMatrix)) {
+		if (!(obj instanceof ComplexMatrix other)) {
 			return false;
 		}
-		
-		ComplexMatrix other = (ComplexMatrix) obj;
-		
-		if (dim != other.dim) {
+
+        if (dim != other.dim) {
 			return false;
 		}
 		
@@ -363,13 +361,14 @@ public class ComplexMatrix {
 	
 	@Override
 	public String toString() {
-		String s = "", v;
-		for (int i = 0; i < dim; ++i) {
-			v = "";
+		StringBuilder s = new StringBuilder();
+        StringBuilder v;
+        for (int i = 0; i < dim; ++i) {
+			v = new StringBuilder();
 			for (int j = 0; j < dim; ++j) {
-				v = v + ", " + Complex.toString(re[i][j], im[i][j]);
+				v.append(", ").append(Complex.toString(re[i][j], im[i][j]));
 			}
-			s = s + ", [" + v.substring(2) + "]";
+			s.append(", [").append(v.substring(2)).append("]");
 		}
 		return "[" + s.substring(2) + "]";
 	}

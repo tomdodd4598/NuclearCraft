@@ -27,7 +27,7 @@ public class NCItemFood extends ItemFood implements IInfoItem {
 	
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-		if (effects != null && effects.length > 0) {
+		if (effects != null) {
 			for (PotionEffect effect : effects) {
 				player.addPotionEffect(new PotionEffect(effect));
 			}

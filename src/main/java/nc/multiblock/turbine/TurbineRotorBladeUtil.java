@@ -21,7 +21,7 @@ public class TurbineRotorBladeUtil {
 		private final double efficiency;
 		private final double expansion;
 		
-		private TurbineRotorBladeType(String name, double efficiency, double expansion) {
+		TurbineRotorBladeType(String name, double efficiency, double expansion) {
 			this.name = name;
 			this.efficiency = efficiency;
 			this.expansion = expansion;
@@ -50,11 +50,11 @@ public class TurbineRotorBladeUtil {
 	
 	public interface IRotorBladeType extends IStringSerializable {
 		
-		public double getEfficiency();
+		double getEfficiency();
 		
-		public double getExpansionCoefficient();
+		double getExpansionCoefficient();
 		
-		public default boolean eq(IRotorBladeType other) {
+		default boolean eq(IRotorBladeType other) {
 			return other != null && getName().equals(other.getName()) && getEfficiency() == other.getEfficiency() && getExpansionCoefficient() == other.getExpansionCoefficient();
 		}
 	}
@@ -66,7 +66,7 @@ public class TurbineRotorBladeUtil {
 		private final String name;
 		private final double expansion;
 		
-		private TurbineRotorStatorType(String name, double expansion) {
+		TurbineRotorStatorType(String name, double expansion) {
 			this.name = name;
 			this.expansion = expansion;
 		}
@@ -90,24 +90,24 @@ public class TurbineRotorBladeUtil {
 	public interface IRotorStatorType extends IRotorBladeType {
 		
 		@Override
-		public default double getEfficiency() {
+        default double getEfficiency() {
 			return -1D;
 		}
 	}
 	
 	public interface ITurbineRotorBlade<BLADE extends ITurbineRotorBlade<?>> {
 		
-		public BlockPos bladePos();
+		BlockPos bladePos();
 		
-		public TurbinePartDir getDir();
+		TurbinePartDir getDir();
 		
-		public void setDir(TurbinePartDir newDir);
+		void setDir(TurbinePartDir newDir);
 		
-		public IRotorBladeType getBladeType();
+		IRotorBladeType getBladeType();
 		
-		public IBlockState getRenderState();
+		IBlockState getRenderState();
 		
-		public void onBearingFailure(Iterator<BLADE> bladeIterator);
+		void onBearingFailure(Iterator<BLADE> bladeIterator);
 	}
 	
 	public interface IBlockRotorBlade {
@@ -123,7 +123,7 @@ public class TurbineRotorBladeUtil {
 		
 		private final String name;
 		
-		private TurbinePartDir(String name) {
+		TurbinePartDir(String name) {
 			this.name = name;
 		}
 		
@@ -138,16 +138,11 @@ public class TurbineRotorBladeUtil {
 		}
 		
 		public static TurbinePartDir fromFacingAxis(EnumFacing.Axis axis) {
-			switch (axis) {
-				case X:
-					return X;
-				case Y:
-					return Y;
-				case Z:
-					return Z;
-				default:
-					return INVISIBLE;
-			}
+            return switch (axis) {
+                case X -> X;
+                case Y -> Y;
+                case Z -> Z;
+            };
 		}
 	}
 	

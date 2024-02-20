@@ -50,12 +50,11 @@ public class NCInventoryHelper {
 	}
 	
 	private static void dropInventoryItems(World worldIn, double x, double y, double z, List<ItemStack> stacks) {
-		for (int i = 0; i < stacks.size(); ++i) {
-			ItemStack itemstack = stacks.get(i);
-			if (!itemstack.isEmpty()) {
-				spawnItemStack(worldIn, x, y, z, itemstack);
-			}
-		}
+        for (ItemStack itemstack : stacks) {
+            if (!itemstack.isEmpty()) {
+                spawnItemStack(worldIn, x, y, z, itemstack);
+            }
+        }
 	}
 	
 	private static void spawnItemStack(World world, double x, double y, double z, ItemStack stack) {

@@ -41,7 +41,7 @@ public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE,
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
 	protected TileEnergyProcessor(String name) {
-		this(name, TileInfoHandler.<TILE, EnergyProcessorUpdatePacket, INFO>getProcessorContainerInfo(name));
+		this(name, TileInfoHandler.getProcessorContainerInfo(name));
 	}
 	
 	private TileEnergyProcessor(String name, INFO info) {

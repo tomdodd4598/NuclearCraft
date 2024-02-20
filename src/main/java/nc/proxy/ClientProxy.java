@@ -126,9 +126,8 @@ public class ClientProxy extends CommonProxy {
 			fluidList.addAll(NCFissionFluids.fluidList);
 			
 			for (Fluid fluid : fluidList) {
-				if (fluid.getBlock() instanceof NCBlockFluid) {
-					NCBlockFluid fluidBlock = (NCBlockFluid) fluid.getBlock();
-					Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
+				if (fluid.getBlock() instanceof NCBlockFluid fluidBlock) {
+                    Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
 					Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
 				}
 			}

@@ -114,7 +114,7 @@ public class TConstructExtras {
 					inputs.add(new FluidStack(fluid, (int) objects[2 * i + 1]));
 				}
 				
-				TinkerRegistry.registerAlloy(result, inputs.toArray(new FluidStack[inputs.size()]));
+				TinkerRegistry.registerAlloy(result, inputs.toArray(new FluidStack[0]));
 			}
 		}
 	}

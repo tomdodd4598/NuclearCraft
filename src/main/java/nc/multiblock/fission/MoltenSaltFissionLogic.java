@@ -38,9 +38,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public MoltenSaltFissionLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
-		if (oldLogic instanceof MoltenSaltFissionLogic) {
-			MoltenSaltFissionLogic oldMoltenSaltLogic = (MoltenSaltFissionLogic) oldLogic;
-			heaterCount = oldMoltenSaltLogic.heaterCount;
+		if (oldLogic instanceof MoltenSaltFissionLogic oldMoltenSaltLogic) {
+            heaterCount = oldMoltenSaltLogic.heaterCount;
 			meanHeatingSpeedMultiplier = oldMoltenSaltLogic.meanHeatingSpeedMultiplier;
 			totalHeatingSpeedMultiplier = oldMoltenSaltLogic.totalHeatingSpeedMultiplier;
 		}
@@ -203,9 +202,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			cluster.meanHeatingSpeedMultiplier = cluster.totalHeatingSpeedMultiplier = 0D;
 			int clusterHeaters = 0;
 			for (IFissionComponent component : cluster.getComponentMap().values()) {
-				if (component instanceof TileSaltFissionHeater) {
-					TileSaltFissionHeater heater = (TileSaltFissionHeater) component;
-					heater.heatingSpeedMultiplier = cluster.meanEfficiency * getReactor().sparsityEfficiencyMult * (cluster.rawHeating >= cluster.cooling ? 1D : (double) cluster.rawHeating / (double) cluster.cooling);
+				if (component instanceof TileSaltFissionHeater heater) {
+                    heater.heatingSpeedMultiplier = cluster.meanEfficiency * getReactor().sparsityEfficiencyMult * (cluster.rawHeating >= cluster.cooling ? 1D : (double) cluster.rawHeating / (double) cluster.cooling);
 					cluster.totalHeatingSpeedMultiplier += heater.heatingSpeedMultiplier;
 					++clusterHeaters;
 				}
@@ -256,8 +254,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			refreshRecipe();
 			if (canProcessInputs()) {
 				produceProducts();
-				return;
-			}
+            }
 		}
 	}
 	
@@ -298,7 +295,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public void produceProducts() {
 		BasicRecipe recipe = emergencyCoolingRecipeInfo.recipe;
-		int usedInput = NCMath.toInt(Math.min(tanks.get(0).getFluidAmount() / recipe.getEmergencyCoolingHeatPerInputMB(), Math.min(heatBuffer.getHeatStored(), FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
+		int usedInput = NCMath.toInt(Math.min(tanks.get(0).getFluidAmount() / recipe.getEmergencyCoolingHeatPerInputMB(), Math.min(heatBuffer.getHeatStored(), (long) FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
 		
 		tanks.get(0).changeFluidAmount(-usedInput);
 		if (tanks.get(0).getFluidAmount() <= 0) {
@@ -403,9 +400,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	@Override
 	public void onMultiblockUpdatePacket(FissionUpdatePacket message) {
 		super.onMultiblockUpdatePacket(message);
-		if (message instanceof SaltFissionUpdatePacket) {
-			SaltFissionUpdatePacket packet = (SaltFissionUpdatePacket) message;
-			meanHeatingSpeedMultiplier = packet.meanHeatingSpeedMultiplier;
+		if (message instanceof SaltFissionUpdatePacket packet) {
+            meanHeatingSpeedMultiplier = packet.meanHeatingSpeedMultiplier;
 			totalHeatingSpeedMultiplier = packet.totalHeatingSpeedMultiplier;
 		}
 	}

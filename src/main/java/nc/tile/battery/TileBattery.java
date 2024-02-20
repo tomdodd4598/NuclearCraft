@@ -112,7 +112,7 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBatte
 	}
 	
 	protected boolean ignoreSide(EnumFacing side) {
-		return side == null ? false : ignoreSide[side.getIndex()];
+		return side != null && ignoreSide[side.getIndex()];
 	}
 	
 	@Override

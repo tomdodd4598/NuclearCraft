@@ -28,11 +28,10 @@ public class BlockGeigerCounter extends BlockSimpleTile<TileGeigerCounter> {
 			return false;
 		}
 		
-		if (player != null && player.getHeldItem(hand).isEmpty()) {
+		if (player.getHeldItem(hand).isEmpty()) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (!world.isRemote && tile instanceof TileGeigerCounter) {
-				TileGeigerCounter geiger = (TileGeigerCounter) tile;
-				double radiation = geiger.getChunkRadiationLevel();
+			if (!world.isRemote && tile instanceof TileGeigerCounter geiger) {
+                double radiation = geiger.getChunkRadiationLevel();
 				player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radiation, true))));
 			}
 			return true;

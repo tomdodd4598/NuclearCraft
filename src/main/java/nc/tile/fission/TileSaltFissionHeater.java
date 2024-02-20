@@ -821,7 +821,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements IProcessor
 	
 	@Override
 	public boolean canModifyFilter(int tank) {
-		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+		return getMultiblock() == null || !getMultiblock().isAssembled();
 	}
 	
 	@Override

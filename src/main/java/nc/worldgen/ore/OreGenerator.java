@@ -20,8 +20,8 @@ public class OreGenerator implements IWorldGenerator {
 	protected static IntSet ore_dim_set;
 	
 	protected final WorldGenOre[] ores;
-	
-	protected static class WorldGenOre extends WorldGenMinable {
+
+	public static class WorldGenOre extends WorldGenMinable {
 		
 		public WorldGenOre(int meta) {
 			super(((BlockMeta<?>) NCBlocks.ore).getStateFromMeta(meta), ore_size[meta] + 2, new UniversalOrePredicate());

@@ -20,7 +20,7 @@ public abstract class JEIProcessorRecipeWrapper<TILE extends TileEntity & IProce
 	protected final int tooltipX, tooltipY, tooltipW, tooltipH;
 	
 	protected JEIProcessorRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
-		this(guiHelper, TileInfoHandler.<TILE, PACKET, INFO>getProcessorContainerInfo(name), recipe);
+		this(guiHelper, TileInfoHandler.getProcessorContainerInfo(name), recipe);
 	}
 	
 	private JEIProcessorRecipeWrapper(IGuiHelper guiHelper, INFO info, BasicRecipe recipe) {

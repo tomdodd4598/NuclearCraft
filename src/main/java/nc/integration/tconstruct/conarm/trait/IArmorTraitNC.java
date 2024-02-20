@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 public interface IArmorTraitNC extends IArmorTrait {
 	
 	@Override
-	public default void onAbilityTick(int var1, World var2, EntityPlayer var3) {
+    default void onAbilityTick(int var1, World var2, EntityPlayer var3) {
 		
 	}
 }

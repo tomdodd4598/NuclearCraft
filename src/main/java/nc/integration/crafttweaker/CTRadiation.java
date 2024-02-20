@@ -33,15 +33,13 @@ public class CTRadiation {
 				ItemStack stack = CTHelper.getItemStack((IItemStack) ingredient);
 				return stack.isEmpty() ? 0D : RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack)) * stack.getCount();
 			}
-			else if (ingredient instanceof IOreDictEntry) {
-				IOreDictEntry ore = (IOreDictEntry) ingredient;
-				return RadSources.ORE_MAP.getDouble(ore.getName()) * ore.getAmount();
+			else if (ingredient instanceof IOreDictEntry ore) {
+                return RadSources.ORE_MAP.getDouble(ore.getName()) * ore.getAmount();
 			}
 			else if (ingredient instanceof IngredientStack) {
 				IItemIngredient i = CTHelper.buildOreIngredientArray(ingredient, true);
-				if (i instanceof OreIngredient) {
-					OreIngredient ore = (OreIngredient) i;
-					return RadSources.ORE_MAP.getDouble(ore.oreName) * ore.stackSize;
+				if (i instanceof OreIngredient ore) {
+                    return RadSources.ORE_MAP.getDouble(ore.oreName) * ore.stackSize;
 				}
 				else {
 					ItemStack stack = i.getStack();
@@ -238,7 +236,7 @@ public class CTRadiation {
 		public static void setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames) {
 			nc.radiation.RadiationHandler.default_rad_immunity = defaultImmunity;
 			nc.radiation.RadiationHandler.rad_immunity_stages = stageNames;
-			CraftTweakerAPI.logInfo("Added radiation immunity game stages " + Lists.newArrayList(stageNames).toString() + ", with immunity " + (defaultImmunity ? "enabled" : "disabled") + " by default");
+			CraftTweakerAPI.logInfo("Added radiation immunity game stages " + Lists.newArrayList(stageNames) + ", with immunity " + (defaultImmunity ? "enabled" : "disabled") + " by default");
 		}
 	}
 	

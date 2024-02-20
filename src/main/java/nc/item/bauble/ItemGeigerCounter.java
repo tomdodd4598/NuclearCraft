@@ -55,11 +55,10 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-		if (!world.isRemote || !radiation_require_counter || !(entity instanceof EntityPlayer)) {
+		if (!world.isRemote || !radiation_require_counter || !(entity instanceof EntityPlayer player)) {
 			return;
 		}
-		EntityPlayer player = (EntityPlayer) entity;
-		if (isStackOnHotbar(stack, player)) {
+        if (isStackOnHotbar(stack, player)) {
 			RadiationHandler.playGeigerSound(player);
 		}
 	}

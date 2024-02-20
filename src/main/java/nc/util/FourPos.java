@@ -2,6 +2,8 @@ package nc.util;
 
 import net.minecraft.util.math.BlockPos;
 
+import java.util.Objects;
+
 public class FourPos {
 	
 	private final BlockPos pos;
@@ -33,16 +35,14 @@ public class FourPos {
 		if (obj == this) {
 			return true;
 		}
-		if (obj == null || !(obj instanceof FourPos)) {
+		if (!(obj instanceof FourPos fourPos)) {
 			return false;
 		}
-		
-		FourPos fourPos = (FourPos) obj;
-		
-		if (dim != fourPos.dim) {
+
+        if (dim != fourPos.dim) {
 			return false;
 		}
-		return pos != null ? pos.equals(fourPos.pos) : fourPos.pos == null;
+		return Objects.equals(pos, fourPos.pos);
 		
 	}
 	

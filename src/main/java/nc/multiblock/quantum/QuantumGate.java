@@ -24,7 +24,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 	
 	public final QuantumGate<?> merge(QuantumGate<?> next) {
 		if (gateClass.isInstance(next) && matchingID(next.getID(), mergerIDs())) {
-			return mergeInernal(gateClass.cast(next));
+			return mergeInternal(gateClass.cast(next));
 		}
 		else {
 			return null;
@@ -32,8 +32,8 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 	}
 	
 	/** Returns null if next gate can not be merged with this one */
-	public abstract GATE mergeInernal(GATE next);
-	
+	public abstract GATE mergeInternal(GATE next);
+
 	public boolean shouldMarkDirty() {
 		return false;
 	}
@@ -45,13 +45,13 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 	
 	public abstract List<String> getCode(int type);
 	
-	public static interface IControl {
+	public interface IControl {
 		
-		public IntSet c();
+		IntSet c();
 		
-		public IntSet t();
+		IntSet t();
 		
-		public QuantumGate<?> withoutControl();
+		QuantumGate<?> withoutControl();
 	}
 	
 	public static class Measurement extends QuantumGate<Measurement> {
@@ -81,7 +81,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public Measurement mergeInernal(Measurement next) {
+		public Measurement mergeInternal(Measurement next) {
 			IntSet nCopy = new IntOpenHashSet(n);
 			nCopy.addAll(next.n);
 			return new Measurement(qc, nCopy);
@@ -150,7 +150,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public Reset mergeInernal(Reset next) {
+		public Reset mergeInternal(Reset next) {
 			return new Reset(qc);
 		}
 		
@@ -201,7 +201,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public Basic mergeInernal(Basic next) {
+		public Basic mergeInternal(Basic next) {
 			if (next instanceof Control && !((Control) next).c.isEmpty()) {
 				return null;
 			}
@@ -614,7 +614,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public BasicAngle mergeInernal(BasicAngle next) {
+		public BasicAngle mergeInternal(BasicAngle next) {
 			if (angle != next.angle) {
 				return null;
 			}
@@ -863,7 +863,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public Basic mergeInernal(Basic next) {
+		public Basic mergeInternal(Basic next) {
 			if (!matchingControl(c, next instanceof Control ? ((Control) next).c : S0)) {
 				return null;
 			}
@@ -1025,13 +1025,9 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 							repeat[2 * (c_size - 2) - i] = repeat[i];
 						}
 						repeat[c_size - 2] = new CX(qc, set(c_list.getInt(c_size - 2), c_list.getInt(c_size - 1)), set(anc.getInt(c_size - 3)));
-						
-						for (CX cx : repeat) {
-							decomposition.add(cx);
-						}
-						for (CX cx : repeat) {
-							decomposition.add(cx);
-						}
+
+                        decomposition.addAll(Arrays.asList(repeat));
+                        decomposition.addAll(Arrays.asList(repeat));
 					}
 					
 					else {
@@ -1493,7 +1489,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public BasicAngle mergeInernal(BasicAngle next) {
+		public BasicAngle mergeInternal(BasicAngle next) {
 			if (angle != next.angle) {
 				return null;
 			}
@@ -1805,7 +1801,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public Swap mergeInernal(Swap next) {
+		public Swap mergeInternal(Swap next) {
 			return matchingControl(S0, next instanceof ControlSwap ? ((ControlSwap) next).c : S0) ? newMerged(S0, i, j, next.i, next.j) : null;
 		}
 		
@@ -1888,7 +1884,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		}
 		
 		@Override
-		public Swap mergeInernal(Swap next) {
+		public Swap mergeInternal(Swap next) {
 			return matchingControl(c, next instanceof ControlSwap ? ((ControlSwap) next).c : S0) ? newMerged(c, i, j, next.i, next.j) : null;
 		}
 		
@@ -2077,7 +2073,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Tdg, new double[] {-22.5D, -22.5D, 0D, -22.5D});
 	}
 	
-	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees. Translated from https://qiskit.org/documentation/_modules/qiskit/quantum_info/synthesis/one_qubit_decompose.html#OneQubitEulerDecomposer */
+	/** Returns the phase and Euler angles for the gate in the ZYZ basis in degrees. Translated from <a href="https://qiskit.org/documentation/_modules/qiskit/quantum_info/synthesis/one_qubit_decompose.html#OneQubitEulerDecomposer">...</a> */
 	public static double[] getZYZDecompositionAngles(ComplexMatrix matrix) {
 		if (ZYZ_DECOMPOSITION_ANGLES_CACHE.containsKey(matrix)) {
 			return ZYZ_DECOMPOSITION_ANGLES_CACHE.get(matrix);
@@ -2095,7 +2091,7 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 		return new double[] {-Math.toDegrees(Complex.arg(phase[0], phase[1])), Math.toDegrees((ppl + pml) / 2D), Math.toDegrees(2D * Math.atan2(Complex.abs(m.re[1][0], m.im[1][0]), Complex.abs(m.re[0][0], m.im[0][0]))), Math.toDegrees((ppl - pml) / 2D)};
 	}
 	
-	/** Adds the ZYZ decomposition of this gate to the list. Combines results from: https://arxiv.org/abs/quant-ph/9503016, Nielsen, Michael A.; Chuang, Isaac L. Quantum Computation and Quantum Information */
+	/** Adds the ZYZ decomposition of this gate to the list. Combines results from: <a href="https://arxiv.org/abs/quant-ph/9503016">...</a>, Nielsen, Michael A.; Chuang, Isaac L. Quantum Computation and Quantum Information */
 	public static <GATE extends QuantumGate<?> & IControl> void addZYZDecomposition(GATE gate, List<QuantumGate<?>> decomposition) {
 		IntSet t = gate.t();
 		if (t.isEmpty()) {
@@ -2178,10 +2174,10 @@ public abstract class QuantumGate<GATE extends QuantumGate<?>> {
 			return Integer.toString(list.getInt(0));
 		}
 		
-		String out = "[";
+		StringBuilder out = new StringBuilder("[");
 		for (int i : list) {
-			out += (i + ", ");
+			out.append(i).append(", ");
 		}
-		return StringHelper.removeSuffix(out, 2) + "]";
+		return StringHelper.removeSuffix(out.toString(), 2) + "]";
 	}
 }

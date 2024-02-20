@@ -25,7 +25,7 @@ public class NCInfo {
 		if (fuelInfo.getFissionFuelSelfPriming()) {
 			list.add(Lang.localize("info." + Global.MOD_ID + ".fission_fuel.self_priming.desc"));
 		}
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 	
 	// Fission Cooling

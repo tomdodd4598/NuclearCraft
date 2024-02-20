@@ -59,7 +59,7 @@ public abstract class NCGui extends GuiContainer {
 		if (mouseButton == 1 || mouseButton == 2) {
 			for (int i = 0; i < buttonList.size(); ++i) {
 				GuiButton guibutton = buttonList.get(i);
-				boolean mousePressed = guibutton instanceof NCButton ? ((NCButton) guibutton).mousePressed(mc, mouseX, mouseY, mouseButton) : false;
+				boolean mousePressed = guibutton instanceof NCButton && ((NCButton) guibutton).mousePressed(mc, mouseX, mouseY, mouseButton);
 				if (mousePressed) {
 					GuiScreenEvent.ActionPerformedEvent.Pre event = new GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, buttonList);
 					if (MinecraftForge.EVENT_BUS.post(event)) {

@@ -26,20 +26,20 @@ public class CommandSetChunkRadiusRadiation extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 2) {
-			double newRadiation = 0D;
+			double newRadiation;
 			try {
 				newRadiation = Double.parseDouble(args[0]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
-			int radius = 1;
+			int radius;
 			try {
 				radius = Integer.parseInt(args[1]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
 			int senderX = sender.getPosition().getX() >> 4, senderZ = sender.getPosition().getZ() >> 4;
@@ -56,7 +56,7 @@ public class CommandSetChunkRadiusRadiation extends CommandBase {
 			}
 		}
 		else {
-			throw new WrongUsageException(getUsage(sender), new Object[0]);
+			throw new WrongUsageException(getUsage(sender));
 		}
 	}
 }

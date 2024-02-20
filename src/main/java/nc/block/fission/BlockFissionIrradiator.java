@@ -26,10 +26,7 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
@@ -61,9 +58,8 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (!keepInventory) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileFissionIrradiator) {
-				TileFissionIrradiator irradiator = (TileFissionIrradiator) tile;
-				dropItems(world, pos, irradiator.getInventoryStacksInternal());
+			if (tile instanceof TileFissionIrradiator irradiator) {
+                dropItems(world, pos, irradiator.getInventoryStacksInternal());
 				// world.updateComparatorOutputLevel(pos, this);
 				// FissionReactor reactor = irradiator.getMultiblock();
 				// world.removeTileEntity(pos);

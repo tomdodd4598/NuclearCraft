@@ -96,11 +96,10 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 			extrasCount = extras.size();
 		}
 		
-		@SuppressWarnings("unchecked")
 		public <T> void add(Class<? extends T> clazz, T defaultValue) {
 			int index = currentIndex++;
-			Object extra = extras.get(index);
-			fixed.add(extrasCount > index && clazz.isInstance(extra) ? (T) extra : defaultValue);
+			Object extra;
+			fixed.add(index < extrasCount && clazz.isInstance(extra = extras.get(index)) ? extra : defaultValue);
 		}
 	}
 	
@@ -108,7 +107,7 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 		if (recipe == null) {
 			return null;
 		}
-		if (recipe.getItemIngredients().size() != 0 || recipe.getItemProducts().size() != 0) {
+		if (!recipe.getItemIngredients().isEmpty() || !recipe.getItemProducts().isEmpty()) {
 			return recipe;
 		}
 		

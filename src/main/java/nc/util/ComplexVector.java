@@ -75,9 +75,9 @@ public class ComplexVector {
 	
 	@Override
 	public String toString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < dim; ++i) {
-			s = s + ", " + Complex.toString(re[i], im[i]);
+			s.append(", ").append(Complex.toString(re[i], im[i]));
 		}
 		return "[" + s.substring(2) + "]";
 	}

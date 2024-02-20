@@ -17,7 +17,7 @@ public class NCFluid extends Fluid {
 	public NCFluid(String fluidName, boolean canBeStill, String textureName, Integer color) {
 		super(fluidName, stillTextureLocation(textureName, canBeStill), flowingTextureLocation(textureName, canBeStill));
 		
-		int fixedColor = color.intValue();
+		int fixedColor = color;
 		if ((fixedColor >> 24 & 0xFF) == 0) {
 			fixedColor |= 0xFF << 24;
 		}

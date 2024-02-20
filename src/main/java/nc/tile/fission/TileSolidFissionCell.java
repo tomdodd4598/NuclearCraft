@@ -263,7 +263,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IProcessor<
 	
 	@Override
 	public double getSourceEfficiency() {
-		return sourceEfficiency == null ? 1D : sourceEfficiency.doubleValue();
+		return sourceEfficiency == null ? 1D : sourceEfficiency;
 	}
 	
 	@Override
@@ -328,7 +328,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IProcessor<
 	
 	@Override
 	public long getRawHeating() {
-		return isProcessing ? baseProcessHeat * heatMult : 0L;
+		return isProcessing ? (long) baseProcessHeat * heatMult : 0L;
 	}
 	
 	@Override
@@ -628,7 +628,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IProcessor<
 		baseProcessHeat = recipe == null ? 0 : recipe.getFissionFuelHeat();
 		baseProcessEfficiency = recipe == null ? 0D : recipe.getFissionFuelEfficiency();
 		baseProcessCriticality = recipe == null ? 1 : recipe.getFissionFuelCriticality();
-		selfPriming = recipe == null ? false : recipe.getFissionFuelSelfPriming();
+		selfPriming = recipe != null && recipe.getFissionFuelSelfPriming();
 		baseProcessRadiation = recipe == null ? 0D : recipe.getFissionFuelRadiation();
 		
 		if (recipe != null) {
@@ -816,12 +816,8 @@ public class TileSolidFissionCell extends TileFissionPart implements IProcessor<
 	
 	@Override
 	public void clearAllSlots() {
-		for (int i = 0; i < inventoryStacks.size(); ++i) {
-			inventoryStacks.set(i, ItemStack.EMPTY);
-		}
-		for (int i = 0; i < consumedStacks.size(); ++i) {
-			consumedStacks.set(i, ItemStack.EMPTY);
-		}
+        Collections.fill(inventoryStacks, ItemStack.EMPTY);
+        Collections.fill(consumedStacks, ItemStack.EMPTY);
 		refreshAll();
 	}
 	
@@ -852,7 +848,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IProcessor<
 	
 	@Override
 	public boolean canModifyFilter(int slot) {
-		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+		return getMultiblock() == null || !getMultiblock().isAssembled();
 	}
 	
 	@Override

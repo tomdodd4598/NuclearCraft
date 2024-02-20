@@ -10,7 +10,7 @@ public interface GuiFunction<TILE extends TileEntity> {
 	
 	GuiContainer apply(EntityPlayer player, TILE tile);
 	
-	public static <T extends TileEntity> GuiFunction<T> of(String modId, String name, ContainerFunction<T> containerFunction, GuiInfoTileFunction<T> guiFunction) {
+	static <T extends TileEntity> GuiFunction<T> of(String modId, String name, ContainerFunction<T> containerFunction, GuiInfoTileFunction<T> guiFunction) {
 		return (player, tile) -> guiFunction.apply(containerFunction.apply(player, tile), player, tile, modId + ":textures/gui/container/" + name + ".png");
 	}
 }

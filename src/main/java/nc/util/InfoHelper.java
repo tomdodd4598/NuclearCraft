@@ -173,7 +173,7 @@ public class InfoHelper {
 	public static String[][] buildGeneralInfo(String unlocNameBase, String[] types, String desc, String des, String[]... tooltips) {
 		String[][] strings = new String[types.length][];
 		
-		if (Arrays.equals(tooltips, NULL_ARRAYS)) {
+		if (Arrays.deepEquals(tooltips, NULL_ARRAYS)) {
 			for (int i = 0; i < types.length; ++i) {
 				strings[i] = NULL_ARRAY;
 			}

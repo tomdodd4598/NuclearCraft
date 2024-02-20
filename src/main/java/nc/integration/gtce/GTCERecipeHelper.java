@@ -185,7 +185,7 @@ public class GTCERecipeHelper {
 					
 					// This variant has ore dict entries
 					if (!variantOreList.isEmpty()) {
-						if (ingredientOreList.containsAll(variantOreList)) {
+						if (new HashSet<>(ingredientOreList).containsAll(variantOreList)) {
 							continue;
 						}
 						ingredientOreList.addAll(variantOreList);

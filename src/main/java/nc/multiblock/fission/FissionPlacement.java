@@ -232,40 +232,22 @@ public abstract class FissionPlacement {
 			
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
 			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : (edge ? AdjacencyType.EDGE : AdjacencyType.STANDARD));
-			
-			if (rule.equals("casing")) {
-				return new AdjacentCasing(amount, countType, adjType);
-			}
-			else if (rule.equals("conductor")) {
-				return new AdjacentConductor(amount, countType, adjType);
-			}
-			else if (rule.equals("moderator")) {
-				return new AdjacentModerator(amount, countType, adjType);
-			}
-			else if (rule.equals("reflector")) {
-				return new AdjacentReflector(amount, countType, adjType);
-			}
-			else if (rule.equals("irradiator")) {
-				return new AdjacentIrradiator(amount, countType, adjType);
-			}
-			else if (rule.equals("shield")) {
-				return new AdjacentShield(amount, countType, adjType);
-			}
-			else if (rule.equals("cell")) {
-				return new AdjacentCell(amount, countType, adjType);
-			}
-			else if (rule.equals("sink")) {
-				return new AdjacentSink(amount, countType, adjType, type);
-			}
-			else if (rule.equals("vessel")) {
-				return new AdjacentVessel(amount, countType, adjType);
-			}
-			else if (rule.equals("heater")) {
-				return new AdjacentHeater(amount, countType, adjType, type);
-			}
-			
-			return null;
-		}
+
+            return switch (rule) {
+                case "casing" -> new AdjacentCasing(amount, countType, adjType);
+                case "conductor" -> new AdjacentConductor(amount, countType, adjType);
+                case "moderator" -> new AdjacentModerator(amount, countType, adjType);
+                case "reflector" -> new AdjacentReflector(amount, countType, adjType);
+                case "irradiator" -> new AdjacentIrradiator(amount, countType, adjType);
+                case "shield" -> new AdjacentShield(amount, countType, adjType);
+                case "cell" -> new AdjacentCell(amount, countType, adjType);
+                case "sink" -> new AdjacentSink(amount, countType, adjType, type);
+                case "vessel" -> new AdjacentVessel(amount, countType, adjType);
+                case "heater" -> new AdjacentHeater(amount, countType, adjType, type);
+                default -> null;
+            };
+
+        }
 	}
 	
 	// Adjacent

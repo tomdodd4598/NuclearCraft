@@ -41,7 +41,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPart impleme
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isHeatExchangerOn(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().isHeatExchangerOn : false};
+		return new Object[] {isMultiblockAssembled() && getMultiblock().isHeatExchangerOn};
 	}
 	
 	@Callback

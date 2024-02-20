@@ -21,7 +21,5 @@ public class SlotInaccessible extends Slot {
 	}
 	
 	@Override
-	public void putStack(ItemStack stack) {
-		return;
-	}
+	public void putStack(ItemStack stack) {}
 }

@@ -1,0 +1,32 @@
+// Add any additional repositories for your dependencies here
+
+repositories {
+	maven {
+		name = "progwml6"
+		url = "http://dvs1.progwml6.com/files/maven/"
+	}
+	maven {
+		name = "cil"
+		url = "http://maven.cil.li/"
+	}
+	maven {
+		name = "CoFH Maven"
+		url = "http://maven.covers1624.net"
+	}
+	maven {
+		name = "CCL Maven"
+		url = "http://chickenbones.net/maven/"
+	}
+	maven {
+		name "tterrag Maven"
+		url "https://maven.tterrag.com/"
+	}
+	maven {
+		name = "mcmoddev"
+		url = "https://maven.mcmoddev.com"
+	}
+	maven {
+		name = "ModMaven"
+		url = "https://modmaven.dev/"
+	}
+}

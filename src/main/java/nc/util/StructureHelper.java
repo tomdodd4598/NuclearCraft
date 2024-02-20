@@ -100,13 +100,11 @@ public class StructureHelper {
 			if (this == o) {
 				return true;
 			}
-			if (o == null || !(o instanceof StructureCacheEntry)) {
+			if (!(o instanceof StructureCacheEntry that)) {
 				return false;
 			}
-			
-			StructureCacheEntry that = (StructureCacheEntry) o;
-			
-			if (dimension != that.dimension) {
+
+            if (dimension != that.dimension) {
 				return false;
 			}
 			if (chunkpos != that.chunkpos) {

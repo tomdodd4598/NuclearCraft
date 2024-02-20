@@ -6,21 +6,21 @@ import nc.util.FourPos;
 
 public interface ITileRadiationEnvironment extends ITile {
 	
-	public default FourPos getFourPos() {
+	default FourPos getFourPos() {
 		return new FourPos(getTilePos(), getTileWorld().provider.getDimension());
 	}
 	
-	public void checkRadiationEnvironmentInfo();
+	void checkRadiationEnvironmentInfo();
 	
-	public void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info);
+	void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info);
 	
-	public double getRadiationContributionFraction();
+	double getRadiationContributionFraction();
 	
-	public double getCurrentChunkRadiationLevel();
+	double getCurrentChunkRadiationLevel();
 	
-	public void setCurrentChunkRadiationLevel(double level);
+	void setCurrentChunkRadiationLevel(double level);
 	
-	public double getCurrentChunkRadiationBuffer();
+	double getCurrentChunkRadiationBuffer();
 	
-	public void setCurrentChunkRadiationBuffer(double buffer);
+	void setCurrentChunkRadiationBuffer(double buffer);
 }

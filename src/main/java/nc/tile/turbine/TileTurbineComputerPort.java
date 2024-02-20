@@ -43,7 +43,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isTurbineOn(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().isTurbineOn : false};
+		return new Object[] {isMultiblockAssembled() && getMultiblock().isTurbineOn};
 	}
 	
 	@Callback
@@ -67,7 +67,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isProcessing(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().isProcessing : false};
+		return new Object[] {isMultiblockAssembled() && getMultiblock().isProcessing};
 	}
 	
 	@Callback

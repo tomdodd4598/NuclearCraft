@@ -28,13 +28,13 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
 	protected @Nonnull Long2ObjectMap<ObjectSet<RECIPE>> recipeCache = new Long2ObjectOpenHashMap<>();
 	
-	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
-	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
-	private static List<Class<?>> validItemOutputs = Lists.newArrayList(IItemIngredient.class, String.class, Item.class, Block.class, ItemStack.class);
-	private static List<Class<?>> validFluidOutputs = Lists.newArrayList(IFluidIngredient.class, String.class, Fluid.class, FluidStack.class);
+	private static final List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
+	private static final List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
+	private static final List<Class<?>> validItemOutputs = Lists.newArrayList(IItemIngredient.class, String.class, Item.class, Block.class, ItemStack.class);
+	private static final List<Class<?>> validFluidOutputs = Lists.newArrayList(IFluidIngredient.class, String.class, Fluid.class, FluidStack.class);
 	
-	private static List<Class<?>> needItemAltering = Lists.newArrayList(Item.class, Block.class);
-	private static List<Class<?>> needFluidAltering = Lists.newArrayList(Fluid.class);
+	private static final List<Class<?>> needItemAltering = Lists.newArrayList(Item.class, Block.class);
+	private static final List<Class<?>> needFluidAltering = Lists.newArrayList(Fluid.class);
 	
 	public static final IntList INVALID = new IntArrayList(new int[] {-1});
 	
@@ -83,11 +83,11 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	}
 	
 	public boolean addRecipe(RECIPE recipe) {
-		return recipe != null ? recipeList.add(recipe) : false;
+		return recipe != null && recipeList.add(recipe);
 	}
 	
 	public boolean removeRecipe(RECIPE recipe) {
-		return recipe != null ? recipeList.remove(recipe) : false;
+		return recipe != null && recipeList.remove(recipe);
 	}
 	
 	public void removeAllRecipes() {
@@ -175,9 +175,8 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
 	public static boolean isValidItemInputType(Object itemInput) {
 		for (Class<?> itemInputType : validItemInputs) {
-			if (itemInput instanceof ArrayList && itemInputType == ArrayList.class) {
-				ArrayList<?> list = (ArrayList<?>) itemInput;
-				for (Object obj : list) {
+			if (itemInput instanceof ArrayList<?> list && itemInputType == ArrayList.class) {
+                for (Object obj : list) {
 					if (isValidItemInputType(obj)) {
 						return true;
 					}
@@ -192,9 +191,8 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 	
 	public static boolean isValidFluidInputType(Object fluidInput) {
 		for (Class<?> fluidInputType : validFluidInputs) {
-			if (fluidInput instanceof ArrayList && fluidInputType == ArrayList.class) {
-				ArrayList<?> list = (ArrayList<?>) fluidInput;
-				for (Object obj : list) {
+			if (fluidInput instanceof ArrayList<?> list && fluidInputType == ArrayList.class) {
+                for (Object obj : list) {
 					if (isValidFluidInputType(obj)) {
 						return true;
 					}

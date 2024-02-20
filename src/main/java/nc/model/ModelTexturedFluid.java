@@ -26,7 +26,7 @@ import net.minecraftforge.common.model.*;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.*;
 
-public final class ModelTexturedFluid implements IModel {
+public class ModelTexturedFluid implements IModel {
 	
 	public static final ModelTexturedFluid WATER = new ModelTexturedFluid(new ResourceLocation("blocks/water_still"), new ResourceLocation("blocks/water_flow"));
 	protected final ResourceLocation still, flowing;
@@ -52,7 +52,7 @@ public final class ModelTexturedFluid implements IModel {
 		return ModelRotation.X0_Y0;
 	}
 	
-	public static enum FluidTexturedLoader implements ICustomModelLoader {
+	public enum FluidTexturedLoader implements ICustomModelLoader {
 		
 		INSTANCE;
 		
@@ -70,31 +70,31 @@ public final class ModelTexturedFluid implements IModel {
 		}
 	}
 	
-	protected static final class BakedFluidTextured implements IBakedModel {
+	protected static class BakedFluidTextured implements IBakedModel {
 		
-		protected static final int X[] = {0, 0, 1, 1};
-		protected static final int Z[] = {0, 1, 1, 0};
+		protected static final int[] X = {0, 0, 1, 1};
+		protected static final int[] Z = {0, 1, 1, 0};
 		protected static final float eps = 0.001F;
 		
-		protected final LoadingCache<Long, BakedFluidTextured> modelCache = CacheBuilder.newBuilder().maximumSize(1000).build(new CacheLoader<Long, BakedFluidTextured>() {
-			
-			@Override
-			public BakedFluidTextured load(Long key) throws Exception {
-				int opacity = (int) (key & 0x3FF);
-				key >>>= 10;
-				boolean gas = (key & 1) != 0;
-				key >>>= 1;
-				boolean statePresent = (key & 1) != 0;
-				key >>>= 1;
-				int[] cornerRound = new int[4];
-				for (int i = 0; i < 4; ++i) {
-					cornerRound[i] = (int) (key & 0x3FF);
-					key >>>= 10;
-				}
-				int flowRound = (int) (key & 0x7FF) - 1024;
-				return new BakedFluidTextured(transformation, transforms, format, opacity, still, flowing, gas, statePresent, cornerRound, flowRound);
-			}
-		});
+		protected final LoadingCache<Long, BakedFluidTextured> modelCache = CacheBuilder.newBuilder().maximumSize(1000).build(new CacheLoader<>() {
+
+            @Override
+            public BakedFluidTextured load(Long key) {
+                int opacity = (int) (key & 0x3FF);
+                key >>>= 10;
+                boolean gas = (key & 1) != 0;
+                key >>>= 1;
+                boolean statePresent = (key & 1) != 0;
+                key >>>= 1;
+                int[] cornerRound = new int[4];
+                for (int i = 0; i < 4; ++i) {
+                    cornerRound[i] = (int) (key & 0x3FF);
+                    key >>>= 10;
+                }
+                int flowRound = (int) (key & 0x7FF) - 1024;
+                return new BakedFluidTextured(transformation, transforms, format, opacity, still, flowing, gas, statePresent, cornerRound, flowRound);
+            }
+        });
 		
 		protected final Optional<TRSRTransformation> transformation;
 		protected final ImmutableMap<TransformType, TRSRTransformation> transforms;
@@ -195,7 +195,7 @@ public final class ModelTexturedFluid implements IModel {
 				
 				for (int i = 0; i < 4; ++i) {
 					side = EnumFacing.byHorizontalIndex((5 - i) % 4);
-					BakedQuad q[] = new BakedQuad[2];
+					BakedQuad[] q = new BakedQuad[2];
 					
 					for (int k = 0; k < 2; ++k) {
 						builder = new UnpackedBakedQuad.Builder(format);
@@ -281,9 +281,8 @@ public final class ModelTexturedFluid implements IModel {
 		@Override
 		public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 			BakedFluidTextured model = this;
-			if (state instanceof IExtendedBlockState) {
-				IExtendedBlockState exState = (IExtendedBlockState) state;
-				int[] cornerRound = getCorners(Optional.of(exState));
+			if (state instanceof IExtendedBlockState exState) {
+                int[] cornerRound = getCorners(Optional.of(exState));
 				int flowRound = getFlow(Optional.of(exState));
 				long key = flowRound + 1024;
 				for (int i = 3; i >= 0; --i) {

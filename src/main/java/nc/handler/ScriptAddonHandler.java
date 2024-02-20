@@ -113,52 +113,50 @@ public class ScriptAddonHandler {
 						break;
 					}
 				}
-				
-				if (f.getName().equals("lang")) {
-					copyLangs(dir, f);
-					SCRIPT_ADDON_DIRS.add(dir);
-				}
-				
-				else if (f.getName().equals("scripts")) {
-					File legacy = new File("scripts/nuclearcraft/" + dirName);
-					if (legacy.exists()) {
-						FileUtils.deleteDirectory(legacy);
-					}
-					
-					FileUtils.copyDirectory(f, new File("scripts/nc_script_addons/" + removeVersionSuffix(dirName)));
-					SCRIPT_ADDON_DIRS.add(dir);
-				}
-				
-				else if (f.getName().equals("contenttweaker")) {
-					FileUtils.copyDirectory(f, new File("resources/contenttweaker"));
-					SCRIPT_ADDON_DIRS.add(dir);
-				}
-				
-				else if (f.getName().equals("modularmachinery")) {
-					FileUtils.copyDirectory(f, new File("config/modularmachinery/machinery"));
-					SCRIPT_ADDON_DIRS.add(dir);
-				}
-				
-				else {
-					boolean a = false;
-					for (File d : f.listFiles()) {
-						if (d.isDirectory()) {
-							boolean b = false;
-							for (String s : ADDON_ASSETS) {
-								if (d.getName().equals(s)) {
-									if (!a) {
-										copyAddons(f);
-										a = true;
-									}
-									b = true;
-								}
-							}
-							if (!b) {
-								copyAddons(d);
-							}
-						}
-					}
-				}
+
+                switch (f.getName()) {
+                    case "lang" -> {
+                        copyLangs(dir, f);
+                        SCRIPT_ADDON_DIRS.add(dir);
+                    }
+                    case "scripts" -> {
+                        File legacy = new File("scripts/nuclearcraft/" + dirName);
+                        if (legacy.exists()) {
+                            FileUtils.deleteDirectory(legacy);
+                        }
+
+                        FileUtils.copyDirectory(f, new File("scripts/nc_script_addons/" + removeVersionSuffix(dirName)));
+                        SCRIPT_ADDON_DIRS.add(dir);
+                    }
+                    case "contenttweaker" -> {
+                        FileUtils.copyDirectory(f, new File("resources/contenttweaker"));
+                        SCRIPT_ADDON_DIRS.add(dir);
+                    }
+                    case "modularmachinery" -> {
+                        FileUtils.copyDirectory(f, new File("config/modularmachinery/machinery"));
+                        SCRIPT_ADDON_DIRS.add(dir);
+                    }
+                    default -> {
+                        boolean a = false;
+                        for (File d : f.listFiles()) {
+                            if (d.isDirectory()) {
+                                boolean b = false;
+                                for (String s : ADDON_ASSETS) {
+                                    if (d.getName().equals(s)) {
+                                        if (!a) {
+                                            copyAddons(f);
+                                            a = true;
+                                        }
+                                        b = true;
+                                    }
+                                }
+                                if (!b) {
+                                    copyAddons(d);
+                                }
+                            }
+                        }
+                    }
+                }
 			}
 		}
 	}

@@ -11,7 +11,7 @@ public class IOHelper {
 	public static final int MAX_ZIP_SIZE = 50000000;
 	public static final int ZIP_READ_SIZE = 0x2000;
 	
-	/** Modified from Srikanth A's answer at https://stackoverflow.com/a/45951007 */
+	/** Modified from Srikanth A's answer at <a href="https://stackoverflow.com/a/45951007">...</a> */
 	public static void appendFile(File target, File source, String separator) throws IOException {
 		try (FileWriter writer = new FileWriter(target, true); FileReader reader = new FileReader(source)) {
 			
@@ -25,7 +25,7 @@ public class IOHelper {
 		}
 	}
 	
-	/** Modified from Fabian Braun's answer at https://stackoverflow.com/a/47595502 */
+	/** Modified from Fabian Braun's answer at <a href="https://stackoverflow.com/a/47595502">...</a> */
 	public static boolean isZip(File file) {
 		int signature = 0;
 		try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
@@ -37,7 +37,7 @@ public class IOHelper {
 		return signature == 0x504B0304 || signature == 0x504B0506 || signature == 0x504B0708;
 	}
 	
-	/** Thanks to sfPlayer for fixing a bug which caused some script addons not to load! Modified from Nam Ha Minh's posts at https://www.codejava.net/file-io-tutorials */
+	/** Thanks to sfPlayer for fixing a bug which caused some script addons not to load! Modified from Nam Ha Minh's posts at <a href="https://www.codejava.net/file-io-tutorials">...</a> */
 	public static void unzip(File zipFile, String dest) throws IOException {
 		Path destDir = Paths.get(dest).toAbsolutePath().normalize();
 		Files.createDirectories(destDir);

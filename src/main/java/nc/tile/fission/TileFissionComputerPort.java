@@ -47,7 +47,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isReactorOn(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().isReactorOn : false};
+		return new Object[] {isMultiblockAssembled() && getMultiblock().isReactorOn};
 	}
 	
 	@Callback
@@ -249,7 +249,7 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 		boolean activated = false;
 		if (isMultiblockAssembled()) {
 			Long2ObjectMap<TileFissionShield> shieldMap = getMultiblock().getPartMap(TileFissionShield.class);
-			if (shieldMap.size() == 0) {
+			if (shieldMap.isEmpty()) {
 				return new Object[] {"No neutron shields found!"};
 			}
 			int shieldId = args.checkInteger(0);
@@ -290,13 +290,11 @@ public class TileFissionComputerPort extends TileFissionPart implements SimpleCo
 			FissionCluster cluster = getMultiblock().getClusterMap().get(clusterID);
 			for (IFissionComponent component : cluster.getComponentMap().values()) {
 				Object2ObjectMap<String, Object> componentMap = new Object2ObjectOpenHashMap<>();
-				if (component instanceof TileSolidFissionSink) {
-					TileSolidFissionSink sink = (TileSolidFissionSink) component;
-					componentMap.put(sink.ruleID, new Object[] {sink.getHeatStored(), sink.coolingRate});
+				if (component instanceof TileSolidFissionSink sink) {
+                    componentMap.put(sink.ruleID, new Object[] {sink.getHeatStored(), sink.coolingRate});
 				}
-				if (component instanceof TileFissionShield) {
-					TileFissionShield shield = (TileFissionShield) component;
-					componentMap.put(shield.getClass().getName().toString(), new Object[] {shield.flux, shield.heatPerFlux, shield.isShielding, shield.heat, shield.efficiency});
+				if (component instanceof TileFissionShield shield) {
+                    componentMap.put(shield.getClass().getName(), new Object[] {shield.flux, shield.heatPerFlux, shield.isShielding, shield.heat, shield.efficiency});
 				}
 				componentsData.add(componentMap);
 			}

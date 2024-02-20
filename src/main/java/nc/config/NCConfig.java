@@ -850,7 +850,7 @@ public class NCConfig {
 			fissionPlacement.add(entry.getKey() + " -> " + entry.getValue());
 		}
 		
-		Property propertyFissionPlacement = info.get(CATEGORY_OUTPUT, "fission_placement", fissionPlacement.toArray(new String[fissionPlacement.size()]));
+		Property propertyFissionPlacement = info.get(CATEGORY_OUTPUT, "fission_placement", fissionPlacement.toArray(new String[0]));
 		propertyFissionPlacement.setLanguageKey("gui.nc.config.fission_placement");
 		
 		List<String> turbinePlacement = new ArrayList<>();
@@ -858,7 +858,7 @@ public class NCConfig {
 			turbinePlacement.add(entry.getKey() + " -> " + entry.getValue());
 		}
 		
-		Property propertyTurbinePlacement = info.get(CATEGORY_OUTPUT, "turbine_placement", turbinePlacement.toArray(new String[turbinePlacement.size()]));
+		Property propertyTurbinePlacement = info.get(CATEGORY_OUTPUT, "turbine_placement", turbinePlacement.toArray(new String[0]));
 		propertyTurbinePlacement.setLanguageKey("gui.nc.config.turbine_placement");
 		
 		if (info.hasChanged()) {
@@ -984,19 +984,13 @@ public class NCConfig {
 		}
 		int[] newList = new int[defaultLength];
 		if (currentLength > defaultLength) {
-			for (int i = 0; i < defaultLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, defaultLength);
 		}
 		else {
-			for (int i = 0; i < currentLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, currentLength);
 			property.setToDefault();
 			int[] defaultList = property.getIntList();
-			for (int i = currentLength; i < defaultLength; ++i) {
-				newList[i] = defaultList[i];
-			}
+            System.arraycopy(defaultList, currentLength, newList, currentLength, defaultLength - currentLength);
 		}
 		return newList;
 	}
@@ -1011,19 +1005,13 @@ public class NCConfig {
 		}
 		boolean[] newList = new boolean[defaultLength];
 		if (currentLength > defaultLength) {
-			for (int i = 0; i < defaultLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, defaultLength);
 		}
 		else {
-			for (int i = 0; i < currentLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, currentLength);
 			property.setToDefault();
 			boolean[] defaultList = property.getBooleanList();
-			for (int i = currentLength; i < defaultLength; ++i) {
-				newList[i] = defaultList[i];
-			}
+            System.arraycopy(defaultList, currentLength, newList, currentLength, defaultLength - currentLength);
 		}
 		return newList;
 	}
@@ -1038,19 +1026,13 @@ public class NCConfig {
 		}
 		double[] newList = new double[defaultLength];
 		if (currentLength > defaultLength) {
-			for (int i = 0; i < defaultLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, defaultLength);
 		}
 		else {
-			for (int i = 0; i < currentLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, currentLength);
 			property.setToDefault();
 			double[] defaultList = property.getDoubleList();
-			for (int i = currentLength; i < defaultLength; ++i) {
-				newList[i] = defaultList[i];
-			}
+            System.arraycopy(defaultList, currentLength, newList, currentLength, defaultLength - currentLength);
 		}
 		return newList;
 	}
@@ -1065,19 +1047,13 @@ public class NCConfig {
 		}
 		String[] newList = new String[defaultLength];
 		if (currentLength > defaultLength) {
-			for (int i = 0; i < defaultLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, defaultLength);
 		}
 		else {
-			for (int i = 0; i < currentLength; ++i) {
-				newList[i] = currentList[i];
-			}
+            System.arraycopy(currentList, 0, newList, 0, currentLength);
 			property.setToDefault();
 			String[] defaultList = property.getStringList();
-			for (int i = currentLength; i < defaultLength; ++i) {
-				newList[i] = defaultList[i];
-			}
+            System.arraycopy(defaultList, currentLength, newList, currentLength, defaultLength - currentLength);
 		}
 		return newList;
 	}

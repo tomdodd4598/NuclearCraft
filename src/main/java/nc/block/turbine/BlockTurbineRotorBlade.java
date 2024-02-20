@@ -38,16 +38,11 @@ public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRo
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (bladeType) {
-			case STEEL:
-				return new TileTurbineRotorBlade.Steel();
-			case EXTREME:
-				return new TileTurbineRotorBlade.Extreme();
-			case SIC_SIC_CMC:
-				return new TileTurbineRotorBlade.SicSicCMC();
-			default:
-				return null;
-		}
+        return switch (bladeType) {
+            case STEEL -> new TileTurbineRotorBlade.Steel();
+            case EXTREME -> new TileTurbineRotorBlade.Extreme();
+            case SIC_SIC_CMC -> new TileTurbineRotorBlade.SicSicCMC();
+        };
 	}
 	
 	@Override
@@ -55,17 +50,13 @@ public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRo
 		if (state.getBlock() != this) {
 			return super.getBoundingBox(state, source, pos);
 		}
-		
-		switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
-			case X:
-				return BLADE_AABB[0];
-			case Y:
-				return BLADE_AABB[1];
-			case Z:
-				return BLADE_AABB[2];
-			default:
-				return super.getBoundingBox(state, source, pos);
-		}
+
+        return switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
+            case X -> BLADE_AABB[0];
+            case Y -> BLADE_AABB[1];
+            case Z -> BLADE_AABB[2];
+            default -> super.getBoundingBox(state, source, pos);
+        };
 	}
 	
 	@Override
@@ -78,25 +69,18 @@ public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRo
 		if (state.getBlock() != this) {
 			return super.getSelectedBoundingBox(state, worldIn, pos);
 		}
-		
-		switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
-			case X:
-				return BLADE_AABB[0].offset(pos);
-			case Y:
-				return BLADE_AABB[1].offset(pos);
-			case Z:
-				return BLADE_AABB[2].offset(pos);
-			default:
-				return super.getSelectedBoundingBox(state, worldIn, pos);
-		}
+
+        return switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
+            case X -> BLADE_AABB[0].offset(pos);
+            case Y -> BLADE_AABB[1].offset(pos);
+            case Z -> BLADE_AABB[2].offset(pos);
+            default -> super.getSelectedBoundingBox(state, worldIn, pos);
+        };
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);

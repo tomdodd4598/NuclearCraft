@@ -43,17 +43,13 @@ public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockR
 		if (state.getBlock() != this) {
 			return super.getBoundingBox(state, source, pos);
 		}
-		
-		switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
-			case X:
-				return STATOR_AABB[0];
-			case Y:
-				return STATOR_AABB[1];
-			case Z:
-				return STATOR_AABB[2];
-			default:
-				return super.getBoundingBox(state, source, pos);
-		}
+
+        return switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
+            case X -> STATOR_AABB[0];
+            case Y -> STATOR_AABB[1];
+            case Z -> STATOR_AABB[2];
+            default -> super.getBoundingBox(state, source, pos);
+        };
 	}
 	
 	@Override
@@ -66,25 +62,18 @@ public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockR
 		if (state.getBlock() != this) {
 			return super.getSelectedBoundingBox(state, worldIn, pos);
 		}
-		
-		switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
-			case X:
-				return STATOR_AABB[0].offset(pos);
-			case Y:
-				return STATOR_AABB[1].offset(pos);
-			case Z:
-				return STATOR_AABB[2].offset(pos);
-			default:
-				return super.getSelectedBoundingBox(state, worldIn, pos);
-		}
+
+        return switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
+            case X -> STATOR_AABB[0].offset(pos);
+            case Y -> STATOR_AABB[1].offset(pos);
+            case Z -> STATOR_AABB[2].offset(pos);
+            default -> super.getSelectedBoundingBox(state, worldIn, pos);
+        };
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);

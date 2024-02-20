@@ -20,7 +20,7 @@ public class InventoryStackList extends NonNullList<ItemStack> {
 		return new SubList<>(this, fromIndex, toIndex);
 	}
 	
-	protected class SubList<E> extends NonNullList<E> {
+	protected static class SubList<E> extends NonNullList<E> {
 		
 		private final AbstractList<E> internal;
 		private final int offset;
@@ -120,7 +120,7 @@ public class InventoryStackList extends NonNullList<ItemStack> {
 			checkForComodification();
 			rangeCheckForAdd(index);
 			
-			return new ListIterator<E>() {
+			return new ListIterator<>() {
 				
 				private final ListIterator<E> internalIter = internal.listIterator(index + offset);
 				

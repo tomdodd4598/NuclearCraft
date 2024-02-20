@@ -149,7 +149,6 @@ public abstract class TileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOC
 	}
 	
 	/** This is called when a block is being marked as valid by the chunk, but has not yet fully been placed into the world's TileEntity cache. WORLD, xCoord, yCoord and zCoord have been initialized, but any attempts to read data about the world can cause infinite loops - if you call getTileEntity on this TileEntity's coordinate from within validate(), you will blow your call stack.
-	 * 
 	 * TL;DR: Here there be dragons.
 	 * 
 	 * @see net.minecraft.tileentity.TileEntity#validate() */

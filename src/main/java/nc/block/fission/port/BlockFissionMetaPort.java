@@ -24,7 +24,7 @@ public abstract class BlockFissionMetaPort<PORT extends TileFissionPort<PORT, TA
 	public BlockFissionMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property) {
 		super(enumm, property);
 		this.portClass = portClass;
-		setDefaultState(getDefaultState().withProperty(AXIS_ALL, EnumFacing.Axis.Z).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(getDefaultState().withProperty(AXIS_ALL, EnumFacing.Axis.Z).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -63,10 +63,7 @@ public abstract class BlockFissionMetaPort<PORT extends TileFissionPort<PORT, TA
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);

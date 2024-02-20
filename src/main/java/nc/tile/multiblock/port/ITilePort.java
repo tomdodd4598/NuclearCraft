@@ -7,29 +7,29 @@ import net.minecraft.util.math.BlockPos;
 
 public interface ITilePort<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILogicMultiblock<MULTIBLOCK, LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>, PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET>, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET>> extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T> {
 	
-	public ObjectSet<TARGET> getTargets();
+	ObjectSet<TARGET> getTargets();
 	
-	public BlockPos getMasterPortPos();
+	BlockPos getMasterPortPos();
 	
-	public void setMasterPortPos(BlockPos pos);
+	void setMasterPortPos(BlockPos pos);
 	
-	public void clearMasterPort();
+	void clearMasterPort();
 	
-	public void refreshMasterPort();
+	void refreshMasterPort();
 	
-	public void refreshTargets();
+	void refreshTargets();
 	
-	public void setRefreshTargetsFlag(boolean refreshTargetsFlag);
+	void setRefreshTargetsFlag(boolean refreshTargetsFlag);
 	
-	public default int getInventoryStackLimitPerConnection() {
+	default int getInventoryStackLimitPerConnection() {
 		return 2;
 	}
 	
-	public void setInventoryStackLimit(int stackLimit);
+	void setInventoryStackLimit(int stackLimit);
 	
-	public int getTankCapacityPerConnection();
+	int getTankCapacityPerConnection();
 	
-	public int getTankBaseCapacity();
+	int getTankBaseCapacity();
 	
-	public void setTankCapacity(int capacity);
+	void setTankCapacity(int capacity);
 }

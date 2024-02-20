@@ -114,9 +114,7 @@ public class NCJEI implements IModPlugin {
 		for (BasicRecipe recipe : FissionPlacement.recipe_handler.getRecipeList()) {
 			if (recipe.getPlacementRuleID().endsWith("_heater"))
 				for (IItemIngredient ingredient : recipe.getItemIngredients()) {
-					for (ItemStack stack : ingredient.getInputStackList()) {
-						list.add(stack);
-					}
+                    list.addAll(ingredient.getInputStackList());
 				}
 		}
 		return list;

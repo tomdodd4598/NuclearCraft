@@ -6,7 +6,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class RadiationSource implements IRadiationSource {
 	
-	private double radiationLevel = 0D, radiationBuffer = 0D, scrubbingFraction = 0D, effectiveScrubberCount = 0D;
+	private double radiationLevel, radiationBuffer = 0D, scrubbingFraction = 0D, effectiveScrubberCount = 0D;
 	
 	public RadiationSource(double startRadiation) {
 		radiationLevel = startRadiation;

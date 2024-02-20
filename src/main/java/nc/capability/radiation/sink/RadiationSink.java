@@ -5,7 +5,7 @@ import net.minecraft.util.EnumFacing;
 
 public class RadiationSink implements IRadiationSink {
 	
-	private double radiationLevel = 0D;
+	private double radiationLevel;
 	
 	public RadiationSink(double startRadiation) {
 		radiationLevel = startRadiation;

@@ -46,7 +46,7 @@ public class BushGenerator implements IWorldGenerator {
 			int height = MathHelper.clamp(sourcePos.getY() + rand.nextInt(4) - rand.nextInt(4), 1, world.getHeight() - 1);
 			BlockPos genPos = new BlockPos(sourcePos.getX() + rand.nextInt(8) - rand.nextInt(8), height, sourcePos.getZ() + rand.nextInt(8) - rand.nextInt(8));
 			
-			boolean canBlockStay = block instanceof BlockBush ? ((BlockBush) block).canBlockStay(world, genPos, bush) : true;
+			boolean canBlockStay = !(block instanceof BlockBush) || ((BlockBush) block).canBlockStay(world, genPos, bush);
 			
 			if (world.isAirBlock(genPos) && (!world.provider.hasSkyLight() || genPos.getY() < world.getHeight() - 1) && canBlockStay) {
 				world.setBlockState(genPos, bush, 2);

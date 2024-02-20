@@ -9,7 +9,7 @@ import net.minecraftforge.fml.client.config.*;
 
 public interface IConfigCategory {
 	
-	public default GuiScreen buildChildScreen(String categoryName, GuiConfig owningScreen, IConfigElement configElement) {
+	default GuiScreen buildChildScreen(String categoryName, GuiConfig owningScreen, IConfigElement configElement) {
 		Configuration config = NCConfig.getConfig();
 		ConfigElement newElement = new ConfigElement(config.getCategory(categoryName));
 		List<IConfigElement> propertiesOnScreen = newElement.getChildElements();

@@ -35,7 +35,7 @@ public class NCBlockIce extends BlockIce {
 		IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
 		Block block = iblockstate.getBlock();
 		
-		return block == this ? false : super.shouldSideBeRendered(state, blockAccess, pos, side);
+		return block != this && super.shouldSideBeRendered(state, blockAccess, pos, side);
 	}
 	
 	@Override

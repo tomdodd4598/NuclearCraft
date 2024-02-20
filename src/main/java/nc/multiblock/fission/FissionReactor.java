@@ -1,28 +1,36 @@
 package nc.multiblock.fission;
 
-import java.lang.reflect.Constructor;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import it.unimi.dsi.fastutil.ints.*;
-import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
-import nc.multiblock.*;
+import nc.multiblock.ILogicMultiblock;
+import nc.multiblock.IPacketMultiblock;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.network.multiblock.FissionUpdatePacket;
-import nc.tile.fission.*;
+import nc.tile.fission.IFissionComponent;
+import nc.tile.fission.IFissionController;
+import nc.tile.fission.IFissionPart;
+import nc.tile.fission.TileFissionMonitor;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.util.Set;
+import java.util.function.UnaryOperator;
+
 public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionPart> implements ILogicMultiblock<FissionReactor, FissionReactorLogic, IFissionPart>, IPacketMultiblock<FissionReactor, IFissionPart, FissionUpdatePacket> {
 	
 	public static final ObjectSet<Class<? extends IFissionPart>> PART_CLASSES = new ObjectOpenHashSet<>();
-	public static final Object2ObjectMap<String, Constructor<? extends FissionReactorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+	public static final Object2ObjectMap<String, UnaryOperator<FissionReactorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull FissionReactorLogic logic = new FissionReactorLogic(this);
 	
@@ -37,9 +45,10 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 	public final LongSet passiveModeratorCache = new LongOpenHashSet();
 	public final LongSet activeModeratorCache = new LongOpenHashSet();
 	public final LongSet activeReflectorCache = new LongOpenHashSet();
-	
-	public static final int BASE_MAX_HEAT = 25000, MAX_TEMP = 2400, BASE_TANK_CAPACITY = 4000;
-	
+
+	public static final long BASE_MAX_HEAT = 25000;
+	public static final int MAX_TEMP = 2400, BASE_TANK_CAPACITY = 4000;
+
 	public boolean refreshFlag = true, isReactorOn = false;
 	public int ambientTemp = 290, fuelComponentCount = 0;
 	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
@@ -188,9 +197,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 	
 	protected void sortClusters() {
 		final ObjectSet<FissionCluster> uniqueClusterCache = new ObjectOpenHashSet<>();
-		for (FissionCluster cluster : clusterMap.values()) {
-			uniqueClusterCache.add(cluster);
-		}
+        uniqueClusterCache.addAll(clusterMap.values());
 		clusterMap.clear();
 		int i = 0;
 		for (FissionCluster cluster : uniqueClusterCache) {

@@ -31,9 +31,8 @@ public class OpenSideConfigGuiPacket extends TileGuiPacket {
 		
 		@Override
 		protected void onPacket(OpenSideConfigGuiPacket message, EntityPlayerMP player, TileEntity tile) {
-			if (tile instanceof ITileGui) {
-				ITileGui<?, ?, ?> tileGui = (ITileGui<?, ?, ?>) tile;
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getContainerInfo().getGuiId() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
+			if (tile instanceof ITileGui<?, ?, ?> tileGui) {
+                FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getContainerInfo().getGuiId() + 1000, player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
 				tileGui.addTileUpdatePacketListener(player);
 			}
 		}

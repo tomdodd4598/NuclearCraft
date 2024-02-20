@@ -31,7 +31,7 @@ public class SlotSpecificInput extends Slot {
 				}
 			}
 			else if (input instanceof Item) {
-				if ((Item) input == stack.getItem()) {
+				if (input == stack.getItem()) {
 					return true;
 				}
 			}

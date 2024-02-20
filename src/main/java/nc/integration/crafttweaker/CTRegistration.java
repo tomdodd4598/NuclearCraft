@@ -74,7 +74,7 @@ public class CTRegistration {
 	@ZenMethod
 	public static void registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 		
-		Block port = NCBlocks.withName(new BlockFissionFluidPort<TileFissionHeaterPort, TileSaltFissionHeater>(TileFissionHeaterPort.class, 303) {
+		Block port = NCBlocks.withName(new BlockFissionFluidPort<>(TileFissionHeaterPort.class, 303) {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {
@@ -306,7 +306,7 @@ public class CTRegistration {
 		info.ores.add(ore);
 	}
 	
-	private static class FissionFuelStats {
+	public static class FissionFuelStats {
 		
 		final int time;
 		final int heat;
@@ -708,20 +708,20 @@ public class CTRegistration {
 			StringBuilder builder = new StringBuilder();
 			String s = IOHelper.NEW_LINE;
 			
-			builder.append("{" + s + "	\"forge_marker\": 1," + s + "	\"defaults\": {" + s + "		\"model\": \"builtin/generated\"," + s + "		\"transform\": \"forge:default-item\"" + s + "	}," + s + "	\"variants\": {" + s + "		\"type\": {" + s);
+			builder.append("{").append(s).append("	\"forge_marker\": 1,").append(s).append("	\"defaults\": {").append(s).append("		\"model\": \"builtin/generated\",").append(s).append("		\"transform\": \"forge:default-item\"").append(s).append("	},").append(s).append("	\"variants\": {").append(s).append("		\"type\": {").append(s);
 			
 			for (int i = 0; i < types.size(); ++i) {
-				builder.append("			\"" + types.get(i) + "\": {" + s);
+				builder.append("			\"").append(types.get(i)).append("\": {").append(s);
 				
 				String model = models.get(i);
 				if (model != null) {
-					builder.append("				\"model\": \"" + model + "\"," + s);
+					builder.append("				\"model\": \"").append(model).append("\",").append(s);
 				}
 				
-				builder.append("				\"textures\": {" + s + "					\"layer0\": \"nuclearcraft:items/" + name + "/" + textures.get(i) + "\"" + s + "				}" + s + "			" + (i < types.size() - 1 ? "}," : "}") + s);
+				builder.append("				\"textures\": {").append(s).append("					\"layer0\": \"nuclearcraft:items/").append(name).append("/").append(textures.get(i)).append("\"").append(s).append("				}").append(s).append("			").append(i < types.size() - 1 ? "}," : "}").append(s);
 			}
 			
-			builder.append("		}" + s + "	}" + s + "}" + s);
+			builder.append("		}").append(s).append("	}").append(s).append("}").append(s);
 			
 			try {
 				FileUtils.writeStringToFile(new File("resources/nuclearcraft/blockstates/items/" + name + ".json"), builder.toString());

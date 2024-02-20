@@ -72,7 +72,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	
 	@Override
 	public boolean canModifyFilter(int tank) {
-		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+		return getMultiblock() == null || !getMultiblock().isAssembled();
 	}
 	
 	@Override

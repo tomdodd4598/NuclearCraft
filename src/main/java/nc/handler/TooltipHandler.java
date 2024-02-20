@@ -131,8 +131,7 @@ public class TooltipHandler {
 			return;
 		}
 		tooltip.add(RadiationHelper.getRadiationTextColor(stackRadiation.getRadiationLevel() * stack.getCount()) + RADIATION + " " + RadiationHelper.radsPrefix(stackRadiation.getRadiationLevel() * stack.getCount(), true));
-		return;
-	}
+    }
 	
 	@SideOnly(Side.CLIENT)
 	private static void addFoodRadiationTooltip(List<String> tooltip, ItemStack stack) {
@@ -157,6 +156,5 @@ public class TooltipHandler {
 		if (resistance != 0D) {
 			tooltip.add(RadiationHelper.getFoodResistanceTextColor(resistance) + RADIATION_RESISTANCE + " " + RadiationHelper.resistanceSigFigs(resistance));
 		}
-		return;
-	}
+    }
 }

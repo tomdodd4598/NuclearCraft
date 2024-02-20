@@ -128,7 +128,7 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	}
 	
 	public static void registerFixesFurnace(DataFixer fixer) {
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileNuclearFurnace.class, new String[] {"Items"}));
+		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileNuclearFurnace.class, "Items"));
 	}
 	
 	public void readRadiation(NBTTagCompound nbt) {
@@ -374,18 +374,13 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	
 	@Override
 	public int getField(int id) {
-		switch (id) {
-			case 0:
-				return furnaceBurnTime;
-			case 1:
-				return currentItemBurnTime;
-			case 2:
-				return cookTime;
-			case 3:
-				return totalCookTime;
-			default:
-				return 0;
-		}
+        return switch (id) {
+            case 0 -> furnaceBurnTime;
+            case 1 -> currentItemBurnTime;
+            case 2 -> cookTime;
+            case 3 -> totalCookTime;
+            default -> 0;
+        };
 	}
 	
 	@Override
@@ -508,7 +503,7 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	
 	// ITileGui
 	
-	protected final NuclearFurnaceContainerInfo info = TileInfoHandler.<TileNuclearFurnace, ProcessorUpdatePacket, NuclearFurnaceContainerInfo>getProcessorContainerInfo("nuclear_furnace");
+	protected final NuclearFurnaceContainerInfo info = TileInfoHandler.getProcessorContainerInfo("nuclear_furnace");
 	
 	@Override
 	public NuclearFurnaceContainerInfo getContainerInfo() {
@@ -725,13 +720,15 @@ public class TileNuclearFurnace extends TileEntity implements IProcessor<TileNuc
 	
 	protected final NonNullList<ItemStack> consumedStacks = NonNullList.create();
 	
-	@Override
+	@Nonnull
+    @Override
 	public NonNullList<ItemStack> getConsumedStacks() {
 		return consumedStacks;
 	}
 	
 	protected final List<Tank> consumedTanks = new ArrayList<>();
 	
+	@Nonnull
 	@Override
 	public List<Tank> getConsumedTanks() {
 		return consumedTanks;

@@ -25,124 +25,76 @@ public enum TankSorption implements IStringSerializable, IGuiButton {
 	
 	public TankSorption next(Type type, boolean reverse) {
 		if (reverse) {
-			switch (type) {
-				case INPUT:
-					switch (this) {
-						case IN:
-							return NON;
-						case NON:
-							return OUT;
-						case OUT:
-							return IN;
-						default:
-							return IN;
-					}
-				case OUTPUT:
-					switch (this) {
-						case OUT:
-							return NON;
-						case NON:
-							return OUT;
-						default:
-							return OUT;
-					}
-				default:
-					switch (this) {
-						case IN:
-							return NON;
-						case NON:
-							return BOTH;
-						case BOTH:
-							return OUT;
-						case OUT:
-							return IN;
-						default:
-							return NON;
-					}
-			}
+            return switch (type) {
+                case INPUT -> switch (this) {
+                    case IN -> NON;
+                    case NON -> OUT;
+                    case OUT -> IN;
+                    default -> IN;
+                };
+                case OUTPUT -> switch (this) {
+                    case OUT -> NON;
+                    case NON -> OUT;
+                    default -> OUT;
+                };
+                default -> switch (this) {
+                    case IN -> NON;
+                    case NON -> BOTH;
+                    case BOTH -> OUT;
+                    case OUT -> IN;
+                };
+            };
 		}
 		else {
-			switch (type) {
-				case INPUT:
-					switch (this) {
-						case IN:
-							return OUT;
-						case OUT:
-							return NON;
-						case NON:
-							return IN;
-						default:
-							return IN;
-					}
-				case OUTPUT:
-					switch (this) {
-						case OUT:
-							return NON;
-						case NON:
-							return OUT;
-						default:
-							return OUT;
-					}
-				default:
-					switch (this) {
-						case IN:
-							return OUT;
-						case OUT:
-							return BOTH;
-						case BOTH:
-							return NON;
-						case NON:
-							return IN;
-						default:
-							return NON;
-					}
-			}
+            return switch (type) {
+                case INPUT -> switch (this) {
+                    case IN -> OUT;
+                    case OUT -> NON;
+                    case NON -> IN;
+                    default -> IN;
+                };
+                case OUTPUT -> switch (this) {
+                    case OUT -> NON;
+                    case NON -> OUT;
+                    default -> OUT;
+                };
+                default -> switch (this) {
+                    case IN -> OUT;
+                    case OUT -> BOTH;
+                    case BOTH -> NON;
+                    case NON -> IN;
+                };
+            };
 		}
 	}
 	
 	@Override
 	public String getName() {
-		switch (this) {
-			case IN:
-				return "in";
-			case OUT:
-				return "out";
-			case BOTH:
-				return "both";
-			case NON:
-				return "non";
-			default:
-				return "non";
-		}
+        return switch (this) {
+            case IN -> "in";
+            case OUT -> "out";
+            case BOTH -> "both";
+            case NON -> "non";
+        };
 	}
 	
 	public TextFormatting getTextColor() {
-		switch (this) {
-			case IN:
-				return TextFormatting.DARK_AQUA;
-			case OUT:
-				return TextFormatting.RED;
-			case BOTH:
-				return TextFormatting.BOLD;
-			case NON:
-				return TextFormatting.GRAY;
-			default:
-				return TextFormatting.GRAY;
-		}
+        return switch (this) {
+            case IN -> TextFormatting.DARK_AQUA;
+            case OUT -> TextFormatting.RED;
+            case BOTH -> TextFormatting.BOLD;
+            case NON -> TextFormatting.GRAY;
+        };
 	}
 	
 	@Override
 	public int getTextureX() {
-		switch (this) {
-			case IN:
-				return 162;
-			case OUT:
-				return 180;
-			case NON:
-				return 198;
-			default:
-				return 198;
-		}
+        return switch (this) {
+            case IN -> 162;
+            case OUT -> 180;
+            case NON -> 198;
+            default -> 198;
+        };
 	}
 	
 	@Override
@@ -160,9 +112,9 @@ public enum TankSorption implements IStringSerializable, IGuiButton {
 		return 18;
 	}
 	
-	public static enum Type {
+	public enum Type {
 		DEFAULT,
 		INPUT,
-		OUTPUT;
-	}
+		OUTPUT
+    }
 }

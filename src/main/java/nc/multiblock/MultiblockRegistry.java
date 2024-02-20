@@ -5,7 +5,7 @@ import nc.tile.multiblock.ITileMultiblockPart;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 
-public final class MultiblockRegistry {
+public class MultiblockRegistry {
 	
 	private MultiblockWorldRegistry getMultiblockRegistry(final World world) {
 		if (_registries.containsKey(world)) {

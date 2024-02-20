@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 public interface IMultitoolLogic extends ITile {
 	
-	public default boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	default boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		return false;
 	}
 }

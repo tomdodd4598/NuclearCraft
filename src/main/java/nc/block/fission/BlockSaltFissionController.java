@@ -19,7 +19,7 @@ public class BlockSaltFissionController extends BlockFissionPart implements IAct
 	
 	public BlockSaltFissionController() {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -30,13 +30,13 @@ public class BlockSaltFissionController extends BlockFissionPart implements IAct
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
-		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_ALL).getIndex();
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 		return i;
@@ -49,7 +49,7 @@ public class BlockSaltFissionController extends BlockFissionPart implements IAct
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.FALSE);
 	}
 	
 	@Override
@@ -60,18 +60,14 @@ public class BlockSaltFissionController extends BlockFissionPart implements IAct
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		if (!world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileSaltFissionController) {
-				TileSaltFissionController controller = (TileSaltFissionController) tile;
-				if (controller.isMultiblockAssembled()) {
+			if (tile instanceof TileSaltFissionController controller) {
+                if (controller.isMultiblockAssembled()) {
 					NCCriterions.SALT_FISSION_ASSEMBLED.trigger((EntityPlayerMP) player);
 					player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;

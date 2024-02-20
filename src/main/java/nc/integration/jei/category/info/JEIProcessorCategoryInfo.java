@@ -22,7 +22,7 @@ public class JEIProcessorCategoryInfo<TILE extends TileEntity & IProcessor<TILE,
 	
 	public JEIProcessorCategoryInfo(String name, Class<WRAPPER> jeiRecipeClass, JEIProcessorRecipeWrapperFunction<TILE, PACKET, INFO, WRAPPER> jeiRecipeWrapperFunction, List<Object> jeiCrafters) {
 		super(JEIProcessorRecipeCategory::new, jeiRecipeClass, null, jeiCrafters);
-		this.containerInfo = TileInfoHandler.<TILE, PACKET, INFO>getProcessorContainerInfo(name);
+		this.containerInfo = TileInfoHandler.getProcessorContainerInfo(name);
 		this.jeiRecipeWrapperFunction = jeiRecipeWrapperFunction;
 	}
 	

@@ -42,9 +42,8 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 	
 	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing facing, boolean prioritiseGui) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof ITileFluid && FluidUtil.getFluidHandler(player.getHeldItem(hand)) != null) {
-			ITileFluid tileFluid = (ITileFluid) tile;
-			if (BlockHelper.accessTanks(player, hand, facing, tileFluid)) {
+		if (tile instanceof ITileFluid tileFluid && FluidUtil.getFluidHandler(player.getHeldItem(hand)) != null) {
+            if (BlockHelper.accessTanks(player, hand, facing, tileFluid)) {
 				return true;
 			}
 		}
@@ -100,6 +99,6 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 	public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
 		super.eventReceived(state, worldIn, pos, id, param);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
-		return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
+		return tileentity != null && tileentity.receiveClientEvent(id, param);
 	}
 }

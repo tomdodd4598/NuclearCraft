@@ -23,7 +23,7 @@ public abstract class BlockFissionSource extends BlockFissionPart implements IAc
 	
 	public BlockFissionSource() {
 		super();
-		setDefaultState(getDefaultState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(getDefaultState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -34,13 +34,13 @@ public abstract class BlockFissionSource extends BlockFissionPart implements IAc
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
-		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_ALL).getIndex();
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 		return i;
@@ -60,23 +60,21 @@ public abstract class BlockFissionSource extends BlockFissionPart implements IAc
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) tile;
-			source.facing = state.getValue(FACING_ALL);
+		if (tile instanceof TileFissionSource source) {
+            source.facing = state.getValue(FACING_ALL);
 			world.setBlockState(pos, state.withProperty(FACING_ALL, source.facing).withProperty(ACTIVE, source.getIsRedstonePowered()), 2);
 		}
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) tile;
-			if (!world.isRemote) {
+		if (tile instanceof TileFissionSource source) {
+            if (!world.isRemote) {
 				PrimingTargetInfo targetInfo = source.getPrimingTarget(true);
 				if (targetInfo == null) {
 					player.sendMessage(new TextComponentString(Lang.localize("nuclearcraft.multiblock.fission_reactor_source.no_target")));

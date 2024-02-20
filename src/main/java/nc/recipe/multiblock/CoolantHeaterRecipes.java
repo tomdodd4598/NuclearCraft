@@ -50,9 +50,8 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 		if (recipeCache.containsKey(hash)) {
 			ObjectSet<BasicRecipe> set = recipeCache.get(hash);
 			for (BasicRecipe recipe : set) {
-				if (recipe instanceof CoolantHeaterRecipe) {
-					CoolantHeaterRecipe heaterRecipe = (CoolantHeaterRecipe) recipe;
-					RecipeMatchResult matchResult = heaterRecipe.matchHeaterInputs(heaterType, fluidInputs);
+				if (recipe instanceof CoolantHeaterRecipe heaterRecipe) {
+                    RecipeMatchResult matchResult = heaterRecipe.matchHeaterInputs(heaterType, fluidInputs);
 					if (matchResult.isMatch) {
 						return new RecipeInfo<>(heaterRecipe, matchResult);
 					}

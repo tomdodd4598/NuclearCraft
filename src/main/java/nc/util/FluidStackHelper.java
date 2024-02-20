@@ -66,9 +66,9 @@ public class FluidStackHelper {
 	}
 	
 	public static String stackListNames(List<FluidStack> list) {
-		String names = "";
+		StringBuilder names = new StringBuilder();
 		for (FluidStack stack : list) {
-			names += ", " + getFluidName(stack);
+			names.append(", ").append(getFluidName(stack));
 		}
 		return names.substring(2);
 	}

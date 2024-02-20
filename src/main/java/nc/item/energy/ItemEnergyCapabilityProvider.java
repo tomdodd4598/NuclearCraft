@@ -16,8 +16,8 @@ import net.minecraftforge.energy.CapabilityEnergy;
 
 public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	
-	private ItemStack stack;
-	private EnergyStorage storage;
+	private final ItemStack stack;
+	private final EnergyStorage storage;
 	private ItemEnergyWrapper wrapper;
 	private ItemEnergyWrapperGT wrapperGT;
 	private final int energyTier;

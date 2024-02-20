@@ -70,16 +70,14 @@ public class ItemIngredient implements IItemIngredient {
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption type) {
-		if (object instanceof ItemStack) {
-			ItemStack itemstack = (ItemStack) object;
-			if (!itemstack.isItemEqual(stack) || !StackHelper.areItemStackTagsEqual(itemstack, stack)) {
+		if (object instanceof ItemStack itemstack) {
+            if (!itemstack.isItemEqual(stack) || !StackHelper.areItemStackTagsEqual(itemstack, stack)) {
 				return IngredientMatchResult.FAIL;
 			}
 			return new IngredientMatchResult(type.checkStackSize(stack.getCount(), itemstack.getCount()), 0);
 		}
-		else if (object instanceof OreIngredient) {
-			OreIngredient oreStack = (OreIngredient) object;
-			// return (oreStack.matches(this, type));
+		else if (object instanceof OreIngredient oreStack) {
+            // return (oreStack.matches(this, type));
 			
 			for (ItemStack itemStack : oreStack.cachedStackList) {
 				if (match(itemStack, type).matches()) {

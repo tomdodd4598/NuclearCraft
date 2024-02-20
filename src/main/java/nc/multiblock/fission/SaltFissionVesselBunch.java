@@ -47,7 +47,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 		long rawHeating = 0L;
 		for (TileSaltFissionVessel vessel : partMap.values()) {
 			if (vessel.isProcessing) {
-				rawHeating += vessel.baseProcessHeat * vessel.heatMult;
+				rawHeating += (long) vessel.baseProcessHeat * vessel.heatMult;
 			}
 		}
 		return getBunchingFactor() * rawHeating;

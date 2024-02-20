@@ -30,10 +30,7 @@ public class BlockQuantumComputerCodeGenerator extends BlockQuantumComputerMetaP
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);
@@ -93,15 +90,10 @@ public class BlockQuantumComputerCodeGenerator extends BlockQuantumComputerMetaP
 		}
 		
 		public TileEntity getTile() {
-			switch (this) {
-				case QASM:
-					return new TileQuantumComputerCodeGenerator.Qasm();
-				case QISKIT:
-					return new TileQuantumComputerCodeGenerator.Qiskit();
-				
-				default:
-					return null;
-			}
+            return switch (this) {
+                case QASM -> new TileQuantumComputerCodeGenerator.Qasm();
+                case QISKIT -> new TileQuantumComputerCodeGenerator.Qiskit();
+            };
 		}
 	}
 }

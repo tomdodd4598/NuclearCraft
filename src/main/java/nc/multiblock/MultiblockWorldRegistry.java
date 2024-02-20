@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.FMLLog;
  *
  * @author Erogenous Beef */
 @SuppressWarnings("rawtypes")
-final class MultiblockWorldRegistry {
+public class MultiblockWorldRegistry {
 	
 	private World worldObj;
 	
@@ -58,7 +58,7 @@ final class MultiblockWorldRegistry {
 	
 	/** Called before Tile Entities are ticked in the world. Run game logic. */
 	public void tickStart() {
-		if (multiblocks.size() > 0) {
+		if (!multiblocks.isEmpty()) {
 			for (Multiblock multiblock : multiblocks) {
 				if (multiblock.WORLD == worldObj && multiblock.WORLD.isRemote == worldObj.isRemote) {
 					if (multiblock.isEmpty()) {
@@ -81,7 +81,7 @@ final class MultiblockWorldRegistry {
 		
 		// Merge pools - sets of adjacent machines which should be merged later on in processing
 		List<Set<Multiblock>> mergePools = null;
-		if (orphanedParts.size() > 0) {
+		if (!orphanedParts.isEmpty()) {
 			Set<ITileMultiblockPart> orphansToProcess = null;
 			
 			// Keep the synchronized block small.
@@ -90,13 +90,13 @@ final class MultiblockWorldRegistry {
 			// is not chunk-safe on the client, because Minecraft is stupid.
 			// It's possible to polyfill this, but the polyfill is too slow for comfort.
 			synchronized (orphanedPartsMutex) {
-				if (orphanedParts.size() > 0) {
+				if (!orphanedParts.isEmpty()) {
 					orphansToProcess = orphanedParts;
 					orphanedParts = new ObjectOpenHashSet<>();
 				}
 			}
 			
-			if (orphansToProcess != null && orphansToProcess.size() > 0) {
+			if (orphansToProcess != null && !orphansToProcess.isEmpty()) {
 				// IChunkProvider chunkProvider = this.worldObj.getChunkProvider();
 				Set<Multiblock> compatibleMultiblocks;
 				
@@ -145,7 +145,7 @@ final class MultiblockWorldRegistry {
 							}
 						}
 						
-						if (candidatePools.size() <= 0) {
+						if (candidatePools.isEmpty()) {
 							// No pools nearby, create a new merge pool
 							mergePools.add(compatibleMultiblocks);
 						}
@@ -154,7 +154,7 @@ final class MultiblockWorldRegistry {
 							candidatePools.get(0).addAll(compatibleMultiblocks);
 						}
 						else {
-							// Multiple pools- merge into one, then add the compatible multiblocks
+							// Multiple pools - merge into one, then add the compatible multiblocks
 							Set<Multiblock> masterPool = candidatePools.get(0);
 							Set<Multiblock> consumedPool;
 							for (int i = 1; i < candidatePools.size(); ++i) {
@@ -169,7 +169,7 @@ final class MultiblockWorldRegistry {
 			}
 		}
 		
-		if (mergePools != null && mergePools.size() > 0) {
+		if (mergePools != null && !mergePools.isEmpty()) {
 			// Process merges - any machines that have been marked for merge should be merged into the "master" machine.
 			// To do this, we combine lists of machines that are touching one another and therefore should voltron the fuck up.
 			for (Set<Multiblock> mergePool : mergePools) {
@@ -200,12 +200,12 @@ final class MultiblockWorldRegistry {
 		
 		// Process splits and assembly
 		// Any multiblocks which have had parts removed must be checked to see if some parts are no longer physically connected to their master.
-		if (dirtyMultiblocks.size() > 0) {
+		if (!dirtyMultiblocks.isEmpty()) {
 			Set<ITileMultiblockPart> newlyDetachedParts = null;
 			for (Multiblock multiblock : dirtyMultiblocks) {
 				// Tell the machine to check if any parts are disconnected.
 				// It should return a set of parts which are no longer connected.
-				// POSTCONDITION: The multiblock must have informed those parts
+				// POST CONDITION: The multiblock must have informed those parts
 				// that they are no longer connected to this machine.
 				newlyDetachedParts = multiblock.checkForDisconnections();
 				
@@ -217,7 +217,7 @@ final class MultiblockWorldRegistry {
 					addDeadMultiblock(multiblock);
 				}
 				
-				if (newlyDetachedParts != null && newlyDetachedParts.size() > 0) {
+				if (newlyDetachedParts != null && !newlyDetachedParts.isEmpty()) {
 					// Multiblock has shed some parts - add them to the detached list for delayed processing
 					detachedParts.addAll(newlyDetachedParts);
 				}
@@ -227,7 +227,7 @@ final class MultiblockWorldRegistry {
 		}
 		
 		// Unregister dead multiblocks
-		if (deadMultiblocks.size() > 0) {
+		if (!deadMultiblocks.isEmpty()) {
 			for (Multiblock multiblock : deadMultiblocks) {
 				// Go through any multiblocks which have marked themselves as potentially dead.
 				// Validate that they are empty/dead, then unregister them.
@@ -298,7 +298,7 @@ final class MultiblockWorldRegistry {
 				synchronized (partsAwaitingChunkLoadMutex) {
 					if (partsAwaitingChunkLoad.containsKey(hash)) {
 						partsAwaitingChunkLoad.get(hash).remove(part);
-						if (partsAwaitingChunkLoad.get(hash).size() <= 0) {
+						if (partsAwaitingChunkLoad.get(hash).isEmpty()) {
 							partsAwaitingChunkLoad.remove(hash);
 						}
 					}
@@ -335,12 +335,12 @@ final class MultiblockWorldRegistry {
 		worldObj = null;
 	}
 	
-	/** Called when a chunk has finished loading. Adds all of the parts which are awaiting load to the list of parts which are orphans and therefore will be added to machines after the next world tick.
+	/** Called when a chunk has finished loading. Adds all the parts which are awaiting load to the list of parts which are orphans and therefore will be added to machines after the next world tick.
 	 *
 	 * @param chunkX
-	 *            Chunk X coordinate (world coordate >> 4) of the chunk that was loaded
+	 *            Chunk X coordinate (world coordinate >> 4) of the chunk that was loaded
 	 * @param chunkZ
-	 *            Chunk Z coordinate (world coordate >> 4) of the chunk that was loaded */
+	 *            Chunk Z coordinate (world coordinate >> 4) of the chunk that was loaded */
 	public void onChunkLoaded(final int chunkX, final int chunkZ) {
 		final long chunkHash = ChunkPos.asLong(chunkX, chunkZ);
 		if (partsAwaitingChunkLoad.containsKey(chunkHash)) {

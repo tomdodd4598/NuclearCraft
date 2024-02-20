@@ -28,7 +28,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 	
 	protected final MULTIBLOCK multiblock;
 	
-	protected Random rand = new Random();
+	protected final Random rand = new Random();
 	
 	public MultiblockLogic(MULTIBLOCK multiblock) {
 		this.multiblock = multiblock;
@@ -115,16 +115,10 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 	public abstract List<Pair<Class<? extends T>, String>> getPartBlacklist();
 	
 	// Utility Methods
-	
-	@SuppressWarnings("unchecked")
+
 	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
-		refreshFilteredPorts(portClass, (Class<PRT>) portClass, targetClass, (Class<TRGT>) targetClass);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<PRT> portClz, Class<TARGET> targetClass, Class<TRGT> targetClz) {
-		Long2ObjectMap<PORT> portMap = (Long2ObjectMap<PORT>) getPartMap(portClz);
-		Long2ObjectMap<TARGET> targetMap = (Long2ObjectMap<TARGET>) getPartMap(targetClz);
+		Long2ObjectMap<PORT> portMap = (Long2ObjectMap<PORT>) getPartMap(portClass.asSubclass(multiblock.tClass));
+		Long2ObjectMap<TARGET> targetMap = (Long2ObjectMap<TARGET>) getPartMap(targetClass.asSubclass(multiblock.tClass));
 		
 		for (TARGET target : targetMap.values()) {
 			target.clearMasterPort();
@@ -183,15 +177,9 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 			entry.getValue().setTankCapacity(Math.max(entry.getValue().getTankBaseCapacity(), entry.getValue().getTankCapacityPerConnection() * targetCountMap.get(entry.getKey())));
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
-	public <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>> void refreshManagers(Class<MANAGER> managerClass) {
-		refreshManagers(managerClass, (Class<MNGR>) managerClass);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, MNGR extends T, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>> void refreshManagers(Class<MANAGER> managerClass, Class<MNGR> managerClz) {
-		for (MANAGER manager : ((Long2ObjectMap<MANAGER>) getPartMap(managerClz)).values()) {
+
+	public <MANAGER extends ITileManager<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>, LISTENER extends ITileManagerListener<MULTIBLOCK, LOGIC, T, MANAGER, LISTENER>> void refreshManagers(Class<MANAGER> managerClass) {
+		for (MANAGER manager : ((Long2ObjectMap<MANAGER>) getPartMap(managerClass.asSubclass(multiblock.tClass))).values()) {
 			manager.refreshManager();
 		}
 	}
@@ -246,20 +234,14 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 	// Init
 	
 	public static void init() {
-		try {
-			FissionReactor.LOGIC_MAP.put("", FissionReactorLogic.class.getConstructor(FissionReactorLogic.class));
-			// FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic.class);
-			FissionReactor.LOGIC_MAP.put("solid_fuel", SolidFuelFissionLogic.class.getConstructor(FissionReactorLogic.class));
-			FissionReactor.LOGIC_MAP.put("molten_salt", MoltenSaltFissionLogic.class.getConstructor(FissionReactorLogic.class));
-			
-			HeatExchanger.LOGIC_MAP.put("heat_exchanger", HeatExchangerLogic.class.getConstructor(HeatExchangerLogic.class));
-			HeatExchanger.LOGIC_MAP.put("condenser", CondenserLogic.class.getConstructor(HeatExchangerLogic.class));
-			
-			Turbine.LOGIC_MAP.put("turbine", TurbineLogic.class.getConstructor(TurbineLogic.class));
-			
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		FissionReactor.LOGIC_MAP.put("", FissionReactorLogic::new);
+		// FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic::new);
+		FissionReactor.LOGIC_MAP.put("solid_fuel", SolidFuelFissionLogic::new);
+		FissionReactor.LOGIC_MAP.put("molten_salt", MoltenSaltFissionLogic::new);
+
+		HeatExchanger.LOGIC_MAP.put("heat_exchanger", HeatExchangerLogic::new);
+		HeatExchanger.LOGIC_MAP.put("condenser", CondenserLogic::new);
+
+		Turbine.LOGIC_MAP.put("turbine", TurbineLogic::new);
 	}
 }

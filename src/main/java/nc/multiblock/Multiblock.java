@@ -26,7 +26,6 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLLog;
 
 /** This class contains the base logic for "multiblocks". Conceptually, they are meta-TileEntities. They govern the logic for an associated group of TileEntities.
- * 
  * Subordinate TileEntities implement the IMultiblockPart class and, generally, should not have an update() loop. */
 public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> implements IMultiblock<MULTIBLOCK, T> {
 	
@@ -108,15 +107,6 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	 *            The NBT tag containing this multiblock's data. */
 	public abstract void onAttachedPartWithMultiblockData(T part, NBTTagCompound data);
 	
-	/** Check if a block is being tracked by this machine.
-	 * 
-	 * @param blockCoord
-	 *            Coordinate to check.
-	 * @return True if the tile entity at blockCoord is being tracked by this machine, false otherwise. */
-	/*public boolean hasBlock(BlockPos blockCoord) {
-		return connectedParts.contains(blockCoord);
-	}*/
-	
 	public void attachBlockRaw(ITileMultiblockPart<?, ?> part) {
 		if (tClass.isInstance(part)) {
 			attachBlock(tClass.cast(part));
@@ -170,13 +160,13 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 			curZ = minimumCoord.getZ();
 			
 			partCoord = partPos.getX();
-			newX = partCoord < curX ? partCoord : curX;
+			newX = Math.min(partCoord, curX);
 			
 			partCoord = partPos.getY();
-			newY = partCoord < curY ? partCoord : curY;
+			newY = Math.min(partCoord, curY);
 			
 			partCoord = partPos.getZ();
-			newZ = partCoord < curZ ? partCoord : curZ;
+			newZ = Math.min(partCoord, curZ);
 			
 			if (newX != curX || newY != curY || newZ != curZ) {
 				minimumCoord = new BlockPos(newX, newY, newZ);
@@ -190,13 +180,13 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 			curZ = maximumCoord.getZ();
 			
 			partCoord = partPos.getX();
-			newX = partCoord > curX ? partCoord : curX;
+			newX = Math.max(partCoord, curX);
 			
 			partCoord = partPos.getY();
-			newY = partCoord > curY ? partCoord : curY;
+			newY = Math.max(partCoord, curY);
 			
 			partCoord = partPos.getZ();
-			newZ = partCoord > curZ ? partCoord : curZ;
+			newZ = Math.max(partCoord, curZ);
 			
 			if (newX != curX || newY != curY || newZ != curZ) {
 				maximumCoord = new BlockPos(newX, newY, newZ);
@@ -355,8 +345,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	protected abstract boolean isMachineWhole();
 	
 	/** Check if the machine is whole or not. If the machine was not whole, but now is, assemble the machine. If the machine was whole, but no longer is, disassemble the machine.
-	 * 
-	 * @return */
+	 *   */
 	public void checkIfMachineIsWhole() {
 		AssemblyState oldState = assemblyState;
 		
@@ -404,7 +393,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 		}
 	}
 	
-	/** Assimilate another multiblock into this multiblock. Acquire all of the other multiblock's blocks and attach them to this one.
+	/** Assimilate another multiblock into this multiblock. Acquire all the other multiblock's blocks and attach them to this one.
 	 * 
 	 * @param other
 	 *            The multiblock to merge into this one. */
@@ -421,7 +410,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 			other._disassembleMachine();
 		}
 		
-		// Releases all blocks and references gently so they can be incorporated into another multiblock
+		// Releases all blocks and references gently, so they can be incorporated into another multiblock
 		other._onAssimilated(multiblockClass.cast(this));
 		
 		for (T acquiredPart : partsToAcquire) {
@@ -505,7 +494,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 			
 			for (int x = minChunkX; x <= maxChunkX; ++x) {
 				for (int z = minChunkZ; z <= maxChunkZ; ++z) {
-					// Ensure that we save our data, even if the our save delegate is in has no TEs.
+					// Ensure that we save our data, even if the save delegate is in has no TEs.
 					Chunk chunkToSave = WORLD.getChunk(x, z);
 					chunkToSave.markDirty();
 				}
@@ -528,72 +517,22 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 		return false;
 	}
 	
-	/** The "frame" consists of the outer edges of the machine, plus the corners.
-	 * 
-	 * @param world
-	 *            World object for the world in which this multiblock is located.
-	 * @param x
-	 *            X coordinate of the block being tested
-	 * @param y
-	 *            Y coordinate of the block being tested
-	 * @param z
-	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForFrame(World world, BlockPos pos) {
 		return standardLastError(pos);
 	}
 	
-	/** The top consists of the top face, minus the edges.
-	 * 
-	 * @param world
-	 *            World object for the world in which this multiblock is located.
-	 * @param x
-	 *            X coordinate of the block being tested
-	 * @param y
-	 *            Y coordinate of the block being tested
-	 * @param z
-	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForTop(World world, BlockPos pos) {
 		return standardLastError(pos);
 	}
 	
-	/** The bottom consists of the bottom face, minus the edges.
-	 * 
-	 * @param world
-	 *            World object for the world in which this multiblock is located.
-	 * @param x
-	 *            X coordinate of the block being tested
-	 * @param y
-	 *            Y coordinate of the block being tested
-	 * @param z
-	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForBottom(World world, BlockPos pos) {
 		return standardLastError(pos);
 	}
 	
-	/** The sides consists of the N/E/S/W-facing faces, minus the edges.
-	 * 
-	 * @param world
-	 *            World object for the world in which this multiblock is located.
-	 * @param x
-	 *            X coordinate of the block being tested
-	 * @param y
-	 *            Y coordinate of the block being tested
-	 * @param z
-	 *            Z coordinate of the block being tested */
 	protected boolean isBlockGoodForSides(World world, BlockPos pos) {
 		return standardLastError(pos);
 	}
 	
-	/** The interior is any block that does not touch blocks outside the machine.
-	 * 
-	 * @param world
-	 *            World object for the world in which this multiblock is located.
-	 * @param x
-	 *            X coordinate of the block being tested
-	 * @param y
-	 *            Y coordinate of the block being tested
-	 * @param z
-	 *            Z coordinate of the block being tested */
 	protected abstract boolean isBlockGoodForInterior(World world, BlockPos pos);
 	
 	/** @return The reference coordinate, the block with the lowest x, y, z coordinates, evaluated in that order. */
@@ -760,18 +699,10 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	public BlockPos getMiddleCoord() {
 		return new BlockPos(getMiddleX(), getMiddleY(), getMiddleZ());
 	}
-	
-	/** Called when the save delegate's tile entity is being asked for its description packet
-	 * 
-	 * @param data
-	 *            A fresh compound tag to write your multiblock data into */
-	// public abstract void formatDescriptionPacket(NBTTagCompound data);
-	
-	/** Called when the save delegate's tile entity receiving a description packet
-	 * 
-	 * @param data
-	 *            A compound tag containing multiblock data to import */
-	// public abstract void decodeDescriptionPacket(NBTTagCompound data);
+
+    // public abstract void formatDescriptionPacket(NBTTagCompound data);
+
+    // public abstract void decodeDescriptionPacket(NBTTagCompound data);
 	
 	/** @return True if this multiblock has no associated blocks, false otherwise */
 	public boolean isEmpty() {
@@ -851,7 +782,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 		return sb.toString();
 	}
 	
-	/** Checks all of the parts in the multiblock. If any are dead or do not exist in the world, they are removed. */
+	/** Checks all the parts in the multiblock. If any are dead or do not exist in the world, they are removed. */
 	private void auditParts() {
 		ObjectOpenHashSet<T> deadParts = new ObjectOpenHashSet<>();
 		for (T part : connectedParts) {
@@ -866,8 +797,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	}
 	
 	/** Called when this machine may need to check for blocks that are no longer physically connected to the reference coordinate.
-	 * 
-	 * @return */
+	 *   */
 	public Set<T> checkForDisconnections() {
 		if (!shouldCheckForDisconnections) {
 			return null;
@@ -979,7 +909,7 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 		// Cleanup. Not necessary, really.
 		deadParts.clear();
 		
-		// Juuuust in case.
+		// Just in case.
 		if (referenceCoord == null) {
 			selectNewReferenceCoord();
 		}
@@ -1041,10 +971,8 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 		}
 	}
 	
-	/** Marks the reference coord dirty & updateable.
-	 * 
+	/** Marks the reference coord dirty & updatable.
 	 * On the server, this will mark the for a data-update, so that nearby clients will receive an updated description packet from the server after a short time. The block's chunk will also be marked dirty and the block's chunk will be saved to disk the next time chunks are saved.
-	 * 
 	 * On the client, this will mark the block for a rendering update. */
 	public void markReferenceCoordForUpdate() {
 		
@@ -1057,11 +985,8 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	}
 	
 	/** Marks the reference coord dirty.
-	 * 
 	 * On the server, this marks the reference coord's chunk as dirty; the block (and chunk) will be saved to disk the next time chunks are saved. This does NOT mark it dirty for a description-packet update.
-	 * 
 	 * On the client, does nothing.
-	 * 
 	 * @see Multiblock#markReferenceCoordForUpdate() */
 	public void markReferenceCoordDirty() {
 		if (WORLD == null || WORLD.isRemote) {

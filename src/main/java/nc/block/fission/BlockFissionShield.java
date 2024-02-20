@@ -18,7 +18,7 @@ public abstract class BlockFissionShield extends BlockFissionPart implements IAc
 	
 	public BlockFissionShield() {
 		super();
-		setDefaultState(getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(getDefaultState().withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -28,12 +28,12 @@ public abstract class BlockFissionShield extends BlockFissionPart implements IAc
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(ACTIVE, Boolean.valueOf(meta == 1));
+		return getDefaultState().withProperty(ACTIVE, meta == 1);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(ACTIVE).booleanValue() ? 1 : 0;
+		return state.getValue(ACTIVE) ? 1 : 0;
 	}
 	
 	@Override
@@ -44,18 +44,14 @@ public abstract class BlockFissionShield extends BlockFissionPart implements IAc
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionShield) {
-			TileFissionShield shield = (TileFissionShield) tile;
-			world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding), 2);
+		if (tile instanceof TileFissionShield shield) {
+            world.setBlockState(pos, state.withProperty(ACTIVE, shield.isShielding), 2);
 		}
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);

@@ -13,6 +13,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import nc.tile.fission.IFissionFuelComponent.*;
 import nc.tile.fission.manager.*;
+import nc.util.NCMath;
 import nc.util.PosHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -165,7 +166,7 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	
 	@Override
 	public ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPosIn) {
-		this.validActiveModeratorPos[dir.getIndex()] = getMultiblock() == null ? false : getLogic().isShieldActiveModerator(this, validActiveModeratorPosIn);
+		this.validActiveModeratorPos[dir.getIndex()] = getMultiblock() != null && getLogic().isShieldActiveModerator(this, validActiveModeratorPosIn);
 		return getMultiblock() != null ? getLogic().getShieldModeratorBlockInfo(this, this.validActiveModeratorPos[dir.getIndex()]) : null;
 	}
 	
@@ -186,7 +187,7 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	}
 	
 	protected int getLineFluxContribution(ModeratorLine line, ModeratorBlockInfo thisInfo) {
-		int innerFlux = 0, outerFlux = 0;
+		long innerFlux = 0, outerFlux = 0;
 		boolean inner = true;
 		for (ModeratorBlockInfo info : line.info) {
 			if (info == thisInfo) {
@@ -202,16 +203,16 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 		
 		if (line.fluxSink != null) {
 			if (line.fluxSink instanceof IFissionFuelComponent) {
-				return innerFlux + outerFlux;
+				return NCMath.toInt(innerFlux + outerFlux);
 			}
 			else {
-				return innerFlux;
+				return NCMath.toInt(innerFlux);
 			}
 		}
 		else if (line.reflectorRecipe != null) {
 			return (int) Math.floor((innerFlux + outerFlux) * (1D + line.reflectorRecipe.getFissionReflectorReflectivity()));
 		}
-		return innerFlux;
+		return NCMath.toInt(innerFlux);
 	}
 	
 	// IFissionManagerListener

@@ -26,18 +26,14 @@ public class BlockSaltFissionVessel extends BlockFissionPart {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		if (!world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileSaltFissionVessel) {
-				TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
-				FissionReactor reactor = vessel.getMultiblock();
+			if (tile instanceof TileSaltFissionVessel vessel) {
+                FissionReactor reactor = vessel.getMultiblock();
 				if (reactor != null) {
 					FluidStack fluidStack = FluidStackHelper.getFluid(player.getHeldItem(hand));
 					if (vessel.canModifyFilter(0) && vessel.getTanks().get(0).isEmpty() && fluidStack != null && !FluidStackHelper.stacksEqual(vessel.getFilterTanks().get(0).getFluid(), fluidStack) && vessel.getTanks().get(0).canFillFluidType(fluidStack)) {

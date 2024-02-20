@@ -21,7 +21,7 @@ public class BlockGlowingMushroom extends NCBlockMushroom {
 	@Override
 	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
 		Biome biome = worldIn.getChunk(pos).getBiome(pos, worldIn.getBiomeProvider());
-		return biome != null && (biome == NCBiomes.NUCLEAR_WASTELAND || BiomeDictionary.hasType(biome, Type.NETHER));
+		return biome == NCBiomes.NUCLEAR_WASTELAND || BiomeDictionary.hasType(biome, Type.NETHER);
 	}
 	
 	@Override

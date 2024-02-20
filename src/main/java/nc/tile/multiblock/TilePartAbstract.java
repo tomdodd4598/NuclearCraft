@@ -158,7 +158,7 @@ public abstract class TilePartAbstract extends TileEntity implements ITile {
 	// GUI management
 	
 	/** Check if the tile entity has a GUI or not Override in derived classes to return true if your tile entity got a GUI */
-	public boolean canOpenGui(World worldIn, BlockPos posistion, IBlockState state) {
+	public boolean canOpenGui(World worldIn, BlockPos position, IBlockState state) {
 		return false;
 	}
 	
@@ -178,7 +178,7 @@ public abstract class TilePartAbstract extends TileEntity implements ITile {
 	/** Returns a Server side Container to be displayed to the user.
 	 *
 	 * @param guiId
-	 *            the GUI ID mumber
+	 *            the GUI ID number
 	 * @param player
 	 *            the player currently interacting with your block/tile entity
 	 * @return A GuiScreen/Container to be displayed to the user, null if none. */
@@ -186,10 +186,10 @@ public abstract class TilePartAbstract extends TileEntity implements ITile {
 		return null;
 	}
 	
-	/** Returns a Container to be displayed to the user. On the client side, this needs to return a instance of GuiScreen On the server side, this needs to return a instance of Container
+	/** Returns a Container to be displayed to the user. On the client side, this needs to return an instance of GuiScreen On the server side, this needs to return an instance of Container
 	 *
 	 * @param guiId
-	 *            the GUI ID mumber
+	 *            the GUI ID number
 	 * @param player
 	 *            the player currently interacting with your block/tile entity
 	 * @return A GuiScreen/Container to be displayed to the user, null if none. */

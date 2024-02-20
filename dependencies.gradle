@@ -1,0 +1,69 @@
+//file:noinspection DependencyNotationArgument
+// TODO remove when fixed in RFG ^
+/*
+ * Add your dependencies here. Supported configurations:
+ *  - api("group:name:version:classifier"): if you use the types from this dependency in the public API of this mod
+ *       Available at runtime and compiletime for mods depending on this mod
+ *  - implementation("g:n:v:c"): if you need this for internal implementation details of the mod, but none of it is visible via the public API
+ *       Available at runtime but not compiletime for mods depending on this mod
+ *  - compileOnly("g:n:v:c"): if the mod you're building doesn't need this dependency during runtime at all, e.g. for optional mods
+ *       Not available at all for mods depending on this mod, only visible at compiletime for this mod
+ *  - compileOnlyApi("g:n:v:c"): like compileOnly, but also visible at compiletime for mods depending on this mod
+ *       Available at compiletime but not runtime for mods depending on this mod
+ *  - runtimeOnlyNonPublishable("g:n:v:c"): if you want to include a mod in this mod's runClient/runServer runs, but not publish it as a dependency
+ *       Not available at all for mods depending on this mod, only visible at runtime for this mod
+ *  - devOnlyNonPublishable("g:n:v:c"): a combination of runtimeOnlyNonPublishable and compileOnly for dependencies present at both compiletime and runtime,
+ *       but not published as Maven dependencies - useful for RFG-deobfuscated dependencies or local testing
+ *  - runtimeOnly("g:n:v:c"): if you don't need this at compile time, but want it to be present at runtime
+ *       Available at runtime for mods depending on this mod
+ *  - annotationProcessor("g:n:v:c"): mostly for java compiler plugins, if you know you need this, use it, otherwise don't worry
+ *  - testCONFIG("g:n:v:c") - replace CONFIG by one of the above (except api), same as above but for the test sources instead of main
+ *
+ *  - shadowImplementation("g:n:v:c"): effectively the same as API, but the dependency is included in your jar under a renamed package name
+ *       Requires you to enable usesShadowedDependencies in gradle.properties
+ *       For more info, see https://github.com/GregTechCEu/Buildscripts/blob/master/docs/shadow.md
+ *
+ * You can exclude transitive dependencies (dependencies of the chosen dependency) by appending { transitive = false } if needed,
+ * but use this sparingly as it can break using your mod as another mod's dependency if you're not careful.
+ *
+ * To depend on obfuscated jars you can use `devOnlyNonPublishable(rfg.deobf("dep:spec:1.2.3"))` to fetch an obfuscated jar from maven,
+ * or `devOnlyNonPublishable(rfg.deobf(project.files("libs/my-mod-jar.jar")))` to use a file.
+ *
+ * To add a mod with CurseMaven, replace '("g:n:v:c")' in the above with 'rfg.deobf("curse.maven:project_slug-project_id:file_id")'
+ * Example: devOnlyNonPublishable(rfg.deobf("curse.maven:top-245211:2667280"))
+ *
+ * Gradle names for some of the configuration can be misleading, compileOnlyApi and runtimeOnly both get published as dependencies in Maven, but compileOnly does not.
+ * The buildscript adds runtimeOnlyNonPublishable to also have a runtime dependency that's not published.
+ *
+ * For more details, see https://docs.gradle.org/8.4/userguide/java_library_plugin.html#sec:java_library_configurations_graph
+ */
+dependencies {
+	implementation("cofh:CoFHCore:1.12.2-4.6.3.27:universal") { transitive = false }
+	implementation("codechicken:CodeChickenLib:1.12.2-+:universal")
+	implementation("cofh:RedstoneFlux:1.12-+:universal")
+	implementation("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.+")
+	implementation("li.cil.oc:OpenComputers:MC1.12.2-1.7.5.192")
+	implementation("net.darkhax.bookshelf:Bookshelf-1.12.2:2.3.590")
+	implementation("net.darkhax.gamestages:GameStages-1.12.2:2.0.123")
+	implementation("vazkii.patchouli:Patchouli:1.0-23.6")
+	
+	implementation rfg.deobf("curse.maven:baubles-227083:2518667")
+	implementation rfg.deobf("curse.maven:base-246996:3440963")
+	implementation rfg.deobf("curse.maven:contenttweaker-237065:3331364")
+	implementation rfg.deobf("curse.maven:mantle-74924:2713386")
+	implementation rfg.deobf("curse.maven:tinkers-construct-74072:2902483")
+	implementation rfg.deobf("curse.maven:constructs-armory-287683:3174535")
+	implementation rfg.deobf("curse.maven:industrial-craft-242638:3838713")
+	implementation rfg.deobf("curse.maven:gregtechce-293327:3478805")
+	implementation rfg.deobf("curse.maven:mekanism-268560:2835175")
+	implementation rfg.deobf("curse.maven:projecte-226410:2702991")
+	implementation rfg.deobf("curse.maven:hwyla-253449:2568751")
+}
+
+configurations {
+    compileOnly {
+        exclude group: "org.scala-lang"
+        exclude group: "org.scala-lang.modules"
+        exclude group: "org.scala-lang.plugins"
+    }
+}

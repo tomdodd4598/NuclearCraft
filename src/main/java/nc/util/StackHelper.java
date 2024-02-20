@@ -57,11 +57,10 @@ public class StackHelper {
 		}
 		int meta = getMetadata(stack);
 		Item item = stack.getItem();
-		if (!(item instanceof ItemBlock)) {
+		if (!(item instanceof ItemBlock itemBlock)) {
 			return null;
 		}
-		ItemBlock itemBlock = (ItemBlock) item;
-		return itemBlock.getBlock().getStateFromMeta(meta);
+        return itemBlock.getBlock().getStateFromMeta(meta);
 	}
 	
 	public static int getMetadata(ItemStack stack) {
@@ -86,13 +85,13 @@ public class StackHelper {
 	
 	public static String stackName(ItemStack stack) {
 		ResourceLocation resourcelocation = Item.REGISTRY.getNameForObject(stack.getItem());
-		return resourcelocation == null ? "null" : resourcelocation.toString() + ":" + getMetadata(stack);
+		return resourcelocation == null ? "null" : resourcelocation + ":" + getMetadata(stack);
 	}
 	
 	public static String stackListNames(List<ItemStack> list) {
-		String names = "";
+		StringBuilder names = new StringBuilder();
 		for (ItemStack stack : list) {
-			names += ", " + stackName(stack);
+			names.append(", ").append(stackName(stack));
 		}
 		return names.substring(2);
 	}

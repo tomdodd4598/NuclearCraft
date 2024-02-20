@@ -8,7 +8,7 @@ import net.minecraft.world.*;
 
 public interface INBTDrop {
 	
-	public ItemStack getNBTDrop(IBlockAccess world, BlockPos pos, IBlockState state);
+	ItemStack getNBTDrop(IBlockAccess world, BlockPos pos, IBlockState state);
 	
-	public void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack);
+	void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack);
 }

@@ -24,9 +24,8 @@ public class ItemRadX extends NCItem {
 	
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entity) {
-		if (entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) entity;
-			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+		if (entity instanceof EntityPlayer player) {
+            if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 				return stack;
 			}
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);

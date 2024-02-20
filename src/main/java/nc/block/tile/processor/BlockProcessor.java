@@ -24,7 +24,7 @@ public class BlockProcessor<TILE extends TileEntity> extends BlockSidedTile impl
 	
 	public BlockProcessor(String name) {
 		super(Material.IRON);
-		tileInfo = TileInfoHandler.<TILE, ProcessorBlockInfo<TILE>>getProcessorBlockInfo(name);
+		tileInfo = TileInfoHandler.getProcessorBlockInfo(name);
 		CreativeTabs tab = tileInfo.creativeTab;
 		if (tab != null) {
 			setCreativeTab(tab);
@@ -47,13 +47,13 @@ public class BlockProcessor<TILE extends TileEntity> extends BlockSidedTile impl
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
 			enumfacing = EnumFacing.NORTH;
 		}
-		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_HORIZONTAL).getIndex();
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 		return i;
@@ -66,7 +66,7 @@ public class BlockProcessor<TILE extends TileEntity> extends BlockSidedTile impl
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.FALSE);
 	}
 	
 	@Override

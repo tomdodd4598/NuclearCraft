@@ -32,7 +32,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	@Override
 	public List<FluidStack> getInputStackList() {
 		List<FluidStack> stacks = new ArrayList<>();
-		ingredientList.forEach(ingredient -> ingredient.getInputStackList().forEach(obj -> stacks.add(obj)));
+		ingredientList.forEach(ingredient -> stacks.addAll(ingredient.getInputStackList()));
 		return stacks;
 	}
 	
@@ -64,17 +64,17 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	@Override
 	public String getIngredientNamesConcat() {
-		String names = "";
+		StringBuilder names = new StringBuilder();
 		for (IFluidIngredient ingredient : ingredientList) {
-			names += ", " + ingredient.getIngredientName();
+			names.append(", ").append(ingredient.getIngredientName());
 		}
 		return "{ " + names.substring(2) + " }";
 	}
 	
 	public String getIngredientRecipeString() {
-		String names = "";
+		StringBuilder names = new StringBuilder();
 		for (IFluidIngredient ingredient : ingredientList) {
-			names += ", " + ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName();
+			names.append(", ").append(ingredient.getMaxStackSize(0)).append(" x ").append(ingredient.getIngredientName());
 		}
 		return "{ " + names.substring(2) + " }";
 	}

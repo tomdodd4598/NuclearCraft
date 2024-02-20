@@ -83,9 +83,8 @@ public abstract class ContainerPort<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 				return ItemStack.EMPTY;
 			}
 		}
-		else if (tile instanceof ITileFilteredInventory) {
-			ITileFilteredInventory tileFiltered = (ITileFilteredInventory) tile;
-			NonNullList<ItemStack> filterStacks = tileFiltered.getFilterStacks();
+		else if (tile instanceof ITileFilteredInventory tileFiltered) {
+            NonNullList<ItemStack> filterStacks = tileFiltered.getFilterStacks();
 			for (int i = 0; i < filterStacks.size(); ++i) {
 				if (tileFiltered.canModifyFilter(i) && !filterStacks.get(i).isEmpty()) {
 					filterStacks.set(i, ItemStack.EMPTY);

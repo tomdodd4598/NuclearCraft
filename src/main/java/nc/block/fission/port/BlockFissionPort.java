@@ -20,7 +20,7 @@ public abstract class BlockFissionPort<PORT extends TileFissionPort<PORT, TARGET
 	public BlockFissionPort(Class<PORT> portClass) {
 		super();
 		this.portClass = portClass;
-		setDefaultState(blockState.getBaseState().withProperty(AXIS_ALL, EnumFacing.Axis.Z).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(AXIS_ALL, EnumFacing.Axis.Z).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -31,13 +31,13 @@ public abstract class BlockFissionPort<PORT extends TileFissionPort<PORT, TARGET
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing.Axis axis = PosHelper.AXES[meta & 3];
-		return getDefaultState().withProperty(AXIS_ALL, axis).withProperty(ACTIVE, Boolean.valueOf((meta & 4) > 0));
+		return getDefaultState().withProperty(AXIS_ALL, axis).withProperty(ACTIVE, (meta & 4) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(AXIS_ALL).ordinal();
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 4;
 		}
 		return i;

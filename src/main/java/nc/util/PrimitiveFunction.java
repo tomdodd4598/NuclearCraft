@@ -6,31 +6,31 @@ import java.util.function.*;
 public class PrimitiveFunction {
 	
 	@FunctionalInterface
-	public static interface ByteSupplier {
+	public interface ByteSupplier {
 		
 		byte getAsByte();
 	}
 	
 	@FunctionalInterface
-	public static interface ShortSupplier {
+	public interface ShortSupplier {
 		
 		short getAsShort();
 	}
 	
 	@FunctionalInterface
-	public static interface FloatSupplier {
+	public interface FloatSupplier {
 		
 		float getAsFloat();
 	}
 	
 	@FunctionalInterface
-	public static interface CharSupplier {
+	public interface CharSupplier {
 		
 		char getAsChar();
 	}
 	
 	@FunctionalInterface
-	public static interface ByteConsumer {
+	public interface ByteConsumer {
 		
 		void accept(byte value);
 		
@@ -44,7 +44,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ShortConsumer {
+	public interface ShortConsumer {
 		
 		void accept(short value);
 		
@@ -58,7 +58,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface FloatConsumer {
+	public interface FloatConsumer {
 		
 		void accept(float value);
 		
@@ -72,7 +72,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanConsumer {
+	public interface BooleanConsumer {
 		
 		void accept(boolean value);
 		
@@ -86,7 +86,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface CharConsumer {
+	public interface CharConsumer {
 		
 		void accept(char value);
 		
@@ -100,7 +100,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface BytePredicate {
+	public interface BytePredicate {
 		
 		boolean test(byte value);
 		
@@ -120,7 +120,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ShortPredicate {
+	public interface ShortPredicate {
 		
 		boolean test(short value);
 		
@@ -140,7 +140,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface FloatPredicate {
+	public interface FloatPredicate {
 		
 		boolean test(float value);
 		
@@ -160,7 +160,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanPredicate {
+	public interface BooleanPredicate {
 		
 		boolean test(boolean value);
 		
@@ -180,7 +180,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface CharPredicate {
+	public interface CharPredicate {
 		
 		boolean test(char value);
 		
@@ -200,97 +200,97 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ByteFunction<R> {
+	public interface ByteFunction<R> {
 		
 		R apply(byte value);
 	}
 	
 	@FunctionalInterface
-	public static interface ShortFunction<R> {
+	public interface ShortFunction<R> {
 		
 		R apply(short value);
 	}
 	
 	@FunctionalInterface
-	public static interface FloatFunction<R> {
+	public interface FloatFunction<R> {
 		
 		R apply(float value);
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanFunction<R> {
+	public interface BooleanFunction<R> {
 		
 		R apply(boolean value);
 	}
 	
 	@FunctionalInterface
-	public static interface CharFunction<R> {
+	public interface CharFunction<R> {
 		
 		R apply(char value);
 	}
 	
 	@FunctionalInterface
-	public static interface ToByteFunction<T> {
+	public interface ToByteFunction<T> {
 		
 		byte applyAsByte(T value);
 	}
 	
 	@FunctionalInterface
-	public static interface ToShortFunction<T> {
+	public interface ToShortFunction<T> {
 		
 		short applyAsShort(T value);
 	}
 	
 	@FunctionalInterface
-	public static interface ToFloatFunction<T> {
+	public interface ToFloatFunction<T> {
 		
 		float applyAsFloat(T value);
 	}
 	
 	@FunctionalInterface
-	public static interface ToBooleanFunction<T> {
+	public interface ToBooleanFunction<T> {
 		
 		boolean applyAsBoolean(T value);
 	}
 	
 	@FunctionalInterface
-	public static interface ToCharFunction<T> {
+	public interface ToCharFunction<T> {
 		
 		char applyAsChar(T value);
 	}
 	
 	@FunctionalInterface
-	public static interface ToByteBiFunction<T, U> {
+	public interface ToByteBiFunction<T, U> {
 		
 		byte applyAsByte(T t, U u);
 	}
 	
 	@FunctionalInterface
-	public static interface ToShortBiFunction<T, U> {
+	public interface ToShortBiFunction<T, U> {
 		
 		short applyAsShort(T t, U u);
 	}
 	
 	@FunctionalInterface
-	public static interface ToFloatBiFunction<T, U> {
+	public interface ToFloatBiFunction<T, U> {
 		
 		float applyAsFloat(T t, U u);
 	}
 	
 	@FunctionalInterface
-	public static interface ToBooleanBiFunction<T, U> {
+	public interface ToBooleanBiFunction<T, U> {
 		
 		boolean applyAsBoolean(T t, U u);
 	}
 	
 	@FunctionalInterface
-	public static interface ToCharBiFunction<T, U> {
+	public interface ToCharBiFunction<T, U> {
 		
 		char applyAsChar(T t, U u);
 	}
 	
 	@FunctionalInterface
-	public static interface ByteUnaryOperator {
+	public interface ByteUnaryOperator {
 		
 		byte applyAsByte(byte operand);
 		
@@ -310,7 +310,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ShortUnaryOperator {
+	public interface ShortUnaryOperator {
 		
 		short applyAsShort(short operand);
 		
@@ -330,7 +330,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface FloatUnaryOperator {
+	public interface FloatUnaryOperator {
 		
 		float applyAsFloat(float operand);
 		
@@ -350,7 +350,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanUnaryOperator {
+	public interface BooleanUnaryOperator {
 		
 		boolean applyAsBoolean(boolean operand);
 		
@@ -370,7 +370,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface CharUnaryOperator {
+	public interface CharUnaryOperator {
 		
 		char applyAsChar(char operand);
 		
@@ -390,115 +390,115 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ByteBinaryOperator {
+	public interface ByteBinaryOperator {
 		
 		byte applyAsByte(byte left, byte right);
 	}
 	
 	@FunctionalInterface
-	public static interface ShortBinaryOperator {
+	public interface ShortBinaryOperator {
 		
 		short applyAsShort(short left, short right);
 	}
 	
 	@FunctionalInterface
-	public static interface FloatBinaryOperator {
+	public interface FloatBinaryOperator {
 		
 		float applyAsFloat(float left, float right);
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanBinaryOperator {
+	public interface BooleanBinaryOperator {
 		
 		boolean applyAsBoolean(boolean left, boolean right);
 	}
 	
 	@FunctionalInterface
-	public static interface CharBinaryOperator {
+	public interface CharBinaryOperator {
 		
 		char applyAsChar(char left, char right);
 	}
 	
 	@FunctionalInterface
-	public static interface ObjByteConsumer<T> {
+	public interface ObjByteConsumer<T> {
 		
 		void accept(T t, byte value);
 	}
 	
 	@FunctionalInterface
-	public static interface ObjShortConsumer<T> {
+	public interface ObjShortConsumer<T> {
 		
 		void accept(T t, short value);
 	}
 	
 	@FunctionalInterface
-	public static interface ObjFloatConsumer<T> {
+	public interface ObjFloatConsumer<T> {
 		
 		void accept(T t, float value);
 	}
 	
 	@FunctionalInterface
-	public static interface ObjBooleanConsumer<T> {
+	public interface ObjBooleanConsumer<T> {
 		
 		void accept(T t, boolean value);
 	}
 	
 	@FunctionalInterface
-	public static interface ObjCharConsumer<T> {
+	public interface ObjCharConsumer<T> {
 		
 		void accept(T t, char value);
 	}
 	
 	@FunctionalInterface
-	public static interface ByteObjConsumer<T> {
+	public interface ByteObjConsumer<T> {
 		
 		void accept(byte value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface ShortObjConsumer<T> {
+	public interface ShortObjConsumer<T> {
 		
 		void accept(short value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface IntObjConsumer<T> {
+	public interface IntObjConsumer<T> {
 		
 		void accept(int value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface LongObjConsumer<T> {
+	public interface LongObjConsumer<T> {
 		
 		void accept(long value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface FloatObjConsumer<T> {
+	public interface FloatObjConsumer<T> {
 		
 		void accept(float value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface DoubleObjConsumer<T> {
+	public interface DoubleObjConsumer<T> {
 		
 		void accept(double value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanObjConsumer<T> {
+	public interface BooleanObjConsumer<T> {
 		
 		void accept(boolean value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface CharObjConsumer<T> {
+	public interface CharObjConsumer<T> {
 		
 		void accept(char value, T t);
 	}
 	
 	@FunctionalInterface
-	public static interface ObjByteFunction<T, R> {
+	public interface ObjByteFunction<T, R> {
 		
 		R apply(T t, byte value);
 		
@@ -509,7 +509,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ObjShortFunction<T, R> {
+	public interface ObjShortFunction<T, R> {
 		
 		R apply(T t, short value);
 		
@@ -520,7 +520,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ObjIntFunction<T, R> {
+	public interface ObjIntFunction<T, R> {
 		
 		R apply(T t, int value);
 		
@@ -531,7 +531,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ObjLongFunction<T, R> {
+	public interface ObjLongFunction<T, R> {
 		
 		R apply(T t, long value);
 		
@@ -542,7 +542,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ObjFloatFunction<T, R> {
+	public interface ObjFloatFunction<T, R> {
 		
 		R apply(T t, float value);
 		
@@ -553,7 +553,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ObjBooleanFunction<T, R> {
+	public interface ObjBooleanFunction<T, R> {
 		
 		R apply(T t, boolean value);
 		
@@ -564,7 +564,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ObjCharFunction<T, R> {
+	public interface ObjCharFunction<T, R> {
 		
 		R apply(T t, char value);
 		
@@ -575,7 +575,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ByteObjFunction<T, R> {
+	public interface ByteObjFunction<T, R> {
 		
 		R apply(byte value, T t);
 		
@@ -586,7 +586,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface ShortObjFunction<T, R> {
+	public interface ShortObjFunction<T, R> {
 		
 		R apply(short value, T t);
 		
@@ -597,7 +597,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface IntObjFunction<T, R> {
+	public interface IntObjFunction<T, R> {
 		
 		R apply(int value, T t);
 		
@@ -608,7 +608,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface LongObjFunction<T, R> {
+	public interface LongObjFunction<T, R> {
 		
 		R apply(long value, T t);
 		
@@ -619,7 +619,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface FloatObjFunction<T, R> {
+	public interface FloatObjFunction<T, R> {
 		
 		R apply(float value, T t);
 		
@@ -630,7 +630,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface DoubleObjFunction<T, R> {
+	public interface DoubleObjFunction<T, R> {
 		
 		R apply(double value, T t);
 		
@@ -641,7 +641,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface BooleanObjFunction<T, R> {
+	public interface BooleanObjFunction<T, R> {
 		
 		R apply(boolean value, T t);
 		
@@ -652,7 +652,7 @@ public class PrimitiveFunction {
 	}
 	
 	@FunctionalInterface
-	public static interface CharObjFunction<T, R> {
+	public interface CharObjFunction<T, R> {
 		
 		R apply(char value, T t);
 		

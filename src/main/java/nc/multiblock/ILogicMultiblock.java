@@ -1,37 +1,30 @@
 package nc.multiblock;
 
-import java.lang.reflect.Constructor;
-
-import javax.annotation.Nonnull;
-
 import nc.tile.multiblock.ITileLogicMultiblockPart;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
+import javax.annotation.Nonnull;
+import java.util.function.UnaryOperator;
+
 public interface ILogicMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILogicMultiblock<MULTIBLOCK, LOGIC, T>, LOGIC extends MultiblockLogic<MULTIBLOCK, LOGIC, T>, T extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> extends IMultiblock<MULTIBLOCK, T> {
 	
-	public @Nonnull LOGIC getLogic();
+	@Nonnull LOGIC getLogic();
 	
-	public void setLogic(String logicID);
+	void setLogic(String logicID);
 	
-	public default @Nonnull LOGIC getNewLogic(Constructor<? extends LOGIC> constructor) {
-		try {
-			return constructor.newInstance(getLogic());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return getLogic();
+	default @Nonnull LOGIC getNewLogic(UnaryOperator<LOGIC> constructor) {
+		return constructor.apply(getLogic());
 	}
 	
-	public default void writeLogicNBT(NBTTagCompound data, SyncReason syncReason) {
+	default void writeLogicNBT(NBTTagCompound data, SyncReason syncReason) {
 		data.setString("logicID", getLogic().getID());
 		NBTTagCompound logicTag = new NBTTagCompound();
 		getLogic().writeToLogicTag(logicTag, syncReason);
 		data.setTag("logic", logicTag);
 	}
 	
-	public default void readLogicNBT(NBTTagCompound data, SyncReason syncReason) {
+	default void readLogicNBT(NBTTagCompound data, SyncReason syncReason) {
 		if (syncReason == SyncReason.FullSync && data.hasKey("logicID")) {
 			setLogic(data.getString("logicID"));
 		}

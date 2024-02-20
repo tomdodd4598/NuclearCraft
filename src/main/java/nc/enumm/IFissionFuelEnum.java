@@ -2,13 +2,13 @@ package nc.enumm;
 
 public interface IFissionFuelEnum extends IMetaEnum {
 	
-	public int getBaseTime();
+	int getBaseTime();
 	
-	public int getBaseHeat();
+	int getBaseHeat();
 	
-	public double getBaseEfficiency();
+	double getBaseEfficiency();
 	
-	public int getCriticality();
+	int getCriticality();
 	
-	public boolean getSelfPriming();
+	boolean getSelfPriming();
 }

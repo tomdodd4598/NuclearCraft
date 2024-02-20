@@ -69,13 +69,11 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 				if (level == 0) {
 					world.setBlockState(pos, ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, getSourceMixingState(world, pos, state)));
 					triggerMixEffects(world, pos);
-					return;
-				}
+                }
 				else {
 					world.setBlockState(pos, ForgeEventFactory.fireFluidPlaceBlockEvent(world, pos, pos, getFlowingMixingState(world, pos, state)));
 					triggerMixEffects(world, pos);
-					return;
-				}
+                }
 			}
 		}
 	}
@@ -166,7 +164,7 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 	}
 	
 	protected boolean canBlockBurn(World world, BlockPos pos) {
-		return pos.getY() >= 0 && pos.getY() < world.getHeight() && !world.isBlockLoaded(pos) ? false : world.getBlockState(pos).getMaterial().getCanBurn();
+		return (pos.getY() < 0 || pos.getY() >= world.getHeight() || world.isBlockLoaded(pos)) && world.getBlockState(pos).getMaterial().getCanBurn();
 	}
 	
 	protected boolean canFlowInto(World world, BlockPos pos, IBlockState state) {
@@ -179,7 +177,7 @@ public abstract class NCBlockFluid extends BlockFluidClassic {
 		Material mat = state.getMaterial();
 		
 		if (!(block instanceof BlockDoor) && !(block instanceof BlockStandingSign) && !(block instanceof BlockLadder) && !(block instanceof BlockReed)) {
-			return mat != Material.PORTAL && mat != Material.STRUCTURE_VOID ? mat.blocksMovement() : true;
+			return mat == Material.PORTAL || mat == Material.STRUCTURE_VOID || mat.blocksMovement();
 		}
 		else {
 			return true;

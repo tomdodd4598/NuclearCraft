@@ -507,12 +507,8 @@ public class TileFissionIrradiator extends TileFissionPart implements IProcessor
 	
 	@Override
 	public void clearAllSlots() {
-		for (int i = 0; i < inventoryStacks.size(); ++i) {
-			inventoryStacks.set(i, ItemStack.EMPTY);
-		}
-		for (int i = 0; i < consumedStacks.size(); ++i) {
-			consumedStacks.set(i, ItemStack.EMPTY);
-		}
+        Collections.fill(inventoryStacks, ItemStack.EMPTY);
+        Collections.fill(consumedStacks, ItemStack.EMPTY);
 		refreshAll();
 	}
 	
@@ -543,7 +539,7 @@ public class TileFissionIrradiator extends TileFissionPart implements IProcessor
 	
 	@Override
 	public boolean canModifyFilter(int slot) {
-		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+		return getMultiblock() == null || !getMultiblock().isAssembled();
 	}
 	
 	@Override

@@ -36,18 +36,17 @@ public class EntityHandler {
 				
 				boolean tooManyGhouls = false;
 				ClassInheritanceMultiMap<Entity>[] entityListArray = world.getChunk(pos).getEntityLists();
-				loop: for (int i = 0; i < entityListArray.length; ++i) {
-					Iterable<EntityFeralGhoul> ghouls = entityListArray[i].getByClass(EntityFeralGhoul.class);
-					while (ghouls.iterator().hasNext()) {
-						tooManyGhouls = true;
-						break loop;
-					}
-				}
+				loop: for (ClassInheritanceMultiMap<Entity> entities : entityListArray) {
+                    Iterable<EntityFeralGhoul> ghouls = entities.getByClass(EntityFeralGhoul.class);
+                    while (ghouls.iterator().hasNext()) {
+                        tooManyGhouls = true;
+                        break loop;
+                    }
+                }
 				
 				if (tooManyGhouls) {
 					event.setResult(Result.DENY);
-					return;
-				}
+                }
 			}
 		}
 	}

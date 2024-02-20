@@ -56,7 +56,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart {
 	
 	public boolean isContraflow(TileHeatExchangerTube tube) {
 		if (flowDir == null || tube.flowDir == null) {
-			return !(flowDir == null ^ tube.flowDir == null);
+			return (flowDir == null) == (tube.flowDir == null);
 		}
 		return flowDir.getIndex() != tube.flowDir.getIndex();
 	}
@@ -122,9 +122,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart {
 				flowDir = side;
 				return;
 			}
-			else if (tile instanceof TileHeatExchangerTube) {
-				TileHeatExchangerTube tube = (TileHeatExchangerTube) tile;
-				HeatExchangerTubeSetting tubeSetting = tube.getTubeSetting(side.getOpposite());
+			else if (tile instanceof TileHeatExchangerTube tube) {
+                HeatExchangerTubeSetting tubeSetting = tube.getTubeSetting(side.getOpposite());
 				
 				if (thisSetting == HeatExchangerTubeSetting.INPUT_SPREAD && tubeSetting == HeatExchangerTubeSetting.DEFAULT || thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT && (tubeSetting == HeatExchangerTubeSetting.DEFAULT || tubeSetting == HeatExchangerTubeSetting.INPUT_SPREAD)) {
 					flowDir = side;

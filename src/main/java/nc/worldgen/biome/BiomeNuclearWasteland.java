@@ -82,10 +82,8 @@ public class BiomeNuclearWasteland extends NCBiome {
 		protected void genDecorations(Biome biomeIn, World worldIn, Random random) {
 			super.genDecorations(biomeIn, worldIn, random);
 			
-			if (biomeIn instanceof BiomeNuclearWasteland) {
-				BiomeNuclearWasteland wasteland = (BiomeNuclearWasteland) biomeIn;
-				
-				if (random.nextInt(wasteland.portalGenChance) == 0) {
+			if (biomeIn instanceof BiomeNuclearWasteland wasteland) {
+                if (random.nextInt(wasteland.portalGenChance) == 0) {
 					int x = random.nextInt(16) + 8;
 					int y = random.nextInt(worldIn.getHeight());
 					int z = random.nextInt(16) + 8;

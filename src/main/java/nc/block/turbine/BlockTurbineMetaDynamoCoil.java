@@ -37,30 +37,20 @@ public class BlockTurbineMetaDynamoCoil extends BlockTurbinePart implements IBlo
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileTurbineDynamoCoil.Magnesium();
-			case 1:
-				return new TileTurbineDynamoCoil.Beryllium();
-			case 2:
-				return new TileTurbineDynamoCoil.Aluminum();
-			case 3:
-				return new TileTurbineDynamoCoil.Gold();
-			case 4:
-				return new TileTurbineDynamoCoil.Copper();
-			case 5:
-				return new TileTurbineDynamoCoil.Silver();
-			default:
-				return new TileTurbineDynamoCoil.Magnesium();
-		}
+        return switch (metadata) {
+            case 0 -> new TileTurbineDynamoCoil.Magnesium();
+            case 1 -> new TileTurbineDynamoCoil.Beryllium();
+            case 2 -> new TileTurbineDynamoCoil.Aluminum();
+            case 3 -> new TileTurbineDynamoCoil.Gold();
+            case 4 -> new TileTurbineDynamoCoil.Copper();
+            case 5 -> new TileTurbineDynamoCoil.Silver();
+            default -> new TileTurbineDynamoCoil.Magnesium();
+        };
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);

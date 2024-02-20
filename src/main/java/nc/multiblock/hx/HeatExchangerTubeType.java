@@ -8,10 +8,10 @@ public enum HeatExchangerTubeType {
 	HARD_CARBON("hard_carbon", heat_exchanger_conductivity[1]),
 	THERMOCONDUCTING("thermoconducting", heat_exchanger_conductivity[2]);
 	
-	private String name;
-	private double conductivity;
+	private final String name;
+	private final double conductivity;
 	
-	private HeatExchangerTubeType(String name, double conductivity) {
+	HeatExchangerTubeType(String name, double conductivity) {
 		this.name = name;
 		this.conductivity = conductivity;
 	}

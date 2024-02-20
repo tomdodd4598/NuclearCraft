@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 /** A general purpose class to track the state of all 6 faces of a block
- *
  * Example usages: - track which faces are exposed on the outside walls of a complex structure - track which faces is connected to a face of a similar block */
 public final class BlockFacing {
 	
@@ -77,10 +76,10 @@ public final class BlockFacing {
 		byte newHash = _value;
 		
 		if (value) {
-			newHash |= 1 << facing.getIndex();
+			newHash |= (byte) (1 << facing.getIndex());
 		}
 		else {
-			newHash &= ~(1 << facing.getIndex());
+			newHash &= (byte) ~(1 << facing.getIndex());
 		}
 		
 		return BlockFacing.from(newHash);
@@ -212,27 +211,27 @@ public final class BlockFacing {
 		byte hash = 0;
 		
 		if (down) {
-			hash |= 1 << EnumFacing.DOWN.getIndex();
+			hash |= (byte) (1 << EnumFacing.DOWN.getIndex());
 		}
 		
 		if (up) {
-			hash |= 1 << EnumFacing.UP.getIndex();
+			hash |= (byte) (1 << EnumFacing.UP.getIndex());
 		}
 		
 		if (north) {
-			hash |= 1 << EnumFacing.NORTH.getIndex();
+			hash |= (byte) (1 << EnumFacing.NORTH.getIndex());
 		}
 		
 		if (south) {
-			hash |= 1 << EnumFacing.SOUTH.getIndex();
+			hash |= (byte) (1 << EnumFacing.SOUTH.getIndex());
 		}
 		
 		if (west) {
-			hash |= 1 << EnumFacing.WEST.getIndex();
+			hash |= (byte) (1 << EnumFacing.WEST.getIndex());
 		}
 		
 		if (east) {
-			hash |= 1 << EnumFacing.EAST.getIndex();
+			hash |= (byte) (1 << EnumFacing.EAST.getIndex());
 		}
 		
 		return hash;
@@ -248,7 +247,7 @@ public final class BlockFacing {
 		
 		for (int i = 0; i < len; ++i) {
 			if (facings[i]) {
-				hash |= 1 << EnumFacing.VALUES[i].getIndex();
+				hash |= (byte) (1 << EnumFacing.VALUES[i].getIndex());
 			}
 		}
 		

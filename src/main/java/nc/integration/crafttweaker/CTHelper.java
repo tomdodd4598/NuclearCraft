@@ -39,15 +39,14 @@ public class CTHelper {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
 		}
-		else if (ingredient instanceof CTChanceItemIngredient) {
-			CTChanceItemIngredient chanceIngredient = (CTChanceItemIngredient) ingredient;
-			return new ChanceItemIngredient(buildAdditionItemIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getMinStackSize());
+		else if (ingredient instanceof CTChanceItemIngredient chanceIngredient) {
+            return new ChanceItemIngredient(buildAdditionItemIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getMinStackSize());
 		}
 		else if (ingredient instanceof IItemStack) {
 			return RecipeHelper.buildItemIngredient(getItemStack((IItemStack) ingredient));
 		}
 		else if (ingredient instanceof IOreDictEntry) {
-			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
+			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
 		}
 		else if (ingredient instanceof IngredientStack) {
 			return buildOreIngredientArray(ingredient, true);
@@ -65,9 +64,8 @@ public class CTHelper {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
 		}
-		else if (ingredient instanceof CTChanceFluidIngredient) {
-			CTChanceFluidIngredient chanceIngredient = (CTChanceFluidIngredient) ingredient;
-			return new ChanceFluidIngredient(buildAdditionFluidIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getStackDiff(), chanceIngredient.getMinStackSize());
+		else if (ingredient instanceof CTChanceFluidIngredient chanceIngredient) {
+            return new ChanceFluidIngredient(buildAdditionFluidIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getStackDiff(), chanceIngredient.getMinStackSize());
 		}
 		else if (ingredient instanceof ILiquidStack) {
 			return RecipeHelper.buildFluidIngredient(getFluidStack((ILiquidStack) ingredient));
@@ -89,7 +87,7 @@ public class CTHelper {
 			return RecipeHelper.buildItemIngredient(CTHelper.getItemStack((IItemStack) ingredient));
 		}
 		else if (ingredient instanceof IOreDictEntry) {
-			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
+			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
 		}
 		else if (ingredient instanceof IngredientStack) {
 			return buildOreIngredientArray(ingredient, false);
@@ -108,7 +106,7 @@ public class CTHelper {
 			return new EmptyFluidIngredient();
 		}
 		else if (ingredient instanceof ILiquidStack) {
-			return new FluidIngredient(((ILiquidStack) ingredient).getName(), ((ILiquidStack) ingredient).getAmount());
+			return new FluidIngredient(((ILiquidStack) ingredient).getName(), ingredient.getAmount());
 		}
 		else if (ingredient instanceof IngredientOr) {
 			return buildRemovalFluidIngredientArray((IngredientOr) ingredient);

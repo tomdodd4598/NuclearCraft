@@ -14,7 +14,6 @@ import nc.tile.IMultitoolLogic;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** Basic interface for a multiblock machine part. Preferably, you should derive from MultiblockTileEntityBase, which does all the hard work for you.
- *
  * {@link nc.tile.multiblock.TileMultiblockPart} */
 public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends IMultitoolLogic {
 	
@@ -40,7 +39,7 @@ public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T
 	 *            The multiblock that no longer controls this tile entity. */
 	void onDetached(MULTIBLOCK multiblock);
 	
-	/** Called when this block is being orphaned. Use this to copy game-data values that should persist despite a machine being broken. This should NOT mark the part as disconnected. onDetached will be called immediately afterwards.
+	/** Called when this block is being orphaned. Use this to copy game-data values that should persist despite a machine being broken. This should NOT mark the part as disconnected. onDetached will be called immediately afterward.
 	 * 
 	 * @see #onDetached(MULTIBLOCK)
 	 * @param oldMultiblock
@@ -89,18 +88,13 @@ public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T
 	/** Is this block the designated save/load & network delegate? */
 	boolean isMultiblockSaveDelegate();
 	
-	/** Returns an array containing references to neighboring IMultiblockPart tile entities. Primarily a utility method. Only works after tileentity construction, so it cannot be used in MultiblockBase::attachBlock.
-	 *
+	/** Returns an array containing references to neighboring IMultiblockPart tile entities. Primarily a utility method. Only works after tile entity construction, so it cannot be used in MultiblockBase::attachBlock.
 	 * This method is chunk-safe on the server; it will not query for parts in chunks that are unloaded. Note that no method is chunk-safe on the client, because ChunkProviderClient is stupid.
-	 * 
 	 * @return An array of references to neighboring IMultiblockPart tile entities. */
 	List<T> getNeighboringParts();
 	
 	// Multiblock business-logic callbacks - implement these!
-	/** Called when a machine is fully assembled from the disassembled state, meaning it was broken by a player/entity action, not by chunk unloads. Note that, for non-square machines, the min/max coordinates may not actually be part of the machine! They form an outer bounding box for the whole machine itself.
-	 * 
-	 * @param multiblockBase
-	 *            The multiblock to which this part is being assembled. */
+
 	void onMachineAssembled(MULTIBLOCK multiblockIn);
 	
 	/** Called when the machine is broken for game reasons, e.g. a player removed a block or an explosion occurred. */

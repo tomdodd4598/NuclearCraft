@@ -51,6 +51,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	public TurbineLogic(TurbineLogic oldLogic) {
 		super(oldLogic);
+		searchFlag = oldLogic.searchFlag;
 	}
 	
 	@Override
@@ -93,8 +94,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		setIsTurbineOn();
 		
 		if (!getWorld().isRemote) {
-			getTurbine().energyStorage.setStorageCapacity(Turbine.BASE_MAX_ENERGY * getTurbine().getExteriorSurfaceArea());
-			getTurbine().energyStorage.setMaxTransfer(Turbine.BASE_MAX_ENERGY * getTurbine().getExteriorSurfaceArea());
+			getTurbine().energyStorage.setStorageCapacity((long) Turbine.BASE_MAX_ENERGY * getTurbine().getExteriorSurfaceArea());
+			getTurbine().energyStorage.setMaxTransfer((long) Turbine.BASE_MAX_ENERGY * getTurbine().getExteriorSurfaceArea());
 			getTurbine().tanks.get(0).setCapacity(Turbine.BASE_MAX_INPUT * getTurbine().getExteriorSurfaceArea());
 			getTurbine().tanks.get(1).setCapacity(Turbine.BASE_MAX_OUTPUT * getTurbine().getExteriorSurfaceArea());
 		}
@@ -976,7 +977,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		if (getTurbine().isProcessing && getTurbine().isAssembled() && !Minecraft.getMinecraft().isGamePaused()) {
 			// Particles will just reach the outlets at this speed
 			double flowSpeed = getTurbine().getFlowLength() * getTurbine().particleSpeedMult;
-			double offsetX = particleSpeedOffest(), offsetY = particleSpeedOffest(), offsetZ = particleSpeedOffest();
+			double offsetX = particleSpeedOffset(), offsetY = particleSpeedOffset(), offsetZ = particleSpeedOffset();
 			
 			double speedX = getTurbine().flowDir == EnumFacing.WEST ? -flowSpeed : getTurbine().flowDir == EnumFacing.EAST ? flowSpeed : offsetX;
 			double speedY = getTurbine().flowDir == EnumFacing.DOWN ? -flowSpeed : getTurbine().flowDir == EnumFacing.UP ? flowSpeed : offsetY;
@@ -998,7 +999,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	@SideOnly(Side.CLIENT)
-	protected double particleSpeedOffest() {
+	protected double particleSpeedOffset() {
 		return (rand.nextDouble() - 0.5D) / (4D * Math.sqrt(getTurbine().getFlowLength()));
 	}
 	
@@ -1006,22 +1007,14 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	protected double[] particleSpawnPos(BlockPos pos) {
 		double offsetU = 0.5D + (rand.nextDouble() - 0.5D) / 2D;
 		double offsetV = 0.5D + (rand.nextDouble() - 0.5D) / 2D;
-		switch (getTurbine().flowDir) {
-			case DOWN:
-				return new double[] {pos.getX() + offsetV, pos.getY() + 1D, pos.getZ() + offsetU};
-			case UP:
-				return new double[] {pos.getX() + offsetV, pos.getY(), pos.getZ() + offsetU};
-			case NORTH:
-				return new double[] {pos.getX() + offsetU, pos.getY() + offsetV, pos.getZ() + 1D};
-			case SOUTH:
-				return new double[] {pos.getX() + offsetU, pos.getY() + offsetV, pos.getZ()};
-			case WEST:
-				return new double[] {pos.getX() + 1D, pos.getY() + offsetU, pos.getZ() + offsetV};
-			case EAST:
-				return new double[] {pos.getX(), pos.getY() + offsetU, pos.getZ() + offsetV};
-			default:
-				return new double[] {pos.getX(), pos.getY(), pos.getZ()};
-		}
+        return switch (getTurbine().flowDir) {
+            case DOWN -> new double[]{pos.getX() + offsetV, pos.getY() + 1D, pos.getZ() + offsetU};
+            case UP -> new double[]{pos.getX() + offsetV, pos.getY(), pos.getZ() + offsetU};
+            case NORTH -> new double[]{pos.getX() + offsetU, pos.getY() + offsetV, pos.getZ() + 1D};
+            case SOUTH -> new double[]{pos.getX() + offsetU, pos.getY() + offsetV, pos.getZ()};
+            case WEST -> new double[]{pos.getX() + 1D, pos.getY() + offsetU, pos.getZ() + offsetV};
+            case EAST -> new double[]{pos.getX(), pos.getY() + offsetU, pos.getZ() + offsetV};
+        };
 	}
 	
 	@SideOnly(Side.CLIENT)

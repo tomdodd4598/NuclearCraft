@@ -8,5 +8,5 @@ import nc.tile.multiblock.ILogicMultiblockController;
 
 public interface IFissionController<CONTROLLER extends IFissionController<CONTROLLER>> extends IFissionPart, ILogicMultiblockController<FissionReactor, IFissionPart, FissionUpdatePacket, CONTROLLER> {
 	
-	public void doMeltdown(Iterator<IFissionController<?>> controllerIterator);
+	void doMeltdown(Iterator<IFissionController<?>> controllerIterator);
 }

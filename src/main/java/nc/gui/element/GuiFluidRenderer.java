@@ -31,8 +31,8 @@ public class GuiFluidRenderer {
 		if (iconKey == null) {
 			return getMissingSprite();
 		}
-		final TextureAtlasSprite textureExtry = MC.getTextureMapBlocks().getTextureExtry(iconKey.toString());
-		return textureExtry != null ? textureExtry : getMissingSprite();
+		final TextureAtlasSprite textureEntry = MC.getTextureMapBlocks().getTextureExtry(iconKey.toString());
+		return textureEntry != null ? textureEntry : getMissingSprite();
 	}
 	
 	private static @Nonnull TextureAtlasSprite getMissingSprite() {
@@ -84,9 +84,10 @@ public class GuiFluidRenderer {
 				Tessellator tessellator = Tessellator.getInstance();
 				BufferBuilder buffer = tessellator.getBuffer();
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-				buffer.pos(drawX, drawY + drawHeight, 0).tex(minU, minV + (maxV - minV) * drawHeight / 16F).endVertex();
-				buffer.pos(drawX + drawWidth, drawY + drawHeight, 0).tex(minU + (maxU - minU) * drawWidth / 16F, minV + (maxV - minV) * drawHeight / 16F).endVertex();
-				buffer.pos(drawX + drawWidth, drawY, 0).tex(minU + (maxU - minU) * drawWidth / 16F, minV).endVertex();
+				double u = minU + (maxU - minU) * drawWidth / 16F, v = minV + (maxV - minV) * drawHeight / 16F;
+				buffer.pos(drawX, drawY + drawHeight, 0).tex(minU, v).endVertex();
+				buffer.pos(drawX + drawWidth, drawY + drawHeight, 0).tex(u, v).endVertex();
+				buffer.pos(drawX + drawWidth, drawY, 0).tex(u, minV).endVertex();
 				buffer.pos(drawX, drawY, 0).tex(minU, minV).endVertex();
 				tessellator.draw();
 			}

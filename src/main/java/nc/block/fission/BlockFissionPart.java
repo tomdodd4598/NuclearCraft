@@ -50,9 +50,8 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 	public static void onEntityCollisionWithFissionReactor(World world, BlockPos pos, Entity entity) {
 		if (fission_heat_damage && entity instanceof EntityLivingBase) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileFissionPart) {
-				TileFissionPart part = (TileFissionPart) tile;
-				FissionReactor reactor = part.getMultiblock();
+			if (tile instanceof TileFissionPart part) {
+                FissionReactor reactor = part.getMultiblock();
 				if (reactor != null) {
 					float damage;
 					if (part instanceof IFissionComponent && ((IFissionComponent) part).getCluster() != null) {

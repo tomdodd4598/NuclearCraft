@@ -9,19 +9,19 @@ import net.minecraftforge.common.capabilities.*;
 public interface IRadiationSource extends IRadiation, ICapability<IRadiationSource> {
 	
 	@CapabilityInject(IRadiationSource.class)
-	public static Capability<IRadiationSource> CAPABILITY_RADIATION_SOURCE = null;
+    Capability<IRadiationSource> CAPABILITY_RADIATION_SOURCE = null;
 	
-	public static final ResourceLocation CAPABILITY_RADIATION_SOURCE_NAME = new ResourceLocation(Global.MOD_ID, "capability_radiation_source");
+	ResourceLocation CAPABILITY_RADIATION_SOURCE_NAME = new ResourceLocation(Global.MOD_ID, "capability_radiation_source");
 	
-	public double getRadiationBuffer();
+	double getRadiationBuffer();
 	
-	public void setRadiationBuffer(double newBuffer);
+	void setRadiationBuffer(double newBuffer);
 	
-	public double getScrubbingFraction();
+	double getScrubbingFraction();
 	
-	public void setScrubbingFraction(double newFraction);
+	void setScrubbingFraction(double newFraction);
 	
-	public double getEffectiveScrubberCount();
+	double getEffectiveScrubberCount();
 	
-	public void setEffectiveScrubberCount(double newScrubberCount);
+	void setEffectiveScrubberCount(double newScrubberCount);
 }

@@ -40,9 +40,8 @@ public class ResetTankSorptionsPacket extends TileGuiPacket {
 		
 		@Override
 		protected void onPacket(ResetTankSorptionsPacket message, EntityPlayerMP player, TileEntity tile) {
-			if (tile instanceof ITileFluid) {
-				ITileFluid machine = (ITileFluid) tile;
-				for (EnumFacing side : EnumFacing.VALUES) {
+			if (tile instanceof ITileFluid machine) {
+                for (EnumFacing side : EnumFacing.VALUES) {
 					if (message.defaults) {
 						machine.setTankSorption(side, message.tank, machine.getFluidConnection(side).getDefaultTankSorption(message.tank));
 					}

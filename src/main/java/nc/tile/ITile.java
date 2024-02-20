@@ -18,64 +18,64 @@ import net.minecraft.world.World;
 
 public interface ITile {
 	
-	public TileEntity getTile();
+	TileEntity getTile();
 	
-	public World getTileWorld();
+	World getTileWorld();
 	
-	public BlockPos getTilePos();
+	BlockPos getTilePos();
 	
-	public Block getTileBlockType();
+	Block getTileBlockType();
 	
-	public int getTileBlockMeta();
+	int getTileBlockMeta();
 	
-	public default EnumFacing getFacingHorizontal() {
+	default EnumFacing getFacingHorizontal() {
 		return getTileBlockType().getStateFromMeta(getTileBlockMeta()).getValue(BlockProperties.FACING_HORIZONTAL);
 	}
 	
-	public default IBlockState getBlockState(BlockPos pos) {
+	default IBlockState getBlockState(BlockPos pos) {
 		return getTileWorld().getBlockState(pos);
 	}
 	
-	public default Block getBlock(BlockPos pos) {
+	default Block getBlock(BlockPos pos) {
 		return getBlockState(pos).getBlock();
 	}
 	
-	public IRadiationSource getRadiationSource();
+	IRadiationSource getRadiationSource();
 	
-	public default boolean shouldSaveRadiation() {
+	default boolean shouldSaveRadiation() {
 		return true;
 	}
 	
-	public default void setActivity(boolean isActive) {
+	default void setActivity(boolean isActive) {
 		setState(isActive, getTile());
 	}
 	
 	@Deprecated
-	public default void setState(boolean isActive, TileEntity tile) {
+    default void setState(boolean isActive, TileEntity tile) {
 		if (getTileBlockType() instanceof IActivatable) {
 			((IActivatable) getTileBlockType()).setActivity(isActive, tile);
 		}
 	}
 	
-	public default void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+	default void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		refreshIsRedstonePowered(world, pos);
 	}
 	
-	public default boolean isUsableByPlayer(EntityPlayer player) {
+	default boolean isUsableByPlayer(EntityPlayer player) {
 		return player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
 	}
 	
 	// Redstone
 	
-	public default boolean checkIsRedstonePowered(World world, BlockPos pos) {
+	default boolean checkIsRedstonePowered(World world, BlockPos pos) {
 		return world.isBlockPowered(pos) || isWeaklyPowered(world, pos);
 	}
 	
-	public default int[] weakSidesToCheck(World world, BlockPos pos) {
+	default int[] weakSidesToCheck(World world, BlockPos pos) {
 		return new int[] {};
 	}
 	
-	public default boolean isWeaklyPowered(World world, BlockPos pos) {
+	default boolean isWeaklyPowered(World world, BlockPos pos) {
 		for (int i : weakSidesToCheck(world, pos)) {
 			EnumFacing side = EnumFacing.byIndex(i);
 			BlockPos offPos = pos.offset(side);
@@ -84,7 +84,7 @@ public interface ITile {
 			}
 			else {
 				IBlockState state = world.getBlockState(offPos);
-				if (state.getBlock() == Blocks.REDSTONE_WIRE && state.getValue(BlockRedstoneWire.POWER).intValue() > 0) {
+				if (state.getBlock() == Blocks.REDSTONE_WIRE && state.getValue(BlockRedstoneWire.POWER) > 0) {
 					return true;
 				}
 			}
@@ -92,41 +92,41 @@ public interface ITile {
 		return false;
 	}
 	
-	public default void refreshIsRedstonePowered(World world, BlockPos pos) {
+	default void refreshIsRedstonePowered(World world, BlockPos pos) {
 		setIsRedstonePowered(checkIsRedstonePowered(world, pos));
 	}
 	
-	public boolean getIsRedstonePowered();
+	boolean getIsRedstonePowered();
 	
-	public void setIsRedstonePowered(boolean isRedstonePowered);
+	void setIsRedstonePowered(boolean isRedstonePowered);
 	
-	public boolean getAlternateComparator();
+	boolean getAlternateComparator();
 	
-	public void setAlternateComparator(boolean alternate);
+	void setAlternateComparator(boolean alternate);
 	
-	public boolean getRedstoneControl();
+	boolean getRedstoneControl();
 	
-	public void setRedstoneControl(boolean redstoneControl);
+	void setRedstoneControl(boolean redstoneControl);
 	
 	// State Updating
 	
-	public void markTileDirty();
+	void markTileDirty();
 	
-	public default void notifyBlockUpdate() {
+	default void notifyBlockUpdate() {
 		IBlockState state = getTileWorld().getBlockState(getTilePos());
 		getTileWorld().notifyBlockUpdate(getTilePos(), state, state, 3);
 	}
 	
-	public default void notifyNeighborsOfStateChange() {
+	default void notifyNeighborsOfStateChange() {
 		getTileWorld().notifyNeighborsOfStateChange(getTilePos(), getTileBlockType(), true);
 	}
 	
 	/** Call after markDirty if comparators might need to know about the changes made to the TE */
-	public default void updateComparatorOutputLevel() {
+	default void updateComparatorOutputLevel() {
 		getTileWorld().updateComparatorOutputLevel(getTilePos(), getTileBlockType());
 	}
 	
-	public default void markDirtyAndNotify(boolean notifyNeighbors) {
+	default void markDirtyAndNotify(boolean notifyNeighbors) {
 		markTileDirty();
 		notifyBlockUpdate();
 		if (notifyNeighbors) {
@@ -135,20 +135,20 @@ public interface ITile {
 	}
 	
 	@Deprecated
-	public default void markDirtyAndNotify() {
+    default void markDirtyAndNotify() {
 		markDirtyAndNotify(true);
 	}
 	
 	// Capabilities
 	
 	/** Use when the capability provider side argument must be non-null */
-	public default @Nonnull EnumFacing nonNullSide(@Nullable EnumFacing side) {
+	default @Nonnull EnumFacing nonNullSide(@Nullable EnumFacing side) {
 		return side == null ? EnumFacing.DOWN : side;
 	}
 	
 	// HWYLA
 	
-	public default @Nonnull List<String> addToHWYLATooltip(@Nonnull List<String> tooltip) {
+	default @Nonnull List<String> addToHWYLATooltip(@Nonnull List<String> tooltip) {
 		return tooltip;
 	}
 }

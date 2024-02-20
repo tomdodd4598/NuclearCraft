@@ -35,9 +35,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	public SolidFuelFissionLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
-		if (oldLogic instanceof SolidFuelFissionLogic) {
-			SolidFuelFissionLogic oldSolidFuelLogic = (SolidFuelFissionLogic) oldLogic;
-			heatingOutputRate = oldSolidFuelLogic.heatingOutputRate;
+		if (oldLogic instanceof SolidFuelFissionLogic oldSolidFuelLogic) {
+            heatingOutputRate = oldSolidFuelLogic.heatingOutputRate;
 			effectiveHeating = oldSolidFuelLogic.effectiveHeating;
 			reservedEffectiveHeat = oldSolidFuelLogic.reservedEffectiveHeat;
 			heatingRecipeRate = oldSolidFuelLogic.heatingRecipeRate;
@@ -195,7 +194,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		
 		double usedInput = Math.min(tanks.get(0).getFluidAmount(), getEffectiveHeat() / heatPerMB);
-		heatingRecipeRate = heatingOutputRateFP = NCMath.toInt(Math.min((tanks.get(1).getCapacity() - tanks.get(1).getFluidAmount()) / productSize, usedInput / inputSize));
+		heatingRecipeRate = heatingOutputRateFP = NCMath.toInt(Math.min((double) (tanks.get(1).getCapacity() - tanks.get(1).getFluidAmount()) / productSize, usedInput / inputSize));
 		reservedEffectiveHeat += (heatingRecipeRate - NCMath.toInt(heatingRecipeRate)) * inputSize * heatPerMB;
 		
 		int extraRecipeRate = NCMath.toInt(Math.min(Integer.MAX_VALUE - heatingRecipeRate, reservedEffectiveHeat / (heatPerMB * inputSize)));
@@ -325,9 +324,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	@Override
 	public void onMultiblockUpdatePacket(FissionUpdatePacket message) {
 		super.onMultiblockUpdatePacket(message);
-		if (message instanceof SolidFissionUpdatePacket) {
-			SolidFissionUpdatePacket packet = (SolidFissionUpdatePacket) message;
-			effectiveHeating = packet.effectiveHeating;
+		if (message instanceof SolidFissionUpdatePacket packet) {
+            effectiveHeating = packet.effectiveHeating;
 			heatingOutputRateFP = packet.heatingOutputRateFP;
 			reservedEffectiveHeat = packet.reservedEffectiveHeat;
 		}

@@ -80,7 +80,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 	}
 	
 	private boolean ignoreSide(EnumFacing side) {
-		return side == null ? false : ignoreSide[side.getIndex()];
+		return side != null && ignoreSide[side.getIndex()];
 	}
 	
 	@Override

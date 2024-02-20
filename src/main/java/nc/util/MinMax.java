@@ -29,7 +29,7 @@ public class MinMax<T> {
 	}
 	
 	public static <V extends Comparable<V>> MinMax<V> comparable() {
-		return new MinMax<>((x, y) -> x.compareTo(y));
+		return new MinMax<>(Comparable::compareTo);
 	}
 	
 	public static class MinMaxByte {

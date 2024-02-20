@@ -132,11 +132,9 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	public void setMetaHarvestLevels() {
-		Iterator<T> iter = Arrays.asList(values).iterator();
-		while (iter.hasNext()) {
-			T next = iter.next();
-			setHarvestLevel(next.getHarvestTool(), next.getHarvestLevel(), getStateFromMeta(next.getID()));
-		}
+        for (T next : values) {
+            setHarvestLevel(next.getHarvestTool(), next.getHarvestLevel(), getStateFromMeta(next.getID()));
+        }
 	}
 	
 	@Override

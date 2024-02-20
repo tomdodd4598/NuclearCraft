@@ -20,13 +20,13 @@ import net.minecraft.world.World;
 
 public interface IFissionComponent extends IFissionPart {
 	
-	public @Nullable FissionCluster getCluster();
+	@Nullable FissionCluster getCluster();
 	
-	public default FissionCluster newCluster(int id) {
+	default FissionCluster newCluster(int id) {
 		return new FissionCluster(getMultiblock(), id);
 	}
 	
-	public default void setCluster(@Nullable FissionCluster cluster) {
+	default void setCluster(@Nullable FissionCluster cluster) {
 		if (cluster == null && getCluster() != null) {
 			// getCluster().getComponentMap().remove(pos.toLong());
 		}
@@ -36,22 +36,22 @@ public interface IFissionComponent extends IFissionPart {
 		setClusterInternal(cluster);
 	}
 	
-	public void setClusterInternal(@Nullable FissionCluster cluster);
+	void setClusterInternal(@Nullable FissionCluster cluster);
 	
-	public default boolean isClusterSearched() {
+	default boolean isClusterSearched() {
 		return getCluster() != null;
 	}
 	
 	/** Unlike {@link IFissionComponent#isFunctional}, includes checking logic during clusterSearch if necessary! */
-	public boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache);
+    boolean isValidHeatConductor(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache);
 	
-	public boolean isFunctional();
+	boolean isFunctional();
 	
-	public void resetStats();
+	void resetStats();
 	
-	public boolean isClusterRoot();
+	boolean isClusterRoot();
 	
-	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (!isValidHeatConductor(componentFailCache, assumedValidCache)) {
 			return;
 		}
@@ -89,35 +89,35 @@ public interface IFissionComponent extends IFissionPart {
 		}
 	}
 	
-	public long getHeatStored();
+	long getHeatStored();
 	
-	public void setHeatStored(long heat);
+	void setHeatStored(long heat);
 	
-	public void onClusterMeltdown(Iterator<IFissionComponent> componentIterator);
+	void onClusterMeltdown(Iterator<IFissionComponent> componentIterator);
 	
-	public boolean isNullifyingSources(EnumFacing side);
+	boolean isNullifyingSources(EnumFacing side);
 	
 	// Moderator Line
 	
-	public default ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPos) {
+	default ModeratorBlockInfo getModeratorBlockInfo(EnumFacing dir, boolean validActiveModeratorPos) {
 		return null;
 	}
 	
 	/** The moderator line does not necessarily have to be complete! */
-	public default void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
+	default void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
 	
 	/** Called if and only if the moderator line from the fuel component searching in the dir direction is complete! */
-	public default void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {}
+	default void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {}
 	
 	/** Called during cluster searches! */
-	public default boolean isActiveModerator() {
+	default boolean isActiveModerator() {
 		return false;
 	}
 	
 	// IMultitoolLogic
 	
 	@Override
-	public default boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    default boolean onUseMultitool(ItemStack multitool, EntityPlayer player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player.isSneaking()) {
 			NBTTagCompound nbt = NBTHelper.getStackNBT(multitool);
 			if (nbt != null) {

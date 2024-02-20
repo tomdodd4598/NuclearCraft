@@ -38,9 +38,8 @@ public class ToggleVoidUnusableFluidInputPacket extends TileGuiPacket {
 		
 		@Override
 		protected void onPacket(ToggleVoidUnusableFluidInputPacket message, EntityPlayerMP player, TileEntity tile) {
-			if (tile instanceof ITileFluid) {
-				ITileFluid machine = (ITileFluid) tile;
-				machine.setVoidUnusableFluidInput(message.tankNumber, message.voidUnusableFluidInput);
+			if (tile instanceof ITileFluid machine) {
+                machine.setVoidUnusableFluidInput(message.tankNumber, message.voidUnusableFluidInput);
 				tile.markDirty();
 			}
 		}

@@ -24,8 +24,7 @@ public class CollectionHelper {
 	
 	@SafeVarargs
 	public static <T> List<T> intersect(List<T> first, List<T>... rest) {
-		List<T> tList = new ArrayList<>();
-		tList.addAll(first);
+        List<T> tList = new ArrayList<>(first);
 		for (List<T> list : rest) {
 			tList = intersect(tList, list);
 		}
@@ -68,8 +67,7 @@ public class CollectionHelper {
 	
 	@SafeVarargs
 	public static <T> List<T> concatenate(List<T> first, List<T>... rest) {
-		List<T> result = new ArrayList<>();
-		result.addAll(first);
+        List<T> result = new ArrayList<>(first);
 		for (List<T> list : rest) {
 			result.addAll(list);
 		}

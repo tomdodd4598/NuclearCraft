@@ -38,7 +38,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 	// TODO move this logic into tile entities with ITile method
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null || hand != EnumHand.MAIN_HAND) {
+		if (hand != EnumHand.MAIN_HAND) {
 			return false;
 		}
 		
@@ -64,12 +64,11 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			return false;
 		}
 		
-		if (tile instanceof ITileFluid) {
+		if (tile instanceof ITileFluid tileFluid) {
 			if (world.isRemote) {
 				return true;
 			}
-			ITileFluid tileFluid = (ITileFluid) tile;
-			boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
+            boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 			if (accessedTanks) {
 				if (tile instanceof IProcessor) {
 					((IProcessor<?, ?, ?>) tile).refreshRecipe();
@@ -153,6 +152,6 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 	public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
 		super.eventReceived(state, worldIn, pos, id, param);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
-		return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
+		return tileentity != null && tileentity.receiveClientEvent(id, param);
 	}
 }

@@ -97,7 +97,7 @@ public class ModelFeralGhoul extends ModelBiped {
 		
 		if (isRiding) {
 			bipedRightArm.rotateAngleX += -0.3490658503988659F - (float) Math.PI / 5F;
-			bipedLeftArm.rotateAngleX += -((float) Math.PI / 5F);
+            bipedLeftArm.rotateAngleX -= ((float) Math.PI / 5F);
 			bipedRightLeg.rotateAngleX = -1.4137167F;
 			bipedRightLeg.rotateAngleY = (float) Math.PI / 10F;
 			bipedRightLeg.rotateAngleZ = 0.07853982F;
@@ -157,7 +157,6 @@ public class ModelFeralGhoul extends ModelBiped {
 			bipedLeftArm.rotationPointX = MathHelper.cos(bipedBody.rotateAngleY) * 5F;
 			bipedRightArm.rotateAngleY += bipedBody.rotateAngleY;
 			bipedLeftArm.rotateAngleY += bipedBody.rotateAngleY;
-			bipedLeftArm.rotateAngleX += bipedBody.rotateAngleY;
 			f1 = 1F - swingProgress;
 			f1 = f1 * f1;
 			f1 = f1 * f1;

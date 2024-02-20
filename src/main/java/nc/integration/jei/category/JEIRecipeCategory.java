@@ -71,9 +71,8 @@ public abstract class JEIRecipeCategory<WRAPPER extends JEIRecipeWrapper, CATEGO
 			int outputIndex = slotIndex - recipeHandler.getItemInputSize();
 			if (outputIndex >= 0 && outputIndex <= recipeHandler.getItemOutputSize()) {
 				IItemIngredient product = itemProducts.get(outputIndex);
-				if (product instanceof IChanceItemIngredient) {
-					IChanceItemIngredient chanceProduct = (IChanceItemIngredient) product;
-					tooltip.add(TextFormatting.WHITE + Lang.localize("jei.nuclearcraft.chance_output", chanceProduct.getMinStackSize(), chanceProduct.getMaxStackSize(0), NCMath.decimalPlaces(chanceProduct.getMeanStackSize(), 2)));
+				if (product instanceof IChanceItemIngredient chanceProduct) {
+                    tooltip.add(TextFormatting.WHITE + Lang.localize("jei.nuclearcraft.chance_output", chanceProduct.getMinStackSize(), chanceProduct.getMaxStackSize(0), NCMath.decimalPlaces(chanceProduct.getMeanStackSize(), 2)));
 				}
 			}
 		});
@@ -82,9 +81,8 @@ public abstract class JEIRecipeCategory<WRAPPER extends JEIRecipeWrapper, CATEGO
 			int outputIndex = slotIndex - recipeHandler.getFluidInputSize();
 			if (outputIndex >= 0 && outputIndex <= recipeHandler.getFluidOutputSize()) {
 				IFluidIngredient product = fluidProducts.get(outputIndex);
-				if (product instanceof IChanceFluidIngredient) {
-					IChanceFluidIngredient chanceProduct = (IChanceFluidIngredient) product;
-					tooltip.add(TextFormatting.WHITE + Lang.localize("jei.nuclearcraft.chance_output", chanceProduct.getMinStackSize(), chanceProduct.getMaxStackSize(0), NCMath.decimalPlaces(chanceProduct.getMeanStackSize(), 2)));
+				if (product instanceof IChanceFluidIngredient chanceProduct) {
+                    tooltip.add(TextFormatting.WHITE + Lang.localize("jei.nuclearcraft.chance_output", chanceProduct.getMinStackSize(), chanceProduct.getMaxStackSize(0), NCMath.decimalPlaces(chanceProduct.getMeanStackSize(), 2)));
 				}
 			}
 		});

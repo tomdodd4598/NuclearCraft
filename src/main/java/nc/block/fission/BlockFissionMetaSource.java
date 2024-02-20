@@ -27,7 +27,7 @@ public class BlockFissionMetaSource extends BlockFissionMetaPart<MetaEnums.Neutr
 	
 	public BlockFissionMetaSource() {
 		super(MetaEnums.NeutronSourceType.class, TYPE);
-		setDefaultState(getDefaultState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(getDefaultState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -38,9 +38,8 @@ public class BlockFissionMetaSource extends BlockFissionMetaPart<MetaEnums.Neutr
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) tile;
-			EnumFacing facing = source.getPartPosition().getFacing();
+		if (tile instanceof TileFissionSource source) {
+            EnumFacing facing = source.getPartPosition().getFacing();
 			return state.withProperty(FACING_ALL, facing != null ? facing : source.facing).withProperty(ACTIVE, source.getIsRedstonePowered());
 		}
 		return state;
@@ -48,18 +47,13 @@ public class BlockFissionMetaSource extends BlockFissionMetaPart<MetaEnums.Neutr
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileFissionSource.RadiumBeryllium();
-			case 1:
-				return new TileFissionSource.PoloniumBeryllium();
-			case 2:
-				return new TileFissionSource.Californium();
-			default:
-				break;
-		}
-		return new TileFissionSource.RadiumBeryllium();
-	}
+        return switch (metadata) {
+            case 0 -> new TileFissionSource.RadiumBeryllium();
+            case 1 -> new TileFissionSource.PoloniumBeryllium();
+            case 2 -> new TileFissionSource.Californium();
+            default -> new TileFissionSource.RadiumBeryllium();
+        };
+    }
 	
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
@@ -69,29 +63,27 @@ public class BlockFissionMetaSource extends BlockFissionMetaPart<MetaEnums.Neutr
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getStateFromMeta(meta).withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getStateFromMeta(meta).withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.FALSE);
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) tile;
-			source.facing = state.getValue(FACING_ALL);
+		if (tile instanceof TileFissionSource source) {
+            source.facing = state.getValue(FACING_ALL);
 			world.setBlockState(pos, state.withProperty(FACING_ALL, source.facing).withProperty(ACTIVE, source.getIsRedstonePowered()), 2);
 		}
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileFissionSource) {
-			TileFissionSource source = (TileFissionSource) tile;
-			if (!world.isRemote) {
+		if (tile instanceof TileFissionSource source) {
+            if (!world.isRemote) {
 				PrimingTargetInfo targetInfo = source.getPrimingTarget(true);
 				if (targetInfo == null) {
 					player.sendMessage(new TextComponentString(Lang.localize("nuclearcraft.multiblock.fission_reactor_source.no_target")));

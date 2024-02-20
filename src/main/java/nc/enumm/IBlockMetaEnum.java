@@ -2,13 +2,13 @@ package nc.enumm;
 
 public interface IBlockMetaEnum extends IMetaEnum {
 	
-	public int getHarvestLevel();
+	int getHarvestLevel();
 	
-	public String getHarvestTool();
+	String getHarvestTool();
 	
-	public float getHardness();
+	float getHardness();
 	
-	public float getResistance();
+	float getResistance();
 	
-	public int getLightValue();
+	int getLightValue();
 }

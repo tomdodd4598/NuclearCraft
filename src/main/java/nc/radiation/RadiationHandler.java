@@ -62,9 +62,8 @@ public class RadiationHandler {
 			return;
 		}
 		
-		if (event.side == Side.SERVER && event.player instanceof EntityPlayerMP) {
-			EntityPlayerMP player = (EntityPlayerMP) event.player;
-			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
+		if (event.side == Side.SERVER && event.player instanceof EntityPlayerMP player) {
+            IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) {
 				return;
 			}
@@ -229,19 +228,18 @@ public class RadiationHandler {
 			return;
 		}
 		
-		if (event.phase != TickEvent.Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) {
+		if (event.phase != TickEvent.Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer world)) {
 			return;
 		}
-		
-		WorldServer world = (WorldServer) event.world;
-		ChunkProviderServer chunkProvider = world.getChunkProvider();
+
+        ChunkProviderServer chunkProvider = world.getChunkProvider();
 		Collection<Chunk> loadedChunks = chunkProvider.getLoadedChunks();
 		int chunkArrSize = loadedChunks.size();
 		Chunk[] chunkArray = null;
 		try {
 			chunkArray = loadedChunks.toArray(new Chunk[chunkArrSize]);
 		}
-		catch (Exception e) {}
+		catch (Exception ignored) {}
 		
 		if (chunkArray == null) {
 			return;
@@ -269,67 +267,59 @@ public class RadiationHandler {
 				}
 				
 				ClassInheritanceMultiMap<Entity>[] entityListArray = chunk.getEntityLists();
-				for (int j = 0; j < entityListArray.length; ++j) {
-					Entity[] entityArray = entityListArray[j].toArray(new Entity[entityListArray[j].size()]);
-					for (Entity entity : entityArray) {
-						if (entity instanceof EntityPlayer) {
-							RadiationHelper.transferRadsFromInventoryToChunkBuffer(((EntityPlayer) entity).inventory, chunkSource);
-						}
-						else if (radiation_dropped_items && entity instanceof EntityItem) {
-							RadiationHelper.transferRadiationFromStackToChunkBuffer(((EntityItem) entity).getItem(), chunkSource, 1D);
-						}
-						else if (entity instanceof EntityLiving) {
-							EntityLiving entityLiving = (EntityLiving) entity;
-							IEntityRads entityRads = RadiationHelper.getEntityRadiation(entityLiving);
-							if (entityRads == null) {
-								continue;
-							}
-							
-							entityRads.setExternalRadiationResistance(RadiationHelper.getEntityArmorRadResistance(entityLiving));
-							
-							if (radiation_entity_decay_rate > 0D) {
-								entityRads.setTotalRads(entityRads.getTotalRads() * Math.pow(1D - radiation_entity_decay_rate, tickMult), false);
-							}
-							
-							RadiationHelper.transferRadsFromSourceToEntity(chunkSource, entityRads, entityLiving, tickMult);
-							
-							if (entityRads.getPoisonBuffer() > 0D) {
-								double poisonRads = Math.min(entityRads.getPoisonBuffer(), entityRads.getRecentPoisonAddition() * tickMult / radiation_poison_time);
-								entityRads.setTotalRads(entityRads.getTotalRads() + poisonRads, false);
-								entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() - poisonRads);
-								if (entityRads.getPoisonBuffer() == 0D) {
-									entityRads.resetRecentPoisonAddition();
-								}
-							}
-							else {
-								entityRads.resetRecentPoisonAddition();
-							}
-							
-							if (entityLiving instanceof IMob) {
-								if (radiation_mob_rads_fatal && entityRads.isFatal()) {
-									entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
-								}
-								else {
-									RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.MOB_RAD_LEVEL_LIST, RadPotionEffects.MOB_EFFECTS_LIST);
-								}
-							}
-							else {
-								if (entityRads.isFatal()) {
-									if (register_entity[0] && entityLiving instanceof INpc) {
-										spawnFeralGhoul(world, entityLiving);
-									}
-									else if (radiation_passive_rads_fatal) {
-										entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
-									}
-								}
-								else {
-									RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.ENTITY_RAD_LEVEL_LIST, RadPotionEffects.ENTITY_DEBUFF_LIST);
-								}
-							}
-							entityRads.setRadiationLevel(entityRads.getRadiationLevel() * Math.pow(1D - radiation_decay_rate, tickMult));
-						}
-					}
-				}
+                for (ClassInheritanceMultiMap<Entity> entities : entityListArray) {
+                    Entity[] entityArray = entities.toArray(new Entity[0]);
+                    for (Entity entity : entityArray) {
+                        if (entity instanceof EntityPlayer) {
+                            RadiationHelper.transferRadsFromInventoryToChunkBuffer(((EntityPlayer) entity).inventory, chunkSource);
+                        } else if (radiation_dropped_items && entity instanceof EntityItem) {
+                            RadiationHelper.transferRadiationFromStackToChunkBuffer(((EntityItem) entity).getItem(), chunkSource, 1D);
+                        } else if (entity instanceof EntityLiving entityLiving) {
+                            IEntityRads entityRads = RadiationHelper.getEntityRadiation(entityLiving);
+                            if (entityRads == null) {
+                                continue;
+                            }
+
+                            entityRads.setExternalRadiationResistance(RadiationHelper.getEntityArmorRadResistance(entityLiving));
+
+                            if (radiation_entity_decay_rate > 0D) {
+                                entityRads.setTotalRads(entityRads.getTotalRads() * Math.pow(1D - radiation_entity_decay_rate, tickMult), false);
+                            }
+
+                            RadiationHelper.transferRadsFromSourceToEntity(chunkSource, entityRads, entityLiving, tickMult);
+
+                            if (entityRads.getPoisonBuffer() > 0D) {
+                                double poisonRads = Math.min(entityRads.getPoisonBuffer(), entityRads.getRecentPoisonAddition() * tickMult / radiation_poison_time);
+                                entityRads.setTotalRads(entityRads.getTotalRads() + poisonRads, false);
+                                entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() - poisonRads);
+                                if (entityRads.getPoisonBuffer() == 0D) {
+                                    entityRads.resetRecentPoisonAddition();
+                                }
+                            } else {
+                                entityRads.resetRecentPoisonAddition();
+                            }
+
+                            if (entityLiving instanceof IMob) {
+                                if (radiation_mob_rads_fatal && entityRads.isFatal()) {
+                                    entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+                                } else {
+                                    RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.MOB_RAD_LEVEL_LIST, RadPotionEffects.MOB_EFFECTS_LIST);
+                                }
+                            } else {
+                                if (entityRads.isFatal()) {
+                                    if (register_entity[0] && entityLiving instanceof INpc) {
+                                        spawnFeralGhoul(world, entityLiving);
+                                    } else if (radiation_passive_rads_fatal) {
+                                        entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+                                    }
+                                } else {
+                                    RadiationHelper.applyPotionEffects(entityLiving, entityRads, tickMult, RadPotionEffects.ENTITY_RAD_LEVEL_LIST, RadPotionEffects.ENTITY_DEBUFF_LIST);
+                                }
+                            }
+                            entityRads.setRadiationLevel(entityRads.getRadiationLevel() * Math.pow(1D - radiation_decay_rate, tickMult));
+                        }
+                    }
+                }
 				
 				chunkSource.setScrubbingFraction(0D);
 				chunkSource.setEffectiveScrubberCount(0D);
@@ -337,9 +327,9 @@ public class RadiationHandler {
 				Collection<TileEntity> tileCollection = chunk.getTileEntityMap().values();
 				TileEntity[] tileArray = null;
 				try {
-					tileArray = tileCollection.toArray(new TileEntity[tileCollection.size()]);
+					tileArray = tileCollection.toArray(new TileEntity[0]);
 				}
-				catch (Exception e) {}
+				catch (Exception ignored) {}
 				
 				if (tileArray != null) {
 					for (TileEntity tile : tileArray) {
@@ -525,7 +515,7 @@ public class RadiationHandler {
 	private static void spawnFeralGhoul(World world, EntityLiving entityLiving) {
 		EntityFeralGhoul feralGhoul = new EntityFeralGhoul(world);
 		feralGhoul.setLocationAndAngles(entityLiving.posX, entityLiving.posY, entityLiving.posZ, entityLiving.rotationYaw, entityLiving.rotationPitch);
-		feralGhoul.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(feralGhoul)), (IEntityLivingData) null);
+		feralGhoul.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(feralGhoul)), null);
 		feralGhoul.setNoAI(entityLiving.isAIDisabled());
 		if (entityLiving.hasCustomName()) {
 			feralGhoul.setCustomNameTag(entityLiving.getCustomNameTag());

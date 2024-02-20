@@ -53,8 +53,8 @@ public class RadPotionEffects {
 				effects = effects.substring(puncPos + 1);
 				puncPos = effects.indexOf(',');
 				
-				Integer strength = Integer.parseInt(puncPos == -1 ? effects : effects.substring(0, puncPos));
-				effects = effects.substring(puncPos == -1 ? strength.toString().length() : strength.toString().length() + 1);
+				int strength = Integer.parseInt(puncPos == -1 ? effects : effects.substring(0, puncPos));
+				effects = effects.substring(puncPos == -1 ? Integer.toString(strength).length() : Integer.toString(strength).length() + 1);
 				
 				int modifiedTime = getModifiedTime(potionName, effectTime, strength - 1);
 				
@@ -71,8 +71,8 @@ public class RadPotionEffects {
 			}
 		}
 		
-		Double[] healthArray = radLevelListUnordered.toArray(new Double[radLevelListUnordered.size()]);
-		int[] orderedIndices = IntStream.range(0, healthArray.length).boxed().sorted((i, j) -> healthArray[i].compareTo(healthArray[j])).mapToInt(e -> e).toArray();
+		Double[] healthArray = radLevelListUnordered.toArray(new Double[0]);
+		int[] orderedIndices = IntStream.range(0, healthArray.length).boxed().sorted(Comparator.comparing(i -> healthArray[i])).mapToInt(e -> e).toArray();
 		
 		for (int index : orderedIndices) {
 			radLevelList.add(radLevelListUnordered.get(index));
@@ -85,20 +85,12 @@ public class RadPotionEffects {
 	}
 	
 	private static int getModifiedTime(String potionName, int effectTime, int amplifier) {
-		if (potionName.equals("regeneration") || potionName.equals("minecraft:regeneration")) {
-			return Math.max(effectTime, 50 >> amplifier);
-		}
-		else if (potionName.equals("wither") || potionName.equals("minecraft:wither")) {
-			return Math.max(effectTime, 40 >> amplifier);
-		}
-		else if (potionName.equals("poison") || potionName.equals("minecraft:poison")) {
-			return Math.max(effectTime, 25 >> amplifier);
-		}
-		else if (potionName.equals("blindness") || potionName.equals("minecraft:blindness")) {
-			return effectTime + 25;
-		}
-		else {
-			return effectTime;
-		}
+        return switch (potionName) {
+            case "regeneration", "minecraft:regeneration" -> Math.max(effectTime, 50 >> amplifier);
+            case "wither", "minecraft:wither" -> Math.max(effectTime, 40 >> amplifier);
+            case "poison", "minecraft:poison" -> Math.max(effectTime, 25 >> amplifier);
+            case "blindness", "minecraft:blindness" -> effectTime + 25;
+            default -> effectTime;
+        };
 	}
 }

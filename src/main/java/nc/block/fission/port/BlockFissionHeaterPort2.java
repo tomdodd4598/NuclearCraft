@@ -35,51 +35,30 @@ public class BlockFissionHeaterPort2 extends BlockFissionFluidMetaPort<TileFissi
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileFissionHeaterPort.Tin();
-			case 1:
-				return new TileFissionHeaterPort.Lead();
-			case 2:
-				return new TileFissionHeaterPort.Boron();
-			case 3:
-				return new TileFissionHeaterPort.Lithium();
-			case 4:
-				return new TileFissionHeaterPort.Magnesium();
-			case 5:
-				return new TileFissionHeaterPort.Manganese();
-			case 6:
-				return new TileFissionHeaterPort.Aluminum();
-			case 7:
-				return new TileFissionHeaterPort.Silver();
-			case 8:
-				return new TileFissionHeaterPort.Fluorite();
-			case 9:
-				return new TileFissionHeaterPort.Villiaumite();
-			case 10:
-				return new TileFissionHeaterPort.Carobbiite();
-			case 11:
-				return new TileFissionHeaterPort.Arsenic();
-			case 12:
-				return new TileFissionHeaterPort.LiquidNitrogen();
-			case 13:
-				return new TileFissionHeaterPort.LiquidHelium();
-			case 14:
-				return new TileFissionHeaterPort.Enderium();
-			case 15:
-				return new TileFissionHeaterPort.Cryotheum();
-			default:
-				break;
-		}
-		return new TileFissionHeaterPort.Tin();
-	}
+        return switch (metadata) {
+            case 0 -> new TileFissionHeaterPort.Tin();
+            case 1 -> new TileFissionHeaterPort.Lead();
+            case 2 -> new TileFissionHeaterPort.Boron();
+            case 3 -> new TileFissionHeaterPort.Lithium();
+            case 4 -> new TileFissionHeaterPort.Magnesium();
+            case 5 -> new TileFissionHeaterPort.Manganese();
+            case 6 -> new TileFissionHeaterPort.Aluminum();
+            case 7 -> new TileFissionHeaterPort.Silver();
+            case 8 -> new TileFissionHeaterPort.Fluorite();
+            case 9 -> new TileFissionHeaterPort.Villiaumite();
+            case 10 -> new TileFissionHeaterPort.Carobbiite();
+            case 11 -> new TileFissionHeaterPort.Arsenic();
+            case 12 -> new TileFissionHeaterPort.LiquidNitrogen();
+            case 13 -> new TileFissionHeaterPort.LiquidHelium();
+            case 14 -> new TileFissionHeaterPort.Enderium();
+            case 15 -> new TileFissionHeaterPort.Cryotheum();
+            default -> new TileFissionHeaterPort.Tin();
+        };
+    }
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		

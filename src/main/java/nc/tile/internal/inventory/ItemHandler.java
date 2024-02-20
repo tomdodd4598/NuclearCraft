@@ -72,13 +72,12 @@ public class ItemHandler<T extends ITileInventory> implements IItemHandlerModifi
 					ItemStack copy = stack.splitStack(m);
 					copy.grow(stackInSlot.getCount());
 					setInventorySlotContents(slot1, copy);
-					return stack;
-				}
+                }
 				else {
 					stack.shrink(m);
-					return stack;
-				}
-			}
+                }
+                return stack;
+            }
 		}
 		else {
 			if (side != null && !tile.canInsertItem(slot1, stack, side) || !tile.isItemValidForSlot(slot1, stack)) {
@@ -92,13 +91,12 @@ public class ItemHandler<T extends ITileInventory> implements IItemHandlerModifi
 				stack = stack.copy();
 				if (!simulate) {
 					setInventorySlotContents(slot1, stack.splitStack(m));
-					return stack;
-				}
+                }
 				else {
 					stack.shrink(m);
-					return stack;
-				}
-			}
+                }
+                return stack;
+            }
 			else {
 				if (!simulate) {
 					setInventorySlotContents(slot1, stack);
@@ -184,9 +182,8 @@ public class ItemHandler<T extends ITileInventory> implements IItemHandlerModifi
 		if (obj == this) {
 			return true;
 		}
-		if (obj instanceof ItemHandler) {
-			ItemHandler<?> handler = (ItemHandler<?>) obj;
-			return tile.equals(handler.tile) && side == handler.side;
+		if (obj instanceof ItemHandler<?> handler) {
+            return tile.equals(handler.tile) && side == handler.side;
 		}
 		return false;
 	}

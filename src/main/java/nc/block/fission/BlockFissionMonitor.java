@@ -20,7 +20,7 @@ public class BlockFissionMonitor extends BlockFissionPart implements IActivatabl
 	
 	public BlockFissionMonitor() {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 	}
 	
 	@Override
@@ -31,13 +31,13 @@ public class BlockFissionMonitor extends BlockFissionPart implements IActivatabl
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
-		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, (meta & 8) > 0);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		int i = state.getValue(FACING_ALL).getIndex();
-		if (state.getValue(ACTIVE).booleanValue()) {
+		if (state.getValue(ACTIVE)) {
 			i |= 8;
 		}
 		return i;
@@ -50,7 +50,7 @@ public class BlockFissionMonitor extends BlockFissionPart implements IActivatabl
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.FALSE);
 	}
 	
 	@Override
@@ -61,18 +61,14 @@ public class BlockFissionMonitor extends BlockFissionPart implements IActivatabl
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		
 		if (!world.isRemote && !ItemMultitool.isMultitool(player.getHeldItem(hand))) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileFissionMonitor) {
-				TileFissionMonitor monitor = (TileFissionMonitor) tile;
-				FissionReactor reactor = monitor.getMultiblock();
+			if (tile instanceof TileFissionMonitor monitor) {
+                FissionReactor reactor = monitor.getMultiblock();
 				if (reactor != null) {
 					IFissionComponent component = reactor.getPartMap(IFissionComponent.class).get(monitor.getComponentPos().toLong());
 					if (component != null) {

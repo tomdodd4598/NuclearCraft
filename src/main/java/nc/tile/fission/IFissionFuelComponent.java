@@ -11,54 +11,54 @@ import net.minecraft.util.math.BlockPos;
 
 public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeatingComponent {
 	
-	public void tryPriming(FissionReactor sourceReactor, boolean fromSource);
+	void tryPriming(FissionReactor sourceReactor, boolean fromSource);
 	
-	public boolean isPrimed();
+	boolean isPrimed();
 	
-	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache);
+	void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache);
 	
-	public void unprime();
+	void unprime();
 	
 	@Override
-	public default boolean isNullifyingSources(EnumFacing side) {
+    default boolean isNullifyingSources(EnumFacing side) {
 		return false;
 	}
 	
-	public default boolean isProducingFlux() {
+	default boolean isProducingFlux() {
 		return isPrimed() || isFunctional();
 	}
 	
-	public boolean isFluxSearched();
+	boolean isFluxSearched();
 	
-	public void setFluxSearched(boolean fluxSearched);
+	void setFluxSearched(boolean fluxSearched);
 	
-	public void incrementHeatMultiplier();
+	void incrementHeatMultiplier();
 	
-	public double getSourceEfficiency();
+	double getSourceEfficiency();
 	
-	public void setSourceEfficiency(double sourceEfficiency, boolean maximize);
+	void setSourceEfficiency(double sourceEfficiency, boolean maximize);
 	
-	public long[] getModeratorLineFluxes();
+	long[] getModeratorLineFluxes();
 	
-	public Double[] getModeratorLineEfficiencies();
+	Double[] getModeratorLineEfficiencies();
 	
-	public IFissionFluxSink[] getAdjacentFluxSinks();
+	IFissionFluxSink[] getAdjacentFluxSinks();
 	
-	public LongSet[] getPassiveModeratorCaches();
+	LongSet[] getPassiveModeratorCaches();
 	
-	public LongSet[] getActiveModeratorCaches();
+	LongSet[] getActiveModeratorCaches();
 	
-	public ModeratorLine[] getModeratorLineCaches();
+	ModeratorLine[] getModeratorLineCaches();
 	
-	public LongSet[] getPassiveReflectorModeratorCaches();
+	LongSet[] getPassiveReflectorModeratorCaches();
 	
-	public LongSet[] getActiveReflectorModeratorCaches();
+	LongSet[] getActiveReflectorModeratorCaches();
 	
-	public LongSet getActiveReflectorCache();
+	LongSet getActiveReflectorCache();
 	
-	public long getHeatMultiplier();
+	long getHeatMultiplier();
 	
-	public default double getModeratorEfficiencyFactor() {
+	default double getModeratorEfficiencyFactor() {
 		byte count = 0;
 		double efficiency = 0D;
 		for (EnumFacing dir : EnumFacing.VALUES) {
@@ -71,31 +71,31 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		return count == 0 ? 0D : efficiency / count;
 	}
 	
-	public double getFluxEfficiencyFactor();
+	double getFluxEfficiencyFactor();
 	
 	@Override
-	public default double moderatorLineEfficiencyFactor() {
+    default double moderatorLineEfficiencyFactor() {
 		return 1D;
 	}
 	
 	@Override
-	public default boolean canSupportActiveModerator(boolean activeModeratorPos) {
+    default boolean canSupportActiveModerator(boolean activeModeratorPos) {
 		return activeModeratorPos;
 	}
 	
-	public double getEfficiency();
+	double getEfficiency();
 	
-	public double getEfficiencyIgnoreCoolingPenalty();
+	double getEfficiencyIgnoreCoolingPenalty();
 	
-	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
+	void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
-	public long getCriticality();
+	long getCriticality();
 	
-	public double getFloatingPointCriticality();
+	double getFloatingPointCriticality();
 	
-	public boolean isSelfPriming();
+	boolean isSelfPriming();
 	
-	public default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (!isFluxSearched() && isProducingFlux()) {
 			setFluxSearched(true);
 		}
@@ -106,7 +106,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		getLogic().distributeFluxFromFuelComponent(this, fluxSearchCache, componentFailCache, assumedValidCache);
 	}
 	
-	public default void defaultDistributeFlux(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void defaultDistributeFlux(final ObjectSet<IFissionFuelComponent> fluxSearchCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
 			BlockPos offPos = getTilePos().offset(dir);
 			ModeratorBlockInfo activeInfo = componentFailCache.containsKey(offPos.toLong()) ? null : getModeratorBlockInfo(offPos, dir, canSupportActiveModerator(true));
@@ -145,9 +145,8 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 						}
 						else {
 							IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
-							if (component instanceof IFissionFluxSink) {
-								IFissionFluxSink fluxSink = (IFissionFluxSink) component;
-								if (fluxSink.isAcceptingFlux(dir.getOpposite())) {
+							if (component instanceof IFissionFluxSink fluxSink) {
+                                if (fluxSink.isAcceptingFlux(dir.getOpposite())) {
 									line.fluxSink = fluxSink;
 									fluxSink.addFlux(line.flux);
 									getModeratorLineFluxes()[dir.getIndex()] = line.flux;
@@ -187,7 +186,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public static class ModeratorLine {
+	class ModeratorLine {
 		
 		public final ObjectList<ModeratorBlockInfo> info;
 		public final IFissionFuelComponent fuelComponent;
@@ -205,7 +204,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public default ModeratorBlockInfo getModeratorBlockInfo(BlockPos pos, EnumFacing dir, boolean validActiveModeratorPos) {
+	default ModeratorBlockInfo getModeratorBlockInfo(BlockPos pos, EnumFacing dir, boolean validActiveModeratorPos) {
 		IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
 		if (component != null) {
 			return component.getModeratorBlockInfo(dir, validActiveModeratorPos);
@@ -219,7 +218,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		return null;
 	}
 	
-	public static class ModeratorBlockInfo {
+	class ModeratorBlockInfo {
 		
 		public final long posLong;
 		public final IFissionComponent component;
@@ -243,14 +242,14 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	}
 	
 	/** Adds to the full reactor cache, not the local cache! */
-	public static void addToModeratorCache(ModeratorLine line, LongSet activeCache, LongSet passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	static void addToModeratorCache(ModeratorLine line, LongSet activeCache, LongSet passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		for (ModeratorBlockInfo info : line.info) {
 			addToModeratorCache(info, activeCache, passiveCache, componentFailCache, assumedValidCache);
 		}
 	}
 	
 	/** Adds to the full reactor cache, not the local cache! */
-	public static void addToModeratorCache(ModeratorBlockInfo info, LongSet activeCache, LongSet passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	static void addToModeratorCache(ModeratorBlockInfo info, LongSet activeCache, LongSet passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (info.component != null && !componentFailCache.containsKey(info.posLong)) {
 			assumedValidCache.put(info.posLong, info.component);
 			info.component.onAddedToModeratorCache(info);
@@ -261,14 +260,14 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	}
 	
 	/** Adds to local cache, not the reactor cache! */
-	public static void addToModeratorCache(ModeratorLine line, EnumFacing dir, LongSet[] activeCache, LongSet[] passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	static void addToModeratorCache(ModeratorLine line, EnumFacing dir, LongSet[] activeCache, LongSet[] passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		for (ModeratorBlockInfo info : line.info) {
 			addToModeratorCache(info, dir, activeCache, passiveCache, componentFailCache, assumedValidCache);
 		}
 	}
 	
 	/** Adds to local cache, not the reactor cache! */
-	public static void addToModeratorCache(ModeratorBlockInfo info, EnumFacing dir, LongSet[] activeCache, LongSet[] passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	static void addToModeratorCache(ModeratorBlockInfo info, EnumFacing dir, LongSet[] activeCache, LongSet[] passiveCache, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (info.component != null && !componentFailCache.containsKey(info.posLong)) {
 			assumedValidCache.put(info.posLong, info.component);
 			info.component.onAddedToModeratorCache(info);
@@ -283,7 +282,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public static void onModeratorLineComplete(ModeratorLine line, EnumFacing dir) {
+	static void onModeratorLineComplete(ModeratorLine line, EnumFacing dir) {
 		for (ModeratorBlockInfo info : line.info) {
 			if (info.component != null) {
 				info.component.onModeratorLineComplete(line, info, dir);
@@ -291,7 +290,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public default void updateModeratorLine(IFissionFluxSink fluxSink, EnumFacing dir, ModeratorLine line, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void updateModeratorLine(IFissionFluxSink fluxSink, EnumFacing dir, ModeratorLine line, final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		fluxSink.refreshIsProcessing(false);
 		line.info.get(line.info.size() - 1).updateModeratorPosValidity(fluxSink.canSupportActiveModerator(true));
 		if (isFunctional() && fluxSink.isFunctional()) {
@@ -305,7 +304,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		getAdjacentFluxSinks()[dir.getIndex()] = fluxSink;
 	}
 	
-	public default void defaultRefreshLocal() {
+	default void defaultRefreshLocal() {
 		if (isFunctional()) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				ModeratorLine line = getModeratorLineCaches()[dir.getIndex()];
@@ -322,13 +321,13 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 	}
 	
 	/** Fix to force adjacent moderators to be active */
-	public default void defaultRefreshModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void defaultRefreshModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		if (isFunctional()) {
 			defaultRefreshAdjacentActiveModerators(componentFailCache, assumedValidCache);
 		}
 	}
 	
-	public default void defaultRefreshAdjacentActiveModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void defaultRefreshAdjacentActiveModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			IFissionFluxSink fluxSink = getAdjacentFluxSinks()[dir.getIndex()];
 			if (fluxSink != null && fluxSink.isFunctional()) {
@@ -340,7 +339,7 @@ public interface IFissionFuelComponent extends IFissionFluxSink, IFissionHeating
 		}
 	}
 	
-	public default void defaultForceAdjacentActiveModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
+	default void defaultForceAdjacentActiveModerators(final Long2ObjectMap<IFissionComponent> componentFailCache, final Long2ObjectMap<IFissionComponent> assumedValidCache) {
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			ModeratorBlockInfo info = getModeratorBlockInfo(getTilePos().offset(dir), dir, true);
 			if (info != null) {

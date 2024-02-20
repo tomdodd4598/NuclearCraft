@@ -150,22 +150,16 @@ public abstract class TurbinePlacement {
 			
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
 			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : (edge ? AdjacencyType.EDGE : AdjacencyType.STANDARD));
-			
-			if (rule.equals("casing")) {
-				return new AdjacentCasing(amount, countType, adjType);
-			}
-			else if (rule.equals("bearing")) {
-				return new AdjacentBearing(amount, countType, adjType);
-			}
-			else if (rule.equals("connector")) {
-				return new AdjacentConnector(amount, countType, adjType);
-			}
-			else if (rule.equals("coil")) {
-				return new AdjacentCoil(amount, countType, adjType, type);
-			}
-			
-			return null;
-		}
+
+            return switch (rule) {
+                case "casing" -> new AdjacentCasing(amount, countType, adjType);
+                case "bearing" -> new AdjacentBearing(amount, countType, adjType);
+                case "connector" -> new AdjacentConnector(amount, countType, adjType);
+                case "coil" -> new AdjacentCoil(amount, countType, adjType, type);
+                default -> null;
+            };
+
+        }
 	}
 	
 	// Adjacent

@@ -67,11 +67,10 @@ public class OreDictHelper {
 	}
 	
 	public static String getOreNameFromStacks(List<ItemStack> stackList) {
-		List<String> oreNameList = new ArrayList<>();
-		if (stackList == null || stackList.isEmpty()) {
+        if (stackList == null || stackList.isEmpty()) {
 			return "Unknown";
 		}
-		oreNameList.addAll(getOreNames(stackList.get(0)));
+        List<String> oreNameList = new ArrayList<>(getOreNames(stackList.get(0)));
 		
 		for (ItemStack stack : stackList) {
 			if (stack == null || stack.isEmpty()) {

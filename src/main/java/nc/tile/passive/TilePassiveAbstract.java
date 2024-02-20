@@ -167,8 +167,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 					getInventoryStacks().get(0).grow(itemChange);
 				}
 			}
-			return true;
-		}
+        }
 		else {
 			if (getInventoryStacks().get(0).getCount() < Math.abs(itemChange)) {
 				return false;
@@ -181,9 +180,9 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 					getInventoryStacks().set(0, ItemStack.EMPTY);
 				}
 			}
-			return true;
-		}
-	}
+        }
+        return true;
+    }
 	
 	protected boolean changeFluid(boolean simulateChange) {
 		if (fluidRate == 0) {

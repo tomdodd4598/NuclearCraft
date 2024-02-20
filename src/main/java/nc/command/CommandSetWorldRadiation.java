@@ -26,12 +26,12 @@ public class CommandSetWorldRadiation extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 1) {
-			double newRadiation = 0D;
+			double newRadiation;
 			try {
 				newRadiation = Double.parseDouble(args[0]);
 			}
 			catch (NumberFormatException e) {
-				throw new WrongUsageException(getUsage(sender), new Object[0]);
+				throw new WrongUsageException(getUsage(sender));
 			}
 			
 			for (Chunk chunk : server.getWorld(sender.getEntityWorld().provider.getDimension()).getChunkProvider().getLoadedChunks()) {
@@ -44,7 +44,7 @@ public class CommandSetWorldRadiation extends CommandBase {
 			}
 		}
 		else {
-			throw new WrongUsageException(getUsage(sender), new Object[0]);
+			throw new WrongUsageException(getUsage(sender));
 		}
 	}
 }

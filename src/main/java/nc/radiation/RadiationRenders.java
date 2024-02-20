@@ -88,17 +88,17 @@ public class RadiationRenders {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder builder = tessellator.getBuffer();
 		builder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		builder.pos(x + 0, y + height, zLevel).tex((textureX + 0) * 0.00390625F, (textureY + height) * 0.00390625F).endVertex();
+		builder.pos(x, y + height, zLevel).tex(textureX * 0.00390625F, (textureY + height) * 0.00390625F).endVertex();
 		builder.pos(x + width, y + height, zLevel).tex((textureX + width) * 0.00390625F, (textureY + height) * 0.00390625F).endVertex();
-		builder.pos(x + width, y + 0, zLevel).tex((textureX + width) * 0.00390625F, (textureY + 0) * 0.00390625F).endVertex();
-		builder.pos(x + 0, y + 0, zLevel).tex((textureX + 0) * 0.00390625F, (textureY + 0) * 0.00390625F).endVertex();
+		builder.pos(x + width, y, zLevel).tex((textureX + width) * 0.00390625F, textureY * 0.00390625F).endVertex();
+		builder.pos(x, y, zLevel).tex(textureX * 0.00390625F, textureY * 0.00390625F).endVertex();
 		tessellator.draw();
 	}
 	
 	/** Thanks to dizzyd for this method! */
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
-		// Overlay renderer for the geiger counter and radiation scrubber blocks
+		// Overlay renderer for the Geiger counter and radiation scrubber blocks
 		boolean chunkBorders = false;
 		
 		// Bail fast if rendering is disabled

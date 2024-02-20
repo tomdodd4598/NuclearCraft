@@ -6,7 +6,7 @@ import nc.tile.multiblock.ILogicMultiblockController;
 
 public interface ITurbineController<CONTROLLER extends ITurbineController<CONTROLLER>> extends ITurbinePart, ILogicMultiblockController<Turbine, ITurbinePart, TurbineUpdatePacket, CONTROLLER> {
 	
-	public boolean isRenderer();
+	boolean isRenderer();
 	
-	public void setIsRenderer(boolean isRenderer);
+	void setIsRenderer(boolean isRenderer);
 }

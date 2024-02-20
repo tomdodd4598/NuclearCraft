@@ -255,9 +255,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IProcessor
 	
 	@Override
 	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache) {
-		for (TileSaltFissionVessel vessel : vesselBunch.getPartMap().values()) {
-			primedCache.add(vessel);
-		}
+        primedCache.addAll(vesselBunch.getPartMap().values());
 	}
 	
 	@Override
@@ -293,7 +291,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IProcessor
 	
 	@Override
 	public double getSourceEfficiency() {
-		return sourceEfficiency == null ? 1D : sourceEfficiency.doubleValue();
+		return sourceEfficiency == null ? 1D : sourceEfficiency;
 	}
 	
 	@Override
@@ -662,7 +660,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IProcessor
 		baseProcessHeat = recipe == null ? 0 : recipe.getFissionFuelHeat();
 		baseProcessEfficiency = recipe == null ? 0D : recipe.getFissionFuelEfficiency();
 		baseProcessCriticality = recipe == null ? 1 : recipe.getFissionFuelCriticality();
-		selfPriming = recipe == null ? false : recipe.getFissionFuelSelfPriming();
+		selfPriming = recipe != null && recipe.getFissionFuelSelfPriming();
 		baseProcessRadiation = recipe == null ? 0D : recipe.getFissionFuelRadiation();
 		
 		if (recipe != null) {
@@ -925,7 +923,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IProcessor
 	
 	@Override
 	public boolean canModifyFilter(int tank) {
-		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+		return getMultiblock() == null || !getMultiblock().isAssembled();
 	}
 	
 	@Override

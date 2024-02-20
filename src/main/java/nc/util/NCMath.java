@@ -13,14 +13,14 @@ public class NCMath {
 	public static final double LN2 = 0.693147180559945309417D;
 	public static final double LN10 = 2.30258509299404568402D;
 	
-	private static Random rand = new Random();
+	private static final Random rand = new Random();
 	
 	public static long clamp(long num, long min, long max) {
 		if (num < min) {
 			return min;
 		}
 		else {
-			return num > max ? max : num;
+			return Math.min(num, max);
 		}
 	}
 	
@@ -206,9 +206,7 @@ public class NCMath {
 		else {
 			int[] next = new int[l - 1];
 			next[0] = hcf;
-			for (int i = 1; i < l - 1; ++i) {
-				next[i] = arr[i + 1];
-			}
+            System.arraycopy(arr, 2, next, 1, l - 1 - 1);
 			return hcf(next);
 		}
 	}
@@ -235,9 +233,7 @@ public class NCMath {
 		else {
 			int[] next = new int[l - 1];
 			next[0] = lcm;
-			for (int i = 1; i < l - 1; ++i) {
-				next[i] = arr[i + 1];
-			}
+            System.arraycopy(arr, 2, next, 1, l - 1 - 1);
 			return lcm(next);
 		}
 	}

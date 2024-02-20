@@ -79,9 +79,8 @@ public class FluidIngredient implements IFluidIngredient {
 		if (object instanceof Tank) {
 			object = ((Tank) object).getFluid();
 		}
-		if (object instanceof FluidStack) {
-			FluidStack fluidstack = (FluidStack) object;
-			if (!fluidstack.isFluidEqual(stack) || !FluidStack.areFluidStackTagsEqual(fluidstack, stack)) {
+		if (object instanceof FluidStack fluidstack) {
+            if (!fluidstack.isFluidEqual(stack) || !FluidStack.areFluidStackTagsEqual(fluidstack, stack)) {
 				return IngredientMatchResult.FAIL;
 			}
 			return new IngredientMatchResult(type.checkStackSize(stack.amount, fluidstack.amount), 0);

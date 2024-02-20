@@ -8,9 +8,9 @@ import net.minecraft.util.NonNullList;
 
 public interface ITileFilteredInventory extends ITileFiltered, ITileInventory {
 	
-	public @Nonnull NonNullList<ItemStack> getInventoryStacksInternal();
+	@Nonnull NonNullList<ItemStack> getInventoryStacksInternal();
 	
-	public @Nonnull NonNullList<ItemStack> getFilterStacks();
+	@Nonnull NonNullList<ItemStack> getFilterStacks();
 	
-	public boolean isItemValidForSlotInternal(int slot, ItemStack stack);
+	boolean isItemValidForSlotInternal(int slot, ItemStack stack);
 }

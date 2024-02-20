@@ -10,33 +10,21 @@ public enum HeatExchangerTubeSetting implements IStringSerializable {
 	INPUT_SPREAD;
 	
 	public HeatExchangerTubeSetting next() {
-		switch (this) {
-			case DISABLED:
-				return DEFAULT;
-			case DEFAULT:
-				return PRODUCT_OUT;
-			case PRODUCT_OUT:
-				return INPUT_SPREAD;
-			case INPUT_SPREAD:
-				return DISABLED;
-			default:
-				return DISABLED;
-		}
+        return switch (this) {
+            case DISABLED -> DEFAULT;
+            case DEFAULT -> PRODUCT_OUT;
+            case PRODUCT_OUT -> INPUT_SPREAD;
+            case INPUT_SPREAD -> DISABLED;
+        };
 	}
 	
 	@Override
 	public String getName() {
-		switch (this) {
-			case DISABLED:
-				return "disabled";
-			case DEFAULT:
-				return "default";
-			case PRODUCT_OUT:
-				return "product_out";
-			case INPUT_SPREAD:
-				return "input_spread";
-			default:
-				return "disabled";
-		}
+        return switch (this) {
+            case DISABLED -> "disabled";
+            case DEFAULT -> "default";
+            case PRODUCT_OUT -> "product_out";
+            case INPUT_SPREAD -> "input_spread";
+        };
 	}
 }

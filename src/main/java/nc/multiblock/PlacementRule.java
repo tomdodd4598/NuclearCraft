@@ -393,8 +393,7 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 						}
 						return true;
 					}
-					return false;
-				}
+                }
 				else {
 					loop: for (EnumFacing[] typeDirs : (adjType == AdjacencyType.VERTEX ? PosHelper.VERTEX_DIRS : PosHelper.EDGE_DIRS)) {
 						for (EnumFacing dir : typeDirs) {
@@ -404,9 +403,9 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 						}
 						return true;
 					}
-					return false;
-				}
-			}
+                }
+                return false;
+            }
 		}
 		
 		public abstract boolean satisfied(T tile, EnumFacing dir);
@@ -420,18 +419,12 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 		EDGE;
 		
 		public String tooltipSubstring(int amount) {
-			switch (this) {
-				case STANDARD:
-					return "";
-				case AXIAL:
-					return amount == 2 ? "_along_axis" : "_along_axes";
-				case VERTEX:
-					return "_at_vertex";
-				case EDGE:
-					return "_along_edge";
-				default:
-					return "";
-			}
+            return switch (this) {
+                case STANDARD -> "";
+                case AXIAL -> amount == 2 ? "_along_axis" : "_along_axes";
+                case VERTEX -> "_at_vertex";
+                case EDGE -> "_along_edge";
+            };
 		}
 	}
 	
@@ -446,16 +439,11 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 		}
 		
 		public String tooltipSubstring(int amount) {
-			switch (this) {
-				case AT_LEAST:
-					return "at_least";
-				case EXACTLY:
-					return "exactly";
-				case AT_MOST:
-					return "at_most";
-				default:
-					return "";
-			}
+            return switch (this) {
+                case AT_LEAST -> "at_least";
+                case EXACTLY -> "exactly";
+                case AT_MOST -> "at_most";
+            };
 		}
 	}
 	
@@ -583,16 +571,16 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 					}
 					
 					if (totalCycle && v.partOfCycle()) {
-						String out;
+						StringBuilder out;
 						if (cycles.size() == 1) {
-							out = cycles.get(0);
+							out = new StringBuilder(cycles.get(0));
 						}
 						else {
-							out = "{";
+							out = new StringBuilder("{");
 							for (String c : cycles) {
-								out += (c + ", ");
+								out.append(c).append(", ");
 							}
-							out = StringHelper.removeSuffix(out, 2) + "}";
+							out = new StringBuilder(StringHelper.removeSuffix(out.toString(), 2) + "}");
 						}
 						
 						throw new IllegalArgumentException("The placement rule with ID \"" + ruleID + "\" contained the cyclic dependency " + out + "!");
@@ -666,7 +654,7 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 				}
 				else if (p_patterns.get(i).equals("&&")) {
 					for (int j = 0; j < p_inv.length; ++j) {
-						if (!(p_inv[j] ^ prev.contains(p_split[j]))) {
+						if (p_inv[j] == prev.contains(p_split[j])) {
 							continue loop;
 						}
 					}
@@ -690,7 +678,7 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 				}
 				else if (l_patterns.get(i).equals("&&")) {
 					for (int j = 0; j < l_inv.length; ++j) {
-						if (!(l_inv[j] ^ last.contains(l_split[j]))) {
+						if (l_inv[j] == last.contains(l_split[j])) {
 							continue loop;
 						}
 					}

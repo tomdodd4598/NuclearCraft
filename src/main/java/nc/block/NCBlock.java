@@ -144,7 +144,7 @@ public class NCBlock extends Block {
 				return true;
 			}
 			
-			return block == this ? false : super.shouldSideBeRendered(state, world, pos, side);
+			return block != this && super.shouldSideBeRendered(state, world, pos, side);
 		}
 	}
 }

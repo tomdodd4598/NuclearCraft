@@ -66,7 +66,7 @@ public class BlockHelper {
 	}
 	
 	public static void spawnParticleOnProcessor(IBlockState state, World world, BlockPos pos, Random rand, EnumFacing side, String particleName) {
-		if (particleName.equals("") || !processor_particles) {
+		if (particleName.isEmpty() || !processor_particles) {
 			return;
 		}
 		

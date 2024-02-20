@@ -91,6 +91,8 @@ public class NCRecipes {
 		putHandler(new RadiationScrubberRecipes());
 		putHandler(new RadiationBlockMutation());
 		putHandler(new RadiationBlockPurification());
+
+		registerShortcuts();
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
@@ -139,9 +141,8 @@ public class NCRecipes {
 	public static RadiationScrubberRecipes radiation_scrubber;
 	public static RadiationBlockMutation radiation_block_mutation;
 	public static RadiationBlockPurification radiation_block_purification;
-	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void registerShortcuts(RegistryEvent.Register<IRecipe> event) {
+
+	public void registerShortcuts() {
 		manufactory = getHandler("manufactory");
 		separator = getHandler("separator");
 		decay_hastener = getHandler("decay_hastener");

@@ -2,9 +2,9 @@ package nc.item.energy.battery;
 
 public interface IBatteryItemType {
 	
-	public long getCapacity();
+	long getCapacity();
 	
-	public int getMaxTransfer();
+	int getMaxTransfer();
 	
-	public int getEnergyTier();
+	int getEnergyTier();
 }

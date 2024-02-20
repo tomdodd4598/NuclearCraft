@@ -73,7 +73,7 @@ public class RadArmor {
 	
 	public static void addArmorShieldingRecipes(ItemStack stack) {
 		for (int i : new int[] {0, 1, 2}) {
-			CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, radiation_shielding_level[i]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, i)});
+			CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, radiation_shielding_level[i]), stack, new ItemStack(NCItems.rad_shielding, 1, i));
 		}
 	}
 }

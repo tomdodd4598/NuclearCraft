@@ -72,7 +72,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	
 	@Override
 	public boolean canModifyFilter(int slot) {
-		return getMultiblock() != null ? !getMultiblock().isAssembled() : true;
+		return getMultiblock() == null || !getMultiblock().isAssembled();
 	}
 	
 	@Override

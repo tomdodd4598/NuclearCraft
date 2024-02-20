@@ -25,51 +25,30 @@ public class BlockSolidFissionMetaSink2 extends BlockFissionMetaPart<MetaEnums.H
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-			case 0:
-				return new TileSolidFissionSink.Tin();
-			case 1:
-				return new TileSolidFissionSink.Lead();
-			case 2:
-				return new TileSolidFissionSink.Boron();
-			case 3:
-				return new TileSolidFissionSink.Lithium();
-			case 4:
-				return new TileSolidFissionSink.Magnesium();
-			case 5:
-				return new TileSolidFissionSink.Manganese();
-			case 6:
-				return new TileSolidFissionSink.Aluminum();
-			case 7:
-				return new TileSolidFissionSink.Silver();
-			case 8:
-				return new TileSolidFissionSink.Fluorite();
-			case 9:
-				return new TileSolidFissionSink.Villiaumite();
-			case 10:
-				return new TileSolidFissionSink.Carobbiite();
-			case 11:
-				return new TileSolidFissionSink.Arsenic();
-			case 12:
-				return new TileSolidFissionSink.LiquidNitrogen();
-			case 13:
-				return new TileSolidFissionSink.LiquidHelium();
-			case 14:
-				return new TileSolidFissionSink.Enderium();
-			case 15:
-				return new TileSolidFissionSink.Cryotheum();
-			default:
-				break;
-		}
-		return new TileSolidFissionSink.Tin();
-	}
+        return switch (metadata) {
+            case 0 -> new TileSolidFissionSink.Tin();
+            case 1 -> new TileSolidFissionSink.Lead();
+            case 2 -> new TileSolidFissionSink.Boron();
+            case 3 -> new TileSolidFissionSink.Lithium();
+            case 4 -> new TileSolidFissionSink.Magnesium();
+            case 5 -> new TileSolidFissionSink.Manganese();
+            case 6 -> new TileSolidFissionSink.Aluminum();
+            case 7 -> new TileSolidFissionSink.Silver();
+            case 8 -> new TileSolidFissionSink.Fluorite();
+            case 9 -> new TileSolidFissionSink.Villiaumite();
+            case 10 -> new TileSolidFissionSink.Carobbiite();
+            case 11 -> new TileSolidFissionSink.Arsenic();
+            case 12 -> new TileSolidFissionSink.LiquidNitrogen();
+            case 13 -> new TileSolidFissionSink.LiquidHelium();
+            case 14 -> new TileSolidFissionSink.Enderium();
+            case 15 -> new TileSolidFissionSink.Cryotheum();
+            default -> new TileSolidFissionSink.Tin();
+        };
+    }
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) {
-			return false;
-		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
+        if (hand != EnumHand.MAIN_HAND || player.isSneaking()) {
 			return false;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing);

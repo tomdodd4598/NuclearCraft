@@ -44,9 +44,8 @@ public class ToggleTankSorptionPacket extends TileGuiPacket {
 		
 		@Override
 		protected void onPacket(ToggleTankSorptionPacket message, EntityPlayerMP player, TileEntity tile) {
-			if (tile instanceof ITileFluid) {
-				ITileFluid machine = (ITileFluid) tile;
-				machine.setTankSorption(EnumFacing.byIndex(message.side), message.tank, TankSorption.values()[message.sorption]);
+			if (tile instanceof ITileFluid machine) {
+                machine.setTankSorption(EnumFacing.byIndex(message.side), message.tank, TankSorption.values()[message.sorption]);
 				machine.markDirtyAndNotify(true);
 			}
 		}

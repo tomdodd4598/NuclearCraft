@@ -127,9 +127,8 @@ public class TileFissionSource extends TileFissionPart {
 			if (component != null && component.isNullifyingSources(posFacing)) {
 				return null;
 			}
-			if (component instanceof IFissionFuelComponent) {
-				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
-				if (simulate) {
+			if (component instanceof IFissionFuelComponent fuelComponent) {
+                if (simulate) {
 					return new PrimingTargetInfo(fuelComponent, false);
 				}
 				else if (fuelComponent.isAcceptingFlux(posFacing)) {

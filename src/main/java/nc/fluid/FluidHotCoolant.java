@@ -27,7 +27,7 @@ public class FluidHotCoolant extends NCFluid {
 		setFillSound(SoundEvents.ITEM_BUCKET_FILL_LAVA);
 	}
 	
-	public static int getNAKColor(Integer colour) {
-		return ColorHelper.blend(colour.intValue(), NAK_COLOR, 0.2F);
+	public static int getNAKColor(Integer color) {
+		return ColorHelper.blend(color, NAK_COLOR, 0.2F);
 	}
 }

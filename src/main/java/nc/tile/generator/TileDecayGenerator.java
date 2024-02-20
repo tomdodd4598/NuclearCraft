@@ -25,7 +25,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	protected int generatorCount;
 	
 	public TileDecayGenerator() {
-		super(2 * RecipeStats.getDecayGeneratorMaxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
+		super(2L * RecipeStats.getDecayGeneratorMaxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 	}
 	
 	@Override

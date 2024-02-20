@@ -7,7 +7,7 @@ import net.minecraft.util.IStringSerializable;
 
 public class MetaEnums {
 	
-	public static enum OreType implements IStringSerializable, IBlockMetaEnum {
+	public enum OreType implements IStringSerializable, IBlockMetaEnum {
 		
 		COPPER("copper", 0, ore_harvest_levels[0], "pickaxe", 3, 15, 0),
 		TIN("tin", 1, ore_harvest_levels[1], "pickaxe", 3, 15, 0),
@@ -26,7 +26,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private OreType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		OreType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
@@ -77,7 +77,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum IngotType implements IStringSerializable, IBlockMetaEnum {
+	public enum IngotType implements IStringSerializable, IBlockMetaEnum {
 		
 		COPPER("copper", 0, 0, "pickaxe", 4, 30, 0, 0, 0, false),
 		TIN("tin", 1, 0, "pickaxe", 4, 30, 0, 0, 0, false),
@@ -107,7 +107,7 @@ public class MetaEnums {
 		private final int flammability;
 		private final boolean isFireSource;
 		
-		private IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
+		IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
@@ -173,7 +173,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum FertileIsotopeType implements IStringSerializable, IBlockMetaEnum {
+	public enum FertileIsotopeType implements IStringSerializable, IBlockMetaEnum {
 		
 		URANIUM("uranium", 0, 0, "pickaxe", 3, 15, 0),
 		NEPTUNIUM("neptunium", 1, 0, "pickaxe", 3, 15, 0),
@@ -191,7 +191,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private FertileIsotopeType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		FertileIsotopeType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
@@ -242,7 +242,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeutronSourceType implements IStringSerializable, IBlockMetaEnum {
+	public enum NeutronSourceType implements IStringSerializable, IBlockMetaEnum {
 		
 		RADIUM_BERYLLIUM("radium_beryllium", 0, fission_source_efficiency[0], 0, "pickaxe", 2, 15, 0),
 		POLONIUM_BERYLLIUM("polonium_beryllium", 1, fission_source_efficiency[1], 0, "pickaxe", 2, 15, 0),
@@ -257,7 +257,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private NeutronSourceType(String name, int id, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		NeutronSourceType(String name, int id, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.efficiency = efficiency;
@@ -313,7 +313,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum {
+	public enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum {
 		
 		BERYLLIUM_CARBON("beryllium_carbon", 0, fission_reflector_efficiency[0], fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
 		LEAD_STEEL("lead_steel", 1, fission_reflector_efficiency[1], fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
@@ -328,7 +328,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.efficiency = efficiency;
@@ -389,7 +389,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum {
+	public enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum {
 		
 		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
 		
@@ -403,7 +403,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private NeutronShieldType(String name, int id, double heatPerFlux, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		NeutronShieldType(String name, int id, double heatPerFlux, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.heatPerFlux = heatPerFlux;
@@ -464,7 +464,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum HeatSinkType implements IStringSerializable, ICoolingComponentEnum {
+	public enum HeatSinkType implements IStringSerializable, ICoolingComponentEnum {
 		
 		WATER("water", 0, fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
 		IRON("iron", 1, fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
@@ -492,7 +492,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private HeatSinkType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		HeatSinkType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
@@ -549,7 +549,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum HeatSinkType2 implements IStringSerializable, ICoolingComponentEnum {
+	public enum HeatSinkType2 implements IStringSerializable, ICoolingComponentEnum {
 		
 		TIN("tin", 0, fission_sink_cooling_rate[16], 0, "pickaxe", 2, 15, 0),
 		LEAD("lead", 1, fission_sink_cooling_rate[17], 0, "pickaxe", 2, 15, 0),
@@ -577,7 +577,7 @@ public class MetaEnums {
 		private final float resistance;
 		private final int lightValue;
 		
-		private HeatSinkType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		HeatSinkType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
@@ -634,7 +634,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CoolantHeaterType implements IStringSerializable, ICoolingComponentEnum {
+	public enum CoolantHeaterType implements IStringSerializable, ICoolingComponentEnum {
 		
 		STANDARD("standard", 0, fission_heater_cooling_rate[0], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Standard.class),
 		IRON("iron", 1, fission_heater_cooling_rate[1], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Iron.class),
@@ -663,7 +663,7 @@ public class MetaEnums {
 		private final int lightValue;
 		private final Class<? extends TileSaltFissionHeater.Meta> tileClass;
 		
-		private CoolantHeaterType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass) {
+		CoolantHeaterType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
@@ -725,7 +725,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CoolantHeaterType2 implements IStringSerializable, ICoolingComponentEnum {
+	public enum CoolantHeaterType2 implements IStringSerializable, ICoolingComponentEnum {
 		
 		TIN("tin", 0, fission_heater_cooling_rate[16], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Tin.class),
 		LEAD("lead", 1, fission_heater_cooling_rate[17], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Lead.class),
@@ -754,7 +754,7 @@ public class MetaEnums {
 		private final int lightValue;
 		private final Class<? extends TileSaltFissionHeater.Meta> tileClass;
 		
-		private CoolantHeaterType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass) {
+		CoolantHeaterType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
@@ -816,7 +816,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum DustType implements IStringSerializable, IMetaEnum {
+	public enum DustType implements IStringSerializable, IMetaEnum {
 		
 		COPPER("copper", 0),
 		TIN("tin", 1),
@@ -838,7 +838,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private DustType(String name, int id) {
+		DustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -859,7 +859,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum GemType implements IStringSerializable, IMetaEnum {
+	public enum GemType implements IStringSerializable, IMetaEnum {
 		
 		RHODOCHROSITE("rhodochrosite", 0),
 		BORON_NITRIDE("boron_nitride", 1),
@@ -872,7 +872,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private GemType(String name, int id) {
+		GemType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -893,7 +893,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum GemDustType implements IStringSerializable, IMetaEnum {
+	public enum GemDustType implements IStringSerializable, IMetaEnum {
 		
 		DIAMOND("diamond", 0),
 		RHODOCHROSITE("rhodochrosite", 1),
@@ -911,7 +911,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private GemDustType(String name, int id) {
+		GemDustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -932,7 +932,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum AlloyType implements IStringSerializable, IMetaEnum {
+	public enum AlloyType implements IStringSerializable, IMetaEnum {
 		
 		BRONZE("bronze", 0),
 		TOUGH("tough", 1),
@@ -955,7 +955,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private AlloyType(String name, int id) {
+		AlloyType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -976,7 +976,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CompoundType implements IStringSerializable, IMetaEnum {
+	public enum CompoundType implements IStringSerializable, IMetaEnum {
 		
 		CALCIUM_SULFATE("calcium_sulfate", 0),
 		CRYSTAL_BINDER("crystal_binder", 1),
@@ -994,7 +994,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CompoundType(String name, int id) {
+		CompoundType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1015,7 +1015,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum PartType implements IStringSerializable, IMetaEnum {
+	public enum PartType implements IStringSerializable, IMetaEnum {
 		
 		PLATE_BASIC("plate_basic", 0),
 		PLATE_ADVANCED("plate_advanced", 1),
@@ -1037,7 +1037,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private PartType(String name, int id) {
+		PartType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1058,7 +1058,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum UpgradeType implements IStringSerializable, IMetaEnum {
+	public enum UpgradeType implements IStringSerializable, IMetaEnum {
 		
 		SPEED("speed", 0),
 		ENERGY("energy", 1);
@@ -1067,7 +1067,7 @@ public class MetaEnums {
 		private final int id;
 		private final int maxStackSize;
 		
-		private UpgradeType(String name, int id) {
+		UpgradeType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			this.maxStackSize = upgrade_stack_sizes[id];
@@ -1093,7 +1093,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum FissionDustType implements IStringSerializable, IMetaEnum {
+	public enum FissionDustType implements IStringSerializable, IMetaEnum {
 		
 		BISMUTH("bismuth", 0),
 		RADIUM("radium", 1),
@@ -1110,7 +1110,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private FissionDustType(String name, int id) {
+		FissionDustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1131,7 +1131,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum UraniumType implements IStringSerializable, IMetaEnum {
+	public enum UraniumType implements IStringSerializable, IMetaEnum {
 		
 		_233("233", 0),
 		_233_C("233_c", 1),
@@ -1152,7 +1152,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private UraniumType(String name, int id) {
+		UraniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1173,7 +1173,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeptuniumType implements IStringSerializable, IMetaEnum {
+	public enum NeptuniumType implements IStringSerializable, IMetaEnum {
 		
 		_236("236", 0),
 		_236_C("236_c", 1),
@@ -1189,7 +1189,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private NeptuniumType(String name, int id) {
+		NeptuniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1210,7 +1210,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum PlutoniumType implements IStringSerializable, IMetaEnum {
+	public enum PlutoniumType implements IStringSerializable, IMetaEnum {
 		
 		_238("238", 0),
 		_238_C("238_c", 1),
@@ -1236,7 +1236,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private PlutoniumType(String name, int id) {
+		PlutoniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1257,7 +1257,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum AmericiumType implements IStringSerializable, IMetaEnum {
+	public enum AmericiumType implements IStringSerializable, IMetaEnum {
 		
 		_241("241", 0),
 		_241_C("241_c", 1),
@@ -1278,7 +1278,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private AmericiumType(String name, int id) {
+		AmericiumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1299,7 +1299,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CuriumType implements IStringSerializable, IMetaEnum {
+	public enum CuriumType implements IStringSerializable, IMetaEnum {
 		
 		_243("243", 0),
 		_243_C("243_c", 1),
@@ -1325,7 +1325,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CuriumType(String name, int id) {
+		CuriumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1346,7 +1346,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum BerkeliumType implements IStringSerializable, IMetaEnum {
+	public enum BerkeliumType implements IStringSerializable, IMetaEnum {
 		
 		_247("247", 0),
 		_247_C("247_c", 1),
@@ -1362,7 +1362,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private BerkeliumType(String name, int id) {
+		BerkeliumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1383,7 +1383,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CaliforniumType implements IStringSerializable, IMetaEnum {
+	public enum CaliforniumType implements IStringSerializable, IMetaEnum {
 		
 		_249("249", 0),
 		_249_C("249_c", 1),
@@ -1409,7 +1409,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CaliforniumType(String name, int id) {
+		CaliforniumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1430,7 +1430,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum ThoriumPelletType implements IStringSerializable, IMetaEnum {
+	public enum ThoriumPelletType implements IStringSerializable, IMetaEnum {
 		
 		TBU("tbu", 0),
 		TBU_C("tbu_c", 1);
@@ -1438,7 +1438,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private ThoriumPelletType(String name, int id) {
+		ThoriumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1459,7 +1459,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum UraniumPelletType implements IStringSerializable, IMetaEnum {
+	public enum UraniumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LEU_233("leu_233", 0),
 		LEU_233_C("leu_233_c", 1),
@@ -1473,7 +1473,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private UraniumPelletType(String name, int id) {
+		UraniumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1494,7 +1494,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeptuniumPelletType implements IStringSerializable, IMetaEnum {
+	public enum NeptuniumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LEN_236("len_236", 0),
 		LEN_236_C("len_236_c", 1),
@@ -1504,7 +1504,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private NeptuniumPelletType(String name, int id) {
+		NeptuniumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1525,7 +1525,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum PlutoniumPelletType implements IStringSerializable, IMetaEnum {
+	public enum PlutoniumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LEP_239("lep_239", 0),
 		LEP_239_C("lep_239_c", 1),
@@ -1539,7 +1539,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private PlutoniumPelletType(String name, int id) {
+		PlutoniumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1560,7 +1560,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum MixedPelletType implements IStringSerializable, IMetaEnum {
+	public enum MixedPelletType implements IStringSerializable, IMetaEnum {
 		
 		MIX_239("mix_239", 0),
 		MIX_239_C("mix_239_c", 1),
@@ -1570,7 +1570,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private MixedPelletType(String name, int id) {
+		MixedPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1591,7 +1591,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum AmericiumPelletType implements IStringSerializable, IMetaEnum {
+	public enum AmericiumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LEA_242("lea_242", 0),
 		LEA_242_C("lea_242_c", 1),
@@ -1601,7 +1601,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private AmericiumPelletType(String name, int id) {
+		AmericiumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1622,7 +1622,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CuriumPelletType implements IStringSerializable, IMetaEnum {
+	public enum CuriumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LECm_243("lecm_243", 0),
 		LECm_243_C("lecm_243_c", 1),
@@ -1640,7 +1640,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CuriumPelletType(String name, int id) {
+		CuriumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1661,7 +1661,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum BerkeliumPelletType implements IStringSerializable, IMetaEnum {
+	public enum BerkeliumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LEB_248("leb_248", 0),
 		LEB_248_C("leb_248_c", 1),
@@ -1671,7 +1671,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private BerkeliumPelletType(String name, int id) {
+		BerkeliumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1692,7 +1692,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CaliforniumPelletType implements IStringSerializable, IMetaEnum {
+	public enum CaliforniumPelletType implements IStringSerializable, IMetaEnum {
 		
 		LECf_249("lecf_249", 0),
 		LECf_249_C("lecf_249_c", 1),
@@ -1706,7 +1706,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CaliforniumPelletType(String name, int id) {
+		CaliforniumPelletType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1727,7 +1727,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum ThoriumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum ThoriumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		TBU_TR("tbu_tr", 0),
 		TBU_OX("tbu_ox", 1),
@@ -1740,7 +1740,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private ThoriumFuelType(String name, int id) {
+		ThoriumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_thorium_fuel_time[id + id / 4];
@@ -1791,7 +1791,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum UraniumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum UraniumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LEU_233_TR("leu_233_tr", 0),
 		LEU_233_OX("leu_233_ox", 1),
@@ -1816,7 +1816,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private UraniumFuelType(String name, int id) {
+		UraniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_uranium_fuel_time[id + id / 4];
@@ -1867,7 +1867,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeptuniumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum NeptuniumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LEN_236_TR("len_236_tr", 0),
 		LEN_236_OX("len_236_ox", 1),
@@ -1884,7 +1884,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private NeptuniumFuelType(String name, int id) {
+		NeptuniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_neptunium_fuel_time[id + id / 4];
@@ -1935,7 +1935,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum PlutoniumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum PlutoniumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LEP_239_TR("lep_239_tr", 0),
 		LEP_239_OX("lep_239_ox", 1),
@@ -1960,7 +1960,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private PlutoniumFuelType(String name, int id) {
+		PlutoniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_plutonium_fuel_time[id + id / 4];
@@ -2011,7 +2011,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum MixedFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum MixedFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		MIX_239_TR("mix_239_tr", 0),
 		MIX_239_OX("mix_239_ox", 1),
@@ -2028,7 +2028,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private MixedFuelType(String name, int id) {
+		MixedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_mixed_fuel_time[id + id / 4];
@@ -2079,7 +2079,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum AmericiumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum AmericiumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LEA_242_TR("lea_242_tr", 0),
 		LEA_242_OX("lea_242_ox", 1),
@@ -2096,7 +2096,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private AmericiumFuelType(String name, int id) {
+		AmericiumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_americium_fuel_time[id + id / 4];
@@ -2147,7 +2147,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CuriumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum CuriumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LECm_243_TR("lecm_243_tr", 0),
 		LECm_243_OX("lecm_243_ox", 1),
@@ -2180,7 +2180,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private CuriumFuelType(String name, int id) {
+		CuriumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_curium_fuel_time[id + id / 4];
@@ -2231,7 +2231,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum BerkeliumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum BerkeliumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LEB_248_TR("leb_248_tr", 0),
 		LEB_248_OX("leb_248_ox", 1),
@@ -2248,7 +2248,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private BerkeliumFuelType(String name, int id) {
+		BerkeliumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_berkelium_fuel_time[id + id / 4];
@@ -2299,7 +2299,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CaliforniumFuelType implements IStringSerializable, IFissionFuelEnum {
+	public enum CaliforniumFuelType implements IStringSerializable, IFissionFuelEnum {
 		
 		LECf_249_TR("lecf_249_tr", 0),
 		LECf_249_OX("lecf_249_ox", 1),
@@ -2324,7 +2324,7 @@ public class MetaEnums {
 		private final double efficiency;
 		private final boolean selfPriming;
 		
-		private CaliforniumFuelType(String name, int id) {
+		CaliforniumFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 			fuelTime = fission_californium_fuel_time[id + id / 4];
@@ -2375,7 +2375,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum ThoriumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum ThoriumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		TBU_TR("tbu_tr", 0),
 		TBU_OX("tbu_ox", 1),
@@ -2385,7 +2385,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private ThoriumDepletedFuelType(String name, int id) {
+		ThoriumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2406,7 +2406,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum UraniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum UraniumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LEU_233_TR("leu_233_tr", 0),
 		LEU_233_OX("leu_233_ox", 1),
@@ -2428,7 +2428,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private UraniumDepletedFuelType(String name, int id) {
+		UraniumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2449,7 +2449,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum NeptuniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum NeptuniumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LEN_236_TR("len_236_tr", 0),
 		LEN_236_OX("len_236_ox", 1),
@@ -2463,7 +2463,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private NeptuniumDepletedFuelType(String name, int id) {
+		NeptuniumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2484,7 +2484,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum PlutoniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum PlutoniumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LEP_239_TR("lep_239_tr", 0),
 		LEP_239_OX("lep_239_ox", 1),
@@ -2506,7 +2506,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private PlutoniumDepletedFuelType(String name, int id) {
+		PlutoniumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2527,7 +2527,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum MixedDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum MixedDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		MIX_239_TR("mix_239_tr", 0),
 		MIX_239_OX("mix_239_ox", 1),
@@ -2541,7 +2541,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private MixedDepletedFuelType(String name, int id) {
+		MixedDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2562,7 +2562,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum AmericiumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum AmericiumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LEA_242_TR("lea_242_tr", 0),
 		LEA_242_OX("lea_242_ox", 1),
@@ -2576,7 +2576,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private AmericiumDepletedFuelType(String name, int id) {
+		AmericiumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2597,7 +2597,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CuriumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum CuriumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LECm_243_TR("lecm_243_tr", 0),
 		LECm_243_OX("lecm_243_ox", 1),
@@ -2627,7 +2627,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CuriumDepletedFuelType(String name, int id) {
+		CuriumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2648,7 +2648,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum BerkeliumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum BerkeliumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LEB_248_TR("leb_248_tr", 0),
 		LEB_248_OX("leb_248_ox", 1),
@@ -2662,7 +2662,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private BerkeliumDepletedFuelType(String name, int id) {
+		BerkeliumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2683,7 +2683,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum CaliforniumDepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum CaliforniumDepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		LECf_249_TR("lecf_249_tr", 0),
 		LECf_249_OX("lecf_249_ox", 1),
@@ -2705,7 +2705,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private CaliforniumDepletedFuelType(String name, int id) {
+		CaliforniumDepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2726,7 +2726,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum IC2DepletedFuelType implements IStringSerializable, IMetaEnum {
+	public enum IC2DepletedFuelType implements IStringSerializable, IMetaEnum {
 		
 		U("u", 0),
 		MOX("mox", 1);
@@ -2734,7 +2734,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private IC2DepletedFuelType(String name, int id) {
+		IC2DepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2755,7 +2755,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum BoronType implements IStringSerializable, IMetaEnum {
+	public enum BoronType implements IStringSerializable, IMetaEnum {
 		
 		_10("10", 0),
 		_11("11", 1);
@@ -2763,7 +2763,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private BoronType(String name, int id) {
+		BoronType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2784,7 +2784,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum LithiumType implements IStringSerializable, IMetaEnum {
+	public enum LithiumType implements IStringSerializable, IMetaEnum {
 		
 		_6("6", 0),
 		_7("7", 1);
@@ -2792,7 +2792,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private LithiumType(String name, int id) {
+		LithiumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -2813,7 +2813,7 @@ public class MetaEnums {
 		}
 	}
 	
-	public static enum RadShieldingType implements IStringSerializable, IMetaEnum {
+	public enum RadShieldingType implements IStringSerializable, IMetaEnum {
 		
 		LIGHT("light", 0),
 		MEDIUM("medium", 1),
@@ -2822,7 +2822,7 @@ public class MetaEnums {
 		private final String name;
 		private final int id;
 		
-		private RadShieldingType(String name, int id) {
+		RadShieldingType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}

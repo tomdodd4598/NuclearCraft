@@ -11,14 +11,14 @@ import net.minecraftforge.oredict.OreDictionary;
 public interface IItemIngredient extends IIngredient<ItemStack> {
 	
 	@Override
-	public default ItemStack getNextStack(int ingredientNumber) {
+    default ItemStack getNextStack(int ingredientNumber) {
 		ItemStack nextStack = getStack();
 		nextStack.setCount(getNextStackSize(ingredientNumber));
 		return nextStack;
 	}
 	
 	@Override
-	public default List<ItemStack> getInputStackHashingList() {
+    default List<ItemStack> getInputStackHashingList() {
 		List<ItemStack> list = new ArrayList<>();
 		for (ItemStack stack : getInputStackList()) {
 			int meta = StackHelper.getMetadata(stack);
@@ -43,5 +43,5 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 	}
 	
 	@Override
-	public IItemIngredient getFactoredIngredient(int factor);
+    IItemIngredient getFactoredIngredient(int factor);
 }
