@@ -16,7 +16,7 @@ public abstract class TileUpgradableEnergyProcessor<TILE extends TileUpgradableE
 	
 	@Override
 	public void refreshEnergyCapacity() {
-		int capacity = IProcessor.energyCapacity(info, getSpeedMultiplier(), getPowerMultiplier());
+		long capacity = getEnergyCapacity();
 		getEnergyStorage().setStorageCapacity(capacity);
 		getEnergyStorage().setMaxTransfer(capacity);
 	}

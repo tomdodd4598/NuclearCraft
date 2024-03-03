@@ -1,6 +1,5 @@
 package nc.block.fission;
 
-import nc.NuclearCraft;
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.FissionReactor;
 import nc.tile.fission.TileSaltFissionHeater;
@@ -71,7 +70,7 @@ public class BlockSaltFissionMetaHeater2 extends BlockFissionMetaPart<MetaEnums.
 						heater.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, 203, world, pos.getX(), pos.getY(), pos.getZ());
+						heater.openGui(world, pos, player);
 					}
 					return true;
 				}

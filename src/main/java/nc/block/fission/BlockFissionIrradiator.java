@@ -1,6 +1,5 @@
 package nc.block.fission;
 
-import nc.NuclearCraft;
 import nc.multiblock.fission.FissionReactor;
 import nc.tile.fission.TileFissionIrradiator;
 import nc.util.Lang;
@@ -32,9 +31,8 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 		
 		if (!world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileFissionIrradiator) {
-				TileFissionIrradiator irradiator = (TileFissionIrradiator) tile;
-				FissionReactor reactor = irradiator.getMultiblock();
+			if (tile instanceof TileFissionIrradiator irradiator) {
+                FissionReactor reactor = irradiator.getMultiblock();
 				if (reactor != null) {
 					ItemStack heldStack = player.getHeldItem(hand);
 					if (irradiator.canModifyFilter(0) && irradiator.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(irradiator.getFilterStacks().get(0)) && irradiator.isItemValidForSlotInternal(0, heldStack)) {
@@ -45,7 +43,7 @@ public class BlockFissionIrradiator extends BlockFissionPart {
 						irradiator.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, 200, world, pos.getX(), pos.getY(), pos.getZ());
+						irradiator.openGui(world, pos, player);
 					}
 					return true;
 				}

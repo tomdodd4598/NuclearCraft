@@ -171,7 +171,9 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new ItemUseHandler());
-		
+
+		RecipeStats.init();
+
 		NCRecipes.postInit();
 		
 		PlacementRule.postInit();

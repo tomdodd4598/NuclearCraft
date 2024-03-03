@@ -27,8 +27,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, PACKET, INFO>, SimpleComponent {
+public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, PACKET, INFO> {
 	
 	@Override
     INFO getContainerInfo();
@@ -84,6 +83,10 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 	default List<IFluidIngredient> getFluidProducts() {
 		return getRecipeInfo().recipe.getFluidProducts();
 	}
+
+	default long getEnergyCapacity() {
+		return getContainerInfo().getEnergyCapacity(getSpeedMultiplier(), getPowerMultiplier());
+	}
 	
 	double getBaseProcessTime();
 	
@@ -117,16 +120,16 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 	
 	double getPowerMultiplier();
 	
-	default int getProcessTime() {
-		return Math.max(1, NCMath.toInt(Math.ceil(getBaseProcessTime() / getSpeedMultiplier())));
+	default long getProcessTime() {
+		return Math.max(1, (long) Math.ceil(getBaseProcessTime() / getSpeedMultiplier()));
 	}
 	
-	default int getProcessPower() {
-		return NCMath.toInt(Math.ceil(getBaseProcessPower() * getPowerMultiplier()));
+	default long getProcessPower() {
+		return (long) Math.ceil(getBaseProcessPower() * getPowerMultiplier());
 	}
 	
-	default int getProcessEnergy() {
-		return getProcessTime() * getProcessPower();
+	default long getProcessEnergy() {
+		return (long) (Math.max(1D, Math.ceil(getBaseProcessTime() / getSpeedMultiplier())) * Math.ceil(getBaseProcessPower() * getPowerMultiplier()));
 	}
 	
 	default boolean isProcessing() {
@@ -450,10 +453,6 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 		}
 	}
 	
-	static <TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> int energyCapacity(INFO info, double speedMultiplier, double powerMultiplier) {
-		return NCMath.toInt(Math.ceil(RecipeStats.getProcessorMaxBaseProcessTime(info.name) / speedMultiplier) * Math.ceil(RecipeStats.getProcessorMaxBaseProcessPower(info.name) * powerMultiplier));
-	}
-	
 	// ITickable
 	
 	default void onTick() {
@@ -667,13 +666,5 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 		setIsProcessing(nbt.getBoolean("isProcessing"));
 		setCanProcessInputs(nbt.getBoolean("canProcessInputs"));
 		setHasConsumed(nbt.getBoolean("hasConsumed"));
-	}
-	
-	// OpenComputers
-	
-	@Override
-	@Optional.Method(modid = "opencomputers")
-    default String getComponentName() {
-		return getContainerInfo().ocComponentName;
 	}
 }

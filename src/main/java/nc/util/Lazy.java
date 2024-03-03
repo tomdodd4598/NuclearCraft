@@ -18,6 +18,7 @@ public class Lazy<T> {
 	
 	public T get() {
 		if (!initialized) {
+			initialized = true;
 			value = supplier.get();
 		}
 		return value;
@@ -36,6 +37,7 @@ public class Lazy<T> {
 		
 		public byte get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsByte();
 			}
 			return value;
@@ -55,6 +57,7 @@ public class Lazy<T> {
 		
 		public short get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsShort();
 			}
 			return value;
@@ -74,6 +77,7 @@ public class Lazy<T> {
 		
 		public int get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsInt();
 			}
 			return value;
@@ -93,6 +97,7 @@ public class Lazy<T> {
 		
 		public long get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsLong();
 			}
 			return value;
@@ -112,6 +117,7 @@ public class Lazy<T> {
 		
 		public float get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsFloat();
 			}
 			return value;
@@ -131,6 +137,7 @@ public class Lazy<T> {
 		
 		public double get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsDouble();
 			}
 			return value;
@@ -150,6 +157,7 @@ public class Lazy<T> {
 		
 		public boolean get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsBoolean();
 			}
 			return value;
@@ -169,6 +177,7 @@ public class Lazy<T> {
 		
 		public char get() {
 			if (!initialized) {
+				initialized = true;
 				value = supplier.getAsChar();
 			}
 			return value;
@@ -199,6 +208,7 @@ public class Lazy<T> {
 		public T invoke(Object obj, Object... args) {
 			if (!initialized) {
 				try {
+					initialized = true;
 					initialize();
 				}
 				catch (NoSuchMethodException | SecurityException e) {

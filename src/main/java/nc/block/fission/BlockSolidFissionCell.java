@@ -1,6 +1,5 @@
 package nc.block.fission;
 
-import nc.NuclearCraft;
 import nc.multiblock.fission.FissionReactor;
 import nc.tile.fission.TileSolidFissionCell;
 import nc.util.Lang;
@@ -44,7 +43,7 @@ public class BlockSolidFissionCell extends BlockFissionPart {
 						cell.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, 201, world, pos.getX(), pos.getY(), pos.getZ());
+						cell.openGui(world, pos, player);
 					}
 					return true;
 				}

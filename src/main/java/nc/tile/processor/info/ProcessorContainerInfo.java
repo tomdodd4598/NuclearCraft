@@ -111,6 +111,9 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	public final int jeiClickAreaY;
 	public final int jeiClickAreaW;
 	public final int jeiClickAreaH;
+
+	public double maxBaseProcessTime = 1D;
+	public double maxBaseProcessPower = 0D;
 	
 	protected ProcessorContainerInfo(String modId, String name, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
 		super(modId, name, containerClass, containerFunction, guiClass, guiFunction);
@@ -230,7 +233,7 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	}
 	
 	public EnergyConnection defaultEnergyConnection() {
-		return defaultProcessPower == 0 ? EnergyConnection.NON : (isGenerator ? EnergyConnection.OUT : EnergyConnection.IN);
+		return maxBaseProcessPower <= 0 ? EnergyConnection.NON : (isGenerator ? EnergyConnection.OUT : EnergyConnection.IN);
 	}
 	
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
@@ -318,5 +321,9 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		for (int i = 0; i < 9; ++i) {
 			addSlotToContainer.accept(new Slot(player.inventory, i, playerGuiX + 18 * i, 58 + playerGuiY));
 		}
+	}
+
+	public long getEnergyCapacity(double speedMultiplier, double powerMultiplier) {
+		return (long) (Math.ceil(maxBaseProcessTime / speedMultiplier) * Math.ceil(maxBaseProcessPower * powerMultiplier));
 	}
 }

@@ -34,15 +34,13 @@ public class GuiFissionVesselPort extends GuiInfoTile<TileFissionVesselPort, Flu
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1F, 1F, 1F, 1F);
-		mc.getTextureManager().bindTexture(guiTextures);
+		defaultStateAndBind();
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		Tank filterTank = tile.getFilterTanks().get(0);
 		if (!filterTank.isEmpty()) {
 			GuiFluidRenderer.renderGuiTank(filterTank.getFluid(), 1000, 1000, guiLeft + 40, guiTop + 31, zLevel, 24, 24, 127);
 		}
-		mc.getTextureManager().bindTexture(guiTextures);
 		
 		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(0), guiLeft + 40, guiTop + 31, zLevel, 24, 24);
 		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(1), guiLeft + 112, guiTop + 31, zLevel, 24, 24);

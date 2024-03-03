@@ -40,9 +40,6 @@ public class HeatExchangerRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	protected void setStats() {}
-	
-	@Override
 	protected List<Object> fixedExtras(List<Object> extras) {
 		ExtrasFixer fixer = new ExtrasFixer(extras);
 		fixer.add(Double.class, 16000D);

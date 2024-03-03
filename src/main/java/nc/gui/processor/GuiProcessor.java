@@ -88,13 +88,12 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		drawMainBackground();
-		drawTanks();
 		drawBars();
+		drawTanks();
 	}
 	
 	protected void drawMainBackground() {
-		GlStateManager.color(1F, 1F, 1F, 1F);
-		mc.getTextureManager().bindTexture(guiTextures);
+		defaultStateAndBind();
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 	
@@ -109,8 +108,6 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 			int[] tankXYWH = info.fluidOutputGuiXYWH.get(i);
 			GuiFluidRenderer.renderGuiTank(tanks.get(i + info.fluidInputSize), guiLeft + tankXYWH[0], guiTop + tankXYWH[1], zLevel, tankXYWH[2], tankXYWH[3]);
 		}
-		
-		mc.getTextureManager().bindTexture(guiTextures);
 	}
 	
 	protected void drawBars() {

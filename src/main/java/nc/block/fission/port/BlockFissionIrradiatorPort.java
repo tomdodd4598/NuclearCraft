@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class BlockFissionIrradiatorPort extends BlockFissionItemPort<TileFissionIrradiatorPort, TileFissionIrradiator> {
 	
 	public BlockFissionIrradiatorPort() {
-		super(TileFissionIrradiatorPort.class, 300);
+		super(TileFissionIrradiatorPort.class);
 	}
 	
 	@Override

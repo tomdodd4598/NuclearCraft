@@ -83,8 +83,8 @@ public class BlockNuclearFurnace extends Block implements ITileEntityProvider, I
 		}
 		
 		TileEntity tileentity = world.getTileEntity(pos);
-		if (tileentity instanceof TileNuclearFurnace) {
-			FMLNetworkHandler.openGui(player, NuclearCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		if (tileentity instanceof TileNuclearFurnace tileFurnace) {
+			tileFurnace.openGui(world, pos, player);
 		}
 		return true;
 	}

@@ -42,7 +42,7 @@ public class JEIHelper {
 				
 				for (Int2ObjectMap.Entry<RecipeItemInfo> mapping : entry.getValue().int2ObjectEntrySet()) {
 					RecipeItemInfo info = mapping.getValue();
-					items.init(info.slotIndex, isInput, info.stackX, info.stackY);
+					items.init(info.slotIndex, isInput, info.stackX - 1, info.stackY - 1);
 					items.set(info.slotIndex, stackLists.get(mapping.getIntKey()));
 				}
 			}

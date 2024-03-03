@@ -74,7 +74,7 @@ public class CTRegistration {
 	@ZenMethod
 	public static void registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 		
-		Block port = NCBlocks.withName(new BlockFissionFluidPort<>(TileFissionHeaterPort.class, 303) {
+		Block port = NCBlocks.withName(new BlockFissionFluidPort<>(TileFissionHeaterPort.class) {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {

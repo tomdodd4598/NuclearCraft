@@ -4,6 +4,7 @@ import nc.network.tile.TileUpdatePacket;
 import nc.tile.*;
 import nc.util.Lazy;
 import nc.util.Lazy.LazyInt;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
@@ -33,5 +34,10 @@ public abstract class GuiInfoTile<TILE extends TileEntity & ITileGui<TILE, PACKE
 		
 		guiName = new Lazy<>(() -> tile.getDisplayName().getUnformattedText());
 		nameWidth = new LazyInt(() -> fontRenderer.getStringWidth(guiName.get()));
+	}
+
+	protected void defaultStateAndBind() {
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		mc.getTextureManager().bindTexture(guiTextures);
 	}
 }

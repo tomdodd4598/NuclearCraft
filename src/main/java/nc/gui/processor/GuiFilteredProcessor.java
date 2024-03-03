@@ -27,9 +27,9 @@ public class GuiFilteredProcessor<TILE extends TileEntity & IProcessor<TILE, PAC
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		drawMainBackground();
+		drawBars();
 		drawFilters();
 		drawTanks();
-		drawBars();
 	}
 	
 	protected void drawFilters() {
@@ -64,8 +64,6 @@ public class GuiFilteredProcessor<TILE extends TileEntity & IProcessor<TILE, PAC
 				}
 			}
 		}
-		
-		mc.getTextureManager().bindTexture(guiTextures);
 	}
 	
 	@Override

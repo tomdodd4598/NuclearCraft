@@ -943,7 +943,7 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, int processTime, int processPower, double processEfficiency) {
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, long processTime, long processPower, double processEfficiency) {
 			CraftTweakerAPI.apply(new CTAddRecipe(NCRecipes.radiation_scrubber, Lists.newArrayList(input1, input2, output1, output2, processTime, processPower, processEfficiency)));
 		}
 		

@@ -2,50 +2,52 @@ package nc.recipe;
 
 import static nc.config.NCConfig.*;
 
-import it.unimi.dsi.fastutil.objects.*;
-import nc.config.NCConfig;
+import nc.handler.TileInfoHandler;
+import nc.recipe.processor.BasicProcessorRecipeHandler;
+import nc.tile.TileContainerInfo;
+import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.util.NCMath;
 
 public class RecipeStats {
 	
-	private static final Object2DoubleMap<String> PROCESSOR_MAX_BASE_PROCESS_TIME_MAP = new Object2DoubleOpenHashMap<>();
-	private static final Object2DoubleMap<String> PROCESSOR_MAX_BASE_PROCESS_POWER_MAP = new Object2DoubleOpenHashMap<>();
-	
 	private static int decay_generator_max_power;
 	private static int fission_max_moderator_line_flux;
-	private static int scrubber_max_process_power;
 	private static double block_mutation_threshold;
 	private static double block_purification_threshold;
 	
 	public static void init() {
-		setProcessorMaxStats();
+		setBasicProcessorMaxStats();
+		setScrubberMaxStats();
 		setDecayGeneratorMaxPower();
 		setFissionMaxModeratorLineFlux();
-		setScrubberMaxProcessPower();
 		setBlockMutationThreshold();
 		setBlockPurificationThreshold();
 	}
 	
-	public static double getProcessorMaxBaseProcessTime(String name) {
-		return PROCESSOR_MAX_BASE_PROCESS_TIME_MAP.getDouble(name);
-	}
-	
-	public static double getProcessorMaxBaseProcessPower(String name) {
-		return PROCESSOR_MAX_BASE_PROCESS_POWER_MAP.getDouble(name);
-	}
-	
-	private static void setProcessorMaxStats() {
-		/*for (BasicRecipeHandler handler : NCRecipes.getHandlers()) {
-			
-			processor_max_base_process_time[i] = 1D;
-			processor_max_base_process_power[i] = 0D;
-			for (BasicRecipe recipe : NCRecipes.processor_recipe_handlers[i].getRecipeList()) {
-				if (recipe != null) {
-					processor_max_base_process_time[i] = Math.max(processor_max_base_process_time[i], recipe.getBaseProcessTime(processor_time_multiplier * processor_time[i]));
-					processor_max_base_process_power[i] = Math.max(processor_max_base_process_power[i], recipe.getBaseProcessPower(processor_power_multiplier * NCConfig.processor_power[i]));
+	private static void setBasicProcessorMaxStats() {
+		for (TileContainerInfo<?> info : TileInfoHandler.TILE_CONTAINER_INFO_MAP.values()) {
+			if (info instanceof ProcessorContainerInfo<?, ?, ?> processorInfo) {
+				if (processorInfo.getRecipeHandler() instanceof BasicProcessorRecipeHandler processorRecipeHandler) {
+					double maxProcessTimeMultiplier = 1D, maxProcessPowerMultiplier = 0D;
+					for (BasicRecipe recipe : processorRecipeHandler.getRecipeList()) {
+						maxProcessTimeMultiplier = Math.max(maxProcessTimeMultiplier, recipe.getProcessTimeMultiplier());
+						maxProcessPowerMultiplier = Math.max(maxProcessPowerMultiplier, recipe.getProcessPowerMultiplier());
+					}
+					processorInfo.maxBaseProcessTime = maxProcessTimeMultiplier * processor_time_multiplier * processorInfo.defaultProcessTime;
+					processorInfo.maxBaseProcessPower = maxProcessPowerMultiplier * processor_power_multiplier * processorInfo.defaultProcessPower;
 				}
 			}
-		}*/
+		}
+	}
+
+	private static void setScrubberMaxStats() {
+		ProcessorContainerInfo<?, ?, ?> info = TileInfoHandler.getProcessorContainerInfo("radiation_scrubber");
+		info.maxBaseProcessTime = 1D;
+		info.maxBaseProcessPower = 0D;
+		for (BasicRecipe recipe : info.getRecipeHandler().getRecipeList()) {
+			info.maxBaseProcessTime = Math.max(info.maxBaseProcessTime, recipe.getScrubberProcessTime());
+			info.maxBaseProcessPower = Math.max(info.maxBaseProcessPower, recipe.getScrubberProcessPower());
+		}
 	}
 	
 	public static int getDecayGeneratorMaxPower() {
@@ -73,20 +75,7 @@ public class RecipeStats {
 				fission_max_moderator_line_flux = Math.max(fission_max_moderator_line_flux, recipe.getFissionModeratorFluxFactor());
 			}
 		}
-		fission_max_moderator_line_flux *= NCConfig.fission_neutron_reach;
-	}
-	
-	public static int getScrubberMaxProcessPower() {
-		return scrubber_max_process_power;
-	}
-	
-	private static void setScrubberMaxProcessPower() {
-		scrubber_max_process_power = 0;
-		for (BasicRecipe recipe : NCRecipes.radiation_scrubber.recipeList) {
-			if (recipe != null) {
-				scrubber_max_process_power = Math.max(scrubber_max_process_power, recipe.getScrubberProcessPower());
-			}
-		}
+		fission_max_moderator_line_flux *= fission_neutron_reach;
 	}
 	
 	public static double getBlockMutationThreshold() {

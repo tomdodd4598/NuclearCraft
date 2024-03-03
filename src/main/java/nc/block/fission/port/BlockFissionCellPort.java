@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class BlockFissionCellPort extends BlockFissionItemPort<TileFissionCellPort, TileSolidFissionCell> {
 	
 	public BlockFissionCellPort() {
-		super(TileFissionCellPort.class, 301);
+		super(TileFissionCellPort.class);
 	}
 	
 	@Override

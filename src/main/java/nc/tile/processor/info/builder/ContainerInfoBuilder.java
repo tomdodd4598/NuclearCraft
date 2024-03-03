@@ -158,6 +158,11 @@ public abstract class ContainerInfoBuilder<BUILDER extends ContainerInfoBuilder<
 		
 		return getThis();
 	}
+
+	public BUILDER setStandardJeiAlternateTitle() {
+		jeiTitle = modId + "." + name + ".jei_name";
+		return getThis();
+	}
 	
 	public BUILDER setStandardJeiAlternateTexture() {
 		jeiTexture = modId + ":textures/gui/container/" + name + "_jei.png";
@@ -165,18 +170,17 @@ public abstract class ContainerInfoBuilder<BUILDER extends ContainerInfoBuilder<
 	}
 	
 	public void autoJeiBackgroundXY() {
-		MinMaxInt minMaxCenterX = new MinMaxInt(), minMaxCenterY = new MinMaxInt(), minMaxRadialW = new MinMaxInt(), minMaxRadialH = new MinMaxInt();
+		MinMaxInt minMaxCenterX = new MinMaxInt(), minMaxCenterY = new MinMaxInt();
 		for (List<int[]> xywhList : Arrays.asList(itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH)) {
 			for (int[] xywh : xywhList) {
-				int halfW = xywh[2] / 2, halfH = xywh[3] / 2;
-				minMaxCenterX.update(xywh[0] + halfW);
-				minMaxCenterY.update(xywh[1] + halfH);
-				minMaxRadialW.update(halfW + 1);
-				minMaxRadialH.update(halfH + 1);
+				minMaxCenterX.update(xywh[0] - 2);
+				minMaxCenterY.update(xywh[1] - 2);
+				minMaxCenterX.update(xywh[0] + xywh[2] + 2);
+				minMaxCenterY.update(xywh[1] + xywh[3] + 2);
 			}
 		}
 		
-		jeiBackgroundXYWH = new int[] {minMaxCenterX.getMin() - minMaxRadialW.getMax(), minMaxCenterY.getMin() - minMaxRadialH.getMax(), minMaxCenterX.getMax() + minMaxRadialW.getMax(), minMaxCenterY.getMax() + minMaxRadialH.getMax()};
+		jeiBackgroundXYWH = new int[] {minMaxCenterX.getMin(), minMaxCenterY.getMin(), minMaxCenterX.getDiff(), minMaxCenterY.getDiff()};
 	}
 	
 	public BUILDER disableProgressBar() {

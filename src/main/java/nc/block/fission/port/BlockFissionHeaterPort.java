@@ -2,8 +2,8 @@ package nc.block.fission.port;
 
 import static nc.block.property.BlockProperties.*;
 
-import nc.NuclearCraft;
 import nc.enumm.MetaEnums;
+import nc.tile.ITileGui;
 import nc.tile.fission.TileSaltFissionHeater;
 import nc.tile.fission.port.TileFissionHeaterPort;
 import nc.tile.internal.fluid.TankSorption;
@@ -20,7 +20,7 @@ public class BlockFissionHeaterPort extends BlockFissionFluidMetaPort<TileFissio
 	public final static PropertyEnum<MetaEnums.CoolantHeaterType> TYPE = PropertyEnum.create("type", MetaEnums.CoolantHeaterType.class);
 	
 	public BlockFissionHeaterPort() {
-		super(TileFissionHeaterPort.class, MetaEnums.CoolantHeaterType.class, TYPE, 303);
+		super(TileFissionHeaterPort.class, MetaEnums.CoolantHeaterType.class, TYPE);
 	}
 	
 	@Override
@@ -63,7 +63,10 @@ public class BlockFissionHeaterPort extends BlockFissionFluidMetaPort<TileFissio
 		}
 		
 		if (!world.isRemote) {
-			player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof ITileGui<?, ?, ?> tileGui) {
+				tileGui.openGui(world, pos, player);
+			}
 			return true;
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);

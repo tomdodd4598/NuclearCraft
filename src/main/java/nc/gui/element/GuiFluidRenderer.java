@@ -60,8 +60,8 @@ public class GuiFluidRenderer {
 		
 		int renderAmount = (int) Math.max(Math.min(height, amount * height / capacity), 1);
 		int posY = (int) (y + height - renderAmount);
-		
-		MC.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
+		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		int color = fluid.getFluid().getColor(fluid);
 		GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF), (byte) alpha);
 		

@@ -1,7 +1,7 @@
 package nc.block.fission.port;
 
-import nc.NuclearCraft;
 import nc.multiblock.fission.FissionReactor;
+import nc.tile.ITileGui;
 import nc.tile.fission.port.*;
 import nc.tile.inventory.ITileFilteredInventory;
 import nc.util.Lang;
@@ -16,11 +16,8 @@ import net.minecraft.world.World;
 
 public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredInventory> extends BlockFissionPort<PORT, TARGET> {
 	
-	protected final int guiId;
-	
-	public BlockFissionItemPort(Class<PORT> portClass, int guiId) {
+	public BlockFissionItemPort(Class<PORT> portClass) {
 		super(portClass);
-		this.guiId = guiId;
 	}
 	
 	@Override
@@ -44,7 +41,9 @@ public abstract class BlockFissionItemPort<PORT extends TileFissionItemPort<PORT
 						port.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
+						if (tile instanceof ITileGui<?, ?, ?> tileGui) {
+							tileGui.openGui(world, pos, player);
+						}
 					}
 					return true;
 				}

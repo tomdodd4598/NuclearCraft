@@ -28,12 +28,10 @@ public class GuiFissionCellPort extends GuiInfoTile<TileFissionCellPort, ItemPor
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1F, 1F, 1F, 1F);
-		mc.getTextureManager().bindTexture(guiTextures);
+		defaultStateAndBind();
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
+
 		new GuiItemRenderer(tile.getFilterStacks().get(0), guiLeft + 44, guiTop + 35, 0.5F).draw();
-		mc.getTextureManager().bindTexture(guiTextures);
 	}
 	
 	@Override

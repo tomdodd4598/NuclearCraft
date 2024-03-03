@@ -112,7 +112,7 @@ public abstract class AbstractRecipeHandler<RECIPE extends IRecipe> {
 		}
 	}
 	
-	public abstract void postInit();
+	public void postInit() {}
 	
 	public void refreshCache() {
 		recipeCache.clear();

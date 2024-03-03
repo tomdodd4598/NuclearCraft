@@ -135,7 +135,7 @@ public abstract class NCGui extends GuiContainer {
 	
 	protected List<String> energyInfo(IEnergyStorage energyStorage) {
 		String energy = UnitHelper.prefix(energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored(), 5, "RF");
-		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localize("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy);
+		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localize("gui.nc.container.energy_stored") + TextFormatting.WHITE + " " + energy);
 	}
 	
 	protected List<String> noEnergyInfo() {

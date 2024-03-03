@@ -81,14 +81,6 @@ public class NCJEI implements IModPlugin {
 		}
 	}
 	
-	public static List<ItemStack> fixStacks(List<?> list) {
-		List<ItemStack> stacks = new ArrayList<>();
-		for (Object obj : list) {
-			stacks.add(StackHelper.fixItemStack(obj));
-		}
-		return stacks;
-	}
-	
 	public static List<Object> registeredCollectors() {
 		List<Object> list = new ArrayList<>();
 		if (register_passive[0]) {

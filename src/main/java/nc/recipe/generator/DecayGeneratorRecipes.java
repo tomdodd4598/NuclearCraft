@@ -45,9 +45,6 @@ public class DecayGeneratorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	protected void setStats() {}
-	
-	@Override
 	public List<Object> fixedExtras(List<Object> extras) {
 		ExtrasFixer fixer = new ExtrasFixer(extras);
 		fixer.add(Double.class, 1200D);

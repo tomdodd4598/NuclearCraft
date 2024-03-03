@@ -23,9 +23,6 @@ public class FissionIrradiatorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	protected void setStats() {}
-	
-	@Override
 	protected List<Object> fixedExtras(List<Object> extras) {
 		ExtrasFixer fixer = new ExtrasFixer(extras);
 		fixer.add(Integer.class, 1);

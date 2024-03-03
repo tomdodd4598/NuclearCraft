@@ -24,9 +24,6 @@ public class RadBlockEffects {
 		}
 		
 		@Override
-		protected void setStats() {}
-		
-		@Override
 		public List<Object> fixedExtras(List<Object> extras) {
 			ExtrasFixer fixer = new ExtrasFixer(extras);
 			fixer.add(Double.class, Double.MAX_VALUE);
@@ -44,9 +41,6 @@ public class RadBlockEffects {
 		public void addRecipes() {
 			addRecipe(NCBlocks.wasteland_earth, "dirt", 0.001D);
 		}
-		
-		@Override
-		protected void setStats() {}
 		
 		@Override
 		public List<Object> fixedExtras(List<Object> extras) {

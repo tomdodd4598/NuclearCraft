@@ -7,9 +7,11 @@ import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import nc.integration.jei.category.*;
 import nc.integration.jei.wrapper.*;
 import nc.recipe.*;
+import nc.util.StackHelper;
 import nc.util.StreamHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 
 public abstract class JEICategoryInfo<WRAPPER extends JEIRecipeWrapper, CATEGORY extends JEIRecipeCategory<WRAPPER, CATEGORY, CATEGORY_INFO>, CATEGORY_INFO extends JEICategoryInfo<WRAPPER, CATEGORY, CATEGORY_INFO>> {
 	
@@ -136,8 +138,9 @@ public abstract class JEICategoryInfo<WRAPPER extends JEIRecipeWrapper, CATEGORY
 	
 	public void addJEIRecipeCatalysts(IModRegistry registry) {
 		for (Object crafter : jeiCrafters) {
-			if (crafter != null) {
-				registry.addRecipeCatalyst(crafter, getJEICategoryUid());
+			ItemStack crafterStack = StackHelper.fixItemStack(crafter);
+			if (crafterStack != null) {
+				registry.addRecipeCatalyst(crafterStack, getJEICategoryUid());
 			}
 		}
 	}

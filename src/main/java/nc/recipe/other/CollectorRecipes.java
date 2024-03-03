@@ -39,9 +39,6 @@ public class CollectorRecipes extends BasicRecipeHandler {
 	}
 	
 	@Override
-	protected void setStats() {}
-	
-	@Override
 	public List<Object> fixedExtras(List<Object> extras) {
 		ExtrasFixer fixer = new ExtrasFixer(extras);
 		fixer.add(String.class, null);

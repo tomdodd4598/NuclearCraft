@@ -1,8 +1,8 @@
 package nc.block.fission.port;
 
-import nc.NuclearCraft;
 import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.fission.FissionReactor;
+import nc.tile.ITileGui;
 import nc.tile.fission.port.*;
 import nc.tile.fluid.ITileFilteredFluid;
 import nc.util.*;
@@ -18,11 +18,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class BlockFissionFluidMetaPort<PORT extends TileFissionFluidPort<PORT, TARGET>, TARGET extends IFissionPortTarget<PORT, TARGET> & ITileFilteredFluid, T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockFissionMetaPort<PORT, TARGET, T> {
 	
-	protected final int guiId;
-	
-	public BlockFissionFluidMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property, int guiId) {
+	public BlockFissionFluidMetaPort(Class<PORT> portClass, Class<T> enumm, PropertyEnum<T> property) {
 		super(portClass, enumm, property);
-		this.guiId = guiId;
 	}
 	
 	@Override
@@ -46,7 +43,9 @@ public abstract class BlockFissionFluidMetaPort<PORT extends TileFissionFluidPor
 						port.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
+						if (tile instanceof ITileGui<?, ?, ?> tileGui) {
+							tileGui.openGui(world, pos, player);
+						}
 					}
 					return true;
 				}

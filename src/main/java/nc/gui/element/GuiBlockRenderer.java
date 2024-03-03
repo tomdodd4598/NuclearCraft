@@ -37,7 +37,7 @@ public class GuiBlockRenderer {
 		}
 		TextureAtlasSprite icon = getTexture(state, facing);
 		
-		MC.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		
 		GlStateManager.enableBlend();
 		for (int i = 0; i < width; i += 16) {

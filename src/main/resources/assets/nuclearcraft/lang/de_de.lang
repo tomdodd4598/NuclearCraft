@@ -2012,8 +2012,8 @@ nuclearcraft.multiblock_validation.salt_fission.no_controller=Es muss eine Steue
 nuclearcraft.multiblock_validation.salt_fission.too_many_controllers=Es darf nur eine Steuerungseinheit da sein um den Reaktor zu formen.
 nuclearcraft.multiblock_validation.salt_fission.invalid_here=%4$s ist kein valider Block bei [%1$d, %2$d, %3$d]
 
-nuclearcraft.multiblock_gui.salt_fission.jei_name=Flüssigsalzspaltung
-nuclearcraft.multiblock_gui.coolant_heater.jei_name=Flüssigsalzkühlmittelerhitzer
+nuclearcraft.salt_fission.jei_name=Flüssigsalzspaltung
+nuclearcraft.coolant_heater.jei_name=Flüssigsalzkühlmittelerhitzer
 
 advancement.nuclearcraft.root.name=NuclearCraft
 advancement.nuclearcraft.root.desc=Atomphysik, Minecraft Style

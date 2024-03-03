@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class BlockFissionVesselPort extends BlockFissionFluidPort<TileFissionVesselPort, TileSaltFissionVessel> {
 	
 	public BlockFissionVesselPort() {
-		super(TileFissionVesselPort.class, 302);
+		super(TileFissionVesselPort.class);
 	}
 	
 	@Override

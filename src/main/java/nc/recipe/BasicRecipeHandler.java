@@ -274,13 +274,6 @@ public abstract class BasicRecipeHandler extends AbstractRecipeHandler<BasicReci
 	}
 	
 	@Override
-	public void postInit() {
-		setStats();
-	}
-	
-	protected abstract void setStats();
-	
-	@Override
 	protected void fillHashCache() {
 		for (BasicRecipe recipe : recipeList) {
 			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();

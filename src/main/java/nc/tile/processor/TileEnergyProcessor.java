@@ -6,6 +6,7 @@ import javax.annotation.*;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import li.cil.oc.api.network.SimpleComponent;
 import nc.ModCheck;
 import nc.handler.TileInfoHandler;
 import nc.network.tile.processor.*;
@@ -22,8 +23,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.common.Optional;
 
-public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, EnergyProcessorUpdatePacket, INFO>> extends TileEnergyFluidSidedInventory implements IProcessor<TILE, EnergyProcessorUpdatePacket, INFO> {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, EnergyProcessorUpdatePacket, INFO>> extends TileEnergyFluidSidedInventory implements IProcessor<TILE, EnergyProcessorUpdatePacket, INFO>, SimpleComponent {
 	
 	protected final INFO info;
 	
@@ -45,7 +48,7 @@ public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE,
 	}
 	
 	private TileEnergyProcessor(String name, INFO info) {
-		this(name, info, ITileInventory.inventoryConnectionAll(info.defaultItemSorptions()), IProcessor.energyCapacity(info, 1D, 1D), ITileEnergy.energyConnectionAll(info.defaultEnergyConnection()), info.defaultTankCapacities(), NCRecipes.getValidFluids(name), ITileFluid.fluidConnectionAll(info.defaultTankSorptions()));
+		this(name, info, ITileInventory.inventoryConnectionAll(info.defaultItemSorptions()), info.getEnergyCapacity(1D, 1D), ITileEnergy.energyConnectionAll(info.defaultEnergyConnection()), info.defaultTankCapacities(), NCRecipes.getValidFluids(name), ITileFluid.fluidConnectionAll(info.defaultTankSorptions()));
 	}
 	
 	private TileEnergyProcessor(String name, INFO info, @Nonnull InventoryConnection[] inventoryConnections, long capacity, @Nonnull EnergyConnection[] energyConnections, @Nonnull IntList fluidCapacity, List<List<String>> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
@@ -217,12 +220,23 @@ public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE,
 	}
 	
 	// Needed for Galacticraft
-	protected int getMaxEnergyModified() {
-		return ModCheck.galacticraftLoaded() ? Math.max(0, getMaxEnergyStored() - 16) : getMaxEnergyStored();
+	protected long getMaxEnergyModified() {
+		return ModCheck.galacticraftLoaded() ? Math.max(0L, getMaxEnergyStoredLong() - 16L) : getMaxEnergyStoredLong();
 	}
 	
 	public boolean hasSufficientEnergy() {
-		return time <= resetTime && (getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified() || getProcessEnergy() <= getEnergyStored()) || time > resetTime && getEnergyStored() >= getProcessPower();
+		if (time <= resetTime) {
+			long processEnergy = getProcessEnergy(), maxEnergy = getMaxEnergyModified();
+			if (processEnergy >= maxEnergy) {
+				return getEnergyStored() >= maxEnergy;
+			}
+			else {
+				return getEnergyStored() >= processEnergy;
+			}
+		}
+		else {
+			return getEnergyStored() >= getProcessPower();
+		}
 	}
 	
 	@Override
@@ -296,5 +310,13 @@ public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE,
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readProcessorNBT(nbt);
+	}
+
+	// OpenComputers
+
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public String getComponentName() {
+		return getContainerInfo().ocComponentName;
 	}
 }

@@ -19,6 +19,6 @@ public class TileContainerInfoHelper {
 	}
 	
 	public static int[] stackXY(int[] slotXYWH) {
-		return new int[] {slotXYWH[0] + (16 - slotXYWH[2]) / 2, slotXYWH[1] + (16 - slotXYWH[3]) / 2};
+		return new int[] {slotXYWH[0] + (slotXYWH[2] - 16) / 2, slotXYWH[1] + (slotXYWH[3] - 16) / 2};
 	}
 }

@@ -21,8 +21,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>> extends GuiProcessor<TILE, PACKET, INFO> {
 	
-	protected GuiItemRenderer speedUpgradeRenderer = null, energyUpgradeRenderer = null;
-	
 	public GuiUpgradableProcessor(Container inventory, EntityPlayer player, TILE tile, String textureLocation) {
 		super(inventory, player, tile, textureLocation);
 	}
@@ -41,17 +39,11 @@ public abstract class GuiUpgradableProcessor<TILE extends TileEntity & IProcesso
 	}
 	
 	protected void drawUpgradeRenderers() {
-		if (speedUpgradeRenderer == null) {
-			int[] stackXY = info.speedUpgradeStackXY;
-			speedUpgradeRenderer = new GuiItemRenderer(NCItems.upgrade, 0, guiLeft + stackXY[0], guiTop + stackXY[1], 0.5F);
-		}
-		speedUpgradeRenderer.draw();
-		
-		if (energyUpgradeRenderer == null) {
-			int[] stackXY = info.energyUpgradeStackXY;
-			energyUpgradeRenderer = new GuiItemRenderer(NCItems.upgrade, 1, guiLeft + stackXY[0], guiTop + stackXY[1], 0.5F);
-		}
-		energyUpgradeRenderer.draw();
+		int[] stackXY = info.speedUpgradeStackXY;
+		new GuiItemRenderer(NCItems.upgrade, 0, guiLeft + stackXY[0], guiTop + stackXY[1], 0.5F).draw();
+
+		stackXY = info.energyUpgradeStackXY;
+		new GuiItemRenderer(NCItems.upgrade, 1, guiLeft + stackXY[0], guiTop + stackXY[1], 0.5F).draw();
 	}
 	
 	@Override

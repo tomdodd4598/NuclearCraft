@@ -313,12 +313,12 @@ public class BasicRecipe implements IRecipe {
 	
 	// Radiation Scrubber
 	
-	public int getScrubberProcessTime() {
-		return (int) extras.get(0);
+	public long getScrubberProcessTime() {
+		return (long) extras.get(0);
 	}
 	
-	public int getScrubberProcessPower() {
-		return (int) extras.get(1);
+	public long getScrubberProcessPower() {
+		return (long) extras.get(1);
 	}
 	
 	public double getScrubberProcessEfficiency() {

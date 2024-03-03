@@ -1,7 +1,10 @@
-CT Registration of machines
-Add auto-outputting to machines
+Fix multiblock component GUIs
+Fix broken controller GUIs
 
 Add proper port container info system
+
+CT Registration of machines
+Add auto-outputting to machines
 
 Fix smart insertion for fluid recipes
 

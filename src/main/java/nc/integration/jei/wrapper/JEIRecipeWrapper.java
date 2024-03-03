@@ -7,6 +7,7 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.recipe.*;
+import nc.util.Lazy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -22,7 +23,7 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper {
 	protected final List<List<ItemStack>> itemOutputs;
 	protected final List<List<FluidStack>> fluidOutputs;
 	
-	protected final IDrawable arrow;
+	protected final Lazy<IDrawable> arrow;
 	protected final int arrowX, arrowY;
 	
 	protected JEIRecipeWrapper(IGuiHelper guiHelper, BasicRecipeHandler recipeHandler, BasicRecipe recipe, String textureLocation, int backgroundX, int backgroundY, int arrowX, int arrowY, int arrowW, int arrowH, int arrowU, int arrowV) {
@@ -35,9 +36,11 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper {
 		fluidOutputs = RecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
 		
 		if (arrowW > 0 && arrowH > 0) {
-			IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(textureLocation), arrowU, arrowV, arrowW, arrowH);
-			int progressTime = getProgressArrowTime();
-			arrow = progressTime < 2 ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, progressTime, IDrawableAnimated.StartDirection.LEFT, false);
+			arrow = new Lazy<>(() -> {
+				IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(textureLocation), arrowU, arrowV, arrowW, arrowH);
+				int progressTime = getProgressArrowTime();
+				return progressTime < 2 ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, progressTime, IDrawableAnimated.StartDirection.LEFT, false);
+			});
 		}
 		else {
 			arrow = null;
@@ -59,7 +62,7 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper {
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		if (arrow != null) {
-			arrow.draw(minecraft, arrowX, arrowY);
+			arrow.get().draw(minecraft, arrowX, arrowY);
 		}
 	}
 	

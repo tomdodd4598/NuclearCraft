@@ -1,6 +1,5 @@
 package nc.block.fission;
 
-import nc.NuclearCraft;
 import nc.multiblock.fission.FissionReactor;
 import nc.tile.fission.TileSaltFissionVessel;
 import nc.util.*;
@@ -44,7 +43,7 @@ public class BlockSaltFissionVessel extends BlockFissionPart {
 						vessel.onFilterChanged(0);
 					}
 					else {
-						player.openGui(NuclearCraft.instance, 202, world, pos.getX(), pos.getY(), pos.getZ());
+						vessel.openGui(world, pos, player);
 					}
 					return true;
 				}

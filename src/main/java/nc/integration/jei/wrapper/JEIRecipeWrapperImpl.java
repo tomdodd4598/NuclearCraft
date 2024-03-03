@@ -192,19 +192,19 @@ public class JEIRecipeWrapperImpl {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return MathHelper.ceil(getScrubberProcessTime() / 120);
+			return MathHelper.ceil(getScrubberProcessTime() / 120D);
 		}
 		
 		protected double getScrubberProcessTime() {
 			if (recipe == null) {
-				return 1;
+				return 1D;
 			}
 			return recipe.getScrubberProcessTime();
 		}
 		
-		protected int getScrubberProcessPower() {
+		protected long getScrubberProcessPower() {
 			if (recipe == null) {
-				return 0;
+				return 0L;
 			}
 			return recipe.getScrubberProcessPower();
 		}
