@@ -3456,7 +3456,7 @@ hud.nuclearcraft.rad_immune=Immune!
 commands.nuclearcraft.set_chunk_radiation.usage=/nc_set_chunk_radiation <radiation_level> [coord_x] [coord_z]
 commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radiation <radiation_level> <chunk_radius>
 commands.nuclearcraft.set_world_radiation.usage=/nc_set_world_radiation <radiation_level>
-commands.nuclearcraft.set_player_radiation.usage=/nc_set_world_radiation <radiation_level> [player]
+commands.nuclearcraft.set_player_radiation.usage=/nc_set_player_radiation <radiation_level> [player]
 
 commands.nuclearcraft.reconstruct_script_addons.usage=/nc_reload_script_addons ["syntax"]
 commands.nuclearcraft.reconstruct_script_addons.success=Successfully reconstructed script addons!
