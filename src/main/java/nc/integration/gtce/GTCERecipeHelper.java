@@ -2,9 +2,15 @@ package nc.integration.gtce;
 
 import static nc.config.NCConfig.gtce_recipe_logging;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import gregtech.api.items.metaitem.MetaItem;
@@ -21,11 +27,47 @@ import net.minecraftforge.fml.common.Optional;
 public class GTCERecipeHelper {
 
 	private static RecipeMap<?> EXTRACTOR_MAP;
+	private static boolean isCEu = false;
+	private static Constructor<?> circuitConstructor;
+	private static Class<?> rb;
+	private static Method notConsumable;
+	private static Method acceptsStack;
+	private static Method acceptsFluid;
 
 	@Optional.Method(modid = "gregtech")
 	public static void checkGtVersion() {
 		String version = Loader.instance().getIndexedModList().get("gregtech").getVersion();
-		EXTRACTOR_MAP = getExtractorMap(Integer.parseInt(version.split("\\.")[0]));
+		int v = Integer.parseInt(version.split("\\.")[0]);
+		try {
+			if (v >= 2) {
+				isCEu = true;
+				circuitConstructor = ReflectionHelper.getClass(Launch.classLoader, "gregtech.api.recipes.ingredients.IntCircuitIngredient").getConstructor(int.class);
+				Class<? super Object> gtri = ReflectionHelper.getClass(Launch.classLoader, "gregtech.api.recipes.ingredients.GTRecipeInput");
+				rb = ReflectionHelper.getClass(Launch.classLoader, "gregtech.api.recipes.RecipeBuilder");
+				notConsumable = rb.getDeclaredMethod("notConsumable", gtri);
+				acceptsStack = gtri.getDeclaredMethod("acceptsStack", ItemStack.class);
+				acceptsFluid = gtri.getDeclaredMethod("acceptsFluid", FluidStack.class);
+			} else {
+				notConsumable = rb.getDeclaredMethod("notConsumable", Ingredient.class);
+			}
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
+		EXTRACTOR_MAP = getExtractorMap(isCEu);
+	}
+
+	private static void notConsumableCEorCEuCircuit( RecipeBuilder<?> builder, int i ) {
+		IntCircuitIngredient ingredient;
+		try {
+			if (isCEu) {
+				ingredient = (IntCircuitIngredient) circuitConstructor.newInstance(i);
+			} else {
+				ingredient = new IntCircuitIngredient(i);
+			}
+			notConsumable.invoke(builder, ingredient);
+		} catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	// Thanks so much to Firew0lf for the original method!
@@ -79,16 +121,17 @@ public class GTCERecipeHelper {
 			case "pressurizer":
 				if (isPlateRecipe(recipe)) {
 					recipeMap = RecipeMaps.BENDER_RECIPES;
-					builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 10).notConsumable(new IntCircuitIngredient(0));
-				}
-				else {
+					builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 10);
+					notConsumableCEorCEuCircuit(builder, isCEu ? 1 : 0);
+				} else {
 					recipeMap = RecipeMaps.COMPRESSOR_RECIPES;
 					builder = addStats(recipeMap.recipeBuilder(), recipe, 2, 20);
 				}
 				break;
 			case "chemical_reactor":
 				recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 30).notConsumable(new IntCircuitIngredient(0));
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 30);
+				notConsumableCEorCEuCircuit(builder, 0);
 				break;
 			case "salt_mixer":
 				recipeMap = RecipeMaps.MIXER_RECIPES;
@@ -96,11 +139,13 @@ public class GTCERecipeHelper {
 				break;
 			case "crystallizer":
 				recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10).notConsumable(new IntCircuitIngredient(1));
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10);
+				notConsumableCEorCEuCircuit(builder, 0);
 				break;
 			case "enricher":
 				recipeMap = RecipeMaps.CHEMICAL_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20).notConsumable(new IntCircuitIngredient(2));
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20);
+				notConsumableCEorCEuCircuit(builder, 2);
 				break;
 			case "extractor":
 				recipeMap = EXTRACTOR_MAP;
@@ -314,15 +359,41 @@ public class GTCERecipeHelper {
 	
 	@Optional.Method(modid = "gregtech")
 	private static boolean isRecipeConflict(Recipe recipe, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
-		itemLoop: for (ItemStack input : inputs) {
-			for (CountableIngredient ingredient : recipe.getInputs()) {
-				if (ingredient.getIngredient().apply(input)) {
-					continue itemLoop;
+		itemLoop:
+		for (ItemStack input : inputs) {
+			if (isCEu) {
+				for (Object ingredient : recipe.getInputs()) {
+					try {
+						if (acceptsStack.invoke(ingredient, input).equals(true)) {
+							continue itemLoop;
+						}
+					} catch (IllegalAccessException | InvocationTargetException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			} else {
+				for (CountableIngredient ingredient : recipe.getInputs()) {
+					if (ingredient.getIngredient().apply(input)) {
+						continue itemLoop;
+					}
 				}
 			}
 			return false;
 		}
-		fluidLoop: for (FluidStack input : fluidInputs) {
+		fluidLoop:
+		for (FluidStack input : fluidInputs) {
+			if (isCEu) {
+				for (Object fluidIngredient : recipe.getFluidInputs()) {
+					try {
+						if (acceptsFluid.invoke(fluidIngredient, input).equals(true)) {
+							continue fluidLoop;
+						}
+					} catch (IllegalAccessException | InvocationTargetException e) {
+						throw new RuntimeException(e);
+					}
+				}
+				return false;
+			}
 			for (FluidStack fluid : recipe.getFluidInputs()) {
 				if (input.isFluidEqual(fluid)) {
 					continue fluidLoop;
@@ -353,13 +424,14 @@ public class GTCERecipeHelper {
 	}
 
 	@Optional.Method(modid = "gregtech")
-	private static RecipeMap<?> getExtractorMap(int gtVersion) {
-		if (gtVersion == 2) {
+	private static RecipeMap<?> getExtractorMap(boolean isCEu) {
+		if (isCEu) {
 			return RecipeMaps.EXTRACTOR_RECIPES;
 		} else {
 			try {
 				return (RecipeMap<?>) RecipeMaps.class.getField("FLUID_EXTRACTION_RECIPES").get(null);
-			} catch (NoSuchFieldException | IllegalAccessException ignored) {}
+			} catch (NoSuchFieldException | IllegalAccessException ignored) {
+			}
 		}
 		return null;
 	}
