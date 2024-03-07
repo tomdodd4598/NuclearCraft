@@ -32,7 +32,7 @@ info.nuclearcraft.moderator.efficiency.fixd=效率倍率：%s
 
 # info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多 %s 个共线的减速剂和分别位于两个末端的两个单元或容器 或 最多 %s 个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它 是一条线路中的一部分 并 与至少一个有效的末端单元或容器相邻 时才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至 另一个单元或容器 或 一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
 
-tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-石墨中子反射器
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-碳中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
 
 info.nuclearcraft.reflector.fixd=裂变反应堆反射器
@@ -59,7 +59,7 @@ tile.nuclearcraft.separator.name=分离器
 tile.nuclearcraft.separator.desc=将材料分离为它们的成分。
 
 tile.nuclearcraft.decay_hastener.name=衰变加速器
-tile.nuclearcraft.decay_hastener.desc=强制加速放射性物质进行衰变。
+tile.nuclearcraft.decay_hastener.desc=强制加速放射性物质衰变。
 
 tile.nuclearcraft.fuel_reprocessor.name=燃料再处理机
 tile.nuclearcraft.fuel_reprocessor.desc=从衰竭核燃料中获取材料。
@@ -306,7 +306,7 @@ tile.nuclearcraft.turbine_controller.desc=涡轮机的心脏——某面墙壁�
 tile.nuclearcraft.turbine_casing.name=涡轮机外壳
 tile.nuclearcraft.turbine_glass.name=透明涡轮机外壳
 tile.nuclearcraft.turbine_rotor_shaft.name=涡轮机转子轴
-tile.nuclearcraft.turbine_rotor_shaft.desc=将转子叶片连接到发电机以将产生的动能转换为电能。必须被以涡轮机的中心为轴放置。
+tile.nuclearcraft.turbine_rotor_shaft.desc=将转子叶片连接到发电机以将产生的动能转换为电能。必须以涡轮机的中心为轴放置。
 tile.nuclearcraft.turbine_rotor_blade_steel.name=钢涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_extreme.name=极限合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=碳化硅陶瓷基复合材料涡轮机转子叶片
@@ -372,11 +372,11 @@ tile.nuclearcraft.quantum_computer_controller.name=量子计算机控制器
 tile.nuclearcraft.quantum_computer_qubit.name=量子位
 
 tile.nuclearcraft.quantum_computer_gate_single.x.name=量子计算机 泡利-X 门
-tile.nuclearcraft.quantum_computer_gate_single.x.desc=在布洛赫球面的X轴上旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_single.x.desc=在布洛赫球面的 X 轴上旋转目标量子位 180 度。
 tile.nuclearcraft.quantum_computer_gate_single.y.name=量子计算机 泡利-Y 门
-tile.nuclearcraft.quantum_computer_gate_single.y.desc=在布洛赫球面的Y轴上旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_single.y.desc=在布洛赫球面的 Y 轴上旋转目标量子位 180 度。
 tile.nuclearcraft.quantum_computer_gate_single.z.name=量子计算机 泡利-Z 门
-tile.nuclearcraft.quantum_computer_gate_single.z.desc=在布洛赫球面的Z轴上旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_single.z.desc=在布洛赫球面的 Z 轴上旋转目标量子位 180 度。
 tile.nuclearcraft.quantum_computer_gate_single.h.name=量子计算机 阿达马门
 tile.nuclearcraft.quantum_computer_gate_single.h.desc=对目标量子位应用阿达马变换。
 tile.nuclearcraft.quantum_computer_gate_single.s.name=量子计算机 S 门
@@ -390,18 +390,18 @@ tile.nuclearcraft.quantum_computer_gate_single.tdg.desc=将目标量子位的相
 tile.nuclearcraft.quantum_computer_gate_single.p.name=量子计算机 相位门
 tile.nuclearcraft.quantum_computer_gate_single.p.desc=将目标量子位的相位移动一个可设定的角度。
 tile.nuclearcraft.quantum_computer_gate_single.rx.name=量子计算机 X-旋转门
-tile.nuclearcraft.quantum_computer_gate_single.rx.desc=在空间的X轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_single.rx.desc=在空间的 X 轴上旋转目标量子位。
 tile.nuclearcraft.quantum_computer_gate_single.ry.name=量子计算机 Y-旋转门
-tile.nuclearcraft.quantum_computer_gate_single.ry.desc=在空间的Y轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_single.ry.desc=在空间的 Y 轴上旋转目标量子位。
 tile.nuclearcraft.quantum_computer_gate_single.rz.name=量子计算机 Z-旋转门
-tile.nuclearcraft.quantum_computer_gate_single.rz.desc=在空间的Z轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_single.rz.desc=在空间的 Z 轴上旋转目标量子位。
 
 tile.nuclearcraft.quantum_computer_gate_control.cx.name=受控 量子计算机 泡利-X 门
-tile.nuclearcraft.quantum_computer_gate_control.cx.desc=在控制下在布洛赫球面的X轴上旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_control.cx.desc=在控制下在布洛赫球面的 X 轴上旋转目标量子位 180 度。
 tile.nuclearcraft.quantum_computer_gate_control.cy.name=受控 量子计算机 泡利-Y 门
-tile.nuclearcraft.quantum_computer_gate_control.cy.desc=在控制下在布洛赫球面的Y轴上旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_control.cy.desc=在控制下在布洛赫球面的 Y 轴上旋转目标量子位 180 度。
 tile.nuclearcraft.quantum_computer_gate_control.cz.name=受控 量子计算机 泡利-Z 门
-tile.nuclearcraft.quantum_computer_gate_control.cz.desc=在控制下在布洛赫球面的Z轴上旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_control.cz.desc=在控制下在布洛赫球面的 Z 轴上旋转目标量子位 180 度。
 tile.nuclearcraft.quantum_computer_gate_control.ch.name=受控 量子计算机 阿达马门
 tile.nuclearcraft.quantum_computer_gate_control.ch.desc=在控制下对目标量子位应用阿达马变换。
 tile.nuclearcraft.quantum_computer_gate_control.cs.name=受控 量子计算机 S 门
@@ -415,11 +415,11 @@ tile.nuclearcraft.quantum_computer_gate_control.ctdg.desc=在控制下将目标�
 tile.nuclearcraft.quantum_computer_gate_control.cp.name=受控 量子计算机 相位门
 tile.nuclearcraft.quantum_computer_gate_control.cp.desc=在控制下将目标量子位的相位移动一个可设定的角度。
 tile.nuclearcraft.quantum_computer_gate_control.crx.name=受控 量子计算机 X-旋转门
-tile.nuclearcraft.quantum_computer_gate_control.crx.desc=在控制下在空间的X轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_control.crx.desc=在控制下在空间的 X 轴上旋转目标量子位。
 tile.nuclearcraft.quantum_computer_gate_control.cry.name=受控 量子计算机 Y-旋转门
-tile.nuclearcraft.quantum_computer_gate_control.cry.desc=在控制下在空间的Y轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_control.cry.desc=在控制下在空间的 Y 轴上旋转目标量子位。
 tile.nuclearcraft.quantum_computer_gate_control.crz.name=受控 量子计算机 Z-旋转门
-tile.nuclearcraft.quantum_computer_gate_control.crz.desc=在控制下在空间的Z轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_control.crz.desc=在控制下在空间的 Z 轴上旋转目标量子位。
 
 tile.nuclearcraft.quantum_computer_gate_swap.swap.name=量子计算机 互换门
 tile.nuclearcraft.quantum_computer_gate_swap.swap.desc=交换两个列表中的量子位。
@@ -1562,11 +1562,13 @@ item.nuclearcraft.dust.manganese.name=锰粉
 item.nuclearcraft.dust.aluminum.name=铝粉
 item.nuclearcraft.dust.silver.name=银粉
 item.nuclearcraft.dust.manganese_oxide.name=氧化锰粉
+item.nuclearcraft.dust.manganese_oxide.desc=烧炼菱锰粉制得。
+# 此处 crushed；上面 dust。中文不甚区分
 item.nuclearcraft.dust.manganese_dioxide.name=二氧化锰粉
 
 item.nuclearcraft.gem.rhodochrosite.name=菱锰
 #item.nuclearcraft.gem.rhodochrosite.desc=挖掘红石矿石时掉落。
-item.nuclearcraft.gem.rhodochrosite.desc=烧炼两次获得氧化锰锭，再烧炼一次获得锰锭。
+#item.nuclearcraft.gem.rhodochrosite.desc=烧炼两次获得氧化锰锭，再烧炼一次获得锰锭。
 item.nuclearcraft.gem.boron_nitride.name=立方氮化硼
 item.nuclearcraft.gem.fluorite.name=氟石
 #item.nuclearcraft.gem.fluorite.desc=挖掘青金石矿石时掉落。
@@ -1590,6 +1592,7 @@ item.nuclearcraft.gem_dust.villiaumite.name=氟盐粉
 item.nuclearcraft.gem_dust.carobbiite.name=方氟钾石粉
 item.nuclearcraft.gem_dust.arsenic.name=砷粉
 item.nuclearcraft.gem_dust.end_stone.name=末地石粉
+# 此处皆为粉碎（crushed）
 
 item.nuclearcraft.alloy.bronze.name=青铜锭
 item.nuclearcraft.alloy.tough.name=高强合金锭
@@ -1607,11 +1610,12 @@ item.nuclearcraft.alloy.zircaloy.name=锆锡合金锭
 item.nuclearcraft.alloy.silicon_carbide.name=碳化硅锭
 item.nuclearcraft.alloy.sic_sic_cmc.name=碳化硅陶瓷基复合材料锭
 # 碳化硅纤维增韧型碳化硅陶瓷基复合材料
+# 碳化硅-碳化硅陶瓷基复合材料
 item.nuclearcraft.alloy.hsla_steel.name=高强度低合金钢锭
 item.nuclearcraft.alloy.zirconium_molybdenum.name=锆钼合金锭
 
 item.nuclearcraft.compound.calcium_sulfate.name=硫酸钙
-item.nuclearcraft.compound.crystal_binder.name=水晶粘合剂
+item.nuclearcraft.compound.crystal_binder.name=晶体粘合剂
 item.nuclearcraft.compound.energetic_blend.name=充能混合物
 item.nuclearcraft.compound.sodium_fluoride.name=氟化钠
 item.nuclearcraft.compound.potassium_fluoride.name=氟化钾
@@ -1620,7 +1624,7 @@ item.nuclearcraft.compound.potassium_hydroxide.name=氢氧化钾
 item.nuclearcraft.compound.borax.name=硼砂
 item.nuclearcraft.compound.irradiated_borax.name=辐照硼砂
 item.nuclearcraft.compound.dimensional_blend.name=维度混合物
-item.nuclearcraft.compound.c_mn_blend.name=碳-锰混合物
+item.nuclearcraft.compound.c_mn_blend.name=碳锰混合物
 item.nuclearcraft.compound.alugentum.name=银铝粉
 
 item.nuclearcraft.part.plate_basic.name=基础板
@@ -1649,7 +1653,7 @@ item.nuclearcraft.upgrade.energy_desc=为机器减少能量消耗。可堆叠—
 item.nuclearcraft.fission_dust.bismuth.name=铋粉
 item.nuclearcraft.fission_dust.radium.name=镭粉
 item.nuclearcraft.fission_dust.polonium.name=钋粉
-item.nuclearcraft.fission_dust.tbp.name=镤-浓缩钍粉
+item.nuclearcraft.fission_dust.tbp.name=镤浓缩钍粉
 item.nuclearcraft.fission_dust.protactinium_233.name=镤-233 粉
 item.nuclearcraft.fission_dust.strontium_90.name=锶-90 粉
 item.nuclearcraft.fission_dust.molybdenum.name=钼粉
@@ -2188,16 +2192,16 @@ info.nuclearcraft.multitool.quantum_computer.finish_second_swap_list=逻辑门�
 
 info.nuclearcraft.multitool.quantum_computer.control_swap_gate_info=逻辑门当前交换量子位 %s 与 %s 的态，当前的控制位为 %s
 
-info.nuclearcraft.multitool.quantum_computer.controller.code_qasm_start=量子计算机正在进入 QASM 模式！门运算会被记录但不会在游戏中生效。
-info.nuclearcraft.multitool.quantum_computer.controller.code_qiskit_start=量子计算机正在进入 QISKit 模式！门运算会被记录但不会在游戏中生效。
+info.nuclearcraft.multitool.quantum_computer.controller.code_qasm_start=量子计算机正在进入 QASM 模式！门运算会记录下来，但不会在游戏中生效。
+info.nuclearcraft.multitool.quantum_computer.controller.code_qiskit_start=量子计算机正在进入 QISKit 模式！门运算会记录下来，但不会在游戏中生效。
 info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits=由于目前量子位过多，量子计算机无法进入代码生成模式。
 info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits=由于目前量子位过多，量子计算机将退出代码生成模式。
 info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty=量子计算机正在退出代码生成模式。
 
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=量子计算机正在退出 QASM 模式，生成的代码已被保存至 %s。
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=量子计算机正在退出 QASM 模式，生成的代码已保存至 %s。
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_error=量子计算机正在退出 QASM 模式，尝试将生成的代码保存至 %s 时出错。
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty=量子计算机正在退出 QASM 模式。
-info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=量子计算机正在退出 QISKit 模式，生成的代码已被保存至 %s。
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=量子计算机正在退出 QISKit 模式，生成的代码已保存至 %s。
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error=量子计算机正在退出 QISKit 模式，尝试将生成的代码保存至 %s 时出错。
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty=量子计算机正在退出 QISKit 模式。
 
@@ -2210,8 +2214,9 @@ item.nuclearcraft.rad_shielding.medium.name=中型辐射防护板
 item.nuclearcraft.rad_shielding.heavy.name=重型辐射防护板
 item.nuclearcraft.rad_shielding.desc=安装在盔甲上后玩家装备时会获得 %s 的辐射抗性。
 item.nuclearcraft.rad_shielding.desc_hardcore=安装在盔甲上后玩家装备时会获得 %s 的辐射抗性，安装在容器上时还能将其内部物品产生的辐射防护去 %s。
-item.nuclearcraft.rad_shielding.not_hardcore=强化容器被配置文件禁止了！
-item.nuclearcraft.rad_shielding.failed_not_hardcore=没能成功安装防护板。强化容器被配置文件禁止了！
+item.nuclearcraft.rad_shielding.not_hardcore=配置文件禁止了硬核容器！
+# 也可译作强化
+item.nuclearcraft.rad_shielding.failed_not_hardcore=没能成功安装防护板。配置文件禁止了硬核容器！
 item.nuclearcraft.rad_shielding.install_fail=没能成功安装防护板。容器已经拥有了下述的辐射抗性：
 item.nuclearcraft.rad_shielding.install_success=成功安装防护板！容器现在拥有了下述的辐射抗性：
 
@@ -2371,7 +2376,7 @@ gui.nc.config.ore_max_height.comment=矿石生成的最大高度。顺序：铜�
 gui.nc.config.ore_drops=启用额外掉落物
 gui.nc.config.ore_drops.comment=原版矿石会掉落额外掉落物吗？顺序：菱锰，铍粉，锆粉，氟石，硫磺，氟盐，方氟钾石。
 gui.nc.config.ore_hide_disabled=隐藏已禁用矿石
-gui.nc.config.ore_hide_disabled.comment=从矿词和 JEI 中移除被禁用了的矿石吗？
+gui.nc.config.ore_hide_disabled.comment=从矿词和 JEI 中移除禁用了的矿石吗？
 gui.nc.config.ore_harvest_levels=矿石挖掘等级
 gui.nc.config.ore_harvest_levels.comment=要求的挖掘等级。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
 
@@ -2418,12 +2423,12 @@ gui.nc.config.upgrade_stack_sizes=升级最大堆叠数量
 gui.nc.config.upgrade_stack_sizes.comment=升级的最大堆叠数量。顺序：速度，能量。
 gui.nc.config.rf_per_eu=[IC2]工业2 的 EU 与 RF 的转换率
 gui.nc.config.rf_per_eu.comment=[IC2]工业2 和[GTCE]格雷科技：社区版的能量单位与红石通量的比值。
-gui.nc.config.enable_ic2_eu=启用[IC2]工业2 的 EU 支持。
-gui.nc.config.enable_ic2_eu.comment=如果设定为 (true) ，[IC2]工业2 的能量将会被核电工艺的机器接收或发出。
+gui.nc.config.enable_ic2_eu=启用[IC2]工业2 的 EU 支持
+gui.nc.config.enable_ic2_eu.comment=如果设定为 (true) ，核电工艺的机器则可以接收或发出[IC2]工业2 的能量。
 gui.nc.config.enable_gtce_eu=[GTCE]格雷科技：社区版的 EU 支持
-gui.nc.config.enable_gtce_eu.comment=如果设定为 (true) ，那么[GTCE]格雷科技：社区版的 EU 可以被核电工艺的机器接收。
+gui.nc.config.enable_gtce_eu.comment=如果设定为 (true) ，核电工艺的机器则可以接收或发出[GTCE]格雷科技：社区版的 EU。
 gui.nc.config.enable_mek_gas=启用[Mek]通用机械的气体
-gui.nc.config.enable_mek_gas.comment=如果设定为 (true) ，那么[Mek]通用机械的气体可以被核电工艺的机器接收。
+gui.nc.config.enable_mek_gas.comment=如果设定为 (true) ，核电工艺的机器则可以接收或发出[Mek]通用机械的气体。
 gui.nc.config.machine_update_rate=机器更新
 gui.nc.config.machine_update_rate.comment=机器更新的时间（单位：t），用于包括多方块与 GUI 更新在内的多种情况。
 gui.nc.config.processor_passive_rate=被动产出速度
@@ -2506,8 +2511,8 @@ gui.nc.config.fission_comparator_max_heat=比较器产生信号最大热量
 gui.nc.config.fission_comparator_max_heat.comment=会导致与控制器相邻的比较器产生满级红石信号强度的热量等级（单位：%）。
 gui.nc.config.fission_force_heat_comparator=热量比较器
 gui.nc.config.fission_force_heat_comparator.comment=如果设定为 (true) ，一个不产热或产热为负的控制器也会像产热为正的控制器一样向比较器产生强度基于热量的红石信号，而不是默认地在不产热或产热为负时采用以储能为基础的信号输出。
-gui.nc.config.fission_sound_volume=裂变音效范围
-gui.nc.config.fission_sound_volume.comment=调整能听到裂变音效的范围。
+gui.nc.config.fission_sound_volume=裂变音量
+gui.nc.config.fission_sound_volume.comment=调整裂变音效的相对大小。
 
 gui.nc.config.fission_moderator_extra_power=减速剂功率调整
 gui.nc.config.fission_moderator_extra_heat=减速剂产热调整
@@ -2653,12 +2658,8 @@ gui.nc.config.fusion_comparator_max_efficiency=比较器产生红石信号最大
 gui.nc.config.fusion_comparator_max_efficiency.comment=会导致与控制器相邻的比较器产生满级红石信号强度的效率（单位：%）。
 gui.nc.config.fusion_plasma_craziness=等离子体产生火
 gui.nc.config.fusion_plasma_craziness.comment=等离子体会产生火吗？如果设定为 (false) 则卡顿情况会在某种情况下改善。
-gui.nc.config.fusion_sound_volume=聚变音效范围
-gui.nc.config.fusion_sound_volume.comment=调整能听到聚变声音的范围。
-
-##################################
-# 。。。接下来这段未翻译完全。。。 #
-##################################
+gui.nc.config.fusion_sound_volume=聚变音量
+gui.nc.config.fusion_sound_volume.comment=调整聚变音效的相对大小。
 
 # gui.nc.config.fusion_fuel_time=Fusion Fuel Combo Durations
 # gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
@@ -2666,16 +2667,18 @@ gui.nc.config.fusion_sound_volume.comment=调整能听到聚变声音的范围�
 # gui.nc.config.fusion_power.comment=Base RF/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 # gui.nc.config.fusion_heat_variable=Fusion Fuel Combo Heat Variables
 # gui.nc.config.fusion_heat_variable.comment=Heat variables that determine the efficiency curves of the fuel combos. These are proportional to the optimal temperatures. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_fuel_time=聚变燃料联用寿命
-gui.nc.config.fusion_fuel_time.comment=Base ticks the fuel combos last. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_heat_generation=聚变燃料联用产热
-gui.nc.config.fusion_heat_generation.comment=Base H/t the fuel combos produce. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_optimal_temperature=Fusion Fuel Combo Optimal Temperatures
-gui.nc.config.fusion_optimal_temperature.comment=Optimal temperatures of the fuel combos. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
-gui.nc.config.fusion_radiation=聚变燃料联用辐射
-gui.nc.config.fusion_radiation.comment=Base radiation the fuel combos produce while processing. 顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+# fuel combo 燃料联用 燃料组合
+gui.nc.config.fusion_fuel_time=聚变燃料组合寿命
+gui.nc.config.fusion_fuel_time.comment=燃料组合维持的基本时间（单位：t）。顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+gui.nc.config.fusion_heat_generation=聚变燃料组合产热
+gui.nc.config.fusion_heat_generation.comment=燃料组合的基本产热（单位：H/t）。顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+gui.nc.config.fusion_optimal_temperature=聚变燃料组合可选温度。
+gui.nc.config.fusion_optimal_temperature.comment=燃料组合的可选温度。顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
+# 单位 K?
+gui.nc.config.fusion_radiation=聚变燃料组合辐射
+gui.nc.config.fusion_radiation.comment=处理时燃料组合的基本辐射。顺序：氢 - 氢，氢 - 氘，氢 - 氚，氢 - 氦-3，氢 - 锂-6，氢 - 锂-7，氢 - 硼-11，氘 - 氘，氘 - 氚，氘 - 氦-3，……，氘 - 硼-11，……，硼-11 - 硼-11。
 gui.nc.config.fusion_electromagnet_power=电磁铁功率
-gui.nc.config.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
+gui.nc.config.fusion_electromagnet_power.comment=使电磁铁生效的有效功率（单位：RF/t）。
 
 gui.nc.config.category.heat_exchanger=热交换器配置
 gui.nc.config.category.heat_exchanger.tooltip=配置与热交换器相关的内容。
@@ -2685,11 +2688,11 @@ gui.nc.config.heat_exchanger_min_size.comment=热交换结构的最小边长。
 gui.nc.config.heat_exchanger_max_size=最大结构边长
 gui.nc.config.heat_exchanger_max_size.comment=热交换结构的最大边长。
 gui.nc.config.heat_exchanger_conductivity=管道热导率
-gui.nc.config.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. For heat exchanging tubes, heating recipes will be faster by this factor while cooling recipes will be slower by this factor. For condensation tubes, recipes will simply be faster by this factor. 顺序：铜，硬碳，导热合金。
-gui.nc.config.heat_exchanger_coolant_mult=Coolant Heat Multiplier
-gui.nc.config.heat_exchanger_coolant_mult.comment=Multiplier for the heat required to cool hot coolant.
-gui.nc.config.heat_exchanger_alternate_exhaust_recipe=Alternate Exhaust Steam Recipe
-gui.nc.config.heat_exchanger_alternate_exhaust_recipe.comment=Will exhaust steam be heated into standard steam rather than low pressure steam?
+gui.nc.config.heat_exchanger_conductivity.comment=热量进出这种管道传输的倍率。对于热交换管道，加热配方随本系数增长而变快，冷却配方反之；对于冷凝管道，配方皆随本系数增长而变快。顺序：铜，硬碳，导热合金。
+gui.nc.config.heat_exchanger_coolant_mult=冷却剂热量倍率
+gui.nc.config.heat_exchanger_coolant_mult.comment=冷却热冷却剂所需热量的倍率。
+gui.nc.config.heat_exchanger_alternate_exhaust_recipe=切换废蒸汽配方
+gui.nc.config.heat_exchanger_alternate_exhaust_recipe.comment=废蒸汽加热后是产生普通蒸汽还是低压蒸汽？
 
 gui.nc.config.category.turbine=涡轮机配置
 gui.nc.config.category.turbine.tooltip=配置与涡轮机相关的内容。
@@ -2699,23 +2702,23 @@ gui.nc.config.turbine_min_size.comment=涡轮机结构的最小边长。
 gui.nc.config.turbine_max_size=最大结构边长
 gui.nc.config.turbine_max_size.comment=涡轮机结构的最大边长。
 gui.nc.config.turbine_blade_efficiency=转子叶片效率
-gui.nc.config.turbine_blade_efficiency.comment=Multiplier for the energy transferred from the fluid flow to this type of rotor blade. 顺序：钢，极限合金，碳化硅陶瓷基复合材料。
+gui.nc.config.turbine_blade_efficiency.comment=能量经不同种类转子叶片从通过的流体转移出来的倍率。顺序：钢，极限合金，碳化硅陶瓷基复合材料。
 gui.nc.config.turbine_blade_expansion=转子叶片膨胀系数
-gui.nc.config.turbine_blade_expansion.comment=Coefficient by which a set of this type of rotor blade multiplies the volume of the fluid in the oncoming flow. 顺序：钢，极限合金，碳化硅陶瓷基复合材料。
+gui.nc.config.turbine_blade_expansion.comment=进入的流体经不同种类转子叶片体积增大的系数。顺序：钢，极限合金，碳化硅陶瓷基复合材料。
 gui.nc.config.turbine_stator_expansion=转子定子膨胀系数
-gui.nc.config.turbine_stator_expansion.comment=Coefficient by which a set of rotor stators multiplies the volume of the fluid in the oncoming flow.
+gui.nc.config.turbine_stator_expansion.comment=进入的流体经转子定子体积增大的系数。
 gui.nc.config.turbine_coil_conductivity=发电机线圈导电率
 gui.nc.config.turbine_coil_conductivity.comment=参与效率计算时的倍率。顺序：镁，铍，铝，金，铜，银。
 gui.nc.config.turbine_power_per_mb=蒸汽基础能量密度
-gui.nc.config.turbine_power_per_mb.comment=不同种类的蒸汽被处理时的基础产能（单位：RF/mB）。顺序：高压蒸汽，低压蒸汽，蒸汽。
+gui.nc.config.turbine_power_per_mb.comment=处理不同种类的蒸汽时的基础产能（单位：RF/mB）。顺序：高压蒸汽，低压蒸汽，蒸汽。
 gui.nc.config.turbine_expansion_level=蒸汽膨胀
 gui.nc.config.turbine_expansion_level.comment=不同种类的蒸汽的基础膨胀系数。顺序：高压蒸汽，低压蒸汽，蒸汽。
 gui.nc.config.turbine_spin_up_multiplier=蒸汽旋转加速系数
-gui.nc.config.turbine_spin_up_multiplier.comment=不同种类的蒸汽被处理时的旋转加速系数。顺序：高压蒸汽，低压蒸汽，蒸汽。
+gui.nc.config.turbine_spin_up_multiplier.comment=处理不同种类的蒸汽时的旋转加速系数。顺序：高压蒸汽，低压蒸汽，蒸汽。
 gui.nc.config.turbine_mb_per_blade=转子叶片最大处理量
 gui.nc.config.turbine_mb_per_blade.comment=一个转子叶片能处理的最大蒸汽量（单位：mB/t）。
-gui.nc.config.turbine_sound_volume=涡轮机音效范围
-gui.nc.config.turbine_sound_volume.comment=调整能听到涡轮机声音的范围。
+gui.nc.config.turbine_sound_volume=涡轮机音量
+gui.nc.config.turbine_sound_volume.comment=调整涡轮机音效的相对大小。
 
 gui.nc.config.category.quantum=量子配置
 gui.nc.config.category.quantum.tooltip=配置量子相关的内容。
@@ -2723,9 +2726,10 @@ gui.nc.config.category.quantum.tooltip=配置量子相关的内容。
 gui.nc.config.quantum_server_enabled=在专用服务器上启用
 gui.nc.config.quantum_server_enabled.comment=量子计算机可以在专用服务器上工作吗？默认为否 (false)，因为此功能会占用服务器内存，并且生成的代码存储在服务端而非客户端。
 gui.nc.config.quantum_max_qubits=最大量子位数量
-gui.nc.config.quantum_max_qubits.comment=一个量子计算机最多拥有的量子位数量。！！！警告！！！超过七个量子位的电路可能会消耗大量的系统资源，并占用巨大的内存！在调整此限制时需要进行 特别的 注意！
+gui.nc.config.quantum_max_qubits.comment=一个量子计算机最多拥有的量子位数量。！！！警告！！！超过七个量子位的电路可能会消耗大量的系统资源，并占用巨大的内存！调整此限制时需要 特别 注意！
 gui.nc.config.quantum_max_qubits_code=最大编程用量子位数量
-gui.nc.config.quantum_max_qubits_code.comment=一个量子计算机最多拥有的用于生成代码的量子位数量。！！！警告！！！Gates with more control qubits will take increasingly more work and memory to decompile into basic operations, thus will generate increasingly mode code. If generating QASM code, IBM Q Experience's circuit composer will begin to struggle to deal with more than a few hundred lines. Increase this limit with EXTREME caution!
+gui.nc.config.quantum_max_qubits_code.comment=一个量子计算机最多拥有的用于生成代码的量子位数量。！！！警告！！！门拥有的控制量子位数量增加，用于反编译生成基础操作的工程与内存消耗就会急剧增大，因此生成的代码也会极具增多。如果生成 QASM 代码，IBM Q Experience 的电路需要处理数百行乃至更多。调整此限制时需要 特别 注意！
+# control qubit 控制量子位？
 gui.nc.config.quantum_angle_precision=逻辑门工作角度精确程度
 gui.nc.config.quantum_angle_precision.comment=通过设定由 0°-360° 均匀分布的角度的数量以控制可以设定逻辑门工作角度的角度。
 
@@ -2742,7 +2746,7 @@ gui.nc.config.tool_attack_damage=攻击伤害
 gui.nc.config.tool_attack_damage.comment=每一击造成的伤害（木=0.0，石=1.0，以此类推）。顺序：硼，硼镐尖斧，高强合金，高强合金镐尖斧，硬碳，硬碳镐尖斧，氮化硼，氮化硼镐尖斧。
 gui.nc.config.tool_enchantability=附魔能力
 gui.nc.config.tool_enchantability.comment=附魔的品质。顺序：硼，硼镐尖斧，高强合金，高强合金镐尖斧，硬碳，硬碳镐尖斧，氮化硼，氮化硼镐尖斧。
-gui.nc.config.tool_handle_modifier=[TiC2]匠魂2材料属性
+gui.nc.config.tool_handle_modifier=[TiC2]匠魂2 材料属性
 gui.nc.config.tool_handle_modifier.comment=材料的材料属性。顺序：硼，高强合金，硬碳，氮化硼。
 
 gui.nc.config.category.armor=盔甲配置
@@ -2769,7 +2773,7 @@ gui.nc.config.category.entity=实体配置
 gui.nc.config.category.entity.tooltip=配置实体
 
 gui.nc.config.entity_tracking_range=追踪范围
-gui.nc.config.entity_tracking_range.comment=对于核电工艺的实体游戏会进行追踪性更新的范围。
+gui.nc.config.entity_tracking_range.comment=对于核电工艺的实体，游戏会追踪性更新的范围。
 
 gui.nc.config.category.radiation=辐射配置
 gui.nc.config.category.radiation.tooltip=配置与核辐射相关的内容。
@@ -2778,7 +2782,7 @@ gui.nc.config.radiation_enabled=启用辐射
 gui.nc.config.radiation_enabled.comment=启用核辐射吗？注意：启用后需要重启客户端以在 JEI 中查看与辐射相关的全部内容。
 
 gui.config.radiation.radiation_immune_players=玩家辐射免疫
-gui.config.radiation.radiation_immune_players.comment=被给予永久辐射免疫的玩家的 UUID 列表。
+gui.config.radiation.radiation_immune_players.comment=永久辐射免疫的玩家的 UUID 列表。
 
 gui.nc.config.radiation_world_chunks_per_tick=世界每 t 受辐射区块数
 gui.nc.config.radiation_world_chunks_per_tick.comment=世界中每 t 会更新所受辐射的区块的最大数量。
@@ -2788,63 +2792,65 @@ gui.nc.config.radiation_player_tick_rate.comment=玩家每两次辐射更新之�
 gui.nc.config.radiation_worlds=世界背景辐射
 gui.nc.config.radiation_worlds.comment=各个维度的背景辐射。格式：'维度 ID_辐射'。
 gui.nc.config.radiation_biomes=生物群系背景辐射
-gui.nc.config.radiation_biomes.comment=各个生物群系的背景辐射。这些值与世界背景辐射堆叠在一起。格式：'模组 ID:生物群系名称_辐射'。
+gui.nc.config.radiation_biomes.comment=各个生物群系的背景辐射。这些值与世界背景辐射叠加。格式：'模组 ID:生物群系名称_辐射'。
 gui.nc.config.radiation_structures=结构背景辐射
-gui.nc.config.radiation_structures.comment=各个结构的背景辐射。这些值与世界背景辐射或生物群系背景辐射堆叠在一起。格式：'结构名称_辐射'。
-gui.nc.config.radiation_world_limits=World Radiation Limit
-gui.nc.config.radiation_world_limits.comment=List of dimensions and their radiation level limits. 格式：'dimID_radiationLimit'.
-gui.nc.config.radiation_biome_limits=Biome Radiation Limit
-gui.nc.config.radiation_biome_limits.comment=List of biomes and their radiation level limits. These values stack with the underlying world's background radiation. 格式：'模组 ID:生物群系名称_辐射上限'。
-gui.nc.config.radiation_from_biomes_dims_blacklist=Biome Radiation Dimension Blacklist
-gui.nc.config.radiation_from_biomes_dims_blacklist.comment=List of IDs of dimensions to blacklist for biome background radiation.
+gui.nc.config.radiation_structures.comment=各个结构的背景辐射。这些值与世界背景辐射或生物群系背景辐射叠加。格式：'结构名称_辐射'。
+gui.nc.config.radiation_world_limits=世界辐射上限
+gui.nc.config.radiation_world_limits.comment=各个维度的辐射等级上限。格式：'维度 ID_辐射上限'.
+gui.nc.config.radiation_biome_limits=生物群系辐射上限
+gui.nc.config.radiation_biome_limits.comment=各个生物群系的辐射等级上限。这些值与世界辐射上限叠加。格式：'模组 ID:生物群系名称_辐射上限'。
+gui.nc.config.radiation_from_biomes_dims_blacklist=生物群系辐射维度黑名单
+gui.nc.config.radiation_from_biomes_dims_blacklist.comment=不考虑生物群系背景辐射的维度 ID 列表。
 
 gui.nc.config.radiation_ores=矿石辐射
-gui.nc.config.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Can use Unix-style wildcards for the ore name. 格式：'矿石名称_辐射'。
+# 矿石？矿物？
+gui.nc.config.radiation_ores.comment=各种矿石及其堆叠辐射等级。可用于覆写默认值。矿石名称可使用 Unix 式通配符。格式：'矿石名称_辐射'。
+# 本行不确定
 gui.nc.config.radiation_items=物品辐射
-gui.nc.config.radiation_items.comment=List of items and their stack radiation levels. Can be used to overwrite default values. 格式：'模组 ID:名称:元数据_辐射'。
+gui.nc.config.radiation_items.comment=各种物品及其辐射等级。可用于覆写默认值。格式：'模组 ID:名称:元数据_辐射'。
 gui.nc.config.radiation_blocks=方块辐射
-gui.nc.config.radiation_blocks.comment=List of blocks and their radiation levels. Can be used to overwrite default values. 格式：'模组 ID:名称:元数据_辐射'。
+gui.nc.config.radiation_blocks.comment=各种方块及其辐射等级。可用于覆写默认值。格式：'模组 ID:名称:元数据_辐射'。
 gui.nc.config.radiation_fluids=流体辐射
-gui.nc.config.radiation_fluids.comment=List of fluids and their radiation levels. Can be used to overwrite default values. If the fluid has a corresponding block, then it will also be given a radiation level. 格式：'流体名称_辐射'。
+gui.nc.config.radiation_fluids.comment=各种流体及其辐射等级。可用于覆写默认值。如果流体有对应方块，方块也会获得辐射等级。格式：'流体名称_辐射'。
 gui.nc.config.radiation_foods=食物辐射和辐射抗性
-gui.nc.config.radiation_foods.comment=List of foods and the rads and rad resistance gained on consumption. Negative values mean rads and rad resistance will be lost. Can be used to overwrite default values. 格式：'模组 ID:名称:元数据_辐射_辐射抗性'。
+gui.nc.config.radiation_foods.comment=食用时获得辐射或辐射抗性的各种食物。负值表示食用会失去辐射或辐射抗性。可用于覆写默认值。格式：'模组 ID:名称:元数据_辐射_辐射抗性'。
 
 gui.nc.config.radiation_ores_blacklist=矿石辐射黑名单
-gui.nc.config.radiation_ores_blacklist.comment=List of ore dict entries that will be forced not have a radiation level. Can use Unix-style wildcards for the ore name. 格式：'矿石名称'。
+# 本行不确定（原因相同）
+gui.nc.config.radiation_ores_blacklist.comment=强制不带辐射等级的矿石列表。矿石名称可使用 Unix 式通配符。格式：'矿石名称'。
+# list of 翻译不统一，无妨
 gui.nc.config.radiation_items_blacklist=物品辐射黑名单
-gui.nc.config.radiation_items_blacklist.comment=List of items that will be forced not have a radiation level. 格式：'模组 ID:名称:元数据'。
+gui.nc.config.radiation_items_blacklist.comment=强制不带辐射等级的物品列表。格式：'模组 ID:名称:元数据'。
 gui.nc.config.radiation_blocks_blacklist=方块辐射黑名单
-gui.nc.config.radiation_blocks_blacklist.comment=List of blocks that will be forced not have a radiation level. 格式：'模组 ID:名称:元数据'。
+gui.nc.config.radiation_blocks_blacklist.comment=强制不带辐射等级的方块列表。格式：'模组 ID:名称:元数据'。
 gui.nc.config.radiation_fluids_blacklist=流体辐射黑名单
-gui.nc.config.radiation_fluids_blacklist.comment=List of fluids that will be forced not have a radiation level. 格式：'流体名称'。
+gui.nc.config.radiation_fluids_blacklist.comment=强制不带辐射等级的流体列表。格式：'流体名称'。
 
 gui.nc.config.max_player_rads=玩家最大辐射值
 gui.nc.config.max_player_rads.comment=玩家受到致命辐射前的最大辐射值。
 gui.nc.config.radiation_player_decay_rate=玩家辐射速率降低速率
 gui.nc.config.radiation_player_decay_rate.comment=随着时间的流逝，玩家所受的辐射速率会逐渐降低。形式为百分比，表示每t剩余的辐射速率所占比例。
 gui.nc.config.max_entity_rads=实体最大辐射值
-gui.nc.config.max_entity_rads.comment=实体及其最大辐射值的列表。会覆盖默认的设定（每 2 点血量 100 Rads）。格式：'模组 ID:名称_最大辐射值'。
+gui.nc.config.max_entity_rads.comment=实体及其最大辐射值的列表。会覆盖默认的设定（每 2 点血量 100 Rad）。格式：'模组 ID:名称_最大辐射值'。
 gui.nc.config.radiation_entity_decay_rate=实体辐射速率降低速率
-gui.nc.config.radiation_entity_decay_rate.comment=随着时间的流逝，实体所受的辐射速率会逐渐降低。形式为百分比，表示每t剩余的辐射速率所占比例。
-gui.nc.config.radiation_spread_rate=Chunk Radiation Spread Rate
-gui.nc.config.radiation_spread_rate.comment=Controls the rate at which radiation will spread from chunk to chunk.
-gui.nc.config.radiation_spread_gradient=Chunk Radiation Spread Gradient
-gui.nc.config.radiation_spread_gradient.comment=Controls how high the ratio of radiation levels between chunks must be for radiation to spread between them.
-gui.nc.config.radiation_decay_rate=Chunk Radiation Decay Rate
-gui.nc.config.radiation_decay_rate.comment=Controls the rate at which radiation decreases in a chunk over time.
+gui.nc.config.radiation_entity_decay_rate.comment=随着时间的流逝，实体所受的辐射速率会逐渐降低。形式为百分比，表示每 t 剩余的辐射速率所占比例。
+gui.nc.config.radiation_spread_rate=区块辐射传播速率
+gui.nc.config.radiation_spread_rate.comment=辐射从一个区块传播到另一个区块的速率。
+gui.nc.config.radiation_spread_gradient=区块辐射传播梯度
+gui.nc.config.radiation_spread_gradient.comment=两区块间辐射传播所需的最小辐射差。
+gui.nc.config.radiation_decay_rate=区块辐射衰减速率
+gui.nc.config.radiation_decay_rate.comment=辐射在一个区块中随时间降低的速率。
 gui.nc.config.radiation_lowest_rate=最低辐射率
-gui.nc.config.radiation_lowest_rate.comment=玩家的自身辐射与背景辐射的最低值，低于这个值的辐射率将被视为 0（单位：Rad/t）。
+gui.nc.config.radiation_lowest_rate.comment=玩家的自身辐射与背景辐射的最低值，低于这个值的辐射率将视为 0（单位：Rad/t）。
 gui.nc.config.radiation_chunk_limit=区块辐射上限
 gui.nc.config.radiation_chunk_limit.comment=一个区块最大的辐射率（单位：Rad/t）。值为负时没有上限。
-gui.nc.config.radiation_check_blocks=方块辐射提供
-gui.nc.config.radiation_check_blocks.comment=非方块实体会作用于区块辐射吗？
 
-gui.nc.config.radiation_sound_volumes=Radiation Sound Volumes
-gui.nc.config.radiation_sound_volumes.comment=Modifiers for the volumes of radiation sound effects. Order: Geiger counter ticking, RadAway use, Rad-X use, food effects, chems wearing off, radiation badge breaking, radiation level warning, feral ghoul attack.
-gui.nc.config.radiation_check_blocks=Block Radiation Contribution
-gui.nc.config.radiation_check_blocks.comment=Should non-tile entity blocks contribute to chunk radiation?
-gui.nc.config.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
-gui.nc.config.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
+gui.nc.config.radiation_sound_volumes=辐射音量
+gui.nc.config.radiation_sound_volumes.comment=调整辐射音效的相对大小。顺序：盖革计数器：计数，抗辐宁：服用，降辐剂：服用，辐射抗性效果结束，辐射中，辐射徽章损坏，辐射等级警告，狂尸鬼：攻击。
+gui.nc.config.radiation_check_blocks=方块辐射产生
+gui.nc.config.radiation_check_blocks.comment=非方块实体会作用于区块辐射吗？
+gui.nc.config.radiation_block_effect_max_rate=辐射转化方块最大速率
+gui.nc.config.radiation_block_effect_max_rate.comment=区块辐射每次更新时，辐射尝试转变方块的最大次数。
 gui.nc.config.radiation_rain_mult=下雨时辐射倍率
 gui.nc.config.radiation_rain_mult.comment=下雨时辐射增长的倍率。
 gui.nc.config.radiation_swim_mult=游泳时辐射倍率
@@ -2871,50 +2877,47 @@ gui.nc.config.radiation_rad_x_cooldown.comment=两次服用降辐剂之间必须
 gui.nc.config.radiation_shielding_level=辐射防护板抗性
 gui.nc.config.radiation_shielding_level.comment=辐射防护板提供的辐射抗性。顺序：轻，中，重。
 gui.nc.config.radiation_tile_shielding=辐射容器防护
-gui.nc.config.radiation_tile_shielding.comment=If enabled along with hardcore containers, radiation shielding can be applied to tile entities.
-gui.nc.config.radiation_hazmat_shielding=Radiation Hazmat Shielding
-gui.nc.config.radiation_hazmat_shielding.comment=The rad resistance levels provided by each piece of the hazmat suit. 顺序：headwear, chestpiece, leggings, boots.
-gui.nc.config.radiation_scrubber_fraction=Scrubber Max Removal Rate
-gui.nc.config.radiation_scrubber_fraction.comment=The maximum rate at which a 100% efficiency scrubber will remove radiation as a fraction of the radiation level of the chunk it is in. Only applies when using linear scrubbing mechanics.
-gui.nc.config.radiation_scrubber_radius=Scrubber Search Radius
-gui.nc.config.radiation_scrubber_radius.comment=The range of scrubbers' search for occluding blocks.
-gui.nc.config.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
-gui.nc.config.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
-gui.nc.config.radiation_scrubber_param=Non-linear Scrubber Parameters
-gui.nc.config.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(1 + S/c)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for their efficiencies. It is recommended that you only modify these if you know what you are doing.
-gui.nc.config.radiation_scrubber_time=Scrubber Recipe Lifetime
-gui.nc.config.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. 顺序：borax dust, RadAway, Slow-Acting RadAway
-gui.nc.config.radiation_scrubber_power=Scrubber Recipe Power Use
-gui.nc.config.radiation_scrubber_power.comment=The power in RF/t scrubbers need to be supplied to run with these ingredients. 顺序：borax dust, RadAway, Slow-Acting RadAway
-gui.nc.config.radiation_scrubber_efficiency=Scrubber Recipe Efficiency
-gui.nc.config.radiation_scrubber_efficiency.comment=The efficiency multiplier of an active scrubber using these ingredients. 顺序：borax dust, RadAway, Slow-Acting RadAway
-gui.nc.config.radiation_geiger_block_redstone=Geiger Block Comparator Scale
-gui.nc.config.radiation_geiger_block_redstone.comment=The radiation level, as a power of ten, at which the Geiger counter block will emit a full-strength comparator signal.
+gui.nc.config.radiation_tile_shielding.comment=如果与硬核容器选项共同设定为 (true)，则可在容器上安装辐射防护板。
 
-##################################
-# 。。。上面的这段未翻译完全。。。 #
-##################################
+gui.nc.config.radiation_hazmat_shielding=辐射防护服防护
+gui.nc.config.radiation_hazmat_shielding.comment=防护服不同部位提供的辐射抗性。顺序：头罩，上衣，护腿，靴子。
+gui.nc.config.radiation_scrubber_fraction=净化仪最大辐射消除速率
+gui.nc.config.radiation_scrubber_fraction.comment=效率达 100% 的净化仪消除辐射的效率，用所在区块辐射等级的分数表示。仅在线性净化仪机制下起效。
+gui.nc.config.radiation_scrubber_radius=净化仪搜寻半径
+gui.nc.config.radiation_scrubber_radius.comment=净化仪搜寻占用方块的范围。
+gui.nc.config.radiation_scrubber_non_linear=非线性净化仪机制
+gui.nc.config.radiation_scrubber_non_linear.comment=要用非线性净化方程替代线性的吗？
+gui.nc.config.radiation_scrubber_param=非线性净化仪参数
+gui.nc.config.radiation_scrubber_param.comment=方程 'F = a^[-(S/b)^(1 + S/c)^(1/d)]' 中的 a、b、c、d 四项参数，其中 'F' 是消除后区块更新缓冲中剩余的辐射分数，而 'S' 是计算效率后区块中净化仪的有效数量。最好了解机制后更改。
+gui.nc.config.radiation_scrubber_time=净化仪配方寿命
+gui.nc.config.radiation_scrubber_time.comment=起效的净化仪中，每 1 个物品或 250 mB 流体净化的时间（单位：t）。顺序：硼砂粉，抗辐宁，缓效抗辐宁。
+gui.nc.config.radiation_scrubber_power=净化仪配方功率
+gui.nc.config.radiation_scrubber_power.comment=用这些物品净化，净化仪运行需要的功率（单位：RF/t）。顺序：硼砂粉，抗辐宁，缓效抗辐宁。
+gui.nc.config.radiation_scrubber_efficiency=净化仪配方效率
+gui.nc.config.radiation_scrubber_efficiency.comment=用这些物品净化，净化仪的效率倍率。顺序：硼砂粉，抗辐宁，缓效抗辐宁。
+gui.nc.config.radiation_geiger_block_redstone=盖革计数器方块比较器信号级别
+gui.nc.config.radiation_geiger_block_redstone.comment=盖革计数器方块使相邻的比较器产生满级红石信号强度的辐射等级（按 10 的幂计；即其常用对数）。
 
 gui.nc.config.radiation_shielding_default_recipes=辐射防护板默认合成
-gui.nc.config.radiation_shielding_default_recipes.comment=如果设定为 (true) ，那么所有的盔甲都可以被与辐射防护板组装在一起。
+gui.nc.config.radiation_shielding_default_recipes.comment=如果设定为 (true) ，那么所有的盔甲都可以与辐射防护板组装在一起。
 gui.nc.config.radiation_shielding_item_blacklist=辐射防护板黑名单
 gui.nc.config.radiation_shielding_item_blacklist.comment=默认情况下不能与辐射防护板组装在一起的盔甲列表。格式：'模组 ID:盔甲名称:元数据'。
 gui.nc.config.radiation_shielding_custom_stacks=辐射防护板白名单
-gui.nc.config.radiation_shielding_custom_stacks.comment=默认情况下可以与辐射防护板组装在一起的盔甲列表。一般情况下仅在默认的配方被禁用时使用。格式：'模组 ID:盔甲名称:元数据'。
+gui.nc.config.radiation_shielding_custom_stacks.comment=默认情况下可以与辐射防护板组装在一起的盔甲列表。一般情况下仅在默认的配方禁用时使用。格式：'模组 ID:盔甲名称:元数据'。
 gui.nc.config.radiation_shielding_default_levels=盔甲默认辐射抗性
-gui.nc.config.radiation_shielding_default_levels.comment=盔甲默认的辐射抗性值的列表。格式：'模组 ID:盔甲名称:元数据_抗性'。注意：这并不是添加该设定的唯一方法，如果你安装了 CrT，你可以通过修改 NBT “ncRadiationResistance” 来实现对盔甲辐射抗性的修改。
+gui.nc.config.radiation_shielding_default_levels.comment=盔甲默认的辐射抗性值的列表。格式：'模组 ID:盔甲名称:元数据_抗性'。注意：这并不是添加该设定的唯一方法，如果你安装了 CrT，你可以通过修改 NBT“ncRadiationResistance”来实现对盔甲辐射抗性的修改。
 
 gui.nc.config.radiation_hud_size=辐射 HUD 尺寸
 gui.nc.config.radiation_hud_size.comment=辐射信息在 HUD 上的尺寸。
 gui.nc.config.radiation_hud_position=辐射 HUD 位置
 gui.nc.config.radiation_hud_position.comment=辐射 HUD 自以屏幕中心为原点顺时针计算的角度。计算规则：0 度是屏幕的正上方，45 度是屏幕的右上方，以此类推。
 gui.nc.config.radiation_hud_position_cartesian=辐射 HUD 笛卡尔位置
-gui.nc.config.radiation_hud_position_cartesian.comment=可选配置，如果不希望辐射 HUD 位于屏幕边缘或角落则可以启用，效果会覆盖以角度计算的配置。配置需要包含两个双精度浮点数 [x,y] 以表示辐射 HUD 自屏幕左上角计算靠右 (x) 和靠下 (y) 的程度。
+gui.nc.config.radiation_hud_position_cartesian.comment=可选配置，如果不希望辐射 HUD 位于屏幕边缘或角落则可以启用，效果会覆盖以角度计算的配置。配置需要包含两个双精度浮点数 [x,y] 以表示辐射 HUD 自屏幕左上角计算靠右（x）和靠下（y）的程度。
 gui.nc.config.radiation_hud_text_outline=辐射 HUD 信息边框
 gui.nc.config.radiation_hud_text_outline.comment=如果设定为 (true) ，HUD 下部的信息将会拥有一个边框。
 
 gui.nc.config.radiation_require_counter=相关信息显示对计数器的需求
-gui.nc.config.radiation_require_counter.comment=如果设定为 (false) ，即使并未持有盖革计数器，辐射 HUD 也仍然会显示，并且计数器发出的声音也仍然能被听到。
+gui.nc.config.radiation_require_counter.comment=如果设定为 (false) ，即使并未持有盖革计数器，辐射 HUD 也仍然会显示，并且计数器发出的声音也仍然能听到。
 gui.nc.config.radiation_chunk_boundaries=计数器/净化仪区块边界
 gui.nc.config.radiation_chunk_boundaries.comment=如果设定为 (true) ，手持或看向盖革计数器方块或辐射净化仪时会显示其所在区块的边界。
 gui.nc.config.radiation_unit_prefixes=辐射单位前缀
@@ -2932,7 +2935,7 @@ gui.nc.config.radiation_hardcore_containers.comment=容器中的物品产生辐�
 gui.nc.config.radiation_dropped_items=掉落物辐射
 gui.nc.config.radiation_dropped_items.comment=掉落物产生辐射时，会辐射其所在的区块。
 gui.nc.config.radiation_death_persist=辐射死亡保留
-gui.nc.config.radiation_death_persist.comment=如果设定为 (true) ，玩家死亡后自身的一定辐射不会被消除。
+gui.nc.config.radiation_death_persist.comment=如果设定为 (true) ，玩家死亡后自身的一定辐射不会消除。
 gui.nc.config.radiation_death_persist_fraction=辐射死亡保留比例
 gui.nc.config.radiation_death_persist_fraction.comment=辐射死亡保留设定为 (true) 时玩家辐射保留的比例。
 gui.nc.config.radiation_death_immunity_time=死亡免疫
@@ -2953,7 +2956,7 @@ gui.nc.config.radiation_mob_rads_fatal=生物最大辐射致命
 gui.nc.config.radiation_mob_rads_fatal.comment=如果设定为 (true) ，生物自身辐射值达到上限时将死亡。
 
 gui.nc.config.radiation_horse_armor=马铠
-gui.nc.config.radiation_horse_armor.comment=如果设定为 (true) ，那么马铠也可以被与辐射防护板组装在一起。
+gui.nc.config.radiation_horse_armor.comment=如果设定为 (true) ，那么马铠也可以与辐射防护板组装在一起。
 
 gui.nc.config.category.registration=注册配置
 gui.nc.config.category.registration.tooltip=配置对内容的添加。
@@ -2969,17 +2972,17 @@ gui.nc.config.register_quantum.comment=添加量子计算机到游戏中吗？
 gui.nc.config.register_tool=注册工具
 gui.nc.config.register_tool.comment=添加工具到游戏中吗？顺序：硼，高强合金，硬碳，氮化硼。
 gui.nc.config.register_tic_tool=注册[TiC2]匠魂2 材料
-gui.nc.config.register_tic_tool.comment=下列材料会被注册为[TiC2]匠魂2 的材料吗？顺序：硼，高强合金，硬碳，氮化硼，钍，铀，镁，巧克力。
+gui.nc.config.register_tic_tool.comment=下列材料会注册为[TiC2]匠魂2 的材料吗？顺序：硼，高强合金，硬碳，氮化硼，钍，铀，镁，巧克力。
 gui.nc.config.register_armor=注册盔甲
 gui.nc.config.register_armor.comment=添加盔甲到游戏中吗？顺序：硼，高强合金，硬碳，氮化硼。
 gui.nc.config.register_conarm_armor=注册[ConArm]匠魂盔甲材料
-gui.nc.config.register_conarm_armor.comment=下列材料会被注册为[ConArm]匠魂盔甲的材料吗？顺序：硼，高强合金，硬碳，氮化硼，钍，铀，镁，巧克力。
+gui.nc.config.register_conarm_armor.comment=下列材料会注册为[ConArm]匠魂盔甲的材料吗？顺序：硼，高强合金，硬碳，氮化硼，钍，铀，镁，巧克力。
 gui.nc.config.register_entity=注册实体生成
 gui.nc.config.register_entity.comment=下列实体会生成吗？顺序：狂尸鬼。
-gui.nc.config.register_fluid_blocks=注册可被放置的流体
-gui.nc.config.register_fluid_blocks.comment=添加可被放置的流体吗？请在方块 ID 不多的情况下尽可能设定为 (false) 。
+gui.nc.config.register_fluid_blocks=注册可放置的流体
+gui.nc.config.register_fluid_blocks.comment=添加可放置的流体吗？请在方块 ID 不多时尽可能设定为 (false) 。
 gui.nc.config.register_cofh_fluids=注册与 CoFH 相关的流体
-gui.nc.config.register_cofh_fluids.comment=添加[TE5]热力膨胀5 中的个别流体吗？建议在没有安装任何与 CoFH 相关的模组的情况下设定为 (true) 。
+gui.nc.config.register_cofh_fluids.comment=添加[TE5]热力膨胀5 中的个别流体吗？建议在没有安装任何有关 CoFH 的模组时设定为 (true) 。
 gui.nc.config.register_projecte_emc=注册基础 EMC 值
 gui.nc.config.register_projecte_emc.comment=为核电工艺的材料添加 EMC 值吗？
 
@@ -2999,11 +3002,11 @@ gui.nc.config.dungeon_loot=启用战利品生成
 gui.nc.config.dungeon_loot.comment=核电工艺的物品会生成在箱子中吗？
 
 gui.nc.config.ore_dict_raw_material_recipes=启用材料矿词配方
-gui.nc.config.ore_dict_raw_material_recipes.comment=矿词输入是否会被用于“锭 <-> 块”在工作台内的转换和“粉 -> 锭”在熔炉内的配方？如果设定为 (false) ，将会采用核电工艺的配方。
+gui.nc.config.ore_dict_raw_material_recipes.comment=矿词输入是否会用于“锭 <-> 块”在工作台内的转换和“粉 -> 锭”在熔炉内的配方？如果设定为 (false) ，将会采用核电工艺的配方。
 gui.nc.config.ore_dict_priority_bool=启用输出矿词模组优先
-gui.nc.config.ore_dict_priority_bool.comment=输出会被下方的模组列表控制优先级吗？如果设定为 (false) ，将会输出同矿词默认的物品。
+gui.nc.config.ore_dict_priority_bool.comment=会用下方的模组列表来控制输出优先级吗？如果设定为 (false) ，将会输出同矿词默认的物品。
 gui.nc.config.ore_dict_priority=矿词模组优先
-gui.nc.config.ore_dict_priority.comment=决定输出的优先级：靠前的模组优先级更高。这被用于配置矿词相同模组不同的情况下的输出。如果没有找到合适的模组，将会输出同矿词默认的物品。
+gui.nc.config.ore_dict_priority.comment=决定输出的优先级：靠前的模组优先级更高。用于配置矿词相同模组不同时的输出。如果没有找到合适的模组，将会输出同矿词默认的物品。
 
 gui.nc.computer.method_not_found=这个方法并不该显示在这里——它丢失了一个方法，你已……多尴尬啊……多尴尬啊！来 GitHub 库，清空你的脑袋，我们会找到你失去的方法。
 gui.nc.computer.invalid_method_number=无效方法值
@@ -3283,7 +3286,7 @@ advancement.nuclearcraft.decay_generator.name=一等能量
 advancement.nuclearcraft.decay_generator.desc=制作一个衰变产能器
 
 advancement.nuclearcraft.bin.name=Mr. Dilkington
-# pun or meme
+# pun or meme http://pilkipedia.co.uk/wiki/index.php?title=Mr_K._Dilkington
 advancement.nuclearcraft.bin.desc=制作一个通用垃圾桶
 
 advancement.nuclearcraft.portable_ender_chest.name=欢乐满人间
@@ -3299,11 +3302,11 @@ advancement.nuclearcraft.energy_upgrade.desc=制作一个能量升级
 advancement.nuclearcraft.machine_interface.name=三维延展
 advancement.nuclearcraft.machine_interface.desc=制作一个机器控制界面
 
-advancement.nuclearcraft.alloy_furnace.name=Smelt up a Storm
+advancement.nuclearcraft.alloy_furnace.name=真能熔
 # pun or meme
 advancement.nuclearcraft.alloy_furnace.desc=制作一个合金炉
 
-advancement.nuclearcraft.fuel_reprocessor.name=Picking up the Pieces
+advancement.nuclearcraft.fuel_reprocessor.name=收拾残局
 # pun or meme
 advancement.nuclearcraft.fuel_reprocessor.desc=制作一个燃料再处理机
 
@@ -3326,15 +3329,15 @@ advancement.nuclearcraft.rtg_uranium.desc=制作一个铀放射性热电发电�
 advancement.nuclearcraft.infuser.name=把它注进去
 advancement.nuclearcraft.infuser.desc=制作一个流体注入器
 
-advancement.nuclearcraft.melter.name=又热又辣
+advancement.nuclearcraft.melter.name=热辣
 advancement.nuclearcraft.melter.desc=制作一个熔化机
 
 advancement.nuclearcraft.chemical_reactor.name=纯波利亚科夫
 # pun or meme
 advancement.nuclearcraft.chemical_reactor.desc=制作一个化学反应器
 
-advancement.nuclearcraft.supercooler.name=Hoth Machine
-# pun or meme
+advancement.nuclearcraft.supercooler.name=来自霍斯的机器
+# pun or meme 星战
 advancement.nuclearcraft.supercooler.desc=制作一个超冷却机
 
 advancement.nuclearcraft.extractor.name=挤压海绵
@@ -3385,7 +3388,7 @@ advancement.nuclearcraft.americium.name=我们信仰物理
 # pun or meme
 advancement.nuclearcraft.americium.desc=得到镅
 
-advancement.nuclearcraft.rtg_californium.name=End of the Line
+advancement.nuclearcraft.rtg_californium.name=穷途末路
 # pun or meme
 advancement.nuclearcraft.rtg_californium.desc=制作一个锎放射性热电发电机
 
@@ -3464,8 +3467,8 @@ block.nc.fusion_run=聚变反应堆：运行
 block.nc.turbine_run=涡轮机：运行
 
 player.nc.geiger_tick=盖革计数器：计数
-player.nc.radaway=抗辐宁：被服用
-player.nc.rad_x=降辐剂：被服用
+player.nc.radaway=抗辐宁：服用
+player.nc.rad_x=降辐剂：服用
 player.nc.chems_wear_off=辐射抗性效果结束
 player.nc.rad_poisoning=辐射中
 
@@ -3495,7 +3498,7 @@ modifier.moldable.desc=§o瑞士莲。§r\n为你的工具增加额外的材料�
 # Lindt
 modifier.uplifting.name=振奋
 modifier.uplifting.desc=§o今天我们奋战！§r\n在你使用你的工具时偶尔恢复生命值。
-# Megadeth or LotR Movies
+# LotR Movies, not Megadeth
 modifier.withering.name=凋零
 modifier.withering.desc=§o死亡将我们变成“恶魔”。§r\n凋零目标。
 # Patti Lather's Book or Hannibal
@@ -3510,15 +3513,15 @@ modifier.uplifting_armor.desc=§o我命令你们抗敌，西方的人类！§r\n
 # 我命令你们坚持住，西方的人类！
 # LotR Movies
 modifier.withering_armor.name=凋零
-modifier.withering_armor.desc=§oWe may have years，we may have hours...§r\n凋零目标。
+modifier.withering_armor.desc=§o不论还能活几年，或者几个小时……§r\n凋零目标。
 # Grim Fandango
 
-message.nuclearcraft.filter=设定过滤器：
+message.nuclearcraft.filter=设定筛选器：
 
 message.nuclearcraft.qubit_id=量子位 ID：
 
 message.nuclearcraft.rad_x_wore_off=你降辐剂的效果结束了……
-message.nuclearcraft.rad_warning=伴随着剧烈的头痛，一种金属的恶臭在你的嘴里蔓延……你正在受到可怕的辐射！最好使用盖革计数器查看当前辐射的严重程度……
+message.nuclearcraft.rad_warning=伴随着剧烈的头痛，一种金属恶臭在你嘴里蔓延……你正受到可怕的辐射！最好使用盖革计数器查看当前的辐射有多严重……
 message.nuclearcraft.radaway_cooling_down=你抗辐宁的效果剩余的冷却时间：
 message.nuclearcraft.rad_x_cooling_down=你降辐剂的效果剩余的冷却时间：
 message.nuclearcraft.scrubber_removal_rate=主动背景辐射消除速率：
@@ -3547,15 +3550,15 @@ death.attack.corium_burn=%s 决定跟随其裂变反应堆的命运
 death.attack.hot_coolant_burn=%s 在热冷却剂中“冷却”了
 death.attack.acid_burn=%s 终于发现了自己身处强碱中
 death.attack.fluid_burn=%s 被煎了
-death.attack.hypothermia=%s 在超低温中被冻死了
+death.attack.hypothermia=%s 在超低温中冻死了
 death.attack.fission_burn=%s 在裂变反应堆中被烤了
 death.attack.fatal_rads=%s 受到了致命剂量的辐射
 
 # 指导手册
 
-nc.guide_book.name=核电工艺手册
+nc.guide_book.name=核电工艺指导手册
 nc.guide_book.edition=重制版
-nc.guide_book.desc=核电工艺是一个以核能发电为中心的科技模组。尽管出于对游戏体验的考虑存有一定的简化、更改及抽象，本模组的多数特性与机制都以对应的现实科技为基础。
+nc.guide_book.desc=核电工艺是一个以核能发电为中心的科技模组。为了游戏体验，这些特性比之现实，有大幅简化与抽象，故和现实有一定差异。
 
 # 字符串
 
@@ -3717,7 +3720,8 @@ nc.sf.power_adverb_preposition=%2$s%1$s
 nc.sf.with=
 
 # 需检查不符合《中文文案排版指北》的内容（不涉及运算符号）
-# QMD 中文维基里面带根号的每个算式都需要维护
+# QMD 中文维基、语言文件、手册里面的每个算式都可能需要维护及规范化
+# QMD 语言文件底部此处也需要维护
 ############################################################################
 ####### 词典 #######
 # 鉴于我比较懒，只收录 容易出错/值得辨析/值得商榷 的内容，但谁要有工夫也可以把别的都挪进来
@@ -3726,7 +3730,7 @@ nc.sf.with=
 ############################################################################
 # passive block (e.g. conductor) 被动方块
 # 集群idle/active 闲置/有效
-# glass 透明……外壳
+# glass 透明……外壳     应该统一改为观察窗。
 # 多方块form 成形
 # component 组件
 # heat 热量
@@ -3751,6 +3755,7 @@ nc.sf.with=
 ############# active valid functional 有效
 ############# 中子防护屏open 我咋还没翻译呢？？？
 ############# factor 系数
+############# 合金和混合物中的「-」（连接符） 删了，中文一般不用加
 ############# multiplier 倍率
 ############# enhanced(moarFuels) 增强
 ############# pit 核心/core 弹芯
@@ -3766,10 +3771,20 @@ nc.sf.with=
 ############# Ultra Light 超轻。注意 ultra 的「超」可能发生混淆
 ############################################################################
 ####### *AT *ActivatedThorium *活化钍
+# QMD ######################################################################
+### 有空把 QMD key 的顺序跟 en_us 统一一下，方便日后改善
+# heat removing 主动：热量流失 被动：热量移除
+# 理论上来说，奇异物质：strange matter丨异常物质：exotic matter 不清楚有无遗漏，自查没有
+############################################################################
+# Fl 
+# 钅哥 鿔
+# 钅达 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 # 极其重要
-# 由于语言文件加载时会把所有 key 整合到一个 map 里，基于 CrT/CoT/NCO 的脚本组件（script-addon）的会全部存在这
+# 对于自动更新库：不要把 NC/NCO 自身的语言文件放进来！由于 NC 与 NCO 的 ModID 相同，本库不容纳核电本体的翻译。
+# 　　　　　　　可以放 NCO 的手册，因为 NC 没有手册
+# 由于语言文件加载时会把所有 key 整合到同一个 map 里，基于 CrT/CoT/NCO 的脚本插件（script-addon）的可以全部存在这
 # 标好 CurseForge 地址、版本、中英名称
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
@@ -4167,11 +4182,11 @@ item.contenttweaker.mendelevium58carbide.name=钔-258 碳化物
 item.contenttweaker.mendelevium58oxide.name=钔-258 氧化物
 item.contenttweaker.mendelevium58nitride.name=钔-258 氮化物
 item.contenttweaker.mendelevium58zirconium.name=钔-258-锆合金
-item.contenttweaker.flerovium98.name=[[钅夫]]-298
-item.contenttweaker.flerovium98carbide.name=[[钅夫]]-298 碳化物
-item.contenttweaker.flerovium98oxide.name=[[钅夫]]-298 氧化物
-item.contenttweaker.flerovium98nitride.name=[[钅夫]]-298 氮化物
-item.contenttweaker.flerovium98zirconium.name=[[钅夫]]-298-锆合金
+item.contenttweaker.flerovium98.name=钅夫-298
+item.contenttweaker.flerovium98carbide.name=钅夫-298 碳化物
+item.contenttweaker.flerovium98oxide.name=钅夫-298 氧化物
+item.contenttweaker.flerovium98nitride.name=钅夫-298 氮化物
+item.contenttweaker.flerovium98zirconium.name=钅夫-298-锆合金
 
 item.contenttweaker.protactinium_fuel.name=轻质锕系混合物-231
 item.contenttweaker.protactinium_fuel_carbide.name=轻质锕系混合物-231 碳化物
@@ -4289,11 +4304,11 @@ item.contenttweaker.thorium229carbide.name=增强钍-229 碳化物
 item.contenttweaker.thorium229oxide.name=增强钍-229 氧化物
 item.contenttweaker.thorium229nitride.name=增强钍-229 氮化物
 item.contenttweaker.thorium229zirconium.name=增强钍-229-锆合金
-item.contenttweaker.darmstadtium294.name=[[钅达]]-294
-item.contenttweaker.darmstadtium294carbide.name=[[钅达]]-294 碳化物
-item.contenttweaker.darmstadtium294oxide.name=[[钅达]]-294 氧化物
-item.contenttweaker.darmstadtium294nitride.name=[[钅达]]-294 氮化物
-item.contenttweaker.darmstadtium294zirconium.name=[[钅达]]-294-锆合金
+item.contenttweaker.darmstadtium294.name=钅达-294
+item.contenttweaker.darmstadtium294carbide.name=钅达-294 碳化物
+item.contenttweaker.darmstadtium294oxide.name=钅达-294 氧化物
+item.contenttweaker.darmstadtium294nitride.name=钅达-294 氮化物
+item.contenttweaker.darmstadtium294zirconium.name=钅达-294-锆合金
 
 item.contenttweaker.darmstadtium_fuel.name=混合物-294
 item.contenttweaker.darmstadtium_fuel_carbide.name=混合物-294 碳化物
@@ -6129,11 +6144,13 @@ item.contenttweaker.uranium_oxide.name=氧化铀锭
 item.contenttweaker.pre_candu.name=未加压 CANDU 燃料束
 item.contenttweaker.candu.name=加压 CANDU 燃料束
 item.contenttweaker.dcandu.name=枯竭 CANDU 燃料束
+# 加拿大重水铀
 
 item.contenttweaker.thorium_oxide.name=氧化钍锭
 item.contenttweaker.pre_aneel.name=未加压 ANEEL 燃料束
 item.contenttweaker.aneel.name=加压 ANEEL 燃料束
 item.contenttweaker.daneel.name=枯竭 ANEEL 燃料束
+# Advanced Nuclear Energy for Enriched Life 丰富生活下更先进的核能
 
 item.contenttweaker.eightsmore.name=八层棉花糖巧克力夹心饼干
 item.contenttweaker.sixteensmore.name=十六层棉花糖巧克力夹心饼干
@@ -6223,7 +6240,9 @@ fluid.depleted_cbcf_fluoride_flibe=熔融枯竭 锔增殖锎 氟化物燃料
 #=================================================================================================================#
 # https://www.curseforge.com/minecraft/customization/nuclearcraft-overhauled-unrealistic-turbine
 # NCOUTO+v1.6
-# 非真实涡轮机丨Nuclearcraft: Overhauled Unrealistic Turbine Overhaul
+# 不真实涡轮机丨Nuclearcraft: Overhauled Unrealistic Turbine Overhaul
+# 涡轮机新部件丨New Turbine Parts for Nuclearcraft:Overhauled
+# 暂未更新 NTP
 #-----------------------------------------------------------------------------------------------------------------#
 tile.nuclearcraft.turbine_dynamo_coil_redstone.name=红石涡轮机发电机线圈
 tile.nuclearcraft.turbine_dynamo_coil_graphite.name=石墨涡轮机发电机线圈
@@ -6371,7 +6390,7 @@ tile.nuclearcraft.turbine_rotor_blade_sicnio.name=碳化硅铌陶瓷基复合材
 tile.nuclearcraft.turbine_rotor_blade_elektron90.name=低质埃勒克特龙-90 合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_elektron192.name=低质埃勒克特龙-192 合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_elektron231.name=低质埃勒克特龙-231 合金涡轮机转子叶片
-tile.nuclearcraft.turbine_rotor_blade_edelstahl.name=超轻贵钢涡轮机转子叶片
+tile.nuclearcraft.turbine_rotor_blade_edelstahl.name=超轻贵钢合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_legierung.name=超轻贵埃勒克特龙合金涡轮机转子叶片
 tile.nuclearcraft.turbine_rotor_blade_matrix.name=超轻陶瓷基合金涡轮机转子叶片
 
@@ -6392,7 +6411,7 @@ tile.nuclearcraft.turbine_rotor_stator_trinitite.name=覆玻璃石涡轮机转�
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 item.contenttweaker.elektron60_ingot.name=埃勒克特龙-60 合金锭
 item.contenttweaker.blade_core.name=锕系涡轮机转子叶片核心
-item.contenttweaker.steel_mould.name=超轻贵钢模
+item.contenttweaker.steel_mould.name=超轻贵钢合金模
 item.contenttweaker.alloy_mould.name=超轻贵埃勒克特龙合金模
 item.contenttweaker.sic_mould.name=超轻陶瓷基合金模
 #=================================================================================================================#
@@ -6454,44 +6473,44 @@ item.nuclearcraft.thoriumfuels.bat248_za.name=活化钍锫-248-锆合金燃料�
 item.nuclearcraft.thoriumfuels.cfat249_za.name=活化钍锎-249-锆合金燃料丸
 item.nuclearcraft.thoriumfuels.cfat251_za.name=活化钍锎-251-锆合金燃料丸
 
-item.nuclearcraft.thoriumfuels.depleted_uat233_ni.name=活化钍枯竭 铀-233 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_uat235_ni.name=活化钍枯竭 铀-235 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_nat236_ni.name=活化钍枯竭 镎-236 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat239_ni.name=活化钍枯竭 钚-239 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat241_ni.name=活化钍枯竭 钚-241 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_aat242_ni.name=活化钍枯竭 镅-242 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat243_ni.name=活化钍枯竭 锔-243 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat245_ni.name=活化钍枯竭 锔-245 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat247_ni.name=活化钍枯竭 锔-247 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_bat248_ni.name=活化钍枯竭 锫-248 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat249_ni.name=活化钍枯竭 锎-249 氮化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat251_ni.name=活化钍枯竭 锎-251 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat233_ni.name=枯竭 活化钍铀-233 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat235_ni.name=枯竭 活化钍铀-235 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_nat236_ni.name=枯竭 活化钍镎-236 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat239_ni.name=枯竭 活化钍钚-239 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat241_ni.name=枯竭 活化钍钚-241 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_aat242_ni.name=枯竭 活化钍镅-242 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat243_ni.name=枯竭 活化钍锔-243 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat245_ni.name=枯竭 活化钍锔-245 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat247_ni.name=枯竭 活化钍锔-247 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_bat248_ni.name=枯竭 活化钍锫-248 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat249_ni.name=枯竭 活化钍锎-249 氮化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat251_ni.name=枯竭 活化钍锎-251 氮化物燃料丸
 
-item.nuclearcraft.thoriumfuels.depleted_uat233_ox.name=活化钍枯竭 铀-233 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_uat235_ox.name=活化钍枯竭 铀-235 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_nat236_ox.name=活化钍枯竭 镎-236 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat239_ox.name=活化钍枯竭 钚-239 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat241_ox.name=活化钍枯竭 钚-241 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_aat242_ox.name=活化钍枯竭 镅-242 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat243_ox.name=活化钍枯竭 锔-243 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat245_ox.name=活化钍枯竭 锔-245 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat247_ox.name=活化钍枯竭 锔-247 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_bat248_ox.name=活化钍枯竭 锫-248 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat249_ox.name=活化钍枯竭 锎-249 氧化物燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat251_ox.name=活化钍枯竭 锎-251 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat233_ox.name=枯竭 活化钍铀-233 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat235_ox.name=枯竭 活化钍铀-235 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_nat236_ox.name=枯竭 活化钍镎-236 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat239_ox.name=枯竭 活化钍钚-239 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat241_ox.name=枯竭 活化钍钚-241 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_aat242_ox.name=枯竭 活化钍镅-242 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat243_ox.name=枯竭 活化钍锔-243 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat245_ox.name=枯竭 活化钍锔-245 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat247_ox.name=枯竭 活化钍锔-247 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_bat248_ox.name=枯竭 活化钍锫-248 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat249_ox.name=枯竭 活化钍锎-249 氧化物燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat251_ox.name=枯竭 活化钍锎-251 氧化物燃料丸
 
-item.nuclearcraft.thoriumfuels.depleted_uat233_za.name=活化钍枯竭 铀-233-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_uat235_za.name=活化钍枯竭 铀-235-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_nat236_za.name=活化钍枯竭 镎-236-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat239_za.name=活化钍枯竭 钚-239-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_pat241_za.name=活化钍枯竭 钚-241-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_aat242_za.name=活化钍枯竭 镅-242-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat243_za.name=活化钍枯竭 锔-243-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat245_za.name=活化钍枯竭 锔-245-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cmat247_za.name=活化钍枯竭 锔-247-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_bat248_za.name=活化钍枯竭 锫-248-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat249_za.name=活化钍枯竭 锎-249-锆合金燃料丸
-item.nuclearcraft.thoriumfuels.depleted_cfat251_za.name=活化钍枯竭 锎-251-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat233_za.name=枯竭 活化钍铀-233-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_uat235_za.name=枯竭 活化钍铀-235-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_nat236_za.name=枯竭 活化钍镎-236-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat239_za.name=枯竭 活化钍钚-239-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_pat241_za.name=枯竭 活化钍钚-241-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_aat242_za.name=枯竭 活化钍镅-242-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat243_za.name=枯竭 活化钍锔-243-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat245_za.name=枯竭 活化钍锔-245-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cmat247_za.name=枯竭 活化钍锔-247-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_bat248_za.name=枯竭 活化钍锫-248-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat249_za.name=枯竭 活化钍锎-249-锆合金燃料丸
+item.nuclearcraft.thoriumfuels.depleted_cfat251_za.name=枯竭 活化钍锎-251-锆合金燃料丸
 #=================================================================================================================#
 
 #=================================================================================================================#
@@ -6499,8 +6518,6 @@ item.nuclearcraft.thoriumfuels.depleted_cfat251_za.name=活化钍枯竭 锎-251-
 # MoarHeatSinks-1.4.1
 # 更多散热器丨Moar Heat Sinks
 #-----------------------------------------------------------------------------------------------------------------#
-# https://github.com/CFPAOrg/Minecraft-Mod-Language-Package/pull/1616
-
 tile.nuclearcraft.solid_fission_sink_steel.name=钢裂变散热器
 tile.nuclearcraft.solid_fission_sink_ferroboron.name=硼铁合金裂变散热器
 tile.nuclearcraft.solid_fission_sink_tough_alloy.name=高强合金裂变散热器
@@ -6838,7 +6855,7 @@ fluid.mithril=熔融秘银
 
 fluid.fluxed_electrum=熔融红石琥珀金
 fluid.flux_crystal=熔融红石水晶
-fluid.certus=熔融赛特斯石英
+fluid.certus=熔融赛特斯石英水晶
 fluid.fluix=熔融福鲁伊克斯水晶
 fluid.fluix_steel=熔融福鲁伊克斯钢
 # flux fluix
@@ -6873,15 +6890,15 @@ nc.sf.certus_heater1=%s赛特斯石英裂变冷却液加热器
 fluid.certus_nak=共晶钠钾-赛特斯石英混合物
 fluid.certus_nak_hot=热共晶钠钾-赛特斯石英混合物
 
-tile.nuclearcraft.solid_fission_sink_fluix.name=福鲁伊克斯水晶裂变散热器
-nc.sf.fluix_sink0=%s福鲁伊克斯水晶裂变散热器
-nc.sf.fluix_sink1=%s福鲁伊克斯水晶裂变散热器
-tile.nuclearcraft.fission_heater_port_fluix.name=福鲁伊克斯水晶裂变冷却液加热器端口
-tile.nuclearcraft.salt_fission_heater_fluix.name=福鲁伊克斯水晶裂变冷却液加热器
-nc.sf.fluix_heater0=%s福鲁伊克斯水晶裂变冷却液加热器
-nc.sf.fluix_heater1=%s福鲁伊克斯水晶裂变冷却液加热器
-fluid.fluix_nak=共晶钠钾-福鲁伊克斯水晶混合物
-fluid.fluix_nak_hot=热共晶钠钾-福鲁伊克斯水晶混合物
+tile.nuclearcraft.solid_fission_sink_fluix.name=福鲁伊克斯裂变散热器
+nc.sf.fluix_sink0=%s福鲁伊克斯裂变散热器
+nc.sf.fluix_sink1=%s福鲁伊克斯裂变散热器
+tile.nuclearcraft.fission_heater_port_fluix.name=福鲁伊克斯裂变冷却液加热器端口
+tile.nuclearcraft.salt_fission_heater_fluix.name=福鲁伊克斯裂变冷却液加热器
+nc.sf.fluix_heater0=%s福鲁伊克斯裂变冷却液加热器
+nc.sf.fluix_heater1=%s福鲁伊克斯裂变冷却液加热器
+fluid.fluix_nak=共晶钠钾-福鲁伊克斯混合物
+fluid.fluix_nak_hot=热共晶钠钾-福鲁伊克斯混合物
 
 tile.nuclearcraft.solid_fission_sink_fluix_steel.name=福鲁伊克斯钢裂变散热器
 nc.sf.fluix_steel_sink0=%s福鲁伊克斯钢裂变散热器
@@ -7031,3 +7048,7 @@ fluid.bismuth=熔融铋
 fluid.sponge=熔融海绵
 fluid.magma_slime=熔融岩浆膏
 #=================================================================================================================#
+
+info.reactorbuilder.pass.setting_filters=筛选器设定中
+info.reactorbuilder.template.irradiator_filters=辐照器筛选器
+info.reactorbuilder.template.components=组件

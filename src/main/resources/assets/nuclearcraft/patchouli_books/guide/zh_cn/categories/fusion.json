@@ -1,5 +1,5 @@
 {
-	"name": "Nuclear Fusion (WIP)",
+	"name": "核聚变（未完成）",
 	"description": "$(l)使原子核聚合，既有趣，又有荣。",
 	"icon": "nuclearcraft:part:4",
 	"parent": "nuclearcraft:multiblocks",

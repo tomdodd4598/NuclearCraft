@@ -1,5 +1,5 @@
 {
-	"name": "General Info",
+	"name": "通用信息",
 	"icon": "nuclearcraft:fission_casing",
 	"category": "nuclearcraft:fission",
 	"sortnum": 0,
@@ -15,7 +15,7 @@
 			"header": "反应堆外壳",
 			"block1": "nuclearcraft:fission_casing",
 			"block2": "nuclearcraft:fission_glass",
-			"text": "反应堆的内部组件被包含在一个长方体结构中。长方体结构的十二条边（含角）必须由$(item)裂变反应堆外壳$()构成，其他面可以由$(item)透明裂变反应堆外壳$()替代。当多方块结构成形时，在边上的裂变反应堆外壳的材质将发生变化。"
+			"text": "反应堆的内部组件被包含在一个长方体结构中。长方体结构的十二条边（含角）必须由$(item)裂变反应堆外壳$()构成，其他面可以由$(item)透明裂变反应堆外壳$()替代。当多方块结构成形时，边上的裂变反应堆外壳的材质将发生变化。"
 		},
 		{
 			"anchor": "controller",
