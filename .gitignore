@@ -13,6 +13,10 @@ out
 *.iml
 .idea
 
+# nb
+/.nb-gradle/
+/.nb-gradle-properties
+
 # gradle
 build/*
 .gradle

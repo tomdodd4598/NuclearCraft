@@ -185,6 +185,8 @@ public class CommonProxy {
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
 			info.postInit();
 		}
+        CTRegistration.STICKY_INFO_LIST.clear();
+        CTRegistration.STICKY_INFO_LIST.addAll(CTRegistration.INFO_LIST);
 		CTRegistration.INFO_LIST.clear();
 	}
 	
