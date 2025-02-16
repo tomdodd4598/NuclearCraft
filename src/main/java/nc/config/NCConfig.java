@@ -1,5 +1,7 @@
 package nc.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import nc.*;
 import nc.multiblock.fission.FissionPlacement;
@@ -18,10 +20,12 @@ import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 import java.util.Map.Entry;
 
 import static nc.util.CollectionHelper.arrayCopies;
+import net.ncplanner.ncpf.NCPF;
 
 public class NCConfig {
 	
@@ -455,6 +459,7 @@ public class NCConfig {
 	
 	public static void postInit() {
 		outputInfo();
+        outputNCPF();
 	}
 	
 	public static void clientPreInit() {
@@ -906,6 +911,18 @@ public class NCConfig {
 			info.save();
 		}
 	}
+    
+    private static void outputNCPF(){
+        try{
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            NCPF ncpf = new NCPF();
+            try(FileWriter writer = new FileWriter(new File(Loader.instance().getConfigDir(), "nuclearcraft.ncpf.json"))){
+                gson.toJson(ncpf, writer);
+            }
+        }catch(Exception ex){
+			NCUtil.getLogger().error("Unable to create nuclearcraft.ncpf.json file.", ex);
+        }
+    }
 	
 	public static int sync(String category, String name, int defaultValue) {
 		Property property = config.get(category, name, defaultValue, Lang.localize("gui.nc.config." + name + ".comment"));
