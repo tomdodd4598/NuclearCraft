@@ -23,9 +23,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
 import java.util.Map.Entry;
+import nc.init.NCBlocks;
 
 import static nc.util.CollectionHelper.arrayCopies;
 import net.ncplanner.ncpf.NCPF;
+import net.ncplanner.ncpf.NCPFModuleList;
+import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulSFRConfiguration;
 
 public class NCConfig {
 	
@@ -916,6 +919,43 @@ public class NCConfig {
         try{
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             NCPF ncpf = new NCPF();
+            
+            ncpf.modules = new NCPFModuleList();
+            ncpf.modules.put("nuclearcraft:generated", new GeneratedNCPFData());
+            
+            // Fission SFR
+            {
+                NCPFOverhaulSFRConfiguration cfg = new NCPFOverhaulSFRConfiguration();
+                
+                // Blocks
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_controller);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_monitor);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source_manager);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_shield_manager);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_casing);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_glass);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_vent);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_power_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_computer_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_cell);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_cell_port);
+                NCPFTranslator.translate(cfg.blocks, NCRecipes.fission_moderator);
+                NCPFTranslator.translate(cfg.blocks, NCRecipes.fission_reflector);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_shield);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_conductor);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_irradiator);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_irradiator_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_sink);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_sink2);
+                
+                // Coolant Recipes
+                NCPFTranslator.translate(cfg.coolant_recipes, NCRecipes.fission_heating);
+                
+                
+                ncpf.configuration.put("nuclearcraft:overhaul_sfr", cfg);
+            }
+            
             try(FileWriter writer = new FileWriter(new File(Loader.instance().getConfigDir(), "nuclearcraft.ncpf.json"))){
                 gson.toJson(ncpf, writer);
             }
