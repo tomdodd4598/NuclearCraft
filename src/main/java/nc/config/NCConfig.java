@@ -925,6 +925,7 @@ public class NCConfig {
             
             // Fission SFR
             {
+                NCPFTranslator.configContext = "overhaul_sfr";
                 NCPFOverhaulSFRConfiguration cfg = new NCPFOverhaulSFRConfiguration();
                 
                 // Blocks
