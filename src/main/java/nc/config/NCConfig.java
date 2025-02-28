@@ -18,6 +18,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEve
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,8 +27,11 @@ import java.util.Map.Entry;
 import nc.init.NCBlocks;
 
 import static nc.util.CollectionHelper.arrayCopies;
+import net.minecraft.item.ItemStack;
 import net.ncplanner.ncpf.NCPF;
 import net.ncplanner.ncpf.NCPFModuleList;
+import net.ncplanner.ncpf.element.NCPFElement;
+import net.ncplanner.ncpf.element.NCPFOredict;
 import net.ncplanner.ncpf.module.NCPFGenericModule;
 import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulSFRConfiguration;
 
@@ -964,6 +968,48 @@ public class NCConfig {
                 // Coolant Recipes
                 NCPFTranslator.translate(cfg.coolant_recipes, NCRecipes.fission_heating);
                 
+                var globalElementsModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> globalElements = new ArrayList<>();
+                
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.fission_heating);
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.solid_fission);
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.fission_irradiator);
+                
+                for(int i = 0; i<globalElements.size(); i++){
+                    NCPFElement globalElem = globalElements.get(i);
+                    for(int j = 0; j<globalElements.size(); j++){
+                        var elem = globalElements.get(j);
+                        if(i==j)continue;
+                        if(gson.toJson(elem).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                            globalElements.remove(j);
+                            j--;
+                        }
+                    }
+                }
+                
+                // Ore dictionary
+                for(int i = 0; i<globalElements.size(); i++){
+                    var elem = globalElements.get(i);
+                    if(elem instanceof NCPFOredict oredict){
+                        ORE:for(ItemStack stack : OreDictionary.getOres(oredict.oredict, false)){
+                            var element = NCPFTranslator.translate(stack);
+                            for(var globalElem : globalElements){
+                                if(gson.toJson(element).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                                    ((List<String>)((NCPFGenericModule)globalElem.modules.get("plannerator:tags")).get("tags")).add(oredict.oredict);
+                                    continue ORE;
+                                }
+                            }
+                            if(element.modules==null)element.modules = new NCPFModuleList();
+                            var tags = new NCPFGenericModule();
+                            tags.put("tags", new ArrayList<>(Arrays.asList(oredict.oredict)));
+                            element.modules.put("plannerator:tags", tags);
+                            globalElements.add(element);
+                        }
+                    }
+                }
+                
+                globalElementsModule.put("elements", globalElements);
+                cfg.modules.put("plannerator:global_elements", globalElementsModule);
                 
                 ncpf.configuration.put("nuclearcraft:overhaul_sfr", cfg);
             }

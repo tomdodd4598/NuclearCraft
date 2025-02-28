@@ -10,7 +10,9 @@ import nc.block.fission.BlockFissionVent;
 import nc.block.fission.port.BlockFissionItemPort;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
+import nc.multiblock.fission.FissionPlacement;
 import nc.recipe.BasicRecipeHandler;
+import nc.recipe.NCRecipes;
 import nc.recipe.ingredient.FluidArrayIngredient;
 import nc.recipe.ingredient.FluidIngredient;
 import nc.recipe.ingredient.IIngredient;
@@ -18,9 +20,12 @@ import nc.recipe.ingredient.ItemArrayIngredient;
 import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.recipe.multiblock.FissionHeatingRecipes;
+import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
+import nc.recipe.multiblock.SolidFissionRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.ncplanner.ncpf.NCPFModuleList;
 import net.ncplanner.ncpf.element.NCPFElement;
 import net.ncplanner.ncpf.element.NCPFLegacyBlock;
@@ -119,7 +124,11 @@ public class NCPFTranslator{
                 ports.put("input", portElements.get(0));
                 ports.put("output", portElements.get(1));
                 elem.modules.put("nuclearcraft:overhaul_sfr:recipe_ports", ports);
-                //TODO fuels
+                var recipesModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> recipes = new ArrayList<>();
+                translate(recipes, NCRecipes.solid_fission);
+                recipesModule.put("recipes", recipes);
+                elem.modules.put("ncpf:block_recipes", recipesModule);
             }
             if(block==NCBlocks.fission_irradiator){
                 elem.modules.put("nuclearcraft:"+configContext+":irradiator", new NCPFEmptyModule());
@@ -129,7 +138,11 @@ public class NCPFTranslator{
                 ports.put("input", portElements.get(0));
                 ports.put("output", portElements.get(1));
                 elem.modules.put("nuclearcraft:overhaul_sfr:recipe_ports", ports);
-                //TODO irradiator recipes
+                var recipesModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> recipes = new ArrayList<>();
+                translate(recipes, NCRecipes.fission_irradiator);
+                recipesModule.put("recipes", recipes);
+                elem.modules.put("ncpf:block_recipes", recipesModule);
             }
             if(block==NCBlocks.fission_cell_port||block==NCBlocks.fission_irradiator_port){
                 var port = new NCPFGenericModule();
@@ -144,7 +157,6 @@ public class NCPFTranslator{
                 reflector.put("efficiency", MetaEnums.NeutronReflectorType.values()[meta].getEfficiency());
                 reflector.put("reflectivity", MetaEnums.NeutronReflectorType.values()[meta].getReflectivity());
                 elem.modules.put("nuclearcraft:"+configContext+":reflector", reflector);
-                //TODO placement rules (FissionPlacement.recipe_handler
             }
             if(block==NCBlocks.fission_shield){
                 if(Objects.equals(blockstate.get("active"), Boolean.FALSE)){
@@ -155,9 +167,7 @@ public class NCPFTranslator{
                     elem.modules.put("nuclearcraft:"+configContext+":neutron_shield", shield);
                 }
             }
-            
-            //TODO global elements; recipe outputs
-            
+
             if(casing||block==NCBlocks.fission_casing||block==NCBlocks.fission_glass||block==NCBlocks.fission_monitor||block==NCBlocks.fission_source_manager||block==NCBlocks.fission_shield_manager||block==NCBlocks.fission_power_port||block==NCBlocks.fission_glass||block==NCBlocks.fission_computer_port){
                 var casin = new NCPFGenericModule();
                 casin.put("edge", block==NCBlocks.fission_casing);
@@ -176,6 +186,7 @@ public class NCPFTranslator{
                 var stats = new NCPFGenericModule();
                 stats.put("heat", recipe.getFissionHeatingHeatPerInputMB());
                 stats.put("output_ratio", recipe.getFluidProducts().get(0).getStack().amount/(float)recipe.getFluidIngredients().get(0).getStack().amount);
+                stats.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
                 element.modules.put("nuclearcraft:overhaul_sfr:coolant_recipe_stats", stats);
             }
             if(recipes instanceof FissionModeratorRecipes){
@@ -185,7 +196,36 @@ public class NCPFTranslator{
                 moderator.put("efficiency", recipe.getFissionModeratorEfficiency());
                 element.modules.put("nuclearcraft:overhaul_sfr:moderator", moderator);
             }
+            if(recipes instanceof FissionIrradiatorRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var irradiator = new NCPFGenericModule();
+                irradiator.put("heat", recipe.getIrradiatorHeatPerFlux());
+                irradiator.put("efficiency", recipe.getIrradiatorProcessEfficiency());
+                irradiator.put("output", translateIngredient(recipe.getItemProducts().get(0)));
+                element.modules.put("nuclearcraft:overhaul_sfr:irradiator_stats", irradiator);
+            }
+            if(recipes instanceof SolidFissionRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var fuel = new NCPFGenericModule();
+                fuel.put("efficiency", recipe.getFissionFuelEfficiency());
+                fuel.put("heat", recipe.getFissionFuelHeat());
+                fuel.put("time", recipe.getFissionFuelTime());
+                fuel.put("criticality", recipe.getFissionFuelCriticality());
+                fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
+                fuel.put("output", translateIngredient(recipe.getItemProducts().get(0)));
+                element.modules.put("nuclearcraft:overhaul_sfr:fuel_stats", fuel);
+            }
             list.add(element);
+        }
+    }
+    public static void translateOutputs(List<NCPFElement> list, BasicRecipeHandler recipes){
+        for(var recipe : recipes.getRecipeList()){
+            for(var item : recipe.getItemProducts()){
+                list.add(translateIngredient(item));
+            }
+            for(var fluid : recipe.getFluidProducts()){
+                list.add(translateIngredient(fluid));
+            }
         }
     }
     private static NCPFElement translateIngredient(IIngredient ingredient){
@@ -194,32 +234,17 @@ public class NCPFTranslator{
             for(var ingr : array.ingredientList){
                 ncpf.elements.add(translateIngredient(ingr));
             }
-            return ncpf;
+            return ncpf.elements.size()==1?ncpf.elements.get(0):ncpf;
         }
         if(ingredient instanceof ItemArrayIngredient array){
             NCPFListElement ncpf = new NCPFListElement();
             for(var ingr : array.ingredientList){
                 ncpf.elements.add(translateIngredient(ingr));
             }
-            return ncpf;
+            return ncpf.elements.size()==1?ncpf.elements.get(0):ncpf;
         }
         if(ingredient instanceof ItemIngredient item){
-            var realItem = item.stack.getItem();
-            if(realItem instanceof ItemBlock bitem){
-                var block = bitem.getBlock();
-                var lst = new ArrayList<NCPFElement>();
-                translate(lst, block);
-                for(var elem : lst){
-                    if(elem instanceof NCPFLegacyBlock ncpf&&ncpf.metadata!=null&&ncpf.metadata==item.stack.getMetadata()){
-                        return elem;
-                    }
-                }
-                return lst.get(0);
-            }
-            NCPFLegacyItem ncpf = new NCPFLegacyItem();
-            ncpf.name = item.stack.getItem().getRegistryName().toString();
-            if(item.stack.getItem().getHasSubtypes())ncpf.metadata = item.stack.getMetadata();
-            return ncpf;
+            return translate(item.stack);
         }
         if(ingredient instanceof FluidIngredient fluid){
             NCPFLegacyFluid ncpf = new NCPFLegacyFluid();
@@ -232,5 +257,23 @@ public class NCPFTranslator{
             return ncpf;
         }
         throw new UnsupportedOperationException("Could not translate IIngredient: "+ingredient.getClass().getName());
+    }
+    public static NCPFElement translate(ItemStack stack){
+        var realItem = stack.getItem();
+        if(realItem instanceof ItemBlock bitem){
+            var block = bitem.getBlock();
+            var lst = new ArrayList<NCPFElement>();
+            translate(lst, block);
+            for(var elem : lst){
+                if(elem instanceof NCPFLegacyBlock ncpf&&ncpf.metadata!=null&&ncpf.metadata==stack.getMetadata()){
+                    return elem;
+                }
+            }
+            return lst.get(0);
+        }
+        NCPFLegacyItem ncpf = new NCPFLegacyItem();
+        ncpf.name = stack.getItem().getRegistryName().toString();
+        if(stack.getItem().getHasSubtypes())ncpf.metadata = stack.getMetadata();
+        return ncpf;
     }
 }
