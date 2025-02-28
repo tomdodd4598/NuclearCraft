@@ -18,6 +18,7 @@ import nc.recipe.ingredient.ItemArrayIngredient;
 import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.recipe.multiblock.FissionHeatingRecipes;
+import nc.recipe.multiblock.FissionModeratorRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.ncplanner.ncpf.NCPFModuleList;
@@ -138,7 +139,6 @@ public class NCPFTranslator{
             if(block==NCBlocks.fission_conductor){
                 elem.modules.put("nuclearcraft:"+configContext+":conductor", new NCPFEmptyModule());
             }
-            //TODO moderator recipes
             if(block==NCBlocks.fission_reflector){
                 var reflector = new NCPFGenericModule();
                 reflector.put("efficiency", MetaEnums.NeutronReflectorType.values()[meta].getEfficiency());
@@ -177,6 +177,13 @@ public class NCPFTranslator{
                 stats.put("heat", recipe.getFissionHeatingHeatPerInputMB());
                 stats.put("output_ratio", recipe.getFluidProducts().get(0).getStack().amount/(float)recipe.getFluidIngredients().get(0).getStack().amount);
                 element.modules.put("nuclearcraft:overhaul_sfr:coolant_recipe_stats", stats);
+            }
+            if(recipes instanceof FissionModeratorRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var moderator = new NCPFGenericModule();
+                moderator.put("flux", recipe.getFissionModeratorFluxFactor());
+                moderator.put("efficiency", recipe.getFissionModeratorEfficiency());
+                element.modules.put("nuclearcraft:overhaul_sfr:moderator", moderator);
             }
             list.add(element);
         }
