@@ -28,6 +28,7 @@ import nc.init.NCBlocks;
 import static nc.util.CollectionHelper.arrayCopies;
 import net.ncplanner.ncpf.NCPF;
 import net.ncplanner.ncpf.NCPFModuleList;
+import net.ncplanner.ncpf.module.NCPFGenericModule;
 import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulSFRConfiguration;
 
 public class NCConfig {
@@ -927,17 +928,27 @@ public class NCConfig {
             {
                 NCPFTranslator.configContext = "overhaul_sfr";
                 NCPFOverhaulSFRConfiguration cfg = new NCPFOverhaulSFRConfiguration();
+                cfg.modules = new NCPFModuleList();
+                
+                var settings = new NCPFGenericModule();
+                settings.put("min_size", fission_min_size);
+                settings.put("max_size", fission_max_size);
+                settings.put("neutron_reach", fission_neutron_reach);
+                settings.put("sparsity_penalty_multiplier", fission_sparsity_penalty_params[0]);
+                settings.put("sparsity_penalty_threshold", fission_sparsity_penalty_params[1]);
+                settings.put("cooling_efficiency_leniency", fission_cooling_efficiency_leniency);
+                cfg.modules.put("nuclearcraft:overhaul_sfr_configuration_settings", settings);
                 
                 // Blocks
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_controller);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_monitor);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source_manager);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_shield_manager);
-                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_casing);
-                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_glass);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_vent);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_power_port);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_computer_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_casing);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_glass);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_cell);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_cell_port);

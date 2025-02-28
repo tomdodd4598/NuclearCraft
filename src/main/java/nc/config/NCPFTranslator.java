@@ -10,7 +10,6 @@ import nc.block.fission.BlockFissionVent;
 import nc.block.fission.port.BlockFissionItemPort;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.FluidArrayIngredient;
 import nc.recipe.ingredient.FluidIngredient;
@@ -18,7 +17,7 @@ import nc.recipe.ingredient.IIngredient;
 import nc.recipe.ingredient.ItemArrayIngredient;
 import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
-import nc.multiblock.cuboidal.TileCuboidalMultiblockPart;
+import nc.recipe.multiblock.FissionHeatingRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.ncplanner.ncpf.NCPFModuleList;
@@ -158,7 +157,15 @@ public class NCPFTranslator{
         if(recipes.getItemInputSize()+recipes.getFluidInputSize()!=1)throw new IllegalArgumentException("Cannot convert recipes to NCPF element unless they have exactly one input!");
         for(var recipe : recipes.getRecipeList()){
             IIngredient ingredient = recipes.getItemInputSize()>0?recipe.getItemIngredients().get(0):recipe.getFluidIngredients().get(0);
-            list.add(translateIngredient(ingredient));
+            var element = translateIngredient(ingredient);
+            if(recipes instanceof FissionHeatingRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var stats = new NCPFGenericModule();
+                stats.put("heat", recipe.getFissionHeatingHeatPerInputMB());
+                stats.put("output_ratio", recipe.getFluidProducts().get(0).getStack().amount/(float)recipe.getFluidIngredients().get(0).getStack().amount);
+                element.modules.put("nuclearcraft:overhaul_sfr:coolant_recipe_stats", stats);
+            }
+            list.add(element);
         }
     }
     private static NCPFElement translateIngredient(IIngredient ingredient){
