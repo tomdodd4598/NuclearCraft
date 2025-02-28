@@ -112,12 +112,22 @@ public class NCPFTranslator{
             }
             if(block==NCBlocks.solid_fission_cell){
                 elem.modules.put("nuclearcraft:"+configContext+":fuel_cell", new NCPFEmptyModule());
-                //TODO recipe ports module
+                var ports = new NCPFGenericModule();
+                var portElements = new ArrayList<NCPFElement>();
+                translate(portElements, NCBlocks.fission_cell_port);
+                ports.put("input", portElements.get(0));
+                ports.put("output", portElements.get(1));
+                elem.modules.put("nuclearcraft:overhaul_sfr:recipe_ports", ports);
                 //TODO fuels
             }
             if(block==NCBlocks.fission_irradiator){
                 elem.modules.put("nuclearcraft:"+configContext+":irradiator", new NCPFEmptyModule());
-                //TODO recipe ports module
+                var ports = new NCPFGenericModule();
+                var portElements = new ArrayList<NCPFElement>();
+                translate(portElements, NCBlocks.fission_irradiator_port);
+                ports.put("input", portElements.get(0));
+                ports.put("output", portElements.get(1));
+                elem.modules.put("nuclearcraft:overhaul_sfr:recipe_ports", ports);
                 //TODO irradiator recipes
             }
             if(block==NCBlocks.fission_cell_port||block==NCBlocks.fission_irradiator_port){
@@ -141,10 +151,13 @@ public class NCPFTranslator{
                     var shield = new NCPFGenericModule();
                     shield.put("heat_per_flux", MetaEnums.NeutronShieldType.values()[meta].getHeatPerFlux());
                     shield.put("efficiency", MetaEnums.NeutronShieldType.values()[meta].getEfficiency());
+                    shield.put("closed", newElements.get(1));
                     elem.modules.put("nuclearcraft:"+configContext+":neutron_shield", shield);
-                    //TODO closed reference
                 }
             }
+            
+            //TODO global elements; recipe outputs
+            
             if(casing||block==NCBlocks.fission_casing||block==NCBlocks.fission_glass||block==NCBlocks.fission_monitor||block==NCBlocks.fission_source_manager||block==NCBlocks.fission_shield_manager||block==NCBlocks.fission_power_port||block==NCBlocks.fission_glass||block==NCBlocks.fission_computer_port){
                 var casin = new NCPFGenericModule();
                 casin.put("edge", block==NCBlocks.fission_casing);
