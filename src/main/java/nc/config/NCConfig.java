@@ -1082,6 +1082,7 @@ public class NCConfig {
                 ArrayList<NCPFElement> globalElements = new ArrayList<>();
                 
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.salt_fission);
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.coolant_heater);
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.fission_irradiator);
                 
                 for(int i = 0; i<globalElements.size(); i++){

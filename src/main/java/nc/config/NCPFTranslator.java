@@ -28,6 +28,7 @@ import nc.recipe.multiblock.CoolantHeaterRecipes;
 import nc.recipe.multiblock.FissionHeatingRecipes;
 import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
+import nc.recipe.multiblock.SaltFissionRecipes;
 import nc.recipe.multiblock.SolidFissionRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -300,6 +301,24 @@ public class NCPFTranslator{
                 fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
                 fuel.put("output", translateIngredient(recipe.getItemProducts().get(0)));
                 element.modules.put("nuclearcraft:overhaul_sfr:fuel_stats", fuel);
+            }
+            if(recipes instanceof SaltFissionRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var fuel = new NCPFGenericModule();
+                fuel.put("efficiency", recipe.getFissionFuelEfficiency());
+                fuel.put("heat", recipe.getFissionFuelHeat());
+                fuel.put("time", recipe.getSaltFissionFuelTime());
+                fuel.put("criticality", recipe.getFissionFuelCriticality());
+                fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
+                fuel.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
+                element.modules.put("nuclearcraft:overhaul_msr:fuel_stats", fuel);
+            }
+            if(recipes instanceof CoolantHeaterRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var heater = new NCPFGenericModule();
+                heater.put("cooling", recipe.getCoolantHeaterCoolingRate());
+                heater.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
+                element.modules.put("nuclearcraft:overhaul_msr:heater_stats", heater);
             }
             list.add(element);
         }
