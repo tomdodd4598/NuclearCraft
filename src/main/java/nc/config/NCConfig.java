@@ -987,23 +987,38 @@ public class NCConfig {
                     }
                 }
                 
+                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
+                lists.add(globalElements);
+                lists.add(cfg.blocks);
+                lists.add(cfg.coolant_recipes);
+                
+                for(var block : cfg.blocks){
+                    if(block.modules==null)continue;
+                    NCPFGenericModule blockRecipes = (NCPFGenericModule)block.modules.get("ncpf:block_recipes");
+                    if(blockRecipes==null)continue;
+                    ArrayList<NCPFElement> recipes = (ArrayList<NCPFElement>)blockRecipes.get("recipes");
+                    lists.add(recipes);
+                }
+                
                 // Ore dictionary
-                for(int i = 0; i<globalElements.size(); i++){
-                    var elem = globalElements.get(i);
-                    if(elem instanceof NCPFOredict oredict){
-                        ORE:for(ItemStack stack : OreDictionary.getOres(oredict.oredict, false)){
-                            var element = NCPFTranslator.translate(stack);
-                            for(var globalElem : globalElements){
-                                if(gson.toJson(element).equals(gson.toJson(globalElem))){ // probably slow, but whatever
-                                    ((List<String>)((NCPFGenericModule)globalElem.modules.get("plannerator:tags")).get("tags")).add(oredict.oredict);
-                                    continue ORE;
+                for(var elements : lists){
+                    for(int i = 0; i<elements.size(); i++){
+                        var elem = elements.get(i);
+                        if(elem instanceof NCPFOredict oredict){
+                            ORE:for(ItemStack stack : OreDictionary.getOres(oredict.oredict, false)){
+                                var element = NCPFTranslator.translate(stack);
+                                for(var globalElem : globalElements){
+                                    if(gson.toJson(element).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                                        ((List<String>)((NCPFGenericModule)globalElem.modules.get("plannerator:tags")).get("tags")).add(oredict.oredict);
+                                        continue ORE;
+                                    }
                                 }
+                                if(element.modules==null)element.modules = new NCPFModuleList();
+                                var tags = new NCPFGenericModule();
+                                tags.put("tags", new ArrayList<>(Arrays.asList(oredict.oredict)));
+                                element.modules.put("plannerator:tags", tags);
+                                globalElements.add(element);
                             }
-                            if(element.modules==null)element.modules = new NCPFModuleList();
-                            var tags = new NCPFGenericModule();
-                            tags.put("tags", new ArrayList<>(Arrays.asList(oredict.oredict)));
-                            element.modules.put("plannerator:tags", tags);
-                            globalElements.add(element);
                         }
                     }
                 }
