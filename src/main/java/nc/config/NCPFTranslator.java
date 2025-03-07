@@ -224,7 +224,7 @@ public class NCPFTranslator{
                 recipesModule.put("recipes", recipes);
                 elem.modules.put("ncpf:block_recipes", recipesModule);
             }
-            if(block==NCBlocks.fission_cell_port||block==NCBlocks.fission_irradiator_port){
+            if(block==NCBlocks.fission_cell_port||block==NCBlocks.fission_irradiator_port||block==NCBlocks.fission_vessel_port||block==NCBlocks.fission_heater_port||block==NCBlocks.fission_heater_port2){
                 var port = new NCPFGenericModule();
                 port.put("output", blockstate.get("active"));
                 elem.modules.put("nuclearcraft:"+configContext+":port", port);
