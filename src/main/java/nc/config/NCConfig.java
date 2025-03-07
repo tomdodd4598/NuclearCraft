@@ -1000,6 +1000,8 @@ public class NCConfig {
                     lists.add(recipes);
                 }
                 
+                ArrayList<NCPFElement> elementsToHaveOredictTagsAdded = new ArrayList<>();
+                ArrayList<String> oredictTagsToAddToThoseAforementionedElements = new ArrayList<>();
                 // Ore dictionary
                 for(var elements : lists){
                     for(int i = 0; i<elements.size(); i++){
@@ -1009,18 +1011,28 @@ public class NCConfig {
                                 var element = NCPFTranslator.translate(stack);
                                 for(var globalElem : globalElements){
                                     if(gson.toJson(element).equals(gson.toJson(globalElem))){ // probably slow, but whatever
-                                        ((List<String>)((NCPFGenericModule)globalElem.modules.get("plannerator:tags")).get("tags")).add(oredict.oredict);
+                                        elementsToHaveOredictTagsAdded.add(globalElem);
+                                        oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
                                         continue ORE;
                                     }
                                 }
-                                if(element.modules==null)element.modules = new NCPFModuleList();
-                                var tags = new NCPFGenericModule();
-                                tags.put("tags", new ArrayList<>(Arrays.asList(oredict.oredict)));
-                                element.modules.put("plannerator:tags", tags);
+                                elementsToHaveOredictTagsAdded.add(element);
+                                oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
                                 globalElements.add(element);
                             }
                         }
                     }
+                }
+                
+                for(int i = 0; i<elementsToHaveOredictTagsAdded.size(); i++){
+                    var element = elementsToHaveOredictTagsAdded.get(i);
+                    if(element.modules==null)element.modules = new NCPFModuleList();
+                    if(!element.modules.containsKey("plannerator:tags")){
+                        var tags = new NCPFGenericModule();
+                        tags.put("tags", new ArrayList<String>());
+                        element.modules.put("plannerator:tags", tags);
+                    }
+                    ((List<String>)((NCPFGenericModule)element.modules.get("plannerator:tags")).get("tags")).add(oredictTagsToAddToThoseAforementionedElements.get(i));
                 }
                 
                 globalElementsModule.put("elements", globalElements);
