@@ -1,16 +1,21 @@
 package nc.config;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 import nc.block.BlockMeta;
 import nc.block.fission.BlockFissionMetaShield;
 import nc.block.fission.BlockFissionVent;
+import nc.block.fission.port.BlockFissionFluidMetaPort;
+import nc.block.fission.port.BlockFissionFluidPort;
 import nc.block.fission.port.BlockFissionItemPort;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
 import nc.multiblock.fission.FissionPlacement;
+import nc.recipe.BasicRecipe;
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ingredient.FluidArrayIngredient;
@@ -19,6 +24,7 @@ import nc.recipe.ingredient.IIngredient;
 import nc.recipe.ingredient.ItemArrayIngredient;
 import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
+import nc.recipe.multiblock.CoolantHeaterRecipes;
 import nc.recipe.multiblock.FissionHeatingRecipes;
 import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
@@ -61,12 +67,22 @@ public class NCPFTranslator{
                     closed.blockstate.put("active", true);
                     newElements.add(closed);
                 }
+                if(block instanceof BlockFissionFluidMetaPort){
+                    ncpf.blockstate.put("active", false);
+                    NCPFLegacyBlock output = new NCPFLegacyBlock();
+                    output.name = block.getRegistryName().toString();
+                    output.metadata = metadata;
+                    output.blockstate = new HashMap<>();
+                    output.blockstate.put("type", variant.toString());
+                    output.blockstate.put("active", true);
+                    newElements.add(output);
+                }
             }
         }else{
             NCPFLegacyBlock ncpf = new NCPFLegacyBlock();
             ncpf.name = block.getRegistryName().toString();
             newElements.add(ncpf);
-            if(block instanceof BlockFissionVent||block instanceof BlockFissionItemPort){
+            if(block instanceof BlockFissionVent||block instanceof BlockFissionItemPort||block instanceof BlockFissionFluidPort){
                 ncpf.blockstate = new HashMap<>();
                 ncpf.blockstate.put("active", false);
                 NCPFLegacyBlock output = new NCPFLegacyBlock();
@@ -116,6 +132,56 @@ public class NCPFTranslator{
                 elem.modules.put("nuclearcraft:"+configContext+":heat_sink", sink);
                 //TODO placement rules (FissionPlacement.recipe_handler
             }
+            if(block==NCBlocks.salt_fission_heater){
+                elem.modules.put("nuclearcraft:"+configContext+":heater", new NCPFEmptyModule());
+                var ports = new NCPFGenericModule();
+
+                var portElements = new ArrayList<NCPFElement>();
+                translate(portElements, NCBlocks.fission_heater_port);
+                var heater = (NCPFLegacyBlock)elem;
+                for(Iterator<NCPFElement> it = portElements.iterator(); it.hasNext();){
+                    NCPFLegacyBlock port = (NCPFLegacyBlock)it.next();
+                    if(!port.blockstate.get("type").equals(heater.blockstate.get("type")))it.remove();
+                }
+                ports.put("input", portElements.get(0));
+                ports.put("output", portElements.get(1));
+                elem.modules.put("nuclearcraft:overhaul_msr:recipe_ports", ports);
+
+                var recipesModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> recipes = new ArrayList<>();
+                translate(recipes, NCRecipes.coolant_heater, (recipe) -> {
+                    return ((ItemBlock)recipe.getItemIngredients().get(0).getStack().getItem()).getBlock()==block
+                        &&recipe.getItemIngredients().get(0).getStack().getMetadata()==heater.metadata;
+                });
+                recipesModule.put("recipes", recipes);
+                elem.modules.put("ncpf:block_recipes", recipesModule);
+                //TODO placement rules (FissionPlacement.recipe_handler
+            }
+            if(block==NCBlocks.salt_fission_heater2){
+                elem.modules.put("nuclearcraft:"+configContext+":heater", new NCPFEmptyModule());
+                var ports = new NCPFGenericModule();
+
+                var portElements = new ArrayList<NCPFElement>();
+                translate(portElements, NCBlocks.fission_heater_port2);
+                var heater = (NCPFLegacyBlock)elem;
+                for(Iterator<NCPFElement> it = portElements.iterator(); it.hasNext();){
+                    NCPFLegacyBlock port = (NCPFLegacyBlock)it.next();
+                    if(!port.blockstate.get("type").equals(heater.blockstate.get("type")))it.remove();
+                }
+                ports.put("input", portElements.get(0));
+                ports.put("output", portElements.get(1));
+                elem.modules.put("nuclearcraft:overhaul_msr:recipe_ports", ports);
+
+                var recipesModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> recipes = new ArrayList<>();
+                translate(recipes, NCRecipes.coolant_heater, (recipe) -> {
+                    return ((ItemBlock)recipe.getItemIngredients().get(0).getStack().getItem()).getBlock()==block
+                        &&recipe.getItemIngredients().get(0).getStack().getMetadata()==heater.metadata;
+                });
+                recipesModule.put("recipes", recipes);
+                elem.modules.put("ncpf:block_recipes", recipesModule);
+                //TODO placement rules (FissionPlacement.recipe_handler
+            }
             if(block==NCBlocks.solid_fission_cell){
                 elem.modules.put("nuclearcraft:"+configContext+":fuel_cell", new NCPFEmptyModule());
                 var ports = new NCPFGenericModule();
@@ -127,6 +193,20 @@ public class NCPFTranslator{
                 var recipesModule = new NCPFGenericModule();
                 ArrayList<NCPFElement> recipes = new ArrayList<>();
                 translate(recipes, NCRecipes.solid_fission);
+                recipesModule.put("recipes", recipes);
+                elem.modules.put("ncpf:block_recipes", recipesModule);
+            }
+            if(block==NCBlocks.salt_fission_vessel){
+                elem.modules.put("nuclearcraft:"+configContext+":fuel_vessel", new NCPFEmptyModule());
+                var ports = new NCPFGenericModule();
+                var portElements = new ArrayList<NCPFElement>();
+                translate(portElements, NCBlocks.fission_vessel_port);
+                ports.put("input", portElements.get(0));
+                ports.put("output", portElements.get(1));
+                elem.modules.put("nuclearcraft:overhaul_msr:recipe_ports", ports);
+                var recipesModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> recipes = new ArrayList<>();
+                translate(recipes, NCRecipes.salt_fission);
                 recipesModule.put("recipes", recipes);
                 elem.modules.put("ncpf:block_recipes", recipesModule);
             }
@@ -177,9 +257,15 @@ public class NCPFTranslator{
         }
     }
     public static void translate(List<NCPFElement> list, BasicRecipeHandler recipes){
-        if(recipes.getItemInputSize()+recipes.getFluidInputSize()!=1)throw new IllegalArgumentException("Cannot convert recipes to NCPF element unless they have exactly one input!");
+        translate(list, recipes, (t) -> true);
+    }
+    public static void translate(List<NCPFElement> list, BasicRecipeHandler recipes, Predicate<BasicRecipe> filter){
+        if(!(recipes instanceof CoolantHeaterRecipes)){
+            if(recipes.getItemInputSize()+recipes.getFluidInputSize()!=1)throw new IllegalArgumentException("Cannot convert recipes to NCPF element unless they have exactly one input!");
+        }
         for(var recipe : recipes.getRecipeList()){
-            IIngredient ingredient = recipes.getItemInputSize()>0?recipe.getItemIngredients().get(0):recipe.getFluidIngredients().get(0);
+            if(!filter.test(recipe))continue;
+            IIngredient ingredient = recipes.getFluidInputSize()>0?recipe.getFluidIngredients().get(0):recipe.getItemIngredients().get(0);
             var element = translateIngredient(ingredient);
             if(recipes instanceof FissionHeatingRecipes){
                 if(element.modules==null)element.modules = new NCPFModuleList();

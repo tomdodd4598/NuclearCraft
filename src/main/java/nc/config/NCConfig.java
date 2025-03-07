@@ -34,6 +34,7 @@ import net.ncplanner.ncpf.element.NCPFElement;
 import net.ncplanner.ncpf.element.NCPFOredict;
 import net.ncplanner.ncpf.module.NCPFGenericModule;
 import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulSFRConfiguration;
+import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulMSRConfiguration;
 
 public class NCConfig {
 	
@@ -949,7 +950,6 @@ public class NCConfig {
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source_manager);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_shield_manager);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_vent);
-                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_power_port);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_computer_port);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_casing);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_glass);
@@ -1039,6 +1039,114 @@ public class NCConfig {
                 cfg.modules.put("plannerator:global_elements", globalElementsModule);
                 
                 ncpf.configuration.put("nuclearcraft:overhaul_sfr", cfg);
+            }
+            
+            // Fission MSR
+            {
+                NCPFTranslator.configContext = "overhaul_msr";
+                NCPFOverhaulMSRConfiguration cfg = new NCPFOverhaulMSRConfiguration();
+                cfg.modules = new NCPFModuleList();
+                
+                var settings = new NCPFGenericModule();
+                settings.put("min_size", fission_min_size);
+                settings.put("max_size", fission_max_size);
+                settings.put("neutron_reach", fission_neutron_reach);
+                settings.put("sparsity_penalty_multiplier", fission_sparsity_penalty_params[0]);
+                settings.put("sparsity_penalty_threshold", fission_sparsity_penalty_params[1]);
+                settings.put("cooling_efficiency_leniency", fission_cooling_efficiency_leniency);
+                cfg.modules.put("nuclearcraft:overhaul_msr_configuration_settings", settings);
+                
+                // Blocks
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.salt_fission_controller);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_monitor);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source_manager);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_shield_manager);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_computer_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_casing);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_glass);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_source);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.salt_fission_vessel);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_vessel_port);
+                NCPFTranslator.translate(cfg.blocks, NCRecipes.fission_moderator);
+                NCPFTranslator.translate(cfg.blocks, NCRecipes.fission_reflector);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_shield);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_conductor);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_irradiator);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_irradiator_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.salt_fission_heater);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_heater_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.salt_fission_heater2);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_heater_port2);
+                
+                var globalElementsModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> globalElements = new ArrayList<>();
+                
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.salt_fission);
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.fission_irradiator);
+                
+                for(int i = 0; i<globalElements.size(); i++){
+                    NCPFElement globalElem = globalElements.get(i);
+                    for(int j = 0; j<globalElements.size(); j++){
+                        var elem = globalElements.get(j);
+                        if(i==j)continue;
+                        if(gson.toJson(elem).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                            globalElements.remove(j);
+                            j--;
+                        }
+                    }
+                }
+                
+                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
+                lists.add(globalElements);
+                lists.add(cfg.blocks);
+                
+                for(var block : cfg.blocks){
+                    if(block.modules==null)continue;
+                    NCPFGenericModule blockRecipes = (NCPFGenericModule)block.modules.get("ncpf:block_recipes");
+                    if(blockRecipes==null)continue;
+                    ArrayList<NCPFElement> recipes = (ArrayList<NCPFElement>)blockRecipes.get("recipes");
+                    lists.add(recipes);
+                }
+                
+                ArrayList<NCPFElement> elementsToHaveOredictTagsAdded = new ArrayList<>();
+                ArrayList<String> oredictTagsToAddToThoseAforementionedElements = new ArrayList<>();
+                // Ore dictionary
+                for(var elements : lists){
+                    for(int i = 0; i<elements.size(); i++){
+                        var elem = elements.get(i);
+                        if(elem instanceof NCPFOredict oredict){
+                            ORE:for(ItemStack stack : OreDictionary.getOres(oredict.oredict, false)){
+                                var element = NCPFTranslator.translate(stack);
+                                for(var globalElem : globalElements){
+                                    if(gson.toJson(element).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                                        elementsToHaveOredictTagsAdded.add(globalElem);
+                                        oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
+                                        continue ORE;
+                                    }
+                                }
+                                elementsToHaveOredictTagsAdded.add(element);
+                                oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
+                                globalElements.add(element);
+                            }
+                        }
+                    }
+                }
+                
+                for(int i = 0; i<elementsToHaveOredictTagsAdded.size(); i++){
+                    var element = elementsToHaveOredictTagsAdded.get(i);
+                    if(element.modules==null)element.modules = new NCPFModuleList();
+                    if(!element.modules.containsKey("plannerator:tags")){
+                        var tags = new NCPFGenericModule();
+                        tags.put("tags", new ArrayList<String>());
+                        element.modules.put("plannerator:tags", tags);
+                    }
+                    ((List<String>)((NCPFGenericModule)element.modules.get("plannerator:tags")).get("tags")).add(oredictTagsToAddToThoseAforementionedElements.get(i));
+                }
+                
+                globalElementsModule.put("elements", globalElements);
+                cfg.modules.put("plannerator:global_elements", globalElementsModule);
+                
+                ncpf.configuration.put("nuclearcraft:overhaul_msr", cfg);
             }
             
             try(FileWriter writer = new FileWriter(new File(Loader.instance().getConfigDir(), "nuclearcraft.ncpf.json"))){
