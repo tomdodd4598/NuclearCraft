@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import nc.block.BlockMeta;
+import nc.block.IBlockMeta;
 import nc.block.fission.BlockFissionMetaShield;
 import nc.block.fission.BlockFissionVent;
 import nc.block.fission.port.BlockFissionFluidMetaPort;
@@ -15,6 +16,8 @@ import nc.block.fission.port.BlockFissionItemPort;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
 import nc.multiblock.fission.FissionPlacement;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil;
 import nc.recipe.BasicRecipe;
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.NCRecipes;
@@ -30,6 +33,7 @@ import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
 import nc.recipe.multiblock.SaltFissionRecipes;
 import nc.recipe.multiblock.SolidFissionRecipes;
+import nc.recipe.multiblock.TurbineRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -49,9 +53,9 @@ public class NCPFTranslator{
     }
     public static void translate(List<NCPFElement> list, Block block){
         ArrayList<NCPFElement> newElements = new ArrayList<>();
-        if(block instanceof BlockMeta metaBlock){
+        if(block instanceof IBlockMeta metaBlock){
             int metadata = -1;
-            for(var variant : metaBlock.values){
+            for(var variant : metaBlock.getValues()){
                 NCPFLegacyBlock ncpf = new NCPFLegacyBlock();
                 ncpf.name = block.getRegistryName().toString();
                 ncpf.metadata = ++metadata;
@@ -249,9 +253,55 @@ public class NCPFTranslator{
                 }
             }
 
-            if(casing||block==NCBlocks.fission_casing||block==NCBlocks.fission_glass||block==NCBlocks.fission_monitor||block==NCBlocks.fission_source_manager||block==NCBlocks.fission_shield_manager||block==NCBlocks.fission_power_port||block==NCBlocks.fission_glass||block==NCBlocks.fission_computer_port){
+            // Turbine
+            if(block==NCBlocks.turbine_inlet){
+                elem.modules.put("nuclearcraft:"+configContext+":inlet", new NCPFEmptyModule());
+            }
+            if(block==NCBlocks.turbine_outlet){
+                elem.modules.put("nuclearcraft:"+configContext+":outlet", new NCPFEmptyModule());
+            }
+            if(block==NCBlocks.turbine_rotor_blade_steel){
+                var blade = new NCPFGenericModule();
+                blade.put("efficiency", TurbineRotorBladeUtil.TurbineRotorBladeType.STEEL.getEfficiency());
+                blade.put("expansion", TurbineRotorBladeUtil.TurbineRotorBladeType.STEEL.getExpansionCoefficient());
+                elem.modules.put("nuclearcraft:"+configContext+":blade", blade);
+            }
+            if(block==NCBlocks.turbine_rotor_blade_extreme){
+                var blade = new NCPFGenericModule();
+                blade.put("efficiency", TurbineRotorBladeUtil.TurbineRotorBladeType.EXTREME.getEfficiency());
+                blade.put("expansion", TurbineRotorBladeUtil.TurbineRotorBladeType.EXTREME.getExpansionCoefficient());
+                elem.modules.put("nuclearcraft:"+configContext+":blade", blade);
+            }
+            if(block==NCBlocks.turbine_rotor_blade_sic_sic_cmc){
+                var blade = new NCPFGenericModule();
+                blade.put("efficiency", TurbineRotorBladeUtil.TurbineRotorBladeType.SIC_SIC_CMC.getEfficiency());
+                blade.put("expansion", TurbineRotorBladeUtil.TurbineRotorBladeType.SIC_SIC_CMC.getExpansionCoefficient());
+                elem.modules.put("nuclearcraft:"+configContext+":blade", blade);
+            }
+            if(block==NCBlocks.turbine_rotor_stator){
+                var stator = new NCPFGenericModule();
+                stator.put("expansion", TurbineRotorBladeUtil.TurbineRotorStatorType.STANDARD.getExpansionCoefficient());
+                elem.modules.put("nuclearcraft:"+configContext+":stator", stator);
+            }
+            if(block==NCBlocks.turbine_dynamo_coil){
+                var coil = new NCPFGenericModule();
+                coil.put("efficiency", TurbineDynamoCoilType.values()[meta].getConductivity());
+                elem.modules.put("nuclearcraft:"+configContext+":coil", coil);
+                //TODO placement rules (TurbinePlacement.recipe_handler
+            }
+            if(block==NCBlocks.turbine_coil_connector){
+                elem.modules.put("nuclearcraft:"+configContext+":connector", new NCPFEmptyModule());
+            }
+            if(block==NCBlocks.turbine_rotor_bearing){
+                elem.modules.put("nuclearcraft:"+configContext+":bearing", new NCPFEmptyModule());
+            }
+            if(block==NCBlocks.turbine_rotor_shaft){
+                elem.modules.put("nuclearcraft:"+configContext+":shaft", new NCPFEmptyModule());
+            }
+
+            if(casing||block==NCBlocks.fission_casing||block==NCBlocks.fission_glass||block==NCBlocks.fission_monitor||block==NCBlocks.fission_source_manager||block==NCBlocks.fission_shield_manager||block==NCBlocks.fission_power_port||block==NCBlocks.fission_computer_port||block==NCBlocks.turbine_casing||block==NCBlocks.turbine_glass||block==NCBlocks.turbine_computer_port||block==NCBlocks.turbine_redstone_port){
                 var casin = new NCPFGenericModule();
-                casin.put("edge", block==NCBlocks.fission_casing);
+                casin.put("edge", block==NCBlocks.fission_casing||block==NCBlocks.turbine_casing);
                 elem.modules.put("nuclearcraft:"+configContext+":casing", casin);
             }
             if(elem.modules.isEmpty())elem.modules = null;
@@ -319,6 +369,14 @@ public class NCPFTranslator{
                 heater.put("cooling", recipe.getCoolantHeaterCoolingRate());
                 heater.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
                 element.modules.put("nuclearcraft:overhaul_msr:heater_stats", heater);
+            }
+            if(recipes instanceof TurbineRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var stats = new NCPFGenericModule();
+                stats.put("power", recipe.getTurbinePowerPerMB());
+                stats.put("coefficient", recipe.getTurbineExpansionLevel());
+                stats.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
+                element.modules.put("nuclearcraft:overhaul_turbine:recipe_stats", stats);
             }
             list.add(element);
         }

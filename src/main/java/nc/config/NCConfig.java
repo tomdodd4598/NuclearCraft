@@ -35,6 +35,7 @@ import net.ncplanner.ncpf.element.NCPFOredict;
 import net.ncplanner.ncpf.module.NCPFGenericModule;
 import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulSFRConfiguration;
 import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulMSRConfiguration;
+import net.ncplanner.ncpf.nuclearcraft.NCPFOverhaulTurbineConfiguration;
 
 public class NCConfig {
 	
@@ -1148,6 +1149,114 @@ public class NCConfig {
                 cfg.modules.put("plannerator:global_elements", globalElementsModule);
                 
                 ncpf.configuration.put("nuclearcraft:overhaul_msr", cfg);
+            }
+            
+            // Turbine
+            {
+                NCPFTranslator.configContext = "overhaul_turbine";
+                NCPFOverhaulTurbineConfiguration cfg = new NCPFOverhaulTurbineConfiguration();
+                cfg.modules = new NCPFModuleList();
+                
+                var settings = new NCPFGenericModule();
+                settings.put("min_width", turbine_min_size);
+                settings.put("min_length", turbine_min_size);
+                settings.put("max_size", turbine_max_size);
+                settings.put("throughput_efficiency_leniency_multiplier", turbine_throughput_leniency_params[0]);
+                settings.put("throughput_efficiency_leniency_threshold", turbine_throughput_leniency_params[1]);
+                settings.put("throughput_factor", turbine_tension_throughput_factor);
+                settings.put("fluid_per_blade", turbine_mb_per_blade);
+                settings.put("power_bonus", turbine_power_bonus_multiplier);
+                cfg.modules.put("nuclearcraft:overhaul_turbine_configuration_settings", settings);
+                
+                // Blocks
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_controller);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_computer_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_redstone_port);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_casing);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_glass);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_inlet);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_outlet);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_blade_steel);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_blade_extreme);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_blade_sic_sic_cmc);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_stator);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_dynamo_coil);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_coil_connector);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_bearing);
+                NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_shaft);
+                
+                // Coolant Recipes
+                NCPFTranslator.translate(cfg.recipes, NCRecipes.turbine);
+                
+                var globalElementsModule = new NCPFGenericModule();
+                ArrayList<NCPFElement> globalElements = new ArrayList<>();
+                
+                NCPFTranslator.translateOutputs(globalElements, NCRecipes.turbine);
+                
+                for(int i = 0; i<globalElements.size(); i++){
+                    NCPFElement globalElem = globalElements.get(i);
+                    for(int j = 0; j<globalElements.size(); j++){
+                        var elem = globalElements.get(j);
+                        if(i==j)continue;
+                        if(gson.toJson(elem).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                            globalElements.remove(j);
+                            j--;
+                        }
+                    }
+                }
+                
+                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
+                lists.add(globalElements);
+                lists.add(cfg.blocks);
+                lists.add(cfg.recipes);
+                
+                for(var block : cfg.blocks){
+                    if(block.modules==null)continue;
+                    NCPFGenericModule blockRecipes = (NCPFGenericModule)block.modules.get("ncpf:block_recipes");
+                    if(blockRecipes==null)continue;
+                    ArrayList<NCPFElement> recipes = (ArrayList<NCPFElement>)blockRecipes.get("recipes");
+                    lists.add(recipes);
+                }
+                
+                ArrayList<NCPFElement> elementsToHaveOredictTagsAdded = new ArrayList<>();
+                ArrayList<String> oredictTagsToAddToThoseAforementionedElements = new ArrayList<>();
+                // Ore dictionary
+                for(var elements : lists){
+                    for(int i = 0; i<elements.size(); i++){
+                        var elem = elements.get(i);
+                        if(elem instanceof NCPFOredict oredict){
+                            ORE:for(ItemStack stack : OreDictionary.getOres(oredict.oredict, false)){
+                                var element = NCPFTranslator.translate(stack);
+                                for(var globalElem : globalElements){
+                                    if(gson.toJson(element).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                                        elementsToHaveOredictTagsAdded.add(globalElem);
+                                        oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
+                                        continue ORE;
+                                    }
+                                }
+                                elementsToHaveOredictTagsAdded.add(element);
+                                oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
+                                globalElements.add(element);
+                            }
+                        }
+                    }
+                }
+                
+                for(int i = 0; i<elementsToHaveOredictTagsAdded.size(); i++){
+                    var element = elementsToHaveOredictTagsAdded.get(i);
+                    if(element.modules==null)element.modules = new NCPFModuleList();
+                    if(!element.modules.containsKey("plannerator:tags")){
+                        var tags = new NCPFGenericModule();
+                        tags.put("tags", new ArrayList<String>());
+                        element.modules.put("plannerator:tags", tags);
+                    }
+                    ((List<String>)((NCPFGenericModule)element.modules.get("plannerator:tags")).get("tags")).add(oredictTagsToAddToThoseAforementionedElements.get(i));
+                }
+                
+                globalElementsModule.put("elements", globalElements);
+                cfg.modules.put("plannerator:global_elements", globalElementsModule);
+                
+                ncpf.configuration.put("nuclearcraft:overhaul_turbine", cfg);
             }
             
             try(FileWriter writer = new FileWriter(new File(Loader.instance().getConfigDir(), "nuclearcraft.ncpf.json"))){
