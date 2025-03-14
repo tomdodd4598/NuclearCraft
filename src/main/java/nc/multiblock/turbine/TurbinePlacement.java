@@ -242,7 +242,7 @@ public abstract class TurbinePlacement {
 	
 	public static class AdjacentCoil extends Adjacent {
 		
-		protected final String coilType;
+		public final String coilType;
 		
 		public AdjacentCoil(int amount, CountType countType, AdjacencyType adjType, String coilType) {
 			super(coilType + "_coil", amount, countType, adjType);

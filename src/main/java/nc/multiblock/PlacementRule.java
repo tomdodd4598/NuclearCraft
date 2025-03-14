@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> {
 	
-	protected final @Nullable List<PlacementRule<MULTIBLOCK, T>> subRules;
+	public final @Nullable List<PlacementRule<MULTIBLOCK, T>> subRules;
 	protected final List<String> dependencies;
 	protected final boolean requiresRecheck;
 	
@@ -234,9 +234,9 @@ public abstract class PlacementRule<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>
 	
 	public static abstract class Adjacent<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends PlacementRule<MULTIBLOCK, T> {
 		
-		protected final int amount;
-		protected final CountType countType;
-		protected final AdjacencyType adjType;
+		public final int amount;
+		public final CountType countType;
+		public final AdjacencyType adjType;
 		
 		protected Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) {
 			super(null, Lists.newArrayList(dependency), countType.requiresRecheck());

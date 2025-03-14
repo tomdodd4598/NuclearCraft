@@ -359,7 +359,7 @@ public abstract class FissionPlacement {
 	
 	public static class AdjacentSink extends Adjacent {
 		
-		protected final String sinkType;
+		public final String sinkType;
 		
 		public AdjacentSink(int amount, CountType countType, AdjacencyType adjType, String sinkType) {
 			super(sinkType + "_sink", amount, countType, adjType);
@@ -394,7 +394,7 @@ public abstract class FissionPlacement {
 	
 	public static class AdjacentHeater extends Adjacent {
 		
-		protected final String heaterType;
+		public final String heaterType;
 		
 		public AdjacentHeater(int amount, CountType countType, AdjacencyType adjType, String heaterType) {
 			super(heaterType + "_heater", amount, countType, adjType);

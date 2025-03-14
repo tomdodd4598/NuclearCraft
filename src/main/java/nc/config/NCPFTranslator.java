@@ -1,4 +1,5 @@
 package nc.config;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
-import nc.block.BlockMeta;
 import nc.block.IBlockMeta;
 import nc.block.fission.BlockFissionMetaShield;
 import nc.block.fission.BlockFissionVent;
@@ -15,8 +15,10 @@ import nc.block.fission.port.BlockFissionFluidPort;
 import nc.block.fission.port.BlockFissionItemPort;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
+import nc.multiblock.PlacementRule;
 import nc.multiblock.fission.FissionPlacement;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
+import nc.multiblock.turbine.TurbinePlacement;
 import nc.multiblock.turbine.TurbineRotorBladeUtil;
 import nc.recipe.BasicRecipe;
 import nc.recipe.BasicRecipeHandler;
@@ -38,11 +40,13 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.ncplanner.ncpf.NCPFModuleList;
+import net.ncplanner.ncpf.NCPFPlacementRule;
 import net.ncplanner.ncpf.element.NCPFElement;
 import net.ncplanner.ncpf.element.NCPFLegacyBlock;
 import net.ncplanner.ncpf.element.NCPFLegacyFluid;
 import net.ncplanner.ncpf.element.NCPFLegacyItem;
 import net.ncplanner.ncpf.element.NCPFListElement;
+import net.ncplanner.ncpf.element.NCPFModuleElement;
 import net.ncplanner.ncpf.element.NCPFOredict;
 import net.ncplanner.ncpf.module.NCPFEmptyModule;
 import net.ncplanner.ncpf.module.NCPFGenericModule;
@@ -52,6 +56,9 @@ public class NCPFTranslator{
         for(var block : blocks)translate(list, block);
     }
     public static void translate(List<NCPFElement> list, Block block){
+        translate(list, block, true);
+    }
+    public static void translate(List<NCPFElement> list, Block block, boolean includeModules){
         ArrayList<NCPFElement> newElements = new ArrayList<>();
         if(block instanceof IBlockMeta metaBlock){
             int metadata = -1;
@@ -100,6 +107,7 @@ public class NCPFTranslator{
         list.addAll(newElements);
 
         // Add modules & block stats
+        if(!includeModules)return;
         for(var elem : newElements){
             elem.modules = new NCPFModuleList();
             Integer meta = null;
@@ -129,16 +137,17 @@ public class NCPFTranslator{
                 var sink = new NCPFGenericModule();
                 sink.put("cooling", MetaEnums.HeatSinkType.values()[meta].getCooling());
                 elem.modules.put("nuclearcraft:"+configContext+":heat_sink", sink);
-                //TODO placement rules (FissionPlacement.recipe_handler
+                translatePlacementRules(sink, block, meta, FissionPlacement.recipe_handler, FissionPlacement.RULE_MAP);
             }
             if(block==NCBlocks.solid_fission_sink2){
                 var sink = new NCPFGenericModule();
                 sink.put("cooling", MetaEnums.HeatSinkType2.values()[meta].getCooling());
                 elem.modules.put("nuclearcraft:"+configContext+":heat_sink", sink);
-                //TODO placement rules (FissionPlacement.recipe_handler
+                translatePlacementRules(sink, block, meta, FissionPlacement.recipe_handler, FissionPlacement.RULE_MAP);
             }
             if(block==NCBlocks.salt_fission_heater){
-                elem.modules.put("nuclearcraft:"+configContext+":heater", new NCPFEmptyModule());
+                var heaterModule = new NCPFGenericModule();
+                elem.modules.put("nuclearcraft:"+configContext+":heater", heaterModule);
                 var ports = new NCPFGenericModule();
 
                 var portElements = new ArrayList<NCPFElement>();
@@ -160,10 +169,11 @@ public class NCPFTranslator{
                 });
                 recipesModule.put("recipes", recipes);
                 elem.modules.put("ncpf:block_recipes", recipesModule);
-                //TODO placement rules (FissionPlacement.recipe_handler
+                translatePlacementRules(heaterModule, block, meta, FissionPlacement.recipe_handler, FissionPlacement.RULE_MAP);
             }
             if(block==NCBlocks.salt_fission_heater2){
-                elem.modules.put("nuclearcraft:"+configContext+":heater", new NCPFEmptyModule());
+                var heaterModule = new NCPFGenericModule();
+                elem.modules.put("nuclearcraft:"+configContext+":heater", heaterModule);
                 var ports = new NCPFGenericModule();
 
                 var portElements = new ArrayList<NCPFElement>();
@@ -185,7 +195,7 @@ public class NCPFTranslator{
                 });
                 recipesModule.put("recipes", recipes);
                 elem.modules.put("ncpf:block_recipes", recipesModule);
-                //TODO placement rules (FissionPlacement.recipe_handler
+                translatePlacementRules(heaterModule, block, meta, FissionPlacement.recipe_handler, FissionPlacement.RULE_MAP);
             }
             if(block==NCBlocks.solid_fission_cell){
                 elem.modules.put("nuclearcraft:"+configContext+":fuel_cell", new NCPFEmptyModule());
@@ -287,10 +297,12 @@ public class NCPFTranslator{
                 var coil = new NCPFGenericModule();
                 coil.put("efficiency", TurbineDynamoCoilType.values()[meta].getConductivity());
                 elem.modules.put("nuclearcraft:"+configContext+":coil", coil);
-                //TODO placement rules (TurbinePlacement.recipe_handler
+                translatePlacementRules(coil, block, meta, TurbinePlacement.recipe_handler, TurbinePlacement.RULE_MAP);
             }
             if(block==NCBlocks.turbine_coil_connector){
-                elem.modules.put("nuclearcraft:"+configContext+":connector", new NCPFEmptyModule());
+                var connector = new NCPFGenericModule();
+                elem.modules.put("nuclearcraft:"+configContext+":connector", connector);
+                translatePlacementRules(connector, block, meta, TurbinePlacement.recipe_handler, TurbinePlacement.RULE_MAP);
             }
             if(block==NCBlocks.turbine_rotor_bearing){
                 elem.modules.put("nuclearcraft:"+configContext+":bearing", new NCPFEmptyModule());
@@ -422,11 +434,14 @@ public class NCPFTranslator{
         throw new UnsupportedOperationException("Could not translate IIngredient: "+ingredient.getClass().getName());
     }
     public static NCPFElement translate(ItemStack stack){
+        return translate(stack, true);
+    }
+    public static NCPFElement translate(ItemStack stack, boolean includeModules){
         var realItem = stack.getItem();
         if(realItem instanceof ItemBlock bitem){
             var block = bitem.getBlock();
             var lst = new ArrayList<NCPFElement>();
-            translate(lst, block);
+            translate(lst, block, includeModules);
             for(var elem : lst){
                 if(elem instanceof NCPFLegacyBlock ncpf&&ncpf.metadata!=null&&ncpf.metadata==stack.getMetadata()){
                     return elem;
@@ -437,6 +452,139 @@ public class NCPFTranslator{
         NCPFLegacyItem ncpf = new NCPFLegacyItem();
         ncpf.name = stack.getItem().getRegistryName().toString();
         if(stack.getItem().getHasSubtypes())ncpf.metadata = stack.getMetadata();
+        return ncpf;
+    }
+    private static void translatePlacementRules(NCPFGenericModule module, Block block, Integer meta, PlacementRule.RecipeHandler recipeHandler, Object2ObjectMap ruleMap){
+        ArrayList<NCPFPlacementRule> rules = new ArrayList<>();
+
+        for(var recipe : recipeHandler.getRecipeList()){
+            var stack = recipe.getItemIngredients().get(0).getStack();
+            if(((ItemBlock)stack.getItem()).getBlock()!=block)continue;
+            if(stack.getHasSubtypes()!=(meta!=null))continue;
+            if(stack.getHasSubtypes()&&stack.getMetadata()!=meta)continue;
+            //recipe is a valid placement rule for this block.
+
+            String ruleID = recipe.getPlacementRuleID();
+            PlacementRule rule = (PlacementRule)ruleMap.get(ruleID);
+
+            NCPFPlacementRule ncpf = translatePlacementRule(rule);
+            rules.add(ncpf);
+        }
+
+        module.put("rules", rules);
+    }
+    private static NCPFPlacementRule translatePlacementRule(PlacementRule rule){
+        NCPFPlacementRule ncpf = new NCPFPlacementRule();
+        if(rule instanceof PlacementRule.And and){
+            ncpf.type = NCPFPlacementRule.RuleType.and;
+            for(var subRule : and.subRules){
+                ncpf.rules.add(translatePlacementRule((PlacementRule)subRule));
+            }
+        }
+        if(rule instanceof PlacementRule.Or or){
+            ncpf.type = NCPFPlacementRule.RuleType.or;
+            for(var subRule : or.subRules){
+                ncpf.rules.add(translatePlacementRule((PlacementRule)subRule));
+            }
+        }
+        if(rule instanceof PlacementRule.Adjacent adjacent){
+            if(rule instanceof FissionPlacement.AdjacentCasing)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":casing");
+            if(rule instanceof FissionPlacement.AdjacentConductor)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":conductor");
+            if(rule instanceof FissionPlacement.AdjacentModerator)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":moderator");
+            if(rule instanceof FissionPlacement.AdjacentReflector)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":reflector");
+            if(rule instanceof FissionPlacement.AdjacentIrradiator)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":irradiator");
+            if(rule instanceof FissionPlacement.AdjacentShield)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":neutron_shield");
+            if(rule instanceof FissionPlacement.AdjacentCell)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":fuel_cell");
+            if(rule instanceof FissionPlacement.AdjacentSink sink){
+                if(sink.sinkType.equals("any"))ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":heat_sink");
+                else{
+                    for(var type : MetaEnums.HeatSinkType.values()){
+                        if(sink.sinkType.equals(type.getName())){
+                            ncpf.block = translate(new ItemStack(NCBlocks.solid_fission_sink, 1, type.ordinal()), false);
+                        }
+                    }
+                    for(var type : MetaEnums.HeatSinkType2.values()){
+                        if(sink.sinkType.equals(type.getName())){
+                            ncpf.block = translate(new ItemStack(NCBlocks.solid_fission_sink2, 1, type.ordinal()), false);
+                        }
+                    }
+                }
+                if(ncpf.block==null)throw new IllegalArgumentException("Could not find target sink: "+sink.sinkType+"!");
+            }
+            if(rule instanceof FissionPlacement.AdjacentVessel)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":fuel_vessel");
+            if(rule instanceof FissionPlacement.AdjacentHeater heater){
+                if(heater.heaterType.equals("any"))ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":heater");
+                else{
+                    for(var type : MetaEnums.CoolantHeaterType.values()){
+                        if(heater.heaterType.equals(type.getName())){
+                            ncpf.block = translate(new ItemStack(NCBlocks.salt_fission_heater, 1, type.ordinal()), false);
+                        }
+                    }
+                    for(var type : MetaEnums.CoolantHeaterType2.values()){
+                        if(heater.heaterType.equals(type.getName())){
+                            ncpf.block = translate(new ItemStack(NCBlocks.salt_fission_heater2, 1, type.ordinal()), false);
+                        }
+                    }
+                }
+                if(ncpf.block==null)throw new IllegalArgumentException("Could not find target heater: "+heater.heaterType+"!");
+            }
+            if(rule instanceof TurbinePlacement.AdjacentCasing)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":casing");
+            if(rule instanceof TurbinePlacement.AdjacentBearing)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":bearing");
+            if(rule instanceof TurbinePlacement.AdjacentConnector)ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":connector");
+            if(rule instanceof TurbinePlacement.AdjacentCoil coil){
+                if(coil.coilType.equals("any"))ncpf.block = new NCPFModuleElement("nuclearcraft:"+configContext+":coil");
+                else{
+                    for(var type : TurbineDynamoCoilType.values()){
+                        if(coil.coilType.equals(type.getName())){
+                            ncpf.block = translate(new ItemStack(NCBlocks.turbine_dynamo_coil, 1, type.ordinal()), false);
+                        }
+                    }
+                }
+                if(ncpf.block==null)throw new IllegalArgumentException("Could not find target coil: "+coil.coilType+"!");
+            }
+            if(ncpf.block==null)throw new IllegalArgumentException("Could not find target for rule: "+rule.getClass().getName()+"!");
+
+            switch(adjacent.countType){
+                case AT_LEAST -> {
+                    ncpf.min = adjacent.amount;
+                    ncpf.max = 6;
+                }
+                case AT_MOST -> {
+                    ncpf.min = 0;
+                    ncpf.max = adjacent.amount;
+                }
+                case EXACTLY ->
+                    ncpf.min = ncpf.max = adjacent.amount;
+            }
+            switch(adjacent.adjType){
+                case AXIAL -> {
+                    ncpf.type = NCPFPlacementRule.RuleType.axial;
+                    ncpf.min /= 2;
+                    ncpf.max /= 2;
+                    if(adjacent.countType==PlacementRule.CountType.EXACTLY){
+                        NCPFPlacementRule and = new NCPFPlacementRule();
+                        and.type = NCPFPlacementRule.RuleType.and;
+
+                        NCPFPlacementRule individual = new NCPFPlacementRule();
+                        individual.type = ncpf.type;
+                        individual.block = ncpf.block;
+                        individual.min = ncpf.min*2;
+                        individual.max = ncpf.max*2;
+                        individual.type = NCPFPlacementRule.RuleType.between;
+
+                        and.rules.add(individual);
+                        and.rules.add(ncpf);
+                        ncpf = and;
+                    }
+                }
+                case EDGE ->
+                    ncpf.type = NCPFPlacementRule.RuleType.edge;
+                case STANDARD ->
+                    ncpf.type = NCPFPlacementRule.RuleType.between;
+                case VERTEX ->
+                    ncpf.type = NCPFPlacementRule.RuleType.vertex;
+            }
+        }
         return ncpf;
     }
 }
