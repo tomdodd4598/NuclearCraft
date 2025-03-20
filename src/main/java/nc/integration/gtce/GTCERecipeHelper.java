@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.Optional;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+import java.lang.reflect.Method;
 
 public class GTCERecipeHelper {
 	
@@ -242,7 +243,41 @@ public class GTCERecipeHelper {
 	
 	@Optional.Method(modid = "gregtech")
 	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, BasicRecipe recipe, int processPower, int processTime) {
-		return builder.EUt(NCMath.toInt(Math.max(recipe.getBaseProcessPower(processPower), 1D))).duration(NCMath.toInt(recipe.getBaseProcessTime(20D * processTime)));
+		int power = NCMath.toInt(Math.max(recipe.getBaseProcessPower(processPower), 1D));
+		int time = NCMath.toInt(recipe.getBaseProcessTime(20D * processTime));
+		
+		try {
+			// Try multiple methods that might exist in different GregTech versions
+			
+			// Try EUt method
+			try {
+				Method eutMethod = builder.getClass().getMethod("EUt", int.class);
+				builder = (RecipeBuilder<?>) eutMethod.invoke(builder, power);
+			} catch (NoSuchMethodException e) {
+				// Try voltage method
+				try {
+					Method voltageMethod = builder.getClass().getMethod("voltage", int.class);
+					builder = (RecipeBuilder<?>) voltageMethod.invoke(builder, power);
+				} catch (NoSuchMethodException e2) {
+					// Try inputEU method
+					try {
+						Method inputEUMethod = builder.getClass().getMethod("inputEU", int.class);
+						builder = (RecipeBuilder<?>) inputEUMethod.invoke(builder, power);
+					} catch (NoSuchMethodException e3) {
+						NCUtil.getLogger().error("Failed to find EU/t setting method in GregTech recipe builder");
+					}
+				}
+			}
+			
+			// Set duration
+			Method durationMethod = builder.getClass().getMethod("duration", int.class);
+			builder = (RecipeBuilder<?>) durationMethod.invoke(builder, time);
+			
+			return builder;
+		} catch (Exception e) {
+			NCUtil.getLogger().error("Failed to set stats in GregTech recipe: " + e.getMessage());
+			return builder;
+		}
 	}
 	
 	// GTCE recipe matching - modified from GTCE source
