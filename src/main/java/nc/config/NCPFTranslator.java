@@ -33,6 +33,7 @@ import nc.recipe.multiblock.CoolantHeaterRecipes;
 import nc.recipe.multiblock.FissionHeatingRecipes;
 import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
+import nc.recipe.multiblock.FissionReflectorRecipes;
 import nc.recipe.multiblock.SaltFissionRecipes;
 import nc.recipe.multiblock.SolidFissionRecipes;
 import nc.recipe.multiblock.TurbineRecipes;
@@ -247,12 +248,6 @@ public class NCPFTranslator{
             if(block==NCBlocks.fission_conductor){
                 elem.modules.put("nuclearcraft:"+configContext+":conductor", new NCPFEmptyModule());
             }
-            if(block==NCBlocks.fission_reflector){
-                var reflector = new NCPFGenericModule();
-                reflector.put("efficiency", MetaEnums.NeutronReflectorType.values()[meta].getEfficiency());
-                reflector.put("reflectivity", MetaEnums.NeutronReflectorType.values()[meta].getReflectivity());
-                elem.modules.put("nuclearcraft:"+configContext+":reflector", reflector);
-            }
             if(block==NCBlocks.fission_shield){
                 if(Objects.equals(blockstate.get("active"), Boolean.FALSE)){
                     var shield = new NCPFGenericModule();
@@ -343,7 +338,14 @@ public class NCPFTranslator{
                 var moderator = new NCPFGenericModule();
                 moderator.put("flux", recipe.getFissionModeratorFluxFactor());
                 moderator.put("efficiency", recipe.getFissionModeratorEfficiency());
-                element.modules.put("nuclearcraft:overhaul_sfr:moderator", moderator);
+                element.modules.put("nuclearcraft:"+configContext+":moderator", moderator);
+            }
+            if(recipes instanceof FissionReflectorRecipes){
+                if(element.modules==null)element.modules = new NCPFModuleList();
+                var reflector = new NCPFGenericModule();
+                reflector.put("efficiency", recipe.getFissionReflectorEfficiency());
+                reflector.put("reflectivity", recipe.getFissionReflectorReflectivity());
+                element.modules.put("nuclearcraft:"+configContext+":reflector", reflector);
             }
             if(recipes instanceof FissionIrradiatorRecipes){
                 if(element.modules==null)element.modules = new NCPFModuleList();
@@ -351,7 +353,7 @@ public class NCPFTranslator{
                 irradiator.put("heat", recipe.getIrradiatorHeatPerFlux());
                 irradiator.put("efficiency", recipe.getIrradiatorProcessEfficiency());
                 irradiator.put("output", translateIngredient(recipe.getItemProducts().get(0)));
-                element.modules.put("nuclearcraft:overhaul_sfr:irradiator_stats", irradiator);
+                element.modules.put("nuclearcraft:"+configContext+":irradiator_stats", irradiator);
             }
             if(recipes instanceof SolidFissionRecipes){
                 if(element.modules==null)element.modules = new NCPFModuleList();
