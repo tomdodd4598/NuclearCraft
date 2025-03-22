@@ -15,6 +15,7 @@ import nc.block.fission.port.BlockFissionFluidPort;
 import nc.block.fission.port.BlockFissionItemPort;
 import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
+import nc.integration.crafttweaker.CTRegistration;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.fission.FissionPlacement;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
@@ -306,11 +307,108 @@ public class NCPFTranslator{
                 elem.modules.put("nuclearcraft:"+configContext+":shaft", new NCPFEmptyModule());
             }
 
+            // CT Blocks
+            for(var info : CTRegistration.INFO_LIST){
+                if(info instanceof CTRegistration.FissionSinkRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var sink = new NCPFGenericModule();
+                        sink.put("cooling", inf.cooling);
+                        elem.modules.put("nuclearcraft:"+configContext+":heat_sink", sink);
+                        translatePlacementRules(sink, block, meta, FissionPlacement.recipe_handler, FissionPlacement.RULE_MAP);
+                    }
+                }
+                if(info instanceof CTRegistration.FissionHeaterRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var heaterModule = new NCPFGenericModule();
+                        elem.modules.put("nuclearcraft:"+configContext+":heater", heaterModule);
+                        var ports = new NCPFGenericModule();
+
+                        var portElements = new ArrayList<NCPFElement>();
+
+                        // CT Blocks
+                        for(var in : CTRegistration.INFO_LIST){
+                            if(in instanceof CTRegistration.FissionHeaterPortRegistrationInfo heaterPort){
+                                translate(portElements, heaterPort.block.get());
+                            }
+                        }
+
+                        var heater = (NCPFLegacyBlock)elem;
+                        for(Iterator<NCPFElement> it = portElements.iterator(); it.hasNext();){
+                            NCPFLegacyBlock port = (NCPFLegacyBlock)it.next();
+                            if(!port.blockstate.get("type").equals(heater.blockstate.get("type")))it.remove();
+                        }
+                        ports.put("input", portElements.get(0));
+                        ports.put("output", portElements.get(1));
+                        elem.modules.put("nuclearcraft:overhaul_msr:recipe_ports", ports);
+
+                        var recipesModule = new NCPFGenericModule();
+                        ArrayList<NCPFElement> recipes = new ArrayList<>();
+                        translate(recipes, NCRecipes.coolant_heater, (recipe) -> {
+                            return ((ItemBlock)recipe.getItemIngredients().get(0).getStack().getItem()).getBlock()==block
+                                &&recipe.getItemIngredients().get(0).getStack().getMetadata()==heater.metadata;
+                        });
+                        recipesModule.put("recipes", recipes);
+                        elem.modules.put("ncpf:block_recipes", recipesModule);
+                        translatePlacementRules(heaterModule, block, meta, FissionPlacement.recipe_handler, FissionPlacement.RULE_MAP);
+                    }
+                }
+                if(info instanceof CTRegistration.FissionHeaterPortRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var port = new NCPFGenericModule();
+                        port.put("output", blockstate.get("active"));
+                        elem.modules.put("nuclearcraft:"+configContext+":port", port);
+                    }
+                }
+                if(info instanceof CTRegistration.FissionSourceRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var source = new NCPFGenericModule();
+                        source.put("efficiency", inf.efficiency);
+                        elem.modules.put("nuclearcraft:"+configContext+":neutron_source", source);
+                        casing = true;
+                    }
+                }
+                if(info instanceof CTRegistration.FissionShieldRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        if(Objects.equals(blockstate.get("active"), Boolean.FALSE)){
+                            var shield = new NCPFGenericModule();
+                            shield.put("heat_per_flux", inf.heatPerFlux);
+                            shield.put("efficiency", inf.efficiency);
+                            shield.put("closed", newElements.get(1));
+                            elem.modules.put("nuclearcraft:"+configContext+":neutron_shield", shield);
+                        }
+                    }
+                }
+                if(info instanceof CTRegistration.TurbineCoilRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var coil = new NCPFGenericModule();
+                        coil.put("efficiency", inf.conductivity);
+                        elem.modules.put("nuclearcraft:"+configContext+":coil", coil);
+                        translatePlacementRules(coil, block, meta, TurbinePlacement.recipe_handler, TurbinePlacement.RULE_MAP);
+                    }
+                }
+                if(info instanceof CTRegistration.TurbineBladeRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var blade = new NCPFGenericModule();
+                        blade.put("efficiency", inf.efficiency);
+                        blade.put("expansion", inf.expansionCoefficient);
+                        elem.modules.put("nuclearcraft:"+configContext+":blade", blade);
+                    }
+                }
+                if(info instanceof CTRegistration.TurbineStatorRegistrationInfo inf){
+                    if(block==inf.block.get()){
+                        var stator = new NCPFGenericModule();
+                        stator.put("expansion", inf.expansionCoefficient);
+                        elem.modules.put("nuclearcraft:"+configContext+":stator", stator);
+                    }
+                }
+            }
+
             if(casing||block==NCBlocks.fission_casing||block==NCBlocks.fission_glass||block==NCBlocks.fission_monitor||block==NCBlocks.fission_source_manager||block==NCBlocks.fission_shield_manager||block==NCBlocks.fission_power_port||block==NCBlocks.fission_computer_port||block==NCBlocks.turbine_casing||block==NCBlocks.turbine_glass||block==NCBlocks.turbine_computer_port||block==NCBlocks.turbine_redstone_port){
                 var casin = new NCPFGenericModule();
                 casin.put("edge", block==NCBlocks.fission_casing||block==NCBlocks.turbine_casing);
                 elem.modules.put("nuclearcraft:"+configContext+":casing", casin);
             }
+
             if(elem.modules.isEmpty())elem.modules = null;
         }
     }
@@ -510,6 +608,13 @@ public class NCPFTranslator{
                             ncpf.block = translate(new ItemStack(NCBlocks.solid_fission_sink2, 1, type.ordinal()), false);
                         }
                     }
+                    for(var info : CTRegistration.INFO_LIST){
+                        if(info instanceof CTRegistration.FissionSinkRegistrationInfo inf){
+                            if(sink.sinkType.equals(inf.sinkID)){
+                                ncpf.block = translate(new ItemStack(inf.block.get()), false);
+                            }
+                        }
+                    }
                 }
                 if(ncpf.block==null)throw new IllegalArgumentException("Could not find target sink: "+sink.sinkType+"!");
             }
@@ -527,6 +632,13 @@ public class NCPFTranslator{
                             ncpf.block = translate(new ItemStack(NCBlocks.salt_fission_heater2, 1, type.ordinal()), false);
                         }
                     }
+                    for(var info : CTRegistration.INFO_LIST){
+                        if(info instanceof CTRegistration.FissionHeaterRegistrationInfo inf){
+                            if(heater.heaterType.equals(inf.heaterID)){
+                                ncpf.block = translate(new ItemStack(inf.block.get()), false);
+                            }
+                        }
+                    }
                 }
                 if(ncpf.block==null)throw new IllegalArgumentException("Could not find target heater: "+heater.heaterType+"!");
             }
@@ -539,6 +651,13 @@ public class NCPFTranslator{
                     for(var type : TurbineDynamoCoilType.values()){
                         if(coil.coilType.equals(type.getName())){
                             ncpf.block = translate(new ItemStack(NCBlocks.turbine_dynamo_coil, 1, type.ordinal()), false);
+                        }
+                    }
+                    for(var info : CTRegistration.INFO_LIST){
+                        if(info instanceof CTRegistration.TurbineCoilRegistrationInfo inf){
+                            if(coil.coilType.equals(inf.coilID)){
+                                ncpf.block = translate(new ItemStack(inf.block.get()), false);
+                            }
                         }
                     }
                 }

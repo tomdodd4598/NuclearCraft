@@ -450,7 +450,7 @@ public class CTRegistration {
 	
 	public static class BlockRegistrationInfo extends RegistrationInfo {
 		
-		protected final Lazy<Block> block;
+		public final Lazy<Block> block;
 		
 		public BlockRegistrationInfo(Lazy<Block> block) {
 			this.block = block;
@@ -492,8 +492,8 @@ public class CTRegistration {
 	
 	public static class FissionSinkRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final String sinkID, rule;
-		protected final int cooling;
+		public final String sinkID, rule;
+		public final int cooling;
 		
 		FissionSinkRegistrationInfo(Lazy<Block> block, String sinkID, int cooling, String rule) {
 			super(block);
@@ -516,8 +516,8 @@ public class CTRegistration {
 	
 	public static class FissionHeaterRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final String heaterID, fluidInput, fluidOutput, rule;
-		protected final int inputAmount, outputAmount, cooling;
+		public final String heaterID, fluidInput, fluidOutput, rule;
+		public final int inputAmount, outputAmount, cooling;
 		
 		FissionHeaterRegistrationInfo(Lazy<Block> block, String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
 			super(block);
@@ -556,7 +556,7 @@ public class CTRegistration {
 	
 	public static class FissionSourceRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double efficiency;
+		public final double efficiency;
 		
 		FissionSourceRegistrationInfo(Lazy<Block> block, double efficiency) {
 			super(block);
@@ -571,7 +571,7 @@ public class CTRegistration {
 	
 	public static class FissionShieldRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double heatPerFlux, efficiency;
+		public final double heatPerFlux, efficiency;
 		
 		FissionShieldRegistrationInfo(Lazy<Block> block, double heatPerFlux, double efficiency) {
 			super(block);
@@ -587,8 +587,8 @@ public class CTRegistration {
 	
 	public static class TurbineCoilRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final String coilID, rule;
-		protected final double conductivity;
+		public final String coilID, rule;
+		public final double conductivity;
 		
 		TurbineCoilRegistrationInfo(Lazy<Block> block, String coilID, double conductivity, String rule) {
 			super(block);
@@ -611,7 +611,7 @@ public class CTRegistration {
 	
 	public static class TurbineBladeRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double efficiency, expansionCoefficient;
+		public final double efficiency, expansionCoefficient;
 		
 		TurbineBladeRegistrationInfo(Lazy<Block> block, double efficiency, double expansionCoefficient) {
 			super(block);
@@ -627,7 +627,7 @@ public class CTRegistration {
 	
 	public static class TurbineStatorRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		protected final double expansionCoefficient;
+		public final double expansionCoefficient;
 		
 		TurbineStatorRegistrationInfo(Lazy<Block> block, double expansionCoefficient) {
 			super(block);

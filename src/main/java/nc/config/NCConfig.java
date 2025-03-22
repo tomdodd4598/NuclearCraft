@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.util.*;
 import java.util.Map.Entry;
 import nc.init.NCBlocks;
+import nc.integration.crafttweaker.CTRegistration;
 
 import static nc.util.CollectionHelper.arrayCopies;
 import net.minecraft.item.ItemStack;
@@ -470,6 +471,7 @@ public class NCConfig {
 	public static void postInit() {
 		outputInfo();
         outputNCPF();
+		CTRegistration.INFO_LIST.clear();
 	}
 	
 	public static void clientPreInit() {
@@ -966,6 +968,19 @@ public class NCConfig {
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_sink);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.solid_fission_sink2);
                 
+                // CT Blocks
+                for(var info : CTRegistration.INFO_LIST){
+                    if(info instanceof CTRegistration.FissionSinkRegistrationInfo sink){
+                        NCPFTranslator.translate(cfg.blocks, sink.block.get());
+                    }
+                    if(info instanceof CTRegistration.FissionSourceRegistrationInfo source){
+                        NCPFTranslator.translate(cfg.blocks, source.block.get());
+                    }
+                    if(info instanceof CTRegistration.FissionShieldRegistrationInfo shield){
+                        NCPFTranslator.translate(cfg.blocks, shield.block.get());
+                    }
+                }
+                
                 // Coolant Recipes
                 NCPFTranslator.translate(cfg.coolant_recipes, NCRecipes.fission_heating);
                 
@@ -1079,6 +1094,22 @@ public class NCConfig {
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.salt_fission_heater2);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.fission_heater_port2);
                 
+                // CT Blocks
+                for(var info : CTRegistration.INFO_LIST){
+                    if(info instanceof CTRegistration.FissionHeaterPortRegistrationInfo heaterPort){
+                        NCPFTranslator.translate(cfg.blocks, heaterPort.block.get());
+                    }
+                    if(info instanceof CTRegistration.FissionHeaterRegistrationInfo heater){
+                        NCPFTranslator.translate(cfg.blocks, heater.block.get());
+                    }
+                    if(info instanceof CTRegistration.FissionSourceRegistrationInfo source){
+                        NCPFTranslator.translate(cfg.blocks, source.block.get());
+                    }
+                    if(info instanceof CTRegistration.FissionShieldRegistrationInfo shield){
+                        NCPFTranslator.translate(cfg.blocks, shield.block.get());
+                    }
+                }
+                
                 var globalElementsModule = new NCPFGenericModule();
                 ArrayList<NCPFElement> globalElements = new ArrayList<>();
                 
@@ -1184,6 +1215,19 @@ public class NCConfig {
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_coil_connector);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_bearing);
                 NCPFTranslator.translate(cfg.blocks, NCBlocks.turbine_rotor_shaft);
+                
+                // CT Blocks
+                for(var info : CTRegistration.INFO_LIST){
+                    if(info instanceof CTRegistration.TurbineCoilRegistrationInfo coil){
+                        NCPFTranslator.translate(cfg.blocks, coil.block.get());
+                    }
+                    if(info instanceof CTRegistration.TurbineBladeRegistrationInfo blade){
+                        NCPFTranslator.translate(cfg.blocks, blade.block.get());
+                    }
+                    if(info instanceof CTRegistration.TurbineStatorRegistrationInfo stator){
+                        NCPFTranslator.translate(cfg.blocks, stator.block.get());
+                    }
+                }
                 
                 // Coolant Recipes
                 NCPFTranslator.translate(cfg.recipes, NCRecipes.turbine);

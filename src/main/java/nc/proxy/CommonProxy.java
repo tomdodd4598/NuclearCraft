@@ -187,7 +187,6 @@ public class CommonProxy {
 		for (RegistrationInfo info : CTRegistration.INFO_LIST) {
 			info.postInit();
 		}
-		CTRegistration.INFO_LIST.clear();
 	}
 	
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {
