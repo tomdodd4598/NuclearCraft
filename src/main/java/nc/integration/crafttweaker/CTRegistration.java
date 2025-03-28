@@ -548,9 +548,12 @@ public class CTRegistration {
 	}
 	
 	public static class FissionHeaterPortRegistrationInfo extends TileBlockRegistrationInfo {
+        
+        public final String heaterID;
 		
 		FissionHeaterPortRegistrationInfo(Lazy<Block> block, String heaterID) {
 			super(block);
+            this.heaterID = heaterID;
 		}
 	}
 	

@@ -328,15 +328,11 @@ public class NCPFTranslator{
                         // CT Blocks
                         for(var in : CTRegistration.INFO_LIST){
                             if(in instanceof CTRegistration.FissionHeaterPortRegistrationInfo heaterPort){
-                                translate(portElements, heaterPort.block.get());
+                                if(heaterPort.heaterID.equals(inf.heaterID))translate(portElements, heaterPort.block.get());
                             }
                         }
 
                         var heater = (NCPFLegacyBlock)elem;
-                        for(Iterator<NCPFElement> it = portElements.iterator(); it.hasNext();){
-                            NCPFLegacyBlock port = (NCPFLegacyBlock)it.next();
-                            if(!port.blockstate.get("type").equals(heater.blockstate.get("type")))it.remove();
-                        }
                         ports.put("input", portElements.get(0));
                         ports.put("output", portElements.get(1));
                         elem.modules.put("nuclearcraft:overhaul_msr:recipe_ports", ports);
@@ -344,8 +340,7 @@ public class NCPFTranslator{
                         var recipesModule = new NCPFGenericModule();
                         ArrayList<NCPFElement> recipes = new ArrayList<>();
                         translate(recipes, NCRecipes.coolant_heater, (recipe) -> {
-                            return ((ItemBlock)recipe.getItemIngredients().get(0).getStack().getItem()).getBlock()==block
-                                &&recipe.getItemIngredients().get(0).getStack().getMetadata()==heater.metadata;
+                            return ((ItemBlock)recipe.getItemIngredients().get(0).getStack().getItem()).getBlock()==block;
                         });
                         recipesModule.put("recipes", recipes);
                         elem.modules.put("ncpf:block_recipes", recipesModule);
