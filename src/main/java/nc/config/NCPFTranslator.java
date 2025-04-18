@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import nc.block.IBlockMeta;
 import nc.block.fission.BlockFissionMetaShield;
+import nc.block.fission.BlockFissionShield;
 import nc.block.fission.BlockFissionVent;
 import nc.block.fission.port.BlockFissionFluidMetaPort;
 import nc.block.fission.port.BlockFissionFluidPort;
@@ -94,9 +95,10 @@ public class NCPFTranslator{
             }
         }else{
             NCPFLegacyBlock ncpf = new NCPFLegacyBlock();
+            if(new ItemStack(block).getHasSubtypes())ncpf.metadata = 0;
             ncpf.name = block.getRegistryName().toString();
             newElements.add(ncpf);
-            if(block instanceof BlockFissionVent||block instanceof BlockFissionItemPort||block instanceof BlockFissionFluidPort){
+            if(block instanceof BlockFissionVent||block instanceof BlockFissionItemPort||block instanceof BlockFissionFluidPort||block instanceof BlockFissionShield){
                 ncpf.blockstate = new HashMap<>();
                 ncpf.blockstate.put("active", false);
                 NCPFLegacyBlock output = new NCPFLegacyBlock();
@@ -514,6 +516,12 @@ public class NCPFTranslator{
             return ncpf.elements.size()==1?ncpf.elements.get(0):ncpf;
         }
         if(ingredient instanceof ItemIngredient item){
+            if(item.stack.getItem().getRegistryName().toString().equals("forge:bucketfilled")){
+                ItemStack stack = item.stack;
+                NCPFLegacyFluid ncpf = new NCPFLegacyFluid();
+                ncpf.name = stack.getTagCompound().getString("FluidName");
+                return ncpf;
+            }
             return translate(item.stack);
         }
         if(ingredient instanceof FluidIngredient fluid){

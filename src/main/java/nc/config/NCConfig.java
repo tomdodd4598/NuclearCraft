@@ -991,22 +991,13 @@ public class NCConfig {
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.solid_fission);
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.fission_irradiator);
                 
-                for(int i = 0; i<globalElements.size(); i++){
-                    NCPFElement globalElem = globalElements.get(i);
-                    for(int j = 0; j<globalElements.size(); j++){
-                        var elem = globalElements.get(j);
-                        if(i==j)continue;
-                        if(gson.toJson(elem).equals(gson.toJson(globalElem))){ // probably slow, but whatever
-                            globalElements.remove(j);
-                            j--;
-                        }
-                    }
-                }
-                
                 ArrayList<List<NCPFElement>> lists = new ArrayList<>();
-                lists.add(globalElements);
                 lists.add(cfg.blocks);
                 lists.add(cfg.coolant_recipes);
+                
+                removeDuplicateNCPFElements(gson, globalElements, lists);
+                
+                lists.add(globalElements);
                 
                 for(var block : cfg.blocks){
                     if(block.modules==null)continue;
@@ -1117,7 +1108,10 @@ public class NCConfig {
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.coolant_heater);
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.fission_irradiator);
                 
-                for(int i = 0; i<globalElements.size(); i++){
+                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
+                lists.add(cfg.blocks);
+                
+                global:for(int i = 0; i<globalElements.size(); i++){
                     NCPFElement globalElem = globalElements.get(i);
                     for(int j = 0; j<globalElements.size(); j++){
                         var elem = globalElements.get(j);
@@ -1127,11 +1121,18 @@ public class NCConfig {
                             j--;
                         }
                     }
+                    for(var lst : lists){
+                        for(var elem : lst){
+                            if(gson.toJson(elem).equals(gson.toJson(globalElem))){
+                                globalElements.remove(i);
+                                i--;
+                                continue global;
+                            }
+                        }
+                    }
                 }
                 
-                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
                 lists.add(globalElements);
-                lists.add(cfg.blocks);
                 
                 for(var block : cfg.blocks){
                     if(block.modules==null)continue;
@@ -1237,7 +1238,11 @@ public class NCConfig {
                 
                 NCPFTranslator.translateOutputs(globalElements, NCRecipes.turbine);
                 
-                for(int i = 0; i<globalElements.size(); i++){
+                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
+                lists.add(cfg.blocks);
+                lists.add(cfg.recipes);
+                
+                global:for(int i = 0; i<globalElements.size(); i++){
                     NCPFElement globalElem = globalElements.get(i);
                     for(int j = 0; j<globalElements.size(); j++){
                         var elem = globalElements.get(j);
@@ -1247,12 +1252,18 @@ public class NCConfig {
                             j--;
                         }
                     }
+                    for(var lst : lists){
+                        for(var elem : lst){
+                            if(gson.toJson(elem).equals(gson.toJson(globalElem))){
+                                globalElements.remove(i);
+                                i--;
+                                continue global;
+                            }
+                        }
+                    }
                 }
                 
-                ArrayList<List<NCPFElement>> lists = new ArrayList<>();
                 lists.add(globalElements);
-                lists.add(cfg.blocks);
-                lists.add(cfg.recipes);
                 
                 for(var block : cfg.blocks){
                     if(block.modules==null)continue;
@@ -1308,6 +1319,39 @@ public class NCConfig {
             }
         }catch(Exception ex){
 			NCUtil.getLogger().error("Unable to create nuclearcraft.ncpf.json file.", ex);
+        }
+    }
+    
+    private static void removeDuplicateNCPFElements(Gson gson, List<NCPFElement> globalElements, List<List<NCPFElement>> lists){
+        for(int i = 0; i<globalElements.size(); i++){
+            NCPFElement globalElem = globalElements.get(i);
+            var globalModulesWas = globalElem.modules;
+            globalElem.modules = null;
+            for(int j = 0; j<globalElements.size(); j++){
+                if(i==j)continue;
+                var elem = globalElements.get(j);
+                var modulesWas = elem.modules;
+                elem.modules = null;
+                if(gson.toJson(elem).equals(gson.toJson(globalElem))){ // probably slow, but whatever
+                    globalElements.remove(j);
+                    j--;
+                }
+                elem.modules = modulesWas;
+            }
+            duplicate:for(var lst : lists){
+                for(var elem : lst){
+                    var modulesWas = elem.modules;
+                    elem.modules = null;
+                    if(gson.toJson(elem).equals(gson.toJson(globalElem))){
+                        globalElements.remove(i);
+                        i--;
+                        elem.modules = modulesWas;
+                        break duplicate;
+                    }
+                    elem.modules = modulesWas;
+                }
+            }
+            globalElem.modules = globalModulesWas;
         }
     }
 	
