@@ -25,7 +25,7 @@ public class ProcessorContainerInfoBuilderImpl {
 		}
 	}
 	
-	public static class BasicUpgradableProcessorContainerInfoBuilder<TILE extends TileEntity & IUpgradableBasicProcessor<TILE, PACKET>, PACKET extends ProcessorUpdatePacket> extends UpgradableProcessorContainerInfoBuilder<TILE, PACKET, BasicUpgradableProcessorContainerInfo<TILE, PACKET>, BasicUpgradableProcessorContainerInfoBuilder<TILE, PACKET>> {
+	public static class BasicUpgradableProcessorContainerInfoBuilder<TILE extends TileEntity & IBasicUpgradableProcessor<TILE, PACKET>, PACKET extends ProcessorUpdatePacket> extends UpgradableProcessorContainerInfoBuilder<TILE, PACKET, BasicUpgradableProcessorContainerInfo<TILE, PACKET>, BasicUpgradableProcessorContainerInfoBuilder<TILE, PACKET>> {
 		
 		public BasicUpgradableProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiInfoTileFunction<TILE> guiFunction) {
 			super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, guiFunction);

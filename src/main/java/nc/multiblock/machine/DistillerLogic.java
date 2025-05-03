@@ -3,12 +3,14 @@ package nc.multiblock.machine;
 import it.unimi.dsi.fastutil.ints.*;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import nc.tile.machine.*;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +19,9 @@ import net.minecraftforge.fml.relauncher.*;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Consumer;
+
+import static nc.config.NCConfig.machine_distiller_sound_volume;
 
 public class DistillerLogic extends MachineLogic {
 	
@@ -146,7 +151,7 @@ public class DistillerLogic extends MachineLogic {
 		}
 		
 		baseSpeedMultiplier = (double) area * (traySieveCount == 0 ? packedSieveEfficiency : (packedSieveCount == 0 ? traySieveEfficiency : (packedSieveCount * traySieveEfficiency + packedSieveEfficiency) / (1D + packedSieveCount)));
-		basePowerMultiplier = (double) area * (double) (traySieveCount + packedSieveCount + reboilingUnits.size());
+		basePowerMultiplier = reboilingUnits.size() + (double) area * (double) (traySieveCount + packedSieveCount);
 		
 		refluxUnitFraction = (double) refluxUnits.size() / (double) area;
 		reboilingUnitFraction = (double) reboilingUnits.size() / (double) area;
@@ -234,24 +239,40 @@ public class DistillerLogic extends MachineLogic {
 	
 	@SideOnly(Side.CLIENT)
 	protected void updateSounds() {
-		/*if (machine_electrolyzer_sound_volume == 0D) {
+		if (machine_distiller_sound_volume == 0D) {
 			clearSounds();
 			return;
 		}
 		
 		if (isProcessing && multiblock.isAssembled()) {
-		
+			double speedMultiplier = getSpeedMultiplier();
+			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(prevSpeedMultiplier));
+			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
+			
+			if (!multiblock.refreshSounds) {
+				return;
+			}
+			multiblock.refreshSounds = false;
+			
+			clearSounds();
+			
+			if (speedMultiplier <= 0D) {
+				return;
+			}
+			
+			float volume = (float) (machine_distiller_sound_volume * Math.log1p(Math.cbrt(speedMultiplier)) / 128D);
+			Consumer<BlockPos> addSound = x -> getSoundMap().put(x, SoundHandler.startBlockSound(NCSounds.distiller_run, x, volume, 1F));
+			
+			for (int i = 0; i < 8; ++i) {
+				addSound.accept(multiblock.getExtremeInteriorCoord(NCMath.getBit(i, 0) == 1, NCMath.getBit(i, 1) == 1, NCMath.getBit(i, 2) == 1));
+			}
+			
+			prevSpeedMultiplier = speedMultiplier;
 		}
 		else {
 			multiblock.refreshSounds = true;
 			clearSounds();
-		}*/
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected void clearSounds() {
-		multiblock.soundMap.forEach((k, v) -> SoundHandler.stopBlockSound(k));
-		multiblock.soundMap.clear();
+		}
 	}
 	
 	// NBT

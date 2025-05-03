@@ -42,7 +42,7 @@ public class RecipeInfo<T extends IRecipe> {
 	
 	// Recipe Unit Info
 	
-	public RecipeUnitInfo getRecipeUnitInfo() {
+	public RecipeUnitInfo getRecipeUnitInfo(double baseRateMultiplier) {
 		if (matchResult == null || !matchResult.isMatch) {
 			return RecipeUnitInfo.DEFAULT;
 		}
@@ -59,7 +59,7 @@ public class RecipeInfo<T extends IRecipe> {
 			for (int i = 0, len = itemIngredients.size(); i < len; ++i) {
 				IItemIngredient itemIngredient = itemIngredients.get(itemInputOrder.get(i));
 				if (!itemIngredient.isEmpty()) {
-					return new RecipeUnitInfo("I/t", 0, itemIngredient.getMaxStackSize(itemIngredientNumbers.get(i)));
+					return new RecipeUnitInfo("I/t", 0, baseRateMultiplier * itemIngredient.getMaxStackSize(itemIngredientNumbers.get(i)));
 				}
 			}
 		}
@@ -68,11 +68,11 @@ public class RecipeInfo<T extends IRecipe> {
 			for (int i = 0, len = fluidIngredients.size(); i < len; ++i) {
 				IFluidIngredient fluidIngredient = fluidIngredients.get(fluidInputOrder.get(i));
 				if (!fluidIngredient.isEmpty()) {
-					return new RecipeUnitInfo("B/t", -1, fluidIngredient.getMaxStackSize(fluidIngredientNumbers.get(i)));
+					return new RecipeUnitInfo("B/t", -1, baseRateMultiplier * fluidIngredient.getMaxStackSize(fluidIngredientNumbers.get(i)));
 				}
 			}
 		}
 		
-		return RecipeUnitInfo.DEFAULT;
+		return RecipeUnitInfo.DEFAULT.withRateMultiplier(baseRateMultiplier);
 	}
 }

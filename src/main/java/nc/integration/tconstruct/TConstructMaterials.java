@@ -2,6 +2,7 @@ package nc.integration.tconstruct;
 
 import nc.*;
 import nc.integration.tconstruct.trait.NCTraits;
+import nc.util.NCMath;
 import net.minecraftforge.fluids.FluidRegistry;
 import slimeknights.tconstruct.library.*;
 import slimeknights.tconstruct.library.materials.*;
@@ -72,7 +73,7 @@ public class TConstructMaterials {
 		
 		material.setFluid(fluidName == null ? null : FluidRegistry.getFluid(fluidName));
 		
-		TConstructHelper.addMaterialStats(material, new HeadMaterialStats((int) (durability * 0.8D), (float) miningSpeed, 2F + (float) attackDamage, miningLevel), new HandleMaterialStats((float) handleModifier, (int) (durability * (casted ? 0.25D : 0.1D))), new ExtraMaterialStats((int) (durability * (casted ? 0.0375D : 0.0625D) / handleModifier)), new BowMaterialStats((float) (handleModifier / 2D), (float) (handleModifier * 2D), 2F + (float) attackDamage));
+		TConstructHelper.addMaterialStats(material, new HeadMaterialStats(NCMath.toInt(durability * 0.8D), (float) miningSpeed, 2F + (float) attackDamage, miningLevel), new HandleMaterialStats((float) handleModifier, NCMath.toInt(durability * (casted ? 0.25D : 0.1D))), new ExtraMaterialStats((int) (durability * (casted ? 0.0375D : 0.0625D) / handleModifier)), new BowMaterialStats((float) (handleModifier / 2D), (float) (handleModifier * 2D), 2F + (float) attackDamage));
 		
 		integrateMaterial(material, oreSuffix, casted);
 		material.setRepresentativeItem(repairItem);

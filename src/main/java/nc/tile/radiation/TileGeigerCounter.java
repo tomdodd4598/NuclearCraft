@@ -5,6 +5,7 @@ import li.cil.oc.api.network.SimpleComponent;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.radiation.RadiationHelper;
 import nc.tile.NCTile;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fml.common.Optional;
@@ -39,7 +40,7 @@ public class TileGeigerCounter extends NCTile implements ITickable, SimpleCompon
 	
 	public int getComparatorStrength() {
 		double radiation = getChunkRadiationLevel();
-		return radiation <= 0D ? 0 : Math.max(0, (int) (15D + Math.log10(radiation) - radiation_geiger_block_redstone));
+		return radiation <= 0D ? 0 : Math.max(0, NCMath.toInt(15D + Math.log10(radiation) - radiation_geiger_block_redstone));
 	}
 	
 	// NBT

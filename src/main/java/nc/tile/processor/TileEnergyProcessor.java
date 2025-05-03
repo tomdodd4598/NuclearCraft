@@ -8,6 +8,7 @@ import nc.ModCheck;
 import nc.handler.TileInfoHandler;
 import nc.network.tile.processor.EnergyProcessorUpdatePacket;
 import nc.recipe.*;
+import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
@@ -32,7 +33,7 @@ import javax.annotation.*;
 import java.util.*;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, EnergyProcessorUpdatePacket, INFO>> extends TileEnergyFluidSidedInventory implements IProcessor<TILE, EnergyProcessorUpdatePacket, INFO>, SimpleComponent {
+public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE, INFO>, INFO extends ProcessorContainerInfo<TILE, EnergyProcessorUpdatePacket, INFO>> extends TileEnergyFluidSidedInventory implements IProcessor<TILE, EnergyProcessorUpdatePacket, INFO>, IInterfaceable, SimpleComponent {
 	
 	protected INFO info;
 	
@@ -393,7 +394,7 @@ public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE,
 				}
 			}
 		}
-		return IProcessor.super.onUseMultitool(multitool, player, world, facing, hitX, hitY, hitZ);
+		return IInterfaceable.super.onUseMultitool(multitool, player, world, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT

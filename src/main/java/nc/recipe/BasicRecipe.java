@@ -235,7 +235,7 @@ public class BasicRecipe implements IRecipe {
 	// Fission
 	
 	public int getFissionFuelTime() {
-		return (int) (fission_fuel_time_multiplier * (int) extras.get(0));
+		return NCMath.toInt(fission_fuel_time_multiplier * (int) extras.get(0));
 	}
 	
 	public double getSaltFissionFuelTime() {
@@ -243,7 +243,7 @@ public class BasicRecipe implements IRecipe {
 	}
 	
 	public int getFissionFuelHeat() {
-		return (int) (fission_fuel_heat_multiplier * (int) extras.get(1));
+		return NCMath.toInt(fission_fuel_heat_multiplier * (int) extras.get(1));
 	}
 	
 	public double getFissionFuelEfficiency() {

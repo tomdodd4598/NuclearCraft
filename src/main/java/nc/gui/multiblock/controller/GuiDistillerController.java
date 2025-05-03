@@ -38,7 +38,7 @@ public class GuiDistillerController extends GuiLogicMultiblockController<Machine
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = multiblock.isMachineOn ? 4210752 : 15619328;
+		int fontColor = multiblock.isMachineOn ? 4210752 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.distiller_controller.distiller");
 		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
 		
@@ -54,10 +54,10 @@ public class GuiDistillerController extends GuiLogicMultiblockController<Machine
 		String distributionBonus = Lang.localize("gui.nc.container.distiller_controller.distribution_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().liquidDistributorBonus, 1);
 		fontRenderer.drawString(distributionBonus, xSize / 2 - fontRenderer.getStringWidth(distributionBonus) / 2, 46, fontColor);
 		
-		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + logic.recipeUnitInfo.getString(logic.isProcessing ? logic.getProcessTimeFP() : null, 5);
+		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + logic.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
 		fontRenderer.drawString(rate, xSize / 2 - fontRenderer.getStringWidth(rate) / 2, 58, fontColor);
 		
-		String power = Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.isProcessing ? logic.getProcessPower() : 0L, 5, "RF/t");
+		String power = Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t");
 		fontRenderer.drawString(power, xSize / 2 - fontRenderer.getStringWidth(power) / 2, 70, fontColor);
 	}
 	

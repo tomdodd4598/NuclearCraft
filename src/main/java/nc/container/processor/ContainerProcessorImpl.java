@@ -20,7 +20,7 @@ public class ContainerProcessorImpl {
 		}
 	}
 	
-	public static class ContainerBasicUpgradableProcessor<TILE extends TileEntity & IUpgradableBasicProcessor<TILE, PACKET>, PACKET extends ProcessorUpdatePacket> extends ContainerUpgradableProcessor<TILE, PACKET, ProcessorContainerInfoImpl.BasicUpgradableProcessorContainerInfo<TILE, PACKET>> {
+	public static class ContainerBasicUpgradableProcessor<TILE extends TileEntity & IBasicUpgradableProcessor<TILE, PACKET>, PACKET extends ProcessorUpdatePacket> extends ContainerUpgradableProcessor<TILE, PACKET, ProcessorContainerInfoImpl.BasicUpgradableProcessorContainerInfo<TILE, PACKET>> {
 		
 		public ContainerBasicUpgradableProcessor(EntityPlayer player, TILE tile) {
 			super(player, tile);

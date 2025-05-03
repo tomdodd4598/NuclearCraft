@@ -32,7 +32,7 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 	public boolean isMachineOn, fullHalt;
 	
 	@SideOnly(Side.CLIENT)
-	public final Object2ObjectMap<BlockPos, ISound> soundMap = new Object2ObjectOpenHashMap<>();
+	protected Object2ObjectMap<BlockPos, ISound> soundMap;
 	public boolean refreshSounds = true;
 	
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();

@@ -139,7 +139,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 	
 	@Optional.Method(modid = "ic2")
 	default double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) (rf_per_eu * amount), true);
+		int energyReceived = getEnergyStorage().receiveEnergy(NCMath.toInt(rf_per_eu * amount), true);
 		getEnergyStorage().receiveEnergy(energyReceived, false);
 		return amount - (double) energyReceived / (double) rf_per_eu;
 	}
@@ -156,7 +156,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 	
 	@Optional.Method(modid = "ic2")
 	default void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (rf_per_eu * amount), false);
+		getEnergyStorage().extractEnergy(NCMath.toInt(rf_per_eu * amount), false);
 	}
 	
 	// Energy Wrappers
@@ -228,7 +228,7 @@ public interface ITileEnergy extends ITile, IBigPower {
 		
 		if (ModCheck.ic2Loaded() && enable_ic2_eu) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), (double) getEnergyStorage().extractEnergy(getMaxEnergyStored(), true) / rf_per_eu, getSourceTier()) * rf_per_eu), false);
+				getEnergyStorage().extractEnergy(NCMath.toInt(Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), (double) getEnergyStorage().extractEnergy(getMaxEnergyStored(), true) / rf_per_eu, getSourceTier()) * rf_per_eu)), false);
 				return;
 			}
 		}

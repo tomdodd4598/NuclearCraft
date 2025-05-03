@@ -1,5 +1,6 @@
 package nc.gui.element;
 
+import nc.util.NCMath;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.*;
@@ -164,8 +165,8 @@ public class GuiItemRenderer {
 				GlStateManager.disableBlend();
 				int i = Math.round(13F * (1F - (float) stack.getItem().getDurabilityForDisplay(stack)));
 				int j = stack.getItem().getRGBDurabilityForDisplay(stack);
-				draw(bufferbuilder, x + 2, y + 13, 13, 2, 0, 0, 0, (int) (255D * alpha));
-				draw(bufferbuilder, x + 2, y + 13, i, 1, j >> 16 & 255, j >> 8 & 255, j & 255, (int) (255D * alpha));
+				draw(bufferbuilder, x + 2, y + 13, 13, 2, 0, 0, 0, NCMath.toInt(255D * alpha));
+				draw(bufferbuilder, x + 2, y + 13, i, 1, j >> 16 & 255, j >> 8 & 255, j & 255, NCMath.toInt(255D * alpha));
 				GlStateManager.enableBlend();
 			}
 			
@@ -173,7 +174,7 @@ public class GuiItemRenderer {
 			float partialTicks = player == null ? 0F : player.getCooldownTracker().getCooldown(stack.getItem(), Minecraft.getMinecraft().getRenderPartialTicks());
 			
 			if (partialTicks > 0F) {
-				draw(bufferbuilder, x, y + MathHelper.floor(16F * (1F - partialTicks)), 16, MathHelper.ceil(16F * partialTicks), 255, 255, 255, (int) (127D * alpha));
+				draw(bufferbuilder, x, y + MathHelper.floor(16F * (1F - partialTicks)), 16, MathHelper.ceil(16F * partialTicks), 255, 255, 255, NCMath.toInt(127D * alpha));
 			}
 			
 			GlStateManager.enableTexture2D();

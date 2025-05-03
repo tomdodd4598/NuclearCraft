@@ -2,7 +2,7 @@ package nc.render;
 
 import com.google.common.collect.ImmutableSet;
 import nc.tile.internal.fluid.Tank;
-import nc.util.ColorHelper;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -364,8 +364,8 @@ public interface IWorldRender {
 			}
 			
 			if (shadeTypes.isEnabled(EnumShadeType.LIGHT)) {
-				int capBlockLight = (int) avgBlockLight;
-				int capSkyLight = (int) avgSkyLight;
+				int capBlockLight = NCMath.toInt(avgBlockLight);
+				int capSkyLight = NCMath.toInt(avgSkyLight);
 				builder.lightmap(capBlockLight, capSkyLight);
 			}
 			
@@ -509,7 +509,7 @@ public interface IWorldRender {
 					double d = arr[j];
 					int used;
 					if (j == 3 || j == 6) {
-						used = (int) d;
+						used = NCMath.toInt(d);
 					}
 					else {
 						used = Float.floatToRawIntBits((float) d);

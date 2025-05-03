@@ -217,7 +217,7 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 			}
 		}
 		else if (line.reflectorRecipe != null) {
-			return (int) Math.floor((innerFlux + outerFlux) * (1D + line.reflectorRecipe.getFissionReflectorReflectivity()));
+			return NCMath.toInt(Math.floor((innerFlux + outerFlux) * (1D + line.reflectorRecipe.getFissionReflectorReflectivity())));
 		}
 		return NCMath.toInt(innerFlux);
 	}

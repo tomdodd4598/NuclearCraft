@@ -144,12 +144,12 @@ public abstract class NCPacket implements IMessage {
 	}
 	
 	protected static RecipeUnitInfo readRecipeUnitInfo(ByteBuf buf) {
-		return new RecipeUnitInfo(readString(buf), buf.readInt(), buf.readInt());
+		return new RecipeUnitInfo(readString(buf), buf.readInt(), buf.readDouble());
 	}
 	
 	protected static void writeRecipeUnitInfo(ByteBuf buf, RecipeUnitInfo info) {
 		writeString(buf, info.unit);
 		buf.writeInt(info.startingPrefix);
-		buf.writeInt(info.rateMultiplier);
+		buf.writeDouble(info.rateMultiplier);
 	}
 }

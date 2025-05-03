@@ -2706,13 +2706,13 @@ gui.nc.config.machine_anode_efficiency=Anode Efficiency Multipliers
 gui.nc.config.machine_anode_efficiency.comment=List of anode materials and their efficiencies. Format: 'materialSuffix@efficiency'.
 gui.nc.config.machine_electrolyzer_sound_volume=Electrolyzer Sound Volume
 gui.nc.config.machine_electrolyzer_sound_volume.comment=Modifier for the volume of electrolyzer sound effects.
-gui.nc.config.machine_electrolyzer_particles=Electrolyzer Particle Rate
-gui.nc.config.machine_electrolyzer_particles.comment=Multiplier for the rate of bubble particles spawned in the electrolyzer.
 
 gui.nc.config.machine_distiller_time=Distiller Process Time
 gui.nc.config.machine_distiller_time.comment=Base ticks per distiller process.
 gui.nc.config.machine_distiller_power=Distiller Process Power Use
 gui.nc.config.machine_distiller_power.comment=Base RF/t use during distilling.
+gui.nc.config.machine_distiller_sound_volume=Distiller Sound Volume
+gui.nc.config.machine_distiller_sound_volume.comment=Modifier for the volume of distiller sound effects.
 
 gui.nc.config.machine_infiltrator_time=Infiltrator Process Time
 gui.nc.config.machine_infiltrator_time.comment=Base ticks per infiltrator process.
@@ -2720,6 +2720,8 @@ gui.nc.config.machine_infiltrator_power=Infiltrator Process Power Use
 gui.nc.config.machine_infiltrator_power.comment=Base RF/t use during infiltrating.
 gui.nc.config.machine_infiltrator_pressure_fluid_efficiency=Infiltrator Fluid Efficiency Multipliers
 gui.nc.config.machine_infiltrator_pressure_fluid_efficiency.comment=List of infiltrator pressure fluids and their efficiencies. Format: 'fluidName@efficiency'.
+gui.nc.config.machine_infiltrator_sound_volume=Infiltrator Sound Volume
+gui.nc.config.machine_infiltrator_sound_volume.comment=Modifier for the volume of infiltrator sound effects.
 
 gui.nc.config.category.fission=Fission Configs
 gui.nc.config.category.fission.tooltip=Configure aspects of nuclear fission.

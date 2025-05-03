@@ -9,7 +9,7 @@ import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.multiblock.*;
-import nc.util.SuperMap;
+import nc.util.*;
 import nc.util.SuperMap.SuperMapEntry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.ItemStackHelper;
@@ -753,15 +753,15 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	}
 	
 	public int getMiddleX() {
-		return (int) (((long) getMinX() + (long) getMaxX()) / 2);
+		return NCMath.toInt(((long) getMinX() + (long) getMaxX()) / 2);
 	}
 	
 	public int getMiddleY() {
-		return (int) (((long) getMinY() + (long) getMaxY()) / 2);
+		return NCMath.toInt(((long) getMinY() + (long) getMaxY()) / 2);
 	}
 	
 	public int getMiddleZ() {
-		return (int) (((long) getMinZ() + (long) getMaxZ()) / 2);
+		return NCMath.toInt(((long) getMinZ() + (long) getMaxZ()) / 2);
 	}
 	
 	public BlockPos getMiddleCoord() {

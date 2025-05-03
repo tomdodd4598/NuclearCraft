@@ -130,7 +130,7 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 			return tile.getIsProcessing() ? info.progressBarGuiW : 0;
 		}
 		else {
-			return baseProcessTime == 0D ? 0 : (int) Math.round(tile.getCurrentTime() * info.progressBarGuiW / baseProcessTime);
+			return baseProcessTime == 0D ? 0 : NCMath.toInt(Math.round(tile.getCurrentTime() * info.progressBarGuiW / baseProcessTime));
 		}
 	}
 	
@@ -147,7 +147,7 @@ public abstract class GuiProcessor<TILE extends TileEntity & IProcessor<TILE, PA
 	
 	protected int getEnergyBarHeight() {
 		IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, null);
-		return (int) Math.round((double) info.energyBarGuiH * energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored());
+		return NCMath.toInt(Math.round((double) info.energyBarGuiH * energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored()));
 	}
 	
 	@Override

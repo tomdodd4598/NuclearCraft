@@ -307,6 +307,6 @@ public class NCMath {
 	}
 	
 	public static int getComparatorSignal(double value, double max, double leeway) {
-		return value <= leeway ? 0 : value >= max - leeway ? 15 : (int) (1D + 14D * value / max);
+		return value <= leeway ? 0 : value >= max - leeway ? 15 : toInt(1D + 14D * value / max);
 	}
 }

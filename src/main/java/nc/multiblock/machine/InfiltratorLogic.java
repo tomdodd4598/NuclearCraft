@@ -3,11 +3,13 @@ package nc.multiblock.machine;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import nc.tile.machine.*;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -15,6 +17,9 @@ import net.minecraftforge.fml.relauncher.*;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Consumer;
+
+import static nc.config.NCConfig.*;
 
 public class InfiltratorLogic extends MachineLogic {
 	
@@ -91,10 +96,12 @@ public class InfiltratorLogic extends MachineLogic {
 			}
 		}
 		
-		baseSpeedMultiplier = pressureChamberMap.size();
-		basePowerMultiplier = pressureChamberMap.size() + heatingUnitMap.size();
+		int pressureChamberCount = pressureChamberMap.size(), heatingUnitCount = heatingUnitMap.size();
 		
-		heatingContactFraction = heatingContactCount / (6D * pressureChamberMap.size());
+		baseSpeedMultiplier = pressureChamberCount;
+		basePowerMultiplier = pressureChamberCount + heatingUnitCount;
+		
+		heatingContactFraction = pressureChamberCount <= 0 ? 0D : heatingContactCount / (6D * pressureChamberCount);
 		
 		return true;
 	}
@@ -162,24 +169,40 @@ public class InfiltratorLogic extends MachineLogic {
 	
 	@SideOnly(Side.CLIENT)
 	protected void updateSounds() {
-		/*if (machine_electrolyzer_sound_volume == 0D) {
+		if (machine_infiltrator_sound_volume == 0D) {
 			clearSounds();
 			return;
 		}
 		
 		if (isProcessing && multiblock.isAssembled()) {
-		
+			double speedMultiplier = getSpeedMultiplier();
+			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(prevSpeedMultiplier));
+			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
+			
+			if (!multiblock.refreshSounds) {
+				return;
+			}
+			multiblock.refreshSounds = false;
+			
+			clearSounds();
+			
+			if (speedMultiplier <= 0D) {
+				return;
+			}
+			
+			float volume = (float) (machine_infiltrator_sound_volume * Math.log1p(Math.cbrt(speedMultiplier)) / 128D);
+			Consumer<BlockPos> addSound = x -> getSoundMap().put(x, SoundHandler.startBlockSound(NCSounds.infiltrator_run, x, volume, 1F));
+			
+			for (int i = 0; i < 8; ++i) {
+				addSound.accept(multiblock.getExtremeInteriorCoord(NCMath.getBit(i, 0) == 1, NCMath.getBit(i, 1) == 1, NCMath.getBit(i, 2) == 1));
+			}
+			
+			prevSpeedMultiplier = speedMultiplier;
 		}
 		else {
 			multiblock.refreshSounds = true;
 			clearSounds();
-		}*/
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected void clearSounds() {
-		multiblock.soundMap.forEach((k, v) -> SoundHandler.stopBlockSound(k));
-		multiblock.soundMap.clear();
+		}
 	}
 	
 	// NBT

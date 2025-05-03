@@ -4,6 +4,7 @@
 
 package nc.gui.element;
 
+import nc.util.NCMath;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.*;
@@ -63,8 +64,8 @@ public class GuiFluidRenderer {
 		}
 		TextureAtlasSprite icon = getStillTexture(fluid);
 		
-		int renderAmount = (int) Math.max(Math.min(height, amount * height / capacity), 1);
-		int posY = (int) (y + height - renderAmount);
+		int renderAmount = NCMath.toInt(Math.max(Math.min(height, amount * height / capacity), 1D));
+		int posY = NCMath.toInt(y + height - renderAmount);
 		
 		MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		int color = fluid.getFluid().getColor(fluid);
@@ -75,10 +76,10 @@ public class GuiFluidRenderer {
 		GlStateManager.enableBlend();
 		for (int i = 0; i < width; i += 16) {
 			for (int j = 0; j < renderAmount; j += 16) {
-				int drawWidth = (int) Math.min(width - i, 16);
+				int drawWidth = NCMath.toInt(Math.min(width - i, 16));
 				int drawHeight = Math.min(renderAmount - j, 16);
 				
-				int drawX = (int) (x + i);
+				int drawX = NCMath.toInt(x + i);
 				int drawY = posY + j;
 				
 				double minU = icon.getMinU();

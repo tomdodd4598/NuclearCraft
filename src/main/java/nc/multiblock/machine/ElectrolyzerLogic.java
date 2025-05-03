@@ -13,25 +13,21 @@ import nc.tile.machine.*;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.*;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.*;
+import java.util.function.Consumer;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.machine_electrolyzer_sound_volume;
 
 public class ElectrolyzerLogic extends MachineLogic {
 	
 	protected ElectrolyzerElectrolyteRecipeHandler electrolyteRecipeHandler = null;
 	public double electrolyteEfficiency = 0D;
-	
-	protected double prevSpeedMultiplier = 0D;
 	
 	public ElectrolyzerLogic(Machine machine) {
 		super(machine);
@@ -39,9 +35,6 @@ public class ElectrolyzerLogic extends MachineLogic {
 	
 	public ElectrolyzerLogic(MachineLogic oldLogic) {
 		super(oldLogic);
-		if (oldLogic instanceof ElectrolyzerLogic oldElectrolyzerLogic) {
-			prevSpeedMultiplier = oldElectrolyzerLogic.prevSpeedMultiplier;
-		}
 	}
 	
 	@Override
@@ -364,7 +357,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 		if (isProcessing && multiblock.isAssembled()) {
 			double speedMultiplier = getSpeedMultiplier();
 			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(prevSpeedMultiplier));
-			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || multiblock.soundMap.isEmpty();
+			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
 			
 			if (!multiblock.refreshSounds) {
 				return;
@@ -381,7 +374,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 			}
 			
 			float volume = (float) (machine_electrolyzer_sound_volume * Math.log1p(Math.sqrt(speedMultiplier) / (4D * Math.sqrt(1D + multiblock.getInteriorLengthY()) * electrodeCount * electrodeCount)));
-			Consumer<BlockPos> addSound = x -> multiblock.soundMap.put(x, SoundHandler.startBlockSound(NCSounds.electrolyzer_run, x, volume, 1F));
+			Consumer<BlockPos> addSound = x -> getSoundMap().put(x, SoundHandler.startBlockSound(NCSounds.electrolyzer_run, x, volume, 1F));
 			
 			for (long posLong : cathodeMap.keySet()) {
 				addSound.accept(BlockPos.fromLong(posLong));
@@ -399,14 +392,8 @@ public class ElectrolyzerLogic extends MachineLogic {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	protected void clearSounds() {
-		multiblock.soundMap.forEach((k, v) -> SoundHandler.stopBlockSound(k));
-		multiblock.soundMap.clear();
-	}
-	
-	@SideOnly(Side.CLIENT)
 	protected void updateParticles() {
-		if (isProcessing && multiblock.isAssembled() && !Minecraft.getMinecraft().isGamePaused()) {
+		/*if (isProcessing && multiblock.isAssembled() && !Minecraft.getMinecraft().isGamePaused()) {
 			int minY = multiblock.getMinY(), interiorY = multiblock.getInteriorLengthY();
 			for (TileElectrolyzerCathodeTerminal cathode : getParts(TileElectrolyzerCathodeTerminal.class)) {
 				BlockPos pos = cathode.getPos();
@@ -420,12 +407,12 @@ public class ElectrolyzerLogic extends MachineLogic {
 					spawnElectrodeParticles(pos.up(), interiorY);
 				}
 			}
-		}
+		}*/
 	}
 	
 	@SideOnly(Side.CLIENT)
 	protected void spawnElectrodeParticles(BlockPos pos, int height) {
-		double centerX = pos.getX() + 0.5D, minCenterY = pos.getY() + 0.5D, centerZ = pos.getZ() + 0.5D;
+		/*double centerX = pos.getX() + 0.5D, minCenterY = pos.getY() + 0.5D, centerZ = pos.getZ() + 0.5D;
 		for (int i = 0; i < height; ++i) {
 			if (rand.nextDouble() < machine_electrolyzer_particles) {
 				double x = centerX + (rand.nextBoolean() ? 1D : -1D) * (0.5D + 0.125 * rand.nextDouble());
@@ -433,7 +420,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 				double z = centerZ + (rand.nextBoolean() ? 1D : -1D) * (0.5D + 0.125 * rand.nextDouble());
 				getWorld().spawnParticle(EnumParticleTypes.WATER_BUBBLE, false, x, y, z, 0D, 0D, 0D);
 			}
-		}
+		}*/
 	}
 	
 	// NBT

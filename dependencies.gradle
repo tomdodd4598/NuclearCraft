@@ -58,7 +58,7 @@ dependencies {
 	implementation rfg.deobf("curse.maven:tinkers-construct-74072:2902483")
 	implementation rfg.deobf("curse.maven:constructs-armory-287683:3174535")
 	implementation rfg.deobf("curse.maven:industrial-craft-242638:3838713")
-	implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:5322654")
+	implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:5519022")
 	implementation rfg.deobf("curse.maven:mekanism-268560:2835175")
 	implementation rfg.deobf("curse.maven:projecte-226410:2702991")
 	implementation rfg.deobf("curse.maven:hwyla-253449:2568751")

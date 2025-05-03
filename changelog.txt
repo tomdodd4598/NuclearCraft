@@ -1,3 +1,18 @@
+v2o.8.6
+
+* Fixed Turbine crash on servers
+
+v2o.8.5
+
++ Added Distiller and Infiltrator sound effects
+
++ Added Distiller recipe for heavy water
+* Fixed Distiller Reboiling Unit power use
+
+* Tweaked multiblock machine GUIs to be more informative when not running at full speed
+
+* Fixed molten salt fission fuels registered via CT having incorrect criticality factors
+
 v2o.8.4
 
 + Added Multiblock Infiltrator - finally craft SiC-SiC CMC!

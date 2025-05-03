@@ -189,7 +189,7 @@ public class NCItems {
 		
 		radaway = addWithName(Global.MOD_ID, "radaway", new ItemRadaway(false, InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "radaway"), RadiationHelper.radsPrefix(radiation_radaway_amount, false), NCMath.pcDecimalPlaces(radiation_radaway_amount / max_player_rads, 1), RadiationHelper.radsPrefix(radiation_radaway_rate, true))), NCTabs.radiation);
 		radaway_slow = addWithName(Global.MOD_ID, "radaway_slow", new ItemRadaway(true, InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "radaway"), RadiationHelper.radsPrefix(radiation_radaway_slow_amount, false), NCMath.pcDecimalPlaces(radiation_radaway_slow_amount / max_player_rads, 1), RadiationHelper.radsPrefix(radiation_radaway_slow_rate, true))), NCTabs.radiation);
-		rad_x = addWithName(Global.MOD_ID, "rad_x", new ItemRadX(InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "rad_x"), RadiationHelper.resistanceSigFigs(radiation_rad_x_amount), UnitHelper.applyTimeUnit(radiation_rad_x_lifetime, 2))), NCTabs.radiation);
+		rad_x = addWithName(Global.MOD_ID, "rad_x", new ItemRadX(InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "rad_x"), RadiationHelper.resistanceSigFigs(radiation_rad_x_amount), UnitHelper.applyTimeUnit(radiation_rad_x_lifetime, 3))), NCTabs.radiation);
 		
 		portable_ender_chest = addWithName(Global.MOD_ID, "portable_ender_chest", new ItemPortableEnderChest(), NCTabs.misc);
 		

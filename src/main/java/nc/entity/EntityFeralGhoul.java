@@ -5,6 +5,7 @@ import nc.config.NCConfig;
 import nc.entity.ai.EntityAIFeralGhoulLeap;
 import nc.init.NCSounds;
 import nc.radiation.RadiationHelper;
+import nc.util.NCMath;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -149,7 +150,7 @@ public class EntityFeralGhoul extends EntityZombie {
 		boolean flag = super.attackEntityAsMob(entityIn);
 		
 		if (flag && entityIn instanceof EntityLivingBase target && !(entityIn instanceof IMob)) {
-			int mult = (int) (30F * MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 2.5F));
+			int mult = NCMath.toInt(30F * MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 2.5F));
 			target.addPotionEffect(new PotionEffect(MobEffects.POISON, mult));
 			
 			IEntityRads entityRads = RadiationHelper.getEntityRadiation(target);
@@ -344,7 +345,7 @@ public class EntityFeralGhoul extends EntityZombie {
 							float f5 = (float) (d3 * 10D - 3D);
 							
 							if (f5 > 0F) {
-								playSound(getFallSound((int) f5), 1F, 1F);
+								playSound(getFallSound(NCMath.toInt(f5)), 1F, 1F);
 								attackEntityFrom(DamageSource.FLY_INTO_WALL, f5);
 							}
 						}

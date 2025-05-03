@@ -19,7 +19,7 @@ public class TileProcessorImpl {
 		}
 	}
 	
-	public static abstract class TileBasicUpgradableEnergyProcessor<TILE extends TileBasicUpgradableEnergyProcessor<TILE>> extends TileUpgradableEnergyProcessor<TILE, ProcessorContainerInfoImpl.BasicUpgradableProcessorContainerInfo<TILE, EnergyProcessorUpdatePacket>> implements IUpgradableBasicProcessor<TILE, EnergyProcessorUpdatePacket> {
+	public static abstract class TileBasicUpgradableEnergyProcessor<TILE extends TileBasicUpgradableEnergyProcessor<TILE>> extends TileUpgradableEnergyProcessor<TILE, ProcessorContainerInfoImpl.BasicUpgradableProcessorContainerInfo<TILE, EnergyProcessorUpdatePacket>> implements IBasicUpgradableProcessor<TILE, EnergyProcessorUpdatePacket> {
 		
 		/**
 		 * Don't use this constructor!

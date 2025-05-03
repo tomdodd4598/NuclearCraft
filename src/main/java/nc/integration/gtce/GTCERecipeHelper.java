@@ -242,7 +242,7 @@ public class GTCERecipeHelper {
 	
 	@Optional.Method(modid = "gregtech")
 	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, BasicRecipe recipe, int processPower, int processTime) {
-		return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1)).duration((int) recipe.getBaseProcessTime(20D * processTime));
+		return builder.EUt(NCMath.toInt(Math.max(recipe.getBaseProcessPower(processPower), 1D))).duration(NCMath.toInt(recipe.getBaseProcessTime(20D * processTime)));
 	}
 	
 	// GTCE recipe matching - modified from GTCE source

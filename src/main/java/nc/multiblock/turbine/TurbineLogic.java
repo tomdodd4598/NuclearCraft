@@ -20,6 +20,7 @@ import nc.tile.turbine.*;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
@@ -833,7 +834,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		int recipeInputRateDiff = multiblock.recipeInputRate;
-		multiblock.recipeInputRate = Math.min(multiblock.tanks.get(0).getFluidAmount(), (int) (turbine_tension_throughput_factor * getMaxRecipeRateMultiplier()));
+		multiblock.recipeInputRate = Math.min(multiblock.tanks.get(0).getFluidAmount(), NCMath.toInt(turbine_tension_throughput_factor * getMaxRecipeRateMultiplier()));
 		recipeInputRateDiff = Math.abs(recipeInputRateDiff - multiblock.recipeInputRate);
 		
 		double roundingFactor = Math.max(0D, 1.5D * Math.log1p(multiblock.recipeInputRate / (1D + recipeInputRateDiff)));
@@ -967,6 +968,13 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		updateSounds();
 	}
 	
+	protected Object2ObjectMap<BlockPos, ISound> getSoundMap() {
+		if (multiblock.soundMap == null) {
+			multiblock.soundMap = new Object2ObjectOpenHashMap<>();
+		}
+		return multiblock.soundMap;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	protected void updateSounds() {
 		if (turbine_sound_volume == 0D) {
@@ -976,7 +984,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		
 		if (multiblock.isProcessing && multiblock.isAssembled()) {
 			double ratio = (NCMath.EPSILON + Math.abs(multiblock.angVel)) / (NCMath.EPSILON + Math.abs(prevAngVel));
-			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || multiblock.soundMap.isEmpty();
+			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
 			
 			if (!multiblock.refreshSounds) {
 				return;
@@ -998,7 +1006,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			final int[] _x, _y, _z;
 			
 			if (lengthX > 8) {
-				final int powX = (int) Math.pow(lengthX, 0.4D);
+				final int powX = NCMath.toInt(Math.pow(lengthX, 0.4D));
 				_x = new int[] {minPos.getX() + powX, maxPos.getX() - powX};
 			}
 			else {
@@ -1006,7 +1014,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			if (lengthY > 8) {
-				final int powY = (int) Math.pow(lengthY, 0.4D);
+				final int powY = NCMath.toInt(Math.pow(lengthY, 0.4D));
 				_y = new int[] {minPos.getY() + powY, maxPos.getY() - powY};
 			}
 			else {
@@ -1014,7 +1022,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			if (lengthZ > 8) {
-				final int powZ = (int) Math.pow(lengthZ, 0.4D);
+				final int powZ = NCMath.toInt(Math.pow(lengthZ, 0.4D));
 				_z = new int[] {minPos.getZ() + powZ, maxPos.getZ() - powZ};
 			}
 			else {
@@ -1025,7 +1033,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 				for (int j : _y) {
 					for (int k : _z) {
 						BlockPos pos = new BlockPos(i, j, k);
-						multiblock.soundMap.put(pos, SoundHandler.startBlockSound(NCSounds.turbine_run, pos, (float) ((1D + multiblock.angVel * 2D / turbine_render_rotor_speed) * turbine_sound_volume / 24D), SoundHelper.getPitch(4F * multiblock.angVel / turbine_render_rotor_speed - 2F)));
+						getSoundMap().put(pos, SoundHandler.startBlockSound(NCSounds.turbine_run, pos, (float) ((1D + multiblock.angVel * 2D / turbine_render_rotor_speed) * turbine_sound_volume / 24D), SoundHelper.getPitch(4F * multiblock.angVel / turbine_render_rotor_speed - 2F)));
 					}
 				}
 			}
@@ -1040,8 +1048,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@SideOnly(Side.CLIENT)
 	protected void clearSounds() {
-		multiblock.soundMap.forEach((k, v) -> SoundHandler.stopBlockSound(k));
-		multiblock.soundMap.clear();
+		getSoundMap().forEach((k, v) -> SoundHandler.stopBlockSound(k));
+		getSoundMap().clear();
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -1,5 +1,7 @@
 package nc.recipe.processor;
 
+import nc.util.NCMath;
+
 import java.util.*;
 
 import static nc.config.NCConfig.*;
@@ -129,7 +131,7 @@ public class CentrifugeRecipes extends BasicProcessorRecipeHandler {
 	}
 	
 	public void addReprocessingRecipe(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4, String waste1, String waste2, double w, int r) {
-		addRecipe(fluidStack("depleted_" + fuel, INGOT_VOLUME), fluidStack(out1, NUGGET_VOLUME * n1), fluidStack(out2, NUGGET_VOLUME * n2), chanceFluidStack(waste1, NUGGET_VOLUME, (int) (w * r), NUGGET_VOLUME), fluidStack(out3, NUGGET_VOLUME * n3), fluidStack(out4, NUGGET_VOLUME * n4), chanceFluidStack(waste2, NUGGET_VOLUME, (int) (w * (100 - r)), NUGGET_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("depleted_" + fuel, INGOT_VOLUME), fluidStack(out1, NUGGET_VOLUME * n1), fluidStack(out2, NUGGET_VOLUME * n2), chanceFluidStack(waste1, NUGGET_VOLUME, NCMath.toInt(w * r), NUGGET_VOLUME), fluidStack(out3, NUGGET_VOLUME * n3), fluidStack(out4, NUGGET_VOLUME * n4), chanceFluidStack(waste2, NUGGET_VOLUME, (int) (w * (100 - r)), NUGGET_VOLUME), 1D, 1D);
 	}
 	
 	@Override

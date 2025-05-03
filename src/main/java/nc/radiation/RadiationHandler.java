@@ -501,7 +501,7 @@ public class RadiationHandler {
 		}
 		
 		double radiation = entityRads.getRawRadiationLevel();
-		int loops = radiation == 0D ? 0 : Math.min(4, (int) Math.log(Math.E + entityRads.getRawRadiationLevel()));
+		int loops = radiation == 0D ? 0 : Math.min(4, NCMath.toInt(Math.log(Math.E + entityRads.getRawRadiationLevel())));
 		if (loops == 0) {
 			return;
 		}

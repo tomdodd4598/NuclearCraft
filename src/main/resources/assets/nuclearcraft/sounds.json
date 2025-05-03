@@ -4,6 +4,16 @@
 		"subtitle": "block.nc.electrolyzer_run",
 		"sounds": [ { "name": "nuclearcraft:block/electrolyzer_run", "stream": false } ]
 	},
+	"block.nc.distiller_run": {
+		"category": "block",
+		"subtitle": "block.nc.distiller_run",
+		"sounds": [ { "name": "nuclearcraft:block/distiller_run", "stream": false } ]
+	},
+	"block.nc.infiltrator_run": {
+		"category": "block",
+		"subtitle": "block.nc.infiltrator_run",
+		"sounds": [ { "name": "nuclearcraft:block/infiltrator_run", "stream": false } ]
+	},
 	"block.nc.turbine_run": {
 		"category": "block",
 		"subtitle": "block.nc.turbine_run",

@@ -18,7 +18,7 @@ public class GuiHelper {
 		double cos = Math.cos(radAngle);
 		double sin = Math.sin(radAngle);
 		
-		return (int) Math.round(0.5D * width * (1 + cos * Math.abs(cos) + sin * Math.abs(sin)));
+		return NCMath.toInt(Math.round(0.5D * width * (1 + cos * Math.abs(cos) + sin * Math.abs(sin))));
 	}
 	
 	public static int getScreenEdgeFromAngleY(ScaledResolution res, double angle) {
@@ -34,7 +34,7 @@ public class GuiHelper {
 		double cos = Math.cos(radAngle);
 		double sin = Math.sin(radAngle);
 		
-		return (int) Math.round(0.5D * height * (1 - cos * Math.abs(cos) + sin * Math.abs(sin)));
+		return NCMath.toInt(Math.round(0.5D * height * (1 - cos * Math.abs(cos) + sin * Math.abs(sin))));
 	}
 	
 	public static int getRenderPositionX(ScaledResolution res, int edgeX, int width, int cushion) {

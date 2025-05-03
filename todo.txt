@@ -6,6 +6,8 @@ Multiblock monitors: show cluster information, meltdown locations, side configur
 
 Show potential (pre-primed) stats if reactor is idle
 
+Multiblock collectors
+
 Finish fission meltdown mechanics
 Add melting logic to non-fuel components
 Graphite/beryllium fires, heavy water evaporation, etc.
@@ -24,17 +26,6 @@ ________________________________________________________________________________
 
 Gas-cooled Pebble-Bed Reactor that produces energy directly
 QT gas coolants: https://docs.google.com/spreadsheets/d/1gtXbk_S9ginkjgDo8BNXQr54kaQcToaqUa2E9LA0CMQ/edit#gid=1165328757
-___________________________________________________________________________________________________________________________
-
-Multiblock Electrolyser
-
-Girdler process for deuterium extraction: https://en.wikipedia.org/wiki/Girdler_sulfide_process
-
-Girdler process requires two towers:
-H2S + [preheated water OR steam?] + energy -> deuterium-enriched H2S + deuterium-depleted water
-deuterium-enriched H2S + water -> H2S + deuterium-enriched water
-
-Fractional distillation: deuterium-enriched water -> heavy water + water
 ___________________________________________________________________________________________________________________________
 
 Heat Exchanger: make heat flow maths realistic: https://en.wikipedia.org/wiki/Countercurrent_exchange

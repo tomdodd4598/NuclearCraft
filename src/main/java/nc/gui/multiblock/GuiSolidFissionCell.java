@@ -32,7 +32,7 @@ public class GuiSolidFissionCell extends GuiProcessorImpl.GuiBasicFilteredProces
 		drawProgressBar();
 		
 		if (tile.clusterHeatCapacity >= 0L) {
-			int e = (int) Math.round(74D * tile.clusterHeatStored / tile.clusterHeatCapacity);
+			int e = NCMath.toInt(Math.round(74D * tile.clusterHeatStored / tile.clusterHeatCapacity));
 			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
 		else {

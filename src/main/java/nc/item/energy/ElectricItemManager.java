@@ -1,6 +1,7 @@
 package nc.item.energy;
 
 import ic2.api.item.IElectricItemManager;
+import nc.util.NCMath;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
@@ -23,10 +24,10 @@ public class ElectricItemManager implements IElectricItemManager {
 			double energyToStore = Math.min(Math.min(amount * rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * rf_per_eu), item.getMaxEnergyStored(stack) - item.getEnergyStored(stack));
 			
 			if (!simulate) {
-				item.setEnergyStored(stack, item.getEnergyStored(stack) + (int) (energyToStore / stack.getCount()));
+				item.setEnergyStored(stack, item.getEnergyStored(stack) + NCMath.toInt(energyToStore / stack.getCount()));
 			}
 			
-			return (int) Math.round(energyToStore / rf_per_eu);
+			return NCMath.toInt(Math.round(energyToStore / rf_per_eu));
 		}
 		return 0;
 	}
@@ -37,7 +38,7 @@ public class ElectricItemManager implements IElectricItemManager {
 			double energyToGive = Math.min(Math.min(amount * rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * rf_per_eu), item.getEnergyStored(stack));
 			
 			if (!simulate) {
-				item.setEnergyStored(stack, item.getEnergyStored(stack) - (int) (energyToGive / stack.getCount()));
+				item.setEnergyStored(stack, item.getEnergyStored(stack) - NCMath.toInt(energyToGive / stack.getCount()));
 			}
 			
 			return Math.round(energyToGive / rf_per_eu);

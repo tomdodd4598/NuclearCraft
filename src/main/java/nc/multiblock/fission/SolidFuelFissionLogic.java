@@ -204,7 +204,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	public void produceProducts() {
 		BasicRecipe recipe = heatingRecipeInfo.recipe;
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
-		int heatingRecipeRateInt = (int) heatingRecipeRate;
+		int heatingRecipeRateInt = NCMath.toInt(heatingRecipeRate);
 		
 		if (heatingRecipeRateInt * inputSize > 0) {
 			tanks.get(0).changeFluidAmount(-heatingRecipeRateInt * inputSize);

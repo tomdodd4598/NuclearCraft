@@ -64,7 +64,7 @@ public abstract class BlockFissionPart extends BlockMultiblockPart {
 						entity.attackEntityFrom(DamageSources.FISSION_BURN, damage);
 					}
 					if (damage > 5F) {
-						entity.setFire((int) (damage - 4F));
+						entity.setFire(NCMath.toInt(damage - 4F));
 					}
 				}
 			}

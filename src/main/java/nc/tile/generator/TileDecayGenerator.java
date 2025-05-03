@@ -58,7 +58,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 		for (EnumFacing side : EnumFacing.VALUES) {
 			power += decayGen(side);
 		}
-		return (int) (machine_update_rate * power);
+		return NCMath.toInt(machine_update_rate * power);
 	}
 	
 	public double getRadiation() {

@@ -147,7 +147,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		}
 		
 		itemBuffer += itemRate;
-		int itemChange = (int) itemBuffer;
+		int itemChange = NCMath.toInt(itemBuffer);
 		itemBuffer -= itemChange;
 		
 		if (!simulateChange && !itemType.match(getInventoryStacks().get(0), IngredientSorption.NEUTRAL).matches()) {
@@ -189,7 +189,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		}
 		
 		fluidBuffer += fluidRate;
-		int fluidChange = (int) fluidBuffer;
+		int fluidChange = NCMath.toInt(fluidBuffer);
 		fluidBuffer -= fluidChange;
 		
 		if (fluidRate > 0 && getTanks().get(0).getFluidAmount() >= getTanks().get(0).getCapacity()) {

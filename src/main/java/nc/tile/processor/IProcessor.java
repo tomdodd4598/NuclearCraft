@@ -6,7 +6,6 @@ import nc.network.tile.processor.ProcessorUpdatePacket;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.tile.ITileGui;
-import nc.tile.dummy.IInterfaceable;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.*;
 import nc.tile.internal.fluid.Tank.TankInfo;
@@ -28,7 +27,7 @@ import net.minecraftforge.items.IItemHandler;
 import javax.annotation.*;
 import java.util.*;
 
-public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, IInterfaceable, ITileGui<TILE, PACKET, INFO> {
+public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>> extends ITickable, ITileInventory, ITileFluid, ITileGui<TILE, PACKET, INFO> {
 	
 	BasicRecipeHandler getRecipeHandler();
 	

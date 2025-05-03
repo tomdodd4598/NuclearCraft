@@ -65,7 +65,7 @@ public class ItemRadaway extends NCItem {
 			}
 			if (!world.isRemote) {
 				playerRads.setMessageCooldownTime(20);
-				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
+				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 3, 1)));
 			}
 		}
 	}

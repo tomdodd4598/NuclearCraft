@@ -49,9 +49,9 @@ public class ColorHelper {
 		int blue2 = getBlue(color2);
 		
 		int alpha = Math.max(alpha1, alpha2);
-		int red = (int) (red1 + (red2 - red1) * blendRatio);
-		int green = (int) (green1 + (green2 - green1) * blendRatio);
-		int blue = (int) (blue1 + (blue2 - blue1) * blendRatio);
+		int red = NCMath.toInt(red1 + (red2 - red1) * blendRatio);
+		int green = NCMath.toInt(green1 + (green2 - green1) * blendRatio);
+		int blue = NCMath.toInt(blue1 + (blue2 - blue1) * blendRatio);
 		
 		return alpha << 24 | red << 16 | green << 8 | blue;
 	}
@@ -71,9 +71,9 @@ public class ColorHelper {
 		glowFactor = MathHelper.clamp(glowFactor, 0F, 1F) * 255F / Math.max(red1, Math.max(green1, blue1));
 		
 		int alpha = Math.max(alpha1, alpha2);
-		int red = (int) (red1 + (red2 - red1) * glowFactor * red1 / 255F);
-		int green = (int) (green1 + (green2 - green1) * glowFactor * green1 / 255F);
-		int blue = (int) (blue1 + (blue2 - blue1) * glowFactor * blue1 / 255F);
+		int red = NCMath.toInt(red1 + (red2 - red1) * glowFactor * red1 / 255F);
+		int green = NCMath.toInt(green1 + (green2 - green1) * glowFactor * green1 / 255F);
+		int blue = NCMath.toInt(blue1 + (blue2 - blue1) * glowFactor * blue1 / 255F);
 		
 		return alpha << 24 | red << 16 | green << 8 | blue;
 	}

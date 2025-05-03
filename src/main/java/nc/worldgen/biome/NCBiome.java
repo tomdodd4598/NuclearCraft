@@ -1,5 +1,6 @@
 package nc.worldgen.biome;
 
+import nc.util.NCMath;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -34,7 +35,7 @@ public class NCBiome extends Biome {
 		IBlockState topBlockState = topBlock;
 		IBlockState fillerBlockState = fillerBlock;
 		int heightCount = -1;
-		int noise = (int) (noiseVal / 3D + 3D + rand.nextDouble() * 0.25D);
+		int noise = NCMath.toInt(noiseVal / 3D + 3D + rand.nextDouble() * 0.25D);
 		int chunkPosX = x & 15;
 		int chunkPosZ = z & 15;
 		BlockPos.MutableBlockPos mutableblockpos = new BlockPos.MutableBlockPos();

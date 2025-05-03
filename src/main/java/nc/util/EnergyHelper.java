@@ -12,7 +12,7 @@ public class EnergyHelper {
 			return 1;
 		}
 		int maxTier = ModCheck.gregtechLoaded() ? 10 : 4;
-		return (int) Math.min(Math.ceil((Math.log(euPerTick) / Math.log(2D) - 3D) / 2D), maxTier);
+		return NCMath.toInt(Math.min(Math.ceil((Math.log(euPerTick) / Math.log(2D) - 3D) / 2D), maxTier));
 	}
 	
 	public static long getMaxEUFromTier(int tier) {

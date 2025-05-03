@@ -216,12 +216,12 @@ public class NCInfo {
 	}
 	
 	public static String powerAdverb(double power, String verb, String preposition) {
-		if (power != (int) power) {
+		if (power != (long) power) {
 			verb += "_approximately";
 		}
 		verb = Lang.localize("nc.sf." + verb);
 		
-		int p = (int) Math.round(power);
+		long p = Math.round(power);
 		
 		preposition = "nc.sf." + preposition;
 		return Lang.canLocalize(preposition) ? Lang.localize("nc.sf.power_adverb_preposition", Lang.localize("nc.sf.power_adverb" + p, verb), Lang.localize(preposition)) : Lang.localize("nc.sf.power_adverb" + p, verb);

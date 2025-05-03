@@ -37,7 +37,7 @@ public abstract class JEIProcessorRecipeWrapper<TILE extends TileEntity & IProce
 	
 	@Override
 	protected int getProgressArrowTime() {
-		return (int) (getBaseProcessTime() / 4D);
+		return NCMath.toInt(getBaseProcessTime() / 4D);
 	}
 	
 	protected double getBaseProcessTime() {

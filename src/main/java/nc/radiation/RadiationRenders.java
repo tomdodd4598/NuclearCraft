@@ -55,14 +55,14 @@ public class RadiationRenders {
 		}
 		
 		ScaledResolution res = new ScaledResolution(MC);
-		int barWidth = (int) (100D * playerRads.getTotalRads() / playerRads.getMaxRads());
-		String info = playerRads.isImmune() ? playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1) : playerRads.isRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true);
+		int barWidth = NCMath.toInt(100D * playerRads.getTotalRads() / playerRads.getMaxRads());
+		String info = playerRads.isImmune() ? playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 3, 1) : playerRads.isRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true);
 		int infoWidth = MC.fontRenderer.getStringWidth(info);
-		int overlayWidth = (int) Math.round(Math.max(104, infoWidth) * radiation_hud_size);
-		int overlayHeight = (int) Math.round(19 * radiation_hud_size);
+		int overlayWidth = NCMath.toInt(Math.round(Math.max(104, infoWidth) * radiation_hud_size));
+		int overlayHeight = NCMath.toInt(Math.round(19 * radiation_hud_size));
 		
-		int xPos = (int) Math.round(radiation_hud_position_cartesian.length >= 2 ? radiation_hud_position_cartesian[0] * res.getScaledWidth() : GuiHelper.getRenderPositionXFromAngle(res, radiation_hud_position, overlayWidth, 3) / radiation_hud_size);
-		int yPos = (int) Math.round(radiation_hud_position_cartesian.length >= 2 ? radiation_hud_position_cartesian[1] * res.getScaledHeight() : GuiHelper.getRenderPositionYFromAngle(res, radiation_hud_position, overlayHeight, 3) / radiation_hud_size);
+		int xPos = NCMath.toInt(Math.round(radiation_hud_position_cartesian.length >= 2 ? radiation_hud_position_cartesian[0] * res.getScaledWidth() : GuiHelper.getRenderPositionXFromAngle(res, radiation_hud_position, overlayWidth, 3) / radiation_hud_size));
+		int yPos = NCMath.toInt(Math.round(radiation_hud_position_cartesian.length >= 2 ? radiation_hud_position_cartesian[1] * res.getScaledHeight() : GuiHelper.getRenderPositionYFromAngle(res, radiation_hud_position, overlayHeight, 3) / radiation_hud_size));
 		
 		MC.getTextureManager().bindTexture(RADS_BAR);
 		
@@ -134,7 +134,7 @@ public class RadiationRenders {
 			double pz = TileEntityRendererDispatcher.staticPlayerZ;
 			int chunkX = (int) player.posX >> 4 << 4;
 			int chunkZ = (int) player.posZ >> 4 << 4;
-			int y = Math.min((int) player.posY - 2, player.getEntityWorld().getChunk(chunkX, chunkZ).getLowestHeight());
+			int y = Math.min(NCMath.toInt(player.posY - 2D), player.getEntityWorld().getChunk(chunkX, chunkZ).getLowestHeight());
 			float h = (float) Math.max(32, player.posY - y + 8);
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder builder = tessellator.getBuffer();
