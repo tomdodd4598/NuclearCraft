@@ -1,6 +1,7 @@
 package nc.handler;
 
 import it.unimi.dsi.fastutil.objects.*;
+import nc.integration.crafttweaker.CTHelper;
 import nc.util.*;
 import org.apache.commons.io.FileUtils;
 
@@ -109,6 +110,9 @@ public class ScriptAddonHandler {
 			}
 		}
 		
+		String addonID = removeVersionSuffix(dirName);
+		CTHelper.LOADED_SCRIPT_ADDONS.add(addonID.toLowerCase(Locale.ROOT));
+		
 		for (File f : dir.listFiles()) {
 			if (f.isDirectory()) {
 				for (String s : NC_ASSETS) {
@@ -138,7 +142,7 @@ public class ScriptAddonHandler {
 							FileUtils.deleteDirectory(legacy);
 						}
 						
-						FileUtils.copyDirectory(f, new File("scripts/nc_script_addons/" + removeVersionSuffix(dirName)));
+						FileUtils.copyDirectory(f, new File("scripts/nc_script_addons/" + addonID));
 						SCRIPT_ADDON_DIRS.add(dir);
 					}
 					case "contenttweaker" -> {

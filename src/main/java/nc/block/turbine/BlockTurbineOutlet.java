@@ -1,7 +1,6 @@
 package nc.block.turbine;
 
 import nc.tile.turbine.TileTurbineOutlet;
-import nc.util.PosHelper;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,28 +9,28 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.block.property.BlockProperties.*;
 
 public class BlockTurbineOutlet extends BlockTurbinePart {
 	
 	public BlockTurbineOutlet() {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(AXIS_ALL, EnumFacing.Axis.Z));
+		setDefaultState(getDefaultState().withProperty(FACING_ALL, EnumFacing.NORTH));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, AXIS_ALL);
+		return new BlockStateContainer(this, FACING_ALL);
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(AXIS_ALL, PosHelper.AXES[meta]);
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.byIndex(meta & 7));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(AXIS_ALL).ordinal();
+		return state.getValue(FACING_ALL).getIndex();
 	}
 	
 	@Override
@@ -41,7 +40,7 @@ public class BlockTurbineOutlet extends BlockTurbinePart {
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(AXIS_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer).getAxis());
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer));
 	}
 	
 	@Override

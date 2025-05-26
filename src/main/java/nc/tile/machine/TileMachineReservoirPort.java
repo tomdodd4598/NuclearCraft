@@ -96,7 +96,7 @@ public class TileMachineReservoirPort extends TileMachinePart implements ITickab
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileMachineReservoirPort) {
+		if (tile == null) {
 			return;
 		}
 		
@@ -112,7 +112,7 @@ public class TileMachineReservoirPort extends TileMachinePart implements ITickab
 		List<Tank> tanks = getTanks();
 		if (!tanks.isEmpty()) {
 			Tank tank = tanks.get(0);
-			tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true);
+			onWrapperDrain(tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true), true);
 		}
 	}
 	
@@ -195,7 +195,7 @@ public class TileMachineReservoirPort extends TileMachinePart implements ITickab
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY)) {
-			return !getTanks().isEmpty() && hasFluidSideCapability(side);
+			return hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -203,13 +203,13 @@ public class TileMachineReservoirPort extends TileMachinePart implements ITickab
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (hasFluidSideCapability(side)) {
 				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
-			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && hasFluidSideCapability(side)) {
 				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;

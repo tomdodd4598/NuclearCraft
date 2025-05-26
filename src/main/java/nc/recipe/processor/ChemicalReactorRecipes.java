@@ -37,7 +37,7 @@ public class ChemicalReactorRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("sulfur_dioxide", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("sulfur_trioxide", BUCKET_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
 		addRecipe(fluidStack("sulfur_trioxide", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 4), fluidStack("sulfuric_acid", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
 		
-		addRecipe(fluidStack("sulfur", GEM_VOLUME / 2), fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
+		addRecipe(fluidStack("sulfur", GEM_VOLUME / 2), fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 2), emptyFluidStack(), 1D, 0.5D);
 		
 		addRecipe(fluidStack("fluorite_water", GEM_VOLUME / 2), fluidStack("sulfuric_acid", BUCKET_VOLUME / 2), fluidStack("hydrofluoric_acid", BUCKET_VOLUME), fluidStack("calcium_sulfate_solution", GEM_VOLUME / 2), 1D, 0.5D);
 		

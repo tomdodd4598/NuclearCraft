@@ -8,13 +8,13 @@ import nc.recipe.BasicRecipe;
 import nc.util.*;
 import net.minecraft.util.IStringSerializable;
 
-import java.util.*;
+import java.util.List;
 
 import static nc.config.NCConfig.*;
 
 public class NCInfo {
 	
-	// Diaphragms
+	// Diaphragm
 	
 	public static String[] machineDiaphragmFixedInfo(BasicRecipe recipe) {
 		return new String[] {Lang.localize("info." + Global.MOD_ID + ".diaphragm.fixd"), Lang.localize("info." + Global.MOD_ID + ".diaphragm.efficiency.fixd", NCMath.pcDecimalPlaces(recipe.getMachineDiaphragmEfficiency(), 1)), Lang.localize("info." + Global.MOD_ID + ".diaphragm.contact.fixd", NCMath.pcDecimalPlaces(recipe.getMachineDiaphragmContactFactor(), 1))};
@@ -34,7 +34,7 @@ public class NCInfo {
 		return InfoHelper.formattedInfo(Lang.localize("info." + Global.MOD_ID + ".sieve_assembly.desc"));
 	}
 	
-	// Electrolyzer Electrodes
+	// Electrolyzer Electrode
 	
 	public static String[] electrodeFixedInfo(BasicRecipe cathodeRecipe, BasicRecipe anodeRecipe) {
 		boolean anyElectrode = cathodeRecipe != null && anodeRecipe != null;
@@ -52,7 +52,7 @@ public class NCInfo {
 		return InfoHelper.formattedInfo(Lang.localize("info." + Global.MOD_ID + ".electrode.desc"));
 	}
 	
-	// Infiltrator Pressure Fluids
+	// Infiltrator Pressure Fluid
 	
 	public static String[] infiltratorPressureFluidFixedInfo(BasicRecipe recipe) {
 		return new String[] {Lang.localize("info." + Global.MOD_ID + ".infiltrator_pressure_fluid.fixd"), Lang.localize("info." + Global.MOD_ID + ".infiltrator_pressure_fluid.efficiency.fixd", NCMath.pcDecimalPlaces(recipe.getInfiltratorPressureFluidEfficiency(), 1))};
@@ -60,6 +60,24 @@ public class NCInfo {
 	
 	public static String[] infiltratorPressureFluidInfo() {
 		return InfoHelper.formattedInfo(Lang.localize("info." + Global.MOD_ID + ".infiltrator_pressure_fluid.desc"));
+	}
+	
+	// RTG
+	
+	public static String[] rtgInfo(long power) {
+		return InfoHelper.formattedInfo("tile." + Global.MOD_ID + ".rtg.desc", UnitHelper.prefix(power, 5, "RF/t"));
+	}
+	
+	// Solar Panel
+	
+	public static String[] solarPanelInfo(long power) {
+		return InfoHelper.formattedInfo("tile." + Global.MOD_ID + ".solar_panel.desc", UnitHelper.prefix(power, 5, "RF/t"));
+	}
+	
+	// Battery
+	
+	public static String[] batteryInfo() {
+		return InfoHelper.formattedInfo("tile." + Global.MOD_ID + ".energy_storage.desc");
 	}
 	
 	// Fission Fuel
@@ -109,7 +127,7 @@ public class NCInfo {
 		return coolingFixedInfo(MetaEnums.CoolantHeaterType2.values(), "salt_fission_heater");
 	}
 	
-	// Fission Neutron Sources
+	// Neutron Source
 	
 	public static String[][] neutronSourceFixedInfo() {
 		MetaEnums.NeutronSourceType[] values = MetaEnums.NeutronSourceType.values();
@@ -137,7 +155,7 @@ public class NCInfo {
 		return InfoHelper.formattedInfo(Lang.localize("tile." + Global.MOD_ID + ".fission_source.desc"));
 	}
 	
-	// Fission Neutron Shields
+	// Neutron Shield
 	
 	public static String[][] neutronShieldFixedInfo() {
 		MetaEnums.NeutronShieldType[] values = MetaEnums.NeutronShieldType.values();
@@ -165,7 +183,7 @@ public class NCInfo {
 		return InfoHelper.formattedInfo(Lang.localize("tile." + Global.MOD_ID + ".fission_shield.desc"));
 	}
 	
-	// Fission Moderators
+	// Fission Moderator
 	
 	public static String[] fissionModeratorFixedInfo(BasicRecipe moderatorInfo) {
 		return new String[] {Lang.localize("info." + Global.MOD_ID + ".moderator.fixd"), Lang.localize("info." + Global.MOD_ID + ".moderator.flux_factor.fixd", moderatorInfo.getFissionModeratorFluxFactor() + " N/t"), Lang.localize("info." + Global.MOD_ID + ".moderator.efficiency.fixd", NCMath.pcDecimalPlaces(moderatorInfo.getFissionModeratorEfficiency(), 1))};
@@ -175,7 +193,7 @@ public class NCInfo {
 		return InfoHelper.formattedInfo(Lang.localize("info." + Global.MOD_ID + ".moderator.desc", fission_neutron_reach, fission_neutron_reach / 2));
 	}
 	
-	// Fission Reflectors
+	// Fission Reflector
 	
 	public static String[] fissionReflectorFixedInfo(BasicRecipe reflectorInfo) {
 		return new String[] {Lang.localize("info." + Global.MOD_ID + ".reflector.fixd"), Lang.localize("info." + Global.MOD_ID + ".reflector.reflectivity.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorReflectivity(), 1)), Lang.localize("info." + Global.MOD_ID + ".reflector.efficiency.fixd", NCMath.pcDecimalPlaces(reflectorInfo.getFissionReflectorEfficiency(), 1))};
@@ -185,7 +203,17 @@ public class NCInfo {
 		return InfoHelper.formattedInfo(Lang.localize("info." + Global.MOD_ID + ".reflector.desc"));
 	}
 	
-	// Dynamo Coils
+	// HX Tube
+	
+	public static String[] hxTubeFixedInfo(double heatTransferCoefficient, double heatRetentionMult) {
+		return new String[] {Lang.localize("tile." + Global.MOD_ID + ".heat_exchanger_tube_heat_transfer_coefficient.fixd", UnitHelper.prefix(heatTransferCoefficient, 5, "H/t/K")), Lang.localize("tile." + Global.MOD_ID + ".heat_exchanger_tube_heat_retention_mult.fixd", NCMath.pcDecimalPlaces(heatRetentionMult, 1))};
+	}
+	
+	public static String[] hxTubeInfo() {
+		return InfoHelper.formattedInfo("tile." + Global.MOD_ID + ".heat_exchanger_tube.desc");
+	}
+	
+	// Dynamo Coil
 	
 	public static String[][] dynamoCoilFixedInfo() {
 		String[][] info = new String[TurbineDynamoCoilType.values().length][];
@@ -201,6 +229,26 @@ public class NCInfo {
 	
 	public static String[] coilConductivityInfo(double conductivity) {
 		return new String[] {Lang.localize("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.pcDecimalPlaces(conductivity, 1)};
+	}
+	
+	// Rotor Blade
+	
+	public static String[] rotorBladeFixedInfo(double efficiency, double expansionCoefficient) {
+		return new String[] {Lang.localize("tile." + Global.MOD_ID + ".turbine_rotor_blade_efficiency.fixd", NCMath.pcDecimalPlaces(efficiency, 1)), Lang.localize("tile." + Global.MOD_ID + ".turbine_rotor_blade_expansion.fixd", NCMath.pcDecimalPlaces(expansionCoefficient, 1))};
+	}
+	
+	public static String[] rotorBladeInfo() {
+		return InfoHelper.formattedInfo("tile." + Global.MOD_ID + ".turbine_rotor_blade.desc", UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1));
+	}
+	
+	// Rotor Stator
+	
+	public static String[] rotorStatorFixedInfo(double expansionCoefficient) {
+		return new String[] {Lang.localize("tile." + Global.MOD_ID + ".turbine_rotor_stator_expansion.fixd", NCMath.pcDecimalPlaces(expansionCoefficient, 1))};
+	}
+	
+	public static String[] rotorStatorInfo() {
+		return InfoHelper.formattedInfo("tile." + Global.MOD_ID + ".turbine_rotor_stator.desc");
 	}
 	
 	// Speed Upgrade

@@ -14,9 +14,9 @@ public class TurbineRecipes extends BasicRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("high_pressure_steam", 1), fluidStack("exhaust_steam", 4), turbine_power_per_mb[0], turbine_expansion_level[0], turbine_spin_up_multiplier[0], "cloud", 1D / 23.2D);
-		addRecipe(fluidStack("low_pressure_steam", 1), fluidStack("low_quality_steam", 2), turbine_power_per_mb[1], turbine_expansion_level[1], turbine_spin_up_multiplier[1], "cloud", 1D / 23.2D);
-		addRecipe(fluidStack("steam", 1), fluidStack("low_quality_steam", 2), turbine_power_per_mb[2], turbine_expansion_level[2], turbine_spin_up_multiplier[2], "cloud", 1D / 23.2D);
+		addRecipe(fluidStack("high_pressure_steam", 1), fluidStack("exhaust_steam", 4), turbine_power_per_mb[0], turbine_expansion_level[0], turbine_spin_up_multiplier[0]);
+		addRecipe(fluidStack("low_pressure_steam", 1), fluidStack("low_quality_steam", 2), turbine_power_per_mb[1], turbine_expansion_level[1], turbine_spin_up_multiplier[1]);
+		addRecipe(fluidStack("steam", 1), fluidStack("low_quality_steam", 2), turbine_power_per_mb[2], turbine_expansion_level[2], turbine_spin_up_multiplier[2]);
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class TurbineRecipes extends BasicRecipeHandler {
 		fixer.add(Double.class, 1D);
 		fixer.add(Double.class, 1D);
 		fixer.add(String.class, "cloud");
-		fixer.add(Double.class, 1D / 23.2D);
+		fixer.add(Double.class, 5D / 116D);
 		return fixer.fixed;
 	}
 }

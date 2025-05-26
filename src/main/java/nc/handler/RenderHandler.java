@@ -5,6 +5,7 @@ import nc.init.*;
 import nc.render.BlockHighlightHandler;
 import nc.render.entity.RenderFeralGhoul;
 import nc.render.tile.*;
+import nc.tile.hx.*;
 import nc.tile.machine.*;
 import nc.tile.quantum.TileQuantumComputerQubit;
 import nc.tile.turbine.TileTurbineController;
@@ -28,6 +29,8 @@ public class RenderHandler {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileElectrolyzerController.class, new RenderMultiblockElectrolyzer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileDistillerController.class, new RenderMultiblockDistiller());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileInfiltratorController.class, new RenderMultiblockInfiltrator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileHeatExchangerController.class, new RenderMultiblockHeatExchanger());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCondenserController.class, new RenderMultiblockCondenser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTurbineController.class, new RenderTurbineRotor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumComputerQubit.class, new RenderQuantumComputerQubit());
 		

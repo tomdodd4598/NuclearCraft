@@ -3,11 +3,16 @@ package nc.network.multiblock;
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.TileContainerInfo;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.Tank.TankInfo;
 import nc.tile.turbine.*;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.List;
+
 public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	
+	public List<TankInfo> tankInfos;
 	public String particleEffect;
 	public double particleSpeedMult, recipeInputRateFP;
 	public float angVel;
@@ -18,8 +23,9 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 		super();
 	}
 	
-	public TurbineRenderPacket(BlockPos pos, String particleEffect, double particleSpeedMult, float angVel, boolean isProcessing, int recipeInputRate, double recipeInputRateFP) {
+	public TurbineRenderPacket(BlockPos pos, List<Tank> tanks, String particleEffect, double particleSpeedMult, float angVel, boolean isProcessing, int recipeInputRate, double recipeInputRateFP) {
 		super(pos);
+		tankInfos = TankInfo.getInfoList(tanks);
 		this.particleEffect = particleEffect;
 		this.particleSpeedMult = particleSpeedMult;
 		this.angVel = angVel;
@@ -31,6 +37,7 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
+		tankInfos = readTankInfos(buf);
 		particleEffect = readString(buf);
 		particleSpeedMult = buf.readDouble();
 		angVel = buf.readFloat();
@@ -42,6 +49,7 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
+		writeTankInfos(buf, tankInfos);
 		writeString(buf, particleEffect);
 		buf.writeDouble(particleSpeedMult);
 		buf.writeFloat(angVel);

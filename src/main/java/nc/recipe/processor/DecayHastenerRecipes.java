@@ -32,6 +32,7 @@ public class DecayHastenerRecipes extends BasicProcessorRecipeHandler {
 		
 		addDecayRecipes("Strontium90", "Zirconium", RadSources.STRONTIUM_90);
 		addDecayRecipes("Ruthenium106", "Palladium", RadSources.RUTHENIUM_106);
+		addDecayRecipes("Cesium137", "Barium", RadSources.CAESIUM_137);
 		addDecayRecipes("Caesium137", "Barium", RadSources.CAESIUM_137);
 		addDecayRecipes("Promethium147", "Neodymium", RadSources.PROMETHIUM_147);
 		addDecayRecipes("Europium155", "Gadolinium", RadSources.EUROPIUM_155);

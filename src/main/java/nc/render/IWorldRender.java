@@ -40,13 +40,18 @@ public interface IWorldRender {
 		return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
 	}
 	
-	static void renderFluid(FluidStack stack, double capacity, double xSize, double ySize, double zSize, EnumFacing fillDir, Predicate<FluidStack> isGaseous) {
-		if (stack == null || stack.amount <= 0) {
+	static void renderFluid(FluidStack stack, double capacity, double xSize, double ySize, double zSize, EnumFacing fillDir, Predicate<FluidStack> isGaseous, IntToDoubleFunction getAmount) {
+		if (stack == null) {
 			return;
 		}
 		
 		Fluid fluid = stack.getFluid();
 		if (fluid == null) {
+			return;
+		}
+		
+		double amount = getAmount.applyAsDouble(stack.amount);
+		if (amount <= 0D) {
 			return;
 		}
 		
@@ -60,9 +65,9 @@ public interface IWorldRender {
 		
 		boolean gaseous = isGaseous.test(stack);
 		int color = fluid.getColor(stack);
-		double fraction = (double) stack.amount / capacity;
+		double fraction = Math.min(1D, amount / capacity);
 		
-		GlStateManager.color(ColorHelper.getRed(color) / 255F, ColorHelper.getGreen(color) / 255F, ColorHelper.getBlue(color) / 255F, (gaseous ? (float) fraction : 1F) * ColorHelper.getAlpha(color) / 255F);
+		GlStateManager.color(ColorHelper.getRed(color) / 255F, ColorHelper.getGreen(color) / 255F, ColorHelper.getBlue(color) / 255F, (gaseous ? (float) (fraction * fraction) : 1F) * ColorHelper.getAlpha(color) / 255F);
 		
 		if (fluid.getStill(stack) != null) {
 			GlStateManager.pushMatrix();
@@ -94,12 +99,12 @@ public interface IWorldRender {
 	}
 	
 	static void renderFluid(FluidStack stack, double capacity, double xSize, double ySize, double zSize, EnumFacing fillDir) {
-		renderFluid(stack, capacity, xSize, ySize, zSize, fillDir, x -> x.getFluid().isGaseous(x));
+		renderFluid(stack, capacity, xSize, ySize, zSize, fillDir, x -> x.getFluid().isGaseous(x), x -> x);
 	}
 	
 	static void renderFluid(Tank tank, double xSize, double ySize, double zSize, EnumFacing fillDir, Predicate<FluidStack> isGaseous) {
 		if (tank != null) {
-			renderFluid(tank.getFluid(), tank.getCapacity(), xSize, ySize, zSize, fillDir, isGaseous);
+			renderFluid(tank.getFluid(), tank.getCapacity(), xSize, ySize, zSize, fillDir, isGaseous, x -> x);
 		}
 	}
 	
@@ -217,6 +222,10 @@ public interface IWorldRender {
 		}
 		
 		public static void render(BlockModelCuboid model, EnumShadeArgument shadeTypes, IBlockLocation formula, IFacingLocation faceFormula, IBlockAccess world) {
+			if (!model.isValid()) {
+				return;
+			}
+			
 			if (faceFormula == null) {
 				faceFormula = DefaultFacingLocation.INSTANCE;
 			}
@@ -747,6 +756,10 @@ public interface IWorldRender {
 		
 		public double sizeZ() {
 			return sizeZ;
+		}
+		
+		public boolean isValid() {
+			return sizeX >= 0D && sizeY >= 0D && sizeZ >= 0D && sizeX <= 65536D && sizeY <= 65536D && sizeZ <= 65536D;
 		}
 		
 		public boolean getRenderSide(EnumFacing side) {

@@ -2,7 +2,7 @@ package nc.block.hx;
 
 import nc.advancement.NCCriterions;
 import nc.block.tile.IActivatable;
-import nc.tile.hx.TileCondenserController;
+import nc.tile.hx.*;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;

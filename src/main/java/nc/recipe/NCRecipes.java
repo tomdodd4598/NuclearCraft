@@ -68,7 +68,6 @@ public class NCRecipes {
 			"salt_fission",
 			"fission_emergency_cooling",
 			"heat_exchanger",
-			"condenser",
 			"turbine",
 			"radiation_scrubber",
 			"radiation_block_mutation",
@@ -149,7 +148,6 @@ public class NCRecipes {
 		putHandler(new CoolantHeaterRecipes());
 		putHandler(new FissionEmergencyCoolingRecipes());
 		putHandler(new HeatExchangerRecipes());
-		putHandler(new CondenserRecipes());
 		putHandler(new TurbineRecipes());
 		putHandler(new RadiationScrubberRecipes());
 		putHandler(new RadiationBlockMutation());
@@ -206,7 +204,6 @@ public class NCRecipes {
 	public static CoolantHeaterRecipes coolant_heater;
 	public static FissionEmergencyCoolingRecipes fission_emergency_cooling;
 	public static HeatExchangerRecipes heat_exchanger;
-	public static CondenserRecipes condenser;
 	public static TurbineRecipes turbine;
 	public static RadiationScrubberRecipes radiation_scrubber;
 	public static RadiationBlockMutation radiation_block_mutation;
@@ -253,7 +250,6 @@ public class NCRecipes {
 		coolant_heater = getHandler("coolant_heater");
 		fission_emergency_cooling = getHandler("fission_emergency_cooling");
 		heat_exchanger = getHandler("heat_exchanger");
-		condenser = getHandler("condenser");
 		turbine = getHandler("turbine");
 		radiation_scrubber = getHandler("radiation_scrubber");
 		radiation_block_mutation = getHandler("radiation_block_mutation");

@@ -15,6 +15,7 @@ import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
+import nc.tile.internal.fluid.Tank.TankInfo;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.turbine.*;
 import nc.util.*;
@@ -93,10 +94,11 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		setIsTurbineOn();
 		
 		if (!getWorld().isRemote) {
-			multiblock.energyStorage.setStorageCapacity((long) Turbine.BASE_MAX_ENERGY * multiblock.getExteriorSurfaceArea());
-			multiblock.energyStorage.setMaxTransfer((long) Turbine.BASE_MAX_ENERGY * multiblock.getExteriorSurfaceArea());
-			multiblock.tanks.get(0).setCapacity(Turbine.BASE_MAX_INPUT * multiblock.getExteriorSurfaceArea());
-			multiblock.tanks.get(1).setCapacity(Turbine.BASE_MAX_OUTPUT * multiblock.getExteriorSurfaceArea());
+			int mult = multiblock.getExteriorVolume();
+			multiblock.energyStorage.setStorageCapacity((long) Turbine.BASE_MAX_ENERGY * mult);
+			multiblock.energyStorage.setMaxTransfer((long) Turbine.BASE_MAX_ENERGY * mult);
+			multiblock.tanks.get(0).setCapacity(Turbine.BASE_MAX_INPUT * mult);
+			multiblock.tanks.get(1).setCapacity(Turbine.BASE_MAX_OUTPUT * mult);
 		}
 		
 		if (multiblock.flowDir == null) {
@@ -249,7 +251,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	
 	@Override
 	public void onMachinePaused() {
-		// onTurbineBroken();
+		setIsTurbineOn();
 	}
 	
 	@Override
@@ -260,7 +262,9 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	public void onTurbineBroken() {
 		makeRotorVisible();
 		
-		multiblock.isTurbineOn = multiblock.isProcessing = false;
+		setIsTurbineOn();
+		
+		multiblock.isProcessing = false;
 		if (multiblock.controller != null) {
 			multiblock.controller.setActivity(false);
 		}
@@ -268,13 +272,14 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		multiblock.angVel = multiblock.rotorAngle = 0F;
 		multiblock.flowDir = null;
 		multiblock.shaftWidth = multiblock.inertia = multiblock.bladeLength = multiblock.noBladeSets = multiblock.recipeInputRate = 0;
-		multiblock.totalExpansionLevel = multiblock.idealTotalExpansionLevel = 1D;
+		multiblock.totalExpansionLevel = 1D;
+		multiblock.idealTotalExpansionLevel = 0D;
 		multiblock.minBladeExpansionCoefficient = Double.MAX_VALUE;
 		multiblock.maxBladeExpansionCoefficient = 1D;
 		multiblock.minStatorExpansionCoefficient = 1D;
 		multiblock.maxStatorExpansionCoefficient = Double.MIN_VALUE;
 		multiblock.particleEffect = "cloud";
-		multiblock.particleSpeedMult = 1D / 23.2D;
+		multiblock.particleSpeedMult = 5D / 116D;
 		multiblock.basePowerPerMB = multiblock.recipeInputRateFP = 0D;
 		multiblock.expansionLevels.clear();
 		multiblock.rawBladeEfficiencies.clear();
@@ -797,7 +802,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected boolean isRedstonePowered() {
-		return Stream.concat(Stream.of(multiblock.controller), getParts(TileTurbineRedstonePort.class).stream()).anyMatch(x -> x != null && x.checkIsRedstonePowered(getWorld(), x.getTilePos()));
+		return Stream.concat(Stream.of(multiblock.controller), getParts(TileTurbineRedstonePort.class).stream()).anyMatch(x -> x != null && x.getIsRedstonePowered());
 	}
 	
 	protected void refreshRecipe() {
@@ -816,6 +821,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	protected boolean setRecipeStats() {
 		if (multiblock.recipeInfo == null) {
 			multiblock.recipeInputRate = 0;
+			multiblock.idealTotalExpansionLevel = 0D;
 			return false;
 		}
 		BasicRecipe recipe = multiblock.recipeInfo.recipe;
@@ -833,18 +839,23 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			return false;
 		}
 		
-		int recipeInputRateDiff = multiblock.recipeInputRate;
-		multiblock.recipeInputRate = Math.min(multiblock.tanks.get(0).getFluidAmount(), NCMath.toInt(turbine_tension_throughput_factor * getMaxRecipeRateMultiplier()));
-		recipeInputRateDiff = Math.abs(recipeInputRateDiff - multiblock.recipeInputRate);
+		Tank inputTank = multiblock.tanks.get(0), outputTank = multiblock.tanks.get(1);
 		
+		int prevInputRate = multiblock.recipeInputRate;
+		int inputTankAmount = inputTank.getFluidAmount();
+		double inputTankFraction = (double) inputTankAmount / (double) inputTank.getCapacity();
+		double throughputMult = 1D + (turbine_tension_throughput_factor - 1D) * inputTankFraction;
+		multiblock.recipeInputRate = Math.min(inputTankAmount, NCMath.toInt(throughputMult * getMaxRecipeRateMultiplier()));
+		
+		int recipeInputRateDiff = Math.abs(prevInputRate - multiblock.recipeInputRate);
 		double roundingFactor = Math.max(0D, 1.5D * Math.log1p(multiblock.recipeInputRate / (1D + recipeInputRateDiff)));
 		multiblock.recipeInputRateFP = (roundingFactor * multiblock.recipeInputRateFP + multiblock.recipeInputRate) / (1D + roundingFactor);
 		
-		if (!multiblock.tanks.get(1).isEmpty()) {
-			if (!multiblock.tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
+		if (!outputTank.isEmpty()) {
+			if (!outputTank.getFluid().isFluidEqual(fluidProduct.getStack())) {
 				return false;
 			}
-			else if (multiblock.tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0) * multiblock.recipeInputRate > multiblock.tanks.get(1).getCapacity()) {
+			else if (outputTank.getFluidAmount() + fluidProduct.getMaxStackSize(0) * multiblock.recipeInputRate > outputTank.getCapacity()) {
 				return false;
 			}
 		}
@@ -852,25 +863,31 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	protected void produceProducts() {
-		int fluidIngredientStackSize = multiblock.recipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(multiblock.recipeInfo.getFluidIngredientNumbers().get(0)) * multiblock.recipeInputRate;
-		if (fluidIngredientStackSize > 0) {
-			multiblock.tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
+		Tank inputTank = multiblock.tanks.get(0), outputTank = multiblock.tanks.get(1);
+		
+		int fluidIngredientSize = getFluidIngredientStackSize() * multiblock.recipeInputRate;
+		if (fluidIngredientSize > 0) {
+			inputTank.changeFluidAmount(-fluidIngredientSize);
 		}
-		if (multiblock.tanks.get(0).getFluidAmount() <= 0) {
-			multiblock.tanks.get(0).setFluidStored(null);
+		if (inputTank.getFluidAmount() <= 0) {
+			inputTank.setFluidStored(null);
 		}
 		
 		IFluidIngredient fluidProduct = multiblock.recipeInfo.recipe.getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0) {
 			return;
 		}
-		if (multiblock.tanks.get(1).isEmpty()) {
-			multiblock.tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
-			multiblock.tanks.get(1).setFluidAmount(multiblock.tanks.get(1).getFluidAmount() * multiblock.recipeInputRate);
+		if (outputTank.isEmpty()) {
+			outputTank.setFluidStored(fluidProduct.getNextStack(0));
+			outputTank.setFluidAmount(outputTank.getFluidAmount() * multiblock.recipeInputRate);
 		}
-		else if (multiblock.tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
-			multiblock.tanks.get(1).changeFluidAmount(fluidProduct.getNextStackSize(0) * multiblock.recipeInputRate);
+		else if (outputTank.getFluid().isFluidEqual(fluidProduct.getStack())) {
+			outputTank.changeFluidAmount(fluidProduct.getNextStackSize(0) * multiblock.recipeInputRate);
 		}
+	}
+	
+	protected int getFluidIngredientStackSize() {
+		return multiblock.recipeInfo == null ? 0 : multiblock.recipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(multiblock.recipeInfo.getFluidIngredientNumbers().get(0));
 	}
 	
 	public int getMaxRecipeRateMultiplier() {
@@ -1033,7 +1050,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 				for (int j : _y) {
 					for (int k : _z) {
 						BlockPos pos = new BlockPos(i, j, k);
-						getSoundMap().put(pos, SoundHandler.startBlockSound(NCSounds.turbine_run, pos, (float) ((1D + multiblock.angVel * 2D / turbine_render_rotor_speed) * turbine_sound_volume / 24D), SoundHelper.getPitch(4F * multiblock.angVel / turbine_render_rotor_speed - 2F)));
+						getSoundMap().put(pos, SoundHandler.startBlockSound(NCSounds.turbine_run, pos, (float) ((1D + multiblock.angVel * 2D / turbine_render_rotor_speed) * turbine_sound_volume / 32D), SoundHelper.getPitch(4F * multiblock.angVel / turbine_render_rotor_speed - 2F)));
 					}
 				}
 			}
@@ -1170,10 +1187,11 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 	}
 	
 	public TurbineRenderPacket getRenderPacket() {
-		return new TurbineRenderPacket(multiblock.controller.getTilePos(), multiblock.particleEffect, multiblock.particleSpeedMult, multiblock.angVel, multiblock.isProcessing, multiblock.recipeInputRate, multiblock.recipeInputRateFP);
+		return new TurbineRenderPacket(multiblock.controller.getTilePos(), multiblock.tanks, multiblock.particleEffect, multiblock.particleSpeedMult, multiblock.angVel, multiblock.isProcessing, multiblock.recipeInputRate, multiblock.recipeInputRateFP);
 	}
 	
 	public void onRenderPacket(TurbineRenderPacket message) {
+		TankInfo.readInfoList(message.tankInfos, multiblock.tanks);
 		multiblock.particleEffect = message.particleEffect;
 		multiblock.particleSpeedMult = message.particleSpeedMult;
 		multiblock.angVel = message.angVel;

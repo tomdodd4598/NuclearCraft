@@ -29,11 +29,19 @@ public class NCMath {
 		return number * number;
 	}
 	
+	public static long sq(long number) {
+		return number * number;
+	}
+	
 	public static double sq(double number) {
 		return number * number;
 	}
 	
 	public static int cube(int number) {
+		return number * number * number;
+	}
+	
+	public static long cube(long number) {
 		return number * number * number;
 	}
 	

@@ -1,6 +1,6 @@
 package nc.recipe.processor;
 
-import nc.util.NCMath;
+import nc.util.*;
 
 import java.util.*;
 
@@ -75,15 +75,17 @@ public class CentrifugeRecipes extends BasicProcessorRecipeHandler {
 		
 		// Fuel Reprocessing
 		
-		addReprocessingRecipe("tbu", "uranium_233", 1, "uranium_238", 5, "neptunium_236", 1, "neptunium_237", 1, "strontium_90", "caesium_137", 0.5D, 50);
+		String fluidCesium137 = FluidRegHelper.fluidExists("cesium_137") ? "cesium_137" : "caesium_137";
 		
-		addReprocessingRecipe("leu_233", "uranium_238", 5, "plutonium_241", 1, "plutonium_242", 1, "americium_243", 1, "strontium_90", "caesium_137", 0.5D, 50);
-		addReprocessingRecipe("heu_233", "uranium_235", 1, "uranium_238", 2, "plutonium_242", 3, "americium_243", 1, "strontium_90", "caesium_137", 1.5D, 50);
-		addReprocessingRecipe("leu_235", "uranium_238", 4, "plutonium_239", 1, "plutonium_242", 2, "americium_243", 1, "molybdenum", "caesium_137", 0.5D, 50);
-		addReprocessingRecipe("heu_235", "uranium_238", 3, "neptunium_236", 1, "plutonium_242", 2, "americium_243", 1, "molybdenum", "caesium_137", 1.5D, 50);
+		addReprocessingRecipe("tbu", "uranium_233", 1, "uranium_238", 5, "neptunium_236", 1, "neptunium_237", 1, "strontium_90", fluidCesium137, 0.5D, 50);
 		
-		addReprocessingRecipe("len_236", "uranium_238", 4, "neptunium_237", 1, "plutonium_241", 1, "plutonium_242", 2, "molybdenum", "caesium_137", 0.5D, 50);
-		addReprocessingRecipe("hen_236", "uranium_238", 4, "plutonium_238", 1, "plutonium_241", 1, "plutonium_242", 1, "molybdenum", "caesium_137", 1.5D, 50);
+		addReprocessingRecipe("leu_233", "uranium_238", 5, "plutonium_241", 1, "plutonium_242", 1, "americium_243", 1, "strontium_90", fluidCesium137, 0.5D, 50);
+		addReprocessingRecipe("heu_233", "uranium_235", 1, "uranium_238", 2, "plutonium_242", 3, "americium_243", 1, "strontium_90", fluidCesium137, 1.5D, 50);
+		addReprocessingRecipe("leu_235", "uranium_238", 4, "plutonium_239", 1, "plutonium_242", 2, "americium_243", 1, "molybdenum", fluidCesium137, 0.5D, 50);
+		addReprocessingRecipe("heu_235", "uranium_238", 3, "neptunium_236", 1, "plutonium_242", 2, "americium_243", 1, "molybdenum", fluidCesium137, 1.5D, 50);
+		
+		addReprocessingRecipe("len_236", "uranium_238", 4, "neptunium_237", 1, "plutonium_241", 1, "plutonium_242", 2, "molybdenum", fluidCesium137, 0.5D, 50);
+		addReprocessingRecipe("hen_236", "uranium_238", 4, "plutonium_238", 1, "plutonium_241", 1, "plutonium_242", 1, "molybdenum", fluidCesium137, 1.5D, 50);
 		
 		addReprocessingRecipe("lep_239", "plutonium_242", 5, "americium_242", 1, "americium_243", 1, "curium_246", 1, "strontium_90", "promethium_147", 0.5D, 50);
 		addReprocessingRecipe("hep_239", "plutonium_241", 1, "americium_242", 1, "americium_243", 4, "curium_243", 1, "strontium_90", "promethium_147", 1.5D, 50);

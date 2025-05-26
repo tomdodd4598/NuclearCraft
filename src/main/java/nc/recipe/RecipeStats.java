@@ -1,10 +1,13 @@
 package nc.recipe;
 
 import nc.handler.TileInfoHandler;
+import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.processor.BasicProcessorRecipeHandler;
 import nc.tile.TileContainerInfo;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.util.NCMath;
+
+import java.util.List;
 
 import static nc.config.NCConfig.*;
 
@@ -28,13 +31,34 @@ public class RecipeStats {
 		for (TileContainerInfo<?> info : TileInfoHandler.TILE_CONTAINER_INFO_MAP.values()) {
 			if (info instanceof ProcessorContainerInfo<?, ?, ?> processorInfo) {
 				if (processorInfo.getRecipeHandler() instanceof BasicProcessorRecipeHandler processorRecipeHandler) {
-					double maxProcessTimeMultiplier = 1D, maxProcessPowerMultiplier = 0D;
-					for (BasicRecipe recipe : processorRecipeHandler.getRecipeList()) {
-						maxProcessTimeMultiplier = Math.max(maxProcessTimeMultiplier, recipe.getProcessTimeMultiplier());
-						maxProcessPowerMultiplier = Math.max(maxProcessPowerMultiplier, recipe.getProcessPowerMultiplier());
+					List<BasicRecipe> recipeList = processorRecipeHandler.getRecipeList();
+					if (recipeList.isEmpty()) {
+						processorInfo.maxBaseProcessTime = processor_time_multiplier * processorInfo.defaultProcessTime;
+						processorInfo.maxBaseProcessPower = processor_power_multiplier * processorInfo.defaultProcessPower;
 					}
-					processorInfo.maxBaseProcessTime = maxProcessTimeMultiplier * processor_time_multiplier * processorInfo.defaultProcessTime;
-					processorInfo.maxBaseProcessPower = maxProcessPowerMultiplier * processor_power_multiplier * processorInfo.defaultProcessPower;
+					else {
+						double maxProcessTimeMultiplier = 1D, maxProcessPowerMultiplier = 0D;
+						int maxFluidInputSize = 0, maxFluidOutputSize = 0;
+						
+						for (BasicRecipe recipe : processorRecipeHandler.getRecipeList()) {
+							maxProcessTimeMultiplier = Math.max(maxProcessTimeMultiplier, recipe.getProcessTimeMultiplier());
+							maxProcessPowerMultiplier = Math.max(maxProcessPowerMultiplier, recipe.getProcessPowerMultiplier());
+							
+							for (IFluidIngredient ingredient : recipe.getFluidIngredients()) {
+								maxFluidInputSize = Math.max(maxFluidInputSize, ingredient.getMaxStackSize(0));
+							}
+							
+							for (IFluidIngredient ingredient : recipe.getFluidProducts()) {
+								maxFluidOutputSize = Math.max(maxFluidOutputSize, ingredient.getMaxStackSize(0));
+							}
+						}
+						
+						processorInfo.maxBaseProcessTime = maxProcessTimeMultiplier * processor_time_multiplier * processorInfo.defaultProcessTime;
+						processorInfo.maxBaseProcessPower = maxProcessPowerMultiplier * processor_power_multiplier * processorInfo.defaultProcessPower;
+						
+						processorInfo.inputTankCapacity = Math.max(processorInfo.inputTankCapacity, 2 * maxFluidInputSize);
+						processorInfo.outputTankCapacity = Math.max(processorInfo.outputTankCapacity, 2 * maxFluidOutputSize);
+					}
 				}
 			}
 		}

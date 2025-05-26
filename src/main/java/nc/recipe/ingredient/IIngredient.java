@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface IIngredient<T> {
 	
-	default void init() {
-	
-	}
+	default void init() {}
 	
 	T getStack();
 	

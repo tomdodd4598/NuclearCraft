@@ -113,6 +113,11 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 	}
 	
 	public void incrementItemFluidData(boolean reverse) {
+		Machine machine = getMultiblock();
+		if (machine == null) {
+			return;
+		}
+		
 		MachineLogic logic = getLogic();
 		if (logic == null) {
 			return;
@@ -133,39 +138,39 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 		}
 		setting = (sorptionSize + setting % sorptionSize) % sorptionSize;
 		
-		if (setting < logic.itemInputSize) {
+		if (setting < machine.itemInputSize) {
 			slot = setting;
 			tankIndex = -1;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize) {
+		else if (setting < machine.itemInputSize + machine.fluidInputSize) {
 			slot = -1;
-			tankIndex = setting - logic.itemInputSize;
+			tankIndex = setting - machine.itemInputSize;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize + logic.itemOutputSize) {
-			slot = setting - logic.fluidInputSize;
+		else if (setting < machine.itemInputSize + machine.fluidInputSize + machine.itemOutputSize) {
+			slot = setting - machine.fluidInputSize;
 			tankIndex = -1;
 		}
 		else {
 			slot = -1;
-			tankIndex = setting - logic.itemInputSize - logic.itemOutputSize;
+			tankIndex = setting - machine.itemInputSize - machine.itemOutputSize;
 		}
 		
 		setItemFluidData();
 	}
 	
 	public @Nonnull MachinePortSorption getMachinePortSorption() {
-		MachineLogic logic = getLogic();
-		if (logic == null) {
+		Machine machine = getMultiblock();
+		if (machine == null) {
 			return MachinePortSorption.ITEM_IN;
 		}
 		
-		if (setting < logic.itemInputSize) {
+		if (setting < machine.itemInputSize) {
 			return MachinePortSorption.ITEM_IN;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize) {
+		else if (setting < machine.itemInputSize + machine.fluidInputSize) {
 			return MachinePortSorption.FLUID_IN;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize + logic.itemOutputSize) {
+		else if (setting < machine.itemInputSize + machine.fluidInputSize + machine.itemOutputSize) {
 			return MachinePortSorption.ITEM_OUT;
 		}
 		else {
@@ -174,42 +179,42 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 	}
 	
 	public int getMachinePortSorptionIndex() {
-		MachineLogic logic = getLogic();
-		if (logic == null) {
+		Machine machine = getMultiblock();
+		if (machine == null) {
 			return 0;
 		}
 		
-		if (setting < logic.itemInputSize) {
+		if (setting < machine.itemInputSize) {
 			return setting;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize) {
-			return setting - logic.itemInputSize;
+		else if (setting < machine.itemInputSize + machine.fluidInputSize) {
+			return setting - machine.itemInputSize;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize + logic.itemOutputSize) {
-			return setting - logic.itemInputSize - logic.fluidInputSize;
+		else if (setting < machine.itemInputSize + machine.fluidInputSize + machine.itemOutputSize) {
+			return setting - machine.itemInputSize - machine.fluidInputSize;
 		}
 		else {
-			return setting - logic.itemInputSize - logic.fluidInputSize - logic.itemOutputSize;
+			return setting - machine.itemInputSize - machine.fluidInputSize - machine.itemOutputSize;
 		}
 	}
 	
 	public int getMachinePortSorptionSize() {
-		MachineLogic logic = getLogic();
-		if (logic == null) {
+		Machine machine = getMultiblock();
+		if (machine == null) {
 			return 0;
 		}
 		
-		if (setting < logic.itemInputSize) {
-			return logic.itemInputSize;
+		if (setting < machine.itemInputSize) {
+			return machine.itemInputSize;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize) {
-			return logic.fluidInputSize;
+		else if (setting < machine.itemInputSize + machine.fluidInputSize) {
+			return machine.fluidInputSize;
 		}
-		else if (setting < logic.itemInputSize + logic.fluidInputSize + logic.itemOutputSize) {
-			return logic.itemOutputSize;
+		else if (setting < machine.itemInputSize + machine.fluidInputSize + machine.itemOutputSize) {
+			return machine.itemOutputSize;
 		}
 		else {
-			return logic.fluidOutputSize;
+			return machine.fluidOutputSize;
 		}
 	}
 	
@@ -266,17 +271,17 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 				return stack;
 			}
 			
-			MachineLogic logic = getLogic();
-			if (logic == null) {
+			Machine machine = getMultiblock();
+			if (machine == null) {
 				return stack;
 			}
 			
-			if (this.slot < logic.itemInputSize) {
-				logic.refreshRecipe();
-				logic.refreshActivity();
+			if (this.slot < machine.itemInputSize) {
+				machine.processor.refreshRecipe();
+				machine.processor.refreshActivity();
 			}
-			else if (this.slot < logic.itemInputSize + logic.itemOutputSize) {
-				logic.refreshActivity();
+			else if (this.slot < machine.itemInputSize + machine.itemOutputSize) {
+				machine.processor.refreshActivity();
 			}
 		}
 		return stack;
@@ -290,17 +295,17 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 				return;
 			}
 			
-			MachineLogic logic = getLogic();
-			if (logic == null) {
+			Machine machine = getMultiblock();
+			if (machine == null) {
 				return;
 			}
 			
-			if (this.slot < logic.itemInputSize) {
-				logic.refreshRecipe();
-				logic.refreshActivity();
+			if (this.slot < machine.itemInputSize) {
+				machine.processor.refreshRecipe();
+				machine.processor.refreshActivity();
 			}
-			else if (this.slot < logic.itemInputSize + logic.itemOutputSize) {
-				logic.refreshActivity();
+			else if (this.slot < machine.itemInputSize + machine.itemOutputSize) {
+				machine.processor.refreshActivity();
 			}
 		}
 	}
@@ -311,20 +316,20 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 			return false;
 		}
 		
-		MachineLogic logic = getLogic();
-		if (logic == null) {
+		Machine machine = getMultiblock();
+		if (machine == null) {
 			return false;
 		}
 		
-		if (stack.isEmpty() || (this.slot >= logic.itemInputSize && this.slot < logic.itemInputSize + logic.itemOutputSize)) {
+		if (stack.isEmpty() || (this.slot >= machine.itemInputSize && this.slot < machine.itemInputSize + machine.itemOutputSize)) {
 			return false;
 		}
 		
 		if (NCConfig.smart_processor_input) {
-			return logic.recipeHandler.isValidItemInput(stack, this.slot, logic.getItemInputs(false), logic.getFluidInputs(false), logic.recipeInfo);
+			return machine.recipeHandler.isValidItemInput(stack, this.slot, machine.processor.getItemInputs(false), machine.processor.getFluidInputs(false), machine.processor.recipeInfo);
 		}
 		else {
-			return logic.recipeHandler.isValidItemInput(stack, this.slot);
+			return machine.recipeHandler.isValidItemInput(stack, this.slot);
 		}
 	}
 	
@@ -337,9 +342,9 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 	public void clearAllSlots() {
 		ITileInventory.super.clearAllSlots();
 		
-		MachineLogic logic = getLogic();
-		if (logic != null) {
-			logic.refreshAll();
+		Machine machine = getMultiblock();
+		if (machine != null) {
+			machine.processor.refreshAll();
 		}
 	}
 	
@@ -403,20 +408,20 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 	
 	@Override
 	public boolean isFluidValidForTank(int tankNumber, FluidStack stack) {
-		MachineLogic logic = getLogic();
-		if (logic == null) {
+		Machine machine = getMultiblock();
+		if (machine == null) {
 			return false;
 		}
 		
-		if (stack == null || stack.amount <= 0 || (this.tankIndex >= logic.fluidInputSize && this.tankIndex < logic.fluidInputSize + logic.fluidOutputSize)) {
+		if (stack == null || stack.amount <= 0 || (this.tankIndex >= machine.fluidInputSize && this.tankIndex < machine.fluidInputSize + machine.fluidOutputSize)) {
 			return false;
 		}
 		
 		if (NCConfig.smart_processor_input) {
-			return logic.recipeHandler.isValidFluidInput(stack, this.tankIndex, logic.getFluidInputs(false), logic.getItemInputs(false), logic.recipeInfo);
+			return machine.recipeHandler.isValidFluidInput(stack, this.tankIndex, machine.processor.getFluidInputs(false), machine.processor.getItemInputs(false), machine.processor.recipeInfo);
 		}
 		else {
-			return logic.recipeHandler.isValidFluidInput(stack, this.tankIndex);
+			return machine.recipeHandler.isValidFluidInput(stack, this.tankIndex);
 		}
 	}
 	
@@ -424,9 +429,9 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 	public void clearAllTanks() {
 		ITileFluid.super.clearAllTanks();
 		
-		MachineLogic logic = getLogic();
-		if (logic != null) {
-			logic.refreshAll();
+		Machine machine = getMultiblock();
+		if (machine != null) {
+			machine.processor.refreshAll();
 		}
 	}
 	
@@ -459,7 +464,7 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 		setting = nbt.getInteger("setting");
 		slot = nbt.getInteger("slot");
 		tankIndex = nbt.getInteger("tankIndex");
-		setItemFluidData();
+		// setItemFluidData();
 	}
 	
 	// Capability

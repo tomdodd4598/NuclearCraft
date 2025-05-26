@@ -88,9 +88,10 @@ public class MultiblockHandler {
 		FissionReactor.PART_CLASSES.add(TileSaltFissionHeater.class);
 		
 		HeatExchanger.PART_CLASSES.add(IHeatExchangerController.class);
-		HeatExchanger.PART_CLASSES.add(TileHeatExchangerVent.class);
+		HeatExchanger.PART_CLASSES.add(TileHeatExchangerInlet.class);
+		HeatExchanger.PART_CLASSES.add(TileHeatExchangerOutlet.class);
 		HeatExchanger.PART_CLASSES.add(TileHeatExchangerTube.class);
-		HeatExchanger.PART_CLASSES.add(TileCondenserTube.class);
+		HeatExchanger.PART_CLASSES.add(TileHeatExchangerBaffle.class);
 		HeatExchanger.PART_CLASSES.add(TileHeatExchangerRedstonePort.class);
 		
 		Turbine.PART_CLASSES.add(ITurbineController.class);

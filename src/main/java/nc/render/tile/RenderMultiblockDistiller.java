@@ -6,7 +6,6 @@ import nc.multiblock.machine.*;
 import nc.render.IWorldRender;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.machine.*;
-import nc.util.NCMath;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -22,9 +21,6 @@ import java.util.*;
 
 @SideOnly(Side.CLIENT)
 public class RenderMultiblockDistiller extends TileEntitySpecialRenderer<TileDistillerController> implements IWorldRender {
-	
-	private final float[] brightnessArray = new float[] {1F, 1F, 1F, 1F, 1F, 1F, 1F, 1F};
-	private int brightnessIndex = 0;
 	
 	@Override
 	public boolean isGlobalRenderer(TileDistillerController controller) {
@@ -55,9 +51,7 @@ public class RenderMultiblockDistiller extends TileEntitySpecialRenderer<TileDis
 		
 		BlockRendererDispatcher renderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		
-		brightnessArray[brightnessIndex] = controller.getWorld().getLightBrightness(machine.getExtremeInteriorCoord(NCMath.getBit(brightnessIndex, 0) == 1, NCMath.getBit(brightnessIndex, 1) == 1, NCMath.getBit(brightnessIndex, 2) == 1));
-		brightnessIndex = (brightnessIndex + 1) % 8;
-		float brightness = (brightnessArray[0] + brightnessArray[1] + brightnessArray[2] + brightnessArray[3] + brightnessArray[4] + brightnessArray[5] + brightnessArray[6] + brightnessArray[7]) / 8F;
+		float brightness = controller.nextRenderBrightness();
 		
 		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		
@@ -89,7 +83,7 @@ public class RenderMultiblockDistiller extends TileEntitySpecialRenderer<TileDis
 		List<Tank> liquids = new ArrayList<>();
 		List<Tank> gasses = new ArrayList<>();
 		
-		for (Tank tank : logic.getFluidInputs(false)) {
+		for (Tank tank : machine.processor.getFluidInputs(false)) {
 			FluidStack stack = tank.getFluid();
 			if (stack == null || stack.amount <= 0) {
 				continue;

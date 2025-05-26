@@ -263,6 +263,37 @@ public class GSBasicRecipeBuilderImpl {
 		}
 	}
 	
+	public static class GSHeatExchangerRecipeBuilder extends GSBasicRecipeBuilder<GSHeatExchangerRecipeBuilder> {
+		
+		public GSHeatExchangerRecipeBuilder(GSBasicRecipeRegistry registry) {
+			super(registry);
+		}
+		
+		public GSHeatExchangerRecipeBuilder heatDifference(double heatDifference) {
+			return setExtra(0, heatDifference);
+		}
+		
+		public GSHeatExchangerRecipeBuilder temperatureIn(int temperatureIn) {
+			return setExtra(1, temperatureIn);
+		}
+		
+		public GSHeatExchangerRecipeBuilder temperatureOut(int temperatureOut) {
+			return setExtra(2, temperatureOut);
+		}
+		
+		public GSHeatExchangerRecipeBuilder latentHeating(boolean latentHeating) {
+			return setExtra(3, latentHeating);
+		}
+		
+		public GSHeatExchangerRecipeBuilder preferredFlowDirection(int preferredFlowDirection) {
+			return setExtra(4, preferredFlowDirection);
+		}
+		
+		public GSHeatExchangerRecipeBuilder flowDirectionBonus(double flowDirectionBonus) {
+			return setExtra(5, flowDirectionBonus);
+		}
+	}
+	
 	public static class GSTurbineRecipeBuilder extends GSBasicRecipeBuilder<GSTurbineRecipeBuilder> {
 		
 		public GSTurbineRecipeBuilder(GSBasicRecipeRegistry registry) {

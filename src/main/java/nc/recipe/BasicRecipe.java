@@ -8,6 +8,7 @@ import nc.tile.internal.fluid.Tank;
 import nc.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.*;
 import stanhebben.zenscript.annotations.ZenClass;
 
@@ -278,24 +279,6 @@ public class BasicRecipe implements IRecipe {
 		return (double) extras.get(0);
 	}
 	
-	// Fusion
-	
-	public double getFusionComboTime() {
-		return fusion_fuel_time_multiplier * (double) extras.get(0);
-	}
-	
-	public double getFusionComboHeat() {
-		return fusion_fuel_heat_multiplier * (double) extras.get(1);
-	}
-	
-	public double getFusionComboOptimalTemperature() {
-		return (double) extras.get(2);
-	}
-	
-	public double getFusionComboRadiation() {
-		return fusion_fuel_radiation_multiplier * (double) extras.get(3);
-	}
-	
 	// Coolant Heater
 	
 	public int getCoolantHeaterCoolingRate() {
@@ -316,7 +299,7 @@ public class BasicRecipe implements IRecipe {
 	
 	// Heat Exchanger
 	
-	public double getHeatExchangerProcessTime() {
+	public double getHeatExchangerHeatDifference() {
 		return (double) extras.get(0);
 	}
 	
@@ -329,7 +312,39 @@ public class BasicRecipe implements IRecipe {
 	}
 	
 	public boolean getHeatExchangerIsHeating() {
-		return getHeatExchangerInputTemperature() - getHeatExchangerOutputTemperature() < 0;
+		int inputTemperature = getHeatExchangerInputTemperature(), outputTemperature = getHeatExchangerOutputTemperature();
+		if (inputTemperature == outputTemperature) {
+			return (boolean) extras.get(3);
+		}
+		else {
+			return inputTemperature < outputTemperature;
+		}
+	}
+	
+	public int getHeatExchangerPreferredFlowDirection() {
+		return (int) extras.get(4);
+	}
+	
+	public double getHeatExchangerFlowDirectionBonus() {
+		return (double) extras.get(5);
+	}
+	
+	public double getHeatExchangerFlowDirectionMultiplier(Vec3d flowDir) {
+		int preferredFlowDirection = getHeatExchangerPreferredFlowDirection();
+		double flowDirectionBonus = getHeatExchangerFlowDirectionBonus();
+		
+		/*if (preferredFlowDirection == 0) {
+			return Math.max(0D, 1D + flowDirectionBonus * Math.sqrt(flowDir.x * flowDir.x + flowDir.z * flowDir.z));
+		}
+		else if (preferredFlowDirection > 0) {
+			return Math.max(0D, 1D + flowDirectionBonus * flowDir.y);
+		}
+		else {
+			return Math.max(0D, 1D - flowDirectionBonus * flowDir.y);
+		}*/
+		
+		double flowProjection = preferredFlowDirection == 0 ? Math.sqrt(flowDir.x * flowDir.x + flowDir.z * flowDir.z) : (preferredFlowDirection > 0 ? flowDir.y : -flowDir.y);
+		return Math.max(0D, 1D + flowDirectionBonus * (flowProjection > 0.5D ? 1D : (flowProjection > -0.5D ? 0D : -1D)));
 	}
 	
 	// Turbine
@@ -355,14 +370,22 @@ public class BasicRecipe implements IRecipe {
 		return (double) extras.get(4);
 	}
 	
-	// Condenser
+	// Fusion
 	
-	public double getCondenserProcessTime() {
-		return (double) extras.get(0);
+	public double getFusionComboTime() {
+		return fusion_fuel_time_multiplier * (double) extras.get(0);
 	}
 	
-	public int getCondenserCondensingTemperature() {
-		return (int) extras.get(1);
+	public double getFusionComboHeat() {
+		return fusion_fuel_heat_multiplier * (double) extras.get(1);
+	}
+	
+	public double getFusionComboOptimalTemperature() {
+		return (double) extras.get(2);
+	}
+	
+	public double getFusionComboRadiation() {
+		return fusion_fuel_radiation_multiplier * (double) extras.get(3);
 	}
 	
 	// Radiation Scrubber

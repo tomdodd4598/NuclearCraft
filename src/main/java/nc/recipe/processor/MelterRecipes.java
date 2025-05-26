@@ -168,10 +168,13 @@ public class MelterRecipes extends BasicProcessorRecipeHandler {
 		// Fission Materials
 		addFissionMeltingRecipes();
 		
+		String fluidCesium137 = FluidRegHelper.fluidExists("cesium_137") ? "cesium_137" : "caesium_137";
+		
 		addIngotMeltingRecipes("Strontium90", "strontium_90");
 		addIngotMeltingRecipes("Molybdenum", "molybdenum");
 		addIngotMeltingRecipes("Ruthenium106", "ruthenium_106");
-		addIngotMeltingRecipes("Caesium137", "caesium_137");
+		addIngotMeltingRecipes("Cesium137", fluidCesium137);
+		addIngotMeltingRecipes("Caesium137", fluidCesium137);
 		addIngotMeltingRecipes("Promethium147", "promethium_147");
 		addIngotMeltingRecipes("Europium155", "europium_155");
 	}

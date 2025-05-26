@@ -26,8 +26,6 @@ tile.nuclearcraft.ingot_block.manganese_dioxide.name=Manganese Dioxide Block
 
 tile.nuclearcraft.ingot_block2.zirconia.name=Zirconia Block
 tile.nuclearcraft.ingot_block2.palladium.name=Palladium Block
-tile.nuclearcraft.ingot_block2.zirconia.name=Zirconia Block
-tile.nuclearcraft.ingot_block2.palladium.name=Palladium Block
 tile.nuclearcraft.ingot_block2.tin_oxide.name=Tin Oxide Block
 tile.nuclearcraft.ingot_block2.nickel_oxide.name=Nickel Oxide Block
 tile.nuclearcraft.ingot_block2.cobalt_oxide.name=Cobalt Oxide Block
@@ -349,26 +347,27 @@ tile.nuclearcraft.salt_fission_heater2.cryotheum.name=Cryotheum Fission Coolant 
 
 tile.nuclearcraft.salt_fission_heater.cooling_rate=Cooling Rate:
 
-tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller (WIP)
+tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller
+tile.nuclearcraft.condenser_controller.name=Condenser Controller
+
 tile.nuclearcraft.heat_exchanger_casing.name=Heat Exchanger Casing
 tile.nuclearcraft.heat_exchanger_glass.name=Heat Exchanger Glass
-tile.nuclearcraft.heat_exchanger_vent.name=Heat Exchanger Vent
-tile.nuclearcraft.heat_exchanger_vent.desc=Used to move fluid in and out of the exchanger. Will push to [accept from] accepting [pushing] tubes.
+
+tile.nuclearcraft.heat_exchanger_inlet.name=Heat Exchanger Fluid Inlet
+tile.nuclearcraft.heat_exchanger_outlet.name=Heat Exchanger Fluid Outlet
+
 tile.nuclearcraft.heat_exchanger_tube_copper.name=Copper Heat Exchanger Tube
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=Hard Carbon Heat Exchanger Tube
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Thermoconducting Alloy Heat Exchanger Tube
-tile.nuclearcraft.heat_exchanger_tube.fixd=Conductivity Multiplier: %s
-tile.nuclearcraft.heat_exchanger_tube.desc=Holds and transports heat-exchanging fluids. If heating/cooling and adjacent to a cooling/heating exchanger tube, heat will be received/extracted at a rate proportional to the other tube's recipe temperature difference. If the output temperature of the cooled fluid is lower than the output temperature of the heated fluid, the adjacent tubes flows must not be parallel. Place against another exchanger tube while sneaking to copy across its side configuration.
+tile.nuclearcraft.heat_exchanger_tube_heat_transfer_coefficient.fixd=Heat Transfer Coefficient: %s
+tile.nuclearcraft.heat_exchanger_tube_heat_retention_mult.fixd=Heat Retention Multiplier: %s
+tile.nuclearcraft.heat_exchanger_tube.desc=Transfers heat between fluids.
+
+tile.nuclearcraft.heat_exchanger_baffle.name=Heat Exchanger Shell Baffle
+
 tile.nuclearcraft.heat_exchanger_redstone_port.name=Heat Exchanger Redstone Port
 tile.nuclearcraft.heat_exchanger_computer_port.name=Heat Exchanger Computer Port
 tile.nuclearcraft.heat_exchanger_computer_port.desc=Used to access the exchanger via OpenComputers.
-
-tile.nuclearcraft.condenser_controller.name=Condenser Controller (WIP)
-tile.nuclearcraft.condenser_tube_copper.name=Copper Condensation Tube
-tile.nuclearcraft.condenser_tube_hard_carbon.name=Hard Carbon Condensation Tube
-tile.nuclearcraft.condenser_tube_thermoconducting.name=Thermoconducting Alloy Condensation Tube
-tile.nuclearcraft.condenser_tube.fixd=Conductivity Multiplier: %s
-tile.nuclearcraft.condenser_tube.desc=Holds and transports fluids to condense. The condensation rate is proportional to the number of adjacent blocks of fluid colder than the input condensing fluid temperature - the colder the adjacent fluid, the faster the condensation - the speed bonus is the natural logarithm of the ratio of the fluids' temperatures. Place against another condensation tube while sneaking to copy across its side configuration.
 
 tile.nuclearcraft.turbine_controller.name=Turbine Controller
 tile.nuclearcraft.turbine_controller.desc=The heart of the turbine - one is needed in the wall for it to form.
@@ -2494,7 +2493,7 @@ jei.nuclearcraft.solid_fuel_decay_factor=Decay Factor:
 jei.nuclearcraft.solid_fuel_radiation=Base Depletion Radiation:
 jei.nuclearcraft.solid_fuel_self_priming=Self-priming!
 
-jei.nuclearcraft.fission_heating_heat_per_mb=Heat Per Input mB:
+jei.nuclearcraft.fission_heating_required=Heating Required:
 
 jei.nuclearcraft.salt_fuel_time=Base Depletion Time:
 jei.nuclearcraft.salt_fuel_heat=Base Heat Gen:
@@ -2504,7 +2503,7 @@ jei.nuclearcraft.salt_fuel_decay_factor=Decay Factor:
 jei.nuclearcraft.salt_fuel_radiation=Base Depletion Radiation:
 jei.nuclearcraft.salt_fuel_self_priming=Self-priming!
 
-jei.nuclearcraft.fission_emergency_cooling_per_mb=Cooling Per Input mB:
+jei.nuclearcraft.fission_emergency_cooling_heating_required=Heating Required:
 
 jei.nuclearcraft.fusion_time=Base Combo Lifetime:
 jei.nuclearcraft.fusion_heat=Base Heat Gen:
@@ -2519,14 +2518,13 @@ jei.nuclearcraft.salt_fuel_heat=Base Heat Gen:
 
 jei.nuclearcraft.coolant_heater_rate=Cooling Rate:
 
-jei.nuclearcraft.exchanger_fluid_temp=Temperature:
-jei.nuclearcraft.exchanger_heating_provided=Heating Provided:
-jei.nuclearcraft.exchanger_cooling_provided=Cooling Provided:
+jei.nuclearcraft.exchanger_fluid_temp_in=Input Temperature:
+jei.nuclearcraft.exchanger_fluid_temp_out=Output Temperature:
 jei.nuclearcraft.exchanger_heating_required=Heating Required:
 jei.nuclearcraft.exchanger_cooling_required=Cooling Required:
-
-jei.nuclearcraft.condenser_condensing_temp=Condensing Temperature:
-jei.nuclearcraft.condenser_heat_removal_req=Heat Removal Required:
+jei.nuclearcraft.exchanger_horizontal_bonus=Horizontal Flow Bonus:
+jei.nuclearcraft.exchanger_upward_bonus=Upward Flow Bonus:
+jei.nuclearcraft.exchanger_downward_bonus=Downward Flow Bonus:
 
 jei.nuclearcraft.turbine_energy_density=Base Energy Density:
 jei.nuclearcraft.turbine_expansion=Fluid Expansion:
@@ -2744,7 +2742,7 @@ gui.nc.config.fission_sink_cooling_rate=Heat Sink Cooling Rates
 gui.nc.config.fission_sink_cooling_rate.comment=Heat removed per tick by valid heat sinks of this type. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
 gui.nc.config.fission_sink_rule=Heat Sink Placement Rules
 gui.nc.config.fission_sink_rule.comment=Placement rule to be parsed for heat sinks of this type. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
-gui.nc.config.fission_heater_cooling_rate=Heat Sink Cooling Rates
+gui.nc.config.fission_heater_cooling_rate=Coolant Heater Cooling Rates
 gui.nc.config.fission_heater_cooling_rate.comment=Heat removed per tick by functional coolant heaters of this type. Order: standard, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
 gui.nc.config.fission_heater_rule=Coolant Heater Placement Rules
 gui.nc.config.fission_heater_rule.comment=Placement rule to be parsed for coolant heaters of this type. Order: standard, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
@@ -2784,14 +2782,14 @@ gui.nc.config.fission_overheat=Enable Meltdowns
 gui.nc.config.fission_overheat.comment=Can fission reactors overheat?
 gui.nc.config.fission_meltdown_radiation_multiplier=Meltdown Radiation Multiplier
 gui.nc.config.fission_meltdown_radiation_multiplier.comment=Modifies the radiation leaked by meltdowns.
-gui.nc.config.fission_heat_damage=Meltdown Radiation Multiplier
-gui.nc.config.fission_heat_damage.comment=Modifies the radiation leaked by meltdowns.
+gui.nc.config.fission_heat_damage=Heat Contact Damage
+gui.nc.config.fission_heat_damage.comment=Can hot fission components hurt the player? Note that this is disabled by default as the hit boxes of fission reactor components are modified.
 gui.nc.config.fission_neutron_reach=Neutron Radiation Reach
 gui.nc.config.fission_neutron_reach.comment=Maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them.
-gui.nc.config.fission_heat_dissipation=Meltdown Radiation Multiplier
-gui.nc.config.fission_heat_dissipation.comment=Modifies the radiation leaked by meltdowns.
-gui.nc.config.fission_emergency_cooling_multiplier=Meltdown Radiation Multiplier
-gui.nc.config.fission_emergency_cooling_multiplier.comment=Modifies the radiation leaked by meltdowns.
+gui.nc.config.fission_heat_dissipation=Reactor Heat Dissipation
+gui.nc.config.fission_heat_dissipation.comment=Sets whether fission reactors dissipate heat while active and idle, respectively.
+gui.nc.config.fission_emergency_cooling_multiplier=Emergency Cooling Multiplier
+gui.nc.config.fission_emergency_cooling_multiplier.comment=Sets the amount of heat absorbed per mB of emergency coolant.
 gui.nc.config.fission_sound_volume=Fission Sound Volume
 gui.nc.config.fission_sound_volume.comment=Modifier for the volume of fission sound effects.
 
@@ -2974,10 +2972,16 @@ gui.nc.config.heat_exchanger_min_size=Minimum Structure Length
 gui.nc.config.heat_exchanger_min_size.comment=Minimum side length of heat exchangers.
 gui.nc.config.heat_exchanger_max_size=Maximum Structure Length
 gui.nc.config.heat_exchanger_max_size.comment=Maximum side length of heat exchangers.
-gui.nc.config.heat_exchanger_conductivity=Tube Conductivity
-gui.nc.config.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. For heat exchanging tubes, heating recipes will be faster by this factor while cooling recipes will be slower by this factor. For condensation tubes, recipes will simply be faster by this factor. Order: copper, hard carbon, thermoconducting alloy.
-gui.nc.config.heat_exchanger_coolant_mult=Coolant Heat Multiplier
-gui.nc.config.heat_exchanger_coolant_mult.comment=Multiplier for the heat required to cool hot coolant.
+gui.nc.config.heat_exchanger_heat_transfer_coefficient=Tube Heat Transfer Coefficient
+gui.nc.config.heat_exchanger_heat_transfer_coefficient.comment=Multiplier for the heat transfer rate from this type of tube. Order: copper, hard carbon, thermoconducting alloy.
+gui.nc.config.heat_exchanger_heat_retention_mult=Tube Heat Retention Multiplier
+gui.nc.config.heat_exchanger_heat_retention_mult.comment=Multiplier for the contribution to the heating rate from this type of tube. Order: copper, hard carbon, thermoconducting alloy.
+gui.nc.config.heat_exchanger_coolant_heat_mult=Coolant Heat Multiplier
+gui.nc.config.heat_exchanger_coolant_heat_mult.comment=Multiplier for the heat removal required to cool hot coolant.
+gui.nc.config.heat_exchanger_lmtd=Use LMTD
+gui.nc.config.heat_exchanger_lmtd.comment=Will LMTD be used instead of an arithmetic mean temperature difference?
+gui.nc.config.heat_exchanger_alternate_hps_recipe=Alternate HPS Recipe
+gui.nc.config.heat_exchanger_alternate_hps_recipe.comment=Will high pressure steam be cooled into standard steam rather than low pressure steam?
 gui.nc.config.heat_exchanger_alternate_exhaust_recipe=Alternate Exhaust Steam Recipe
 gui.nc.config.heat_exchanger_alternate_exhaust_recipe.comment=Will exhaust steam be heated into standard steam rather than low pressure steam?
 
@@ -3308,8 +3312,6 @@ gui.nc.config.single_creative_tab=Single Creative Tab
 gui.nc.config.single_creative_tab.comment=Combine all creative tabs into a single large one?
 gui.nc.config.ctrl_info=Ctrl For More Info
 gui.nc.config.ctrl_info.comment=Hold down the control key rather than the shift key to show extra tooltip info?
-gui.nc.config.jei_chance_items_include_null=JEI Chance Output Display
-gui.nc.config.jei_chance_items_include_null.comment=Will the chance item output cycle in JEI include empty stacks if a possible output stack size is 0? If false, a minimum stack size of 1 shall be shown - although some info about the recipe is lost this way, it looks much neater. This will only effect the outputs in JEI and not the actual functioning of the machines.
 gui.nc.config.rare_drops=Enable Rare Drops
 gui.nc.config.rare_drops.comment=Will mobs drop rare items?
 gui.nc.config.dungeon_loot=Enable Dungeon Loot
@@ -3370,8 +3372,16 @@ nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=This is not a 
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten salt reactor - there must be no vessels for it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=This is not a molten salt reactor - there must be no heaters for it to form
 
-nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=This is not a heat exchanger - there must be no exchanger tubes for it to form
-nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=This is not a condenser - there must be no condenser tubes for it to form
+nuclearcraft.multiblock_validation.heat_exchanger.invalid_shell=Shell must have at least one inlet and one outlet for the heat exchanger to form
+nuclearcraft.multiblock_validation.heat_exchanger.blocked_inlet=Shell inlet must not be blocked by baffle for the heat exchanger to form
+nuclearcraft.multiblock_validation.heat_exchanger.blocked_outlet=Shell outlet must not be blocked by baffle for the heat exchanger to form
+nuclearcraft.multiblock_validation.heat_exchanger.dangling_tube=Tubes must not have dangling connections for the heat exchanger to form
+nuclearcraft.multiblock_validation.heat_exchanger.invalid_network=Tube networks must have at least one inlet and one outlet for the heat exchanger to form
+nuclearcraft.multiblock_validation.heat_exchanger.blocked_shell=Shell interior must be completely connected for the heat exchanger to form
+
+nuclearcraft.multiblock_validation.condenser.dangling_tube=Tubes must not have dangling connections for the condenser to form
+nuclearcraft.multiblock_validation.condenser.invalid_network=Tube networks must have at least one inlet and one outlet for the condenser to form
+nuclearcraft.multiblock_validation.condenser.blocked_shell=Shell interior must be completely open and connected for the condenser to form
 
 nuclearcraft.multiblock_validation.turbine.need_bearings=There must be two sets of rotor bearings in opposing walls of the turbine for it to form
 nuclearcraft.multiblock_validation.turbine.bearings_side_square=The walls housing the rotor bearings must be square for the turbine to form
@@ -3387,6 +3397,19 @@ nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=There are %s
 
 nuclearcraft.multiblock.fission_reactor_source.no_target=Has no target!
 nuclearcraft.multiblock.fission_reactor_source.target=Targeting %4$s at [%1$d, %2$d, %3$d]
+
+nc.block.energy_toggle=Toggled side to
+nc.block.energy_toggle_opposite=Toggled opposite side to
+
+nc.block.fluid_toggle=Toggled side to
+nc.block.fluid_toggle_opposite=Toggled opposite side to
+
+nc.block.setting.in=INPUT
+nc.block.setting.out=OUTPUT
+nc.block.setting.auto_in=AUTO-INPUT
+nc.block.setting.auto_out=AUTO-OUTPUT
+nc.block.setting.both=BOTH
+nc.block.setting.non=DISABLED
 
 nc.block.vent_toggle=Toggled vent to
 nc.block.port_toggle=Toggled port to
@@ -3404,23 +3427,10 @@ nc.block.port_mode.fluid_input=FLUID INPUT
 nc.block.port_mode.item_output=ITEM OUTPUT
 nc.block.port_mode.fluid_output=FLUID OUTPUT
 
-nc.block.fluid_toggle=Toggled side to
-nc.block.fluid_toggle_opposite=Toggled opposite side to
-
-nc.block.salt_heater_fluid_side.default=DEFAULT
-nc.block.salt_heater_fluid_side.disabled=DISABLED
-nc.block.salt_heater_fluid_side.hot_coolant_out=HOT COOLANT OUT
-nc.block.salt_heater_fluid_side.coolant_spread=COOLANT SPREAD
-
-nc.block.salt_vessel_fluid_side.default=DEFAULT
-nc.block.salt_vessel_fluid_side.disabled=DISABLED
-nc.block.salt_vessel_fluid_side.depleted_out=DEPLETED OUT
-nc.block.salt_vessel_fluid_side.fuel_spread=FUEL SPREAD
-
-nc.block.exchanger_tube_fluid_side.disabled=DISABLED
-nc.block.exchanger_tube_fluid_side.default=DEFAULT
-nc.block.exchanger_tube_fluid_side.product_out=PRODUCT OUT
-nc.block.exchanger_tube_fluid_side.input_spread=INPUT SPREAD
+nc.block.exchanger_tube_fluid_side.closed=CLOSED
+nc.block.exchanger_tube_fluid_side.open=OPEN
+nc.block.exchanger_tube_fluid_side.closed_baffle=CLOSED BAFFLE
+nc.block.exchanger_tube_fluid_side.open_baffle=OPEN BAFFLE
 
 gui.nc.inventory.shift_for_info=Hold Shift for more info
 gui.nc.inventory.ctrl_for_info=Hold Ctrl for more info
@@ -3484,7 +3494,7 @@ gui.nc.container.no_cluster=No cluster!
 gui.nc.container.fission_controller.clusters=Number of Clusters:
 gui.nc.container.fission_controller.sparsity=Sparsity Efficiency Mult:
 gui.nc.container.fission_controller.useful_parts=Useful Components:
-gui.nc.container.fission_controller.temperature=Casing Temperature:
+gui.nc.container.fission_controller.temperature=Casing Temp:
 gui.nc.container.fission_controller.net_heating=Net Casing Heating:
 gui.nc.container.fission_controller.effective_heat=Effective Casing Heat:
 gui.nc.container.fission_controller.reserved_heat=Reserved Casing Heat:
@@ -3513,13 +3523,16 @@ gui.nc.container.salt_fission_heater.heat_stored=Cluster Heat Level:
 
 gui.nc.container.fission_heater_port.name=Fission Coolant Heater Port
 
-gui.nc.container.heat_exchanger_controller.heat_exchanger=Heat Exchanger (WIP)
-gui.nc.container.heat_exchanger_controller.tubes=Number of Tubes:
-gui.nc.container.heat_exchanger_controller.efficiency=Mean Efficiency:
-gui.nc.container.heat_exchanger_controller.efficiency_max=Max Mean Efficiency:
-gui.nc.container.heat_exchanger_controller.active_percent=Tubes Active:
+gui.nc.container.heat_exchanger_controller.heat_exchanger=Heat Exchanger
+gui.nc.container.condenser_controller.condenser=Condenser
 
-gui.nc.container.condenser_controller.condenser=Condenser (WIP)
+gui.nc.container.heat_exchanger_controller.active_tube_count=Tube Count:
+gui.nc.container.heat_exchanger_controller.active_network_count=Network Count:
+gui.nc.container.heat_exchanger_controller.tube_input=Tube Input:
+gui.nc.container.heat_exchanger_controller.shell_input=Shell Input:
+gui.nc.container.heat_exchanger_controller.heat_dissipation_rate=Heat Dissipation:
+gui.nc.container.heat_exchanger_controller.heat_transfer_rate=Heat Transfer:
+gui.nc.container.heat_exchanger_controller.mean_temp_diff=Mean Temp Diff:
 
 gui.nc.container.turbine_controller.turbine=Turbine
 gui.nc.container.turbine_controller.power=Power Output:
@@ -3541,8 +3554,8 @@ gui.nc.container.fusion_core.size=Toroid Size:
 gui.nc.container.fusion_core.energy=Energy:
 gui.nc.container.fusion_core.power=Power:
 gui.nc.container.fusion_core.heat=Temp:
-gui.nc.container.fusion_core.temperature=Temperature:
-gui.nc.container.fusion_core.temperature_change=Temperature Change:
+gui.nc.container.fusion_core.temperature=Temp:
+gui.nc.container.fusion_core.temperature_change=Temp Change:
 gui.nc.container.fusion_core.cooling_rate=Active Cooling Rate:
 gui.nc.container.fusion_core.efficiency=Efficiency:
 gui.nc.container.fusion_core.fuels=Current Fuels:
@@ -3612,8 +3625,7 @@ nuclearcraft.fission_heating.jei_name=Fission Vent Heating
 nuclearcraft.salt_fission.jei_name=Molten Salt Fission
 nuclearcraft.fission_emergency_cooling.jei_name=Fission Emergency Cooling
 nuclearcraft.coolant_heater.jei_name=Molten Salt Cooling
-nuclearcraft.heat_exchanger.jei_name=Heat Exchanger Tube
-nuclearcraft.condenser.jei_name=Condensation Tube
+nuclearcraft.heat_exchanger.jei_name=Heat Exchanger
 nuclearcraft.turbine.jei_name=Turbine
 
 advancement.nuclearcraft.root.name=NuclearCraft
@@ -3745,14 +3757,14 @@ advancement.nuclearcraft.solid_fission_controller.desc=Craft a Solid Fuel Fissio
 advancement.nuclearcraft.salt_fission_controller.name=Next Gen Nuclear [1/2]
 advancement.nuclearcraft.salt_fission_controller.desc=Craft a Molten Salt Fission Controller
 
-advancement.nuclearcraft.turbine_controller.name=Respecting Rankine [1/2]
-advancement.nuclearcraft.turbine_controller.desc=Craft a Turbine Controller
-
 advancement.nuclearcraft.heat_exchanger_controller.name=Thermal Contact [1/2]
 advancement.nuclearcraft.heat_exchanger_controller.desc=Craft a Heat Exchanger Controller
 
-advancement.nuclearcraft.condenser_controller.name=Completing the Circle [1/2]
+advancement.nuclearcraft.condenser_controller.name=Latent Ludwig [1/2]
 advancement.nuclearcraft.condenser_controller.desc=Craft a Condenser Controller
+
+advancement.nuclearcraft.turbine_controller.name=Respecting Rankine [1/2]
+advancement.nuclearcraft.turbine_controller.desc=Craft a Turbine Controller
 
 advancement.nuclearcraft.electrolyzer_assembled.name=Fizzing Electrodes
 advancement.nuclearcraft.electrolyzer_assembled.desc=Build a Multiblock Electrolyzer
@@ -3772,7 +3784,7 @@ advancement.nuclearcraft.salt_fission_reactor_assembled.desc=Build a Molten Salt
 advancement.nuclearcraft.heat_exchanger_assembled.name=Thermal Contact [2/2]
 advancement.nuclearcraft.heat_exchanger_assembled.desc=Build a Heat Exchanger
 
-advancement.nuclearcraft.condenser_assembled.name=Completing the Circle [2/2]
+advancement.nuclearcraft.condenser_assembled.name=Latent Ludwig [2/2]
 advancement.nuclearcraft.condenser_assembled.desc=Build a Condenser
 
 advancement.nuclearcraft.turbine_assembled.name=Respecting Rankine [2/2]

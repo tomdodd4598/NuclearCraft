@@ -1,6 +1,7 @@
 package nc.tile.internal.energy;
 
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.TextFormatting;
 
 public enum EnergyConnection implements IStringSerializable {
 	
@@ -29,6 +30,15 @@ public enum EnergyConnection implements IStringSerializable {
 				case NON -> IN;
 				default -> NON;
 			};
+		};
+	}
+	
+	public TextFormatting getTextColor() {
+		return switch (this) {
+			case IN -> TextFormatting.BLUE;
+			case OUT -> TextFormatting.RED;
+			case BOTH -> TextFormatting.BOLD;
+			case NON -> TextFormatting.GRAY;
 		};
 	}
 	

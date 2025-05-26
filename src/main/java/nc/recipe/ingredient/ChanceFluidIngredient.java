@@ -54,28 +54,35 @@ public class ChanceFluidIngredient implements IChanceFluidIngredient {
 	@Override
 	public List<FluidStack> getInputStackList() {
 		List<FluidStack> stackList = new ArrayList<>();
+		
+		int maxStackSize = getMaxStackSize(0);
+		
 		for (FluidStack stack : ingredient.getInputStackList()) {
-			int runningStackSize = minStackSize;
-			while (runningStackSize <= getMaxStackSize(0)) {
-				FluidStack newStack = stack.copy();
-				newStack.amount = runningStackSize;
-				stackList.add(newStack);
-				runningStackSize += stackDiff;
+			for (int stackSize = minStackSize; stackSize <= maxStackSize; stackSize += stackDiff) {
+				if (stackSize > 0) {
+					FluidStack newStack = stack.copy();
+					newStack.amount = stackSize;
+					stackList.add(newStack);
+				}
 			}
 		}
+		
 		return stackList;
 	}
 	
 	@Override
 	public List<FluidStack> getOutputStackList() {
 		List<FluidStack> stackList = new ArrayList<>();
-		int runningStackSize = minStackSize;
-		while (runningStackSize <= getMaxStackSize(0)) {
-			FluidStack newStack = getStack().copy();
-			newStack.amount = runningStackSize;
+		
+		int maxStackSize = getMaxStackSize(0);
+		FluidStack stack = getStack();
+		
+		for (int stackSize = minStackSize; stackSize <= maxStackSize; stackSize += stackDiff) {
+			FluidStack newStack = stack.copy();
+			newStack.amount = stackSize;
 			stackList.add(newStack);
-			runningStackSize += stackDiff;
 		}
+		
 		return stackList;
 	}
 	

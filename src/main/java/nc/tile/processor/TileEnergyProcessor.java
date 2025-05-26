@@ -109,7 +109,10 @@ public abstract class TileEnergyProcessor<TILE extends TileEnergyProcessor<TILE,
 	@Override
 	public void update() {
 		if (!world.isRemote) {
-			onTick();
+			if (onTick()) {
+				markDirty();
+			}
+			
 			if (info.isGenerator) {
 				pushEnergy();
 			}

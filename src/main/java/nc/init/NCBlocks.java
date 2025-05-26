@@ -160,19 +160,18 @@ public class NCBlocks {
 	public static Block salt_fission_heater2;
 	
 	public static Block heat_exchanger_controller;
+	public static Block condenser_controller;
+	
 	public static Block heat_exchanger_casing;
 	public static Block heat_exchanger_glass;
-	public static Block heat_exchanger_vent;
+	public static Block heat_exchanger_inlet;
+	public static Block heat_exchanger_outlet;
 	public static Block heat_exchanger_tube_copper;
 	public static Block heat_exchanger_tube_hard_carbon;
 	public static Block heat_exchanger_tube_thermoconducting;
+	public static Block heat_exchanger_baffle;
 	public static Block heat_exchanger_redstone_port;
 	public static Block heat_exchanger_computer_port;
-	
-	public static Block condenser_controller;
-	public static Block condenser_tube_copper;
-	public static Block condenser_tube_hard_carbon;
-	public static Block condenser_tube_thermoconducting;
 	
 	public static Block turbine_controller;
 	public static Block turbine_casing;
@@ -331,21 +330,19 @@ public class NCBlocks {
 		infiltrator_pressure_chamber = addWithName(Global.MOD_ID, "infiltrator_pressure_chamber", new BlockInfiltratorPressureChamber());
 		infiltrator_heating_unit = addWithName(Global.MOD_ID, "infiltrator_heating_unit", new BlockInfiltratorHeatingUnit());
 		
-		IntFunction<String[]> rtgInfo = x -> InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "rtg"), UnitHelper.prefix(rtg_power[x], 5, "RF/t"));
-		rtg_uranium = addWithName(Global.MOD_ID, "rtg_uranium", new BlockRTG(RTGType.URANIUM), rtgInfo.apply(0));
-		rtg_plutonium = addWithName(Global.MOD_ID, "rtg_plutonium", new BlockRTG(RTGType.PLUTONIUM), rtgInfo.apply(1));
-		rtg_americium = addWithName(Global.MOD_ID, "rtg_americium", new BlockRTG(RTGType.AMERICIUM), rtgInfo.apply(2));
-		rtg_californium = addWithName(Global.MOD_ID, "rtg_californium", new BlockRTG(RTGType.CALIFORNIUM), rtgInfo.apply(3));
+		rtg_uranium = addWithName(Global.MOD_ID, "rtg_uranium", new BlockRTG(RTGType.URANIUM), NCInfo.rtgInfo(rtg_power[0]));
+		rtg_plutonium = addWithName(Global.MOD_ID, "rtg_plutonium", new BlockRTG(RTGType.PLUTONIUM), NCInfo.rtgInfo(rtg_power[1]));
+		rtg_americium = addWithName(Global.MOD_ID, "rtg_americium", new BlockRTG(RTGType.AMERICIUM), NCInfo.rtgInfo(rtg_power[2]));
+		rtg_californium = addWithName(Global.MOD_ID, "rtg_californium", new BlockRTG(RTGType.CALIFORNIUM), NCInfo.rtgInfo(rtg_power[3]));
 		
-		IntFunction<String[]> solarPanelInfo = x -> InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "solar_panel"), UnitHelper.prefix(solar_power[x], 5, "RF/t"));
-		solar_panel_basic = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_basic"), solarPanelInfo.apply(0));
-		solar_panel_advanced = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_advanced"), solarPanelInfo.apply(1));
-		solar_panel_du = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_du"), solarPanelInfo.apply(2));
-		solar_panel_elite = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_elite"), solarPanelInfo.apply(3));
+		solar_panel_basic = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_basic"), NCInfo.rtgInfo(solar_power[0]));
+		solar_panel_advanced = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_advanced"), NCInfo.rtgInfo(solar_power[1]));
+		solar_panel_du = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_du"), NCInfo.rtgInfo(solar_power[2]));
+		solar_panel_elite = addWithName(Global.MOD_ID, new BlockSimpleTile<>("solar_panel_elite"), NCInfo.rtgInfo(solar_power[3]));
 		
 		decay_generator = addWithName(Global.MOD_ID, new BlockSimpleTile<>("decay_generator"));
 		
-		Function<BlockBattery, ItemBlockBattery> itemBlockBatteryFunction = x -> new ItemBlockBattery(x, InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "energy_storage")));
+		Function<BlockBattery, ItemBlockBattery> itemBlockBatteryFunction = x -> new ItemBlockBattery(x, NCInfo.batteryInfo());
 		if (register_battery[0]) {
 			voltaic_pile_basic = addWithName(Global.MOD_ID, "voltaic_pile_basic", new BlockBattery(BatteryBlockType.VOLTAIC_PILE_BASIC), itemBlockBatteryFunction);
 			voltaic_pile_advanced = addWithName(Global.MOD_ID, "voltaic_pile_advanced", new BlockBattery(BatteryBlockType.VOLTAIC_PILE_ADVANCED), itemBlockBatteryFunction);
@@ -395,35 +392,35 @@ public class NCBlocks {
 		salt_fission_heater2 = addWithNameMeta(Global.MOD_ID, "salt_fission_heater2", new BlockSaltFissionMetaHeater2(), x -> new ItemBlockMeta<>(x, TextFormatting.BLUE, NCInfo.coolantHeaterFixedInfo2(), TextFormatting.AQUA, InfoHelper.NULL_ARRAYS), x -> "type=" + x);
 		
 		heat_exchanger_controller = addWithName(Global.MOD_ID, "heat_exchanger_controller", new BlockHeatExchangerController());
+		condenser_controller = addWithName(Global.MOD_ID, "condenser_controller", new BlockCondenserController());
+		
 		heat_exchanger_casing = addWithName(Global.MOD_ID, "heat_exchanger_casing", new BlockHeatExchangerCasing());
 		heat_exchanger_glass = addWithName(Global.MOD_ID, "heat_exchanger_glass", new BlockHeatExchangerGlass());
-		heat_exchanger_vent = addWithName(Global.MOD_ID, "heat_exchanger_vent", new BlockHeatExchangerVent());
 		
-		TriFunction<Block, String, Integer, NCItemBlock> hxTubeItemBlockFunction = (x, y, z) -> new NCItemBlock(x, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine(Global.MOD_ID, y), NCMath.pcDecimalPlaces(heat_exchanger_conductivity[z], 1)), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine(Global.MOD_ID, y)));
-		heat_exchanger_tube_copper = addWithName(Global.MOD_ID, "heat_exchanger_tube_copper", new BlockHeatExchangerTube(HeatExchangerTubeType.COPPER), x -> hxTubeItemBlockFunction.apply(x, "heat_exchanger_tube", 0));
-		heat_exchanger_tube_hard_carbon = addWithName(Global.MOD_ID, "heat_exchanger_tube_hard_carbon", new BlockHeatExchangerTube(HeatExchangerTubeType.HARD_CARBON), x -> hxTubeItemBlockFunction.apply(x, "heat_exchanger_tube", 1));
-		heat_exchanger_tube_thermoconducting = addWithName(Global.MOD_ID, "heat_exchanger_tube_thermoconducting", new BlockHeatExchangerTube(HeatExchangerTubeType.THERMOCONDUCTING), x -> hxTubeItemBlockFunction.apply(x, "heat_exchanger_tube", 2));
+		heat_exchanger_inlet = addWithName(Global.MOD_ID, "heat_exchanger_inlet", new BlockHeatExchangerInlet());
+		heat_exchanger_outlet = addWithName(Global.MOD_ID, "heat_exchanger_outlet", new BlockHeatExchangerOutlet());
+		
+		ObjIntFunction<Block, NCItemBlock> hxTubeItemBlockFunction = (x, y) -> new NCItemBlock(x, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.BLUE}, NCInfo.hxTubeFixedInfo(heat_exchanger_heat_transfer_coefficient[y], heat_exchanger_heat_retention_mult[y]), TextFormatting.AQUA, NCInfo.hxTubeInfo());
+		heat_exchanger_tube_copper = addWithName(Global.MOD_ID, "heat_exchanger_tube_copper", new BlockHeatExchangerTube(HeatExchangerTubeType.COPPER), x -> hxTubeItemBlockFunction.apply(x, 0));
+		heat_exchanger_tube_hard_carbon = addWithName(Global.MOD_ID, "heat_exchanger_tube_hard_carbon", new BlockHeatExchangerTube(HeatExchangerTubeType.HARD_CARBON), x -> hxTubeItemBlockFunction.apply(x, 1));
+		heat_exchanger_tube_thermoconducting = addWithName(Global.MOD_ID, "heat_exchanger_tube_thermoconducting", new BlockHeatExchangerTube(HeatExchangerTubeType.THERMOCONDUCTING), x -> hxTubeItemBlockFunction.apply(x, 2));
+		
+		heat_exchanger_baffle = addWithName(Global.MOD_ID, "heat_exchanger_baffle", new BlockHeatExchangerBaffle());
 		
 		heat_exchanger_redstone_port = addWithName(Global.MOD_ID, "heat_exchanger_redstone_port", new BlockHeatExchangerRedstonePort());
 		heat_exchanger_computer_port = addWithName(Global.MOD_ID, "heat_exchanger_computer_port", new BlockHeatExchangerComputerPort());
-		
-		condenser_controller = addWithName(Global.MOD_ID, "condenser_controller", new BlockCondenserController());
-		
-		condenser_tube_copper = addWithName(Global.MOD_ID, "condenser_tube_copper", new BlockCondenserTube(HeatExchangerTubeType.COPPER), x -> hxTubeItemBlockFunction.apply(x, "condenser_tube", 0));
-		condenser_tube_hard_carbon = addWithName(Global.MOD_ID, "condenser_tube_hard_carbon", new BlockCondenserTube(HeatExchangerTubeType.HARD_CARBON), x -> hxTubeItemBlockFunction.apply(x, "condenser_tube", 1));
-		condenser_tube_thermoconducting = addWithName(Global.MOD_ID, "condenser_tube_thermoconducting", new BlockCondenserTube(HeatExchangerTubeType.THERMOCONDUCTING), x -> hxTubeItemBlockFunction.apply(x, "condenser_tube", 2));
 		
 		turbine_controller = addWithName(Global.MOD_ID, "turbine_controller", new BlockTurbineController());
 		turbine_casing = addWithName(Global.MOD_ID, "turbine_casing", new BlockTurbineCasing());
 		turbine_glass = addWithName(Global.MOD_ID, "turbine_glass", new BlockTurbineGlass());
 		turbine_rotor_shaft = addWithName(Global.MOD_ID, "turbine_rotor_shaft", new BlockTurbineRotorShaft());
 		
-		ObjIntFunction<Block, ItemBlock> turbineBladeItemBlockFunction = (x, y) -> new NCItemBlock(x, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(fixedLine(Global.MOD_ID, "turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(turbine_blade_efficiency[y], 1)), Lang.localize(fixedLine(Global.MOD_ID, "turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(turbine_blade_expansion[y], 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		ObjIntFunction<Block, ItemBlock> turbineBladeItemBlockFunction = (x, y) -> new NCItemBlock(x, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, NCInfo.rotorBladeFixedInfo(turbine_blade_efficiency[y], turbine_blade_expansion[y]), TextFormatting.AQUA, NCInfo.rotorBladeInfo());
 		turbine_rotor_blade_steel = addWithName(Global.MOD_ID, "turbine_rotor_blade_steel", new BlockTurbineRotorBlade(TurbineRotorBladeType.STEEL), x -> turbineBladeItemBlockFunction.apply(x, 0));
 		turbine_rotor_blade_extreme = addWithName(Global.MOD_ID, "turbine_rotor_blade_extreme", new BlockTurbineRotorBlade(TurbineRotorBladeType.EXTREME), x -> turbineBladeItemBlockFunction.apply(x, 1));
 		turbine_rotor_blade_sic_sic_cmc = addWithName(Global.MOD_ID, "turbine_rotor_blade_sic_sic_cmc", new BlockTurbineRotorBlade(TurbineRotorBladeType.SIC_SIC_CMC), x -> turbineBladeItemBlockFunction.apply(x, 2));
 		
-		turbine_rotor_stator = addWithName(Global.MOD_ID, "turbine_rotor_stator", new BlockTurbineRotorStator(TurbineRotorStatorType.STANDARD), x -> new NCItemBlock(x, TextFormatting.GRAY, new String[] {Lang.localize(fixedLine(Global.MOD_ID, "turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(turbine_stator_expansion, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine(Global.MOD_ID, "turbine_rotor_stator"))));
+		turbine_rotor_stator = addWithName(Global.MOD_ID, "turbine_rotor_stator", new BlockTurbineRotorStator(TurbineRotorStatorType.STANDARD), x -> new NCItemBlock(x, TextFormatting.GRAY, NCInfo.rotorStatorFixedInfo(turbine_stator_expansion), TextFormatting.AQUA, NCInfo.rotorStatorInfo()));
 		
 		turbine_rotor_bearing = addWithName(Global.MOD_ID, "turbine_rotor_bearing", new BlockTurbineRotorBearing());
 		turbine_dynamo_coil = addWithNameMeta(Global.MOD_ID, "turbine_dynamo_coil", new BlockTurbineMetaDynamoCoil(), x -> new ItemBlockMeta<>(x, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, InfoHelper.NULL_ARRAYS), x -> "type=" + x);

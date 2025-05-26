@@ -1,27 +1,27 @@
 package nc.multiblock.fission;
 
+import it.unimi.dsi.fastutil.longs.*;
 import nc.tile.fission.TileSaltFissionVessel;
 import net.minecraft.util.EnumFacing;
 
-public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVessel> {
+public class SaltFissionVesselBunch {
+	
+	public boolean initialized = false;
+	
+	public final Long2ObjectMap<TileSaltFissionVessel> vesselMap = new Long2ObjectOpenHashMap<>();
 	
 	public long sources = 0L, flux = 0L;
 	public boolean primed = false, statsRetrieved = false;
 	
-	protected long openFaces = 0L;
-	
-	public SaltFissionVesselBunch(FissionReactor reactor) {
-		super(reactor);
-	}
+	public long openFaces = 0L;
 	
 	// TODO
-	@Override
-	protected void init() {
+	public void init() {
 		if (!initialized) {
-			for (TileSaltFissionVessel vessel : partMap.values()) {
+			for (TileSaltFissionVessel vessel : vesselMap.values()) {
 				int i = 6;
 				for (EnumFacing dir : EnumFacing.VALUES) {
-					if (partMap.containsKey(vessel.getPos().offset(dir).toLong())) {
+					if (vesselMap.containsKey(vessel.getPos().offset(dir).toLong())) {
 						--i;
 					}
 				}
@@ -32,7 +32,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	}
 	
 	public long getBunchingFactor() {
-		return 6L * partMap.size() / openFaces;
+		return 6L * vesselMap.size() / openFaces;
 	}
 	
 	public long getSurfaceFactor() {
@@ -45,7 +45,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public long getRawHeating() {
 		long rawHeating = 0L;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (vessel.isProcessing) {
 				rawHeating += (long) vessel.baseProcessHeat * vessel.heatMult;
 			}
@@ -55,7 +55,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public long getRawHeatingIgnoreCoolingPenalty() {
 		long rawHeatingIgnoreCoolingPenalty = 0L;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (!vessel.isProcessing) {
 				rawHeatingIgnoreCoolingPenalty += vessel.getDecayHeating();
 			}
@@ -65,7 +65,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public double getEffectiveHeating() {
 		double effectiveHeating = 0D;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (vessel.isProcessing) {
 				effectiveHeating += vessel.baseProcessHeat * vessel.heatMult * vessel.baseProcessEfficiency * vessel.getSourceEfficiency() * vessel.getModeratorEfficiencyFactor() * getFluxEfficiencyFactor(vessel.getFloatingPointCriticality());
 			}
@@ -75,7 +75,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public double getEffectiveHeatingIgnoreCoolingPenalty() {
 		double effectiveHeatingIgnoreCoolingPenalty = 0D;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (!vessel.isProcessing) {
 				effectiveHeatingIgnoreCoolingPenalty += vessel.getFloatingPointDecayHeating();
 			}
@@ -85,7 +85,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public long getHeatMultiplier() {
 		long rawHeatMult = 0L;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (vessel.isProcessing) {
 				rawHeatMult += vessel.heatMult;
 			}
@@ -99,7 +99,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public double getEfficiency() {
 		double efficiency = 0D;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (vessel.isProcessing) {
 				efficiency += vessel.heatMult * vessel.baseProcessEfficiency * vessel.getSourceEfficiency() * vessel.getModeratorEfficiencyFactor() * getFluxEfficiencyFactor(vessel.getFloatingPointCriticality());
 			}
@@ -109,7 +109,7 @@ public class SaltFissionVesselBunch extends FissionPartBunch<TileSaltFissionVess
 	
 	public double getEfficiencyIgnoreCoolingPenalty() {
 		double efficiencyIgnoreCoolingPenalty = 0D;
-		for (TileSaltFissionVessel vessel : partMap.values()) {
+		for (TileSaltFissionVessel vessel : vesselMap.values()) {
 			if (!vessel.isProcessing) {
 				++efficiencyIgnoreCoolingPenalty;
 			}

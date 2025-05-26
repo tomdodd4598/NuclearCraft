@@ -131,6 +131,11 @@ public class EnergyStorage implements IEnergyStorage {
 		other.setEnergyStored(0L);
 	}
 	
+	@Override
+	public String toString() {
+		return "EnergyStorage[" + energyStored + "/" + energyCapacity + "]";
+	}
+	
 	// NBT
 	
 	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {

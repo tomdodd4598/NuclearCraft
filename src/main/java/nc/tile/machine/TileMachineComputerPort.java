@@ -64,15 +64,15 @@ public class TileMachineComputerPort extends TileMachinePart implements SimpleCo
 	@Callback(direct = true)
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getIsProcessing(Context context, Arguments args) {
-		MachineLogic logic = isMultiblockAssembled() ? null : getLogic();
-		return new Object[] {logic != null && logic.isProcessing};
+		Machine machine = isMultiblockAssembled() ? null : getMultiblock();
+		return new Object[] {machine != null && machine.processor.isProcessing};
 	}
 	
 	@Callback(direct = true)
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getCurrentTime(Context context, Arguments args) {
-		MachineLogic logic = isMultiblockAssembled() ? null : getLogic();
-		return new Object[] {logic == null ? 0D : logic.time};
+		Machine machine = isMultiblockAssembled() ? null : getMultiblock();
+		return new Object[] {machine == null ? 0D : machine.processor.time};
 	}
 	
 	@Callback(direct = true)
@@ -92,29 +92,29 @@ public class TileMachineComputerPort extends TileMachinePart implements SimpleCo
 	@Callback(direct = true)
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getItemInputs(Context context, Arguments args) {
-		MachineLogic logic = isMultiblockAssembled() ? null : getLogic();
-		return new Object[] {OCHelper.stackInfoArray(logic == null ? Collections.emptyList() : logic.getItemInputs(false))};
+		Machine machine = isMultiblockAssembled() ? null : getMultiblock();
+		return new Object[] {OCHelper.stackInfoArray(machine == null ? Collections.emptyList() : machine.processor.getItemInputs(false))};
 	}
 	
 	@Callback(direct = true)
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFluidInputs(Context context, Arguments args) {
-		MachineLogic logic = isMultiblockAssembled() ? null : getLogic();
-		return new Object[] {OCHelper.tankInfoArray(logic == null ? Collections.emptyList() : logic.getFluidInputs(false))};
+		Machine machine = isMultiblockAssembled() ? null : getMultiblock();
+		return new Object[] {OCHelper.tankInfoArray(machine == null ? Collections.emptyList() : machine.processor.getFluidInputs(false))};
 	}
 	
 	@Callback(direct = true)
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getItemOutputs(Context context, Arguments args) {
-		MachineLogic logic = isMultiblockAssembled() ? null : getLogic();
-		return new Object[] {OCHelper.stackInfoArray(logic == null ? Collections.emptyList() : logic.getItemOutputs())};
+		Machine machine = isMultiblockAssembled() ? null : getMultiblock();
+		return new Object[] {OCHelper.stackInfoArray(machine == null ? Collections.emptyList() : machine.processor.getItemOutputs())};
 	}
 	
 	@Callback(direct = true)
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFluidOutputs(Context context, Arguments args) {
-		MachineLogic logic = isMultiblockAssembled() ? null : getLogic();
-		return new Object[] {OCHelper.tankInfoArray(logic == null ? Collections.emptyList() : logic.getFluidOutputs())};
+		Machine machine = isMultiblockAssembled() ? null : getMultiblock();
+		return new Object[] {OCHelper.tankInfoArray(machine == null ? Collections.emptyList() : machine.processor.getFluidOutputs())};
 	}
 	
 	@Callback

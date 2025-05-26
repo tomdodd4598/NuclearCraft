@@ -10,8 +10,6 @@ import net.minecraftforge.fml.common.Optional;
 
 import java.util.*;
 
-import static nc.config.NCConfig.jei_chance_items_include_null;
-
 public class ChanceItemIngredient implements IChanceItemIngredient {
 	
 	// ONLY USED AS AN OUTPUT, SO INGREDIENT NUMBER DOES NOT MATTER!
@@ -46,36 +44,35 @@ public class ChanceItemIngredient implements IChanceItemIngredient {
 	@Override
 	public List<ItemStack> getInputStackList() {
 		List<ItemStack> stackList = new ArrayList<>();
+		
+		int maxStackSize = getMaxStackSize(0);
+		
 		for (ItemStack stack : ingredient.getInputStackList()) {
-			for (int i = minStackSize; i <= getMaxStackSize(0); ++i) {
-				if (i <= 0) {
-					// stackList.add(null);
-				}
-				else {
+			for (int stackSize = minStackSize; stackSize <= maxStackSize; ++stackSize) {
+				if (stackSize > 0) {
 					ItemStack newStack = stack.copy();
-					newStack.setCount(i);
+					newStack.setCount(stackSize);
 					stackList.add(newStack);
 				}
 			}
 		}
+		
 		return stackList;
 	}
 	
 	@Override
 	public List<ItemStack> getOutputStackList() {
 		List<ItemStack> stackList = new ArrayList<>();
-		for (int i = minStackSize; i <= getMaxStackSize(0); ++i) {
-			if (i == 0) {
-				if (jei_chance_items_include_null) {
-					stackList.add(null);
-				}
-			}
-			else {
-				ItemStack newStack = getStack().copy();
-				newStack.setCount(i);
-				stackList.add(newStack);
-			}
+		
+		int maxStackSize = getMaxStackSize(0);
+		ItemStack stack = getStack();
+		
+		for (int stackSize = minStackSize; stackSize <= maxStackSize; ++stackSize) {
+			ItemStack newStack = stack.copy();
+			newStack.setCount(stackSize);
+			stackList.add(newStack);
 		}
+		
 		return stackList;
 	}
 	

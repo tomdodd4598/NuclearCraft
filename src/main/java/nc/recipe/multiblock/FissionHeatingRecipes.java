@@ -1,11 +1,11 @@
 package nc.recipe.multiblock;
 
-import com.google.common.collect.Lists;
 import nc.recipe.BasicRecipeHandler;
 
 import java.util.List;
 
-import static nc.config.NCConfig.rf_per_eu;
+import static nc.config.NCConfig.*;
+import static nc.init.NCCoolantFluids.COOLANTS;
 
 public class FissionHeatingRecipes extends BasicRecipeHandler {
 	
@@ -15,9 +15,16 @@ public class FissionHeatingRecipes extends BasicRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStackList(Lists.newArrayList("water", "condensate_water"), 1), fluidStack("high_pressure_steam", 4), 64);
+		addRecipe(fluidStack("water", 1), fluidStack("high_pressure_steam", 4), 64);
 		addRecipe(fluidStack("preheated_water", 1), fluidStack("high_pressure_steam", 4), 32);
 		addRecipe(fluidStack("ic2coolant", 1), fluidStack("ic2hot_coolant", 1), 10 * rf_per_eu);
+		
+		// Hot NaK -> NaK
+		
+		addRecipe(fluidStack("nak", 1), fluidStack("nak_hot", 1), fission_heater_cooling_rate[0]);
+		for (int i = 1; i < COOLANTS.size(); ++i) {
+			addRecipe(fluidStack(COOLANTS.get(i) + "_nak", 1), fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fission_heater_cooling_rate[i]);
+		}
 	}
 	
 	@Override

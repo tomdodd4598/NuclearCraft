@@ -10,6 +10,7 @@ import nc.*;
 import nc.block.battery.BlockBattery;
 import nc.block.fission.*;
 import nc.block.fission.port.BlockFissionFluidPort;
+import nc.block.hx.BlockHeatExchangerTube;
 import nc.block.item.NCItemBlock;
 import nc.block.item.energy.ItemBlockBattery;
 import nc.block.rtg.BlockRTG;
@@ -30,6 +31,7 @@ import nc.tab.NCTabs;
 import nc.tile.battery.TileBattery;
 import nc.tile.fission.*;
 import nc.tile.fission.port.TileFissionHeaterPort;
+import nc.tile.hx.TileHeatExchangerTube;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.tile.processor.info.builder.ProcessorContainerInfoBuilder;
 import nc.tile.rtg.TileRTG;
@@ -52,7 +54,6 @@ import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 
-import static nc.config.NCConfig.turbine_mb_per_blade;
 import static nc.recipe.AbstractRecipeHandler.*;
 import static nc.util.FluidStackHelper.*;
 
@@ -111,11 +112,11 @@ public class CTRegistration {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {
-				return new TileFissionSource(efficiency);
+				return new TileFissionSource(sourceID, efficiency);
 			}
 		}));
 		
-		INFO_LIST.add(new FissionSourceRegistrationInfo(source, efficiency));
+		INFO_LIST.add(new FissionSourceRegistrationInfo(source, sourceID, efficiency));
 		CraftTweakerAPI.logInfo("Registered fission neutron source with ID \"" + sourceID + "\" and efficiency " + efficiency);
 	}
 	
@@ -126,12 +127,27 @@ public class CTRegistration {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {
-				return new TileFissionShield(heatPerFlux, efficiency);
+				return new TileFissionShield(shieldID, heatPerFlux, efficiency);
 			}
 		}));
 		
-		INFO_LIST.add(new FissionShieldRegistrationInfo(shield, heatPerFlux, efficiency));
+		INFO_LIST.add(new FissionShieldRegistrationInfo(shield, shieldID, heatPerFlux, efficiency));
 		CraftTweakerAPI.logInfo("Registered fission neutron shield with ID \"" + shieldID + "\", heat per flux " + heatPerFlux + " H/N and efficiency " + efficiency);
+	}
+	
+	@ZenMethod
+	public static void registerHeatExchangerTube(String tubeID, double heatTransferCoefficient, double heatRetentionMult) {
+		
+		Lazy<Block> tube = new Lazy<>(() -> NCBlocks.withName(Global.MOD_ID, "heat_exchanger_tube_" + tubeID, new BlockHeatExchangerTube(null) {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileHeatExchangerTube(tubeID, heatTransferCoefficient, heatRetentionMult);
+			}
+		}));
+		
+		INFO_LIST.add(new HeatExchangerTubeRegistrationInfo(tube, tubeID, heatTransferCoefficient, heatRetentionMult));
+		CraftTweakerAPI.logInfo("Registered heat exchanger tube with ID \"" + tubeID + "\", heat transfer coefficient " + heatTransferCoefficient + " and heat retention multiplier " + heatRetentionMult);
 	}
 	
 	@ZenMethod
@@ -168,7 +184,6 @@ public class CTRegistration {
 			public double getExpansionCoefficient() {
 				return expansionCoefficient;
 			}
-			
 		};
 		
 		Lazy<Block> blade = new Lazy<>(() -> NCBlocks.withName(Global.MOD_ID, "turbine_rotor_blade_" + bladeID, new BlockTurbineRotorBlade(null) {
@@ -179,7 +194,7 @@ public class CTRegistration {
 			}
 		}));
 		
-		INFO_LIST.add(new TurbineBladeRegistrationInfo(blade, efficiency, expansionCoefficient));
+		INFO_LIST.add(new TurbineBladeRegistrationInfo(blade, bladeType));
 		CraftTweakerAPI.logInfo("Registered turbine rotor blade with ID \"" + bladeID + "\", efficiency " + efficiency + " and expansion coefficient " + expansionCoefficient);
 	}
 	
@@ -197,7 +212,6 @@ public class CTRegistration {
 			public double getExpansionCoefficient() {
 				return expansionCoefficient;
 			}
-			
 		};
 		
 		Lazy<Block> stator = new Lazy<>(() -> NCBlocks.withName(Global.MOD_ID, "turbine_rotor_stator_" + statorID, new BlockTurbineRotorStator(null) {
@@ -208,7 +222,7 @@ public class CTRegistration {
 			}
 		}));
 		
-		INFO_LIST.add(new TurbineStatorRegistrationInfo(stator, expansionCoefficient));
+		INFO_LIST.add(new TurbineStatorRegistrationInfo(stator, statorType));
 		CraftTweakerAPI.logInfo("Registered turbine rotor stator with ID \"" + statorID + "\" and expansion coefficient " + expansionCoefficient);
 	}
 	
@@ -219,11 +233,11 @@ public class CTRegistration {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {
-				return new TileRTG(power, radiation);
+				return new TileRTG(rtgID, power, radiation);
 			}
 		}));
 		
-		INFO_LIST.add(new RTGRegistrationInfo(rtg, power));
+		INFO_LIST.add(new RTGRegistrationInfo(rtg, rtgID, power, radiation));
 		CraftTweakerAPI.logInfo("Registered RTG with ID \"" + rtgID + "\", power " + power + " RF/t and radiation " + radiation + " Rad/t");
 	}
 	
@@ -234,11 +248,11 @@ public class CTRegistration {
 			
 			@Override
 			public TileEntity createNewTileEntity(World world, int metadata) {
-				return new TileBattery(capacity, energyTier);
+				return new TileBattery(batteryID, capacity, energyTier);
 			}
 		}));
 		
-		INFO_LIST.add(new BatteryRegistrationInfo(battery, capacity, energyTier));
+		INFO_LIST.add(new BatteryRegistrationInfo(battery, batteryID, capacity, energyTier));
 		CraftTweakerAPI.logInfo("Registered battery with ID \"" + batteryID + "\", capacity " + capacity + " RF/t and energy tier " + energyTier);
 	}
 	
@@ -510,6 +524,8 @@ public class CTRegistration {
 		@Override
 		public void init() {
 			super.init();
+			TileSolidFissionSink.DYN_COOLING_RATE_MAP.put(sinkID, cooling);
+			TileSolidFissionSink.DYN_RULE_ID_MAP.put(sinkID, sinkID + "_sink");
 			FissionPlacement.addRule(sinkID + "_sink", rule, block.get());
 		}
 	}
@@ -543,6 +559,7 @@ public class CTRegistration {
 		@Override
 		public void init() {
 			super.init();
+			TileSaltFissionHeater.DYN_COOLANT_NAME_MAP.put(heaterID, fluidInput);
 			FissionPlacement.addRule(heaterID + "_heater", rule, block.get());
 		}
 	}
@@ -559,10 +576,12 @@ public class CTRegistration {
 	
 	public static class FissionSourceRegistrationInfo extends TileBlockRegistrationInfo {
 		
+		public final String sourceID;
 		public final double efficiency;
 		
-		FissionSourceRegistrationInfo(Lazy<Block> block, double efficiency) {
+		FissionSourceRegistrationInfo(Lazy<Block> block, String sourceID, double efficiency) {
 			super(block);
+			this.sourceID = sourceID;
 			this.efficiency = efficiency;
 		}
 		
@@ -570,14 +589,22 @@ public class CTRegistration {
 		public void registerBlock() {
 			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceEfficiencyInfo(efficiency), TextFormatting.AQUA, NCInfo.neutronSourceDescriptionInfo()));
 		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileFissionSource.DYN_EFFICIENCY_MAP.put(sourceID, efficiency);
+		}
 	}
 	
 	public static class FissionShieldRegistrationInfo extends TileBlockRegistrationInfo {
 		
+		public final String shieldID;
 		public final double heatPerFlux, efficiency;
 		
-		FissionShieldRegistrationInfo(Lazy<Block> block, double heatPerFlux, double efficiency) {
+		FissionShieldRegistrationInfo(Lazy<Block> block, String shieldID, double heatPerFlux, double efficiency) {
 			super(block);
+			this.shieldID = shieldID;
 			this.heatPerFlux = heatPerFlux;
 			this.efficiency = efficiency;
 		}
@@ -585,6 +612,38 @@ public class CTRegistration {
 		@Override
 		public void registerBlock() {
 			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, NCInfo.neutronShieldStatInfo(heatPerFlux, efficiency), TextFormatting.AQUA, NCInfo.neutronShieldDescriptionInfo()));
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileFissionShield.DYN_HEAT_PER_FLUX_MAP.put(shieldID, heatPerFlux);
+			TileFissionShield.DYN_EFFICIENCY_MAP.put(shieldID, efficiency);
+		}
+	}
+	
+	public static class HeatExchangerTubeRegistrationInfo extends TileBlockRegistrationInfo {
+		
+		protected final String tubeID;
+		protected final double heatTransferCoefficient, heatRetentionMult;
+		
+		HeatExchangerTubeRegistrationInfo(Lazy<Block> block, String tubeID, double heatTransferCoefficient, double heatRetentionMult) {
+			super(block);
+			this.tubeID = tubeID;
+			this.heatTransferCoefficient = heatTransferCoefficient;
+			this.heatRetentionMult = heatRetentionMult;
+		}
+		
+		@Override
+		public void registerBlock() {
+			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.BLUE}, NCInfo.hxTubeFixedInfo(heatTransferCoefficient, heatRetentionMult), TextFormatting.AQUA, NCInfo.hxTubeInfo()));
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileHeatExchangerTube.DYN_HEAT_TRANSFER_COEFFICIENT_MAP.put(tubeID, heatTransferCoefficient);
+			TileHeatExchangerTube.DYN_HEAT_RETENTION_MULT_MAP.put(tubeID, heatRetentionMult);
 		}
 	}
 	
@@ -608,70 +667,103 @@ public class CTRegistration {
 		@Override
 		public void init() {
 			super.init();
+			TileTurbineDynamoPart.DYN_CONDUCTIVITY_MAP.put(coilID, conductivity);
+			TileTurbineDynamoPart.DYN_RULE_ID_MAP.put(coilID, coilID + "_coil");
 			TurbinePlacement.addRule(coilID + "_coil", rule, block.get());
 		}
 	}
 	
 	public static class TurbineBladeRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		public final double efficiency, expansionCoefficient;
+		public final IRotorBladeType bladeType;
 		
-		TurbineBladeRegistrationInfo(Lazy<Block> block, double efficiency, double expansionCoefficient) {
+		TurbineBladeRegistrationInfo(Lazy<Block> block, IRotorBladeType bladeType) {
 			super(block);
-			this.efficiency = efficiency;
-			this.expansionCoefficient = expansionCoefficient;
+			this.bladeType = bladeType;
 		}
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(NCBlocks.fixedLine(Global.MOD_ID, "turbine_rotor_blade_efficiency"), NCMath.pcDecimalPlaces(efficiency, 1)), Lang.localize(NCBlocks.fixedLine(Global.MOD_ID, "turbine_rotor_blade_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine(Global.MOD_ID, "turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1))));
+			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, NCInfo.rotorBladeFixedInfo(bladeType.getEfficiency(), bladeType.getExpansionCoefficient()), TextFormatting.AQUA, NCInfo.rotorBladeInfo()));
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileTurbineRotorBlade.DYN_BLADE_TYPE_MAP.put(bladeType.getName(), bladeType);
 		}
 	}
 	
 	public static class TurbineStatorRegistrationInfo extends TileBlockRegistrationInfo {
 		
-		public final double expansionCoefficient;
+		public final IRotorStatorType statorType;
 		
-		TurbineStatorRegistrationInfo(Lazy<Block> block, double expansionCoefficient) {
+		TurbineStatorRegistrationInfo(Lazy<Block> block, IRotorStatorType statorType) {
 			super(block);
-			this.expansionCoefficient = expansionCoefficient;
+			this.statorType = statorType;
 		}
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), TextFormatting.GRAY, new String[] {Lang.localize(NCBlocks.fixedLine(Global.MOD_ID, "turbine_rotor_stator_expansion"), NCMath.pcDecimalPlaces(expansionCoefficient, 1))}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine(Global.MOD_ID, "turbine_rotor_stator"))));
+			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), TextFormatting.GRAY, NCInfo.rotorStatorFixedInfo(statorType.getExpansionCoefficient()), TextFormatting.AQUA, NCInfo.rotorStatorInfo()));
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileTurbineRotorStator.DYN_STATOR_TYPE_MAP.put(statorType.getName(), statorType);
 		}
 	}
 	
 	public static class RTGRegistrationInfo extends TileBlockRegistrationInfo {
 		
+		protected final String rtgID;
 		protected final long power;
+		protected final double radiation;
 		
-		RTGRegistrationInfo(Lazy<Block> block, long power) {
+		RTGRegistrationInfo(Lazy<Block> block, String rtgID, long power, double radiation) {
 			super(block);
+			this.rtgID = rtgID;
 			this.power = power;
+			this.radiation = radiation;
 		}
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block.get(), InfoHelper.formattedInfo(NCBlocks.infoLine(Global.MOD_ID, "rtg"), UnitHelper.prefix(power, 5, "RF/t")));
+			NCBlocks.registerBlock(block.get(), NCInfo.rtgInfo(power));
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileRTG.DYN_POWER_MAP.put(rtgID, power);
+			TileRTG.DYN_RADIATION_MAP.put(rtgID, radiation);
 		}
 	}
 	
 	public static class BatteryRegistrationInfo extends TileBlockRegistrationInfo {
 		
+		protected final String batteryID;
 		protected final long capacity;
 		protected final int energyTier;
 		
-		BatteryRegistrationInfo(Lazy<Block> block, long capacity, int energyTier) {
+		BatteryRegistrationInfo(Lazy<Block> block, String batteryID, long capacity, int energyTier) {
 			super(block);
+			this.batteryID = batteryID;
 			this.capacity = capacity;
 			this.energyTier = energyTier;
 		}
 		
 		@Override
 		public void registerBlock() {
-			NCBlocks.registerBlock(block.get(), new ItemBlockBattery(block.get(), capacity, NCMath.toInt(capacity), energyTier, InfoHelper.formattedInfo(NCBlocks.infoLine(Global.MOD_ID, "energy_storage"))));
+			NCBlocks.registerBlock(block.get(), new ItemBlockBattery(block.get(), capacity, NCMath.toInt(capacity), energyTier, NCInfo.batteryInfo()));
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TileBattery.DYN_CAPACITY_MAP.put(batteryID, capacity);
+			TileBattery.DYN_ENERGY_TIER_MAP.put(batteryID, energyTier);
 		}
 	}
 	

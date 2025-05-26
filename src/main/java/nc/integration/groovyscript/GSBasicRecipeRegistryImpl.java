@@ -321,6 +321,18 @@ public class GSBasicRecipeRegistryImpl {
 	}
 	
 	@RegistryDescription
+	public static class GSHeatExchangerRecipeRegistry extends GSBasicRecipeRegistry {
+		
+		public GSHeatExchangerRecipeRegistry(String name) {
+			super(name);
+		}
+		
+		public GSHeatExchangerRecipeBuilder builder() {
+			return new GSHeatExchangerRecipeBuilder(this);
+		}
+	}
+	
+	@RegistryDescription
 	public static class GSTurbineRecipeRegistry extends GSBasicRecipeRegistry {
 		
 		public GSTurbineRecipeRegistry(String name) {

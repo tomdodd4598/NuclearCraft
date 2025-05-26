@@ -1,151 +1,186 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"textures": {
-			"particle":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting",
-			"north":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting",
-			"east":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting",
-			"south":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting",
-			"west":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting",
-			"up":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting",
-			"down":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting"
-		},
-		"model":"cube",
-		"transform":"forge:default-block"
-	},
-	"variants": {
-		"inventory": [{}],
-		"north": {
-			"default": {
-			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/default"
-				}
-			},
-			"input_spread": {
-			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/disabled"
-				}
+	"multipart": [
+		{
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_center"
 			}
 		},
-		"east": {
-			"default": {
-			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/default"
-				}
+		{
+			"when": {
+				"down": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open",
+				"x": 90,
+				"uvlock": true
 			}
 		},
-		"south": {
-			"default": {
-			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/default"
-				}
+		{
+			"when": {
+				"up": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open",
+				"x": 270,
+				"uvlock": true
 			}
 		},
-		"west": {
-			"default": {
-			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/default"
-				}
+		{
+			"when": {
+				"north": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open",
+				"uvlock": true
 			}
 		},
-		"up": {
-			"default": {
-			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/default"
-				}
+		{
+			"when": {
+				"south": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open",
+				"y": 180,
+				"uvlock": true
 			}
 		},
-		"down": {
-			"default": {
-			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/default"
-				}
+		{
+			"when": {
+				"west": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/input_spread"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "open"
 			},
-			"product_out": {
-				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/product_out"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"down": "closed_baffle"
 			},
-			"disabled": {
-				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"down": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open_baffle",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open_baffle",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open_baffle",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open_baffle",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open_baffle",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/thermoconducting_open_baffle",
+				"y": 90,
+				"uvlock": true
 			}
 		}
-	}
+	]
 }

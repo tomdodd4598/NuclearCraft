@@ -112,29 +112,11 @@ public class RecipeHelper {
 	}
 	
 	public static List<List<ItemStack>> getItemOutputLists(List<IItemIngredient> itemIngredientList) {
-		return StreamHelper.map(itemIngredientList, RecipeHelper::getItemOutputStackList);
+		return StreamHelper.map(itemIngredientList, IItemIngredient::getOutputStackList);
 	}
 	
 	public static List<List<FluidStack>> getFluidOutputLists(List<IFluidIngredient> fluidIngredientList) {
-		return StreamHelper.map(fluidIngredientList, RecipeHelper::getFluidOutputStackList);
-	}
-	
-	public static List<ItemStack> getItemOutputStackList(IItemIngredient itemIngredient) {
-		if (itemIngredient instanceof IChanceItemIngredient) {
-			return itemIngredient.getOutputStackList();
-		}
-		else {
-			return Arrays.asList(itemIngredient.getStack());
-		}
-	}
-	
-	public static List<FluidStack> getFluidOutputStackList(IFluidIngredient fluidIngredient) {
-		if (fluidIngredient instanceof IChanceFluidIngredient) {
-			return fluidIngredient.getOutputStackList();
-		}
-		else {
-			return Arrays.asList(fluidIngredient.getStack());
-		}
+		return StreamHelper.map(fluidIngredientList, IFluidIngredient::getOutputStackList);
 	}
 	
 	@Nullable

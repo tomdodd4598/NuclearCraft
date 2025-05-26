@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.*;
 import nc.init.NCPackets;
 import nc.recipe.RecipeUnitInfo;
 import nc.tile.internal.fluid.Tank.TankInfo;
+import nc.util.PosHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
@@ -77,10 +78,14 @@ public abstract class NCPacket implements IMessage {
 	}
 	
 	protected static BlockPos readPos(ByteBuf buf) {
-		return new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		BlockPos pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		return pos.equals(PosHelper.DEFAULT_NON) ? PosHelper.DEFAULT_NON : pos;
 	}
 	
 	protected static void writePos(ByteBuf buf, BlockPos pos) {
+		if (pos == null) {
+			pos = PosHelper.DEFAULT_NON;
+		}
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());

@@ -1,3 +1,56 @@
+v2o.9.0
+
++ Added Multiblock Heat Exchanger and Condenser - the Rankine cycle is back!
++ Build intricate baffled shell-and-tube designs to maximise the rate of heat transfer!
+
++ Added configs for the heat transfer coefficients and heat retentions of tubes, heat content of hot NaK mixtures and optional use of LMTD
+
++ Added CT and GroovyScript support for heat exchanger recipes
++ Added CT registration method for custom heat exchanger tubes (see examples in GitHub repo)
++ Added initial heat exchanger OC methods
+
+* Fixed bug where various multiblock vents and ports would disconnect when unloaded and reloaded
+
+* Fixed multiple bugs related to modifying the settings of blocks with the multitool
+
++ Added NaK heating recipes to solid fuel fission vent
+* Condensate water can no longer be heated in the solid fuel fission vent
+
+* Fixed Electric Furnace not respecting the removal of vanilla furnace recipes via CT
+* Attempted to fix inconsistent caesium-137 recipes
+* Tweaked temperatures of various NC fluids to balance heat exchanger recipes
+
+* Fixed occasional bug where large machine inventories were not loaded correctly
+* Fixed usefulness of infiltrator heating units
+* Modified default configs of the distiller to balance recipes
+
++ Added CT helper function to check for other loaded script addons
+
+* Fixed bug where the stats of custom CT components were not modifiable after placement
+
+* Modified processor tanks to have at least twice the capacity of the maximum ingredient and product stack sizes
+
++ Added additional crafters to various JEI categories to improve recipe searchability
+* Tweaked displaying of chance outputs in JEI recipes
+* Tweaked displaying of various recipe stats
+
+* Slightly improved performance of some parts of fission reactor and turbine logic
+
+* Fixed multiple simultaneously rendered turbines having incorrect rotation rates
+* Improved rendering of gases in multiblocks
+
+* Tweaked turbine inlet and outlet textures to match style of heat exchanger
+* Tweaked turbine controller GUI text layout to match other multiblock controllers
+
+* Updated Chinese language file [thanks to WuzgXY!]
+* Fixed various errors in the English language file
+
+* Fixed crash with GTCEu development builds [thanks to Michael-Sebero!]
+
+* A few other minor changes and bouts of despaghettification
+
+- Removed Paulobrine and Herobrian
+
 v2o.8.6
 
 * Fixed Turbine crash on servers

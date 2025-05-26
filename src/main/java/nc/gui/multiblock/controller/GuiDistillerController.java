@@ -54,7 +54,7 @@ public class GuiDistillerController extends GuiLogicMultiblockController<Machine
 		String distributionBonus = Lang.localize("gui.nc.container.distiller_controller.distribution_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().liquidDistributorBonus, 1);
 		fontRenderer.drawString(distributionBonus, xSize / 2 - fontRenderer.getStringWidth(distributionBonus) / 2, 46, fontColor);
 		
-		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + logic.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
+		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
 		fontRenderer.drawString(rate, xSize / 2 - fontRenderer.getStringWidth(rate) / 2, 58, fontColor);
 		
 		String power = Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t");

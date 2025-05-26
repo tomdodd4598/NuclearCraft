@@ -43,9 +43,10 @@ public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implement
 	
 	public ITurbineController<?> controller;
 	
+	public static final int BASE_MAX_ENERGY = 16000, BASE_MAX_INPUT = 1000, BASE_MAX_OUTPUT = 4000;
+	
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.getValidFluids("turbine").get(0)), new Tank(BASE_MAX_OUTPUT, null));
-	public static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
 	public RecipeInfo<BasicRecipe> recipeInfo;
 	
@@ -71,7 +72,7 @@ public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implement
 	public boolean refreshSounds = true;
 	
 	public String particleEffect = "cloud";
-	public double particleSpeedMult = 1D / 23.2D;
+	public double particleSpeedMult = 5D / 116D;
 	public float angVel = 0F, rotorAngle = 0F;
 	
 	@SuppressWarnings("unchecked")

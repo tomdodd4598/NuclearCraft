@@ -69,6 +69,11 @@ public class NBTHelper {
 	
 	@SafeVarargs
 	public static NBTTagCompound writeAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
+		return writeAllItems(tag, "Items", lists);
+	}
+	
+	@SafeVarargs
+	public static NBTTagCompound writeAllItems(NBTTagCompound tag, String name, List<ItemStack>... lists) {
 		if (lists.length == 0) {
 			return tag;
 		}
@@ -87,17 +92,22 @@ public class NBTHelper {
 			}
 		}
 		
-		tag.setTag("Items", nbttaglist);
+		tag.setTag(name, nbttaglist);
 		
 		return tag;
 	}
 	
 	@SafeVarargs
 	public static void readAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
+		readAllItems(tag, "Items", lists);
+	}
+	
+	@SafeVarargs
+	public static void readAllItems(NBTTagCompound tag, String name, List<ItemStack>... lists) {
 		if (lists.length == 0) {
 			return;
 		}
-		NBTTagList nbttaglist = tag.getTagList("Items", 10);
+		NBTTagList nbttaglist = tag.getTagList(name, 10);
 		
 		int n = 0, offset = 0;
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {

@@ -1,20 +1,25 @@
 package nc.multiblock.hx;
 
+import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.network.multiblock.HeatExchangerUpdatePacket;
+import nc.network.multiblock.*;
+import nc.recipe.*;
 import nc.tile.hx.*;
+import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
+import nc.util.PosHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import java.util.Set;
+import javax.annotation.*;
+import java.util.*;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchangerPart> implements ILogicMultiblock<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart>, IPacketMultiblock<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket> {
 	
@@ -27,7 +32,30 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	
 	protected IHeatExchangerController<?> controller;
 	
+	public boolean refreshFlag = false;
+	public int packetFlag = 0;
+	
+	public double shellSpeedMultiplier = 0D;
+	
+	public @Nullable TileHeatExchangerInlet masterShellInlet;
+	
+	public final ObjectSet<HeatExchangerTubeNetwork> networks = new ObjectOpenHashSet<>();
+	
+	public static final int BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
+	
+	public final @Nonnull List<Tank> shellTanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.getValidFluids("heat_exchanger").get(0)), new Tank(BASE_MAX_OUTPUT, null));
+	
+	public RecipeInfo<BasicRecipe> shellRecipe;
+	
 	public boolean isExchangerOn, computerActivated;
+	
+	public int totalNetworkCount = 0, activeNetworkCount = 0;
+	public int activeTubeCount = 0, activeContactCount = 0;
+	public double tubeInputRate = 0D, tubeInputRateFP = 0D;
+	public double shellInputRate = 0D, shellInputRateFP = 0D;
+	public double heatTransferRate = 0D, heatTransferRateFP = 0D;
+	public double heatDissipationRate = 0D, heatDissipationRateFP = 0D;
+	public double totalTempDiff = 0D;
 	
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
@@ -147,11 +175,15 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	
 	@Override
 	protected boolean updateServer() {
-		boolean flag = false;
-		if (logic.onUpdateServer()) {
-			flag = true;
-		}
-		return flag;
+		return logic.onUpdateServer();
+	}
+	
+	public BlockPos getMasterShellInletPos() {
+		return masterShellInlet == null ? PosHelper.DEFAULT_NON : masterShellInlet.getPos();
+	}
+	
+	public Stream<TileHeatExchangerInlet> getMasterInlets() {
+		return Stream.concat(networks.stream().map(x -> x.masterInlet), Stream.of(masterShellInlet)).filter(Objects::nonNull);
 	}
 	
 	// Client
@@ -168,6 +200,8 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 		data.setBoolean("isExchangerOn", isExchangerOn);
 		data.setBoolean("computerActivated", computerActivated);
 		
+		writeTanks(shellTanks, data, "shellTanks");
+		
 		writeLogicNBT(data, syncReason);
 	}
 	
@@ -175,6 +209,8 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		isExchangerOn = data.getBoolean("isExchangerOn");
 		computerActivated = data.getBoolean("computerActivated");
+		
+		readTanks(shellTanks, data, "shellTanks");
 		
 		readLogicNBT(data, syncReason);
 	}
@@ -196,6 +232,36 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 		logic.onMultiblockUpdatePacket(message);
 	}
 	
+	protected HeatExchangerRenderPacket getRenderPacket() {
+		return logic.getRenderPacket();
+	}
+	
+	public void onRenderPacket(HeatExchangerRenderPacket message) {
+		logic.onRenderPacket(message);
+	}
+	
+	public void sendRenderPacketToPlayer(EntityPlayer player) {
+		if (WORLD.isRemote) {
+			return;
+		}
+		HeatExchangerRenderPacket packet = getRenderPacket();
+		if (packet == null) {
+			return;
+		}
+		packet.sendTo(player);
+	}
+	
+	public void sendRenderPacketToAll() {
+		if (WORLD.isRemote) {
+			return;
+		}
+		HeatExchangerRenderPacket packet = getRenderPacket();
+		if (packet == null) {
+			return;
+		}
+		packet.sendToAll();
+	}
+	
 	// Multiblock Validators
 	
 	@Override
@@ -209,5 +275,9 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	public void clearAllMaterial() {
 		logic.clearAllMaterial();
 		super.clearAllMaterial();
+		
+		for (Tank tank : shellTanks) {
+			tank.setFluidStored(null);
+		}
 	}
 }

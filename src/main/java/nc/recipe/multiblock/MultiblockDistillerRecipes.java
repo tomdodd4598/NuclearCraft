@@ -14,10 +14,10 @@ public class MultiblockDistillerRecipes extends BasicRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("le_water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.25D);
-		addRecipe(fluidStack("le_water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("he_water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.25D);
-		addRecipe(fluidStack("he_water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("heavy_water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.25D);
-		addRecipe(fluidStack("water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("preheated_water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("le_water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("le_water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("he_water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("he_water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("heavy_water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("water", BUCKET_VOLUME / 4), fluidStack("depleted_hydrogen_sulfide", BUCKET_VOLUME / 4), fluidStack("preheated_water", BUCKET_VOLUME / 4), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 	}
 	
 	@Override

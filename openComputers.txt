@@ -11,10 +11,10 @@ double getCurrentTime()
 double getBaseProcessTime()
 double getBaseProcessPower()
 
-Table[] getItemInputs() -> {{stackSize, itemID}, ...}
-Table[] getFluidInputs() -> {{fluidAmount, fluidName}, ...}
-Table[] getItemOutputs() -> {{stackSize, itemID}, ...}
-Table[] getFluidOutputs() -> {{fluidAmount, fluidName}, ...}
+Table getItemInputs() -> {{stackSize, itemID}, ...}
+Table getFluidInputs() -> {{fluidAmount, fluidName}, ...}
+Table getItemOutputs() -> {{stackSize, itemID}, ...}
+Table getFluidOutputs() -> {{fluidAmount, fluidName}, ...}
 
 void setItemInputSorption(int side, int index, int sorption)
 void setFluidInputSorption(int side, int index, int sorption)
@@ -43,10 +43,10 @@ double getCurrentTime()
 double getBaseProcessTime()
 double getBaseProcessPower()
 
-Table[] getItemInputs() -> {{stackSize, itemID}, ...}
-Table[] getFluidInputs() -> {{fluidAmount, fluidName}, ...}
-Table[] getItemOutputs() -> {{stackSize, itemID}, ...}
-Table[] getFluidOutputs() -> {{fluidAmount, fluidName}, ...}
+Table getItemInputs() -> {{stackSize, itemID}, ...}
+Table getFluidInputs() -> {{fluidAmount, fluidName}, ...}
+Table getItemOutputs() -> {{stackSize, itemID}, ...}
+Table getFluidOutputs() -> {{fluidAmount, fluidName}, ...}
 
 void haltProcess()
 void resumeProcess()
@@ -82,16 +82,16 @@ int getNumberOfVessels()
 int getNumberOfHeaters()
 int getNumberOfShields()
 
-Table[] getIrradiatorStats()
-Table[] getCellStats()
-Table[] getSinkStats()
-Table[] getVesselStats()
-Table[] getHeaterStats()
-Table[] getShieldStats()
+Table getIrradiatorStats()
+Table getCellStats()
+Table getSinkStats()
+Table getVesselStats()
+Table getHeaterStats()
+Table getShieldStats()
 
 int getNumberOfClusters()
 
-Table[] getClusterInfo(int clusterID)
+Table getClusterInfo(int clusterID)
 
 void clearAllMaterial()
 
@@ -106,6 +106,22 @@ boolean isExchangerOn()
 int getLengthX()
 int getLengthY()
 int getLengthZ()
+
+int getActiveNetworkCount()
+int getActiveTubeCount()
+
+double getShellSpeedMultiplier()
+double getShellInputRate()
+double getHeatTransferRate()
+double getMeanTempDiff()
+
+int getNumberOfNetworks()
+
+Table getNetworkStats()
+
+int getNumberOfTubes()
+
+Table getTubeStats()
 
 void activate()
 void deactivate()
@@ -146,7 +162,7 @@ int getInputRate()
 
 int getNumberOfDynamoParts()
 
-Table[] getDynamoPartStats()
+Table getDynamoPartStats()
 
 void activate()
 void deactivate()

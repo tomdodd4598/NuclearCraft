@@ -19,7 +19,7 @@ public abstract class TileMachinePart extends TileCuboidalMultiblockPart<Machine
 	
 	@Override
 	protected @Nullable IRadiationSource getMultiblockRadiationSourceInternal() {
-		MachineLogic logic = getLogic();
-		return logic == null ? null : logic.radiation;
+		Machine machine = getMultiblock();
+		return machine == null ? null : machine.radiation;
 	}
 }

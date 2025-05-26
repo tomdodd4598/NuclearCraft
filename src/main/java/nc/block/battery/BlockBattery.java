@@ -56,17 +56,15 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 			return false;
 		}
 		
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileBattery battery) {
-			if (ItemMultitool.isMultitool(player.getHeldItem(hand))) {
-				EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
-				battery.toggleEnergyConnection(side, EnergyConnection.Type.DEFAULT);
+		if (!ItemMultitool.isMultitool(player.getHeldItem(hand))) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileBattery battery) {
+				if (!world.isRemote) {
+					EnergyStorage storage = battery.getEnergyStorage();
+					player.sendMessage(new TextComponentString(Lang.localize("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStoredLong(), storage.getMaxEnergyStoredLong(), 5, "RF")));
+				}
+				return true;
 			}
-			else if (!world.isRemote) {
-				EnergyStorage storage = battery.getEnergyStorage();
-				player.sendMessage(new TextComponentString(Lang.localize("gui.nc.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStoredLong(), storage.getMaxEnergyStoredLong(), 5, "RF")));
-			}
-			return true;
 		}
 		
 		return rightClickOnPart(world, pos, player, hand, facing, false);

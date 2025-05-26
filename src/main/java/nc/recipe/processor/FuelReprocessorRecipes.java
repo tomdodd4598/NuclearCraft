@@ -16,15 +16,17 @@ public class FuelReprocessorRecipes extends BasicProcessorRecipeHandler {
 			return;
 		}
 		
-		addReprocessingRecipes("TBU", "Uranium233", 1, "Uranium238", 5, "Neptunium236", 1, "Neptunium237", 1, "Strontium90", "Caesium137", 0.5D, 50);
+		String oreCesium137 = OreDictHelper.oreExists("Cesium137") ? "Cesium137" : "Caesium137";
 		
-		addReprocessingRecipes("LEU233", "Uranium238", 5, "Plutonium241", 1, "Plutonium242", 1, "Americium243", 1, "Strontium90", "Caesium137", 0.5D, 50);
-		addReprocessingRecipes("HEU233", "Uranium235", 1, "Uranium238", 2, "Plutonium242", 3, "Americium243", 1, "Strontium90", "Caesium137", 1.5D, 50);
-		addReprocessingRecipes("LEU235", "Uranium238", 4, "Plutonium239", 1, "Plutonium242", 2, "Americium243", 1, "Molybdenum", "Caesium137", 0.5D, 50);
-		addReprocessingRecipes("HEU235", "Uranium238", 3, "Neptunium236", 1, "Plutonium242", 2, "Americium243", 1, "Molybdenum", "Caesium137", 1.5D, 50);
+		addReprocessingRecipes("TBU", "Uranium233", 1, "Uranium238", 5, "Neptunium236", 1, "Neptunium237", 1, "Strontium90", oreCesium137, 0.5D, 50);
 		
-		addReprocessingRecipes("LEN236", "Uranium238", 4, "Neptunium237", 1, "Plutonium241", 1, "Plutonium242", 2, "Molybdenum", "Caesium137", 0.5D, 50);
-		addReprocessingRecipes("HEN236", "Uranium238", 4, "Plutonium238", 1, "Plutonium241", 1, "Plutonium242", 1, "Molybdenum", "Caesium137", 1.5D, 50);
+		addReprocessingRecipes("LEU233", "Uranium238", 5, "Plutonium241", 1, "Plutonium242", 1, "Americium243", 1, "Strontium90", oreCesium137, 0.5D, 50);
+		addReprocessingRecipes("HEU233", "Uranium235", 1, "Uranium238", 2, "Plutonium242", 3, "Americium243", 1, "Strontium90", oreCesium137, 1.5D, 50);
+		addReprocessingRecipes("LEU235", "Uranium238", 4, "Plutonium239", 1, "Plutonium242", 2, "Americium243", 1, "Molybdenum", oreCesium137, 0.5D, 50);
+		addReprocessingRecipes("HEU235", "Uranium238", 3, "Neptunium236", 1, "Plutonium242", 2, "Americium243", 1, "Molybdenum", oreCesium137, 1.5D, 50);
+		
+		addReprocessingRecipes("LEN236", "Uranium238", 4, "Neptunium237", 1, "Plutonium241", 1, "Plutonium242", 2, "Molybdenum", oreCesium137, 0.5D, 50);
+		addReprocessingRecipes("HEN236", "Uranium238", 4, "Plutonium238", 1, "Plutonium241", 1, "Plutonium242", 1, "Molybdenum", oreCesium137, 1.5D, 50);
 		
 		addReprocessingRecipes("LEP239", "Plutonium242", 5, "Americium242", 1, "Americium243", 1, "Curium246", 1, "Strontium90", "Promethium147", 0.5D, 50);
 		addReprocessingRecipes("HEP239", "Plutonium241", 1, "Americium242", 1, "Americium243", 4, "Curium243", 1, "Strontium90", "Promethium147", 1.5D, 50);

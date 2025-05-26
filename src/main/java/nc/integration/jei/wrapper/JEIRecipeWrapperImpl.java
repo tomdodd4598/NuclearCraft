@@ -600,7 +600,12 @@ public class JEIRecipeWrapperImpl {
 			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getBaseProcessTime(), 3));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + BASE_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getBaseProcessPower(), 5, "RF/t"));
-				tooltip.add(TextFormatting.RED + HEATING_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getInfiltratorHeatingFactor(), 1));
+				
+				double heatingBonus = getInfiltratorHeatingFactor();
+				if (heatingBonus != 0D) {
+					tooltip.add(TextFormatting.RED + HEATING_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(heatingBonus, 1));
+				}
+				
 				double radiation = getBaseProcessRadiation();
 				if (radiation > 0D) {
 					tooltip.add(TextFormatting.GOLD + BASE_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
@@ -972,13 +977,13 @@ public class JEIRecipeWrapperImpl {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (showTooltip(mouseX, mouseY)) {
-				tooltip.add(TextFormatting.YELLOW + HEAT_PER_MB + " " + TextFormatting.WHITE + getFissionHeatingHeatPerInputMB() + " H/mB");
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionHeatingHeatPerInputMB(), 5, "H"));
 			}
 			
 			return tooltip;
 		}
 		
-		private static final String HEAT_PER_MB = Lang.localize("jei.nuclearcraft.fission_heating_heat_per_mb");
+		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.fission_heating_required");
 	}
 	
 	public static class SaltFissionRecipeWrapper extends JEIBasicProcessorRecipeWrapper<TileSaltFissionVessel, SaltFissionVesselUpdatePacket, SaltFissionRecipeWrapper> {
@@ -1105,8 +1110,9 @@ public class JEIRecipeWrapperImpl {
 			
 			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getCoolantHeaterCoolingRate(), 5, "H/t"));
-				if (getCoolantHeaterJEIInfo() != null) {
-					for (String posInfo : getCoolantHeaterJEIInfo()) {
+				String[] coolantHeaterJEIInfo = getCoolantHeaterJEIInfo();
+				if (coolantHeaterJEIInfo != null) {
+					for (String posInfo : coolantHeaterJEIInfo) {
 						tooltip.add(TextFormatting.AQUA + posInfo);
 					}
 				}
@@ -1141,13 +1147,13 @@ public class JEIRecipeWrapperImpl {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (showTooltip(mouseX, mouseY)) {
-				tooltip.add(TextFormatting.BLUE + COOLING_PER_MB + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getEmergencyCoolingHeatPerInputMB(), 2) + " H/mB");
+				tooltip.add(TextFormatting.BLUE + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getEmergencyCoolingHeatPerInputMB(), 5, "H"));
 			}
 			
 			return tooltip;
 		}
 		
-		private static final String COOLING_PER_MB = Lang.localize("jei.nuclearcraft.fission_emergency_cooling_per_mb");
+		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.fission_emergency_cooling_heating_required");
 	}
 	
 	public static class HeatExchangerRecipeWrapper extends JEISimpleRecipeWrapper<HeatExchangerRecipeWrapper> {
@@ -1157,66 +1163,56 @@ public class JEIRecipeWrapperImpl {
 		}
 		
 		@Override
-		protected int getProgressArrowTime() {
-			return recipe != null ? NCMath.toInt(recipe.getHeatExchangerProcessTime() / 400D) : 40;
-		}
-		
-		protected int getHeatExchangerProcessTime() {
-			if (recipe == null) {
-				return 16000;
-			}
-			return NCMath.toInt(recipe.getHeatExchangerProcessTime());
-		}
-		
-		@Override
-		public List<String> getTooltipStrings(int mouseX, int mouseY) {
-			List<String> tooltip = new ArrayList<>();
-			
-			if (showTooltip(mouseX, mouseY)) {
-				boolean heating = recipe.getHeatExchangerIsHeating();
-				int inputTemp = recipe.getHeatExchangerInputTemperature();
-				int outputTemp = recipe.getHeatExchangerOutputTemperature();
-				
-				tooltip.add((heating ? TextFormatting.AQUA : TextFormatting.RED) + TEMPERATURE + TextFormatting.WHITE + " " + inputTemp + "K");
-				tooltip.add((heating ? TextFormatting.RED : TextFormatting.AQUA) + TEMPERATURE + TextFormatting.WHITE + " " + outputTemp + "K");
-				
-				tooltip.add((heating ? TextFormatting.AQUA + COOLING_PROVIDED : TextFormatting.RED + HEATING_PROVIDED) + TextFormatting.WHITE + " " + Math.abs(inputTemp - outputTemp) + " H/t");
-				tooltip.add((heating ? TextFormatting.RED + HEATING_REQUIRED : TextFormatting.AQUA + COOLING_REQUIRED) + TextFormatting.WHITE + " " + getHeatExchangerProcessTime());
-			}
-			
-			return tooltip;
-		}
-		
-		private static final String TEMPERATURE = Lang.localize("jei.nuclearcraft.exchanger_fluid_temp");
-		private static final String HEATING_PROVIDED = Lang.localize("jei.nuclearcraft.exchanger_heating_provided");
-		private static final String COOLING_PROVIDED = Lang.localize("jei.nuclearcraft.exchanger_cooling_provided");
-		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.exchanger_heating_required");
-		private static final String COOLING_REQUIRED = Lang.localize("jei.nuclearcraft.exchanger_cooling_required");
-	}
-	
-	public static class CondenserRecipeWrapper extends JEISimpleRecipeWrapper<CondenserRecipeWrapper> {
-		
-		public CondenserRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<CondenserRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		protected int[] getProgressArrowUVWH(int arrowU, int arrowV, int arrowW, int arrowH) {
+			boolean heating = getHeatExchangerIsHeating();
+			return new int[] {arrowU, arrowV + (heating ? 0 : 16), arrowW, arrowH};
 		}
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return NCMath.toInt(getCondenserProcessTime() / 2D);
+			return recipe == null ? 0 : NCMath.toInt(4D * recipe.getHeatExchangerHeatDifference());
 		}
 		
-		protected double getCondenserProcessTime() {
+		protected double getHeatExchangerHeatDifference() {
 			if (recipe == null) {
-				return 40D;
+				return 1D;
 			}
-			return recipe.getCondenserProcessTime();
+			return recipe.getHeatExchangerHeatDifference();
 		}
 		
-		protected int getCondenserCondensingTemperature() {
+		public int getHeatExchangerInputTemperature() {
 			if (recipe == null) {
 				return 300;
 			}
-			return recipe.getCondenserCondensingTemperature();
+			return recipe.getHeatExchangerInputTemperature();
+		}
+		
+		public int getHeatExchangerOutputTemperature() {
+			if (recipe == null) {
+				return 300;
+			}
+			return recipe.getHeatExchangerOutputTemperature();
+		}
+		
+		public boolean getHeatExchangerIsHeating() {
+			if (recipe == null) {
+				return false;
+			}
+			return recipe.getHeatExchangerIsHeating();
+		}
+		
+		public int getHeatExchangerPreferredFlowDirection() {
+			if (recipe == null) {
+				return 0;
+			}
+			return recipe.getHeatExchangerPreferredFlowDirection();
+		}
+		
+		public double getHeatExchangerFlowDirectionBonus() {
+			if (recipe == null) {
+				return 0D;
+			}
+			return recipe.getHeatExchangerFlowDirectionBonus();
 		}
 		
 		@Override
@@ -1224,15 +1220,28 @@ public class JEIRecipeWrapperImpl {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (showTooltip(mouseX, mouseY)) {
-				tooltip.add(TextFormatting.YELLOW + CONDENSING_TEMPERATURE + TextFormatting.WHITE + " " + getCondenserCondensingTemperature() + "K");
-				tooltip.add(TextFormatting.BLUE + HEAT_REMOVAL_REQUIRED + TextFormatting.WHITE + " " + NCMath.sigFigs(getCondenserProcessTime(), 5));
+				boolean heating = getHeatExchangerIsHeating();
+				tooltip.add((heating ? TextFormatting.AQUA : TextFormatting.RED) + INPUT_TEMPERATURE + TextFormatting.WHITE + " " + getHeatExchangerInputTemperature() + "K");
+				tooltip.add((heating ? TextFormatting.RED : TextFormatting.AQUA) + OUTPUT_TEMPERATURE + TextFormatting.WHITE + " " + getHeatExchangerOutputTemperature() + "K");
+				tooltip.add((heating ? TextFormatting.GOLD + HEATING_REQUIRED : TextFormatting.BLUE + COOLING_REQUIRED) + TextFormatting.WHITE + " " + UnitHelper.prefix(getHeatExchangerHeatDifference(), 5, "H"));
+				
+				double flowDirectionBonus = getHeatExchangerFlowDirectionBonus();
+				if (flowDirectionBonus != 0D) {
+					int preferredFlowDirection = getHeatExchangerPreferredFlowDirection();
+					tooltip.add(TextFormatting.LIGHT_PURPLE + (preferredFlowDirection == 0 ? HORIZONTAL_BONUS : (preferredFlowDirection > 0 ? UPWARD_BONUS : DOWNWARD_BONUS)) + TextFormatting.WHITE + " " + NCMath.pcDecimalPlaces(flowDirectionBonus, 1));
+				}
 			}
 			
 			return tooltip;
 		}
 		
-		private static final String CONDENSING_TEMPERATURE = Lang.localize("jei.nuclearcraft.condenser_condensing_temp");
-		private static final String HEAT_REMOVAL_REQUIRED = Lang.localize("jei.nuclearcraft.condenser_heat_removal_req");
+		private static final String INPUT_TEMPERATURE = Lang.localize("jei.nuclearcraft.exchanger_fluid_temp_in");
+		private static final String OUTPUT_TEMPERATURE = Lang.localize("jei.nuclearcraft.exchanger_fluid_temp_out");
+		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.exchanger_heating_required");
+		private static final String COOLING_REQUIRED = Lang.localize("jei.nuclearcraft.exchanger_cooling_required");
+		private static final String HORIZONTAL_BONUS = Lang.localize("jei.nuclearcraft.exchanger_horizontal_bonus");
+		private static final String UPWARD_BONUS = Lang.localize("jei.nuclearcraft.exchanger_upward_bonus");
+		private static final String DOWNWARD_BONUS = Lang.localize("jei.nuclearcraft.exchanger_downward_bonus");
 	}
 	
 	public static class TurbineRecipeWrapper extends JEISimpleRecipeWrapper<TurbineRecipeWrapper> {
@@ -1274,7 +1283,11 @@ public class JEIRecipeWrapperImpl {
 			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + NCMath.decimalPlaces(getTurbinePowerPerMB(), 2) + " RF/mB");
 				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineExpansionLevel(), 1));
-				tooltip.add(TextFormatting.GREEN + SPIN_UP + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineSpinUpMultiplier(), 1));
+				
+				double spinUpMultiplier = getTurbineSpinUpMultiplier();
+				if (spinUpMultiplier != 1D) {
+					tooltip.add(TextFormatting.GREEN + SPIN_UP + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getTurbineSpinUpMultiplier(), 1));
+				}
 			}
 			
 			return tooltip;

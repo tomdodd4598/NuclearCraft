@@ -2,6 +2,7 @@ package nc.multiblock.machine;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
+import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.init.NCSounds;
@@ -43,6 +44,11 @@ public class ElectrolyzerLogic extends MachineLogic {
 	}
 	
 	@Override
+	public int reservoirTankCount() {
+		return 1;
+	}
+	
+	@Override
 	public List<Set<String>> getReservoirValidFluids() {
 		return NCRecipes.multiblock_electrolyzer.validElectrolyteFluids;
 	}
@@ -68,9 +74,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 			BlockPos pos = terminal.getPos();
 			int x = pos.getX(), y = pos.getY(), z = pos.getZ();
 			if ((y != minY && y != maxY) || ((y != minY || !terminalMap.containsKey(new BlockPos(x, maxY, z).toLong())) && (y != maxY || !terminalMap.containsKey(new BlockPos(x, minY, z).toLong())))) {
-				if (multiblock.getLastError() == null) {
-					multiblock.setLastError("nuclearcraft.multiblock_validation.electrolyzer.invalid_" + type + "_terminal", pos);
-				}
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.electrolyzer.invalid_" + type + "_terminal", pos);
 				return false;
 			}
 		}
@@ -83,9 +87,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 		for (T terminal : terminalMap.values()) {
 			BlockPos pos = terminal.getPos();
 			if (pos.getY() == minY && !electrodes.contains(new Vec2i(pos.getX() - corner.getX(), pos.getZ() - corner.getZ()))) {
-				if (multiblock.getLastError() == null) {
-					multiblock.setLastError("nuclearcraft.multiblock_validation.electrolyzer.invalid_" + type + "_recipe", pos);
-				}
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.electrolyzer.invalid_" + type + "_recipe", pos);
 				return false;
 			}
 		}
@@ -116,8 +118,8 @@ public class ElectrolyzerLogic extends MachineLogic {
 			return false;
 		}
 		
-		baseSpeedMultiplier = 0D;
-		basePowerMultiplier = 0D;
+		multiblock.baseSpeedMultiplier = 0D;
+		multiblock.basePowerMultiplier = 0D;
 		
 		Long2ObjectMap<TileElectrolyzerCathodeTerminal> cathodeMap = getPartMap(TileElectrolyzerCathodeTerminal.class);
 		Long2ObjectMap<TileElectrolyzerAnodeTerminal> anodeMap = getPartMap(TileElectrolyzerAnodeTerminal.class);
@@ -209,10 +211,8 @@ public class ElectrolyzerLogic extends MachineLogic {
 								}
 							}
 							
-							if (multiblock.getLastError() == null) {
-								BlockPos pos = corner.add(vec.u, 0, vec.v);
-								multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_interior", pos, pos.getX(), pos.getY(), pos.getZ());
-							}
+							BlockPos pos = corner.add(vec.u, 0, vec.v);
+							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_interior", pos, pos.getX(), pos.getY(), pos.getZ());
 							return false;
 						}
 					}
@@ -233,11 +233,9 @@ public class ElectrolyzerLogic extends MachineLogic {
 		for (ElectrolyzerRegion region : regions) {
 			boolean hasCathodes = !region.cathodeMap.isEmpty(), hasAnodes = !region.anodeMap.isEmpty();
 			if (hasCathodes && hasAnodes) {
-				if (multiblock.getLastError() == null) {
-					Vec2i vec = (hasCathodes ? region.cathodeMap : region.anodeMap).keySet().iterator().next();
-					BlockPos pos = corner.add(vec.u, interiorY, vec.v);
-					multiblock.setLastError("nuclearcraft.multiblock_validation.electrolyzer.short_circuit", pos);
-				}
+				Vec2i vec = (hasCathodes ? region.cathodeMap : region.anodeMap).keySet().iterator().next();
+				BlockPos pos = corner.add(vec.u, interiorY, vec.v);
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.electrolyzer.short_circuit", pos);
 				return false;
 			}
 			
@@ -266,29 +264,29 @@ public class ElectrolyzerLogic extends MachineLogic {
 					for (Object2DoubleMap.Entry<Vec2i> anode : other.anodeMap.object2DoubleEntrySet()) {
 						Vec2i anodeVec = anode.getKey();
 						double anodeEfficiency = anodeRegionEfficiency * anode.getDoubleValue();
-						baseSpeedMultiplier += cathodeEfficiency * anodeEfficiency / anodeVec.subtract(cathodeVec).abs();
+						multiblock.baseSpeedMultiplier += cathodeEfficiency * anodeEfficiency / anodeVec.subtract(cathodeVec).abs();
 					}
 				}
 			}
 		}
 		
 		int cathodeCount = cathodeMap.size(), anodeCount = anodeMap.size();
-		baseSpeedMultiplier *= (double) interiorY * (double) Math.min(cathodeCount, anodeCount) / (double) Math.max(cathodeCount, anodeCount);
+		multiblock.baseSpeedMultiplier *= (double) interiorY * (double) Math.min(cathodeCount, anodeCount) / (double) Math.max(cathodeCount, anodeCount);
 		
 		for (ObjectSet<Vec2i> electrodes : Arrays.asList(globalCathodes, globalAnodes)) {
 			for (Vec2i vec : electrodes) {
-				basePowerMultiplier += 1D;
+				multiblock.basePowerMultiplier += 1D;
 				
 				for (Vec2i dir : Vec2i.DIRS) {
 					Vec2i offset = vec.add(dir);
 					if (globalDiaphragmMap.containsKey(offset)) {
-						basePowerMultiplier += globalDiaphragmMap.getDouble(offset);
+						multiblock.basePowerMultiplier += globalDiaphragmMap.getDouble(offset);
 					}
 				}
 			}
 		}
 		
-		basePowerMultiplier *= interiorY;
+		multiblock.basePowerMultiplier *= interiorY;
 		
 		return true;
 	}
@@ -311,17 +309,17 @@ public class ElectrolyzerLogic extends MachineLogic {
 	}
 	
 	protected double getReservoirLevelFraction() {
-		return reservoirTanks.get(0).getFluidAmountFraction();
+		return multiblock.reservoirTanks.get(0).getFluidAmountFraction();
 	}
 	
 	@Override
 	protected double getSpeedMultiplier() {
-		return baseSpeedMultiplier * electrolyteEfficiency * getReservoirLevelFraction();
+		return multiblock.baseSpeedMultiplier * electrolyteEfficiency * getReservoirLevelFraction();
 	}
 	
 	@Override
 	protected double getPowerMultiplier() {
-		return basePowerMultiplier * getReservoirLevelFraction();
+		return multiblock.basePowerMultiplier * getReservoirLevelFraction();
 	}
 	
 	@Override
@@ -333,7 +331,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 	public void refreshActivity() {
 		super.refreshActivity();
 		
-		RecipeInfo<BasicRecipe> recipeInfo = electrolyteRecipeHandler == null ? null : electrolyteRecipeHandler.getRecipeInfoFromInputs(Collections.emptyList(), reservoirTanks.subList(0, 1));
+		RecipeInfo<BasicRecipe> recipeInfo = electrolyteRecipeHandler == null ? null : electrolyteRecipeHandler.getRecipeInfoFromInputs(Collections.emptyList(), multiblock.reservoirTanks.subList(0, 1));
 		electrolyteEfficiency = recipeInfo == null ? 0D : recipeInfo.recipe.getElectrolyzerElectrolyteEfficiency();
 	}
 	
@@ -354,9 +352,9 @@ public class ElectrolyzerLogic extends MachineLogic {
 			return;
 		}
 		
-		if (isProcessing && multiblock.isAssembled()) {
+		if (multiblock.processor.isProcessing && multiblock.isAssembled()) {
 			double speedMultiplier = getSpeedMultiplier();
-			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(prevSpeedMultiplier));
+			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(multiblock.prevSpeedMultiplier));
 			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
 			
 			if (!multiblock.refreshSounds) {
@@ -383,7 +381,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 				addSound.accept(BlockPos.fromLong(posLong));
 			}
 			
-			prevSpeedMultiplier = speedMultiplier;
+			multiblock.prevSpeedMultiplier = speedMultiplier;
 		}
 		else {
 			multiblock.refreshSounds = true;
@@ -441,7 +439,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 	
 	@Override
 	public MachineUpdatePacket getMultiblockUpdatePacket() {
-		return new ElectrolyzerUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, isProcessing, time, baseProcessTime, baseProcessPower, tanks, baseSpeedMultiplier, basePowerMultiplier, recipeUnitInfo, electrolyteEfficiency);
+		return new ElectrolyzerUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.time, multiblock.processor.baseProcessTime, multiblock.baseProcessPower, multiblock.tanks, multiblock.baseSpeedMultiplier, multiblock.basePowerMultiplier, multiblock.recipeUnitInfo, electrolyteEfficiency);
 	}
 	
 	@Override
@@ -454,19 +452,19 @@ public class ElectrolyzerLogic extends MachineLogic {
 	
 	@Override
 	public ElectrolyzerRenderPacket getRenderPacket() {
-		return new ElectrolyzerRenderPacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, isProcessing, reservoirTanks);
+		return new ElectrolyzerRenderPacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.reservoirTanks);
 	}
 	
 	@Override
 	public void onRenderPacket(MachineRenderPacket message) {
 		super.onRenderPacket(message);
 		if (message instanceof ElectrolyzerRenderPacket packet) {
-			boolean wasProcessing = isProcessing;
-			isProcessing = packet.isProcessing;
-			if (wasProcessing != isProcessing) {
+			boolean wasProcessing = multiblock.processor.isProcessing;
+			multiblock.processor.isProcessing = packet.isProcessing;
+			if (wasProcessing != multiblock.processor.isProcessing) {
 				multiblock.refreshSounds = true;
 			}
-			TankInfo.readInfoList(packet.reservoirTankInfos, reservoirTanks);
+			TankInfo.readInfoList(packet.reservoirTankInfos, multiblock.reservoirTanks);
 		}
 	}
 }

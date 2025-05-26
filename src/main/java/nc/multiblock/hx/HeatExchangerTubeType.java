@@ -2,42 +2,48 @@ package nc.multiblock.hx;
 
 import nc.enumm.ITileEnum;
 import nc.tile.hx.*;
+import net.minecraft.util.IStringSerializable;
 
-import static nc.config.NCConfig.heat_exchanger_conductivity;
+import static nc.config.NCConfig.*;
 
-public enum HeatExchangerTubeType implements ITileEnum<TileHeatExchangerTube.Variant> {
+public enum HeatExchangerTubeType implements IStringSerializable, ITileEnum<TileHeatExchangerTube.Variant> {
 	
-	COPPER("copper", heat_exchanger_conductivity[0], TileHeatExchangerTube.Copper.class, TileCondenserTube.Copper.class),
-	HARD_CARBON("hard_carbon", heat_exchanger_conductivity[1], TileHeatExchangerTube.HardCarbon.class, TileCondenserTube.HardCarbon.class),
-	THERMOCONDUCTING("thermoconducting", heat_exchanger_conductivity[2], TileHeatExchangerTube.Thermoconducting.class, TileCondenserTube.Thermoconducting.class);
+	COPPER("copper", heat_exchanger_heat_transfer_coefficient[0], heat_exchanger_heat_retention_mult[0], TileHeatExchangerTube.Copper.class),
+	HARD_CARBON("hard_carbon", heat_exchanger_heat_transfer_coefficient[1], heat_exchanger_heat_retention_mult[1], TileHeatExchangerTube.HardCarbon.class),
+	THERMOCONDUCTING("thermoconducting", heat_exchanger_heat_transfer_coefficient[2], heat_exchanger_heat_retention_mult[2], TileHeatExchangerTube.Thermoconducting.class);
 	
 	private final String name;
-	private final double conductivity;
+	private final double heatTransferCoefficient;
+	private final double heatRetentionMult;
 	private final Class<? extends TileHeatExchangerTube.Variant> tileClass;
-	private final Class<? extends TileCondenserTube.Variant> condenserTileClass;
 	
-	HeatExchangerTubeType(String name, double conductivity, Class<? extends TileHeatExchangerTube.Variant> tileClass, Class<? extends TileCondenserTube.Variant> condenserTileClass) {
+	HeatExchangerTubeType(String name, double heatTransferCoefficient, double heatRetentionMult, Class<? extends TileHeatExchangerTube.Variant> tileClass) {
 		this.name = name;
-		this.conductivity = conductivity;
+		this.heatTransferCoefficient = heatTransferCoefficient;
+		this.heatRetentionMult = heatRetentionMult;
 		this.tileClass = tileClass;
-		this.condenserTileClass = condenserTileClass;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 	
 	@Override
 	public String toString() {
-		return name;
+		return getName();
 	}
 	
-	public double getConductivity() {
-		return conductivity;
+	public double getHeatTransferCoefficient() {
+		return heatTransferCoefficient;
+	}
+	
+	public double getHeatRetentionMult() {
+		return heatRetentionMult;
 	}
 	
 	@Override
 	public Class<? extends TileHeatExchangerTube.Variant> getTileClass() {
 		return tileClass;
-	}
-	
-	public Class<? extends TileCondenserTube.Variant> getCondenserTileClass() {
-		return condenserTileClass;
 	}
 }

@@ -101,10 +101,10 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 					else if (bunch != otherBunch) {
 						if (otherBunch != null) {
 							vesselBunches.remove(otherBunch);
-							for (TileSaltFissionVessel otherBunchVessel : otherBunch.getPartMap().values()) {
+							for (TileSaltFissionVessel otherBunchVessel : otherBunch.vesselMap.values()) {
 								otherBunchVessel.setVesselBunch(bunch);
 							}
-							otherBunch.getPartMap().clear();
+							otherBunch.vesselMap.clear();
 						}
 						else {
 							other.setVesselBunch(bunch);
@@ -119,7 +119,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 			}
 			
 			if (bunch == null) {
-				bunch = new SaltFissionVesselBunch(multiblock);
+				bunch = new SaltFissionVesselBunch();
 				vessel.setVesselBunch(bunch);
 				vesselBunches.add(bunch);
 			}

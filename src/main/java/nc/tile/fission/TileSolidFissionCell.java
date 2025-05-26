@@ -454,7 +454,9 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 		if (!world.isRemote) {
 			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing(true) && isProcessing(false);
 			
-			onTick();
+			if (onTick()) {
+				markDirty();
+			}
 			
 			updateDecayFractions();
 			

@@ -1,0 +1,6 @@
+{
+	"parent": "nuclearcraft:block/heat_exchanger_tube_center",
+	"textures": {
+		"all": "nuclearcraft:blocks/heat_exchanger/tube/copper/center"
+	}
+}

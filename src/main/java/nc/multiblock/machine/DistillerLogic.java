@@ -1,6 +1,7 @@
 package nc.multiblock.machine;
 
 import it.unimi.dsi.fastutil.ints.*;
+import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.init.NCSounds;
@@ -73,8 +74,8 @@ public class DistillerLogic extends MachineLogic {
 			return false;
 		}
 		
-		baseSpeedMultiplier = 0D;
-		basePowerMultiplier = 0D;
+		multiblock.baseSpeedMultiplier = 0D;
+		multiblock.basePowerMultiplier = 0D;
 		
 		trayLevels.clear();
 		
@@ -91,9 +92,7 @@ public class DistillerLogic extends MachineLogic {
 		for (TileDistillerRefluxUnit refluxUnit : refluxUnits) {
 			BlockPos pos = refluxUnit.getPos();
 			if (pos.getY() != maxY) {
-				if (multiblock.getLastError() == null) {
-					multiblock.setLastError("nuclearcraft.multiblock_validation.distiller.invalid_reflux_unit", pos);
-				}
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.distiller.invalid_reflux_unit", pos);
 				return false;
 			}
 		}
@@ -102,9 +101,7 @@ public class DistillerLogic extends MachineLogic {
 		for (TileDistillerReboilingUnit reboilingUnit : reboilingUnits) {
 			BlockPos pos = reboilingUnit.getPos();
 			if (pos.getY() != minY) {
-				if (multiblock.getLastError() == null) {
-					multiblock.setLastError("nuclearcraft.multiblock_validation.distiller.invalid_reboiling_unit", pos);
-				}
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.distiller.invalid_reboiling_unit", pos);
 				return false;
 			}
 		}
@@ -113,9 +110,7 @@ public class DistillerLogic extends MachineLogic {
 		for (TileDistillerLiquidDistributor liquidDistributor : liquidDistributors) {
 			BlockPos pos = liquidDistributor.getPos();
 			if (pos.getY() != maxY) {
-				if (multiblock.getLastError() == null) {
-					multiblock.setLastError("nuclearcraft.multiblock_validation.distiller.invalid_liquid_distributor", pos);
-				}
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.distiller.invalid_liquid_distributor", pos);
 				return false;
 			}
 		}
@@ -132,9 +127,7 @@ public class DistillerLogic extends MachineLogic {
 			if (getWorld().getTileEntity(pos) instanceof TileDistillerSieveTray) {
 				blockRecipe = RecipeHelper.blockRecipe(NCRecipes.machine_sieve_assembly, getWorld().getBlockState(pos.up()));
 				if (blockRecipe == null) {
-					if (multiblock.getLastError() == null) {
-						multiblock.setLastError("nuclearcraft.multiblock_validation.distiller.invalid_sieve_recipe", pos);
-					}
+					multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.distiller.invalid_sieve_recipe", pos);
 					return false;
 				}
 				else {
@@ -150,8 +143,8 @@ public class DistillerLogic extends MachineLogic {
 			}
 		}
 		
-		baseSpeedMultiplier = (double) area * (traySieveCount == 0 ? packedSieveEfficiency : (packedSieveCount == 0 ? traySieveEfficiency : (packedSieveCount * traySieveEfficiency + packedSieveEfficiency) / (1D + packedSieveCount)));
-		basePowerMultiplier = reboilingUnits.size() + (double) area * (double) (traySieveCount + packedSieveCount);
+		multiblock.baseSpeedMultiplier = (double) area * (traySieveCount == 0 ? packedSieveEfficiency : (packedSieveCount == 0 ? traySieveEfficiency : (packedSieveCount * traySieveEfficiency + packedSieveEfficiency) / (1D + packedSieveCount)));
+		multiblock.basePowerMultiplier = reboilingUnits.size() + (double) area * (double) (traySieveCount + packedSieveCount);
 		
 		refluxUnitFraction = (double) refluxUnits.size() / (double) area;
 		reboilingUnitFraction = (double) reboilingUnits.size() / (double) area;
@@ -215,7 +208,7 @@ public class DistillerLogic extends MachineLogic {
 	
 	@Override
 	protected double getSpeedMultiplier() {
-		return baseSpeedMultiplier * (1D + refluxUnitBonus) * (1D + reboilingUnitBonus) * (1D + liquidDistributorBonus);
+		return multiblock.baseSpeedMultiplier * (1D + refluxUnitBonus) * (1D + reboilingUnitBonus) * (1D + liquidDistributorBonus);
 	}
 	
 	@Override
@@ -224,7 +217,7 @@ public class DistillerLogic extends MachineLogic {
 			return false;
 		}
 		
-		long sieveTrayCount = recipeInfo == null ? 0L : recipeInfo.recipe.getDistillerSieveTrayCount();
+		long sieveTrayCount = multiblock.processor.recipeInfo == null ? 0L : multiblock.processor.recipeInfo.recipe.getDistillerSieveTrayCount();
 		return sieveTrayCount <= trayLevels.size();
 	}
 	
@@ -244,9 +237,9 @@ public class DistillerLogic extends MachineLogic {
 			return;
 		}
 		
-		if (isProcessing && multiblock.isAssembled()) {
+		if (multiblock.processor.isProcessing && multiblock.isAssembled()) {
 			double speedMultiplier = getSpeedMultiplier();
-			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(prevSpeedMultiplier));
+			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(multiblock.prevSpeedMultiplier));
 			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
 			
 			if (!multiblock.refreshSounds) {
@@ -267,7 +260,7 @@ public class DistillerLogic extends MachineLogic {
 				addSound.accept(multiblock.getExtremeInteriorCoord(NCMath.getBit(i, 0) == 1, NCMath.getBit(i, 1) == 1, NCMath.getBit(i, 2) == 1));
 			}
 			
-			prevSpeedMultiplier = speedMultiplier;
+			multiblock.prevSpeedMultiplier = speedMultiplier;
 		}
 		else {
 			multiblock.refreshSounds = true;
@@ -315,7 +308,7 @@ public class DistillerLogic extends MachineLogic {
 	
 	@Override
 	public MachineUpdatePacket getMultiblockUpdatePacket() {
-		return new DistillerUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, isProcessing, time, baseProcessTime, baseProcessPower, tanks, baseSpeedMultiplier, basePowerMultiplier, recipeUnitInfo, refluxUnitBonus, reboilingUnitBonus, liquidDistributorBonus);
+		return new DistillerUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.time, multiblock.processor.baseProcessTime, multiblock.baseProcessPower, multiblock.tanks, multiblock.baseSpeedMultiplier, multiblock.basePowerMultiplier, multiblock.recipeUnitInfo, refluxUnitBonus, reboilingUnitBonus, liquidDistributorBonus);
 	}
 	
 	@Override
@@ -330,19 +323,19 @@ public class DistillerLogic extends MachineLogic {
 	
 	@Override
 	public DistillerRenderPacket getRenderPacket() {
-		return new DistillerRenderPacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, isProcessing, getFluidInputs(false), trayLevels);
+		return new DistillerRenderPacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.getFluidInputs(false), trayLevels);
 	}
 	
 	@Override
 	public void onRenderPacket(MachineRenderPacket message) {
 		super.onRenderPacket(message);
 		if (message instanceof DistillerRenderPacket packet) {
-			boolean wasProcessing = isProcessing;
-			isProcessing = packet.isProcessing;
-			if (wasProcessing != isProcessing) {
+			boolean wasProcessing = multiblock.processor.isProcessing;
+			multiblock.processor.isProcessing = packet.isProcessing;
+			if (wasProcessing != multiblock.processor.isProcessing) {
 				multiblock.refreshSounds = true;
 			}
-			TankInfo.readInfoList(packet.tankInfos, getFluidInputs(false));
+			TankInfo.readInfoList(packet.tankInfos, multiblock.processor.getFluidInputs(false));
 			trayLevels.clear();
 			trayLevels.addAll(packet.trayLevels);
 		}

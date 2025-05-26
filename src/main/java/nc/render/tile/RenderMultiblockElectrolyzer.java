@@ -48,7 +48,7 @@ public class RenderMultiblockElectrolyzer extends TileEntitySpecialRenderer<Tile
 		GlStateManager.translate(posX + posOffset.getX() - PIXEL, posY + posOffset.getY() - PIXEL, posZ + posOffset.getZ() - PIXEL);
 		
 		int xSize = machine.getInteriorLengthX(), ySize = machine.getInteriorLengthY(), zSize = machine.getInteriorLengthZ();
-		for (Tank tank : logic.reservoirTanks) {
+		for (Tank tank : machine.reservoirTanks) {
 			IWorldRender.renderFluid(tank, xSize + 2D * PIXEL, ySize + 2D * PIXEL, zSize + 2D * PIXEL, EnumFacing.UP);
 		}
 		

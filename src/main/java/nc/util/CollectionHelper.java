@@ -284,25 +284,6 @@ public class CollectionHelper {
 		return increasingList(0, length);
 	}
 	
-	/**
-	 * Returns true if only the selected entries are true
-	 */
-	public static boolean arrayXAND(boolean[] array, int... i) {
-		for (int j = 0; j < array.length; ++j) {
-			boolean b = 2 * i.length > array.length;
-			for (int k : i) {
-				if (b ^ j == k) {
-					b = !b;
-					break;
-				}
-			}
-			if (b ^ array[j]) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	public static IntList nCopies(int n, int value) {
 		return new IntArrayList(Collections.nCopies(n, value));
 	}

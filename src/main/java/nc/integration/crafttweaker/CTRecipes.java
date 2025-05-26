@@ -1102,7 +1102,6 @@ public class CTRecipes {
 		}
 	}
 	
-	// TODO
 	@ZenClass("mods.nuclearcraft.HeatExchanger")
 	@ZenRegister
 	public static class HeatExchangerMethods {
@@ -1113,39 +1112,8 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, int heatRequired, int temperatureIn, int temperatureOut) {
-			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, heatRequired, temperatureIn, temperatureOut);
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient fluidInput) {
-			getRecipeHandler().ctRemoveRecipeWithInput(fluidInput);
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient fluidOutput) {
-			getRecipeHandler().ctRemoveRecipeWithOutput(fluidOutput);
-		}
-		
-		@ZenMethod
-		public static void removeAllRecipes() {
-			getRecipeHandler().ctRemoveAllRecipes();
-		}
-	}
-	
-	// TODO
-	@ZenClass("mods.nuclearcraft.Condenser")
-	@ZenRegister
-	public static class CondenserMethods {
-		
-		@ZenMethod
-		public static BasicRecipeHandler getRecipeHandler() {
-			return NCRecipes.condenser;
-		}
-		
-		@ZenMethod
-		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, int coolingRequired, int condensingTemperature) {
-			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, coolingRequired, condensingTemperature);
+		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, double heatDifference, int temperatureIn, int temperatureOut, @Optional boolean latentHeating, @Optional int preferredFlowDirection, @Optional double flowDirectionBonus) {
+			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, heatDifference, temperatureIn, temperatureOut, latentHeating, preferredFlowDirection, flowDirectionBonus);
 		}
 		
 		@ZenMethod
@@ -1174,7 +1142,7 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, double powerPerMB, double expansionLevel, double spinUpMultiplier, @Optional(value = "cloud") String particleEffect, @Optional(valueDouble = 1D / 23.2D) double particleSpeedMultiplier) {
+		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, double powerPerMB, double expansionLevel, double spinUpMultiplier, @Optional(value = "cloud") String particleEffect, @Optional(valueDouble = 5D / 116D) double particleSpeedMultiplier) {
 			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, powerPerMB, expansionLevel, spinUpMultiplier, particleEffect, particleSpeedMultiplier);
 		}
 		

@@ -40,6 +40,8 @@ import static nc.util.PosHelper.DEFAULT_NON;
 
 public class TileSaltFissionHeater extends TileFissionPart implements IBasicProcessor<TileSaltFissionHeater, SaltFissionHeaterUpdatePacket>, ITileFilteredFluid, IFissionCoolingComponent, IFissionPortTarget<TileFissionHeaterPort, TileSaltFissionHeater> {
 	
+	public static final Object2ObjectMap<String, String> DYN_COOLANT_NAME_MAP = new Object2ObjectOpenHashMap<>();
+	
 	protected final ProcessorContainerInfoImpl.BasicProcessorContainerInfo<TileSaltFissionHeater, SaltFissionHeaterUpdatePacket> info;
 	
 	protected final @Nonnull String inventoryName;
@@ -502,7 +504,9 @@ public class TileSaltFissionHeater extends TileFissionPart implements IBasicProc
 		if (!world.isRemote) {
 			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing(true, true) && isProcessing(false, true);
 			
-			onTick();
+			if (onTick()) {
+				markDirty();
+			}
 			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;
@@ -846,7 +850,6 @@ public class TileSaltFissionHeater extends TileFissionPart implements IBasicProc
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("heaterName", heaterType);
-		nbt.setString("coolantName", coolantName);
 		writeTanks(nbt);
 		
 		writeProcessorNBT(nbt);
@@ -865,11 +868,13 @@ public class TileSaltFissionHeater extends TileFissionPart implements IBasicProc
 		if (nbt.hasKey("heaterName")) {
 			heaterType = nbt.getString("heaterName");
 		}
-		if (nbt.hasKey("coolantName")) {
-			coolantName = nbt.getString("coolantName");
+		
+		if (DYN_COOLANT_NAME_MAP.containsKey(heaterType)) {
+			coolantName = DYN_COOLANT_NAME_MAP.get(heaterType);
 			tanks.get(0).setAllowedFluids(Collections.singleton(coolantName));
 			filterTanks.get(0).setAllowedFluids(Collections.singleton(coolantName));
 		}
+		
 		readTanks(nbt);
 		
 		readProcessorNBT(nbt);

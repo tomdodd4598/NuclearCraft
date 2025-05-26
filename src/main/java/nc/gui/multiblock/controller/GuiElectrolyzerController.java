@@ -45,13 +45,13 @@ public class GuiElectrolyzerController extends GuiLogicMultiblockController<Mach
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
 		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
 		
-		String electrodeEfficiency = Lang.localize("gui.nc.container.electrolyzer_controller.electrode_efficiency") + " " + NCMath.pcDecimalPlaces(logic.basePowerMultiplier <= 0D ? 0D : 8D * logic.baseSpeedMultiplier / logic.basePowerMultiplier, 1);
+		String electrodeEfficiency = Lang.localize("gui.nc.container.electrolyzer_controller.electrode_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.basePowerMultiplier <= 0D ? 0D : 8D * multiblock.baseSpeedMultiplier / multiblock.basePowerMultiplier, 1);
 		fontRenderer.drawString(electrodeEfficiency, xSize / 2 - fontRenderer.getStringWidth(electrodeEfficiency) / 2, 22, fontColor);
 		
 		String electrolyteEfficiency = Lang.localize("gui.nc.container.electrolyzer_controller.electrolyte_efficiency") + " " + NCMath.pcDecimalPlaces(getLogic().electrolyteEfficiency, 1);
 		fontRenderer.drawString(electrolyteEfficiency, xSize / 2 - fontRenderer.getStringWidth(electrolyteEfficiency) / 2, 34, fontColor);
 		
-		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + logic.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
+		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
 		fontRenderer.drawString(rate, xSize / 2 - fontRenderer.getStringWidth(rate) / 2, 46, fontColor);
 		
 		String power = Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t");

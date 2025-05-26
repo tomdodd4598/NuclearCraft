@@ -3,7 +3,7 @@ package nc.tile.turbine;
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.tile.*;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -23,6 +23,9 @@ import static nc.config.NCConfig.enable_gtce_eu;
 
 @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")
 public abstract class TileTurbineDynamoPart extends TileTurbinePart implements ITickable, ITileEnergy, IEnergySource {
+	
+	public static final Object2DoubleMap<String> DYN_CONDUCTIVITY_MAP = new Object2DoubleOpenHashMap<>();
+	public static final Object2ObjectMap<String, String> DYN_RULE_ID_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected final EnergyStorage backupStorage = new EnergyStorage(0L);
 	
@@ -211,10 +214,6 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("partName", partName);
-		if (conductivity != null) {
-			nbt.setDouble("conductivity", conductivity);
-		}
-		nbt.setString("ruleID", ruleID);
 		
 		writeEnergyConnections(nbt);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
@@ -227,11 +226,12 @@ public abstract class TileTurbineDynamoPart extends TileTurbinePart implements I
 		if (nbt.hasKey("partName")) {
 			partName = nbt.getString("partName");
 		}
-		if (nbt.hasKey("conductivity")) {
-			conductivity = nbt.getDouble("conductivity");
+		
+		if (DYN_CONDUCTIVITY_MAP.containsKey(partName)) {
+			conductivity = DYN_CONDUCTIVITY_MAP.getDouble(partName);
 		}
-		if (nbt.hasKey("ruleID")) {
-			ruleID = nbt.getString("ruleID");
+		if (DYN_RULE_ID_MAP.containsKey(partName)) {
+			ruleID = DYN_RULE_ID_MAP.get(partName);
 			placementRule = TurbinePlacement.RULE_MAP.get(ruleID);
 		}
 		

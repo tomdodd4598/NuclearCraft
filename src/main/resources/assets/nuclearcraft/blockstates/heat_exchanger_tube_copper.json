@@ -1,151 +1,186 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"textures": {
-			"particle":"nuclearcraft:blocks/heat_exchanger/tube/copper",
-			"north":"nuclearcraft:blocks/heat_exchanger/tube/copper",
-			"east":"nuclearcraft:blocks/heat_exchanger/tube/copper",
-			"south":"nuclearcraft:blocks/heat_exchanger/tube/copper",
-			"west":"nuclearcraft:blocks/heat_exchanger/tube/copper",
-			"up":"nuclearcraft:blocks/heat_exchanger/tube/copper",
-			"down":"nuclearcraft:blocks/heat_exchanger/tube/copper"
-		},
-		"model":"cube",
-		"transform":"forge:default-block"
-	},
-	"variants": {
-		"inventory": [{}],
-		"north": {
-			"default": {
-			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
-				}
-			},
-			"input_spread": {
-			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
-				}
+	"multipart": [
+		{
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_center"
 			}
 		},
-		"east": {
-			"default": {
-			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
-				}
+		{
+			"when": {
+				"down": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open",
+				"x": 90,
+				"uvlock": true
 			}
 		},
-		"south": {
-			"default": {
-			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
-				}
+		{
+			"when": {
+				"up": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open",
+				"x": 270,
+				"uvlock": true
 			}
 		},
-		"west": {
-			"default": {
-			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
-				}
+		{
+			"when": {
+				"north": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open",
+				"uvlock": true
 			}
 		},
-		"up": {
-			"default": {
-			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
-				}
+		{
+			"when": {
+				"south": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
-				}
-			},
-			"product_out": {
-				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open",
+				"y": 180,
+				"uvlock": true
 			}
 		},
-		"down": {
-			"default": {
-			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
-				}
+		{
+			"when": {
+				"west": "open"
 			},
-			"input_spread": {
-			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "open"
 			},
-			"product_out": {
-				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"down": "closed_baffle"
 			},
-			"disabled": {
-				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
-				}
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"down": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open_baffle",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open_baffle",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open_baffle",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open_baffle",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open_baffle",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube/copper_open_baffle",
+				"y": 90,
+				"uvlock": true
 			}
 		}
-	}
+	]
 }

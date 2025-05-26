@@ -252,7 +252,9 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 		if (!world.isRemote) {
 			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing(true) && isProcessing(false);
 			
-			onTick();
+			if (onTick()) {
+				markDirty();
+			}
 			
 			if (shouldRefresh) {
 				getMultiblock().refreshFlag = true;

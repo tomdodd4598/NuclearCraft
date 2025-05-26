@@ -19,6 +19,9 @@ public class TileDistillerController extends TileMachinePart implements IMachine
 	
 	protected boolean isRenderer = false;
 	
+	protected final float[] brightnessArray = new float[] {1F, 1F, 1F, 1F, 1F, 1F, 1F, 1F};
+	protected int brightnessIndex = 0;
+	
 	public TileDistillerController() {
 		super(CuboidalPartPositionType.WALL);
 	}
@@ -93,5 +96,18 @@ public class TileDistillerController extends TileMachinePart implements IMachine
 	@Override
 	public void setIsRenderer(boolean isRenderer) {
 		this.isRenderer = isRenderer;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public float nextRenderBrightness() {
+		Machine machine = getMultiblock();
+		if (machine == null) {
+			return 1F;
+		}
+		
+		brightnessArray[brightnessIndex] = world.getLightBrightness(machine.getExtremeInteriorCoord(NCMath.getBit(brightnessIndex, 0) == 1, NCMath.getBit(brightnessIndex, 1) == 1, NCMath.getBit(brightnessIndex, 2) == 1));
+		brightnessIndex = (brightnessIndex + 1) % 8;
+		
+		return (brightnessArray[0] + brightnessArray[1] + brightnessArray[2] + brightnessArray[3] + brightnessArray[4] + brightnessArray[5] + brightnessArray[6] + brightnessArray[7]) / 8F;
 	}
 }

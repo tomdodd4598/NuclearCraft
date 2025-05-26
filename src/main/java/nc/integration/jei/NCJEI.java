@@ -4,6 +4,8 @@ import mezz.jei.api.*;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 import nc.ModCheck;
+import nc.block.hx.*;
+import nc.block.turbine.BlockTurbineController;
 import nc.container.processor.ContainerNuclearFurnace;
 import nc.enumm.MetaEnums;
 import nc.gui.processor.GuiNuclearFurnace;
@@ -11,12 +13,18 @@ import nc.handler.TileInfoHandler;
 import nc.init.*;
 import nc.integration.jei.category.info.JEICategoryInfo;
 import nc.multiblock.fission.FissionPlacement;
-import nc.recipe.BasicRecipe;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
+import nc.recipe.*;
 import nc.util.*;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.*;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.*;
 
 import static nc.config.NCConfig.*;
 
@@ -109,15 +117,52 @@ public class NCJEI implements IModPlugin {
 		return list;
 	}
 	
-	public static List<Object> getCoolantHeaters() {
-		List<Object> list = new ArrayList<>();
-		for (BasicRecipe recipe : FissionPlacement.recipe_handler.getRecipeList()) {
-			if (recipe.getPlacementRuleID().endsWith("_heater")) {
-				for (IItemIngredient ingredient : recipe.getItemIngredients()) {
-					list.addAll(ingredient.getInputStackList());
-				}
-			}
-		}
+	private static List<Object> getRecipeListInputs(Stream<BasicRecipe> recipes) {
+		return recipes.flatMap(x -> x.getItemIngredients().stream()).flatMap(x -> x.getInputStackList().stream()).collect(Collectors.toList());
+	}
+	
+	private static List<Object> getRecipeListInputs(BasicRecipeHandler recipeHandler) {
+		return getRecipeListInputs(recipeHandler.getRecipeList().stream());
+	}
+	
+	private static List<Object> getBlockList(Predicate<? super Block> predicate) {
+		return ForgeRegistries.BLOCKS.getValuesCollection().stream().filter(predicate).flatMap(x -> {
+			Item item = Item.getItemFromBlock(x);
+			return item instanceof ItemBlock ? LambdaHelper.also(NonNullList.<ItemStack>create(), y -> item.getSubItems(CreativeTabs.SEARCH, y)).stream() : Stream.empty();
+		}).collect(Collectors.toList());
+	}
+	
+	public static List<Object> getMachineDiaphragmCrafters() {
+		return getRecipeListInputs(NCRecipes.machine_diaphragm);
+	}
+	
+	public static List<Object> getMachineSieveAssemblyCrafters() {
+		return getRecipeListInputs(NCRecipes.machine_sieve_assembly);
+	}
+	
+	public static List<Object> getFissionModeratorCrafters() {
+		List<Object> list = getRecipeListInputs(NCRecipes.fission_moderator);
+		ItemStack heavyWaterModerator = new ItemStack(NCBlocks.heavy_water_moderator);
+		list.sort(Comparator.comparingInt(x -> x instanceof ItemStack stack && stack.isItemEqual(heavyWaterModerator) ? 0 : 1));
 		return list;
+	}
+	
+	public static List<Object> getFissionReflectorCrafters() {
+		List<Object> list = getRecipeListInputs(NCRecipes.fission_reflector);
+		ItemStack berylliumCarbonReflector = new ItemStack(NCBlocks.fission_reflector);
+		list.sort(Comparator.comparingInt(x -> x instanceof ItemStack stack && stack.isItemEqual(berylliumCarbonReflector) ? 0 : 1));
+		return list;
+	}
+	
+	public static List<Object> getCoolantHeaterCrafters() {
+		return getRecipeListInputs(FissionPlacement.recipe_handler.getRecipeList().stream().filter(x -> x.getPlacementRuleID().endsWith("_heater")));
+	}
+	
+	public static List<Object> getHeatExchangerCrafters() {
+		return getBlockList(x -> x instanceof BlockHeatExchangerController || x instanceof BlockHeatExchangerTube);
+	}
+	
+	public static List<Object> getTurbineCrafters() {
+		return getBlockList(x -> x instanceof BlockTurbineController || x instanceof IBlockRotorBlade);
 	}
 }

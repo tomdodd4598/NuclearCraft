@@ -1,0 +1,33 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"all": "#all",
+		"side": "nuclearcraft:blocks/heat_exchanger/tube/open_baffle_side"
+	},
+	"elements": [
+		{
+			"from": [ 2.000, 2.000, 0.995 ],
+			"to": [ 14.000, 14.000, 2.000 ],
+			"faces": {
+				"down": { "texture": "#side" },
+				"up": { "texture": "#side" },
+				"north": { "texture": "#side" },
+				"south": { "texture": "#side" },
+				"west": { "texture": "#side" },
+				"east": { "texture": "#side" }
+			}
+		},
+		{
+			"from": [ 0, 0, 0 ],
+			"to": [ 16, 16, 1 ],
+			"faces": {
+				"down": { "texture": "#all" },
+				"up": { "texture": "#all" },
+				"north": { "texture": "#all" },
+				"south": { "texture": "#all" },
+				"west": { "texture": "#all" },
+				"east": { "texture": "#all" }
+			}
+		}
+	]
+}

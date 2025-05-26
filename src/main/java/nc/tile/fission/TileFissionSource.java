@@ -1,5 +1,6 @@
 package nc.tile.fission;
 
+import it.unimi.dsi.fastutil.objects.*;
 import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.fission.*;
@@ -23,6 +24,10 @@ import static nc.util.PosHelper.DEFAULT_NON;
 
 public class TileFissionSource extends TileFissionPart implements IFissionManagerListener<TileFissionSourceManager, TileFissionSource> {
 	
+	public static final Object2DoubleMap<String> DYN_EFFICIENCY_MAP = new Object2DoubleOpenHashMap<>();
+	
+	protected String sourceType;
+	
 	protected double efficiency;
 	
 	public boolean isActive = false;
@@ -38,7 +43,7 @@ public class TileFissionSource extends TileFissionPart implements IFissionManage
 		super(CuboidalPartPositionType.WALL);
 	}
 	
-	public TileFissionSource(double efficiency) {
+	public TileFissionSource(String sourceType, double efficiency) {
 		this();
 		this.efficiency = efficiency;
 	}
@@ -46,7 +51,7 @@ public class TileFissionSource extends TileFissionPart implements IFissionManage
 	public static class Meta extends TileFissionSource {
 		
 		protected Meta(MetaEnums.NeutronSourceType type) {
-			super(type.getEfficiency());
+			super(type.getName(), type.getEfficiency());
 		}
 		
 		@Override
@@ -244,7 +249,14 @@ public class TileFissionSource extends TileFissionPart implements IFissionManage
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setInteger("facing", facing.getIndex());
-		nbt.setDouble("efficiency", efficiency);
+		
+		if (sourceType == null) {
+			nbt.setDouble("efficiency", efficiency);
+		}
+		else {
+			nbt.setString("sourceType", sourceType);
+		}
+		
 		nbt.setBoolean("isSourceActive", isActive);
 		nbt.setLong("managerPos", managerPos.toLong());
 		return nbt;
@@ -254,9 +266,18 @@ public class TileFissionSource extends TileFissionPart implements IFissionManage
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		facing = EnumFacing.byIndex(nbt.getInteger("facing"));
+		
 		if (nbt.hasKey("efficiency")) {
 			efficiency = nbt.getDouble("efficiency");
 		}
+		else if (nbt.hasKey("sourceType")) {
+			sourceType = nbt.getString("sourceType");
+			
+			if (DYN_EFFICIENCY_MAP.containsKey(sourceType)) {
+				efficiency = DYN_EFFICIENCY_MAP.getDouble(sourceType);
+			}
+		}
+		
 		isActive = nbt.getBoolean("isSourceActive");
 		managerPos = BlockPos.fromLong(nbt.getLong("managerPos"));
 	}

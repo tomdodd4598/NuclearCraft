@@ -123,20 +123,21 @@ public class NCTiles {
 		registerTileVariants(Global.MOD_ID, "salt_fission_heater", MetaEnums.CoolantHeaterType2.class);
 		
 		registerTile(Global.MOD_ID, "heat_exchanger_controller", TileHeatExchangerController.class);
+		registerTile(Global.MOD_ID, "condenser_controller", TileCondenserController.class);
+		
 		registerTile(Global.MOD_ID, "heat_exchanger_casing", TileHeatExchangerCasing.class);
 		registerTile(Global.MOD_ID, "heat_exchanger_glass", TileHeatExchangerGlass.class);
-		registerTile(Global.MOD_ID, "heat_exchanger_vent", TileHeatExchangerVent.class);
+		
+		registerTile(Global.MOD_ID, "heat_exchanger_inlet", TileHeatExchangerInlet.class);
+		registerTile(Global.MOD_ID, "heat_exchanger_outlet", TileHeatExchangerOutlet.class);
 		
 		registerTile(Global.MOD_ID, "heat_exchanger_tube", TileHeatExchangerTube.class);
 		registerTileVariants(Global.MOD_ID, "heat_exchanger_tube", HeatExchangerTubeType.class);
 		
+		registerTile(Global.MOD_ID, "heat_exchanger_baffle", TileHeatExchangerBaffle.class);
+		
 		registerTile(Global.MOD_ID, "heat_exchanger_redstone_port", TileHeatExchangerRedstonePort.class);
 		registerTile(Global.MOD_ID, "heat_exchanger_computer_port", TileHeatExchangerComputerPort.class);
-		
-		registerTile(Global.MOD_ID, "condenser_controller", TileCondenserController.class);
-		
-		registerTile(Global.MOD_ID, "condenser_tube", TileCondenserTube.class);
-		registerTileVariants(Global.MOD_ID, "condenser_tube", HeatExchangerTubeType.class, x -> Pair.of(x.toString(), x.getCondenserTileClass()));
 		
 		registerTile(Global.MOD_ID, "turbine_controller", TileTurbineController.class);
 		registerTile(Global.MOD_ID, "turbine_casing", TileTurbineCasing.class);

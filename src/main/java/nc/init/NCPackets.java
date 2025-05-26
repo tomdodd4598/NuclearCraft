@@ -71,6 +71,9 @@ public class NCPackets {
 		wrapper.registerMessage(SaltFissionHeaterUpdatePacket.Handler.class, SaltFissionHeaterUpdatePacket.class, nextID(), Side.CLIENT);
 		
 		wrapper.registerMessage(HeatExchangerUpdatePacket.Handler.class, HeatExchangerUpdatePacket.class, nextID(), Side.CLIENT);
+		wrapper.registerMessage(HeatExchangerRenderPacket.Handler.class, HeatExchangerRenderPacket.class, nextID(), Side.CLIENT);
+		wrapper.registerMessage(CondenserUpdatePacket.Handler.class, CondenserUpdatePacket.class, nextID(), Side.CLIENT);
+		wrapper.registerMessage(CondenserRenderPacket.Handler.class, CondenserRenderPacket.class, nextID(), Side.CLIENT);
 		
 		wrapper.registerMessage(TurbineUpdatePacket.Handler.class, TurbineUpdatePacket.class, nextID(), Side.CLIENT);
 		wrapper.registerMessage(TurbineRenderPacket.Handler.class, TurbineRenderPacket.class, nextID(), Side.CLIENT);

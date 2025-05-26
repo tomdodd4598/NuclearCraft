@@ -144,15 +144,15 @@ public class NCFluids {
 		addFluidPair(FluidType.MOLTEN, "polytetrafluoroethene", 0x7F9F4D);
 		
 		if (registerCoFHAlt()) {
-			addFluidPair(FluidType.STEAM, "steam", 0x929292, 800);
+			addFluidPair(FluidType.STEAM, "steam", 0x929292, 550);
 		}
-		addFluidPair(FluidType.STEAM, "high_pressure_steam", 0xBDBDBD, 1200);
-		addFluidPair(FluidType.STEAM, "exhaust_steam", 0x7E7E7E, 500);
-		addFluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 800);
+		addFluidPair(FluidType.STEAM, "high_pressure_steam", 0xBDBDBD, 600);
+		addFluidPair(FluidType.STEAM, "exhaust_steam", 0x7E7E7E, 400);
+		addFluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 550);
 		addFluidPair(FluidType.STEAM, "low_quality_steam", 0x828282, 350);
 		
 		addFluidPair(FluidType.LIQUID, "preheated_water", false, 0x2F43F4, 1000, 400, 250, 0);
-		addFluidPair(FluidType.LIQUID, "condensate_water", false, 0x2F43F4, 1000, 300, 850, 0);
+		addFluidPair(FluidType.LIQUID, "condensate_water", false, 0x2F43F4, 1000, 350, 850, 0);
 		
 		addFluidPair(FluidType.MOLTEN, "sodium", 0xC1898C);
 		addFluidPair(FluidType.MOLTEN, "potassium", 0xB8C503);
@@ -162,8 +162,8 @@ public class NCFluids {
 		
 		addFluidPair(FluidType.COOLANT, "nak", 0xFFE5BC);
 		addFluidPair(FluidType.HOT_COOLANT, "nak_hot", 0xFFD5AC);
-		addFluidPair(FluidType.LIQUID, "emergency_coolant", true, 0x6DD0E7, 2000, 100, 2000, 3);
-		addFluidPair(FluidType.LIQUID, "emergency_coolant_heated", true, 0xCDBEE7, 2000, 300, 1500, 9);
+		addFluidPair(FluidType.LIQUID, "emergency_coolant", true, 0x6DD0E7, 2000, 250, 2000, 0);
+		addFluidPair(FluidType.LIQUID, "emergency_coolant_heated", true, 0xCDBEE7, 2000, 400, 1500, 7);
 		
 		addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);
 		addFluidPair(FluidType.HOT_GAS, "arsenic", 0x818475);

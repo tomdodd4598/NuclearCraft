@@ -1,30 +1,52 @@
 package nc.multiblock.hx;
 
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.TextFormatting;
 
 public enum HeatExchangerTubeSetting implements IStringSerializable {
+	CLOSED("closed"),
+	OPEN("open"),
+	CLOSED_BAFFLE("closed_baffle"),
+	OPEN_BAFFLE("open_baffle");
 	
-	DISABLED,
-	DEFAULT,
-	PRODUCT_OUT,
-	INPUT_SPREAD;
+	private final String name;
+	
+	HeatExchangerTubeSetting(String name) {
+		this.name = name;
+	}
+	
+	public static HeatExchangerTubeSetting of(boolean open, boolean baffle) {
+		return open ? (baffle ? OPEN_BAFFLE : OPEN) : (baffle ? CLOSED_BAFFLE : CLOSED);
+	}
+	
+	public boolean isOpen() {
+		return equals(OPEN) || equals(OPEN_BAFFLE);
+	}
+	
+	public boolean isBaffle() {
+		return equals(CLOSED_BAFFLE) || equals(OPEN_BAFFLE);
+	}
 	
 	public HeatExchangerTubeSetting next() {
 		return switch (this) {
-			case DISABLED -> DEFAULT;
-			case DEFAULT -> PRODUCT_OUT;
-			case PRODUCT_OUT -> INPUT_SPREAD;
-			case INPUT_SPREAD -> DISABLED;
+			case CLOSED -> OPEN;
+			case OPEN -> CLOSED_BAFFLE;
+			case CLOSED_BAFFLE -> OPEN_BAFFLE;
+			default -> CLOSED;
 		};
+	}
+	
+	public TextFormatting getTextColor() {
+		return isOpen() ? TextFormatting.BOLD : TextFormatting.GRAY;
 	}
 	
 	@Override
 	public String getName() {
-		return switch (this) {
-			case DISABLED -> "disabled";
-			case DEFAULT -> "default";
-			case PRODUCT_OUT -> "product_out";
-			case INPUT_SPREAD -> "input_spread";
-		};
+		return name;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

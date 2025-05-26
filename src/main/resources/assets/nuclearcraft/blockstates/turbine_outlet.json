@@ -3,18 +3,21 @@
 	"defaults": {
 		"model":"nuclearcraft:wall_part",
 		"textures": {
-			"in": "nuclearcraft:blocks/turbine/outlet",
-			"out": "nuclearcraft:blocks/turbine/outlet",
+			"in": "nuclearcraft:blocks/turbine/outlet_in",
+			"out": "nuclearcraft:blocks/turbine/outlet_out",
 			"side": "nuclearcraft:blocks/turbine/outlet_side",
 			"top": "nuclearcraft:blocks/turbine/outlet_top"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
-		"axis": {
-			"x": {"y": 90},
-			"y": {"x": 90},
-			"z": {}
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
 		}
 	}
 }

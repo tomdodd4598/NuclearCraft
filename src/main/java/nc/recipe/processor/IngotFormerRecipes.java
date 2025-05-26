@@ -31,6 +31,11 @@ public class IngotFormerRecipes extends BasicProcessorRecipeHandler {
 		addIngotFormingRecipe("lithium_6", "Lithium6");
 		addIngotFormingRecipe("lithium_7", "Lithium7");
 		
+		String oreCesium137 = OreDictHelper.oreExists("Cesium137") ? "Cesium137" : "Caesium137";
+		
+		addIngotFormingRecipe("cesium_137", oreCesium137);
+		addIngotFormingRecipe("caesium_137", oreCesium137);
+		
 		addIngotFormingRecipe("hard_carbon", "HardCarbon");
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
 		addIngotFormingRecipe("lead_platinum", "LeadPlatinum");
@@ -116,7 +121,7 @@ public class IngotFormerRecipes extends BasicProcessorRecipeHandler {
 		}
 	}
 	
-	private static final Set<String> CASTING_BLACKLIST = Sets.newHashSet("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
+	private static final Set<String> CASTING_BLACKLIST = Sets.newHashSet("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "cesium_137", "caesium_137", "marshmallow");
 	
 	public void addIngotFormingRecipes() {
 		ArrayList<String> fluidList = new ArrayList<>(FluidRegistry.getRegisteredFluids().keySet());

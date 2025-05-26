@@ -4,11 +4,13 @@ import nc.multiblock.turbine.*;
 import nc.multiblock.turbine.Turbine.PlaneDir;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
 import nc.render.IWorldRender;
+import nc.tile.internal.fluid.Tank;
 import nc.tile.turbine.TileTurbineController;
 import nc.util.NCMath;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GlStateManager.*;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
@@ -22,11 +24,6 @@ import static nc.config.NCConfig.*;
 
 @SideOnly(Side.CLIENT)
 public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineController> implements IWorldRender {
-	
-	private final float[] brightnessArray = new float[] {1F, 1F, 1F, 1F, 1F, 1F, 1F, 1F};
-	private int brightnessIndex = 0;
-	
-	private long prevRenderTime = 0L;
 	
 	@Override
 	public boolean isGlobalRenderer(TileTurbineController controller) {
@@ -57,9 +54,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		
 		BlockRendererDispatcher renderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		
-		brightnessArray[brightnessIndex] = controller.getWorld().getLightBrightness(turbine.getExtremeInteriorCoord(NCMath.getBit(brightnessIndex, 0) == 1, NCMath.getBit(brightnessIndex, 1) == 1, NCMath.getBit(brightnessIndex, 2) == 1));
-		brightnessIndex = (brightnessIndex + 1) % 8;
-		float brightness = (brightnessArray[0] + brightnessArray[1] + brightnessArray[2] + brightnessArray[3] + brightnessArray[4] + brightnessArray[5] + brightnessArray[6] + brightnessArray[7]) / 8F;
+		float brightness = controller.nextRenderBrightness();
 		
 		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		
@@ -80,9 +75,9 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		{
 			long systemTime = Minecraft.getSystemTime();
 			if (!Minecraft.getMinecraft().isGamePaused()) {
-				turbine.rotorAngle = (turbine.rotorAngle + (systemTime - prevRenderTime) * turbine.angVel) % 360F;
+				turbine.rotorAngle = (turbine.rotorAngle + (systemTime - controller.prevRenderTime) * turbine.angVel) % 360F;
 			}
-			prevRenderTime = systemTime;
+			controller.prevRenderTime = systemTime;
 			GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		}
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
@@ -106,6 +101,36 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		}
 		
 		// Leave stationary frame
+		GlStateManager.popMatrix();
+		
+		// Tanks
+		
+		GlStateManager.pushMatrix();
+		
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0F, 240F);
+		
+		GlStateManager.enableCull();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		
+		BlockPos posOffset = turbine.getExtremeInteriorCoord(false, false, false).subtract(controller.getPos());
+		GlStateManager.translate(posX + posOffset.getX(), posY + posOffset.getY(), posZ + posOffset.getZ());
+		
+		int xSize = turbine.getInteriorLengthX(), ySize = turbine.getInteriorLengthY(), zSize = turbine.getInteriorLengthZ();
+		
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(-PIXEL, -PIXEL, -PIXEL);
+		
+		Tank outputTank = turbine.tanks.get(1);
+		int outputCapacity = outputTank.getCapacity();
+		IWorldRender.renderFluid(outputTank.getFluid(), outputCapacity, xSize + 2D * PIXEL, ySize + 2D * PIXEL, zSize + 2D * PIXEL, EnumFacing.UP, x -> true, x -> 4D * x - 3D * outputCapacity);
+		
+		GlStateManager.popMatrix();
+		
+		GlStateManager.disableBlend();
+		GlStateManager.disableCull();
+		
 		GlStateManager.popMatrix();
 	}
 	

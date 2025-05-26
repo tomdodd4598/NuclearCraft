@@ -1,26 +1,45 @@
 package nc.tile.hx;
 
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.hx.*;
-import nc.tile.internal.fluid.TankSorption;
+import nc.util.Lang;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
+import javax.annotation.*;
 
 public class TileHeatExchangerTube extends TileHeatExchangerPart {
 	
-	protected @Nonnull HeatExchangerTubeSetting[] tubeSettings = new HeatExchangerTubeSetting[] {HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED};
+	public static final Object2DoubleMap<String> DYN_HEAT_TRANSFER_COEFFICIENT_MAP = new Object2DoubleOpenHashMap<>();
+	public static final Object2DoubleMap<String> DYN_HEAT_RETENTION_MULT_MAP = new Object2DoubleOpenHashMap<>();
 	
-	public EnumFacing flowDir = null;
+	protected String tubeType;
 	
-	public final double conductivity;
+	public double heatTransferCoefficient;
+	public double heatRetentionMult;
+	
+	public @Nonnull HeatExchangerTubeSetting[] settings = new HeatExchangerTubeSetting[] {HeatExchangerTubeSetting.CLOSED, HeatExchangerTubeSetting.CLOSED, HeatExchangerTubeSetting.CLOSED, HeatExchangerTubeSetting.CLOSED, HeatExchangerTubeSetting.CLOSED, HeatExchangerTubeSetting.CLOSED};
+	
+	public @Nullable Vec3d tubeFlow = null;
+	public @Nullable Vec3d shellFlow = null;
+	
+	/**
+	 * Don't use this constructor!
+	 */
+	public TileHeatExchangerTube() {
+		super(CuboidalPartPositionType.INTERIOR);
+	}
 	
 	public static abstract class Variant extends TileHeatExchangerTube {
 		
 		protected Variant(HeatExchangerTubeType type) {
-			super(type.getConductivity());
+			super(type.getName(), type.getHeatTransferCoefficient(), type.getHeatRetentionMult());
 		}
 	}
 	
@@ -45,9 +64,11 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart {
 		}
 	}
 	
-	protected TileHeatExchangerTube(double conductivity) {
-		super(CuboidalPartPositionType.INTERIOR);
-		this.conductivity = conductivity;
+	public TileHeatExchangerTube(String tubeType, double heatTransferCoefficient, double heatRetentionMult) {
+		this();
+		this.tubeType = tubeType;
+		this.heatTransferCoefficient = heatTransferCoefficient;
+		this.heatRetentionMult = heatRetentionMult;
 	}
 	
 	@Override
@@ -56,152 +77,120 @@ public class TileHeatExchangerTube extends TileHeatExchangerPart {
 		super.onMachineAssembled(multiblock);
 	}
 	
-	public boolean isContraflow(TileHeatExchangerTube tube) {
-		if (flowDir == null || tube.flowDir == null) {
-			return (flowDir == null) == (tube.flowDir == null);
-		}
-		return flowDir.getIndex() != tube.flowDir.getIndex();
-	}
-	
-	public @Nonnull HeatExchangerTubeSetting[] getTubeSettings() {
-		return tubeSettings;
-	}
-	
 	public void setTubeSettings(@Nonnull HeatExchangerTubeSetting[] settings) {
-		tubeSettings = settings;
+		System.arraycopy(settings, 0, this.settings, 0, 6);
 	}
 	
 	public HeatExchangerTubeSetting getTubeSetting(@Nonnull EnumFacing side) {
-		return tubeSettings[side.getIndex()];
+		return settings[side.getIndex()];
 	}
 	
-	public void setTubeSetting(@Nonnull EnumFacing side, @Nonnull HeatExchangerTubeSetting setting) {
-		tubeSettings[side.getIndex()] = setting;
+	public void setTubeSetting(@Nonnull EnumFacing side, HeatExchangerTubeSetting setting) {
+		settings[side.getIndex()] = setting;
+	}
+	
+	public void setTubeSettingOpen(@Nonnull EnumFacing side, boolean open) {
+		int index = side.getIndex();
+		settings[index] = HeatExchangerTubeSetting.of(open, settings[index].isBaffle());
+	}
+	
+	public void setTubeSettingBaffle(@Nonnull EnumFacing side, boolean baffle) {
+		int index = side.getIndex();
+		settings[index] = HeatExchangerTubeSetting.of(settings[index].isOpen(), baffle);
 	}
 	
 	public void toggleTubeSetting(@Nonnull EnumFacing side) {
 		setTubeSetting(side, getTubeSetting(side).next());
-		refreshFluidConnections(side);
-		updateFlowDir();
 		markDirtyAndNotify(true);
 	}
 	
-	public void refreshFluidConnections(@Nonnull EnumFacing side) {
-		switch (getTubeSetting(side)) {
-			case DISABLED:
-				// setTankSorption(side, 0, TankSorption.NON);
-				// setTankSorption(side, 1, TankSorption.NON);
-				break;
-			case DEFAULT:
-				// setTankSorption(side, 0, TankSorption.IN);
-				// setTankSorption(side, 1, TankSorption.NON);
-				break;
-			case PRODUCT_OUT:
-				// setTankSorption(side, 0, TankSorption.NON);
-				// setTankSorption(side, 1, TankSorption.OUT);
-				break;
-			case INPUT_SPREAD:
-				// setTankSorption(side, 0, TankSorption.OUT);
-				// setTankSorption(side, 1, TankSorption.NON);
-				break;
-			default:
-				// setTankSorption(side, 0, TankSorption.NON);
-				// setTankSorption(side, 1, TankSorption.NON);
-				break;
-		}
-	}
+	// IMultitoolLogic
 	
-	public void updateFlowDir() {
-		for (EnumFacing side : EnumFacing.VALUES) {
-			HeatExchangerTubeSetting thisSetting = getTubeSetting(side);
-			if (thisSetting == HeatExchangerTubeSetting.DISABLED) {
-				continue;
+	@Override
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayerMP player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!isMultiblockAssembled()) {
+			boolean opposite = player.isSneaking();
+			EnumFacing side = opposite ? facing.getOpposite() : facing;
+			toggleTubeSetting(side);
+			
+			HeatExchangerTubeSetting setting = getTubeSetting(side);
+			if (world.getTileEntity(pos.offset(side)) instanceof TileHeatExchangerTube other) {
+				other.setTubeSetting(side.getOpposite(), setting);
+				other.markDirtyAndNotify(true);
 			}
 			
-			TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-			
-			if (tile instanceof TileHeatExchangerVent && thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT) {
-				flowDir = side;
-				return;
-			}
-			else if (tile instanceof TileHeatExchangerTube tube) {
-				HeatExchangerTubeSetting tubeSetting = tube.getTubeSetting(side.getOpposite());
-				
-				if (thisSetting == HeatExchangerTubeSetting.INPUT_SPREAD && tubeSetting == HeatExchangerTubeSetting.DEFAULT || thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT && (tubeSetting == HeatExchangerTubeSetting.DEFAULT || tubeSetting == HeatExchangerTubeSetting.INPUT_SPREAD)) {
-					flowDir = side;
-					return;
-				}
-			}
+			player.sendMessage(new TextComponentString(Lang.localize(opposite ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle") + " " + setting.getTextColor() + Lang.localize("nc.block.exchanger_tube_fluid_side." + setting)));
+			return true;
 		}
 		
-		flowDir = null;
+		return super.onUseMultitool(multitool, player, world, facing, hitX, hitY, hitZ);
 	}
 	
 	// NBT
 	
-	public NBTTagCompound writeTubeSettings(NBTTagCompound nbt) {
-		NBTTagCompound settingsTag = new NBTTagCompound();
-		for (EnumFacing side : EnumFacing.VALUES) {
-			settingsTag.setInteger("setting" + side.getIndex(), getTubeSetting(side).ordinal());
-		}
-		nbt.setTag("tubeSettings", settingsTag);
-		return nbt;
-	}
-	
-	public void readTubeSettings(NBTTagCompound nbt) {
-		if (nbt.hasKey("fluidConnections0")) {
-			for (EnumFacing side : EnumFacing.VALUES) {
-				TankSorption sorption = TankSorption.values()[nbt.getInteger("fluidConnections" + side.getIndex())];
-				switch (sorption) {
-					case NON:
-						// setTankSorption(side, 0, TankSorption.NON);
-						// setTankSorption(side, 1, TankSorption.NON);
-						setTubeSetting(side, HeatExchangerTubeSetting.DISABLED);
-						break;
-					case BOTH:
-						// setTankSorption(side, 0, TankSorption.IN);
-						// setTankSorption(side, 1, TankSorption.NON);
-						setTubeSetting(side, HeatExchangerTubeSetting.DEFAULT);
-						break;
-					case IN:
-						// setTankSorption(side, 0, TankSorption.NON);
-						// setTankSorption(side, 1, TankSorption.OUT);
-						setTubeSetting(side, HeatExchangerTubeSetting.PRODUCT_OUT);
-						break;
-					case OUT:
-						// setTankSorption(side, 0, TankSorption.OUT);
-						// setTankSorption(side, 1, TankSorption.NON);
-						setTubeSetting(side, HeatExchangerTubeSetting.INPUT_SPREAD);
-						break;
-					default:
-						// setTankSorption(side, 0, TankSorption.NON);
-						// setTankSorption(side, 1, TankSorption.NON);
-						setTubeSetting(side, HeatExchangerTubeSetting.DISABLED);
-						break;
-				}
-			}
-		}
-		else {
-			NBTTagCompound settingsTag = nbt.getCompoundTag("tubeSettings");
-			for (EnumFacing side : EnumFacing.VALUES) {
-				setTubeSetting(side, HeatExchangerTubeSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
-				refreshFluidConnections(side);
-			}
-		}
-	}
-	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		writeTubeSettings(nbt);
-		nbt.setInteger("flowDir", flowDir == null ? -1 : flowDir.getIndex());
+		
+		if (tubeType == null) {
+			nbt.setDouble("heatTransferCoefficient", heatTransferCoefficient);
+			nbt.setDouble("heatRetentionMult", heatRetentionMult);
+		}
+		else {
+			nbt.setString("tubeType", tubeType);
+		}
+		
+		byte[] byteSettings = new byte[6];
+		for (int i = 0; i < 6; ++i) {
+			byteSettings[i] = (byte) settings[i].ordinal();
+		}
+		nbt.setByteArray("settings", byteSettings);
+		
+		nbt.setBoolean("nullTubeFlow", tubeFlow == null);
+		if (tubeFlow != null) {
+			nbt.setDouble("tubeFlowX", tubeFlow.x);
+			nbt.setDouble("tubeFlowY", tubeFlow.y);
+			nbt.setDouble("tubeFlowZ", tubeFlow.z);
+		}
+		
+		nbt.setBoolean("nullShellFlow", shellFlow == null);
+		if (shellFlow != null) {
+			nbt.setDouble("shellFlowX", shellFlow.x);
+			nbt.setDouble("shellFlowY", shellFlow.y);
+			nbt.setDouble("shellFlowZ", shellFlow.z);
+		}
+		
 		return nbt;
 	}
 	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		readTubeSettings(nbt);
-		flowDir = nbt.getInteger("flowDir") == -1 ? null : EnumFacing.VALUES[nbt.getInteger("flowDir")];
+		
+		if (nbt.hasKey("heatTransferCoefficient") && nbt.hasKey("heatRetentionMult")) {
+			heatTransferCoefficient = nbt.getDouble("heatTransferCoefficient");
+			heatRetentionMult = nbt.getDouble("heatRetentionMult");
+		}
+		else if (nbt.hasKey("tubeType")) {
+			tubeType = nbt.getString("tubeType");
+			
+			if (DYN_HEAT_TRANSFER_COEFFICIENT_MAP.containsKey(tubeType)) {
+				heatTransferCoefficient = DYN_HEAT_TRANSFER_COEFFICIENT_MAP.getDouble(tubeType);
+			}
+			if (DYN_HEAT_RETENTION_MULT_MAP.containsKey(tubeType)) {
+				heatRetentionMult = DYN_HEAT_RETENTION_MULT_MAP.getDouble(tubeType);
+			}
+		}
+		
+		if (nbt.hasKey("settings")) {
+			settings = new HeatExchangerTubeSetting[6];
+			byte[] byteSettings = nbt.getByteArray("settings");
+			for (int i = 0; i < 6; ++i) {
+				settings[i] = HeatExchangerTubeSetting.values()[byteSettings[i]];
+			}
+		}
+		
+		tubeFlow = nbt.getBoolean("nullTubeFlow") ? null : new Vec3d(nbt.getDouble("tubeFlowX"), nbt.getDouble("tubeFlowY"), nbt.getDouble("tubeFlowZ"));
+		shellFlow = nbt.getBoolean("nullShellFlow") ? null : new Vec3d(nbt.getDouble("shellFlowX"), nbt.getDouble("shellFlowY"), nbt.getDouble("shellFlowZ"));
 	}
 }

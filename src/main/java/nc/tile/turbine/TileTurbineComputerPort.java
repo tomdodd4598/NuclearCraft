@@ -4,6 +4,7 @@ import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
+import nc.util.OCHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Optional;
 
@@ -143,9 +144,9 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public Object[] getDynamoPartStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<>();
-			for (TileTurbineDynamoPart dynamoPart : getMultiblock().getPartMap(TileTurbineDynamoPart.class).values()) {
+			for (TileTurbineDynamoPart dynamoPart : getMultiblock().getParts(TileTurbineDynamoPart.class)) {
 				BlockPos pos = dynamoPart.getPos();
-				stats.add(new Object[] {new Object[] {pos.getX(), pos.getY(), pos.getZ()}, dynamoPart.partName, dynamoPart.isInValidPosition});
+				stats.add(new Object[] {OCHelper.posInfo(pos), dynamoPart.partName, dynamoPart.isInValidPosition});
 			}
 			return new Object[] {stats.toArray()};
 		}

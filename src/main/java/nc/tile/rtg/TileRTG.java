@@ -2,8 +2,8 @@ package nc.tile.rtg;
 
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.tile.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
-import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.rtg.*;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.*;
@@ -21,6 +21,9 @@ import static nc.config.NCConfig.enable_gtce_eu;
 
 @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")
 public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implements ITickable, ITileEnergy, IEnergySource {
+	
+	public static final Object2LongMap<String> DYN_POWER_MAP = new Object2LongOpenHashMap<>();
+	public static final Object2DoubleMap<String> DYN_RADIATION_MAP = new Object2DoubleOpenHashMap<>();
 	
 	public static class Uranium extends TileRTG {
 		
@@ -50,6 +53,8 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 		}
 	}
 	
+	protected String rtgType;
+	
 	private final EnergyStorage backupStorage = new EnergyStorage(0L);
 	
 	private @Nonnull
@@ -64,6 +69,7 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 	private boolean ic2reg = false;
 	
 	public long power;
+	public double radiation;
 	
 	/**
 	 * Don't use this constructor!
@@ -75,14 +81,15 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
 	}
 	
-	public TileRTG(long power, double radiation) {
+	public TileRTG(String rtgType, long power, double radiation) {
 		this();
 		this.power = power;
+		this.radiation = radiation;
 		getRadiationSource().setRadiationLevel(radiation);
 	}
 	
 	protected TileRTG(RTGType type) {
-		this(type.getPower(), type.getRadiation());
+		this(type.getName(), type.getPower(), type.getRadiation());
 	}
 	
 	private boolean ignoreSide(EnumFacing side) {
@@ -221,7 +228,16 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 		super.writeAll(nbt);
 		writeEnergyConnections(nbt);
 		nbt.setByteArray("ignoreSide", NCMath.booleansToBytes(ignoreSide));
-		nbt.setLong("power", power);
+		
+		
+		if (rtgType == null) {
+			nbt.setLong("power", power);
+			nbt.setDouble("radiationRate", radiation);
+		}
+		else {
+			nbt.setString("rtgType", rtgType);
+		}
+		
 		return nbt;
 	}
 	
@@ -233,8 +249,23 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 		if (arr.length == 6) {
 			ignoreSide = arr;
 		}
+		
 		if (nbt.hasKey("power")) {
 			power = nbt.getLong("power");
+			if (nbt.hasKey("radiationRate")) {
+				radiation = nbt.getDouble("radiationRate");
+			}
+		}
+		else if (nbt.hasKey("rtgType")) {
+			rtgType = nbt.getString("rtgType");
+			
+			if (DYN_POWER_MAP.containsKey(rtgType)) {
+				power = DYN_POWER_MAP.getLong(rtgType);
+			}
+			if (DYN_RADIATION_MAP.containsKey(rtgType)) {
+				radiation = DYN_RADIATION_MAP.getDouble(rtgType);
+				getRadiationSource().setRadiationLevel(radiation);
+			}
 		}
 	}
 	

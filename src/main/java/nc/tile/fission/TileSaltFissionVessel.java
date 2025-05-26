@@ -130,12 +130,12 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	public void setVesselBunch(@Nullable SaltFissionVesselBunch vesselBunch) {
 		this.vesselBunch = vesselBunch;
 		if (vesselBunch != null) {
-			vesselBunch.getPartMap().put(pos.toLong(), this);
+			vesselBunch.vesselMap.put(pos.toLong(), this);
 		}
 	}
 	
 	public int getVesselBunchSize() {
-		return vesselBunch.getPartMap().size();
+		return vesselBunch.vesselMap.size();
 	}
 	
 	@Override
@@ -225,7 +225,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache) {
-		primedCache.addAll(vesselBunch.getPartMap().values());
+		primedCache.addAll(vesselBunch.vesselMap.values());
 	}
 	
 	@Override
@@ -492,7 +492,9 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		if (!world.isRemote) {
 			boolean shouldRefresh = isMultiblockAssembled() && getMultiblock().isReactorOn && !isProcessing(true) && isProcessing(false);
 			
-			onTick();
+			if (onTick()) {
+				markDirty();
+			}
 			
 			updateDecayFractions();
 			

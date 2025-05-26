@@ -1,0 +1,6 @@
+{
+	"parent": "nuclearcraft:block/heat_exchanger_tube_open",
+	"textures": {
+		"all": "nuclearcraft:blocks/heat_exchanger_tube_silver_open"
+	}
+}

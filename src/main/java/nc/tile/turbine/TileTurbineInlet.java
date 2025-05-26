@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import javax.annotation.*;
 import java.util.*;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.block.property.BlockProperties.FACING_ALL;
 import static nc.config.NCConfig.enable_mek_gas;
 
 public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
@@ -37,9 +37,9 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 		doStandardNullControllerResponse(multiblock);
 		super.onMachineAssembled(multiblock);
 		if (!world.isRemote) {
-			EnumFacing posFacing = getPartPosition().getFacing();
-			if (posFacing != null) {
-				world.setBlockState(pos, world.getBlockState(pos).withProperty(AXIS_ALL, posFacing.getAxis()), 2);
+			EnumFacing facing = getPartPosition().getFacing();
+			if (facing != null) {
+				world.setBlockState(pos, world.getBlockState(pos).withProperty(FACING_ALL, facing), 2);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY)) {
-			return !getTanks().isEmpty() && hasFluidSideCapability(side);
+			return hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -129,13 +129,13 @@ public class TileTurbineInlet extends TileTurbinePart implements ITileFluid {
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (hasFluidSideCapability(side)) {
 				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
-			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && hasFluidSideCapability(side)) {
 				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;

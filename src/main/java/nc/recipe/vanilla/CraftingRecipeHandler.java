@@ -343,25 +343,23 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater2, 1, 15), " C ", "CHC", " C ", 'H', new ItemStack(NCBlocks.salt_fission_heater, 1, 0), 'C', "dustCryotheum");
 		
 		addShapedOreRecipe(NCBlocks.heat_exchanger_controller, "SES", "TFT", "SES", 'S', "ingotSteel", 'E', "ingotExtreme", 'T', "ingotThermoconducting", 'F', "steelFrame");
+		addShapelessOreRecipe(NCBlocks.heat_exchanger_controller, NCBlocks.condenser_controller);
+		addShapelessOreRecipe(NCBlocks.condenser_controller, NCBlocks.heat_exchanger_controller);
+		
 		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_casing, 8), " S ", "SFS", " S ", 'S', "ingotSteel", 'F', "steelFrame");
 		addShapelessOreRecipe(NCBlocks.heat_exchanger_casing, NCBlocks.heat_exchanger_glass);
+		addShapelessOreRecipe(NCBlocks.heat_exchanger_casing, NCBlocks.heat_exchanger_baffle);
 		addShapelessOreRecipe(NCBlocks.heat_exchanger_glass, NCBlocks.heat_exchanger_casing, "blockGlass");
-		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_vent, 4), "SIS", "VFV", "SIS", 'S', "ingotSteel", 'I', "ingotFerroboron", 'V', "servo", 'F', "steelFrame");
-		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_tube_copper, 4), "SCS", "CFC", "SVS", 'S', "ingotSteel", 'C', "ingotCopper", 'F', "steelFrame", 'V', "servo");
-		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_tube_hard_carbon, 4), "SHS", "HFH", "SVS", 'S', "ingotSteel", 'H', "ingotHardCarbon", 'F', "steelFrame", 'V', "servo");
-		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_tube_thermoconducting, 4), "STS", "TFT", "SVS", 'S', "ingotSteel", 'T', "ingotThermoconducting", 'F', "steelFrame", 'V', "servo");
-		addShapelessOreRecipe(NCBlocks.heat_exchanger_tube_copper, NCBlocks.condenser_tube_copper);
-		addShapelessOreRecipe(NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.condenser_tube_hard_carbon);
-		addShapelessOreRecipe(NCBlocks.heat_exchanger_tube_thermoconducting, NCBlocks.condenser_tube_thermoconducting);
+		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_inlet, 4), "STS", "VFV", "STS", 'S', "ingotSteel", 'T', "ingotTough", 'V', "servo", 'F', "steelFrame");
+		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_outlet, 4), "SSS", "VFV", "SSS", 'S', "ingotSteel", 'V', "servo", 'F', "steelFrame");
+		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_tube_copper, 8), "SCS", "CFC", "SVS", 'S', "ingotSteel", 'C', "ingotCopper", 'F', "steelFrame", 'V', "servo");
+		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_tube_hard_carbon, 8), "SHS", "HFH", "SVS", 'S', "ingotSteel", 'H', "ingotHardCarbon", 'F', "steelFrame", 'V', "servo");
+		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_tube_thermoconducting, 8), "STS", "TFT", "SVS", 'S', "ingotSteel", 'T', "ingotThermoconducting", 'F', "steelFrame", 'V', "servo");
+		addShapelessOreRecipe(NCBlocks.heat_exchanger_baffle, NCBlocks.heat_exchanger_casing);
 		addShapedOreRecipe(NCBlocks.heat_exchanger_redstone_port, "SRS", "TFT", "SRS", 'S', "ingotSteel", 'R', "dustRedstone", 'T', Blocks.REDSTONE_TORCH, 'F', "steelFrame");
 		if (ModCheck.openComputersLoaded()) {
 			addShapedOreRecipe(NCBlocks.heat_exchanger_computer_port, "SMS", "CFC", "SPS", 'S', "ingotSteel", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'F', "steelFrame");
 		}
-		
-		addShapedOreRecipe(NCBlocks.condenser_controller, "STS", "CFC", "STS", 'S', "ingotSteel", 'T', "ingotTough", 'C', "ingotThermoconducting", 'F', "steelFrame");
-		addShapelessOreRecipe(NCBlocks.condenser_tube_copper, NCBlocks.heat_exchanger_tube_copper);
-		addShapelessOreRecipe(NCBlocks.condenser_tube_hard_carbon, NCBlocks.heat_exchanger_tube_hard_carbon);
-		addShapelessOreRecipe(NCBlocks.condenser_tube_thermoconducting, NCBlocks.heat_exchanger_tube_thermoconducting);
 		
 		addShapedOreRecipe(NCBlocks.turbine_controller, "STS", "TFT", "STS", 'S', "ingotHSLASteel", 'T', "ingotTough", 'F', "steelFrame");
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_casing, 8), " S ", "SFS", " S ", 'S', "ingotHSLASteel", 'F', "steelFrame");

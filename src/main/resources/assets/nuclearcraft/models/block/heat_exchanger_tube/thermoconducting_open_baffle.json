@@ -1,0 +1,6 @@
+{
+	"parent": "nuclearcraft:block/heat_exchanger_tube_open_baffle",
+	"textures": {
+		"all": "nuclearcraft:blocks/heat_exchanger/tube/thermoconducting/open_baffle"
+	}
+}

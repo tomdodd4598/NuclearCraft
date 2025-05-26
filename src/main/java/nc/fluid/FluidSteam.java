@@ -9,7 +9,7 @@ public class FluidSteam extends NCFluid {
 		setDensity(-10);
 		setGaseous(true);
 		setViscosity(40);
-		setTemperature(450);
+		setTemperature(550);
 		setEmptySound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
 		setFillSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
 	}

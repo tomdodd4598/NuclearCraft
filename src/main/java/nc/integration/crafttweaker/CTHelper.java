@@ -1,20 +1,25 @@
 package nc.integration.crafttweaker;
 
 import crafttweaker.CraftTweakerAPI;
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.*;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.integration.crafttweaker.ingredient.*;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.*;
 import nc.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import stanhebben.zenscript.annotations.*;
 
 import java.util.*;
 import java.util.function.Function;
 
+@ZenClass("mods.nuclearcraft.CTHelper")
+@ZenRegister
 public class CTHelper {
 	
 	public static ItemStack getItemStack(IItemStack item) {
@@ -141,5 +146,14 @@ public class CTHelper {
 			return null;
 		}
 		return ncFunction.apply(StreamHelper.map(ctIngredientArray, ctFunction));
+	}
+	
+	// ZenScript
+	
+	public static final ObjectSet<String> LOADED_SCRIPT_ADDONS = new ObjectOpenHashSet<>();
+	
+	@ZenMethod
+	public static boolean isScriptAddonLoaded(String addonID) {
+		return LOADED_SCRIPT_ADDONS.contains(addonID.toLowerCase(Locale.ROOT));
 	}
 }

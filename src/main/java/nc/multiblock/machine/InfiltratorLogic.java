@@ -25,9 +25,9 @@ public class InfiltratorLogic extends MachineLogic {
 	
 	public double pressureFluidEfficiency = 0D;
 	
-	public double heatingContactFraction = 0D;
+	public long heatingCount = 0L;
 	
-	public double heatingContactBonus = 0D;
+	public double heatingBonus = 0D;
 	
 	public InfiltratorLogic(Machine machine) {
 		super(machine);
@@ -40,6 +40,11 @@ public class InfiltratorLogic extends MachineLogic {
 	@Override
 	public String getID() {
 		return "infiltrator";
+	}
+	
+	@Override
+	public int reservoirTankCount() {
+		return 1;
 	}
 	
 	@Override
@@ -77,31 +82,26 @@ public class InfiltratorLogic extends MachineLogic {
 			return false;
 		}
 		
-		baseSpeedMultiplier = 0D;
-		basePowerMultiplier = 0D;
+		multiblock.baseSpeedMultiplier = 0D;
+		multiblock.basePowerMultiplier = 0D;
 		
-		heatingContactFraction = 0D;
+		heatingCount = 0L;
 		
 		Long2ObjectMap<TileInfiltratorPressureChamber> pressureChamberMap = getPartMap(TileInfiltratorPressureChamber.class);
 		Long2ObjectMap<TileInfiltratorHeatingUnit> heatingUnitMap = getPartMap(TileInfiltratorHeatingUnit.class);
-		
-		long heatingContactCount = 0;
 		
 		for (TileInfiltratorPressureChamber pressureChamber : pressureChamberMap.values()) {
 			BlockPos pos = pressureChamber.getPos();
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (heatingUnitMap.containsKey(pos.offset(dir).toLong())) {
-					++heatingContactCount;
+					++heatingCount;
+					break;
 				}
 			}
 		}
 		
-		int pressureChamberCount = pressureChamberMap.size(), heatingUnitCount = heatingUnitMap.size();
-		
-		baseSpeedMultiplier = pressureChamberCount;
-		basePowerMultiplier = pressureChamberCount + heatingUnitCount;
-		
-		heatingContactFraction = pressureChamberCount <= 0 ? 0D : heatingContactCount / (6D * pressureChamberCount);
+		multiblock.baseSpeedMultiplier = pressureChamberMap.size();
+		multiblock.basePowerMultiplier = pressureChamberMap.size() + heatingUnitMap.size();
 		
 		return true;
 	}
@@ -128,21 +128,21 @@ public class InfiltratorLogic extends MachineLogic {
 	@Override
 	protected void setRecipeStats(@Nullable BasicRecipe recipe) {
 		super.setRecipeStats(recipe);
-		heatingContactBonus = recipe == null ? 0D : heatingContactFraction * recipe.getInfiltratorHeatingFactor();
+		heatingBonus = recipe == null ? 0D : heatingCount * recipe.getInfiltratorHeatingFactor() / getPartCount(TileInfiltratorPressureChamber.class);
 	}
 	
 	protected double getReservoirLevelFraction() {
-		return reservoirTanks.get(0).getFluidAmountFraction();
+		return multiblock.reservoirTanks.get(0).getFluidAmountFraction();
 	}
 	
 	@Override
 	protected double getSpeedMultiplier() {
-		return baseSpeedMultiplier * pressureFluidEfficiency * (1D + heatingContactBonus) * getReservoirLevelFraction();
+		return multiblock.baseSpeedMultiplier * pressureFluidEfficiency * (1D + heatingBonus) * getReservoirLevelFraction();
 	}
 	
 	@Override
 	protected double getPowerMultiplier() {
-		return basePowerMultiplier * getReservoirLevelFraction();
+		return multiblock.basePowerMultiplier * getReservoirLevelFraction();
 	}
 	
 	@Override
@@ -154,7 +154,7 @@ public class InfiltratorLogic extends MachineLogic {
 	public void refreshActivity() {
 		super.refreshActivity();
 		
-		RecipeInfo<BasicRecipe> recipeInfo = NCRecipes.infiltrator_pressure_fluid.getRecipeInfoFromInputs(Collections.emptyList(), reservoirTanks.subList(0, 1));
+		RecipeInfo<BasicRecipe> recipeInfo = NCRecipes.infiltrator_pressure_fluid.getRecipeInfoFromInputs(Collections.emptyList(), multiblock.reservoirTanks.subList(0, 1));
 		pressureFluidEfficiency = recipeInfo == null ? 0D : recipeInfo.recipe.getInfiltratorPressureFluidEfficiency();
 	}
 	
@@ -174,9 +174,9 @@ public class InfiltratorLogic extends MachineLogic {
 			return;
 		}
 		
-		if (isProcessing && multiblock.isAssembled()) {
+		if (multiblock.processor.isProcessing && multiblock.isAssembled()) {
 			double speedMultiplier = getSpeedMultiplier();
-			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(prevSpeedMultiplier));
+			double ratio = (NCMath.EPSILON + Math.abs(speedMultiplier)) / (NCMath.EPSILON + Math.abs(multiblock.prevSpeedMultiplier));
 			multiblock.refreshSounds |= ratio < 0.8D || ratio > 1.25D || getSoundMap().isEmpty();
 			
 			if (!multiblock.refreshSounds) {
@@ -197,7 +197,7 @@ public class InfiltratorLogic extends MachineLogic {
 				addSound.accept(multiblock.getExtremeInteriorCoord(NCMath.getBit(i, 0) == 1, NCMath.getBit(i, 1) == 1, NCMath.getBit(i, 2) == 1));
 			}
 			
-			prevSpeedMultiplier = speedMultiplier;
+			multiblock.prevSpeedMultiplier = speedMultiplier;
 		}
 		else {
 			multiblock.refreshSounds = true;
@@ -211,23 +211,23 @@ public class InfiltratorLogic extends MachineLogic {
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		super.writeToLogicTag(logicTag, syncReason);
 		logicTag.setDouble("pressureFluidEfficiency", pressureFluidEfficiency);
-		logicTag.setDouble("heatingContactFraction", heatingContactFraction);
-		logicTag.setDouble("heatingContactBonus", heatingContactBonus);
+		logicTag.setLong("heatingCount", heatingCount);
+		logicTag.setDouble("heatingBonus", heatingBonus);
 	}
 	
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		super.readFromLogicTag(logicTag, syncReason);
 		pressureFluidEfficiency = logicTag.getDouble("pressureFluidEfficiency");
-		heatingContactFraction = logicTag.getDouble("heatingContactFraction");
-		heatingContactBonus = logicTag.getDouble("heatingContactBonus");
+		heatingCount = logicTag.getLong("heatingCount");
+		heatingBonus = logicTag.getDouble("heatingBonus");
 	}
 	
 	// Packets
 	
 	@Override
 	public MachineUpdatePacket getMultiblockUpdatePacket() {
-		return new InfiltratorUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, isProcessing, time, baseProcessTime, baseProcessPower, tanks, baseSpeedMultiplier, basePowerMultiplier, recipeUnitInfo, pressureFluidEfficiency, heatingContactBonus);
+		return new InfiltratorUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.time, multiblock.processor.baseProcessTime, multiblock.baseProcessPower, multiblock.tanks, multiblock.baseSpeedMultiplier, multiblock.basePowerMultiplier, multiblock.recipeUnitInfo, pressureFluidEfficiency, heatingBonus);
 	}
 	
 	@Override
@@ -235,28 +235,28 @@ public class InfiltratorLogic extends MachineLogic {
 		super.onMultiblockUpdatePacket(message);
 		if (message instanceof InfiltratorUpdatePacket packet) {
 			pressureFluidEfficiency = packet.pressureFluidEfficiency;
-			heatingContactBonus = packet.heatingContactBonus;
+			heatingBonus = packet.heatingBonus;
 		}
 	}
 	
 	@Override
 	public InfiltratorRenderPacket getRenderPacket() {
-		return new InfiltratorRenderPacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, isProcessing, time, baseProcessTime, tanks, reservoirTanks);
+		return new InfiltratorRenderPacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.time, multiblock.processor.baseProcessTime, multiblock.tanks, multiblock.reservoirTanks);
 	}
 	
 	@Override
 	public void onRenderPacket(MachineRenderPacket message) {
 		super.onRenderPacket(message);
 		if (message instanceof InfiltratorRenderPacket packet) {
-			boolean wasProcessing = isProcessing;
-			isProcessing = packet.isProcessing;
-			if (wasProcessing != isProcessing) {
+			boolean wasProcessing = multiblock.processor.isProcessing;
+			multiblock.processor.isProcessing = packet.isProcessing;
+			if (wasProcessing != multiblock.processor.isProcessing) {
 				multiblock.refreshSounds = true;
 			}
-			time = packet.time;
-			baseProcessTime = packet.baseProcessTime;
-			TankInfo.readInfoList(packet.tankInfos, tanks);
-			TankInfo.readInfoList(packet.reservoirTankInfos, reservoirTanks);
+			multiblock.processor.time = packet.time;
+			multiblock.processor.baseProcessTime = packet.baseProcessTime;
+			TankInfo.readInfoList(packet.tankInfos, multiblock.tanks);
+			TankInfo.readInfoList(packet.reservoirTankInfos, multiblock.reservoirTanks);
 		}
 	}
 }

@@ -3,22 +3,35 @@ package nc.multiblock.rtg;
 import nc.radiation.RadSources;
 import nc.tile.rtg.TileRTG;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IStringSerializable;
 
 import static nc.config.NCConfig.rtg_power;
 
-public enum RTGType {
+public enum RTGType implements IStringSerializable {
 	
-	URANIUM(0, RadSources.URANIUM_238),
-	PLUTONIUM(1, RadSources.PLUTONIUM_238),
-	AMERICIUM(2, RadSources.AMERICIUM_241),
-	CALIFORNIUM(3, RadSources.CALIFORNIUM_250);
+	URANIUM(0, "uranium", RadSources.URANIUM_238),
+	PLUTONIUM(1, "plutonium", RadSources.PLUTONIUM_238),
+	AMERICIUM(2, "americium", RadSources.AMERICIUM_241),
+	CALIFORNIUM(3, "californium", RadSources.CALIFORNIUM_250);
 	
 	private final int id;
+	private final String name;
 	private final double radiation;
 	
-	RTGType(int id, double radiation) {
+	RTGType(int id, String name, double radiation) {
 		this.id = id;
+		this.name = name;
 		this.radiation = radiation;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 	
 	public int getPower() {

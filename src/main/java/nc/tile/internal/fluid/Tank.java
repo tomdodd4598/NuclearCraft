@@ -138,6 +138,11 @@ public class Tank extends FluidTank {
 		return (double) getFluidAmount() / (double) getCapacity();
 	}
 	
+	@Override
+	public String toString() {
+		return "Tank[" + getFluidName() + " x " + getFluidAmount() + "/" + getCapacity() + "]";
+	}
+	
 	// NBT
 	
 	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, String name) {

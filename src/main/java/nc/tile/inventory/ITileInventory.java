@@ -2,6 +2,7 @@ package nc.tile.inventory;
 
 import com.google.common.collect.Lists;
 import nc.tile.ITile;
+import nc.tile.hx.IHeatExchangerPart;
 import nc.tile.internal.inventory.*;
 import nc.tile.machine.IMachinePart;
 import nc.tile.multiblock.port.ITilePort;
@@ -23,8 +24,7 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	// Inventory
 	
-	@Nonnull
-	NonNullList<ItemStack> getInventoryStacks();
+	@Nonnull NonNullList<ItemStack> getInventoryStacks();
 	
 	default void clearAllSlots() {
 		@Nonnull NonNullList<ItemStack> stacks = getInventoryStacks();
@@ -230,6 +230,9 @@ public interface ITileInventory extends ITile, ISidedInventory {
 				}
 				else if (this instanceof IMachinePart part) {
 					part.refreshMachineActivity();
+				}
+				else if (this instanceof IHeatExchangerPart part) {
+					part.refreshHeatExchangerActivity();
 				}
 				
 				if (this instanceof ITilePort<?, ?, ?, ?, ?> port) {

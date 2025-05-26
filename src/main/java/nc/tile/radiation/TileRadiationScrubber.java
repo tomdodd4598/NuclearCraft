@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
@@ -50,32 +51,7 @@ public class TileRadiationScrubber extends TileBasicEnergyProcessor<TileRadiatio
 	@Override
 	public void update() {
 		if (!world.isRemote) {
-			boolean wasProcessing = isProcessing, shouldUpdate = false;
-			isProcessing = isProcessing();
-			if (isProcessing) {
-				process();
-			}
-			else {
-				getRadiationSource().setRadiationLevel(0D);
-				if (getCurrentTime() > 0D) {
-					if (getContainerInfo().losesProgress && !isHalted()) {
-						loseProgress();
-					}
-					else if (!getCanProcessInputs()) {
-						setCurrentTime(0D);
-						setResetTime(0D);
-					}
-				}
-			}
-			
-			if (wasProcessing == isProcessing) {
-				sendTileUpdatePacketToListeners();
-			}
-			else {
-				shouldUpdate = true;
-				setActivity(isProcessing);
-				sendTileUpdatePacketToAll();
-			}
+			boolean shouldUpdate = onTick();
 			
 			tickRadCount();
 			if (shouldUpdate || shouldRadCheck()) {
@@ -89,18 +65,17 @@ public class TileRadiationScrubber extends TileBasicEnergyProcessor<TileRadiatio
 	}
 	
 	@Override
-	public boolean setRecipeStats() {
-		if (recipeInfo == null) {
+	public void setRecipeStats(@Nullable BasicRecipe recipe) {
+		if (recipe == null) {
 			baseProcessTime = 1D;
 			baseProcessPower = 0D;
 			efficiency = 0D;
-			return false;
 		}
-		BasicRecipe recipe = recipeInfo.recipe;
-		baseProcessTime = recipe.getScrubberProcessTime();
-		baseProcessPower = recipe.getScrubberProcessPower();
-		efficiency = recipe.getScrubberProcessEfficiency();
-		return true;
+		else {
+			baseProcessTime = recipe.getScrubberProcessTime();
+			baseProcessPower = recipe.getScrubberProcessPower();
+			efficiency = recipe.getScrubberProcessEfficiency();
+		}
 	}
 	
 	public double getRawScrubberRate() {

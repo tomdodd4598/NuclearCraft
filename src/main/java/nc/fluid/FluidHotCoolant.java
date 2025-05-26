@@ -10,7 +10,7 @@ public class FluidHotCoolant extends NCFluid {
 	public FluidHotCoolant(String fluidName) {
 		super(fluidName, true);
 		setViscosity(10000);
-		setTemperature(700);
+		setTemperature(800);
 		setLuminosity(7);
 		setDensity(4000);
 		setEmptySound(SoundEvents.ITEM_BUCKET_EMPTY_LAVA);
@@ -20,7 +20,7 @@ public class FluidHotCoolant extends NCFluid {
 	public FluidHotCoolant(String fluidName, Integer color) {
 		super(fluidName, true, "molten", color);
 		setViscosity(10000);
-		setTemperature(700);
+		setTemperature(800);
 		setLuminosity(7);
 		setDensity(4000);
 		setEmptySound(SoundEvents.ITEM_BUCKET_EMPTY_LAVA);

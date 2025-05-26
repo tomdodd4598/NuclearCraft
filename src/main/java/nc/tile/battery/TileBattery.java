@@ -2,17 +2,21 @@ package nc.tile.battery;
 
 import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.tile.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.ModCheck;
 import nc.block.battery.*;
-import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.battery.BatteryMultiblock;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.*;
 import nc.tile.multiblock.TileMultiblockPart;
-import nc.util.NCMath;
+import nc.util.*;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
+import net.minecraft.util.text.*;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
@@ -23,6 +27,9 @@ import static nc.config.NCConfig.enable_gtce_eu;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
 public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBattery> implements ITickable, ITileEnergy, IEnergySink, IEnergySource, IInterfaceable {
+	
+	public static final Object2LongMap<String> DYN_CAPACITY_MAP = new Object2LongOpenHashMap<>();
+	public static final Object2IntMap<String> DYN_ENERGY_TIER_MAP = new Object2IntOpenHashMap<>();
 	
 	public static class VoltaicPileBasic extends TileBattery {
 		
@@ -80,6 +87,8 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBatte
 		}
 	}
 	
+	protected String batteryType;
+	
 	protected final EnergyStorage backupStorage = new EnergyStorage(0L);
 	
 	protected @Nonnull
@@ -107,14 +116,15 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBatte
 		energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
 	}
 	
-	public TileBattery(long capacity, int energyTier) {
+	public TileBattery(String batteryType, long capacity, int energyTier) {
 		this();
+		this.batteryType = batteryType;
 		this.capacity = capacity;
 		this.energyTier = energyTier;
 	}
 	
 	protected TileBattery(IBatteryBlockType type) {
-		this(type.getCapacity(), type.getEnergyTier());
+		this(type.toString(), type.getCapacity(), type.getEnergyTier());
 	}
 	
 	protected boolean ignoreSide(EnumFacing side) {
@@ -266,6 +276,18 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBatte
 		return true;
 	}
 	
+	// IMultitoolLogic
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitool, EntityPlayerMP player, World world, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		boolean opposite = player.isSneaking();
+		EnumFacing side = opposite ? facing.getOpposite() : facing;
+		toggleEnergyConnection(side, EnergyConnection.Type.DEFAULT);
+		EnergyConnection energyConnection = getEnergyConnection(side);
+		player.sendMessage(new TextComponentString(Lang.localize(opposite ? "nc.block.energy_toggle_opposite" : "nc.block.energy_toggle") + " " + energyConnection.getTextColor() + Lang.localize("nc.block.setting." + energyConnection.getName())));
+		return true;
+	}
+	
 	// NBT
 	
 	@Override
@@ -273,8 +295,15 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBatte
 		super.writeAll(nbt);
 		writeEnergyConnections(nbt);
 		nbt.setLong("waitingEnergy", waitingEnergy);
-		nbt.setLong("capacity", capacity);
-		nbt.setInteger("energyTier", energyTier);
+		
+		if (batteryType == null) {
+			nbt.setLong("capacity", capacity);
+			nbt.setInteger("energyTier", energyTier);
+		}
+		else {
+			nbt.setString("batteryType", batteryType);
+		}
+		
 		nbt.setByteArray("ignoreSide", NCMath.booleansToBytes(ignoreSide));
 		return nbt;
 	}
@@ -284,12 +313,22 @@ public class TileBattery extends TileMultiblockPart<BatteryMultiblock, TileBatte
 		super.readAll(nbt);
 		readEnergyConnections(nbt);
 		waitingEnergy = nbt.getLong("waitingEnergy");
-		if (nbt.hasKey("capacity")) {
+		
+		if (nbt.hasKey("capacity") && nbt.hasKey("energyTier")) {
 			capacity = nbt.getLong("capacity");
-		}
-		if (nbt.hasKey("energyTier")) {
 			energyTier = nbt.getInteger("energyTier");
 		}
+		else if (nbt.hasKey("batteryType")) {
+			batteryType = nbt.getString("batteryType");
+			
+			if (DYN_CAPACITY_MAP.containsKey(batteryType)) {
+				capacity = DYN_CAPACITY_MAP.getLong(batteryType);
+			}
+			if (DYN_ENERGY_TIER_MAP.containsKey(batteryType)) {
+				energyTier = DYN_ENERGY_TIER_MAP.getInt(batteryType);
+			}
+		}
+		
 		boolean[] arr = NCMath.bytesToBooleans(nbt.getByteArray("ignoreSide"));
 		if (arr.length == 6) {
 			ignoreSide = arr;

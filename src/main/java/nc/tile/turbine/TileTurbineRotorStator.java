@@ -1,5 +1,6 @@
 package nc.tile.turbine;
 
+import it.unimi.dsi.fastutil.objects.*;
 import nc.block.turbine.BlockTurbineRotorStator;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
@@ -11,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Iterator;
 
 public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineRotorBlade<TileTurbineRotorStator> {
+	
+	public static final Object2ObjectMap<String, IRotorStatorType> DYN_STATOR_TYPE_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public IRotorStatorType statorType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
@@ -92,7 +95,6 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 		super.writeAll(nbt);
 		if (statorType != null) {
 			nbt.setString("statorName", statorType.getName());
-			nbt.setDouble("statorExpansionCoefficient", statorType.getExpansionCoefficient());
 		}
 		
 		nbt.setInteger("bladeDir", dir.ordinal());
@@ -102,23 +104,11 @@ public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineR
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (statorType == null && nbt.hasKey("statorName") && nbt.hasKey("statorExpansionCoefficient")) {
-			statorType = new IRotorStatorType() {
-				
-				final String name = nbt.getString("statorName");
-				final double expansionCoefficient = nbt.getDouble("statorExpansionCoefficient");
-				
-				@Override
-				public String getName() {
-					return name;
-				}
-				
-				@Override
-				public double getExpansionCoefficient() {
-					return expansionCoefficient;
-				}
-				
-			};
+		if (nbt.hasKey("statorName")) {
+			String statorName = nbt.getString("statorName");
+			if (DYN_STATOR_TYPE_MAP.containsKey(statorName)) {
+				statorType = DYN_STATOR_TYPE_MAP.get(statorName);
+			}
 		}
 		
 		dir = TurbinePartDir.values()[nbt.getInteger("bladeDir")];

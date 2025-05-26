@@ -19,9 +19,9 @@ public class GuiCondenserController extends GuiMultiblockController<HeatExchange
 	
 	public GuiCondenserController(Container inventory, EntityPlayer player, TileCondenserController controller, String textureLocation) {
 		super(inventory, player, controller, textureLocation);
-		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "condenser_controller" + ".png");
+		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "heat_exchanger_controller" + ".png");
 		xSize = 176;
-		ySize = 68;
+		ySize = 76;
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class GuiCondenserController extends GuiMultiblockController<HeatExchange
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
 		if (NCUtil.isModifierKeyDown()) {
-			drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 35, 18, 18);
+			drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 5, 18, 18);
 		}
 	}
 	
@@ -44,12 +44,30 @@ public class GuiCondenserController extends GuiMultiblockController<HeatExchange
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
 		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
+		
+		if (NCUtil.isModifierKeyDown()) {
+			String networkCount = Lang.localize("gui.nc.container.heat_exchanger_controller.active_network_count") + " " + multiblock.activeNetworkCount + "/" + multiblock.totalNetworkCount;
+			fontRenderer.drawString(networkCount, xSize / 2 - fontRenderer.getStringWidth(networkCount) / 2, 22, fontColor);
+		}
+		else {
+			String tubeCount = Lang.localize("gui.nc.container.heat_exchanger_controller.active_tube_count") + " " + multiblock.activeTubeCount + "/" + multiblock.getPartCount(TileHeatExchangerTube.class);
+			fontRenderer.drawString(tubeCount, xSize / 2 - fontRenderer.getStringWidth(tubeCount) / 2, 22, fontColor);
+		}
+		
+		String tubeInputRate = Lang.localize("gui.nc.container.heat_exchanger_controller.tube_input") + " " + UnitHelper.prefix(Math.round(multiblock.tubeInputRateFP), 5, "B/t", -1);
+		fontRenderer.drawString(tubeInputRate, xSize / 2 - fontRenderer.getStringWidth(tubeInputRate) / 2, 34, fontColor);
+		
+		String heatDissipationRate = Lang.localize("gui.nc.container.heat_exchanger_controller.heat_dissipation_rate") + " " + UnitHelper.prefix(Math.round(multiblock.heatDissipationRateFP), 5, "H/t");
+		fontRenderer.drawString(heatDissipationRate, xSize / 2 - fontRenderer.getStringWidth(heatDissipationRate) / 2, 46, fontColor);
+		
+		String meanTempDiff = Lang.localize("gui.nc.container.heat_exchanger_controller.mean_temp_diff") + " " + UnitHelper.prefix(multiblock.activeContactCount == 0 ? 0D : Math.round(multiblock.totalTempDiff / multiblock.activeContactCount), 5, "K");
+		fontRenderer.drawString(meanTempDiff, xSize / 2 - fontRenderer.getStringWidth(meanTempDiff) / 2, 58, fontColor);
 	}
 	
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 153, guiTop + 35));
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 153, guiTop + 5));
 	}
 	
 	@Override

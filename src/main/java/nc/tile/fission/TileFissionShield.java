@@ -24,7 +24,13 @@ import static nc.util.PosHelper.DEFAULT_NON;
 
 public class TileFissionShield extends TileFissionPart implements IFissionHeatingComponent, IFissionManagerListener<TileFissionShieldManager, TileFissionShield> {
 	
+	public static final Object2DoubleMap<String> DYN_HEAT_PER_FLUX_MAP = new Object2DoubleOpenHashMap<>();
+	public static final Object2DoubleMap<String> DYN_EFFICIENCY_MAP = new Object2DoubleOpenHashMap<>();
+	
+	protected String shieldType;
+	
 	public double heatPerFlux, efficiency;
+	
 	public boolean isShielding = false, inCompleteModeratorLine = false, activeModerator = false;
 	protected boolean[] validActiveModeratorPos = new boolean[] {false, false, false, false, false, false};
 	
@@ -44,7 +50,7 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 		super(CuboidalPartPositionType.INTERIOR);
 	}
 	
-	public TileFissionShield(double heatPerFlux, double efficiency) {
+	public TileFissionShield(String shieldType, double heatPerFlux, double efficiency) {
 		this();
 		this.heatPerFlux = heatPerFlux;
 		this.efficiency = efficiency;
@@ -53,7 +59,7 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	public static class Meta extends TileFissionShield {
 		
 		protected Meta(MetaEnums.NeutronShieldType type) {
-			super(type.getHeatPerFlux(), type.getEfficiency());
+			super(type.getName(), type.getHeatPerFlux(), type.getEfficiency());
 		}
 		
 		@Override
@@ -287,8 +293,15 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setDouble("heatPerFlux", heatPerFlux);
-		nbt.setDouble("efficiency", efficiency);
+		
+		if (shieldType == null) {
+			nbt.setDouble("heatPerFlux", heatPerFlux);
+			nbt.setDouble("efficiency", efficiency);
+		}
+		else {
+			nbt.setString("shieldType", shieldType);
+		}
+		
 		nbt.setBoolean("isShielding", isShielding);
 		nbt.setBoolean("inCompleteModeratorLine", inCompleteModeratorLine);
 		nbt.setBoolean("activeModerator", activeModerator);
@@ -301,12 +314,22 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (nbt.hasKey("heatPerFlux")) {
+		
+		if (nbt.hasKey("heatPerFlux") && nbt.hasKey("efficiency")) {
 			heatPerFlux = nbt.getDouble("heatPerFlux");
-		}
-		if (nbt.hasKey("efficiency")) {
 			efficiency = nbt.getDouble("efficiency");
 		}
+		else if (nbt.hasKey("shieldType")) {
+			shieldType = nbt.getString("shieldType");
+			
+			if (DYN_HEAT_PER_FLUX_MAP.containsKey(shieldType)) {
+				heatPerFlux = DYN_HEAT_PER_FLUX_MAP.getDouble(shieldType);
+			}
+			if (DYN_EFFICIENCY_MAP.containsKey(shieldType)) {
+				efficiency = DYN_EFFICIENCY_MAP.getDouble(shieldType);
+			}
+		}
+		
 		isShielding = nbt.getBoolean("isShielding");
 		inCompleteModeratorLine = nbt.getBoolean("inCompleteModeratorLine");
 		activeModerator = nbt.getBoolean("activeModerator");

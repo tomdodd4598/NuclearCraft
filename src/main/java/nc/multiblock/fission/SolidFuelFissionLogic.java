@@ -190,15 +190,17 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		int heatPerMB = recipe.getFissionHeatingHeatPerInputMB();
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		
-		double usedInput = Math.min(tanks.get(0).getFluidAmount(), getEffectiveHeat() / heatPerMB);
-		heatingRecipeRate = heatingOutputRateFP = NCMath.toInt(Math.min((double) (tanks.get(1).getCapacity() - tanks.get(1).getFluidAmount()) / productSize, usedInput / inputSize));
+		Tank inputTank = tanks.get(0), outputTank = tanks.get(1);
+		
+		double usedInput = Math.min(inputTank.getFluidAmount(), getEffectiveHeat() / heatPerMB);
+		heatingRecipeRate = heatingOutputRateFP = NCMath.toInt(Math.min((double) (outputTank.getCapacity() - outputTank.getFluidAmount()) / productSize, usedInput / inputSize));
 		reservedEffectiveHeat += (heatingRecipeRate - NCMath.toInt(heatingRecipeRate)) * inputSize * heatPerMB;
 		
 		int extraRecipeRate = NCMath.toInt(Math.min(Integer.MAX_VALUE - heatingRecipeRate, reservedEffectiveHeat / (heatPerMB * inputSize)));
 		heatingRecipeRate += extraRecipeRate;
 		reservedEffectiveHeat -= extraRecipeRate * inputSize * heatPerMB;
 		
-		return tanks.get(1).isEmpty() || tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack());
+		return outputTank.isEmpty() || outputTank.getFluid().isFluidEqual(fluidProduct.getStack());
 	}
 	
 	public void produceProducts() {
@@ -206,26 +208,28 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
 		int heatingRecipeRateInt = NCMath.toInt(heatingRecipeRate);
 		
+		Tank inputTank = tanks.get(0), outputTank = tanks.get(1);
+		
 		if (heatingRecipeRateInt * inputSize > 0) {
-			tanks.get(0).changeFluidAmount(-heatingRecipeRateInt * inputSize);
+			inputTank.changeFluidAmount(-heatingRecipeRateInt * inputSize);
 		}
-		if (tanks.get(0).getFluidAmount() <= 0) {
-			tanks.get(0).setFluidStored(null);
+		if (inputTank.getFluidAmount() <= 0) {
+			inputTank.setFluidStored(null);
 		}
 		
 		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) > 0) {
 			int stackSize = 0;
-			if (tanks.get(1).isEmpty()) {
-				tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
-				stackSize = tanks.get(1).getFluidAmount();
+			if (outputTank.isEmpty()) {
+				outputTank.setFluidStored(fluidProduct.getNextStack(0));
+				stackSize = outputTank.getFluidAmount();
 				heatingOutputRate = heatingRecipeRateInt * stackSize;
-				tanks.get(1).setFluidAmount(heatingOutputRate);
+				outputTank.setFluidAmount(heatingOutputRate);
 			}
-			else if (tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
+			else if (outputTank.getFluid().isFluidEqual(fluidProduct.getStack())) {
 				stackSize = fluidProduct.getNextStackSize(0);
 				heatingOutputRate = heatingRecipeRateInt * stackSize;
-				tanks.get(1).changeFluidAmount(heatingOutputRate);
+				outputTank.changeFluidAmount(heatingOutputRate);
 			}
 			heatingOutputRateFP *= stackSize;
 			if (heatingOutputRateFP > stackSize) {

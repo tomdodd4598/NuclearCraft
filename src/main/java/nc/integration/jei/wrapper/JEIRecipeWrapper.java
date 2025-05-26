@@ -34,12 +34,13 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper {
 		
 		itemInputs = RecipeHelper.getItemInputLists(recipe.getItemIngredients());
 		fluidInputs = RecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
-		itemOutputs = RecipeHelper.getItemOutputLists(recipe.getItemProducts());
-		fluidOutputs = RecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
+		itemOutputs = StreamHelper.map(RecipeHelper.getItemOutputLists(recipe.getItemProducts()), x -> StreamHelper.filter(x, y -> y != null && !y.isEmpty()));
+		fluidOutputs = StreamHelper.map(RecipeHelper.getFluidOutputLists(recipe.getFluidProducts()), x -> StreamHelper.filter(x, y -> y != null && y.amount > 0));
 		
 		if (arrowW > 0 && arrowH > 0) {
 			arrow = new Lazy<>(() -> {
-				IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(textureLocation), arrowU, arrowV, arrowW, arrowH);
+				int[] progressUVWH = getProgressArrowUVWH(arrowU, arrowV, arrowW, arrowH);
+				IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(textureLocation), progressUVWH[0], progressUVWH[1], progressUVWH[2], progressUVWH[3]);
 				int progressTime = getProgressArrowTime();
 				return progressTime < 2 ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, progressTime, IDrawableAnimated.StartDirection.LEFT, false);
 			});
@@ -49,6 +50,10 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper {
 		}
 		this.arrowX = arrowX - backgroundX;
 		this.arrowY = arrowY - backgroundY;
+	}
+	
+	protected int[] getProgressArrowUVWH(int arrowU, int arrowV, int arrowW, int arrowH) {
+		return new int[] {arrowU, arrowV, arrowW, arrowH};
 	}
 	
 	protected abstract int getProgressArrowTime();

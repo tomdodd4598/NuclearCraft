@@ -326,7 +326,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side);
+			return hasInventorySideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -334,7 +334,7 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
+			if (hasInventorySideCapability(side)) {
 				return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler(side));
 			}
 			return null;

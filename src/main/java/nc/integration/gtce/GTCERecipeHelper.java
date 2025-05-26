@@ -8,6 +8,7 @@ import nc.config.NCConfig;
 import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.util.*;
+import nc.util.ReflectionHelper.MethodWrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
@@ -210,7 +211,7 @@ public class GTCERecipeHelper {
 				continue;
 			}
 			for (RecipeBuilder<?> builderVariant : builders) {
-				builderVariant = builderVariant.outputs(outputStackList.get(0));
+				builderVariant = builderVariant.outputs(outputStackList.get(outputStackList.size() - 1));
 			}
 		}
 		
@@ -223,7 +224,7 @@ public class GTCERecipeHelper {
 				continue;
 			}
 			for (RecipeBuilder<?> builderVariant : builders) {
-				builderVariant.fluidOutputs(outputStackList.get(0));
+				builderVariant.fluidOutputs(outputStackList.get(outputStackList.size() - 1));
 			}
 		}
 		
@@ -240,9 +241,30 @@ public class GTCERecipeHelper {
 		}
 	}
 	
+	private static final MethodWrapper<RecipeBuilder<?>> EUT_INT = new MethodWrapper<>(RecipeBuilder.class, "EUt", int.class);
+	private static final MethodWrapper<RecipeBuilder<?>> EUT_LONG = new MethodWrapper<>(RecipeBuilder.class, "EUt", long.class);
+	
 	@Optional.Method(modid = "gregtech")
 	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, BasicRecipe recipe, int processPower, int processTime) {
-		return builder.EUt(NCMath.toInt(Math.max(recipe.getBaseProcessPower(processPower), 1D))).duration(NCMath.toInt(recipe.getBaseProcessTime(20D * processTime)));
+		int time = NCMath.toInt(Math.max(1D, recipe.getBaseProcessTime(20D * processTime)));
+		long power = (long) Math.max(1D, recipe.getBaseProcessPower(processPower));
+		
+		builder = builder.duration(time);
+		
+		// Handle int and long power cases
+		
+		try {
+			return EUT_INT.invoke(builder, NCMath.toInt(power));
+		}
+		catch (Exception intException) {
+			try {
+				return EUT_LONG.invoke(builder, power);
+			}
+			catch (Exception longException) {
+				NCUtil.getLogger().info("Failed to set EUt for GTCEu recipe: " + RecipeHelper.getRecipeString(recipe));
+				return builder;
+			}
+		}
 	}
 	
 	// GTCE recipe matching - modified from GTCE source

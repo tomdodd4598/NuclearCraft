@@ -45,8 +45,8 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	public final int[] fluidInputTanks;
 	public final int[] fluidOutputTanks;
 	
-	public final int inputTankCapacity;
-	public final int outputTankCapacity;
+	public int inputTankCapacity;
+	public int outputTankCapacity;
 	
 	public final double defaultProcessTime;
 	public final double defaultProcessPower;

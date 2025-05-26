@@ -13,30 +13,30 @@ import java.util.List;
 public class InfiltratorUpdatePacket extends MachineUpdatePacket {
 	
 	public double pressureFluidEfficiency;
-	public double heatingContactBonus;
+	public double heatingBonus;
 	
 	public InfiltratorUpdatePacket() {
 		super();
 	}
 	
-	public InfiltratorUpdatePacket(BlockPos pos, boolean isMachineOn, boolean isProcessing, double time, double baseProcessTime, double baseProcessPower, List<Tank> tanks, double baseSpeedMultiplier, double basePowerMultiplier, RecipeUnitInfo recipeUnitInfo, double pressureFluidEfficiency, double heatingContactBonus) {
+	public InfiltratorUpdatePacket(BlockPos pos, boolean isMachineOn, boolean isProcessing, double time, double baseProcessTime, double baseProcessPower, List<Tank> tanks, double baseSpeedMultiplier, double basePowerMultiplier, RecipeUnitInfo recipeUnitInfo, double pressureFluidEfficiency, double heatingBonus) {
 		super(pos, isMachineOn, isProcessing, time, baseProcessTime, baseProcessPower, tanks, baseSpeedMultiplier, basePowerMultiplier, recipeUnitInfo);
 		this.pressureFluidEfficiency = pressureFluidEfficiency;
-		this.heatingContactBonus = heatingContactBonus;
+		this.heatingBonus = heatingBonus;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		pressureFluidEfficiency = buf.readDouble();
-		heatingContactBonus = buf.readDouble();
+		heatingBonus = buf.readDouble();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		buf.writeDouble(pressureFluidEfficiency);
-		buf.writeDouble(heatingContactBonus);
+		buf.writeDouble(heatingBonus);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<Machine, IMachinePart, MachineUpdatePacket, TileInfiltratorController, TileContainerInfo<TileInfiltratorController>, InfiltratorUpdatePacket> {

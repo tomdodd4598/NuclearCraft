@@ -270,8 +270,11 @@ public class NCConfig {
 	
 	public static int heat_exchanger_min_size; // Default: 1
 	public static int heat_exchanger_max_size; // Default: 24
-	public static double[] heat_exchanger_conductivity;
-	public static double heat_exchanger_coolant_mult;
+	public static double[] heat_exchanger_heat_transfer_coefficient;
+	public static double[] heat_exchanger_heat_retention_mult;
+	public static double heat_exchanger_coolant_heat_mult;
+	public static boolean heat_exchanger_lmtd;
+	public static boolean heat_exchanger_alternate_hps_recipe;
 	public static boolean heat_exchanger_alternate_exhaust_recipe;
 	
 	public static int turbine_min_size; // Default: 1
@@ -434,7 +437,6 @@ public class NCConfig {
 	public static boolean give_guidebook;
 	public static boolean single_creative_tab;
 	public static boolean ctrl_info;
-	public static boolean jei_chance_items_include_null;
 	
 	public static boolean rare_drops;
 	public static boolean dungeon_loot;
@@ -579,8 +581,8 @@ public class NCConfig {
 		machine_anode_efficiency = sync(CATEGORY_MACHINE, "machine_anode_efficiency", new String[] {"CopperOxide@0.6", "TinOxide@0.6", "NickelOxide@0.7", "CobaltOxide@0.8", "RutheniumOxide@0.9", "IridiumOxide@1.0"}, LIST);
 		machine_electrolyzer_sound_volume = sync(CATEGORY_MACHINE, "machine_electrolyzer_sound_volume", 1D, 0D, 15D);
 		
-		machine_distiller_time = sync(CATEGORY_MACHINE, "machine_distiller_time", 3200, 1, 128000);
-		machine_distiller_power = sync(CATEGORY_MACHINE, "machine_distiller_power", 40, 1, 128000);
+		machine_distiller_time = sync(CATEGORY_MACHINE, "machine_distiller_time", 800, 1, 128000);
+		machine_distiller_power = sync(CATEGORY_MACHINE, "machine_distiller_power", 10, 1, 128000);
 		machine_distiller_sound_volume = sync(CATEGORY_MACHINE, "machine_distiller_sound_volume", 1D, 0D, 15D);
 		
 		machine_infiltrator_time = sync(CATEGORY_MACHINE, "machine_infiltrator_time", 1600, 1, 128000);
@@ -716,8 +718,11 @@ public class NCConfig {
 		
 		heat_exchanger_min_size = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_min_size", 1, 1, 255);
 		heat_exchanger_max_size = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_max_size", 24, 2, 255);
-		heat_exchanger_conductivity = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_conductivity", new double[] {1D, 1.1D, 1.2D}, 0.01D, 15D, ARRAY);
-		heat_exchanger_coolant_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_mult", 5D, 0.001D, Integer.MAX_VALUE);
+		heat_exchanger_heat_transfer_coefficient = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_heat_transfer_coefficient", new double[] {16D, 24D, 32D}, 0.001D, Integer.MAX_VALUE, ARRAY);
+		heat_exchanger_heat_retention_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_heat_retention_mult", new double[] {0.8D, 0.9D, 1D}, 0.01D, 1D, ARRAY);
+		heat_exchanger_coolant_heat_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_heat_mult", 2D, 0.001D, Integer.MAX_VALUE);
+		heat_exchanger_lmtd = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_lmtd", false);
+		heat_exchanger_alternate_hps_recipe = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_hps_recipe", false);
 		heat_exchanger_alternate_exhaust_recipe = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_exhaust_recipe", false);
 		
 		turbine_min_size = sync(CATEGORY_TURBINE, "turbine_min_size", 1, 1, 255);
@@ -878,7 +883,6 @@ public class NCConfig {
 		give_guidebook = sync(CATEGORY_MISC, "give_guidebook", true);
 		single_creative_tab = sync(CATEGORY_MISC, "single_creative_tab", false);
 		ctrl_info = sync(CATEGORY_MISC, "ctrl_info", false);
-		jei_chance_items_include_null = sync(CATEGORY_MISC, "jei_chance_items_include_null", false);
 		rare_drops = sync(CATEGORY_MISC, "rare_drops", false);
 		dungeon_loot = sync(CATEGORY_MISC, "dungeon_loot", false);
 		corium_solidification = sync(CATEGORY_MISC, "corium_solidification", new int[] {0, 1, 2, -6, -100, 4598, -9999, -11325}, Integer.MIN_VALUE, Integer.MAX_VALUE, LIST);

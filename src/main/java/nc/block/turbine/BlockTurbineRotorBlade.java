@@ -16,7 +16,11 @@ import static nc.util.NCRenderHelper.PIXEL;
 
 public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRotorBlade {
 	
-	private static final AxisAlignedBB[] BLADE_AABB = {new AxisAlignedBB(0D, PIXEL * 7D, PIXEL * 2D, PIXEL * 16D, PIXEL * 9D, PIXEL * 14D), new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 7D, PIXEL * 14D, PIXEL * 16D, PIXEL * 9D), new AxisAlignedBB(PIXEL * 2D, PIXEL * 7D, 0D, PIXEL * 14D, PIXEL * 9D, PIXEL * 16D)};
+	private static final AxisAlignedBB[] BLADE_AABB = {
+			new AxisAlignedBB(0D, PIXEL * 7D, PIXEL * 2D, PIXEL * 16D, PIXEL * 9D, PIXEL * 14D),
+			new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 7D, PIXEL * 14D, PIXEL * 16D, PIXEL * 9D),
+			new AxisAlignedBB(PIXEL * 2D, PIXEL * 7D, 0D, PIXEL * 14D, PIXEL * 9D, PIXEL * 16D)
+	};
 	
 	private final TurbineRotorBladeType bladeType;
 	
@@ -62,20 +66,6 @@ public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRo
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockStateIn, IBlockAccess worldIn, BlockPos pos) {
 		return NULL_AABB;
-	}
-	
-	@Override
-	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-		if (state.getBlock() != this) {
-			return super.getSelectedBoundingBox(state, worldIn, pos);
-		}
-		
-		return switch (state.getValue(TurbineRotorBladeUtil.DIR)) {
-			case X -> BLADE_AABB[0].offset(pos);
-			case Y -> BLADE_AABB[1].offset(pos);
-			case Z -> BLADE_AABB[2].offset(pos);
-			default -> super.getSelectedBoundingBox(state, worldIn, pos);
-		};
 	}
 	
 	@Override

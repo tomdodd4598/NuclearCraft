@@ -1,12 +1,11 @@
-ZenRecipeReload support
-
 Generate nuclearcraft.ncpf.json for registered multiblock component stats and rules
 
 Multiblock monitors: show cluster information, meltdown locations, side configurations, etc.
 
 Show potential (pre-primed) stats if reactor is idle
 
-Multiblock collectors
+Multiblock solars with CT support
+Multiblock collectors with CT support
 
 Finish fission meltdown mechanics
 Add melting logic to non-fuel components
@@ -28,13 +27,6 @@ Gas-cooled Pebble-Bed Reactor that produces energy directly
 QT gas coolants: https://docs.google.com/spreadsheets/d/1gtXbk_S9ginkjgDo8BNXQr54kaQcToaqUa2E9LA0CMQ/edit#gid=1165328757
 ___________________________________________________________________________________________________________________________
 
-Heat Exchanger: make heat flow maths realistic: https://en.wikipedia.org/wiki/Countercurrent_exchange
-Implement LMTD exchangers and condensers without log term: (https://en.wikipedia.org/wiki/Logarithmic_mean_temperature_difference)
-Implement heat transfer coefficient as percentage for each tube material
-Add powered 'heat pump', placed between tube lines, to move heat from cold -> hot?
-
-Add condenser controller, split mechanics like the fission reactor
-
 Decay pool to preheat condensate water from radioactive isotopes? (https://discordapp.com/channels/425461908712325130/425470889354723350/574303555465510912)
 ___________________________________________________________________________________________________________________________
 
@@ -50,8 +42,7 @@ ________________________________________________________________________________
 1.21+: Potential TE getter optimisation - https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/common/util/MekanismUtils.java#L929-L948 (getChunkForTile)
 
 1.21+: Remove fission clusters
-1.21+: Make reflectors tile entities and conduct heat
-1.21+: Placement rule tweaks (e.g. nerf emerald and liquid helium)
+1.21+: Make moderators reflectors form clusters and conduct heat
 
 1.21+: Give dynamo depth for 3D coil puzzle?
 ___________________________________________________________________________________________________________________________

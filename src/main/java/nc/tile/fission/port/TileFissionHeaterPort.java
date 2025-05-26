@@ -283,7 +283,6 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 		if (heaterType != null) {
 			nbt.setString("heaterName", heaterType);
 		}
-		nbt.setString("coolantName", coolantName);
 		return nbt;
 	}
 	
@@ -293,8 +292,8 @@ public class TileFissionHeaterPort extends TileFissionFluidPort<TileFissionHeate
 		if (nbt.hasKey("heaterName")) {
 			heaterType = nbt.getString("heaterName");
 		}
-		if (nbt.hasKey("coolantName")) {
-			coolantName = nbt.getString("coolantName");
+		if (TileSaltFissionHeater.DYN_COOLANT_NAME_MAP.containsKey(heaterType)) {
+			coolantName = TileSaltFissionHeater.DYN_COOLANT_NAME_MAP.get(heaterType);
 			tanks.get(0).setAllowedFluids(Collections.singleton(coolantName));
 		}
 	}

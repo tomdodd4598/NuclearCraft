@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.capability.*;
 import javax.annotation.*;
 import java.util.*;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.block.property.BlockProperties.FACING_ALL;
 import static nc.config.NCConfig.enable_mek_gas;
 
 public class TileTurbineOutlet extends TileTurbinePart implements ITickable, ITileFluid {
@@ -39,9 +39,9 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITickable, ITi
 		doStandardNullControllerResponse(multiblock);
 		super.onMachineAssembled(multiblock);
 		if (!world.isRemote) {
-			EnumFacing posFacing = getPartPosition().getFacing();
-			if (posFacing != null) {
-				world.setBlockState(pos, world.getBlockState(pos).withProperty(AXIS_ALL, posFacing.getAxis()), 2);
+			EnumFacing facing = getPartPosition().getFacing();
+			if (facing != null) {
+				world.setBlockState(pos, world.getBlockState(pos).withProperty(FACING_ALL, facing), 2);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITickable, ITi
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileTurbineOutlet) {
+		if (tile == null) {
 			return;
 		}
 		
@@ -111,7 +111,7 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITickable, ITi
 		List<Tank> tanks = getTanks();
 		if (!tanks.isEmpty()) {
 			Tank tank = tanks.get(0);
-			tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true);
+			onWrapperDrain(tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true), true);
 		}
 	}
 	
@@ -159,7 +159,7 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITickable, ITi
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && enable_mek_gas && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY)) {
-			return !getTanks().isEmpty() && hasFluidSideCapability(side);
+			return hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -167,13 +167,13 @@ public class TileTurbineOutlet extends TileTurbinePart implements ITickable, ITi
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (hasFluidSideCapability(side)) {
 				return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidSide(nonNullSide(side)));
 			}
 			return null;
 		}
 		else if (ModCheck.mekanismLoaded() && capability == CapabilityHelper.GAS_HANDLER_CAPABILITY) {
-			if (enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			if (enable_mek_gas && hasFluidSideCapability(side)) {
 				return CapabilityHelper.GAS_HANDLER_CAPABILITY.cast(getGasWrapper());
 			}
 			return null;

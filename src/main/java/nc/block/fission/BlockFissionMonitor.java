@@ -65,24 +65,27 @@ public class BlockFissionMonitor extends BlockFissionPart implements IActivatabl
 			return false;
 		}
 		
-		if (!world.isRemote && !ItemMultitool.isMultitool(player.getHeldItem(hand))) {
+		if (!ItemMultitool.isMultitool(player.getHeldItem(hand))) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileFissionMonitor monitor) {
-				FissionReactor reactor = monitor.getMultiblock();
-				if (reactor != null) {
-					IFissionComponent component = reactor.getPartMap(IFissionComponent.class).get(monitor.getComponentPos().toLong());
-					if (component != null) {
-						FissionCluster cluster = component.getCluster();
-						if (cluster != null) {
-							for (long posLong : cluster.getComponentMap().keySet()) {
-								BlockHighlightTracker.sendPacket((EntityPlayerMP) player, posLong, 5000);
+				if (!world.isRemote) {
+					FissionReactor reactor = monitor.getMultiblock();
+					if (reactor != null) {
+						IFissionComponent component = reactor.getPartMap(IFissionComponent.class).get(monitor.getComponentPos().toLong());
+						if (component != null) {
+							FissionCluster cluster = component.getCluster();
+							if (cluster != null) {
+								for (long posLong : cluster.getComponentMap().keySet()) {
+									BlockHighlightTracker.sendPacket((EntityPlayerMP) player, posLong, 5000);
+								}
 							}
-							return true;
 						}
 					}
 				}
+				return true;
 			}
 		}
+		
 		return rightClickOnPart(world, pos, player, hand, facing, true);
 	}
 }

@@ -23,7 +23,7 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurb
 		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "turbine_controller" + ".png");
 		xSize = 176;
-		ySize = 75;
+		ySize = 76;
 	}
 	
 	@Override
@@ -62,8 +62,9 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurb
 			inputRate = Lang.localize("gui.nc.container.turbine_controller.power_bonus") + " " + NCMath.pcDecimalPlaces(multiblock.powerBonus, 1);
 		}
 		else {
-			double rateRatio = multiblock.recipeInputRate / (double) multiblock.getLogic().getMaxRecipeRateMultiplier();
-			double rateRatioFP = multiblock.recipeInputRateFP / multiblock.getLogic().getMaxRecipeRateMultiplier();
+			double maxRecipeRateMultiplierFP = multiblock.getLogic().getMaxRecipeRateMultiplier();
+			double rateRatio = (double) multiblock.recipeInputRate / maxRecipeRateMultiplierFP;
+			double rateRatioFP = multiblock.recipeInputRateFP / maxRecipeRateMultiplierFP;
 			inputRate = Lang.localize("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(NCMath.roundTo(multiblock.recipeInputRateFP, 0.1D), 5, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatio > 1D ? "] [!]" : "]");
 			inputRateWidth = inputRateWidth - fontRenderer.getStringWidth(inputRate) > 1 ? fontRenderer.getStringWidth(inputRate) : Math.max(inputRateWidth, fontRenderer.getStringWidth(inputRate));
 		}

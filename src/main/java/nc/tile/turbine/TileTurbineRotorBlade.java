@@ -1,5 +1,6 @@
 package nc.tile.turbine;
 
+import it.unimi.dsi.fastutil.objects.*;
 import nc.block.turbine.BlockTurbineRotorBlade;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.*;
@@ -11,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Iterator;
 
 public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRotorBlade<TileTurbineRotorBlade> {
+	
+	public static final Object2ObjectMap<String, IRotorBladeType> DYN_BLADE_TYPE_MAP = new Object2ObjectOpenHashMap<>();
 	
 	public IRotorBladeType bladeType = null;
 	protected TurbinePartDir dir = TurbinePartDir.Y;
@@ -107,8 +110,6 @@ public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRo
 		super.writeAll(nbt);
 		if (bladeType != null) {
 			nbt.setString("bladeName", bladeType.getName());
-			nbt.setDouble("bladeEfficiency", bladeType.getEfficiency());
-			nbt.setDouble("bladeExpansionCoefficient", bladeType.getExpansionCoefficient());
 		}
 		
 		nbt.setInteger("bladeDir", dir.ordinal());
@@ -118,28 +119,11 @@ public class TileTurbineRotorBlade extends TileTurbinePart implements ITurbineRo
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (bladeType == null && nbt.hasKey("bladeName") && nbt.hasKey("bladeEfficiency") && nbt.hasKey("bladeExpansionCoefficient")) {
-			bladeType = new IRotorBladeType() {
-				
-				final String name = nbt.getString("bladeName");
-				final double efficiency = nbt.getDouble("bladeEfficiency"), expansionCoefficient = nbt.getDouble("bladeExpansionCoefficient");
-				
-				@Override
-				public String getName() {
-					return name;
-				}
-				
-				@Override
-				public double getEfficiency() {
-					return efficiency;
-				}
-				
-				@Override
-				public double getExpansionCoefficient() {
-					return expansionCoefficient;
-				}
-				
-			};
+		if (nbt.hasKey("bladeName")) {
+			String bladeName = nbt.getString("bladeName");
+			if (DYN_BLADE_TYPE_MAP.containsKey(bladeName)) {
+				bladeType = DYN_BLADE_TYPE_MAP.get(bladeName);
+			}
 		}
 		
 		dir = TurbinePartDir.values()[nbt.getInteger("bladeDir")];

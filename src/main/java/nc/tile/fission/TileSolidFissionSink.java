@@ -18,10 +18,14 @@ import static nc.config.NCConfig.fission_sink_cooling_rate;
 
 public class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
-	public String sinkType;
-	public int coolingRate;
+	public static final Object2IntMap<String> DYN_COOLING_RATE_MAP = new Object2IntOpenHashMap<>();
+	public static final Object2ObjectMap<String, String> DYN_RULE_ID_MAP = new Object2ObjectOpenHashMap<>();
 	
+	public String sinkType;
+	
+	public int coolingRate;
 	public String ruleID;
+	
 	public PlacementRule<FissionReactor, IFissionPart> placementRule;
 	
 	private FissionCluster cluster = null;
@@ -359,9 +363,6 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setString("sinkName", sinkType);
-		nbt.setInteger("coolingRate", coolingRate);
-		nbt.setString("ruleID", ruleID);
-		
 		nbt.setLong("clusterHeat", heat);
 		return nbt;
 	}
@@ -372,11 +373,12 @@ public class TileSolidFissionSink extends TileFissionPart implements IFissionCoo
 		if (nbt.hasKey("sinkName")) {
 			sinkType = nbt.getString("sinkName");
 		}
-		if (nbt.hasKey("coolingRate")) {
-			coolingRate = nbt.getInteger("coolingRate");
+		
+		if (DYN_COOLING_RATE_MAP.containsKey(sinkType)) {
+			coolingRate = DYN_COOLING_RATE_MAP.getInt(sinkType);
 		}
-		if (nbt.hasKey("ruleID")) {
-			ruleID = nbt.getString("ruleID");
+		if (DYN_RULE_ID_MAP.containsKey(sinkType)) {
+			ruleID = DYN_RULE_ID_MAP.get(sinkType);
 			placementRule = FissionPlacement.RULE_MAP.get(ruleID);
 		}
 		

@@ -8,7 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 
@@ -268,12 +268,12 @@ public abstract class CuboidalMultiblock<MULTIBLOCK extends CuboidalMultiblock<M
 		return true;
 	}
 	
-	protected BlockPos getMinimumInteriorCoord() {
-		return new BlockPos(getMinInteriorX(), getMinInteriorY(), getMinInteriorZ());
+	public BlockPos getMinimumInteriorCoord() {
+		return getMinimumCoord().add(1, 1, 1);
 	}
 	
-	protected BlockPos getMaximumInteriorCoord() {
-		return new BlockPos(getMaxInteriorX(), getMaxInteriorY(), getMaxInteriorZ());
+	public BlockPos getMaximumInteriorCoord() {
+		return getMaximumCoord().add(-1, -1, -1);
 	}
 	
 	public int getMinInteriorX() {
@@ -304,28 +304,44 @@ public abstract class CuboidalMultiblock<MULTIBLOCK extends CuboidalMultiblock<M
 		return new BlockPos(maxX ? getMaxInteriorX() : getMinInteriorX(), maxY ? getMaxInteriorY() : getMinInteriorY(), maxZ ? getMaxInteriorZ() : getMinInteriorZ());
 	}
 	
+	public int getClampedInteriorX(int x) {
+		return MathHelper.clamp(x, getMinInteriorX(), getMaxInteriorX());
+	}
+	
+	public int getClampedInteriorY(int y) {
+		return MathHelper.clamp(y, getMinInteriorY(), getMaxInteriorY());
+	}
+	
+	public int getClampedInteriorZ(int z) {
+		return MathHelper.clamp(z, getMinInteriorZ(), getMaxInteriorZ());
+	}
+	
+	public BlockPos getClampedInteriorCoord(BlockPos pos) {
+		return new BlockPos(getClampedInteriorX(pos.getX()), getClampedInteriorY(pos.getY()), getClampedInteriorZ(pos.getZ()));
+	}
+	
 	public int getExteriorLengthX() {
-		return Math.abs(getMaximumCoord().getX() - getMinimumCoord().getX()) + 1;
+		return getMaximumCoord().getX() - getMinimumCoord().getX() + 1;
 	}
 	
 	public int getExteriorLengthY() {
-		return Math.abs(getMaximumCoord().getY() - getMinimumCoord().getY()) + 1;
+		return getMaximumCoord().getY() - getMinimumCoord().getY() + 1;
 	}
 	
 	public int getExteriorLengthZ() {
-		return Math.abs(getMaximumCoord().getZ() - getMinimumCoord().getZ()) + 1;
+		return getMaximumCoord().getZ() - getMinimumCoord().getZ() + 1;
 	}
 	
 	public int getInteriorLengthX() {
-		return getExteriorLengthX() - 2;
+		return getMaximumCoord().getX() - getMinimumCoord().getX() - 1;
 	}
 	
 	public int getInteriorLengthY() {
-		return getExteriorLengthY() - 2;
+		return getMaximumCoord().getY() - getMinimumCoord().getY() - 1;
 	}
 	
 	public int getInteriorLengthZ() {
-		return getExteriorLengthZ() - 2;
+		return getMaximumCoord().getZ() - getMinimumCoord().getZ() - 1;
 	}
 	
 	public int getExteriorVolume() {
@@ -357,6 +373,12 @@ public abstract class CuboidalMultiblock<MULTIBLOCK extends CuboidalMultiblock<M
 			case WEST -> getInteriorLengthX();
 			case EAST -> getInteriorLengthX();
 		};
+	}
+	
+	public boolean isInInterior(BlockPos pos) {
+		int x = pos.getX(), y = pos.getY(), z = pos.getZ();
+		BlockPos min = getMinimumCoord(), max = getMaximumCoord();
+		return x >= min.getX() + 1 && x <= max.getX() - 1 && y >= min.getY() + 1 && y <= max.getY() - 1 && z >= min.getZ() + 1 && z <= max.getZ() - 1;
 	}
 	
 	protected abstract int getMinimumInteriorLength();

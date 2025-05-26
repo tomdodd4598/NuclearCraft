@@ -53,11 +53,9 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 		}
 	}
 	
-	@Nonnull
-	NonNullList<ItemStack> getConsumedStacks();
+	@Nonnull NonNullList<ItemStack> getConsumedStacks();
 	
-	@Nonnull
-	List<Tank> getConsumedTanks();
+	@Nonnull List<Tank> getConsumedTanks();
 	
 	default List<ItemStack> getItemInputs(boolean consumed) {
 		return consumed ? getConsumedStacks() : getInventoryStacks().subList(0, getContainerInfo().itemInputSize);
@@ -359,7 +357,7 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 		
 		List<Tank> tanks = getTanks();
 		for (int i = 0; i < fluidInputSize; ++i) {
-			Tank tank = tanks.get(i);
+			Tank tank = tanks.get(info.fluidInputTanks[i]);
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
 			if (fluidIngredientStackSize > 0) {
 				if (consumesInputs) {
@@ -465,7 +463,7 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 	
 	// ITickable
 	
-	default void onTick() {
+	default boolean onTick() {
 		boolean wasProcessing = getIsProcessing();
 		setIsProcessing(isProcessing());
 		boolean shouldUpdate = false;
@@ -474,34 +472,38 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 			process();
 		}
 		else {
-			getRadiationSource().setRadiationLevel(0D);
-			if (getCurrentTime() > 0D) {
-				if (getContainerInfo().losesProgress && !isHalted()) {
-					loseProgress();
-				}
-				else if (!getCanProcessInputs()) {
-					setCurrentTime(0D);
-					setResetTime(0D);
-				}
-			}
-			
-			if (!wasProcessing) {
-				shouldUpdate |= autoPush();
-			}
+			shouldUpdate = onIdle(wasProcessing);
 		}
 		
-		boolean isProcessing = getIsProcessing();
-		if (wasProcessing == isProcessing) {
-			sendTileUpdatePacketToListeners();
+		if (wasProcessing == getIsProcessing()) {
+			onResumeProcessingState();
 		}
 		else {
 			shouldUpdate = true;
-			setActivity(isProcessing);
-			sendTileUpdatePacketToAll();
+			onChangeProcessingState();
 		}
 		
-		if (shouldUpdate) {
-			markDirty();
+		return shouldUpdate;
+	}
+	
+	default boolean onIdle(boolean wasProcessing) {
+		getRadiationSource().setRadiationLevel(0D);
+		
+		if (getCurrentTime() > 0D) {
+			if (getContainerInfo().losesProgress && !isHalted()) {
+				loseProgress();
+			}
+			else if (!getCanProcessInputs()) {
+				setCurrentTime(0D);
+				setResetTime(0D);
+			}
+		}
+		
+		if (wasProcessing) {
+			return false;
+		}
+		else {
+			return autoPush();
 		}
 	}
 	
@@ -511,6 +513,15 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 		if (newTime < getResetTime()) {
 			setResetTime(newTime);
 		}
+	}
+	
+	default void onResumeProcessingState() {
+		sendTileUpdatePacketToListeners();
+	}
+	
+	default void onChangeProcessingState() {
+		setActivity(getIsProcessing());
+		sendTileUpdatePacketToAll();
 	}
 	
 	default boolean autoPush() {

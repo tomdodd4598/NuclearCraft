@@ -1,0 +1,186 @@
+{
+	"multipart": [
+		{
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_center"
+			}
+		},
+		{
+			"when": {
+				"down": "open"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "open"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "open"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "open"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "open"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "open"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"down": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "closed_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_closed_baffle",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"down": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open_baffle",
+				"x": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"up": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open_baffle",
+				"x": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open_baffle",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open_baffle",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open_baffle",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "open_baffle"
+			},
+			"apply": {
+				"model": "nuclearcraft:heat_exchanger_tube_boron_nitride_open_baffle",
+				"y": 90,
+				"uvlock": true
+			}
+		}
+	]
+}

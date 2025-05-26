@@ -3,6 +3,7 @@ package nc.tile.fluid;
 import com.google.common.collect.Lists;
 import mekanism.api.gas.GasStack;
 import nc.tile.ITile;
+import nc.tile.hx.IHeatExchangerPart;
 import nc.tile.internal.fluid.*;
 import nc.tile.machine.IMachinePart;
 import nc.tile.multiblock.port.ITilePort;
@@ -24,8 +25,7 @@ public interface ITileFluid extends ITile {
 	
 	// Tanks
 	
-	@Nonnull
-	List<Tank> getTanks();
+	@Nonnull List<Tank> getTanks();
 	
 	// Tank Logic
 	
@@ -194,6 +194,10 @@ public interface ITileFluid extends ITile {
 				part.refreshMachineRecipe();
 				part.refreshMachineActivity();
 			}
+			else if (this instanceof IHeatExchangerPart part) {
+				part.refreshHeatExchangerRecipe();
+				part.refreshHeatExchangerActivity();
+			}
 			
 			if (this instanceof ITilePort<?, ?, ?, ?, ?> port) {
 				port.setRefreshTargetsFlag(true);
@@ -208,6 +212,9 @@ public interface ITileFluid extends ITile {
 			}
 			else if (this instanceof IMachinePart part) {
 				part.refreshMachineActivity();
+			}
+			else if (this instanceof IHeatExchangerPart part) {
+				part.refreshHeatExchangerActivity();
 			}
 			
 			if (this instanceof ITilePort<?, ?, ?, ?, ?> port) {
@@ -226,6 +233,10 @@ public interface ITileFluid extends ITile {
 				part.refreshMachineRecipe();
 				part.refreshMachineActivity();
 			}
+			else if (this instanceof IHeatExchangerPart part) {
+				part.refreshHeatExchangerRecipe();
+				part.refreshHeatExchangerActivity();
+			}
 			
 			if (this instanceof ITilePort<?, ?, ?, ?, ?> port) {
 				port.setRefreshTargetsFlag(true);
@@ -240,6 +251,9 @@ public interface ITileFluid extends ITile {
 			}
 			else if (this instanceof IMachinePart part) {
 				part.refreshMachineActivity();
+			}
+			else if (this instanceof IHeatExchangerPart part) {
+				part.refreshHeatExchangerActivity();
 			}
 			
 			if (this instanceof ITilePort<?, ?, ?, ?, ?> port) {
@@ -293,6 +307,9 @@ public interface ITileFluid extends ITile {
 			}
 			else if (this instanceof IMachinePart part) {
 				part.refreshMachineActivity();
+			}
+			else if (this instanceof IHeatExchangerPart part) {
+				part.refreshHeatExchangerActivity();
 			}
 			
 			if (this instanceof ITilePort<?, ?, ?, ?, ?> port) {
