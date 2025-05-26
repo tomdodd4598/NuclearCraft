@@ -386,15 +386,15 @@ public class NCPFTranslator{
                 if(info instanceof CTRegistration.TurbineBladeRegistrationInfo inf){
                     if(block==inf.block.get()){
                         var blade = new NCPFGenericModule();
-                        blade.put("efficiency", inf.efficiency);
-                        blade.put("expansion", inf.expansionCoefficient);
+                        blade.put("efficiency", inf.bladeType.getEfficiency());
+                        blade.put("expansion", inf.bladeType.getExpansionCoefficient());
                         elem.modules.put("nuclearcraft:"+configContext+":blade", blade);
                     }
                 }
                 if(info instanceof CTRegistration.TurbineStatorRegistrationInfo inf){
                     if(block==inf.block.get()){
                         var stator = new NCPFGenericModule();
-                        stator.put("expansion", inf.expansionCoefficient);
+                        stator.put("expansion", inf.statorType.getExpansionCoefficient());
                         elem.modules.put("nuclearcraft:"+configContext+":stator", stator);
                     }
                 }
