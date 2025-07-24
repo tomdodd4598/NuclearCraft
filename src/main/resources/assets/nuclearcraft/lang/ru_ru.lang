@@ -2811,7 +2811,7 @@ gui.nc.config.radiation_rain_mult.comment=Множитель скорости о
 gui.nc.config.radiation_swim_mult=Множитель радиационного плавания
 gui.nc.config.radiation_swim_mult.comment=Умножает уровень облучения во время плавания.
 
-gui.nc.config.radiation_radaway_amount=Общее количество выведенныж радов при использовании RadAway
+gui.nc.config.radiation_radaway_amount=Общее количество выведенных радов при использовании RadAway
 gui.nc.config.radiation_radaway_amount.comment=Общее количество выведенных радов при использовании RadAway.
 gui.nc.config.radiation_radaway_slow_amount=Выведенные рады медленного действия RadAway
 gui.nc.config.radiation_radaway_slow_amount.comment=Общее количество радиации, выведенной при использовании медленно действующего RadAway.
