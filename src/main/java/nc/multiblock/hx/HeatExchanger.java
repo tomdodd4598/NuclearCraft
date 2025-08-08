@@ -30,7 +30,7 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	
 	protected final PartSuperMap<HeatExchanger, IHeatExchangerPart> partSuperMap = new PartSuperMap<>();
 	
-	protected IHeatExchangerController<?> controller;
+	public IHeatExchangerController<?> controller;
 	
 	public boolean refreshFlag = false;
 	public int packetFlag = 0;

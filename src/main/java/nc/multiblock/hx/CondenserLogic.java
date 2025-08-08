@@ -3,7 +3,12 @@ package nc.multiblock.hx;
 import it.unimi.dsi.fastutil.longs.*;
 import nc.Global;
 import nc.network.multiblock.*;
+import nc.recipe.BasicRecipe;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.NCRecipes;
+import nc.recipe.RecipeInfo;
+import nc.recipe.multiblock.CondenserRecipes;
+import nc.recipe.multiblock.HeatExchangerRecipes;
 import nc.tile.hx.*;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
@@ -33,11 +38,6 @@ public class CondenserLogic extends HeatExchangerLogic {
 	@Override
 	public String getID() {
 		return "condenser";
-	}
-	
-	@Override
-	public boolean isCondenser() {
-		return true;
 	}
 	
 	@Override
@@ -220,12 +220,72 @@ public class CondenserLogic extends HeatExchangerLogic {
 		
 		return super.onUpdateServer();
 	}
-	
+
 	@Override
 	public @Nonnull List<Tank> getOutletTanks(HeatExchangerTubeNetwork network) {
 		return network == null ? getInletTanks(network) : super.getOutletTanks(network);
 	}
-	
+
+	// Recipes
+
+	@Override
+	public BasicRecipeHandler getRecipeHandler() {
+		return NCRecipes.condenser;
+	}
+
+	@Override
+	public void setInletRecipeStats(TileHeatExchangerInlet inlet, BasicRecipe recipe)
+	{
+		if(inlet.processor.getRecipeHandler() instanceof CondenserRecipes)
+		{
+			inlet.processor.baseProcessTime = recipe.getCondenserCoolingRequired();
+			inlet.inputTemperature = recipe.getCondenserInputTemperature();
+			inlet.outputTemperature = recipe.getCondenserOutputTemperature();
+			inlet.isHeating = false;
+		}
+		else {
+			inlet.processor.setRecipeStats(null);
+		}
+	}
+
+	@Override
+	public double getInletSpeedMultiplier(TileHeatExchangerInlet inlet)
+	{
+		HeatExchanger hx = inlet.getMultiblock();
+
+		if (inlet.isMasterShellInlet()) {
+			return hx.shellSpeedMultiplier;
+		}
+
+		if (inlet.isHeating || hx.shellRecipe == null) {
+			return 0D;
+		}
+
+		int shellTemperature = hx.shellRecipe.recipe.getCondenserDissipationFluidTemperature();
+		if (inlet.outputTemperature < shellTemperature) {
+			return 0D;
+		}
+
+		double absMeanTempDiff = inlet.getAbsMeanTempDiff(inlet.inputTemperature - shellTemperature, inlet.outputTemperature - shellTemperature);
+		hx.totalTempDiff += absMeanTempDiff * inlet.network.usefulTubeCount;
+
+		hx.activeContactCount += inlet.network.usefulTubeCount;
+
+		++hx.activeNetworkCount;
+		hx.activeTubeCount += inlet.network.usefulTubeCount;
+
+		double tubeFlowDirectionMultiplier = inlet.processor.recipeInfo.recipe.getCondenserFlowDirectionMultiplier(inlet.network.tubeFlow);
+
+		double heatTransferMultiplier = absMeanTempDiff * tubeFlowDirectionMultiplier * hx.shellTanks.get(0).getFluidAmountFraction();
+		return inlet.heatTransferRate = heatTransferMultiplier * inlet.network.baseCoolingMultiplier;
+	}
+
+	@Override
+	public boolean ignoreShellFlow()
+	{
+		return true;
+	}
+
 	// Client
 	
 	@Override

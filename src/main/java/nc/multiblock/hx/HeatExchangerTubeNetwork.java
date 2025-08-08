@@ -59,7 +59,7 @@ public class HeatExchangerTubeNetwork {
 		
 		for (long tubePosLong : tubePosLongSet) {
 			TileHeatExchangerTube tube = tubeMap.get(tubePosLong);
-			if (tube.tubeFlow != null && (tube.shellFlow != null || logic.isCondenser())) {
+			if (tube.tubeFlow != null && (tube.shellFlow != null || logic.ignoreShellFlow())) {
 				++usefulTubeCount;
 				tubeFlow = tubeFlow.add(tube.tubeFlow);
 				if (tube.shellFlow != null) {
