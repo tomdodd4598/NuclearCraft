@@ -1740,11 +1740,9 @@ item.nuclearcraft.configuration_blueprint_empty.name=配置蓝图（空）
 item.nuclearcraft.configuration_blueprint_empty.desc=潜行右击机器以复制其配置信息。右击同种类机器以将蓝图保存的配置应用到目标机器。潜行右击非机器方块以重置蓝图。
 item.nuclearcraft.configuration_blueprint.name=配置蓝图
 
-item.nuclearcraft.configuration_blueprint.speed_upgrades=速度升级：
-item.nuclearcraft.configuration_blueprint.energy_upgrades=能量升级：
+item.nuclearcraft.configuration_blueprint.speed_upgrades=速度升级x
+item.nuclearcraft.configuration_blueprint.energy_upgrades=能量升级x
 item.nuclearcraft.configuration_blueprint.missing_upgrades=缺少升级：
-item.nuclearcraft.configuration_blueprint.speed_upgrade=速度升级
-item.nuclearcraft.configuration_blueprint.energy_upgrade=能量升级
 
 entity.nuclearcraft.feral_ghoul.name=辐射变异人
 

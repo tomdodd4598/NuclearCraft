@@ -126,10 +126,10 @@ public class ItemConfigurationBlueprint extends NCItem {
         // Add Upgrades information to tooltip
         if (nbt != null) {
             if (nbt.hasKey("speed_upgrades")) {
-                tooltip.add(TextFormatting.AQUA + Lang.localise("item.nuclearcraft.configuration_blueprint.speed_upgrades") + " " + nbt.getInteger("speed_upgrades"));
+                tooltip.add(TextFormatting.AQUA + Lang.localise("item.nuclearcraft.configuration_blueprint.speed_upgrades") + nbt.getInteger("speed_upgrades"));
             }
             if (nbt.hasKey("energy_upgrades")) {
-                tooltip.add(TextFormatting.AQUA + Lang.localise("item.nuclearcraft.configuration_blueprint.energy_upgrades") + " " + nbt.getInteger("energy_upgrades"));
+                tooltip.add(TextFormatting.AQUA + Lang.localise("item.nuclearcraft.configuration_blueprint.energy_upgrades") + nbt.getInteger("energy_upgrades"));
             }
         }
     }
@@ -254,19 +254,16 @@ public class ItemConfigurationBlueprint extends NCItem {
         if (appliedSpeedUpgrades < totalNeededSpeedUpgrades || appliedEnergyUpgrades < totalNeededEnergyUpgrades) {
             StringBuilder message = new StringBuilder();
             message.append(TextFormatting.YELLOW);
-            message.append(Lang.localise("item.nuclearcraft.configuration_blueprint.missing_upgrades")).append(" ");
+            message.append(Lang.localise("item.nuclearcraft.configuration_blueprint.missing_upgrades")).append("\n");
             
-            boolean needSeparator = false;
             if (appliedSpeedUpgrades < totalNeededSpeedUpgrades) {
                 int missing = totalNeededSpeedUpgrades - appliedSpeedUpgrades;
-                message.append(missing).append(" ").append(Lang.localise("item.nuclearcraft.configuration_blueprint.speed_upgrade"));
-                needSeparator = true;
+                message.append(Lang.localise("item.nuclearcraft.configuration_blueprint.speed_upgrades")).append(missing).append("\n");
             }
             
             if (appliedEnergyUpgrades < totalNeededEnergyUpgrades) {
                 int missing = totalNeededEnergyUpgrades - appliedEnergyUpgrades;
-                if (needSeparator) message.append(", ");
-                message.append(missing).append(" ").append(Lang.localise("item.nuclearcraft.configuration_blueprint.energy_upgrade"));
+                message.append(Lang.localise("item.nuclearcraft.configuration_blueprint.energy_upgrades")).append(missing);
             }
             
             player.sendMessage(new TextComponentString(message.toString()));
