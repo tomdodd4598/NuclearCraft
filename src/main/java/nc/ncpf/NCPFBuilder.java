@@ -37,6 +37,28 @@ public class NCPFBuilder {
 	public static void translate(List<NCPFElement> list, Block block) {
 		translate(list, block, true);
 	}
+    
+    private static List<Block> casingBlocks = new ArrayList<>();
+    static{
+        casingBlocks.add(NCBlocks.fission_casing);
+        casingBlocks.add(NCBlocks.fission_glass);
+        casingBlocks.add(NCBlocks.fission_monitor);
+        casingBlocks.add(NCBlocks.fission_source_manager);
+        casingBlocks.add(NCBlocks.fission_shield_manager);
+        casingBlocks.add(NCBlocks.fission_power_port);
+        casingBlocks.add(NCBlocks.fission_computer_port);
+        casingBlocks.add(NCBlocks.turbine_casing);
+        casingBlocks.add(NCBlocks.turbine_glass);
+        casingBlocks.add(NCBlocks.turbine_computer_port);
+        casingBlocks.add(NCBlocks.turbine_redstone_port);
+        casingBlocks.add(NCBlocks.machine_frame);
+        casingBlocks.add(NCBlocks.machine_glass);
+        casingBlocks.add(NCBlocks.machine_power_port);
+        casingBlocks.add(NCBlocks.machine_process_port);
+        casingBlocks.add(NCBlocks.machine_reservoir_port);
+        casingBlocks.add(NCBlocks.machine_redstone_port);
+        casingBlocks.add(NCBlocks.machine_computer_port);
+    }
 	
 	public static void translate(List<NCPFElement> list, Block block, boolean includeModules) {
 		List<NCPFElement> newElements = new ArrayList<>();
@@ -112,13 +134,18 @@ public class NCPFBuilder {
 				meta = legacyBlock.metadata;
 				blockstate = legacyBlock.blockstate;
 			}
+            
+            // Controllers
 			
-			// Fission
-			
-			if (block == NCBlocks.solid_fission_controller || block == NCBlocks.salt_fission_controller || block == NCBlocks.turbine_controller) {
+			if (block == NCBlocks.solid_fission_controller
+                || block == NCBlocks.salt_fission_controller
+                || block == NCBlocks.turbine_controller
+                || block == NCBlocks.distiller_controller) {
 				elem.modules.put("nuclearcraft:" + configContext + ":controller", new NCPFEmptyModule());
 				wall = true;
 			}
+			
+			// Fission
 			
 			if (block == NCBlocks.fission_vent) {
 				Map<String, Object> vent = new HashMap<>();
@@ -242,7 +269,7 @@ public class NCPFBuilder {
 				translate(portElements, NCBlocks.fission_irradiator_port);
 				ports.put("input", portElements.get(0));
 				ports.put("output", portElements.get(1));
-				elem.modules.put("nuclearcraft:overhaul_sfr:recipe_ports", ports);
+				elem.modules.put("nuclearcraft:"+configContext+":recipe_ports", ports);
 				
 				Map<String, Object> recipesModule = new HashMap<>();
 				List<NCPFElement> recipes = new ArrayList<>();
@@ -328,7 +355,25 @@ public class NCPFBuilder {
 			if (block == NCBlocks.turbine_rotor_shaft) {
 				elem.modules.put("nuclearcraft:" + configContext + ":shaft", new NCPFEmptyModule());
 			}
-			
+            
+            // Distiller
+            
+            if (block == NCBlocks.distiller_sieve_tray) {
+				elem.modules.put("nuclearcraft:" + configContext + ":sieve_tray", new NCPFEmptyModule());
+            }
+            
+            if (block == NCBlocks.distiller_reflux_unit) {
+				elem.modules.put("nuclearcraft:" + configContext + ":reflux_unit", new NCPFEmptyModule());
+            }
+            
+            if (block == NCBlocks.distiller_reboiling_unit) {
+				elem.modules.put("nuclearcraft:" + configContext + ":reboiling_unit", new NCPFEmptyModule());
+            }
+            
+            if (block == NCBlocks.distiller_liquid_distributor) {
+				elem.modules.put("nuclearcraft:" + configContext + ":liquid_distributor", new NCPFEmptyModule());
+            }
+            
 			// CT Blocks
 			
 			for (CTRegistration.RegistrationInfo info : CTRegistration.INFO_LIST) {
@@ -429,9 +474,9 @@ public class NCPFBuilder {
 				}
 			}
 			
-			if (wall || block == NCBlocks.fission_casing || block == NCBlocks.fission_glass || block == NCBlocks.fission_monitor || block == NCBlocks.fission_source_manager || block == NCBlocks.fission_shield_manager || block == NCBlocks.fission_power_port || block == NCBlocks.fission_computer_port || block == NCBlocks.turbine_casing || block == NCBlocks.turbine_glass || block == NCBlocks.turbine_computer_port || block == NCBlocks.turbine_redstone_port) {
+			if (wall || casingBlocks.contains(block)) {
 				Map<String, Object> casing = new HashMap<>();
-				casing.put("edge", block == NCBlocks.fission_casing || block == NCBlocks.turbine_casing);
+				casing.put("edge", block == NCBlocks.fission_casing || block == NCBlocks.turbine_casing || block == NCBlocks.machine_frame);
 				elem.modules.put("nuclearcraft:" + configContext + ":casing", casing);
 			}
 			
@@ -446,131 +491,178 @@ public class NCPFBuilder {
 	}
 	
 	public static void translate(List<NCPFElement> list, BasicRecipeHandler recipes, Predicate<BasicRecipe> filter) {
-		if (!(recipes instanceof CoolantHeaterRecipes)) {
-			if (recipes.getItemInputSize() + recipes.getFluidInputSize() != 1) {
-				throw new IllegalArgumentException("Cannot convert recipes to NCPF element unless they have exactly one input!");
-			}
-		}
-		
 		for (BasicRecipe recipe : recipes.getRecipeList()) {
 			if (!filter.test(recipe)) {
 				continue;
 			}
-			
-			IIngredient<?> ingredient = recipes.getFluidInputSize() > 0 ? recipe.getFluidIngredients().get(0) : recipe.getItemIngredients().get(0);
-			NCPFElement element = translateIngredient(ingredient);
-			if (recipes instanceof FissionHeatingRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> stats = new HashMap<>();
-				stats.put("heat", recipe.getFissionHeatingHeatPerInputMB());
-				stats.put("output_ratio", recipe.getFluidProducts().get(0).getStack().amount / (float) recipe.getFluidIngredients().get(0).getStack().amount);
-				stats.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
-				element.modules.put("nuclearcraft:overhaul_sfr:coolant_recipe_stats", stats);
-			}
-			
-			if (recipes instanceof FissionModeratorRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> moderator = new HashMap<>();
-				moderator.put("flux", recipe.getFissionModeratorFluxFactor());
-				moderator.put("efficiency", recipe.getFissionModeratorEfficiency());
-				element.modules.put("nuclearcraft:" + configContext + ":moderator", moderator);
-			}
-			
-			if (recipes instanceof FissionReflectorRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> reflector = new HashMap<>();
-				reflector.put("efficiency", recipe.getFissionReflectorEfficiency());
-				reflector.put("reflectivity", recipe.getFissionReflectorReflectivity());
-				element.modules.put("nuclearcraft:" + configContext + ":reflector", reflector);
-			}
-			
-			if (recipes instanceof FissionIrradiatorRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> irradiator = new HashMap<>();
-				irradiator.put("heat", recipe.getIrradiatorHeatPerFlux());
-				irradiator.put("efficiency", recipe.getIrradiatorProcessEfficiency());
-				irradiator.put("output", translateIngredient(recipe.getItemProducts().get(0)));
-				element.modules.put("nuclearcraft:" + configContext + ":irradiator_stats", irradiator);
-			}
-			
-			if (recipes instanceof SolidFissionRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> fuel = new HashMap<>();
-				fuel.put("efficiency", recipe.getFissionFuelEfficiency());
-				fuel.put("heat", recipe.getFissionFuelHeat());
-				fuel.put("time", recipe.getFissionFuelTime());
-				fuel.put("criticality", recipe.getFissionFuelCriticality());
-				fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
-				fuel.put("output", translateIngredient(recipe.getItemProducts().get(0)));
-				element.modules.put("nuclearcraft:overhaul_sfr:fuel_stats", fuel);
-			}
-			
-			if (recipes instanceof SaltFissionRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> fuel = new HashMap<>();
-				fuel.put("efficiency", recipe.getFissionFuelEfficiency());
-				fuel.put("heat", recipe.getFissionFuelHeat());
-				fuel.put("time", recipe.getSaltFissionFuelTime());
-				fuel.put("criticality", recipe.getFissionFuelCriticality());
-				fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
-				fuel.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
-				element.modules.put("nuclearcraft:overhaul_msr:fuel_stats", fuel);
-			}
-			
-			if (recipes instanceof CoolantHeaterRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> heater = new HashMap<>();
-				heater.put("cooling", recipe.getCoolantHeaterCoolingRate());
-				heater.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
-				element.modules.put("nuclearcraft:overhaul_msr:heater_stats", heater);
-			}
-			
-			if (recipes instanceof TurbineRecipes) {
-				if (element.modules == null) {
-					element.modules = new HashMap<>();
-				}
-				
-				Map<String, Object> stats = new HashMap<>();
-				stats.put("power", recipe.getTurbinePowerPerMB());
-				stats.put("coefficient", recipe.getTurbineExpansionLevel());
-				stats.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
-				element.modules.put("nuclearcraft:overhaul_turbine:recipe_stats", stats);
-			}
-			
-			list.add(element);
+            
+            list.add(translate(recipes, recipe));
 		}
 	}
+    
+    public static NCPFElement translate(BasicRecipeHandler recipes, BasicRecipe recipe){
+        NCPFRecipe recipeElement = new NCPFRecipe();
+        
+        boolean hasSkippedTheCoolantHeaterBlockThatThisRecipeBelongsToButThatIsNotActuallyPartOfThisRecipe = false;
+        
+        for(IItemIngredient ingredient : recipe.getItemIngredients()){
+            if(recipes instanceof CoolantHeaterRecipes && !hasSkippedTheCoolantHeaterBlockThatThisRecipeBelongsToButThatIsNotActuallyPartOfThisRecipe){
+                hasSkippedTheCoolantHeaterBlockThatThisRecipeBelongsToButThatIsNotActuallyPartOfThisRecipe = true;
+                continue;
+            }
+            if(ingredient instanceof EmptyItemIngredient)continue;
+            recipeElement.inputs.add(translateIngredient(ingredient));
+        }
+        for(IFluidIngredient ingredient : recipe.getFluidIngredients()){
+            if(ingredient instanceof EmptyFluidIngredient)continue;
+            recipeElement.inputs.add(translateIngredient(ingredient));
+        }
+        
+        for(IItemIngredient ingredient : recipe.getItemProducts()){
+            if(ingredient instanceof EmptyItemIngredient)continue;
+            recipeElement.outputs.add(translateIngredient(ingredient));
+        }
+        for(IFluidIngredient ingredient : recipe.getFluidProducts()){
+            if(ingredient instanceof EmptyFluidIngredient)continue;
+            recipeElement.outputs.add(translateIngredient(ingredient));
+        }
+        
+        for(NCPFElement input : recipeElement.inputs)input.modules = null;
+        for(NCPFElement output : recipeElement.outputs)output.modules = null;
+        
+        NCPFElement element = recipeElement;
+        
+        if(recipeElement.inputs.size()==1&&recipeElement.outputs.isEmpty()){
+            element = recipeElement.inputs.get(0);
+            element.quantity = null;
+        }
+
+        if (recipes instanceof FissionHeatingRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> stats = new HashMap<>();
+            stats.put("heat", recipe.getFissionHeatingHeatPerInputMB());
+            stats.put("output_ratio", recipe.getFluidProducts().get(0).getStack().amount / (float) recipe.getFluidIngredients().get(0).getStack().amount);
+            element.modules.put("nuclearcraft:overhaul_sfr:coolant_recipe_stats", stats);
+        }
+
+        if (recipes instanceof FissionModeratorRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> moderator = new HashMap<>();
+            moderator.put("flux", recipe.getFissionModeratorFluxFactor());
+            moderator.put("efficiency", recipe.getFissionModeratorEfficiency());
+            element.modules.put("nuclearcraft:" + configContext + ":moderator", moderator);
+        }
+
+        if (recipes instanceof FissionReflectorRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> reflector = new HashMap<>();
+            reflector.put("efficiency", recipe.getFissionReflectorEfficiency());
+            reflector.put("reflectivity", recipe.getFissionReflectorReflectivity());
+            element.modules.put("nuclearcraft:" + configContext + ":reflector", reflector);
+        }
+
+        if (recipes instanceof FissionIrradiatorRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> irradiator = new HashMap<>();
+            irradiator.put("heat", recipe.getIrradiatorHeatPerFlux());
+            irradiator.put("efficiency", recipe.getIrradiatorProcessEfficiency());
+            element.modules.put("nuclearcraft:" + configContext + ":irradiator_stats", irradiator);
+        }
+
+        if (recipes instanceof SolidFissionRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> fuel = new HashMap<>();
+            fuel.put("efficiency", recipe.getFissionFuelEfficiency());
+            fuel.put("heat", recipe.getFissionFuelHeat());
+            fuel.put("time", recipe.getFissionFuelTime());
+            fuel.put("criticality", recipe.getFissionFuelCriticality());
+            fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
+            element.modules.put("nuclearcraft:overhaul_sfr:fuel_stats", fuel);
+        }
+
+        if (recipes instanceof SaltFissionRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> fuel = new HashMap<>();
+            fuel.put("efficiency", recipe.getFissionFuelEfficiency());
+            fuel.put("heat", recipe.getFissionFuelHeat());
+            fuel.put("time", recipe.getSaltFissionFuelTime());
+            fuel.put("criticality", recipe.getFissionFuelCriticality());
+            fuel.put("self_priming", recipe.getFissionFuelSelfPriming());
+            element.modules.put("nuclearcraft:overhaul_msr:fuel_stats", fuel);
+        }
+
+        if (recipes instanceof CoolantHeaterRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> heater = new HashMap<>();
+            heater.put("cooling", recipe.getCoolantHeaterCoolingRate());
+            element.modules.put("nuclearcraft:overhaul_msr:heater_stats", heater);
+        }
+
+        if (recipes instanceof TurbineRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+
+            Map<String, Object> stats = new HashMap<>();
+            stats.put("power", recipe.getTurbinePowerPerMB());
+            stats.put("coefficient", recipe.getTurbineExpansionLevel());
+            element.modules.put("nuclearcraft:overhaul_turbine:recipe_stats", stats);
+        }
+        
+        if (recipes instanceof MultiblockDistillerRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+            
+            Map<String, Object> stats = new HashMap<>();
+            stats.put("time", recipe.getProcessTimeMultiplier());
+            stats.put("power", recipe.getProcessPowerMultiplier());
+            element.modules.put("nuclearcraft:overhaul_distiller:recipe_stats", stats);
+        }
+        
+        if (recipes instanceof MachineSieveAssemblyRecipes) {
+            if (element.modules == null) {
+                element.modules = new HashMap<>();
+            }
+            
+            Map<String, Object> assembly = new HashMap<>();
+            assembly.put("efficiency", recipe.getMachineSieveAssemblyEfficiency());
+            element.modules.put("nuclearcraft:"+configContext+":sieve_assembly", assembly);
+        }
+        
+        return element;
+    }
 	
-	public static void translateOutputs(List<NCPFElement> list, BasicRecipeHandler recipes) {
+	public static void translateIngredients(List<NCPFElement> list, BasicRecipeHandler recipes) {
 		for (BasicRecipe recipe : recipes.getRecipeList()) {
-			for (IItemIngredient item : recipe.getItemProducts()) {
-				list.add(translateIngredient(item));
-			}
-			
-			for (IFluidIngredient fluid : recipe.getFluidProducts()) {
-				list.add(translateIngredient(fluid));
-			}
+            NCPFElement element = translate(recipes, recipe);
+            
+            if(element instanceof NCPFRecipe){
+                NCPFRecipe recip = (NCPFRecipe)element;
+                list.addAll(recip.inputs);
+                list.addAll(recip.outputs);
+            }
 		}
 	}
 	
@@ -596,6 +688,7 @@ public class NCPFBuilder {
 				ItemStack stack = item.stack;
 				NCPFLegacyFluid legacyFluid = new NCPFLegacyFluid();
 				legacyFluid.name = stack.getTagCompound().getString("FluidName");
+                legacyFluid.quantity = 1000;
 				return legacyFluid;
 			}
 			return translate(item.stack);
@@ -604,12 +697,14 @@ public class NCPFBuilder {
 		if (ingredient instanceof FluidIngredient fluid) {
 			NCPFLegacyFluid legacyFluid = new NCPFLegacyFluid();
 			legacyFluid.name = fluid.fluidName;
+            legacyFluid.quantity = fluid.stack.amount;
 			return legacyFluid;
 		}
 		
 		if (ingredient instanceof OreIngredient ore) {
 			NCPFOredict oredict = new NCPFOredict();
 			oredict.oredict = ore.oreName;
+            oredict.quantity = ore.stackSize;
 			return oredict;
 		}
 		
@@ -627,6 +722,7 @@ public class NCPFBuilder {
 			List<NCPFElement> list = new ArrayList<>();
 			translate(list, block, includeModules);
 			for (NCPFElement elem : list) {
+                elem.quantity = stack.getCount();
 				if (elem instanceof NCPFLegacyBlock ncpf && ncpf.metadata != null && ncpf.metadata == stack.getMetadata()) {
 					return elem;
 				}
@@ -639,6 +735,7 @@ public class NCPFBuilder {
 		if (stack.getItem().getHasSubtypes()) {
 			legacyItem.metadata = stack.getMetadata();
 		}
+        legacyItem.quantity = stack.getCount();
 		
 		return legacyItem;
 	}
