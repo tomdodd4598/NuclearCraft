@@ -534,7 +534,7 @@ public class NCPFBuilder {
         
         if(recipeElement.inputs.size()==1&&recipeElement.outputs.isEmpty()){
             element = recipeElement.inputs.get(0);
-            element.quantity = null;
+            element.amount = null;
         }
 
         if (recipes instanceof FissionHeatingRecipes) {
@@ -688,7 +688,7 @@ public class NCPFBuilder {
 				ItemStack stack = item.stack;
 				NCPFLegacyFluid legacyFluid = new NCPFLegacyFluid();
 				legacyFluid.name = stack.getTagCompound().getString("FluidName");
-                legacyFluid.quantity = 1000;
+                legacyFluid.amount = 1000;
 				return legacyFluid;
 			}
 			return translate(item.stack);
@@ -697,14 +697,14 @@ public class NCPFBuilder {
 		if (ingredient instanceof FluidIngredient fluid) {
 			NCPFLegacyFluid legacyFluid = new NCPFLegacyFluid();
 			legacyFluid.name = fluid.fluidName;
-            legacyFluid.quantity = fluid.stack.amount;
+            legacyFluid.amount = fluid.stack.amount;
 			return legacyFluid;
 		}
 		
 		if (ingredient instanceof OreIngredient ore) {
 			NCPFOredict oredict = new NCPFOredict();
 			oredict.oredict = ore.oreName;
-            oredict.quantity = ore.stackSize;
+            oredict.amount = ore.stackSize;
 			return oredict;
 		}
 		
@@ -722,7 +722,7 @@ public class NCPFBuilder {
 			List<NCPFElement> list = new ArrayList<>();
 			translate(list, block, includeModules);
 			for (NCPFElement elem : list) {
-                elem.quantity = stack.getCount();
+                elem.amount = stack.getCount();
 				if (elem instanceof NCPFLegacyBlock ncpf && ncpf.metadata != null && ncpf.metadata == stack.getMetadata()) {
 					return elem;
 				}
@@ -735,7 +735,7 @@ public class NCPFBuilder {
 		if (stack.getItem().getHasSubtypes()) {
 			legacyItem.metadata = stack.getMetadata();
 		}
-        legacyItem.quantity = stack.getCount();
+        legacyItem.amount = stack.getCount();
 		
 		return legacyItem;
 	}
