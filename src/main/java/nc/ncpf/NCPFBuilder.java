@@ -69,7 +69,7 @@ public class NCPFBuilder {
 			for (Enum<?> variant : blockMeta.getValues()) {
 				NCPFLegacyBlock legacyBlock = new NCPFLegacyBlock();
 				legacyBlock.name = block.getRegistryName().toString();
-				legacyBlock.metadata = metadata++;
+				legacyBlock.metadata = metadata;
 				legacyBlock.blockstate.put("type", variant.toString());
 				newElements.add(legacyBlock);
 				
@@ -94,6 +94,7 @@ public class NCPFBuilder {
 					outputPort.blockstate.put("active", true);
 					newElements.add(outputPort);
 				}
+                metadata++;
 			}
 		}
 		else {

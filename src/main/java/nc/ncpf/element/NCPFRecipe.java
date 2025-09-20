@@ -8,6 +8,6 @@ public class NCPFRecipe extends NCPFElement{
     public ArrayList<NCPFElement> outputs = new ArrayList<>();
     
     public NCPFRecipe() {
-        super("recipe");
+        super("legacy_recipe");
     }
 }
