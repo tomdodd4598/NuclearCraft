@@ -6,6 +6,7 @@ import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.ncpf.element.*;
+import nc.ncpf.module.*;
 import nc.ncpf.nuclearcraft.*;
 import nc.recipe.NCRecipes;
 import nc.util.NCUtil;
@@ -24,9 +25,7 @@ public class NCPFWriter {
 			
 			NCPFRoot ncpf = new NCPFRoot();
 			
-			ncpf.modules.put("nuclearcraft:generated", new Object() {
-				final String nuclearcraft_version = Global.VERSION;
-			});
+			ncpf.modules.put("nuclearcraft:generated", new NCPFGeneratedModule());
 			
 			// Fission SFR
 			{
@@ -84,9 +83,9 @@ public class NCPFWriter {
 				Map<String, Object> globalElementsModule = new HashMap<>();
 				List<NCPFElement> globalElements = new ArrayList<>();
 				
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.fission_heating);
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.solid_fission);
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.fission_irradiator);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.fission_heating);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.solid_fission);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.fission_irradiator);
 				
 				List<List<NCPFElement>> lists = new ArrayList<>();
 				lists.add(cfg.blocks);
@@ -216,9 +215,9 @@ public class NCPFWriter {
 				Map<String, Object> globalElementsModule = new HashMap<>();
 				List<NCPFElement> globalElements = new ArrayList<>();
 				
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.salt_fission);
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.coolant_heater);
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.fission_irradiator);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.salt_fission);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.coolant_heater);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.fission_irradiator);
 				
 				List<List<NCPFElement>> lists = new ArrayList<>();
 				lists.add(cfg.blocks);
@@ -365,7 +364,7 @@ public class NCPFWriter {
 				Map<String, Object> globalElementsModule = new HashMap<>();
 				List<NCPFElement> globalElements = new ArrayList<>();
 				
-				NCPFBuilder.translateOutputs(globalElements, NCRecipes.turbine);
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.turbine);
 				
 				List<List<NCPFElement>> lists = new ArrayList<>();
 				lists.add(cfg.blocks);
@@ -459,6 +458,132 @@ public class NCPFWriter {
 				
 				ncpf.configuration.put("nuclearcraft:overhaul_turbine", cfg);
 			}
+            
+            // Distiller
+            {
+                NCPFBuilder.configContext = "overhaul_distiller";
+                NCPFOverhaulDistillerConfiguration cfg = new NCPFOverhaulDistillerConfiguration();
+                
+                Map<String, Object> settings = new HashMap<>();
+                settings.put("min_size", NCConfig.machine_min_size);
+                settings.put("max_size", NCConfig.machine_max_size);
+                settings.put("base_time", NCConfig.machine_distiller_time);
+                settings.put("base_power", NCConfig.machine_distiller_power);
+                
+                // Blocks
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.distiller_controller);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.machine_redstone_port);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.machine_computer_port);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.machine_frame);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.machine_glass);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.machine_power_port);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.machine_process_port); //TODO 10 times- 2 inputs, 8 outputs
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.distiller_sieve_tray);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.distiller_reflux_unit);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.distiller_reboiling_unit);
+                NCPFBuilder.translate(cfg.blocks, NCBlocks.distiller_liquid_distributor);
+                NCPFBuilder.translate(cfg.blocks, NCRecipes.machine_sieve_assembly);
+                
+				// Recipes
+				NCPFBuilder.translate(cfg.recipes, NCRecipes.multiblock_distiller);
+				
+				Map<String, Object> globalElementsModule = new HashMap<>();
+				List<NCPFElement> globalElements = new ArrayList<>();
+				
+				NCPFBuilder.translateIngredients(globalElements, NCRecipes.multiblock_distiller);
+				
+				List<List<NCPFElement>> lists = new ArrayList<>();
+				lists.add(cfg.blocks);
+				lists.add(cfg.recipes);
+				
+				globalLoop:
+				for (int i = 0; i < globalElements.size(); ++i) {
+					NCPFElement globalElem = globalElements.get(i);
+					for (int j = 0; j < globalElements.size(); ++j) {
+						if (i == j) {
+							continue;
+						}
+						
+						NCPFElement elem = globalElements.get(j);
+						if (gson.toJson(elem).equals(gson.toJson(globalElem))) {
+							globalElements.remove(j--);
+						}
+					}
+					
+					for (List<NCPFElement> list : lists) {
+						for (NCPFElement elem : list) {
+							if (gson.toJson(elem).equals(gson.toJson(globalElem))) {
+								globalElements.remove(i--);
+								continue globalLoop;
+							}
+						}
+					}
+				}
+				
+				lists.add(globalElements);
+				
+				for (NCPFElement block : cfg.blocks) {
+					if (block.modules == null) {
+						continue;
+					}
+					
+					Map<String, Object> blockRecipes = NCPFHelper.get(block.modules, "ncpf:block_recipes");
+					if (blockRecipes == null) {
+						continue;
+					}
+					
+					List<NCPFElement> recipes = NCPFHelper.get(blockRecipes, "recipes");
+					lists.add(recipes);
+				}
+				
+				List<NCPFElement> elementsToHaveOredictTagsAdded = new ArrayList<>();
+				List<String> oredictTagsToAddToThoseAforementionedElements = new ArrayList<>();
+				
+				// Ore Dictionary
+				for (List<NCPFElement> elements : lists) {
+					//noinspection ForLoopReplaceableByForEach
+					for (int i = 0; i < elements.size(); ++i) {
+						NCPFElement elem = elements.get(i);
+						if (elem instanceof NCPFOredict oredict) {
+							oreLoop:
+							for (ItemStack stack : OreDictionary.getOres(oredict.oredict, false)) {
+								NCPFElement stackElem = NCPFBuilder.translate(stack);
+								for (NCPFElement globalElem : globalElements) {
+									if (gson.toJson(stackElem).equals(gson.toJson(globalElem))) {
+										elementsToHaveOredictTagsAdded.add(globalElem);
+										oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
+										continue oreLoop;
+									}
+								}
+								
+								elementsToHaveOredictTagsAdded.add(stackElem);
+								oredictTagsToAddToThoseAforementionedElements.add(oredict.oredict);
+								globalElements.add(stackElem);
+							}
+						}
+					}
+				}
+				
+				for (int i = 0; i < elementsToHaveOredictTagsAdded.size(); ++i) {
+					NCPFElement elem = elementsToHaveOredictTagsAdded.get(i);
+					if (elem.modules == null) {
+						elem.modules = new HashMap<>();
+					}
+					
+					if (!elem.modules.containsKey("plannerator:tags")) {
+						Map<String, Object> tags = new HashMap<>();
+						tags.put("tags", new ArrayList<String>());
+						elem.modules.put("plannerator:tags", tags);
+					}
+					
+					NCPFHelper.<List<String>>get(NCPFHelper.get(elem.modules, "plannerator:tags"), "tags").add(oredictTagsToAddToThoseAforementionedElements.get(i));
+				}
+				
+				globalElementsModule.put("elements", globalElements);
+				cfg.modules.put("plannerator:global_elements", globalElementsModule);
+				
+				ncpf.configuration.put("nuclearcraft:overhaul_distiller", cfg);
+            }
 			
 			try (FileWriter writer = new FileWriter(new File(Loader.instance().getConfigDir(), "nuclearcraft.ncpf.json"))) {
 				gson.toJson(ncpf, writer);
