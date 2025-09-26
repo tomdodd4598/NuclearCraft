@@ -25,6 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.storage.loot.ILootContainer;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.*;
@@ -160,7 +161,7 @@ public class RadiationHelper {
 		
 		if (radiation_hardcore_containers > 0D) {
 			IItemHandler inventory = getTileInventory(provider, side);
-			if (inventory != null) {
+			if (inventory != null && !(tile instanceof ILootContainer && ((ILootContainer) tile).getLootTable() != null)) {
 				for (int i = 0; i < inventory.getSlots(); ++i) {
 					ItemStack stack = inventory.getStackInSlot(i);
 					rawRadiation += getRadiationFromStack(stack, radiation_hardcore_containers);
