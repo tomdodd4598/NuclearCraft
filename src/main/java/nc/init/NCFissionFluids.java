@@ -141,7 +141,7 @@ public class NCFissionFluids {
 				fluid = FluidRegistry.getFluid(fluid.getName());
 			}
 			FluidRegistry.addBucketForFluid(fluid);
-			if (register_fluid_blocks) {
+			if (register_fluid_blocks || ModCheck.distantHorizonsLoaded()) {
 				registerBlock(Global.MOD_ID, new BlockFluidFission(fluid));
 			}
 		}

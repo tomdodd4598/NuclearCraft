@@ -27,7 +27,8 @@ public class ModCheck {
 	private static boolean cubicChunksLoaded = false;
 	private static boolean hwylaLoaded = false;
 	private static boolean patchouliLoaded = false;
-	
+	private static boolean distantHorizonsLoaded = false;
+
 	public static void init() {
 		if (initialized) {
 			return;
@@ -55,6 +56,7 @@ public class ModCheck {
 		cubicChunksLoaded = Loader.isModLoaded("cubicchunks");
 		hwylaLoaded = Loader.isModLoaded("waila");
 		patchouliLoaded = Loader.isModLoaded("patchouli");
+        distantHorizonsLoaded = Loader.isModLoaded("distanthorizons");
 	}
 	
 	public static boolean cofhCoreLoaded() {
@@ -140,4 +142,8 @@ public class ModCheck {
 	public static boolean patchouliLoaded() {
 		return patchouliLoaded;
 	}
+
+    public static boolean distantHorizonsLoaded() {
+        return distantHorizonsLoaded;
+    }
 }
