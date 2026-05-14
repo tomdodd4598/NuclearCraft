@@ -1593,7 +1593,7 @@ item.nuclearcraft.gem_dust.end_stone.name=Дроблёный эндерняк
 
 item.nuclearcraft.alloy.bronze.name=Бронзовый сплав
 item.nuclearcraft.alloy.tough.name=Прочный сплав
-item.nuclearcraft.alloy.hard_carbon.name=Твердый углерод
+item.nuclearcraft.alloy.hard_carbon.name=Твёрдый углерод
 item.nuclearcraft.alloy.magnesium_diboride.name=Сплав диборида магния
 item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Сплав литий-марганцевого диоксида
 item.nuclearcraft.alloy.steel.name=Стальной сплав
@@ -2169,7 +2169,7 @@ info.nuclearcraft.multitool.quantum_computer.finish_target_set=Гейт наст
 
 info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=Гейт настроен на кубиты %s с рабочим углом %s градусов
 info.nuclearcraft.multitool.quantum_computer.start_angle=Гейт ожидает настройки...
-info.nuclearcraft.multitool.quantum_computer.tool_set_angle=Угол в %s градусов сохранен!
+info.nuclearcraft.multitool.quantum_computer.tool_set_angle=Угол в %s градусов сохранён!
 info.nuclearcraft.multitool.quantum_computer.finish_angle=Гейт настроен на угол %s градусов!
 
 info.nuclearcraft.multitool.quantum_computer.control_gate_info=Гейт настроен на кубиты %s, управляется кубитами %s
@@ -2192,10 +2192,10 @@ info.nuclearcraft.multitool.quantum_computer.controller.code_too_many_qubits=К�
 info.nuclearcraft.multitool.quantum_computer.controller.code_exit_too_many_qubits=Квантовый компьютер выходит из режима генерации кода, установлено слишком много кубитов.
 info.nuclearcraft.multitool.quantum_computer.controller.code_exit_empty=Квантовый компьютер выходит из режима генерации кода.
 
-info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=Квантовый компьютер выходит из режима QASM, сгенерированный код сохранен в %s
+info.nuclearcraft.multitool.quantum_computer.controller.qasm_print=Квантовый компьютер выходит из режима QASM, сгенерированный код сохранён в %s
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_error=Квантовый компьютер выходит из режима QASM, произошла ошибка при попытке сохранить сгенерированный код в %s
 info.nuclearcraft.multitool.quantum_computer.controller.qasm_exit_empty=Квантовый компьютер выходит из режима QASM.
-info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=Квантовый компьютер выходит из режима Qiskit, сохранен сгенерированный код в %s
+info.nuclearcraft.multitool.quantum_computer.controller.qiskit_print=Квантовый компьютер выходит из режима Qiskit, сохранён сгенерированный код в %s
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_error=Квантовый компьютер выходит из режима Qiskit, произошла ошибка при попытке сохранить сгенерированный код в %s
 info.nuclearcraft.multitool.quantum_computer.controller.qiskit_exit_empty=Квантовый компьютер выходит из режима Qiskit.
 
@@ -2237,7 +2237,7 @@ item.nuclearcraft.graham_cracker.name=Грэм крекер
 item.nuclearcraft.roasted_cocoa_beans.name=Жареные какао-бобы
 item.nuclearcraft.ground_cocoa_nibs.name=Молотые какао-бобы
 item.nuclearcraft.cocoa_butter.name=Затвердевшее какао-масло
-item.nuclearcraft.cocoa_solids.name=Твёрдый какао
+item.nuclearcraft.cocoa_solids.name=Твёрдое какао
 item.nuclearcraft.unsweetened_chocolate.name=Горький шоколад
 item.nuclearcraft.dark_chocolate.name=Тёмный шоколад
 item.nuclearcraft.milk_chocolate.name=Молочный шоколад
@@ -2617,7 +2617,7 @@ gui.nc.config.fusion_min_size.comment=Минимальный размер тор
 gui.nc.config.fusion_max_size=Максимальный размер тороида
 gui.nc.config.fusion_max_size.comment=Максимальный размер тороидов слияния.
 gui.nc.config.fusion_comparator_max_efficiency=Максимальная эффективность сигнала компаратора
-gui.nc.config.fusion_comparator_max_efficiency.comment=Эффективность термоядерного реактора, при которой компаратор, находящийся рядом с активной зоной, будет выдавать полноценный сигнал красного камня.
+gui.nc.config.fusion_comparator_max_efficiency.comment=Эффективность термоядерного реактора, при которой компаратор, находящийся рядом с активной зоной, будет выдавать полноценный редстоун-сигнал.
 gui.nc.config.fusion_plasma_craziness=Огонь термоядерной плазмы
 gui.nc.config.fusion_plasma_craziness.comment=Будет ли термоядерная плазма вызывать пожары? Отключение этого параметра несколько уменьшит задержку.
 gui.nc.config.fusion_sound_volume=Громкость звука фьюжена
@@ -2685,12 +2685,12 @@ gui.nc.config.accelerator_supercooler_coolant.comment= мБ/т жидкого г
 gui.nc.config.category.quantum=Квантовые конфигурации
 gui.nc.config.category.quantum.tooltip=Конфигурирование квантовомеханических систем.
 
-gui.nc.config.quantum_max_qubits_live=Макс живых кубитов
+gui.nc.config.quantum_max_qubits_live=Макс. живых кубитов
 gui.nc.config.quantum_max_qubits_live.comment=Максимальное количество активно вычисляющих кубитов, которое может иметь один мультиблок квантового компьютера. !!!ВНИМАНИЕ!!! Если разрешить сложные схемы, состоящие более чем из семи кубитов, это начнет серьёзно влиять на производительность и расходовать огромное количество памяти. Увеличивайте этот предел с ЭКСТРЕННОЙ осторожностью!
-gui.nc.config.quantum_max_qubits_code=Макс кодирование кубитов
-gui.nc.config.quantum_max_qubits_code.comment=Максимальное количество кубитов, которое может иметь один мультиблок квантового компьютера для генерации кода. !!!ВНИМАНИЕ!!! Гейты с большим количеством управляющих кубитов будут требовать все больше работы и памяти для декомпиляции в базовые операции, поэтому будут генерировать всё более режимный код. При генерации QASM-кода компоновщик схем IBM Q Experience начнет с трудом справляться с более чем несколькими сотнями строк. Увеличивайте этот предел с ЭКСТРЕННОЙ осторожностью!
+gui.nc.config.quantum_max_qubits_code=Макс. кодирование кубитов
+gui.nc.config.quantum_max_qubits_code.comment=Максимальное количество кубитов, которое может иметь один мультиблок квантового компьютера для генерации кода. !!!ВНИМАНИЕ!!! Гейты с большим количеством управляющих кубитов будут требовать всё больше мощности и памяти для декомпиляции в базовые операции, поэтому будут генерировать всё более режимный код. При генерации QASM-кода компоновщик схем IBM Q Experience начнет с трудом справляться с более чем несколькими сотнями строк. Увеличивайте этот предел с ЭКСТРЕННОЙ осторожностью!
 gui.nc.config.quantum_angle_precision=Точность угла поворота ворот
-gui.nc.config.quantum_angle_precision.comment=Управляет точностью, допустимой для установки рабочего угла затворов, определяя количество доступных углов, равномерно распределенных от 0 до 360 градусов.
+gui.nc.config.quantum_angle_precision.comment=Управляет точностью, допустимой для установки рабочего угла затворов, определяя количество доступных углов, равномерно распределённых от 0 до 360 градусов.
 
 gui.nc.config.category.tool=Конфиги инструментов
 gui.nc.config.category.tool.tooltip=Настройка инструментов.
@@ -2725,8 +2725,8 @@ gui.nc.config.armor_hazmat=Защита от брони костюма хазм�
 gui.nc.config.armor_hazmat.comment=Эффективность отдельных частей брони. Порядок: сапоги, ноги, грудь, шлем.
 gui.nc.config.armor_enchantability=Зачаровываемость
 gui.nc.config.armor_enchantability.comment=Определяет качество применяемых зачарований. Порядок: бор, прочный сплав, твёрдый углерод, нитрид бора, опасные вещества.
-gui.nc.config.armor_toughness=Жесткость
-gui.nc.config.armor_toughness.comment=Жесткость типов брони. Порядок: бор, прочный сплав, твёрдый углерод, нитрид бора, хазмат.
+gui.nc.config.armor_toughness=Жёсткость
+gui.nc.config.armor_toughness.comment=Жёсткость типов брони. Порядок: бор, прочный сплав, твёрдый углерод, нитрид бора, хазмат.
 
 gui.nc.config.category.entity=Настройка сущностей
 gui.nc.config.category.entity.tooltip=Настройка сущностей.
@@ -2735,10 +2735,10 @@ gui.nc.config.entity_tracking_range=Диапазон отслеживания с
 gui.nc.config.entity_tracking_range.comment=Диапазон, в котором Minecraft будет отправлять обновления отслеживания для сущностей NC.
 
 gui.nc.config.category.radiation=Конфиги радиации
-gui.nc.config.category.radiation.tooltip=Настройка аспектов ядерной радиации.
+gui.nc.config.category.radiation.tooltip=Настройка аспектов радиации.
 
 gui.nc.config.radiation_enabled=Включить радиацию
-gui.nc.config.radiation_enabled.comment=Существует ли ядерная радиация в мире? Обратите внимание, что после включения этой функции потребуется перезапуск игры, чтобы предметы, связанные с радиацией, отображались в JEI.
+gui.nc.config.radiation_enabled.comment=Существует ли радиация в мире? Обратите внимание, что после включения этой функции потребуется перезапуск игры, чтобы предметы, связанные с радиацией, отображались в JEI.
 
 gui.config.radiation.radiation_immune_players=Устойчивость игроков к радиации
 gui.config.radiation.radiation_immune_players.comment=Список UUID игроков, которые получат постоянный иммунитет к радиации.
@@ -2781,11 +2781,11 @@ gui.nc.config.radiation_blocks_blacklist.comment=Список блоков, ко
 gui.nc.config.radiation_fluids_blacklist=Чёрный список радиации жидкостей
 gui.nc.config.radiation_fluids_blacklist.comment=Список жидкостей, которые будут принудительно не иметь уровня радиации. Формат: 'fluidName'.
 
-gui.nc.config.max_player_rads=Макс радиации игрока
+gui.nc.config.max_player_rads=Макс. радиации игрока
 gui.nc.config.max_player_rads.comment=Максимальное количество радиации, которое может получить игрок, прежде чем радиация станет смертельной.
 gui.nc.config.radiation_player_decay_rate=Скорость распада радиации игрока
 gui.nc.config.radiation_player_decay_rate.comment=Скорость, с которой радиация игрока уменьшается со временем, в виде доли от текущего уровня радиации игрока за тик.
-gui.nc.config.max_entity_rads=Макс радиации сущностей
+gui.nc.config.max_entity_rads=Макс. радиации сущностей
 gui.nc.config.max_entity_rads.comment=Список сущностей и их максимальное количество рад. Используется для перезаписи значений по умолчанию (100 рад на сердце здоровья). Формат: 'modid:name_maxRads'.
 gui.nc.config.radiation_entity_decay_rate=Скорость радиационного распада сущности
 gui.nc.config.radiation_entity_decay_rate.comment=Скорость, с которой радиация сущности уменьшается со временем, как доля от текущего уровня радиации сущности за тик.
@@ -2811,16 +2811,16 @@ gui.nc.config.radiation_rain_mult.comment=Множитель скорости о
 gui.nc.config.radiation_swim_mult=Множитель радиационного плавания
 gui.nc.config.radiation_swim_mult.comment=Умножает уровень облучения во время плавания.
 
-gui.nc.config.radiation_radaway_amount=Общее количество удаленных радаров при использовании RadAway
-gui.nc.config.radiation_radaway_amount.comment=Общее количество удаленных радаров при использовании RadAway.
-gui.nc.config.radiation_radaway_slow_amount=Удаленные радары медленного действия RadAway
-gui.nc.config.radiation_radaway_slow_amount.comment=Общее количество радиации, удаленной при использовании медленно действующего RadAway.
-gui.nc.config.radiation_radaway_rate=Скорость удаления радиоактивных веществ с помощью RadAway
-gui.nc.config.radiation_radaway_rate.comment=Скорость удаления радиации при использовании RadAway в рад/т.
-gui.nc.config.radiation_radaway_slow_rate=Скорость удаления радионов при использовании RadAway в Р/т
-gui.nc.config.radiation_radaway_slow_rate.comment=Скорость удаления радиации при использовании Медленного действия RadAway в Rad/t.
+gui.nc.config.radiation_radaway_amount=Общее количество выведенных радов при использовании RadAway
+gui.nc.config.radiation_radaway_amount.comment=Общее количество выведенных радов при использовании RadAway.
+gui.nc.config.radiation_radaway_slow_amount=Выведенные рады медленного действия RadAway
+gui.nc.config.radiation_radaway_slow_amount.comment=Общее количество радиации, выведенной при использовании медленно действующего RadAway.
+gui.nc.config.radiation_radaway_rate=Скорость вывода радиоактивных веществ с помощью RadAway
+gui.nc.config.radiation_radaway_rate.comment=Скорость вывода радиации при использовании RadAway в Rad/t.
+gui.nc.config.radiation_radaway_slow_rate=Скорость вывода радов при использовании RadAway в Rad/t
+gui.nc.config.radiation_radaway_slow_rate.comment=Скорость вывода радиации при использовании медленно действующего RadAway в Rad/t.
 gui.nc.config.radiation_poison_time=Время отравления радиацией
-gui.nc.config.radiation_poison_time.comment=Время, за которое доза радиационного отравления добавляется к количеству радаров игрока, в тиках.
+gui.nc.config.radiation_poison_time.comment=Время, за которое доза радиационного отравления добавляется к количеству радов игрока, в тиках.
 gui.nc.config.radiation_radaway_cooldown=Время охлаждения радиационного излучения
 gui.nc.config.radiation_radaway_cooldown.comment=Время, которое должно пройти между дозами RadAway в тиках.
 gui.nc.config.radiation_rad_x_amount=Сопротивление радиации Рад-Х
@@ -2832,11 +2832,11 @@ gui.nc.config.radiation_rad_x_cooldown.comment=Время, которое дол
 gui.nc.config.radiation_shielding_level=Уровни экранирования радиации
 gui.nc.config.radiation_shielding_level.comment=Уровни радиационной стойкости, обеспечиваемые тремя уровнями экранирования. Порядок: лёгкий, средний, тяжёлый.
 gui.nc.config.radiation_tile_shielding=Экранирование радиационного контейнера
-gui.nc.config.radiation_tile_shielding.comment=Если включено вместе с жесткими контейнерами, радиационное экранирование может быть применено к сущностям плитки.
+gui.nc.config.radiation_tile_shielding.comment=Если включено вместе с жёсткими контейнерами, радиационное экранирование может быть применено к сущностям плитки.
 gui.nc.config.radiation_hazmat_shielding=Экранирование радиационной опасности
 gui.nc.config.radiation_hazmat_shielding.comment=Уровни радиационной стойкости, обеспечиваемые каждым элементом костюма защитника. Порядок: головной убор, нагрудник, гамаши, ботинки.
-gui.nc.config.radiation_scrubber_fraction=Максимальная скорость удаления радиации из газопромывателя
-gui.nc.config.radiation_scrubber_fraction.comment=Максимальная скорость, с которой газопромыватель со 100% эффективностью будет удалять радиацию в долях от уровня радиации чанка, в котором он находится. Применяется только при использовании линейной механики газопромывателя.
+gui.nc.config.radiation_scrubber_fraction=Максимальная скорость вывода радиации из газопромывателя
+gui.nc.config.radiation_scrubber_fraction.comment=Максимальная скорость, с которой газопромыватель со 100% эффективностью будет выводить радиацию в долях от уровня радиации чанка, в котором он находится. Применяется только при использовании линейной механики газопромывателя.
 gui.nc.config.radiation_scrubber_radius=Радиус поиска газопромывателя
 gui.nc.config.radiation_scrubber_radius.comment=Радиус поиска газопромывателями окклюдированных блоков.
 gui.nc.config.radiation_scrubber_non_linear=Нелинейная механика газопромывателя
@@ -2957,7 +2957,7 @@ gui.nc.config.dungeon_loot.comment=Сгенерирует ли NuclearCraft лу
 gui.nc.config.ore_dict_raw_material_recipes=Включить рецепты сырья для диктанта руды
 gui.nc.config.ore_dict_raw_material_recipes.comment=Будут ли ингредиенты из словаря руды использоваться для рецептов крафтинга 'слиток <-> блок' и печей 'пыль -> слиток'? Если false, то будет использоваться ингредиент NC.
 gui.nc.config.ore_dict_priority_bool=Включить приоритет мода Ore Dict Mod Priority
-gui.nc.config.ore_dict_priority_bool.comment=Будут ли выходы Рудного словаря приоритетными в соответствии с приведенным ниже списком модов? Если false, то при определении выходов машины будет использоваться запись Ore Dict по умолчанию.
+gui.nc.config.ore_dict_priority_bool.comment=Будут ли выходы Рудного словаря приоритетными в соответствии с приведённым ниже списком модов? Если false, то при определении выходов машины будет использоваться запись Ore Dict по умолчанию.
 gui.nc.config.ore_dict_priority=Приоритет модов рудного словаря
 gui.nc.config.ore_dict_priority.comment=Определяет приоритет записей рудного словаря каждого мода - ID более ранних модов в этом списке имеют более высокий приоритет. Это используется для определения того, какой из модов производит соответствующий элемент в машинных рецептах. Если подходящий мод не найден, используется запись по умолчанию.
 
@@ -2980,7 +2980,7 @@ zerocore.api.nc.multiblock.validation.invalid_part_for_bottom=Блок в %1$d, 
 zerocore.api.nc.multiblock.validation.invalid_part_for_top=Блок в %1$d, %2$d, %3$d недопустим в верхнем слое машины!
 zerocore.api.nc.multiblock.validation.invalid_part_for_sides=Блок в %1$d, %2$d, %3$d недопустим в боковой стенке машины!
 zerocore.api.nc.multiblock.validation.invalid_part_for_interior=Блок в %1$d, %2$d, %3$d недопустим в интерьере машины!
-zerocore.api.nc.multiblock.validation.invalid_logic=Нет такого логического ядра... черт, как неловко! Загляните на GitHub, прочистите мозги, и мы найдем ваше пропавшее ядро.
+zerocore.api.nc.multiblock.validation.invalid_logic=Нет такого логического ядра... чёрт, как неловко! Загляните на GitHub, прочистите мозги, и мы найдем ваше пропавшее ядро.
 
 nc.block.vent_toggle=Вентиль переключен в режим
 nc.block.fission_vent_mode.input=ВХОД
@@ -3036,7 +3036,7 @@ nuclearcraft.container.rock_crusher=Камнедробилка
 nuclearcraft.container.machine_config=Настройка машины
 
 nuclearcraft.container.machine_interface=Машинный интерфейс
-nuclearcraft.container.bin=Универсальная корцина
+nuclearcraft.container.bin=Универсальная корзина
 
 nuclearcraft.container.cobblestone_generator=Генератор булыжника
 nuclearcraft.container.cobblestone_generator_compact=Компактный генератор булыжника
@@ -3124,8 +3124,8 @@ gui.nc.container.power_gen=Генерация энергии:
 gui.nc.container.speed_multiplier=Множитель скорости:
 gui.nc.container.power_multiplier=Множитель мощности:
 gui.nc.container.no_energy=Не требует энергии
-gui.nc.container.shift_clear_tank=Shift Нажмите, чтобы очистить резервуар
-gui.nc.container.shift_clear_filter=Shift Нажмите, чтобы очистить фильтр
+gui.nc.container.shift_clear_tank=Нажмите Shift, чтобы очистить резервуар
+gui.nc.container.shift_clear_filter=Нажмите Shift, чтобы очистить фильтр
 gui.nc.container.change_tanks_mode=Предотвращение переполнения входа
 gui.nc.container.void_leftover_fluid=Опустошение остаточной жидкости
 gui.nc.container.void_outputs=Опустошение переполнение выхода
@@ -3159,7 +3159,7 @@ gui.nc.container.non_config=ВЫКЛЮЧЕНО
 info.nuclearcraft.item_energy.energy_stored=Запас энергии:
 info.nuclearcraft.item_energy.power_tier=EU Уровень энергии:
 
-gui.nc.container.shift_clear_multiblock=Щёлкните Shift, чтобы очистить элементы и жидкости ВСЕХ компонентов
+gui.nc.container.shift_clear_multiblock=Нажмите Shift, чтобы очистить элементы и жидкости ВСЕХ компонентов
 
 nuclearcraft.multiblock_validation.invalid_block=%4$s не является действительным блоком на [%1$d, %2$d, %3$d].
 nuclearcraft.multiblock_validation.no_controller=Для формирования мультиблока должен существовать контроллер
@@ -3210,10 +3210,10 @@ advancement.nuclearcraft.root.desc=Ядерная физика в стиле Min
 advancement.nuclearcraft.manufactory.name=Индустриализация
 advancement.nuclearcraft.manufactory.desc=Создайте мануфактуру
 
-advancement.nuclearcraft.separator.name=Фракционирование
+advancement.nuclearcraft.separator.name=Разделяй и влавствуй
 advancement.nuclearcraft.separator.desc=Cоздайте сепаратор
 
-advancement.nuclearcraft.voltaic_pile_basic.name=Электрический переулок
+advancement.nuclearcraft.voltaic_pile_basic.name=Электрогорск
 advancement.nuclearcraft.voltaic_pile_basic.desc=Создайте базовую вольтаическую кучу
 
 advancement.nuclearcraft.electrolyzer.name=Шипучие электроды
@@ -3225,19 +3225,19 @@ advancement.nuclearcraft.decay_generator.desc=Создайте генерато�
 advancement.nuclearcraft.bin.name=В никуда
 advancement.nuclearcraft.bin.desc=Создайте универсальную корзину
 
-advancement.nuclearcraft.portable_ender_chest.name=Мэри Поппинс
-advancement.nuclearcraft.portable_ender_chest.desc=Создайте портативный эндер сундук
+advancement.nuclearcraft.portable_ender_chest.name=Облачное хранилище
+advancement.nuclearcraft.portable_ender_chest.desc=Создайте портативный эндер-сундук
 
 advancement.nuclearcraft.speed_upgrade.name=Разгон
 advancement.nuclearcraft.speed_upgrade.desc=Создайте обновление "Скорость"
 
-advancement.nuclearcraft.energy_upgrade.name=Полиномиальное гашение
+advancement.nuclearcraft.energy_upgrade.name=Работает до 10 раз дольше!
 advancement.nuclearcraft.energy_upgrade.desc=Создайте обновление "Энергия"
 
 advancement.nuclearcraft.machine_interface.name=Кубический удлинитель
 advancement.nuclearcraft.machine_interface.desc=Создайте машинный интерфейс
 
-advancement.nuclearcraft.alloy_furnace.name=Расплавить бурю!
+advancement.nuclearcraft.alloy_furnace.name=Будь со мной, и никто другой не нужен!
 advancement.nuclearcraft.alloy_furnace.desc=Создайте сплавную печь
 
 advancement.nuclearcraft.fuel_reprocessor.name=Время собирать камни
@@ -3249,7 +3249,7 @@ advancement.nuclearcraft.decay_hastener.desc=Создайте ускорител
 advancement.nuclearcraft.lithium_ion_battery_basic.name=Следы Илона
 advancement.nuclearcraft.lithium_ion_battery_basic.desc=Создайте базовую литий-ионную батарею
 
-advancement.nuclearcraft.assembler.name=Производственная линия
+advancement.nuclearcraft.assembler.name=Лень — двигатель прогресса
 advancement.nuclearcraft.assembler.desc=Создайте сборщик
 
 advancement.nuclearcraft.solar_panel_basic.name=Экологичность
@@ -3261,25 +3261,25 @@ advancement.nuclearcraft.rtg_uranium.desc=Создайте урановый РИ
 advancement.nuclearcraft.infuser.name=Впитывание
 advancement.nuclearcraft.infuser.desc=Создайте впрыскиватель
 
-advancement.nuclearcraft.melter.name=Горячий и пряный
+advancement.nuclearcraft.melter.name=Высокие температуры
 advancement.nuclearcraft.melter.desc=Создайте расплавитель
 
-advancement.nuclearcraft.chemical_reactor.name=Мартин Полякофф
+advancement.nuclearcraft.chemical_reactor.name=Д. И. Менделеев
 advancement.nuclearcraft.chemical_reactor.desc=Создайте химический реактор
 
-advancement.nuclearcraft.supercooler.name=Горячая машина
+advancement.nuclearcraft.supercooler.name=Холодное сердце
 advancement.nuclearcraft.supercooler.desc=Создайте суперохладитель
 
 advancement.nuclearcraft.extractor.name=Выжимаем
 advancement.nuclearcraft.extractor.desc=Создайте жидкостный экстрактор
 
-advancement.nuclearcraft.enricher.name=Химическая пивоварня
+advancement.nuclearcraft.enricher.name=Самогонный аппарат
 advancement.nuclearcraft.enricher.desc=Создайте жидкостный обогатитель
 
 advancement.nuclearcraft.nuclear_furnace.name=Кухонный кошмар
 advancement.nuclearcraft.nuclear_furnace.desc=Создайте ядерную печь
 
-advancement.nuclearcraft.neptunium.name=Сладкий Нептун
+advancement.nuclearcraft.neptunium.name=Планета в руках
 advancement.nuclearcraft.neptunium.desc=Получите немного нептуния
 
 advancement.nuclearcraft.rtg_plutonium.name=Ядро Ада
@@ -3288,13 +3288,13 @@ advancement.nuclearcraft.rtg_plutonium.desc=Создайте плутониев�
 advancement.nuclearcraft.ingot_former.name=Керамическая форма
 advancement.nuclearcraft.ingot_former.desc=Создайте литейный тигель
 
-advancement.nuclearcraft.salt_mixer.name=Смешать и сложить
+advancement.nuclearcraft.salt_mixer.name=Смешать, но не взбалтывать
 advancement.nuclearcraft.salt_mixer.desc=Создайте смеситель
 
-advancement.nuclearcraft.crystallizer.name=Во все тяжкие
+advancement.nuclearcraft.crystallizer.name=Осадочек остался
 advancement.nuclearcraft.crystallizer.desc=Создайте кристаллизатор
 
-advancement.nuclearcraft.centrifuge.name=Джеймс Бонд
+advancement.nuclearcraft.centrifuge.name=Крутится-вертится
 advancement.nuclearcraft.centrifuge.desc=Создайте центрифугу
 
 advancement.nuclearcraft.rock_crusher.name=Прокатка камней
@@ -3309,16 +3309,16 @@ advancement.nuclearcraft.rtg_americium.desc=Создайте америциев�
 advancement.nuclearcraft.pressurizer.name=Террор знания
 advancement.nuclearcraft.pressurizer.desc=Создайте компрессор
 
-advancement.nuclearcraft.americium.name=В физику веруем!
+advancement.nuclearcraft.americium.name=Made in USA
 advancement.nuclearcraft.americium.desc=Получите немного америция
 
 advancement.nuclearcraft.rtg_californium.name=Финишная прямая
 advancement.nuclearcraft.rtg_californium.desc=Создайте калифорниевый РИТЭГ
 
-advancement.nuclearcraft.curium.name=Любопытная Мария
+advancement.nuclearcraft.curium.name=В честь Марии
 advancement.nuclearcraft.curium.desc=Получите немного кюрия
 
-advancement.nuclearcraft.berkelium.name=Сделано в Аламеде
+advancement.nuclearcraft.berkelium.name=Сложнее, чем кажется
 advancement.nuclearcraft.berkelium.desc=Получите немного беркелия
 
 advancement.nuclearcraft.californium.name=Калифорнийская мечта
@@ -3330,10 +3330,10 @@ advancement.nuclearcraft.solid_fission_controller.desc=Создайте конт
 advancement.nuclearcraft.salt_fission_controller.name=Ядерная энергетика следующего поколения [1/2]
 advancement.nuclearcraft.salt_fission_controller.desc=Создайте контроллер реактора на расплавах солей
 
-advancement.nuclearcraft.heat_exchanger_controller.name=Тепловой Контакт [1/2]
+advancement.nuclearcraft.heat_exchanger_controller.name=Тепловой контакт [1/2]
 advancement.nuclearcraft.heat_exchanger_controller.desc=Создайте контроллер теплообменника
 
-advancement.nuclearcraft.turbine_controller.name=Уважая Ренкина [1/2]
+advancement.nuclearcraft.turbine_controller.name=Сила пара [1/2]
 advancement.nuclearcraft.turbine_controller.desc=Создайте контроллер турбины
 
 advancement.nuclearcraft.condenser_controller.name=Полный цикл [1/2]
@@ -3345,31 +3345,31 @@ advancement.nuclearcraft.solid_fission_reactor_assembled.desc=Постройте
 advancement.nuclearcraft.salt_fission_reactor_assembled.name=Ядерная энергетика следующего поколения [2/2]
 advancement.nuclearcraft.salt_fission_reactor_assembled.desc=Постройте реактор на расплавах солей
 
-advancement.nuclearcraft.heat_exchanger_assembled.name=Тепловой Контакт [2/2]
+advancement.nuclearcraft.heat_exchanger_assembled.name=Тепловой контакт [2/2]
 advancement.nuclearcraft.heat_exchanger_assembled.desc=Постройте теплообменник
 
-advancement.nuclearcraft.turbine_assembled.name=Уважая Ренкина [2/2]
+advancement.nuclearcraft.turbine_assembled.name=Сила пара [2/2]
 advancement.nuclearcraft.turbine_assembled.desc=Постройте турбину
 
-advancement.nuclearcraft.condenser_assembled.name=Завершение круга [2/2]
+advancement.nuclearcraft.condenser_assembled.name=Полный цикл [2/2]
 advancement.nuclearcraft.condenser_assembled.desc=Постройте конденсатор
 
 advancement.nuclearcraft.geiger_counter.name=Зов Припяти
 advancement.nuclearcraft.geiger_counter.desc=Создайте счётчик Гейгера
 
-advancement.nuclearcraft.radaway.name=Избавление от радов
+advancement.nuclearcraft.radaway.name=Скажи «Нет!» радионуклидам
 advancement.nuclearcraft.radaway.desc=Изготовьте немного антирада
 
 advancement.nuclearcraft.rad_x.name=Имитационный иммунитет
 advancement.nuclearcraft.rad_x.desc=Изготовьте радиопротектор
 
-advancement.nuclearcraft.rad_shielding.name=Храбрый Сэр Робин
+advancement.nuclearcraft.rad_shielding.name=Я не трус, но я боюсь
 advancement.nuclearcraft.rad_shielding.desc=Соберите парочку тяжёлых радиационных щитов
 
 advancement.nuclearcraft.radiation_scrubber.name=Ликвидатор
 advancement.nuclearcraft.radiation_scrubber.desc=Создайте радиационный газопромыватель
 
-advancement.nuclearcraft.marshmallow.name=Манёвр Лэнсделл'а
+advancement.nuclearcraft.marshmallow.name=Вкусновато, но маловато
 advancement.nuclearcraft.marshmallow.desc=Приготовьте зефир
 
 advancement.nuclearcraft.smore.name=Собраться у костра
@@ -3404,7 +3404,7 @@ music.nc.hyperspace=Гиперпространство
 
 material.boron.name=Бор
 material.tough.name=Прочный сплав
-material.hard_carbon.name=Твердый углерод
+material.hard_carbon.name=Твёрдый углерод
 material.boron_nitride.name=Нитрид бора
 material.thorium.name=Торий
 material.uranium.name=Уран
@@ -3414,7 +3414,7 @@ material.chocolate.name=Шоколад
 modifier.moldable.name=Плавленый
 modifier.moldable.desc=§oМэтр Шоколатье.§r\nПодключайте дополнительные модификаторы к вашему инструменту.
 modifier.uplifting.name=Поднимает настроение
-modifier.uplifting.desc=§oИ сегодня идем мы в бой!§r\nОднократно восстанавливает здоровье при использовании.
+modifier.uplifting.desc=§oИ сегодня идём мы в бой!§r\nОднократно восстанавливает здоровье при использовании.
 modifier.withering.name=Иссушение
 modifier.withering.desc=§oСмерть делает из всех нас монстров.§r\nИссушает при попадании.
 
@@ -3435,10 +3435,10 @@ message.nuclearcraft.rad_x_wore_off=Ваш Рад-X выветрился...
 message.nuclearcraft.rad_warning= Во рту появляется неприятный металлический привкус и начинает нарастать мучительная головная боль... Вы страдаете от радиационного отравления! Было бы разумно взять в руки счётчик Гейгера, чтобы определить серьёзность ситуации...
 message.nuclearcraft.radaway_cooling_down=Ваше охлаждение Рад-X находится на уровне
 message.nuclearcraft.rad_x_cooling_down=Ваше охлаждение Рад-X находится на уровне
-message.nuclearcraft.scrubber_removal_rate=Скорость удаления радиации:
+message.nuclearcraft.scrubber_removal_rate=Скорость вывода радиации:
 
 hud.nuclearcraft.rad_immune_for=Иммунитет для:
-hud.nuclearcraft.rad_immune=Иммун!
+hud.nuclearcraft.rad_immune=Иммунитет!
 
 commands.nuclearcraft.set_chunk_radiation.usage=/nc_set_chunk_radiation <уровень_излучения> [коорд_x] [коорд_z]
 commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radiation <уровень_радиации> <радиус_чанков>
@@ -3457,7 +3457,7 @@ death.attack.plasma_burn=%1$s был испепелён плазмой
 death.attack.gas_burn=%1$s был мучительно испарён
 death.attack.steam_burn=%1$s было бы лучше в чайнике
 death.attack.molten_burn=%1$s отправился в ад, но не вернулся
-death.attack.corium_burn=%1$s решили проследить судьбу своего ядерного реактора.
+death.attack.corium_burn=%1$s решил проследить судьбу своего ядерного реактора.
 death.attack.hot_coolant_burn=%1$s охладился в неправильном времени и месте
 death.attack.acid_burn=%1$s оказался слишком щелочным
 death.attack.fluid_burn=%1$s был эффективно обжарен на сковороде
@@ -3669,8 +3669,8 @@ nc.sf.cryotheum_heater1=%s функциональные нагреватели �
 nc.sf.turbine_casing0=%s корпус турбины
 nc.sf.turbine_casing1=%s корпус турбины
 nc.sf.bearing0=%s подшипник ротора
-nc.sf.connector0=%s разъем действующей катушки
-nc.sf.connector1=%s действительных разъемов катушки
+nc.sf.connector0=%s разъём действующей катушки
+nc.sf.connector1=%s действительных разъёмов катушки
 
 nc.sf.any_coil0=%s любая динамо-катушка
 nc.sf.any_coil1=%s любых динамо-катушек
