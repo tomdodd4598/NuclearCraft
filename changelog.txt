@@ -38,6 +38,8 @@ v2o.9.3
 
 + Added support for multiblock assembly errors highlighting more than one block
 
+* Fix missing fluid colour handler registration [thanks to Karnatour!]
+
 * Fixed sporadic crash related to smart item insertion
 
 + Added missing zirconium-molybdenum alloy recipe

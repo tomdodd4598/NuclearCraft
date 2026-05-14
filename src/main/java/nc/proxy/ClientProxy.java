@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
 
@@ -129,15 +130,21 @@ public class ClientProxy extends CommonProxy {
 	public void initFluidColors() {
 		super.initFluidColors();
 		if (NCConfig.register_fluid_blocks && FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			List<Fluid> fluidList = new ArrayList<>();
-			fluidList.addAll(NCCoolantFluids.fluidList);
-			fluidList.addAll(NCFissionFluids.fluidList);
-			
 			BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
 			ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
 			
-		for (Fluid fluid : fluidList) {
-				if (fluid.getBlock() instanceof NCBlockFluid fluidBlock) {
+			for (List<? extends Fluid> fluidList : Arrays.asList(NCCoolantFluids.fluidList, NCFissionFluids.fluidList)) {
+				for (Fluid fluid : fluidList) {
+					if (fluid.getBlock() instanceof NCBlockFluid fluidBlock) {
+						blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
+						itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+					}
+				}
+			}
+			
+			for (Pair<Fluid, NCBlockFluid> fluidPair : NCFluids.fluidPairList) {
+				NCBlockFluid fluidBlock = fluidPair.getRight();
+				if (fluidBlock != null) {
 					blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
 					itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
 				}
