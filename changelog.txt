@@ -1,5 +1,7 @@
 v2.19b
 
+* Processor configuration blueprints now copy installed upgrade info [thanks to ZHAY10086!]
+
 * Improved efficiency of radiation environment handler
 * Fixed radiation system interfering with loot generation [thanks to Nischhelm!]
 
