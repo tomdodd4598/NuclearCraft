@@ -49,6 +49,8 @@ v2o.9.3
 
 * Fixed script addon reconstruction command not working correctly
 
+* Updated Chinese language file [thanks to WuzgXY!]
+
 * Updated embedded DSSL and JavaQuantum libraries
 * Fixed incorrect mapping of qubit IDs to gate targets
 
