@@ -11,7 +11,7 @@ v2o.9.3
 * By default, only PBR TRISO fuels have non-zero intrinsic flux (added associated configs)
 
 * Fission reactors no longer form if missing any input or output ports
-* Fixed bug where fission fuel components would not fail to reach criticality correctly
+* Fixed bug where bunched fuel vessels would not fail to reach criticality correctly
 * Irradiators and coolant heaters no longer consume their inputs before processing
 + Added more info to fuel component OC table output
 
@@ -50,6 +50,7 @@ v2o.9.3
 * Fixed script addon reconstruction command not working correctly
 
 * Updated Chinese language file [thanks to WuzgXY!]
+* Updated Russian language file [thanks to Golyb007!]
 
 * Updated embedded DSSL and JavaQuantum libraries
 * Fixed incorrect mapping of qubit IDs to gate targets
