@@ -34,6 +34,7 @@ v2o.9.3
 * Moved background radiation update logic to separate thread [thanks to thedeadferryman!]
 * Fixed flaw in radiation update logic which caused too many chunks to update per tick
 * Improved efficiency of radiation environment handler
+* Fixed radiation system interfering with loot generation [thanks to Nischhelm!]
 
 + Added support for multiblock assembly errors highlighting more than one block
 
