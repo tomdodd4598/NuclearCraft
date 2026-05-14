@@ -1,0 +1,2904 @@
+########## LOCALISATION FILE #########
+
+nc.sf.zero=nula
+nc.sf.one=jedna
+nc.sf.two=dva
+nc.sf.three=tři
+nc.sf.four=čtyři
+nc.sf.five=pět
+nc.sf.six=šest
+
+nc.sf.no=ne
+
+nc.sf.and=a
+nc.sf.or=nebo
+
+nc.sf.placement_rule.and_or.adjacent0=%1$s %2$s
+nc.sf.placement_rule.and_or.adjacent1=%1$s, %2$s
+nc.sf.placement_rule.and_or.adjacent2=%1$s %2$s %3$s
+nc.sf.placement_rule.and_or.adjacent3=%1$s, %2$s %3$s
+nc.sf.placement_rule.and_or.adjacent4=%1$s.
+
+nc.sf.placement_rule.adjacent.must_be_adjacent_to=Musí být umístěno u
+nc.sf.placement_rule.adjacent.at_least=alespoň %1$s
+nc.sf.placement_rule.adjacent.at_least_along_axis=alespoň %1$s u běžné osy
+nc.sf.placement_rule.adjacent.at_least_along_axes=alespoň %1$s u běžných os
+nc.sf.placement_rule.adjacent.at_least_at_vertex=alespoň %1$s na běžném vrcholu
+nc.sf.placement_rule.adjacent.at_least_along_edge=alespoň %1$s na běžné straně
+nc.sf.placement_rule.adjacent.exactly=přesně %1$s
+nc.sf.placement_rule.adjacent.exactly_along_axis=přesně %1$s a musí sdílet běžnou osu
+nc.sf.placement_rule.adjacent.exactly_along_axes=přesně %1$s a musí sdílet běžné osy
+nc.sf.placement_rule.adjacent.exactly_at_vertex=přesně %1$s a musí sdílet běžný vrchol
+nc.sf.placement_rule.adjacent.exactly_along_edge=přesně %1$s a musí sdílet běžnou stranu
+nc.sf.placement_rule.adjacent.at_most=nejméně %1$s
+nc.sf.placement_rule.adjacent.at_most_along_axis=nejméně %1$s u běžné osy
+nc.sf.placement_rule.adjacent.at_most_along_axes=nejméně %1$s u běžných os
+nc.sf.placement_rule.adjacent.no=absolutně %1$s
+
+nc.sf.placement_rule.adjacent.ambiguity0prev=!common axis&&!common axes&&!common vertex&&!common edge
+nc.sf.placement_rule.adjacent.ambiguity0last=common axis||common axes||common vertex||common edge
+nc.sf.placement_rule.adjacent.ambiguity1prev=share a common||share common
+
+nc.sf.reactor_casing0=%s reaktorový kryt
+nc.sf.reactor_casing1=%s reaktorových krytů
+nc.sf.conductor0=%s vodič
+nc.sf.conductor1=%s vodičů
+
+nc.sf.cell0=%s funkční palivový článek
+nc.sf.cell1=%s funkčních palivových článků
+nc.sf.vessel0=%s funkční palivový plášť
+nc.sf.vessel1=%s funkčních palivových plášťů
+
+nc.sf.moderator0=%s aktivní moderátor
+nc.sf.moderator1=%s aktivních moderátorů
+nc.sf.reflector0=%s aktivní reflektor
+nc.sf.reflector1=%s aktivních reflektorů
+
+nc.sf.irradiator0=%s funkční ozařovač
+nc.sf.irradiator1=%s funkčních ozařovačů
+nc.sf.shield0=%s platný otevřený štít
+nc.sf.shield1=%s platných otevřených štítů
+
+nc.sf.any_sink0=%s chladič jakéhokoliv typu
+nc.sf.any_sink1=%s chladičů jakéhokoliv typu
+nc.sf.water_sink0=%s platný vodní chladič
+nc.sf.water_sink1=%s platných vodních chladičů
+nc.sf.iron_sink0=%s platný železný chladič
+nc.sf.iron_sink1=%s platných železných chladičů
+nc.sf.redstone_sink0=%s platný ruditový chladič
+nc.sf.redstone_sink1=%s platných ruditových chladičů
+nc.sf.quartz_sink0=%s platný křemenný chladič
+nc.sf.quartz_sink1=%s platných křemenných chladičů
+nc.sf.obsidian_sink0=%s platný obsidiánový chladič
+nc.sf.obsidian_sink1=%s platných obsidiánových chladičů
+nc.sf.nether_brick_sink0=%s platný netheritocihlový chladič
+nc.sf.nether_brick_sink1=%s platných netheritocihlových chladičů
+nc.sf.glowstone_sink0=%s platný světlitový chladič
+nc.sf.glowstone_sink1=%s platných světlitových chladičů
+nc.sf.lapis_sink0=%s platný lazuritový chladič
+nc.sf.lapis_sink1=%s platných lazuritových chladičů
+nc.sf.gold_sink0=%s platný zlatý chladič
+nc.sf.gold_sink1=%s platných zlatých chladičů
+nc.sf.prismarine_sink0=%s platný prismarínový chladič
+nc.sf.prismarine_sink1=%s platných prismarínových chladičů
+nc.sf.slime_sink0=%s platný slizový chladič
+nc.sf.slime_sink1=%s platných slizových chladičů
+nc.sf.end_stone_sink0=%s platný enderitový chladič
+nc.sf.end_stone_sink1=%s platných enderitových chladičů
+nc.sf.purpur_sink0=%s platný purpurový chladič
+nc.sf.purpur_sink1=%s platných purpurových chladičů
+nc.sf.diamond_sink0=%s platný diamantový chladič
+nc.sf.diamond_sink1=%s platných diamantových chladičů
+nc.sf.emerald_sink0=%s platný smaragdový chladič
+nc.sf.emerald_sink1=%s platných smaragdových chladičů
+nc.sf.copper_sink0=%s platný měděný chladič
+nc.sf.copper_sink1=%s platných měděných chladičů
+nc.sf.tin_sink0=%s platný cínový chladič
+nc.sf.tin_sink1=%s platných cínových chladičů
+nc.sf.lead_sink0=%s platný olověný chladič
+nc.sf.lead_sink1=%s platných olověných chladičů
+nc.sf.boron_sink0=%s platný borový chladič
+nc.sf.boron_sink1=%s platných borových chladičů
+nc.sf.lithium_sink0=%s platný lithiový chladič
+nc.sf.lithium_sink1=%s platných lithiových chladičů
+nc.sf.magnesium_sink0=%s platný hořčíkový chladič
+nc.sf.magnesium_sink1=%s platných hořčíkových chladičů
+nc.sf.manganese_sink0=%s platný manganový chladič
+nc.sf.manganese_sink1=%s platných manganových chladičů
+nc.sf.aluminum_sink0=%s platný hliníkový chladič
+nc.sf.aluminum_sink1=%s platných hliníkových chladičů
+nc.sf.silver_sink0=%s platný stříbrný chladič
+nc.sf.silver_sink1=%s platných stříbrných chladičů
+nc.sf.fluorite_sink0=%s platný fluoritový chladič
+nc.sf.fluorite_sink1=%s platných fluoritových chladičů
+nc.sf.villiaumite_sink0=%s platných villiaumitový chladič
+nc.sf.villiaumite_sink1=%s platných villiaumitových chladičů
+nc.sf.carobbiite_sink0=%s platný carobbiitový chladič
+nc.sf.carobbiite_sink1=%s platných carobbiitových chladičů
+nc.sf.arsenic_sink0=%s platný arsenový chladič
+nc.sf.arsenic_sink1=%s platných arsenových chladičů
+nc.sf.liquid_nitrogen_sink0=%s platný tekutodusíkový chladič
+nc.sf.liquid_nitrogen_sink1=%s platných tekutodusíkových chladičů
+nc.sf.liquid_helium_sink0=%s platný tekutoheliový chladič
+nc.sf.liquid_helium_sink1=%s platných tekutoheliových chladičů
+nc.sf.enderium_sink0=%s platný enderiový chladič
+nc.sf.enderium_sink1=%s platných enderiových chladičů
+nc.sf.cryotheum_sink0=%s platný kryotheový chladič
+nc.sf.cryotheum_sink1=%s platných kryotheových chladičů
+
+death.attack.superfluid_freeze=%1$s se proměnil na Bose-Einsteinův kondenzát
+death.attack.plasma_burn=%1$s byl upálen plazmou
+death.attack.gas_burn=%1$s byl vypařen
+death.attack.steam_burn=%1$s byl opařen
+death.attack.molten_burn=%1$s se nevrátil z pekla
+death.attack.corium_burn=%1$s následoval osud jejich reaktoru
+death.attack.hot_coolant_burn=%1$s se ochladil ve špatném čase a na špatném místě
+death.attack.acid_burn=%1$s byl příliš zásaditý
+death.attack.fluid_burn=%1$s byl upečen na pánvi
+death.attack.hypothermia=%1$s umřel kvůli extrémní hypotermii
+death.attack.fission_burn=%1$s byl upečen v reaktoru
+death.attack.fatal_rads=%1$s umřel na otravu radiací
+
+nuclearcraft.collector.jei_name=Sběrač
+nuclearcraft.fission_moderator.jei_name=Moderátor štěpení
+nuclearcraft.fission_reflector.jei_name=Reflektor štěpení
+nuclearcraft.fission_irradiator.jei_name=Ozařovač štěpení
+nuclearcraft.pebble_fission.jei_name=Oblázkové štepení
+nuclearcraft.solid_fission.jei_name=Pevnopalivové štepení
+nuclearcraft.fission_moderator.jei_name=Štěpné moderátory
+nuclearcraft.fission_reflector.jei_name=Štěpné reflektory
+nuclearcraft.fission_heating.jei_name=Štěpná ventilace
+nuclearcraft.salt_fission.jei_name=Solné štěpení
+nuclearcraft.fission_emergency_cooling.jei_name=Nouzové chlazení štěpení
+nuclearcraft.coolant_heater.jei_name=Chlazení roztavenou solí
+nuclearcraft.heat_exchanger.jei_name=Trubice tepelného výměníku
+nuclearcraft.condenser.jei_name=Kondenzační trubice
+nuclearcraft.turbine.jei_name=Turbína
+
+advancement.nuclearcraft.root.name=NuclearCraft
+advancement.nuclearcraft.root.desc=Jaderná fyzika v Minecraftu
+
+advancement.nuclearcraft.manufactory.name=Začátky
+advancement.nuclearcraft.manufactory.desc=Vyrob manufakturu
+
+advancement.nuclearcraft.separator.name=Oddělování
+advancement.nuclearcraft.separator.desc=Vyrob oddělovač
+
+advancement.nuclearcraft.voltaic_pile_basic.name=Elektrická Ulice
+advancement.nuclearcraft.voltaic_pile_basic.desc=Vyrob základní voltaický článek
+
+advancement.nuclearcraft.electrolyzer.name=Praskající elektrody
+advancement.nuclearcraft.electrolyzer.desc=Vyrob elektrolyzér
+
+advancement.nuclearcraft.decay_generator.name=Alfa záření
+advancement.nuclearcraft.decay_generator.desc=Vyrob generátor rozpadu
+
+advancement.nuclearcraft.bin.name=Pan Odpaďák
+advancement.nuclearcraft.bin.desc=Vyrob univerzální koš
+
+advancement.nuclearcraft.portable_ender_chest.name=Přenos truhly
+advancement.nuclearcraft.portable_ender_chest.desc=Vyrob přenosnou endovou truhlu
+
+advancement.nuclearcraft.speed_upgrade.name=Přetaktování
+advancement.nuclearcraft.speed_upgrade.desc=Vyrob vylepšení rychlosti
+
+advancement.nuclearcraft.energy_upgrade.name=Lepší energie
+advancement.nuclearcraft.energy_upgrade.desc=Vyrob vylepšení energie
+
+advancement.nuclearcraft.machine_interface.name=Krychlové doplňky
+advancement.nuclearcraft.machine_interface.desc=Vyrob rozhraní stroje
+
+advancement.nuclearcraft.alloy_furnace.name=Rychlotavba
+advancement.nuclearcraft.alloy_furnace.desc=Vyrob slitinovou pec
+
+advancement.nuclearcraft.fuel_reprocessor.name=Zbytky paliva
+advancement.nuclearcraft.fuel_reprocessor.desc=Vyrob palivový znovuzpracovávač
+
+advancement.nuclearcraft.decay_hastener.name=Extrémní ozáření
+advancement.nuclearcraft.decay_hastener.desc=Vyrob urychlovač rozpadu
+
+advancement.nuclearcraft.lithium_ion_battery_basic.name=Lepší nabíjecí baterie
+advancement.nuclearcraft.lithium_ion_battery_basic.desc=Vyrob základní lithium iontovou baterii
+
+advancement.nuclearcraft.assembler.name=Výrobna
+advancement.nuclearcraft.assembler.desc=Vyrob montovnu
+
+advancement.nuclearcraft.solar_panel_basic.name=Solární energie
+advancement.nuclearcraft.solar_panel_basic.desc=Vyrob základní solární panel
+
+advancement.nuclearcraft.rtg_uranium.name=Zelená záře
+advancement.nuclearcraft.rtg_uranium.desc=Vyrob uranový RTG
+
+advancement.nuclearcraft.infuser.name=Nasávání tekutin
+advancement.nuclearcraft.infuser.desc=Vyrob kapalinový infuzér
+
+advancement.nuclearcraft.melter.name=Pálí, to pálí!
+advancement.nuclearcraft.melter.desc=Vyrob tavič
+
+advancement.nuclearcraft.chemical_reactor.name=Chemické reakce
+advancement.nuclearcraft.chemical_reactor.desc=Vyrob chemický reaktor
+
+advancement.nuclearcraft.supercooler.name=Stroj z Antarktidy
+advancement.nuclearcraft.supercooler.desc=Vyrob superchladič
+
+advancement.nuclearcraft.extractor.name=Lisování mořských hub
+advancement.nuclearcraft.extractor.desc=Vyrob kapalinový extraktor
+
+advancement.nuclearcraft.enricher.name=Chemické závody
+advancement.nuclearcraft.enricher.desc=Vyrob obohacovač kapalin
+
+advancement.nuclearcraft.nuclear_furnace.name=Ano šéfe!
+advancement.nuclearcraft.nuclear_furnace.desc=Vyrob jadernou pec
+
+advancement.nuclearcraft.neptunium.name=Letíme na Neptun!
+advancement.nuclearcraft.neptunium.desc=Obtain some Neptunium
+
+advancement.nuclearcraft.rtg_plutonium.name=Pekelný démon
+advancement.nuclearcraft.rtg_plutonium.desc=Craft a Plutonium RTG
+
+advancement.nuclearcraft.ingot_former.name=Výrobna ingotů
+advancement.nuclearcraft.ingot_former.desc=Vyrob tvořič ingotů
+
+advancement.nuclearcraft.salt_mixer.name=Mixování
+advancement.nuclearcraft.salt_mixer.desc=Vyrob kapalinový mixér
+
+advancement.nuclearcraft.crystallizer.name=Krystalový prášek
+advancement.nuclearcraft.crystallizer.desc=Vyrob krystalizér
+
+advancement.nuclearcraft.centrifuge.name=Rychlé odstředování
+advancement.nuclearcraft.centrifuge.desc=Vyrob odstředivku
+
+advancement.nuclearcraft.rock_crusher.name=Pryč s kameny
+advancement.nuclearcraft.rock_crusher.desc=Vyrob drtič kamení
+
+advancement.nuclearcraft.electric_furnace.name=Indukce je úžasná
+advancement.nuclearcraft.electric_furnace.desc=Vyrob elektrickou pec
+
+advancement.nuclearcraft.plutonium.name=Kritická hmota
+advancement.nuclearcraft.plutonium.desc=Získej nějaké plutonium
+
+advancement.nuclearcraft.rtg_americium.name=Radiací-posetá Energie
+advancement.nuclearcraft.rtg_americium.desc=Vyrob americiový RTG
+
+advancement.nuclearcraft.pressurizer.name=Strach z vědomostí
+advancement.nuclearcraft.pressurizer.desc=Vyrob tlakovač
+
+advancement.nuclearcraft.americium.name=Fyzika je úžasná
+advancement.nuclearcraft.americium.desc=Získej nějaké Americium
+
+advancement.nuclearcraft.rtg_californium.name=Konečná stanice: Kalifornie
+advancement.nuclearcraft.rtg_californium.desc=Vyrob Kaliforniový RTG
+
+advancement.nuclearcraft.curium.name=Vědkyně Marie
+advancement.nuclearcraft.curium.desc=Získej nějaké Curium
+
+advancement.nuclearcraft.berkelium.name=Vyrobeno v Alamedě
+advancement.nuclearcraft.berkelium.desc=Získej nějaké Berkelium
+
+advancement.nuclearcraft.californium.name=Sníme o Kalifornii
+advancement.nuclearcraft.californium.desc=Získej nějaké Kalifornium
+
+advancement.nuclearcraft.solid_fission_controller.name=Dělíme atomy! [1/2]
+advancement.nuclearcraft.solid_fission_controller.desc=Vyrob ovladač pevného štěpení
+
+advancement.nuclearcraft.salt_fission_controller.name=Jaderná budoucnost [1/2]
+advancement.nuclearcraft.salt_fission_controller.desc=Vyrob ovladač solného štepení
+
+advancement.nuclearcraft.heat_exchanger_controller.name=Tepelný kontakt [1/2]
+advancement.nuclearcraft.heat_exchanger_controller.desc=Vyrob ovladač tepelného výměníku
+
+advancement.nuclearcraft.turbine_controller.name=Toč se turbíno [1/2]
+advancement.nuclearcraft.turbine_controller.desc=Vyrob ovladač turbíny
+
+advancement.nuclearcraft.condenser_controller.name=Kondenzace [1/2]
+advancement.nuclearcraft.condenser_controller.desc=Vyrob ovladač kondenzátoru
+
+advancement.nuclearcraft.solid_fission_reactor_assembled.name=Dělíme atomy! [2/2]
+advancement.nuclearcraft.solid_fission_reactor_assembled.desc=Postav pevnopalivový reaktor
+
+advancement.nuclearcraft.salt_fission_reactor_assembled.name=Jaderná budoucnost [2/2]
+advancement.nuclearcraft.salt_fission_reactor_assembled.desc=Postav solný reaktor
+
+advancement.nuclearcraft.heat_exchanger_assembled.name=Tepelný kontakt [2/2]
+advancement.nuclearcraft.heat_exchanger_assembled.desc=Postav tepelný výměník
+
+advancement.nuclearcraft.turbine_assembled.name=Toč se turbíno [2/2]
+advancement.nuclearcraft.turbine_assembled.desc=Postav turbínu
+
+advancement.nuclearcraft.condenser_assembled.name=Kondenzace [2/2]
+advancement.nuclearcraft.condenser_assembled.desc=Vyrob kondenzátor
+
+advancement.nuclearcraft.geiger_counter.name=Vstup do Černobylu
+advancement.nuclearcraft.geiger_counter.desc=Vyrob Geigerův čítač
+
+advancement.nuclearcraft.radaway.name=Pryč s radiací!
+advancement.nuclearcraft.radaway.desc=Vyrob odstraňovač radiace
+
+advancement.nuclearcraft.rad_x.name=Imunita proti ozáření
+advancement.nuclearcraft.rad_x.desc=Vyrob nějaký Rad-X
+
+advancement.nuclearcraft.rad_shielding.name=Radiační štít
+advancement.nuclearcraft.rad_shielding.desc=Vyrob Štít proti radiaci
+
+advancement.nuclearcraft.radiation_scrubber.name=Chraň ovzduší!
+advancement.nuclearcraft.radiation_scrubber.desc=Vyrob seškrabovač radiace
+
+advancement.nuclearcraft.marshmallow.name=Super bonbony
+advancement.nuclearcraft.marshmallow.desc=Vyrob žužu
+
+advancement.nuclearcraft.smore.name=Opékání žužu
+advancement.nuclearcraft.smore.desc=Vyrob žužu ingot
+
+advancement.nuclearcraft.moresmore.name=Větší žužu
+advancement.nuclearcraft.moresmore.desc=Vyrob dvojitý žužu ingot
+
+advancement.nuclearcraft.foursmore.name=Čím více žužu, tím lépe
+advancement.nuclearcraft.foursmore.desc=Vyrob čtyřnásobný žužu ingot
+
+block.nc.fusion_run=Fůzní reaktor běží
+block.nc.turbine_run=Turbína běží
+
+player.nc.geiger_tick=Geigerův tick
+player.nc.radaway=Použít odstraňovač radiace
+player.nc.rad_x=Použít rad-x
+player.nc.chems_wear_off=Doznívání efektů chemikálií
+player.nc.rad_poisoning=Otrava radiací
+
+entity.nc.feral_ghoul_ambient=Ambient divokého ghůla
+entity.nc.feral_ghoul_hurt=Divoký ghůl zraněn
+entity.nc.feral_ghoul_death=Divoký ghůl umírá
+entity.nc.feral_ghoul_step=Divoký ghůl chodí
+entity.nc.feral_ghoul_fall=Divoký ghůl padá
+entity.nc.feral_ghoul_charge=Divoký ghůl naráží
+
+music.nc.wanderer=Wanderer
+music.nc.end_of_the_world=End of the World
+music.nc.money_for_nothing=Money For Nothing
+music.nc.hyperspace=Hyperspace
+
+material.boron.name=Bor
+material.tough.name=Tvrdá slitina
+material.hard_carbon.name=Tvrdý uhlík
+material.boron_nitride.name=Nitrid boritý
+material.thorium.name=Thorium
+material.uranium.name=Uran
+material.magnesium.name=Hořčík
+material.chocolate.name=Čokoláda
+
+
+nuclearcraft.multiblock_validation.invalid_block=%4$s není platný blok na pozici [%1$d, %2$d, %3$d]
+nuclearcraft.multiblock_validation.no_controller=V multibloku musí být ovladač pro stvoření multibloku
+nuclearcraft.multiblock_validation.too_many_controllers=V multibloku musí být pouze jeden ovladač, aby se multiblok stvořil
+
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=Toto není pevnopalivový reaktor - nesmí tu být žádné články pro stvoření!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=Toto není pevnopalivový reaktor - nesmí tu být žádné chladiče pro stvoření!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=Toto není tekutosolný reaktor - nesmí tu být žádné kryty pro stvoření!
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=Toto není tekutosolný reaktor - nesmí tu být žádné ohřívače pro stvoření!
+
+nuclearcraft.multiblock.fission_reactor_source.no_target=Nemá žádný cíl!
+nuclearcraft.multiblock.fission_reactor_source.target=Cíl %4$s na [%1$d, %2$d, %3$d]
+
+nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=Toto není tepelný výměník; nesmí tu být žádné výměníkové trubice pro stvoření
+nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=Toto není kondenzátor; nesmí tu být žádné kondenzační trubice pro stvoření
+
+gui.nc.container.bottom_config=SPODEK:
+gui.nc.container.top_config=VRCH:
+gui.nc.container.left_config=LEVÁ:
+gui.nc.container.right_config=PRAVÁ:
+gui.nc.container.front_config=PŘEDNÍ:
+gui.nc.container.back_config=ZADNÍ:
+gui.nc.container.in_config=VSTUP
+gui.nc.container.out_config=VÝSTUP
+gui.nc.container.auto_in_config=AUTO-VSTUP
+gui.nc.container.auto_out_config=AUTO-VÝSTUP
+gui.nc.container.both_config=OBOJÍ
+gui.nc.container.non_config=VYPNUTO
+
+info.nuclearcraft.item_energy.energy_stored=Uložená energie:
+info.nuclearcraft.item_energy.power_tier=Třída EU energie:
+
+gui.nc.computer.method_not_found=Tato metoda se neukazuje v archivních mapách - ztratil jsi metodu.. jak ponižující... Jdi na GitHub, uvolni se, a najdeme tvou chybějící metodu.
+gui.nc.computer.invalid_method_number=Neplatná metoda čísla
+gui.nc.computer.number_of_arguments_error=%s použitých argumentů, očekáváno %s
+gui.nc.computer.invalid_argument_error=Neplatný argument %s, očekáváno %s
+gui.nc.computer.integer_too_small_error=Argument čísla %s je příliš malý, očekáváno alespoň %s
+gui.nc.computer.integer_too_large_error=Argument čísla %s je příliš velký, očekáváno %s
+
+# Localization for ZeroCore multiblock API
+zerocore.api.nc.multiblock.validation.success=Zplatnění multibloku bylo úspěšné
+zerocore.api.nc.multiblock.validation.too_few_parts=Multiblok je příliš malý
+zerocore.api.nc.multiblock.validation.machine_too_large=Multiblok je příliš velký, může být nejvíc %1$d bloků v rozměru %2$s
+zerocore.api.nc.multiblock.validation.machine_too_small=Multiblok je příliš malý, musí být alespoň %1$d bloků v rozměru %2$s
+zerocore.api.nc.multiblock.validation.invalid_part=Blok na pozici %1$d, %2$d, %3$d není kompatibilní s tímto multiblokem
+zerocore.api.nc.multiblock.validation.invalid_part_disconnected=Blok na pozici %1$d, %2$d, %3$d není připojen k tomuto multibloku
+zerocore.api.nc.multiblock.validation.invalid_part_for_frame=Blok na pozici %1$d, %2$d, %3$d nelze použít v rámu tohoto multibloku
+zerocore.api.nc.multiblock.validation.invalid_part_for_bottom=Blok na pozici %1$d, %2$d, %3$d nelze použít ve spodní vrstvě tohoto multibloku
+zerocore.api.nc.multiblock.validation.invalid_part_for_top=Blok na pozici %1$d, %2$d, %3$d nelze použít ve vrchní vrstvě tohoto multibloku
+zerocore.api.nc.multiblock.validation.invalid_part_for_sides=Blok na pozici %1$d, %2$d, %3$d nelze použít na stranách tohoto multibloku
+zerocore.api.nc.multiblock.validation.invalid_part_for_interior=Blok na pozici %1$d, %2$d, %3$d nelze použít v interiéru tohoto multibloku
+zerocore.api.nc.multiblock.validation.invalid_logic=Tento multiblok se neukazuje v archivních mapách - ztratil jsi logické jádro.. jak ponižující... Jdi na GitHub, uvolni se, a najdeme tvé chybějící jádro.
+
+nc.block.vent_toggle=Ventilace nastavena na
+nc.block.fission_vent_mode.input=vstupní
+nc.block.fission_vent_mode.output=výstupní
+nc.block.vent_toggle.mode=režim!
+
+nc.block.port_toggle=Port nastaven na
+nc.block.fission_port_mode.input=vstupní
+nc.block.fission_port_mode.output=výstupní
+nc.block.port_toggle.mode=režim!
+
+nc.block.fluid_toggle=Strana nastavena na:
+nc.block.fluid_toggle_opposite=Protejší strana nastavena na:
+
+nc.block.salt_heater_fluid_side.default=VYCHOZÍ
+nc.block.salt_heater_fluid_side.disabled=VYPNUTO
+nc.block.salt_heater_fluid_side.hot_coolant_out=VYPUMPOVÁNÍ ŽHAVÉHO CHLADIVA
+nc.block.salt_heater_fluid_side.coolant_spread=ROZPTYL CHLADIVA
+
+nc.block.salt_vessel_fluid_side.default=VYCHOZÍ
+nc.block.salt_vessel_fluid_side.disabled=VYPNUTO
+nc.block.salt_vessel_fluid_side.depleted_out=OCHUZENÉ PALIVO VEN
+nc.block.salt_vessel_fluid_side.fuel_spread=ROZPTYL PALIVA
+
+nc.block.exchanger_tube_fluid_side.disabled=VYPNUTO
+nc.block.exchanger_tube_fluid_side.default=VYCHOZÍ
+nc.block.exchanger_tube_fluid_side.product_out=VÝROBEK VEN
+nc.block.exchanger_tube_fluid_side.input_spread=ROZPTYL VSTUPU
+
+gui.nc.inventory.shift_for_info=Podrž Shift pro více informací
+gui.nc.inventory.ctrl_for_info=Podrž Ctrl pro více informací
+
+nuclearcraft.container.nuclear_furnace=Jaderná pec
+nuclearcraft.container.manufactory=Manufaktura
+nuclearcraft.container.separator=Oddělovač
+nuclearcraft.container.decay_hastener=Urychlovač rozpadu
+nuclearcraft.container.fuel_reprocessor=Palivový znovuzpracovávač
+nuclearcraft.container.alloy_furnace=Slitinová pec
+nuclearcraft.container.infuser=Kapalinový infuzér
+nuclearcraft.container.melter=Tavič
+nuclearcraft.container.supercooler=Superchladič
+nuclearcraft.container.electrolyzer=Elektrolyzér
+nuclearcraft.container.assembler=Montovna
+nuclearcraft.container.ingot_former=Tvořič ingotů
+nuclearcraft.container.pressurizer=Tlakovač
+nuclearcraft.container.chemical_reactor=Chemický reaktor
+nuclearcraft.container.salt_mixer=Kapalinový mixér
+nuclearcraft.container.crystallizer=Krystalizér
+nuclearcraft.container.enricher=Obohacovač kapalin
+nuclearcraft.container.extractor=Kapalinový extraktor
+nuclearcraft.container.centrifuge=Odstředivka
+nuclearcraft.container.rock_crusher=Drtič kamení
+nuclearcraft.container.electric_furnace=Elektrická pec
+nuclearcraft.container.machine_config=Konfigurace stroje
+
+nuclearcraft.container.machine_interface=Strojové rozhraní
+nuclearcraft.container.bin=Univerzální koš
+
+nuclearcraft.container.cobblestone_generator=Generátor kamení
+nuclearcraft.container.cobblestone_generator_compact=Kompaktní generátor kamení
+nuclearcraft.container.cobblestone_generator_dense=Tvrdý generátor kamení
+nuclearcraft.container.water_source=Infinite Vodní zdroj
+nuclearcraft.container.water_source_compact=Kompaktní nekonečný vodní zdroj
+nuclearcraft.container.water_source_dense=Hrubý nekonečný vodní zdroj
+nuclearcraft.container.nitrogen_collector=Sběrač dusíku
+nuclearcraft.container.nitrogen_collector_compact=Kompaktní sberač dusíku
+nuclearcraft.container.nitrogen_collector_dense=Tvrdý sběrač dusíku
+
+nuclearcraft.container.radiation_scrubber=Radiační škrabač
+
+gui.nc.container.no_cluster=Žádný shluk!
+
+gui.nc.container.fission_controller.clusters=Počet svazků:
+gui.nc.container.fission_controller.sparsity=Sparsity Násobitel účinnosti:
+gui.nc.container.fission_controller.useful_parts=Užitečné součástky:
+gui.nc.container.fission_controller.temperature=Teplota krytu:
+gui.nc.container.fission_controller.net_heating=Síťové teplo krytů:
+gui.nc.container.fission_controller.effective_heat=Účinné teplo krytů:
+gui.nc.container.fission_controller.reserved_heat=Rezervované teplo krytů:
+gui.nc.container.fission_controller.net_cluster_heating=Síťové ohřívání svazků:
+gui.nc.container.fission_controller.total_cluster_cooling=Celkové chlazení svazků:
+gui.nc.container.fission_controller.efficiency=Průměrná účinnost:
+gui.nc.container.fission_controller.heat_mult=Průměrný násobitel tepla:
+gui.nc.container.fission_controller.heat_stored=Úroveň tepla v krytech:
+
+gui.nc.container.fission_irradiator.irradiator=Ozařovač štěpení
+gui.nc.container.fission_irradiator.heat_stored=Úroveň tepla shluků:
+
+gui.nc.container.solid_fission_controller.reactor=Pevnopalivový reaktor
+gui.nc.container.solid_fission_controller.output_rate=Rychlost výroby:
+
+gui.nc.container.solid_fission_cell.cell=Článek štepného paliva
+gui.nc.container.solid_fission_cell.heat_stored=Úroveň teploty svazků:
+
+gui.nc.container.salt_fission_controller.reactor=Reaktor na roztavené soli
+gui.nc.container.salt_fission_controller.heating_speed_multiplier=Průměrná ohřívací rychlost:
+
+gui.nc.container.salt_fission_vessel.vessel=Kryt štěpného paliva
+gui.nc.container.salt_fission_vessel.heat_stored=Úroveň tepla ve svazku:
+gui.nc.container.salt_fission_heater.heater=Ohřívač štěpného chladiva
+gui.nc.container.salt_fission_heater.heat_stored=Úroveň tepla ve svazku:
+
+gui.nc.container.fission_heater_port.name=Přesuvník chladiva štěpného ohřívače
+
+gui.nc.container.fusion_core.reactor=Fůzní reaktor
+gui.nc.container.fusion_core.ring_incomplete=Nedokončený prstenec
+gui.nc.container.fusion_core.ring_incomplete_at=Nedokončený prstenec
+gui.nc.container.fusion_core.ring_blocked=Interiér prstence zablokován
+gui.nc.container.fusion_core.power_issue=Elektromagnety nejsou aktivovány
+gui.nc.container.fusion_core.incorrect_structure=Neplatná struktura
+gui.nc.container.fusion_core.no_problem=Žádný problém
+gui.nc.container.fusion_core.size=Velikost toroidu:
+gui.nc.container.fusion_core.energy=Energie:
+gui.nc.container.fusion_core.power=Napájení:
+gui.nc.container.fusion_core.heat=Teplo:
+gui.nc.container.fusion_core.temperature=Teplota:
+gui.nc.container.fusion_core.temperature_change=Změna teploty:
+gui.nc.container.fusion_core.cooling_rate=Rychlost aktivního chlazení:
+gui.nc.container.fusion_core.efficiency=Účinnost:
+gui.nc.container.fusion_core.fuels=Aktivní paliva:
+gui.nc.container.fusion_core.empty=Prázdné
+gui.nc.container.fusion_core.reactor_not_found=Nepodařilo se zpřístupnit fůzní reaktor - struktura není dokončena
+
+gui.nc.container.heat_exchanger_controller.heat_exchanger=Tepelný výměník (NEKOMPLETNÍ)
+gui.nc.container.heat_exchanger_controller.tubes=Počet trubic:
+gui.nc.container.heat_exchanger_controller.efficiency=Průměrná účinnost:
+gui.nc.container.heat_exchanger_controller.efficiency_max=Maximální průměrná účinnost:
+gui.nc.container.heat_exchanger_controller.active_percent=Aktivní trubky:
+
+gui.nc.container.turbine_controller.turbine=Turbína
+gui.nc.container.turbine_controller.power=Výstup energie:
+gui.nc.container.turbine_controller.dynamo_efficiency=Účinnost dynama:
+gui.nc.container.turbine_controller.dynamo_coil_count=Počet cívek:
+gui.nc.container.turbine_controller.expansion_level=Rozšíření:
+gui.nc.container.turbine_controller.rotor_efficiency=Účinnost rotoru:
+gui.nc.container.turbine_controller.fluid_rate=Vstup:
+gui.nc.container.turbine_controller.power_bonus=Bonusová rychlost síly:
+
+gui.nc.container.energy_stored=Uložená energie:
+gui.nc.container.process_power=Energie pro proces:
+gui.nc.container.power_gen=Výroba energie:
+gui.nc.container.speed_multiplier=Násobič rychlosti:
+gui.nc.container.power_multiplier=Násobič napájení:
+gui.nc.container.no_energy=Nevyžaduje energii!
+gui.nc.container.shift_clear_tank=Shift + Kliknutí pro vymazání nádrže
+gui.nc.container.shift_clear_filter=Shift + Kliknutí pro vymazání filtru
+gui.nc.container.change_tanks_mode=Zabránit přetečení vstupu
+gui.nc.container.void_leftover_fluid=Odstranit zbytkovou tekutinu
+gui.nc.container.void_outputs=Odstranit přetečení výstupu
+gui.nc.container.comparator_mode=Porovnávač účinnosti/tepla
+
+gui.nc.container.machine_side_config=Nastavení stran
+gui.nc.container.redstone_control=Ruditové ovládání
+gui.nc.container.input_item_config=Nastavení vstupního pole
+gui.nc.container.input_tank_config=Nastavení vstupní nádrže
+gui.nc.container.output_item_config=Nastavení výstupního pole
+gui.nc.container.output_tank_config=Nastavení výstupní nádrže
+gui.nc.container.upgrade_config=Nastavení políčka vylepšení
+
+gui.nc.container.slot_setting_config=Nastavení políčka
+gui.nc.container.tank_setting_config=Nastavení nádrže
+gui.nc.container.default_setting_config=VYCHOZÍ
+gui.nc.container.void_excess_setting_config=ODSTRANIT ZBYTEK
+gui.nc.container.void_setting_config=ODSTRANIT VŠE
+
+item.nuclearcraft.radiation_badge.name=Radiační odznak
+item.nuclearcraft.radiation_badge.desc=Při nošení informuje hráče o jeho ozáření za každý počet radiace %s až po %s.
+item.nuclearcraft.radiation_badge.exposure=Tvůj radiační oznak byl vystaven
+item.nuclearcraft.radiation_badge.broken=Tvůj radiační oznak se rozpadnul...
+
+item.nuclearcraft.radaway.name=Odstraňovač radiace
+item.nuclearcraft.radaway.desc=Odstraní %s [%s] v rychlosti %s.
+item.nuclearcraft.radaway_slow.name=Pomalý odstraňovač radiace
+item.nuclearcraft.radaway_slow.desc=Odstraňuje %s [%s] v rychlosti %s.
+item.nuclearcraft.rad_x.name=Ničitel radiace
+item.nuclearcraft.rad_x.desc=Zvyšuje odolnost proti radiaci o %s na %s. Efekt může být stackován, ale vyšší vrstvy efektu dozní rychleji.
+
+item.nuclearcraft.portable_ender_chest.name=Přenosná endová truhla
+item.nuclearcraft.portable_ender_chest.desc=Zpřístupni svou endovou truhlu na cestách.
+
+item.nuclearcraft.dominos.name=Speciál z Domino's
+item.nuclearcraft.dominos.desc=Paulovo oblíbené jídlo - obnov 16 bodů hladu s touto krásou.
+
+item.nuclearcraft.flour.name=Mouka
+item.nuclearcraft.graham_cracker.name=Grahamové crackery
+
+item.nuclearcraft.roasted_cocoa_beans.name=Pražené kakaové boby
+item.nuclearcraft.ground_cocoa_nibs.name=Mleté kakaové kousky
+item.nuclearcraft.cocoa_butter.name=Ztvrdlé kakaové máslo
+item.nuclearcraft.cocoa_solids.name=Pevné kakao
+item.nuclearcraft.unsweetened_chocolate.name=Neslazená čokoláda
+item.nuclearcraft.dark_chocolate.name=Tmavá čokoláda
+item.nuclearcraft.milk_chocolate.name=Mléčná čokoláda
+
+item.nuclearcraft.gelatin.name=Želatina
+item.nuclearcraft.marshmallow.name=Žužu
+item.nuclearcraft.marshmallow.desc=Plno civilizací by nezaniklo s těmito bonbony na jejich straně.
+
+item.nuclearcraft.smore.name=Žužu ingot
+item.nuclearcraft.moresmore.name=Dvojitý žužu ingot
+item.nuclearcraft.foursmore.name=Čtyřnásobný žužu ingot
+
+item.nuclearcraft.record_wanderer.name=Gramofonová deska
+item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
+item.nuclearcraft.record_wanderer.des1=8-Bitový Cover od '8 Bit Universe'
+item.nuclearcraft.record_end_of_the_world.name=Gramofonová deska
+item.nuclearcraft.record_end_of_the_world.des0=Skeeter Davis - The End of the World
+item.nuclearcraft.record_end_of_the_world.des1=8-Bit Cover by 'GermanPikachuGaming'
+item.nuclearcraft.record_money_for_nothing.name=Gramofonová deska
+item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
+item.nuclearcraft.record_money_for_nothing.des1=8-Bit Cover by 'Omnigrad'
+item.nuclearcraft.record_hyperspace.name=Gramofonová deska
+item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
+item.nuclearcraft.record_hyperspace.des1=By Riku Nuottajärvi
+
+entity.nuclearcraft.feral_ghoul.name=Divoký ghúl
+
+jei.nuclearcraft.chance_output=Výstup: %s-%s [Průměrný: %s]
+
+jei.nuclearcraft.base_process_time=Základní čas zpracování:
+jei.nuclearcraft.base_process_power=Základní energie procesu:
+jei.nuclearcraft.base_process_radiation=Základní ozáření z procesu:
+
+jei.nuclearcraft.collector_production_rate=Rychlost výroby:
+
+jei.nuclearcraft.irradiator_flux_required=Celkový vyžadovaný flux:
+jei.nuclearcraft.irradiator_heat_per_flux=Generace tepla na flux:
+jei.nuclearcraft.irradiator_process_efficiency=Kontribuce účinnosti:
+jei.nuclearcraft.irradiator_valid_flux_minimum=Minimální platný flux:
+jei.nuclearcraft.irradiator_valid_flux_maximum=Maximální platný flux:
+jei.nuclearcraft.irradiator_valid_flux_range=Platný rozsah fluxu:
+jei.nuclearcraft.radiation_per_flux=Radiace na flux:
+
+jei.nuclearcraft.pebble_fuel_time=Základní čas do ochuzení:
+jei.nuclearcraft.pebble_fuel_heat=Základní generace tepla:
+jei.nuclearcraft.pebble_fuel_efficiency=Základní účinnost:
+jei.nuclearcraft.pebble_fuel_criticality=Faktor kritikality:
+jei.nuclearcraft.pebble_fuel_decay_factor=Faktor rozpadu:
+jei.nuclearcraft.pebble_fuel_radiation=Základní ozáření z ochuzení:
+jei.nuclearcraft.pebble_fuel_self_priming=Sebe-aktivující!
+
+jei.nuclearcraft.solid_fuel_time=Základní čas do ochuzení:
+jei.nuclearcraft.solid_fuel_heat=Základní generace tepla:
+jei.nuclearcraft.solid_fuel_efficiency=Základní účinnost:
+jei.nuclearcraft.solid_fuel_criticality=Faktor kritikality:
+jei.nuclearcraft.solid_fuel_decay_factor=Faktor rozpadu:
+jei.nuclearcraft.solid_fuel_radiation=Základní ozáření z ochuzení:
+jei.nuclearcraft.solid_fuel_self_priming=Sebe-aktivující!
+
+jei.nuclearcraft.fission_heating_heat_per_mb=Teplo na mB:
+
+jei.nuclearcraft.salt_fuel_time=Základní čas do ochuzení:
+jei.nuclearcraft.salt_fuel_heat=ZÁkladní generace tepla:
+jei.nuclearcraft.salt_fuel_efficiency=Základní účinnost:
+jei.nuclearcraft.salt_fuel_criticality=Faktor kritikality:
+jei.nuclearcraft.salt_fuel_decay_factor=Faktor rozpadu:
+jei.nuclearcraft.salt_fuel_radiation=Základní ozáření z ochuzení:
+jei.nuclearcraft.salt_fuel_self_priming=Sebe-aktivující!
+
+jei.nuclearcraft.fission_emergency_cooling_per_mb=Chlazení na mB:
+
+jei.nuclearcraft.fusion_time=Základní životnost:
+jei.nuclearcraft.fusion_heat=Základní generace tepla:
+jei.nuclearcraft.fusion_temp=Optimální teplota (NEDOKONČENO: mimo faktor R):
+
+jei.nuclearcraft.decay_gen_lifetime=Průměrná životnost:
+jei.nuclearcraft.decay_gen_power=Výroba energie:
+jei.nuclearcraft.decay_gen_radiation=Výroba z rozpadu:
+
+jei.nuclearcraft.salt_fuel_time=Čas ochuzení:
+jei.nuclearcraft.salt_fuel_heat=Základní výroba tepla:
+
+jei.nuclearcraft.coolant_heater_rate=Rychlost chlazení:
+
+jei.nuclearcraft.exchanger_fluid_temp=Teplota:
+jei.nuclearcraft.exchanger_heating_provided=Heating provided:
+jei.nuclearcraft.exchanger_cooling_provided=Cooling provided:
+jei.nuclearcraft.exchanger_heating_required=Vyžadované teplo:
+jei.nuclearcraft.exchanger_cooling_required=Vyžadované chlazení:
+
+jei.nuclearcraft.condenser_condensing_temp=Teplota kondenzace:
+jei.nuclearcraft.condenser_heat_removal_req=Vyžadováno odstranění tepla:
+
+jei.nuclearcraft.turbine_energy_density=Základní hustota energie:
+jei.nuclearcraft.turbine_expansion=Expanze kapaliny:
+jei.nuclearcraft.turbine_spin_up_multiplier=Násobitel roztočení:
+
+jei.nuclearcraft.scrubber_process_time=Životnost škrabání:
+jei.nuclearcraft.scrubber_process_power=Vyžadovaná energie:
+jei.nuclearcraft.scrubber_process_efficiency=Násobitel účinnosti:
+
+itemGroup.nuclearcraft.main=NuclearCraft
+itemGroup.nuclearcraft.material=NuclearCraft Materiály
+itemGroup.nuclearcraft.radiation=NuclearCraft Radiace
+itemGroup.nuclearcraft.machine=NuclearCraft Stroje
+itemGroup.nuclearcraft.multiblock=NuclearCraft Multibloky
+itemGroup.nuclearcraft.misc=NuclearCraft Různé
+
+gui.nc.config.main_title=NuclearCraft Konfigurace
+
+gui.nc.config.category.world_gen=Konfigurace generace světa
+gui.nc.config.category.world_gen.tooltip=Uprav generaci světa.
+
+tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=Hořčíková cívka turbínového dynama
+tile.nuclearcraft.turbine_dynamo_coil.beryllium.name=Berylliová cívka turbínového dynama
+tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=Hliníková cívka turbínového dynama
+tile.nuclearcraft.turbine_dynamo_coil.gold.name=Zlatá cívka turbínového dynama
+tile.nuclearcraft.turbine_dynamo_coil.copper.name=Měděná cívka turbínového dynama
+tile.nuclearcraft.turbine_dynamo_coil.silver.name=Stříbrná cívka turbínového dynama
+tile.nuclearcraft.turbine_dynamo_coil.conductivity=Násobič vodivosti:
+tile.nuclearcraft.turbine_coil_connector.name=Spojovač turbínové dynamové cívky
+tile.nuclearcraft.turbine_inlet.name=Kapalinový otvor (dovnitř)
+tile.nuclearcraft.turbine_outlet.name=Kapalinový otvor (ven)
+tile.nuclearcraft.turbine_computer_port.name=Turbínový počítačový přesuvník
+tile.nuclearcraft.turbine_computer_port.desc=Použit pro otevření turbíny přes OpenComputers.
+
+tile.nuclearcraft.cobblestone_generator.name=Generátor kamení
+tile.nuclearcraft.cobblestone_generator_compact.name=Kompaktní generátor kamení
+tile.nuclearcraft.cobblestone_generator_dense.name=Hrubý generátor kamení
+tile.nuclearcraft.cobblestone_generator_req_power=Vyrábí nepřetržitě %s, je li napájen %s.
+tile.nuclearcraft.cobblestone_generator_no_req_power=Vyrábí %s nepřetržitě.
+nuclearcraft.cobblestone=kamení
+
+tile.nuclearcraft.water_source.name=Nekonečný zdroj vody
+tile.nuclearcraft.water_source_compact.name=Kompaktní nekonečný zdroj vody
+tile.nuclearcraft.water_source_dense.name=Těžký nekonečný zdroj vody
+tile.nuclearcraft.water_source.desc=Vyrábí %s vody nepřetržitě.
+
+tile.nuclearcraft.nitrogen_collector.name=Sběrač dusíku
+tile.nuclearcraft.nitrogen_collector_compact.name=Kompaktní sběrač dusíku
+tile.nuclearcraft.nitrogen_collector_dense.name=Těžky sběrač dusíku
+tile.nuclearcraft.nitrogen_collector.desc=Vyrábí nepřetržitě %s dusíku.
+
+tile.nuclearcraft.radiation_scrubber.name=Seškrabovač radiace
+tile.nuclearcraft.radiation_scrubber.desc=Snižuje radiaci v chunku, ve kterém je položen. Jeho účinnost záleží na volném místě kolem něho, při čem odstraňuje %s radiace v jeho chunku v účinnosti %s. Sběr radiace ze seškrabovačů radiace se stackuje lineárně. Účinnost a vyžadované napájení záleží na čistícím prostředku proti radiaci.
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=Snižuje radiaci v chunku, ve kterém je položen. Jeho účinnost záleží na volném místě kolem něho. Samotný odstraní maximálně %s radiace v chunku v účinnosti %s, ale sběr radiace ze seškrabovačů se stackuje nelineárně. Úroveň radiace nejdříve klesá pomalu lineárně, ale potom dvojnásobně a exponenciálně v limitu seškrabovačů. Účinnost a vyžadovaná energie záleží na čistícím prostředku proti radiaci.
+nuclearcraft.one_hundred_percent=100%
+
+tile.nuclearcraft.geiger_block.name=Blok Geigerova čítače
+tile.nuclearcraft.geiger_block.desc=Ukazuje radiaci chunku, ve kterém je položen.
+
+tile.nuclearcraft.glowing_mushroom.name=Svíticí houba
+tile.nuclearcraft.glowing_mushroom_block.name=Blok sviticí houby
+tile.nuclearcraft.wasteland_earth.name=Pustinná zemina
+
+tile.nuclearcraft.wasteland_portal.name=Portál do pustin
+
+tile.nuclearcraft.tritium_lamp.name=Tritiová lampa
+tile.nuclearcraft.tritium_lantern.name=Tritiová lucerna
+
+tile.nuclearcraft.solidified_corium.name=Ztuhlé korium
+tile.nuclearcraft.solidified_corium.desc=Ztuhlá forma jedovaté směsi paliva a součástek vytvořená při roztavení reaktoru.
+
+tile.nuclearcraft.quantum_computer_controller.name=Ovladač kvantového počítače
+tile.nuclearcraft.quantum_computer_qubit.name=Kvantový bit kvantového počítače
+
+tile.nuclearcraft.quantum_computer_gate_single.x.name=Kvantová počítačová Pauli-X brána
+tile.nuclearcraft.quantum_computer_gate_single.x.desc=Otočí zameřené kvantové bity o 180 stupňů na X-ose Blochovy koule.
+tile.nuclearcraft.quantum_computer_gate_single.y.name=Kvantová počítačová Pauli-Y brána
+tile.nuclearcraft.quantum_computer_gate_single.y.desc=Otočí zameřené kvantové bity o 180 stupňů na Y-ose Blochovy koule.
+tile.nuclearcraft.quantum_computer_gate_single.z.name=Kvantová počítačová Pauli-Z brána
+tile.nuclearcraft.quantum_computer_gate_single.z.desc=Otočí zameřené kvantové bity o 180 stupňů na Z-ose Blochovy koule.
+tile.nuclearcraft.quantum_computer_gate_single.h.name=Kvantová počítačová Hadamardova brána
+tile.nuclearcraft.quantum_computer_gate_single.h.desc=Aplikuje Hadamardovu přeměnu na cílené kvantové bity.
+tile.nuclearcraft.quantum_computer_gate_single.s.name=Kvantová počítačová S brána
+tile.nuclearcraft.quantum_computer_gate_single.s.desc=Posune fázi pravdivých součástí s cílenými kvantovými bity o hodnotu 90 stupňů.
+tile.nuclearcraft.quantum_computer_gate_single.sdg.name=Kvantová počítačová obrácená-S brána
+tile.nuclearcraft.quantum_computer_gate_single.sdg.desc=Posune fázi pravdivých součástí s cílenými kvantovými bity o hodnotu 270 stupňů.
+tile.nuclearcraft.quantum_computer_gate_single.t.name=Kvantová počítačová-T brána
+tile.nuclearcraft.quantum_computer_gate_single.t.desc=Posune fázi pravdivých součástí s cílenými kvantovými bity o hodnotu 45 stupňů.
+tile.nuclearcraft.quantum_computer_gate_single.tdg.name=Kvantová počítačová obrácená-T brána
+tile.nuclearcraft.quantum_computer_gate_single.tdg.desc=Posune fázi pravdivých součástí s cílenými kvantovými bity o hodnotu 315 stupňů.
+tile.nuclearcraft.quantum_computer_gate_single.p.name=Kvantová počítačová fázová brána
+tile.nuclearcraft.quantum_computer_gate_single.p.desc=Posune fázi pravdivých součástí s cílenými kvantovými bity na vybraný úhel.
+tile.nuclearcraft.quantum_computer_gate_single.rx.name=Kvantová počítačová brána X-otočení
+tile.nuclearcraft.quantum_computer_gate_single.rx.desc=Otočí cílené kvantové bity o prostorovou osu X.
+tile.nuclearcraft.quantum_computer_gate_single.ry.name=Kvantová počítačová brána Y-otočení
+tile.nuclearcraft.quantum_computer_gate_single.ry.desc=Otočí cílené kvantové bity o prostorovou osu Y.
+tile.nuclearcraft.quantum_computer_gate_single.rz.name=Kvantová počítačová brána Z-otočení
+tile.nuclearcraft.quantum_computer_gate_single.rz.desc=Otočí cílené kvantové bity o prostorovou osu Z.
+
+tile.nuclearcraft.quantum_computer_gate_control.cx.name=Ovládaná kvantová počítačová Pauli-X brána
+tile.nuclearcraft.quantum_computer_gate_control.cx.desc=Otočí zameřené ovládané kvantové bity o 180 stupňů na X-ose Blochovy koule.
+tile.nuclearcraft.quantum_computer_gate_control.cy.name=Ovládaná kvantová počítačová Pauli-Y brána
+tile.nuclearcraft.quantum_computer_gate_control.cy.desc=Otočí zameřené ovládané kvantové bity o 180 stupňů na Y-ose Blochovy koule.
+tile.nuclearcraft.quantum_computer_gate_control.cz.name=Ovládaná kvantová počítačová Pauli-Z brána
+tile.nuclearcraft.quantum_computer_gate_control.cz.desc=Otočí zameřené ovládané kvantové bity o 180 stupňů na Z-ose Blochovy koule.
+tile.nuclearcraft.quantum_computer_gate_control.ch.name=Ovládaná kvantová počítačová Hadamardova brána
+tile.nuclearcraft.quantum_computer_gate_control.ch.desc=Aplikuje ovládanou Hadamardovu přeměnu na cílené kvantové bity.
+tile.nuclearcraft.quantum_computer_gate_control.cs.name=Ovládaná kvantová počítačová S brána
+tile.nuclearcraft.quantum_computer_gate_control.cs.desc=Posune fázi ovládaných pravdivých součástí s cílenými kvantovými bity o hodnotu 90 stupňů.
+tile.nuclearcraft.quantum_computer_gate_control.csdg.name=Ovládaná kvantová počítačová obrácená-S brána
+tile.nuclearcraft.quantum_computer_gate_control.csdg.desc=Posune fázi ovládaných pravdivých součástí s cílenými kvantovými bity o hodnotu 270 stupňů.
+tile.nuclearcraft.quantum_computer_gate_control.ct.name=Ovládaná kvantová počítačová T brána
+tile.nuclearcraft.quantum_computer_gate_control.ct.desc=Posune fázi ovládaných pravdivých součástí s cílenými kvantovými bity o hodnotu 45 stupňů.
+tile.nuclearcraft.quantum_computer_gate_control.ctdg.name=Ovládaná kvantová počítačová obrácená-T brána
+tile.nuclearcraft.quantum_computer_gate_control.ctdg.desc=Posune fázi ovládaných pravdivých součástí s cílenými kvantovými bity o hodnotu 315 stupňů.
+tile.nuclearcraft.quantum_computer_gate_control.cp.name=Ovládaná kvantová počítačová fázová brána
+tile.nuclearcraft.quantum_computer_gate_control.cp.desc=Posune fázi ovládaných pravdivých součástí s cílenými kvantovými bity na vybraný úhel.
+tile.nuclearcraft.quantum_computer_gate_control.crx.name=Ovládaná kvantová počítačová brána X-otočení
+tile.nuclearcraft.quantum_computer_gate_control.crx.desc=Otočí cílené kvantové bity o prostorovou osu X.
+tile.nuclearcraft.quantum_computer_gate_control.cry.name=Ovládaná kvantová počítačová brána Y-otočení
+tile.nuclearcraft.quantum_computer_gate_control.cry.desc=Otočí cílené kvantové bity o prostorovou osu Y.
+tile.nuclearcraft.quantum_computer_gate_control.crz.name=Ovládaná kvantová počítačová brána Z-otočení
+tile.nuclearcraft.quantum_computer_gate_control.crz.desc=Otočí cílené kvantové bity o prostorovou osu Z.
+tile.nuclearcraft.quantum_computer_gate_swap.swap.name=Kvantová počítačová brána prohození
+tile.nuclearcraft.quantum_computer_gate_swap.swap.desc=Prohodí dva seznamy kvantových bitů.
+tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=Ovládaná kvantová počítačová brána prohození
+tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=Prohodí dva ovládané seznamy kvantových bitů.
+tile.nuclearcraft.quantum_computer_connector.name=Spojovač kvantového počítače
+
+tile.nuclearcraft.quantum_computer_code_generator.qasm.name=Generátor kódu QASM kvantového počítače
+tile.nuclearcraft.quantum_computer_code_generator.qasm.desc=Použit pro vygenerování QASM kódu pro IBM Q.
+tile.nuclearcraft.quantum_computer_code_generator.qiskit.name=Generátor kódu Qiskit kvantového počítače
+tile.nuclearcraft.quantum_computer_code_generator.qiskit.desc=Použit pro vygenerování Qiskit kódu pro IBM Q.
+
+tile.nuclearcraft.fluid_oxygen.name=Kyslík
+fluid.oxygen=Kyslík
+
+tile.nuclearcraft.fluid_hydrogen.name=Vodík
+fluid.hydrogen=Vodík
+
+tile.nuclearcraft.fluid_deuterium.name=Deutérium
+fluid.deuterium=Deutérium
+
+tile.nuclearcraft.fluid_tritium.name=Tritium
+fluid.tritium=Tritium
+
+tile.nuclearcraft.fluid_helium_3.name=Helium-3
+fluid.helium_3=Helium-3
+
+tile.nuclearcraft.fluid_helium.name=Helium
+fluid.helium=Helium
+
+tile.nuclearcraft.fluid_steam.name=Pára
+fluid.steam=Pára
+
+tile.nuclearcraft.fluid_high_pressure_steam.name=Vysokotlaká pára
+fluid.high_pressure_steam=Vysokotlaká pára
+
+tile.nuclearcraft.fluid_exhaust_steam.name=Výfuková pára
+fluid.exhaust_steam=Výfuková pára
+
+tile.nuclearcraft.fluid_low_pressure_steam.name=Nízkotlaká pára
+fluid.low_pressure_steam=Nízkotlaká pára
+
+tile.nuclearcraft.fluid_low_quality_steam.name=Nízkokvalitní pára
+fluid.low_quality_steam=Nízkokvalitní pára
+
+tile.nuclearcraft.fluid_preheated_water.name=Předehřátá voda
+fluid.preheated_water=Předehřátá voda
+
+tile.nuclearcraft.fluid_condensate_water.name=Kondenzovaná voda
+fluid.condensate_water=Kondenzovaná voda
+
+tile.nuclearcraft.fluid_liquid_helium.name=Kapalné helium
+fluid.liquid_helium=Kapalné helium
+
+tile.nuclearcraft.fluid_liquid_nitrogen.name=Kapalný dusík
+fluid.liquid_nitrogen=Kapalný dusík
+
+tile.nuclearcraft.fluid_heavy_water.name=Těžká voda
+fluid.heavy_water=Těžká voda
+
+tile.nuclearcraft.fluid_ender.name=Roztavený enderit
+fluid.ender=Roztavený enderit
+
+tile.nuclearcraft.fluid_lead_platinum.name=Roztavené olovo s platinou
+fluid.lead_platinum=Roztavené olovo s platinou
+
+tile.nuclearcraft.fluid_enderium.name=Roztavené enderium
+fluid.enderium=Roztavené enderium
+
+tile.nuclearcraft.fluid_cryotheum.name=Roztavené kryotheum
+fluid.cryotheum=Roztavené kryotheum
+
+tile.nuclearcraft.fluid_plasma.name=Plazma
+tile.nuclearcraft.fluid_plasma.desc=Vyrobena v aktivních fůzních reaktorech. Může způsobit výbuch a požár při kontaktu s vypnutým fůzním elektromagnetem.
+fluid.plasma=Plazma
+
+tile.nuclearcraft.fluid_lithium_6.name=Roztavené lithium-6
+fluid.lithium_6=Roztavené lithium-6
+
+tile.nuclearcraft.fluid_lithium_7.name=Roztavené lithium-7
+fluid.lithium_7=Roztavené lithium-7
+
+tile.nuclearcraft.fluid_boron_10.name=Roztavený bor-10
+fluid.boron_10=Roztavený bor-10
+
+tile.nuclearcraft.fluid_boron_11.name=Roztavený bor-11
+fluid.boron_11=Roztavený bor-11
+
+tile.nuclearcraft.fluid_steel.name=Roztavená ocel
+fluid.steel=Roztavená ocel
+
+tile.nuclearcraft.fluid_ferroboron.name=Roztavený železobor
+fluid.ferroboron=Roztavený železobor
+
+tile.nuclearcraft.fluid_tough.name=Roztavená tvrdá slitina
+fluid.tough=Roztavená tvrdá slitina
+
+tile.nuclearcraft.fluid_hard_carbon.name=Roztavený tvrdý uhlík
+fluid.hard_carbon=Roztavený tvrdý uhlík
+
+tile.nuclearcraft.fluid_coal.name=Zkapalněné uhlí
+fluid.coal=Zkapalněné uhlí
+
+tile.nuclearcraft.fluid_fluorine.name=Fluor
+fluid.fluorine=Fluor
+
+tile.nuclearcraft.fluid_nitrogen.name=Dusík
+fluid.nitrogen=Dusík
+
+tile.nuclearcraft.fluid_fluoromethane.name=Fluoromethan
+fluid.fluoromethane=Fluoromethan
+
+tile.nuclearcraft.fluid_ammonia.name=Amoniak
+fluid.ammonia=Amoniak
+
+tile.nuclearcraft.fluid_ethanol.name=Ethanol
+fluid.ethanol=Ethanol
+
+tile.nuclearcraft.fluid_ethene.name=Ethen
+fluid.ethene=Ethen
+
+tile.nuclearcraft.fluid_methanol.name=Methanol
+fluid.methanol=Methanol
+
+tile.nuclearcraft.fluid_boric_acid.name=Kyselina boritá
+fluid.boric_acid=Kyselina boritá
+
+tile.nuclearcraft.fluid_diborane.name=Diboran
+fluid.diborane=Diboran
+
+tile.nuclearcraft.fluid_radaway.name=Protiradiační kapalina
+fluid.radaway=Protiradiační kapalina
+
+tile.nuclearcraft.fluid_radaway_slow.name=Pomalu-pracující protiradiační kapalina
+fluid.radaway_slow=Pomalu pracující protiradiační kapalina
+
+tile.nuclearcraft.fluid_redstone_ethanol.name=Ruditem napuštěný ethanol
+fluid.redstone_ethanol=Ruditem napuštěný ethanol
+
+tile.nuclearcraft.fluid_beryllium.name=Roztavené beryllium
+fluid.beryllium=Roztavené berylium
+
+tile.nuclearcraft.fluid_lif.name=Roztavený fluorid lithný
+fluid.lif=Roztavený fluorid lithný
+
+tile.nuclearcraft.fluid_bef2.name=Roztavený fluorid beryllnatý
+fluid.bef2=Roztavený fluorid berylnatý
+
+tile.nuclearcraft.fluid_flibe.name=Roztavená směs FLiBe soli
+fluid.flibe=Roztavená směs FLiBe soli
+
+tile.nuclearcraft.fluid_boron_nitride_solution.name=Roztok nitridu boritého
+fluid.boron_nitride_solution=Roztok nitridu boritého
+
+tile.nuclearcraft.fluid_sulfur.name=Roztavená síra
+fluid.sulfur=Roztavená síra
+
+tile.nuclearcraft.fluid_sulfur_dioxide.name=Oxid siřičitý
+fluid.sulfur_dioxide=Oxid siřičitý
+
+tile.nuclearcraft.fluid_sulfur_trioxide.name=Oxid sírový
+fluid.sulfur_trioxide=Oxid sírový
+
+tile.nuclearcraft.fluid_sulfuric_acid.name=Kyselina sírová
+fluid.sulfuric_acid=Kyselina sírová
+
+tile.nuclearcraft.fluid_fluorite_water.name=Fluoritová voda
+fluid.fluorite_water=Fluoritová voda
+
+tile.nuclearcraft.fluid_calcium_sulfate_solution.name=Roztok síranu vápenatého
+fluid.calcium_sulfate_solution=Roztok síranu vápenatého
+
+tile.nuclearcraft.fluid_hydrofluoric_acid.name=Kyselina fluorovodíková
+fluid.hydrofluoric_acid=Kyselina fluorovodíková
+
+tile.nuclearcraft.fluid_oxygen_difluoride.name=Difluorid kyslíku
+fluid.oxygen_difluoride=Difluorid kyslíku
+
+tile.nuclearcraft.fluid_corium.name=Korium
+tile.nuclearcraft.fluid_corium.desc=Jedovatá tavená směs paliva a součástí vytvořená při roztavení štěpných reaktorů.
+fluid.corium=Korium
+
+tile.nuclearcraft.fluid_ice.name=Drcený led
+fluid.ice=Drcený led
+
+tile.nuclearcraft.fluid_slurry_ice.name=Špinavý led
+fluid.slurry_ice=Špinavý led
+
+tile.nuclearcraft.fluid_chocolate_liquor.name=Čokoládový likér
+fluid.chocolate_liquor=Čokoládový likér
+
+tile.nuclearcraft.fluid_cocoa_butter.name=Kakaové máslo
+fluid.cocoa_butter=Kakaové máslo
+
+tile.nuclearcraft.fluid_unsweetened_chocolate.name=Roztavená neslazená čokoláda
+fluid.unsweetened_chocolate=Roztavená neslazená čokoláda
+
+tile.nuclearcraft.fluid_dark_chocolate.name=Roztavená tmavá čokoláda
+fluid.dark_chocolate=Roztavená tmavá čokoláda
+
+tile.nuclearcraft.fluid_milk_chocolate.name=Roztavená mléčná čokoláda
+fluid.milk_chocolate=Roztavená mléčná čokoláda
+
+tile.nuclearcraft.fluid_sugar.name=Roztavený cukr
+fluid.sugar=Roztavený cukr
+
+tile.nuclearcraft.fluid_gelatin.name=Roztavená želatina
+fluid.gelatin=Roztavená želatina
+
+tile.nuclearcraft.fluid_hydrated_gelatin.name=Hydratovaná želatina
+fluid.hydrated_gelatin=Hydratovaná želatina
+
+tile.nuclearcraft.fluid_milk.name=Mléko
+fluid.milk=Mléko
+
+tile.nuclearcraft.fluid_marshmallow.name=Tekuté žužu
+fluid.marshmallow=Tekuté žužu
+
+tile.nuclearcraft.fluid_carbon_dioxide.name=Oxid uhličitý
+fluid.carbon_dioxide=Oxid uhličitý
+
+tile.nuclearcraft.fluid_carbon_monoxide.name=Oxid uhelnatý
+fluid.carbon_monoxide=Oxid uhelnatý
+
+tile.nuclearcraft.fluid_sodium.name=Roztavený sodík
+fluid.sodium=Roztavený sodík
+
+tile.nuclearcraft.fluid_potassium.name=Roztavený draslík
+fluid.potassium=Roztavený draslík
+
+tile.nuclearcraft.fluid_nak.name=Eutektická slitina NaK
+fluid.nak=Eutektická slitina NaK
+
+tile.nuclearcraft.fluid_nak_hot.name=Žhavá eutektická slitina NaK
+fluid.nak_hot=Žhavá utektická slitina NaK
+
+tile.nuclearcraft.fluid_emergency_coolant.name=Nouzové chladivo
+tile.nuclearcraft.fluid_emergency_coolant.desc=Použito při odstranění přebytečného tepla z krytu reaktoru.
+fluid.emergency_coolant=Nouzové chladivo
+
+tile.nuclearcraft.fluid_emergency_coolant_heated.name=Zahřáté nouzové chladivo
+fluid.emergency_coolant_heated=Zahřáté nouzové chladivo
+
+tile.nuclearcraft.fluid_sodium_fluoride_solution.name=Roztok fluoridu sodného
+fluid.sodium_fluoride_solution=Roztok fluoridu sodného
+
+tile.nuclearcraft.fluid_potassium_fluoride_solution.name=Roztok fluoridu draselného
+fluid.potassium_fluoride_solution=Roztok fluoridu draselného
+
+tile.nuclearcraft.fluid_sodium_hydroxide_solution.name=Roztok hydroxidu sodného
+fluid.sodium_hydroxide_solution=Roztok hydroxidu sodného
+
+tile.nuclearcraft.fluid_potassium_hydroxide_solution.name=Roztok hydroxidu draselného
+fluid.potassium_hydroxide_solution=Roztok hydroxidu draselného
+
+tile.nuclearcraft.fluid_borax_solution.name=Roztok boraxu
+fluid.borax_solution=Roztok boraxu
+
+tile.nuclearcraft.fluid_irradiated_borax_solution.name=Ozářený roztok boraxu
+fluid.irradiated_borax_solution=Ozářený roztok boraxu
+
+tile.nuclearcraft.fluid_naoh.name=Roztavený hydroxid sodný
+fluid.naoh=Roztavený hydroxid sodný
+
+tile.nuclearcraft.fluid_koh.name=Roztavený hydroxid draselný
+fluid.koh=Roztavený hydroxid draselný
+
+tile.nuclearcraft.fluid_arsenic.name=Sublimovaný arsen
+fluid.arsenic=Sublimovaný arsen
+
+tile.nuclearcraft.fluid_bas.name=Roztavený arsenid boritý
+fluid.bas=Roztavený arsenid boritý
+
+tile.nuclearcraft.fluid_sic_vapor.name=Výpar karbidu křemíku
+fluid.sic_vapor=Výpar karbidu křemíku
+
+tile.nuclearcraft.fluid_zirconium.name=Roztavené zirkonium
+fluid.zirconium=Roztavené zirkonium
+
+tile.nuclearcraft.fluid_manganese_dioxide.name=Roztavený oxid manganičitý
+fluid.manganese_dioxide=Roztavený oxid manganičitý
+
+tile.nuclearcraft.fluid_alugentum.name=Roztavené alugentum
+fluid.alugentum=Roztavené alugentum
+
+tile.nuclearcraft.fluid_alumina.name=Roztavený oxid hlinitý
+fluid.alumina=Roztavený oxid hlinitý
+
+tile.nuclearcraft.fluid_strontium_90.name=Roztavené stroncium-90
+fluid.strontium_90=Roztavené stroncium-90
+
+tile.nuclearcraft.fluid_molybdenum.name=Roztavený molybden
+fluid.molybdenum=Roztavený molybden
+
+tile.nuclearcraft.fluid_ruthenium_106.name=Roztavené ruthenium-106
+fluid.ruthenium_106=Roztavené ruthenium-106
+
+tile.nuclearcraft.fluid_caesium_137.name=Roztavené cesium-137
+fluid.caesium_137=Roztavené cesium-137
+
+tile.nuclearcraft.fluid_promethium_147.name=Roztavené promethium-147
+fluid.promethium_147=Roztavené promethium-147
+
+tile.nuclearcraft.fluid_europium_155.name=Roztavené europium-155
+fluid.europium_155=Roztavené europium-155
+
+tile.nuclearcraft.fluid_thorium.name=Roztavené thorium
+fluid.thorium=Roztavené thorium
+tile.nuclearcraft.fluid_uranium.name=Roztavený uran
+fluid.uranium=Roztavený uran
+
+tile.nuclearcraft.fluid_uranium_233.name=Roztavený uran-233
+fluid.uranium_233=Roztavený uran-233
+tile.nuclearcraft.fluid_uranium_233_za.name=Roztavená slitina uranu-233 a zirkonia
+fluid.uranium_233_za=Roztavená slitina uranu-233 a zirkonia
+tile.nuclearcraft.fluid_uranium_235.name=Roztavený uran-235
+fluid.uranium_235=Roztavený uran-235
+tile.nuclearcraft.fluid_uranium_235_za.name=Roztavená slitina uranu-235 a zirkonia
+fluid.uranium_235_za=Roztavená slitina uranu-235 a zirkonia
+tile.nuclearcraft.fluid_uranium_238.name=Roztavený uran-238
+fluid.uranium_238=Roztavený uran-238
+tile.nuclearcraft.fluid_uranium_238_za.name=Roztavená slitina uranu-238 a zirkonia
+fluid.uranium_238_za=Roztavená slitina uranu-238 a zirkonia
+
+tile.nuclearcraft.fluid_neptunium_236.name=Roztavené neptunium-236
+fluid.neptunium_236=Roztavené neptunium-236
+tile.nuclearcraft.fluid_neptunium_236_za.name=Roztavená slitina neptunia-236 a zirkonia
+fluid.neptunium_236_za=Roztavená slitina neptunia-236 a zirkonia
+tile.nuclearcraft.fluid_neptunium_237.name=Roztavené neptunium-237
+fluid.neptunium_237=Roztavené neptunium-237
+tile.nuclearcraft.fluid_neptunium_237_za.name=Roztavená slitina neptunia-237 a zirkonia
+fluid.neptunium_237_za=Roztavená slitina neptunia-237 a zirkonia
+
+tile.nuclearcraft.fluid_plutonium_238.name=Roztavené plutonium-238
+fluid.plutonium_238=Roztavené plutonium-238
+tile.nuclearcraft.fluid_plutonium_238_za.name=Roztavená slitina plutonia-238 a zirkonia
+fluid.plutonium_238_za=Roztavená slitina plutonia-238 a ziroknia
+tile.nuclearcraft.fluid_plutonium_239.name=Roztavené plutonium-239
+fluid.plutonium_239=Roztavené plutonium-239
+tile.nuclearcraft.fluid_plutonium_239_za.name=Roztavená slitina plutonia-239 a zirkonia
+fluid.plutonium_239_za=Roztavená slitina plutonia-239 a ziroknia
+tile.nuclearcraft.fluid_plutonium_241.name=Roztavené plutonium-241
+fluid.plutonium_241=Roztavené plutonium-241
+tile.nuclearcraft.fluid_plutonium_241_za.name=Roztavená slitina plutonia-241 a zirkonia
+fluid.plutonium_241_za=Roztavená slitina plutonia-241 a ziroknia
+tile.nuclearcraft.fluid_plutonium_242.name=Roztavené plutonium-242
+fluid.plutonium_242=Roztavené plutonium-242
+tile.nuclearcraft.fluid_plutonium_242_za.name=Roztavená slitina plutonia-242 a zirkonia
+fluid.plutonium_242_za=Roztavená slitina plutonia-242 a ziroknia
+
+tile.nuclearcraft.fluid_americium_241.name=Roztavené americium-241
+fluid.americium_241=Roztavené americium-241
+tile.nuclearcraft.fluid_americium_241_za.name=Roztavená slitina americia-241 a zirkonia
+fluid.americium_241_za=Roztavená slitina americia-241 a zirkonia
+tile.nuclearcraft.fluid_americium_242.name=Roztavené americium-242
+fluid.americium_242=Roztavené americium-242
+tile.nuclearcraft.fluid_americium_242_za.name=Roztavená slitina americia-242 a zirkonia
+fluid.americium_242_za=Roztavená slitina americia-242 a zirkonia
+tile.nuclearcraft.fluid_americium_243.name=Roztavené americium-243
+fluid.americium_243=Roztavené americium-243
+tile.nuclearcraft.fluid_americium_243_za.name=Roztavená slitina americia-243 a zirkonia
+fluid.americium_243_za=Roztavená slitina americia-243 a zirkonia
+
+tile.nuclearcraft.fluid_curium_243.name=Roztavené curium-243
+fluid.curium_243=Roztavené curium-243
+tile.nuclearcraft.fluid_curium_243_za.name=Roztavená slitina curia-243 a zirkonia
+fluid.curium_243_za=Roztavená slitina curia-243 a zirkonia
+tile.nuclearcraft.fluid_curium_245.name=Roztavené curium-245
+fluid.curium_245=Roztavené curium-245
+tile.nuclearcraft.fluid_curium_245_za.name=Roztavená slitina curia-245 a zirkonia
+fluid.curium_245_za=Roztavená slitina curia-245 a zirkonia
+tile.nuclearcraft.fluid_curium_246.name=Roztavené curium-246
+fluid.curium_246=Roztavené curium-246
+tile.nuclearcraft.fluid_curium_246_za.name=Roztavená slitina curia-246 a zirkonia
+fluid.curium_246_za=Roztavená slitina curia-246 a zirkonia
+tile.nuclearcraft.fluid_curium_247.name=Roztavené curium-247
+fluid.curium_247=Roztavené curium-247
+tile.nuclearcraft.fluid_curium_247_za.name=Roztavená slitina curia-247 a zirkonia
+fluid.curium_247_za=Roztavená slitina curia-247 a zirkonia
+
+tile.nuclearcraft.fluid_berkelium_247.name=Roztavené berkelium-247
+fluid.berkelium_247=Roztavené berkelium-247
+tile.nuclearcraft.fluid_berkelium_247_za.name=Roztavená slitina berkelia-247 a zirkonia
+fluid.berkelium_247_za=Roztavená slitina berkelia-247 a zirkonia
+tile.nuclearcraft.fluid_berkelium_248.name=Roztavené berkelium-248
+fluid.berkelium_248=Roztavené berkelium-248
+tile.nuclearcraft.fluid_berkelium_248_za.name=Roztavená slitina berkelia-248 a zirkonia
+fluid.berkelium_248_za=Roztavená slitina berkelia-248 a zirkonia
+
+tile.nuclearcraft.fluid_californium_249.name=Roztavené kalifornium-249
+fluid.californium_249=Roztavené kalifornium-249
+tile.nuclearcraft.fluid_californium_249_za.name=Roztavená slitina kalifornia-249 a zirkonia
+fluid.californium_249_za=Roztavená slitina kalifornia-249 a zirkonia
+tile.nuclearcraft.fluid_californium_250.name=Roztavené kalifornium-250
+fluid.californium_250=Roztavené kalifornium-250
+tile.nuclearcraft.fluid_californium_250_za.name=Roztavená slitina kalifornia-250 a zirkonia
+fluid.californium_250_za=Roztavená slitina kalifornia-250 a zirkonia
+tile.nuclearcraft.fluid_californium_251.name=Roztavené kalifornium-251
+fluid.californium_251=Roztavené kalifornium-251
+tile.nuclearcraft.fluid_californium_251_za.name=Roztavená slitina kalifornia-251 a zirkonia
+fluid.californium_251_za=Roztavená slitina kalifornia-251 a zirkonia
+tile.nuclearcraft.fluid_californium_252.name=Roztavené kalifornium-252
+fluid.californium_252=Roztavené kalifornium-252
+tile.nuclearcraft.fluid_californium_252_za.name=Roztavená slitina kalifornia-252 a zirkonia
+fluid.californium_252_za=Roztavená slitina kalifornia-252 a zirkonia
+
+tile.nuclearcraft.fluid_tbu.name=Roztavené TBU
+fluid.tbu=Roztavené TBU
+tile.nuclearcraft.fluid_tbu_fluoride.name=Roztavený fluorid TBU
+fluid.tbu_fluoride=Roztavený fluorid TBU
+tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva TBU fluoridu
+fluid.tbu_fluoride_flibe=Roztavený roztok FLiBe soli a paliva TBU fluoridu
+tile.nuclearcraft.fluid_tbu_za.name=Roztavená slitina TBU a zirkonia
+fluid.tbu_za=Molten TBU-Zirconium Alloy
+
+tile.nuclearcraft.fluid_leu_233.name=Roztavené LEU-233
+fluid.leu_233=Roztavené LEU-233
+tile.nuclearcraft.fluid_leu_233_fluoride.name=Roztavený fluorid LEU-233
+fluid.leu_233_fluoride=Molten LEU-233 Fluoride
+tile.nuclearcraft.fluid_leu_233_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEU-233
+fluid.leu_233_fluoride_flibe=Molten Roztavený roztok FLiBe soli a paliva fluoridu LEU-233
+tile.nuclearcraft.fluid_leu_233_za.name=Roztavená slitina LEU-233 a zirkonia
+fluid.leu_233_za=Roztavená slitina LEU-233 a zirkonia
+
+tile.nuclearcraft.fluid_heu_233.name=Roztavené HEU-233
+fluid.heu_233=Roztavené HEU-233
+tile.nuclearcraft.fluid_heu_233_fluoride.name=Roztavený fluorid HEU-233
+fluid.heu_233_fluoride=Molten Roztavený fluorid HEU-233
+tile.nuclearcraft.fluid_heu_233_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEU-233
+fluid.heu_233_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEU-233
+tile.nuclearcraft.fluid_heu_233_za.name=Roztavená slitina HEU-233 a zirkonia
+fluid.heu_233_za=Roztavená slitina HEU-233 a zirkonia
+
+tile.nuclearcraft.fluid_leu_235.name=Roztavené LEU-235
+fluid.leu_235=Roztavené LEU-235
+tile.nuclearcraft.fluid_leu_235_fluoride.name=Roztavený fluorid LEU-235
+fluid.leu_235_fluoride=Roztavený fluorid LEU-235
+tile.nuclearcraft.fluid_leu_235_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEU-235
+fluid.leu_235_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LEU-235
+tile.nuclearcraft.fluid_leu_235_za.name=Roztavená slitina LEU-235 a zirkonia
+fluid.leu_235_za=Roztavená slitina LEU-235 a zirkonia
+
+tile.nuclearcraft.fluid_heu_235.name=Roztavené HEU-235
+fluid.heu_235=Roztavené HEU-235
+tile.nuclearcraft.fluid_heu_235_fluoride.name=Roztavený fluorid HEU-235
+fluid.heu_235_fluoride=Roztavený fluorid HEU-235
+tile.nuclearcraft.fluid_heu_235_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEU-235
+fluid.heu_235_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEU-235
+tile.nuclearcraft.fluid_heu_235_za.name=Roztavená slitina HEU-235 a zirkonia
+fluid.heu_235_za=Roztavená slitina HEU-235 a zirkonia
+
+tile.nuclearcraft.fluid_len_236.name=Roztavené LEN-236
+fluid.len_236=Roztavené LEN-236
+tile.nuclearcraft.fluid_len_236_fluoride.name=Roztavený fluorid LEN-236
+fluid.len_236_fluoride=Roztavený fluorid LEN-236
+tile.nuclearcraft.fluid_len_236_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEN-236
+fluid.len_236_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LEN-236
+tile.nuclearcraft.fluid_len_236_za.name=Roztavená slitina LEN-236 a zirkonia
+fluid.len_236_za=Roztavená slitina LEN-236 a zirkonia
+
+tile.nuclearcraft.fluid_hen_236.name=Roztavené HEN-236
+fluid.hen_236=Roztavené HEN-236
+tile.nuclearcraft.fluid_hen_236_fluoride.name=Roztavený fluorid HEN-236
+fluid.hen_236_fluoride=Roztavený fluorid HEN-236
+tile.nuclearcraft.fluid_hen_236_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEN-236
+fluid.hen_236_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEN-236
+tile.nuclearcraft.fluid_hen_236_za.name=Roztavená slitina HEN-236 a zirkonia
+fluid.hen_236_za=Roztavená slitina HEN-236 a zirkonia
+
+tile.nuclearcraft.fluid_lep_239.name=Roztavené LEP-239
+fluid.lep_239=Roztavené LEP-239
+tile.nuclearcraft.fluid_lep_239_fluoride.name=Roztavený fluorid LEP-239
+fluid.lep_239_fluoride=Roztavený fluorid LEP-239
+tile.nuclearcraft.fluid_lep_239_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEP-239
+fluid.lep_239_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LEP-239
+tile.nuclearcraft.fluid_lep_239_za.name=Roztavená slitina LEP-239 a zirkonia
+fluid.lep_239_za=Roztavená slitina LEP-239 a zirkonia
+
+tile.nuclearcraft.fluid_hep_239.name=Roztavené HEP-239
+fluid.hep_239=Roztavené HEP-239
+tile.nuclearcraft.fluid_hep_239_fluoride.name=Roztavený fluorid HEP-239
+fluid.hep_239_fluoride=Roztavený fluorid HEP-239
+tile.nuclearcraft.fluid_hep_239_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEP-239
+fluid.hep_239_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEP-239
+tile.nuclearcraft.fluid_hep_239_za.name=Roztavená slitina HEP-239 a zirkonia
+fluid.hep_239_za=Roztavená slitina HEP-239 a zirkonia
+
+tile.nuclearcraft.fluid_lep_241.name=Roztavené LEP-241
+fluid.lep_241=Roztavené LEP-241
+tile.nuclearcraft.fluid_lep_241_fluoride.name=Roztavený fluorid LEP-241
+fluid.lep_241_fluoride=Roztavený fluorid LEP-241
+tile.nuclearcraft.fluid_lep_241_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEP-241
+fluid.lep_241_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LEP-241
+tile.nuclearcraft.fluid_lep_241_za.name=Roztavená slitina LEP-241 a zirkonia
+fluid.lep_241_za=Roztavená slitina LEP-241 a zirkonia
+
+tile.nuclearcraft.fluid_hep_241.name=Roztavené HEP-241
+fluid.hep_241=Roztavené HEP-241
+tile.nuclearcraft.fluid_hep_241_fluoride.name=Roztavený fluorid HEP-241
+fluid.hep_241_fluoride=Roztavený fluorid HEP-241
+tile.nuclearcraft.fluid_hep_241_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEP-241
+fluid.hep_241_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEP-241
+tile.nuclearcraft.fluid_hep_241_za.name=Roztavená slitina HEP-241 a zirkonia
+fluid.hep_241_za=Roztavená slitina LEP-241 a zirkonia
+
+tile.nuclearcraft.fluid_mix_239.name=Roztavené MIX-239
+fluid.mix_239=Roztavené MIX-239
+tile.nuclearcraft.fluid_mix_239_fluoride.name=Roztavené MF4-239
+fluid.mix_239_fluoride=Roztavené  MF4-239
+tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu MF4-239
+fluid.mix_239_fluoride_flibe=
+tile.nuclearcraft.fluid_mix_239_za.name=Roztavené MZA-239
+fluid.mix_239_za=Roztavené MZA-239
+
+tile.nuclearcraft.fluid_mix_241.name=Roztavené MIX-241
+fluid.mix_241=Roztavené MIX-241
+tile.nuclearcraft.fluid_mix_241_fluoride.name=Roztavené MF4-241
+fluid.mix_241_fluoride=Roztavené MF4-241
+tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu MF4-241
+fluid.mix_241_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu MF4-241
+tile.nuclearcraft.fluid_mix_241_za.name=Roztavené MZA-241
+fluid.mix_241_za=Roztavené MZA-241
+
+tile.nuclearcraft.fluid_lea_242.name=Roztavené LEA-242
+fluid.lea_242=Roztavené LEA-242
+tile.nuclearcraft.fluid_lea_242_fluoride.name=Roztavený fluorid LEA-242
+fluid.lea_242_fluoride=Roztavený fluorid LEA-242
+tile.nuclearcraft.fluid_lea_242_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEA-242
+fluid.lea_242_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LEA-242
+tile.nuclearcraft.fluid_lea_242_za.name=Roztavená slitina LEA-242 a zirkonia
+fluid.lea_242_za=Molten LEA-242-Zirconium Alloy
+
+tile.nuclearcraft.fluid_hea_242.name=Roztavené HEA-242
+fluid.hea_242=Roztavené HEA-242
+tile.nuclearcraft.fluid_hea_242_fluoride.name=Roztavený fluorid HEA-242
+fluid.hea_242_fluoride=Roztavený fluorid HEA-242
+tile.nuclearcraft.fluid_hea_242_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEA-242
+fluid.hea_242_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEA-242
+tile.nuclearcraft.fluid_hea_242_za.name=Roztavená slitina HEA-242 a zirkonia
+fluid.hea_242_za=Roztavená slitina HEA-242 a zirkonia
+
+tile.nuclearcraft.fluid_lecm_243.name=Roztavené LECm-243
+fluid.lecm_243=Roztavené LECm-243
+tile.nuclearcraft.fluid_lecm_243_fluoride.name=Roztavený fluorid LECm-243
+fluid.lecm_243_fluoride=Roztavený fluorid LECm-243
+tile.nuclearcraft.fluid_lecm_243_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LECm-243
+fluid.lecm_243_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LECm-243
+tile.nuclearcraft.fluid_lecm_243_za.name=Roztavená slitina LECm-243 a zirkonia
+fluid.lecm_243_za=Roztavená slitina LECm-243 a zirkonia
+
+tile.nuclearcraft.fluid_hecm_243.name=Roztavené HECm-243
+fluid.hecm_243=Roztavené HECm-243
+tile.nuclearcraft.fluid_hecm_243_fluoride.name=Roztavený fluorid HECm-243
+fluid.hecm_243_fluoride=Molten HECm-243 Fluoride
+tile.nuclearcraft.fluid_hecm_243_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HECm-243
+fluid.hecm_243_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HECm-243
+tile.nuclearcraft.fluid_hecm_243_za.name=Roztavená slitina HECm-243 a zirkonia
+fluid.hecm_243_za=Roztavená slitina HECm-243 a zirkonia
+
+tile.nuclearcraft.fluid_lecm_245.name=Roztavené LECm-245
+fluid.lecm_245=Roztavené LECm-245
+tile.nuclearcraft.fluid_lecm_245_fluoride.name=Roztavený fluorid LECm-245
+fluid.lecm_245_fluoride=Roztavený fluorid LECm-245
+tile.nuclearcraft.fluid_lecm_245_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LECm-245
+fluid.lecm_245_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LECm-245
+tile.nuclearcraft.fluid_lecm_245_za.name=Roztavená slitina LECm-245 a zirkonia
+fluid.lecm_245_za=Roztavená slitina LECm-245 a zirkonia
+
+tile.nuclearcraft.fluid_hecm_245.name=Roztavené HECm-245
+fluid.hecm_245=MRoztavené HECm-245
+tile.nuclearcraft.fluid_hecm_245_fluoride.name=Roztavený fluorid HECm-245
+fluid.hecm_245_fluoride=Roztavený fluorid HECm-245
+tile.nuclearcraft.fluid_hecm_245_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HECm-245
+fluid.hecm_245_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HECm-245
+tile.nuclearcraft.fluid_hecm_245_za.name=Roztavená slitina HECm-245 a zirkonia
+fluid.hecm_245_za=Roztavená slitina HECm-245 a zirkonia
+
+tile.nuclearcraft.fluid_lecm_247.name=Roztavené LECm-247
+fluid.lecm_247=Roztavené LECm-247
+tile.nuclearcraft.fluid_lecm_247_fluoride.name=Roztavený fluorid LECm-247
+fluid.lecm_247_fluoride=Roztavený fluorid LECm-247
+tile.nuclearcraft.fluid_lecm_247_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LECm-247
+fluid.lecm_247_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LECm-247
+tile.nuclearcraft.fluid_lecm_247_za.name=Roztavená slitina LECm-247 a zirkonia
+fluid.lecm_247_za=Roztavená slitina LECm-247 a zirkonia
+
+tile.nuclearcraft.fluid_hecm_247.name=Roztavené HECm-247
+fluid.hecm_247=Roztavené HECm-247
+tile.nuclearcraft.fluid_hecm_247_fluoride.name=Roztavený fluorid HECm-247
+fluid.hecm_247_fluoride=Roztavený fluorid HECm-247
+tile.nuclearcraft.fluid_hecm_247_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HECm-247
+fluid.hecm_247_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HECm-247
+tile.nuclearcraft.fluid_hecm_247_za.name=Roztavená slitina HECm-247 a zirkonia
+fluid.hecm_247_za=Roztavená slitina HECm-247 a zirkonia
+
+tile.nuclearcraft.fluid_leb_248.name=Roztavené LEB-248
+fluid.leb_248=Roztavené LEB-248
+tile.nuclearcraft.fluid_leb_248_fluoride.name=Roztavený fluorid LEB-248
+fluid.leb_248_fluoride=Roztavený fluorid LEB-248
+tile.nuclearcraft.fluid_leb_248_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LEB-248
+fluid.leb_248_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LEB-248
+tile.nuclearcraft.fluid_leb_248_za.name=Roztavená slitina LEB-248 a zirkonia
+fluid.leb_248_za=Roztavená slitina LEB-248 a zirkonia
+
+tile.nuclearcraft.fluid_heb_248.name=Roztavené HEB-248
+fluid.heb_248=Roztavené HEB-248
+tile.nuclearcraft.fluid_heb_248_fluoride.name=Roztavený fluorid HEB-248
+fluid.heb_248_fluoride=Roztavený fluorid HEB-248
+tile.nuclearcraft.fluid_heb_248_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HEB-248
+fluid.heb_248_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HEB-248
+tile.nuclearcraft.fluid_heb_248_za.name=Roztavená slitina HEB-248 a zirkonia
+fluid.heb_248_za=Roztavená slitina HEB-248 a zirkonia
+
+tile.nuclearcraft.fluid_lecf_249.name=Roztavené LECf-249
+fluid.lecf_249=Roztavené LECf-249
+tile.nuclearcraft.fluid_lecf_249_fluoride.name=Roztavený fluorid LECf-249
+fluid.lecf_249_fluoride=Roztavený fluorid LECf-249
+tile.nuclearcraft.fluid_lecf_249_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LECf-249
+fluid.lecf_249_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LECf-249
+tile.nuclearcraft.fluid_lecf_249_za.name=Roztavená slitina LECf-249 a zirkonia
+fluid.lecf_249_za=Roztavená slitina LECf-249 a zirkonia
+
+tile.nuclearcraft.fluid_hecf_249.name=Roztavené HECf-249
+fluid.hecf_249=Roztavené HECf-249
+tile.nuclearcraft.fluid_hecf_249_fluoride.name=Roztavený fluorid HECf-249
+fluid.hecf_249_fluoride=Roztavený fluorid HECf-249 
+tile.nuclearcraft.fluid_hecf_249_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HECf-249
+fluid.hecf_249_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HECf-249
+tile.nuclearcraft.fluid_hecf_249_za.name=Roztavená slitina HECf-249 a zirkonia
+fluid.hecf_249_za=Roztavená slitina HECf-249 a zirkonia
+
+tile.nuclearcraft.fluid_lecf_251.name=Roztavené LECf-251
+fluid.lecf_251=Roztavené LECf-251
+tile.nuclearcraft.fluid_lecf_251_fluoride.name=Roztavený fluorid LECf-251
+fluid.lecf_251_fluoride=Roztavený fluorid LECf-251
+tile.nuclearcraft.fluid_lecf_251_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu LECf-251
+fluid.lecf_251_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu LECf-251
+tile.nuclearcraft.fluid_lecf_251_za.name=Roztavená slitina LECf-251 a zirkonia
+fluid.lecf_251_za=Roztavená slitina LECf-251 a zirkonia
+
+tile.nuclearcraft.fluid_hecf_251.name=Roztavené HECf-251
+fluid.hecf_251=Roztavené HECf-251
+tile.nuclearcraft.fluid_hecf_251_fluoride.name=Roztavený fluorid HECf-251
+fluid.hecf_251_fluoride=Roztavený fluorid HECf-251
+tile.nuclearcraft.fluid_hecf_251_fluoride_flibe.name=Roztavený roztok FLiBe soli a paliva fluoridu HECf-251
+fluid.hecf_251_fluoride_flibe=Roztavený roztok FLiBe soli a paliva fluoridu HECf-251
+tile.nuclearcraft.fluid_hecf_251_za.name=Roztavená slitina HECf-251 a zirkonia
+fluid.hecf_251_za=Roztavená slitina HECf-251 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_tbu.name=Roztavené ochuzené TBU
+fluid.depleted_tbu=Roztavené ochuzené TBU
+tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=Roztavený ochuzený fluorid TBU
+fluid.depleted_tbu_fluoride=Roztavený ochuzený fluorid TBU
+tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva TBU
+fluid.depleted_tbu_fluoride_flibe=Molten FLiBe Salt Solution of Depleted TBU Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_tbu_za.name=Roztavená ochuzená slitina TBU a zirkonia
+fluid.depleted_tbu_za=Roztavená ochuzená slitina TBU a zirkonia
+
+tile.nuclearcraft.fluid_depleted_leu_233.name=Roztavené ochuzené LEU-233
+fluid.depleted_leu_233=Roztavené ochuzené LEU-233
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride.name=Roztavený ochuzený fluorid LEU-233
+fluid.depleted_leu_233_fluoride=Roztavený ochuzený fluorid LEU-233
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEU-233
+fluid.depleted_leu_233_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEU-233
+tile.nuclearcraft.fluid_depleted_leu_233_za.name=Roztavená ochuzená slitina LEU-233 a zirkonia
+fluid.depleted_leu_233_za=Roztavená ochuzená slitina LEU-233 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_heu_233.name=Roztavené ochuzené HEU-233
+fluid.depleted_heu_233=Roztavené ochuzené HEU-233
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride.name=Roztavený ochuzený fluorid HEU-233
+fluid.depleted_heu_233_fluoride=Roztavený ochuzený fluorid HEU-233
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEU-233
+fluid.depleted_heu_233_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEU-233
+tile.nuclearcraft.fluid_depleted_heu_233_za.name=Roztavená ochuzená slitina HEU-233 a zirkonia
+fluid.depleted_heu_233_za=Roztavená ochuzená slitina HEU-233 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_leu_235.name=Roztavené ochuzené LEU-235
+fluid.depleted_leu_235=Roztavené ochuzené LEU-235
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride.name=Roztavený ochuzený fluorid LEU-235
+fluid.depleted_leu_235_fluoride=Roztavený ochuzený fluorid LEU-235
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEU-235
+fluid.depleted_leu_235_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEU-235
+tile.nuclearcraft.fluid_depleted_leu_235_za.name=Roztavená ochuzená slitina LEU-235 a zirkonia
+fluid.depleted_leu_235_za=Roztavená ochuzená slitina LEU-235 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_heu_235.name=Roztavené ochuzené HEU-235
+fluid.depleted_heu_235=Roztavené ochuzené HEU-235
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride.name=Roztavený ochuzený fluorid HEU-235
+fluid.depleted_heu_235_fluoride=Roztavený ochuzený fluorid HEU-235
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEU-235
+fluid.depleted_heu_235_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEU-235
+tile.nuclearcraft.fluid_depleted_heu_235_za.name=Roztavená ochuzená slitina HEU-235 a zirkonia
+fluid.depleted_heu_235_za=Roztavená ochuzená slitina HEU-235 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_len_236.name=Roztavené ochuzené LEN-236
+fluid.depleted_len_236=Roztavené ochuzené LEN-236
+tile.nuclearcraft.fluid_depleted_len_236_fluoride.name=Roztavený ochuzený fluorid LEN-236
+fluid.depleted_len_236_fluoride=Roztavený ochuzený fluorid LEN-236
+tile.nuclearcraft.fluid_depleted_len_236_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEN-236
+fluid.depleted_len_236_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEN-236
+tile.nuclearcraft.fluid_depleted_len_236_za.name=Roztavená ochuzená slitina LEN-236 a zirkonia
+fluid.depleted_len_236_za=Roztavená ochuzená slitina LEN-236 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hen_236.name=Roztavené ochuzené HEN-236
+fluid.depleted_hen_236=Roztavené ochuzené HEN-236
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride.name=Roztavený ochuzený fluorid HEN-236
+fluid.depleted_hen_236_fluoride=Roztavený ochuzený fluorid HEN-236
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEN-236
+fluid.depleted_hen_236_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEN-236
+tile.nuclearcraft.fluid_depleted_hen_236_za.name=Roztavená ochuzená slitina HEN-236 a zirkonia
+fluid.depleted_hen_236_za=Roztavená ochuzená slitina HEN-236 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lep_239.name=Roztavené ochuzené LEP-239
+fluid.depleted_lep_239=Roztavené ochuzené LEP-239
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride.name=Roztavený ochuzený fluorid LEP-239
+fluid.depleted_lep_239_fluoride=Roztavený ochuzený fluorid LEP-239
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEP-239
+fluid.depleted_lep_239_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEP-239
+tile.nuclearcraft.fluid_depleted_lep_239_za.name=Roztavená ochuzená slitina LEP-239 a zirkonia
+fluid.depleted_lep_239_za=Roztavená ochuzená slitina LEP-239 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hep_239.name=Roztavené ochuzené HEP-239
+fluid.depleted_hep_239=Roztavené ochuzené HEP-239
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride.name=Roztavený ochuzený fluorid HEP-239
+fluid.depleted_hep_239_fluoride=Roztavený ochuzený fluorid HEP-239
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEP-239
+fluid.depleted_hep_239_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEP-239
+tile.nuclearcraft.fluid_depleted_hep_239_za.name=Roztavená ochuzená slitina HEP-239 a zirkonia
+fluid.depleted_hep_239_za=Roztavená ochuzená slitina HEP-239 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lep_241.name=Roztavené ochuzené LEP-241
+fluid.depleted_lep_241=Roztavené ochuzené LEP-241
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride.name=Roztavený ochuzený fluorid LEP-241
+fluid.depleted_lep_241_fluoride=Roztavený ochuzený fluorid LEP-241
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEP-241
+fluid.depleted_lep_241_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEP-241
+tile.nuclearcraft.fluid_depleted_lep_241_za.name=Roztavená ochuzená slitina LEP-241 a zirkonia
+fluid.depleted_lep_241_za=Roztavená ochuzená slitina LEP-241 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hep_241.name=Roztavené ochuzené HEP-241
+fluid.depleted_hep_241=Roztavené ochuzené HEP-241
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride.name=Roztavený ochuzený fluorid HEP-241
+fluid.depleted_hep_241_fluoride=Roztavený ochuzený fluorid HEP-241
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEP-241
+fluid.depleted_hep_241_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEP-241
+tile.nuclearcraft.fluid_depleted_hep_241_za.name=Roztavená ochuzená slitina HEP-241 a zirkonia
+fluid.depleted_hep_241_za=Roztavená ochuzená slitina HEP-241 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_mix_239.name=Roztavené ochuzené MIX-239
+fluid.depleted_mix_239=Roztavené ochuzené MIX-239
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=Roztavené ochuzené MF4-239
+fluid.depleted_mix_239_fluoride=Roztavené ochuzené MF4-239
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva MF4-239
+fluid.depleted_mix_239_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva MF4-239
+tile.nuclearcraft.fluid_depleted_mix_239_za.name=Roztavené ochuzené MZA-239
+fluid.depleted_mix_239_za=Roztavené ochuzené MZA-239
+
+tile.nuclearcraft.fluid_depleted_mix_241.name=Roztavené ochuzené MIX-241
+fluid.depleted_mix_241=Roztavené ochuzené MIX-241
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=Roztavené ochuzené MF4-241
+fluid.depleted_mix_241_fluoride=Roztavené ochuzené MF4-241
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva MF4-241
+fluid.depleted_mix_241_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva MF4-241
+tile.nuclearcraft.fluid_depleted_mix_241_za.name=Roztavené ochuzené MZA-241
+fluid.depleted_mix_241_za=Roztavené ochuzené MZA-241
+
+tile.nuclearcraft.fluid_depleted_lea_242.name=Roztavené ochuzené LEA-242
+fluid.depleted_lea_242=Roztavené ochuzené LEA-242
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride.name=Roztavený ochuzený fluorid LEA-242
+fluid.depleted_lea_242_fluoride=Roztavený ochuzený fluorid LEA-242
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEA-242
+fluid.depleted_lea_242_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEA-242
+tile.nuclearcraft.fluid_depleted_lea_242_za.name=Roztavená ochuzená slitina LEA-242 a zirkonia
+fluid.depleted_lea_242_za=Roztavená ochuzená slitina LEA-242 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hea_242.name=Roztavené ochuzené HEA-242
+fluid.depleted_hea_242=Roztavené ochuzené HEA-242
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride.name=Roztavený ochuzený fluorid HEA-242
+fluid.depleted_hea_242_fluoride=Roztavený ochuzený fluorid HEA-242
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEA-242
+fluid.depleted_hea_242_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEA-242
+tile.nuclearcraft.fluid_depleted_hea_242_za.name=Roztavená ochuzená slitina HEA-242 a zirkonia
+fluid.depleted_hea_242_za=Roztavená ochuzená slitina HEA-242 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lecm_243.name=Roztavené ochuzené LECm-243
+fluid.depleted_lecm_243=Roztavené ochuzené LECm-243
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride.name=Roztavený ochuzený fluorid LECm-243
+fluid.depleted_lecm_243_fluoride=Roztavený ochuzený fluorid LECm-243
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LECm-243
+fluid.depleted_lecm_243_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LECm-243
+tile.nuclearcraft.fluid_depleted_lecm_243_za.name=Roztavená ochuzená slitina LECm-243 a zirkonia
+fluid.depleted_lecm_243_za=Roztavená ochuzená slitina LECm-243 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hecm_243.name=Roztavené ochuzené HECm-243
+fluid.depleted_hecm_243=Roztavené ochuzené HECm-243
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride.name=Roztavený ochuzený fluorid HECm-243
+fluid.depleted_hecm_243_fluoride=Roztavený ochuzený fluorid HECm-243
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HECm-243
+fluid.depleted_hecm_243_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HECm-243
+tile.nuclearcraft.fluid_depleted_hecm_243_za.name=Roztavená ochuzená slitina HECm-243 a zirkonia
+fluid.depleted_hecm_243_za=Roztavená ochuzená slitina HECm-243 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lecm_245.name=Roztavené ochuzené LECm-245
+fluid.depleted_lecm_245=Roztavené ochuzené LECm-245
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride.name=Roztavený ochuzený fluorid LECm-245
+fluid.depleted_lecm_245_fluoride=Roztavený ochuzený fluorid LECm-245
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LECm-245
+fluid.depleted_lecm_245_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LECm-245
+tile.nuclearcraft.fluid_depleted_lecm_245_za.name=Roztavená ochuzená slitina LECm-245 a zirkonia
+fluid.depleted_lecm_245_za=Roztavená ochuzená slitina LECm-245 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hecm_245.name=Roztavené ochuzené HECm-245
+fluid.depleted_hecm_245=Roztavené ochuzené HECm-245
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride.name=Roztavený ochuzený fluorid HECm-245
+fluid.depleted_hecm_245_fluoride=Roztavený ochuzený fluorid HECm-245 Fluoride
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HECm-245
+fluid.depleted_hecm_245_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HECm-245
+tile.nuclearcraft.fluid_depleted_hecm_245_za.name=Roztavená ochuzená slitina HECm-245 a zirkonia
+fluid.depleted_hecm_245_za=Roztavená ochuzená slitina HECm-245 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lecm_247.name=Roztavené ochuzené LECm-247
+fluid.depleted_lecm_247=Roztavené ochuzené LECm-247
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride.name=Roztavený ochuzený fluorid LECm-247
+fluid.depleted_lecm_247_fluoride=Roztavený ochuzený fluorid LECm-247
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LECm-247
+fluid.depleted_lecm_247_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LECm-247
+tile.nuclearcraft.fluid_depleted_lecm_247_za.name=Roztavená ochuzená slitina LECm-247 a zirkonia
+fluid.depleted_lecm_247_za=Roztavená ochuzená slitina LECm-247 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hecm_247.name=Roztavené ochuzené HECm-247
+fluid.depleted_hecm_247=Roztavené ochuzené HECm-247
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride.name=Roztavený ochuzený fluorid HECm-247
+fluid.depleted_hecm_247_fluoride=Roztavený ochuzený fluorid HECm-247
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HECm-247
+fluid.depleted_hecm_247_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HECm-247
+tile.nuclearcraft.fluid_depleted_hecm_247_za.name=Roztavená ochuzená slitina HECm-247 a zirkonia
+fluid.depleted_hecm_247_za=Roztavená ochuzená slitina HECm-247 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_leb_248.name=Roztavené ochuzené LEB-248
+fluid.depleted_leb_248=Roztavené ochuzené LEB-248
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride.name=Roztavený ochuzený fluorid
+fluid.depleted_leb_248_fluoride=Roztavený ochuzený fluorid LEB-248
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LEB-248
+fluid.depleted_leb_248_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LEB-248
+tile.nuclearcraft.fluid_depleted_leb_248_za.name=Roztavená ochuzená slitina LEB-248 a zirkonia
+fluid.depleted_leb_248_za=Roztavená ochuzená slitina LEB-248 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_heb_248.name=Roztavené ochuzené HEB-248
+fluid.depleted_heb_248=Roztavené ochuzené HEB-248
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride.name=Roztavený ochuzený fluorid HEB-248
+fluid.depleted_heb_248_fluoride=Roztavený ochuzený fluorid HEB-248
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HEB-248
+fluid.depleted_heb_248_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HEB-248
+tile.nuclearcraft.fluid_depleted_heb_248_za.name=Roztavená ochuzená slitina HEB-248 a zirkonia
+fluid.depleted_heb_248_za=Roztavená ochuzená slitina HEB-248 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lecf_249.name=Roztavené ochuzené LECf-249
+fluid.depleted_lecf_249=Roztavené ochuzené LECf-249
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride.name=Roztavený ochuzený fluorid LECf-249
+fluid.depleted_lecf_249_fluoride=Roztavený ochuzený fluorid LECf-249 Fluoride
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LECf-249
+fluid.depleted_lecf_249_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LECf-249
+tile.nuclearcraft.fluid_depleted_lecf_249_za.name=Roztavená ochuzená slitina LECf-249 a zirkonia
+fluid.depleted_lecf_249_za=Roztavená ochuzená slitina LECf-249 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hecf_249.name=Roztavené ochuzené HECf-249
+fluid.depleted_hecf_249=Roztavené ochuzené HECf-249
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride.name=Roztavený ochuzený fluorid HECf-249
+fluid.depleted_hecf_249_fluoride=Roztavený ochuzený fluorid HECf-249
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HECf-249
+fluid.depleted_hecf_249_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HECf-249
+tile.nuclearcraft.fluid_depleted_hecf_249_za.name=Roztavená ochuzená slitina HECf-249 a zirkonia
+fluid.depleted_hecf_249_za=Roztavená ochuzená slitina HECf-249 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_lecf_251.name=Roztavené ochuzené LECf-251
+fluid.depleted_lecf_251=Roztavené ochuzené LECf-251
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride.name=Roztavený ochuzený fluorid LECf-251
+fluid.depleted_lecf_251_fluoride=Roztavený ochuzený fluorid LECf-251
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva LECf-251
+fluid.depleted_lecf_251_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva LECf-251
+tile.nuclearcraft.fluid_depleted_lecf_251_za.name=Roztavená ochuzená slitina LECf-251 a zirkonia
+fluid.depleted_lecf_251_za=Roztavená ochuzená slitina LECf-251 a zirkonia
+
+tile.nuclearcraft.fluid_depleted_hecf_251.name=Roztavené ochuzené HECf-251
+fluid.depleted_hecf_251=Roztavené ochuzené HECf-251
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride.name=Roztavený ochuzený fluorid HECf-251
+fluid.depleted_hecf_251_fluoride=Roztavený ochuzený fluorid HECf-251
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride_flibe.name=Roztavený roztok FLiBe soli a ochuzeného paliva HECf-251
+fluid.depleted_hecf_251_fluoride_flibe=Roztavený roztok FLiBe soli a ochuzeného paliva HECf-251
+tile.nuclearcraft.fluid_depleted_hecf_251_za.name=Roztavená ochuzená slitina HECf-251 a zirkonia
+fluid.depleted_hecf_251_za=Roztavená ochuzená slitina HECf-251 a zirkonia
+
+tile.nuclearcraft.fluid_iron.name=Roztavené železo
+fluid.iron=Roztavené železo
+tile.nuclearcraft.fluid_iron_nak.name=Eutektická směs železa a NaK
+fluid.iron_nak=Eutektická směs železa a NaK
+tile.nuclearcraft.fluid_iron_nak_hot.name=Žhavá eutektická směs železa a NaK
+fluid.iron_nak_hot=Žhavá eutektická směs železa a NaK
+
+tile.nuclearcraft.fluid_redstone.name=Roztavený rudit
+fluid.redstone=Roztavený rudit
+tile.nuclearcraft.fluid_redstone_nak.name=Eutektická směs ruditu a NaK
+fluid.redstone_nak=Eutektická směs ruditu a NaK
+tile.nuclearcraft.fluid_redstone_nak_hot.name=Žhavá eutektická směs ruditu a NaK
+fluid.redstone_nak_hot=Žhavá eutektická směs ruditu a NaK
+
+tile.nuclearcraft.fluid_quartz.name=Roztavený křemen
+fluid.quartz=Roztavený křemen
+tile.nuclearcraft.fluid_quartz_nak.name=Eutektická směs křemene a NaK
+fluid.quartz_nak=Eutektická směs křemene a NaK
+tile.nuclearcraft.fluid_quartz_nak_hot.name=Žhavá eutektická směs křemene a NaK
+fluid.quartz_nak_hot=Žhavá eutektická směs křemene a NaK
+
+tile.nuclearcraft.fluid_obsidian.name=Roztavený obsidián
+fluid.obsidian=Roztavený obsidián
+tile.nuclearcraft.fluid_obsidian_nak.name=Eutektická směs obsidiánu a NaK
+fluid.obsidian_nak=Eutektická směs obsidiánu a NaK
+tile.nuclearcraft.fluid_obsidian_nak_hot.name=Žhavá eutektická směs obsidiánu a NaK
+fluid.obsidian_nak_hot=Žhavá eutektická směs obsidiánu a NaK
+
+tile.nuclearcraft.fluid_nether_brick.name=Roztavená netheritová cihla
+fluid.nether_brick=Roztavená netheritová cihla
+tile.nuclearcraft.fluid_nether_brick_nak.name=Eutektická směs netheritové cihly a NaK
+fluid.nether_brick_nak=Eutektická směs netheritové cihly a NaK
+tile.nuclearcraft.fluid_nether_brick_nak_hot.name=Žhavá eutektická směs netheritové cihly a NaK
+fluid.nether_brick_nak_hot=Žhavá eutektická směs netheritové cihly a NaK
+
+tile.nuclearcraft.fluid_glowstone.name=Roztavený světlit
+fluid.glowstone=Roztavený světlit
+tile.nuclearcraft.fluid_glowstone_nak.name=Eutektická směs světlitu a NaK
+fluid.glowstone_nak=Eutektická směs světlitu a NaK
+tile.nuclearcraft.fluid_glowstone_nak_hot.name=Žhavá eutektická směs světlitu a NaK
+fluid.glowstone_nak_hot=Žhavá eutektická směs světlitu a NaK
+
+tile.nuclearcraft.fluid_lapis.name=Roztavený lazurit
+fluid.lapis=Roztavený lazurit
+tile.nuclearcraft.fluid_lapis_nak.name=Eutektická směs lazuritu a NaK
+fluid.lapis_nak=Eutektická směs .azuritu a NaK
+tile.nuclearcraft.fluid_lapis_nak_hot.name=Žhavá eutektická směs lazuritu a NaK
+fluid.lapis_nak_hot=Žhavá eutektická směs lazuritu a NaK
+
+tile.nuclearcraft.fluid_gold.name=Roztavené zlato
+fluid.gold=Roztavené zlato
+tile.nuclearcraft.fluid_gold_nak.name=Eutektická směs zlata a NaK
+fluid.gold_nak=Eutektická směs zlata a NaK
+tile.nuclearcraft.fluid_gold_nak_hot.name=Žhavá eutektická směs zlata a NaK
+fluid.gold_nak_hot=Žhavá eutektická směs zlata a NaK
+
+tile.nuclearcraft.fluid_prismarine.name=Roztavený prismarín
+fluid.prismarine=Roztavený prismarín
+tile.nuclearcraft.fluid_prismarine_nak.name=Eutektická směs prismarínu a NaK
+fluid.prismarine_nak=Eutektická směs prismarínu a NaK
+tile.nuclearcraft.fluid_prismarine_nak_hot.name=Žhavá eutektická směs prismarínu a NaK
+fluid.prismarine_nak_hot=Žhavá eutektická směs prismarínu a NaK
+
+tile.nuclearcraft.fluid_slime.name=Roztavený sliz
+fluid.slime=Roztavený sliz
+tile.nuclearcraft.fluid_slime_nak.name=Eutektická směs slizu a NaK
+fluid.slime_nak=Eutektická směs slizu a NaK
+tile.nuclearcraft.fluid_slime_nak_hot.name=Žhavá eutektická směs slizu a NaK
+fluid.slime_nak_hot=Žhavá eutektická směs slizu a NaK
+
+tile.nuclearcraft.fluid_end_stone.name=Roztavený enderit
+fluid.end_stone=Roztavený enderit
+tile.nuclearcraft.fluid_end_stone_nak.name=Eutektická směs enderitu a NaK
+fluid.end_stone_nak=Eutektická směs enderitu a NaK
+tile.nuclearcraft.fluid_end_stone_nak_hot.name=Žhavá eutektická směs enderitu a NaK
+fluid.end_stone_nak_hot=Žhavá eutektická směs enderitu a NaK
+
+tile.nuclearcraft.fluid_purpur.name=Roztavená purpura
+fluid.purpur=Roztavená purpura
+tile.nuclearcraft.fluid_purpur_nak.name=Eutektická směs purpury a NaK
+fluid.purpur_nak=Eutektická směs purpury a NaK
+tile.nuclearcraft.fluid_purpur_nak_hot.name=Žhavá eutektická směs purpury a NaK
+fluid.purpur_nak_hot=Žhavá eutektická směs purpury a NaK
+
+tile.nuclearcraft.fluid_diamond.name=Roztavený diamant
+fluid.diamond=Roztavený diamant
+tile.nuclearcraft.fluid_diamond_nak.name=Eutektická směs diamantu a NaK
+fluid.diamond_nak=Eutektická směs diamantu a NaK
+tile.nuclearcraft.fluid_diamond_nak_hot.name=Žhavá eutektická směs diamantu a NaK
+fluid.diamond_nak_hot=Žhavá eutektická směs diamantu a NaK
+
+tile.nuclearcraft.fluid_emerald.name=Roztavený smaragd
+fluid.emerald=Roztavený smaragd
+tile.nuclearcraft.fluid_emerald_nak.name=Eutektická směs smaragdu a NaK
+fluid.emerald_nak=Eutektická směs smaragdu a NaK
+tile.nuclearcraft.fluid_emerald_nak_hot.name=Žhavá eutektická směs smaragdu a NaK
+fluid.emerald_nak_hot=Žhavá eutektická směs smaragdu a NaK
+
+tile.nuclearcraft.fluid_copper.name=Roztavená měď
+fluid.copper=Roztavená měď
+tile.nuclearcraft.fluid_copper_nak.name=Eutektická směs mědi a NaK
+fluid.copper_nak=Eutektická směs mědi a NaK
+tile.nuclearcraft.fluid_copper_nak_hot.name=Žhavá eutektická směs mědi a NaK
+fluid.copper_nak_hot=Žhavá eutektická směs mědi a NaK
+
+tile.nuclearcraft.fluid_tin.name=Roztavený cín
+fluid.tin=Roztavený cín
+tile.nuclearcraft.fluid_tin_nak.name=Eutektická směs cínu a NaK
+fluid.tin_nak=Eutektická směs cínu a NaK
+tile.nuclearcraft.fluid_tin_nak_hot.name=Žhavá eutektická směs cínu a NaK
+fluid.tin_nak_hot=Žhavá eutektická směs cínu a NaK
+
+tile.nuclearcraft.fluid_lead.name=Roztavené olovo
+fluid.lead=Roztavené olovo
+tile.nuclearcraft.fluid_lead_nak.name=Eutektická směs olova a NaK
+fluid.lead_nak=Eutektická směs olova a NaK
+tile.nuclearcraft.fluid_lead_nak_hot.name=Žhavá eutektická směs olova a NaK
+fluid.lead_nak_hot=Žhavá eutektická směs olova a NaK
+
+tile.nuclearcraft.fluid_boron.name=Roztavený bor
+fluid.boron=Roztavený bor
+tile.nuclearcraft.fluid_boron_nak.name=Eutektická směs boru a NaK
+fluid.boron_nak=Eutektická směs boru a NaK
+tile.nuclearcraft.fluid_boron_nak_hot.name=Žhavá eutektická směs boru a NaK
+fluid.boron_nak_hot=Žhavá eutektická směs boru a NaK
+
+tile.nuclearcraft.fluid_lithium.name=Roztavené lithium
+fluid.lithium=Roztavené lithium
+tile.nuclearcraft.fluid_lithium_nak.name=Eutektická směs lithia a NaK
+fluid.lithium_nak=Eutektická směs lithia a NaK
+tile.nuclearcraft.fluid_lithium_nak_hot.name=Žhavá eutektická směs lithia a NaK
+fluid.lithium_nak_hot=Žhavá eutektická směs lithia a NaK
+
+tile.nuclearcraft.fluid_magnesium.name=Roztavený hořčík
+fluid.magnesium=Roztavený hořčík
+tile.nuclearcraft.fluid_magnesium_nak.name=Eutektická směs hořčíku a NaK
+fluid.magnesium_nak=Eutektická směs hořčíku a NaK
+tile.nuclearcraft.fluid_magnesium_nak_hot.name=Žhavá eutektická směs hořčíku a NaK
+fluid.magnesium_nak_hot=Žhavá eutektická směs hořčíku a NaK
+
+tile.nuclearcraft.fluid_manganese.name=Roztavený mangan
+fluid.manganese=Roztavený mangan
+tile.nuclearcraft.fluid_manganese_nak.name=Eutektická směs manganu a NaK
+fluid.manganese_nak=Eutektická směs manganu a NaK
+tile.nuclearcraft.fluid_manganese_nak_hot.name=Žhavá eutektická směs manganu a NaK
+fluid.manganese_nak_hot=Žhavá eutektická směs manganu a NaK
+
+tile.nuclearcraft.fluid_aluminum.name=Roztavený hliník
+fluid.aluminum=roztavený hliník
+tile.nuclearcraft.fluid_aluminum_nak.name=Eutektická směs hliníku a NaK
+fluid.aluminum_nak=Eutektická směs hliníku a NaK
+tile.nuclearcraft.fluid_aluminum_nak_hot.name=Žhavá eutektická směs hliníku a NaK
+fluid.aluminum_nak_hot=Žhavá eutektická směs hliníku a NaK
+
+tile.nuclearcraft.fluid_silver.name=Roztavené stříbro
+fluid.silver=Roztavené stříbro
+tile.nuclearcraft.fluid_silver_nak.name=Eutektická směs stříbra a NaK
+fluid.silver_nak=Eutektická směs stříbra a NaK
+tile.nuclearcraft.fluid_silver_nak_hot.name=Žhavá eutektická směs stříbra a NaK
+fluid.silver_nak_hot=Žhavá eutektická směs stříbra a NaK
+
+tile.nuclearcraft.fluid_fluorite.name=Roztavený fluorit
+fluid.fluorite=Roztavený fluorit
+tile.nuclearcraft.fluid_fluorite_nak.name=Eutektická směs fluoritu a NaK
+fluid.fluorite_nak=Eutektická směs fluoritu a NaK
+tile.nuclearcraft.fluid_fluorite_nak_hot.name=Žhavá eutektická směs fluoritu a NaK
+fluid.fluorite_nak_hot=Žhavá eutektická směs fluoritu a NaK
+
+tile.nuclearcraft.fluid_villiaumite.name=Roztavený villiuamit
+fluid.villiaumite=Roztavený villiaumit
+tile.nuclearcraft.fluid_villiaumite_nak.name=Eutektická směs villiaumitu a NaK
+fluid.villiaumite_nak=Eutektická směs villiaumitu a NaK
+tile.nuclearcraft.fluid_villiaumite_nak_hot.name=Žhavá eutektická směs villiaumitu a NaK
+fluid.villiaumite_nak_hot=Žhavá eutektická směs villiaumitu a NaK
+
+tile.nuclearcraft.fluid_carobbiite.name=Roztavený carobbiit
+fluid.carobbiite=Roztavený carobbiit
+tile.nuclearcraft.fluid_carobbiite_nak.name=Eutektická směs carobbiitu a NaK
+fluid.carobbiite_nak=Eutektická směs carobbiitu a NaK
+tile.nuclearcraft.fluid_carobbiite_nak_hot.name=Žhavá eutektická směs carobbiitu a NaK
+fluid.carobbiite_nak_hot=Žhavá eutektická směs carobbiitu a NaK
+
+tile.nuclearcraft.fluid_arsenic_nak.name=Eutektická směs arsenu a NaK
+fluid.arsenic_nak=Eutektická směs arsenu a NaK
+tile.nuclearcraft.fluid_arsenic_nak_hot.name=Žhavá eutektická směs arsenu a NaK
+fluid.arsenic_nak_hot=Žhavá eutektická směs arsenu a NaK
+
+tile.nuclearcraft.fluid_liquid_nitrogen_nak.name=Eutektická směs dusíku a NaK
+fluid.liquid_nitrogen_nak=Eutektická směs dusíku a NaK
+tile.nuclearcraft.fluid_liquid_nitrogen_nak_hot.name=Žhavá eutektická směs dusíku a NaK
+fluid.liquid_nitrogen_nak_hot=Žhavá eutektická směs dusíku a NaK
+
+tile.nuclearcraft.fluid_liquid_helium_nak.name=Eutektická směs helia a NaK
+fluid.liquid_helium_nak=Eutektická směs helia a NaK
+tile.nuclearcraft.fluid_liquid_helium_nak_hot.name=Žhavá eutektická směs helia a NaK
+fluid.liquid_helium_nak_hot=Žhavá eutektická směs helia a NaK
+
+tile.nuclearcraft.fluid_enderium_nak.name=Eutektická směs enderia a NaK
+fluid.enderium_nak=Eutektická směs enderia a NaK
+tile.nuclearcraft.fluid_enderium_nak_hot.name=Žhavá eutektická směs helia a NaK
+fluid.enderium_nak_hot=Žhavá eutektická směs helia a NaK
+
+tile.nuclearcraft.fluid_cryotheum_nak.name=Eutektická směs kryothea a NaK
+fluid.cryotheum_nak=Eutektická směs kryothea a NaK
+tile.nuclearcraft.fluid_cryotheum_nak_hot.name=Žhavá eutektická směs kryothea a NaK
+fluid.cryotheum_nak_hot=Žhavá eutektická směs kryothea a NaK
+
+item.nuclearcraft.rads=Radiace:
+item.nuclearcraft.rad_resist=Odolnost proti radiaci:
+item.nuclearcraft.food_rads=Efekty z jídla:
+
+item.nuclearcraft.ingot.copper.name=Měděný ingot
+item.nuclearcraft.ingot.tin.name=Cínový ingot
+item.nuclearcraft.ingot.lead.name=Olověný ingot
+item.nuclearcraft.ingot.thorium.name=Thoriový ingot
+item.nuclearcraft.ingot.uranium.name=Uranový ingot
+item.nuclearcraft.ingot.boron.name=Borový ingot
+item.nuclearcraft.ingot.lithium.name=Lithiový ingot
+item.nuclearcraft.ingot.magnesium.name=Hořečnatý ingot
+item.nuclearcraft.ingot.graphite.name=Grafitový ingot
+item.nuclearcraft.ingot.beryllium.name=Berylliový ingot
+item.nuclearcraft.ingot.zirconium.name=Zirkoniový ingot
+item.nuclearcraft.ingot.manganese.name=Manganový ingot
+item.nuclearcraft.ingot.manganese.desc=Vyroben trojnásobnou tavbou drceného rodochrozitu.
+item.nuclearcraft.ingot.aluminum.name=Hliníkový ingot
+item.nuclearcraft.ingot.silver.name=Stříbrný ingot
+item.nuclearcraft.ingot.manganese_oxide.name=Ingot oxidu manganatého
+item.nuclearcraft.ingot.manganese_oxide.desc=Vyroben dvojnásobnou tavbou drceného rodochrozitu.
+item.nuclearcraft.ingot.manganese_dioxide.name=Ingot oxidu manganičitého
+
+item.nuclearcraft.dust.copper.name=Měděný prášek
+item.nuclearcraft.dust.tin.name=Cínový prášek
+item.nuclearcraft.dust.lead.name=Olověný prášek
+item.nuclearcraft.dust.thorium.name=Thoriový prášek
+item.nuclearcraft.dust.uranium.name=Uranový prášek
+item.nuclearcraft.dust.boron.name=Borový prášek
+item.nuclearcraft.dust.lithium.name=Lithiový prášek
+item.nuclearcraft.dust.magnesium.name=Hořčíkový prášek
+item.nuclearcraft.dust.graphite.name=Grafitový prášek
+item.nuclearcraft.dust.beryllium.name=Beryllnatý prášek
+#item.nuclearcraft.dust.beryllium.desc=Získán společně s uhlím při vytěžení Uhelné rudy.
+item.nuclearcraft.dust.zirconium.name=Zirkoniový prášek
+#item.nuclearcraft.dust.zirconium.desc=Získán společně s křemenem po vytěžení Křemenné rudy.
+item.nuclearcraft.dust.manganese.name=Manganový prášek
+item.nuclearcraft.dust.aluminum.name=Hliníkový prášek
+item.nuclearcraft.dust.silver.name=Stříbrný prášek
+item.nuclearcraft.dust.manganese_oxide.name=Prášek oxidu manganatého
+item.nuclearcraft.dust.manganese_oxide.desc=Vyroben tavbou drceného rodochrozitu.
+item.nuclearcraft.dust.manganese_dioxide.name=Prášek oxidu manganičitého
+
+item.nuclearcraft.gem.rhodochrosite.name=Rodochrozit
+#item.nuclearcraft.gem.rhodochrosite.desc=Získán společně s ruditem po vytěžení Ruditové rudy.
+item.nuclearcraft.gem.boron_nitride.name=Krychlový nitrid boritý
+item.nuclearcraft.gem.fluorite.name=Fluorit
+#item.nuclearcraft.gem.fluorite.desc=Získán společně s lazuritem po vytěžení Lazuritové rudy.
+item.nuclearcraft.gem.villiaumite.name=Viliaumit
+#item.nuclearcraft.gem.villiaumite.desc=Získán společně s diamanty po vytěžení Diamantové rudy.
+item.nuclearcraft.gem.carobbiite.name=Carobbiit
+#item.nuclearcraft.gem.carobbiite.desc=Získán společně s diamanty po vytěžení Diamantové rudy.
+item.nuclearcraft.gem.boron_arsenide.name=Arsenid boritý
+item.nuclearcraft.gem.silicon.name=Křemík
+
+item.nuclearcraft.gem_dust.diamond.name=Drcený diamant
+item.nuclearcraft.gem_dust.rhodochrosite.name=Drcený rodochrozit
+item.nuclearcraft.gem_dust.quartz.name=Drcený křemen
+item.nuclearcraft.gem_dust.obsidian.name=Drcený obsidián
+item.nuclearcraft.gem_dust.boron_nitride.name=Šestiuhelný nitrid boritý
+item.nuclearcraft.gem_dust.fluorite.name=Drcený fluorit
+item.nuclearcraft.gem_dust.sulfur.name=Síra
+#item.nuclearcraft.gem_dust.sulfur.desc=Získána společně s uhlím při vytěžení Uhelné rudy.
+item.nuclearcraft.gem_dust.coal.name=Drcené uhlí
+item.nuclearcraft.gem_dust.villiaumite.name=Drcený villiaumit
+item.nuclearcraft.gem_dust.carobbiite.name=Drcený carobbiit
+item.nuclearcraft.gem_dust.arsenic.name=Drcený arsen
+item.nuclearcraft.gem_dust.end_stone.name=Drcený enderit
+
+item.nuclearcraft.alloy.bronze.name=Bronzový ingot
+item.nuclearcraft.alloy.tough.name=Tvrdoslitinový ingot
+item.nuclearcraft.alloy.hard_carbon.name=Tvrdouhlíkový ingot
+item.nuclearcraft.alloy.magnesium_diboride.name=Boridohořečnatý ingot
+item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Lithiovo-oxido-manganičitý slitinový ingot
+item.nuclearcraft.alloy.steel.name=Ocelový ingot
+item.nuclearcraft.alloy.ferroboron.name=železoborový slitinový ingot
+item.nuclearcraft.alloy.shibuichi.name=Shibuichi slitinový ingot
+item.nuclearcraft.alloy.tin_silver.name=Stříbrnocínový ingot
+item.nuclearcraft.alloy.lead_platinum.name=Olověnoplatinový ingot
+item.nuclearcraft.alloy.extreme.name=Extrémněslitinový ingot
+item.nuclearcraft.alloy.thermoconducting.name=Teplovodivoslitinový ingot
+item.nuclearcraft.alloy.zircaloy.name=Zirkoniovoslitinový ingot
+item.nuclearcraft.alloy.silicon_carbide.name=Křemíkokarbidový ingot
+item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC ingot z keramického maticového kompozitu
+item.nuclearcraft.alloy.hsla_steel.name=HSLA ocelový ingot
+item.nuclearcraft.alloy.zirconium_molybdenum.name=Zirkoniovo-molybdenový slitinový ingot
+
+item.nuclearcraft.compound.calcium_sulfate.name=Síran vápenatý
+item.nuclearcraft.compound.crystal_binder.name=Krystalové vazivo
+item.nuclearcraft.compound.energetic_blend.name=Energetická směs
+item.nuclearcraft.compound.sodium_fluoride.name=Fluorid sodný
+item.nuclearcraft.compound.potassium_fluoride.name=Fluorid draselný
+item.nuclearcraft.compound.sodium_hydroxide.name=Hydroxid sodný
+item.nuclearcraft.compound.potassium_hydroxide.name=Hydroxid draselný
+item.nuclearcraft.compound.borax.name=Borax
+item.nuclearcraft.compound.irradiated_borax.name=Ozářený borax
+item.nuclearcraft.compound.dimensional_blend.name=Dimenzní směs
+item.nuclearcraft.compound.c_mn_blend.name=Uhlíkovo-manganová směs
+item.nuclearcraft.compound.alugentum.name=Alugentový prášek
+
+item.nuclearcraft.part.plate_basic.name=Základní plátování
+item.nuclearcraft.part.plate_advanced.name=Pokročilé plátování
+item.nuclearcraft.part.plate_du.name=DU plátování
+item.nuclearcraft.part.plate_elite.name=Elitní plátování
+item.nuclearcraft.part.wire_copper.name=Měděný solenoid
+item.nuclearcraft.part.wire_magnesium_diboride.name=Solenoid z boridu hořečnatého
+item.nuclearcraft.part.bioplastic.name=Bioplast
+item.nuclearcraft.part.servo.name=Servomechanismus
+item.nuclearcraft.part.motor.name=Elektrický motor
+item.nuclearcraft.part.actuator.name=Lineární akční člen
+item.nuclearcraft.part.chassis.name=Strojový rám
+item.nuclearcraft.part.empty_frame.name=Prázdný rám
+item.nuclearcraft.part.steel_frame.name=Ocelový rám
+item.nuclearcraft.part.plate_extreme.name=Extrémní plátování
+item.nuclearcraft.part.sic_fiber.name=Karbidokřemíková vlákna
+item.nuclearcraft.part.empty_sink.name=Prázdný chladič
+item.nuclearcraft.part.pyrolytic_carbon.name=Pyrolytický uhlík
+
+item.nuclearcraft.upgrade.speed.name=Vylepšení rychlosti
+item.nuclearcraft.upgrade.speed_desc=Zvyšuje rychlost zpracování předmětů za cenu využití energie. Tyto vylepšení lze stackovat - rychlost se %s za každé přidané vylepšení, a využítí energie se %s.
+item.nuclearcraft.upgrade.energy.name=Vylepšení energie
+item.nuclearcraft.upgrade.energy_desc=Snižuje rychlost zpracování u strojů. Tyto vylepšení lze stackovat, ale maximální počet který bude mít efekt je rovný počtu nainstalovaných vylepšení rychlosti. Využití energie se %s s každým přidaným vylepšením.
+
+item.nuclearcraft.fission_dust.bismuth.name=Bismutový prášek
+item.nuclearcraft.fission_dust.radium.name=Radiový prášek
+item.nuclearcraft.fission_dust.polonium.name=Poloniový prášek
+item.nuclearcraft.fission_dust.tbp.name=Protaktiniem obohacený thoriový prášek
+item.nuclearcraft.fission_dust.protactinium_233.name=Práškové protaktinium-233
+item.nuclearcraft.fission_dust.strontium_90.name=Práškové stroncium-90
+item.nuclearcraft.fission_dust.molybdenum.name=Molybdenový prášek
+item.nuclearcraft.fission_dust.ruthenium_106.name=Práškové ruthenium-106
+item.nuclearcraft.fission_dust.caesium_137.name=Práškové cesium-137
+item.nuclearcraft.fission_dust.promethium_147.name=Práškové promethium-147
+item.nuclearcraft.fission_dust.europium_155.name=Práškové europium-155
+
+item.nuclearcraft.uranium.233.name=Uran-233
+item.nuclearcraft.uranium.233_c.name=Karbid uranu-233
+item.nuclearcraft.uranium.233_ox.name=Oxid uranu-233
+item.nuclearcraft.uranium.233_ni.name=Nitrid uranu-233
+item.nuclearcraft.uranium.233_za.name=Slitina zirkonia a uranu-233
+item.nuclearcraft.uranium.235.name=Uran-235
+item.nuclearcraft.uranium.235_c.name=Karbid uranu-235
+item.nuclearcraft.uranium.235_ox.name=Oxid uranu-235
+item.nuclearcraft.uranium.235_ni.name=Nitrid uranu-235
+item.nuclearcraft.uranium.235_za.name=Slitina zirkonia a uranu-235
+item.nuclearcraft.uranium.238.name=Uran-238
+item.nuclearcraft.uranium.238_c.name=Karbid uranu-238
+item.nuclearcraft.uranium.238_ox.name=Oxid uranu-238
+item.nuclearcraft.uranium.238_ni.name=Nitrid uranu-238
+item.nuclearcraft.uranium.238_za.name=Slitina zirkonia a uranu-238
+
+item.nuclearcraft.neptunium.236.name=Neptunium-236
+item.nuclearcraft.neptunium.236_c.name=Karbid neptunia-236
+item.nuclearcraft.neptunium.236_ox.name=Oxid neptunia-236
+item.nuclearcraft.neptunium.236_ni.name=Nitrid neptunia-236
+item.nuclearcraft.neptunium.236_za.name=Slitina zirkonia a neptunia-236
+item.nuclearcraft.neptunium.237.name=Neptunium-237
+item.nuclearcraft.neptunium.237_c.name=Karbid neptunia-237
+item.nuclearcraft.neptunium.237_ox.name=Oxid neptunia-237
+item.nuclearcraft.neptunium.237_ni.name=Nitrid neptunia-237
+item.nuclearcraft.neptunium.237_za.name=Slitina zirkonia a neptunia-237
+
+item.nuclearcraft.plutonium.238.name=Plutonium-238
+item.nuclearcraft.plutonium.238_c.name=Karbid plutonia-238
+item.nuclearcraft.plutonium.238_ox.name=Oxid plutonia-238
+item.nuclearcraft.plutonium.238_ni.name=Nitrid plutonia-238
+item.nuclearcraft.plutonium.238_za.name=Slitina zirkonia a plutonia-238
+item.nuclearcraft.plutonium.239.name=Plutonium-239
+item.nuclearcraft.plutonium.239_c.name=Karbid plutonia-239
+item.nuclearcraft.plutonium.239_ox.name=Oxid plutonia-239
+item.nuclearcraft.plutonium.239_ni.name=Nitrid plutonia-239
+item.nuclearcraft.plutonium.239_za.name=Slitina zirkonia a plutonia-239
+item.nuclearcraft.plutonium.241.name=Plutonium-241
+item.nuclearcraft.plutonium.241_c.name=Karbid plutonia-241
+item.nuclearcraft.plutonium.241_ox.name=Oxid plutonia-241
+item.nuclearcraft.plutonium.241_ni.name=Nitrid plutonia-241
+item.nuclearcraft.plutonium.241_za.name=Slitina zirkonia a plutonia-241
+item.nuclearcraft.plutonium.242.name=Plutonium-242
+item.nuclearcraft.plutonium.242_c.name=Karbid plutonia-242
+item.nuclearcraft.plutonium.242_ox.name=Oxid plutonia-242
+item.nuclearcraft.plutonium.242_ni.name=Nitrid plutonia-242
+item.nuclearcraft.plutonium.242_za.name=Slitina zirkonia a plutonia-242
+
+item.nuclearcraft.americium.241.name=Americium-241
+item.nuclearcraft.americium.241_c.name=Karbid americia-241
+item.nuclearcraft.americium.241_ox.name=Oxid americia-241
+item.nuclearcraft.americium.241_ni.name=Nitrid americia-241
+item.nuclearcraft.americium.241_za.name=Slitina zirkonia a americia-241
+item.nuclearcraft.americium.242.name=Americium-242
+item.nuclearcraft.americium.242_c.name=Karbid americia-242
+item.nuclearcraft.americium.242_ox.name=Oxid americia-242
+item.nuclearcraft.americium.242_ni.name=Nitrid americia-242
+item.nuclearcraft.americium.242_za.name=Slitina zirkonia a americia-242
+item.nuclearcraft.americium.243.name=Americium-243
+item.nuclearcraft.americium.243_c.name=Karbid americia-243
+item.nuclearcraft.americium.243_ox.name=Oxid americia-243
+item.nuclearcraft.americium.243_ni.name=Nitrid americia-243
+item.nuclearcraft.americium.243_za.name=Slitina zirkonia a americia-243
+
+item.nuclearcraft.curium.243.name=Curium-243
+item.nuclearcraft.curium.243_c.name=Karbid curia-243
+item.nuclearcraft.curium.243_ox.name=Oxid curia-243
+item.nuclearcraft.curium.243_ni.name=Nitrid curia-243
+item.nuclearcraft.curium.243_za.name=Slitina zirkonia a curia-243
+item.nuclearcraft.curium.245.name=Curium-245
+item.nuclearcraft.curium.245_c.name=Karbid curia-245
+item.nuclearcraft.curium.245_ox.name=Oxid curia-245
+item.nuclearcraft.curium.245_ni.name=Nitrid curia-245
+item.nuclearcraft.curium.245_za.name=Slitina zirkonia a curia-245
+item.nuclearcraft.curium.246.name=Curium-246
+item.nuclearcraft.curium.246_c.name=Karbid curia-246
+item.nuclearcraft.curium.246_ox.name=Oxid curia-246
+item.nuclearcraft.curium.246_ni.name=Nitrid curia-246
+item.nuclearcraft.curium.246_za.name=Slitina zirkonia a curia-246
+item.nuclearcraft.curium.247.name=Curium-247
+item.nuclearcraft.curium.247_c.name=Karbid curia-247
+item.nuclearcraft.curium.247_ox.name=Oxid curia-247
+item.nuclearcraft.curium.247_ni.name=Nitrid curia-247
+item.nuclearcraft.curium.247_za.name=Slitina zirkonia a curia-247
+
+item.nuclearcraft.berkelium.247.name=Berkelium-247
+item.nuclearcraft.berkelium.247_c.name=Karbid berkelia-247
+item.nuclearcraft.berkelium.247_ox.name=Oxid berkelia-247
+item.nuclearcraft.berkelium.247_ni.name=Nitrid berkelia-247
+item.nuclearcraft.berkelium.247_za.name=Slitina zirkonia a berkelia-247
+item.nuclearcraft.berkelium.248.name=Berkelium-248
+item.nuclearcraft.berkelium.248_c.name=Karbid berkelia-248
+item.nuclearcraft.berkelium.248_ox.name=Oxid berkelia-248
+item.nuclearcraft.berkelium.248_ni.name=Nitrid berkelia-248
+item.nuclearcraft.berkelium.248_za.name=Slitina zirkonia a berkelia-248
+
+item.nuclearcraft.californium.249.name=Kalifornium-249
+item.nuclearcraft.californium.249_c.name=Karbid kalifornia-249
+item.nuclearcraft.californium.249_ox.name=Oxid kalifornia-249
+item.nuclearcraft.californium.249_ni.name=Nitrid kalifornia-249
+item.nuclearcraft.californium.249_za.name=Slitina zirkonia a kalifornia-249
+item.nuclearcraft.californium.250.name=Kalifornium-250
+item.nuclearcraft.californium.250_c.name=Karbid kalifornia-250
+item.nuclearcraft.californium.250_ox.name=Oxid kalifornia-250
+item.nuclearcraft.californium.250_ni.name=Nitrid kalifornia-250
+item.nuclearcraft.californium.250_za.name=Slitina zirkonia a kalifornia-250
+item.nuclearcraft.californium.251.name=Kalifornium-251
+item.nuclearcraft.californium.251_c.name=Karbid kalifornia-251
+item.nuclearcraft.californium.251_ox.name=Oxid kalifornia-251
+item.nuclearcraft.californium.251_ni.name=Nitrid kalifornia-251
+item.nuclearcraft.californium.251_za.name=Slitina zirkonia a kalifornia-252
+item.nuclearcraft.californium.252.name=Kalifornium-252
+item.nuclearcraft.californium.252_c.name=Karbid kalifornia-252
+item.nuclearcraft.californium.252_ox.name=Oxid kalifornia-252
+item.nuclearcraft.californium.252_ni.name=Nitrid kalifornia-252
+item.nuclearcraft.californium.252_za.name=Slitina zirkonia a kalifornia-252
+
+item.nuclearcraft.pellet_thorium.tbu.name=TBU
+item.nuclearcraft.pellet_thorium.tbu_c.name=Karbid TBU
+
+item.nuclearcraft.pellet_uranium.leu_233.name=LEU-233
+item.nuclearcraft.pellet_uranium.leu_233_c.name=Karbid LEU-233
+item.nuclearcraft.pellet_uranium.heu_233.name=HEU-233
+item.nuclearcraft.pellet_uranium.heu_233_c.name=Karbid HEU-233
+item.nuclearcraft.pellet_uranium.leu_235.name=LEU-235
+item.nuclearcraft.pellet_uranium.leu_235_c.name=Karbid LEU-235
+item.nuclearcraft.pellet_uranium.heu_235.name=HEU-235
+item.nuclearcraft.pellet_uranium.heu_235_c.name=Karbid HEU-235
+
+item.nuclearcraft.pellet_neptunium.len_236.name=LEN-236
+item.nuclearcraft.pellet_neptunium.len_236_c.name=Karbid LEN-236
+item.nuclearcraft.pellet_neptunium.hen_236.name=HEN-236
+item.nuclearcraft.pellet_neptunium.hen_236_c.name=Karbid HEN-236
+
+item.nuclearcraft.pellet_plutonium.lep_239.name=LEP-239
+item.nuclearcraft.pellet_plutonium.lep_239_c.name=Karbid LEP-239
+item.nuclearcraft.pellet_plutonium.hep_239.name=HEP-239
+item.nuclearcraft.pellet_plutonium.hep_239_c.name=Karbid HEP-239
+item.nuclearcraft.pellet_plutonium.lep_241.name=LEP-241
+item.nuclearcraft.pellet_plutonium.lep_241_c.name=Karbid LEP-241
+item.nuclearcraft.pellet_plutonium.hep_241.name=HEP-241
+item.nuclearcraft.pellet_plutonium.hep_241_c.name=Karbid HEP-241
+
+item.nuclearcraft.pellet_mixed.mix_239.name=MIX-239
+item.nuclearcraft.pellet_mixed.mix_239_c.name=Karbid MIX-239
+item.nuclearcraft.pellet_mixed.mix_241.name=MIX-241
+item.nuclearcraft.pellet_mixed.mix_241_c.name=Karbid MIX-241
+
+item.nuclearcraft.pellet_americium.lea_242.name=LEA-242
+item.nuclearcraft.pellet_americium.lea_242_c.name=Karbid LEA-242
+item.nuclearcraft.pellet_americium.hea_242.name=HEA-242
+item.nuclearcraft.pellet_americium.hea_242_c.name=Karbid HEA-242
+
+item.nuclearcraft.pellet_curium.lecm_243.name=Karbid LECm-243
+item.nuclearcraft.pellet_curium.lecm_243_c.name=LECm-243
+item.nuclearcraft.pellet_curium.hecm_243.name=HECm-243
+item.nuclearcraft.pellet_curium.hecm_243_c.name=Karbid HECm-243
+item.nuclearcraft.pellet_curium.lecm_245.name=LECm-245
+item.nuclearcraft.pellet_curium.lecm_245_c.name=Karbid LECm-245
+item.nuclearcraft.pellet_curium.hecm_245.name=HECm-245
+item.nuclearcraft.pellet_curium.hecm_245_c.name=Karbid HECm-245
+item.nuclearcraft.pellet_curium.lecm_247.name=LECm-247
+item.nuclearcraft.pellet_curium.lecm_247_c.name=Karbid LECm-247
+item.nuclearcraft.pellet_curium.hecm_247.name=HECm-247
+item.nuclearcraft.pellet_curium.hecm_247_c.name=Karbid HECm-247
+
+item.nuclearcraft.pellet_berkelium.leb_248.name=LEB-248
+item.nuclearcraft.pellet_berkelium.leb_248_c.name=Karbid LEB-248
+item.nuclearcraft.pellet_berkelium.heb_248.name=HEB-248
+item.nuclearcraft.pellet_berkelium.heb_248_c.name=Karbid HEB-248
+
+item.nuclearcraft.pellet_californium.lecf_249.name=LECf-249
+item.nuclearcraft.pellet_californium.lecf_249_c.name=Karbid LECf-249
+item.nuclearcraft.pellet_californium.hecf_249.name=HECf-249
+item.nuclearcraft.pellet_californium.hecf_249_c.name=Karbid HECf-249
+item.nuclearcraft.pellet_californium.lecf_251.name=LECf-251
+item.nuclearcraft.pellet_californium.lecf_251_c.name=Karbid LECf-251 
+item.nuclearcraft.pellet_californium.hecf_251.name=HECf-251
+item.nuclearcraft.pellet_californium.hecf_251_c.name=Karbid HECf-251
+
+item.nuclearcraft.fuel_thorium.tbu_tr.name=Oblázek paliva TBU TRISO
+item.nuclearcraft.fuel_thorium.tbu_ox.name=Palivová peleta TBU oxidu
+item.nuclearcraft.fuel_thorium.tbu_ni.name=Palivová peleta TBU nitridu
+item.nuclearcraft.fuel_thorium.tbu_za.name=Palivová peleta TBU-zirkoniové slitiny
+
+item.nuclearcraft.fuel_uranium.leu_233_tr.name=Oblázek paliva LEU-233 TRISO
+item.nuclearcraft.fuel_uranium.leu_233_ox.name=Palivová peleta oxidu LEU-233
+item.nuclearcraft.fuel_uranium.leu_233_ni.name=Palivová peleta nitridu LEU-233
+item.nuclearcraft.fuel_uranium.leu_233_za.name=Palivová peleta LEU-233-zirkoniové slitiny
+item.nuclearcraft.fuel_uranium.heu_233_tr.name=Oblázek paliva HEU-233 TRISO
+item.nuclearcraft.fuel_uranium.heu_233_ox.name=Palivová peleta oxidu HEU-233
+item.nuclearcraft.fuel_uranium.heu_233_ni.name=Palivová peleta nitridu HEU-233
+item.nuclearcraft.fuel_uranium.heu_233_za.name=Palivová peleta HEU-233-zirkoniové slitiny
+item.nuclearcraft.fuel_uranium.leu_235_tr.name=Oblázek paliva LEU-235
+item.nuclearcraft.fuel_uranium.leu_235_ox.name=Palivová peleta oxidu LEU-235
+item.nuclearcraft.fuel_uranium.leu_235_ni.name=Palivová peleta nitridu LEU-235
+item.nuclearcraft.fuel_uranium.leu_235_za.name=Palivová peleta LEU-235-zirkoniové slitiny
+item.nuclearcraft.fuel_uranium.heu_235_tr.name=Oblázek paliva HEU-235 TRISO
+item.nuclearcraft.fuel_uranium.heu_235_ox.name=Palivová peleta oxidu HEU-235
+item.nuclearcraft.fuel_uranium.heu_235_ni.name=Palivová peleta nitridu HEU-235
+item.nuclearcraft.fuel_uranium.heu_235_za.name=Palivová peleta HEU-235-zirkoniové slitiny
+
+item.nuclearcraft.fuel_neptunium.len_236_tr.name=Oblázek paliva LEN-236 TRISO
+item.nuclearcraft.fuel_neptunium.len_236_ox.name=Palivová peleta oxidu LEN-236
+item.nuclearcraft.fuel_neptunium.len_236_ni.name=Palivová peleta nitridu LEN-236
+item.nuclearcraft.fuel_neptunium.len_236_za.name=Palivová peleta LEN-236-zirkoniové slitiny
+item.nuclearcraft.fuel_neptunium.hen_236_tr.name=Oblázek paliva HEN-236 TRISO
+item.nuclearcraft.fuel_neptunium.hen_236_ox.name=Palivová peleta oxidu HEN-236
+item.nuclearcraft.fuel_neptunium.hen_236_ni.name=Palivová peleta nitridu HEN-236
+item.nuclearcraft.fuel_neptunium.hen_236_za.name=Palivová peleta HEN-236-zirkoniové slitiny
+
+item.nuclearcraft.fuel_plutonium.lep_239_tr.name=Oblázek paliva LEP-239 TRISO
+item.nuclearcraft.fuel_plutonium.lep_239_ox.name=Palivová peleta oxidu LEP-239
+item.nuclearcraft.fuel_plutonium.lep_239_ni.name=Palivová peleta nitridu LEP-239
+item.nuclearcraft.fuel_plutonium.lep_239_za.name=Palivová peleta LEP-239-zirkoniové slitiny
+item.nuclearcraft.fuel_plutonium.hep_239_tr.name=Oblázek paliva HEP-239 TRISO
+item.nuclearcraft.fuel_plutonium.hep_239_ox.name=Palivová peleta oxidu HEP-239
+item.nuclearcraft.fuel_plutonium.hep_239_ni.name=Palivová peleta nitridu HEP-239
+item.nuclearcraft.fuel_plutonium.hep_239_za.name=Palivová peleta HEP-239-zirkoniové slitiny
+item.nuclearcraft.fuel_plutonium.lep_241_tr.name=Oblázek paliva LEP-241 TRISO
+item.nuclearcraft.fuel_plutonium.lep_241_ox.name=Palivová peleta oxidu LEP-241
+item.nuclearcraft.fuel_plutonium.lep_241_ni.name=Palivová peleta nitridu LEP-241
+item.nuclearcraft.fuel_plutonium.lep_241_za.name=Palivová peleta LEP-241-zirkoniové slitiny
+item.nuclearcraft.fuel_plutonium.hep_241_tr.name=Oblázek paliva HEP-241 TRISO
+item.nuclearcraft.fuel_plutonium.hep_241_ox.name=Palivová peleta oxidu HEP-241
+item.nuclearcraft.fuel_plutonium.hep_241_ni.name=Palivová peleta nitridu LEP-241
+item.nuclearcraft.fuel_plutonium.hep_241_za.name=Palivová peleta HEP-241-zirkoniové slitiny
+
+item.nuclearcraft.fuel_mixed.mix_239_tr.name=Oblázek paliva MTRISO-239
+item.nuclearcraft.fuel_mixed.mix_239_ox.name=Palivová peleta MOX-239
+item.nuclearcraft.fuel_mixed.mix_239_ni.name=Palivová peleta MNI-239
+item.nuclearcraft.fuel_mixed.mix_239_za.name=Palivová peleta MZA-239
+item.nuclearcraft.fuel_mixed.mix_241_tr.name=Oblázek paliva MTRISO-241
+item.nuclearcraft.fuel_mixed.mix_241_ox.name=Palivová peleta MOX-241
+item.nuclearcraft.fuel_mixed.mix_241_ni.name=Palivová peleta MNI-241
+item.nuclearcraft.fuel_mixed.mix_241_za.name=Palivová peleta MZA-241
+
+item.nuclearcraft.fuel_americium.lea_242_tr.name=Oblázek paliva LEA-242 TRISO
+item.nuclearcraft.fuel_americium.lea_242_ox.name=Palivová peleta oxidu LEA-242
+item.nuclearcraft.fuel_americium.lea_242_ni.name=Palivová peleta nitridu LEA-242
+item.nuclearcraft.fuel_americium.lea_242_za.name=Palivová peleta LEA-242-zirkoniové slitiny
+item.nuclearcraft.fuel_americium.hea_242_tr.name=Oblázek paliva HEA-242 TRISO
+item.nuclearcraft.fuel_americium.hea_242_ox.name=Palivová peleta oxidu HEA-242
+item.nuclearcraft.fuel_americium.hea_242_ni.name=Palivová peleta nitridu HEA-242
+item.nuclearcraft.fuel_americium.hea_242_za.name=Palivová peleta HEA-242-zirkoniové slitiny
+
+item.nuclearcraft.fuel_curium.lecm_243_tr.name=Oblázek paliva LECm-243 TRISO
+item.nuclearcraft.fuel_curium.lecm_243_ox.name=Palivová peleta oxidu LECm-243
+item.nuclearcraft.fuel_curium.lecm_243_ni.name=Palivová peleta nitridu LECm-243
+item.nuclearcraft.fuel_curium.lecm_243_za.name=Palivová peleta LECm-243-zirkoniové slitiny
+item.nuclearcraft.fuel_curium.hecm_243_tr.name=Oblázek paliva HECm-243 TRISO
+item.nuclearcraft.fuel_curium.hecm_243_ox.name=Palivová peleta oxidu HECm-243
+item.nuclearcraft.fuel_curium.hecm_243_ni.name=Palivová peleta nitridu HECm-243
+item.nuclearcraft.fuel_curium.hecm_243_za.name=Palivová peleta HECm-243-zirkoniové slitiny
+item.nuclearcraft.fuel_curium.lecm_245_tr.name=Oblázek paliva LECm-245 TRISO
+item.nuclearcraft.fuel_curium.lecm_245_ox.name=Palivová peleta oxidu LECm-245
+item.nuclearcraft.fuel_curium.lecm_245_ni.name=Palivová peleta nitridu LECm-245
+item.nuclearcraft.fuel_curium.lecm_245_za.name=Palivová peleta LECm-245-zirkoniové slitiny
+item.nuclearcraft.fuel_curium.hecm_245_tr.name=Oblázek paliva HECm-245 TRISO
+item.nuclearcraft.fuel_curium.hecm_245_ox.name=Palivová peleta oxidu HECm-245
+item.nuclearcraft.fuel_curium.hecm_245_ni.name=Palivová peleta nitridu HECm-245
+item.nuclearcraft.fuel_curium.hecm_245_za.name=Palivová peleta HECm-245-zirkoniové slitiny
+item.nuclearcraft.fuel_curium.lecm_247_tr.name=Oblázek paliva LECm-247 TRISO
+item.nuclearcraft.fuel_curium.lecm_247_ox.name=Palivová peleta oxidu LECm-247
+item.nuclearcraft.fuel_curium.lecm_247_ni.name=Palivová peleta nitridu LECm-247
+item.nuclearcraft.fuel_curium.lecm_247_za.name=Palivová peleta LECm-247-zirkoniové slitiny
+item.nuclearcraft.fuel_curium.hecm_247_tr.name=Oblázek paliva HECm-247 TRISO
+item.nuclearcraft.fuel_curium.hecm_247_ox.name=Palivová peleta oxidu HECm-247
+item.nuclearcraft.fuel_curium.hecm_247_ni.name=Palivová peleta nitridu HECm-247
+item.nuclearcraft.fuel_curium.hecm_247_za.name=Palivová peleta HECm-247-zirkoniové slitiny
+
+item.nuclearcraft.fuel_berkelium.leb_248_tr.name=Oblázek paliva LEB-248 TRISO
+item.nuclearcraft.fuel_berkelium.leb_248_ox.name=Palivová peleta oxidu LEB-248
+item.nuclearcraft.fuel_berkelium.leb_248_ni.name=Palivová peleta LEB-248
+item.nuclearcraft.fuel_berkelium.leb_248_za.name=Palivová peleta LEB-248-zirkoniové slitiny
+item.nuclearcraft.fuel_berkelium.heb_248_tr.name=Oblázek paliva HEB-248 TRISO
+item.nuclearcraft.fuel_berkelium.heb_248_ox.name=Palivová peleta oxidu HEB-248
+item.nuclearcraft.fuel_berkelium.heb_248_ni.name=Palivová peleta nitridu HEB-248
+item.nuclearcraft.fuel_berkelium.heb_248_za.name=Palivová peleta HEB-248-zirkoniové slitiny
+
+item.nuclearcraft.fuel_californium.lecf_249_tr.name=Oblázek paliva LECf-249 TRISO 
+item.nuclearcraft.fuel_californium.lecf_249_ox.name=Palivová peleta oxidu LECf-249
+item.nuclearcraft.fuel_californium.lecf_249_ni.name=Palivová peleta nitridu LECf-249
+item.nuclearcraft.fuel_californium.lecf_249_za.name=Palivová peleta LECf-249-zirkoniové slitiny
+item.nuclearcraft.fuel_californium.hecf_249_tr.name=Oblázek paliva HECf-249 TRISO
+item.nuclearcraft.fuel_californium.hecf_249_ox.name=Palivová peleta oxidu HECf-249
+item.nuclearcraft.fuel_californium.hecf_249_ni.name=Palivová peleta nitridu HECf-249
+item.nuclearcraft.fuel_californium.hecf_249_za.name=Palivová peleta HECf-249-zirkoniové slitiny
+item.nuclearcraft.fuel_californium.lecf_251_tr.name=Oblázek paliva LECf-251 TRISO
+item.nuclearcraft.fuel_californium.lecf_251_ox.name=Palivová peleta oxidu LECf-251
+item.nuclearcraft.fuel_californium.lecf_251_ni.name=Palivová peleta nitridu LECf-251
+item.nuclearcraft.fuel_californium.lecf_251_za.name=Palivová peleta LECf-251-zirkoniové slitiny
+item.nuclearcraft.fuel_californium.hecf_251_tr.name=Oblázek paliva HECf-251
+item.nuclearcraft.fuel_californium.hecf_251_ox.name=Palivová peleta oxidu HECf-251
+item.nuclearcraft.fuel_californium.hecf_251_ni.name=Palivová peleta nitridu HECf-251
+item.nuclearcraft.fuel_californium.hecf_251_za.name=Palivová peleta HECf-251-zirkoniové slitiny
+
+info.nuclearcraft.fission_fuel.desc=Palivo štěpného reaktoru
+info.nuclearcraft.fission_fuel.base_time.desc=Základní čas vyprázdnění: %s
+info.nuclearcraft.fission_fuel.base_heat.desc=Základní generace tepla: %s
+info.nuclearcraft.fission_fuel.base_efficiency.desc=Základní účinnost: %s
+info.nuclearcraft.fission_fuel.criticality.desc=Faktor kritikality: %s
+info.nuclearcraft.fission_fuel.decay_factor.desc=Faktor rozpadu: %s
+info.nuclearcraft.fission_fuel.self_priming.desc=Sebe-aktivující!
+
+item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=Oblázek ochuzeného paliva TBU TRISO
+item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=Peleta ochuzeného paliva TBU oxidu
+item.nuclearcraft.depleted_fuel_thorium.tbu_ni.name=Peleta ochuzeného paliva TBU nitridu
+item.nuclearcraft.depleted_fuel_thorium.tbu_za.name=Peleta ochuzeného paliva TBU-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_uranium.leu_233_tr.name=Oblázek ochuzeného paliva LEU-233 TRISO
+item.nuclearcraft.depleted_fuel_uranium.leu_233_ox.name=Peleta ochuzeného paliva oxidu LEU-233
+item.nuclearcraft.depleted_fuel_uranium.leu_233_ni.name=Peleta ochuzeného paliva nitridu LEU-233
+item.nuclearcraft.depleted_fuel_uranium.leu_233_za.name=Peleta ochuzeného paliva LEU-233-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_uranium.heu_233_tr.name=Oblázek ochuzeného paliva HEU-233 TRISO
+item.nuclearcraft.depleted_fuel_uranium.heu_233_ox.name=Peleta ochuzeného paliva oxidu HEU-233
+item.nuclearcraft.depleted_fuel_uranium.heu_233_ni.name=Peleta ochuzeného paliva nitridu LEU-233
+item.nuclearcraft.depleted_fuel_uranium.heu_233_za.name=Peleta ochuzeného paliva HEU-233-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_uranium.leu_235_tr.name=Oblázek ochuzeného paliva LEU-235 TRISO
+item.nuclearcraft.depleted_fuel_uranium.leu_235_ox.name=Peleta ochuzeného paliva oxidu LEU-235
+item.nuclearcraft.depleted_fuel_uranium.leu_235_ni.name=Peleta ochuzeného paliva nitridu LEU-235
+item.nuclearcraft.depleted_fuel_uranium.leu_235_za.name=Peleta ochuzeného paliva LEU-235-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_uranium.heu_235_tr.name=Oblázek ochuzeného paliva HEU-235 TRISO
+item.nuclearcraft.depleted_fuel_uranium.heu_235_ox.name=Peleta ochuzeného paliva oxidu HEU-235
+item.nuclearcraft.depleted_fuel_uranium.heu_235_ni.name=Peleta ochuzeného paliva nitridu HEU-235
+item.nuclearcraft.depleted_fuel_uranium.heu_235_za.name=Peleta ochuzeného paliva HEU-235-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_neptunium.len_236_tr.name=Oblázek ochuzeného paliva LEN-236 TRISO
+item.nuclearcraft.depleted_fuel_neptunium.len_236_ox.name=Peleta ochuzeného paliva oxidu LEN-236
+item.nuclearcraft.depleted_fuel_neptunium.len_236_ni.name=Peleta ochuzeného paliva nitridu LEN-236
+item.nuclearcraft.depleted_fuel_neptunium.len_236_za.name=Peleta ochuzeného paliva LEN-236-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_tr.name=Oblázek ochuzeného paliva HEN-236 TRISO
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_ox.name=Peleta ochuzeného paliva oxidu HEN-236
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_ni.name=Peleta ochuzeného paliva nitridu HEN-236
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_za.name=Peleta ochuzeného paliva HEN-236-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_tr.name=Oblázek ochuzeného paliva LEP-239 TRISO
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_ox.name=Peleta ochuzeného paliva oxidu LEP-239
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_ni.name=Peleta ochuzeného paliva nitridu LEP-239
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_za.name=Peleta ochuzeného paliva LEP-239-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_tr.name=Oblázek ochuzeného paliva HEP-239 TRISO
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_ox.name=Peleta ochuzeného paliva oxidu HEP-239
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_ni.name=Peleta ochuzeného paliva nitridu HEP-239
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_za.name=Peleta ochuzeného paliva HEP-239-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_tr.name=Oblázek ochuzeného paliva LEP-241 TRISO
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_ox.name=Peleta ochuzeného paliva oxidu LEP-241
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_ni.name=Peleta ochuzeného paliva nitridu LEP-241
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_za.name=Peleta ochuzeného paliva LEP-241-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_tr.name=Oblázek ochuzeného paliva HEP-241 TRISO
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_ox.name=Peleta ochuzeného paliva oxidu LEP-241
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=Peleta ochuzeného paliva nitridu LEP-241
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=Peleta ochuzeného paliva HEP-241-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=Oblázek ochuzeného paliva MTRISO-239
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=Peleta ochuzeného paliva MOX-239
+item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=Peleta ochuzeného paliva MNI-239
+item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=Peleta ochuzeného paliva MZA-239
+item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=Oblázek ochuzeného paliva MTRISO-241
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=Peleta ochuzeného paliva MOX-241
+item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=Peleta ochuzeného paliva MNI-241
+item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=Peleta ochuzeného paliva MZA-241
+
+item.nuclearcraft.depleted_fuel_americium.lea_242_tr.name=Oblázek ochuzeného paliva LEA-242 TRISO
+item.nuclearcraft.depleted_fuel_americium.lea_242_ox.name=Peleta ochuzeného paliva oxidu LEA-242
+item.nuclearcraft.depleted_fuel_americium.lea_242_ni.name=Peleta ochuzeného paliva nitridu LEA-242
+item.nuclearcraft.depleted_fuel_americium.lea_242_za.name=Peleta ochuzeného paliva LEA-242-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_americium.hea_242_tr.name=Oblázek ochuzeného paliva HEA-242 TRISO
+item.nuclearcraft.depleted_fuel_americium.hea_242_ox.name=Peleta ochuzeného paliva oxidu HEA-242
+item.nuclearcraft.depleted_fuel_americium.hea_242_ni.name=Peleta ochuzeného paliva nitridu HEA-242
+item.nuclearcraft.depleted_fuel_americium.hea_242_za.name=Peleta ochuzeného paliva HEA-242-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_curium.lecm_243_tr.name=Oblázek ochuzeného paliva LECm-243 TRISO
+item.nuclearcraft.depleted_fuel_curium.lecm_243_ox.name=Peleta ochuzeného paliva oxidu LECm-243
+item.nuclearcraft.depleted_fuel_curium.lecm_243_ni.name=Peleta ochuzeného paliva nitridu LECm-243
+item.nuclearcraft.depleted_fuel_curium.lecm_243_za.name=Peleta ochuzeného paliva LECm-243-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_curium.hecm_243_tr.name=Oblázek ochuzeného paliva HECm-243 TRISO
+item.nuclearcraft.depleted_fuel_curium.hecm_243_ox.name=Peleta ochuzeného paliva oxidu HECm-243
+item.nuclearcraft.depleted_fuel_curium.hecm_243_ni.name=Peleta ochuzeného paliva nitridu HECm-243
+item.nuclearcraft.depleted_fuel_curium.hecm_243_za.name=Peleta ochuzeného paliva HECm-243-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_curium.lecm_245_tr.name=Oblázek ochuzeného paliva LECm-245 TRISO
+item.nuclearcraft.depleted_fuel_curium.lecm_245_ox.name=Peleta ochuzeného paliva oxidu LECm-245
+item.nuclearcraft.depleted_fuel_curium.lecm_245_ni.name=Peleta ochuzeného paliva nitridu LECm-245
+item.nuclearcraft.depleted_fuel_curium.lecm_245_za.name=Peleta ochuzeného paliva LECm-245-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_curium.hecm_245_tr.name=Oblázek ochuzeného paliva LECm-243 TRISO
+item.nuclearcraft.depleted_fuel_curium.hecm_245_ox.name=Peleta ochuzeného paliva oxidu HECm-245
+item.nuclearcraft.depleted_fuel_curium.hecm_245_ni.name=Peleta ochuzeného paliva nitridu HECm-245
+item.nuclearcraft.depleted_fuel_curium.hecm_245_za.name=Peleta ochuzeného paliva HECm-245-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_curium.lecm_247_tr.name=Oblázek ochuzeného paliva LECm-247 TRISO
+item.nuclearcraft.depleted_fuel_curium.lecm_247_ox.name=Peleta ochuzeného paliva oxidu LECm-247
+item.nuclearcraft.depleted_fuel_curium.lecm_247_ni.name=Peleta ochuzeného paliva nitridu LECm-247
+item.nuclearcraft.depleted_fuel_curium.lecm_247_za.name=Peleta ochuzeného paliva LECm-245-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_curium.hecm_247_tr.name=Oblázek ochuzeného paliva HECm-247 TRISO
+item.nuclearcraft.depleted_fuel_curium.hecm_247_ox.name=Peleta ochuzeného paliva oxidu HECm-247
+item.nuclearcraft.depleted_fuel_curium.hecm_247_ni.name=Peleta ochuzeného paliva nitridu HECm-247
+item.nuclearcraft.depleted_fuel_curium.hecm_247_za.name=Peleta ochuzeného paliva HECm-247-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_tr.name=Oblázek ochuzeného paliva LEB-248 TRISO
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_ox.name=Peleta ochuzeného paliva oxidu LEB-248
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_ni.name=Peleta ochuzeného paliva nitridu LEB-248
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_za.name=Peleta ochuzeného paliva LEB-248-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_tr.name=Oblázek ochuzeného paliva HEB-248 TRISO
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_ox.name=Peleta ochuzeného paliva oxidu HEB-248
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_ni.name=Peleta ochuzeného paliva nitridu HEB-248
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_za.name=Peleta ochuzeného paliva HEB-248-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_californium.lecf_249_tr.name=Oblázek ochuzeného paliva LECf-249 TRISO
+item.nuclearcraft.depleted_fuel_californium.lecf_249_ox.name=Peleta ochuzeného paliva oxidu LECf-249
+item.nuclearcraft.depleted_fuel_californium.lecf_249_ni.name=Peleta ochuzeného paliva nitridu LECf-249
+item.nuclearcraft.depleted_fuel_californium.lecf_249_za.name=Peleta ochuzeného paliva LECf-249-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_californium.hecf_249_tr.name=Oblázek ochuzeného paliva HECf-249 TRISO
+item.nuclearcraft.depleted_fuel_californium.hecf_249_ox.name=Peleta ochuzeného paliva oxidu HECf-249
+item.nuclearcraft.depleted_fuel_californium.hecf_249_ni.name=Peleta ochuzeného paliva nitridu LECf-249
+item.nuclearcraft.depleted_fuel_californium.hecf_249_za.Peleta ochuzeného paliva LECf-249-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_californium.lecf_251_tr.name=Oblázek ochuzeného paliva LECf-251 TRISO 
+item.nuclearcraft.depleted_fuel_californium.lecf_251_ox.name=Peleta ochuzeného paliva oxidu LECf-251
+item.nuclearcraft.depleted_fuel_californium.lecf_251_ni.name=Peleta ochuzeného paliva nitridu LECf-251
+item.nuclearcraft.depleted_fuel_californium.lecf_251_za.Peleta ochuzeného paliva LECf-251-zirkoniové slitiny
+item.nuclearcraft.depleted_fuel_californium.hecf_251_tr.name=Oblázek ochuzeného paliva HECf-251 TRISO
+item.nuclearcraft.depleted_fuel_californium.hecf_251_ox.name=Peleta ochuzeného paliva oxidu HECf-251
+item.nuclearcraft.depleted_fuel_californium.hecf_251_ni.name=Peleta ochuzeného paliva oxidu HECf-251
+item.nuclearcraft.depleted_fuel_californium.hecf_251_za.Peleta ochuzeného paliva HECf-251-zirkoniové slitiny
+
+item.nuclearcraft.depleted_fuel_ic2.u.name=Ochuzené uranové jaderné palivo
+item.nuclearcraft.depleted_fuel_ic2.mox.name=Ochuzené jaderné MOX palivo
+
+item.nuclearcraft.boron.10.name=Bór-10
+item.nuclearcraft.boron.11.name=Bór-11
+
+item.nuclearcraft.lithium.6.name=Lithium-6
+item.nuclearcraft.lithium.7.name=Lithium-7
+
+item.nuclearcraft.sword_boron.name=Bórový meč
+item.nuclearcraft.pickaxe_boron.name=Bórový krumpáč
+item.nuclearcraft.shovel_boron.name=Bórová lopata
+item.nuclearcraft.axe_boron.name=Bórová sekera
+item.nuclearcraft.hoe_boron.name=Bórová motyka
+item.nuclearcraft.spaxelhoe_boron.name=Bórový kombinovaný nástroj
+item.nuclearcraft.spaxelhoe_boron.desc=Univerzální nástroj složený ze všech základních bórových nástrojů.
+
+item.nuclearcraft.sword_tough.name=Tvrdoslitinový meč
+item.nuclearcraft.pickaxe_tough.name=Tvrdoslitinový krumpáč
+item.nuclearcraft.shovel_tough.name=Tvrdoslitinová lopata
+item.nuclearcraft.axe_tough.name=Tvrdoslitinová sekera
+item.nuclearcraft.hoe_tough.name=Tvrdoslitinová motyka
+item.nuclearcraft.spaxelhoe_tough.name=Tvrdoslitinový kombinovaný nástroj
+item.nuclearcraft.spaxelhoe_tough.desc=Univerzální nástroj složený ze všech základních tvrdoslitinových nástrojů.
+
+item.nuclearcraft.sword_hard_carbon.name=Tvrdouhlíkový meč
+item.nuclearcraft.pickaxe_hard_carbon.name=Tvrdouhlíkový krumpáč
+item.nuclearcraft.shovel_hard_carbon.name=Tvrdouhlíková lopata
+item.nuclearcraft.axe_hard_carbon.name=Tvrdouhlíková sekera
+item.nuclearcraft.hoe_hard_carbon.name=Tvrdouhlíková motyka
+item.nuclearcraft.spaxelhoe_hard_carbon.name=Tvrdouhlíkový kombinovaný nástroj
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=Univerzální nástroj složený ze všech základních tvrdouhlíkových nástrojů.
+
+item.nuclearcraft.sword_boron_nitride.name=Nitridoborový meč
+item.nuclearcraft.pickaxe_boron_nitride.name=Nitridoborový krumpáč
+item.nuclearcraft.shovel_boron_nitride.name=Nitridoborová lopata
+item.nuclearcraft.axe_boron_nitride.name=Nitridoborová sekera
+item.nuclearcraft.hoe_boron_nitride.name=Nitridoborová motyka
+item.nuclearcraft.spaxelhoe_boron_nitride.name=Nitridoborový kombinovaný nástroj
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=Univerzální nástroj složený ze všech základních nitridoborových nástrojů.
+
+item.nuclearcraft.helm_boron.name=Bórová přilba
+item.nuclearcraft.chest_boron.name=Bórový pancíř
+item.nuclearcraft.legs_boron.name=Bóroové kalhoty
+item.nuclearcraft.boots_boron.name=Bórové boty
+
+item.nuclearcraft.helm_tough.name=Tvrdoslitinová přilba
+item.nuclearcraft.chest_tough.name=Tvrdoslitinový pancíř
+item.nuclearcraft.legs_tough.name=Tvrdoslitinové kalhoty
+item.nuclearcraft.boots_tough.name=Tvrdoslitinové boty
+
+item.nuclearcraft.helm_hard_carbon.name=Tvrdouhlíková přilba
+item.nuclearcraft.chest_hard_carbon.name=Tvrdouhlíkový pancíř
+item.nuclearcraft.legs_hard_carbon.name=Tvrdouhlíkové kalhoty
+item.nuclearcraft.boots_hard_carbon.name=Tvrdouhlíkové boty
+
+item.nuclearcraft.helm_boron_nitride.name=Nitridoborová přilba
+item.nuclearcraft.chest_boron_nitride.name=Nitridoborový pancíř
+item.nuclearcraft.legs_boron_nitride.name=Nitridoborové kalhoty
+item.nuclearcraft.boots_boron_nitride.name=Nitridoborové boty
+
+item.nuclearcraft.helm_hazmat.name=Maska ochranného obleku
+item.nuclearcraft.chest_hazmat.name=Vesta ochranného obleku
+item.nuclearcraft.legs_hazmat.name=Kalhoty ochranného obleku
+item.nuclearcraft.boots_hazmat.name=Boty ochranného obleku
+
+item.nuclearcraft.lithium_ion_cell.name=Lithium-iontový článek
+
+item.nuclearcraft.multitool.name=Multinástroj
+
+info.nuclearcraft.multitool.clear_info=Uložené informace multinástroje vymazány
+
+info.nuclearcraft.multitool.save_processor_config=Konfigurace %s uložena do multinástroje
+info.nuclearcraft.multitool.load_processor_config=Konfigurace %s načtena z multinástroje
+info.nuclearcraft.multitool.invalid_processor_config=Informace %s z multinástroje nemůže být načtena do %s
+
+info.nuclearcraft.multitool.save_component_info=Uložena informace %s do multinástroje
+info.nuclearcraft.multitool.load_component_info=Načtena informace %s z multinástroje do %s
+info.nuclearcraft.multitool.invalid_component_info=Informace %s z multinástroje nemůže být načtena do %s
+
+info.nuclearcraft.multitool.start_manager_listener_set=%s čeká na sadu posluchačů...
+info.nuclearcraft.multitool.append_manager_listener_set=Do multinástroje byl přidán posluchač %s
+info.nuclearcraft.multitool.finish_manager_listener_set=%s je nyní spojen s %s posluchači
+info.nuclearcraft.multitool.manager_listener_info=%s je aktuálně připojen na %s posluchačů
+
+info.nuclearcraft.multitool.no_connected_component_info=%s aktuálně nemá žádnou spojenou součást!
+info.nuclearcraft.multitool.connected_component_info=%s je aktuálně připojeno k %s na [%d, %d, %d]
+
+info.nuclearcraft.multitool.quantum_computer.qubit_id=ID kvantového bitu: %s
+info.nuclearcraft.multitool.quantum_computer.start_qubit_set=Vytvořena nová sada s ID kvantových bitů začínající na %s
+info.nuclearcraft.multitool.quantum_computer.start_qubit_list=Vytvořen nový seznam kvantových bitů začínající na %s
+info.nuclearcraft.multitool.quantum_computer.remove_qubit=Odstraněno ID kvantového bitu %s z multinástroje
+info.nuclearcraft.multitool.quantum_computer.add_qubit=Uloženo ID kvantového bitu %s do multinástroje
+
+info.nuclearcraft.multitool.quantum_computer.single_gate_info=%s aktuálně cílí na %s
+info.nuclearcraft.multitool.quantum_computer.start_target_set=%s čeká na sadu cílených kvantových bitů...
+info.nuclearcraft.multitool.quantum_computer.finish_target_set=%s nyní cílí na kvantové bity %s
+
+info.nuclearcraft.multitool.quantum_computer.single_angle_gate_info=%s aktuálně cílí na kvantové bity %s s pracovním úhlem %s stupňů
+info.nuclearcraft.multitool.quantum_computer.start_angle=%s nyní čeká na pracovní úhel...
+info.nuclearcraft.multitool.quantum_computer.tool_set_angle=Úhel %s stupňů uložen do multinástroje
+info.nuclearcraft.multitool.quantum_computer.finish_angle=%s nyní pracuje na %s stupních
+
+info.nuclearcraft.multitool.quantum_computer.control_gate_info=%s aktuálně cílí na kvantové bity %s with ovládacími kvantovými bity %s
+info.nuclearcraft.multitool.quantum_computer.start_control_set=%s nyní čeká na sadu ovládacích kvantových bitů...
+info.nuclearcraft.multitool.quantum_computer.finish_control_set=%s je nyní ovládán kvantovými bity %s
+
+info.nuclearcraft.multitool.quantum_computer.control_angle_gate_info=%s aktuálně cílí na kvantové bity %s s pracovním úhlem %s stupňů a ovládácími kvantovými bity %s
+
+info.nuclearcraft.multitool.quantum_computer.swap_gate_info=%s aktuálně přepíná kvantové bity %s s kvantovými bity %s
+
+tile.nuclearcraft.turbine_controller.name=Ovladač turbíny
+tile.nuclearcraft.turbine_controller.desc=Srdce turbíny - jeden z nich je potřeba pro sestavení.
+tile.nuclearcraft.turbine_casing.name=Turbínový kryt
+tile.nuclearcraft.turbine_glass.name=Turbínové sklo
+tile.nuclearcraft.turbine_rotor_shaft.name=Turbínová hřídel rotoru
+tile.nuclearcraft.turbine_rotor_shaft.desc=Připojuje lopatky rotoru k dynamu pro převod větrné energie na elektrickou. Musí být položena na osu jako kostka uprostřed vnitřku turbíny.
+tile.nuclearcraft.turbine_rotor_blade_steel.name=Ocelová turbínová lopatka
+tile.nuclearcraft.turbine_rotor_blade_extreme.name=Extrémnněslitinová lopatka
+tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=SiC-SiC CMC turbínová lopatka
+tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=Násobitel účinnosti: %s
+tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=Koeficient expanze: %s
+
+tile.nuclearcraft.ore.copper.name=Měděná ruda
+tile.nuclearcraft.ore.tin.name=Cínová ruda
+tile.nuclearcraft.ore.lead.name=Olověná ruda
+tile.nuclearcraft.ore.thorium.name=Thoriová ruda
+tile.nuclearcraft.ore.uranium.name=Uranová ruda
+tile.nuclearcraft.ore.boron.name=Borová ruda
+tile.nuclearcraft.ore.lithium.name=Lithiová ruda
+tile.nuclearcraft.ore.magnesium.name=Hořčíková ruda
+
+tile.nuclearcraft.ingot_block.copper.name=Blok z mědi
+tile.nuclearcraft.ingot_block.tin.name=Blok z cínu
+tile.nuclearcraft.ingot_block.lead.name=Blok z olova
+tile.nuclearcraft.ingot_block.thorium.name=Blok z thoria
+tile.nuclearcraft.ingot_block.uranium.name=Blok z uranu
+tile.nuclearcraft.ingot_block.boron.name=Blok z bóru
+tile.nuclearcraft.ingot_block.lithium.name=Blok z lithia
+tile.nuclearcraft.ingot_block.magnesium.name=Blok z hořčíku
+tile.nuclearcraft.ingot_block.graphite.name=Blok z grafitu
+tile.nuclearcraft.ingot_block.beryllium.name=Blok z beryllia
+tile.nuclearcraft.ingot_block.zirconium.name=Blok ze zirkonia
+tile.nuclearcraft.ingot_block.manganese.name=Blok z manganu
+tile.nuclearcraft.ingot_block.aluminum.name=Blok z hliníku
+tile.nuclearcraft.ingot_block.silver.name=Blok ze stříbra
+tile.nuclearcraft.ingot_block.manganese_oxide.name=Blok z oxidu manganatého
+tile.nuclearcraft.ingot_block.manganese_dioxide.name=Blok z oxidu manganičitého
+
+tile.nuclearcraft.heavy_water_moderator.name=Moderátor těžké vody
+
+info.nuclearcraft.moderator.fixd=Moderátor štepného reaktoru
+info.nuclearcraft.moderator.flux_factor.fixd=Fluxový faktor: %s
+info.nuclearcraft.moderator.efficiency.fixd=Násobič účinnosti: %s
+
+# info.nuclearcraft.moderator.desc=Moderátory jsou médium přes které posílá jeden článek / plášť reaktoru neutronový flux k sobě nebo k jinému. Moderátorové vedení se skládá z NEJVÍC %s spojených moderátorů s článkem nebo plášťem a článkem nebo plášťěm na druhé nebo ALESPOŇ %s spojených moderátorů na jednom koncovém bodě a s neutronovým reflektorem na druhé. Moderátory jsou "aktivní" jen když jsou část vedení A u jednoho koncového článku nebo krytu. Aktivní nebo fuknční článek / kryt posílá flux přes vedení, aby byl přijat článkem / krytem nebo poslán zpátky reflektorem. Celkový počet zaslaného fluxu je suma fluxových faktorů moderátorů ve vedení. Toto je zdvojnásobeno v případě odražení, a je to násobeno odrážecím faktorem reflektorů. Na závěr, celková účinnost článků na konečných bodech je násobena průměrnou účinností vedení ze kterých získává flux - účinnost vedení je průměrný násobitel účinnosti moderátorů ve vedení.
+
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=Berylio-uhlíkový neutronový reflektor
+tile.nuclearcraft.fission_reflector.lead_steel.name=Olověno-ocelový neutronový reflektor
+
+info.nuclearcraft.reflector.fixd=Reflektor štepného reaktoru
+info.nuclearcraft.reflector.efficiency.fixd=Násobič účinnosti: %s
+info.nuclearcraft.reflector.reflectivity.fixd=Faktor odražení: %s
+
+tile.nuclearcraft.fertile_isotope.uranium.name=Blok z uranu-238
+tile.nuclearcraft.fertile_isotope.neptunium.name=Blok z neptunia-237
+tile.nuclearcraft.fertile_isotope.plutonium.name=Blok z plutonia-242
+tile.nuclearcraft.fertile_isotope.americium.name=Blok z americia-243
+tile.nuclearcraft.fertile_isotope.curium.name=Blok z curia-246
+tile.nuclearcraft.fertile_isotope.berkelium.name=Blok z berkelia-247
+tile.nuclearcraft.fertile_isotope.californium.name=Blok z kalifornia-252
+
+tile.nuclearcraft.supercold_ice.name=Superchladný led
+
+tile.nuclearcraft.nuclear_furnace.name=Jaderná pec
+tile.nuclearcraft.nuclear_furnace.desc=Rychle vypéká předměty použitím uranových ingotů a prachů jako palivo.
+
+tile.nuclearcraft.manufactory.name=Manufaktura
+tile.nuclearcraft.manufactory.desc=Spolehlivý stroj který má mnoho použití.
+
+tile.nuclearcraft.separator.name=Oddělovač
+tile.nuclearcraft.separator.desc=Odděluje materiály na jejich zbytky.
+
+tile.nuclearcraft.decay_hastener.name=Urychlovač rozpadu
+tile.nuclearcraft.decay_hastener.desc=Nutí radioaktivní materiály, aby se rozpadly.
+
+tile.nuclearcraft.fuel_reprocessor.name=Palivový znovuzpracovávač
+tile.nuclearcraft.fuel_reprocessor.desc=Extrahuje materiály z ochuzeného paliva.
+
+tile.nuclearcraft.alloy_furnace.name=Slitinová pec
+tile.nuclearcraft.alloy_furnace.desc=Kombinuje základní kovy na slitiny.
+
+tile.nuclearcraft.infuser.name=Kapalinový infuzér
+tile.nuclearcraft.infuser.desc=Obohacuje materiály pomocí kapalin.
+
+tile.nuclearcraft.melter.name=Tavič
+tile.nuclearcraft.melter.desc=Taví materiály.
+
+tile.nuclearcraft.supercooler.name=Superchladič
+tile.nuclearcraft.supercooler.desc=Snižuje teplotu kapalin.
+
+tile.nuclearcraft.electrolyzer.name=Elektrolyzér
+tile.nuclearcraft.electrolyzer.desc=Rozděluje sloučeniny na jejich prvky.
+
+tile.nuclearcraft.assembler.name=Montovač
+tile.nuclearcraft.assembler.desc=Kombinuje součástky pro vytvoření složitých výrobků.
+
+tile.nuclearcraft.ingot_former.name=Tvořič ingotů
+tile.nuclearcraft.ingot_former.desc=Tvoří ingoty a drahokamy z roztavených materiálů.
+
+tile.nuclearcraft.pressurizer.name=Tlakovač
+tile.nuclearcraft.pressurizer.desc=Zpracovává předměty pod tlakem.
+
+tile.nuclearcraft.chemical_reactor.name=Chemický reaktor
+tile.nuclearcraft.chemical_reactor.desc=Způsobuje reakce mezi kapalinami.
+
+tile.nuclearcraft.salt_mixer.name=Kapalinový mixér
+tile.nuclearcraft.salt_mixer.desc=Míchá kapaliny dohromady.
+
+tile.nuclearcraft.crystallizer.name=Krystalizér
+tile.nuclearcraft.crystallizer.desc=Vysušuje pevnou hmotu z kapalin.
+
+tile.nuclearcraft.enricher.name=Obohacovač kapalin
+tile.nuclearcraft.enricher.desc=Obohacuje kapaliny pomocí materiálů.
+
+tile.nuclearcraft.extractor.name=Kapalinový extraktor
+tile.nuclearcraft.extractor.desc=Extrahuje kapaliny z materiálů.
+
+tile.nuclearcraft.centrifuge.name=Odstředivka
+tile.nuclearcraft.centrifuge.desc=Odděluje izotopy z tekutých materiálů.
+
+tile.nuclearcraft.rock_crusher.name=Drtič kamení
+tile.nuclearcraft.rock_crusher.desc=Drtí horniny pro vyrobení minerálních prášků.
+
+tile.nuclearcraft.electric_furnace.name=Elektrická pec
+tile.nuclearcraft.electric_furnace.desc=Taví věci pomocí energie.
+
+tile.nuclearcraft.machine_interface.name=Strojové rozhraní
+tile.nuclearcraft.machine_interface.desc=Automatizace může zpřístupnit stroj za tímto blokem. Maximálně může prodloužit jen jeden stroj za tímto blokem.
+
+tile.nuclearcraft.bin.name=Univerzální koš
+tile.nuclearcraft.bin.desc=Ničí předměty, kapaliny a energii.
+
+tile.nuclearcraft.rtg_uranium.name=Uranový RTG
+tile.nuclearcraft.rtg_plutonium.name=Plutoniový RTG
+tile.nuclearcraft.rtg_americium.name=Americiový RTG
+tile.nuclearcraft.rtg_californium.name=Kaliforniový RTG
+tile.nuclearcraft.rtg.desc=Nepřetržitě vyrábí %s.
+
+tile.nuclearcraft.solar_panel_basic.name=Základní solární panel
+tile.nuclearcraft.solar_panel_advanced.name=Pokročilý solární panel
+tile.nuclearcraft.solar_panel_du.name=DU solární panel
+tile.nuclearcraft.solar_panel_elite.name=Elitní solární panel
+tile.nuclearcraft.solar_panel.desc=Za denního světla nepřetržitě vyrábí %s.
+
+tile.nuclearcraft.decay_generator.name=Generátor rozpadu
+tile.nuclearcraft.decay_generator.desc=Vyrábí energii z rozpadu okolních radioaktivních bloků. Za nějaký čas se tyto bloky rozpadnou a budou vyrábět míň energie.
+
+tile.nuclearcraft.voltaic_pile_basic.name=Základní voltaický článek
+tile.nuclearcraft.voltaic_pile_advanced.name=Pokročilý voltaický článek
+tile.nuclearcraft.voltaic_pile_du.name=DU voltaický článek
+tile.nuclearcraft.voltaic_pile_elite.name=Elitní voltaický článek
+
+tile.nuclearcraft.lithium_ion_battery_basic.name=Základní lithium-iontová baterie
+tile.nuclearcraft.lithium_ion_battery_advanced.name=Pokročilá lithium-iontová baterie
+tile.nuclearcraft.lithium_ion_battery_du.name=DU lithium iontová-baterie
+tile.nuclearcraft.lithium_ion_battery_elite.name=Elitní lithium-iontová baterie
+tile.nuclearcraft.energy_storage.desc=Klikni pravým tlačítkem na stranu, aby jsi zobrazil úroveň energie, a klikni pravým tlačítkem s multinástrojem pro přepnutí spojení na straně. Skrčení při položení udrží konfiguraci spojení.
+
+tile.nuclearcraft.fission_casing.name=Plášť štepného reaktoru
+tile.nuclearcraft.fission_glass.name=Sklo štepného reaktoru
+tile.nuclearcraft.fission_conductor.name=Vodič štepného reaktoru
+tile.nuclearcraft.fission_monitor.name=Monitor štepného reaktoru
+tile.nuclearcraft.fission_power_port.name=Energický přesuvník štepného reaktoru
+tile.nuclearcraft.fission_vent.name=Ventilace štepného reaktoru
+tile.nuclearcraft.fission_irradiator.name=Štěpící ozařovač
+
+tile.nuclearcraft.fission_source.radium_beryllium.name=Radiovo-Berylliový zdroj štepných neutronů
+tile.nuclearcraft.fission_source.polonium_beryllium.name=Poloniovo-Berylliový zdroj štepných neutronů
+tile.nuclearcraft.fission_source.californium.name=Cf-252 zdroj štěpících neutronů
+
+info.nuclearcraft.fission_source.efficiency.fixd=Násobič účinnosti: %s
+
+tile.nuclearcraft.fission_shield.boron_silver.name=Borovo-stříbrný štít štepných neutronů
+
+info.nuclearcraft.fission_shield.heat_per_flux.fixd=Výroba tepla/fluxu: %s
+info.nuclearcraft.fission_shield.efficiency.fixd=Násobič účinnosti: %s
+
+tile.nuclearcraft.fission_computer_port.name=Přesuvník štepného počítače
+tile.nuclearcraft.fission_computer_port.desc=Použit pro přístup k reaktoru přes OpenComputers.
+
+tile.nuclearcraft.fission_irradiator_port.name=Přesuvník štepného ozařovače
+
+tile.nuclearcraft.fission_cell_port.name=Přesuvník pro štepný palivový článek
+
+tile.nuclearcraft.fission_vessel_port.name=Přesuvník palivového krytu štepení
+tile.nuclearcraft.fission_heater_port.name=Přesuvník chladiva štepného ohřívače
+tile.nuclearcraft.fission_heater_port.standard.name=Standardní přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.iron.name=Železný přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.redstone.name=Ruditový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.quartz.name=Křemenný přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.obsidian.name=Obsidiánový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.nether_brick.name=Netheritocihlový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.glowstone.name=Světlitový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.lapis.name=Lazuritový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.gold.name=Zlatý přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.prismarine.name=Prismarínový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.slime.name=Slizový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.end_stone.name=Enderitový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.purpur.name=Purpurový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.diamond.name=Diamantový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.emerald.name=Smaragdový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port.copper.name=Měděný přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.name=Přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.tin.name=Cínový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.lead.name=Olověný přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.boron.name=Borový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.lithium.name=Lithiový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.magnesium.name=Horčíkový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.manganese.name=Manganový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.aluminum.name=Hliníkový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.silver.name=Stříbrný přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.fluorite.name=Fluoritový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.villiaumite.name=Villiaumitový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.carobbiite.name=Carobbiitový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.arsenic.name=Arsenový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.liquid_nitrogen.name=Tekutodusíkový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.liquid_helium.name=Tekutoheliový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.enderium.name=Enderiový přesuvník chladiva štěpného ohřívače
+tile.nuclearcraft.fission_heater_port2.cryotheum.name=Kryotheový přesuvník chladiva štěpného ohřívače
+
+tile.nuclearcraft.fission_source_manager.name=Správce zdroje štěpných neutronů
+tile.nuclearcraft.fission_shield_manager.name=Správce štítu štěpných neutronů
+
+tile.nuclearcraft.solid_fission_controller.name=Ovladač štěpení pevného paliva
+tile.nuclearcraft.solid_fission_cell.name=Článek štěpného paliva
+tile.nuclearcraft.solid_fission_sink.name=Štěpný chladič
+tile.nuclearcraft.solid_fission_sink.water.name=Vodní štěpný chladič
+tile.nuclearcraft.solid_fission_sink.iron.name=Železný štěpný chladič
+tile.nuclearcraft.solid_fission_sink.redstone.name=Ruditový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.quartz.name=Křemenný štěpný chladič
+tile.nuclearcraft.solid_fission_sink.obsidian.name=Obsidiánový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.nether_brick.name=Netheritocihlový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.glowstone.name=Světlitový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.lapis.name=Lazuritový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.gold.name=Zlatý štěpný chladič
+tile.nuclearcraft.solid_fission_sink.prismarine.name=Prismarínový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.slime.name=Slizový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.end_stone.name=Enderitový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.purpur.name=Purpurový chladič
+tile.nuclearcraft.solid_fission_sink.diamond.name=Diamantový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.emerald.name=Smaragdový štěpný chladič
+tile.nuclearcraft.solid_fission_sink.copper.name=Měděný štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.name=Štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.tin.name=Cínový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.lead.name=Olověný štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.boron.name=Borový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.lithium.name=Lithiový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.magnesium.name=Hořčíkový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.manganese.name=Manganový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.aluminum.name=Hliníkový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.silver.name=Stříbrný štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.fluorite.name=Fluoritový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.villiaumite.name=Villiaumitový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.carobbiite.name=Carobbiitový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.arsenic.name=Arsenový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.liquid_nitrogen.name=Tekutodusíkový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.liquid_helium.name=Tekutoheliový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.enderium.name=Enderiový štěpný chladič
+tile.nuclearcraft.solid_fission_sink2.cryotheum.name=Kryotheový štěpný chladič
+
+tile.nuclearcraft.solid_fission_sink.cooling_rate=Rychlost chlazení:
+
+tile.nuclearcraft.salt_fission_controller.name=Ovladač štěpení roztavené soli
+tile.nuclearcraft.salt_fission_vessel.name=Kryt štěpného paliva
+# tile.nuclearcraft.salt_fission_vessel.desc=Toto je kde se roztavená sůl štěpí a ochuzuje. Polož blízko jiného krytu při skrčení, aby jsi okopíroval jeho konfiguraci.
+tile.nuclearcraft.salt_fission_heater.name=Ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.standard.name=Standardní ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.iron.name=Železný ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.redstone.name=Ruditový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.quartz.name=Křemenný ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.obsidian.name=Obsidiánový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.nether_brick.name=Netheritocihlový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.glowstone.name=Světlitový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.lapis.name=Lazuritový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.gold.name=Zlatý ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.prismarine.name=Prismarínový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.slime.name=Slizový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.end_stone.name=Enderitový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.purpur.name=Purpurový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.diamond.name=Diamantový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.emerald.name=Smaragdový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater.copper.name=Měděný ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.name=Ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.tin.name=Cínový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.lead.name=Olověný ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.boron.name=Borový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.lithium.name=Lithiový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.magnesium.name=Hořčíkový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.manganese.name=Manganový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.aluminum.name=Hliníkový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.silver.name=Stříbrný ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.fluorite.name=Fluoritový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.villiaumite.name=Villiaumitový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.carobbiite.name=Carobbiitový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.arsenic.name=Arsenový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.liquid_nitrogen.name=Tekutodusíkový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.liquid_helium.name=Tekutoheliový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.enderium.name=Enderiový ohřívač štěpného chladiva
+tile.nuclearcraft.salt_fission_heater2.cryotheum.name=Kryotheový ohřívač štěpného chladiva
+
+tile.nuclearcraft.salt_fission_heater.cooling_rate=Rychlost chlazení:
+
+tile.nuclearcraft.heat_exchanger_controller.name=Ovladač tepelného výměníku (NEFUNKČNÍ MULTIBLOK!)
+tile.nuclearcraft.heat_exchanger_casing.name=Kryt tepelného výměníku
+tile.nuclearcraft.heat_exchanger_glass.name=Sklo tepelného výměníku
+tile.nuclearcraft.heat_exchanger_vent.name=Ventilace tepelného výměníku
+tile.nuclearcraft.heat_exchanger_vent.desc=Použita pro přesunutí kapaliny. Tlačí kapalinu [příjmá] z tlačících [tlačících] trubek.
+tile.nuclearcraft.heat_exchanger_tube_copper.name=Měděná výměníková trubice
+tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=Tvrdouhlíková výměníková trubice
+tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Teplovodivá slitinová výměníková trubice
+tile.nuclearcraft.heat_exchanger_tube.fixd=Násobič vodivosti: %s
+tile.nuclearcraft.heat_exchanger_tube.desc=Uchovává a přepravuje kapaliny pro výměnu tepla. Pokud chladí či ohřívá a je na proti chladící/ohřívací výměníkové trubice, teplo bude extrahováno/získáno rychlostí poměrnou s rozdíly teploty trubky. If the output temperature of the cooled fluid is lower than the output temperature of the heated fluid, the adjacent tubes flows must not be parallel. Place against another exchanger tube while sneaking to copy across its side configuration.
+tile.nuclearcraft.heat_exchanger_computer_port.name=Počítačový přesuvník tepelného výměníku
+tile.nuclearcraft.heat_exchanger_computer_port.desc=Použit pro zpřístupnění tepelného výměníku přes OpenComputers.
