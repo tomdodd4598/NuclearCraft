@@ -54,6 +54,8 @@ info.nuclearcraft.moderator.fixd=裂变反应堆减速剂
 info.nuclearcraft.moderator.flux_factor.fixd=中子通量增加量：%s
 info.nuclearcraft.moderator.efficiency.fixd=效率乘数：%s
 
+# info.nuclearcraft.moderator.desc=减速剂是裂变反应堆单元或容器输送中子通量至另一个单元或容器甚至它本身时的介质。一条减速剂线路包含 最多 %s 个共线的减速剂和分别位于两个末端的两个单元或容器 或 最多 %s 个共线的减速剂和位于一个末端的一个单元或容器以及位于另一个末端的一个中子反射器。减速剂只有在它 是一条线路中的一部分 并 与至少一个有效的末端单元或容器相邻 时才会被判定为有效的。一个已准备好的或有效的单元或容器将中子通量输送至 另一个单元或容器 或 一个反射器并收到其反射回的中子通量。中子通量输送量的总和等于该线路上所有减速剂的中子通量增加量的和。
+
 tile.nuclearcraft.fission_reflector.beryllium_carbon.name=铍-碳中子反射器
 tile.nuclearcraft.fission_reflector.lead_steel.name=铅-钢中子反射器
 
@@ -285,6 +287,7 @@ tile.nuclearcraft.solid_fission_sink.purpur.name=紫珀裂变散热器
 tile.nuclearcraft.solid_fission_sink.diamond.name=钻石裂变散热器
 tile.nuclearcraft.solid_fission_sink.emerald.name=绿宝石裂变散热器
 tile.nuclearcraft.solid_fission_sink.copper.name=铜裂变散热器
+tile.nuclearcraft.solid_fission_sink2.name=裂变散热器
 tile.nuclearcraft.solid_fission_sink2.tin.name=锡裂变散热器
 tile.nuclearcraft.solid_fission_sink2.lead.name=铅裂变散热器
 tile.nuclearcraft.solid_fission_sink2.boron.name=硼裂变散热器
@@ -323,6 +326,7 @@ tile.nuclearcraft.salt_fission_heater.purpur.name=紫珀裂变冷却剂加热器
 tile.nuclearcraft.salt_fission_heater.diamond.name=钻石裂变冷却剂加热器
 tile.nuclearcraft.salt_fission_heater.emerald.name=绿宝石裂变冷却剂加热器
 tile.nuclearcraft.salt_fission_heater.copper.name=铜裂变冷却剂加热器
+tile.nuclearcraft.salt_fission_heater2.name=裂变冷却剂加热器
 tile.nuclearcraft.salt_fission_heater2.tin.name=锡裂变冷却剂加热器
 tile.nuclearcraft.salt_fission_heater2.lead.name=铅裂变冷却剂加热器
 tile.nuclearcraft.salt_fission_heater2.boron.name=硼裂变冷却剂加热器
@@ -342,26 +346,27 @@ tile.nuclearcraft.salt_fission_heater2.cryotheum.name=凛冰裂变冷却剂加�
 
 tile.nuclearcraft.salt_fission_heater.cooling_rate=冷却速率：
 
-tile.nuclearcraft.heat_exchanger_controller.name=热交换器控制器（半成品）
+tile.nuclearcraft.heat_exchanger_controller.name=热交换器控制器
+tile.nuclearcraft.condenser_controller.name=冷凝器控制器
+
 tile.nuclearcraft.heat_exchanger_casing.name=热交换器外壳
 tile.nuclearcraft.heat_exchanger_glass.name=热交换器观察窗
-tile.nuclearcraft.heat_exchanger_vent.name=热交换器出入口
-tile.nuclearcraft.heat_exchanger_vent.desc=用于热交换流体的输入输出。由 [接收] 管道接收 [推动] 管道的内容物。
+
+tile.nuclearcraft.heat_exchanger_inlet.name=热交换器流体输入口
+tile.nuclearcraft.heat_exchanger_outlet.name=热交换器流体输出口
+
 tile.nuclearcraft.heat_exchanger_tube_copper.name=铜热交换管道
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=硬碳热交换管道
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=导热合金热交换管道
-tile.nuclearcraft.heat_exchanger_tube.fixd=导热乘数：%s
-tile.nuclearcraft.heat_exchanger_tube.desc=暂存和移动热交换流体。如果正在加热/冷却并且与另一个正在冷却/加热的热交换管道相邻，那么其将会以与另一个管道的配方温差成正比的速率接收更多的热量/被以该速率提取热量。如果被冷却的流体的输出温度低于被加热的流体的输出温度，则相邻的管道流向不得平行。潜行以已存在的热交换管道为基础放置另一个热交换管道以复制其侧面配置。
+tile.nuclearcraft.heat_exchanger_tube_heat_transfer_coefficient.fixd=热量传导系数：%s
+tile.nuclearcraft.heat_exchanger_tube_heat_retention_mult.fixd=热量保持乘数：%s
+tile.nuclearcraft.heat_exchanger_tube.desc=在流体之间传导热量。
+
+tile.nuclearcraft.heat_exchanger_baffle.name=热交换器壳程折流板
+
 tile.nuclearcraft.heat_exchanger_redstone_port.name=热交换器红石端口
 tile.nuclearcraft.heat_exchanger_computer_port.name=热交换器电脑端口
 tile.nuclearcraft.heat_exchanger_computer_port.desc=用于通过[OC]开放式电脑访问热交换器。
-
-tile.nuclearcraft.condenser_controller.name=冷凝器控制器（半成品）
-tile.nuclearcraft.condenser_tube_copper.name=铜冷凝管道
-tile.nuclearcraft.condenser_tube_hard_carbon.name=硬碳冷凝管道
-tile.nuclearcraft.condenser_tube_thermoconducting.name=导热合金冷凝管道
-tile.nuclearcraft.condenser_tube.fixd=导热乘数：%s
-tile.nuclearcraft.condenser_tube.desc=暂存和移动冷凝流体。冷凝速率与相邻的温度低于所输入的冷凝流体的流体数量呈正比。相邻的流体温度越低，冷凝速率越高——速度提升值是流体温度比的自然对数。潜行以已存在的冷凝管道为基础放置另一个冷凝管道以复制其侧面配置。
 
 tile.nuclearcraft.turbine_controller.name=涡轮机控制器
 tile.nuclearcraft.turbine_controller.desc=涡轮机的心脏——某面墙壁上必须有一个。
@@ -420,26 +425,27 @@ tile.nuclearcraft.geiger_block.desc=检测其所在区块的辐射值。
 
 tile.nuclearcraft.glowing_mushroom.name=荧核菇
 tile.nuclearcraft.glowing_mushroom_block.name=荧核菇方块
-tile.nuclearcraft.wasteland_earth.name=荒芜土壤
+tile.nuclearcraft.wasteland_earth.name=废土土壤
 
 tile.nuclearcraft.wasteland_portal.name=辐射废土传送门
 
 tile.nuclearcraft.tritium_lamp.name=氚灯
-tile.nuclearcraft.tritium_lantern.name=氚灯笼
+# 暂时如此
+tile.nuclearcraft.tritium_lantern.name=氚灯
 
 tile.nuclearcraft.solidified_corium.name=固态堆芯熔融物
-tile.nuclearcraft.solidified_corium.desc=裂变反应堆熔毁时流出的毒性熔融物凝固后的物质。
+tile.nuclearcraft.solidified_corium.desc=裂变反应堆部件熔毁时流出的毒性熔融物凝固后的物质。
 
 tile.nuclearcraft.quantum_computer_controller.name=量子计算机控制器
 tile.nuclearcraft.quantum_computer_qubit.name=量子位
 
-tile.nuclearcraft.quantum_computer_gate_single.x.name=量子计算机 泡利-X 门
-tile.nuclearcraft.quantum_computer_gate_single.x.desc=在布洛赫球面的 X 轴上旋转目标量子位 180 度。
-tile.nuclearcraft.quantum_computer_gate_single.y.name=量子计算机 泡利-Y 门
-tile.nuclearcraft.quantum_computer_gate_single.y.desc=在布洛赫球面的 Y 轴上旋转目标量子位 180 度。
-tile.nuclearcraft.quantum_computer_gate_single.z.name=量子计算机 泡利-Z 门
-tile.nuclearcraft.quantum_computer_gate_single.z.desc=在布洛赫球面的 Z 轴上旋转目标量子位 180 度。
-tile.nuclearcraft.quantum_computer_gate_single.h.name=量子计算机 阿达马门
+tile.nuclearcraft.quantum_computer_gate_single.x.name=量子计算机泡利-X 门
+tile.nuclearcraft.quantum_computer_gate_single.x.desc=绕布洛赫球 X 轴旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_single.y.name=量子计算机泡利-Y 门
+tile.nuclearcraft.quantum_computer_gate_single.y.desc=绕布洛赫球 Y 轴旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_single.z.name=量子计算机泡利-Z 门
+tile.nuclearcraft.quantum_computer_gate_single.z.desc=绕布洛赫球 Z 轴旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_single.h.name=量子计算机阿达马门
 tile.nuclearcraft.quantum_computer_gate_single.h.desc=对目标量子位应用阿达马变换。
 tile.nuclearcraft.quantum_computer_gate_single.s.name=量子计算机 S 门
 tile.nuclearcraft.quantum_computer_gate_single.s.desc=将目标量子位的相位移动 90 度。
@@ -449,46 +455,47 @@ tile.nuclearcraft.quantum_computer_gate_single.t.name=量子计算机 T 门
 tile.nuclearcraft.quantum_computer_gate_single.t.desc=将目标量子位的相位移动 45 度。
 tile.nuclearcraft.quantum_computer_gate_single.tdg.name=量子计算机 T 非门
 tile.nuclearcraft.quantum_computer_gate_single.tdg.desc=将目标量子位的相位移动 315 度。
-tile.nuclearcraft.quantum_computer_gate_single.p.name=量子计算机 相位门
+tile.nuclearcraft.quantum_computer_gate_single.p.name=量子计算机相位门
 tile.nuclearcraft.quantum_computer_gate_single.p.desc=将目标量子位的相位移动一个可设定的角度。
 tile.nuclearcraft.quantum_computer_gate_single.rx.name=量子计算机 X-旋转门
-tile.nuclearcraft.quantum_computer_gate_single.rx.desc=在空间的 X 轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_single.rx.desc=绕空间 X 轴旋转目标量子位。
 tile.nuclearcraft.quantum_computer_gate_single.ry.name=量子计算机 Y-旋转门
-tile.nuclearcraft.quantum_computer_gate_single.ry.desc=在空间的 Y 轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_single.ry.desc=绕空间 Y 轴旋转目标量子位。
 tile.nuclearcraft.quantum_computer_gate_single.rz.name=量子计算机 Z-旋转门
-tile.nuclearcraft.quantum_computer_gate_single.rz.desc=在空间的 Z 轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_single.rz.desc=绕空间 Z 轴旋转目标量子位。
 
-tile.nuclearcraft.quantum_computer_gate_control.cx.name=受控 量子计算机 泡利-X 门
-tile.nuclearcraft.quantum_computer_gate_control.cx.desc=在控制下在布洛赫球面的 X 轴上旋转目标量子位 180 度。
-tile.nuclearcraft.quantum_computer_gate_control.cy.name=受控 量子计算机 泡利-Y 门
-tile.nuclearcraft.quantum_computer_gate_control.cy.desc=在控制下在布洛赫球面的 Y 轴上旋转目标量子位 180 度。
-tile.nuclearcraft.quantum_computer_gate_control.cz.name=受控 量子计算机 泡利-Z 门
-tile.nuclearcraft.quantum_computer_gate_control.cz.desc=在控制下在布洛赫球面的 Z 轴上旋转目标量子位 180 度。
-tile.nuclearcraft.quantum_computer_gate_control.ch.name=受控 量子计算机 阿达马门
+tile.nuclearcraft.quantum_computer_gate_control.cx.name=受控量子计算机泡利-X 门
+tile.nuclearcraft.quantum_computer_gate_control.cx.desc=在控制下绕布洛赫球 X 轴旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_control.cy.name=受控量子计算机泡利-Y 门
+tile.nuclearcraft.quantum_computer_gate_control.cy.desc=在控制下绕布洛赫球 Y 轴旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_control.cz.name=受控量子计算机泡利-Z 门
+tile.nuclearcraft.quantum_computer_gate_control.cz.desc=在控制下绕布洛赫球 Z 轴旋转目标量子位 180 度。
+tile.nuclearcraft.quantum_computer_gate_control.ch.name=受控量子计算机阿达马门
 tile.nuclearcraft.quantum_computer_gate_control.ch.desc=在控制下对目标量子位应用阿达马变换。
-tile.nuclearcraft.quantum_computer_gate_control.cs.name=受控 量子计算机 S 门
+tile.nuclearcraft.quantum_computer_gate_control.cs.name=受控量子计算机 S 门
 tile.nuclearcraft.quantum_computer_gate_control.cs.desc=在控制下将目标量子位的相位移动 90 度。
-tile.nuclearcraft.quantum_computer_gate_control.csdg.name=受控 量子计算机 S 非门
+tile.nuclearcraft.quantum_computer_gate_control.csdg.name=受控量子计算机 S 非门
 tile.nuclearcraft.quantum_computer_gate_control.csdg.desc=在控制下将目标量子位的相位移动 270 度。
-tile.nuclearcraft.quantum_computer_gate_control.ct.name=受控 量子计算机 T 门
+tile.nuclearcraft.quantum_computer_gate_control.ct.name=受控量子计算机 T 门
 tile.nuclearcraft.quantum_computer_gate_control.ct.desc=在控制下将目标量子位的相位移动 45 度。
-tile.nuclearcraft.quantum_computer_gate_control.ctdg.name=受控 量子计算机 T 非门
+tile.nuclearcraft.quantum_computer_gate_control.ctdg.name=受控量子计算机 T 非门
 tile.nuclearcraft.quantum_computer_gate_control.ctdg.desc=在控制下将目标量子位的相位移动 315 度。
-tile.nuclearcraft.quantum_computer_gate_control.cp.name=受控 量子计算机 相位门
+tile.nuclearcraft.quantum_computer_gate_control.cp.name=受控量子计算机相位门
 tile.nuclearcraft.quantum_computer_gate_control.cp.desc=在控制下将目标量子位的相位移动一个可设定的角度。
-tile.nuclearcraft.quantum_computer_gate_control.crx.name=受控 量子计算机 X-旋转门
-tile.nuclearcraft.quantum_computer_gate_control.crx.desc=在控制下在空间的 X 轴上旋转目标量子位。
-tile.nuclearcraft.quantum_computer_gate_control.cry.name=受控 量子计算机 Y-旋转门
-tile.nuclearcraft.quantum_computer_gate_control.cry.desc=在控制下在空间的 Y 轴上旋转目标量子位。
-tile.nuclearcraft.quantum_computer_gate_control.crz.name=受控 量子计算机 Z-旋转门
-tile.nuclearcraft.quantum_computer_gate_control.crz.desc=在控制下在空间的 Z 轴上旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_control.crx.name=受控量子计算机 X-旋转门
+tile.nuclearcraft.quantum_computer_gate_control.crx.desc=在控制下绕空间 X 轴旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_control.cry.name=受控量子计算机 Y-旋转门
+tile.nuclearcraft.quantum_computer_gate_control.cry.desc=在控制下绕空间 Y 轴旋转目标量子位。
+tile.nuclearcraft.quantum_computer_gate_control.crz.name=受控量子计算机 Z-旋转门
+tile.nuclearcraft.quantum_computer_gate_control.crz.desc=在控制下绕空间 Z 轴旋转目标量子位。
 
-tile.nuclearcraft.quantum_computer_gate_swap.swap.name=量子计算机 互换门
+tile.nuclearcraft.quantum_computer_gate_swap.swap.name=量子计算机互换门
 tile.nuclearcraft.quantum_computer_gate_swap.swap.desc=交换两个列表中的量子位。
-tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=受控 量子计算机 互换门
+tile.nuclearcraft.quantum_computer_gate_swap.cswap.name=受控量子计算机互换门
 tile.nuclearcraft.quantum_computer_gate_swap.cswap.desc=在控制下交换两个列表中的量子位。
 
 tile.nuclearcraft.quantum_computer_connector.name=量子计算机连接器
+tile.nuclearcraft.quantum_computer_port.name=量子计算机端口
 
 tile.nuclearcraft.quantum_computer_code_generator.qasm.name=量子计算机 QASM 代码生成器
 tile.nuclearcraft.quantum_computer_code_generator.qasm.desc=用于生成兼容 IBM Q 的 QASM 代码。
@@ -698,7 +705,7 @@ tile.nuclearcraft.fluid_oxygen_difluoride.name=二氟化氧
 fluid.oxygen_difluoride=二氟化氧
 
 tile.nuclearcraft.fluid_corium.name=堆芯熔融物
-tile.nuclearcraft.fluid_corium.desc=裂变反应堆熔毁时流出的毒性熔融物，主要成分是燃料与反应堆的组成部分。
+tile.nuclearcraft.fluid_corium.desc=裂变反应堆熔毁时流出的毒性熔融物，主要成分是燃料与反应堆的部件。
 fluid.corium=堆芯熔融物
 
 tile.nuclearcraft.fluid_ice.name=碎冰
@@ -2438,16 +2445,16 @@ item.nuclearcraft.foursmore.name=四层棉花糖巧克力夹心饼干
 
 item.nuclearcraft.record_wanderer.name=音乐唱片
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
-item.nuclearcraft.record_wanderer.des1=8-Bit 版本制作者：8 Bit Universe
+item.nuclearcraft.record_wanderer.des1=8-Bit 版本制作：8 Bit Universe
 item.nuclearcraft.record_end_of_the_world.name=音乐唱片
 item.nuclearcraft.record_end_of_the_world.des0=Skeeter Davis - The End of the World
-item.nuclearcraft.record_end_of_the_world.des1=8-Bit 版本制作者：GermanPikachuGaming
+item.nuclearcraft.record_end_of_the_world.des1=8-Bit 版本制作：GermanPikachuGaming
 item.nuclearcraft.record_money_for_nothing.name=音乐唱片
 item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
-item.nuclearcraft.record_money_for_nothing.des1=8-Bit 版本制作者：Omnigrad
+item.nuclearcraft.record_money_for_nothing.des1=8-Bit 版本制作：Omnigrad
 item.nuclearcraft.record_hyperspace.name=音乐唱片
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
-item.nuclearcraft.record_hyperspace.des1=制作者：Riku Nuottajärvi
+item.nuclearcraft.record_hyperspace.des1=制作：Riku Nuottajärvi
 
 entity.nuclearcraft.feral_ghoul.name=狂尸鬼
 
@@ -2492,7 +2499,7 @@ jei.nuclearcraft.solid_fuel_decay_factor=衰变系数：
 jei.nuclearcraft.solid_fuel_radiation=基础衰竭辐射：
 jei.nuclearcraft.solid_fuel_self_priming=强中子射源！
 
-jei.nuclearcraft.fission_heating_heat_per_mb=单位热容：
+jei.nuclearcraft.fission_heating_required=加热量需求：
 
 jei.nuclearcraft.salt_fuel_time=基础衰竭时间：
 jei.nuclearcraft.salt_fuel_heat=基础产热：
@@ -2502,7 +2509,7 @@ jei.nuclearcraft.salt_fuel_decay_factor=衰变系数：
 jei.nuclearcraft.salt_fuel_radiation=基础衰竭辐射：
 jei.nuclearcraft.salt_fuel_self_priming=强中子射源！
 
-jei.nuclearcraft.fission_emergency_cooling_per_mb=每 mB 输入提供冷却:
+jei.nuclearcraft.fission_emergency_cooling_heating_required=加热量需求：
 
 jei.nuclearcraft.fusion_time=基础连续时间：
 jei.nuclearcraft.fusion_heat=基础产热：
@@ -2517,14 +2524,22 @@ jei.nuclearcraft.salt_fuel_heat=基础产热：
 
 jei.nuclearcraft.coolant_heater_rate=冷却速率：
 
-jei.nuclearcraft.exchanger_fluid_temp=温度：
-jei.nuclearcraft.exchanger_heating_provided=加热速率提供：
-jei.nuclearcraft.exchanger_cooling_provided=冷却速率提供：
+jei.nuclearcraft.exchanger_fluid_temp_in=输入温度：
+jei.nuclearcraft.exchanger_fluid_temp_out=输出温度：
 jei.nuclearcraft.exchanger_heating_required=加热量需求：
 jei.nuclearcraft.exchanger_cooling_required=冷却量需求：
+jei.nuclearcraft.exchanger_horizontal_bonus=水平流加成：
+jei.nuclearcraft.exchanger_upward_bonus=上向流加成：
+jei.nuclearcraft.exchanger_downward_bonus=下向流加成：
 
-jei.nuclearcraft.condenser_condensing_temp=冷凝温度：
-jei.nuclearcraft.condenser_heat_removal_req=排热需求：
+jei.nuclearcraft.condenser_fluid_temp_in=输入温度：
+jei.nuclearcraft.condenser_fluid_temp_out=输出温度：
+jei.nuclearcraft.condenser_cooling_required=冷却量需求：
+jei.nuclearcraft.condenser_horizontal_bonus=水平流加成：
+jei.nuclearcraft.condenser_upward_bonus=上向流加成：
+jei.nuclearcraft.condenser_downward_bonus=下向流加成：
+
+jei.nuclearcraft.condenser_dissipation_fluid_temp=温度：
 
 jei.nuclearcraft.turbine_energy_density=基础能量密度：
 jei.nuclearcraft.turbine_expansion=流体膨胀系数：
@@ -2553,7 +2568,7 @@ gui.nc.config.ore_dims_list_type.comment=这个维度列表是一个白名单 (f
 gui.nc.config.ore_gen=矿石生成
 gui.nc.config.ore_gen.comment=矿石会在世界中生成吗？顺序：铜，锡，铅，钍，铀，硼，锂，镁。
 gui.nc.config.ore_size=区块矿石量
-gui.nc.config.ore_size.comment=每区块矿石的生成量。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
+gui.nc.config.ore_size.comment=每区块矿石的平均生成量。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
 gui.nc.config.ore_rate=生成率
 gui.nc.config.ore_rate.comment=矿石的生成率。顺序：铜，锡，铅，钍，铀，硼，锂，镁。
 gui.nc.config.ore_min_height=最低生成高度
@@ -2661,6 +2676,8 @@ gui.nc.config.decay_lifetime=衰变产能器平均寿命
 gui.nc.config.decay_lifetime.comment=与衰变产能器接触的放射性方块的平均寿命。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
 gui.nc.config.decay_power=衰变产能器产能
 gui.nc.config.decay_power.comment=与衰变产能器接触的放射性方块的产能。顺序：钍，铀，铀-238，镎-237，钚-242，镅-243，锔-246，锫-247，锎-252。
+gui.nc.config.generator_rf_per_eu=RF 与 EU 的转换率
+gui.nc.config.generator_rf_per_eu.comment=产能时 RF 与 EU 的转换率。
 
 gui.nc.config.category.energy_storage=储能配置
 gui.nc.config.category.energy_storage.tooltip=配置对能量的储存。
@@ -2732,7 +2749,6 @@ gui.nc.config.fission_fuel_heat_multiplier=产热乘数
 gui.nc.config.fission_fuel_heat_multiplier.comment=调整裂变反应堆中燃料产热的速率。
 gui.nc.config.fission_fuel_efficiency_multiplier=效率乘数
 gui.nc.config.fission_fuel_efficiency_multiplier.comment=调整裂变反应堆中燃料的效率。
-
 gui.nc.config.fission_fuel_radiation_multiplier=辐射乘数
 gui.nc.config.fission_fuel_radiation_multiplier.comment=调整裂变反应堆中燃料的辐射等级。
 gui.nc.config.fission_source_efficiency=中子源效率
@@ -2757,15 +2773,17 @@ gui.nc.config.fission_shield_heat_per_flux=中子防护屏单位中子通量产�
 gui.nc.config.fission_shield_heat_per_flux.comment=每种中子防护屏单位通量的产热。顺序：硼-银。
 gui.nc.config.fission_shield_efficiency=中子防护屏效率乘数
 gui.nc.config.fission_shield_efficiency.comment=每种中子防护屏的效率乘数。顺序：硼-银。
-
 gui.nc.config.fission_irradiator_heat_per_flux=辐照单位中子通量产热
 gui.nc.config.fission_irradiator_heat_per_flux.comment=每种辐照器配方原料单位通量的产热。顺序：钍，镤浓缩钍，铋。
 gui.nc.config.fission_irradiator_efficiency=辐照效率乘数
 gui.nc.config.fission_irradiator_efficiency.comment=每种辐照器配方原料的效率乘数。顺序：钍，镤浓缩钍，铋。
 gui.nc.config.fission_cooling_efficiency_leniency=冷却容差系数
-gui.nc.config.fission_cooling_efficiency_leniency.comment=决定集群从何时开始受到过冷效率负作用，以实际与理想冷却速率的容差表示。
+gui.nc.config.fission_cooling_efficiency_leniency.comment=决定集群从何时开始受到过冷对效率的负作用，以实际与理想冷却速率的容差表示。
 gui.nc.config.fission_sparsity_penalty_params=稀疏效率参数
-gui.nc.config.fission_sparsity_penalty_params.comment=用于稀疏效率乘数。第一项决定该乘数的最小值，第二项决定从有多少个起效部件开始没有负作用。
+gui.nc.config.fission_sparsity_penalty_params.comment=用于稀疏效率乘数。第一项决定该乘数的最小值，第二项决定从有多少个起效部件开始不造成负作用。
+gui.nc.config.fission_heating_coolant_heat_mult=固态燃料反应堆钠钾加热乘数
+gui.nc.config.fission_heating_coolant_heat_mult.comment=调整钠钾冷却剂冷却固态燃料反应堆时吸收的热量（单位：H/mB）。
+
 gui.nc.config.fission_decay_mechanics=启用衰变机制
 gui.nc.config.fission_decay_mechanics.comment=是否为裂变启用各项衰变机制？
 gui.nc.config.fission_decay_build_up_times=衰变积累时间参数
@@ -2782,14 +2800,16 @@ gui.nc.config.fission_overheat=启用熔毁
 gui.nc.config.fission_overheat.comment=裂变反应堆会过热吗？
 gui.nc.config.fission_meltdown_radiation_multiplier=熔毁辐射乘数
 gui.nc.config.fission_meltdown_radiation_multiplier.comment=调整熔毁时的辐射。
-gui.nc.config.fission_heat_damage=
-gui.nc.config.fission_heat_damage.comment=
+gui.nc.config.fission_heat_damage=热接触伤害
+gui.nc.config.fission_heat_damage.comment=热的裂变部件是否伤害玩家？默认关闭，因为裂变反应堆部件的碰撞箱经过调整。
 gui.nc.config.fission_neutron_reach=中子辐射射程
 gui.nc.config.fission_neutron_reach.comment=两个可以共享中子辐射的单元之间减速剂方块的最大数量。
-gui.nc.config.fission_heat_dissipation=
-gui.nc.config.fission_heat_dissipation.comment=
-gui.nc.config.fission_emergency_cooling_multiplier=
-gui.nc.config.fission_emergency_cooling_multiplier.comment=
+gui.nc.config.fission_heat_dissipation=反应堆热量耗散
+gui.nc.config.fission_heat_dissipation.comment=分别设定闲置与运行时反应堆是否耗散热量。
+gui.nc.config.fission_heat_dissipation_rate=反应堆热量耗散速率
+gui.nc.config.fission_heat_dissipation_rate.comment=控制反应堆热量耗散的速率。
+gui.nc.config.fission_emergency_cooling_multiplier=应急冷却乘数
+gui.nc.config.fission_emergency_cooling_multiplier.comment=设定应急冷却剂吸收的热量（单位：H/mB）。
 gui.nc.config.fission_sound_volume=裂变音量
 gui.nc.config.fission_sound_volume.comment=调整裂变音效大小。
 
@@ -2975,8 +2995,16 @@ gui.nc.config.heat_exchanger_max_size=最大结构边长
 gui.nc.config.heat_exchanger_max_size.comment=热交换结构的最大边长。
 gui.nc.config.heat_exchanger_conductivity=管道热导率
 gui.nc.config.heat_exchanger_conductivity.comment=热量进出这种管道传输的乘数。对于热交换管道，加热配方随本系数增长而变快，冷却配方反之；对于冷凝管道，配方皆随本系数增长而变快。顺序：铜，硬碳，导热合金。
-gui.nc.config.heat_exchanger_coolant_mult=冷却剂热量乘数
-gui.nc.config.heat_exchanger_coolant_mult.comment=冷却热冷却剂所需热量的乘数。
+gui.nc.config.heat_exchanger_heat_transfer_coefficient=管道热量传导系数
+gui.nc.config.heat_exchanger_heat_transfer_coefficient.comment=在这种管道中热量传导的速率。顺序：铜，硬碳，导热合金。
+gui.nc.config.heat_exchanger_heat_retention_mult=管道热量保持乘数
+gui.nc.config.heat_exchanger_heat_retention_mult.comment=这种管道对加热速率的影响。顺序：铜，硬碳，导热合金。
+gui.nc.config.heat_exchanger_coolant_heat_mult=冷却剂热量乘数
+gui.nc.config.heat_exchanger_coolant_heat_mult.comment=冷却热冷却剂所需热量消除的乘数。
+gui.nc.config.heat_exchanger_lmtd=使用对数平均温差
+gui.nc.config.heat_exchanger_lmtd.comment=是否采用对数平均温差取代算术平均温差？
+gui.nc.config.heat_exchanger_alternate_hps_recipe=切换高压蒸汽配方
+gui.nc.config.heat_exchanger_alternate_hps_recipe.comment=高压蒸汽冷却后是产生普通蒸汽还是低压蒸汽？
 gui.nc.config.heat_exchanger_alternate_exhaust_recipe=切换废蒸汽配方
 gui.nc.config.heat_exchanger_alternate_exhaust_recipe.comment=废蒸汽加热后是产生普通蒸汽还是低压蒸汽？
 
@@ -3012,7 +3040,7 @@ gui.nc.config.turbine_spin_down_multiplier.comment=涡轮机转子减速的全�
 gui.nc.config.turbine_mb_per_blade=转子叶片最大处理量
 gui.nc.config.turbine_mb_per_blade.comment=一个转子叶片能处理的最大蒸汽量（单位：mB/t）。
 gui.nc.config.turbine_throughput_leniency_params=通过量容差参数
-gui.nc.config.turbine_throughput_leniency_params.comment=用于通过量效率系数。第一项决定乘数的最小值，决定实际与理想通过量的比例从多少开始没有负作用。
+gui.nc.config.turbine_throughput_leniency_params.comment=用于通过量效率系数。第一项决定乘数的最小值，决定实际与理想通过量的比例从多少开始不造成负作用。
 gui.nc.config.turbine_tension_throughput_factor=张力通过量系数
 gui.nc.config.turbine_tension_throughput_factor.comment=决定轴承拉力的增长速率从何时开始处于最大值，以实际与理想通过量比例的最大值表示。
 gui.nc.config.turbine_tension_leniency=拉力容差系数
@@ -3035,10 +3063,8 @@ gui.nc.config.category.quantum.tooltip=配置量子相关的内容。
 
 gui.nc.config.quantum_dedicated_server=在专用服务器上启用
 gui.nc.config.quantum_dedicated_server.comment=量子计算机可以在专用服务器上工作吗？默认为否 (false) ，因为此功能会占用服务器内存，并且生成的代码存储在服务端而非客户端。
-gui.nc.config.quantum_max_qubits=最大量子位数量
-gui.nc.config.quantum_max_qubits.comment=一个量子计算机最多拥有的量子位数量。！！！警告！！！超过七个量子位的电路可能会消耗大量的系统资源，并占用巨大的内存！调整此限制时需要 特别 注意！
-gui.nc.config.quantum_max_qubits_code=最大编程用量子位数量
-gui.nc.config.quantum_max_qubits_code.comment=一个量子计算机最多拥有的用于生成代码的量子位数量。！！！警告！！！随逻辑门拥有的控制位数量增大，用于反编译生成基础操作的工程与内存消耗就会急剧增大，因此生成的代码也会急剧增多。如果生成 QASM 代码，IBM Q Experience 的电路需要处理数百行乃至更多。调整此限制时需要 特别 注意！
+gui.nc.config.quantum_max_qubits=量子位最大数量
+gui.nc.config.quantum_max_qubits.comment=一个量子计算机多方块结构最多拥有的量子位数量。
 gui.nc.config.quantum_angle_precision=逻辑门工作角度精度
 gui.nc.config.quantum_angle_precision.comment=通过设定由 0°-360° 均匀分布的角度的数量以控制可以设定逻辑门工作角度的角度。
 
@@ -3189,7 +3215,6 @@ gui.nc.config.radiation_shielding_level=辐射防护板抗性
 gui.nc.config.radiation_shielding_level.comment=辐射防护板提供的辐射抗性。顺序：轻，中，重。
 gui.nc.config.radiation_tile_shielding=辐射容器防护
 gui.nc.config.radiation_tile_shielding.comment=如果与硬核容器选项共同设定为 (true) ，则可在容器上安装辐射防护板。
-
 gui.nc.config.radiation_hazmat_shielding=辐射防护服防护
 gui.nc.config.radiation_hazmat_shielding.comment=防护服不同部位提供的辐射抗性。顺序：头罩，上衣，护腿，靴子。
 gui.nc.config.radiation_scrubber_fraction=净化仪最大辐射消除速率
@@ -3260,7 +3285,6 @@ gui.nc.config.radiation_passive_debuff_lists=被动生物辐射效果
 gui.nc.config.radiation_passive_debuff_lists.comment=对于被动生物，不同辐射等级下会获得的效果列表。格式：'辐射百分等级_效果,效果,……,效果'，其中每个 '效果' 实际上是一个药水效果 '药水名称@等级' 或者属性修饰 '属性名称@修饰值@运算模式'。
 gui.nc.config.radiation_mob_buff_lists=生物辐射效果
 gui.nc.config.radiation_mob_buff_lists.comment=对于生物，不同辐射等级下会获得的效果列表。格式：'辐射百分等级_效果,效果,……,效果'，其中每个 '效果' 实际上是一个药水效果 '药水名称@等级' 或者属性修饰 '属性名称@修饰值@运算模式'。
-
 gui.nc.config.radiation_player_rads_fatal=玩家最大辐射致命
 gui.nc.config.radiation_player_rads_fatal.comment=如果设定为 (true) ，玩家达到自身辐射值上限时将死亡。
 gui.nc.config.radiation_passive_rads_fatal=被动生物最大辐射致命
@@ -3310,16 +3334,10 @@ gui.nc.config.single_creative_tab=单一创造模式标签
 gui.nc.config.single_creative_tab.comment=将所有核电工艺添加的创造模式标签合并到一个大的标签当中吗？
 gui.nc.config.ctrl_info=使用 Ctrl 键查看更多信息
 gui.nc.config.ctrl_info.comment=使用 Ctrl 键代替 Shift 键作为查看更多信息的键位吗？
-gui.nc.config.jei_chance_items_include_null=在 JEI 中显示产出几率
-gui.nc.config.jei_chance_items_include_null.comment=如果有可能不产出，JEI 中的产出循环显示时会显示空格子吗？如果设定为 (false) ，有产出的格子的显示数量将会至少为 1，尽管这会使显示更加简洁，但是也可能为查看者带来对一些配方的误解。注意：这只会影响到 JEI 中的显示，而非实际的产出。
 gui.nc.config.rare_drops=启用稀有掉落
 gui.nc.config.rare_drops.comment=生物会掉落稀有掉落物吗？
 gui.nc.config.dungeon_loot=启用战利品生成
 gui.nc.config.dungeon_loot.comment=核电工艺的物品会生成在箱子中吗？
-gui.nc.config.corium_solidification=堆芯熔融物凝固维度列表
-gui.nc.config.corium_solidification.comment=堆芯熔融物凝固维度的 ID 白名单/黑名单。
-gui.nc.config.corium_solidification_list_type=堆芯熔融物凝固维度列表白名单/黑名单
-gui.nc.config.corium_solidification_list_type.comment=这个维度列表是一个白名单 (false) 还是一个黑名单 (true) ？
 gui.nc.config.corium_solidification=堆芯熔融物凝固维度列表
 gui.nc.config.corium_solidification.comment=堆芯熔融物凝固维度的 ID 白名单/黑名单。
 gui.nc.config.corium_solidification_list_type=堆芯熔融物凝固维度列表白名单/黑名单
@@ -3339,9 +3357,6 @@ gui.nc.computer.number_of_arguments_error=已使用参数共 %s 个，预计 %s 
 gui.nc.computer.invalid_argument_error=无效参数共 %s 个，预计 %s 个
 gui.nc.computer.integer_too_small_error=参数数量 %s 过小，预计需要至少 %s 个
 gui.nc.computer.integer_too_large_error=参数数量 %s 过大，预计需要最多 %s 个
-
-gui.nc.config.generator_rf_per_eu=RF 与 EU 的转换率
-gui.nc.config.generator_rf_per_eu.comment=产能时 RF 与 EU 的转换率。
 
 # Localization for ZeroCore multiblock API
 zerocore.api.nc.multiblock.validation.success=多方块结构有效
@@ -3379,23 +3394,45 @@ nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=这不是固�
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=这不是熔盐反应堆——这里不应当有容器
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=这不是熔盐反应堆——这里不应当有加热器
 
-nuclearcraft.multiblock_validation.heat_exchanger.prohibit_exchanger_tubes=这不是一个热交换器——这里不应当有热交换管道
-nuclearcraft.multiblock_validation.heat_exchanger.prohibit_condenser_tubes=这不是一个冷凝器——这里不应当有冷凝管道
+nuclearcraft.multiblock_validation.heat_exchanger.invalid_shell=外壳必须含有输入口和输出口至少各一个
+nuclearcraft.multiblock_validation.heat_exchanger.blocked_inlet=壳程输入口不能受到折流板阻挡
+nuclearcraft.multiblock_validation.heat_exchanger.blocked_outlet=壳程输出口不能受到折流板阻挡
+nuclearcraft.multiblock_validation.heat_exchanger.dangling_tube=管道连接不能悬空
+nuclearcraft.multiblock_validation.heat_exchanger.invalid_network=管程网络必须含有输入口和输出口至少各一个
+nuclearcraft.multiblock_validation.heat_exchanger.blocked_shell=每个壳程输入口必须对应可用的壳程输出口
 
-nuclearcraft.multiblock_validation.turbine.need_bearings=需要两组相对的转子轴承。
-nuclearcraft.multiblock_validation.turbine.bearings_side_square=转子轴承所在的墙壁必须是矩形的。
-nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=输入口和输出口必须相对且位于转子轴承所在的墙壁上。
-nuclearcraft.multiblock_validation.turbine.bearings_center_and_square=转子轴承组必须是正方形的并且位于相对的两面墙的正中央。
-nuclearcraft.multiblock_validation.turbine.shaft_center=转子轴必须完全连接到转子轴承。
-nuclearcraft.multiblock_validation.turbine.space_between_blades=转子叶片和定子以外的部分必须空着。
-nuclearcraft.multiblock_validation.turbine.different_type_blades=每个转子轴上四个面所对应的转子叶片和定子必须完全相同。
-nuclearcraft.multiblock_validation.turbine.missing_blades=每个转子轴上四个面所对应的转子叶片和定子必须完全搭建到墙壁。
+nuclearcraft.multiblock_validation.condenser.dangling_tube=管道连接不能悬空
+nuclearcraft.multiblock_validation.condenser.invalid_network=管程网络必须含有输入口和输出口至少各一个
+nuclearcraft.multiblock_validation.condenser.blocked_shell=壳程内部必须连接完整
 
-nuclearcraft.multiblock_validation.quantum_computer.server_disabled=服务端配置文件允许时，量子计算机才能正常工作。
-nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=现在有 %s 个量子位连接到了这个量子计算机上——最多只能有 %s 个。
+
+nuclearcraft.multiblock_validation.turbine.need_bearings=需要两组相对的转子轴承
+nuclearcraft.multiblock_validation.turbine.bearings_side_square=转子轴承所在的墙壁必须是矩形的
+nuclearcraft.multiblock_validation.turbine.valve_wrong_wall=输入口和输出口必须相对且位于转子轴承所在的墙壁上
+nuclearcraft.multiblock_validation.turbine.bearings_center_and_square=转子轴承组必须是正方形的并且位于相对的两面墙的正中央
+nuclearcraft.multiblock_validation.turbine.shaft_center=转子轴必须完全连接到转子轴承
+nuclearcraft.multiblock_validation.turbine.space_between_blades=转子叶片和定子以外的部分必须空着
+nuclearcraft.multiblock_validation.turbine.different_type_blades=每个转子轴上四个面所对应的转子叶片和定子必须完全相同
+nuclearcraft.multiblock_validation.turbine.missing_blades=每个转子轴上四个面所对应的转子叶片和定子必须完全搭建到墙壁
+
+nuclearcraft.multiblock_validation.quantum_computer.server_disabled=服务端配置文件允许时，量子计算机才能正常工作
+nuclearcraft.multiblock_validation.quantum_computer.too_many_qubits=现在有 %s 个量子位连接到了这个量子计算机上——最多只能有 %s 个
 
 nuclearcraft.multiblock.fission_reactor_source.no_target=没有目标！
 nuclearcraft.multiblock.fission_reactor_source.target=目标为位于 [%1$d, %2$d, %3$d] 的%4$s
+
+nc.block.energy_toggle=将本面模式切换为：
+nc.block.energy_toggle_opposite=将反面模式切换为：
+
+nc.block.fluid_toggle=将本面模式切换为：
+nc.block.fluid_toggle_opposite=将反面模式切换为：
+
+nc.block.setting.in=输入
+nc.block.setting.out=输出
+nc.block.setting.auto_in=自动输入
+nc.block.setting.auto_out=自动输出
+nc.block.setting.both=输入/输出
+nc.block.setting.non=禁用
 
 nc.block.vent_toggle=切换出入口为
 nc.block.port_toggle=切换端口为
@@ -3413,23 +3450,10 @@ nc.block.port_mode.fluid_input=流体输入
 nc.block.port_mode.item_output=物体输出
 nc.block.port_mode.fluid_output=流体输出
 
-nc.block.fluid_toggle=将本面模式切换为：
-nc.block.fluid_toggle_opposite=将反面模式切换为：
-
-nc.block.salt_heater_fluid_side.default=默认
-nc.block.salt_heater_fluid_side.disabled=禁用
-nc.block.salt_heater_fluid_side.hot_coolant_out=热冷却剂输出
-nc.block.salt_heater_fluid_side.coolant_spread=冷却剂分配
-
-nc.block.salt_vessel_fluid_side.default=默认
-nc.block.salt_vessel_fluid_side.disabled=禁用
-nc.block.salt_vessel_fluid_side.depleted_out=枯竭燃料输出
-nc.block.salt_vessel_fluid_side.fuel_spread=燃料分配
-
-nc.block.exchanger_tube_fluid_side.disabled=禁用
-nc.block.exchanger_tube_fluid_side.default=默认
-nc.block.exchanger_tube_fluid_side.product_out=产物输出
-nc.block.exchanger_tube_fluid_side.input_spread=输入分配
+nc.block.exchanger_tube_fluid_side.closed=关闭
+nc.block.exchanger_tube_fluid_side.open=开启
+nc.block.exchanger_tube_fluid_side.closed_baffle=关闭，折流
+nc.block.exchanger_tube_fluid_side.open_baffle=开启，折流
 
 gui.nc.inventory.shift_for_info=按住 Shift 查看更多信息
 gui.nc.inventory.ctrl_for_info=按住 Ctrl 查看更多信息
@@ -3491,8 +3515,8 @@ gui.nc.container.infiltrator_controller.pressure_fluid_efficiency=流体效率�
 gui.nc.container.no_cluster=无集群！
 
 gui.nc.container.fission_controller.clusters=集群数量：
-gui.nc.container.fission_controller.sparsity=稀疏效率乘数：
-gui.nc.container.fission_controller.useful_parts=可用部分：
+gui.nc.container.fission_controller.sparsity=稀疏效率：
+gui.nc.container.fission_controller.useful_parts=可用部件：
 gui.nc.container.fission_controller.temperature=外壳温度：
 gui.nc.container.fission_controller.net_heating=外壳净加热：
 gui.nc.container.fission_controller.effective_heat=外壳有效热量：
@@ -3503,30 +3527,33 @@ gui.nc.container.fission_controller.efficiency=平均效率：
 gui.nc.container.fission_controller.heat_mult=平均热量乘数：
 gui.nc.container.fission_controller.heat_stored=外壳热量等级：
 
+gui.nc.container.fission_component.heat_stored=集群热量等级：
+
 gui.nc.container.fission_irradiator.irradiator=裂变辐照器
-gui.nc.container.fission_irradiator.heat_stored=集群热量等级：
 
 gui.nc.container.solid_fission_controller.reactor=裂变燃料反应堆
 gui.nc.container.solid_fission_controller.output_rate=产出速率：
 
 gui.nc.container.solid_fission_cell.cell=裂变燃料单元：
-gui.nc.container.solid_fission_cell.heat_stored=集群热量等级：
 
 gui.nc.container.salt_fission_controller.reactor=熔盐反应堆
 gui.nc.container.salt_fission_controller.heating_speed_multiplier=平均加热速率：
 
 gui.nc.container.salt_fission_vessel.vessel=裂变燃料容器
-gui.nc.container.salt_fission_vessel.heat_stored=集群热量等级：
 gui.nc.container.salt_fission_heater.heater=裂变冷却剂加热器
-gui.nc.container.salt_fission_heater.heat_stored=集群热量等级：
 
-gui.nc.container.heat_exchanger_controller.heat_exchanger=热交换器（半成品）
-gui.nc.container.heat_exchanger_controller.tubes=管道数量：
-gui.nc.container.heat_exchanger_controller.efficiency=平均效率：
-gui.nc.container.heat_exchanger_controller.efficiency_max=最大平均效率：
-gui.nc.container.heat_exchanger_controller.active_percent=有效管道：
+gui.nc.container.fission_heater_port.name=裂变冷却剂加热器端口
 
-gui.nc.container.condenser_controller.condenser=冷凝器（半成品）
+gui.nc.container.heat_exchanger_controller.heat_exchanger=热交换器
+gui.nc.container.condenser_controller.condenser=冷凝器
+
+gui.nc.container.heat_exchanger_controller.active_tube_count=管道数量：
+gui.nc.container.heat_exchanger_controller.active_network_count=网络数量：
+gui.nc.container.heat_exchanger_controller.tube_input=管程输入：
+gui.nc.container.heat_exchanger_controller.shell_input=壳程输入：
+gui.nc.container.heat_exchanger_controller.heat_dissipation_rate=热量耗散：
+gui.nc.container.heat_exchanger_controller.heat_transfer_rate=热量传导：
+gui.nc.container.heat_exchanger_controller.mean_temp_diff=平均温差：
 
 gui.nc.container.turbine_controller.turbine=涡轮机
 gui.nc.container.turbine_controller.power=能量输出：
@@ -3536,8 +3563,6 @@ gui.nc.container.turbine_controller.expansion_level=膨胀系数：
 gui.nc.container.turbine_controller.rotor_efficiency=转子效率：
 gui.nc.container.turbine_controller.fluid_rate=输入：
 gui.nc.container.turbine_controller.power_bonus=速率功率加成：
-
-gui.nc.container.fission_heater_port.name=裂变冷却剂加热器端口
 
 gui.nc.container.fusion_core.reactor=聚变反应堆
 gui.nc.container.fusion_core.ring_incomplete=磁环未完成
@@ -3621,8 +3646,9 @@ nuclearcraft.fission_heating.jei_name=裂变出入口加热
 nuclearcraft.salt_fission.jei_name=熔盐裂变
 nuclearcraft.fission_emergency_cooling.jei_name=裂变应急冷却
 nuclearcraft.coolant_heater.jei_name=熔盐冷却
-nuclearcraft.heat_exchanger.jei_name=热交换管道
-nuclearcraft.condenser.jei_name=冷凝管道
+nuclearcraft.heat_exchanger.jei_name=热交换器
+nuclearcraft.condenser.jei_name=冷凝器
+nuclearcraft.condenser_dissipation_fluid.jei_name=冷凝器耗散流体
 nuclearcraft.turbine.jei_name=涡轮机
 
 advancement.nuclearcraft.root.name=核电工艺
@@ -3761,14 +3787,14 @@ advancement.nuclearcraft.solid_fission_controller.desc=制作一个固态燃料�
 advancement.nuclearcraft.salt_fission_controller.name=下一代核电 [1/2]
 advancement.nuclearcraft.salt_fission_controller.desc=制作一个熔盐裂变控制器
 
-advancement.nuclearcraft.turbine_controller.name=敬爱的朗肯 [1/2]
-advancement.nuclearcraft.turbine_controller.desc=制作一个涡轮机控制器
-
 advancement.nuclearcraft.heat_exchanger_controller.name=热力连接 [1/2]
 advancement.nuclearcraft.heat_exchanger_controller.desc=制作一个热交换器控制器
 
-advancement.nuclearcraft.condenser_controller.name=啊，循环连上了！ [1/2]
+advancement.nuclearcraft.condenser_controller.name=路德维希潜热 [1/2]
 advancement.nuclearcraft.condenser_controller.desc=制作一个冷凝器控制器
+
+advancement.nuclearcraft.turbine_controller.name=敬爱的朗肯 [1/2]
+advancement.nuclearcraft.turbine_controller.desc=制作一个涡轮机控制器
 
 advancement.nuclearcraft.electrolyzer_assembled.name=电极嘶嘶作响
 advancement.nuclearcraft.electrolyzer_assembled.desc=建造一个多方块电解池
@@ -3789,7 +3815,7 @@ advancement.nuclearcraft.salt_fission_reactor_assembled.desc=建造一个熔盐�
 advancement.nuclearcraft.heat_exchanger_assembled.name=热力连接 [2/2]
 advancement.nuclearcraft.heat_exchanger_assembled.desc=建造一个热交换器
 
-advancement.nuclearcraft.condenser_assembled.name=啊，循环连上了！ [2/2]
+advancement.nuclearcraft.condenser_assembled.name=路德维希潜热 [2/2]
 advancement.nuclearcraft.condenser_assembled.desc=建造一个冷凝器
 
 advancement.nuclearcraft.turbine_assembled.name=敬爱的朗肯 [2/2]
@@ -3917,9 +3943,13 @@ death.attack.hypothermia=%s 在超低温中冻死了
 death.attack.fission_burn=%s 在裂变反应堆中被烤了
 death.attack.fatal_rads=%s 受到了致命剂量的辐射
 
+# Guide Book
+
 nc.guide_book.name=核电工艺指导手册
 nc.guide_book.edition=重制版
 nc.guide_book.desc=核电工艺是一个以核能发电为中心的科技模组。为了游戏体验，这些特性比之现实，有大幅简化与抽象，故和现实有一定差异。
+
+# String Formatting
 
 nc.sf.plural_rule=0
 
