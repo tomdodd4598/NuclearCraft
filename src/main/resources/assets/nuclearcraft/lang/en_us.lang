@@ -1740,6 +1740,10 @@ item.nuclearcraft.configuration_blueprint_empty.name=Configuration Blueprint (Em
 item.nuclearcraft.configuration_blueprint_empty.desc=Right click on a processor while sneaking in order to copy its configuration. Right click without sneaking on a processor of the same type in order to set its configuration to that of the blueprint. Reset by sneak right-clicking while not facing a processor.
 item.nuclearcraft.configuration_blueprint.name=Configuration Blueprint
 
+item.nuclearcraft.configuration_blueprint.speed_upgrades=Speed Upgrades x 
+item.nuclearcraft.configuration_blueprint.energy_upgrades=Energy Upgrades x 
+item.nuclearcraft.configuration_blueprint.missing_upgrades=Missing upgrades: 
+
 entity.nuclearcraft.feral_ghoul.name=Feral Ghoul
 
 jei.nuclearcraft.chance_output=Output: %s-%s [Mean: %s]
