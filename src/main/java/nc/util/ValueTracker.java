@@ -66,7 +66,8 @@ public class ValueTracker {
 		
 		if (Math.abs(fast - mean) > Math.max(noiseFloor * Math.abs(mean), driftSigma * noise)) {
 			++driftTicks;
-		} else {
+		}
+		else {
 			driftTicks = 0;
 		}
 		

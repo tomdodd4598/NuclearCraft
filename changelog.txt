@@ -31,6 +31,10 @@ v2o.9.3
 
 * The near side of a battery block placed with default side configs is set to output mode
 
+* Moved background radiation update logic to separate thread [thanks to thedeadferryman!]
+* Fixed flaw in radiation update logic which caused too many chunks to update per tick
+* Improved efficiency of radiation environment handler
+
 + Added support for multiblock assembly errors highlighting more than one block
 
 * Fixed sporadic crash related to smart item insertion
@@ -51,6 +55,7 @@ v2o.9.3
 
 * Updated Chinese language file [thanks to WuzgXY!]
 * Updated Russian language file [thanks to Golyb007!]
++ Added Czech language file [thanks to RomanPlayer22!]
 
 * Updated embedded DSSL and JavaQuantum libraries
 * Fixed incorrect mapping of qubit IDs to gate targets

@@ -7,16 +7,20 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.*;
 
 import static nc.config.NCConfig.*;
 
 public class RadiationEnvironmentHandler {
 	
-	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT = new ConcurrentHashMap<>();
-	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_BACKUP = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_MAP = new ConcurrentHashMap<>();
+	
+	private static final ConcurrentMap<Integer, ConcurrentLinkedQueue<FourPos>> ENVIRONMENT_POS_QUEUE_MAP = new ConcurrentHashMap<>();
+	private static final Set<FourPos> ENVIRONMENT_POS_SET = ConcurrentHashMap.newKeySet();
+	
+	private static final ConcurrentMap<FourPos, FourPos> TILE_TO_ENVIRONMENT_POS_MAP = new ConcurrentHashMap<>();
 	
 	@SubscribeEvent
 	public void updateRadiationEnvironment(TickEvent.WorldTickEvent event) {
@@ -27,81 +31,94 @@ public class RadiationEnvironmentHandler {
 		if (event.phase != TickEvent.Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer world)) {
 			return;
 		}
-		int dim = world.provider.getDimension();
 		
-		int count = Math.min((1 + radiation_world_chunks_per_tick) / 2, ENVIRONMENT.size());
-		Iterator<Entry<FourPos, RadiationEnvironmentInfo>> environmentIter = ENVIRONMENT.entrySet().iterator();
-		Entry<FourPos, RadiationEnvironmentInfo> environmentEntry;
+		ConcurrentLinkedQueue<FourPos> environmentPosQueue = ENVIRONMENT_POS_QUEUE_MAP.get(world.provider.getDimension());
+		if (environmentPosQueue == null) {
+			return;
+		}
 		
+		int count = Math.max(0, (1 + radiation_world_chunks_per_tick) / 2);
 		while (count > 0) {
 			--count;
 			
-			if (environmentIter.hasNext()) {
-				environmentEntry = environmentIter.next();
-			}
-			else {
+			FourPos environmentPos = environmentPosQueue.poll();
+			if (environmentPos == null) {
 				break;
 			}
-			if (environmentEntry == null) {
-				break;
+			ENVIRONMENT_POS_SET.remove(environmentPos);
+			
+			RadiationEnvironmentInfo info = ENVIRONMENT_MAP.get(environmentPos);
+			if (info == null) {
+				continue;
 			}
 			
-			FourPos pos = environmentEntry.getKey();
-			RadiationEnvironmentInfo info = environmentEntry.getValue();
-			
-			if (pos.getDimension() == dim) {
-				for (Entry<FourPos, ITileRadiationEnvironment> infoEntry : info.tileMap.entrySet()) {
-					infoEntry.getValue().handleRadiationEnvironmentInfo(info);
-				}
+			if (info.tileMap.isEmpty()) {
+				ENVIRONMENT_MAP.remove(environmentPos, info);
+				continue;
 			}
 			
-			ENVIRONMENT.remove(pos);
-			ENVIRONMENT_BACKUP.put(pos, info);
-		}
-		
-		if (ENVIRONMENT.isEmpty()) {
-			ENVIRONMENT.putAll(ENVIRONMENT_BACKUP);
-			ENVIRONMENT_BACKUP.clear();
+			for (Entry<FourPos, ITileRadiationEnvironment> infoEntry : info.tileMap.entrySet()) {
+				infoEntry.getValue().handleRadiationEnvironmentInfo(info);
+			}
+			
+			if (ENVIRONMENT_MAP.get(environmentPos) == info && !info.tileMap.isEmpty() && ENVIRONMENT_POS_SET.add(environmentPos)) {
+				environmentPosQueue.offer(environmentPos);
+			}
 		}
 	}
 	
 	public static void addTile(FourPos pos, ITileRadiationEnvironment tile) {
-		RadiationEnvironmentInfo newInfo = new RadiationEnvironmentInfo(pos, tile);
-		if (!ENVIRONMENT.containsKey(pos)) {
-			RadiationEnvironmentHandler.ENVIRONMENT.put(pos, newInfo);
-		}
-		else {
-			RadiationEnvironmentHandler.ENVIRONMENT.get(pos).addToTileMap(tile);
-		}
-	}
-	
-	public static void removeTile(ITileRadiationEnvironment tile) {
-		Iterator<Entry<FourPos, RadiationEnvironmentInfo>> infoIterator = ENVIRONMENT.entrySet().iterator();
-		
-		while (infoIterator.hasNext()) {
-			Entry<FourPos, RadiationEnvironmentInfo> infoEntry = infoIterator.next();
-			if (infoEntry == null || infoEntry.getKey() == null || infoEntry.getValue() == null) {
-				infoIterator.remove();
-			}
-			else if (tile.getFourPos().getDimension() == infoEntry.getKey().getDimension()) {
-				infoEntry.getValue().tileMap.remove(tile.getFourPos());
-				if (infoEntry.getValue().tileMap.isEmpty()) {
-					infoIterator.remove();
+		FourPos tilePos = tile.getFourPos();
+		FourPos prevEnvironmentPos = TILE_TO_ENVIRONMENT_POS_MAP.put(tilePos, pos);
+		if (prevEnvironmentPos != null && !prevEnvironmentPos.equals(pos)) {
+			RadiationEnvironmentInfo prevInfo = ENVIRONMENT_MAP.get(prevEnvironmentPos);
+			if (prevInfo != null) {
+				prevInfo.tileMap.remove(tilePos);
+				if (prevInfo.tileMap.isEmpty()) {
+					ENVIRONMENT_MAP.remove(prevEnvironmentPos, prevInfo);
 				}
 			}
 		}
 		
-		Iterator<Entry<FourPos, RadiationEnvironmentInfo>> backupInfoIterator = ENVIRONMENT_BACKUP.entrySet().iterator();
-		
-		while (backupInfoIterator.hasNext()) {
-			Entry<FourPos, RadiationEnvironmentInfo> infoEntry = backupInfoIterator.next();
-			if (infoEntry == null || infoEntry.getKey() == null || infoEntry.getValue() == null) {
-				backupInfoIterator.remove();
+		ENVIRONMENT_MAP.compute(pos, (environmentPos, info) -> {
+			if (info == null) {
+				return new RadiationEnvironmentInfo(environmentPos, tile);
 			}
-			else if (tile.getFourPos().getDimension() == infoEntry.getKey().getDimension()) {
-				infoEntry.getValue().tileMap.remove(tile.getFourPos());
-				if (infoEntry.getValue().tileMap.isEmpty()) {
-					backupInfoIterator.remove();
+			info.addToTileMap(tile);
+			return info;
+		});
+		
+		if (ENVIRONMENT_POS_SET.add(pos)) {
+			ENVIRONMENT_POS_QUEUE_MAP.computeIfAbsent(pos.getDimension(), key -> new ConcurrentLinkedQueue<>()).offer(pos);
+		}
+	}
+	
+	public static void removeTile(ITileRadiationEnvironment tile) {
+		FourPos tilePos = tile.getFourPos();
+		FourPos environmentPos = TILE_TO_ENVIRONMENT_POS_MAP.remove(tilePos);
+		if (environmentPos != null) {
+			RadiationEnvironmentInfo info = ENVIRONMENT_MAP.get(environmentPos);
+			if (info != null) {
+				if (info.tileMap.remove(tilePos) != null) {
+					if (info.tileMap.isEmpty()) {
+						ENVIRONMENT_MAP.remove(environmentPos, info);
+					}
+					return;
+				}
+				if (info.tileMap.isEmpty()) {
+					ENVIRONMENT_MAP.remove(environmentPos, info);
+				}
+			}
+		}
+		
+		int dim = tilePos.getDimension();
+		for (Entry<FourPos, RadiationEnvironmentInfo> infoEntry : ENVIRONMENT_MAP.entrySet()) {
+			FourPos pos = infoEntry.getKey();
+			RadiationEnvironmentInfo info = infoEntry.getValue();
+			if (pos.getDimension() == dim) {
+				info.tileMap.remove(tilePos);
+				if (info.tileMap.isEmpty()) {
+					ENVIRONMENT_MAP.remove(pos, info);
 				}
 			}
 		}
