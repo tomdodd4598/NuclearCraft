@@ -38,8 +38,8 @@
  * For more details, see https://docs.gradle.org/8.4/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-	api("zone.rong:mixinbooter:8.4")
-	api("com.cleanroommc:groovyscript:1.1.2") { transitive = false }
+	api("zone.rong:mixinbooter:10.7")
+	api("com.cleanroommc:groovyscript:1.4.3") { transitive = false }
 
 	implementation("cofh:CoFHCore:1.12.2-4.6.3.27:universal") { transitive = false }
 	implementation("codechicken:CodeChickenLib:1.12.2-+:universal")
@@ -53,7 +53,7 @@ dependencies {
 	implementation rfg.deobf("curse.maven:baubles-227083:2518667")
 	implementation rfg.deobf("curse.maven:base-246996:3440963")
 	implementation rfg.deobf("curse.maven:contenttweaker-237065:3331364")
-	implementation rfg.deobf("curse.maven:opencomputers-223008:6057571")
+	implementation rfg.deobf("curse.maven:opencomputers-223008:6608365")
 	implementation rfg.deobf("curse.maven:mantle-74924:2713386")
 	implementation rfg.deobf("curse.maven:tinkers-construct-74072:2902483")
 	implementation rfg.deobf("curse.maven:constructs-armory-287683:3174535")

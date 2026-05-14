@@ -18,8 +18,8 @@ import static nc.NuclearCraft.proxy;
 
 public abstract class UpgradableProcessorContainerInfoBuilder<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends UpgradableProcessorContainerInfo<TILE, PACKET, INFO>, BUILDER extends UpgradableProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER>> extends ProcessorContainerInfoBuilder<TILE, PACKET, INFO, BUILDER> {
 	
-	protected int[] speedUpgradeGuiXYWH = ContainerInfoHelper.standardSlot(132, 64);
-	protected int[] energyUpgradeGuiXYWH = ContainerInfoHelper.standardSlot(152, 64);
+	public int[] speedUpgradeGuiXYWH = ContainerInfoHelper.standardSlot(132, 64);
+	public int[] energyUpgradeGuiXYWH = ContainerInfoHelper.standardSlot(152, 64);
 	
 	protected UpgradableProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction) {
 		super(modId, name, tileClass, tileSupplier, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction);

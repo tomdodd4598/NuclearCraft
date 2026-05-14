@@ -1,0 +1,25 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:fission_port",
+		"textures": {
+			"front": "nuclearcraft:blocks/fission/port/chamber_in"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "nuclearcraft:blocks/fission/port/chamber_out"
+				}
+			}
+		},
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 90},
+			"z": {}
+		}
+	}
+}

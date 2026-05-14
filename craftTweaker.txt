@@ -420,7 +420,7 @@ mods.nuclearcraft.FissionIrradiator.removeRecipeWithOutput(IIngredient itemOutpu
 Pebble Bed Fission:
 -------------------
 
-mods.nuclearcraft.PebbleFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation);
+mods.nuclearcraft.PebbleFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.PebbleFission.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.PebbleFission.removeRecipeWithOutput(IIngredient itemOutput);
@@ -429,7 +429,7 @@ mods.nuclearcraft.PebbleFission.removeRecipeWithOutput(IIngredient itemOutput);
 Solid Fuel Fission:
 -------------------
 
-mods.nuclearcraft.SolidFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation);
+mods.nuclearcraft.SolidFission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SolidFission.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.SolidFission.removeRecipeWithOutput(IIngredient itemOutput);
@@ -447,7 +447,7 @@ mods.nuclearcraft.FissionHeating.removeRecipeWithOutput(ILiquidStack fluidOutput
 Molten Salt Fission:
 --------------------
 
-mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation);
+mods.nuclearcraft.SaltFission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.SaltFission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.SaltFission.removeRecipeWithOutput(ILiquidStack fluidOutput);
@@ -636,6 +636,7 @@ mods.nuclearcraft.Registration.registerRTG(String rtgID, long power, double radi
 
 mods.nuclearcraft.Registration.registerBattery(String batteryID, long capacity, int euEnergyTier);
 
+mods.nuclearcraft.Registration.registerFissionCooler(String coolerID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionSink(String sinkID, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionHeater(String heaterID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int coolingRate, String placementRule);
 mods.nuclearcraft.Registration.registerFissionSource(String sourceID, double efficiency);
@@ -729,7 +730,7 @@ UpgradableProcessorBuilder::setEnergyUpgradeSlot(int x, int y, int w, int h);
 
 mods.nuclearcraft.Registration.registerFissionIsotope(String itemID, String isotopeName, String itemModel, String oreDict, double radiation, boolean raw, boolean carbide, boolean oxide, boolean nitride, boolean zirconiumAlloy, {int fluidColor});
 
-mods.nuclearcraft.Registration.registerFissionFuel(String itemID, String fuelName, String itemModel, String oreDict, int time, int heat, double efficiency, int crit, double decay, boolean prime, double fissionRadiation, double fuelRadiation, double depletedRadiation, boolean raw, boolean carbide, boolean triso, boolean oxide, boolean nitride, boolean zirconiumAlloy, {int fluidColor, int depletedFluidColor});
+mods.nuclearcraft.Registration.registerFissionFuel(String itemID, String fuelName, String itemModel, String oreDict, int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double fissionRadiation, double fuelRadiation, double depletedRadiation, boolean raw, boolean carbide, boolean triso, boolean oxide, boolean nitride, boolean zirconiumAlloy, {int fluidColor, int depletedFluidColor});
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
 
@@ -745,6 +746,9 @@ mods.nuclearcraft.CTHelper.isScriptAddonLoaded(String addonID);
 Color Helper:
 -------------
 
+mods.nuclearcraft.ColorHelper.getColor(int alpha, int red, int green, int blue);
+mods.nuclearcraft.ColorHelper.getColor(int red, int green, int blue);
+
 mods.nuclearcraft.ColorHelper.getAlpha(int color);
 mods.nuclearcraft.ColorHelper.getRed(int color);
 mods.nuclearcraft.ColorHelper.getGreen(int color);
@@ -752,6 +756,7 @@ mods.nuclearcraft.ColorHelper.getBlue(int color);
 
 mods.nuclearcraft.ColorHelper.blend(int color1, int color2, float blendRatio);
 mods.nuclearcraft.ColorHelper.glow(int color1, int color2, float glowFactor);
+mods.nuclearcraft.ColorHelper.saturate(int color, float saturation);
 
 mods.nuclearcraft.ColorHelper.waterBlend(int soluteColor, float blendRatio);
 

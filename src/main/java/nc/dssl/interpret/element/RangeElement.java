@@ -50,13 +50,14 @@ public class RangeElement extends Element {
 			step = args[2];
 		}
 		
-		if (step.equals(BigInteger.ZERO)) {
+		int stepSignum = step.signum();
+		if (stepSignum == 0) {
 			throw new IllegalArgumentException("Range element constructed with zero step size!");
 		}
 		
 		BigInteger diff = stop.subtract(start);
-		int diffComp = diff.compareTo(BigInteger.ZERO), stepComp = step.compareTo(BigInteger.ZERO);
-		if ((diffComp > 0 && stepComp < 0) || (diffComp < 0 && stepComp > 0)) {
+		int diffSignum = diff.signum();
+		if ((stepSignum < 0 && diffSignum > 0) || (stepSignum > 0 && diffSignum < 0)) {
 			throw new IllegalArgumentException(String.format("Range element constructed with invalid arguments start = %s, stop = %s, step = %s!", start, stop, step));
 		}
 		
@@ -64,7 +65,7 @@ public class RangeElement extends Element {
 		this.stop = stop;
 		this.step = step;
 		
-		size = diff.divide(step).longValueExact();
+		size = diffSignum == 0 ? 0L : diff.abs().subtract(BigInteger.ONE).divide(step.abs()).add(BigInteger.ONE).longValueExact();
 	}
 	
 	public RangeElement(Interpreter interpreter, @Nonnull BigInteger start, @Nonnull BigInteger stop, @Nonnull BigInteger step, long size) {
@@ -153,10 +154,17 @@ public class RangeElement extends Element {
 		}
 		
 		@Nonnull BigInteger intValue = intElem.value.raw;
-		if (intValue.compareTo(start) < 0 || intValue.compareTo(stop) >= 0) {
-			return false;
+		if (step.signum() > 0) {
+			if (intValue.compareTo(start) < 0 || intValue.compareTo(stop) >= 0) {
+				return false;
+			}
 		}
-		return intValue.subtract(start).mod(step).equals(BigInteger.ZERO);
+		else {
+			if (intValue.compareTo(start) > 0 || intValue.compareTo(stop) <= 0) {
+				return false;
+			}
+		}
+		return intValue.subtract(start).remainder(step).equals(BigInteger.ZERO);
 	}
 	
 	@Override
@@ -218,8 +226,15 @@ public class RangeElement extends Element {
 		}
 		
 		@Nonnull BigInteger intValue = intElem.value.raw;
-		if (intValue.compareTo(start) < 0 || intValue.compareTo(stop) >= 0) {
-			return interpreter.builtIn.nullElement;
+		if (step.signum() > 0) {
+			if (intValue.compareTo(start) < 0 || intValue.compareTo(stop) >= 0) {
+				return interpreter.builtIn.nullElement;
+			}
+		}
+		else {
+			if (intValue.compareTo(start) > 0 || intValue.compareTo(stop) <= 0) {
+				return interpreter.builtIn.nullElement;
+			}
 		}
 		
 		BigInteger[] divRem = intValue.subtract(start).divideAndRemainder(step);
@@ -231,7 +246,7 @@ public class RangeElement extends Element {
 	}
 	
 	protected void methodIndexBoundsCheck(long index, String name) {
-		if (index >= size) {
+		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(String.format("Built-in method \"%s\" (index: %s, size: %s)", name, index, size));
 		}
 	}

@@ -255,16 +255,20 @@ public class BasicRecipe implements IRecipe {
 		return (int) extras.get(3);
 	}
 	
+	public int getFissionFuelIntrinsicFlux() {
+		return (int) extras.get(4);
+	}
+	
 	public double getFissionFuelDecayFactor() {
-		return (double) extras.get(4);
+		return (double) extras.get(5);
 	}
 	
 	public boolean getFissionFuelSelfPriming() {
-		return (boolean) extras.get(5);
+		return (boolean) extras.get(6);
 	}
 	
 	public double getFissionFuelRadiation() {
-		return fission_fuel_radiation_multiplier * (double) extras.get(6);
+		return fission_fuel_radiation_multiplier * (double) extras.get(7);
 	}
 	
 	// Fission Heating
@@ -279,18 +283,18 @@ public class BasicRecipe implements IRecipe {
 		return (double) extras.get(0);
 	}
 	
-	// Coolant Heater
+	// Fission Cooling
 	
-	public int getCoolantHeaterCoolingRate() {
+	public int getFissionCoolingRate() {
 		return (int) extras.get(0);
 	}
 	
-	public String getCoolantHeaterPlacementRule() {
+	public String getFissionCoolingPlacementRule() {
 		return (String) extras.get(1);
 	}
 	
-	public String[] getCoolantHeaterJEIInfo() {
-		String rule = FissionPlacement.TOOLTIP_MAP.get(getCoolantHeaterPlacementRule());
+	public String[] getFissionCoolingJEIInfo() {
+		String rule = FissionPlacement.TOOLTIP_MAP.get(getFissionCoolingPlacementRule());
 		if (rule != null) {
 			return FontRenderHelper.wrapString(rule, InfoHelper.MAXIMUM_TEXT_WIDTH);
 		}

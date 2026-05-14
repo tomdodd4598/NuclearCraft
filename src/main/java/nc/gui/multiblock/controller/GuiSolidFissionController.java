@@ -68,7 +68,7 @@ public class GuiSolidFissionController extends GuiLogicMultiblockController<Fiss
 		String efficiency = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.pcDecimalPlaces(multiblock.meanHeatMult, 1) : Lang.localize("gui.nc.container.fission_controller.efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.meanEfficiency, 1);
 		fontRenderer.drawString(efficiency, xSize / 2 - fontRenderer.getStringWidth(efficiency) / 2, 34, fontColor);
 		
-		String outputRate = Lang.localize("gui.nc.container.solid_fission_controller.output_rate") + " " + UnitHelper.prefix(getLogic().heatingOutputRateFP, 5, "B/t", -1);
+		String outputRate = Lang.localize("gui.nc.container.solid_fission_controller.output_rate") + " " + UnitHelper.prefix(Math.round(getLogic().heatingOutputRateFP), 5, "B/t", -1);
 		fontRenderer.drawString(outputRate, xSize / 2 - fontRenderer.getStringWidth(outputRate) / 2, 46, fontColor);
 		
 		String usefulParts = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.fission_controller.sparsity") + " " + NCMath.pcDecimalPlaces(multiblock.sparsityEfficiencyMult, 1) : Lang.localize("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume();

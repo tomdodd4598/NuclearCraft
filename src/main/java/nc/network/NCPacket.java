@@ -2,6 +2,7 @@ package nc.network;
 
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.longs.*;
 import nc.init.NCPackets;
 import nc.recipe.RecipeUnitInfo;
 import nc.tile.internal.fluid.Tank.TankInfo;
@@ -100,10 +101,26 @@ public abstract class NCPacket implements IMessage {
 		return intList;
 	}
 	
-	protected static void writeInts(ByteBuf buf, IntList ints) {
+	protected static void writeInts(ByteBuf buf, IntCollection ints) {
 		buf.writeInt(ints.size());
 		for (int i : ints) {
 			buf.writeInt(i);
+		}
+	}
+	
+	protected static LongList readLongs(ByteBuf buf) {
+		int count = buf.readInt();
+		LongList longList = new LongArrayList();
+		for (int i = 0; i < count; ++i) {
+			longList.add(buf.readLong());
+		}
+		return longList;
+	}
+	
+	protected static void writeLongs(ByteBuf buf, LongCollection longs) {
+		buf.writeInt(longs.size());
+		for (long l : longs) {
+			buf.writeLong(l);
 		}
 	}
 	

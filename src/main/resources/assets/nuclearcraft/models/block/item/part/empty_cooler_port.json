@@ -1,0 +1,6 @@
+{
+	"parent": "nuclearcraft:block/fission_heater_port_off",
+	"textures": {
+		"front": "nuclearcraft:items/part/empty_cooler_port"
+    }
+}

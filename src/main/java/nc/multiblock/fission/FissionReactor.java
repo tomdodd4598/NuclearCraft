@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.Set;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionPart> implements ILogicMultiblock<FissionReactor, FissionReactorLogic, IFissionPart>, IPacketMultiblock<FissionReactor, IFissionPart, FissionUpdatePacket> {
@@ -143,16 +143,18 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 	}
 	
 	public boolean setLogic(FissionReactor multiblock) {
-		if (getPartMap(IFissionController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+		@SuppressWarnings("rawtypes") Long2ObjectMap<IFissionController> controllerMap = getPartMap(IFissionController.class);
+		
+		if (controllerMap.isEmpty()) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
-		if (getPartCount(IFissionController.class) > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+		if (controllerMap.size() > 1) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", controllerMap.keySet());
 			return false;
 		}
 		
-		for (IFissionController<?> contr : getParts(IFissionController.class)) {
+		for (IFissionController<?> contr : controllerMap.values()) {
 			controller = contr;
 			break;
 		}

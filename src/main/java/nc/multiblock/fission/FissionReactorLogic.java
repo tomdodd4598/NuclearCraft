@@ -3,19 +3,19 @@ package nc.multiblock.fission;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
-import nc.init.NCSounds;
+import nc.init.*;
 import nc.multiblock.*;
 import nc.network.multiblock.FissionUpdatePacket;
 import nc.tile.fission.*;
 import nc.tile.fission.IFissionFuelComponent.ModeratorBlockInfo;
 import nc.tile.fission.TileFissionSource.PrimingTargetInfo;
 import nc.tile.fission.manager.*;
-import nc.tile.fission.port.*;
+import nc.tile.fission.port.TileFissionIrradiatorPort;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
-import nc.util.*;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -117,8 +117,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 	
 	@Override
 	public boolean isMachineWhole() {
-		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", null);
+		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", Collections.emptyList());
 		return false;
+	}
+	
+	public boolean isMissingSorption() {
+		return isMissingSorption(TileFissionIrradiatorPort.class, TileFissionIrradiator.class, NCBlocks.fission_irradiator_port.getLocalizedName());
 	}
 	
 	@Override
@@ -145,7 +149,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		refreshManagers(TileFissionSourceManager.class);
 		refreshManagers(TileFissionShieldManager.class);
 		refreshFilteredPorts(TileFissionIrradiatorPort.class, TileFissionIrradiator.class);
-		refreshFilteredPorts(TileFissionCoolerPort.class, TileFissionCooler.class);
 	}
 	
 	public <T extends IFissionFuelBunchComponent> void formFuelBunches(Class<T> fuelBunchComponentClass, BiPredicate<T, T> bunchingPredicate) {
@@ -195,8 +198,8 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			}
 		}
 		
-		for (FissionFuelBunch bunch : fuelBunches) {
-			bunch.init();
+		for (FissionFuelBunch fuelBunch : fuelBunches) {
+			fuelBunch.init();
 		}
 	}
 	
@@ -295,7 +298,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 			primedComponent.unprime(simulate);
 			
 			if (!primedComponent.isFunctional(simulate)) {
-				primedFailCache.put(primedComponent.getTilePos().toLong(), primedComponent);
+				primedComponent.addToPrimedFailCache(primedFailCache);
 				multiblock.refreshFlag = true;
 			}
 		}
@@ -334,7 +337,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, Fission
 		
 		for (IFissionComponent component : assumedValidCache.values()) {
 			if (!component.isFunctional(simulate)) {
-				componentFailCache.put(component.getTilePos().toLong(), component);
+				component.addToComponentFailCache(componentFailCache);
 				multiblock.refreshFlag = true;
 			}
 		}

@@ -3,6 +3,8 @@ package nc.multiblock.quantum;
 import it.unimi.dsi.fastutil.doubles.DoubleArrays;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
+import nc.quantum.*;
+import nc.quantum.operator.Operator;
 import nc.util.*;
 
 import java.util.*;
@@ -36,6 +38,8 @@ public abstract class QuantumOperationWrapper {
 		int[] getTargets();
 		
 		double[] getSingleMatrix();
+		
+		Operator getSingleOperator();
 		
 		QuantumOperationWrapper getWithoutControl();
 	}
@@ -174,7 +178,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.X));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.X));
+			}
 		}
 		
 		@Override
@@ -196,7 +202,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.Y));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.Y));
+			}
 		}
 		
 		@Override
@@ -218,7 +226,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.Z));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.Z));
+			}
 		}
 		
 		@Override
@@ -240,7 +250,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.H));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.H));
+			}
 		}
 		
 		@Override
@@ -262,7 +274,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.S));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.S));
+			}
 		}
 		
 		@Override
@@ -284,7 +298,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.Sdg));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.Sdg));
+			}
 		}
 		
 		@Override
@@ -306,7 +322,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.T));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.T));
+			}
 		}
 		
 		@Override
@@ -328,7 +346,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.Tdg));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Consts.Tdg));
+			}
 		}
 		
 		@Override
@@ -391,7 +411,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.phase(Math.toRadians(angle))));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Operator.phase(Math.toRadians(angle))));
+			}
 		}
 		
 		@Override
@@ -413,7 +435,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.rotateX(Math.toRadians(angle))));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Operator.rotateX(Math.toRadians(angle))));
+			}
 		}
 		
 		@Override
@@ -435,7 +459,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.rotateY(Math.toRadians(angle))));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Operator.rotateY(Math.toRadians(angle))));
+			}
 		}
 		
 		@Override
@@ -457,7 +483,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(new QuantumGate(targets, QuantumMatrix.rotateZ(Math.toRadians(angle))));
+			for (int target : targets) {
+				qc.gate(new Gate(new int[] {target}, Operator.rotateZ(Math.toRadians(angle))));
+			}
 		}
 		
 		@Override
@@ -483,7 +511,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(QuantumGate.controlled(controls, targets, getSingleMatrix()));
+			for (int target : targets) {
+				qc.gate(new Gate(controls, new int[] {target}, getSingleOperator()));
+			}
 		}
 		
 		@Override
@@ -562,7 +592,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.X;
+			return Matrix.X;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.X;
 		}
 		
 		@Override
@@ -716,7 +751,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.Y;
+			return Matrix.Y;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.Y;
 		}
 		
 		@Override
@@ -743,7 +783,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.Z;
+			return Matrix.Z;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.Z;
 		}
 		
 		@Override
@@ -770,7 +815,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.H;
+			return Matrix.H;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.H;
 		}
 		
 		@Override
@@ -797,7 +847,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.S;
+			return Matrix.S;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.S;
 		}
 		
 		@Override
@@ -824,7 +879,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.Sdg;
+			return Matrix.Sdg;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.Sdg;
 		}
 		
 		@Override
@@ -851,7 +911,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.T;
+			return Matrix.T;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.T;
 		}
 		
 		@Override
@@ -878,7 +943,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.Tdg;
+			return Matrix.Tdg;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Consts.Tdg;
 		}
 		
 		@Override
@@ -911,7 +981,9 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public void run() {
-			qc.gate(QuantumGate.controlled(controls, targets, getSingleMatrix()));
+			for (int target : targets) {
+				qc.gate(new Gate(controls, new int[] {target}, getSingleOperator()));
+			}
 		}
 		
 		@Override
@@ -996,7 +1068,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.phase(Math.toRadians(angle));
+			return Matrix.phase(Math.toRadians(angle));
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Operator.phase(Math.toRadians(angle));
 		}
 		
 		@Override
@@ -1023,7 +1100,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.rotateX(Math.toRadians(angle));
+			return Matrix.rotateX(Math.toRadians(angle));
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Operator.rotateX(Math.toRadians(angle));
 		}
 		
 		@Override
@@ -1050,7 +1132,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.rotateY(Math.toRadians(angle));
+			return Matrix.rotateY(Math.toRadians(angle));
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Operator.rotateY(Math.toRadians(angle));
 		}
 		
 		@Override
@@ -1077,7 +1164,12 @@ public abstract class QuantumOperationWrapper {
 		
 		@Override
 		public double[] getSingleMatrix() {
-			return QuantumMatrix.rotateZ(Math.toRadians(angle));
+			return Matrix.rotateZ(Math.toRadians(angle));
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
+			return Operator.rotateZ(Math.toRadians(angle));
 		}
 		
 		@Override
@@ -1111,7 +1203,7 @@ public abstract class QuantumOperationWrapper {
 			int len = from.length;
 			if (len == to.length) {
 				for (int i = 0; i < len; ++i) {
-					qc.gate(new QuantumGate(new int[] {from[i], to[i]}, QuantumMatrix.SWAP));
+					qc.gate(new Gate(new int[] {from[i], to[i]}, Consts.SWAP));
 				}
 			}
 		}
@@ -1172,12 +1264,18 @@ public abstract class QuantumOperationWrapper {
 			int len = from.length;
 			if (len == to.length) {
 				for (int i = 0; i < len; ++i) {
-					qc.gate(QuantumGate.controlled(controls, new int[] {from[i], to[i]}, QuantumMatrix.SWAP));
+					qc.gate(new Gate(controls, new int[] {from[i], to[i]}, Consts.SWAP));
 				}
 			}
 		}
 		
+		@Override
 		public double[] getSingleMatrix() {
+			return null;
+		}
+		
+		@Override
+		public Operator getSingleOperator() {
 			return null;
 		}
 		
@@ -1289,15 +1387,15 @@ public abstract class QuantumOperationWrapper {
 	public static final Object2ObjectMap<double[], double[]> ZYZ_DECOMPOSITION_ANGLES_CACHE = new Object2ObjectOpenHashMap<>();
 	
 	static {
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.I, new double[] {0D, 0D, 0D, 0D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.X, new double[] {90D, -90D, 180D, 90D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.Y, new double[] {90D, 0D, 180D, 0D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.Z, new double[] {90D, 90D, 0D, 90D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.H, new double[] {90D, 0D, 90D, 180D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.S, new double[] {45D, 45D, 0D, 45D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.Sdg, new double[] {-45D, -45D, 0D, -45D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.T, new double[] {22.5D, 22.5D, 0D, 22.5D});
-		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(QuantumMatrix.Tdg, new double[] {-22.5D, -22.5D, 0D, -22.5D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.I, new double[] {0D, 0D, 0D, 0D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.X, new double[] {90D, -90D, 180D, 90D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.Y, new double[] {90D, 0D, 180D, 0D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.Z, new double[] {90D, 90D, 0D, 90D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.H, new double[] {90D, 0D, 90D, 180D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.S, new double[] {45D, 45D, 0D, 45D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.Sdg, new double[] {-45D, -45D, 0D, -45D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.T, new double[] {22.5D, 22.5D, 0D, 22.5D});
+		ZYZ_DECOMPOSITION_ANGLES_CACHE.put(Matrix.Tdg, new double[] {-22.5D, -22.5D, 0D, -22.5D});
 	}
 	
 	/**
@@ -1308,11 +1406,11 @@ public abstract class QuantumOperationWrapper {
 			return ZYZ_DECOMPOSITION_ANGLES_CACHE.get(matrix);
 		}
 		
-		Complex det = QuantumMatrix.det(matrix);
+		Complex det = Matrix.det(matrix);
 		Complex phase = Complex.invSqrt(det.re, det.im);
 		
 		double[] m = DoubleArrays.copy(matrix);
-		QuantumMatrix.multiplyBy(m, phase.re, phase.im);
+		Matrix.multiplyBy(m, phase.re, phase.im);
 		
 		double ppl = 2D * Complex.arg(m[6], m[7]);
 		double pml = 2D * Complex.arg(m[4], m[5]);

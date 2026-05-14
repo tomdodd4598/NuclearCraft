@@ -1,0 +1,32 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:fission_port_overlayed",
+		"textures": {
+			"front": "nuclearcraft:blocks/gas_cooler_port_sic_sic_cmc",
+			"overlay": "nuclearcraft:blocks/fission/port/cooler/off"
+		}
+	},
+	"variants": {
+		"inventory": [
+			{}
+		],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"overlay": "nuclearcraft:blocks/fission/port/cooler/on"
+				}
+			}
+		},
+		"axis": {
+			"x": {
+				"y": 90
+			},
+			"y": {
+				"x": 90
+			},
+			"z": {}
+		}
+	}
+}

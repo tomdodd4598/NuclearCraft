@@ -30,7 +30,7 @@ import nc.recipe.processor.BasicProcessorRecipeHandler;
 import nc.tab.NCTabs;
 import nc.tile.battery.TileBattery;
 import nc.tile.fission.*;
-import nc.tile.fission.port.TileFissionHeaterPort;
+import nc.tile.fission.port.*;
 import nc.tile.hx.TileHeatExchangerTube;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import nc.tile.processor.info.builder.ProcessorContainerInfoBuilder;
@@ -94,6 +94,30 @@ public class CTRegistration {
 		
 		INFO_LIST.add(new BatteryRegistrationInfo(battery, batteryID, capacity, energyTier));
 		CraftTweakerAPI.logInfo("Registered battery with ID \"" + batteryID + "\", capacity " + capacity + " RF/t and energy tier " + energyTier);
+	}
+	
+	@ZenMethod
+	public static void registerFissionCooler(String coolerID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
+		
+		Lazy<Block> port = new Lazy<>(() -> NCBlocks.withName(Global.MOD_ID, "fission_cooler_port_" + coolerID, new BlockFissionFluidPort<>(TileFissionCoolerPort.class) {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TileFissionCoolerPort(coolerID, fluidInput);
+			}
+		}));
+		
+		Lazy<Block> cooler = new Lazy<>(() -> NCBlocks.withName(Global.MOD_ID, "pebble_fission_cooler_" + coolerID, new BlockPebbleFissionCooler() {
+			
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata) {
+				return new TilePebbleFissionCooler(coolerID, fluidInput);
+			}
+		}));
+		
+		INFO_LIST.add(new FissionCoolerPortRegistrationInfo(port, coolerID));
+		INFO_LIST.add(new FissionCoolerRegistrationInfo(cooler, coolerID, fluidInput, inputAmount, fluidOutput, outputAmount, cooling, rule));
+		CraftTweakerAPI.logInfo("Registered fission gas cooler and a respective port with ID \"" + coolerID + "\", cooling rate " + cooling + " H/t, placement rule \"" + rule + "\" and recipe [" + inputAmount + " * " + fluidInput + " -> " + outputAmount + " * " + fluidOutput + "]");
 	}
 	
 	@ZenMethod
@@ -349,24 +373,26 @@ public class CTRegistration {
 		final int time;
 		final int heat;
 		final double efficiency;
-		final int crit;
-		final double decay;
-		final boolean prime;
+		final int criticality;
+		final int intrinsicFlux;
+		final double decayFactor;
+		final boolean selfPriming;
 		final double radiation;
 		
-		public FissionFuelStats(int time, int heat, double efficiency, int crit, double decay, boolean prime, double radiation) {
+		public FissionFuelStats(int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation) {
 			this.time = time;
 			this.heat = heat;
 			this.efficiency = efficiency;
-			this.crit = crit;
-			this.decay = decay;
-			this.prime = prime;
+			this.criticality = criticality;
+			this.intrinsicFlux = intrinsicFlux;
+			this.decayFactor = decayFactor;
+			this.selfPriming = selfPriming;
 			this.radiation = radiation;
 		}
 	}
 	
 	@ZenMethod
-	public static void registerFissionFuel(String item, String name, String model, String ore, int time, int heat, double efficiency, int crit, double decay, boolean prime, double fissionRadiation, double fuelRadiation, double depletedRadiation, boolean raw, boolean carbide, boolean triso, boolean oxide, boolean nitride, boolean zirconiumAlloy, @Optional(valueLong = Long.MIN_VALUE) long fluidColor, @Optional(valueLong = Long.MIN_VALUE) long depletedFluidColor) {
+	public static void registerFissionFuel(String item, String name, String model, String ore, int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double fissionRadiation, double fuelRadiation, double depletedRadiation, boolean raw, boolean carbide, boolean triso, boolean oxide, boolean nitride, boolean zirconiumAlloy, @Optional(valueLong = Long.MIN_VALUE) long fluidColor, @Optional(valueLong = Long.MIN_VALUE) long depletedFluidColor) {
 		item = item.toLowerCase(Locale.ROOT);
 		name = name.toLowerCase(Locale.ROOT);
 		ore = StringHelper.capitalize(ore);
@@ -401,46 +427,46 @@ public class CTRegistration {
 			info.rawDepletedFluidColors.add(0);
 		}
 		
-		info.fissionStats.add(new FissionFuelStats(time, heat, efficiency, crit, decay, prime, fissionRadiation));
+		info.fissionStats.add(new FissionFuelStats(time, heat, efficiency, criticality, intrinsicFlux, decayFactor, selfPriming, fissionRadiation));
 		
 		if (raw) {
-			addFissionFuelItem(info, name, model, "ingot" + ore);
+			addFissionFuelItem(info, name, model != null ? model : "nuclearcraft:item/pellet", "ingot" + ore);
 		}
 		
 		if (carbide) {
-			addFissionFuelItem(info, name + "_c", model, "ingot" + ore + "Carbide");
+			addFissionFuelItem(info, name + "_c", model != null ? model : "nuclearcraft:item/pellet", "ingot" + ore + "Carbide");
 		}
 		
 		if (triso) {
-			addFissionFuelItem(info, name + "_tr", model, "ingot" + ore + "TRISO");
+			addFissionFuelItem(info, name + "_tr", model != null ? model : "nuclearcraft:item/triso", "ingot" + ore + "TRISO");
 		}
 		
 		if (oxide) {
-			addFissionFuelItem(info, name + "_ox", model, "ingot" + ore + "Oxide");
+			addFissionFuelItem(info, name + "_ox", model != null ? model : "nuclearcraft:item/pellet", "ingot" + ore + "Oxide");
 		}
 		
 		if (nitride) {
-			addFissionFuelItem(info, name + "_ni", model, "ingot" + ore + "Nitride");
+			addFissionFuelItem(info, name + "_ni", model != null ? model : "nuclearcraft:item/pellet", "ingot" + ore + "Nitride");
 		}
 		
 		if (zirconiumAlloy) {
-			addFissionFuelItem(info, name + "_za", model, "ingot" + ore + "ZA");
+			addFissionFuelItem(info, name + "_za", model != null ? model : "nuclearcraft:item/pellet", "ingot" + ore + "ZA");
 		}
 		
 		if (triso) {
-			addFissionFuelItem(info, "depleted_" + name + "_tr", model, "ingotDepleted" + ore + "TRISO");
+			addFissionFuelItem(info, "depleted_" + name + "_tr", model != null ? model : "nuclearcraft:item/triso", "ingotDepleted" + ore + "TRISO");
 		}
 		
 		if (oxide) {
-			addFissionFuelItem(info, "depleted_" + name + "_ox", model, "ingotDepleted" + ore + "Oxide");
+			addFissionFuelItem(info, "depleted_" + name + "_ox", model != null ? model : "nuclearcraft:item/pellet", "ingotDepleted" + ore + "Oxide");
 		}
 		
 		if (nitride) {
-			addFissionFuelItem(info, "depleted_" + name + "_ni", model, "ingotDepleted" + ore + "Nitride");
+			addFissionFuelItem(info, "depleted_" + name + "_ni", model != null ? model : "nuclearcraft:item/pellet", "ingotDepleted" + ore + "Nitride");
 		}
 		
 		if (zirconiumAlloy) {
-			addFissionFuelItem(info, "depleted_" + name + "_za", model, "ingotDepleted" + ore + "ZA");
+			addFissionFuelItem(info, "depleted_" + name + "_za", model != null ? model : "nuclearcraft:item/pellet", "ingotDepleted" + ore + "ZA");
 		}
 		
 		String ore_ = ore, name_ = name;
@@ -553,6 +579,50 @@ public class CTRegistration {
 			super.init();
 			TileBattery.DYN_CAPACITY_MAP.put(batteryID, capacity);
 			TileBattery.DYN_ENERGY_TIER_MAP.put(batteryID, energyTier);
+		}
+	}
+	
+	public static class FissionCoolerRegistrationInfo extends TileBlockRegistrationInfo {
+		
+		public final String coolerID, fluidInput, fluidOutput, rule;
+		public final int inputAmount, outputAmount, cooling;
+		
+		FissionCoolerRegistrationInfo(Lazy<Block> block, String coolerID, String fluidInput, int inputAmount, String fluidOutput, int outputAmount, int cooling, String rule) {
+			super(block);
+			this.coolerID = coolerID;
+			this.fluidInput = fluidInput;
+			this.inputAmount = inputAmount;
+			this.fluidOutput = fluidOutput;
+			this.outputAmount = outputAmount;
+			this.cooling = cooling;
+			this.rule = rule;
+		}
+		
+		@Override
+		public void registerBlock() {
+			NCBlocks.registerBlock(block.get(), new NCItemBlock(block.get(), TextFormatting.BLUE, NCInfo.coolingRateInfo(cooling, "pebble_fission_cooler"), TextFormatting.AQUA, InfoHelper.NULL_ARRAY));
+		}
+		
+		@Override
+		public void recipeInit() {
+			NCRecipes.gas_cooler.addRecipe(block.get(), fluidStack(fluidInput, inputAmount), fluidStack(fluidOutput, outputAmount), cooling, coolerID + "_cooler");
+		}
+		
+		@Override
+		public void init() {
+			super.init();
+			TilePebbleFissionCooler.DYN_COOLANT_NAME_MAP.put(coolerID, fluidInput);
+			FissionPlacement.addRule(coolerID + "_cooler", rule, block.get());
+		}
+	}
+	
+	public static class FissionCoolerPortRegistrationInfo extends TileBlockRegistrationInfo {
+		
+		public final String coolerID;
+		
+		FissionCoolerPortRegistrationInfo(Lazy<Block> block, String coolerID) {
+			super(block);
+			this.coolerID = coolerID;
 		}
 	}
 	
@@ -988,15 +1058,18 @@ public class CTRegistration {
 	
 	public static final double TRISO_TIME_MULT = 0.9D;
 	public static final double TRISO_HEAT_MULT = 1D / 0.9D;
-	public static final double TRISO_CRIT_MULT = 0.9D;
+	public static final double TRISO_CRITICALITY_MULT = 0.9D;
+	public static final double TRISO_INTRINSIC_FLUX_MULT = 1D;
 	
 	public static final double[] SFR_TIME_MULT = new double[] {1D, 1.25D, 0.8D};
 	public static final double[] SFR_HEAT_MULT = new double[] {1D, 0.8D, 1.25D};
-	public static final double[] SFR_CRIT_MULT = new double[] {1D, 1.25D, 0.85D};
+	public static final double[] SFR_CRITICALITY_MULT = new double[] {1D, 1.25D, 0.85D};
+	public static final double[] SFR_INTRINSIC_FLUX_MULT = {0D, 0D, 0D};
 	
 	public static final double MSR_TIME_MULT = 1.25D;
 	public static final double MSR_HEAT_MULT = 0.8D;
-	public static final double MSR_CRIT_MULT = 1D;
+	public static final double MSR_CRITICALITY_MULT = 1D;
+	public static final double MSR_INTRINSIC_FLUX_MULT = 0D;
 	
 	public static class FissionFuelRegistrationInfo extends MetaItemRegistrationInfo {
 		
@@ -1059,10 +1132,10 @@ public class CTRegistration {
 					NCRecipes.separator.addRecipe("ingot" + rawOre + "Carbide", "ingot" + rawOre, "dustGraphite", 1D, 1D);
 					NCRecipes.assembler.addRecipe(oreStack("ingot" + rawOre + "Carbide", 9), "dustGraphite", "ingotPyrolyticCarbon", "ingotSiliconCarbide", oreStack("ingot" + rawOre + "TRISO", 9), 1D, 1D);
 					
-					NCRecipes.pebble_fission.addRecipe("ingot" + rawOre + "TRISO", "ingotDepleted" + rawOre + "TRISO", NCMath.toInt(TRISO_TIME_MULT * stats.time), NCMath.toInt(TRISO_HEAT_MULT * stats.heat), stats.efficiency, NCMath.toInt(TRISO_CRIT_MULT * stats.crit), stats.decay, stats.prime, stats.radiation);
-					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Oxide", "ingotDepleted" + rawOre + "Oxide", NCMath.toInt(SFR_TIME_MULT[0] * stats.time), NCMath.toInt(SFR_HEAT_MULT[0] * stats.heat), stats.efficiency, NCMath.toInt(SFR_CRIT_MULT[0] * stats.crit), stats.decay, stats.prime, stats.radiation);
-					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Nitride", "ingotDepleted" + rawOre + "Nitride", NCMath.toInt(SFR_TIME_MULT[1] * stats.time), NCMath.toInt(SFR_HEAT_MULT[1] * stats.heat), stats.efficiency, NCMath.toInt(SFR_CRIT_MULT[1] * stats.crit), stats.decay, stats.prime, stats.radiation);
-					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "ZA", "ingotDepleted" + rawOre + "ZA", NCMath.toInt(SFR_TIME_MULT[2] * stats.time), NCMath.toInt(SFR_HEAT_MULT[2] * stats.heat), stats.efficiency, NCMath.toInt(SFR_CRIT_MULT[2] * stats.crit), stats.decay, stats.prime, stats.radiation);
+					NCRecipes.pebble_fission.addRecipe("ingot" + rawOre + "TRISO", "ingotDepleted" + rawOre + "TRISO", NCMath.toInt(TRISO_TIME_MULT * stats.time), NCMath.toInt(TRISO_HEAT_MULT * stats.heat), stats.efficiency, NCMath.toInt(TRISO_CRITICALITY_MULT * stats.criticality), NCMath.toInt(TRISO_INTRINSIC_FLUX_MULT * stats.intrinsicFlux), stats.decayFactor, stats.selfPriming, stats.radiation);
+					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Oxide", "ingotDepleted" + rawOre + "Oxide", NCMath.toInt(SFR_TIME_MULT[0] * stats.time), NCMath.toInt(SFR_HEAT_MULT[0] * stats.heat), stats.efficiency, NCMath.toInt(SFR_CRITICALITY_MULT[0] * stats.criticality), NCMath.toInt(SFR_INTRINSIC_FLUX_MULT[0] * stats.intrinsicFlux), stats.decayFactor, stats.selfPriming, stats.radiation);
+					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "Nitride", "ingotDepleted" + rawOre + "Nitride", NCMath.toInt(SFR_TIME_MULT[1] * stats.time), NCMath.toInt(SFR_HEAT_MULT[1] * stats.heat), stats.efficiency, NCMath.toInt(SFR_CRITICALITY_MULT[1] * stats.criticality), NCMath.toInt(SFR_INTRINSIC_FLUX_MULT[1] * stats.intrinsicFlux), stats.decayFactor, stats.selfPriming, stats.radiation);
+					NCRecipes.solid_fission.addRecipe("ingot" + rawOre + "ZA", "ingotDepleted" + rawOre + "ZA", NCMath.toInt(SFR_TIME_MULT[2] * stats.time), NCMath.toInt(SFR_HEAT_MULT[2] * stats.heat), stats.efficiency, NCMath.toInt(SFR_CRITICALITY_MULT[2] * stats.criticality), NCMath.toInt(SFR_INTRINSIC_FLUX_MULT[2] * stats.intrinsicFlux), stats.decayFactor, stats.selfPriming, stats.radiation);
 				}
 				
 				if (rawFluid != null) {
@@ -1073,7 +1146,7 @@ public class CTRegistration {
 					NCRecipes.centrifuge.addRecipe(fluidStack(rawFluid + "_fluoride_flibe", INGOT_VOLUME / 2), fluidStack(rawFluid + "_fluoride", INGOT_VOLUME / 2), fluidStack("flibe", INGOT_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 					NCRecipes.centrifuge.addRecipe(fluidStack("depleted_" + rawFluid + "_fluoride_flibe", INGOT_VOLUME / 2), fluidStack("depleted_" + rawFluid + "_fluoride", INGOT_VOLUME / 2), fluidStack("flibe", INGOT_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 					
-					NCRecipes.salt_fission.addRecipe(fluidStack(rawFluid + "_fluoride_flibe", 1), fluidStack("depleted_" + rawFluid + "_fluoride_flibe", 1), MSR_TIME_MULT * stats.time / INGOT_VOLUME, NCMath.toInt(MSR_HEAT_MULT * stats.heat), stats.efficiency, NCMath.toInt(MSR_CRIT_MULT * stats.crit), stats.decay, stats.prime, stats.radiation);
+					NCRecipes.salt_fission.addRecipe(fluidStack(rawFluid + "_fluoride_flibe", 1), fluidStack("depleted_" + rawFluid + "_fluoride_flibe", 1), MSR_TIME_MULT * stats.time / INGOT_VOLUME, NCMath.toInt(MSR_HEAT_MULT * stats.heat), stats.efficiency, NCMath.toInt(MSR_CRITICALITY_MULT * stats.criticality), NCMath.toInt(MSR_INTRINSIC_FLUX_MULT * stats.intrinsicFlux), stats.decayFactor, stats.selfPriming, stats.radiation);
 				}
 				
 				if (rawOre != null && rawFluid != null) {

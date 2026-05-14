@@ -185,9 +185,6 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 	}
 	
 	@Override
-	public void onAddedToModeratorCache(ModeratorBlockInfo thisInfo) {}
-	
-	@Override
 	public void onModeratorLineComplete(ModeratorLine line, ModeratorBlockInfo thisInfo, EnumFacing dir) {
 		inCompleteModeratorLine = true;
 		if (validActiveModeratorPos[dir.getIndex()]) {

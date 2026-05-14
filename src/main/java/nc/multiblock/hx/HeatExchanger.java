@@ -1,6 +1,7 @@
 package nc.multiblock.hx;
 
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.*;
@@ -10,7 +11,7 @@ import nc.recipe.*;
 import nc.tile.hx.*;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
-import nc.util.PosHelper;
+import nc.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -55,6 +56,8 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	public double shellInputRate = 0D, shellInputRateFP = 0D;
 	public double heatTransferRate = 0D, heatTransferRateFP = 0D;
 	public double totalTempDiff = 0D;
+	
+	public final ValueTracker tubeInputRateTracker = new ValueTracker(), shellInputRateTracker = new ValueTracker(), heatTransferRateTracker = new ValueTracker();
 	
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
@@ -141,16 +144,18 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	}
 	
 	public boolean setLogic(HeatExchanger multiblock) {
-		if (getPartMap(IHeatExchangerController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+		@SuppressWarnings("rawtypes") Long2ObjectMap<IHeatExchangerController> controllerMap = getPartMap(IHeatExchangerController.class);
+		
+		if (controllerMap.isEmpty()) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
-		if (getPartCount(IHeatExchangerController.class) > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+		if (controllerMap.size() > 1) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", controllerMap.keySet());
 			return false;
 		}
 		
-		for (IHeatExchangerController<?> contr : getParts(IHeatExchangerController.class)) {
+		for (IHeatExchangerController<?> contr : controllerMap.values()) {
 			controller = contr;
 			break;
 		}

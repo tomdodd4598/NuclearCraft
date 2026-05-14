@@ -130,10 +130,15 @@ public class NCConfig {
 	public static double fission_fuel_efficiency_multiplier; // Default: 1
 	public static double fission_fuel_radiation_multiplier; // Default: 1
 	public static double[] fission_source_efficiency;
+	public static int[] fission_cooler_cooling_rate;
+	public static String[] fission_cooler_rule;
 	public static int[] fission_sink_cooling_rate;
 	public static String[] fission_sink_rule;
 	public static int[] fission_heater_cooling_rate;
 	public static String[] fission_heater_rule;
+	public static double fission_chamber_intrinsic_flux_efficiency;
+	public static double fission_cell_intrinsic_flux_efficiency;
+	public static double fission_vessel_intrinsic_flux_efficiency;
 	public static int[] fission_moderator_flux_factor;
 	public static double[] fission_moderator_efficiency;
 	public static double[] fission_reflector_efficiency;
@@ -144,6 +149,7 @@ public class NCConfig {
 	public static double[] fission_irradiator_efficiency;
 	public static int fission_cooling_efficiency_leniency;
 	public static double[] fission_sparsity_penalty_params; // Multiplier, threshold
+	public static double fission_cooler_coolant_heat_per_mb;
 	public static double fission_heating_coolant_heat_mult;
 	
 	public static boolean fission_decay_mechanics;
@@ -166,6 +172,7 @@ public class NCConfig {
 	public static int[] fission_thorium_heat_generation;
 	public static double[] fission_thorium_efficiency;
 	public static int[] fission_thorium_criticality;
+	public static int[] fission_thorium_intrinsic_flux;
 	public static double[] fission_thorium_decay_factor;
 	public static boolean[] fission_thorium_self_priming;
 	public static double[] fission_thorium_radiation;
@@ -174,6 +181,7 @@ public class NCConfig {
 	public static int[] fission_uranium_heat_generation;
 	public static double[] fission_uranium_efficiency;
 	public static int[] fission_uranium_criticality;
+	public static int[] fission_uranium_intrinsic_flux;
 	public static double[] fission_uranium_decay_factor;
 	public static boolean[] fission_uranium_self_priming;
 	public static double[] fission_uranium_radiation;
@@ -182,6 +190,7 @@ public class NCConfig {
 	public static int[] fission_neptunium_heat_generation;
 	public static double[] fission_neptunium_efficiency;
 	public static int[] fission_neptunium_criticality;
+	public static int[] fission_neptunium_intrinsic_flux;
 	public static double[] fission_neptunium_decay_factor;
 	public static boolean[] fission_neptunium_self_priming;
 	public static double[] fission_neptunium_radiation;
@@ -190,6 +199,7 @@ public class NCConfig {
 	public static int[] fission_plutonium_heat_generation;
 	public static double[] fission_plutonium_efficiency;
 	public static int[] fission_plutonium_criticality;
+	public static int[] fission_plutonium_intrinsic_flux;
 	public static double[] fission_plutonium_decay_factor;
 	public static boolean[] fission_plutonium_self_priming;
 	public static double[] fission_plutonium_radiation;
@@ -198,6 +208,7 @@ public class NCConfig {
 	public static int[] fission_mixed_heat_generation;
 	public static double[] fission_mixed_efficiency;
 	public static int[] fission_mixed_criticality;
+	public static int[] fission_mixed_intrinsic_flux;
 	public static double[] fission_mixed_decay_factor;
 	public static boolean[] fission_mixed_self_priming;
 	public static double[] fission_mixed_radiation;
@@ -206,6 +217,7 @@ public class NCConfig {
 	public static int[] fission_americium_heat_generation;
 	public static double[] fission_americium_efficiency;
 	public static int[] fission_americium_criticality;
+	public static int[] fission_americium_intrinsic_flux;
 	public static double[] fission_americium_decay_factor;
 	public static boolean[] fission_americium_self_priming;
 	public static double[] fission_americium_radiation;
@@ -214,6 +226,7 @@ public class NCConfig {
 	public static int[] fission_curium_heat_generation;
 	public static double[] fission_curium_efficiency;
 	public static int[] fission_curium_criticality;
+	public static int[] fission_curium_intrinsic_flux;
 	public static double[] fission_curium_decay_factor;
 	public static boolean[] fission_curium_self_priming;
 	public static double[] fission_curium_radiation;
@@ -222,6 +235,7 @@ public class NCConfig {
 	public static int[] fission_berkelium_heat_generation;
 	public static double[] fission_berkelium_efficiency;
 	public static int[] fission_berkelium_criticality;
+	public static int[] fission_berkelium_intrinsic_flux;
 	public static double[] fission_berkelium_decay_factor;
 	public static boolean[] fission_berkelium_self_priming;
 	public static double[] fission_berkelium_radiation;
@@ -230,6 +244,7 @@ public class NCConfig {
 	public static int[] fission_californium_heat_generation;
 	public static double[] fission_californium_efficiency;
 	public static int[] fission_californium_criticality;
+	public static int[] fission_californium_intrinsic_flux;
 	public static double[] fission_californium_decay_factor;
 	public static boolean[] fission_californium_self_priming;
 	public static double[] fission_californium_radiation;
@@ -279,9 +294,11 @@ public class NCConfig {
 	public static double turbine_tension_throughput_factor;
 	public static double turbine_tension_leniency;
 	public static double turbine_power_bonus_multiplier;
+	public static int turbine_base_energy_capacity;
 	public static double turbine_sound_volume;
 	public static double turbine_particles;
 	public static double turbine_render_blade_width;
+	public static boolean turbine_render_blade_fast;
 	public static double turbine_render_rotor_expansion;
 	public static double turbine_render_rotor_speed;
 	
@@ -578,10 +595,15 @@ public class NCConfig {
 		fission_fuel_efficiency_multiplier = sync(CATEGORY_FISSION, "fission_fuel_efficiency_multiplier", 1D, 0D, 255D);
 		fission_fuel_radiation_multiplier = sync(CATEGORY_FISSION, "fission_fuel_radiation_multiplier", 1D, 0D, 255D);
 		fission_source_efficiency = sync(CATEGORY_FISSION, "fission_source_efficiency", new double[] {0.9D, 0.95D, 1D}, 0D, 255D, ARRAY);
+		fission_cooler_cooling_rate = sync(CATEGORY_FISSION, "fission_cooler_cooling_rate", new int[] {60, 110, 125, 115, 75, 100, 120, 105, 85, 80, 65, 95, 70, 50, 55, 90}, 0, 32767, ARRAY);
+		fission_cooler_rule = sync(CATEGORY_FISSION, "fission_cooler_rule", new String[] {"one chamber", "exactly two chambers", "three chambers", "exactly two oxygen coolers", "one moderator", "two axial moderators", "three moderators", "exactly one oxygen cooler", "exactly one methane cooler", "one ethene cooler && exactly one moderator", "one fluorine cooler", "exactly two nitrogen coolers && one casing", "two hydrogen coolers", "one reflector", "one sulfur_dioxide cooler", "two axial sulfur_trioxide coolers && one casing"}, ARRAY);
 		fission_sink_cooling_rate = sync(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {55, 50, 85, 80, 70, 105, 90, 100, 110, 115, 145, 65, 95, 200, 195, 75, 120, 60, 160, 130, 125, 150, 175, 170, 165, 180, 140, 135, 185, 190, 155, 205}, 0, 32767, ARRAY);
 		fission_sink_rule = sync(CATEGORY_FISSION, "fission_sink_rule", new String[] {"one cell", "one moderator", "one cell && one moderator", "one redstone sink", "two axial glowstone sinks", "one obsidian sink", "two moderators", "one cell && one casing", "exactly two iron sinks", "two water sinks", "exactly one water sink && two lead sinks", "one reflector", "one reflector && one iron sink", "one cell && one gold sink", "one moderator && one prismarine sink", "one water sink", "two axial lapis sinks", "one iron sink", "exactly one quartz sink && one casing", "exactly two axial lead sinks && one casing", "exactly one moderator && one casing", "two cells", "one quartz sink && one lapis sink", "two glowstone sinks && one tin sink", "one gold sink && one prismarine sink", "one redstone sink && one end_stone sink", "one end_stone sink && one copper sink", "two axial reflectors", "two copper sinks && one purpur sink", "exactly two redstone sinks", "three moderators", "three cells"}, ARRAY);
 		fission_heater_cooling_rate = sync(CATEGORY_FISSION, "fission_heater_cooling_rate", new int[] {55, 50, 85, 80, 70, 105, 90, 100, 110, 115, 145, 65, 95, 200, 195, 75, 120, 60, 160, 130, 125, 150, 175, 170, 165, 180, 140, 135, 185, 190, 155, 205}, 0, 32767, ARRAY);
 		fission_heater_rule = sync(CATEGORY_FISSION, "fission_heater_rule", new String[] {"one vessel", "one moderator", "one vessel && one moderator", "one redstone heater", "two axial glowstone heaters", "one obsidian heater", "two moderators", "one vessel && one casing", "exactly two iron heaters", "two standard heaters", "exactly one standard heater && two lead heaters", "one reflector", "one reflector && one iron heater", "one vessel && one gold heater", "one moderator && one prismarine heater", "one standard heater", "two axial lapis heaters", "one iron heater", "exactly one quartz heater && one casing", "exactly two axial lead heaters && one casing", "exactly one moderator && one casing", "two vessels", "one quartz heater && one lapis heater", "two glowstone heaters && one tin heater", "one gold heater && one prismarine heater", "one redstone heater && one end_stone heater", "one end_stone heater && one copper heater", "two axial reflectors", "two copper heaters && one purpur heater", "exactly two redstone heaters", "three moderators", "three vessels"}, ARRAY);
+		fission_chamber_intrinsic_flux_efficiency = sync(CATEGORY_FISSION, "fission_chamber_intrinsic_flux_efficiency", 1D, 0D, 255D);
+		fission_cell_intrinsic_flux_efficiency = sync(CATEGORY_FISSION, "fission_cell_intrinsic_flux_efficiency", 1D, 0D, 255D);
+		fission_vessel_intrinsic_flux_efficiency = sync(CATEGORY_FISSION, "fission_vessel_intrinsic_flux_efficiency", 1D, 0D, 255D);
 		fission_moderator_flux_factor = sync(CATEGORY_FISSION, "fission_moderator_flux_factor", new int[] {10, 22, 36}, 0, 32767, ARRAY);
 		fission_moderator_efficiency = sync(CATEGORY_FISSION, "fission_moderator_efficiency", new double[] {1.1D, 1.05D, 1D}, 0D, 255D, ARRAY);
 		fission_reflector_efficiency = sync(CATEGORY_FISSION, "fission_reflector_efficiency", new double[] {0.5D, 0.25D}, 0D, 255D, ARRAY);
@@ -592,6 +614,7 @@ public class NCConfig {
 		fission_irradiator_efficiency = sync(CATEGORY_FISSION, "fission_irradiator_efficiency", new double[] {0D, 0D, 0.5D}, 0D, 32767D, ARRAY);
 		fission_cooling_efficiency_leniency = sync(CATEGORY_FISSION, "fission_cooling_efficiency_leniency", 10, 0, 32767);
 		fission_sparsity_penalty_params = sync(CATEGORY_FISSION, "fission_sparsity_penalty_params", new double[] {0.5D, 0.75D}, 0D, 1D, ARRAY);
+		fission_cooler_coolant_heat_per_mb = sync(CATEGORY_FISSION, "fission_cooler_coolant_heat_per_mb", 32D, 0.001D, Integer.MAX_VALUE);
 		fission_heating_coolant_heat_mult = sync(CATEGORY_FISSION, "fission_heating_coolant_heat_mult", 2D, 0.001D, Integer.MAX_VALUE);
 		
 		fission_decay_mechanics = sync(CATEGORY_FISSION, "fission_decay_mechanics", false);
@@ -613,6 +636,7 @@ public class NCConfig {
 		fission_thorium_heat_generation = sync(CATEGORY_FISSION, "fission_thorium_heat_generation", new int[] {40, 40, 32, 50, 32}, 0, 32767, ARRAY);
 		fission_thorium_efficiency = sync(CATEGORY_FISSION, "fission_thorium_efficiency", new double[] {1.25D, 1.25D, 1.25D, 1.25D, 1.25D}, 0D, 32767D, ARRAY);
 		fission_thorium_criticality = sync(CATEGORY_FISSION, "fission_thorium_criticality", new int[] {199, 234, 293, 199, 234}, 0, 32767, ARRAY);
+		fission_thorium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_thorium_intrinsic_flux", new int[] {10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_thorium_decay_factor = sync(CATEGORY_FISSION, "fission_thorium_decay_factor", arrayCopies(5, 0.04D), 0D, 1D, ARRAY);
 		fission_thorium_self_priming = sync(CATEGORY_FISSION, "fission_thorium_self_priming", new boolean[] {false, false, false, false, false}, ARRAY);
 		fission_thorium_radiation = sync(CATEGORY_FISSION, "fission_thorium_radiation", new double[] {RadSources.TBU_FISSION, RadSources.TBU_FISSION, RadSources.TBU_FISSION, RadSources.TBU_FISSION, RadSources.TBU_FISSION}, 0D, 1000D, ARRAY);
@@ -621,6 +645,7 @@ public class NCConfig {
 		fission_uranium_heat_generation = sync(CATEGORY_FISSION, "fission_uranium_heat_generation", new int[] {216, 216, 172, 270, 172, 216 * 3, 216 * 3, 172 * 3, 270 * 3, 172 * 3, 120, 120, 96, 150, 96, 120 * 3, 120 * 3, 96 * 3, 150 * 3, 96 * 3}, 0, 32767, ARRAY);
 		fission_uranium_efficiency = sync(CATEGORY_FISSION, "fission_uranium_efficiency", new double[] {1.1D, 1.1D, 1.1D, 1.1D, 1.1D, 1.15D, 1.15D, 1.15D, 1.15D, 1.15D, 1D, 1D, 1D, 1D, 1D, 1.05D, 1.05D, 1.05D, 1.05D, 1.05D}, 0D, 32767D, ARRAY);
 		fission_uranium_criticality = sync(CATEGORY_FISSION, "fission_uranium_criticality", new int[] {66, 78, 98, 66, 78, 66 / 2, 78 / 2, 98 / 2, 66 / 2, 78 / 2, 87, 102, 128, 87, 102, 87 / 2, 102 / 2, 128 / 2, 87 / 2, 102 / 2}, 0, 32767, ARRAY);
+		fission_uranium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_uranium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_uranium_decay_factor = sync(CATEGORY_FISSION, "fission_uranium_decay_factor", arrayCopies(20, 0.065D), 0D, 1D, ARRAY);
 		fission_uranium_self_priming = sync(CATEGORY_FISSION, "fission_uranium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_uranium_radiation = sync(CATEGORY_FISSION, "fission_uranium_radiation", new double[] {RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.LEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.HEU_233_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.LEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION, RadSources.HEU_235_FISSION}, 0D, 1000D, ARRAY);
@@ -629,6 +654,7 @@ public class NCConfig {
 		fission_neptunium_heat_generation = sync(CATEGORY_FISSION, "fission_neptunium_heat_generation", new int[] {292, 292, 234, 366, 234, 292 * 3, 292 * 3, 234 * 3, 366 * 3, 234 * 3}, 0, 32767, ARRAY);
 		fission_neptunium_efficiency = sync(CATEGORY_FISSION, "fission_neptunium_efficiency", new double[] {1.1D, 1.1D, 1.1D, 1.1D, 1.1D, 1.15D, 1.15D, 1.15D, 1.15D, 1.15D}, 0D, 32767D, ARRAY);
 		fission_neptunium_criticality = sync(CATEGORY_FISSION, "fission_neptunium_criticality", new int[] {60, 70, 88, 60, 70, 60 / 2, 70 / 2, 88 / 2, 60 / 2, 70 / 2}, 0, 32767, ARRAY);
+		fission_neptunium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_neptunium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_neptunium_decay_factor = sync(CATEGORY_FISSION, "fission_neptunium_decay_factor", arrayCopies(10, 0.07D), 0D, 1D, ARRAY);
 		fission_neptunium_self_priming = sync(CATEGORY_FISSION, "fission_neptunium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_neptunium_radiation = sync(CATEGORY_FISSION, "fission_neptunium_radiation", new double[] {RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.LEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION, RadSources.HEN_236_FISSION}, 0D, 1000D, ARRAY);
@@ -637,6 +663,7 @@ public class NCConfig {
 		fission_plutonium_heat_generation = sync(CATEGORY_FISSION, "fission_plutonium_heat_generation", new int[] {126, 126, 100, 158, 100, 126 * 3, 126 * 3, 100 * 3, 158 * 3, 100 * 3, 182, 182, 146, 228, 146, 182 * 3, 182 * 3, 146 * 3, 228 * 3, 146 * 3}, 0, 32767, ARRAY);
 		fission_plutonium_efficiency = sync(CATEGORY_FISSION, "fission_plutonium_efficiency", new double[] {1.2D, 1.2D, 1.2D, 1.2D, 1.2D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.25D, 1.3D, 1.3D, 1.3D, 1.3D, 1.3D}, 0D, 32767D, ARRAY);
 		fission_plutonium_criticality = sync(CATEGORY_FISSION, "fission_plutonium_criticality", new int[] {84, 99, 124, 84, 99, 84 / 2, 99 / 2, 124 / 2, 84 / 2, 99 / 2, 71, 84, 105, 71, 84, 71 / 2, 84 / 2, 105 / 2, 71 / 2, 84 / 2}, 0, 32767, ARRAY);
+		fission_plutonium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_plutonium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_plutonium_decay_factor = sync(CATEGORY_FISSION, "fission_plutonium_decay_factor", arrayCopies(20, 0.075D), 0D, 1D, ARRAY);
 		fission_plutonium_self_priming = sync(CATEGORY_FISSION, "fission_plutonium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_plutonium_radiation = sync(CATEGORY_FISSION, "fission_plutonium_radiation", new double[] {RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.LEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.HEP_239_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.LEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION, RadSources.HEP_241_FISSION}, 0D, 1000D, ARRAY);
@@ -645,6 +672,7 @@ public class NCConfig {
 		fission_mixed_heat_generation = sync(CATEGORY_FISSION, "fission_mixed_heat_generation", new int[] {132, 132, 106, 166, 106, 192, 192, 154, 240, 154}, 0, 32767, ARRAY);
 		fission_mixed_efficiency = sync(CATEGORY_FISSION, "fission_mixed_efficiency", new double[] {1.05D, 1.05D, 1.05D, 1.05D, 1.05D, 1.15D, 1.15D, 1.15D, 1.15D, 1.15D}, 0D, 32767D, ARRAY);
 		fission_mixed_criticality = sync(CATEGORY_FISSION, "fission_mixed_criticality", new int[] {80, 94, 118, 80, 94, 68, 80, 100, 68, 80}, 0, 32767, ARRAY);
+		fission_mixed_intrinsic_flux = sync(CATEGORY_FISSION, "fission_mixed_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_mixed_decay_factor = sync(CATEGORY_FISSION, "fission_mixed_decay_factor", arrayCopies(10, 0.075D), 0D, 1D, ARRAY);
 		fission_mixed_self_priming = sync(CATEGORY_FISSION, "fission_mixed_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_mixed_radiation = sync(CATEGORY_FISSION, "fission_mixed_radiation", new double[] {RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_239_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION, RadSources.MIX_241_FISSION}, 0D, 1000D, ARRAY);
@@ -653,6 +681,7 @@ public class NCConfig {
 		fission_americium_heat_generation = sync(CATEGORY_FISSION, "fission_americium_heat_generation", new int[] {390, 390, 312, 488, 312, 390 * 3, 390 * 3, 312 * 3, 488 * 3, 312 * 3}, 0, 32767, ARRAY);
 		fission_americium_efficiency = sync(CATEGORY_FISSION, "fission_americium_efficiency", new double[] {1.35D, 1.35D, 1.35D, 1.35D, 1.35D, 1.4D, 1.4D, 1.4D, 1.4D, 1.4D}, 0D, 32767D, ARRAY);
 		fission_americium_criticality = sync(CATEGORY_FISSION, "fission_americium_criticality", new int[] {55, 65, 81, 55, 65, 55 / 2, 65 / 2, 81 / 2, 55 / 2, 65 / 2}, 0, 32767, ARRAY);
+		fission_americium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_americium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_americium_decay_factor = sync(CATEGORY_FISSION, "fission_americium_decay_factor", arrayCopies(10, 0.08D), 0D, 1D, ARRAY);
 		fission_americium_self_priming = sync(CATEGORY_FISSION, "fission_americium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_americium_radiation = sync(CATEGORY_FISSION, "fission_americium_radiation", new double[] {RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.LEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION, RadSources.HEA_242_FISSION}, 0D, 1000D, ARRAY);
@@ -661,6 +690,7 @@ public class NCConfig {
 		fission_curium_heat_generation = sync(CATEGORY_FISSION, "fission_curium_heat_generation", new int[] {384, 384, 308, 480, 308, 384 * 3, 384 * 3, 308 * 3, 480 * 3, 308 * 3, 238, 238, 190, 298, 190, 238 * 3, 238 * 3, 190 * 3, 298 * 3, 190 * 3, 268, 268, 214, 336, 214, 268 * 3, 268 * 3, 214 * 3, 336 * 3, 214 * 3}, 0, 32767, ARRAY);
 		fission_curium_efficiency = sync(CATEGORY_FISSION, "fission_curium_efficiency", new double[] {1.45D, 1.45D, 1.45D, 1.45D, 1.45D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.5D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.55D, 1.6D, 1.6D, 1.6D, 1.6D, 1.6D}, 0D, 32767D, ARRAY);
 		fission_curium_criticality = sync(CATEGORY_FISSION, "fission_curium_criticality", new int[] {56, 66, 83, 56, 66, 56 / 2, 66 / 2, 83 / 2, 56 / 2, 66 / 2, 64, 75, 94, 64, 75, 64 / 2, 75 / 2, 94 / 2, 64 / 2, 75 / 2, 61, 72, 90, 61, 72, 61 / 2, 72 / 2, 90 / 2, 61 / 2, 72 / 2}, 0, 32767, ARRAY);
+		fission_curium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_curium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_curium_decay_factor = sync(CATEGORY_FISSION, "fission_curium_decay_factor", arrayCopies(30, 0.085D), 0D, 1D, ARRAY);
 		fission_curium_self_priming = sync(CATEGORY_FISSION, "fission_curium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_curium_radiation = sync(CATEGORY_FISSION, "fission_curium_radiation", new double[] {RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.LECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.HECm_243_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.LECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.HECm_245_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.LECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION, RadSources.HECm_247_FISSION}, 0D, 1000D, ARRAY);
@@ -669,6 +699,7 @@ public class NCConfig {
 		fission_berkelium_heat_generation = sync(CATEGORY_FISSION, "fission_berkelium_heat_generation", new int[] {266, 266, 212, 332, 212, 266 * 3, 266 * 3, 212 * 3, 332 * 3, 212 * 3}, 0, 32767, ARRAY);
 		fission_berkelium_efficiency = sync(CATEGORY_FISSION, "fission_berkelium_efficiency", new double[] {1.65D, 1.65D, 1.65D, 1.65D, 1.65D, 1.7D, 1.7D, 1.7D, 1.7D, 1.7D}, 0D, 32767D, ARRAY);
 		fission_berkelium_criticality = sync(CATEGORY_FISSION, "fission_berkelium_criticality", new int[] {62, 73, 91, 62, 73, 62 / 2, 73 / 2, 91 / 2, 62 / 2, 73 / 2}, 0, 32767, ARRAY);
+		fission_berkelium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_berkelium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_berkelium_decay_factor = sync(CATEGORY_FISSION, "fission_berkelium_decay_factor", arrayCopies(10, 0.09D), 0D, 1D, ARRAY);
 		fission_berkelium_self_priming = sync(CATEGORY_FISSION, "fission_berkelium_self_priming", new boolean[] {false, false, false, false, false, false, false, false, false, false}, ARRAY);
 		fission_berkelium_radiation = sync(CATEGORY_FISSION, "fission_berkelium_radiation", new double[] {RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.LEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION, RadSources.HEB_248_FISSION}, 0D, 1000D, ARRAY);
@@ -677,6 +708,7 @@ public class NCConfig {
 		fission_californium_heat_generation = sync(CATEGORY_FISSION, "fission_californium_heat_generation", new int[] {540, 540, 432, 676, 432, 540 * 3, 540 * 3, 432 * 3, 676 * 3, 432 * 3, 288, 288, 230, 360, 230, 288 * 3, 288 * 3, 230 * 3, 360 * 3, 230 * 3}, 0, 32767, ARRAY);
 		fission_californium_efficiency = sync(CATEGORY_FISSION, "fission_californium_efficiency", new double[] {1.75D, 1.75D, 1.75D, 1.75D, 1.75D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.8D, 1.85D, 1.85D, 1.85D, 1.85D, 1.85D}, 0D, 32767D, ARRAY);
 		fission_californium_criticality = sync(CATEGORY_FISSION, "fission_californium_criticality", new int[] {51, 60, 75, 51, 60, 51 / 2, 60 / 2, 75 / 2, 51 / 2, 60 / 2, 60, 71, 89, 60, 71, 60 / 2, 71 / 2, 89 / 2, 60 / 2, 71 / 2}, 0, 32767, ARRAY);
+		fission_californium_intrinsic_flux = sync(CATEGORY_FISSION, "fission_californium_intrinsic_flux", new int[] {10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0}, 0, 32767, ARRAY);
 		fission_californium_decay_factor = sync(CATEGORY_FISSION, "fission_californium_decay_factor", arrayCopies(20, 0.1D), 0D, 1D, ARRAY);
 		fission_californium_self_priming = sync(CATEGORY_FISSION, "fission_californium_self_priming", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, ARRAY);
 		fission_californium_radiation = sync(CATEGORY_FISSION, "fission_californium_radiation", new double[] {RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.LECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.HECf_249_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.LECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION, RadSources.HECf_251_FISSION}, 0D, 1000D, ARRAY);
@@ -717,24 +749,26 @@ public class NCConfig {
 		turbine_coil_conductivity = sync(CATEGORY_TURBINE, "turbine_coil_conductivity", new double[] {0.88D, 0.9D, 1D, 1.04D, 1.06D, 1.12D}, 0.01D, 15D, ARRAY);
 		turbine_coil_rule = sync(CATEGORY_TURBINE, "turbine_coil_rule", new String[] {"one bearing || one connector", "one magnesium coil", "two magnesium coils", "one aluminum coil", "one beryllium coil", "one gold coil && one copper coil"}, ARRAY);
 		turbine_connector_rule = sync(CATEGORY_TURBINE, "turbine_connector_rule", new String[] {"one of any coil"}, ARRAY);
-		turbine_power_per_mb = sync(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D}, 0D, 255D, ARRAY);
-		turbine_expansion_level = sync(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D}, 1D, 255D, ARRAY);
+		turbine_power_per_mb = sync(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D, 32D, 16D}, 0D, 255D, ARRAY);
+		turbine_expansion_level = sync(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D, 2D, 2D}, 1D, 255D, ARRAY);
 		turbine_spin_up_multiplier_global = sync(CATEGORY_TURBINE, "turbine_spin_up_multiplier_global", 1D, 0D, 255D);
-		turbine_spin_up_multiplier = sync(CATEGORY_TURBINE, "turbine_spin_up_multiplier", new double[] {1D, 1D, 1D}, 0D, 255D, ARRAY);
+		turbine_spin_up_multiplier = sync(CATEGORY_TURBINE, "turbine_spin_up_multiplier", new double[] {1D, 1D, 1D, 1D, 1D}, 0D, 255D, ARRAY);
 		turbine_spin_down_multiplier = sync(CATEGORY_TURBINE, "turbine_spin_down_multiplier", 1D, 0.01D, 255D);
 		turbine_mb_per_blade = sync(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, 1, 32767);
 		turbine_throughput_leniency_params = sync(CATEGORY_TURBINE, "turbine_throughput_leniency_params", new double[] {0.5D, 0.75D}, 0D, 1D, ARRAY);
 		turbine_tension_throughput_factor = sync(CATEGORY_TURBINE, "turbine_tension_throughput_factor", 2D, 1D, 255D);
 		turbine_tension_leniency = sync(CATEGORY_TURBINE, "turbine_tension_leniency", 0.05D, 0D, 1D);
 		turbine_power_bonus_multiplier = sync(CATEGORY_TURBINE, "turbine_power_bonus_multiplier", 1D, 0D, 255D);
+		turbine_base_energy_capacity = sync(CATEGORY_TURBINE, "turbine_base_energy_capacity", 16000, 1, Integer.MAX_VALUE);
 		turbine_sound_volume = sync(CATEGORY_TURBINE, "turbine_sound_volume", 1D, 0D, 15D);
 		turbine_particles = sync(CATEGORY_TURBINE, "turbine_particles", 0.025D, 0D, 1D);
 		turbine_render_blade_width = sync(CATEGORY_TURBINE, "turbine_render_blade_width", NCMath.SQRT2, 0.01D, 4D);
+		turbine_render_blade_fast = sync(CATEGORY_TURBINE, "turbine_render_blade_fast", false);
 		turbine_render_rotor_expansion = sync(CATEGORY_TURBINE, "turbine_render_rotor_expansion", 4D, 1D, 15D);
 		turbine_render_rotor_speed = sync(CATEGORY_TURBINE, "turbine_render_rotor_speed", 1D, 0D, 15D);
 		
 		quantum_dedicated_server = sync(CATEGORY_QUANTUM, "quantum_dedicated_server", false);
-		quantum_max_qubits = sync(CATEGORY_QUANTUM, "quantum_max_qubits", 16, 1, 24);
+		quantum_max_qubits = sync(CATEGORY_QUANTUM, "quantum_max_qubits", 16, 1, 28);
 		quantum_angle_precision = sync(CATEGORY_QUANTUM, "quantum_angle_precision", 16, 4, 1024);
 		
 		tool_mining_level = sync(CATEGORY_TOOL, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 4, 4}, 0, 15, ARRAY);

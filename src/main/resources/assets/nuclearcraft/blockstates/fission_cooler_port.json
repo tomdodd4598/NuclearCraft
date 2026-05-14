@@ -1,25 +1,360 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "nuclearcraft:fission_port",
-		"textures": {
-			"front": "nuclearcraft:blocks/fission/port/cooler_in"
-		}
+		"model": "nuclearcraft:fission_cooler_port_off"
 	},
 	"variants": {
-		"inventory": [{}],
-		"active": {
-			"false": {},
-			"true": {
-				"textures": {
-					"front": "nuclearcraft:blocks/fission/port/cooler_out"
-				}
-			}
+		"active=false,axis=x,type=oxygen": {
+			"model": "nuclearcraft:fission_cooler_port/oxygen_off",
+			"y": 90
 		},
-		"axis": {
-			"x": {"y": 90},
-			"y": {"x": 90},
-			"z": {}
+		"active=true,axis=x,type=oxygen": {
+			"model": "nuclearcraft:fission_cooler_port/oxygen_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=oxygen": {
+			"model": "nuclearcraft:fission_cooler_port/oxygen_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=oxygen": {
+			"model": "nuclearcraft:fission_cooler_port/oxygen_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=oxygen": {
+			"model": "nuclearcraft:fission_cooler_port/oxygen_off"
+		},
+		"active=true,axis=z,type=oxygen": {
+			"model": "nuclearcraft:fission_cooler_port/oxygen_on"
+		},
+		"active=false,axis=x,type=hydrogen": {
+			"model": "nuclearcraft:fission_cooler_port/hydrogen_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=hydrogen": {
+			"model": "nuclearcraft:fission_cooler_port/hydrogen_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=hydrogen": {
+			"model": "nuclearcraft:fission_cooler_port/hydrogen_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=hydrogen": {
+			"model": "nuclearcraft:fission_cooler_port/hydrogen_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=hydrogen": {
+			"model": "nuclearcraft:fission_cooler_port/hydrogen_off"
+		},
+		"active=true,axis=z,type=hydrogen": {
+			"model": "nuclearcraft:fission_cooler_port/hydrogen_on"
+		},
+		"active=false,axis=x,type=helium": {
+			"model": "nuclearcraft:fission_cooler_port/helium_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=helium": {
+			"model": "nuclearcraft:fission_cooler_port/helium_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=helium": {
+			"model": "nuclearcraft:fission_cooler_port/helium_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=helium": {
+			"model": "nuclearcraft:fission_cooler_port/helium_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=helium": {
+			"model": "nuclearcraft:fission_cooler_port/helium_off"
+		},
+		"active=true,axis=z,type=helium": {
+			"model": "nuclearcraft:fission_cooler_port/helium_on"
+		},
+		"active=false,axis=x,type=nitrogen": {
+			"model": "nuclearcraft:fission_cooler_port/nitrogen_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=nitrogen": {
+			"model": "nuclearcraft:fission_cooler_port/nitrogen_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=nitrogen": {
+			"model": "nuclearcraft:fission_cooler_port/nitrogen_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=nitrogen": {
+			"model": "nuclearcraft:fission_cooler_port/nitrogen_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=nitrogen": {
+			"model": "nuclearcraft:fission_cooler_port/nitrogen_off"
+		},
+		"active=true,axis=z,type=nitrogen": {
+			"model": "nuclearcraft:fission_cooler_port/nitrogen_on"
+		},
+		"active=false,axis=x,type=fluorine": {
+			"model": "nuclearcraft:fission_cooler_port/fluorine_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=fluorine": {
+			"model": "nuclearcraft:fission_cooler_port/fluorine_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=fluorine": {
+			"model": "nuclearcraft:fission_cooler_port/fluorine_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=fluorine": {
+			"model": "nuclearcraft:fission_cooler_port/fluorine_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=fluorine": {
+			"model": "nuclearcraft:fission_cooler_port/fluorine_off"
+		},
+		"active=true,axis=z,type=fluorine": {
+			"model": "nuclearcraft:fission_cooler_port/fluorine_on"
+		},
+		"active=false,axis=x,type=methane": {
+			"model": "nuclearcraft:fission_cooler_port/methane_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=methane": {
+			"model": "nuclearcraft:fission_cooler_port/methane_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=methane": {
+			"model": "nuclearcraft:fission_cooler_port/methane_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=methane": {
+			"model": "nuclearcraft:fission_cooler_port/methane_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=methane": {
+			"model": "nuclearcraft:fission_cooler_port/methane_off"
+		},
+		"active=true,axis=z,type=methane": {
+			"model": "nuclearcraft:fission_cooler_port/methane_on"
+		},
+		"active=false,axis=x,type=carbon_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_dioxide_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=carbon_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_dioxide_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=carbon_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_dioxide_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=carbon_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_dioxide_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=carbon_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_dioxide_off"
+		},
+		"active=true,axis=z,type=carbon_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_dioxide_on"
+		},
+		"active=false,axis=x,type=carbon_monoxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_monoxide_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=carbon_monoxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_monoxide_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=carbon_monoxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_monoxide_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=carbon_monoxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_monoxide_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=carbon_monoxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_monoxide_off"
+		},
+		"active=true,axis=z,type=carbon_monoxide": {
+			"model": "nuclearcraft:fission_cooler_port/carbon_monoxide_on"
+		},
+		"active=false,axis=x,type=ethene": {
+			"model": "nuclearcraft:fission_cooler_port/ethene_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=ethene": {
+			"model": "nuclearcraft:fission_cooler_port/ethene_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=ethene": {
+			"model": "nuclearcraft:fission_cooler_port/ethene_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=ethene": {
+			"model": "nuclearcraft:fission_cooler_port/ethene_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=ethene": {
+			"model": "nuclearcraft:fission_cooler_port/ethene_off"
+		},
+		"active=true,axis=z,type=ethene": {
+			"model": "nuclearcraft:fission_cooler_port/ethene_on"
+		},
+		"active=false,axis=x,type=ethyne": {
+			"model": "nuclearcraft:fission_cooler_port/ethyne_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=ethyne": {
+			"model": "nuclearcraft:fission_cooler_port/ethyne_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=ethyne": {
+			"model": "nuclearcraft:fission_cooler_port/ethyne_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=ethyne": {
+			"model": "nuclearcraft:fission_cooler_port/ethyne_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=ethyne": {
+			"model": "nuclearcraft:fission_cooler_port/ethyne_off"
+		},
+		"active=true,axis=z,type=ethyne": {
+			"model": "nuclearcraft:fission_cooler_port/ethyne_on"
+		},
+		"active=false,axis=x,type=fluoromethane": {
+			"model": "nuclearcraft:fission_cooler_port/fluoromethane_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=fluoromethane": {
+			"model": "nuclearcraft:fission_cooler_port/fluoromethane_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=fluoromethane": {
+			"model": "nuclearcraft:fission_cooler_port/fluoromethane_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=fluoromethane": {
+			"model": "nuclearcraft:fission_cooler_port/fluoromethane_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=fluoromethane": {
+			"model": "nuclearcraft:fission_cooler_port/fluoromethane_off"
+		},
+		"active=true,axis=z,type=fluoromethane": {
+			"model": "nuclearcraft:fission_cooler_port/fluoromethane_on"
+		},
+		"active=false,axis=x,type=ammonia": {
+			"model": "nuclearcraft:fission_cooler_port/ammonia_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=ammonia": {
+			"model": "nuclearcraft:fission_cooler_port/ammonia_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=ammonia": {
+			"model": "nuclearcraft:fission_cooler_port/ammonia_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=ammonia": {
+			"model": "nuclearcraft:fission_cooler_port/ammonia_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=ammonia": {
+			"model": "nuclearcraft:fission_cooler_port/ammonia_off"
+		},
+		"active=true,axis=z,type=ammonia": {
+			"model": "nuclearcraft:fission_cooler_port/ammonia_on"
+		},
+		"active=false,axis=x,type=diborane": {
+			"model": "nuclearcraft:fission_cooler_port/diborane_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=diborane": {
+			"model": "nuclearcraft:fission_cooler_port/diborane_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=diborane": {
+			"model": "nuclearcraft:fission_cooler_port/diborane_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=diborane": {
+			"model": "nuclearcraft:fission_cooler_port/diborane_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=diborane": {
+			"model": "nuclearcraft:fission_cooler_port/diborane_off"
+		},
+		"active=true,axis=z,type=diborane": {
+			"model": "nuclearcraft:fission_cooler_port/diborane_on"
+		},
+		"active=false,axis=x,type=sulfur_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_dioxide_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=sulfur_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_dioxide_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=sulfur_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_dioxide_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=sulfur_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_dioxide_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=sulfur_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_dioxide_off"
+		},
+		"active=true,axis=z,type=sulfur_dioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_dioxide_on"
+		},
+		"active=false,axis=x,type=sulfur_trioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_trioxide_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=sulfur_trioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_trioxide_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=sulfur_trioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_trioxide_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=sulfur_trioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_trioxide_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=sulfur_trioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_trioxide_off"
+		},
+		"active=true,axis=z,type=sulfur_trioxide": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_trioxide_on"
+		},
+		"active=false,axis=x,type=sulfur_hexafluoride": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_hexafluoride_off",
+			"y": 90
+		},
+		"active=true,axis=x,type=sulfur_hexafluoride": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_hexafluoride_on",
+			"y": 90
+		},
+		"active=false,axis=y,type=sulfur_hexafluoride": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_hexafluoride_off",
+			"x": 90
+		},
+		"active=true,axis=y,type=sulfur_hexafluoride": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_hexafluoride_on",
+			"x": 90
+		},
+		"active=false,axis=z,type=sulfur_hexafluoride": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_hexafluoride_off"
+		},
+		"active=true,axis=z,type=sulfur_hexafluoride": {
+			"model": "nuclearcraft:fission_cooler_port/sulfur_hexafluoride_on"
 		}
 	}
 }

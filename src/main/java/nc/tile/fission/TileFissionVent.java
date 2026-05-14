@@ -6,6 +6,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.*;
+import nc.tile.multiblock.ITileSorptionPart;
 import nc.tile.passive.ITilePassive;
 import nc.util.*;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,7 +25,7 @@ import java.util.*;
 import static nc.block.property.BlockProperties.FACING_ALL;
 import static nc.config.NCConfig.enable_mek_gas;
 
-public class TileFissionVent extends TileFissionPart implements ITickable, ITileFluid {
+public class TileFissionVent extends TileFissionPart implements ITickable, ITileFluid, ITileSorptionPart<FissionReactor, IFissionPart> {
 	
 	private final @Nonnull List<Tank> backupTanks = Collections.emptyList();
 	
@@ -62,6 +63,31 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean canReceive() {
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (getTankSorption(facing, 0).canFill()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean canExtract() {
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (getTankSorption(facing, 1).canDrain()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public SorptionKey getSorptionKey() {
+		return new SorptionKey("vent");
 	}
 	
 	// Fluids
@@ -154,7 +180,8 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 		
 		}
 		else {
-			if (getMultiblock() != null) {
+			FissionReactor multiblock = getMultiblock();
+			if (multiblock != null && !multiblock.isAssembled()) {
 				if (getTankSorption(facing, 0) != TankSorption.IN) {
 					for (EnumFacing side : EnumFacing.VALUES) {
 						setTankSorption(side, 0, TankSorption.IN);

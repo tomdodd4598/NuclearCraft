@@ -28,6 +28,8 @@ public class ChemicalReactorRecipes extends BasicProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
 		addRecipe(fluidStack("deuterium", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("heavy_water", BUCKET_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
+		
+		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 4), fluidStack("chlorine", BUCKET_VOLUME / 4), fluidStack("hydrogen_chloride", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
 		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 4), fluidStack("fluorine", BUCKET_VOLUME / 4), fluidStack("hydrofluoric_acid", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
 		
 		addRecipe(fluidStack("lithium", INGOT_VOLUME / 2), fluidStack("fluorine", BUCKET_VOLUME / 4), fluidStack("lif", INGOT_VOLUME / 2), emptyFluidStack(), 0.5D, 0.5D);
@@ -38,6 +40,7 @@ public class ChemicalReactorRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("sulfur_trioxide", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 4), fluidStack("sulfuric_acid", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
 		
 		addRecipe(fluidStack("sulfur", GEM_VOLUME / 2), fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("hydrogen_sulfide", BUCKET_VOLUME / 2), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("sulfur", GEM_VOLUME / 2), fluidStack("fluorine", 3 * BUCKET_VOLUME / 2), fluidStack("sulfur_hexafluoride", BUCKET_VOLUME / 2), emptyFluidStack(), 1D, 0.5D);
 		
 		addRecipe(fluidStack("fluorite_water", GEM_VOLUME / 2), fluidStack("sulfuric_acid", BUCKET_VOLUME / 2), fluidStack("hydrofluoric_acid", BUCKET_VOLUME), fluidStack("calcium_sulfate_solution", GEM_VOLUME / 2), 1D, 0.5D);
 		
@@ -63,6 +66,7 @@ public class ChemicalReactorRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("sugar", INGOT_VOLUME / 2), fluidStack("water", BUCKET_VOLUME / 2), fluidStack("ethanol", BUCKET_VOLUME * 2), fluidStack("carbon_dioxide", BUCKET_VOLUME * 2), 0.5D, 0.5D);
 		addRecipe(fluidStack("carbon_dioxide", BUCKET_VOLUME / 4), fluidStack("hydrogen", BUCKET_VOLUME / 4), fluidStack("carbon_monoxide", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 4), 0.5D, 0.5D);
 		addRecipe(fluidStack("carbon_monoxide", BUCKET_VOLUME / 4), fluidStack("hydrogen", BUCKET_VOLUME / 2), fluidStack("methanol", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
+		addRecipe(fluidStack("methanol", BUCKET_VOLUME / 4), fluidStack("hydrogen", BUCKET_VOLUME / 4), fluidStack("methane", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 4), 1D, 1D);
 		addRecipe(fluidStack("methanol", BUCKET_VOLUME / 4), fluidStack("hydrofluoric_acid", BUCKET_VOLUME / 4), fluidStack("fluoromethane", BUCKET_VOLUME / 4), fluidStack("water", BUCKET_VOLUME / 4), 0.5D, 1D);
 		
 		addRecipe(fluidStack("fluoromethane", BUCKET_VOLUME / 2), fluidStack("naoh", GEM_VOLUME / 2), fluidStack("ethene", BUCKET_VOLUME / 4), fluidStack("sodium_fluoride_solution", GEM_VOLUME / 2), 1D, 1D);
@@ -86,8 +90,8 @@ public class ChemicalReactorRecipes extends BasicProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("benzene", BUCKET_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME / 4), fluidStack("phenol", BUCKET_VOLUME / 2), emptyFluidStack(), 1D, 1D);
 		addRecipe(fluidStack("phenol", BUCKET_VOLUME / 2), fluidStack("hydrogen_peroxide", BUCKET_VOLUME / 2), fluidStack("hydroquinone_solution", GEM_VOLUME / 2), emptyFluidStack(), 1D, 1D);
-		addRecipe(fluidStack("hydroquinone_solution", GEM_VOLUME / 2), fluidStack("sodium_hydroxide_solution", BUCKET_VOLUME), fluidStack("sodium_hydroquinone_solution", GEM_VOLUME / 2), fluidStack("water", BUCKET_VOLUME), 1D, 1D);
-		addRecipe(fluidStack("hydroquinone_solution", GEM_VOLUME / 2), fluidStack("potassium_hydroxide_solution", BUCKET_VOLUME), fluidStack("potassium_hydroquinone_solution", GEM_VOLUME / 2), fluidStack("water", BUCKET_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("hydroquinone_solution", GEM_VOLUME / 2), fluidStack("sodium_hydroxide_solution", GEM_VOLUME), fluidStack("sodium_hydroquinone_solution", GEM_VOLUME / 2), fluidStack("water", BUCKET_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("hydroquinone_solution", GEM_VOLUME / 2), fluidStack("potassium_hydroxide_solution", GEM_VOLUME), fluidStack("potassium_hydroquinone_solution", GEM_VOLUME / 2), fluidStack("water", BUCKET_VOLUME), 1D, 1D);
 		
 		addRecipe(fluidStack("dfdps", GEM_VOLUME / 2), fluidStack("sodium_hydroquinone_solution", GEM_VOLUME / 2), fluidStack("polyethersulfone", INGOT_VOLUME / 2), fluidStack("sodium_fluoride_solution", GEM_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("dfdps", GEM_VOLUME / 2), fluidStack("potassium_hydroquinone_solution", GEM_VOLUME / 2), fluidStack("polyethersulfone", INGOT_VOLUME / 2), fluidStack("potassium_fluoride_solution", GEM_VOLUME), 1D, 1D);
@@ -97,8 +101,6 @@ public class ChemicalReactorRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("boron", INGOT_VOLUME / 2), fluidStack("arsenic", GEM_VOLUME / 2), fluidStack("bas", GEM_VOLUME / 2), emptyFluidStack(), 1D, 1D);
 		
 		addRecipe(fluidStack("alugentum", INGOT_VOLUME / 2), fluidStack("oxygen", BUCKET_VOLUME * 3), fluidStack("alumina", INGOT_VOLUME), fluidStack("silver", INGOT_VOLUME / 2), 1D, 0.5D);
-		
-		addRecipe(fluidStack("hydrogen", BUCKET_VOLUME / 4), fluidStack("chlorine", BUCKET_VOLUME / 4), fluidStack("hydrogen_chloride", BUCKET_VOLUME / 4), emptyFluidStack(), 0.5D, 0.5D);
 		
 		// Fission Materials
 		addFissionFluorideRecipes();

@@ -678,20 +678,16 @@ public class TileNuclearFurnace extends TileEntity implements IBasicProcessor<Ti
 		return null;
 	}
 	
-	protected final NonNullList<ItemStack> consumedStacks = NonNullList.withSize(0, ItemStack.EMPTY);
-	
 	@Nonnull
 	@Override
 	public NonNullList<ItemStack> getConsumedStacks() {
-		return consumedStacks;
+		return InventoryStackList.EMPTY_LIST;
 	}
-	
-	protected final List<Tank> consumedTanks = new ArrayList<>();
 	
 	@Nonnull
 	@Override
 	public List<Tank> getConsumedTanks() {
-		return consumedTanks;
+		return Collections.emptyList();
 	}
 	
 	@Override

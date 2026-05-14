@@ -3,8 +3,10 @@ package nc.multiblock.turbine;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.doubles.*;
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
+import nc.config.NCConfig;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
@@ -30,8 +32,6 @@ import javax.vecmath.Vector3f;
 import java.util.*;
 import java.util.function.UnaryOperator;
 
-import static nc.config.NCConfig.turbine_max_size;
-
 public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implements ILogicMultiblock<Turbine, TurbineLogic, ITurbinePart>, IPacketMultiblock<Turbine, ITurbinePart, TurbineUpdatePacket> {
 	
 	public static final ObjectSet<Class<? extends ITurbinePart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -43,9 +43,9 @@ public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implement
 	
 	public ITurbineController<?> controller;
 	
-	public static final int BASE_MAX_ENERGY = 16000, BASE_MAX_INPUT = 1000, BASE_MAX_OUTPUT = 4000;
+	public static final int BASE_MAX_INPUT = 1000, BASE_MAX_OUTPUT = 4000;
 	
-	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
+	public final EnergyStorage energyStorage = new EnergyStorage(NCConfig.turbine_base_energy_capacity);
 	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine.validFluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
 	
 	public RecipeInfo<BasicRecipe> recipeInfo;
@@ -58,11 +58,13 @@ public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implement
 	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeInputRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
 	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, spinUpMultiplier = 1D, basePowerPerMB = 0D, recipeInputRateFP = 0D;
 	
+	public final ValueTracker recipeInputRateTracker = new ValueTracker();
+	
 	public double minBladeExpansionCoefficient = Double.MAX_VALUE;
 	public double maxBladeExpansionCoefficient = 1D;
 	public double minStatorExpansionCoefficient = 1D;
 	public double maxStatorExpansionCoefficient = Double.MIN_VALUE;
-	public int effectiveMaxLength = turbine_max_size;
+	public int effectiveMaxLength = NCConfig.turbine_max_size;
 	public double bearingTension = 0D;
 	
 	public final DoubleList expansionLevels = new DoubleArrayList(), rawBladeEfficiencies = new DoubleArrayList();
@@ -182,16 +184,18 @@ public class Turbine extends CuboidalMultiblock<Turbine, ITurbinePart> implement
 	}
 	
 	public boolean setLogic(Turbine multiblock) {
-		if (getPartMap(ITurbineController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+		@SuppressWarnings("rawtypes") Long2ObjectMap<ITurbineController> controllerMap = getPartMap(ITurbineController.class);
+		
+		if (controllerMap.isEmpty()) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
-		if (getPartCount(ITurbineController.class) > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+		if (controllerMap.size() > 1) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", controllerMap.keySet());
 			return false;
 		}
 		
-		for (ITurbineController<?> contr : getParts(ITurbineController.class)) {
+		for (ITurbineController<?> contr : controllerMap.values()) {
 			controller = contr;
 			break;
 		}

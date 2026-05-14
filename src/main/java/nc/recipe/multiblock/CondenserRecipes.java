@@ -12,8 +12,14 @@ public class CondenserRecipes extends BasicRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("exhaust_steam", 16), fluidStack("condensate_water", 1), 32D, 550, 350, false, -1, 0.5D);
-		addRecipe(fluidStack("low_quality_steam", 32), fluidStack("condensate_water", 1), 2D, 350, 350, false, -1, 0.5D);
+		addRecipe(fluidStack("exhaust_steam", 16), fluidStack("condensate_water", 1), 32D, 550, 350, -1, 1D);
+		addRecipe(fluidStack("low_quality_steam", 32), fluidStack("condensate_water", 1), 2D, 350, 350, -1, 0.5D);
+		
+		for (int i = 0; i < 16; ++i) {
+			String coolant = GasCoolerRecipes.COOLANTS[i];
+			addRecipe(fluidStack(coolant + "_exhaust", 2), fluidStack(coolant, 1), 32D, 900, 300);
+			addRecipe(fluidStack(coolant + "_lq", 4), fluidStack(coolant, 1), 2D, 800, 300);
+		}
 	}
 	
 	@Override

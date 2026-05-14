@@ -12,6 +12,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.*;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.processor.IProcessor;
+import nc.tile.processor.info.builder.ProcessorContainerInfoBuilder;
 import nc.util.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -121,21 +122,21 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 	public double maxBaseProcessTime = 1D;
 	public double maxBaseProcessPower = 0D;
 	
-	protected ProcessorContainerInfo(String modId, String name, Class<TILE> tileClass, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, String recipeHandlerName, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH) {
-		super(modId, name, tileClass, containerFunction, guiFunction);
+	protected ProcessorContainerInfo(ProcessorContainerInfoBuilder<TILE, PACKET, INFO, ?> builder) {
+		super(builder.modId, builder.name, builder.tileClass, builder.containerFunction, builder.guiFunction);
 		
-		this.containerClass = containerClass;
-		this.guiClass = guiClass;
+		containerClass = builder.containerClass;
+		guiClass = builder.guiClass;
 		
-		this.configContainerFunction = configContainerFunction;
-		this.configGuiFunction = configGuiFunction;
+		configContainerFunction = builder.configContainerFunction;
+		configGuiFunction = builder.configGuiFunction;
 		
-		this.recipeHandlerName = recipeHandlerName;
+		recipeHandlerName = builder.recipeHandlerName;
 		
-		itemInputSize = itemInputGuiXYWH.size();
-		fluidInputSize = fluidInputGuiXYWH.size();
-		itemOutputSize = itemOutputGuiXYWH.size();
-		fluidOutputSize = fluidOutputGuiXYWH.size();
+		itemInputSize = builder.itemInputGuiXYWH.size();
+		fluidInputSize = builder.fluidInputGuiXYWH.size();
+		itemOutputSize = builder.itemOutputGuiXYWH.size();
+		fluidOutputSize = builder.fluidOutputGuiXYWH.size();
 		
 		itemInputSlots = CollectionHelper.increasingArray(itemInputSize);
 		itemOutputSlots = CollectionHelper.increasingArray(itemInputSize, itemOutputSize);
@@ -143,26 +144,26 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		fluidInputTanks = CollectionHelper.increasingArray(fluidInputSize);
 		fluidOutputTanks = CollectionHelper.increasingArray(fluidInputSize, fluidOutputSize);
 		
-		this.inputTankCapacity = inputTankCapacity;
-		this.outputTankCapacity = outputTankCapacity;
+		inputTankCapacity = builder.inputTankCapacity;
+		outputTankCapacity = builder.outputTankCapacity;
 		
-		this.defaultProcessTime = defaultProcessTime;
-		this.defaultProcessPower = defaultProcessPower;
+		defaultProcessTime = builder.defaultProcessTime;
+		defaultProcessPower = builder.defaultProcessPower;
 		
-		this.isGenerator = isGenerator;
+		isGenerator = builder.isGenerator;
 		
-		this.consumesInputs = consumesInputs;
-		this.losesProgress = losesProgress;
+		consumesInputs = builder.consumesInputs;
+		losesProgress = builder.losesProgress;
 		
-		this.ocComponentName = ocComponentName;
+		ocComponentName = builder.ocComponentName;
 		
-		guiWidth = guiWH[0];
-		guiHeight = guiWH[1];
+		guiWidth = builder.guiWH[0];
+		guiHeight = builder.guiWH[1];
 		
-		this.itemInputGuiXYWH = itemInputGuiXYWH;
-		this.fluidInputGuiXYWH = fluidInputGuiXYWH;
-		this.itemOutputGuiXYWH = itemOutputGuiXYWH;
-		this.fluidOutputGuiXYWH = fluidOutputGuiXYWH;
+		itemInputGuiXYWH = builder.itemInputGuiXYWH;
+		fluidInputGuiXYWH = builder.fluidInputGuiXYWH;
+		itemOutputGuiXYWH = builder.itemOutputGuiXYWH;
+		fluidOutputGuiXYWH = builder.fluidOutputGuiXYWH;
 		
 		itemInputStackXY = ContainerInfoHelper.stackXYList(itemInputGuiXYWH);
 		itemOutputStackXY = ContainerInfoHelper.stackXYList(itemOutputGuiXYWH);
@@ -172,49 +173,49 @@ public abstract class ProcessorContainerInfo<TILE extends TileEntity & IProcesso
 		itemOutputSorptionButtonID = CollectionHelper.increasingArray(itemInputSize + fluidInputSize, itemOutputSize);
 		fluidOutputSorptionButtonID = CollectionHelper.increasingArray(itemInputSize + fluidInputSize + itemOutputSize, fluidOutputSize);
 		
-		playerGuiX = playerGuiXY[0];
-		playerGuiY = playerGuiXY[1];
+		playerGuiX = builder.playerGuiXY[0];
+		playerGuiY = builder.playerGuiXY[1];
 		
-		progressBarGuiX = progressBarGuiXYWHUV[0];
-		progressBarGuiY = progressBarGuiXYWHUV[1];
-		progressBarGuiW = progressBarGuiXYWHUV[2];
-		progressBarGuiH = progressBarGuiXYWHUV[3];
-		progressBarGuiU = progressBarGuiXYWHUV[4];
-		progressBarGuiV = progressBarGuiXYWHUV[5];
+		progressBarGuiX = builder.progressBarGuiXYWHUV[0];
+		progressBarGuiY = builder.progressBarGuiXYWHUV[1];
+		progressBarGuiW = builder.progressBarGuiXYWHUV[2];
+		progressBarGuiH = builder.progressBarGuiXYWHUV[3];
+		progressBarGuiU = builder.progressBarGuiXYWHUV[4];
+		progressBarGuiV = builder.progressBarGuiXYWHUV[5];
 		
-		energyBarGuiX = energyBarGuiXYWHUV[0];
-		energyBarGuiY = energyBarGuiXYWHUV[1];
-		energyBarGuiW = energyBarGuiXYWHUV[2];
-		energyBarGuiH = energyBarGuiXYWHUV[3];
-		energyBarGuiU = energyBarGuiXYWHUV[4];
-		energyBarGuiV = energyBarGuiXYWHUV[5];
+		energyBarGuiX = builder.energyBarGuiXYWHUV[0];
+		energyBarGuiY = builder.energyBarGuiXYWHUV[1];
+		energyBarGuiW = builder.energyBarGuiXYWHUV[2];
+		energyBarGuiH = builder.energyBarGuiXYWHUV[3];
+		energyBarGuiU = builder.energyBarGuiXYWHUV[4];
+		energyBarGuiV = builder.energyBarGuiXYWHUV[5];
 		
-		machineConfigGuiX = machineConfigGuiXY[0];
-		machineConfigGuiY = machineConfigGuiXY[1];
+		machineConfigGuiX = builder.machineConfigGuiXY[0];
+		machineConfigGuiY = builder.machineConfigGuiXY[1];
 		
-		redstoneControlGuiX = redstoneControlGuiXY[0];
-		redstoneControlGuiY = redstoneControlGuiXY[1];
+		redstoneControlGuiX = builder.redstoneControlGuiXY[0];
+		redstoneControlGuiY = builder.redstoneControlGuiXY[1];
 		
-		this.jeiCategoryEnabled = jeiCategoryEnabled;
+		jeiCategoryEnabled = builder.jeiCategoryEnabled;
 		
-		this.jeiCategoryUid = jeiCategoryUid;
-		this.jeiTitle = jeiTitle;
-		this.jeiTexture = jeiTexture;
+		jeiCategoryUid = builder.jeiCategoryUid;
+		jeiTitle = builder.jeiTitle;
+		jeiTexture = builder.jeiTexture;
 		
-		jeiBackgroundX = jeiBackgroundXYWH[0];
-		jeiBackgroundY = jeiBackgroundXYWH[1];
-		jeiBackgroundW = jeiBackgroundXYWH[2];
-		jeiBackgroundH = jeiBackgroundXYWH[3];
+		jeiBackgroundX = builder.jeiBackgroundXYWH[0];
+		jeiBackgroundY = builder.jeiBackgroundXYWH[1];
+		jeiBackgroundW = builder.jeiBackgroundXYWH[2];
+		jeiBackgroundH = builder.jeiBackgroundXYWH[3];
 		
-		jeiTooltipX = jeiTooltipXYWH[0];
-		jeiTooltipY = jeiTooltipXYWH[1];
-		jeiTooltipW = jeiTooltipXYWH[2];
-		jeiTooltipH = jeiTooltipXYWH[3];
+		jeiTooltipX = builder.jeiTooltipXYWH[0];
+		jeiTooltipY = builder.jeiTooltipXYWH[1];
+		jeiTooltipW = builder.jeiTooltipXYWH[2];
+		jeiTooltipH = builder.jeiTooltipXYWH[3];
 		
-		jeiClickAreaX = jeiClickAreaXYWH[0];
-		jeiClickAreaY = jeiClickAreaXYWH[1];
-		jeiClickAreaW = jeiClickAreaXYWH[2];
-		jeiClickAreaH = jeiClickAreaXYWH[3];
+		jeiClickAreaX = builder.jeiClickAreaXYWH[0];
+		jeiClickAreaY = builder.jeiClickAreaXYWH[1];
+		jeiClickAreaW = builder.jeiClickAreaXYWH[2];
+		jeiClickAreaH = builder.jeiClickAreaXYWH[3];
 	}
 	
 	public BasicRecipeHandler getRecipeHandler() {

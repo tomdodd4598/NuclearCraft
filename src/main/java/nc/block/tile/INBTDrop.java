@@ -10,5 +10,5 @@ public interface INBTDrop {
 	
 	ItemStack getNBTDrop(IBlockAccess world, BlockPos pos, IBlockState state);
 	
-	void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack);
+	void readStackData(World world, BlockPos pos, EntityLivingBase placer, ItemStack stack);
 }

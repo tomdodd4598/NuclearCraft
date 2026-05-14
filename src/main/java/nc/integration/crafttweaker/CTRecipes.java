@@ -962,8 +962,8 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation) {
-			getRecipeHandler().ctAddRecipe(itemInput, itemOutput, time, heat, efficiency, criticality, decayFactor, selfPriming, radiation);
+		public static void addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation) {
+			getRecipeHandler().ctAddRecipe(itemInput, itemOutput, time, heat, efficiency, criticality, intrinsicFlux, decayFactor, selfPriming, radiation);
 		}
 		
 		@ZenMethod
@@ -992,8 +992,8 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation) {
-			getRecipeHandler().ctAddRecipe(itemInput, itemOutput, time, heat, efficiency, criticality, decayFactor, selfPriming, radiation);
+		public static void addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation) {
+			getRecipeHandler().ctAddRecipe(itemInput, itemOutput, time, heat, efficiency, criticality, intrinsicFlux, decayFactor, selfPriming, radiation);
 		}
 		
 		@ZenMethod
@@ -1052,8 +1052,8 @@ public class CTRecipes {
 		}
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, double time, int heat, double efficiency, int criticality, double decayFactor, boolean selfPriming, double radiation) {
-			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, time, heat, efficiency, criticality, decayFactor, selfPriming, radiation);
+		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, double time, int heat, double efficiency, int criticality, int intrinsicFlux, double decayFactor, boolean selfPriming, double radiation) {
+			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, time, heat, efficiency, criticality, intrinsicFlux, decayFactor, selfPriming, radiation);
 		}
 		
 		@ZenMethod

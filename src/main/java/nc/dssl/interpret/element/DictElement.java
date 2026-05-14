@@ -139,13 +139,18 @@ public class DictElement extends Element {
 	
 	@Override
 	public boolean containsValue(TokenExecutor exec, @Nonnull Element elem) {
-		return value.containsValue(elem);
+		for (@Nonnull Element e : value.values()) {
+			if (elem.dynEqualTo(exec, e)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override
 	public boolean containsEntry(TokenExecutor exec, @Nonnull Element elem0, @Nonnull Element elem1) {
 		@SuppressWarnings("null") Element get = value.get(elem0.toKey(exec));
-		return get != null && get.equals(elem1);
+		return get != null && get.dynEqualTo(exec, elem1);
 	}
 	
 	@Override
@@ -176,7 +181,7 @@ public class DictElement extends Element {
 	@SuppressWarnings("null")
 	@Override
 	public int hash(TokenExecutor exec) {
-		int hash = BuiltIn.LIST.hashCode();
+		int hash = BuiltIn.DICT.hashCode();
 		for (Entry<ElementKey, Element> entry : value.entrySet()) {
 			hash = 31 * hash + (entry.getKey().hashCode() ^ entry.getValue().dynHash(exec));
 		}

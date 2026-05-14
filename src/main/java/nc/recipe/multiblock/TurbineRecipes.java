@@ -17,6 +17,12 @@ public class TurbineRecipes extends BasicRecipeHandler {
 		addRecipe(fluidStack("high_pressure_steam", 1), fluidStack("exhaust_steam", 4), turbine_power_per_mb[0], turbine_expansion_level[0], turbine_spin_up_multiplier[0]);
 		addRecipe(fluidStack("low_pressure_steam", 1), fluidStack("low_quality_steam", 2), turbine_power_per_mb[1], turbine_expansion_level[1], turbine_spin_up_multiplier[1]);
 		addRecipe(fluidStack("steam", 1), fluidStack("low_quality_steam", 2), turbine_power_per_mb[2], turbine_expansion_level[2], turbine_spin_up_multiplier[2]);
+		
+		for (int i = 0; i < 16; ++i) {
+			String coolant = GasCoolerRecipes.COOLANTS[i];
+			addRecipe(fluidStack(coolant + "_hot", 1), fluidStack(coolant + "_exhaust", 2), turbine_power_per_mb[3], turbine_expansion_level[3], turbine_spin_up_multiplier[3], "magicCrit", 0.7D);
+			addRecipe(fluidStack(coolant + "_exhaust", 1), fluidStack(coolant + "_lq", 2), turbine_power_per_mb[4], turbine_expansion_level[4], turbine_spin_up_multiplier[4], "magicCrit", 0.7D);
+		}
 	}
 	
 	@Override

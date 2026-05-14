@@ -1,0 +1,6 @@
+{
+	"parent": "nuclearcraft:item/triso",
+	"textures": {
+		"layer0": "contenttweaker:items/fuel_leabc_123_tr"
+	}
+}

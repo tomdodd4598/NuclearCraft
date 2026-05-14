@@ -58,6 +58,23 @@ public abstract class FissionPlacement {
 		
 		RULE_MAP.put("", new PlacementRule.Or<>(new ArrayList<>()));
 		
+		addRule("oxygen_cooler", fission_cooler_rule[0], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 0));
+		addRule("hydrogen_cooler", fission_cooler_rule[1], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 1));
+		addRule("helium_cooler", fission_cooler_rule[2], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 2));
+		addRule("nitrogen_cooler", fission_cooler_rule[3], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 3));
+		addRule("fluorine_cooler", fission_cooler_rule[4], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 4));
+		addRule("methane_cooler", fission_cooler_rule[5], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 5));
+		addRule("carbon_dioxide_cooler", fission_cooler_rule[6], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 6));
+		addRule("carbon_monoxide_cooler", fission_cooler_rule[7], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 7));
+		addRule("ethene_cooler", fission_cooler_rule[8], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 8));
+		addRule("ethyne_cooler", fission_cooler_rule[9], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 9));
+		addRule("fluoromethane_cooler", fission_cooler_rule[10], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 10));
+		addRule("ammonia_cooler", fission_cooler_rule[11], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 11));
+		addRule("diborane_cooler", fission_cooler_rule[12], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 12));
+		addRule("sulfur_dioxide_cooler", fission_cooler_rule[13], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 13));
+		addRule("sulfur_trioxide_cooler", fission_cooler_rule[14], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 14));
+		addRule("sulfur_hexafluoride_cooler", fission_cooler_rule[15], new ItemStack(NCBlocks.pebble_fission_cooler, 1, 15));
+		
 		addRule("water_sink", fission_sink_rule[0], new ItemStack(NCBlocks.solid_fission_sink, 1, 0));
 		addRule("iron_sink", fission_sink_rule[1], new ItemStack(NCBlocks.solid_fission_sink, 1, 1));
 		addRule("redstone_sink", fission_sink_rule[2], new ItemStack(NCBlocks.solid_fission_sink, 1, 2));
@@ -213,6 +230,18 @@ public abstract class FissionPlacement {
 					else if (split[i].contains("shield")) {
 						rule = "shield";
 					}
+					else if (split[i].contains("chamber")) {
+						rule = "chamber";
+					}
+					else if (split[i].contains("cooler")) {
+						rule = "cooler";
+						if (i > 0) {
+							type = split[i - 1];
+						}
+						else {
+							return null;
+						}
+					}
 					else if (split[i].contains("cell")) {
 						rule = "cell";
 					}
@@ -254,6 +283,8 @@ public abstract class FissionPlacement {
 				case "reflector" -> new AdjacentReflector(amount, countType, adjType);
 				case "irradiator" -> new AdjacentIrradiator(amount, countType, adjType);
 				case "shield" -> new AdjacentShield(amount, countType, adjType);
+				case "chamber" -> new AdjacentChamber(amount, countType, adjType);
+				case "cooler" -> new AdjacentCooler(amount, countType, adjType, type);
 				case "cell" -> new AdjacentCell(amount, countType, adjType);
 				case "sink" -> new AdjacentSink(amount, countType, adjType, type);
 				case "vessel" -> new AdjacentVessel(amount, countType, adjType);
@@ -342,6 +373,41 @@ public abstract class FissionPlacement {
 		@Override
 		public boolean satisfied(IFissionPart part, EnumFacing dir, boolean simulate) {
 			return isFunctionalShield(part.getMultiblock(), part.getTilePos().offset(dir), simulate);
+		}
+	}
+	
+	public static class AdjacentChamber extends Adjacent {
+		
+		public AdjacentChamber(int amount, CountType countType, AdjacencyType adjType) {
+			super("chamber", amount, countType, adjType);
+		}
+		
+		@Override
+		public boolean satisfied(IFissionPart part, EnumFacing dir, boolean simulate) {
+			return isFunctionalChamber(part.getMultiblock(), part.getTilePos().offset(dir), simulate);
+		}
+	}
+	
+	public static class AdjacentCooler extends Adjacent {
+		
+		public final String coolerType;
+		
+		public AdjacentCooler(int amount, CountType countType, AdjacencyType adjType, String coolerType) {
+			super(coolerType + "_cooler", amount, countType, adjType);
+			this.coolerType = coolerType;
+		}
+		
+		@Override
+		public void checkIsRuleAllowed(String ruleID) {
+			super.checkIsRuleAllowed(ruleID);
+			if (countType != CountType.AT_LEAST && coolerType.equals("any")) {
+				throw new IllegalArgumentException((countType == CountType.EXACTLY ? "Exact 'any cooler'" : "'At most n of any cooler'") + " placement rule with ID \"" + ruleID + "\" is disallowed due to potential ambiguity during rule checks!");
+			}
+		}
+		
+		@Override
+		public boolean satisfied(IFissionPart part, EnumFacing dir, boolean simulate) {
+			return isValidCooler(part.getMultiblock(), part.getTilePos().offset(dir), coolerType, simulate);
 		}
 	}
 	
@@ -443,6 +509,16 @@ public abstract class FissionPlacement {
 	public static boolean isFunctionalShield(FissionReactor reactor, BlockPos pos, boolean simulate) {
 		TileFissionShield shield = reactor.getPartMap(TileFissionShield.class).get(pos.toLong());
 		return shield != null && shield.isFunctional(simulate);
+	}
+	
+	public static boolean isFunctionalChamber(FissionReactor reactor, BlockPos pos, boolean simulate) {
+		TilePebbleFissionChamber chamber = reactor.getPartMap(TilePebbleFissionChamber.class).get(pos.toLong());
+		return chamber != null && chamber.isFunctional(simulate);
+	}
+	
+	public static boolean isValidCooler(FissionReactor reactor, BlockPos pos, String coolerType, boolean simulate) {
+		TilePebbleFissionCooler cooler = reactor.getPartMap(TilePebbleFissionCooler.class).get(pos.toLong());
+		return cooler != null && cooler.isFunctional(simulate) && (coolerType.equals("any") || cooler.coolerType.equals(coolerType));
 	}
 	
 	public static boolean isFunctionalCell(FissionReactor reactor, BlockPos pos, boolean simulate) {

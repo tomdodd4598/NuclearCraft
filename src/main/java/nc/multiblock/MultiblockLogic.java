@@ -1,7 +1,8 @@
 package nc.multiblock;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
+import nc.Global;
 import nc.multiblock.fission.*;
 import nc.multiblock.hx.*;
 import nc.multiblock.machine.*;
@@ -9,7 +10,8 @@ import nc.multiblock.turbine.*;
 import nc.tile.ITileFiltered;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.multiblock.ITileLogicMultiblockPart;
+import nc.tile.multiblock.*;
+import nc.tile.multiblock.ITileSorptionPart.SorptionKey;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.multiblock.manager.*;
 import nc.tile.multiblock.port.*;
@@ -102,6 +104,10 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 	
 	public abstract void onUpdateClient();
 	
+	public abstract List<Pair<Class<? extends T>, String>> getPartBlacklist();
+	
+	// Utility Methods
+	
 	public boolean containsBlacklistedPart() {
 		for (Pair<Class<? extends T>, String> pair : getPartBlacklist()) {
 			for (long posLong : getPartMap(pair.getLeft()).keySet()) {
@@ -112,12 +118,55 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		return false;
 	}
 	
-	public abstract List<Pair<Class<? extends T>, String>> getPartBlacklist();
-	
-	// Utility Methods
+	public static class SorptionInfo {
+		public int inputCount = 0;
+		public int outputCount = 0;
+	}
 	
 	@SuppressWarnings("unchecked")
-	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, PRT extends T, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TRGT extends T> void refreshFilteredPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
+	public <PART extends ITileSorptionPart<MULTIBLOCK, T> & ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> Object2ObjectMap<SorptionKey, SorptionInfo> getSorptionDataMap(Class<PART> partClass) {
+		Long2ObjectMap<PART> partMap = (Long2ObjectMap<PART>) getPartMap(partClass.asSubclass(multiblock.tClass));
+		Object2ObjectMap<SorptionKey, SorptionInfo> dataMap = new Object2ObjectOpenHashMap<>();
+		
+		for (PART part : partMap.values()) {
+			SorptionKey key = part.getSorptionKey();
+			SorptionInfo info = dataMap.get(key);
+			if (info == null) {
+				info = new SorptionInfo();
+				dataMap.put(key, info);
+			}
+			if (part.canReceive()) {
+				++info.inputCount;
+			}
+			if (part.canExtract()) {
+				++info.outputCount;
+			}
+		}
+		
+		return dataMap;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <PART extends ITileSorptionPart<MULTIBLOCK, T> & ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> boolean isMissingSorption(Class<PART> partClass, String partName) {
+		Object2ObjectMap<SorptionKey, SorptionInfo> dataMap = this.getSorptionDataMap(partClass);
+		for (Object2ObjectMap.Entry<SorptionKey, SorptionInfo> entry : dataMap.object2ObjectEntrySet()) {
+			SorptionInfo info = entry.getValue();
+			if (info.inputCount <= 0 || info.outputCount <= 0) {
+				Long2ObjectMap<PART> partMap = (Long2ObjectMap<PART>) getPartMap(partClass.asSubclass(multiblock.tClass));
+				String suffix = info.inputCount > 0 ? "output" : (info.outputCount > 0 ? "input" : "both");
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.sorption.missing_" + suffix, partMap.keySet(), partName);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public <PART extends ITileSorptionPart<MULTIBLOCK, T> & ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>, TARGET extends ITileLogicMultiblockPart<MULTIBLOCK, LOGIC, T>> boolean isMissingSorption(Class<PART> partClass, Class<TARGET> targetClass, String partName) {
+		return !getPartMap(targetClass.asSubclass(multiblock.tClass)).isEmpty() && isMissingSorption(partClass, partName);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <PORT extends ITilePort<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered, TARGET extends ITilePortTarget<MULTIBLOCK, LOGIC, T, PORT, TARGET> & ITileFiltered> void refreshFilteredPorts(Class<PORT> portClass, Class<TARGET> targetClass) {
 		Long2ObjectMap<PORT> portMap = (Long2ObjectMap<PORT>) getPartMap(portClass.asSubclass(multiblock.tClass));
 		Long2ObjectMap<TARGET> targetMap = (Long2ObjectMap<TARGET>) getPartMap(targetClass.asSubclass(multiblock.tClass));
 		
@@ -242,7 +291,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		Machine.LOGIC_MAP.put("infiltrator", InfiltratorLogic::new);
 		
 		FissionReactor.LOGIC_MAP.put("", FissionReactorLogic::new);
-		// FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic::new);
+		FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic::new);
 		FissionReactor.LOGIC_MAP.put("solid_fuel", SolidFuelFissionLogic::new);
 		FissionReactor.LOGIC_MAP.put("molten_salt", MoltenSaltFissionLogic::new);
 		

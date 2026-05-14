@@ -1,7 +1,7 @@
 package nc.enumm;
 
 import nc.tile.fission.*;
-import nc.tile.fission.port.TileFissionHeaterPort;
+import nc.tile.fission.port.*;
 import net.minecraft.util.IStringSerializable;
 
 import static nc.config.NCConfig.*;
@@ -781,6 +781,104 @@ public class MetaEnums {
 		}
 	}
 	
+	public enum GasCoolerType implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TilePebbleFissionCooler.Meta> {
+		
+		OXYGEN("oxygen", 0, fission_cooler_cooling_rate[0], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Oxygen.class, TileFissionCoolerPort.Oxygen.class),
+		HYDROGEN("hydrogen", 1, fission_cooler_cooling_rate[1], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Hydrogen.class, TileFissionCoolerPort.Hydrogen.class),
+		HELIUM("helium", 2, fission_cooler_cooling_rate[2], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Helium.class, TileFissionCoolerPort.Helium.class),
+		NITROGEN("nitrogen", 3, fission_cooler_cooling_rate[3], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Nitrogen.class, TileFissionCoolerPort.Nitrogen.class),
+		FLUORINE("fluorine", 4, fission_cooler_cooling_rate[4], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Fluorine.class, TileFissionCoolerPort.Fluorine.class),
+		METHANE("methane", 5, fission_cooler_cooling_rate[5], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Methane.class, TileFissionCoolerPort.Methane.class),
+		CARBON_DIOXIDE("carbon_dioxide", 6, fission_cooler_cooling_rate[6], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.CarbonDioxide.class, TileFissionCoolerPort.CarbonDioxide.class),
+		CARBON_MONOXIDE("carbon_monoxide", 7, fission_cooler_cooling_rate[7], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.CarbonMonoxide.class, TileFissionCoolerPort.CarbonMonoxide.class),
+		ETHENE("ethene", 8, fission_cooler_cooling_rate[8], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Ethene.class, TileFissionCoolerPort.Ethene.class),
+		ETHYNE("ethyne", 9, fission_cooler_cooling_rate[9], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Ethyne.class, TileFissionCoolerPort.Ethyne.class),
+		FLUOROMETHANE("fluoromethane", 10, fission_cooler_cooling_rate[10], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Fluoromethane.class, TileFissionCoolerPort.Fluoromethane.class),
+		AMMONIA("ammonia", 11, fission_cooler_cooling_rate[11], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Ammonia.class, TileFissionCoolerPort.Ammonia.class),
+		DIBORANE("diborane", 12, fission_cooler_cooling_rate[12], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Diborane.class, TileFissionCoolerPort.Diborane.class),
+		SULFUR_DIOXIDE("sulfur_dioxide", 13, fission_cooler_cooling_rate[13], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.SulfurDioxide.class, TileFissionCoolerPort.SulfurDioxide.class),
+		SULFUR_TRIOXIDE("sulfur_trioxide", 14, fission_cooler_cooling_rate[14], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.SulfurTrioxide.class, TileFissionCoolerPort.SulfurTrioxide.class),
+		SULFUR_HEXAFLUORIDE("sulfur_hexafluoride", 15, fission_cooler_cooling_rate[15], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.SulfurHexafluoride.class, TileFissionCoolerPort.SulfurHexafluoride.class);
+		
+		private final String name;
+		private final int id;
+		private final int coolingRate;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
+		private final Class<? extends TilePebbleFissionCooler.Meta> tileClass;
+		private final Class<? extends TileFissionCoolerPort.Meta> portClass;
+		
+		GasCoolerType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TilePebbleFissionCooler.Meta> tileClass, Class<? extends TileFissionCoolerPort.Meta> portClass) {
+			this.name = name;
+			this.id = id;
+			this.coolingRate = coolingRate;
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+			this.tileClass = tileClass;
+			this.portClass = portClass;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		@Override
+		public int getCooling() {
+			return coolingRate;
+		}
+		
+		@Override
+		public int getHarvestLevel() {
+			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
+		public float getHardness() {
+			return hardness;
+		}
+		
+		@Override
+		public float getResistance() {
+			return resistance;
+		}
+		
+		@Override
+		public int getLightValue() {
+			return lightValue;
+		}
+		
+		@Override
+		public Class<? extends TilePebbleFissionCooler.Meta> getTileClass() {
+			return tileClass;
+		}
+		
+		public Class<? extends TileFissionCoolerPort.Meta> getPortClass() {
+			return portClass;
+		}
+	}
+	
 	public enum HeatSinkType implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TileSolidFissionSink.Meta> {
 		
 		WATER("water", 0, fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Water.class),
@@ -1348,7 +1446,9 @@ public class MetaEnums {
 		ZIRFON("zirfon", 19),
 		POLYTETRAFLUOROETHENE("polytetrafluoroethene", 20),
 		POLYDIMETHYLSILYLENE("polydimethylsilylene", 21),
-		POLYMETHYLSILYLENE_METHYLENE("polymethylsilylene_methylene", 22);
+		POLYMETHYLSILYLENE_METHYLENE("polymethylsilylene_methylene", 22),
+		EMPTY_GAS_COOLER("empty_cooler", 23),
+		EMPTY_GAS_COOLER_PORT("empty_cooler_port", 24);
 		
 		private final String name;
 		private final int id;

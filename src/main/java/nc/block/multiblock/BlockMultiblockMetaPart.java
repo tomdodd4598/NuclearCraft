@@ -55,9 +55,7 @@ public abstract class BlockMultiblockMetaPart<T extends Enum<T> & IStringSeriali
 					if (e != null) {
 						e = e.updatedError(world);
 						player.sendMessage(e.getChatMessage());
-						if (e.getErrorPos() != null) {
-							BlockHighlightTracker.sendPacket((EntityPlayerMP) player, e.getErrorPos(), 5000);
-						}
+						BlockHighlightTracker.sendPacket((EntityPlayerMP) player, e.getPosCollection(), 5000);
 						return true;
 					}
 				}

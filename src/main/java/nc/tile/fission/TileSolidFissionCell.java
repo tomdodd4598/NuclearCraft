@@ -49,16 +49,13 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections;
 	
-	protected final @Nonnull List<Tank> tanks;
-	protected final @Nonnull List<Tank> consumedTanks;
-	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Collections.emptyList());
 	
 	protected @Nonnull FluidTileWrapper[] fluidSides = ITileFluid.getDefaultFluidSides(this);
 	protected @Nonnull GasTileWrapper gasWrapper = new GasTileWrapper(this);
 	
 	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessDecayFactor = 0D, baseProcessRadiation = 0D;
-	public int baseProcessHeat = 0, baseProcessCriticality = 1;
+	public int baseProcessHeat = 0, baseProcessCriticality = 1, intrinsicFlux = 0;
 	protected boolean selfPriming = false;
 	
 	public double time, resetTime;
@@ -108,9 +105,6 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 		filterStacks = info.getInventoryStacks();
 		
 		inventoryConnections = ITileInventory.inventoryConnectionAll(info.nonItemSorptions());
-		
-		tanks = Collections.emptyList();
-		consumedTanks = info.getConsumedTanks();
 	}
 	
 	@Override
@@ -200,6 +194,11 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	@Override
 	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache) {
 		primedCache.add(this);
+	}
+	
+	@Override
+	public void addToPrimedFailCache(final Long2ObjectMap<IFissionFuelComponent> primedFailCache) {
+		primedFailCache.put(pos.toLong(), this);
 	}
 	
 	@Override
@@ -343,6 +342,16 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	@Override
 	public long getHeatMultiplier(boolean simulate) {
 		return heatMult;
+	}
+	
+	@Override
+	public long getIntrinsicFlux() {
+		return intrinsicFlux;
+	}
+	
+	@Override
+	public double getIntrinsicFluxEfficiencyFactor() {
+		return fission_cell_intrinsic_flux_efficiency;
 	}
 	
 	@Override
@@ -630,12 +639,24 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	
 	@Override
 	public void setRecipeStats(@Nullable BasicRecipe recipe) {
-		baseProcessTime = recipe == null ? 1D : recipe.getFissionFuelTime();
-		baseProcessHeat = recipe == null ? 0 : recipe.getFissionFuelHeat();
-		baseProcessEfficiency = recipe == null ? 0D : recipe.getFissionFuelEfficiency();
-		baseProcessCriticality = recipe == null ? 1 : recipe.getFissionFuelCriticality();
-		selfPriming = recipe != null && recipe.getFissionFuelSelfPriming();
-		baseProcessRadiation = recipe == null ? 0D : recipe.getFissionFuelRadiation();
+		if (recipe == null) {
+			baseProcessTime = 1D;
+			baseProcessHeat = 0;
+			baseProcessEfficiency = 0D;
+			baseProcessCriticality = 1;
+			intrinsicFlux = 0;
+			selfPriming = false;
+			baseProcessRadiation = 0D;
+		}
+		else {
+			baseProcessTime = recipe.getFissionFuelTime();
+			baseProcessHeat = recipe.getFissionFuelHeat();
+			baseProcessEfficiency = recipe.getFissionFuelEfficiency();
+			baseProcessCriticality = recipe.getFissionFuelCriticality();
+			intrinsicFlux = recipe.getFissionFuelIntrinsicFlux();
+			selfPriming = recipe.getFissionFuelSelfPriming();
+			baseProcessRadiation = recipe.getFissionFuelRadiation();
+		}
 		
 		if (recipe != null) {
 			decayProcessHeat = baseProcessHeat;
@@ -650,7 +671,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	
 	@Override
 	public @Nonnull List<Tank> getConsumedTanks() {
-		return consumedTanks;
+		return Collections.emptyList();
 	}
 	
 	@Override
@@ -842,13 +863,6 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	}
 	
 	@Override
-	public void clearAllSlots() {
-		Collections.fill(inventoryStacks, ItemStack.EMPTY);
-		Collections.fill(consumedStacks, ItemStack.EMPTY);
-		refreshAll();
-	}
-	
-	@Override
 	public @Nonnull InventoryConnection[] getInventoryConnections() {
 		return inventoryConnections;
 	}
@@ -892,7 +906,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	
 	@Override
 	public @Nonnull List<Tank> getTanks() {
-		return tanks;
+		return Collections.emptyList();
 	}
 	
 	@Override
@@ -981,6 +995,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 		nbt.setInteger("baseProcessHeat", baseProcessHeat);
 		nbt.setDouble("baseProcessEfficiency", baseProcessEfficiency);
 		nbt.setInteger("baseProcessCriticality", baseProcessCriticality);
+		nbt.setInteger("intrinsicFlux", intrinsicFlux);
 		nbt.setDouble("baseProcessDecayFactor", baseProcessDecayFactor);
 		nbt.setBoolean("selfPriming", selfPriming);
 		
@@ -1008,6 +1023,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 		baseProcessHeat = nbt.getInteger("baseProcessHeat");
 		baseProcessEfficiency = nbt.getDouble("baseProcessEfficiency");
 		baseProcessCriticality = nbt.getInteger("baseProcessCriticality");
+		intrinsicFlux = nbt.getInteger("intrinsicFlux");
 		baseProcessDecayFactor = nbt.getDouble("baseProcessDecayFactor");
 		selfPriming = nbt.getBoolean("selfPriming");
 		
@@ -1079,8 +1095,13 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 		entry.put("is_processing", getIsProcessing());
 		entry.put("current_time", getCurrentTime());
 		entry.put("base_process_time", getBaseProcessTime());
-		entry.put("base_process_criticality", baseProcessCriticality);
+		entry.put("base_process_heat", getBaseProcessHeat());
 		entry.put("base_process_efficiency", baseProcessEfficiency);
+		entry.put("base_process_criticality", baseProcessCriticality);
+		entry.put("intrinsic_flux", intrinsicFlux);
+		entry.put("base_process_decay_factor", baseProcessDecayFactor);
+		entry.put("is_self_priming", selfPriming);
+		entry.put("base_process_radiation", baseProcessRadiation);
 		entry.put("is_primed", isPrimed(false));
 		entry.put("efficiency", getEfficiency(false));
 		entry.put("flux", getFlux());

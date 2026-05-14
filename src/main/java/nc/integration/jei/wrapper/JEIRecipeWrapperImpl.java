@@ -300,7 +300,7 @@ public class JEIRecipeWrapperImpl {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return NCMath.toInt(getDecayGeneratorLifetime() / 20D);
+			return NCMath.toInt(getDecayGeneratorLifetime() / 5D);
 		}
 		
 		protected double getDecayGeneratorLifetime() {
@@ -768,10 +768,10 @@ public class JEIRecipeWrapperImpl {
 		private static final String RADIATION_PER_FLUX = Lang.localize("jei.nuclearcraft.radiation_per_flux");
 	}
 	
-	public static class PebbleFissionRecipeWrapper extends JEISimpleRecipeWrapper<PebbleFissionRecipeWrapper> {
+	public static class PebbleFissionRecipeWrapper extends JEIBasicProcessorRecipeWrapper<TilePebbleFissionChamber, PebbleFissionChamberUpdatePacket, PebbleFissionRecipeWrapper> {
 		
-		public PebbleFissionRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<PebbleFissionRecipeWrapper> categoryInfo, BasicRecipe recipe) {
-			super(guiHelper, categoryInfo, recipe);
+		public PebbleFissionRecipeWrapper(String name, IGuiHelper guiHelper, BasicRecipe recipe) {
+			super(name, guiHelper, recipe);
 		}
 		
 		@Override
@@ -807,6 +807,13 @@ public class JEIRecipeWrapperImpl {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected int getFissionFuelIntrinsicFlux() {
+			if (recipe == null) {
+				return 0;
+			}
+			return recipe.getFissionFuelIntrinsicFlux();
+		}
+		
 		protected double getFissionFuelDecayFactor() {
 			if (recipe == null) {
 				return 0D;
@@ -837,6 +844,10 @@ public class JEIRecipeWrapperImpl {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				int intrinsicFlux = getFissionFuelIntrinsicFlux();
+				if (intrinsicFlux > 0) {
+					tooltip.add(TextFormatting.AQUA + FUEL_INTRINSIC_FLUX + " " + TextFormatting.WHITE + intrinsicFlux + " N/t");
+				}
 				if (fission_decay_mechanics) {
 					tooltip.add(TextFormatting.GRAY + FUEL_DECAY_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelDecayFactor(), 1));
 				}
@@ -856,9 +867,57 @@ public class JEIRecipeWrapperImpl {
 		private static final String FUEL_HEAT = Lang.localize("jei.nuclearcraft.pebble_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localize("jei.nuclearcraft.pebble_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localize("jei.nuclearcraft.pebble_fuel_criticality");
+		private static final String FUEL_INTRINSIC_FLUX = Lang.localize("jei.nuclearcraft.pebble_fuel_intrinsic_flux");
 		private static final String FUEL_DECAY_FACTOR = Lang.localize("jei.nuclearcraft.pebble_fuel_decay_factor");
 		private static final String FUEL_SELF_PRIMING = Lang.localize("jei.nuclearcraft.pebble_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localize("jei.nuclearcraft.pebble_fuel_radiation");
+	}
+	
+	public static class GasCoolerRecipeWrapper extends JEISimpleRecipeWrapper<GasCoolerRecipeWrapper> {
+		
+		public GasCoolerRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<GasCoolerRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return 20;
+		}
+		
+		protected int getFissionCoolingRate() {
+			if (recipe == null) {
+				return 40;
+			}
+			return recipe.getFissionCoolingRate();
+		}
+		
+		protected String[] getFissionCoolingJEIInfo() {
+			if (recipe == null) {
+				return null;
+			}
+			return recipe.getFissionCoolingJEIInfo();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<>();
+			
+			if (showTooltip(mouseX, mouseY)) {
+				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionCoolingRate(), 5, "H/t"));
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(fission_cooler_coolant_heat_per_mb, 5, "H"));
+				String[] coolantHeaterJEIInfo = getFissionCoolingJEIInfo();
+				if (coolantHeaterJEIInfo != null) {
+					for (String posInfo : coolantHeaterJEIInfo) {
+						tooltip.add(TextFormatting.AQUA + posInfo);
+					}
+				}
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String COOLING = Lang.localize("jei.nuclearcraft.gas_cooler_rate");
+		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.gas_cooler_heating_required");
 	}
 	
 	public static class SolidFissionRecipeWrapper extends JEIBasicProcessorRecipeWrapper<TileSolidFissionCell, SolidFissionCellUpdatePacket, SolidFissionRecipeWrapper> {
@@ -900,6 +959,13 @@ public class JEIRecipeWrapperImpl {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected int getFissionFuelIntrinsicFlux() {
+			if (recipe == null) {
+				return 0;
+			}
+			return recipe.getFissionFuelIntrinsicFlux();
+		}
+		
 		protected double getFissionFuelDecayFactor() {
 			if (recipe == null) {
 				return 0D;
@@ -930,6 +996,10 @@ public class JEIRecipeWrapperImpl {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				int intrinsicFlux = getFissionFuelIntrinsicFlux();
+				if (intrinsicFlux > 0) {
+					tooltip.add(TextFormatting.AQUA + FUEL_INTRINSIC_FLUX + " " + TextFormatting.WHITE + intrinsicFlux + " N/t");
+				}
 				if (fission_decay_mechanics) {
 					tooltip.add(TextFormatting.GRAY + FUEL_DECAY_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelDecayFactor(), 1));
 				}
@@ -949,6 +1019,7 @@ public class JEIRecipeWrapperImpl {
 		private static final String FUEL_HEAT = Lang.localize("jei.nuclearcraft.solid_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localize("jei.nuclearcraft.solid_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localize("jei.nuclearcraft.solid_fuel_criticality");
+		private static final String FUEL_INTRINSIC_FLUX = Lang.localize("jei.nuclearcraft.solid_fuel_intrinsic_flux");
 		private static final String FUEL_DECAY_FACTOR = Lang.localize("jei.nuclearcraft.solid_fuel_decay_factor");
 		private static final String FUEL_SELF_PRIMING = Lang.localize("jei.nuclearcraft.solid_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localize("jei.nuclearcraft.solid_fuel_radiation");
@@ -1025,6 +1096,13 @@ public class JEIRecipeWrapperImpl {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected int getFissionFuelIntrinsicFlux() {
+			if (recipe == null) {
+				return 0;
+			}
+			return recipe.getFissionFuelIntrinsicFlux();
+		}
+		
 		protected double getFissionFuelDecayFactor() {
 			if (recipe == null) {
 				return 0D;
@@ -1055,6 +1133,10 @@ public class JEIRecipeWrapperImpl {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelEfficiency(), 1));
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				int intrinsicFlux = getFissionFuelIntrinsicFlux();
+				if (intrinsicFlux > 0) {
+					tooltip.add(TextFormatting.AQUA + FUEL_INTRINSIC_FLUX + " " + TextFormatting.WHITE + intrinsicFlux + " N/t");
+				}
 				if (fission_decay_mechanics) {
 					tooltip.add(TextFormatting.GRAY + FUEL_DECAY_FACTOR + " " + TextFormatting.WHITE + NCMath.pcDecimalPlaces(getFissionFuelDecayFactor(), 1));
 				}
@@ -1074,6 +1156,7 @@ public class JEIRecipeWrapperImpl {
 		private static final String FUEL_HEAT = Lang.localize("jei.nuclearcraft.salt_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localize("jei.nuclearcraft.salt_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localize("jei.nuclearcraft.salt_fuel_criticality");
+		private static final String FUEL_INTRINSIC_FLUX = Lang.localize("jei.nuclearcraft.salt_fuel_intrinsic_flux");
 		private static final String FUEL_DECAY_FACTOR = Lang.localize("jei.nuclearcraft.salt_fuel_decay_factor");
 		private static final String FUEL_SELF_PRIMING = Lang.localize("jei.nuclearcraft.salt_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localize("jei.nuclearcraft.salt_fuel_radiation");
@@ -1090,18 +1173,18 @@ public class JEIRecipeWrapperImpl {
 			return 20;
 		}
 		
-		protected int getCoolantHeaterCoolingRate() {
+		protected int getFissionCoolingRate() {
 			if (recipe == null) {
 				return 40;
 			}
-			return recipe.getCoolantHeaterCoolingRate();
+			return recipe.getFissionCoolingRate();
 		}
 		
-		protected String[] getCoolantHeaterJEIInfo() {
+		protected String[] getFissionCoolingJEIInfo() {
 			if (recipe == null) {
 				return null;
 			}
-			return recipe.getCoolantHeaterJEIInfo();
+			return recipe.getFissionCoolingJEIInfo();
 		}
 		
 		@Override
@@ -1109,8 +1192,9 @@ public class JEIRecipeWrapperImpl {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (showTooltip(mouseX, mouseY)) {
-				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getCoolantHeaterCoolingRate(), 5, "H/t"));
-				String[] coolantHeaterJEIInfo = getCoolantHeaterJEIInfo();
+				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionCoolingRate(), 5, "H/t"));
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionCoolingRate(), 5, "H"));
+				String[] coolantHeaterJEIInfo = getFissionCoolingJEIInfo();
 				if (coolantHeaterJEIInfo != null) {
 					for (String posInfo : coolantHeaterJEIInfo) {
 						tooltip.add(TextFormatting.AQUA + posInfo);
@@ -1122,6 +1206,7 @@ public class JEIRecipeWrapperImpl {
 		}
 		
 		private static final String COOLING = Lang.localize("jei.nuclearcraft.coolant_heater_rate");
+		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.coolant_heater_heating_required");
 	}
 	
 	public static class FissionEmergencyCoolingRecipeWrapper extends JEISimpleRecipeWrapper<FissionEmergencyCoolingRecipeWrapper> {

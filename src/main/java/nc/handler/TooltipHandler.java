@@ -109,12 +109,12 @@ public class TooltipHandler {
 		
 		recipe = itemRecipe.apply(NCRecipes.pebble_fission);
 		if (recipe != null) {
-			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.GRAY, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
+			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.AQUA, TextFormatting.GRAY, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
 		}
 		
 		recipe = itemRecipe.apply(NCRecipes.solid_fission);
 		if (recipe != null) {
-			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.GRAY, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
+			InfoHelper.infoFull(tooltip, new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED, TextFormatting.AQUA, TextFormatting.GRAY, TextFormatting.DARK_AQUA}, NCInfo.fissionFuelInfo(recipe));
 		}
 	}
 	

@@ -54,6 +54,7 @@ public class MultiblockHandler {
 	public static void init() {
 		Machine.PART_CLASSES.add(IMachineController.class);
 		Machine.PART_CLASSES.add(TileMachineProcessPort.class);
+		Machine.PART_CLASSES.add(TileMachineReservoirPort.class);
 		Machine.PART_CLASSES.add(TileMachineRedstonePort.class);
 		Machine.PART_CLASSES.add(TileElectrolyzerCathodeTerminal.class);
 		Machine.PART_CLASSES.add(TileElectrolyzerAnodeTerminal.class);
@@ -74,6 +75,7 @@ public class MultiblockHandler {
 		FissionReactor.PART_CLASSES.add(TileFissionMonitor.class);
 		FissionReactor.PART_CLASSES.add(TileFissionVent.class);
 		FissionReactor.PART_CLASSES.add(TileFissionIrradiatorPort.class);
+		FissionReactor.PART_CLASSES.add(TileFissionChamberPort.class);
 		FissionReactor.PART_CLASSES.add(TileFissionCoolerPort.class);
 		FissionReactor.PART_CLASSES.add(TileFissionCellPort.class);
 		FissionReactor.PART_CLASSES.add(TileFissionVesselPort.class);
@@ -81,9 +83,10 @@ public class MultiblockHandler {
 		FissionReactor.PART_CLASSES.add(TileFissionSourceManager.class);
 		FissionReactor.PART_CLASSES.add(TileFissionShieldManager.class);
 		FissionReactor.PART_CLASSES.add(TileFissionIrradiator.class);
-		FissionReactor.PART_CLASSES.add(TileFissionCooler.class);
 		FissionReactor.PART_CLASSES.add(TileFissionSource.class);
 		FissionReactor.PART_CLASSES.add(TileFissionShield.class);
+		FissionReactor.PART_CLASSES.add(TilePebbleFissionChamber.class);
+		FissionReactor.PART_CLASSES.add(TilePebbleFissionCooler.class);
 		FissionReactor.PART_CLASSES.add(TileSolidFissionCell.class);
 		FissionReactor.PART_CLASSES.add(TileSolidFissionSink.class);
 		FissionReactor.PART_CLASSES.add(TileSaltFissionVessel.class);

@@ -1,5 +1,6 @@
 package nc.multiblock.machine;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.capability.radiation.source.*;
@@ -61,6 +62,8 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 	public RecipeUnitInfo recipeUnitInfo = RecipeUnitInfo.DEFAULT;
 	
 	public boolean isMachineOn, fullHalt;
+	
+	public int machineActivityCooldown = 0;
 	
 	@SideOnly(Side.CLIENT)
 	protected Object2ObjectMap<BlockPos, ISound> soundMap;
@@ -307,16 +310,18 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 	}
 	
 	public boolean setLogic(Machine multiblock) {
-		if (getPartMap(IMachineController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+		@SuppressWarnings("rawtypes") Long2ObjectMap<IMachineController> controllerMap = getPartMap(IMachineController.class);
+		
+		if (controllerMap.isEmpty()) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
-		if (getPartCount(IMachineController.class) > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+		if (controllerMap.size() > 1) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", controllerMap.keySet());
 			return false;
 		}
 		
-		for (IMachineController<?> contr : getParts(IMachineController.class)) {
+		for (IMachineController<?> contr : controllerMap.values()) {
 			controller = contr;
 			break;
 		}

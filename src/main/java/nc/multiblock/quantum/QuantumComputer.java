@@ -1,10 +1,12 @@
 package nc.multiblock.quantum;
 
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
+import nc.quantum.*;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.tile.quantum.*;
 import nc.util.*;
@@ -30,7 +32,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 	
 	protected TileQuantumComputerController controller;
 	
-	public QuantumState state;
+	public State state;
 	
 	public final Queue<QuantumOperationWrapper> queue = new ConcurrentLinkedQueue<>();
 	
@@ -42,7 +44,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 		for (Class<? extends IQuantumComputerPart> clazz : PART_CLASSES) {
 			partSuperMap.equip(clazz);
 		}
-		state = new QuantumState(0);
+		state = new State(0);
 	}
 	
 	@Override
@@ -132,26 +134,28 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 	@Override
 	protected boolean isMachineWhole() {
 		if (!NCConfig.quantum_dedicated_server && FMLCommonHandler.instance().getSide().isServer()) {
-			setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.server_disabled", null);
+			setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.server_disabled", Collections.emptyList());
 			return false;
 		}
 		
-		if (getPartMap(TileQuantumComputerController.class).isEmpty()) {
-			setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+		Long2ObjectMap<TileQuantumComputerController> controllerMap = getPartMap(TileQuantumComputerController.class);
+		
+		if (controllerMap.isEmpty()) {
+			setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
-		if (getPartCount(TileQuantumComputerController.class) > 1) {
-			setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+		if (controllerMap.size() > 1) {
+			setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", controllerMap.keySet());
 			return false;
 		}
 		
 		int qubits = getQubitCount();
 		if (qubits > NCConfig.quantum_max_qubits) {
-			setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", null, qubits, NCConfig.quantum_max_qubits);
+			setLastError(Global.MOD_ID + ".multiblock_validation.quantum_computer.too_many_qubits", Collections.emptyList(), qubits, NCConfig.quantum_max_qubits);
 			return false;
 		}
 		
-		for (TileQuantumComputerController contr : getParts(TileQuantumComputerController.class)) {
+		for (TileQuantumComputerController contr : controllerMap.values()) {
 			controller = contr;
 			break;
 		}
@@ -212,7 +216,7 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 		if (data.hasKey("size")) {
 			int size = data.getInteger("size");
 			if (size <= NCConfig.quantum_max_qubits) {
-				state = new QuantumState(size);
+				state = new State(size);
 				ByteBuffer.wrap(data.getByteArray("vector")).asDoubleBuffer().get(state.vector);
 			}
 		}
@@ -269,21 +273,21 @@ public class QuantumComputer extends Multiblock<QuantumComputer, IQuantumCompute
 	public void refreshState() {
 		int qubits = getQubitCount();
 		if (state.size != qubits) {
-			state = new QuantumState(qubits);
+			state = new State(qubits);
 		}
 	}
 	
 	public void measure(int[] targets) {
 		refreshState();
-		setQubitsRedstone(targets, state.measure(targets, true));
+		setQubitsRedstone(targets, state.measure(targets));
 		markQubitsDirty();
 	}
 	
 	public void reset() {
-		state = new QuantumState(getQubitCount());
+		state = new State(getQubitCount());
 	}
 	
-	public void gate(QuantumGate gate) {
+	public void gate(Gate gate) {
 		refreshState();
 		state.update(gate);
 	}

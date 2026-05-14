@@ -1,7 +1,8 @@
 package nc.multiblock.machine;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
-import nc.ModCheck;
+import nc.*;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.multiblock.*;
@@ -293,6 +294,14 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 			return false;
 		}
 		
+		if (reservoirTankCount() == 0) {
+			Long2ObjectMap<TileMachineReservoirPort> reservoirPortMap = getPartMap(TileMachineReservoirPort.class);
+			if (!reservoirPortMap.isEmpty()) {
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.machine.invalid_reservoir_port", reservoirPortMap.keySet());
+				return false;
+			}
+		}
+		
 		for (IMachineController<?> controller : getParts(IMachineController.class)) {
 			controller.setIsRenderer(false);
 		}
@@ -333,6 +342,10 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 	
 	@Override
 	public boolean onUpdateServer() {
+		if (multiblock.machineActivityCooldown > 0) {
+			--multiblock.machineActivityCooldown;
+		}
+		
 		boolean shouldUpdate = multiblock.processor.onTick();
 		
 		if (multiblock.controller != null) {
@@ -347,9 +360,14 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 	}
 	
 	public void setIsMachineOn(boolean isMachineOn) {
+		if (multiblock.machineActivityCooldown > 0) {
+			return;
+		}
+		
 		boolean oldIsMachineOn = multiblock.isMachineOn;
 		multiblock.isMachineOn = isMachineOn;
 		if (multiblock.isMachineOn != oldIsMachineOn) {
+			multiblock.machineActivityCooldown = NCConfig.machine_update_rate;
 			if (multiblock.controller != null) {
 				setActivity(multiblock.isMachineOn);
 				multiblock.sendMultiblockUpdatePacketToAll();

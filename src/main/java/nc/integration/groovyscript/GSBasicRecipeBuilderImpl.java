@@ -158,16 +158,20 @@ public class GSBasicRecipeBuilderImpl {
 			return setExtra(3, criticality);
 		}
 		
+		public GSPebbleFissionRecipeBuilder intrinsicFlux(int intrinsicFlux) {
+			return setExtra(4, intrinsicFlux);
+		}
+		
 		public GSPebbleFissionRecipeBuilder decayFactor(double decayFactor) {
-			return setExtra(4, decayFactor);
+			return setExtra(5, decayFactor);
 		}
 		
 		public GSPebbleFissionRecipeBuilder selfPriming(boolean selfPriming) {
-			return setExtra(5, selfPriming);
+			return setExtra(6, selfPriming);
 		}
 		
 		public GSPebbleFissionRecipeBuilder radiation(double radiation) {
-			return setExtra(6, radiation);
+			return setExtra(7, radiation);
 		}
 	}
 	
@@ -193,16 +197,20 @@ public class GSBasicRecipeBuilderImpl {
 			return setExtra(3, criticality);
 		}
 		
+		public GSSolidFissionRecipeBuilder intrinsicFlux(int intrinsicFlux) {
+			return setExtra(4, intrinsicFlux);
+		}
+		
 		public GSSolidFissionRecipeBuilder decayFactor(double decayFactor) {
-			return setExtra(4, decayFactor);
+			return setExtra(5, decayFactor);
 		}
 		
 		public GSSolidFissionRecipeBuilder selfPriming(boolean selfPriming) {
-			return setExtra(5, selfPriming);
+			return setExtra(6, selfPriming);
 		}
 		
 		public GSSolidFissionRecipeBuilder radiation(double radiation) {
-			return setExtra(6, radiation);
+			return setExtra(7, radiation);
 		}
 	}
 	
@@ -239,16 +247,20 @@ public class GSBasicRecipeBuilderImpl {
 			return setExtra(3, criticality);
 		}
 		
+		public GSSaltFissionRecipeBuilder intrinsicFlux(int intrinsicFlux) {
+			return setExtra(4, intrinsicFlux);
+		}
+		
 		public GSSaltFissionRecipeBuilder decayFactor(double decayFactor) {
-			return setExtra(4, decayFactor);
+			return setExtra(5, decayFactor);
 		}
 		
 		public GSSaltFissionRecipeBuilder selfPriming(boolean selfPriming) {
-			return setExtra(5, selfPriming);
+			return setExtra(6, selfPriming);
 		}
 		
 		public GSSaltFissionRecipeBuilder radiation(double radiation) {
-			return setExtra(6, radiation);
+			return setExtra(7, radiation);
 		}
 	}
 	

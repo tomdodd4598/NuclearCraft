@@ -2,7 +2,8 @@ package nc.tile.quantum;
 
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.multiblock.quantum.*;
+import nc.multiblock.quantum.QuantumComputer;
+import nc.quantum.State;
 import net.minecraftforge.fml.common.Optional;
 
 import java.util.stream.IntStream;
@@ -55,7 +56,7 @@ public class TileQuantumComputerPort extends TileQuantumComputerPart implements 
 			return new Object[] {new double[][] {{1D, 0D}}};
 		}
 		else {
-			QuantumState state = getMultiblock().state;
+			State state = getMultiblock().state;
 			double[] vector = state.vector;
 			return new Object[] {IntStream.range(0, state.dim).mapToObj(i -> {
 				int x = i << 1;

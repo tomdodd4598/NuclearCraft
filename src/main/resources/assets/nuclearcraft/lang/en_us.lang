@@ -147,7 +147,7 @@ info.nuclearcraft.diaphragm.efficiency.fixd=Efficiency Multiplier: %s
 info.nuclearcraft.diaphragm.contact.fixd=Contact Factor: %s
 
 tile.nuclearcraft.machine_sieve_assembly.steel.name=Steel Sieve Assembly
-tile.nuclearcraft.machine_sieve_assembly.polytetrafluoroethene.name=Polytetrafluoroethene Sieve Assembly
+tile.nuclearcraft.machine_sieve_assembly.polytetrafluoroethene.name=Polytetrafluoroethylene Sieve Assembly
 tile.nuclearcraft.machine_sieve_assembly.hastelloy.name=Hastelloy Sieve Assembly
 
 info.nuclearcraft.sieve_assembly.fixd=Sieve Assembly
@@ -227,6 +227,25 @@ tile.nuclearcraft.fission_computer_port.desc=Used to access the reactor via Open
 
 tile.nuclearcraft.fission_irradiator_port.name=Fission Irradiator Port
 
+tile.nuclearcraft.fission_chamber_port.name=Fission Fuel Chamber Port
+tile.nuclearcraft.fission_cooler_port.name=Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.oxygen.name=Oxygen Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.hydrogen.name=Hydrogen Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.helium.name=Helium Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.nitrogen.name=Nitrogen Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.fluorine.name=Fluorine Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.methane.name=Methane Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.carbon_dioxide.name=Carbon Dioxide Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.carbon_monoxide.name=Carbon Monoxide Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.ethene.name=Ethylene Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.ethyne.name=Acetylene Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.fluoromethane.name=Fluoromethane Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.ammonia.name=Ammonia Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.diborane.name=Diborane Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.sulfur_dioxide.name=Sulfur Dioxide Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.sulfur_trioxide.name=Sulfur Trioxide Fission Gas Cooler Port
+tile.nuclearcraft.fission_cooler_port.sulfur_hexafluoride.name=Sulfur Hexafluoride Fission Gas Cooler Port
+
 tile.nuclearcraft.fission_cell_port.name=Fission Fuel Cell Port
 
 tile.nuclearcraft.fission_vessel_port.name=Fission Fuel Vessel Port
@@ -267,6 +286,28 @@ tile.nuclearcraft.fission_heater_port2.cryotheum.name=Cryotheum Fission Coolant 
 
 tile.nuclearcraft.fission_source_manager.name=Fission Neutron Source Manager
 tile.nuclearcraft.fission_shield_manager.name=Fission Neutron Shield Manager
+
+tile.nuclearcraft.pebble_fission_controller.name=Pebble Bed Fission Controller
+tile.nuclearcraft.pebble_fission_chamber.name=Fission Fuel Chamber
+tile.nuclearcraft.pebble_fission_cooler.name=Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.oxygen.name=Oxygen Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.hydrogen.name=Hydrogen Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.helium.name=Helium Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.nitrogen.name=Nitrogen Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.fluorine.name=Fluorine Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.methane.name=Methane Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.carbon_dioxide.name=Carbon Dioxide Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.carbon_monoxide.name=Carbon Monoxide Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.ethene.name=Ethylene Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.ethyne.name=Acetylene Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.fluoromethane.name=Fluoromethane Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.ammonia.name=Ammonia Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.diborane.name=Diborane Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.sulfur_dioxide.name=Sulfur Dioxide Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.sulfur_trioxide.name=Sulfur Trioxide Fission Gas Cooler
+tile.nuclearcraft.pebble_fission_cooler.sulfur_hexafluoride.name=Sulfur Hexafluoride Fission Gas Cooler
+
+tile.nuclearcraft.pebble_fission_cooler.cooling_rate=Cooling Rate:
 
 tile.nuclearcraft.solid_fission_controller.name=Solid Fuel Fission Controller
 tile.nuclearcraft.solid_fission_cell.name=Fission Fuel Cell
@@ -602,11 +643,14 @@ fluid.hard_carbon=Molten Hard Carbon
 tile.nuclearcraft.fluid_coal.name=Liquefacted Coal
 fluid.coal=Liquefacted Coal
 
+tile.nuclearcraft.fluid_nitrogen.name=Nitrogen
+fluid.nitrogen=Nitrogen
+
 tile.nuclearcraft.fluid_fluorine.name=Fluorine
 fluid.fluorine=Fluorine
 
-tile.nuclearcraft.fluid_nitrogen.name=Nitrogen
-fluid.nitrogen=Nitrogen
+tile.nuclearcraft.fluid_methane.name=Methane
+fluid.methane=Methane
 
 tile.nuclearcraft.fluid_fluoromethane.name=Fluoromethane
 fluid.fluoromethane=Fluoromethane
@@ -680,6 +724,9 @@ fluid.sulfur_dioxide=Sulfur Dioxide
 tile.nuclearcraft.fluid_sulfur_trioxide.name=Sulfur Trioxide
 fluid.sulfur_trioxide=Sulfur Trioxide
 
+tile.nuclearcraft.fluid_sulfur_hexafluoride.name=Sulfur Hexafluoride
+fluid.sulfur_hexafluoride=Sulfur Hexafluoride
+
 tile.nuclearcraft.fluid_tetrafluoroethene.name=Tetrafluoroethylene
 fluid.tetrafluoroethene=Tetrafluoroethylene
 
@@ -707,6 +754,150 @@ fluid.oxygen_difluoride=Oxygen Difluoride
 tile.nuclearcraft.fluid_corium.name=Corium
 tile.nuclearcraft.fluid_corium.desc=A poisonous, molten mixture of fuel and components produced in fission reactor meltdowns.
 fluid.corium=Corium
+
+tile.nuclearcraft.fluid_oxygen_hot.name=Hot Oxygen
+fluid.oxygen_hot=Hot Oxygen
+
+tile.nuclearcraft.fluid_hydrogen_hot.name=Hot Hydrogen
+fluid.hydrogen_hot=Hot Hydrogen
+
+tile.nuclearcraft.fluid_helium_hot.name=Hot Helium
+fluid.helium_hot=Hot Helium
+
+tile.nuclearcraft.fluid_nitrogen_hot.name=Hot Nitrogen
+fluid.nitrogen_hot=Hot Nitrogen
+
+tile.nuclearcraft.fluid_fluorine_hot.name=Hot Fluorine
+fluid.fluorine_hot=Hot Fluorine
+
+tile.nuclearcraft.fluid_methane_hot.name=Hot Methane
+fluid.methane_hot=Hot Methane
+
+tile.nuclearcraft.fluid_carbon_dioxide_hot.name=Hot Carbon Dioxide
+fluid.carbon_dioxide_hot=Hot Carbon Dioxide
+
+tile.nuclearcraft.fluid_carbon_monoxide_hot.name=Hot Carbon Monoxide
+fluid.carbon_monoxide_hot=Hot Carbon Monoxide
+
+tile.nuclearcraft.fluid_ethene_hot.name=Hot Ethylene
+fluid.ethene_hot=Hot Ethylene
+
+tile.nuclearcraft.fluid_ethyne_hot.name=Hot Acetylene
+fluid.ethyne_hot=Hot Acetylene
+
+tile.nuclearcraft.fluid_fluoromethane_hot.name=Hot Fluoromethane
+fluid.fluoromethane_hot=Hot Fluoromethane
+
+tile.nuclearcraft.fluid_ammonia_hot.name=Hot Ammonia
+fluid.ammonia_hot=Hot Ammonia
+
+tile.nuclearcraft.fluid_diborane_hot.name=Hot Diborane
+fluid.diborane_hot=Hot Diborane
+
+tile.nuclearcraft.fluid_sulfur_dioxide_hot.name=Hot Sulfur Dioxide
+fluid.sulfur_dioxide_hot=Hot Sulfur Dioxide
+
+tile.nuclearcraft.fluid_sulfur_trioxide_hot.name=Hot Sulfur Trioxide
+fluid.sulfur_trioxide_hot=Hot Sulfur Trioxide
+
+tile.nuclearcraft.fluid_sulfur_hexafluoride_hot.name=Hot Sulfur Hexafluoride
+fluid.sulfur_hexafluoride_hot=Hot Sulfur Hexafluoride
+
+tile.nuclearcraft.fluid_oxygen_exhaust.name=Exhaust Oxygen
+fluid.oxygen_exhaust=Exhaust Oxygen
+
+tile.nuclearcraft.fluid_hydrogen_exhaust.name=Exhaust Hydrogen
+fluid.hydrogen_exhaust=Exhaust Hydrogen
+
+tile.nuclearcraft.fluid_helium_exhaust.name=Exhaust Helium
+fluid.helium_exhaust=Exhaust Helium
+
+tile.nuclearcraft.fluid_nitrogen_exhaust.name=Exhaust Nitrogen
+fluid.nitrogen_exhaust=Exhaust Nitrogen
+
+tile.nuclearcraft.fluid_fluorine_exhaust.name=Exhaust Fluorine
+fluid.fluorine_exhaust=Exhaust Fluorine
+
+tile.nuclearcraft.fluid_methane_exhaust.name=Exhaust Methane
+fluid.methane_exhaust=Exhaust Methane
+
+tile.nuclearcraft.fluid_carbon_dioxide_exhaust.name=Exhaust Carbon Dioxide
+fluid.carbon_dioxide_exhaust=Exhaust Carbon Dioxide
+
+tile.nuclearcraft.fluid_carbon_monoxide_exhaust.name=Exhaust Carbon Monoxide
+fluid.carbon_monoxide_exhaust=Exhaust Carbon Monoxide
+
+tile.nuclearcraft.fluid_ethene_exhaust.name=Exhaust Ethylene
+fluid.ethene_exhaust=Exhaust Ethylene
+
+tile.nuclearcraft.fluid_ethyne_exhaust.name=Exhaust Acetylene
+fluid.ethyne_exhaust=Exhaust Acetylene
+
+tile.nuclearcraft.fluid_fluoromethane_exhaust.name=Exhaust Fluoromethane
+fluid.fluoromethane_exhaust=Exhaust Fluoromethane
+
+tile.nuclearcraft.fluid_ammonia_exhaust.name=Exhaust Ammonia
+fluid.ammonia_exhaust=Exhaust Ammonia
+
+tile.nuclearcraft.fluid_diborane_exhaust.name=Exhaust Diborane
+fluid.diborane_exhaust=Exhaust Diborane
+
+tile.nuclearcraft.fluid_sulfur_dioxide_exhaust.name=Exhaust Sulfur Dioxide
+fluid.sulfur_dioxide_exhaust=Exhaust Sulfur Dioxide
+
+tile.nuclearcraft.fluid_sulfur_trioxide_exhaust.name=Exhaust Sulfur Trioxide
+fluid.sulfur_trioxide_exhaust=Exhaust Sulfur Trioxide
+
+tile.nuclearcraft.fluid_sulfur_hexafluoride_exhaust.name=Exhaust Sulfur Hexafluoride
+fluid.sulfur_hexafluoride_exhaust=Exhaust Sulfur Hexafluoride
+
+tile.nuclearcraft.fluid_oxygen_lq.name=Low Quality Oxygen
+fluid.oxygen_lq=Low Quality Oxygen
+
+tile.nuclearcraft.fluid_hydrogen_lq.name=Low Quality Hydrogen
+fluid.hydrogen_lq=Low Quality Hydrogen
+
+tile.nuclearcraft.fluid_helium_lq.name=Low Quality Helium
+fluid.helium_lq=Low Quality Helium
+
+tile.nuclearcraft.fluid_nitrogen_lq.name=Low Quality Nitrogen
+fluid.nitrogen_lq=Low Quality Nitrogen
+
+tile.nuclearcraft.fluid_fluorine_lq.name=Low Quality Fluorine
+fluid.fluorine_lq=Low Quality Fluorine
+
+tile.nuclearcraft.fluid_methane_lq.name=Low Quality Methane
+fluid.methane_lq=Low Quality Methane
+
+tile.nuclearcraft.fluid_carbon_dioxide_lq.name=Low Quality Carbon Dioxide
+fluid.carbon_dioxide_lq=Low Quality Carbon Dioxide
+
+tile.nuclearcraft.fluid_carbon_monoxide_lq.name=Low Quality Carbon Monoxide
+fluid.carbon_monoxide_lq=Low Quality Carbon Monoxide
+
+tile.nuclearcraft.fluid_ethene_lq.name=Low Quality Ethylene
+fluid.ethene_lq=Low Quality Ethylene
+
+tile.nuclearcraft.fluid_ethyne_lq.name=Low Quality Acetylene
+fluid.ethyne_lq=Low Quality Acetylene
+
+tile.nuclearcraft.fluid_fluoromethane_lq.name=Low Quality Fluoromethane
+fluid.fluoromethane_lq=Low Quality Fluoromethane
+
+tile.nuclearcraft.fluid_ammonia_lq.name=Low Quality Ammonia
+fluid.ammonia_lq=Low Quality Ammonia
+
+tile.nuclearcraft.fluid_diborane_lq.name=Low Quality Diborane
+fluid.diborane_lq=Low Quality Diborane
+
+tile.nuclearcraft.fluid_sulfur_dioxide_lq.name=Low Quality Sulfur Dioxide
+fluid.sulfur_dioxide_lq=Low Quality Sulfur Dioxide
+
+tile.nuclearcraft.fluid_sulfur_trioxide_lq.name=Low Quality Sulfur Trioxide
+fluid.sulfur_trioxide_lq=Low Quality Sulfur Trioxide
+
+tile.nuclearcraft.fluid_sulfur_hexafluoride_lq.name=Low Quality Sulfur Hexafluoride
+fluid.sulfur_hexafluoride_lq=Low Quality Sulfur Hexafluoride
 
 tile.nuclearcraft.fluid_ice.name=Crushed Ice
 fluid.ice=Crushed Ice
@@ -1814,9 +2005,11 @@ item.nuclearcraft.part.sintered_steel.name=Sintered Steel
 item.nuclearcraft.part.sintered_zirconia.name=Sintered Zirconia
 item.nuclearcraft.part.polyethersulfone.name=Polyethersulfone
 item.nuclearcraft.part.zirfon.name=Zirfon
-item.nuclearcraft.part.polytetrafluoroethene.name=Polytetrafluoroethene
+item.nuclearcraft.part.polytetrafluoroethene.name=Polytetrafluoroethylene
 item.nuclearcraft.part.polydimethylsilylene.name=Polydimethylsilylene
 item.nuclearcraft.part.polymethylsilylene_methylene.name=Polymethylsilylene-Methylene
+item.nuclearcraft.part.empty_cooler.name=Empty Gas Cooler
+item.nuclearcraft.part.empty_cooler_port.name=Empty Gas Cooler Port
 
 item.nuclearcraft.upgrade.speed.name=Speed Upgrade
 item.nuclearcraft.upgrade.speed_desc=Increases the processing speed of machines at the cost of additional processing power. These upgrades can be stacked - the speed will %s each additional upgrade while the power use will %s.
@@ -2137,6 +2330,7 @@ info.nuclearcraft.fission_fuel.base_time.desc=Base Depletion Time: %s
 info.nuclearcraft.fission_fuel.base_heat.desc=Base Heat Gen: %s
 info.nuclearcraft.fission_fuel.base_efficiency.desc=Efficiency Multiplier: %s
 info.nuclearcraft.fission_fuel.criticality.desc=Criticality Factor: %s
+info.nuclearcraft.fission_fuel.intrinsic_flux.desc=Intrinsic Flux: %s
 info.nuclearcraft.fission_fuel.decay_factor.desc=Decay Factor: %s
 info.nuclearcraft.fission_fuel.self_priming.desc=Self-priming!
 
@@ -2482,6 +2676,7 @@ jei.nuclearcraft.pebble_fuel_time=Base Depletion Time:
 jei.nuclearcraft.pebble_fuel_heat=Base Heat Gen:
 jei.nuclearcraft.pebble_fuel_efficiency=Base Efficiency:
 jei.nuclearcraft.pebble_fuel_criticality=Criticality Factor:
+jei.nuclearcraft.pebble_fuel_intrinsic_flux=Intrinsic Flux:
 jei.nuclearcraft.pebble_fuel_decay_factor=Decay Factor:
 jei.nuclearcraft.pebble_fuel_radiation=Base Depletion Radiation:
 jei.nuclearcraft.pebble_fuel_self_priming=Self-priming!
@@ -2490,6 +2685,7 @@ jei.nuclearcraft.solid_fuel_time=Base Depletion Time:
 jei.nuclearcraft.solid_fuel_heat=Base Heat Gen:
 jei.nuclearcraft.solid_fuel_efficiency=Base Efficiency:
 jei.nuclearcraft.solid_fuel_criticality=Criticality Factor:
+jei.nuclearcraft.solid_fuel_intrinsic_flux=Intrinsic Flux:
 jei.nuclearcraft.solid_fuel_decay_factor=Decay Factor:
 jei.nuclearcraft.solid_fuel_radiation=Base Depletion Radiation:
 jei.nuclearcraft.solid_fuel_self_priming=Self-priming!
@@ -2500,6 +2696,7 @@ jei.nuclearcraft.salt_fuel_time=Base Depletion Time:
 jei.nuclearcraft.salt_fuel_heat=Base Heat Gen:
 jei.nuclearcraft.salt_fuel_efficiency=Base Efficiency:
 jei.nuclearcraft.salt_fuel_criticality=Criticality Factor:
+jei.nuclearcraft.salt_fuel_intrinsic_flux=Intrinsic Flux:
 jei.nuclearcraft.salt_fuel_decay_factor=Decay Factor:
 jei.nuclearcraft.salt_fuel_radiation=Base Depletion Radiation:
 jei.nuclearcraft.salt_fuel_self_priming=Self-priming!
@@ -2517,7 +2714,10 @@ jei.nuclearcraft.decay_gen_radiation=Decay Radiation:
 jei.nuclearcraft.salt_fuel_time=Depletion Time:
 jei.nuclearcraft.salt_fuel_heat=Base Heat Gen:
 
+jei.nuclearcraft.gas_cooler_rate=Cooling Rate:
+jei.nuclearcraft.gas_cooler_heating_required=Heating Required:
 jei.nuclearcraft.coolant_heater_rate=Cooling Rate:
+jei.nuclearcraft.coolant_heater_heating_required=Heating Required:
 
 jei.nuclearcraft.exchanger_fluid_temp_in=Input Temperature:
 jei.nuclearcraft.exchanger_fluid_temp_out=Output Temperature:
@@ -2702,7 +2902,7 @@ gui.nc.config.machine_diaphragm_efficiency.comment=Efficiency multipliers for di
 gui.nc.config.machine_diaphragm_contact_factor=Diaphragm Contact Factors
 gui.nc.config.machine_diaphragm_contact_factor.comment=Contact factors for diaphragms of this type. Order: sintered steel, polyethersulfone, zirfon.
 gui.nc.config.machine_sieve_assembly_efficiency=Sieve Assembly Efficiency Multipliers
-gui.nc.config.machine_sieve_assembly_efficiency.comment=Efficiency multipliers for sieve assemblies of this type. Order: steel, polytetrafluoroethene, hastelloy.
+gui.nc.config.machine_sieve_assembly_efficiency.comment=Efficiency multipliers for sieve assemblies of this type. Order: steel, polytetrafluoroethylene, hastelloy.
 
 gui.nc.config.machine_electrolyzer_time=Electrolyzer Process Time
 gui.nc.config.machine_electrolyzer_time.comment=Base ticks per electrolyzer process.
@@ -2748,6 +2948,10 @@ gui.nc.config.fission_fuel_radiation_multiplier=Radiation Multiplier
 gui.nc.config.fission_fuel_radiation_multiplier.comment=Modifies the radiation levels of fuels in fission reactors.
 gui.nc.config.fission_source_efficiency=Neutron Source Efficiencies
 gui.nc.config.fission_source_efficiency.comment=Efficiency multiplier for neutron sources of this type. Order: Ra-Be, Po-Be, Cf-252.
+gui.nc.config.fission_cooler_cooling_rate=Gas Cooler Cooling Rates
+gui.nc.config.fission_cooler_cooling_rate.comment=Heat removed per tick by valid gas coolers of this type. Order: oxygen, hydrogen, helium, nitrogen, fluorine, methane, carbon dioxide, carbon monoxide, ethylene, acetylene, fluoromethane, ammonia, diborane, sulfur dioxide, sulfur trioxide, sulfur hexafluoride.
+gui.nc.config.fission_cooler_rule=Gas Cooler Placement Rules
+gui.nc.config.fission_cooler_rule.comment=Placement rule to be parsed for gas coolers of this type. Order: oxygen, hydrogen, helium, nitrogen, fluorine, methane, carbon dioxide, carbon monoxide, ethylene, acetylene, fluoromethane, ammonia, diborane, sulfur dioxide, sulfur trioxide, sulfur hexafluoride.
 gui.nc.config.fission_sink_cooling_rate=Heat Sink Cooling Rates
 gui.nc.config.fission_sink_cooling_rate.comment=Heat removed per tick by valid heat sinks of this type. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
 gui.nc.config.fission_sink_rule=Heat Sink Placement Rules
@@ -2756,6 +2960,12 @@ gui.nc.config.fission_heater_cooling_rate=Coolant Heater Cooling Rates
 gui.nc.config.fission_heater_cooling_rate.comment=Heat removed per tick by functional coolant heaters of this type. Order: standard, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
 gui.nc.config.fission_heater_rule=Coolant Heater Placement Rules
 gui.nc.config.fission_heater_rule.comment=Placement rule to be parsed for coolant heaters of this type. Order: standard, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+gui.nc.config.fission_chamber_intrinsic_flux_efficiency=Chamber Intrinsic Flux Efficiency Multiplier
+gui.nc.config.fission_chamber_intrinsic_flux_efficiency.comment=Efficiency multiplier for non-zero intrinsic flux from fuel chambers.
+gui.nc.config.fission_cell_intrinsic_flux_efficiency=Cell Intrinsic Flux Efficiency Multiplier
+gui.nc.config.fission_cell_intrinsic_flux_efficiency.comment=Efficiency multiplier for non-zero intrinsic flux from fuel cells.
+gui.nc.config.fission_vessel_intrinsic_flux_efficiency=Vessel Intrinsic Flux Efficiency Multiplier
+gui.nc.config.fission_vessel_intrinsic_flux_efficiency.comment=Efficiency multiplier for non-zero intrinsic flux from fuel vessels.
 gui.nc.config.fission_moderator_flux_factor=Moderator Flux Factors
 gui.nc.config.fission_moderator_flux_factor.comment=Neutron flux factors for moderators of this type. Order: graphite, beryllium, heavy water.
 gui.nc.config.fission_moderator_efficiency=Moderator Efficiency Multipliers
@@ -2776,6 +2986,8 @@ gui.nc.config.fission_cooling_efficiency_leniency=Cooling Leniency Factor
 gui.nc.config.fission_cooling_efficiency_leniency.comment=Determines the leniency for the difference between the actual and ideal cooling rate at which a cluster will begin to be given an overcooling efficiency penalty.
 gui.nc.config.fission_sparsity_penalty_params=Sparsity Efficiency Parameters
 gui.nc.config.fission_sparsity_penalty_params.comment=Parameters used for the sparsity efficiency factor. The first determines the minimum value of the multiplier, while the second determines the fraction of functional components at which there is no penalty.
+gui.nc.config.fission_cooler_coolant_heat_per_mb=PBR Coolant Heat Per mB
+gui.nc.config.fission_cooler_coolant_heat_per_mb.comment=Sets the amount of heat absorbed per mB of gas coolant when used to cool a pebble bed reactor.
 gui.nc.config.fission_heating_coolant_heat_mult=SFR NaK Heating Multiplier
 gui.nc.config.fission_heating_coolant_heat_mult.comment=Modifies the amount of heat absorbed per mB of NaK coolant when used to cool a solid fuel reactor.
 
@@ -2816,6 +3028,8 @@ gui.nc.config.fission_thorium_efficiency=Thorium Fuel Base Efficiencies
 gui.nc.config.fission_thorium_efficiency.comment=Base efficiencies of the fuels. Order: TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
 gui.nc.config.fission_thorium_criticality=Thorium Fuel Criticality Factors
 gui.nc.config.fission_thorium_criticality.comment=Criticality factors of the fuels. Order: TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
+gui.nc.config.fission_thorium_intrinsic_flux=Thorium Fuel Intrinsic Fluxes
+gui.nc.config.fission_thorium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
 gui.nc.config.fission_thorium_decay_factor=Thorium Fuel Decay Factors
 gui.nc.config.fission_thorium_decay_factor.comment=Decay factors of the fuels. Order: TBU-TRISO, TBU-OX, TBU-NI, TBU-ZA, TBU-F4.
 gui.nc.config.fission_thorium_self_priming=Thorium Fuel Self-Priming
@@ -2831,6 +3045,8 @@ gui.nc.config.fission_uranium_efficiency=Uranium Fuel Base Efficiencies
 gui.nc.config.fission_uranium_efficiency.comment=Base efficiencies of the fuels. Order: LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
 gui.nc.config.fission_uranium_criticality=Uranium Fuel Criticality Factors
 gui.nc.config.fission_uranium_criticality.comment=Criticality factors of the fuels. Order: LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
+gui.nc.config.fission_uranium_intrinsic_flux=Uranium Fuel Intrinsic Fluxes
+gui.nc.config.fission_uranium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
 gui.nc.config.fission_uranium_decay_factor=Uranium Fuel Decay Factors
 gui.nc.config.fission_uranium_decay_factor.comment=Decay factors of the fuels. Order: LEU-233-TRISO, LEU-233-OX, LEU-233-NI, LEU-233-ZA, LEU-233-F4, HEU-233-TRISO, HEU-233-OX, HEU-233-NI, HEU-233-ZA, HEU-233-F4, LEU-235-TRISO, LEU-235-OX, LEU-235-NI, LEU-235-ZA, LEU-235-F4, HEU-235-TRISO, HEU-235-OX, HEU-235-NI, HEU-235-ZA, HEU-235-F4.
 gui.nc.config.fission_uranium_self_priming=Uranium Fuel Self-Priming
@@ -2846,6 +3062,8 @@ gui.nc.config.fission_neptunium_efficiency=Neptunium Fuel Base Efficiencies
 gui.nc.config.fission_neptunium_efficiency.comment=Base efficiencies of the fuels. Order: LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
 gui.nc.config.fission_neptunium_criticality=Neptunium Fuel Criticality Factors
 gui.nc.config.fission_neptunium_criticality.comment=Criticality factors of the fuels. Order: LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
+gui.nc.config.fission_neptunium_intrinsic_flux=Neptunium Fuel Intrinsic Fluxes
+gui.nc.config.fission_neptunium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
 gui.nc.config.fission_neptunium_decay_factor=Neptunium Fuel Decay Factors
 gui.nc.config.fission_neptunium_decay_factor.comment=Decay factors of the fuels. Order: LEN-236-TRISO, LEN-236-OX, LEN-236-NI, LEN-236-ZA, LEN-236-F4, HEN-236-TRISO, HEN-236-OX, HEN-236-NI, HEN-236-ZA, HEN-236-F4.
 gui.nc.config.fission_neptunium_self_priming=Neptunium Fuel Self-Priming
@@ -2861,6 +3079,8 @@ gui.nc.config.fission_plutonium_efficiency=Plutonium Fuel Base Efficiencies
 gui.nc.config.fission_plutonium_efficiency.comment=Base efficiencies of the fuels. Order: LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
 gui.nc.config.fission_plutonium_criticality=Plutonium Fuel Criticality Factors
 gui.nc.config.fission_plutonium_criticality.comment=Criticality factors of the fuels. Order: LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
+gui.nc.config.fission_plutonium_intrinsic_flux=Plutonium Fuel Intrinsic Fluxes
+gui.nc.config.fission_plutonium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
 gui.nc.config.fission_plutonium_decay_factor=Plutonium Fuel Decay Factors
 gui.nc.config.fission_plutonium_decay_factor.comment=Decay factors of the fuels. Order: LEP-239-TRISO, LEP-239-OX, LEP-239-NI, LEP-239-ZA, LEP-239-F4, HEP-239-TRISO, HEP-239-OX, HEP-239-NI, HEP-239-ZA, HEP-239-F4, LEP-241-TRISO, LEP-241-OX, LEP-241-NI, LEP-241-ZA, LEP-241-F4, HEP-241-TRISO, HEP-241-OX, HEP-241-NI, HEP-241-ZA, HEP-241-F4.
 gui.nc.config.fission_plutonium_self_priming=Plutonium Fuel Self-Priming
@@ -2876,6 +3096,8 @@ gui.nc.config.fission_mixed_efficiency=Mixed Fuel Base Efficiencies
 gui.nc.config.fission_mixed_efficiency.comment=Base efficiencies of the fuels. Order: MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
 gui.nc.config.fission_mixed_criticality=Mixed Fuel Criticality Factors
 gui.nc.config.fission_mixed_criticality.comment=Criticality factors of the fuels. Order: MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
+gui.nc.config.fission_mixed_intrinsic_flux=Mixed Fuel Intrinsic Fluxes
+gui.nc.config.fission_mixed_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
 gui.nc.config.fission_mixed_decay_factor=Mixed Fuel Decay Factors
 gui.nc.config.fission_mixed_decay_factor.comment=Decay factors of the fuels. Order: MTRISO-239, MOX-239, MNI-239, MZA-239, MF4-239, MTRISO-241, MOX-241, MNI-241, MZA-241, MF4-241.
 gui.nc.config.fission_mixed_self_priming=Mixed Fuel Self-Priming
@@ -2891,6 +3113,8 @@ gui.nc.config.fission_americium_efficiency=Americium Fuel Base Efficiencies
 gui.nc.config.fission_americium_efficiency.comment=Base efficiencies of the fuels. Order: LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
 gui.nc.config.fission_americium_criticality=Americium Fuel Criticality Factors
 gui.nc.config.fission_americium_criticality.comment=Criticality factors of the fuels. Order: LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
+gui.nc.config.fission_americium_intrinsic_flux=Americium Fuel Intrinsic Fluxes
+gui.nc.config.fission_americium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
 gui.nc.config.fission_americium_decay_factor=Americium Fuel Decay Factors
 gui.nc.config.fission_americium_decay_factor.comment=Decay factors of the fuels. Order: LEA-242-TRISO, LEA-242-OX, LEA-242-NI, LEA-242-ZA, LEA-242-F4, HEA-242-TRISO, HEA-242-OX, HEA-242-NI, HEA-242-ZA, HEA-242-F4.
 gui.nc.config.fission_americium_self_priming=Americium Fuel Self-Priming
@@ -2906,6 +3130,8 @@ gui.nc.config.fission_curium_efficiency=Curium Fuel Base Efficiencies
 gui.nc.config.fission_curium_efficiency.comment=Base efficiencies of the fuels. Order: LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
 gui.nc.config.fission_curium_criticality=Curium Fuel Criticality Factors
 gui.nc.config.fission_curium_criticality.comment=Criticality factors of the fuels. Order: LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
+gui.nc.config.fission_curium_intrinsic_flux=Curium Fuel Intrinsic Fluxes
+gui.nc.config.fission_curium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
 gui.nc.config.fission_curium_decay_factor=Curium Fuel Decay Factors
 gui.nc.config.fission_curium_decay_factor.comment=Decay factors of the fuels. Order: LECm-243-TRISO, LECm-243-OX, LECm-243-NI, LECm-243-ZA, LECm-243-F4, HECm-243-TRISO, HECm-243-OX, HECm-243-NI, HECm-243-ZA, HECm-243-F4, LECm-245-TRISO, LECm-245-OX, LECm-245-NI, LECm-245-ZA, LECm-245-F4, HECm-245-TRISO, HECm-245-OX, HECm-245-NI, HECm-245-ZA, HECm-245-F4, LECm-247-TRISO, LECm-247-OX, LECm-247-NI, LECm-247-ZA, LECm-247-F4, HECm-247-TRISO, HECm-247-OX, HECm-247-NI, HECm-247-ZA, HECm-247-F4.
 gui.nc.config.fission_curium_self_priming=Curium Fuel Self-Priming
@@ -2921,6 +3147,8 @@ gui.nc.config.fission_berkelium_efficiency=Berkelium Fuel Base Efficiencies
 gui.nc.config.fission_berkelium_efficiency.comment=Base efficiencies of the fuels. Order: LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
 gui.nc.config.fission_berkelium_criticality=Berkelium Fuel Criticality Factors
 gui.nc.config.fission_berkelium_criticality.comment=Criticality factors of the fuels. Order: LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
+gui.nc.config.fission_berkelium_intrinsic_flux=Berkelium Fuel Intrinsic Fluxes
+gui.nc.config.fission_berkelium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
 gui.nc.config.fission_berkelium_decay_factor=Berkelium Fuel Decay Factors
 gui.nc.config.fission_berkelium_decay_factor.comment=Decay factors of the fuels. Order: LEB-248-TRISO, LEB-248-OX, LEB-248-NI, LEB-248-ZA, LEB-248-F4, HEB-248-TRISO, HEB-248-OX, HEB-248-NI, HEB-248-ZA, HEB-248-F4.
 gui.nc.config.fission_berkelium_self_priming=Berkelium Fuel Self-Priming
@@ -2936,6 +3164,8 @@ gui.nc.config.fission_californium_efficiency=Californium Fuel Base Efficiencies
 gui.nc.config.fission_californium_efficiency.comment=Base efficiencies of the fuels. Order: LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
 gui.nc.config.fission_californium_criticality=Californium Fuel Criticality Factors
 gui.nc.config.fission_californium_criticality.comment=Criticality factors of the fuels. Order: LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
+gui.nc.config.fission_californium_intrinsic_flux=Californium Fuel Intrinsic Fluxes
+gui.nc.config.fission_californium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order: LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
 gui.nc.config.fission_californium_decay_factor=Californium Fuel Decay Factors
 gui.nc.config.fission_californium_decay_factor.comment=Decay factors of the fuels. Order: LECf-249-TRISO, LECf-249-OX, LECf-249-NI, LECf-249-ZA, LECf-249-F4, HECf-249-TRISO, HECf-249-OX, HECf-249-NI, HECf-249-ZA, HECf-249-F4, LECf-251-TRISO, LECf-251-OX, LECf-251-NI, LECf-251-ZA, LECf-251-F4, HECf-251-TRISO, HECf-251-OX, HECf-251-NI, HECf-251-ZA, HECf-251-F4.
 gui.nc.config.fission_californium_self_priming=Californium Fuel Self-Priming
@@ -3019,14 +3249,14 @@ gui.nc.config.turbine_coil_rule=Dynamo Coil Placement Rules
 gui.nc.config.turbine_coil_rule.comment=Placement rule to be parsed for this type of dynamo coil. Order: magnesium, beryllium, aluminum, gold, copper, silver.
 gui.nc.config.turbine_connector_rule=Coil Connector Placement Rules
 gui.nc.config.turbine_connector_rule.comment=Placement rule to be parsed for this type of coil connector. Order: standard.
-gui.nc.config.turbine_power_per_mb=Steam Base RF per mB
-gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of steam. Order: high pressure, low pressure, standard.
-gui.nc.config.turbine_expansion_level=Steam Expansion Level
-gui.nc.config.turbine_expansion_level.comment=Expansion level for this type of steam's recipe. Order: high pressure, low pressure, standard.
+gui.nc.config.turbine_power_per_mb=Gas Base RF per mB
+gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant, exhaust pebble bed coolant.
+gui.nc.config.turbine_expansion_level=Gas Expansion Level
+gui.nc.config.turbine_expansion_level.comment=Expansion level for the recipe of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant, exhaust pebble bed coolant.
 gui.nc.config.turbine_spin_up_multiplier_global=Spin-Up Multiplier Global
 gui.nc.config.turbine_spin_up_multiplier_global.comment=Global multiplier for the rate at which turbine rotors accelerate up to the equilibrium angular velocity.
-gui.nc.config.turbine_spin_up_multiplier=Steam Spin-Up Multiplier
-gui.nc.config.turbine_spin_up_multiplier.comment=Rotor spin-up multiplier for this type of steam's recipe. Order: high pressure, low pressure, standard.
+gui.nc.config.turbine_spin_up_multiplier=Gas Spin-Up Multiplier
+gui.nc.config.turbine_spin_up_multiplier.comment=Rotor spin-up multiplier for the recipe of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant, exhaust pebble bed coolant.
 gui.nc.config.turbine_spin_down_multiplier=Spin-Down Multiplier
 gui.nc.config.turbine_spin_down_multiplier.comment=Multiplier for the rate at which turbine rotors decelerate.
 gui.nc.config.turbine_mb_per_blade=Rotor Blade Maximum Process Rate
@@ -3039,14 +3269,18 @@ gui.nc.config.turbine_tension_leniency=Tension Leniency Factor
 gui.nc.config.turbine_tension_leniency.comment=Determines the leniency for the ratio of actual throughput to ideal throughput at which bearing tension will begin to increase.
 gui.nc.config.turbine_power_bonus_multiplier=Power Bonus Multiplier
 gui.nc.config.turbine_power_bonus_multiplier.comment=Multiplier for the input rate power output bonus.
+gui.nc.config.turbine_base_energy_capacity=Base Energy Capacity
+gui.nc.config.turbine_base_energy_capacity.comment=Base multiplier for the energy storage of turbine multiblocks.
 gui.nc.config.turbine_sound_volume=Turbine Sound Volume
 gui.nc.config.turbine_sound_volume.comment=Modifier for the volume of turbine sound effects.
 gui.nc.config.turbine_particles=Particle Spawn Rate
-gui.nc.config.turbine_particles.comment=Multiplier for the rate of steam particles spawned in the turbine.
+gui.nc.config.turbine_particles.comment=Multiplier for the rate of particles spawned in the turbine.
 gui.nc.config.turbine_render_blade_width=Rotor Blade Width
 gui.nc.config.turbine_render_blade_width.comment=Multiplier for the width of rendered rotor blades and stators.
+gui.nc.config.turbine_render_blade_fast=Rotor Blade Fast Render
+gui.nc.config.turbine_render_blade_fast.comment=If enabled, rotor blades are given a simpler, faster render.
 gui.nc.config.turbine_render_rotor_expansion=Rotor Render Expansion
-gui.nc.config.turbine_render_rotor_expansion.comment=Parameter determining the rate of expansion of the size of turbine rotors along the direction of steam flow.
+gui.nc.config.turbine_render_rotor_expansion.comment=Parameter determining the rate of expansion of the size of turbine rotors along the direction of flow.
 gui.nc.config.turbine_render_rotor_speed=Rotor Speed Multiplier
 gui.nc.config.turbine_render_rotor_speed.comment=Multiplier for the maximum rotation speed of rendered turbine rotors.
 
@@ -3056,7 +3290,7 @@ gui.nc.config.category.quantum.tooltip=Configure quantum mechanical systems.
 gui.nc.config.quantum_dedicated_server=Enable on Dedicated Servers
 gui.nc.config.quantum_dedicated_server.comment=Will quantum computers form on dedicated servers? Disabled by default to prevent players using up server memory, and because generated code is not sent to clients but instead stored in the server's directory.
 gui.nc.config.quantum_max_qubits=Max Qubits
-gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have.
+gui.nc.config.quantum_max_qubits.comment=The maximum number of qubits a single quantum computer multiblock can have. Keep in mind that the memory required is exponential in the number of qubits used.
 gui.nc.config.quantum_angle_precision=Gate Angle Precision
 gui.nc.config.quantum_angle_precision.comment=Controls the precision allowed for setting the working angle of gates by defining the number of available angles, uniformly distributed from 0 to 360 degrees.
 
@@ -3369,6 +3603,12 @@ nuclearcraft.multiblock_validation.invalid_block=%4$s is not a valid block at [%
 nuclearcraft.multiblock_validation.no_controller=There must be a controller for the multiblock to form
 nuclearcraft.multiblock_validation.too_many_controllers=There must only be one controller for the multiblock to form
 
+nuclearcraft.multiblock_validation.sorption.missing_input=There must be at least one %s in §9INPUT§r mode for the multiblock to form - right click with a §nmultitool§r to toggle its setting
+nuclearcraft.multiblock_validation.sorption.missing_output=There must be at least one %s in §6OUTPUT§r mode for the multiblock to form - right click with a §nmultitool§r to toggle its setting
+nuclearcraft.multiblock_validation.sorption.missing_both=There must be at least one %1$s in §9INPUT§r mode and one %1$s in §6OUTPUT§r mode for the multiblock to form - right click with a §nmultitool§r to toggle their settings
+
+nuclearcraft.multiblock_validation.machine.invalid_reservoir_port=There must be no reservoir ports for this type of machine to form
+
 nuclearcraft.multiblock_validation.electrolyzer.invalid_cathode_terminal=Cathode terminals must be installed opposite each other in the top and bottom layers of the electrolyzer for it to form
 nuclearcraft.multiblock_validation.electrolyzer.invalid_anode_terminal=Anode terminals must be installed opposite each other in the top and bottom layers of the electrolyzer for it to form
 nuclearcraft.multiblock_validation.electrolyzer.invalid_cathode_recipe=Opposing cathode terminals must be connected by valid cathode blocks for the electrolyzer to form
@@ -3380,6 +3620,8 @@ nuclearcraft.multiblock_validation.distiller.invalid_reflux_unit=Reflux units mu
 nuclearcraft.multiblock_validation.distiller.invalid_reboiling_unit=Reboiling units must be installed in the bottom layer of the distiller for it to form
 nuclearcraft.multiblock_validation.distiller.invalid_liquid_distributor=Liquid Distributors must be installed in the top layer of the distiller for it to form
 
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_chambers=This is not a pebble bed reactor - there must be no chambers for it to form
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_coolers=This is not a pebble bed reactor - there must be no coolers for it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=This is not a solid fuel reactor - there must be no cells for it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=This is not a solid fuel reactor - there must be no sinks for it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten salt reactor - there must be no vessels for it to form
@@ -3521,6 +3763,8 @@ gui.nc.container.fission_component.heat_stored=Cluster Heat Level:
 
 gui.nc.container.fission_irradiator.irradiator=Fission Irradiator
 
+gui.nc.container.pebble_fission_controller.reactor=Pebble Bed Reactor
+
 gui.nc.container.solid_fission_controller.reactor=Solid Fuel Reactor
 gui.nc.container.solid_fission_controller.output_rate=Production Rate:
 
@@ -3631,11 +3875,12 @@ nuclearcraft.fission_moderator.jei_name=Fission Moderator
 nuclearcraft.fission_reflector.jei_name=Fission Reflector
 nuclearcraft.fission_irradiator.jei_name=Fission Irradiator
 nuclearcraft.pebble_fission.jei_name=Pebble Bed Fission
+nuclearcraft.gas_cooler.jei_name=Pebble Bed Cooling
 nuclearcraft.solid_fission.jei_name=Solid Fuel Fission
 nuclearcraft.fission_heating.jei_name=Fission Vent Heating
 nuclearcraft.salt_fission.jei_name=Molten Salt Fission
-nuclearcraft.fission_emergency_cooling.jei_name=Fission Emergency Cooling
 nuclearcraft.coolant_heater.jei_name=Molten Salt Cooling
+nuclearcraft.fission_emergency_cooling.jei_name=Fission Emergency Cooling
 nuclearcraft.heat_exchanger.jei_name=Heat Exchanger
 nuclearcraft.condenser.jei_name=Condenser
 nuclearcraft.condenser_dissipation_fluid.jei_name=Condenser Dissipation Fluid
@@ -3764,6 +4009,9 @@ advancement.nuclearcraft.berkelium.desc=Obtain some Berkelium
 advancement.nuclearcraft.californium.name=California Dreamin'
 advancement.nuclearcraft.californium.desc=Obtain some Californium
 
+advancement.nuclearcraft.pebble_fission_controller.name=Watch For Roentgen Rocks [1/2]
+advancement.nuclearcraft.pebble_fission_controller.desc=Craft a Pebble Bed Fission Controller
+
 advancement.nuclearcraft.solid_fission_controller.name=Splitting the Atom [1/2]
 advancement.nuclearcraft.solid_fission_controller.desc=Craft a Solid Fuel Fission Controller
 
@@ -3787,6 +4035,9 @@ advancement.nuclearcraft.distiller_assembled.desc=Build a Multiblock Distiller
 
 advancement.nuclearcraft.infiltrator_assembled.name=Hola Pablo
 advancement.nuclearcraft.infiltrator_assembled.desc=Build a Multiblock Infiltrator
+
+advancement.nuclearcraft.pebble_fission_reactor_assembled.name=Watch For Roentgen Rocks [2/2]
+advancement.nuclearcraft.pebble_fission_reactor_assembled.desc=Build a Pebble Bed Fission Reactor
 
 advancement.nuclearcraft.solid_fission_reactor_assembled.name=Splitting the Atom [2/2]
 advancement.nuclearcraft.solid_fission_reactor_assembled.desc=Build a Solid Fuel Fission Reactor
@@ -3971,6 +4222,8 @@ nc.sf.reactor_casing1=%s reactor casing
 nc.sf.conductor0=%s conductor
 nc.sf.conductor1=%s conductors
 
+nc.sf.chamber0=%s functional fuel chamber
+nc.sf.chamber1=%s functional fuel chambers
 nc.sf.cell0=%s functional fuel cell
 nc.sf.cell1=%s functional fuel cells
 nc.sf.vessel0=%s functional fuel vessel
@@ -3985,6 +4238,41 @@ nc.sf.irradiator0=%s functional irradiator
 nc.sf.irradiator1=%s functional irradiators
 nc.sf.shield0=%s valid open shield
 nc.sf.shield1=%s valid open shields
+
+nc.sf.any_cooler0=%s cooler of any type
+nc.sf.any_cooler1=%s coolers of any type
+nc.sf.oxygen_cooler0=%s valid oxygen cooler
+nc.sf.oxygen_cooler1=%s valid oxygen coolers
+nc.sf.hydrogen_cooler0=%s valid hydrogen cooler
+nc.sf.hydrogen_cooler1=%s valid hydrogen coolers
+nc.sf.helium_cooler0=%s valid helium cooler
+nc.sf.helium_cooler1=%s valid helium coolers
+nc.sf.nitrogen_cooler0=%s valid nitrogen cooler
+nc.sf.nitrogen_cooler1=%s valid nitrogen coolers
+nc.sf.fluorine_cooler0=%s valid fluorine cooler
+nc.sf.fluorine_cooler1=%s valid fluorine coolers
+nc.sf.methane_cooler0=%s valid methane cooler
+nc.sf.methane_cooler1=%s valid methane coolers
+nc.sf.carbon_dioxide_cooler0=%s valid carbon dioxide cooler
+nc.sf.carbon_dioxide_cooler1=%s valid carbon dioxide coolers
+nc.sf.carbon_monoxide_cooler0=%s valid carbon monoxide cooler
+nc.sf.carbon_monoxide_cooler1=%s valid carbon monoxide coolers
+nc.sf.ethene_cooler0=%s valid ethylene cooler
+nc.sf.ethene_cooler1=%s valid ethylene coolers
+nc.sf.ethyne_cooler0=%s valid acetylene cooler
+nc.sf.ethyne_cooler1=%s valid acetylene coolers
+nc.sf.fluoromethane_cooler0=%s valid fluoromethane cooler
+nc.sf.fluoromethane_cooler1=%s valid fluoromethane coolers
+nc.sf.ammonia_cooler0=%s valid ammonia cooler
+nc.sf.ammonia_cooler1=%s valid ammonia coolers
+nc.sf.diborane_cooler0=%s valid diborane cooler
+nc.sf.diborane_cooler1=%s valid diborane coolers
+nc.sf.sulfur_dioxide_cooler0=%s valid sulfur dioxide cooler
+nc.sf.sulfur_dioxide_cooler1=%s valid sulfur dioxide coolers
+nc.sf.sulfur_trioxide_cooler0=%s valid sulfur trioxide cooler
+nc.sf.sulfur_trioxide_cooler1=%s valid sulfur trioxide coolers
+nc.sf.sulfur_hexafluoride_cooler0=%s valid sulfur hexafluoride cooler
+nc.sf.sulfur_hexafluoride_cooler1=%s valid sulfur hexafluoride coolers
 
 nc.sf.any_sink0=%s sink of any type
 nc.sf.any_sink1=%s sinks of any type

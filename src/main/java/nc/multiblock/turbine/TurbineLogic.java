@@ -95,8 +95,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		
 		if (!getWorld().isRemote) {
 			int mult = multiblock.getExteriorVolume();
-			multiblock.energyStorage.setStorageCapacity((long) Turbine.BASE_MAX_ENERGY * mult);
-			multiblock.energyStorage.setMaxTransfer((long) Turbine.BASE_MAX_ENERGY * mult);
+			multiblock.energyStorage.setStorageCapacity((long) turbine_base_energy_capacity * mult);
+			multiblock.energyStorage.setMaxTransfer((long) turbine_base_energy_capacity * mult);
 			multiblock.tanks.get(0).setCapacity(Turbine.BASE_MAX_INPUT * mult);
 			multiblock.tanks.get(1).setCapacity(Turbine.BASE_MAX_OUTPUT * mult);
 		}
@@ -385,12 +385,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (axis == null) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.need_bearings", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.need_bearings", Collections.emptyList());
 			return false;
 		}
 		
 		if (axis == Axis.X && multiblock.getInteriorLengthY() != multiblock.getInteriorLengthZ() || axis == Axis.Y && multiblock.getInteriorLengthZ() != multiblock.getInteriorLengthX() || axis == Axis.Z && multiblock.getInteriorLengthX() != multiblock.getInteriorLengthY() || tooManyAxes || notInAWall) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_side_square", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_side_square", Collections.emptyList());
 			return false;
 		}
 		
@@ -418,7 +418,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (!validAmountOfBearings) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_center_and_square", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_center_and_square", Collections.emptyList());
 			return false;
 		}
 		
@@ -449,7 +449,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		multiblock.flowDir = null;
 		
 		if (getPartMap(TileTurbineInlet.class).isEmpty() || getPartMap(TileTurbineOutlet.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", Collections.emptyList());
 			return false;
 		}
 		
@@ -485,7 +485,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (multiblock.flowDir == null) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", Collections.emptyList());
 			return false;
 		}
 		
@@ -517,7 +517,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		}
 		
 		if (!NCMath.allEqual(multiblock.getFlowLength(), multiblock.expansionLevels.size(), multiblock.rawBladeEfficiencies.size())) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", Collections.emptyList());
 			return false;
 		}
 		
@@ -659,7 +659,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			}
 			
 			if (currentBladeType == null) {
-				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", null);
+				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", Collections.emptyList());
 				return false;
 			}
 			
@@ -706,7 +706,6 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 		refreshRecipe();
 		
 		double prevRawPower = multiblock.rawPower;
-		int prevInputRate = multiblock.recipeInputRate;
 		
 		Tank inputTank = multiblock.tanks.get(0);
 		int maxRecipeRateMultiplier = getMaxRecipeRateMultiplier();
@@ -740,7 +739,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, TurbineLogic, ITurbin
 			multiblock.recipeInputRate = 0;
 		}
 		
-		multiblock.recipeInputRateFP = NCMath.getNextFP(multiblock.recipeInputRateFP, prevInputRate, multiblock.recipeInputRate);
+		multiblock.recipeInputRateFP = multiblock.recipeInputRateTracker.update(multiblock.recipeInputRate);
 		
 		if (wasProcessing != multiblock.isProcessing && multiblock.controller != null) {
 			multiblock.sendMultiblockUpdatePacketToAll();

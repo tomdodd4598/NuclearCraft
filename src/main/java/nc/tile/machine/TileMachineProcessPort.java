@@ -31,7 +31,7 @@ public class TileMachineProcessPort extends TileMachinePart implements ITickable
 	
 	private final @Nonnull String inventoryName;
 	
-	private final @Nonnull NonNullList<ItemStack> backupStacks = NonNullList.withSize(0, ItemStack.EMPTY);
+	private final @Nonnull NonNullList<ItemStack> backupStacks = InventoryStackList.EMPTY_LIST;
 	private final @Nonnull List<Tank> backupTanks = Collections.emptyList();
 	
 	private final @Nonnull InventoryConnection[] backupInventoryConnections = ITileInventory.inventoryConnectionAll(Collections.emptyList());

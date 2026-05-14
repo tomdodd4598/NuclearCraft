@@ -7,6 +7,8 @@ import nc.integration.groovyscript.GSBasicRecipeRegistryImpl.*;
 import nc.integration.groovyscript.ingredient.*;
 import nc.recipe.NCRecipes;
 
+import java.util.function.Function;
+
 public class GSContainer extends GroovyPropertyContainer {
 	
 	@GroovyBlacklist
@@ -17,9 +19,10 @@ public class GSContainer extends GroovyPropertyContainer {
 	
 	protected GSContainer() {
 		super();
-		for (String name : NCRecipes.CT_RECIPE_HANDLER_NAME_ARRAY) {
+		for (String name : NCRecipes.BASIC_PROCESSOR_RECIPE_HANDLER_NAME_ARRAY) {
 			addProperty(getRecipeRegistryInternal(name));
 		}
+		RECIPE_REGISTRY_MAP.forEach((k, v) -> addProperty(v.apply(k)));
 		addProperty(new GSStaticRecipeHandler());
 		addProperty(new GSChanceItemIngredient());
 		addProperty(new GSChanceFluidIngredient());
@@ -38,30 +41,36 @@ public class GSContainer extends GroovyPropertyContainer {
 	
 	@GroovyBlacklist
 	protected GSBasicRecipeRegistry getRecipeRegistryInternal(String name) {
-		return switch (name) {
-			case "decay_generator" -> new GSDecayGeneratorRecipeRegistry(name);
-			case "machine_diaphragm" -> new GSDiaphragmRecipeRegistry(name);
-			case "machine_sieve_assembly" -> new GSSieveAssemblyRecipeRegistry(name);
-			case "multiblock_electrolyzer" -> new GSMultiblockElectrolyzerRecipeRegistry(name);
-			case "electrolyzer_cathode" -> new GSElectrolyzerCathodeRecipeRegistry(name);
-			case "electrolyzer_anode" -> new GSElectrolyzerAnodeRecipeRegistry(name);
-			case "multiblock_distiller" -> new GSMultiblockDistillerRecipeRegistry(name);
-			case "fission_moderator" -> new GSFissionModeratorRecipeRegistry(name);
-			case "fission_reflector" -> new GSFissionReflectorRecipeRegistry(name);
-			case "fission_irradiator" -> new GSFissionIrradiatorRecipeRegistry(name);
-			case "pebble_fission" -> new GSPebbleFissionRecipeRegistry(name);
-			case "solid_fission" -> new GSSolidFissionRecipeRegistry(name);
-			case "fission_heating" -> new GSFissionHeatingRecipeRegistry(name);
-			case "salt_fission" -> new GSSaltFissionRecipeRegistry(name);
-			case "fission_emergency_cooling" -> new GSFissionEmergencyCoolingRecipeRegistry(name);
-			case "heat_exchanger" -> new GSHeatExchangerRecipeRegistry(name);
-			case "condenser" -> new GSCondenserRecipeRegistry(name);
-			case "condenser_dissipation_fluid" -> new GSCondenserDissipationFluidRecipeRegistry(name);
-			case "turbine" -> new GSTurbineRecipeRegistry(name);
-			case "radiation_scrubber" -> new GSRadiationScrubberRecipeRegistry(name);
-			case "radiation_block_mutation" -> new GSRadiationBlockMutationRecipeRegistry(name);
-			case "radiation_block_purification" -> new GSRadiationBlockPurificationRecipeRegistry(name);
-			default -> new GSBasicProcessorRecipeRegistry(name);
-		};
+		return RECIPE_REGISTRY_MAP.getOrDefault(name, GSBasicProcessorRecipeRegistry::new).apply(name);
+	}
+	
+	@GroovyBlacklist
+	private static final Object2ObjectMap<String, Function<String, GSBasicRecipeRegistry>> RECIPE_REGISTRY_MAP = new Object2ObjectLinkedOpenHashMap<>();
+	
+	static {
+		RECIPE_REGISTRY_MAP.put("decay_generator", GSDecayGeneratorRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("machine_diaphragm", GSDiaphragmRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("machine_sieve_assembly", GSSieveAssemblyRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("multiblock_electrolyzer", GSMultiblockElectrolyzerRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("electrolyzer_cathode", GSElectrolyzerCathodeRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("electrolyzer_anode", GSElectrolyzerAnodeRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("multiblock_distiller", GSMultiblockDistillerRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("multiblock_infiltrator", GSMultiblockInfiltratorRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("infiltrator_pressure_fluid", GSInfiltratorPressureFluidRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("fission_moderator", GSFissionModeratorRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("fission_reflector", GSFissionReflectorRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("fission_irradiator", GSFissionIrradiatorRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("pebble_fission", GSPebbleFissionRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("solid_fission", GSSolidFissionRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("fission_heating", GSFissionHeatingRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("salt_fission", GSSaltFissionRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("fission_emergency_cooling", GSFissionEmergencyCoolingRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("heat_exchanger", GSHeatExchangerRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("condenser", GSCondenserRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("condenser_dissipation_fluid", GSCondenserDissipationFluidRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("turbine", GSTurbineRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("radiation_scrubber", GSRadiationScrubberRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("radiation_block_mutation", GSRadiationBlockMutationRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("radiation_block_purification", GSRadiationBlockPurificationRecipeRegistry::new);
 	}
 }

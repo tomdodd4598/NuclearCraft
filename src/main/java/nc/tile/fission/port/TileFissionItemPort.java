@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.config.NCConfig;
 import nc.handler.TileInfoHandler;
+import nc.multiblock.fission.FissionReactor;
 import nc.network.tile.multiblock.port.ItemPortUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.*;
@@ -59,6 +60,31 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public Object getFilterKey() {
 		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
+	}
+	
+	@Override
+	public boolean canReceive() {
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (getItemSorption(facing, 0).canReceive()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean canExtract() {
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (getItemSorption(facing, 1).canExtract()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public SorptionKey getSorptionKey() {
+		return new SorptionKey(getClass(), getFilterKey());
 	}
 	
 	@Override
@@ -244,7 +270,8 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 		
 		}
 		else {
-			if (getMultiblock() != null) {
+			FissionReactor multiblock = getMultiblock();
+			if (multiblock != null && !multiblock.isAssembled()) {
 				if (getItemSorption(facing, 0) != ItemSorption.IN) {
 					for (EnumFacing side : EnumFacing.VALUES) {
 						setItemSorption(side, 0, ItemSorption.IN);

@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.handler.TileInfoHandler;
+import nc.multiblock.fission.FissionReactor;
 import nc.network.tile.multiblock.port.FluidPortUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.*;
@@ -71,6 +72,31 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 	@Override
 	public Object getFilterKey() {
 		return getFilterTanks().get(0).getFluidName();
+	}
+	
+	@Override
+	public boolean canReceive() {
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (getTankSorption(facing, 0).canFill()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean canExtract() {
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (getTankSorption(facing, 1).canDrain()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public SorptionKey getSorptionKey() {
+		return new SorptionKey(getClass(), getFilterKey());
 	}
 	
 	@Override
@@ -219,7 +245,8 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 		
 		}
 		else {
-			if (getMultiblock() != null) {
+			FissionReactor multiblock = getMultiblock();
+			if (multiblock != null && !multiblock.isAssembled()) {
 				if (getTankSorption(facing, 0) != TankSorption.IN) {
 					for (EnumFacing side : EnumFacing.VALUES) {
 						setTankSorption(side, 0, TankSorption.IN);

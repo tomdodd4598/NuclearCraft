@@ -75,9 +75,7 @@ public class BlockFissionMonitor extends BlockFissionPart implements IActivatabl
 						if (component != null) {
 							FissionCluster cluster = component.getCluster();
 							if (cluster != null) {
-								for (long posLong : cluster.getComponentMap().keySet()) {
-									BlockHighlightTracker.sendPacket((EntityPlayerMP) player, posLong, 5000);
-								}
+								BlockHighlightTracker.sendPacket((EntityPlayerMP) player, cluster.getComponentMap().keySet(), 5000);
 							}
 						}
 					}

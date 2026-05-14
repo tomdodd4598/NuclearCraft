@@ -38,7 +38,7 @@ public class RecipeUnitInfo {
 	}
 	
 	public String getString(Double processTime, int maxLength) {
-		double rate = processTime == null ? 0D : rateMultiplier / processTime;
+		double rate = processTime == null || processTime.isInfinite() || processTime.isNaN() ? 0D : rateMultiplier / processTime;
 		if (unit.equals("B") || unit.equals("B/t")) {
 			return UnitHelper.prefix(rate, maxLength, unit, startingPrefix);
 		}

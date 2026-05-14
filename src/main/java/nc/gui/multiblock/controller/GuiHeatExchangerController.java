@@ -55,11 +55,11 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 		}
 		
 		if (NCUtil.isModifierKeyDown()) {
-			String shellInputRate = Lang.localize("gui.nc.container.heat_exchanger_controller.shell_input") + " " + UnitHelper.prefix(Math.round(multiblock.shellInputRateFP), 5, "B/t", -1);
+			String shellInputRate = Lang.localize("gui.nc.container.heat_exchanger_controller.shell_input") + " " + UnitHelper.prefix(multiblock.shellInputRateFP, 5, "B/t", -1);
 			fontRenderer.drawString(shellInputRate, xSize / 2 - fontRenderer.getStringWidth(shellInputRate) / 2, 34, fontColor);
 		}
 		else {
-			String tubeInputRate = Lang.localize("gui.nc.container.heat_exchanger_controller.tube_input") + " " + UnitHelper.prefix(Math.round(multiblock.tubeInputRateFP), 5, "B/t", -1);
+			String tubeInputRate = Lang.localize("gui.nc.container.heat_exchanger_controller.tube_input") + " " + UnitHelper.prefix(multiblock.tubeInputRateFP, 5, "B/t", -1);
 			fontRenderer.drawString(tubeInputRate, xSize / 2 - fontRenderer.getStringWidth(tubeInputRate) / 2, 34, fontColor);
 		}
 		

@@ -1,6 +1,0 @@
-{
-	"parent": "nuclearcraft:item/pellet",
-	"textures": {
-		"layer0": "contenttweaker:items/fuel_leabc_123_tr"
-	}
-}

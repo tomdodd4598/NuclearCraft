@@ -65,22 +65,22 @@ public class OreDictHelper {
 		return true;
 	}
 	
-	public static String getOreNameFromStacks(List<ItemStack> stackList) {
+	public static List<String> getOreNamesFromStacks(List<ItemStack> stackList) {
 		if (stackList == null || stackList.isEmpty()) {
-			return "Unknown";
+			return Collections.emptyList();
 		}
-		List<String> oreNameList = new ArrayList<>(getOreNames(stackList.get(0)));
+		List<String> oreNames = new ArrayList<>(getOreNames(stackList.get(0)));
 		
 		for (ItemStack stack : stackList) {
 			if (stack == null || stack.isEmpty()) {
-				return "Unknown";
+				return Collections.emptyList();
 			}
-			oreNameList = CollectionHelper.intersect(oreNameList, getOreNames(stack));
-			if (oreNameList.isEmpty()) {
-				return "Unknown";
+			oreNames = CollectionHelper.intersect(oreNames, getOreNames(stack));
+			if (oreNames.isEmpty()) {
+				return Collections.emptyList();
 			}
 		}
-		return oreNameList.get(0);
+		return oreNames;
 	}
 	
 	public static boolean getBlockMatchesOre(World world, BlockPos pos, String... names) {

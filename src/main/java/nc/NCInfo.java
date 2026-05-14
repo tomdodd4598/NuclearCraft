@@ -84,6 +84,10 @@ public class NCInfo {
 	
 	public static String[] fissionFuelInfo(BasicRecipe recipe) {
 		List<String> list = Lists.newArrayList(Lang.localize("info." + Global.MOD_ID + ".fission_fuel.desc"), Lang.localize("info." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(recipe.getFissionFuelTime(), 3)), Lang.localize("info." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(recipe.getFissionFuelHeat(), 5, "H/t")), Lang.localize("info." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", NCMath.pcDecimalPlaces(recipe.getFissionFuelEfficiency(), 1)), Lang.localize("info." + Global.MOD_ID + ".fission_fuel.criticality.desc", recipe.getFissionFuelCriticality() + " N/t"));
+		int intrinsicFlux = recipe.getFissionFuelIntrinsicFlux();
+		if (intrinsicFlux > 0) {
+			list.add(Lang.localize("info." + Global.MOD_ID + ".fission_fuel.intrinsic_flux.desc", intrinsicFlux + " N/t"));
+		}
 		if (fission_decay_mechanics) {
 			list.add(Lang.localize("info." + Global.MOD_ID + ".fission_fuel.decay_factor.desc", NCMath.pcDecimalPlaces(recipe.getFissionFuelDecayFactor(), 1)));
 		}
@@ -109,6 +113,10 @@ public class NCInfo {
 	
 	public static String[] coolingRateInfo(int cooling, String name) {
 		return new String[] {Lang.localize("tile." + Global.MOD_ID + "." + name + ".cooling_rate") + " " + cooling + " H/t"};
+	}
+	
+	public static String[][] gasCoolerFixedInfo() {
+		return coolingFixedInfo(MetaEnums.GasCoolerType.values(), "pebble_fission_cooler");
 	}
 	
 	public static String[][] heatSinkFixedInfo() {

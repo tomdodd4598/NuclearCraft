@@ -9,7 +9,7 @@ import nc.tile.fission.port.TileFissionCoolerPort;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerFissionCoolerPort extends ContainerPort<FissionReactor, FissionReactorLogic, IFissionPart, TileFissionCoolerPort, TileFissionCooler, FluidPortUpdatePacket, TileContainerInfo<TileFissionCoolerPort>> {
+public class ContainerFissionCoolerPort extends ContainerPort<FissionReactor, FissionReactorLogic, IFissionPart, TileFissionCoolerPort, TilePebbleFissionCooler, FluidPortUpdatePacket, TileContainerInfo<TileFissionCoolerPort>> {
 	
 	public ContainerFissionCoolerPort(EntityPlayer player, TileFissionCoolerPort tile) {
 		super(player, tile);
@@ -27,6 +27,6 @@ public class ContainerFissionCoolerPort extends ContainerPort<FissionReactor, Fi
 	
 	@Override
 	protected BasicRecipeHandler getRecipeHandler() {
-		return NCRecipes.fission_emergency_cooling;
+		return NCRecipes.gas_cooler;
 	}
 }

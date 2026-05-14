@@ -26,6 +26,15 @@ public class ScriptAddonHandler {
 			return;
 		}
 		initialized = true;
+		construct();
+	}
+	
+	public static void construct() throws IOException {
+		cotCopied = false;
+		
+		LOADED_SCRIPT_ADDONS.clear();
+		SCRIPT_ADDON_DIRS.clear();
+		LANG_REFRESH_MAP.clear();
 		
 		NCUtil.getLogger().info("Constructing NuclearCraft Script Addons...");
 		

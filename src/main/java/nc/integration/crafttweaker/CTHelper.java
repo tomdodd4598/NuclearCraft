@@ -90,7 +90,7 @@ public class CTHelper {
 			return new EmptyItemIngredient();
 		}
 		else if (ctIngredient instanceof IItemStack ctStack) {
-			return RecipeHelper.buildItemIngredient(CTHelper.getItemStack(ctStack));
+			return RecipeHelper.buildItemIngredient(getItemStack(ctStack));
 		}
 		else if (ctIngredient instanceof IOreDictEntry ctOreStack) {
 			return new OreIngredient(ctOreStack.getName(), ctOreStack.getAmount());
@@ -132,9 +132,9 @@ public class CTHelper {
 	public static IItemIngredient buildOreIngredientArray(IIngredient ctIngredient, boolean addition) {
 		List<ItemStack> stackList = StreamHelper.map(ctIngredient.getItems(), x -> StackHelper.changeStackSize(getItemStack(x), ctIngredient.getAmount()));
 		if (addition) {
-			OreIngredient oreStack = RecipeHelper.getOreStackFromItems(stackList, ctIngredient.getAmount());
-			if (oreStack != null) {
-				return oreStack;
+			OreIngredient oreIngredient = RecipeHelper.tryGetOreIngredientFromItems(stackList, ctIngredient.getAmount());
+			if (oreIngredient != null) {
+				return oreIngredient;
 			}
 		}
 		return RecipeHelper.buildItemIngredient(stackList);

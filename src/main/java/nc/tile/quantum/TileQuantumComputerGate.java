@@ -1,6 +1,7 @@
 package nc.tile.quantum;
 
 import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.quantum.*;
 import nc.render.BlockHighlightTracker;
 import nc.util.*;
@@ -887,11 +888,13 @@ public abstract class TileQuantumComputerGate extends TileQuantumComputerPart im
 	protected void highlightQubits(EntityPlayerMP player, IntCollection n) {
 		QuantumComputer qc = getMultiblock();
 		if (qc != null) {
+			ObjectSet<BlockPos> posSet = new ObjectOpenHashSet<>();
 			for (TileQuantumComputerQubit qubit : qc.getQubits()) {
 				if (n.contains(qubit.id)) {
-					BlockHighlightTracker.sendPacket(player, qubit.getPos(), 5000);
+					posSet.add(qubit.getPos());
 				}
 			}
+			BlockHighlightTracker.sendPacket(player, posSet, 5000);
 		}
 	}
 	

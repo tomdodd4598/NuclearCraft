@@ -1,13 +1,15 @@
-Add infinite and NaN special cases to sigFigs (zero speed multiplier -> infinite process time fp)
-
 Fission monitors: cluster information, S'tack, etc.
+
+Fission controller: invalid cluster warning (if any) instead of net cluster heating
+					sneak-right click with multitool to highlight invalid blocks (sinks etc.)
+
+HX: tube flow highlighting
 
 Finish fission meltdown mechanics
 Add melting logic to non-fuel components
 Graphite/beryllium fires, heavy water evaporation, etc.
 Hydrogen build-up by ZA fuels above a certain temperature, hygrogen explosion if breaking open reactor above this temperature?
 
-Replace casing emergency cooling with cluster/port based version (no placement rules, works for both SFRs and MSRs)
 Add component heat dissipation while invalid
 
 Read Pu + Fatmice neutron poison discussion (+ "Technically, almost all of the neutron poisons were removed with the spent fuel")
@@ -17,11 +19,7 @@ Keep clusters running even when multiblock is invalidated
 
 Patchouli documentation
 
-Script addon Java mod template
-___________________________________________________________________________________________________________________________
-
-Gas-cooled Pebble-Bed Reactor that produces energy directly
-QT gas coolants: https://docs.google.com/spreadsheets/d/1gtXbk_S9ginkjgDo8BNXQr54kaQcToaqUa2E9LA0CMQ/edit#gid=1165328757
+GroovyScript documentation
 ___________________________________________________________________________________________________________________________
 
 Decay pool to preheat condensate water from radioactive isotopes? (https://discordapp.com/channels/425461908712325130/425470889354723350/574303555465510912)
@@ -35,22 +33,22 @@ Superconducting e-magnets can be used instead for an efficiency bonus?
 ___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
 
-1.21+: Potential block state getter optimisation - https://github.com/BiggerSeries/Phosphophyllite/blob/master/src/main/java/net/roguelogix/phosphophyllite/util/Util.java#L110 (chunkCachedBlockStateIteration)
+26.x+: Potential block state getter optimisation - https://github.com/BiggerSeries/Phosphophyllite/blob/master/src/main/java/net/roguelogix/phosphophyllite/util/Util.java#L110 (chunkCachedBlockStateIteration)
 ___________________________________________________________________________________________________________________________
 
-1.21+: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
-1.21+: Multiblocks instead of single-block machines?
+26.x+: Uranium/Thorium ore processing - ore -> 2x crushed ore -> hexa/tetrafluoride -> 4x dust
+26.x+: Multiblocks instead of single-block machines?
 ___________________________________________________________________________________________________________________________
 
-1.21+: Remove fission clusters?
-1.21+: Make moderators reflectors form clusters and conduct heat
+26.x+: Remove fission clusters?
+26.x+: Make moderators reflectors form clusters and conduct heat
 
-1.21+: MSR split: NaK coolant for thermal, eutectic Pb-Bi alloy coolant for fast?
-1.21+: Negative temperature coefficient for MSR anf PBR
+26.x+: MSR split: NaK coolant for thermal, eutectic Pb-Bi alloy coolant for fast?
+26.x+: Negative temperature coefficient for MSR anf PBR
 ___________________________________________________________________________________________________________________________
 
-1.21+: Inertial Confinement Fusion - synchrotron radiation as laser -> heat molten salt coolant?
-1.21+: Focus Fusion -> direct energy production?
+26.x+: Inertial Confinement Fusion - synchrotron radiation as laser -> heat molten salt coolant?
+26.x+: Focus Fusion -> direct energy production?
 ___________________________________________________________________________________________________________________________
 
-1.21+: Hawking Generator - form black hole and power with matter -> Hawking radiation produced for energy?
+26.x+: Hawking Generator - form black hole and power with matter -> Hawking radiation produced for energy?

@@ -1,7 +1,6 @@
 package nc.integration.groovyscript;
 
 import com.cleanroommc.groovyscript.api.IIngredient;
-import com.cleanroommc.groovyscript.helper.ingredient.*;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.*;
 import nc.util.StreamHelper;
@@ -20,17 +19,8 @@ public class GSHelper {
 		else if (object instanceof ItemStack stack) {
 			return RecipeHelper.buildItemIngredient(stack);
 		}
-		else if (object instanceof OreDictIngredient gsOreStack) {
-			return new OreIngredient(gsOreStack.getOreDict(), gsOreStack.getAmount());
-		}
-		else if (object instanceof OreDictWildcardIngredient gsOreWildcard) {
-			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsOreWildcard.getMatchingOreDictionaries(), x -> new OreIngredient(x, gsOreWildcard.getAmount())));
-		}
-		else if (object instanceof ItemsIngredient gsItemsIngredient) {
-			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsItemsIngredient.getMatchingStacks(), GSHelper::buildAdditionItemIngredient));
-		}
-		else if (object instanceof OrIngredient gsOrIngredient) {
-			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsOrIngredient.getMatchingStacks(), GSHelper::buildAdditionItemIngredient));
+		else if (object instanceof IIngredient gsIngredient) {
+			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsIngredient.getMatchingStacks(), GSHelper::buildAdditionItemIngredient));
 		}
 		else {
 			throw invalidIngredientException(object);
@@ -62,17 +52,8 @@ public class GSHelper {
 		else if (object instanceof ItemStack stack) {
 			return RecipeHelper.buildItemIngredient(stack);
 		}
-		else if (object instanceof OreDictIngredient gsOreStack) {
-			return new OreIngredient(gsOreStack.getOreDict(), gsOreStack.getAmount());
-		}
-		else if (object instanceof OreDictWildcardIngredient gsOreWildcard) {
-			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsOreWildcard.getMatchingOreDictionaries(), x -> new OreIngredient(x, gsOreWildcard.getAmount())));
-		}
-		else if (object instanceof ItemsIngredient gsItemsIngredient) {
-			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsItemsIngredient.getMatchingStacks(), GSHelper::buildRemovalItemIngredient));
-		}
-		else if (object instanceof OrIngredient gsOrIngredient) {
-			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsOrIngredient.getMatchingStacks(), GSHelper::buildRemovalItemIngredient));
+		else if (object instanceof IIngredient gsIngredient) {
+			return RecipeHelper.buildItemIngredient(StreamHelper.map(gsIngredient.getMatchingStacks(), GSHelper::buildRemovalItemIngredient));
 		}
 		else {
 			throw invalidIngredientException(object);

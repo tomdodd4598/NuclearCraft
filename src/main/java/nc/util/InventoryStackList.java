@@ -7,6 +7,8 @@ import java.util.*;
 
 public class InventoryStackList extends NonNullList<ItemStack> {
 	
+	public static final NonNullList<ItemStack> EMPTY_LIST = NonNullList.withSize(0, ItemStack.EMPTY);
+	
 	public InventoryStackList(List<ItemStack> other) {
 		super(other, ItemStack.EMPTY);
 	}

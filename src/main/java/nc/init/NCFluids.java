@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.*;
 
 import java.util.*;
 
@@ -79,6 +79,7 @@ public class NCFluids {
 		addFluidPair(FluidType.GAS, "nitrogen", 0x7CC37B);
 		addFluidPair(FluidType.GAS, "fluorine", 0xD3C75D);
 		
+		addFluidPair(FluidType.GAS, "methane", 0xD9AFB3);
 		addFluidPair(FluidType.GAS, "carbon_dioxide", 0x5C635A);
 		addFluidPair(FluidType.GAS, "carbon_monoxide", 0x4C5649);
 		addFluidPair(FluidType.GAS, "ethene", 0xFFE4A3);
@@ -90,9 +91,33 @@ public class NCFluids {
 		addFluidPair(FluidType.GAS, "diborane", 0xCC6E8C);
 		addFluidPair(FluidType.GAS, "sulfur_dioxide", 0xC3BC7A);
 		addFluidPair(FluidType.GAS, "sulfur_trioxide", 0xD3AE5D);
+		addFluidPair(FluidType.GAS, "sulfur_hexafluoride", 0xC6FC46);
 		addFluidPair(FluidType.GAS, "tetrafluoroethene", 0x7EA542);
 		addFluidPair(FluidType.GAS, "hydrogen_sulfide", 0x785830);
 		addFluidPair(FluidType.GAS, "depleted_hydrogen_sulfide", 0x59514E);
+		
+		for (Triple<String, Float, Integer> triple : Arrays.asList(Triple.of("hot", 4F, 1000), Triple.of("exhaust", 3F, 900), Triple.of("lq", 2F, 800))) {
+			String suffix = triple.getLeft();
+			Float saturation = triple.getMiddle();
+			Integer temp = triple.getRight();
+			
+			addFluidPair(FluidType.HOT_GAS, "oxygen_" + suffix, ColorHelper.saturate(0x7E8CC8, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "hydrogen_" + suffix, ColorHelper.saturate(0xB37AC4, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "helium_" + suffix, ColorHelper.saturate(0xC57B81, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "nitrogen_" + suffix, ColorHelper.saturate(0x7CC37B, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "fluorine_" + suffix, ColorHelper.saturate(0xD3C75D, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "methane_" + suffix, ColorHelper.saturate(0xD9AFB3, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "carbon_dioxide_" + suffix, ColorHelper.saturate(0x5C635A, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "carbon_monoxide_" + suffix, ColorHelper.saturate(0x4C5649, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "ethene_" + suffix, ColorHelper.saturate(0xFFE4A3, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "ethyne_" + suffix, ColorHelper.saturate(0xFFE442, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "fluoromethane_" + suffix, ColorHelper.saturate(0x424C05, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "ammonia_" + suffix, ColorHelper.saturate(0x7AC3A0, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "diborane_" + suffix, ColorHelper.saturate(0xCC6E8C, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "sulfur_dioxide_" + suffix, ColorHelper.saturate(0xC3BC7A, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "sulfur_trioxide_" + suffix, ColorHelper.saturate(0xD3AE5D, saturation), temp);
+			addFluidPair(FluidType.HOT_GAS, "sulfur_hexafluoride_" + suffix, ColorHelper.saturate(0xC6FC46, saturation), temp);
+		}
 		
 		addFluidPair(FluidType.ACID, "hydrofluoric_acid", 0x004C05);
 		addFluidPair(FluidType.ACID, "boric_acid", 0x696939);

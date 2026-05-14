@@ -1,25 +1,15 @@
 package nc.recipe.multiblock;
 
-import it.unimi.dsi.fastutil.objects.*;
 import nc.init.NCBlocks;
-import nc.recipe.*;
-import nc.recipe.ingredient.*;
-import nc.tile.internal.fluid.Tank;
-import nc.util.PermutationHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import org.apache.commons.lang3.tuple.Pair;
-
-import javax.annotation.Nullable;
-import java.util.*;
 
 import static nc.config.NCConfig.fission_heater_cooling_rate;
 import static nc.init.NCCoolantFluids.COOLANTS;
 
-public class CoolantHeaterRecipes extends BasicRecipeHandler {
+public class CoolantHeaterRecipes extends FissionCoolingRecipes {
 	
 	public CoolantHeaterRecipes() {
-		super("coolant_heater", 1, 1, 0, 1);
+		super("coolant_heater", "_heater");
 	}
 	
 	@Override
@@ -29,74 +19,6 @@ public class CoolantHeaterRecipes extends BasicRecipeHandler {
 			ItemStack heater = new ItemStack(i < 16 ? NCBlocks.salt_fission_heater : NCBlocks.salt_fission_heater2, 1, i % 16);
 			String ruleName = COOLANTS.get(i) + "_heater";
 			addRecipe(heater, fluidStack(COOLANTS.get(i) + "_nak", 1), fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fission_heater_cooling_rate[i], ruleName);
-		}
-	}
-	
-	@Override
-	protected List<Object> fixedExtras(List<Object> extras) {
-		ExtrasFixer fixer = new ExtrasFixer(extras);
-		fixer.add(Integer.class, 0);
-		fixer.add(String.class, "");
-		return fixer.fixed;
-	}
-	
-	public @Nullable RecipeInfo<BasicRecipe> getRecipeInfoFromHeaterInputs(String heaterType, List<Tank> fluidInputs) {
-		long hash = 31L * (heaterType + "_heater").hashCode() + RecipeHelper.hashMaterialsRaw(Collections.emptyList(), fluidInputs);
-		if (recipeCache.containsKey(hash)) {
-			ObjectSet<BasicRecipe> set = recipeCache.get(hash);
-			for (BasicRecipe recipe : set) {
-				if (recipe instanceof CoolantHeaterRecipe heaterRecipe) {
-					RecipeMatchResult matchResult = heaterRecipe.matchHeaterInputs(heaterType, fluidInputs);
-					if (matchResult.isMatch) {
-						return new RecipeInfo<>(heaterRecipe, matchResult);
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	protected void fillHashCache() {
-		for (BasicRecipe recipe : recipeList) {
-			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
-			
-			if (!prepareMaterialListTuples(recipe, materialListTuples)) {
-				continue;
-			}
-			
-			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
-				for (List<FluidStack> fluids : PermutationHelper.permutations(materials.getRight())) {
-					long hash = 31L * recipe.getCoolantHeaterPlacementRule().hashCode() + RecipeHelper.hashMaterials(Collections.emptyList(), fluids);
-					if (recipeCache.containsKey(hash)) {
-						recipeCache.get(hash).add(recipe);
-					}
-					else {
-						ObjectSet<BasicRecipe> set = new ObjectOpenHashSet<>();
-						set.add(recipe);
-						recipeCache.put(hash, set);
-					}
-				}
-			}
-		}
-	}
-	
-	@Override
-	public BasicRecipe newRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<Object> extras, boolean shapeless) {
-		return new CoolantHeaterRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
-	}
-	
-	public static class CoolantHeaterRecipe extends BasicRecipe {
-		
-		public CoolantHeaterRecipe(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<Object> extras, boolean shapeless) {
-			super(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
-		}
-		
-		public RecipeMatchResult matchHeaterInputs(String heaterType, List<Tank> fluidInputs) {
-			if (!getCoolantHeaterPlacementRule().equals(heaterType + "_heater")) {
-				return RecipeMatchResult.FAIL;
-			}
-			return RecipeHelper.matchIngredients(IngredientSorption.INPUT, Collections.emptyList(), fluidIngredients, Collections.emptyList(), fluidInputs, isShapeless);
 		}
 	}
 }

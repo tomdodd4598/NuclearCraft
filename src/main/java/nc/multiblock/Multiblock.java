@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.FMLLog;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * This class contains the base logic for "multiblocks". Conceptually, they are meta-TileEntities. They govern the logic for an associated group of TileEntities.
@@ -378,8 +379,20 @@ public abstract class Multiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T
 	 * @param messageFormatStringResourceKey a translation key for a message or a message format string
 	 * @param messageParameters              optional parameters for a message format string
 	 */
+	public void setLastError(String messageFormatStringResourceKey, Collection<BlockPos> posCollection, Object... messageParameters) {
+		lastValidationError = new MultiblockValidationError(messageFormatStringResourceKey, posCollection, messageParameters);
+	}
+	
 	public void setLastError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters) {
-		lastValidationError = new MultiblockValidationError(messageFormatStringResourceKey, pos, messageParameters);
+		setLastError(messageFormatStringResourceKey, pos == null ? Collections.emptyList() : Collections.singleton(pos), messageParameters);
+	}
+	
+	public void setLastError(String messageFormatStringResourceKey, LongCollection posLongCollection, Object... messageParameters) {
+		setLastError(messageFormatStringResourceKey, posLongCollection.stream().map(BlockPos::fromLong).collect(Collectors.toSet()), messageParameters);
+	}
+	
+	public void setLastError(String messageFormatStringResourceKey, long posLong, Object... messageParameters) {
+		setLastError(messageFormatStringResourceKey, BlockPos.fromLong(posLong), messageParameters);
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
+import nc.init.NCBlocks;
 import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
@@ -27,13 +28,11 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public RecipeInfo<BasicRecipe> emergencyCoolingRecipeInfo;
 	
-	public int heaterCount = 0;
 	public double meanHeatingSpeedMultiplier = 0D, totalHeatingSpeedMultiplier = 0D;
 	
 	public MoltenSaltFissionLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
 		if (oldLogic instanceof MoltenSaltFissionLogic oldMoltenSaltLogic) {
-			heaterCount = oldMoltenSaltLogic.heaterCount;
 			meanHeatingSpeedMultiplier = oldMoltenSaltLogic.meanHeatingSpeedMultiplier;
 			totalHeatingSpeedMultiplier = oldMoltenSaltLogic.totalHeatingSpeedMultiplier;
 		}
@@ -46,7 +45,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public void onResetStats() {
-		heaterCount = 0;
 		meanHeatingSpeedMultiplier = totalHeatingSpeedMultiplier = 0D;
 	}
 	
@@ -60,14 +58,24 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public boolean isMachineWhole() {
-		return !containsBlacklistedPart();
+		return !containsBlacklistedPart() && !isMissingSorption();
 	}
 	
-	public static final List<Pair<Class<? extends IFissionPart>, String>> MOLTEN_SALT_PART_BLACKLIST = Lists.newArrayList(Pair.of(TileSolidFissionCell.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_cells"), Pair.of(TileSolidFissionSink.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_sinks"));
+	public static final List<Pair<Class<? extends IFissionPart>, String>> MOLTEN_SALT_PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TilePebbleFissionChamber.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_chambers"),
+			Pair.of(TilePebbleFissionCooler.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_coolers"),
+			Pair.of(TileSolidFissionCell.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_cells"),
+			Pair.of(TileSolidFissionSink.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_sinks")
+	);
 	
 	@Override
 	public List<Pair<Class<? extends IFissionPart>, String>> getPartBlacklist() {
 		return MOLTEN_SALT_PART_BLACKLIST;
+	}
+	
+	public boolean isMissingSorption() {
+		return super.isMissingSorption()
+				|| isMissingSorption(TileFissionVesselPort.class, TileSaltFissionVessel.class, NCBlocks.fission_vessel_port.getLocalizedName());
 	}
 	
 	@Override
@@ -87,8 +95,8 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public void incrementClusterStatsFromComponents(FissionCluster cluster, boolean simulate) {
-		for (FissionFuelBunch bunch : fuelBunches) {
-			bunch.statsRetrieved = false;
+		for (FissionFuelBunch fuelBunch : fuelBunches) {
+			fuelBunch.statsRetrieved = false;
 		}
 		
 		for (IFissionComponent component : cluster.getComponentMap().values()) {
@@ -140,7 +148,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		multiblock.usefulPartCount += multiblock.passiveModeratorCache.size() + multiblock.activeModeratorCache.size() + multiblock.activeReflectorCache.size();
 		double usefulPartRatio = (double) multiblock.usefulPartCount / (double) multiblock.getInteriorVolume();
 		multiblock.sparsityEfficiencyMult = usefulPartRatio >= fission_sparsity_penalty_params[1] ? 1D : (1D - fission_sparsity_penalty_params[0]) * Math.sin(usefulPartRatio * Math.PI / (2D * fission_sparsity_penalty_params[1])) + fission_sparsity_penalty_params[0];
-		// effectiveHeating *= sparsityEfficiencyMult;
+		// effectiveHeating *= multiblock.sparsityEfficiencyMult;
 		multiblock.totalEfficiency *= multiblock.sparsityEfficiencyMult;
 		multiblock.meanHeatMult = multiblock.fuelComponentCount == 0 ? 0D : (double) multiblock.totalHeatMult / (double) multiblock.fuelComponentCount;
 		multiblock.meanEfficiency = multiblock.fuelComponentCount == 0 ? 0D : multiblock.totalEfficiency / multiblock.fuelComponentCount;
@@ -325,7 +333,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		super.writeToLogicTag(logicTag, syncReason);
 		writeTanks(tanks, logicTag, "tanks");
-		logicTag.setInteger("heaterCount", heaterCount);
 		logicTag.setDouble("meanHeatingSpeedMultiplier", meanHeatingSpeedMultiplier);
 		logicTag.setDouble("totalHeatingSpeedMultiplier", totalHeatingSpeedMultiplier);
 	}
@@ -334,7 +341,6 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		super.readFromLogicTag(logicTag, syncReason);
 		readTanks(tanks, logicTag, "tanks");
-		heaterCount = logicTag.getInteger("heaterCount");
 		meanHeatingSpeedMultiplier = logicTag.getDouble("meanHeatingSpeedMultiplier");
 		totalHeatingSpeedMultiplier = logicTag.getDouble("totalHeatingSpeedMultiplier");
 	}

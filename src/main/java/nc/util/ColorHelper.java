@@ -15,6 +15,16 @@ public class ColorHelper {
 	}
 	
 	@ZenMethod
+	public static int getColor(int alpha, int red, int green, int blue) {
+		return alpha << 24 | red << 16 | green << 8 | blue;
+	}
+	
+	@ZenMethod
+	public static int getColor(int red, int green, int blue) {
+		return getColor(255, red, green, blue);
+	}
+	
+	@ZenMethod
 	public static int getAlpha(int color) {
 		return color >> 24 & 0xFF;
 	}
@@ -53,7 +63,7 @@ public class ColorHelper {
 		int green = NCMath.toInt(green1 + (green2 - green1) * blendRatio);
 		int blue = NCMath.toInt(blue1 + (blue2 - blue1) * blendRatio);
 		
-		return alpha << 24 | red << 16 | green << 8 | blue;
+		return getColor(alpha, red, green, blue);
 	}
 	
 	@ZenMethod
@@ -75,7 +85,14 @@ public class ColorHelper {
 		int green = NCMath.toInt(green1 + (green2 - green1) * glowFactor * green1 / 255F);
 		int blue = NCMath.toInt(blue1 + (blue2 - blue1) * glowFactor * blue1 / 255F);
 		
-		return alpha << 24 | red << 16 | green << 8 | blue;
+		return getColor(alpha, red, green, blue);
+	}
+	
+	@ZenMethod
+	public static int saturate(int color, float saturation) {
+		float[] hsb = Color.RGBtoHSB(getRed(color), getGreen(color), getBlue(color), null);
+		int rgb = Color.HSBtoRGB(hsb[0], (float) NCMath.sigmoid(hsb[1] * saturation), hsb[2]);
+		return (getAlpha(color) << 24) | (rgb & 0xFFFFFF);
 	}
 	
 	// Specific color methods

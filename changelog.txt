@@ -1,6 +1,60 @@
 v2o.9.3
 
++ Added Pebble Bed Reactors!
+* Access fuel chambers and gas coolers with filtered ports
+* Fuel chambers form filtered fuel bunches like MSR fuel vessels
+* Sixteen gas coolers with unique collection of placement rules
+* Heated gas coolants form two-stage turbine cycles
+* CT registration method for custom gas coolers
 
++ Added intrinsic flux mechanic to fission reactors
+* By default, only PBR TRISO fuels have non-zero intrinsic flux (added associated configs)
+
+* Fission reactors no longer form if missing any input or output ports
+* Fixed bug where fission fuel components would not fail to reach criticality correctly
+* Irradiators and coolant heaters no longer consume their inputs before processing
++ Added more info to fuel component OC table output
+
+* Fixed crash caused by attempting to display NaN recipe rates in large machine controller GUIs
+* Large machines no longer form if an unnecessary reservoir port is installed
+* Reduced lag caused by flickering large machine controllers
+
+* Fixed bug where heat exchangers would process tube fluid too rapidly
+* Fixed bug where sufficiently complex heat exchanger tube connections would cause crashes
+* Improved printing of fluid flow rates in heat exchanger controller GUI
+
+* Fixed condenser recipes having incorrect bonus stats
+
++ Added config to modify turbine dynamo energy capacity
++ Added config to enable simpler, faster turbine rotor render
+* Added more contrast to turbine part textures
+
+* The near side of a battery block placed with default side configs is set to output mode
+
++ Added support for multiblock assembly errors highlighting more than one block
+
+* Fixed sporadic crash related to smart item insertion
+
++ Added missing zirconium-molybdenum alloy recipe
+* Fixed sodium/potassium hydroxide fluid amounts in chemical reactor recipes
+
+* Improved default item model logic for fission fuels registered via CT
+* Fixed bug where CT ingredients would unexpectedly transmute to other ore dict entries
+* Fixed bug where GTCEu recipe integration occurred after CT recipe scripts
++ Added new CT color helper functions
+
+* Fixed multiple recipe types missing from GS integration
+* Fixed GS recipe builders not accepting ore dict or chance outputs
+* Updated GS ingredient builders
+
+* Fixed script addon reconstruction command not working correctly
+
+* Updated embedded DSSL and JavaQuantum libraries
+* Fixed incorrect mapping of qubit IDs to gate targets
+
+* Updated the versions of various dependencies
+* A few other minor fixes and changes
+* Updated Gradle toolchain
 
 v2o.9.2
 

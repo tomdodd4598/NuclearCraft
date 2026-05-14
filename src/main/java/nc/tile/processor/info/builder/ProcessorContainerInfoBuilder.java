@@ -35,22 +35,22 @@ public abstract class ProcessorContainerInfoBuilder<TILE extends TileEntity & IP
 	public final ContainerFunction<TILE> configContainerFunction;
 	public final GuiFunction<TILE> configGuiFunction;
 	
-	protected CreativeTabs creativeTab = NCTabs.machine;
+	public CreativeTabs creativeTab = NCTabs.machine;
 	
-	protected List<String> particles = new ArrayList<>();
+	public List<String> particles = new ArrayList<>();
 	
-	protected int inputTankCapacity = 16000;
-	protected int outputTankCapacity = 16000;
+	public int inputTankCapacity = 16000;
+	public int outputTankCapacity = 16000;
 	
-	protected double defaultProcessTime = processor_time_multiplier;
-	protected double defaultProcessPower = 0;
+	public double defaultProcessTime = processor_time_multiplier;
+	public double defaultProcessPower = 0;
 	
-	protected boolean isGenerator = false;
+	public boolean isGenerator = false;
 	
-	protected boolean consumesInputs = false;
-	protected boolean losesProgress = false;
+	public boolean consumesInputs = false;
+	public boolean losesProgress = false;
 	
-	protected String ocComponentName;
+	public String ocComponentName;
 	
 	protected ProcessorContainerInfoBuilder(String modId, String name, Class<TILE> tileClass, Supplier<TILE> tileSupplier, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction) {
 		super(modId, name);

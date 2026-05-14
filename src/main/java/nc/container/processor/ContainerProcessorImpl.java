@@ -216,9 +216,16 @@ public class ContainerProcessorImpl {
 		}
 	}
 	
-	public static class ContainerFissionCooler extends ContainerBasicProcessor<TileFissionCooler, FissionCoolerUpdatePacket> {
+	public static class ContainerPebbleFissionChamber extends ContainerBasicProcessor<TilePebbleFissionChamber, PebbleFissionChamberUpdatePacket> {
 		
-		public ContainerFissionCooler(EntityPlayer player, TileFissionCooler cooler) {
+		public ContainerPebbleFissionChamber(EntityPlayer player, TilePebbleFissionChamber chamber) {
+			super(player, chamber);
+		}
+	}
+	
+	public static class ContainerPebbleFissionCooler extends ContainerBasicProcessor<TilePebbleFissionCooler, PebbleFissionCoolerUpdatePacket> {
+		
+		public ContainerPebbleFissionCooler(EntityPlayer player, TilePebbleFissionCooler cooler) {
 			super(player, cooler);
 		}
 	}

@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/gas_cooler_extreme"
+		}
+	},
+	"variants": {
+		"inventory": [
+			{}
+		],
+		"normal": [
+			{}
+		]
+	}
+}

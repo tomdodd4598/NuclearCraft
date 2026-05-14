@@ -58,15 +58,8 @@ public class BlockSolidFissionCell extends BlockFissionPart {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileSolidFissionCell cell) {
 				dropItems(world, pos, cell.getInventoryStacksInternal());
-				/* world.updateComparatorOutputLevel(pos, this);
-				FissionReactor reactor = cell.getMultiblock();
-				world.removeTileEntity(pos);
-				if (reactor != null) {
-					reactor.getLogic().refreshPorts();
-				}*/
 			}
 		}
-		// super.breakBlock(world, pos, state);
 		world.removeTileEntity(pos);
 	}
 	

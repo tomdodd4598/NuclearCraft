@@ -154,6 +154,10 @@ public class NCJEI implements IModPlugin {
 		return list;
 	}
 	
+	public static List<Object> getGasCoolerCrafters() {
+		return getRecipeListInputs(FissionPlacement.recipe_handler.getRecipeList().stream().filter(x -> x.getPlacementRuleID().endsWith("_cooler")));
+	}
+	
 	public static List<Object> getCoolantHeaterCrafters() {
 		return getRecipeListInputs(FissionPlacement.recipe_handler.getRecipeList().stream().filter(x -> x.getPlacementRuleID().endsWith("_heater")));
 	}

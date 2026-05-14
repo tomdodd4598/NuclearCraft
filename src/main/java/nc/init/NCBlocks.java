@@ -134,12 +134,13 @@ public class NCBlocks {
 	public static Block fission_power_port;
 	public static Block fission_vent;
 	public static Block fission_irradiator;
-	public static Block fission_cooler;
 	public static Block fission_source;
 	public static Block fission_shield;
 	public static Block fission_computer_port;
 	
 	public static Block fission_irradiator_port;
+	
+	public static Block fission_chamber_port;
 	public static Block fission_cooler_port;
 	
 	public static Block fission_cell_port;
@@ -150,6 +151,10 @@ public class NCBlocks {
 	
 	public static Block fission_source_manager;
 	public static Block fission_shield_manager;
+	
+	public static Block pebble_fission_controller;
+	public static Block pebble_fission_chamber;
+	public static Block pebble_fission_cooler;
 	
 	public static Block solid_fission_controller;
 	public static Block solid_fission_cell;
@@ -369,14 +374,15 @@ public class NCBlocks {
 		fission_power_port = addWithName(Global.MOD_ID, "fission_power_port", new BlockFissionPowerPort());
 		fission_vent = addWithName(Global.MOD_ID, "fission_vent", new BlockFissionVent());
 		fission_irradiator = addWithName(Global.MOD_ID, "fission_irradiator", new BlockFissionIrradiator());
-		fission_cooler = addWithName(Global.MOD_ID, "fission_cooler", new BlockFissionCooler());
 		fission_source = addWithNameMeta(Global.MOD_ID, "fission_source", new BlockFissionMetaSource(), x -> new ItemBlockMeta<>(x, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()), x -> "active=false,facing=south,type=" + x);
 		fission_shield = addWithNameMeta(Global.MOD_ID, "fission_shield", new BlockFissionMetaShield(), x -> new ItemBlockMeta<>(x, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, NCInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, NCInfo.neutronShieldInfo()), x -> "active=true,type=" + x);
 		
 		fission_computer_port = addWithName(Global.MOD_ID, "fission_computer_port", new BlockFissionComputerPort());
 		
 		fission_irradiator_port = addWithName(Global.MOD_ID, "fission_irradiator_port", new BlockFissionIrradiatorPort());
-		fission_cooler_port = addWithName(Global.MOD_ID, "fission_cooler_port", new BlockFissionCoolerPort());
+		
+		fission_chamber_port = addWithName(Global.MOD_ID, "fission_chamber_port", new BlockFissionChamberPort());
+		fission_cooler_port = addWithNameMeta(Global.MOD_ID, "fission_cooler_port", new BlockFissionCoolerPort(), ItemBlockMeta<MetaEnums.GasCoolerType>::new, x -> "active=false,axis=z,type=" + x);
 		
 		fission_cell_port = addWithName(Global.MOD_ID, "fission_cell_port", new BlockFissionCellPort());
 		
@@ -386,6 +392,10 @@ public class NCBlocks {
 		
 		fission_source_manager = addWithName(Global.MOD_ID, "fission_source_manager", new BlockFissionSourceManager());
 		fission_shield_manager = addWithName(Global.MOD_ID, "fission_shield_manager", new BlockFissionShieldManager());
+		
+		pebble_fission_controller = addWithName(Global.MOD_ID, "pebble_fission_controller", new BlockPebbleFissionController());
+		pebble_fission_chamber = addWithName(Global.MOD_ID, "pebble_fission_chamber", new BlockPebbleFissionChamber());
+		pebble_fission_cooler = addWithNameMeta(Global.MOD_ID, "pebble_fission_cooler", new BlockPebbleFissionMetaCooler(), x -> new ItemBlockMeta<>(x, TextFormatting.BLUE, NCInfo.gasCoolerFixedInfo(), TextFormatting.AQUA, InfoHelper.NULL_ARRAYS), x -> "type=" + x);
 		
 		solid_fission_controller = addWithName(Global.MOD_ID, "solid_fission_controller", new BlockSolidFissionController());
 		solid_fission_cell = addWithName(Global.MOD_ID, "solid_fission_cell", new BlockSolidFissionCell());

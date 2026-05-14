@@ -1,7 +1,7 @@
 package nc.tile.fission;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.*;
 import nc.multiblock.fission.FissionCluster;
 import nc.tile.fission.IFissionFuelComponent.*;
 import nc.util.*;
@@ -89,6 +89,10 @@ public interface IFissionComponent extends IFissionPart {
 				clusterSearchCache.put(component, id);
 			}
 		}
+	}
+	
+	default void addToComponentFailCache(final Long2ObjectMap<IFissionComponent> componentFailCache) {
+		componentFailCache.put(getTilePos().toLong(), this);
 	}
 	
 	long getHeatStored();

@@ -1,13 +1,10 @@
 package nc.tile.processor.info;
 
-import nc.container.ContainerFunction;
-import nc.gui.GuiFunction;
 import nc.network.tile.processor.ProcessorUpdatePacket;
-import nc.util.ContainerInfoHelper;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.processor.IProcessor;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
+import nc.tile.processor.info.builder.UpgradableProcessorContainerInfoBuilder;
+import nc.util.ContainerInfoHelper;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
@@ -26,14 +23,14 @@ public abstract class UpgradableProcessorContainerInfo<TILE extends TileEntity &
 	public final int speedUpgradeSorptionButtonID;
 	public final int energyUpgradeSorptionButtonID;
 	
-	protected UpgradableProcessorContainerInfo(String modId, String name, Class<TILE> tileClass, Class<? extends Container> containerClass, ContainerFunction<TILE> containerFunction, Class<? extends GuiContainer> guiClass, GuiFunction<TILE> guiFunction, ContainerFunction<TILE> configContainerFunction, GuiFunction<TILE> configGuiFunction, String recipeHandlerName, int inputTankCapacity, int outputTankCapacity, double defaultProcessTime, double defaultProcessPower, boolean isGenerator, boolean consumesInputs, boolean losesProgress, String ocComponentName, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, int[] energyBarGuiXYWHUV, int[] machineConfigGuiXY, int[] redstoneControlGuiXY, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH, int[] jeiClickAreaXYWH, int[] speedUpgradeGuiXYWH, int[] energyUpgradeGuiXYWH) {
-		super(modId, name, tileClass, containerClass, containerFunction, guiClass, guiFunction, configContainerFunction, configGuiFunction, recipeHandlerName, inputTankCapacity, outputTankCapacity, defaultProcessTime, defaultProcessPower, isGenerator, consumesInputs, losesProgress, ocComponentName, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, energyBarGuiXYWHUV, machineConfigGuiXY, redstoneControlGuiXY, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH, jeiClickAreaXYWH);
+	protected UpgradableProcessorContainerInfo(UpgradableProcessorContainerInfoBuilder<TILE, PACKET, INFO, ?> builder) {
+		super(builder);
 		
 		speedUpgradeSlot = itemInputSize + itemOutputSize;
 		energyUpgradeSlot = speedUpgradeSlot + 1;
 		
-		this.speedUpgradeGuiXYWH = speedUpgradeGuiXYWH;
-		this.energyUpgradeGuiXYWH = energyUpgradeGuiXYWH;
+		speedUpgradeGuiXYWH = builder.speedUpgradeGuiXYWH;
+		energyUpgradeGuiXYWH = builder.energyUpgradeGuiXYWH;
 		
 		speedUpgradeStackXY = ContainerInfoHelper.stackXY(speedUpgradeGuiXYWH);
 		energyUpgradeStackXY = ContainerInfoHelper.stackXY(energyUpgradeGuiXYWH);

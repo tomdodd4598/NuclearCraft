@@ -118,8 +118,8 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 	}
 	
 	@Override
-	public void readStackData(World world, BlockPos pos, EntityLivingBase player, ItemStack stack) {
-		if (player == null || !stack.hasTagCompound()) {
+	public void readStackData(World world, BlockPos pos, EntityLivingBase placer, ItemStack stack) {
+		if (placer == null || !stack.hasTagCompound()) {
 			return;
 		}
 		TileEntity tile = world.getTileEntity(pos);
@@ -128,8 +128,11 @@ public class BlockBattery extends BlockMultiblockPart implements IDynamicState, 
 			
 			battery.waitingEnergy += new EnergyStorage(battery.capacity).readFromNBT(nbt, "energyStorage").getEnergyStoredLong();
 			
-			if (player.isSneaking()) {
+			if (placer.isSneaking()) {
 				battery.readEnergyConnections(nbt);
+			}
+			else {
+				battery.setEnergyConnection(EnergyConnection.OUT, EnumFacing.getDirectionFromEntityLiving(pos, placer));
 			}
 		}
 	}

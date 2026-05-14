@@ -11,7 +11,6 @@ public class ChunksIterElement extends IterElement {
 	protected final long size;
 	
 	protected @Nullable ListElement next = null;
-	protected boolean end = false;
 	
 	public ChunksIterElement(Interpreter interpreter, IterElement internal, long size) {
 		super(interpreter);
@@ -20,24 +19,26 @@ public class ChunksIterElement extends IterElement {
 	}
 	
 	protected void prepare(TokenExecutor exec) {
-		if (next == null && !end) {
+		if (next == null) {
 			long count = 0;
 			while (internal.hasNext(exec)) {
-				if (count++ >= size) {
+				if (next == null) {
 					next = new ListElement(interpreter);
-					return;
 				}
-				next.value.add(internal.next(exec));
+				if (count++ < size) {
+					next.value.add(internal.next(exec));
+				}
+				else {
+					break;
+				}
 			}
-			
-			end = true;
 		}
 	}
 	
 	@Override
 	public boolean hasNext(TokenExecutor exec) {
 		prepare(exec);
-		return !end;
+		return next != null;
 	}
 	
 	@SuppressWarnings("null")

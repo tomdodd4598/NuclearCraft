@@ -43,9 +43,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	
 	protected final @Nonnull String inventoryName;
 	
-	protected final @Nonnull NonNullList<ItemStack> inventoryStacks;
-	protected final @Nonnull NonNullList<ItemStack> consumedStacks;
-	
 	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Collections.emptyList());
 	
 	protected final @Nonnull List<Tank> tanks;
@@ -59,7 +56,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	protected @Nonnull GasTileWrapper gasWrapper = new GasTileWrapper(this);
 	
 	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessDecayFactor = 0D, baseProcessRadiation = 0D;
-	public int baseProcessHeat = 0, baseProcessCriticality = 1;
+	public int baseProcessHeat = 0, baseProcessCriticality = 1, intrinsicFlux = 0;
 	protected boolean selfPriming = false;
 	
 	public double time, resetTime;
@@ -104,9 +101,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		info = TileInfoHandler.getProcessorContainerInfo("salt_fission_vessel");
 		
 		inventoryName = Global.MOD_ID + ".container." + info.name;
-		
-		inventoryStacks = NonNullList.withSize(0, ItemStack.EMPTY);
-		consumedStacks = info.getConsumedStacks();
 		
 		Set<String> validFluids = NCRecipes.salt_fission.validFluids.get(0);
 		tanks = Lists.newArrayList(new Tank(INGOT_BLOCK_VOLUME, validFluids), new Tank(INGOT_BLOCK_VOLUME, new ObjectOpenHashSet<>()));
@@ -217,6 +211,11 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	@Override
 	public void addToPrimedCache(final ObjectSet<IFissionFuelComponent> primedCache) {
 		primedCache.addAll(fuelBunch.fuelComponentMap.values());
+	}
+	
+	@Override
+	public void addToPrimedFailCache(final Long2ObjectMap<IFissionFuelComponent> primedFailCache) {
+		primedFailCache.putAll(getFuelBunch().fuelComponentMap);
 	}
 	
 	@Override
@@ -358,9 +357,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		return isRunning(simulate) ? baseProcessHeat * fuelBunch.getHeatMultiplier(simulate) / getFuelBunchSize() : 0L;
 	}
 	
-	/**
-	 * DON'T USE IN REACTOR LOGIC!
-	 */
 	@Override
 	public long getRawHeatingIgnoreCoolingPenalty(boolean simulate) {
 		return isRunning(simulate) ? 0L : getDecayHeating();
@@ -382,6 +378,16 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	@Override
 	public long getHeatMultiplier(boolean simulate) {
 		return fuelBunch.getHeatMultiplier(simulate) / getFuelBunchSize();
+	}
+	
+	@Override
+	public long getIntrinsicFlux() {
+		return intrinsicFlux;
+	}
+	
+	@Override
+	public double getIntrinsicFluxEfficiencyFactor() {
+		return fission_vessel_intrinsic_flux_efficiency;
 	}
 	
 	@Override
@@ -673,12 +679,24 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public void setRecipeStats(@Nullable BasicRecipe recipe) {
-		baseProcessTime = recipe == null ? 1D : recipe.getSaltFissionFuelTime();
-		baseProcessHeat = recipe == null ? 0 : recipe.getFissionFuelHeat();
-		baseProcessEfficiency = recipe == null ? 0D : recipe.getFissionFuelEfficiency();
-		baseProcessCriticality = recipe == null ? 1 : recipe.getFissionFuelCriticality();
-		selfPriming = recipe != null && recipe.getFissionFuelSelfPriming();
-		baseProcessRadiation = recipe == null ? 0D : recipe.getFissionFuelRadiation();
+		if (recipe == null) {
+			baseProcessTime = 1D;
+			baseProcessHeat = 0;
+			baseProcessEfficiency = 0D;
+			baseProcessCriticality = 1;
+			intrinsicFlux = 0;
+			selfPriming = false;
+			baseProcessRadiation = 0D;
+		}
+		else {
+			baseProcessTime = recipe.getSaltFissionFuelTime();
+			baseProcessHeat = recipe.getFissionFuelHeat();
+			baseProcessEfficiency = recipe.getFissionFuelEfficiency();
+			baseProcessCriticality = recipe.getFissionFuelCriticality();
+			intrinsicFlux = recipe.getFissionFuelIntrinsicFlux();
+			selfPriming = recipe.getFissionFuelSelfPriming();
+			baseProcessRadiation = recipe.getFissionFuelRadiation();
+		}
 		
 		if (recipe != null) {
 			decayProcessHeat = baseProcessHeat;
@@ -688,7 +706,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getConsumedStacks() {
-		return consumedStacks;
+		return InventoryStackList.EMPTY_LIST;
 	}
 	
 	@Override
@@ -843,7 +861,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
-		return inventoryStacks;
+		return InventoryStackList.EMPTY_LIST;
 	}
 	
 	@Override
@@ -926,17 +944,6 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		return false;
 	}
 	
-	@Override
-	public void clearAllTanks() {
-		for (Tank tank : tanks) {
-			tank.setFluidStored(null);
-		}
-		for (Tank tank : consumedTanks) {
-			tank.setFluidStored(null);
-		}
-		refreshAll();
-	}
-	
 	// ITileFilteredFluid
 	
 	@Override
@@ -1000,6 +1007,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		nbt.setInteger("baseProcessHeat", baseProcessHeat);
 		nbt.setDouble("baseProcessEfficiency", baseProcessEfficiency);
 		nbt.setInteger("baseProcessCriticality", baseProcessCriticality);
+		nbt.setInteger("intrinsicFlux", intrinsicFlux);
 		nbt.setDouble("baseProcessDecayFactor", baseProcessDecayFactor);
 		nbt.setBoolean("selfPriming", selfPriming);
 		
@@ -1026,6 +1034,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		baseProcessHeat = nbt.getInteger("baseProcessHeat");
 		baseProcessEfficiency = nbt.getDouble("baseProcessEfficiency");
 		baseProcessCriticality = nbt.getInteger("baseProcessCriticality");
+		intrinsicFlux = nbt.getInteger("intrinsicFlux");
 		baseProcessDecayFactor = nbt.getDouble("baseProcessDecayFactor");
 		selfPriming = nbt.getBoolean("selfPriming");
 		
@@ -1112,8 +1121,13 @@ public class TileSaltFissionVessel extends TileFissionPart implements IBasicProc
 		entry.put("is_processing", getIsProcessing());
 		entry.put("current_time", getCurrentTime());
 		entry.put("base_process_time", getBaseProcessTime());
-		entry.put("base_process_criticality", baseProcessCriticality);
+		entry.put("base_process_heat", getBaseProcessHeat());
 		entry.put("base_process_efficiency", baseProcessEfficiency);
+		entry.put("base_process_criticality", baseProcessCriticality);
+		entry.put("intrinsic_flux", intrinsicFlux);
+		entry.put("base_process_decay_factor", baseProcessDecayFactor);
+		entry.put("is_self_priming", selfPriming);
+		entry.put("base_process_radiation", baseProcessRadiation);
 		entry.put("is_primed", isPrimed(false));
 		entry.put("efficiency", getEfficiency(false));
 		entry.put("flux", getFlux());

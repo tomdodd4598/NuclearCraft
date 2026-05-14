@@ -487,15 +487,12 @@ public class RecipeHelper {
 		return allowedFluidSets;
 	}
 	
-	public static OreIngredient getOreStackFromItems(List<ItemStack> stackList, int stackSize) {
+	public static @Nullable OreIngredient tryGetOreIngredientFromItems(List<ItemStack> stackList, int stackSize) {
 		if (stackList == null || stackList.isEmpty()) {
 			return null;
 		}
-		String oreName = OreDictHelper.getOreNameFromStacks(stackList);
-		if (oreName.equals("Unknown")) {
-			return null;
-		}
-		return new OreIngredient(oreName, stackSize);
+		List<String> oreNames = OreDictHelper.getOreNamesFromStacks(stackList);
+		return oreNames.size() == 1 ? new OreIngredient(oreNames.get(0), stackSize) : null;
 	}
 	
 	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {

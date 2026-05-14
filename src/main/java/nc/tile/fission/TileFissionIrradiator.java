@@ -38,14 +38,12 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	protected final @Nonnull String inventoryName;
 	
 	protected final @Nonnull NonNullList<ItemStack> inventoryStacks;
-	protected final @Nonnull NonNullList<ItemStack> consumedStacks;
 	
 	protected final @Nonnull NonNullList<ItemStack> filterStacks;
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections;
 	
 	protected final @Nonnull List<Tank> tanks;
-	protected final @Nonnull List<Tank> consumedTanks;
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Collections.emptyList());
 	
@@ -56,7 +54,7 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	public long minFluxPerTick = 0, maxFluxPerTick = -1;
 	
 	public double time, resetTime;
-	public boolean isProcessing, canProcessInputs, hasConsumed;
+	public boolean isProcessing, canProcessInputs;
 	public boolean isRunningSimulated;
 	
 	protected RecipeInfo<BasicRecipe> recipeInfo = null;
@@ -80,14 +78,12 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 		inventoryName = Global.MOD_ID + ".container." + info.name;
 		
 		inventoryStacks = info.getInventoryStacks();
-		consumedStacks = info.getConsumedStacks();
 		
 		filterStacks = info.getInventoryStacks();
 		
 		inventoryConnections = ITileInventory.inventoryConnectionAll(info.nonItemSorptions());
 		
 		tanks = Collections.emptyList();
-		consumedTanks = info.getConsumedTanks();
 	}
 	
 	@Override
@@ -147,7 +143,6 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 			isProcessing = isProcessing(checkCluster, simulate);
 			isRunningSimulated = false;
 		}
-		hasConsumed = hasConsumed();
 	}
 	
 	@Override
@@ -323,12 +318,12 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getConsumedStacks() {
-		return consumedStacks;
+		return getInventoryStacks();
 	}
 	
 	@Override
 	public @Nonnull List<Tank> getConsumedTanks() {
-		return consumedTanks;
+		return getTanks();
 	}
 	
 	@Override
@@ -391,12 +386,12 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public boolean getHasConsumed() {
-		return hasConsumed;
+		return false;
 	}
 	
 	@Override
 	public void setHasConsumed(boolean hasConsumed) {
-		this.hasConsumed = hasConsumed;
+	
 	}
 	
 	@Override
@@ -427,7 +422,7 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	}
 	
 	public boolean readyToProcess(boolean checkCluster) {
-		return canProcessInputs && hasConsumed && isMultiblockAssembled() && (!checkCluster || cluster != null);
+		return canProcessInputs && isMultiblockAssembled() && (!checkCluster || cluster != null);
 	}
 	
 	@Override
@@ -508,13 +503,6 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	@Override
 	public int getInventoryStackLimit() {
 		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventoryStackLimit() : IBasicProcessor.super.getInventoryStackLimit();
-	}
-	
-	@Override
-	public void clearAllSlots() {
-		Collections.fill(inventoryStacks, ItemStack.EMPTY);
-		Collections.fill(consumedStacks, ItemStack.EMPTY);
-		refreshAll();
 	}
 	
 	@Override
@@ -683,13 +671,13 @@ public class TileFissionIrradiator extends TileFissionPart implements IBasicProc
 	
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
-		NBTHelper.writeAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks, filterStacks);
 		return nbt;
 	}
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
-		NBTHelper.readAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks, filterStacks);
 	}
 	
 	// Capability

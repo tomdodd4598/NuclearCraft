@@ -2,6 +2,7 @@ package nc.recipe.processor;
 
 import com.google.common.collect.Lists;
 import nc.init.*;
+import nc.recipe.multiblock.GasCoolerRecipes;
 import nc.util.*;
 import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
@@ -38,6 +39,10 @@ public class InfuserRecipes extends BasicProcessorRecipeHandler {
 		
 		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquid_helium", 50), NCBlocks.supercold_ice, 0.25D, 0.5D);
 		
+		for (int i = 0; i < 16; ++i) {
+			addRecipe("emptyGasCoolerPort", fluidStack(GasCoolerRecipes.COOLANTS[i], BUCKET_VOLUME), new ItemStack(NCBlocks.fission_cooler_port, 1, i), 1D, 1D);
+		}
+		
 		addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("liquid_nitrogen", BUCKET_VOLUME), new ItemStack(NCBlocks.fission_heater_port2, 1, 12), 1D, 1D);
 		addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("liquid_helium", BUCKET_VOLUME), new ItemStack(NCBlocks.fission_heater_port2, 1, 13), 1D, 1D);
 		if (!OreDictHelper.oreExists("ingotEnderium")) {
@@ -45,6 +50,10 @@ public class InfuserRecipes extends BasicProcessorRecipeHandler {
 		}
 		if (!OreDictHelper.oreExists("dustCryotheum")) {
 			addRecipe(new ItemStack(NCBlocks.fission_heater_port, 1, 0), fluidStack("cryotheum", BUCKET_VOLUME), new ItemStack(NCBlocks.fission_heater_port2, 1, 15), 1D, 1D);
+		}
+		
+		for (int i = 0; i < 16; ++i) {
+			addRecipe("emptyGasCooler", fluidStack(GasCoolerRecipes.COOLANTS[i], BUCKET_VOLUME), new ItemStack(NCBlocks.pebble_fission_cooler, 1, i), 1D, 1D);
 		}
 		
 		addRecipe("emptyHeatSink", fluidStack("water", BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink, 1, 0), 1D, 1D);

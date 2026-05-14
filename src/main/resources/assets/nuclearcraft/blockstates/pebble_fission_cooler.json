@@ -1,0 +1,90 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"oxygen": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/oxygen"
+				}
+			},
+			"hydrogen": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/hydrogen"
+				}
+			},
+			"helium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/helium"
+				}
+			},
+			"nitrogen": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/nitrogen"
+				}
+			},
+			"fluorine": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/fluorine"
+				}
+			},
+			"methane": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/methane"
+				}
+			},
+			"carbon_dioxide": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/carbon_dioxide"
+				}
+			},
+			"carbon_monoxide": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/carbon_monoxide"
+				}
+			},
+			"ethene": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/ethene"
+				}
+			},
+			"ethyne": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/ethyne"
+				}
+			},
+			"fluoromethane": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/fluoromethane"
+				}
+			},
+			"ammonia": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/ammonia"
+				}
+			},
+			"diborane": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/diborane"
+				}
+			},
+			"sulfur_dioxide": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/sulfur_dioxide"
+				}
+			},
+			"sulfur_trioxide": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/sulfur_trioxide"
+				}
+			},
+			"sulfur_hexafluoride": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/pebble/cooler/sulfur_hexafluoride"
+				}
+			}
+		}
+	}
+}

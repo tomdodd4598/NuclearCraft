@@ -541,7 +541,7 @@ public class NCPFBuilder {
 				}
 				
 				Map<String, Object> heater = new HashMap<>();
-				heater.put("cooling", recipe.getCoolantHeaterCoolingRate());
+				heater.put("cooling", recipe.getFissionCoolingRate());
 				heater.put("output", translateIngredient(recipe.getFluidProducts().get(0)));
 				element.modules.put("nuclearcraft:overhaul_msr:heater_stats", heater);
 			}

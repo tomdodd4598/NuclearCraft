@@ -28,6 +28,6 @@ public class JEISimpleCategoryInfoBuilder<WRAPPER extends JEISimpleRecipeWrapper
 	}
 	
 	public JEISimpleCategoryInfo<WRAPPER> buildCategoryInfo() {
-		return new JEISimpleCategoryInfo<>(modId, name, jeiRecipeClass, jeiRecipeFunction, jeiCrafters, jeiContainerConnections, guiWH, itemInputGuiXYWH, fluidInputGuiXYWH, itemOutputGuiXYWH, fluidOutputGuiXYWH, playerGuiXY, progressBarGuiXYWHUV, jeiCategoryEnabled, jeiCategoryUid, jeiTitle, jeiTexture, jeiBackgroundXYWH, jeiTooltipXYWH);
+		return new JEISimpleCategoryInfo<>(this);
 	}
 }

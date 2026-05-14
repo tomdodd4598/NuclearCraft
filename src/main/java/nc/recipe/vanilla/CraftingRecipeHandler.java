@@ -9,6 +9,7 @@ import nc.init.*;
 import nc.item.ItemMultitool;
 import nc.multiblock.quantum.QuantumGateEnums;
 import nc.radiation.RadArmor;
+import nc.recipe.multiblock.GasCoolerRecipes;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.*;
 import nc.util.*;
@@ -233,6 +234,11 @@ public class CraftingRecipeHandler {
 		
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_irradiator_port, 4), "PHP", "ZFZ", "PHP", 'P', "plateBasic", 'H', Blocks.HOPPER, 'Z', "ingotZirconium", 'F', "steelFrame");
 		
+		addShapedOreRecipe(new ItemStack(NCBlocks.fission_chamber_port, 4), "PHP", "CFC", "PHP", 'P', "plateAdvanced", 'H', Blocks.HOPPER, 'C', "ingotPyrolyticCarbon", 'F', "steelFrame");
+		for (int i = 0; i < 16; ++i) {
+			addShapelessFluidRecipe(new ItemStack(NCBlocks.fission_cooler_port, 1, i), "emptyGasCoolerPort", new BucketIngredient(GasCoolerRecipes.COOLANTS[i]));
+		}
+		
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_cell_port, 4), "PHP", "ZFZ", "PHP", 'P', "plateAdvanced", 'H', Blocks.HOPPER, 'Z', "ingotZircaloy", 'F', "steelFrame");
 		
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_vessel_port, 4), "PSP", "ZFZ", "PSP", 'P', "plateElite", 'S', "servo", 'Z', "ingotZircaloy", 'F', "steelFrame");
@@ -271,6 +277,12 @@ public class CraftingRecipeHandler {
 		
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_source_manager, 4), "PEP", "RFR", "PEP", 'P', "plateBasic", 'E', "dustEnergetic", 'R', Items.REPEATER, 'F', "steelFrame");
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_shield_manager, 4), "PTP", "RFR", "PTP", 'P', "plateBasic", 'T', "ingotTough", 'R', Items.REPEATER, 'F', "steelFrame");
+		
+		addShapedOreRecipe(NCBlocks.pebble_fission_controller, "PCP", "TFT", "PCP", 'P', "plateAdvanced", 'C', "ingotPyrolyticCarbon", 'T', "ingotTough", 'F', "steelFrame");
+		addShapedOreRecipe(new ItemStack(NCBlocks.pebble_fission_chamber, 4), "PCP", "ZFZ", "PCP", 'P', "plateAdvanced", 'C', "ingotPyrolyticCarbon", 'Z', "ingotZircaloy", 'F', "steelFrame");
+		for (int i = 0; i < 16; ++i) {
+			addShapelessFluidRecipe(new ItemStack(NCBlocks.pebble_fission_cooler, 1, i), "emptyGasCooler", new BucketIngredient(GasCoolerRecipes.COOLANTS[i]));
+		}
 		
 		addShapedOreRecipe(NCBlocks.solid_fission_controller, "PTP", "HFH", "PTP", 'P', "plateAdvanced", 'T', "ingotTough", 'H', "ingotHardCarbon", 'F', "steelFrame");
 		addShapedOreRecipe(new ItemStack(NCBlocks.solid_fission_cell, 4), "PTP", "ZFZ", "PTP", 'P', "plateAdvanced", 'T', "ingotTough", 'Z', "ingotZircaloy", 'F', "steelFrame");
@@ -399,6 +411,8 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 11), "PTP", "I I", "PTP", 'P', "plateBasic", 'I', "ingotIron", 'T', "ingotTin");
 		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 12), "STS", "TBT", "STS", 'S', "ingotSteel", 'B', "ingotBronze", 'T', "ingotTough");
 		addShapedOreRecipe(new ItemStack(NCItems.part, 8, 14), "PSP", "T T", "PSP", 'P', "plateAdvanced", 'S', "ingotSteel", 'T', "ingotTough");
+		addShapedOreRecipe(new ItemStack(NCItems.part, 8, 23), "PCP", "TFT", "PCP", 'P', "plateAdvanced", 'C', "ingotPyrolyticCarbon", 'T', "ingotTough", 'F', "steelFrame");
+		addShapedOreRecipe(new ItemStack(NCItems.part, 4, 24), "PSP", "CFC", "PSP", 'P', "plateAdvanced", 'S', "servo", 'C', "ingotPyrolyticCarbon", 'F', "steelFrame");
 		
 		addShapedOreRecipe(new ItemStack(NCItems.upgrade, 1, 0), "LRL", "RPR", "LRL", 'L', "gemLapis", 'R', "dustRedstone", 'P', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE);
 		addShapedOreRecipe(new ItemStack(NCItems.upgrade, 1, 1), "OQO", "QPQ", "OQO", 'O', "dustObsidian", 'Q', "dustQuartz", 'P', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE);

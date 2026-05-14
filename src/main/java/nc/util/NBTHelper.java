@@ -68,58 +68,68 @@ public class NBTHelper {
 	// Inventory
 	
 	@SafeVarargs
-	public static NBTTagCompound writeAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
-		return writeAllItems(tag, "Items", lists);
+	public static NBTTagCompound writeAllItems(NBTTagCompound tag, List<ItemStack>... stackLists) {
+		return writeAllItems(tag, "Items", stackLists);
 	}
 	
 	@SafeVarargs
-	public static NBTTagCompound writeAllItems(NBTTagCompound tag, String name, List<ItemStack>... lists) {
-		if (lists.length == 0) {
+	public static NBTTagCompound writeAllItems(NBTTagCompound tag, String name, List<ItemStack>... stackLists) {
+		if (stackLists.length == 0) {
 			return tag;
 		}
-		NBTTagList nbttaglist = new NBTTagList();
+		NBTTagList tagList = new NBTTagList();
 		
 		int i = 0;
-		for (List<ItemStack> list : lists) {
-			for (ItemStack stack : list) {
+		for (List<ItemStack> stackList : stackLists) {
+			for (ItemStack stack : stackList) {
 				if (!stack.isEmpty()) {
-					NBTTagCompound nbttagcompound = new NBTTagCompound();
-					nbttagcompound.setByte("Slot", (byte) i);
-					stack.writeToNBT(nbttagcompound);
-					nbttaglist.appendTag(nbttagcompound);
+					NBTTagCompound stackTag = new NBTTagCompound();
+					stackTag.setByte("Slot", (byte) i);
+					stack.writeToNBT(stackTag);
+					tagList.appendTag(stackTag);
 				}
 				++i;
 			}
 		}
 		
-		tag.setTag(name, nbttaglist);
+		tag.setTag(name, tagList);
 		
 		return tag;
 	}
 	
 	@SafeVarargs
-	public static void readAllItems(NBTTagCompound tag, List<ItemStack>... lists) {
-		readAllItems(tag, "Items", lists);
+	public static void readAllItems(NBTTagCompound tag, List<ItemStack>... stackLists) {
+		readAllItems(tag, "Items", stackLists);
 	}
 	
 	@SafeVarargs
-	public static void readAllItems(NBTTagCompound tag, String name, List<ItemStack>... lists) {
-		if (lists.length == 0) {
+	public static void readAllItems(NBTTagCompound tag, String name, List<ItemStack>... stackLists) {
+		if (stackLists.length == 0) {
 			return;
 		}
-		NBTTagList nbttaglist = tag.getTagList(name, 10);
+		NBTTagList tagList = tag.getTagList(name, 10);
 		
-		int n = 0, offset = 0;
-		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-			int j = nbttagcompound.getByte("Slot") & 255;
+		List<ItemStack> stackList = stackLists[0];
+		int stackListIndex = 0, stackListSize = stackList.size(), slotOffset = 0;
+		
+		for (int tagIndex = 0; tagIndex < tagList.tagCount(); ++tagIndex) {
+			NBTTagCompound stackTag = tagList.getCompoundTagAt(tagIndex);
+			int slot = stackTag.getByte("Slot") & 255;
 			
-			while (j - offset >= lists[n].size()) {
-				offset += lists[n].size();
-				++n;
+			while (slot - slotOffset >= stackListSize) {
+				slotOffset += stackListSize;
+				++stackListIndex;
+				
+				if (stackListIndex >= stackLists.length) {
+					return;
+				}
+				
+				stackList = stackLists[stackListIndex];
+				stackListSize = stackList.size();
 			}
-			if (j - offset >= 0 && j - offset < lists[n].size()) {
-				lists[n].set(j - offset, new ItemStack(nbttagcompound));
+			
+			if (slot - slotOffset >= 0 && slot - slotOffset < stackListSize) {
+				stackList.set(slot - slotOffset, new ItemStack(stackTag));
 			}
 		}
 	}

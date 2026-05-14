@@ -87,7 +87,6 @@ public class NCTiles {
 		registerTile(Global.MOD_ID, "fission_power_port", TileFissionPowerPort.class);
 		registerTile(Global.MOD_ID, "fission_vent", TileFissionVent.class);
 		registerTile(Global.MOD_ID, "fission_irradiator", TileFissionIrradiator.class);
-		registerTile(Global.MOD_ID, "fission_cooler", TileFissionCooler.class);
 		
 		registerTile(Global.MOD_ID, "fission_source", TileFissionSource.class);
 		registerTileVariants(Global.MOD_ID, "fission_source", MetaEnums.NeutronSourceType.class);
@@ -98,7 +97,11 @@ public class NCTiles {
 		registerTile(Global.MOD_ID, "fission_computer_port", TileFissionComputerPort.class);
 		
 		registerTile(Global.MOD_ID, "fission_irradiator_port", TileFissionIrradiatorPort.class);
+		
+		registerTile(Global.MOD_ID, "fission_chamber_port", TileFissionChamberPort.class);
+		
 		registerTile(Global.MOD_ID, "fission_cooler_port", TileFissionCoolerPort.class);
+		registerTileVariants(Global.MOD_ID, "fission_cooler_port", MetaEnums.GasCoolerType.class, x -> Pair.of(x.toString(), x.getPortClass()));
 		
 		registerTile(Global.MOD_ID, "fission_cell_port", TileFissionCellPort.class);
 		
@@ -110,6 +113,12 @@ public class NCTiles {
 		
 		registerTile(Global.MOD_ID, "fission_source_manager", TileFissionSourceManager.class);
 		registerTile(Global.MOD_ID, "fission_shield_manager", TileFissionShieldManager.class);
+		
+		registerTile(Global.MOD_ID, "pebble_fission_controller", TilePebbleFissionController.class);
+		registerTile(Global.MOD_ID, "pebble_fission_chamber", TilePebbleFissionChamber.class);
+		
+		registerTile(Global.MOD_ID, "pebble_fission_cooler", TilePebbleFissionCooler.class);
+		registerTileVariants(Global.MOD_ID, "pebble_fission_cooler", MetaEnums.GasCoolerType.class);
 		
 		registerTile(Global.MOD_ID, "solid_fission_controller", TileSolidFissionController.class);
 		registerTile(Global.MOD_ID, "solid_fission_cell", TileSolidFissionCell.class);

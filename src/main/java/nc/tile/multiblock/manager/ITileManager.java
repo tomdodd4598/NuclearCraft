@@ -119,9 +119,7 @@ public interface ITileManager<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILo
 								}
 							}
 							onSetListeners();
-							for (long posLong : listenerPosSet) {
-								BlockHighlightTracker.sendPacket(player, BlockPos.fromLong(posLong), 5000);
-							}
+							BlockHighlightTracker.sendPacket(player, listenerPosSet, 5000);
 							player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.finish_manager_listener_set", displayName, listenerPosSet.size())));
 							nbt.removeTag("componentManagerInfo");
 							return true;
@@ -133,9 +131,7 @@ public interface ITileManager<MULTIBLOCK extends Multiblock<MULTIBLOCK, T> & ILo
 				}
 				else {
 					LongSet listenerPosSet = getListenerPosSet();
-					for (long posLong : listenerPosSet) {
-						BlockHighlightTracker.sendPacket(player, BlockPos.fromLong(posLong), 5000);
-					}
+					BlockHighlightTracker.sendPacket(player, listenerPosSet, 5000);
 					player.sendMessage(new TextComponentString(Lang.localize("info.nuclearcraft.multitool.manager_listener_info", getTileBlockDisplayName(), listenerPosSet.size())));
 					return true;
 				}

@@ -31,7 +31,7 @@ public class NCRecipes {
 	
 	private static final Object2BooleanMap<String> GTCE_INTEGRATION = new Object2BooleanOpenHashMap<>();
 	
-	public static final String[] CT_RECIPE_HANDLER_NAME_ARRAY = {
+	public static final String[] BASIC_PROCESSOR_RECIPE_HANDLER_NAME_ARRAY = {
 			"manufactory",
 			"separator",
 			"decay_hastener",
@@ -79,7 +79,7 @@ public class NCRecipes {
 		return GTCE_INTEGRATION.getBoolean(name);
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (initialized) {
 			return;
@@ -122,6 +122,7 @@ public class NCRecipes {
 		putHandler(new FissionReflectorRecipes());
 		putHandler(new FissionIrradiatorRecipes());
 		putHandler(new PebbleFissionRecipes());
+		putHandler(new GasCoolerRecipes());
 		putHandler(new SolidFissionRecipes());
 		putHandler(new FissionHeatingRecipes());
 		putHandler(new SaltFissionRecipes());
@@ -180,6 +181,7 @@ public class NCRecipes {
 	public static FissionReflectorRecipes fission_reflector;
 	public static FissionIrradiatorRecipes fission_irradiator;
 	public static PebbleFissionRecipes pebble_fission;
+	public static GasCoolerRecipes gas_cooler;
 	public static SolidFissionRecipes solid_fission;
 	public static FissionHeatingRecipes fission_heating;
 	public static SaltFissionRecipes salt_fission;
@@ -228,6 +230,7 @@ public class NCRecipes {
 		fission_reflector = getHandler("fission_reflector");
 		fission_irradiator = getHandler("fission_irradiator");
 		pebble_fission = getHandler("pebble_fission");
+		gas_cooler = getHandler("gas_cooler");
 		solid_fission = getHandler("solid_fission");
 		fission_heating = getHandler("fission_heating");
 		salt_fission = getHandler("salt_fission");
@@ -244,11 +247,11 @@ public class NCRecipes {
 	
 	public static void initGTCEIntegration() {
 		for (int i = 0, len = gtce_recipe_integration.length; i < len; ++i) {
-			GTCE_INTEGRATION.put(CT_RECIPE_HANDLER_NAME_ARRAY[i], gtce_recipe_integration[i]);
+			GTCE_INTEGRATION.put(BASIC_PROCESSOR_RECIPE_HANDLER_NAME_ARRAY[i], gtce_recipe_integration[i]);
 		}
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerIntegrationRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (ModCheck.tinkersLoaded() && NCConfig.register_tic_recipes) {
 			TConstructExtras.init();

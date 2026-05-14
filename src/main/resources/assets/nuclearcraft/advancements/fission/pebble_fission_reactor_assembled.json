@@ -1,0 +1,20 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:pebble_fission_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.pebble_fission_reactor_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.pebble_fission_reactor_assembled.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:fission/pebble_fission_controller",
+	"criteria": {
+		"pebble_fission_reactor_assembled": {
+			"trigger": "nuclearcraft:pebble_fission_reactor_assembled"
+		}
+	}
+}

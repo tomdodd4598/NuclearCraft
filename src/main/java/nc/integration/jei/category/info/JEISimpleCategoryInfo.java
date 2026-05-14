@@ -1,10 +1,10 @@
 package nc.integration.jei.category.info;
 
 import nc.integration.jei.category.JEISimpleRecipeCategory;
-import nc.integration.jei.wrapper.*;
+import nc.integration.jei.category.info.builder.JEISimpleCategoryInfoBuilder;
+import nc.integration.jei.wrapper.JEISimpleRecipeWrapper;
 import nc.recipe.*;
-import nc.util.ContainerInfoHelper;
-import nc.util.CollectionHelper;
+import nc.util.*;
 
 import java.util.List;
 
@@ -58,13 +58,13 @@ public class JEISimpleCategoryInfo<WRAPPER extends JEISimpleRecipeWrapper<WRAPPE
 	public final int jeiTooltipW;
 	public final int jeiTooltipH;
 	
-	public JEISimpleCategoryInfo(String modId, String name, Class<WRAPPER> jeiRecipeClass, JEIRecipeWrapperFunction<WRAPPER, JEISimpleRecipeCategory<WRAPPER>, JEISimpleCategoryInfo<WRAPPER>> jeiRecipeFunction, List<Object> jeiCrafters, List<JEIContainerConnection> jeiContainerConnections, int[] guiWH, List<int[]> itemInputGuiXYWH, List<int[]> fluidInputGuiXYWH, List<int[]> itemOutputGuiXYWH, List<int[]> fluidOutputGuiXYWH, int[] playerGuiXY, int[] progressBarGuiXYWHUV, boolean jeiCategoryEnabled, String jeiCategoryUid, String jeiTitle, String jeiTexture, int[] jeiBackgroundXYWH, int[] jeiTooltipXYWH) {
-		super(modId, name, JEISimpleRecipeCategory::new, jeiRecipeClass, jeiRecipeFunction, jeiCrafters, jeiContainerConnections);
+	public JEISimpleCategoryInfo(JEISimpleCategoryInfoBuilder<WRAPPER> builder) {
+		super(builder.modId, builder.name, JEISimpleRecipeCategory::new, builder.jeiRecipeClass, builder.jeiRecipeFunction, builder.jeiCrafters, builder.jeiContainerConnections);
 		
-		itemInputSize = itemInputGuiXYWH.size();
-		fluidInputSize = fluidInputGuiXYWH.size();
-		itemOutputSize = itemOutputGuiXYWH.size();
-		fluidOutputSize = fluidOutputGuiXYWH.size();
+		itemInputSize = builder.itemInputGuiXYWH.size();
+		fluidInputSize = builder.fluidInputGuiXYWH.size();
+		itemOutputSize = builder.itemOutputGuiXYWH.size();
+		fluidOutputSize = builder.fluidOutputGuiXYWH.size();
 		
 		itemInputSlots = CollectionHelper.increasingArray(itemInputSize);
 		itemOutputSlots = CollectionHelper.increasingArray(itemInputSize, itemOutputSize);
@@ -72,42 +72,42 @@ public class JEISimpleCategoryInfo<WRAPPER extends JEISimpleRecipeWrapper<WRAPPE
 		fluidInputTanks = CollectionHelper.increasingArray(fluidInputSize);
 		fluidOutputTanks = CollectionHelper.increasingArray(fluidInputSize, fluidOutputSize);
 		
-		guiWidth = guiWH[0];
-		guiHeight = guiWH[1];
+		guiWidth = builder.guiWH[0];
+		guiHeight = builder.guiWH[1];
 		
-		this.itemInputGuiXYWH = itemInputGuiXYWH;
-		this.fluidInputGuiXYWH = fluidInputGuiXYWH;
-		this.itemOutputGuiXYWH = itemOutputGuiXYWH;
-		this.fluidOutputGuiXYWH = fluidOutputGuiXYWH;
+		itemInputGuiXYWH = builder.itemInputGuiXYWH;
+		fluidInputGuiXYWH = builder.fluidInputGuiXYWH;
+		itemOutputGuiXYWH = builder.itemOutputGuiXYWH;
+		fluidOutputGuiXYWH = builder.fluidOutputGuiXYWH;
 		
 		itemInputStackXY = ContainerInfoHelper.stackXYList(itemInputGuiXYWH);
 		itemOutputStackXY = ContainerInfoHelper.stackXYList(itemOutputGuiXYWH);
 		
-		playerGuiX = playerGuiXY[0];
-		playerGuiY = playerGuiXY[1];
+		playerGuiX = builder.playerGuiXY[0];
+		playerGuiY = builder.playerGuiXY[1];
 		
-		progressBarGuiX = progressBarGuiXYWHUV[0];
-		progressBarGuiY = progressBarGuiXYWHUV[1];
-		progressBarGuiW = progressBarGuiXYWHUV[2];
-		progressBarGuiH = progressBarGuiXYWHUV[3];
-		progressBarGuiU = progressBarGuiXYWHUV[4];
-		progressBarGuiV = progressBarGuiXYWHUV[5];
+		progressBarGuiX = builder.progressBarGuiXYWHUV[0];
+		progressBarGuiY = builder.progressBarGuiXYWHUV[1];
+		progressBarGuiW = builder.progressBarGuiXYWHUV[2];
+		progressBarGuiH = builder.progressBarGuiXYWHUV[3];
+		progressBarGuiU = builder.progressBarGuiXYWHUV[4];
+		progressBarGuiV = builder.progressBarGuiXYWHUV[5];
 		
-		this.jeiCategoryEnabled = jeiCategoryEnabled;
+		jeiCategoryEnabled = builder.jeiCategoryEnabled;
 		
-		this.jeiCategoryUid = jeiCategoryUid;
-		this.jeiTitle = jeiTitle;
-		this.jeiTexture = jeiTexture;
+		jeiCategoryUid = builder.jeiCategoryUid;
+		jeiTitle = builder.jeiTitle;
+		jeiTexture = builder.jeiTexture;
 		
-		jeiBackgroundX = jeiBackgroundXYWH[0];
-		jeiBackgroundY = jeiBackgroundXYWH[1];
-		jeiBackgroundW = jeiBackgroundXYWH[2];
-		jeiBackgroundH = jeiBackgroundXYWH[3];
+		jeiBackgroundX = builder.jeiBackgroundXYWH[0];
+		jeiBackgroundY = builder.jeiBackgroundXYWH[1];
+		jeiBackgroundW = builder.jeiBackgroundXYWH[2];
+		jeiBackgroundH = builder.jeiBackgroundXYWH[3];
 		
-		jeiTooltipX = jeiTooltipXYWH[0];
-		jeiTooltipY = jeiTooltipXYWH[1];
-		jeiTooltipW = jeiTooltipXYWH[2];
-		jeiTooltipH = jeiTooltipXYWH[3];
+		jeiTooltipX = builder.jeiTooltipXYWH[0];
+		jeiTooltipY = builder.jeiTooltipXYWH[1];
+		jeiTooltipW = builder.jeiTooltipXYWH[2];
+		jeiTooltipH = builder.jeiTooltipXYWH[3];
 	}
 	
 	@Override
