@@ -2,11 +2,9 @@ package nc.tile.hx;
 
 import com.google.common.collect.Lists;
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.hx.*;
 import nc.recipe.*;
-import nc.recipe.multiblock.CondenserRecipes;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.*;
 import nc.tile.internal.processor.AbstractProcessorElement;
@@ -37,16 +35,16 @@ public class TileHeatExchangerInlet extends TileHeatExchangerPart implements ITi
 	
 	public @Nullable HeatExchangerTubeNetwork network;
 	
-	int inputTemperature = 300;
-	int outputTemperature = 300;
-	boolean isHeating = false;
+	public int inputTemperature = 300;
+	public int outputTemperature = 300;
+	public boolean isHeating = false;
 	
-	public double exchangerGrantedSpeedMultiplier = 0D;
-	public double exchangerGrantedHeatTransferRate = 0D;
+	public double speedMultiplierProposal = 0D;
+	public double heatTransferRateProposal = 0D;
 	
-	public final AbstractProcessorElement processor = new AbstractProcessorElement() {
+	public class InletProcessorElement extends AbstractProcessorElement {
 		
-		double heatTransferRate, shellSpeedMultiplier;
+		public double heatTransferRate, shellSpeedMultiplier;
 		
 		@Override
 		public World getWorld() {
@@ -56,30 +54,14 @@ public class TileHeatExchangerInlet extends TileHeatExchangerPart implements ITi
 		@Override
 		public BasicRecipeHandler getRecipeHandler() {
 			HeatExchangerLogic logic = getLogic();
-			return logic != null && logic.isCondenser() ? NCRecipes.condenser : NCRecipes.heat_exchanger;
+			return logic == null ? NCRecipes.heat_exchanger : logic.getInletRecipeHandler(TileHeatExchangerInlet.this);
 		}
 		
 		@Override
 		public void setRecipeStats(@Nullable BasicRecipe recipe) {
-			if (recipe == null) {
-				baseProcessTime = 1D;
-				inputTemperature = 300;
-				outputTemperature = 300;
-				isHeating = false;
-			}
-			else {
-				if (getRecipeHandler() instanceof CondenserRecipes) {
-					baseProcessTime = recipe.getCondenserCoolingRequired();
-					inputTemperature = recipe.getCondenserInputTemperature();
-					outputTemperature = recipe.getCondenserOutputTemperature();
-					isHeating = false;
-				}
-				else {
-					baseProcessTime = recipe.getHeatExchangerHeatDifference();
-					inputTemperature = recipe.getHeatExchangerInputTemperature();
-					outputTemperature = recipe.getHeatExchangerOutputTemperature();
-					isHeating = recipe.getHeatExchangerIsHeating();
-				}
+			HeatExchangerLogic logic = getLogic();
+			if (logic != null) {
+				logic.setInletRecipeStats(TileHeatExchangerInlet.this, recipe);
 			}
 		}
 		
@@ -146,40 +128,8 @@ public class TileHeatExchangerInlet extends TileHeatExchangerPart implements ITi
 		
 		@Override
 		public double getSpeedMultiplier() {
-			HeatExchanger hx = getMultiblock();
-			if (hx == null) {
-				return 0D;
-			}
-			
-			if (!hx.getLogic().isCondenser()) {
-				return exchangerGrantedSpeedMultiplier;
-			}
-			
-			if (isMasterShellInlet()) {
-				return hx.shellSpeedMultiplier;
-			}
-			
-			if (isHeating || hx.shellRecipe == null) {
-				return 0D;
-			}
-			
-			int shellTemperature = hx.shellRecipe.recipe.getCondenserDissipationFluidTemperature();
-			if (outputTemperature < shellTemperature) {
-				return 0D;
-			}
-			
-			double absMeanTempDiff = getAbsMeanTempDiff(inputTemperature - shellTemperature, outputTemperature - shellTemperature);
-			hx.totalTempDiff += absMeanTempDiff * network.usefulTubeCount;
-			
-			hx.activeContactCount += network.usefulTubeCount;
-			
-			++hx.activeNetworkCount;
-			hx.activeTubeCount += network.usefulTubeCount;
-			
-			double tubeFlowDirectionMultiplier = recipeInfo.recipe.getCondenserFlowDirectionMultiplier(network.tubeFlow);
-			
-			double heatTransferMultiplier = absMeanTempDiff * tubeFlowDirectionMultiplier * hx.shellTanks.get(0).getFluidAmountFraction();
-			return heatTransferRate = heatTransferMultiplier * network.baseCoolingMultiplier;
+			HeatExchangerLogic logic = getLogic();
+			return logic == null ? 0D : logic.getInletSpeedMultiplier(TileHeatExchangerInlet.this);
 		}
 		
 		@Override
@@ -214,39 +164,9 @@ public class TileHeatExchangerInlet extends TileHeatExchangerPart implements ITi
 		
 		@Override
 		public void process() {
-			HeatExchanger hx = getMultiblock();
-			if (hx != null && !hx.getLogic().isCondenser()) {
-				double speedMultiplier = exchangerGrantedSpeedMultiplier;
-				double maxProcessCount = baseProcessTime <= 0D ? 0D : speedMultiplier / baseProcessTime;
-				
-				time += speedMultiplier;
-				
-				int processCount = 0;
-				while (time >= baseProcessTime) {
-					finishProcess();
-					++processCount;
-				}
-				
-				hx.heatTransferRate += exchangerGrantedHeatTransferRate * (processCount == 0 || maxProcessCount <= 0D ? 1D : processCount / maxProcessCount);
-				return;
-			}
-			
-			heatTransferRate = shellSpeedMultiplier = 0D;
-			
-			double speedMultiplier = getSpeedMultiplier();
-			double maxProcessCount = speedMultiplier / baseProcessTime;
-			
-			time += speedMultiplier;
-			
-			int processCount = 0;
-			while (time >= baseProcessTime) {
-				finishProcess();
-				++processCount;
-			}
-			
-			if (hx != null) {
-				hx.heatTransferRate += heatTransferRate * (processCount == 0 ? 1D : processCount / maxProcessCount);
-				hx.shellSpeedMultiplier += shellSpeedMultiplier * processCount / maxProcessCount;
+			HeatExchangerLogic logic = getLogic();
+			if (logic != null) {
+				logic.inletProcess(TileHeatExchangerInlet.this);
 			}
 		}
 		
@@ -257,98 +177,9 @@ public class TileHeatExchangerInlet extends TileHeatExchangerPart implements ITi
 				getMultiblock().refreshFlag = true;
 			}
 		}
-	};
-	
-	
-	public void resetExchangerGrants() {
-		exchangerGrantedSpeedMultiplier = 0D;
-		exchangerGrantedHeatTransferRate = 0D;
 	}
 	
-	public static class ExchangerRateProposal {
-		public final TileHeatExchangerInlet inlet;
-		public final double commonTransfer;
-		public final double tubeProcessSpeedScale;
-		public final double shellProcessSpeedScale;
-		public final double heatTransferRateScale;
-		public final double absMeanTempDiff;
-		public final int usefulTubeCount;
-		
-		public ExchangerRateProposal(TileHeatExchangerInlet inlet, double commonTransfer, double tubeProcessSpeedScale, double shellProcessSpeedScale, double heatTransferRateScale, double absMeanTempDiff, int usefulTubeCount) {
-			this.inlet = inlet;
-			this.commonTransfer = commonTransfer;
-			this.tubeProcessSpeedScale = tubeProcessSpeedScale;
-			this.shellProcessSpeedScale = shellProcessSpeedScale;
-			this.heatTransferRateScale = heatTransferRateScale;
-			this.absMeanTempDiff = absMeanTempDiff;
-			this.usefulTubeCount = usefulTubeCount;
-		}
-		
-		public ExchangerRateProposal withCommonTransfer(double newCommonTransfer) {
-			return new ExchangerRateProposal(inlet, newCommonTransfer, tubeProcessSpeedScale, shellProcessSpeedScale, heatTransferRateScale, absMeanTempDiff, usefulTubeCount);
-		}
-	}
-	
-	public @Nullable ExchangerRateProposal getExchangerRateProposal() {
-		HeatExchanger hx = getMultiblock();
-		if (hx == null || hx.getLogic().isCondenser() || isMasterShellInlet() || network == null || processor.recipeInfo == null || hx.masterShellInlet == null || hx.masterShellInlet.processor.recipeInfo == null) {
-			return null;
-		}
-		
-		BasicRecipe shellRecipe = hx.masterShellInlet.processor.recipeInfo.recipe;
-		boolean shellIsHeating = shellRecipe.getHeatExchangerIsHeating();
-		if (isHeating == shellIsHeating) {
-			return null;
-		}
-		
-		int shellInputTemperature = shellRecipe.getHeatExchangerInputTemperature();
-		int shellOutputTemperature = shellRecipe.getHeatExchangerOutputTemperature();
-		
-		boolean contraflow = network.isContraflow();
-		int inputEndShellTemperature = contraflow ? shellOutputTemperature : shellInputTemperature;
-		int outputEndShellTemperature = contraflow ? shellInputTemperature : shellOutputTemperature;
-		
-		int inletTemperatureDiff = inputTemperature - inputEndShellTemperature;
-		int outletTemperatureDiff = outputTemperature - outputEndShellTemperature;
-		int sumTempDiff = inletTemperatureDiff + outletTemperatureDiff;
-		if (sumTempDiff == 0) {
-			return null;
-		}
-		
-		boolean heating = sumTempDiff < 0;
-		if (isHeating != heating) {
-			return null;
-		}
-		
-		if ((inletTemperatureDiff > 0 && outletTemperatureDiff < 0) || (inletTemperatureDiff < 0 && outletTemperatureDiff > 0)) {
-			return null;
-		}
-		
-		double absMeanTempDiff = getAbsMeanTempDiff(inletTemperatureDiff, outletTemperatureDiff);
-		
-		double tubeFlowDirectionMultiplier = processor.recipeInfo.recipe.getHeatExchangerFlowDirectionMultiplier(network.tubeFlow);
-		double shellFlowDirectionMultiplier = shellRecipe.getHeatExchangerFlowDirectionMultiplier(network.shellFlow);
-		double commonTransfer = absMeanTempDiff * tubeFlowDirectionMultiplier * shellFlowDirectionMultiplier;
-		if (commonTransfer <= 0D) {
-			return null;
-		}
-		
-		double tubeProcessSpeedScale = heating ? network.baseHeatingMultiplier : network.baseCoolingMultiplier;
-		double shellProcessSpeedScale = heating ? network.baseCoolingMultiplier : network.baseHeatingMultiplier;
-		double heatTransferRateScale = network.baseCoolingMultiplier;
-		
-		return new ExchangerRateProposal(this, commonTransfer, tubeProcessSpeedScale, shellProcessSpeedScale, heatTransferRateScale, absMeanTempDiff, network.usefulTubeCount);
-	}
-	
-	public static double getAbsMeanTempDiff(int inTemperatureDiff, int outTemperatureDiff) {
-		if (NCConfig.heat_exchanger_lmtd && inTemperatureDiff != outTemperatureDiff) {
-			int absInTemperatureDiff = Math.abs(inTemperatureDiff), absOutTemperatureDiff = Math.abs(outTemperatureDiff);
-			return (absInTemperatureDiff - absOutTemperatureDiff) / Math.log((double) absInTemperatureDiff / (double) absOutTemperatureDiff);
-		}
-		else {
-			return Math.abs(0.5D * (inTemperatureDiff + outTemperatureDiff));
-		}
-	}
+	public final InletProcessorElement processor = new InletProcessorElement();
 	
 	public TileHeatExchangerInlet() {
 		super(CuboidalPartPositionType.WALL);

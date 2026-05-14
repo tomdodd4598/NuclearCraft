@@ -3,18 +3,19 @@ package nc.multiblock.hx;
 import it.unimi.dsi.fastutil.longs.*;
 import nc.Global;
 import nc.network.multiblock.*;
-import nc.recipe.NCRecipes;
+import nc.recipe.*;
 import nc.tile.hx.*;
+import nc.tile.hx.TileHeatExchangerInlet.InletProcessorElement;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
-import nc.util.*;
+import nc.util.MaterialHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.annotation.Nonnull;
+import javax.annotation.*;
 import java.util.*;
 import java.util.function.LongSupplier;
 
@@ -33,11 +34,6 @@ public class CondenserLogic extends HeatExchangerLogic {
 	@Override
 	public String getID() {
 		return "condenser";
-	}
-	
-	@Override
-	public boolean isCondenser() {
-		return true;
 	}
 	
 	@Override
@@ -224,6 +220,78 @@ public class CondenserLogic extends HeatExchangerLogic {
 	@Override
 	public @Nonnull List<Tank> getOutletTanks(HeatExchangerTubeNetwork network) {
 		return network == null ? getInletTanks(network) : super.getOutletTanks(network);
+	}
+	
+	@Override
+	public BasicRecipeHandler getInletRecipeHandler(TileHeatExchangerInlet inlet) {
+		return NCRecipes.condenser;
+	}
+	
+	@Override
+	public void setInletRecipeStats(TileHeatExchangerInlet inlet, @Nullable BasicRecipe recipe) {
+		if (recipe == null) {
+			inlet.processor.baseProcessTime = 1D;
+			inlet.inputTemperature = 300;
+			inlet.outputTemperature = 300;
+		}
+		else {
+			inlet.processor.baseProcessTime = recipe.getCondenserCoolingRequired();
+			inlet.inputTemperature = recipe.getCondenserInputTemperature();
+			inlet.outputTemperature = recipe.getCondenserOutputTemperature();
+		}
+		inlet.isHeating = false;
+	}
+	
+	@Override
+	public double getInletSpeedMultiplier(TileHeatExchangerInlet inlet) {
+		if (inlet.isMasterShellInlet()) {
+			return multiblock.shellSpeedMultiplier;
+		}
+		
+		if (inlet.isHeating || multiblock.shellRecipe == null) {
+			return 0D;
+		}
+		
+		int shellTemperature = multiblock.shellRecipe.recipe.getCondenserDissipationFluidTemperature();
+		if (inlet.outputTemperature < shellTemperature) {
+			return 0D;
+		}
+		
+		double absMeanTempDiff = HeatExchanger.getAbsMeanTempDiff(inlet.inputTemperature - shellTemperature, inlet.outputTemperature - shellTemperature);
+		multiblock.totalTempDiff += absMeanTempDiff * inlet.network.usefulTubeCount;
+		
+		multiblock.activeContactCount += inlet.network.usefulTubeCount;
+		
+		++multiblock.activeNetworkCount;
+		multiblock.activeTubeCount += inlet.network.usefulTubeCount;
+		
+		double tubeFlowDirectionMultiplier = inlet.processor.recipeInfo.recipe.getCondenserFlowDirectionMultiplier(inlet.network.tubeFlow);
+		
+		double heatTransferMultiplier = absMeanTempDiff * tubeFlowDirectionMultiplier * multiblock.shellTanks.get(0).getFluidAmountFraction();
+		return inlet.processor.heatTransferRate = heatTransferMultiplier * inlet.network.baseCoolingMultiplier;
+	}
+	
+	@Override
+	public void inletProcess(TileHeatExchangerInlet inlet) {
+		InletProcessorElement processor = inlet.processor;
+		
+		processor.heatTransferRate = processor.shellSpeedMultiplier = 0D;
+		
+		double speedMultiplier = processor.getSpeedMultiplier();
+		double maxProcessCount = speedMultiplier / processor.baseProcessTime;
+		
+		processor.time += speedMultiplier;
+		
+		int processCount = 0;
+		while (processor.time >= processor.baseProcessTime) {
+			processor.finishProcess();
+			++processCount;
+		}
+		
+		if (multiblock != null) {
+			multiblock.heatTransferRate += processor.heatTransferRate * (processCount == 0 ? 1D : processCount / maxProcessCount);
+			multiblock.shellSpeedMultiplier += processor.shellSpeedMultiplier * processCount / maxProcessCount;
+		}
 	}
 	
 	// Client

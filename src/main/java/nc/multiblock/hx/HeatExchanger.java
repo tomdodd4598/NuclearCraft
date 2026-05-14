@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
+import nc.config.NCConfig;
 import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.network.multiblock.*;
@@ -188,6 +189,16 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchanger, IHeatExchan
 	
 	public Stream<TileHeatExchangerInlet> getMasterInlets() {
 		return Stream.concat(networks.stream().map(x -> x.masterInlet), Stream.of(masterShellInlet)).filter(Objects::nonNull);
+	}
+	
+	public static double getAbsMeanTempDiff(int inTemperatureDiff, int outTemperatureDiff) {
+		if (NCConfig.heat_exchanger_lmtd && inTemperatureDiff != outTemperatureDiff) {
+			int absInTemperatureDiff = Math.abs(inTemperatureDiff), absOutTemperatureDiff = Math.abs(outTemperatureDiff);
+			return (absInTemperatureDiff - absOutTemperatureDiff) / Math.log((double) absInTemperatureDiff / (double) absOutTemperatureDiff);
+		}
+		else {
+			return Math.abs(0.5D * (inTemperatureDiff + outTemperatureDiff));
+		}
 	}
 	
 	// Client
