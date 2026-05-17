@@ -66,12 +66,13 @@ public class GuiFluidRenderer {
 		int posY = NCMath.toInt(y + height - renderAmount);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		int color = fluid.getFluid().getColor(fluid);
-		GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF), (byte) alpha);
 		
+		int color = fluid.getFluid().getColor(fluid);
+		GlStateManager.color(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, alpha / 255F);
 		GlStateManager.disableLighting();
 		GlStateManager.disableDepth();
 		GlStateManager.enableBlend();
+		
 		for (int i = 0; i < width; i += 16) {
 			for (int j = 0; j < renderAmount; j += 16) {
 				int drawWidth = NCMath.toInt(Math.min(width - i, 16));
@@ -96,8 +97,10 @@ public class GuiFluidRenderer {
 				tessellator.draw();
 			}
 		}
+		
 		GlStateManager.disableBlend();
 		GlStateManager.enableDepth();
 		GlStateManager.enableLighting();
+		GlStateManager.color(1F, 1F, 1F, 1F);
 	}
 }

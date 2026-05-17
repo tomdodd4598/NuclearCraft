@@ -38,11 +38,25 @@ public class HeatExchangerRecipes extends BasicRecipeHandler {
 		
 		addRecipe(fluidStack("condensate_water", 1), fluidStack("preheated_water", 1), 8D, 350, 400, false, 0, 0.5D);
 		
+		// Hot Gas -> Gas
+		
+		for (int i = 0; i < 16; ++i) {
+			String coolant = GasCoolerRecipes.COOLANTS[i];
+			addRecipe(fluidStack(coolant + "_hot", 2), fluidStack(coolant, 1), fission_cooler_coolant_heat_per_mb * heat_exchanger_gas_coolant_heat_mult, 1000, 300);
+		}
+		
+		// Exhaust Gas -> Gas
+		
+		for (int i = 0; i < 16; ++i) {
+			String coolant = GasCoolerRecipes.COOLANTS[i];
+			addRecipe(fluidStack(coolant + "_exhaust", 4), fluidStack(coolant, 1), 0.5D * fission_cooler_coolant_heat_per_mb * heat_exchanger_gas_coolant_heat_mult, 800, 300);
+		}
+		
 		// Hot NaK -> NaK
 		
-		addRecipe(fluidStack("nak_hot", 1), fluidStack("nak", 1), fission_heater_cooling_rate[0] * heat_exchanger_coolant_heat_mult, 800, 400);
+		addRecipe(fluidStack("nak_hot", 1), fluidStack("nak", 1), fission_heater_coolant_heat_per_mb * heat_exchanger_nak_coolant_heat_mult, 800, 400);
 		for (int i = 1; i < COOLANTS.size(); ++i) {
-			addRecipe(fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fluidStack(COOLANTS.get(i) + "_nak", 1), fission_heater_cooling_rate[i] * heat_exchanger_coolant_heat_mult, 800, 400);
+			addRecipe(fluidStack(COOLANTS.get(i) + "_nak_hot", 1), fluidStack(COOLANTS.get(i) + "_nak", 1), fission_heater_coolant_heat_per_mb * heat_exchanger_nak_coolant_heat_mult, 800, 400);
 		}
 	}
 	

@@ -33,7 +33,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import javax.annotation.*;
 import java.util.*;
 
-import static nc.config.NCConfig.enable_mek_gas;
+import static nc.config.NCConfig.*;
 import static nc.init.NCCoolantFluids.COOLANTS;
 import static nc.util.FluidStackHelper.INGOT_BLOCK_VOLUME;
 import static nc.util.PosHelper.DEFAULT_NON;
@@ -630,13 +630,11 @@ public class TileSaltFissionHeater extends TileFissionPart implements IBasicProc
 	}
 	
 	@Override
-	public void setHasConsumed(boolean hasConsumed) {
-	
-	}
+	public void setHasConsumed(boolean hasConsumed) {}
 	
 	@Override
 	public double getSpeedMultiplier() {
-		return heatingSpeedMultiplier;
+		return (heatingSpeedMultiplier * baseProcessCooling) / fission_heater_coolant_heat_per_mb;
 	}
 	
 	@Override

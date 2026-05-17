@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.handler.TileInfoHandler;
+import nc.multiblock.MultiblockRegistry;
 import nc.multiblock.fission.FissionReactor;
 import nc.network.tile.multiblock.port.FluidPortUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
@@ -264,6 +265,7 @@ public abstract class TileFissionFluidPort<PORT extends TileFissionFluidPort<POR
 					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.RED + Lang.localize("nc.block.port_mode.output") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				markDirtyAndNotify(true);
+				MultiblockRegistry.INSTANCE.addDirtyMultiblock(world, multiblock);
 				return true;
 			}
 		}

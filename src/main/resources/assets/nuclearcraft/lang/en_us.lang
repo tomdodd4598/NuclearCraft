@@ -851,54 +851,6 @@ fluid.sulfur_trioxide_exhaust=Exhaust Sulfur Trioxide
 tile.nuclearcraft.fluid_sulfur_hexafluoride_exhaust.name=Exhaust Sulfur Hexafluoride
 fluid.sulfur_hexafluoride_exhaust=Exhaust Sulfur Hexafluoride
 
-tile.nuclearcraft.fluid_oxygen_lq.name=Low Quality Oxygen
-fluid.oxygen_lq=Low Quality Oxygen
-
-tile.nuclearcraft.fluid_hydrogen_lq.name=Low Quality Hydrogen
-fluid.hydrogen_lq=Low Quality Hydrogen
-
-tile.nuclearcraft.fluid_helium_lq.name=Low Quality Helium
-fluid.helium_lq=Low Quality Helium
-
-tile.nuclearcraft.fluid_nitrogen_lq.name=Low Quality Nitrogen
-fluid.nitrogen_lq=Low Quality Nitrogen
-
-tile.nuclearcraft.fluid_fluorine_lq.name=Low Quality Fluorine
-fluid.fluorine_lq=Low Quality Fluorine
-
-tile.nuclearcraft.fluid_methane_lq.name=Low Quality Methane
-fluid.methane_lq=Low Quality Methane
-
-tile.nuclearcraft.fluid_carbon_dioxide_lq.name=Low Quality Carbon Dioxide
-fluid.carbon_dioxide_lq=Low Quality Carbon Dioxide
-
-tile.nuclearcraft.fluid_carbon_monoxide_lq.name=Low Quality Carbon Monoxide
-fluid.carbon_monoxide_lq=Low Quality Carbon Monoxide
-
-tile.nuclearcraft.fluid_ethene_lq.name=Low Quality Ethylene
-fluid.ethene_lq=Low Quality Ethylene
-
-tile.nuclearcraft.fluid_ethyne_lq.name=Low Quality Acetylene
-fluid.ethyne_lq=Low Quality Acetylene
-
-tile.nuclearcraft.fluid_fluoromethane_lq.name=Low Quality Fluoromethane
-fluid.fluoromethane_lq=Low Quality Fluoromethane
-
-tile.nuclearcraft.fluid_ammonia_lq.name=Low Quality Ammonia
-fluid.ammonia_lq=Low Quality Ammonia
-
-tile.nuclearcraft.fluid_diborane_lq.name=Low Quality Diborane
-fluid.diborane_lq=Low Quality Diborane
-
-tile.nuclearcraft.fluid_sulfur_dioxide_lq.name=Low Quality Sulfur Dioxide
-fluid.sulfur_dioxide_lq=Low Quality Sulfur Dioxide
-
-tile.nuclearcraft.fluid_sulfur_trioxide_lq.name=Low Quality Sulfur Trioxide
-fluid.sulfur_trioxide_lq=Low Quality Sulfur Trioxide
-
-tile.nuclearcraft.fluid_sulfur_hexafluoride_lq.name=Low Quality Sulfur Hexafluoride
-fluid.sulfur_hexafluoride_lq=Low Quality Sulfur Hexafluoride
-
 tile.nuclearcraft.fluid_ice.name=Crushed Ice
 fluid.ice=Crushed Ice
 
@@ -2690,7 +2642,7 @@ jei.nuclearcraft.solid_fuel_decay_factor=Decay Factor:
 jei.nuclearcraft.solid_fuel_radiation=Base Depletion Radiation:
 jei.nuclearcraft.solid_fuel_self_priming=Self-priming!
 
-jei.nuclearcraft.fission_heating_required=Heating Required:
+jei.nuclearcraft.fission_heating_required=Base Heating Required:
 
 jei.nuclearcraft.salt_fuel_time=Base Depletion Time:
 jei.nuclearcraft.salt_fuel_heat=Base Heat Gen:
@@ -2715,9 +2667,9 @@ jei.nuclearcraft.salt_fuel_time=Depletion Time:
 jei.nuclearcraft.salt_fuel_heat=Base Heat Gen:
 
 jei.nuclearcraft.gas_cooler_rate=Cooling Rate:
-jei.nuclearcraft.gas_cooler_heating_required=Heating Required:
+jei.nuclearcraft.gas_cooler_heating_required=Base Heating Required:
 jei.nuclearcraft.coolant_heater_rate=Cooling Rate:
-jei.nuclearcraft.coolant_heater_heating_required=Heating Required:
+jei.nuclearcraft.coolant_heater_heating_required=Base Heating Required:
 
 jei.nuclearcraft.exchanger_fluid_temp_in=Input Temperature:
 jei.nuclearcraft.exchanger_fluid_temp_out=Output Temperature:
@@ -2986,10 +2938,14 @@ gui.nc.config.fission_cooling_efficiency_leniency=Cooling Leniency Factor
 gui.nc.config.fission_cooling_efficiency_leniency.comment=Determines the leniency for the difference between the actual and ideal cooling rate at which a cluster will begin to be given an overcooling efficiency penalty.
 gui.nc.config.fission_sparsity_penalty_params=Sparsity Efficiency Parameters
 gui.nc.config.fission_sparsity_penalty_params.comment=Parameters used for the sparsity efficiency factor. The first determines the minimum value of the multiplier, while the second determines the fraction of functional components at which there is no penalty.
-gui.nc.config.fission_cooler_coolant_heat_per_mb=PBR Coolant Heat Per mB
+gui.nc.config.fission_cooler_coolant_heat_per_mb=PBR Gas Coolant Heat Per mB
 gui.nc.config.fission_cooler_coolant_heat_per_mb.comment=Sets the amount of heat absorbed per mB of gas coolant when used to cool a pebble bed reactor.
-gui.nc.config.fission_heating_coolant_heat_mult=SFR NaK Heating Multiplier
-gui.nc.config.fission_heating_coolant_heat_mult.comment=Modifies the amount of heat absorbed per mB of NaK coolant when used to cool a solid fuel reactor.
+gui.nc.config.fission_heater_coolant_heat_per_mb=MSR NaK Coolant Heat Per mB
+gui.nc.config.fission_heater_coolant_heat_per_mb.comment=Sets the amount of heat absorbed per mB of NaK coolant when used to cool a molten salt reactor.
+gui.nc.config.fission_heating_gas_coolant_heat_mult=SFR Gas Heating Multiplier
+gui.nc.config.fission_heating_gas_coolant_heat_mult.comment=Modifies the amount of heat absorbed per mB of gas coolant when used to cool a solid fuel reactor.
+gui.nc.config.fission_heating_nak_coolant_heat_mult=SFR NaK Heating Multiplier
+gui.nc.config.fission_heating_nak_coolant_heat_mult.comment=Modifies the amount of heat absorbed per mB of NaK coolant when used to cool a solid fuel reactor.
 
 gui.nc.config.fission_decay_mechanics=Enable Decay Mechanics
 gui.nc.config.fission_decay_mechanics.comment=Enable fission reactor decay mechanics?
@@ -3221,8 +3177,10 @@ gui.nc.config.heat_exchanger_heat_transfer_coefficient=Tube Heat Transfer Coeffi
 gui.nc.config.heat_exchanger_heat_transfer_coefficient.comment=Multiplier for the heat transfer rate from this type of tube. Order: copper, hard carbon, thermoconducting alloy.
 gui.nc.config.heat_exchanger_heat_retention_mult=Tube Heat Retention Multiplier
 gui.nc.config.heat_exchanger_heat_retention_mult.comment=Multiplier for the contribution to the heating rate from this type of tube. Order: copper, hard carbon, thermoconducting alloy.
-gui.nc.config.heat_exchanger_coolant_heat_mult=Coolant Heat Multiplier
-gui.nc.config.heat_exchanger_coolant_heat_mult.comment=Multiplier for the heat removal required to cool hot coolant.
+gui.nc.config.heat_exchanger_gas_coolant_heat_mult=Gas Coolant Heat Multiplier
+gui.nc.config.heat_exchanger_gas_coolant_heat_mult.comment=Multiplier for the heat removal required to cool hot gas coolant.
+gui.nc.config.heat_exchanger_nak_coolant_heat_mult=NaK Coolant Heat Multiplier
+gui.nc.config.heat_exchanger_nak_coolant_heat_mult.comment=Multiplier for the heat removal required to cool hot NaK coolant.
 gui.nc.config.heat_exchanger_lmtd=Use LMTD
 gui.nc.config.heat_exchanger_lmtd.comment=Will LMTD be used instead of an arithmetic mean temperature difference?
 gui.nc.config.heat_exchanger_alternate_hps_recipe=Alternate HPS Recipe
@@ -3250,13 +3208,13 @@ gui.nc.config.turbine_coil_rule.comment=Placement rule to be parsed for this typ
 gui.nc.config.turbine_connector_rule=Coil Connector Placement Rules
 gui.nc.config.turbine_connector_rule.comment=Placement rule to be parsed for this type of coil connector. Order: standard.
 gui.nc.config.turbine_power_per_mb=Gas Base RF per mB
-gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant, exhaust pebble bed coolant.
+gui.nc.config.turbine_power_per_mb.comment=Base RF produced per processed mB of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant.
 gui.nc.config.turbine_expansion_level=Gas Expansion Level
-gui.nc.config.turbine_expansion_level.comment=Expansion level for the recipe of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant, exhaust pebble bed coolant.
+gui.nc.config.turbine_expansion_level.comment=Expansion level for the recipe of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant.
 gui.nc.config.turbine_spin_up_multiplier_global=Spin-Up Multiplier Global
 gui.nc.config.turbine_spin_up_multiplier_global.comment=Global multiplier for the rate at which turbine rotors accelerate up to the equilibrium angular velocity.
 gui.nc.config.turbine_spin_up_multiplier=Gas Spin-Up Multiplier
-gui.nc.config.turbine_spin_up_multiplier.comment=Rotor spin-up multiplier for the recipe of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant, exhaust pebble bed coolant.
+gui.nc.config.turbine_spin_up_multiplier.comment=Rotor spin-up multiplier for the recipe of this type of gas. Order: high pressure steam, low pressure steam, standard steam, hot pebble bed coolant.
 gui.nc.config.turbine_spin_down_multiplier=Spin-Down Multiplier
 gui.nc.config.turbine_spin_down_multiplier.comment=Multiplier for the rate at which turbine rotors decelerate.
 gui.nc.config.turbine_mb_per_blade=Rotor Blade Maximum Process Rate

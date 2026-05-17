@@ -17,6 +17,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.*;
 
 public abstract class NCGui extends GuiContainer {
 	
@@ -151,5 +152,17 @@ public abstract class NCGui extends GuiContainer {
 	
 	public List<String> noClusterInfo() {
 		return Lists.newArrayList(TextFormatting.RED + Lang.localize("gui.nc.container.no_cluster"));
+	}
+	
+	protected int centeredWidth(String str) {
+		return xSize / 2 - fontRenderer.getStringWidth(str) / 2;
+	}
+	
+	protected IntBinaryOperator centeredTracker(Supplier<String> supplier) {
+		PixelTracker tracker = new PixelTracker(40);
+		return (y, color) -> {
+			String str = supplier.get();
+			return fontRenderer.drawString(str, tracker.update(centeredWidth(str)), y, color);
+		};
 	}
 }

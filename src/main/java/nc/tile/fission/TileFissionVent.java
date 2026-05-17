@@ -2,6 +2,7 @@ package nc.tile.fission;
 
 import com.google.common.collect.Lists;
 import nc.ModCheck;
+import nc.multiblock.MultiblockRegistry;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import nc.tile.fluid.ITileFluid;
@@ -199,6 +200,7 @@ public class TileFissionVent extends TileFissionPart implements ITickable, ITile
 					player.sendMessage(new TextComponentString(Lang.localize("nc.block.vent_toggle") + " " + TextFormatting.RED + Lang.localize("nc.block.port_mode.output") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				markDirtyAndNotify(true);
+				MultiblockRegistry.INSTANCE.addDirtyMultiblock(world, multiblock);
 				return true;
 			}
 		}

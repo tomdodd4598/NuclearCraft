@@ -1,3 +1,17 @@
+v2o.9.4
+
+* Modified PBR gas coolant cycle
+
+* Fixed toggling fission reactor ports not updating the multiblock state
+
+* Modified multiblock GUIs to show values with higher precision
+
+* Split configs for gas and NaK coolant heat multipliers
+
+* Scaled NaK coolant heating and cooling rates to mirror gas coolant behaviour
+
+* Attempted to fix cross-mod inventory rendering flicker
+
 v2o.9.3
 
 + Added Pebble Bed Reactors!

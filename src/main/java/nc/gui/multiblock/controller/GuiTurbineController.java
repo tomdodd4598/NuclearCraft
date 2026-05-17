@@ -13,9 +13,27 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.function.IntBinaryOperator;
+
 public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurbinePart, TurbineUpdatePacket, TileTurbineController, TileContainerInfo<TileTurbineController>> {
 	
 	protected final ResourceLocation gui_texture;
+	
+	IntBinaryOperator powerText = centeredTracker(() -> Lang.localize("gui.nc.container.turbine_controller.power") + " " + UnitHelper.prefix(multiblock.power, 5, "RF/t"));
+	IntBinaryOperator coilCountText = centeredTracker(() -> {
+		int bearingCount = multiblock.getPartCount(TileTurbineRotorBearing.class);
+		return Lang.localize("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (bearingCount == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + bearingCount / 2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + bearingCount / 2);
+	});
+	IntBinaryOperator dynamoEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.conductivity, 1));
+	IntBinaryOperator expansionLevelText = centeredTracker(() -> Lang.localize("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel, 1) + " [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel / multiblock.idealTotalExpansionLevel, 1) + "]"));
+	IntBinaryOperator rotorEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.turbine_controller.rotor_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.rotorEfficiency, 1));
+	IntBinaryOperator powerBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.turbine_controller.power_bonus") + " " + NCMath.pcDecimalPlaces(multiblock.powerBonus, 1));
+	IntBinaryOperator recipeInputRateText = centeredTracker(() -> {
+		double maxRecipeRateMultiplierFP = multiblock.getLogic().getMaxRecipeRateMultiplier();
+		double rateRatio = (double) multiblock.recipeInputRate / maxRecipeRateMultiplierFP;
+		double rateRatioFP = multiblock.recipeInputRateFP / maxRecipeRateMultiplierFP;
+		return Lang.localize("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(multiblock.recipeInputRateFP, 5, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatio > 1D ? "] [!]" : "]");
+	});
 	
 	public GuiTurbineController(Container inventory, EntityPlayer player, TileTurbineController controller, String textureLocation) {
 		super(inventory, player, controller, textureLocation);
@@ -45,27 +63,29 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurb
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
 		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
 		
-		String power = Lang.localize("gui.nc.container.turbine_controller.power") + " " + UnitHelper.prefix(Math.round(multiblock.power), 5, "RF/t");
-		fontRenderer.drawString(power, xSize / 2 - fontRenderer.getStringWidth(power) / 2, 22, fontColor);
+		powerText.applyAsInt(22, fontColor);
 		
-		int bearingCount = multiblock.getPartCount(TileTurbineRotorBearing.class);
-		String coils = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (bearingCount == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + bearingCount / 2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + bearingCount / 2) : Lang.localize("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.conductivity, 1);
-		fontRenderer.drawString(coils, xSize / 2 - fontRenderer.getStringWidth(coils) / 2, 34, fontColor);
-		
-		String rotor = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel, 1) + " [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.pcDecimalPlaces(multiblock.totalExpansionLevel / multiblock.idealTotalExpansionLevel, 1) + "]") : Lang.localize("gui.nc.container.turbine_controller.rotor_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.rotorEfficiency, 1);
-		fontRenderer.drawString(rotor, xSize / 2 - fontRenderer.getStringWidth(rotor) / 2, 46, fontColor);
-		
-		String inputRate;
 		if (NCUtil.isModifierKeyDown()) {
-			inputRate = Lang.localize("gui.nc.container.turbine_controller.power_bonus") + " " + NCMath.pcDecimalPlaces(multiblock.powerBonus, 1);
+			coilCountText.applyAsInt(34, fontColor);
 		}
 		else {
-			double maxRecipeRateMultiplierFP = multiblock.getLogic().getMaxRecipeRateMultiplier();
-			double rateRatio = (double) multiblock.recipeInputRate / maxRecipeRateMultiplierFP;
-			double rateRatioFP = multiblock.recipeInputRateFP / maxRecipeRateMultiplierFP;
-			inputRate = Lang.localize("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.recipeInputRateFP), 5, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatio > 1D ? "] [!]" : "]");
+			dynamoEfficiencyText.applyAsInt(34, fontColor);
 		}
-		fontRenderer.drawString(inputRate, xSize / 2 - fontRenderer.getStringWidth(inputRate) / 2, 58, multiblock.bearingTension <= 0D ? fontColor : multiblock.isTurbineOn ? 0xFFFFFF - NCMath.toInt((255D * MathHelper.clamp(2D * multiblock.bearingTension, 0D, 1D))) - 256 * NCMath.toInt((255D * MathHelper.clamp(2D * multiblock.bearingTension - 1D, 0D, 1D))) : ColorHelper.blend(15641088, 0xFF0000, (float) multiblock.bearingTension));
+		
+		if (NCUtil.isModifierKeyDown()) {
+			expansionLevelText.applyAsInt(46, fontColor);
+		}
+		else {
+			rotorEfficiencyText.applyAsInt(46, fontColor);
+		}
+		
+		int tensionColor = multiblock.bearingTension <= 0D ? fontColor : multiblock.isTurbineOn ? 0xFFFFFF - NCMath.toInt((255D * MathHelper.clamp(2D * multiblock.bearingTension, 0D, 1D))) - 256 * NCMath.toInt((255D * MathHelper.clamp(2D * multiblock.bearingTension - 1D, 0D, 1D))) : ColorHelper.blend(15641088, 0xFF0000, (float) multiblock.bearingTension);
+		if (NCUtil.isModifierKeyDown()) {
+			powerBonusText.applyAsInt(58, tensionColor);
+		}
+		else {
+			recipeInputRateText.applyAsInt(58, tensionColor);
+		}
 	}
 	
 	@Override

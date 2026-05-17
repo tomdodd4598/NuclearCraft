@@ -13,9 +13,17 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.function.*;
+
 public class GuiDistillerController extends GuiLogicMultiblockController<Machine, MachineLogic, IMachinePart, MachineUpdatePacket, TileDistillerController, TileContainerInfo<TileDistillerController>, DistillerLogic> {
 	
 	protected final ResourceLocation gui_texture;
+	
+	IntBinaryOperator refluxBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.distiller_controller.reflux_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().refluxUnitBonus, 1));
+	IntBinaryOperator reboilingBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.distiller_controller.reboiling_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().reboilingUnitBonus, 1));
+	IntBinaryOperator distributionBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.distiller_controller.distribution_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().liquidDistributorBonus, 1));
+	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5));
+	IntBinaryOperator powerText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t"));
 	
 	public GuiDistillerController(Container inventory, EntityPlayer player, TileDistillerController controller, String textureLocation) {
 		super(inventory, player, controller, textureLocation);
@@ -40,25 +48,20 @@ public class GuiDistillerController extends GuiLogicMultiblockController<Machine
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isMachineOn ? 4210752 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.distiller_controller.distiller");
-		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title), 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline), 12, fontColor);
 		
-		String refluxBonus = Lang.localize("gui.nc.container.distiller_controller.reflux_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().refluxUnitBonus, 1);
-		fontRenderer.drawString(refluxBonus, xSize / 2 - fontRenderer.getStringWidth(refluxBonus) / 2, 22, fontColor);
+		refluxBonusText.applyAsInt(22, fontColor);
 		
-		String reboilingBonus = Lang.localize("gui.nc.container.distiller_controller.reboiling_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().reboilingUnitBonus, 1);
-		fontRenderer.drawString(reboilingBonus, xSize / 2 - fontRenderer.getStringWidth(reboilingBonus) / 2, 34, fontColor);
+		reboilingBonusText.applyAsInt(34, fontColor);
 		
-		String distributionBonus = Lang.localize("gui.nc.container.distiller_controller.distribution_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().liquidDistributorBonus, 1);
-		fontRenderer.drawString(distributionBonus, xSize / 2 - fontRenderer.getStringWidth(distributionBonus) / 2, 46, fontColor);
+		distributionBonusText.applyAsInt(46, fontColor);
 		
-		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
-		fontRenderer.drawString(rate, xSize / 2 - fontRenderer.getStringWidth(rate) / 2, 58, fontColor);
+		rateText.applyAsInt(58, fontColor);
 		
-		String power = Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t");
-		fontRenderer.drawString(power, xSize / 2 - fontRenderer.getStringWidth(power) / 2, 70, fontColor);
+		powerText.applyAsInt(70, fontColor);
 	}
 	
 	@Override

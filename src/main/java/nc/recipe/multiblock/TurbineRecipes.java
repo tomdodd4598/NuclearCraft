@@ -21,7 +21,6 @@ public class TurbineRecipes extends BasicRecipeHandler {
 		for (int i = 0; i < 16; ++i) {
 			String coolant = GasCoolerRecipes.COOLANTS[i];
 			addRecipe(fluidStack(coolant + "_hot", 1), fluidStack(coolant + "_exhaust", 2), turbine_power_per_mb[3], turbine_expansion_level[3], turbine_spin_up_multiplier[3], "magicCrit", 0.7D);
-			addRecipe(fluidStack(coolant + "_exhaust", 1), fluidStack(coolant + "_lq", 2), turbine_power_per_mb[4], turbine_expansion_level[4], turbine_spin_up_multiplier[4], "magicCrit", 0.7D);
 		}
 	}
 	

@@ -904,7 +904,7 @@ public class JEIRecipeWrapperImpl {
 			
 			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionCoolingRate(), 5, "H/t"));
-				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(fission_cooler_coolant_heat_per_mb, 5, "H"));
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(fission_cooler_coolant_heat_per_mb, 5, "H/mB"));
 				String[] coolantHeaterJEIInfo = getFissionCoolingJEIInfo();
 				if (coolantHeaterJEIInfo != null) {
 					for (String posInfo : coolantHeaterJEIInfo) {
@@ -1048,7 +1048,7 @@ public class JEIRecipeWrapperImpl {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (showTooltip(mouseX, mouseY)) {
-				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionHeatingHeatPerInputMB(), 5, "H"));
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionHeatingHeatPerInputMB(), 5, "H/mB"));
 			}
 			
 			return tooltip;
@@ -1193,7 +1193,7 @@ public class JEIRecipeWrapperImpl {
 			
 			if (showTooltip(mouseX, mouseY)) {
 				tooltip.add(TextFormatting.BLUE + COOLING + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionCoolingRate(), 5, "H/t"));
-				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionCoolingRate(), 5, "H"));
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(fission_heater_coolant_heat_per_mb, 5, "H/mB"));
 				String[] coolantHeaterJEIInfo = getFissionCoolingJEIInfo();
 				if (coolantHeaterJEIInfo != null) {
 					for (String posInfo : coolantHeaterJEIInfo) {
@@ -1232,7 +1232,7 @@ public class JEIRecipeWrapperImpl {
 			List<String> tooltip = new ArrayList<>();
 			
 			if (showTooltip(mouseX, mouseY)) {
-				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getEmergencyCoolingHeatPerInputMB(), 5, "H"));
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getEmergencyCoolingHeatPerInputMB(), 5, "H/mB"));
 			}
 			
 			return tooltip;

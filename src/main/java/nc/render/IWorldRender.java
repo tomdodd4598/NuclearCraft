@@ -262,7 +262,8 @@ public interface IWorldRender {
 			tessellator.draw();
 			
 			GlStateManager.enableLighting();
-			GlStateManager.disableAlpha();
+			GlStateManager.enableAlpha();
+			GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 		}
 		
 		private static void renderCuboidFace(BufferBuilder builder, EnumFacing face, TextureAtlasSprite[] sprites, int[] flips, Vec3d textureStart, Vec3d textureSize, Vec3d size, Vec3d textureOffset, EnumShadeArgument shadeTypes, IBlockLocation locationFormula, IFacingLocation faceFormula, IBlockAccess access) {

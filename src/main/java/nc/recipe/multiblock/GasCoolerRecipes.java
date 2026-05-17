@@ -33,7 +33,7 @@ public class GasCoolerRecipes extends FissionCoolingRecipes {
 	@Override
 	public void addRecipes() {
 		for (int i = 0; i < 16; ++i) {
-			addRecipe(new ItemStack(NCBlocks.pebble_fission_cooler, 1, i), fluidStack(COOLANTS[i], 1), fluidStack(COOLANTS[i] + "_hot", 1), fission_cooler_cooling_rate[i], COOLANTS[i] + "_cooler");
+			addRecipe(new ItemStack(NCBlocks.pebble_fission_cooler, 1, i), fluidStack(COOLANTS[i], 1), fluidStack(COOLANTS[i] + "_hot", 2), fission_cooler_cooling_rate[i], COOLANTS[i] + "_cooler");
 		}
 	}
 }

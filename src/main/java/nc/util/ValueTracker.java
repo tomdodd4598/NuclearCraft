@@ -42,11 +42,15 @@ public class ValueTracker {
 		Arrays.fill(windowSamples, 0D);
 	}
 	
+	public void init(double value) {
+		initialized = true;
+		fast = value;
+		noise = 0D;
+	}
+	
 	public double update(double value) {
 		if (!initialized) {
-			initialized = true;
-			fast = value;
-			noise = 0D;
+			init(value);
 		}
 		
 		if (windowCount < windowSamples.length) {

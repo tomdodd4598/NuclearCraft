@@ -96,7 +96,7 @@ public class NCFluids {
 		addFluidPair(FluidType.GAS, "hydrogen_sulfide", 0x785830);
 		addFluidPair(FluidType.GAS, "depleted_hydrogen_sulfide", 0x59514E);
 		
-		for (Triple<String, Float, Integer> triple : Arrays.asList(Triple.of("hot", 4F, 1000), Triple.of("exhaust", 3F, 900), Triple.of("lq", 2F, 800))) {
+		for (Triple<String, Float, Integer> triple : Arrays.asList(Triple.of("hot", 4F, 1000), Triple.of("exhaust", 2F, 800))) {
 			String suffix = triple.getLeft();
 			Float saturation = triple.getMiddle();
 			Integer temp = triple.getRight();

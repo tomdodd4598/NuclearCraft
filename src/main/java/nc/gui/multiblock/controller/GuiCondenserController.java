@@ -13,9 +13,17 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.function.IntBinaryOperator;
+
 public class GuiCondenserController extends GuiMultiblockController<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket, TileCondenserController, TileContainerInfo<TileCondenserController>> {
 	
 	protected final ResourceLocation gui_texture;
+	
+	IntBinaryOperator networkCountText = centeredTracker(() -> Lang.localize("gui.nc.container.heat_exchanger_controller.active_network_count") + " " + multiblock.activeNetworkCount + "/" + multiblock.totalNetworkCount);
+	IntBinaryOperator tubeCountText = centeredTracker(() -> Lang.localize("gui.nc.container.heat_exchanger_controller.active_tube_count") + " " + multiblock.activeTubeCount + "/" + multiblock.getPartCount(TileHeatExchangerTube.class));
+	IntBinaryOperator tubeInputRateText = centeredTracker(() -> Lang.localize("gui.nc.container.heat_exchanger_controller.tube_input") + " " + UnitHelper.prefix(multiblock.tubeInputRateFP, 5, "B/t", -1));
+	IntBinaryOperator heatDissipationRateText = centeredTracker(() -> Lang.localize("gui.nc.container.heat_exchanger_controller.heat_dissipation_rate") + " " + UnitHelper.prefix(multiblock.heatTransferRateFP, 5, "H/t"));
+	IntBinaryOperator meanTempDiffText = centeredTracker(() -> Lang.localize("gui.nc.container.heat_exchanger_controller.mean_temp_diff") + " " + UnitHelper.prefix(multiblock.activeContactCount == 0 ? 0D : multiblock.totalTempDiff / multiblock.activeContactCount, 5, "K"));
 	
 	public GuiCondenserController(Container inventory, EntityPlayer player, TileCondenserController controller, String textureLocation) {
 		super(inventory, player, controller, textureLocation);
@@ -46,22 +54,17 @@ public class GuiCondenserController extends GuiMultiblockController<HeatExchange
 		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
 		
 		if (NCUtil.isModifierKeyDown()) {
-			String networkCount = Lang.localize("gui.nc.container.heat_exchanger_controller.active_network_count") + " " + multiblock.activeNetworkCount + "/" + multiblock.totalNetworkCount;
-			fontRenderer.drawString(networkCount, xSize / 2 - fontRenderer.getStringWidth(networkCount) / 2, 22, fontColor);
+			networkCountText.applyAsInt(22, fontColor);
 		}
 		else {
-			String tubeCount = Lang.localize("gui.nc.container.heat_exchanger_controller.active_tube_count") + " " + multiblock.activeTubeCount + "/" + multiblock.getPartCount(TileHeatExchangerTube.class);
-			fontRenderer.drawString(tubeCount, xSize / 2 - fontRenderer.getStringWidth(tubeCount) / 2, 22, fontColor);
+			tubeCountText.applyAsInt(22, fontColor);
 		}
 		
-		String tubeInputRate = Lang.localize("gui.nc.container.heat_exchanger_controller.tube_input") + " " + UnitHelper.prefix(Math.round(multiblock.tubeInputRateFP), 5, "B/t", -1);
-		fontRenderer.drawString(tubeInputRate, xSize / 2 - fontRenderer.getStringWidth(tubeInputRate) / 2, 34, fontColor);
+		tubeInputRateText.applyAsInt(34, fontColor);
 		
-		String heatDissipationRate = Lang.localize("gui.nc.container.heat_exchanger_controller.heat_dissipation_rate") + " " + UnitHelper.prefix(Math.round(multiblock.heatTransferRateFP), 5, "H/t");
-		fontRenderer.drawString(heatDissipationRate, xSize / 2 - fontRenderer.getStringWidth(heatDissipationRate) / 2, 46, fontColor);
+		heatDissipationRateText.applyAsInt(46, fontColor);
 		
-		String meanTempDiff = Lang.localize("gui.nc.container.heat_exchanger_controller.mean_temp_diff") + " " + UnitHelper.prefix(multiblock.activeContactCount == 0 ? 0D : Math.round(multiblock.totalTempDiff / multiblock.activeContactCount), 5, "K");
-		fontRenderer.drawString(meanTempDiff, xSize / 2 - fontRenderer.getStringWidth(meanTempDiff) / 2, 58, fontColor);
+		meanTempDiffText.applyAsInt(58, fontColor);
 	}
 	
 	@Override

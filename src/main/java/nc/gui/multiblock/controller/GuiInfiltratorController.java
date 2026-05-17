@@ -13,9 +13,16 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.function.IntBinaryOperator;
+
 public class GuiInfiltratorController extends GuiLogicMultiblockController<Machine, MachineLogic, IMachinePart, MachineUpdatePacket, TileInfiltratorController, TileContainerInfo<TileInfiltratorController>, InfiltratorLogic> {
 	
 	protected final ResourceLocation gui_texture;
+	
+	IntBinaryOperator pressureChamberEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.infiltrator_controller.pressure_chamber_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.basePowerMultiplier <= 0D ? 0D : multiblock.baseSpeedMultiplier * (1D + getLogic().heatingBonus) / multiblock.basePowerMultiplier, 1));
+	IntBinaryOperator pressureFluidEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.infiltrator_controller.pressure_fluid_efficiency") + " " + NCMath.pcDecimalPlaces(getLogic().pressureFluidEfficiency, 1));
+	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5));
+	IntBinaryOperator powerText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t"));
 	
 	public GuiInfiltratorController(Container inventory, EntityPlayer player, TileInfiltratorController controller, String textureLocation) {
 		super(inventory, player, controller, textureLocation);
@@ -45,17 +52,13 @@ public class GuiInfiltratorController extends GuiLogicMultiblockController<Machi
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
 		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
 		
-		String pressureChamberEfficiency = Lang.localize("gui.nc.container.infiltrator_controller.pressure_chamber_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.basePowerMultiplier <= 0D ? 0D : multiblock.baseSpeedMultiplier * (1D + getLogic().heatingBonus) / multiblock.basePowerMultiplier, 1);
-		fontRenderer.drawString(pressureChamberEfficiency, xSize / 2 - fontRenderer.getStringWidth(pressureChamberEfficiency) / 2, 22, fontColor);
+		pressureChamberEfficiencyText.applyAsInt(22, fontColor);
 		
-		String pressureFluidEfficiency = Lang.localize("gui.nc.container.infiltrator_controller.pressure_fluid_efficiency") + " " + NCMath.pcDecimalPlaces(getLogic().pressureFluidEfficiency, 1);
-		fontRenderer.drawString(pressureFluidEfficiency, xSize / 2 - fontRenderer.getStringWidth(pressureFluidEfficiency) / 2, 34, fontColor);
+		pressureFluidEfficiencyText.applyAsInt(34, fontColor);
 		
-		String rate = Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5);
-		fontRenderer.drawString(rate, xSize / 2 - fontRenderer.getStringWidth(rate) / 2, 46, fontColor);
+		rateText.applyAsInt(46, fontColor);
 		
-		String power = Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t");
-		fontRenderer.drawString(power, xSize / 2 - fontRenderer.getStringWidth(power) / 2, 58, fontColor);
+		powerText.applyAsInt(58, fontColor);
 	}
 	
 	@Override

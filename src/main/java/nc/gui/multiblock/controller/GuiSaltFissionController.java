@@ -15,10 +15,18 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.*;
+import java.util.function.IntBinaryOperator;
 
 public class GuiSaltFissionController extends GuiLogicMultiblockController<FissionReactor, FissionReactorLogic, IFissionPart, FissionUpdatePacket, TileSaltFissionController, TileContainerInfo<TileSaltFissionController>, MoltenSaltFissionLogic> {
 	
 	protected final ResourceLocation gui_texture;
+	
+	IntBinaryOperator heatMultText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.pcDecimalPlaces(multiblock.meanHeatMult, 1));
+	IntBinaryOperator efficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.meanEfficiency, 1));
+	IntBinaryOperator speedMultText = centeredTracker(() -> Lang.localize("gui.nc.container.salt_fission_controller.heating_speed_multiplier") + " " + NCMath.pcDecimalPlaces(getLogic().meanHeatingSpeedMultiplier, 1));
+	IntBinaryOperator sparsityText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.sparsity") + " " + NCMath.pcDecimalPlaces(multiblock.sparsityEfficiencyMult, 1));
+	IntBinaryOperator usefulPartCountText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume());
+	IntBinaryOperator netClusterHeatingText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.net_cluster_heating") + " " + UnitHelper.prefix(getLogic().getNetClusterHeating(), 5, "H/t"));
 	
 	public GuiSaltFissionController(Container inventory, EntityPlayer player, TileSaltFissionController controller, String textureLocation) {
 		super(inventory, player, controller, textureLocation);
@@ -65,21 +73,27 @@ public class GuiSaltFissionController extends GuiLogicMultiblockController<Fissi
 		String clusters = Lang.localize("gui.nc.container.fission_controller.clusters") + " " + multiblock.clusterCount;
 		fontRenderer.drawString(clusters, xSize / 2 - fontRenderer.getStringWidth(clusters) / 2, 22, fontColor);
 		
-		String heatMult = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.pcDecimalPlaces(multiblock.meanHeatMult, 1) : Lang.localize("gui.nc.container.fission_controller.efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.meanEfficiency, 1);
-		fontRenderer.drawString(heatMult, xSize / 2 - fontRenderer.getStringWidth(heatMult) / 2, 34, fontColor);
+		if (NCUtil.isModifierKeyDown()) {
+			heatMultText.applyAsInt(34, fontColor);
+		}
+		else {
+			efficiencyText.applyAsInt(34, fontColor);
+		}
 		
-		String speedMult = Lang.localize("gui.nc.container.salt_fission_controller.heating_speed_multiplier") + " " + NCMath.pcDecimalPlaces(getLogic().meanHeatingSpeedMultiplier, 1);
-		fontRenderer.drawString(speedMult, xSize / 2 - fontRenderer.getStringWidth(speedMult) / 2, 46, fontColor);
+		speedMultText.applyAsInt(46, fontColor);
 		
-		String usefulParts = NCUtil.isModifierKeyDown() ? Lang.localize("gui.nc.container.fission_controller.sparsity") + " " + NCMath.pcDecimalPlaces(multiblock.sparsityEfficiencyMult, 1) : Lang.localize("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume();
-		fontRenderer.drawString(usefulParts, xSize / 2 - fontRenderer.getStringWidth(usefulParts) / 2, 58, fontColor);
+		if (NCUtil.isModifierKeyDown()) {
+			sparsityText.applyAsInt(58, fontColor);
+		}
+		else {
+			usefulPartCountText.applyAsInt(58, fontColor);
+		}
 		
 		String temperature = Lang.localize("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? Math.round(logic.getTemperature() - 273.15D) + " C" : Math.round(logic.getTemperature()) + " K");
 		fontRenderer.drawString(temperature, xSize / 2 - fontRenderer.getStringWidth(temperature) / 2, NCUtil.isModifierKeyDown() ? 70 : 76, fontColor);
 		
 		if (!NCUtil.isModifierKeyDown()) {
-			String netClusterHeating = Lang.localize("gui.nc.container.fission_controller.net_cluster_heating") + " " + UnitHelper.prefix(getLogic().getNetClusterHeating(), 5, "H/t");
-			fontRenderer.drawString(netClusterHeating, xSize / 2 - fontRenderer.getStringWidth(netClusterHeating) / 2, 88, fontColor);
+			netClusterHeatingText.applyAsInt(88, fontColor);
 		}
 	}
 	

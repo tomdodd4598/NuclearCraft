@@ -150,7 +150,9 @@ public class NCConfig {
 	public static int fission_cooling_efficiency_leniency;
 	public static double[] fission_sparsity_penalty_params; // Multiplier, threshold
 	public static double fission_cooler_coolant_heat_per_mb;
-	public static double fission_heating_coolant_heat_mult;
+	public static double fission_heater_coolant_heat_per_mb;
+	public static double fission_heating_gas_coolant_heat_mult;
+	public static double fission_heating_nak_coolant_heat_mult;
 	
 	public static boolean fission_decay_mechanics;
 	public static double[] fission_decay_build_up_times; // Decay heat, iodine, poison
@@ -271,7 +273,8 @@ public class NCConfig {
 	public static int heat_exchanger_max_size; // Default: 24
 	public static double[] heat_exchanger_heat_transfer_coefficient;
 	public static double[] heat_exchanger_heat_retention_mult;
-	public static double heat_exchanger_coolant_heat_mult;
+	public static double heat_exchanger_gas_coolant_heat_mult;
+	public static double heat_exchanger_nak_coolant_heat_mult;
 	public static boolean heat_exchanger_lmtd;
 	public static boolean heat_exchanger_alternate_hps_recipe;
 	public static boolean heat_exchanger_alternate_exhaust_recipe;
@@ -615,7 +618,9 @@ public class NCConfig {
 		fission_cooling_efficiency_leniency = sync(CATEGORY_FISSION, "fission_cooling_efficiency_leniency", 10, 0, 32767);
 		fission_sparsity_penalty_params = sync(CATEGORY_FISSION, "fission_sparsity_penalty_params", new double[] {0.5D, 0.75D}, 0D, 1D, ARRAY);
 		fission_cooler_coolant_heat_per_mb = sync(CATEGORY_FISSION, "fission_cooler_coolant_heat_per_mb", 32D, 0.001D, Integer.MAX_VALUE);
-		fission_heating_coolant_heat_mult = sync(CATEGORY_FISSION, "fission_heating_coolant_heat_mult", 2D, 0.001D, Integer.MAX_VALUE);
+		fission_heater_coolant_heat_per_mb = sync(CATEGORY_FISSION, "fission_heater_coolant_heat_per_mb", 128D, 0.001D, Integer.MAX_VALUE);
+		fission_heating_gas_coolant_heat_mult = sync(CATEGORY_FISSION, "fission_heating_gas_coolant_heat_mult", 1.5D, 0.001D, Integer.MAX_VALUE);
+		fission_heating_nak_coolant_heat_mult = sync(CATEGORY_FISSION, "fission_heating_nak_coolant_heat_mult", 2D, 0.001D, Integer.MAX_VALUE);
 		
 		fission_decay_mechanics = sync(CATEGORY_FISSION, "fission_decay_mechanics", false);
 		fission_decay_build_up_times = sync(CATEGORY_FISSION, "fission_decay_build_up_times", new double[] {24000D, 24000D, 24000D}, 0D, Integer.MAX_VALUE, ARRAY);
@@ -736,7 +741,8 @@ public class NCConfig {
 		heat_exchanger_max_size = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_max_size", 24, 2, 255);
 		heat_exchanger_heat_transfer_coefficient = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_heat_transfer_coefficient", new double[] {16D, 24D, 32D}, 0.001D, Integer.MAX_VALUE, ARRAY);
 		heat_exchanger_heat_retention_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_heat_retention_mult", new double[] {0.9D, 0.95D, 1D}, 0.01D, 1D, ARRAY);
-		heat_exchanger_coolant_heat_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_heat_mult", 4D, 0.001D, Integer.MAX_VALUE);
+		heat_exchanger_gas_coolant_heat_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_gas_coolant_heat_mult", 1D, 0.001D, Integer.MAX_VALUE);
+		heat_exchanger_nak_coolant_heat_mult = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_nak_coolant_heat_mult", 2D, 0.001D, Integer.MAX_VALUE);
 		heat_exchanger_lmtd = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_lmtd", false);
 		heat_exchanger_alternate_hps_recipe = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_hps_recipe", false);
 		heat_exchanger_alternate_exhaust_recipe = sync(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_exhaust_recipe", false);
@@ -749,10 +755,10 @@ public class NCConfig {
 		turbine_coil_conductivity = sync(CATEGORY_TURBINE, "turbine_coil_conductivity", new double[] {0.88D, 0.9D, 1D, 1.04D, 1.06D, 1.12D}, 0.01D, 15D, ARRAY);
 		turbine_coil_rule = sync(CATEGORY_TURBINE, "turbine_coil_rule", new String[] {"one bearing || one connector", "one magnesium coil", "two magnesium coils", "one aluminum coil", "one beryllium coil", "one gold coil && one copper coil"}, ARRAY);
 		turbine_connector_rule = sync(CATEGORY_TURBINE, "turbine_connector_rule", new String[] {"one of any coil"}, ARRAY);
-		turbine_power_per_mb = sync(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D, 32D, 16D}, 0D, 255D, ARRAY);
-		turbine_expansion_level = sync(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D, 2D, 2D}, 1D, 255D, ARRAY);
+		turbine_power_per_mb = sync(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D, 32D}, 0D, 255D, ARRAY);
+		turbine_expansion_level = sync(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D, 2D}, 1D, 255D, ARRAY);
 		turbine_spin_up_multiplier_global = sync(CATEGORY_TURBINE, "turbine_spin_up_multiplier_global", 1D, 0D, 255D);
-		turbine_spin_up_multiplier = sync(CATEGORY_TURBINE, "turbine_spin_up_multiplier", new double[] {1D, 1D, 1D, 1D, 1D}, 0D, 255D, ARRAY);
+		turbine_spin_up_multiplier = sync(CATEGORY_TURBINE, "turbine_spin_up_multiplier", new double[] {1D, 1D, 1D, 1D}, 0D, 255D, ARRAY);
 		turbine_spin_down_multiplier = sync(CATEGORY_TURBINE, "turbine_spin_down_multiplier", 1D, 0.01D, 255D);
 		turbine_mb_per_blade = sync(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, 1, 32767);
 		turbine_throughput_leniency_params = sync(CATEGORY_TURBINE, "turbine_throughput_leniency_params", new double[] {0.5D, 0.75D}, 0D, 1D, ARRAY);
