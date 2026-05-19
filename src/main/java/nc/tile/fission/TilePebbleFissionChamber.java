@@ -1111,8 +1111,6 @@ public class TilePebbleFissionChamber extends TileFissionPart implements IBasicP
 	
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
-		// ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
-		// return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler(tile, side));
 		return ITileFilteredInventory.super.getItemHandler(side);
 	}
 	

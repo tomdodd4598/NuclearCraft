@@ -129,6 +129,10 @@ tile.nuclearcraft.electric_furnace.desc=Smelts items using energy.
 tile.nuclearcraft.machine_interface.name=Machine Interface
 tile.nuclearcraft.machine_interface.desc=Automation can access the machine directly adjacent to this block. Can only extend one adjacent machine at maximum.
 
+tile.nuclearcraft.distributor_buffer.name=Distributor Buffer
+tile.nuclearcraft.distributor_inlet.name=Distributor Inlet
+tile.nuclearcraft.distributor_outlet.name=Distributor Outlet
+
 tile.nuclearcraft.machine_frame.name=Large Machine Casing
 tile.nuclearcraft.machine_glass.name=Large Machine Glass
 tile.nuclearcraft.machine_power_port.name=Large Machine Power Port

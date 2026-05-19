@@ -8,6 +8,7 @@ import nc.multiblock.quantum.QuantumGateEnums;
 import nc.multiblock.turbine.*;
 import nc.tile.TileBin;
 import nc.tile.battery.TileBattery;
+import nc.tile.distributor.*;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.fission.*;
 import nc.tile.fission.manager.*;
@@ -57,6 +58,10 @@ public class NCTiles {
 		registerTile(Global.MOD_ID, "basic_upgradable_energy_processor_dyn", TileBasicUpgradableEnergyProcessorDyn.class);
 		
 		registerTile(Global.MOD_ID, "machine_interface", TileMachineInterface.class);
+		
+		registerTile(Global.MOD_ID, "distributor_buffer", TileDistributorBuffer.class);
+		registerTile(Global.MOD_ID, "distributor_inlet", TileDistributorInlet.class);
+		registerTile(Global.MOD_ID, "distributor_outlet", TileDistributorOutlet.class);
 		
 		registerTile(Global.MOD_ID, "machine_frame", TileMachineFrame.class);
 		registerTile(Global.MOD_ID, "machine_glass", TileMachineGlass.class);

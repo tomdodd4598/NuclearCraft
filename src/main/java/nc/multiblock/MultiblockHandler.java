@@ -1,6 +1,7 @@
 package nc.multiblock;
 
 import nc.multiblock.battery.BatteryMultiblock;
+import nc.multiblock.distributor.Distributor;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.hx.HeatExchanger;
 import nc.multiblock.machine.Machine;
@@ -8,6 +9,7 @@ import nc.multiblock.quantum.QuantumComputer;
 import nc.multiblock.rtg.RTGMultiblock;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.battery.TileBattery;
+import nc.tile.distributor.*;
 import nc.tile.fission.*;
 import nc.tile.fission.manager.*;
 import nc.tile.fission.port.*;
@@ -52,6 +54,10 @@ public class MultiblockHandler {
 	}
 	
 	public static void init() {
+		Distributor.PART_CLASSES.add(TileDistributorBuffer.class);
+		Distributor.PART_CLASSES.add(TileDistributorInlet.class);
+		Distributor.PART_CLASSES.add(TileDistributorOutlet.class);
+		
 		Machine.PART_CLASSES.add(IMachineController.class);
 		Machine.PART_CLASSES.add(TileMachineProcessPort.class);
 		Machine.PART_CLASSES.add(TileMachineReservoirPort.class);

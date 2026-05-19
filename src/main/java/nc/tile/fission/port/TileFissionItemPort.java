@@ -9,7 +9,7 @@ import nc.multiblock.fission.FissionReactor;
 import nc.network.tile.multiblock.port.ItemPortUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.*;
-import nc.tile.fission.port.internal.PortItemHandler;
+import nc.tile.internal.inventory.RawItemHandler;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.*;
 import nc.util.*;
@@ -380,6 +380,6 @@ public abstract class TileFissionItemPort<PORT extends TileFissionItemPort<PORT,
 	@Override
 	public IItemHandler getItemHandler(@Nullable EnumFacing side) {
 		// ITileInventory tile = !DEFAULT_NON.equals(masterPortPos) ? masterPort : this;
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new PortItemHandler<>(this, side));
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new RawItemHandler<>(this, side));
 	}
 }

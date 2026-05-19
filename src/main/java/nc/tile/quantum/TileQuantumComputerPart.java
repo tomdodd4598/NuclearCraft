@@ -6,8 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class TileQuantumComputerPart extends TileMultiblockPart<QuantumComputer, IQuantumComputerPart> implements IQuantumComputerPart {
 	
-	public boolean isHeatExchangerOn;
-	
 	public TileQuantumComputerPart() {
 		super(QuantumComputer.class, IQuantumComputerPart.class);
 	}

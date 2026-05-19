@@ -93,15 +93,32 @@ public class UnitHelper {
 		BigDecimal reference = (value.signum() == 0 && max != null ? max : value).abs();
 		int prefixIndex = startingPrefix;
 		
-		while (reference.signum() != 0 && prefixIndex < SI_PREFIX.length - 1) {
-			BigDecimal scaled = reference.scaleByPowerOfTen(-3 * (prefixIndex - startingPrefix));
-			BigDecimal rounded = roundToMaxDigits(scaled, maxLength);
+		if (reference.signum() != 0) {
+			BigDecimal rounded = roundToMaxDigits(reference, maxLength);
 			
-			if (displayedDigitCount(rounded) <= maxLength) {
-				break;
+			if (rounded.abs().compareTo(BigDecimal.ONE) < 0) {
+				for (int i = startingPrefix; i >= 0; --i) {
+					BigDecimal scaled = reference.scaleByPowerOfTen(-3 * (i - startingPrefix));
+					rounded = roundToMaxDigits(scaled, maxLength);
+					
+					if (rounded.abs().compareTo(BigDecimal.ONE) >= 0 && displayedDigitCount(rounded) <= maxLength) {
+						prefixIndex = i;
+						break;
+					}
+				}
 			}
-			
-			++prefixIndex;
+			else {
+				while (prefixIndex < SI_PREFIX.length - 1) {
+					BigDecimal scaled = reference.scaleByPowerOfTen(-3 * (prefixIndex - startingPrefix));
+					rounded = roundToMaxDigits(scaled, maxLength);
+					
+					if (displayedDigitCount(rounded) <= maxLength) {
+						break;
+					}
+					
+					++prefixIndex;
+				}
+			}
 		}
 		
 		String prefix = SI_PREFIX[prefixIndex];

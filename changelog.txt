@@ -1,3 +1,9 @@
+v2o.9.5
+
++ Added Distributor multiblock for equally splitting energy, item and fluid throughputs
+
+* Fixed broken small unit prefixes
+
 v2o.9.4
 
 * Modified PBR gas coolant cycle

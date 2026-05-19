@@ -4,6 +4,7 @@ import nc.*;
 import nc.block.*;
 import nc.block.BlockMeta.BlockMachineSieveAssembly;
 import nc.block.battery.*;
+import nc.block.distributor.*;
 import nc.block.fission.*;
 import nc.block.fission.manager.*;
 import nc.block.fission.port.*;
@@ -76,6 +77,10 @@ public class NCBlocks {
 	public static Block electric_furnace;
 	
 	public static Block machine_interface;
+	
+	public static Block distributor_buffer;
+	public static Block distributor_inlet;
+	public static Block distributor_outlet;
 	
 	public static Block machine_frame;
 	public static Block machine_glass;
@@ -312,6 +317,10 @@ public class NCBlocks {
 		}
 		
 		machine_interface = addWithName(Global.MOD_ID, new BlockMachineInterface("machine_interface"));
+		
+		distributor_buffer = addWithName(Global.MOD_ID, "distributor_buffer", new BlockDistributorBuffer());
+		distributor_inlet = addWithName(Global.MOD_ID, "distributor_inlet", new BlockDistributorInlet());
+		distributor_outlet = addWithName(Global.MOD_ID, "distributor_outlet", new BlockDistributorOutlet());
 		
 		machine_frame = addWithName(Global.MOD_ID, "machine_frame", new BlockMachineFrame());
 		machine_glass = addWithName(Global.MOD_ID, "machine_glass", new BlockMachineGlass());

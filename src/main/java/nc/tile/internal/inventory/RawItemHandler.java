@@ -1,13 +1,12 @@
-package nc.tile.fission.port.internal;
+package nc.tile.internal.inventory;
 
-import nc.tile.internal.inventory.ItemHandler;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public class PortItemHandler<T extends ITileInventory> extends ItemHandler<T> {
+public class RawItemHandler<T extends ITileInventory> extends ItemHandler<T> {
 	
-	public PortItemHandler(T tile, EnumFacing side) {
+	public RawItemHandler(T tile, EnumFacing side) {
 		super(tile, side);
 	}
 	
