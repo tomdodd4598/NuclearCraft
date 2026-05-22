@@ -95,6 +95,16 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/compound/potassium_hydroquinone"
 				}
+			},
+			"barium_sulfide": {
+				"textures": {
+					"layer0": "nuclearcraft:items/compound/barium_sulfide"
+				}
+			},
+			"silica": {
+				"textures": {
+					"layer0": "nuclearcraft:items/compound/silica"
+				}
 			}
 		}
 	}

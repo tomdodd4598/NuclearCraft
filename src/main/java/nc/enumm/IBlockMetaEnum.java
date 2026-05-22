@@ -1,14 +1,42 @@
 package nc.enumm;
 
+import net.minecraft.block.SoundType;
+
 public interface IBlockMetaEnum extends IMetaEnum {
 	
-	int getHarvestLevel();
+	default int getHarvestLevel() {
+		return getHarvestTool().equals("pickaxe") ? 0 : -1;
+	}
 	
-	String getHarvestTool();
+	default String getHarvestTool() {
+		return "pickaxe";
+	}
 	
-	float getHardness();
+	default float getHardness() {
+		return 3F;
+	}
 	
-	float getResistance();
+	default float getResistance() {
+		return 5F * getHardness();
+	}
 	
-	int getLightValue();
+	default int getLightValue() {
+		return 0;
+	}
+	
+	default SoundType getSoundType() {
+		return SoundType.STONE;
+	}
+	
+	default int getFireSpreadSpeed() {
+		return 0;
+	}
+	
+	default int getFlammability() {
+		return 0;
+	}
+	
+	default boolean isFireSource() {
+		return false;
+	}
 }

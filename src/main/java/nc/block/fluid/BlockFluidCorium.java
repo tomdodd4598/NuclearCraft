@@ -9,6 +9,7 @@ import nc.radiation.*;
 import nc.util.DamageSources;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -62,5 +63,15 @@ public class BlockFluidCorium extends BlockFluidFission {
 				world.setBlockState(pos, NCBlocks.solidified_corium.getDefaultState());
 			}
 		}
+	}
+	
+	@Override
+	protected IBlockState getSourceMixingState(World world, BlockPos pos, IBlockState state) {
+		return NCBlocks.solidified_corium.getDefaultState();
+	}
+	
+	@Override
+	protected IBlockState getFlowingMixingState(World world, BlockPos pos, IBlockState state) {
+		return Blocks.STONE.getDefaultState();
 	}
 }

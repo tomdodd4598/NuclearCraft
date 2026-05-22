@@ -1,26 +1,29 @@
 package nc.block.fluid;
 
-import nc.fluid.SuperFluid;
-import nc.init.NCBlocks;
-import nc.util.DamageSources;
-import net.minecraft.block.material.Material;
+import nc.fluid.FluidSoul;
+import net.minecraft.block.material.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockSuperFluid extends NCBlockFluid {
+public class BlockFluidSoul extends NCBlockFluid {
 	
-	public BlockSuperFluid(SuperFluid fluid) {
-		super(fluid, Material.WATER);
+	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
+	
+	public BlockFluidSoul(FluidSoul fluid) {
+		super(fluid, GAS);
 	}
 	
 	@Override
-	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		entityIn.attackEntityFrom(DamageSources.SUPERFLUID_FREEZE, 6F);
+	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
+		super.updateTick(worldIn, pos, state, rand);
+		if (isSourceBlock(worldIn, pos)) {
+			worldIn.setBlockToAir(pos);
+		}
 	}
 	
 	@Override
@@ -50,6 +53,6 @@ public class BlockSuperFluid extends NCBlockFluid {
 	
 	@Override
 	protected IBlockState getFlowingIntoWaterState(World world, BlockPos pos, IBlockState state, Random rand) {
-		return NCBlocks.supercold_ice.getDefaultState();
+		return null;
 	}
 }

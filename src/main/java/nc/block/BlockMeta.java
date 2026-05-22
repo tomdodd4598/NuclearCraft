@@ -1,7 +1,7 @@
 package nc.block;
 
 import nc.enumm.*;
-import nc.enumm.MetaEnums.MachineSieveAssemblyType;
+import nc.enumm.MetaEnums.*;
 import nc.tab.NCTabs;
 import nc.tile.ITile;
 import nc.util.*;
@@ -43,7 +43,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		type = property;
 		setDefaultState(blockState.getBaseState().withProperty(type, values[0]));
 		setMetaHarvestLevels();
-		setHardness(2F);
+		setHardness(3F);
 		setResistance(15F);
 	}
 	
@@ -81,21 +81,6 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		protected BlockStateContainer createBlockState() {
 			return new BlockStateContainer(this, TYPE);
 		}
-		
-		@Override
-		public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return world.getBlockState(pos).getValue(type).getFireSpreadSpeed();
-		}
-		
-		@Override
-		public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return world.getBlockState(pos).getValue(type).getFlammability();
-		}
-		
-		@Override
-		public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
-			return world.getBlockState(pos).getValue(type).isFireSource();
-		}
 	}
 	
 	public static class BlockIngot2 extends BlockMeta<MetaEnums.IngotType2> {
@@ -111,21 +96,6 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		protected BlockStateContainer createBlockState() {
 			return new BlockStateContainer(this, TYPE);
 		}
-		
-		@Override
-		public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return world.getBlockState(pos).getValue(type).getFireSpreadSpeed();
-		}
-		
-		@Override
-		public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return world.getBlockState(pos).getValue(type).getFlammability();
-		}
-		
-		@Override
-		public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
-			return world.getBlockState(pos).getValue(type).isFireSource();
-		}
 	}
 	
 	public static class BlockMaterial extends BlockMeta<MetaEnums.BlockMaterial> {
@@ -140,21 +110,6 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		@Override
 		protected BlockStateContainer createBlockState() {
 			return new BlockStateContainer(this, TYPE);
-		}
-		
-		@Override
-		public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return world.getBlockState(pos).getValue(type).getFireSpreadSpeed();
-		}
-		
-		@Override
-		public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return world.getBlockState(pos).getValue(type).getFlammability();
-		}
-		
-		@Override
-		public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
-			return world.getBlockState(pos).getValue(type).isFireSource();
 		}
 	}
 	
@@ -257,6 +212,11 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	@Override
+	public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
+		return state.getValue(type).getSoundType();
+	}
+	
+	@Override
 	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
 		return state.getValue(type).getHardness();
 	}
@@ -264,6 +224,21 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	@Override
 	public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
 		return world.getBlockState(pos).getValue(type).getResistance();
+	}
+	
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return world.getBlockState(pos).getValue(type).getFireSpreadSpeed();
+	}
+	
+	@Override
+	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+		return world.getBlockState(pos).getValue(type).getFlammability();
+	}
+	
+	@Override
+	public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
+		return world.getBlockState(pos).getValue(type).isFireSource();
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ import nc.block.item.NCItemBlock;
 import nc.enumm.FluidType;
 import nc.util.*;
 import net.minecraft.block.Block;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.*;
@@ -37,6 +38,8 @@ public class NCFluids {
 		addFluidPair(FluidType.MOLTEN, "ferroboron", 0x4A4A4A);
 		addFluidPair(FluidType.MOLTEN, "tough", 0x150F21);
 		addFluidPair(FluidType.MOLTEN, "hard_carbon", 0x195970);
+		addFluidPair(FluidType.MOLTEN, "hastelloy", 0x8F9C9D);
+		addFluidPair(FluidType.MOLTEN, "nichrome", 0x5F6958);
 		
 		if (registerCoFHAlt()) {
 			addFluidPair(FluidType.MOLTEN, "coal", 0x202020);
@@ -45,6 +48,13 @@ public class NCFluids {
 		addFluidPair(FluidType.MOLTEN, "zirconium", 0xE0E0B8);
 		addFluidPair(FluidType.MOLTEN, "manganese_dioxide", 0x28211E);
 		addFluidPair(FluidType.MOLTEN, "sulfur", 0xDEDE7A);
+		addFluidPair(FluidType.MOLTEN, "barium", 0x4B4B4B);
+		addFluidPair(FluidType.MOLTEN, "barium_oxide", 0xC7D4D6);
+		addFluidPair(FluidType.MOLTEN, "nickel", 0xA3A998);
+		addFluidPair(FluidType.MOLTEN, "nickel_oxide", 0x435E49);
+		addFluidPair(FluidType.MOLTEN, "chromium", 0xE7E7E7);
+		addFluidPair(FluidType.MOLTEN, "holmium", 0xDCB49C);
+		addFluidPair(FluidType.MOLTEN, "dysprosium", 0xC381E4);
 		
 		addFluidPair(FluidType.SUPERFLUID, "liquid_helium");
 		addFluidPair(FluidType.LIQUID, "liquid_nitrogen", false, 0x31C23A, 810, 70, 170, 0);
@@ -122,6 +132,7 @@ public class NCFluids {
 		addFluidPair(FluidType.ACID, "hydrofluoric_acid", 0x004C05);
 		addFluidPair(FluidType.ACID, "boric_acid", 0x696939);
 		addFluidPair(FluidType.ACID, "sulfuric_acid", 0x454500);
+		addFluidPair(FluidType.ACID, "orthosilicic_acid", 0xB8B8B8);
 		
 		addFluidPair(FluidType.SALT_SOLUTION, "boron_nitride_solution", ColorHelper.waterBlend(0x6F8E5C, 0.5F));
 		addFluidPair(FluidType.SALT_SOLUTION, "fluorite_water", ColorHelper.waterBlend(0x8AB492, 0.5F));
@@ -138,6 +149,8 @@ public class NCFluids {
 		addFluidPair(FluidType.SALT_SOLUTION, "hydroquinone_solution", ColorHelper.waterBlend(0xB7B7B7, 0.5F));
 		addFluidPair(FluidType.SALT_SOLUTION, "sodium_hydroquinone_solution", ColorHelper.waterBlend(0xC9B9BA, 0.5F));
 		addFluidPair(FluidType.SALT_SOLUTION, "potassium_hydroquinone_solution", ColorHelper.waterBlend(0xC6CA94, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "dysprholminite_water", ColorHelper.waterBlend(0x454215, 0.5F));
+		addFluidPair(FluidType.SALT_SOLUTION, "hodybeso_solution", ColorHelper.waterBlend(0xCAB94E, 0.5F));
 		
 		addFluidPair(FluidType.CORIUM, "corium", 0x7C7C6F);
 		
@@ -160,6 +173,12 @@ public class NCFluids {
 		addFluidPair(FluidType.MOLTEN, "flibe", 0xC1C8B0);
 		addFluidPair(FluidType.MOLTEN, "naoh", 0xC2B7BB);
 		addFluidPair(FluidType.MOLTEN, "koh", 0xB8C6B0);
+		addFluidPair(FluidType.MOLTEN, "barium_sulfide", 0xBDA776);
+		addFluidPair(FluidType.MOLTEN, "bacro_nio", 0x414641);
+		addFluidPair(FluidType.MOLTEN, "bacro", 0x5E615E);
+		addFluidPair(FluidType.MOLTEN, "baalo", 0x857958);
+		addFluidPair(FluidType.MOLTEN, "aluminum_sulfide", 0xBEFFA2);
+		addFluidPair(FluidType.MOLTEN, "nickel_sulfide", 0xCBD3AD);
 		
 		addFluidPair(FluidType.MOLTEN, "dfdps", 0xB4B3A7);
 		addFluidPair(FluidType.MOLTEN, "polyphenylene_sulfide", 0x3F3D3E);
@@ -195,6 +214,8 @@ public class NCFluids {
 		addFluidPair(FluidType.HOT_GAS, "arsenic", 0x818475);
 		addFluidPair(FluidType.MOLTEN, "bas", 0x9B9B89);
 		addFluidPair(FluidType.HOT_GAS, "sic_vapor", 0x78746A);
+		addFluidPair(FluidType.HOT_GAS, "fso_vapor", 0x8C862E);
+		addFluidPair(FluidType.HOT_GAS, "hodybef_vapor", 0xA18A72);
 		
 		addFluidPair(FluidType.MOLTEN, "alugentum", 0xB5C9CB);
 		addFluidPair(FluidType.MOLTEN, "alumina", 0x919880);
@@ -205,6 +226,9 @@ public class NCFluids {
 		addFluidPair(FluidType.FISSION, "caesium_137", 0xADADAD);
 		addFluidPair(FluidType.FISSION, "promethium_147", 0x96C199);
 		addFluidPair(FluidType.FISSION, "europium_155", 0x74664A);
+		
+		addFluidPair(FluidType.SOUL, "soul", 0x7B6F68, SoundEvents.ENTITY_GHAST_HURT, SoundEvents.ENTITY_GHAST_SCREAM);
+		addFluidPair(FluidType.SOUL, "mysterious_soul", 0x985CA4, SoundEvents.ENTITY_GHAST_AMBIENT, SoundEvents.ENTITY_GHAST_WARN);
 	}
 	
 	private static <T extends Fluid, V extends NCBlockFluid> void addFluidPair(FluidType type, Object... args) {

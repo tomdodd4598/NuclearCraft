@@ -65,6 +65,21 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/gem_dust/end_stone"
 				}
+			},
+			"barite": {
+				"textures": {
+					"layer0": "nuclearcraft:items/gem_dust/barite"
+				}
+			},
+			"nichromite": {
+				"textures": {
+					"layer0": "nuclearcraft:items/gem_dust/nichromite"
+				}
+			},
+			"dysprholminite": {
+				"textures": {
+					"layer0": "nuclearcraft:items/gem_dust/dysprholminite"
+				}
 			}
 		}
 	}

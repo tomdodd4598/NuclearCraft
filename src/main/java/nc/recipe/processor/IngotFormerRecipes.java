@@ -39,6 +39,8 @@ public class IngotFormerRecipes extends BasicProcessorRecipeHandler {
 		addIngotFormingRecipe("hard_carbon", "HardCarbon");
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
 		addIngotFormingRecipe("lead_platinum", "LeadPlatinum");
+		addIngotFormingRecipe("barium_oxide", "BariumOxide");
+		addIngotFormingRecipe("nickel_oxide", "NickelOxide");
 		
 		addRecipe(fluidStack("bas", GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		

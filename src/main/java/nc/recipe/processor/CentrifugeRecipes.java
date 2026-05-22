@@ -1,5 +1,6 @@
 package nc.recipe.processor;
 
+import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.util.*;
 
 import java.util.*;
@@ -23,6 +24,7 @@ public class CentrifugeRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("boron", NUGGET_VOLUME * 12), fluidStack("boron_11", INGOT_VOLUME), fluidStack("boron_10", NUGGET_VOLUME * 3), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 4D / 3D, 1D);
 		addRecipe(fluidStack("lithium", NUGGET_VOLUME * 10), fluidStack("lithium_7", INGOT_VOLUME), fluidStack("lithium_6", NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 10D / 9D, 1D);
 		addRecipe(fluidStack("redstone_ethanol", BUCKET_VOLUME / 2), fluidStack("ethanol", BUCKET_VOLUME / 2), fluidStack("redstone", REDSTONE_DUST_VOLUME * 4), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("bacro_nio", INGOT_VOLUME / 2), fluidStack("nickel_oxide", INGOT_VOLUME / 2), fluidStack("bacro", INGOT_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), emptyFluidStack(), 0.5D, 0.5D);
 		
 		addCoolantNAKRecipe("iron", INGOT_VOLUME);
 		addCoolantNAKRecipe("redstone", REDSTONE_DUST_VOLUME * 2);
@@ -133,7 +135,11 @@ public class CentrifugeRecipes extends BasicProcessorRecipeHandler {
 	}
 	
 	public void addReprocessingRecipe(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4, String waste1, String waste2, double w, int r) {
-		addRecipe(fluidStack("depleted_" + fuel, INGOT_VOLUME), fluidStack(out1, NUGGET_VOLUME * n1), fluidStack(out2, NUGGET_VOLUME * n2), chanceFluidStack(waste1, NUGGET_VOLUME, NCMath.toInt(w * r), NUGGET_VOLUME), fluidStack(out3, NUGGET_VOLUME * n3), fluidStack(out4, NUGGET_VOLUME * n4), chanceFluidStack(waste2, NUGGET_VOLUME, (int) (w * (100 - r)), NUGGET_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("depleted_" + fuel, INGOT_VOLUME), fluidStack(out1, NUGGET_VOLUME * n1), fluidStack(out2, NUGGET_VOLUME * n2), wasteStack(waste1, w * r), fluidStack(out3, NUGGET_VOLUME * n3), fluidStack(out4, NUGGET_VOLUME * n4), wasteStack(waste2, w * (100 - r)), 1D, 1D);
+	}
+	
+	public ChanceFluidIngredient wasteStack(String waste, double chancePercent) {
+		return chanceFluidStack(waste, waste.equals("molybdenum") ? 2 * NUGGET_VOLUME : NUGGET_VOLUME, NCMath.toInt(chancePercent), NUGGET_VOLUME);
 	}
 	
 	@Override

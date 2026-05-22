@@ -43,6 +43,8 @@ public class NCProjectE {
 		addIngotEMCValues("RutheniumOxide", 8192);
 		addIngotEMCValues("Iridium", 8192);
 		addIngotEMCValues("IridiumOxide", 8192);
+		addIngotEMCValues("Holmium", 2048);
+		addIngotEMCValues("Dysprosium", 2048);
 		
 		addIngotEMCValues("CopperOxide", 128);
 		addIngotEMCValues("Platinum", 8192);

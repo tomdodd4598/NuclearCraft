@@ -12,7 +12,7 @@ public class NCBlockTrapDoor extends BlockTrapDoor {
 	public NCBlockTrapDoor(Material material) {
 		super(material);
 		setHarvestLevel("pickaxe", 0);
-		setHardness(2F);
+		setHardness(3F);
 		setResistance(15F);
 	}
 	

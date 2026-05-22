@@ -35,6 +35,9 @@ public class EnricherRecipes extends BasicProcessorRecipeHandler {
 		addRecipe("dustHydroquinone", fluidStack("water", BUCKET_VOLUME), fluidStack("hydroquinone_solution", GEM_VOLUME), 1D, 1D);
 		addRecipe("dustSodiumHydroquinone", fluidStack("water", BUCKET_VOLUME), fluidStack("sodium_hydroquinone_solution", GEM_VOLUME), 1D, 1D);
 		addRecipe("dustPotassiumHydroquinone", fluidStack("water", BUCKET_VOLUME), fluidStack("potassium_hydroquinone_solution", GEM_VOLUME), 1D, 1D);
+		addRecipe("dustDysprholminite", fluidStack("water", BUCKET_VOLUME), fluidStack("dysprholminite_water", GEM_VOLUME), 1D, 1D);
+		
+		addRecipe("dustNichromite", fluidStack("barium_oxide", INGOT_VOLUME), fluidStack("bacro_nio", INGOT_VOLUME), 2D, 2D);
 		
 		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", BUCKET_VOLUME / 4), fluidStack("radaway", BUCKET_VOLUME / 4), 1D, 0.5D);
 		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("redstone_ethanol", BUCKET_VOLUME / 4), fluidStack("radaway_slow", BUCKET_VOLUME / 4), 1D, 0.5D);
@@ -42,5 +45,7 @@ public class EnricherRecipes extends BasicProcessorRecipeHandler {
 		if (!ModCheck.thermalFoundationLoaded()) {
 			addRecipe(new ItemStack(Items.SNOWBALL, 4), fluidStack("liquid_helium", 25), fluidStack("cryotheum", 25), 0.5D, 1D);
 		}
+		
+		addRecipe("dustDimensional", fluidStack("soul", 100), fluidStack("mysterious_soul", 100), 2D, 1D);
 	}
 }

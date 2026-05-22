@@ -45,13 +45,24 @@ public class FurnaceRecipeHandler {
 		// Rhodochrosite Refining
 		GameRegistry.addSmelting(new ItemStack(NCItems.gem_dust, 1, 1), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.dust, 1, 14), "dustManganeseOxide"), 0F);
 		
+		// Barite Refining
+		GameRegistry.addSmelting(new ItemStack(NCItems.gem_dust, 1, 12), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.compound, 1, 18), "dustBariumSulfide"), 0F);
+		
 		// Ammonium Sulfate Decomposition
 		GameRegistry.addSmelting(new ItemStack(NCItems.compound, 1, 12), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.compound, 1, 13), "dustAmmoniumBisulfate"), 0F);
+		
+		// Silica Reduction
+		if (OreDictHelper.oreExists("ingotSilicon")) {
+			tryAddSmelting(new ItemStack(NCItems.compound, 1, 19), "ingotSilicon", 0F);
+		}
+		else {
+			GameRegistry.addSmelting(new ItemStack(NCItems.compound, 1, 19), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.gem, 1, 6), "itemSilicon"), 0F);
+		}
 		
 		// Polydimethylsilylene Pyrolysis
 		GameRegistry.addSmelting(new ItemStack(NCItems.part, 1, 21), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.part, 1, 22), "ingotPolymethylsilyleneMethylene"), 0F);
 		
-		// Cocoa Beans
+		// Cocoa Bean Roasting
 		GameRegistry.addSmelting(new ItemStack(Items.DYE, 1, 3), new ItemStack(NCItems.roasted_cocoa_beans, 1), 0F);
 		
 		// Isotopes

@@ -27,6 +27,8 @@ public class SaltMixerRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("steel", INGOT_VOLUME / 2), fluidStack("boron", INGOT_VOLUME / 2), fluidStack("ferroboron", INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("ferroboron", INGOT_VOLUME / 2), fluidStack("lithium", INGOT_VOLUME / 2), fluidStack("tough", INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("coal", COAL_DUST_VOLUME), fluidStack("diamond", GEM_VOLUME / 2), fluidStack("hardCarbon", INGOT_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("nickel", INGOT_VOLUME / 2), fluidStack("chromium", INGOT_VOLUME / 2), fluidStack("nichrome", INGOT_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("nichrome", INGOT_VOLUME * 3 / 4), fluidStack("molybdenum", INGOT_VOLUME / 4), fluidStack("hastelloy", INGOT_VOLUME), 1D, 1D);
 		
 		addRecipe(fluidStack("lead_platinum", INGOT_VOLUME), fluidStack("ender", EUM_DUST_VOLUME), fluidStack("enderium", INGOT_VOLUME), 1D, 1D);
 		

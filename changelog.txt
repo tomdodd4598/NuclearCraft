@@ -1,3 +1,13 @@
+v2o.9.6
+
+* Reprocessing recipes now produce twice as much molybdenum
+
++ Added missing Distributor block recipes
+
++ Added recipe chains for fusion reactor materials
+
+* A few other minor changes
+
 v2o.9.5
 
 + Added Distributor multiblock for equally splitting energy, item and fluid throughputs

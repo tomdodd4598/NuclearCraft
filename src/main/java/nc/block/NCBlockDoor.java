@@ -16,7 +16,7 @@ public abstract class NCBlockDoor extends BlockDoor {
 	public NCBlockDoor(Material material) {
 		super(material);
 		setHarvestLevel("pickaxe", 0);
-		setHardness(2F);
+		setHardness(3F);
 		setResistance(15F);
 	}
 	

@@ -1,5 +1,6 @@
 package nc.recipe.processor;
 
+import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.util.*;
 
 import static nc.config.NCConfig.*;
@@ -61,9 +62,13 @@ public class FuelReprocessorRecipes extends BasicProcessorRecipeHandler {
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4, String waste1, String waste2, double m, int r) {
 		int extraReturn = 9 - n1 - n2 - n3 - n4;
-		addRecipe(oreStack("ingotDepleted" + fuel + "TRISO", 9), oreStack("ingot" + out1 + "Carbide", n1), oreStack("ingot" + out2 + "Carbide", n2), chanceOreStack("dust" + waste1, 1, NCMath.toInt(m * r)), oreStack("dustGraphite", extraReturn + 2), oreStack("ingot" + out3 + "Carbide", n3), oreStack("ingot" + out4 + "Carbide", n4), chanceOreStack("dust" + waste2, 1, NCMath.toInt(m * (100 - r))), oreStack(OreDictHelper.oreExists("dustSiliconCarbide") ? "dustSiliconCarbide" : "ingotSiliconCarbide", 1), 1D, 1D);
-		addRecipe(oreStack("ingotDepleted" + fuel + "Oxide", 9), oreStack("ingot" + out1 + "Oxide", n1), oreStack("ingot" + out2 + "Oxide", n2), chanceOreStack("dust" + waste1, 1, NCMath.toInt(m * r)), emptyItemStack(), oreStack("ingot" + out3 + "Oxide", n3), oreStack("ingot" + out4 + "Oxide", n4), chanceOreStack("dust" + waste2, 1, NCMath.toInt(m * (100 - r))), emptyItemStack(), 1D, 1D);
-		addRecipe(oreStack("ingotDepleted" + fuel + "Nitride", 9), oreStack("ingot" + out1 + "Nitride", n1), oreStack("ingot" + out2 + "Nitride", n2), chanceOreStack("dust" + waste1, 1, NCMath.toInt(m * r)), emptyItemStack(), oreStack("ingot" + out3 + "Nitride", n3), oreStack("ingot" + out4 + "Nitride", n4), chanceOreStack("dust" + waste2, 1, NCMath.toInt(m * (100 - r))), emptyItemStack(), 1D, 1D);
-		addRecipe(oreStack("ingotDepleted" + fuel + "ZA", 9), oreStack("ingot" + out1 + "ZA", n1), oreStack("ingot" + out2 + "ZA", n2), chanceOreStack("dust" + waste1, 1, NCMath.toInt(m * r)), oreStack("dustZirconium", extraReturn), oreStack("ingot" + out3 + "ZA", n3), oreStack("ingot" + out4 + "ZA", n4), chanceOreStack("dust" + waste2, 1, NCMath.toInt(m * (100 - r))), emptyItemStack(), 1D, 1D);
+		addRecipe(oreStack("ingotDepleted" + fuel + "TRISO", 9), oreStack("ingot" + out1 + "Carbide", n1), oreStack("ingot" + out2 + "Carbide", n2), wasteStack(waste1, m * r), oreStack("dustGraphite", extraReturn + 2), oreStack("ingot" + out3 + "Carbide", n3), oreStack("ingot" + out4 + "Carbide", n4), wasteStack(waste2, m * (100 - r)), oreStack(OreDictHelper.oreExists("dustSiliconCarbide") ? "dustSiliconCarbide" : "ingotSiliconCarbide", 1), 1D, 1D);
+		addRecipe(oreStack("ingotDepleted" + fuel + "Oxide", 9), oreStack("ingot" + out1 + "Oxide", n1), oreStack("ingot" + out2 + "Oxide", n2), wasteStack(waste1, m * r), emptyItemStack(), oreStack("ingot" + out3 + "Oxide", n3), oreStack("ingot" + out4 + "Oxide", n4), wasteStack(waste2, m * (100 - r)), emptyItemStack(), 1D, 1D);
+		addRecipe(oreStack("ingotDepleted" + fuel + "Nitride", 9), oreStack("ingot" + out1 + "Nitride", n1), oreStack("ingot" + out2 + "Nitride", n2), wasteStack(waste1, m * r), emptyItemStack(), oreStack("ingot" + out3 + "Nitride", n3), oreStack("ingot" + out4 + "Nitride", n4), wasteStack(waste2, m * (100 - r)), emptyItemStack(), 1D, 1D);
+		addRecipe(oreStack("ingotDepleted" + fuel + "ZA", 9), oreStack("ingot" + out1 + "ZA", n1), oreStack("ingot" + out2 + "ZA", n2), wasteStack(waste1, m * r), oreStack("dustZirconium", extraReturn), oreStack("ingot" + out3 + "ZA", n3), oreStack("ingot" + out4 + "ZA", n4), wasteStack(waste2, m * (100 - r)), emptyItemStack(), 1D, 1D);
+	}
+	
+	public ChanceItemIngredient wasteStack(String waste, double chancePercent) {
+		return chanceOreStack("dust" + waste, waste.equals("Molybdenum") ? 2 : 1, NCMath.toInt(chancePercent));
 	}
 }

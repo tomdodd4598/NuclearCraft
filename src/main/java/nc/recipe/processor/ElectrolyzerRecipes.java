@@ -31,6 +31,8 @@ public class ElectrolyzerRecipes extends BasicProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("ammonium_bisulfate_solution", GEM_VOLUME), fluidStack("ammonium_persulfate_solution", GEM_VOLUME / 2), fluidStack("hydrogen", BUCKET_VOLUME / 2), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
 		
+		addRecipe(fluidStack("hodybef_vapor", BUCKET_VOLUME / 4), fluidStack("holmium", INGOT_VOLUME / 4), fluidStack("dysprosium", INGOT_VOLUME / 4), fluidStack("beryllium", INGOT_VOLUME / 2), fluidStack("fluorine", BUCKET_VOLUME * 3 / 2), 2D, 1D);
+		
 		// Fission Materials
 		addFissionFluorideRecipes();
 	}

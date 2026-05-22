@@ -212,6 +212,18 @@
 				"fluid": "hard_carbon"
 			}
 		},
+		"fluid_hastelloy": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hastelloy"
+			}
+		},
+		"fluid_nichrome": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nichrome"
+			}
+		},
 		"fluid_coal": {
 			"model": "forge:fluid",
 			"custom": {
@@ -374,6 +386,30 @@
 				"fluid": "sulfur"
 			}
 		},
+		"fluid_barium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "barium"
+			}
+		},
+		"fluid_chromium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "chromium"
+			}
+		},
+		"fluid_holmium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "holmium"
+			}
+		},
+		"fluid_dysprosium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "dysprosium"
+			}
+		},
 		"fluid_silicon": {
 			"model": "forge:fluid",
 			"custom": {
@@ -432,6 +468,12 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "sulfuric_acid"
+			}
+		},
+		"fluid_orthosilicic_acid": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "orthosilicic_acid"
 			}
 		},
 		"fluid_fluorite_water": {
@@ -860,6 +902,18 @@
 				"fluid": "potassium_hydroquinone_solution"
 			}
 		},
+		"fluid_dysprholminite_water": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "dysprholminite_water"
+			}
+		},
+		"fluid_hodybeso_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hodybeso_solution"
+			}
+		},
 		"fluid_naoh": {
 			"model": "forge:fluid",
 			"custom": {
@@ -870,6 +924,60 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "koh"
+			}
+		},
+		"fluid_barium_sulfide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "barium_sulfide"
+			}
+		},
+		"fluid_aluminum_sulfide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "aluminum_sulfide"
+			}
+		},
+		"fluid_nickel_sulfide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nickel_sulfide"
+			}
+		},
+		"fluid_barium_oxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "barium_oxide"
+			}
+		},
+		"fluid_nickel": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nickel"
+			}
+		},
+		"fluid_nickel_oxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nickel_oxide"
+			}
+		},
+		"fluid_bacro_nio": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "bacro_nio"
+			}
+		},
+		"fluid_bacro": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "bacro"
+			}
+		},
+		"fluid_baalo": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "baalo"
 			}
 		},
 		"fluid_dfdps": {
@@ -920,6 +1028,18 @@
 				"fluid": "sic_vapor"
 			}
 		},
+		"fluid_fso_vapor": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "fso_vapor"
+			}
+		},
+		"fluid_hodybef_vapor": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hodybef_vapor"
+			}
+		},
 		"fluid_zirconium": {
 			"model": "forge:fluid",
 			"custom": {
@@ -948,12 +1068,6 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "alumina"
-			}
-		},
-		"fluid_aluminum": {
-			"model": "forge:fluid",
-			"custom": {
-				"fluid": "aluminum"
 			}
 		},
 		"fluid_silver": {
@@ -996,6 +1110,18 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "europium_155"
+			}
+		},
+		"fluid_soul": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "soul"
+			}
+		},
+		"fluid_mysterious_soul": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "mysterious_soul"
 			}
 		}
 	}

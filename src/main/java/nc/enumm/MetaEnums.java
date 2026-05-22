@@ -2,6 +2,7 @@ package nc.enumm;
 
 import nc.tile.fission.*;
 import nc.tile.fission.port.*;
+import net.minecraft.block.SoundType;
 import net.minecraft.util.IStringSerializable;
 
 import static nc.config.NCConfig.*;
@@ -10,31 +11,23 @@ public class MetaEnums {
 	
 	public enum OreType implements IStringSerializable, IBlockMetaEnum {
 		
-		COPPER("copper", 0, ore_harvest_levels[0], "pickaxe", 3, 15, 0),
-		TIN("tin", 1, ore_harvest_levels[1], "pickaxe", 3, 15, 0),
-		LEAD("lead", 2, ore_harvest_levels[2], "pickaxe", 3, 15, 0),
-		THORIUM("thorium", 3, ore_harvest_levels[3], "pickaxe", 3, 15, 0),
-		URANIUM("uranium", 4, ore_harvest_levels[4], "pickaxe", 3, 15, 0),
-		BORON("boron", 5, ore_harvest_levels[5], "pickaxe", 3, 15, 0),
-		LITHIUM("lithium", 6, ore_harvest_levels[6], "pickaxe", 3, 15, 0),
-		MAGNESIUM("magnesium", 7, ore_harvest_levels[7], "pickaxe", 3, 15, 0);
+		COPPER("copper", 0, ore_harvest_levels[0]),
+		TIN("tin", 1, ore_harvest_levels[1]),
+		LEAD("lead", 2, ore_harvest_levels[2]),
+		THORIUM("thorium", 3, ore_harvest_levels[3]),
+		URANIUM("uranium", 4, ore_harvest_levels[4]),
+		BORON("boron", 5, ore_harvest_levels[5]),
+		LITHIUM("lithium", 6, ore_harvest_levels[6]),
+		MAGNESIUM("magnesium", 7, ore_harvest_levels[7]);
 		
 		private final String name;
 		private final int id;
 		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
 		
-		OreType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		OreType(String name, int id, int harvestLevel) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
 		}
 		
 		@Override
@@ -56,66 +49,40 @@ public class MetaEnums {
 		public int getHarvestLevel() {
 			return harvestLevel;
 		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
 	}
 	
 	public enum IngotType implements IStringSerializable, IBlockMetaEnum {
 		
-		COPPER("copper", 0, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		TIN("tin", 1, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		LEAD("lead", 2, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		THORIUM("thorium", 3, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		URANIUM("uranium", 4, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		BORON("boron", 5, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		LITHIUM("lithium", 6, 0, "pickaxe", 4, 30, 0, 5, 5, false),
-		MAGNESIUM("magnesium", 7, 0, "pickaxe", 4, 30, 0, 5, 5, false),
-		GRAPHITE("graphite", 8, 0, "pickaxe", 4, 30, 0, 5, 5, true),
-		BERYLLIUM("beryllium", 9, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		ZIRCONIUM("zirconium", 10, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		MANGANESE("manganese", 11, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		ALUMINUM("aluminum", 12, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		SILVER("silver", 13, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		MANGANESE_OXIDE("manganese_oxide", 14, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		MANGANESE_DIOXIDE("manganese_dioxide", 15, 0, "pickaxe", 4, 30, 0, 0, 0, false);
+		COPPER("copper", 0, 3F, SoundType.METAL, 0, 0, false),
+		TIN("tin", 1, 3F, SoundType.METAL, 0, 0, false),
+		LEAD("lead", 2, 3F, SoundType.METAL, 0, 0, false),
+		THORIUM("thorium", 3, 5F, SoundType.METAL, 0, 0, false),
+		URANIUM("uranium", 4, 5F, SoundType.METAL, 0, 0, false),
+		BORON("boron", 5, 5F, SoundType.STONE, 0, 0, false),
+		LITHIUM("lithium", 6, 1F, SoundType.METAL, 5, 5, false),
+		MAGNESIUM("magnesium", 7, 3F, SoundType.METAL, 5, 5, false),
+		GRAPHITE("graphite", 8, 3F, SoundType.STONE, 5, 5, true),
+		BERYLLIUM("beryllium", 9, 5F, SoundType.STONE, 0, 0, false),
+		ZIRCONIUM("zirconium", 10, 5F, SoundType.METAL, 0, 0, false),
+		MANGANESE("manganese", 11, 5F, SoundType.METAL, 0, 0, false),
+		ALUMINUM("aluminum", 12, 3F, SoundType.METAL, 0, 0, false),
+		SILVER("silver", 13, 3F, SoundType.METAL, 0, 0, false),
+		MANGANESE_OXIDE("manganese_oxide", 14, 5F, SoundType.STONE, 0, 0, false),
+		MANGANESE_DIOXIDE("manganese_dioxide", 15, 5F, SoundType.STONE, 0, 0, false);
 		
 		private final String name;
 		private final int id;
-		private final int harvestLevel;
-		private final String harvestTool;
 		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
+		private final SoundType soundType;
 		private final int fireSpreadSpeed;
 		private final int flammability;
 		private final boolean isFireSource;
 		
-		IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
+		IngotType(String name, int id, float hardness, SoundType soundType, int fireSpreadSpeed, int flammability, boolean isFireSource) {
 			this.name = name;
 			this.id = id;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
 			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
+			this.soundType = soundType;
 			this.fireSpreadSpeed = fireSpreadSpeed;
 			this.flammability = flammability;
 			this.isFireSource = isFireSource;
@@ -137,38 +104,26 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
 		public float getHardness() {
 			return hardness;
 		}
 		
 		@Override
-		public float getResistance() {
-			return resistance;
+		public SoundType getSoundType() {
+			return soundType;
 		}
 		
 		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
-		
 		public int getFireSpreadSpeed() {
 			return fireSpreadSpeed;
 		}
 		
+		@Override
 		public int getFlammability() {
 			return flammability;
 		}
 		
+		@Override
 		public boolean isFireSource() {
 			return isFireSource;
 		}
@@ -176,36 +131,24 @@ public class MetaEnums {
 	
 	public enum IngotType2 implements IStringSerializable, IBlockMetaEnum {
 		
-		ZIRCONIA("zirconia", 0, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		PALLADIUM("palladium", 1, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		TIN_OXIDE("tin_oxide", 2, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		NICKEL_OXIDE("nickel_oxide", 3, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		COBALT_OXIDE("cobalt_oxide", 4, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		RUTHENIUM_OXIDE("ruthenium_oxide", 5, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		IRIDIUM_OXIDE("iridium_oxide", 6, 0, "pickaxe", 4, 30, 0, 0, 0, false);
+		ZIRCONIA("zirconia", 0, SoundType.STONE),
+		PALLADIUM("palladium", 1, SoundType.METAL),
+		TIN_OXIDE("tin_oxide", 2, SoundType.STONE),
+		NICKEL_OXIDE("nickel_oxide", 3, SoundType.STONE),
+		COBALT_OXIDE("cobalt_oxide", 4, SoundType.STONE),
+		RUTHENIUM_OXIDE("ruthenium_oxide", 5, SoundType.STONE),
+		IRIDIUM_OXIDE("iridium_oxide", 6, SoundType.STONE),
+		HOLMIUM("holmium", 7, SoundType.METAL),
+		DYSPROSIUM("dysprosium", 8, SoundType.METAL);
 		
 		private final String name;
 		private final int id;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
-		private final int fireSpreadSpeed;
-		private final int flammability;
-		private final boolean isFireSource;
+		private final SoundType soundType;
 		
-		IngotType2(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
+		IngotType2(String name, int id, SoundType soundType) {
 			this.name = name;
 			this.id = id;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
-			this.fireSpreadSpeed = fireSpreadSpeed;
-			this.flammability = flammability;
-			this.isFireSource = isFireSource;
+			this.soundType = soundType;
 		}
 		
 		@Override
@@ -224,73 +167,38 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
 		public float getHardness() {
-			return hardness;
+			return 5F;
 		}
 		
 		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
-		
-		public int getFireSpreadSpeed() {
-			return fireSpreadSpeed;
-		}
-		
-		public int getFlammability() {
-			return flammability;
-		}
-		
-		public boolean isFireSource() {
-			return isFireSource;
+		public SoundType getSoundType() {
+			return soundType;
 		}
 	}
 	
 	public enum BlockMaterial implements IStringSerializable, IBlockMetaEnum {
 		
-		MOLYBDENUM("molybdenum", 0, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		COPPER_OXIDE("copper_oxide", 1, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		COBALT("cobalt", 2, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		NICKEL("nickel", 3, 0, "pickaxe", 4, 30, 0, 0, 0, false),
-		PLATINUM("platinum", 4, 0, "pickaxe", 4, 30, 0, 0, 0, false);
+		MOLYBDENUM("molybdenum", 0, "pickaxe", 5F, SoundType.METAL),
+		COPPER_OXIDE("copper_oxide", 1, "pickaxe", 5F, SoundType.STONE),
+		COBALT("cobalt", 2, "pickaxe", 5F, SoundType.METAL),
+		NICKEL("nickel", 3, "pickaxe", 5F, SoundType.METAL),
+		PLATINUM("platinum", 4, "pickaxe", 5F, SoundType.METAL),
+		SOULLESS_SAND("soulless_sand", 5, "shovel", 0.5F, SoundType.SAND),
+		SOULLESS_SANDSTONE("soulless_sandstone", 6, "pickaxe", 0.8F, SoundType.STONE);
 		
 		private final String name;
 		private final int id;
-		private final int harvestLevel;
 		private final String harvestTool;
 		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
-		private final int fireSpreadSpeed;
-		private final int flammability;
-		private final boolean isFireSource;
+		private final SoundType soundType;
 		
-		BlockMaterial(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
+		BlockMaterial(String name, int id, String harvestTool, float hardness, SoundType soundType) {
 			this.name = name;
 			this.id = id;
-			this.harvestLevel = harvestLevel;
 			this.harvestTool = harvestTool;
 			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
-			this.fireSpreadSpeed = fireSpreadSpeed;
-			this.flammability = flammability;
-			this.isFireSource = isFireSource;
+			this.soundType = soundType;
 		}
 		
 		@Override
@@ -309,11 +217,6 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
 		public String getHarvestTool() {
 			return harvestTool;
 		}
@@ -324,54 +227,27 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
-		
-		public int getFireSpreadSpeed() {
-			return fireSpreadSpeed;
-		}
-		
-		public int getFlammability() {
-			return flammability;
-		}
-		
-		public boolean isFireSource() {
-			return isFireSource;
+		public SoundType getSoundType() {
+			return soundType;
 		}
 	}
 	
 	public enum FertileIsotopeType implements IStringSerializable, IBlockMetaEnum {
 		
-		URANIUM("uranium", 0, 0, "pickaxe", 3, 15, 0),
-		NEPTUNIUM("neptunium", 1, 0, "pickaxe", 3, 15, 0),
-		PLUTONIUM("plutonium", 2, 0, "pickaxe", 3, 15, 0),
-		AMERICIUM("americium", 3, 0, "pickaxe", 3, 15, 0),
-		CURIUM("curium", 4, 0, "pickaxe", 3, 15, 0),
-		BERKELIUM("berkelium", 5, 0, "pickaxe", 3, 15, 0),
-		CALIFORNIUM("californium", 6, 0, "pickaxe", 3, 15, 0);
+		URANIUM("uranium", 0),
+		NEPTUNIUM("neptunium", 1),
+		PLUTONIUM("plutonium", 2),
+		AMERICIUM("americium", 3),
+		CURIUM("curium", 4),
+		BERKELIUM("berkelium", 5),
+		CALIFORNIUM("californium", 6);
 		
 		private final String name;
 		private final int id;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
 		
-		FertileIsotopeType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		FertileIsotopeType(String name, int id) {
 			this.name = name;
 			this.id = id;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
 		}
 		
 		@Override
@@ -390,53 +266,30 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
 		public float getHardness() {
-			return hardness;
+			return 5F;
 		}
 		
 		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
+		public SoundType getSoundType() {
+			return SoundType.METAL;
 		}
 	}
 	
 	public enum MachineDiaphragmType implements IStringSerializable, IBlockMetaEnum {
 		
-		SINTERED_STEEL("sintered_steel", 0, 0, "pickaxe", 3, 15, 0),
-		POLYETHERSULFONE("polyethersulfone", 1, 0, "pickaxe", 3, 15, 0),
-		ZIRFON("zirfon", 2, 0, "pickaxe", 3, 15, 0);
+		SINTERED_STEEL("sintered_steel", 0, SoundType.METAL),
+		POLYETHERSULFONE("polyethersulfone", 1, SoundType.CLOTH),
+		ZIRFON("zirfon", 2, SoundType.STONE);
 		
 		private final String name;
 		private final int id;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
+		private final SoundType soundType;
 		
-		MachineDiaphragmType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		MachineDiaphragmType(String name, int id, SoundType soundType) {
 			this.name = name;
 			this.id = id;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
+			this.soundType = soundType;
 		}
 		
 		@Override
@@ -455,53 +308,25 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
+		public SoundType getSoundType() {
+			return soundType;
 		}
 	}
 	
 	public enum MachineSieveAssemblyType implements IStringSerializable, IBlockMetaEnum {
 		
-		STEEL("steel", 0, 0, "pickaxe", 3, 15, 0),
-		POLYTETRAFLUOROETHENE("polytetrafluoroethene", 1, 0, "pickaxe", 3, 15, 0),
-		HASTELLOY("hastelloy", 2, 0, "pickaxe", 3, 15, 0);
+		STEEL("steel", 0, SoundType.METAL),
+		POLYTETRAFLUOROETHENE("polytetrafluoroethene", 1, SoundType.CLOTH),
+		HASTELLOY("hastelloy", 2, SoundType.METAL);
 		
 		private final String name;
 		private final int id;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
+		private final SoundType soundType;
 		
-		MachineSieveAssemblyType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		MachineSieveAssemblyType(String name, int id, SoundType soundType) {
 			this.name = name;
 			this.id = id;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
+			this.soundType = soundType;
 		}
 		
 		@Override
@@ -520,56 +345,26 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
+		public SoundType getSoundType() {
+			return soundType;
 		}
 	}
 	
 	public enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum {
 		
-		BERYLLIUM_CARBON("beryllium_carbon", 0, fission_reflector_efficiency[0], fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
-		LEAD_STEEL("lead_steel", 1, fission_reflector_efficiency[1], fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
+		BERYLLIUM_CARBON("beryllium_carbon", 0, fission_reflector_efficiency[0], fission_reflector_reflectivity[0]),
+		LEAD_STEEL("lead_steel", 1, fission_reflector_efficiency[1], fission_reflector_reflectivity[1]);
 		
 		private final String name;
 		private final int id;
 		private final double efficiency;
 		private final double reflectivity;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
 		
-		NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		NeutronReflectorType(String name, int id, double efficiency, double reflectivity) {
 			this.name = name;
 			this.id = id;
 			this.efficiency = efficiency;
 			this.reflectivity = reflectivity;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
 		}
 		
 		@Override
@@ -594,58 +389,23 @@ public class MetaEnums {
 		public double getReflectivity() {
 			return reflectivity;
 		}
-		
-		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
 	}
 	
 	public enum NeutronSourceType implements IStringSerializable, IBlockMetaEnum, ITileEnum<TileFissionSource.Meta> {
 		
-		RADIUM_BERYLLIUM("radium_beryllium", 0, fission_source_efficiency[0], 0, "pickaxe", 2, 15, 0, TileFissionSource.RadiumBeryllium.class),
-		POLONIUM_BERYLLIUM("polonium_beryllium", 1, fission_source_efficiency[1], 0, "pickaxe", 2, 15, 0, TileFissionSource.PoloniumBeryllium.class),
-		CALIFORNIUM("californium", 2, fission_source_efficiency[2], 0, "pickaxe", 2, 15, 0, TileFissionSource.Californium.class);
+		RADIUM_BERYLLIUM("radium_beryllium", 0, fission_source_efficiency[0], TileFissionSource.RadiumBeryllium.class),
+		POLONIUM_BERYLLIUM("polonium_beryllium", 1, fission_source_efficiency[1], TileFissionSource.PoloniumBeryllium.class),
+		CALIFORNIUM("californium", 2, fission_source_efficiency[2], TileFissionSource.Californium.class);
 		
 		private final String name;
 		private final int id;
 		private final double efficiency;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
 		private final Class<? extends TileFissionSource.Meta> tileClass;
 		
-		NeutronSourceType(String name, int id, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileFissionSource.Meta> tileClass) {
+		NeutronSourceType(String name, int id, double efficiency, Class<? extends TileFissionSource.Meta> tileClass) {
 			this.name = name;
 			this.id = id;
 			this.efficiency = efficiency;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 		}
 		
@@ -669,31 +429,6 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
-		
-		@Override
 		public Class<? extends TileFissionSource.Meta> getTileClass() {
 			return tileClass;
 		}
@@ -701,29 +436,19 @@ public class MetaEnums {
 	
 	public enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum, ITileEnum<TileFissionShield.Meta> {
 		
-		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0, TileFissionShield.BoronSilver.class);
+		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], TileFissionShield.BoronSilver.class);
 		
 		private final String name;
 		private final int id;
 		private final double heatPerFlux;
 		private final double efficiency;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
 		private final Class<? extends TileFissionShield.Meta> tileClass;
 		
-		NeutronShieldType(String name, int id, double heatPerFlux, double efficiency, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileFissionShield.Meta> tileClass) {
+		NeutronShieldType(String name, int id, double heatPerFlux, double efficiency, Class<? extends TileFissionShield.Meta> tileClass) {
 			this.name = name;
 			this.id = id;
 			this.heatPerFlux = heatPerFlux;
 			this.efficiency = efficiency;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 		}
 		
@@ -751,31 +476,6 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
-		
-		@Override
 		public Class<? extends TileFissionShield.Meta> getTileClass() {
 			return tileClass;
 		}
@@ -783,43 +483,33 @@ public class MetaEnums {
 	
 	public enum GasCoolerType implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TilePebbleFissionCooler.Meta> {
 		
-		OXYGEN("oxygen", 0, fission_cooler_cooling_rate[0], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Oxygen.class, TileFissionCoolerPort.Oxygen.class),
-		HYDROGEN("hydrogen", 1, fission_cooler_cooling_rate[1], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Hydrogen.class, TileFissionCoolerPort.Hydrogen.class),
-		HELIUM("helium", 2, fission_cooler_cooling_rate[2], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Helium.class, TileFissionCoolerPort.Helium.class),
-		NITROGEN("nitrogen", 3, fission_cooler_cooling_rate[3], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Nitrogen.class, TileFissionCoolerPort.Nitrogen.class),
-		FLUORINE("fluorine", 4, fission_cooler_cooling_rate[4], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Fluorine.class, TileFissionCoolerPort.Fluorine.class),
-		METHANE("methane", 5, fission_cooler_cooling_rate[5], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Methane.class, TileFissionCoolerPort.Methane.class),
-		CARBON_DIOXIDE("carbon_dioxide", 6, fission_cooler_cooling_rate[6], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.CarbonDioxide.class, TileFissionCoolerPort.CarbonDioxide.class),
-		CARBON_MONOXIDE("carbon_monoxide", 7, fission_cooler_cooling_rate[7], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.CarbonMonoxide.class, TileFissionCoolerPort.CarbonMonoxide.class),
-		ETHENE("ethene", 8, fission_cooler_cooling_rate[8], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Ethene.class, TileFissionCoolerPort.Ethene.class),
-		ETHYNE("ethyne", 9, fission_cooler_cooling_rate[9], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Ethyne.class, TileFissionCoolerPort.Ethyne.class),
-		FLUOROMETHANE("fluoromethane", 10, fission_cooler_cooling_rate[10], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Fluoromethane.class, TileFissionCoolerPort.Fluoromethane.class),
-		AMMONIA("ammonia", 11, fission_cooler_cooling_rate[11], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Ammonia.class, TileFissionCoolerPort.Ammonia.class),
-		DIBORANE("diborane", 12, fission_cooler_cooling_rate[12], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.Diborane.class, TileFissionCoolerPort.Diborane.class),
-		SULFUR_DIOXIDE("sulfur_dioxide", 13, fission_cooler_cooling_rate[13], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.SulfurDioxide.class, TileFissionCoolerPort.SulfurDioxide.class),
-		SULFUR_TRIOXIDE("sulfur_trioxide", 14, fission_cooler_cooling_rate[14], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.SulfurTrioxide.class, TileFissionCoolerPort.SulfurTrioxide.class),
-		SULFUR_HEXAFLUORIDE("sulfur_hexafluoride", 15, fission_cooler_cooling_rate[15], 0, "pickaxe", 2, 15, 0, TilePebbleFissionCooler.SulfurHexafluoride.class, TileFissionCoolerPort.SulfurHexafluoride.class);
+		OXYGEN("oxygen", 0, fission_cooler_cooling_rate[0], TilePebbleFissionCooler.Oxygen.class, TileFissionCoolerPort.Oxygen.class),
+		HYDROGEN("hydrogen", 1, fission_cooler_cooling_rate[1], TilePebbleFissionCooler.Hydrogen.class, TileFissionCoolerPort.Hydrogen.class),
+		HELIUM("helium", 2, fission_cooler_cooling_rate[2], TilePebbleFissionCooler.Helium.class, TileFissionCoolerPort.Helium.class),
+		NITROGEN("nitrogen", 3, fission_cooler_cooling_rate[3], TilePebbleFissionCooler.Nitrogen.class, TileFissionCoolerPort.Nitrogen.class),
+		FLUORINE("fluorine", 4, fission_cooler_cooling_rate[4], TilePebbleFissionCooler.Fluorine.class, TileFissionCoolerPort.Fluorine.class),
+		METHANE("methane", 5, fission_cooler_cooling_rate[5], TilePebbleFissionCooler.Methane.class, TileFissionCoolerPort.Methane.class),
+		CARBON_DIOXIDE("carbon_dioxide", 6, fission_cooler_cooling_rate[6], TilePebbleFissionCooler.CarbonDioxide.class, TileFissionCoolerPort.CarbonDioxide.class),
+		CARBON_MONOXIDE("carbon_monoxide", 7, fission_cooler_cooling_rate[7], TilePebbleFissionCooler.CarbonMonoxide.class, TileFissionCoolerPort.CarbonMonoxide.class),
+		ETHENE("ethene", 8, fission_cooler_cooling_rate[8], TilePebbleFissionCooler.Ethene.class, TileFissionCoolerPort.Ethene.class),
+		ETHYNE("ethyne", 9, fission_cooler_cooling_rate[9], TilePebbleFissionCooler.Ethyne.class, TileFissionCoolerPort.Ethyne.class),
+		FLUOROMETHANE("fluoromethane", 10, fission_cooler_cooling_rate[10], TilePebbleFissionCooler.Fluoromethane.class, TileFissionCoolerPort.Fluoromethane.class),
+		AMMONIA("ammonia", 11, fission_cooler_cooling_rate[11], TilePebbleFissionCooler.Ammonia.class, TileFissionCoolerPort.Ammonia.class),
+		DIBORANE("diborane", 12, fission_cooler_cooling_rate[12], TilePebbleFissionCooler.Diborane.class, TileFissionCoolerPort.Diborane.class),
+		SULFUR_DIOXIDE("sulfur_dioxide", 13, fission_cooler_cooling_rate[13], TilePebbleFissionCooler.SulfurDioxide.class, TileFissionCoolerPort.SulfurDioxide.class),
+		SULFUR_TRIOXIDE("sulfur_trioxide", 14, fission_cooler_cooling_rate[14], TilePebbleFissionCooler.SulfurTrioxide.class, TileFissionCoolerPort.SulfurTrioxide.class),
+		SULFUR_HEXAFLUORIDE("sulfur_hexafluoride", 15, fission_cooler_cooling_rate[15], TilePebbleFissionCooler.SulfurHexafluoride.class, TileFissionCoolerPort.SulfurHexafluoride.class);
 		
 		private final String name;
 		private final int id;
 		private final int coolingRate;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
-		private final int lightValue;
 		private final Class<? extends TilePebbleFissionCooler.Meta> tileClass;
 		private final Class<? extends TileFissionCoolerPort.Meta> portClass;
 		
-		GasCoolerType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TilePebbleFissionCooler.Meta> tileClass, Class<? extends TileFissionCoolerPort.Meta> portClass) {
+		GasCoolerType(String name, int id, int coolingRate, Class<? extends TilePebbleFissionCooler.Meta> tileClass, Class<? extends TileFissionCoolerPort.Meta> portClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
-			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 			this.portClass = portClass;
 		}
@@ -845,31 +535,6 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
-		public int getLightValue() {
-			return lightValue;
-		}
-		
-		@Override
 		public Class<? extends TilePebbleFissionCooler.Meta> getTileClass() {
 			return tileClass;
 		}
@@ -881,41 +546,33 @@ public class MetaEnums {
 	
 	public enum HeatSinkType implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TileSolidFissionSink.Meta> {
 		
-		WATER("water", 0, fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Water.class),
-		IRON("iron", 1, fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Iron.class),
-		REDSTONE("redstone", 2, fission_sink_cooling_rate[2], 0, "pickaxe", 2, 15, 7, TileSolidFissionSink.Redstone.class),
-		QUARTZ("quartz", 3, fission_sink_cooling_rate[3], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Quartz.class),
-		OBSIDIAN("obsidian", 4, fission_sink_cooling_rate[4], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Obsidian.class),
-		NETHER_BRICK("nether_brick", 5, fission_sink_cooling_rate[5], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.NetherBrick.class),
-		GLOWSTONE("glowstone", 6, fission_sink_cooling_rate[6], 0, "pickaxe", 2, 15, 15, TileSolidFissionSink.Glowstone.class),
-		LAPIS("lapis", 7, fission_sink_cooling_rate[7], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Lapis.class),
-		GOLD("gold", 8, fission_sink_cooling_rate[8], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Gold.class),
-		PRISMARINE("prismarine", 9, fission_sink_cooling_rate[9], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Prismarine.class),
-		SLIME("slime", 10, fission_sink_cooling_rate[10], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Slime.class),
-		END_STONE("end_stone", 11, fission_sink_cooling_rate[11], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.EndStone.class),
-		PURPUR("purpur", 12, fission_sink_cooling_rate[12], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Purpur.class),
-		DIAMOND("diamond", 13, fission_sink_cooling_rate[13], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Diamond.class),
-		EMERALD("emerald", 14, fission_sink_cooling_rate[14], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Emerald.class),
-		COPPER("copper", 15, fission_sink_cooling_rate[15], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Copper.class);
+		WATER("water", 0, fission_sink_cooling_rate[0], 0, TileSolidFissionSink.Water.class),
+		IRON("iron", 1, fission_sink_cooling_rate[1], 0, TileSolidFissionSink.Iron.class),
+		REDSTONE("redstone", 2, fission_sink_cooling_rate[2], 7, TileSolidFissionSink.Redstone.class),
+		QUARTZ("quartz", 3, fission_sink_cooling_rate[3], 0, TileSolidFissionSink.Quartz.class),
+		OBSIDIAN("obsidian", 4, fission_sink_cooling_rate[4], 0, TileSolidFissionSink.Obsidian.class),
+		NETHER_BRICK("nether_brick", 5, fission_sink_cooling_rate[5], 0, TileSolidFissionSink.NetherBrick.class),
+		GLOWSTONE("glowstone", 6, fission_sink_cooling_rate[6], 15, TileSolidFissionSink.Glowstone.class),
+		LAPIS("lapis", 7, fission_sink_cooling_rate[7], 0, TileSolidFissionSink.Lapis.class),
+		GOLD("gold", 8, fission_sink_cooling_rate[8], 0, TileSolidFissionSink.Gold.class),
+		PRISMARINE("prismarine", 9, fission_sink_cooling_rate[9], 0, TileSolidFissionSink.Prismarine.class),
+		SLIME("slime", 10, fission_sink_cooling_rate[10], 0, TileSolidFissionSink.Slime.class),
+		END_STONE("end_stone", 11, fission_sink_cooling_rate[11], 0, TileSolidFissionSink.EndStone.class),
+		PURPUR("purpur", 12, fission_sink_cooling_rate[12], 0, TileSolidFissionSink.Purpur.class),
+		DIAMOND("diamond", 13, fission_sink_cooling_rate[13], 0, TileSolidFissionSink.Diamond.class),
+		EMERALD("emerald", 14, fission_sink_cooling_rate[14], 0, TileSolidFissionSink.Emerald.class),
+		COPPER("copper", 15, fission_sink_cooling_rate[15], 0, TileSolidFissionSink.Copper.class);
 		
 		private final String name;
 		private final int id;
 		private final int coolingRate;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
 		private final int lightValue;
 		private final Class<? extends TileSolidFissionSink.Meta> tileClass;
 		
-		HeatSinkType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSolidFissionSink.Meta> tileClass) {
+		HeatSinkType(String name, int id, int coolingRate, int lightValue, Class<? extends TileSolidFissionSink.Meta> tileClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
 			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 		}
@@ -938,26 +595,6 @@ public class MetaEnums {
 		@Override
 		public int getCooling() {
 			return coolingRate;
-		}
-		
-		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
 		}
 		
 		@Override
@@ -973,41 +610,33 @@ public class MetaEnums {
 	
 	public enum HeatSinkType2 implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TileSolidFissionSink.Meta> {
 		
-		TIN("tin", 0, fission_sink_cooling_rate[16], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Tin.class),
-		LEAD("lead", 1, fission_sink_cooling_rate[17], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Lead.class),
-		BORON("boron", 2, fission_sink_cooling_rate[18], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Boron.class),
-		LITHIUM("lithium", 3, fission_sink_cooling_rate[19], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Lithium.class),
-		MAGNESIUM("magnesium", 4, fission_sink_cooling_rate[20], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Magnesium.class),
-		MANGANESE("manganese", 5, fission_sink_cooling_rate[21], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Manganese.class),
-		ALUMINUM("aluminum", 6, fission_sink_cooling_rate[22], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Aluminum.class),
-		SILVER("silver", 7, fission_sink_cooling_rate[23], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Silver.class),
-		FLUORITE("fluorite", 8, fission_sink_cooling_rate[24], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Fluorite.class),
-		VILLIAUMITE("villiaumite", 9, fission_sink_cooling_rate[25], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Villiaumite.class),
-		CAROBBIITE("carobbiite", 10, fission_sink_cooling_rate[26], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Carobbiite.class),
-		ARSENIC("arsenic", 11, fission_sink_cooling_rate[27], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Arsenic.class),
-		LIQUID_NITROGEN("liquid_nitrogen", 12, fission_sink_cooling_rate[28], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.LiquidNitrogen.class),
-		LIQUID_HELIUM("liquid_helium", 13, fission_sink_cooling_rate[29], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.LiquidHelium.class),
-		ENDERIUM("enderium", 14, fission_sink_cooling_rate[30], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Enderium.class),
-		CRYOTHEUM("cryotheum", 15, fission_sink_cooling_rate[31], 0, "pickaxe", 2, 15, 0, TileSolidFissionSink.Cryotheum.class);
+		TIN("tin", 0, fission_sink_cooling_rate[16], 0, TileSolidFissionSink.Tin.class),
+		LEAD("lead", 1, fission_sink_cooling_rate[17], 0, TileSolidFissionSink.Lead.class),
+		BORON("boron", 2, fission_sink_cooling_rate[18], 0, TileSolidFissionSink.Boron.class),
+		LITHIUM("lithium", 3, fission_sink_cooling_rate[19], 0, TileSolidFissionSink.Lithium.class),
+		MAGNESIUM("magnesium", 4, fission_sink_cooling_rate[20], 0, TileSolidFissionSink.Magnesium.class),
+		MANGANESE("manganese", 5, fission_sink_cooling_rate[21], 0, TileSolidFissionSink.Manganese.class),
+		ALUMINUM("aluminum", 6, fission_sink_cooling_rate[22], 0, TileSolidFissionSink.Aluminum.class),
+		SILVER("silver", 7, fission_sink_cooling_rate[23], 0, TileSolidFissionSink.Silver.class),
+		FLUORITE("fluorite", 8, fission_sink_cooling_rate[24], 0, TileSolidFissionSink.Fluorite.class),
+		VILLIAUMITE("villiaumite", 9, fission_sink_cooling_rate[25], 0, TileSolidFissionSink.Villiaumite.class),
+		CAROBBIITE("carobbiite", 10, fission_sink_cooling_rate[26], 0, TileSolidFissionSink.Carobbiite.class),
+		ARSENIC("arsenic", 11, fission_sink_cooling_rate[27], 0, TileSolidFissionSink.Arsenic.class),
+		LIQUID_NITROGEN("liquid_nitrogen", 12, fission_sink_cooling_rate[28], 0, TileSolidFissionSink.LiquidNitrogen.class),
+		LIQUID_HELIUM("liquid_helium", 13, fission_sink_cooling_rate[29], 0, TileSolidFissionSink.LiquidHelium.class),
+		ENDERIUM("enderium", 14, fission_sink_cooling_rate[30], 0, TileSolidFissionSink.Enderium.class),
+		CRYOTHEUM("cryotheum", 15, fission_sink_cooling_rate[31], 0, TileSolidFissionSink.Cryotheum.class);
 		
 		private final String name;
 		private final int id;
 		private final int coolingRate;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
 		private final int lightValue;
 		private final Class<? extends TileSolidFissionSink.Meta> tileClass;
 		
-		HeatSinkType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSolidFissionSink.Meta> tileClass) {
+		HeatSinkType2(String name, int id, int coolingRate, int lightValue, Class<? extends TileSolidFissionSink.Meta> tileClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
 			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 		}
@@ -1033,26 +662,6 @@ public class MetaEnums {
 		}
 		
 		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
-		}
-		
-		@Override
 		public int getLightValue() {
 			return lightValue;
 		}
@@ -1065,42 +674,34 @@ public class MetaEnums {
 	
 	public enum CoolantHeaterType implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TileSaltFissionHeater.Meta> {
 		
-		STANDARD("standard", 0, fission_heater_cooling_rate[0], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Standard.class, TileFissionHeaterPort.Standard.class),
-		IRON("iron", 1, fission_heater_cooling_rate[1], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Iron.class, TileFissionHeaterPort.Iron.class),
-		REDSTONE("redstone", 2, fission_heater_cooling_rate[2], 0, "pickaxe", 2, 15, 7, TileSaltFissionHeater.Redstone.class, TileFissionHeaterPort.Redstone.class),
-		QUARTZ("quartz", 3, fission_heater_cooling_rate[3], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Quartz.class, TileFissionHeaterPort.Quartz.class),
-		OBSIDIAN("obsidian", 4, fission_heater_cooling_rate[4], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Obsidian.class, TileFissionHeaterPort.Obsidian.class),
-		NETHER_BRICK("nether_brick", 5, fission_heater_cooling_rate[5], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.NetherBrick.class, TileFissionHeaterPort.NetherBrick.class),
-		GLOWSTONE("glowstone", 6, fission_heater_cooling_rate[6], 0, "pickaxe", 2, 15, 15, TileSaltFissionHeater.Glowstone.class, TileFissionHeaterPort.Glowstone.class),
-		LAPIS("lapis", 7, fission_heater_cooling_rate[7], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Lapis.class, TileFissionHeaterPort.Lapis.class),
-		GOLD("gold", 8, fission_heater_cooling_rate[8], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Gold.class, TileFissionHeaterPort.Gold.class),
-		PRISMARINE("prismarine", 9, fission_heater_cooling_rate[9], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Prismarine.class, TileFissionHeaterPort.Prismarine.class),
-		SLIME("slime", 10, fission_heater_cooling_rate[10], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Slime.class, TileFissionHeaterPort.Slime.class),
-		END_STONE("end_stone", 11, fission_heater_cooling_rate[11], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.EndStone.class, TileFissionHeaterPort.EndStone.class),
-		PURPUR("purpur", 12, fission_heater_cooling_rate[12], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Purpur.class, TileFissionHeaterPort.Purpur.class),
-		DIAMOND("diamond", 13, fission_heater_cooling_rate[13], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Diamond.class, TileFissionHeaterPort.Diamond.class),
-		EMERALD("emerald", 14, fission_heater_cooling_rate[14], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Emerald.class, TileFissionHeaterPort.Emerald.class),
-		COPPER("copper", 15, fission_heater_cooling_rate[15], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Copper.class, TileFissionHeaterPort.Copper.class);
+		STANDARD("standard", 0, fission_heater_cooling_rate[0], 0, TileSaltFissionHeater.Standard.class, TileFissionHeaterPort.Standard.class),
+		IRON("iron", 1, fission_heater_cooling_rate[1], 0, TileSaltFissionHeater.Iron.class, TileFissionHeaterPort.Iron.class),
+		REDSTONE("redstone", 2, fission_heater_cooling_rate[2], 7, TileSaltFissionHeater.Redstone.class, TileFissionHeaterPort.Redstone.class),
+		QUARTZ("quartz", 3, fission_heater_cooling_rate[3], 0, TileSaltFissionHeater.Quartz.class, TileFissionHeaterPort.Quartz.class),
+		OBSIDIAN("obsidian", 4, fission_heater_cooling_rate[4], 0, TileSaltFissionHeater.Obsidian.class, TileFissionHeaterPort.Obsidian.class),
+		NETHER_BRICK("nether_brick", 5, fission_heater_cooling_rate[5], 0, TileSaltFissionHeater.NetherBrick.class, TileFissionHeaterPort.NetherBrick.class),
+		GLOWSTONE("glowstone", 6, fission_heater_cooling_rate[6], 15, TileSaltFissionHeater.Glowstone.class, TileFissionHeaterPort.Glowstone.class),
+		LAPIS("lapis", 7, fission_heater_cooling_rate[7], 0, TileSaltFissionHeater.Lapis.class, TileFissionHeaterPort.Lapis.class),
+		GOLD("gold", 8, fission_heater_cooling_rate[8], 0, TileSaltFissionHeater.Gold.class, TileFissionHeaterPort.Gold.class),
+		PRISMARINE("prismarine", 9, fission_heater_cooling_rate[9], 0, TileSaltFissionHeater.Prismarine.class, TileFissionHeaterPort.Prismarine.class),
+		SLIME("slime", 10, fission_heater_cooling_rate[10], 0, TileSaltFissionHeater.Slime.class, TileFissionHeaterPort.Slime.class),
+		END_STONE("end_stone", 11, fission_heater_cooling_rate[11], 0, TileSaltFissionHeater.EndStone.class, TileFissionHeaterPort.EndStone.class),
+		PURPUR("purpur", 12, fission_heater_cooling_rate[12], 0, TileSaltFissionHeater.Purpur.class, TileFissionHeaterPort.Purpur.class),
+		DIAMOND("diamond", 13, fission_heater_cooling_rate[13], 0, TileSaltFissionHeater.Diamond.class, TileFissionHeaterPort.Diamond.class),
+		EMERALD("emerald", 14, fission_heater_cooling_rate[14], 0, TileSaltFissionHeater.Emerald.class, TileFissionHeaterPort.Emerald.class),
+		COPPER("copper", 15, fission_heater_cooling_rate[15], 0, TileSaltFissionHeater.Copper.class, TileFissionHeaterPort.Copper.class);
 		
 		private final String name;
 		private final int id;
 		private final int coolingRate;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
 		private final int lightValue;
 		private final Class<? extends TileSaltFissionHeater.Meta> tileClass;
 		private final Class<? extends TileFissionHeaterPort.Meta> portClass;
 		
-		CoolantHeaterType(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass, Class<? extends TileFissionHeaterPort.Meta> portClass) {
+		CoolantHeaterType(String name, int id, int coolingRate, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass, Class<? extends TileFissionHeaterPort.Meta> portClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
 			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 			this.portClass = portClass;
@@ -1124,26 +725,6 @@ public class MetaEnums {
 		@Override
 		public int getCooling() {
 			return coolingRate;
-		}
-		
-		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
 		}
 		
 		@Override
@@ -1163,42 +744,34 @@ public class MetaEnums {
 	
 	public enum CoolantHeaterType2 implements IStringSerializable, IBlockMetaEnum, ICoolingComponentEnum<TileSaltFissionHeater.Meta> {
 		
-		TIN("tin", 0, fission_heater_cooling_rate[16], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Tin.class, TileFissionHeaterPort.Tin.class),
-		LEAD("lead", 1, fission_heater_cooling_rate[17], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Lead.class, TileFissionHeaterPort.Lead.class),
-		BORON("boron", 2, fission_heater_cooling_rate[18], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Boron.class, TileFissionHeaterPort.Boron.class),
-		LITHIUM("lithium", 3, fission_heater_cooling_rate[19], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Lithium.class, TileFissionHeaterPort.Lithium.class),
-		MAGNESIUM("magnesium", 4, fission_heater_cooling_rate[20], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Magnesium.class, TileFissionHeaterPort.Magnesium.class),
-		MANGANESE("manganese", 5, fission_heater_cooling_rate[21], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Manganese.class, TileFissionHeaterPort.Manganese.class),
-		ALUMINUM("aluminum", 6, fission_heater_cooling_rate[22], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Aluminum.class, TileFissionHeaterPort.Aluminum.class),
-		SILVER("silver", 7, fission_heater_cooling_rate[23], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Silver.class, TileFissionHeaterPort.Silver.class),
-		FLUORITE("fluorite", 8, fission_heater_cooling_rate[24], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Fluorite.class, TileFissionHeaterPort.Fluorite.class),
-		VILLIAUMITE("villiaumite", 9, fission_heater_cooling_rate[25], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Villiaumite.class, TileFissionHeaterPort.Villiaumite.class),
-		CAROBBIITE("carobbiite", 10, fission_heater_cooling_rate[26], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Carobbiite.class, TileFissionHeaterPort.Carobbiite.class),
-		ARSENIC("arsenic", 11, fission_heater_cooling_rate[27], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Arsenic.class, TileFissionHeaterPort.Arsenic.class),
-		LIQUID_NITROGEN("liquid_nitrogen", 12, fission_heater_cooling_rate[28], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.LiquidNitrogen.class, TileFissionHeaterPort.LiquidNitrogen.class),
-		LIQUID_HELIUM("liquid_helium", 13, fission_heater_cooling_rate[29], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.LiquidHelium.class, TileFissionHeaterPort.LiquidHelium.class),
-		ENDERIUM("enderium", 14, fission_heater_cooling_rate[30], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Enderium.class, TileFissionHeaterPort.Enderium.class),
-		CRYOTHEUM("cryotheum", 15, fission_heater_cooling_rate[31], 0, "pickaxe", 2, 15, 0, TileSaltFissionHeater.Cryotheum.class, TileFissionHeaterPort.Cryotheum.class);
+		TIN("tin", 0, fission_heater_cooling_rate[16], 0, TileSaltFissionHeater.Tin.class, TileFissionHeaterPort.Tin.class),
+		LEAD("lead", 1, fission_heater_cooling_rate[17], 0, TileSaltFissionHeater.Lead.class, TileFissionHeaterPort.Lead.class),
+		BORON("boron", 2, fission_heater_cooling_rate[18], 0, TileSaltFissionHeater.Boron.class, TileFissionHeaterPort.Boron.class),
+		LITHIUM("lithium", 3, fission_heater_cooling_rate[19], 0, TileSaltFissionHeater.Lithium.class, TileFissionHeaterPort.Lithium.class),
+		MAGNESIUM("magnesium", 4, fission_heater_cooling_rate[20], 0, TileSaltFissionHeater.Magnesium.class, TileFissionHeaterPort.Magnesium.class),
+		MANGANESE("manganese", 5, fission_heater_cooling_rate[21], 0, TileSaltFissionHeater.Manganese.class, TileFissionHeaterPort.Manganese.class),
+		ALUMINUM("aluminum", 6, fission_heater_cooling_rate[22], 0, TileSaltFissionHeater.Aluminum.class, TileFissionHeaterPort.Aluminum.class),
+		SILVER("silver", 7, fission_heater_cooling_rate[23], 0, TileSaltFissionHeater.Silver.class, TileFissionHeaterPort.Silver.class),
+		FLUORITE("fluorite", 8, fission_heater_cooling_rate[24], 0, TileSaltFissionHeater.Fluorite.class, TileFissionHeaterPort.Fluorite.class),
+		VILLIAUMITE("villiaumite", 9, fission_heater_cooling_rate[25], 0, TileSaltFissionHeater.Villiaumite.class, TileFissionHeaterPort.Villiaumite.class),
+		CAROBBIITE("carobbiite", 10, fission_heater_cooling_rate[26], 0, TileSaltFissionHeater.Carobbiite.class, TileFissionHeaterPort.Carobbiite.class),
+		ARSENIC("arsenic", 11, fission_heater_cooling_rate[27], 0, TileSaltFissionHeater.Arsenic.class, TileFissionHeaterPort.Arsenic.class),
+		LIQUID_NITROGEN("liquid_nitrogen", 12, fission_heater_cooling_rate[28], 0, TileSaltFissionHeater.LiquidNitrogen.class, TileFissionHeaterPort.LiquidNitrogen.class),
+		LIQUID_HELIUM("liquid_helium", 13, fission_heater_cooling_rate[29], 0, TileSaltFissionHeater.LiquidHelium.class, TileFissionHeaterPort.LiquidHelium.class),
+		ENDERIUM("enderium", 14, fission_heater_cooling_rate[30], 0, TileSaltFissionHeater.Enderium.class, TileFissionHeaterPort.Enderium.class),
+		CRYOTHEUM("cryotheum", 15, fission_heater_cooling_rate[31], 0, TileSaltFissionHeater.Cryotheum.class, TileFissionHeaterPort.Cryotheum.class);
 		
 		private final String name;
 		private final int id;
 		private final int coolingRate;
-		private final int harvestLevel;
-		private final String harvestTool;
-		private final float hardness;
-		private final float resistance;
 		private final int lightValue;
 		private final Class<? extends TileSaltFissionHeater.Meta> tileClass;
 		private final Class<? extends TileFissionHeaterPort.Meta> portClass;
 		
-		CoolantHeaterType2(String name, int id, int coolingRate, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass, Class<? extends TileFissionHeaterPort.Meta> portClass) {
+		CoolantHeaterType2(String name, int id, int coolingRate, int lightValue, Class<? extends TileSaltFissionHeater.Meta> tileClass, Class<? extends TileFissionHeaterPort.Meta> portClass) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
-			this.harvestLevel = harvestLevel;
-			this.harvestTool = harvestTool;
-			this.hardness = hardness;
-			this.resistance = resistance;
 			this.lightValue = lightValue;
 			this.tileClass = tileClass;
 			this.portClass = portClass;
@@ -1222,26 +795,6 @@ public class MetaEnums {
 		@Override
 		public int getCooling() {
 			return coolingRate;
-		}
-		
-		@Override
-		public int getHarvestLevel() {
-			return harvestLevel;
-		}
-		
-		@Override
-		public String getHarvestTool() {
-			return harvestTool;
-		}
-		
-		@Override
-		public float getHardness() {
-			return hardness;
-		}
-		
-		@Override
-		public float getResistance() {
-			return resistance;
 		}
 		
 		@Override
@@ -1306,7 +859,10 @@ public class MetaEnums {
 		VILLIAUMITE("villiaumite", 8),
 		CAROBBIITE("carobbiite", 9),
 		ARSENIC("arsenic", 10),
-		END_STONE("end_stone", 11);
+		END_STONE("end_stone", 11),
+		BARITE("barite", 12),
+		NICHROMITE("nichromite", 13),
+		DYSPRHOLMINITE("dysprholminite", 14);
 		
 		private final String name;
 		private final int id;
@@ -1396,7 +952,9 @@ public class MetaEnums {
 		AMMONIUM_PERSULFATE("ammonium_persulfate", 14),
 		HYDROQUINONE("hydroquinone", 15),
 		SODIUM_HYDROQUINONE("sodium_hydroquinone", 16),
-		POTASSIUM_HYDROQUINONE("potassium_hydroquinone", 17);
+		POTASSIUM_HYDROQUINONE("potassium_hydroquinone", 17),
+		BARIUM_SULFIDE("barium_sulfide", 18),
+		SILICA("silica", 19);
 		
 		private final String name;
 		private final int id;

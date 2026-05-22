@@ -32,7 +32,10 @@ public class CrystallizerRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(fluidStack("hydroquinone_solution", GEM_VOLUME), "dustHydroquinone", 1D, 1D);
 		addRecipe(fluidStack("sodium_hydroquinone_solution", GEM_VOLUME), "dustSodiumHydroquinone", 1D, 1D);
 		addRecipe(fluidStack("potassium_hydroquinone_solution", GEM_VOLUME), "dustPotassiumHydroquinone", 1D, 1D);
+		addRecipe(fluidStack("dysprholminite_water", GEM_VOLUME), "dustDysprholminite", 1D, 1D);
 		
 		addRecipe(fluidStack("sic_vapor", INGOT_VOLUME), "fiberSiliconCarbide", 2D, 2D);
+		
+		addRecipe(fluidStack("orthosilicic_acid", BUCKET_VOLUME), "dustSilica", 1D, 1D);
 	}
 }

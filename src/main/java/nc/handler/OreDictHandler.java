@@ -42,12 +42,16 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockCobaltOxide", new ItemStack(NCBlocks.ingot_block2, 1, 4));
 		OreDictionary.registerOre("blockRutheniumOxide", new ItemStack(NCBlocks.ingot_block2, 1, 5));
 		OreDictionary.registerOre("blockIridiumOxide", new ItemStack(NCBlocks.ingot_block2, 1, 6));
+		OreDictionary.registerOre("blockHolmium", new ItemStack(NCBlocks.ingot_block2, 1, 7));
+		OreDictionary.registerOre("blockDysprosium", new ItemStack(NCBlocks.ingot_block2, 1, 8));
 		
 		OreDictionary.registerOre("blockMolybdenum", new ItemStack(NCBlocks.material_block, 1, 0));
 		OreDictionary.registerOre("blockCopperOxide", new ItemStack(NCBlocks.material_block, 1, 1));
 		OreDictionary.registerOre("blockCobalt", new ItemStack(NCBlocks.material_block, 1, 2));
 		OreDictionary.registerOre("blockNickel", new ItemStack(NCBlocks.material_block, 1, 3));
 		OreDictionary.registerOre("blockPlatinum", new ItemStack(NCBlocks.material_block, 1, 4));
+		OreDictionary.registerOre("blockSoullessSand", new ItemStack(NCBlocks.material_block, 1, 5));
+		OreDictionary.registerOre("blockSoullessSandstone", new ItemStack(NCBlocks.material_block, 1, 6));
 		
 		OreDictionary.registerOre("blockUranium238", new ItemStack(NCBlocks.fertile_isotope, 1, 0));
 		OreDictionary.registerOre("blockNeptunium237", new ItemStack(NCBlocks.fertile_isotope, 1, 1));
@@ -82,6 +86,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotCobaltOxide", new ItemStack(NCItems.ingot2, 1, 4));
 		OreDictionary.registerOre("ingotRutheniumOxide", new ItemStack(NCItems.ingot2, 1, 5));
 		OreDictionary.registerOre("ingotIridiumOxide", new ItemStack(NCItems.ingot2, 1, 6));
+		OreDictionary.registerOre("ingotHolmium", new ItemStack(NCItems.ingot2, 1, 7));
+		OreDictionary.registerOre("ingotDysprosium", new ItemStack(NCItems.ingot2, 1, 8));
 		
 		OreDictionary.registerOre("dustCopper", new ItemStack(NCItems.dust, 1, 0));
 		OreDictionary.registerOre("dustTin", new ItemStack(NCItems.dust, 1, 1));
@@ -108,6 +114,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustCobaltOxide", new ItemStack(NCItems.dust2, 1, 4));
 		OreDictionary.registerOre("dustRutheniumOxide", new ItemStack(NCItems.dust2, 1, 5));
 		OreDictionary.registerOre("dustIridiumOxide", new ItemStack(NCItems.dust2, 1, 6));
+		OreDictionary.registerOre("dustHolmium", new ItemStack(NCItems.dust2, 1, 7));
+		OreDictionary.registerOre("dustDysprosium", new ItemStack(NCItems.dust2, 1, 8));
 		
 		OreDictionary.registerOre("gemRhodochrosite", new ItemStack(NCItems.gem, 1, 0));
 		OreDictionary.registerOre("gemBoronNitride", new ItemStack(NCItems.gem, 1, 1));
@@ -130,6 +138,9 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustCarobbiite", new ItemStack(NCItems.gem_dust, 1, 9));
 		OreDictionary.registerOre("dustArsenic", new ItemStack(NCItems.gem_dust, 1, 10));
 		OreDictionary.registerOre("dustEndstone", new ItemStack(NCItems.gem_dust, 1, 11));
+		OreDictionary.registerOre("dustBarite", new ItemStack(NCItems.gem_dust, 1, 12));
+		OreDictionary.registerOre("dustNichromite", new ItemStack(NCItems.gem_dust, 1, 13));
+		OreDictionary.registerOre("dustDysprholminite", new ItemStack(NCItems.gem_dust, 1, 14));
 		
 		OreDictionary.registerOre("ingotBronze", new ItemStack(NCItems.alloy, 1, 0));
 		OreDictionary.registerOre("ingotTough", new ItemStack(NCItems.alloy, 1, 1));
@@ -168,6 +179,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustHydroquinone", new ItemStack(NCItems.compound, 1, 15));
 		OreDictionary.registerOre("dustSodiumHydroquinone", new ItemStack(NCItems.compound, 1, 16));
 		OreDictionary.registerOre("dustPotassiumHydroquinone", new ItemStack(NCItems.compound, 1, 17));
+		OreDictionary.registerOre("dustBariumSulfide", new ItemStack(NCItems.compound, 1, 18));
+		OreDictionary.registerOre("dustSilica", new ItemStack(NCItems.compound, 1, 19));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));

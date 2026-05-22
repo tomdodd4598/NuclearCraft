@@ -40,6 +40,16 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/ingot/iridium_oxide"
 				}
+			},
+			"holmium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/holmium"
+				}
+			},
+			"dysprosium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/dysprosium"
+				}
 			}
 		}
 	}

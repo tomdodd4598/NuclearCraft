@@ -66,7 +66,7 @@ public class ManufactoryRecipes extends BasicProcessorRecipeHandler {
 		addRecipe("obsidian", oreStack("dustObsidian", 4), 2D, 1D);
 		addRecipe("cobblestone", Blocks.SAND, 1D, 1D);
 		addRecipe("gravel", Items.FLINT, 1D, 1D);
-		addRecipe("endstone", "dustEndstone", 1D, 1D);
+		addRecipe("endstone", oreStack("dustEndstone", 4), 2D, 1D);
 		addRecipe(Items.BLAZE_ROD, new ItemStack(Items.BLAZE_POWDER, 4), 1D, 1D);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, 0.5D, 1D);
 		addRecipe(new ItemStack(Items.REEDS, 2), "bioplastic", 1D, 0.5D);

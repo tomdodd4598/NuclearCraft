@@ -23,7 +23,8 @@ public enum FluidType {
 	SUGAR(FluidSugar.class, BlockFluidSugar.class),
 	COOLANT(FluidCoolant.class, BlockFluidCoolant.class),
 	HOT_COOLANT(FluidHotCoolant.class, BlockFluidHotCoolant.class),
-	CRYOTHEUM(FluidCryotheum.class, BlockFluidCryotheum.class);
+	CRYOTHEUM(FluidCryotheum.class, BlockFluidCryotheum.class),
+	SOUL(FluidSoul.class, BlockFluidSoul.class);
 	
 	private final Class<? extends Fluid> fluidClass;
 	private final Class<? extends NCBlockFluid> blockClass;

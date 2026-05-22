@@ -31,12 +31,16 @@ tile.nuclearcraft.ingot_block2.nickel_oxide.name=Nickel Oxide Block
 tile.nuclearcraft.ingot_block2.cobalt_oxide.name=Cobalt Oxide Block
 tile.nuclearcraft.ingot_block2.ruthenium_oxide.name=Ruthenium Oxide Block
 tile.nuclearcraft.ingot_block2.iridium_oxide.name=Iridium Oxide Block
+tile.nuclearcraft.ingot_block2.holmium.name=Holmium Block
+tile.nuclearcraft.ingot_block2.dysprosium.name=Dysprosium Block
 
 tile.nuclearcraft.material_block.molybdenum.name=Molybdenum Block
 tile.nuclearcraft.material_block.copper_oxide.name=Copper Oxide Block
 tile.nuclearcraft.material_block.cobalt.name=Cobalt Block
 tile.nuclearcraft.material_block.nickel.name=Nickel Block
 tile.nuclearcraft.material_block.platinum.name=Platinum Block
+tile.nuclearcraft.material_block.soulless_sand.name=Soulless Sand
+tile.nuclearcraft.material_block.soulless_sandstone.name=Soulless Sandstone
 
 tile.nuclearcraft.fertile_isotope.uranium.name=Uranium-238 Block
 tile.nuclearcraft.fertile_isotope.neptunium.name=Neptunium-237 Block
@@ -644,6 +648,12 @@ fluid.tough=Molten Tough Alloy
 tile.nuclearcraft.fluid_hard_carbon.name=Molten Hard Carbon
 fluid.hard_carbon=Molten Hard Carbon
 
+tile.nuclearcraft.fluid_hastelloy.name=Molten Hastelloy
+fluid.hastelloy=Molten Hastelloy
+
+tile.nuclearcraft.fluid_nichrome.name=Molten Nichrome
+fluid.nichrome=Molten Nichrome
+
 tile.nuclearcraft.fluid_coal.name=Liquefacted Coal
 fluid.coal=Liquefacted Coal
 
@@ -722,6 +732,21 @@ fluid.boron_nitride_solution=Boron Nitride Solution
 tile.nuclearcraft.fluid_sulfur.name=Molten Sulfur
 fluid.sulfur=Molten Sulfur
 
+tile.nuclearcraft.fluid_barium.name=Molten Barium
+fluid.barium=Molten Barium
+
+tile.nuclearcraft.fluid_nickel.name=Molten Nickel
+fluid.nickel=Molten Nickel
+
+tile.nuclearcraft.fluid_chromium.name=Molten Chromium
+fluid.chromium=Molten Chromium
+
+tile.nuclearcraft.fluid_holmium.name=Molten Holmium
+fluid.holmium=Molten Holmium
+
+tile.nuclearcraft.fluid_dysprosium.name=Molten Dysprosium
+fluid.dysprosium=Molten Dysprosium
+
 tile.nuclearcraft.fluid_sulfur_dioxide.name=Sulfur Dioxide
 fluid.sulfur_dioxide=Sulfur Dioxide
 
@@ -742,6 +767,9 @@ fluid.depleted_hydrogen_sulfide=Depleted Hydrogen Sulfide
 
 tile.nuclearcraft.fluid_sulfuric_acid.name=Sulfuric Acid
 fluid.sulfuric_acid=Sulfuric Acid
+
+tile.nuclearcraft.fluid_orthosilicic_acid.name=Orthosilicic Acid
+fluid.orthosilicic_acid=Orthosilicic Acid
 
 tile.nuclearcraft.fluid_fluorite_water.name=Fluorite Water
 fluid.fluorite_water=Fluorite Water
@@ -958,11 +986,41 @@ fluid.sodium_hydroquinone_solution=Sodium Hydroquinone Solution
 tile.nuclearcraft.fluid_potassium_hydroquinone_solution.name=Potassium Hydroquinone Solution
 fluid.potassium_hydroquinone_solution=Potassium Hydroquinone Solution
 
+tile.nuclearcraft.fluid_dysprholminite_water.name=Dysprholminite Water
+fluid.dysprholminite_water=Dysprholminite Water
+
+tile.nuclearcraft.fluid_hodybeso_solution.name=Holmium Dysprosium Diberyllium Pentasulfate Solution
+fluid.hodybeso_solution=Holmium Dysprosium Diberyllium Pentasulfate Solution
+
 tile.nuclearcraft.fluid_naoh.name=Molten Sodium Hydroxide
 fluid.naoh=Molten Sodium Hydroxide
 
 tile.nuclearcraft.fluid_koh.name=Molten Potassium Hydroxide
 fluid.koh=Molten Potassium Hydroxide
+
+tile.nuclearcraft.fluid_barium_sulfide.name=Molten Barium Sulfide
+fluid.barium_sulfide=Molten Barium Sulfide
+
+tile.nuclearcraft.fluid_aluminum_sulfide.name=Molten Aluminum Sulfide
+fluid.aluminum_sulfide=Molten Aluminum Sulfide
+
+tile.nuclearcraft.fluid_nickel_sulfide.name=Molten Nickel Sulfide
+fluid.nickel_sulfide=Molten Nickel Sulfide
+
+tile.nuclearcraft.fluid_barium_oxide.name=Molten Barium Oxide
+fluid.barium_oxide=Molten Barium Oxide
+
+tile.nuclearcraft.fluid_nickel_oxide.name=Molten Nickel Oxide
+fluid.nickel_oxide=Molten Nickel Oxide
+
+tile.nuclearcraft.fluid_bacro_nio.name=Molten Barium Nichromate Mixture
+fluid.bacro_nio=Molten Barium Nichromate Mixture
+
+tile.nuclearcraft.fluid_bacro.name=Molten Barium Chromite
+fluid.bacro=Molten Barium Chromite
+
+tile.nuclearcraft.fluid_baalo.name=Molten Barium Aluminate
+fluid.baalo=Molten Barium Aluminate
 
 tile.nuclearcraft.fluid_dfdps.name=Molten Difluorodiphenyl Sulfone
 fluid.dfdps=Molten Difluorodiphenyl Sulfone
@@ -994,6 +1052,12 @@ fluid.bas=Molten Boron Arsenide
 tile.nuclearcraft.fluid_sic_vapor.name=Sublimated Silicon Carbide
 fluid.sic_vapor=Sublimated Silicon Carbide
 
+tile.nuclearcraft.fluid_fso_vapor.name=Sulfate-Fluoride Vapor
+fluid.fso_vapor=Sulfate-Fluoride Vapor
+
+tile.nuclearcraft.fluid_hodybef_vapor.name=Holmium Dysprosium Diberyllium Dodecafluoride Vapor
+fluid.hodybef_vapor=Holmium Dysprosium Diberyllium Dodecafluoride Vapor
+
 tile.nuclearcraft.fluid_zirconium.name=Molten Zirconium
 fluid.zirconium=Molten Zirconium
 
@@ -1023,6 +1087,12 @@ fluid.promethium_147=Molten Promethium-147
 
 tile.nuclearcraft.fluid_europium_155.name=Molten Europium-155
 fluid.europium_155=Molten Europium-155
+
+tile.nuclearcraft.fluid_soul.name=Concentrated Souls
+fluid.soul=Concentrated Souls
+
+tile.nuclearcraft.fluid_mysterious_soul.name=Mysterious Souls
+fluid.mysterious_soul=Mysterious Souls
 
 tile.nuclearcraft.fluid_thorium.name=Molten Thorium
 fluid.thorium=Molten Thorium
@@ -1847,6 +1917,8 @@ item.nuclearcraft.ingot2.nickel_oxide.name=Nickel Oxide Ingot
 item.nuclearcraft.ingot2.cobalt_oxide.name=Cobalt Oxide Ingot
 item.nuclearcraft.ingot2.ruthenium_oxide.name=Ruthenium Oxide Ingot
 item.nuclearcraft.ingot2.iridium_oxide.name=Iridium Oxide Ingot
+item.nuclearcraft.ingot2.holmium.name=Holmium Ingot
+item.nuclearcraft.ingot2.dysprosium.name=Dysprosium Ingot
 
 item.nuclearcraft.dust.copper.name=Copper Dust
 item.nuclearcraft.dust.tin.name=Tin Dust
@@ -1875,6 +1947,8 @@ item.nuclearcraft.dust2.nickel_oxide.name=Nickel Oxide Dust
 item.nuclearcraft.dust2.cobalt_oxide.name=Cobalt Oxide Dust
 item.nuclearcraft.dust2.ruthenium_oxide.name=Ruthenium Oxide Dust
 item.nuclearcraft.dust2.iridium_oxide.name=Iridium Oxide Dust
+item.nuclearcraft.dust2.holmium.name=Holmium Dust
+item.nuclearcraft.dust2.dysprosium.name=Dysprosium Dust
 
 item.nuclearcraft.gem.rhodochrosite.name=Rhodochrosite
 #item.nuclearcraft.gem.rhodochrosite.desc=Obtained alongside Redstone when breaking Redstone Ore.
@@ -1901,6 +1975,9 @@ item.nuclearcraft.gem_dust.villiaumite.name=Crushed Villiaumite
 item.nuclearcraft.gem_dust.carobbiite.name=Crushed Carobbiite
 item.nuclearcraft.gem_dust.arsenic.name=Crushed Arsenic
 item.nuclearcraft.gem_dust.end_stone.name=Crushed End Stone
+item.nuclearcraft.gem_dust.barite.name=Crushed Barite
+item.nuclearcraft.gem_dust.nichromite.name=Crushed Nichromite
+item.nuclearcraft.gem_dust.dysprholminite.name=Crushed Dysprholminite
 
 item.nuclearcraft.alloy.bronze.name=Bronze Ingot
 item.nuclearcraft.alloy.tough.name=Tough Alloy Ingot
@@ -1939,6 +2016,8 @@ item.nuclearcraft.compound.ammonium_persulfate.name=Ammonium Persulfate
 item.nuclearcraft.compound.hydroquinone.name=Hydroquinone
 item.nuclearcraft.compound.sodium_hydroquinone.name=Sodium Hydroquinone
 item.nuclearcraft.compound.potassium_hydroquinone.name=Potassium Hydroquinone
+item.nuclearcraft.compound.barium_sulfide.name=Barium Sulfide
+item.nuclearcraft.compound.silica.name=Silica
 
 item.nuclearcraft.part.plate_basic.name=Basic Plating
 item.nuclearcraft.part.plate_advanced.name=Advanced Plating

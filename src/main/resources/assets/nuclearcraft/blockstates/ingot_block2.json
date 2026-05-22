@@ -39,6 +39,16 @@
 				"textures": {
 					"all": "nuclearcraft:blocks/ingot_block/iridium_oxide"
 				}
+			},
+			"holmium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/holmium"
+				}
+			},
+			"dysprosium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/dysprosium"
+				}
 			}
 		}
 	}

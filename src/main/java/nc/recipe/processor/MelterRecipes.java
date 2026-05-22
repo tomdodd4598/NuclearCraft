@@ -27,6 +27,7 @@ public class MelterRecipes extends BasicProcessorRecipeHandler {
 		addRecipe("dustSulfur", fluidStack("sulfur", GEM_VOLUME), 1D, 1D);
 		addRecipe("dustSodiumHydroxide", fluidStack("naoh", GEM_VOLUME), 1D, 1D);
 		addRecipe("dustPotassiumHydroxide", fluidStack("koh", GEM_VOLUME), 1D, 1D);
+		addRecipe("dustBariumSulfide", fluidStack("barium_sulfide", INGOT_VOLUME), 1D, 1D);
 		addRecipe("dustArsenic", fluidStack("arsenic", GEM_VOLUME), 1D, 1D);
 		addRecipe("gemBoronArsenide", fluidStack("bas", GEM_VOLUME), 1D, 1D);
 		
@@ -50,7 +51,10 @@ public class MelterRecipes extends BasicProcessorRecipeHandler {
 		addIngotMeltingRecipes("HardCarbon", "hard_carbon");
 		addIngotMeltingRecipes("ManganeseDioxide", "manganese_dioxide");
 		addIngotMeltingRecipes("alugentum");
+		addIngotMeltingRecipes("hastelloy");
 		addIngotMeltingRecipes("LeadPlatinum", "lead_platinum");
+		addIngotMeltingRecipes("ingotBariumOxide", "barium_oxide");
+		addIngotMeltingRecipes("ingotNickelOxide", "nickel_oxide");
 		
 		addIngotMeltingRecipes("polydimethylsilylene");
 		addIngotMeltingRecipes("PolymethylsilyleneMethylene", "polymethylsilylene_methylene");

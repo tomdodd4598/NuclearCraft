@@ -1,6 +1,7 @@
 package nc.recipe.processor;
 
 import com.google.common.collect.Lists;
+import nc.ModCheck;
 import nc.recipe.ingredient.OreIngredient;
 import nc.util.OreDictHelper;
 import net.minecraft.init.*;
@@ -47,6 +48,9 @@ public class AlloyFurnaceRecipes extends BasicProcessorRecipeHandler {
 		addRecipe(SILICON, metalList("Graphite"), oreStack("ingotSiliconCarbide", 2), 2D, 2D);
 		addAlloyIngotIngotRecipes("Iron", 15, "CarbonManganese", 1, "HSLASteel", 16, 8D, 2D);
 		addAlloyIngotIngotRecipes("Zirconium", 1, "Molybdenum", 15, "ZirconiumMolybdenum", 16, 8D, 2D);
+		if (!ModCheck.qmdLoaded()) {
+			addAlloyIngotIngotRecipes("Nickel", 1, "Chromium", 1, "Nichrome", 2, 1D, 1D);
+		}
 		addAlloyIngotIngotRecipes("Nichrome", 3, "Molybdenum", 1, "Hastelloy", 4, 2D, 2D);
 		
 		// Tinkers' Construct

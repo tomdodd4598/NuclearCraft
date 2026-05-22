@@ -29,6 +29,16 @@
 				"textures": {
 					"all": "nuclearcraft:blocks/material_block/platinum"
 				}
+			},
+			"soulless_sand": {
+				"textures": {
+					"all": "nuclearcraft:blocks/material_block/soulless_sand"
+				}
+			},
+			"soulless_sandstone": {
+				"textures": {
+					"all": "nuclearcraft:blocks/material_block/soulless_sandstone"
+				}
 			}
 		}
 	}

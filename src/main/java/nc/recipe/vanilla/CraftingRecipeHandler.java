@@ -45,6 +45,8 @@ public class CraftingRecipeHandler {
 		materialBlockRecipes(3, "Nickel");
 		materialBlockRecipes(4, "Platinum");
 		
+		addShapedOreRecipe(new ItemStack(NCBlocks.material_block, 1, 6), "SS", "SS", 'S', "blockSoullessSand");
+		
 		blockCompress(NCBlocks.fertile_isotope, 0, "blockUranium238", "ingotUranium238");
 		blockCompress(NCBlocks.fertile_isotope, 1, "blockNeptunium237", "ingotNeptunium237");
 		blockCompress(NCBlocks.fertile_isotope, 2, "blockPlutonium242", "ingotPlutonium242");
@@ -126,6 +128,11 @@ public class CraftingRecipeHandler {
 		}
 		
 		addShapedOreRecipe(NCBlocks.machine_interface, " A ", "MCM", " S ", 'C', "chassis", 'A', "actuator", 'M', "motor", 'S', "servo");
+		
+		addShapedOreRecipe(new ItemStack(NCBlocks.distributor_buffer, 8), "PSP", "BHB", "PSP", 'S', "solenoidCopper", 'P', "plateBasic", 'H', Blocks.HOPPER, 'B', Items.BUCKET);
+		addShapelessOreRecipe(NCBlocks.distributor_buffer, NCBlocks.distributor_outlet);
+		addShapelessOreRecipe(NCBlocks.distributor_inlet, NCBlocks.distributor_buffer);
+		addShapelessOreRecipe(NCBlocks.distributor_outlet, NCBlocks.distributor_inlet);
 		
 		addShapedOreRecipe(new ItemStack(NCBlocks.machine_frame, 8), " B ", "BCB", " B ", 'B', "ingotBronze", 'C', "chassis");
 		addShapelessOreRecipe(NCBlocks.machine_frame, NCBlocks.machine_glass);
