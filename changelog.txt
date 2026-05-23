@@ -1,12 +1,14 @@
 v2o.9.6
 
-* Reprocessing recipes now produce twice as much molybdenum
++ Added recipe chains for fusion reactor materials
 
 + Added missing Distributor block recipes
 
-+ Added recipe chains for fusion reactor materials
+* Reprocessing recipes now produce twice as much molybdenum
 
-* A few other minor changes
+* A few other minor fixes and changes
+
+* Negotiated a deal with Paulobrine and Herobrian
 
 v2o.9.5
 

@@ -126,7 +126,7 @@ public class RecipeHelper {
 			if (itemIngredient == null) {
 				return Collections.emptyList();
 			}
-			ItemStack stack = itemIngredient.getStack();
+			ItemStack stack = itemIngredient.getNextStack(0);
 			if (stack == null) {
 				return Collections.emptyList();
 			}
@@ -142,7 +142,7 @@ public class RecipeHelper {
 			if (fluidIngredient == null) {
 				return Collections.emptyList();
 			}
-			FluidStack stack = fluidIngredient.getStack();
+			FluidStack stack = fluidIngredient.getNextStack(0);
 			if (stack == null) {
 				return Collections.emptyList();
 			}
@@ -163,6 +163,22 @@ public class RecipeHelper {
 	public static FluidStack getFluidStackFromIngredientList(List<IFluidIngredient> fluidIngredientList, int pos) {
 		if (pos < fluidIngredientList.size()) {
 			return fluidIngredientList.get(pos).getStack();
+		}
+		return null;
+	}
+	
+	@Nullable
+	public static ItemStack getItemStackFromProductList(List<IItemIngredient> itemProductList, int pos) {
+		if (pos < itemProductList.size()) {
+			return itemProductList.get(pos).getNextStack(0);
+		}
+		return null;
+	}
+	
+	@Nullable
+	public static FluidStack getFluidStackFromProductList(List<IFluidIngredient> fluidProductList, int pos) {
+		if (pos < fluidProductList.size()) {
+			return fluidProductList.get(pos).getNextStack(0);
 		}
 		return null;
 	}
@@ -525,6 +541,16 @@ public class RecipeHelper {
 	public static BasicRecipe blockRecipe(BasicRecipeHandler recipeHandler, IBlockState blockState) {
 		RecipeInfo<BasicRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(StackHelper.blockStateToStack(blockState)), Collections.emptyList());
 		return recipeInfo == null ? null : recipeInfo.recipe;
+	}
+	
+	public static IBlockState getBlockStateFromIngredientList(List<IItemIngredient> itemIngredientList, int pos) {
+		ItemStack stack = RecipeHelper.getItemStackFromIngredientList(itemIngredientList, pos);
+		return stack == null ? null : StackHelper.getBlockStateFromStack(stack);
+	}
+	
+	public static IBlockState getBlockStateFromProductList(List<IItemIngredient> itemProductList, int pos) {
+		ItemStack stack = RecipeHelper.getItemStackFromProductList(itemProductList, pos);
+		return stack == null ? null : StackHelper.getBlockStateFromStack(stack);
 	}
 	
 	public static double getDecayTimeMultiplier(double baseRads, double radiation, double scaleFactor) {

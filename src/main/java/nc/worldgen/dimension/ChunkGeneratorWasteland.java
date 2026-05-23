@@ -13,6 +13,6 @@ public class ChunkGeneratorWasteland extends ChunkGeneratorOverworld {
 	
 	// net.minecraft.client.gui.GuiScreenCustomizePresets
 	public static String getGeneratorOptions() {
-		return "{ \"useCaves\":false, \"useDungeons\":false, \"dungeonChance\":8, \"useStrongholds\":false, \"useVillages\":true, \"useMineShafts\":false, \"useTemples\":true, \"useRavines\":true, \"useWaterLakes\":false, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":true, \"seaLevel\":63 }";
+		return "{ \"useCaves\":false, \"useDungeons\":false, \"dungeonChance\":8, \"useStrongholds\":false, \"useVillages\":true, \"useMineShafts\":false, \"useTemples\":true, \"useRavines\":false, \"useWaterLakes\":false, \"waterLakeChance\":4, \"useLavaLakes\":true, \"lavaLakeChance\":80, \"useLavaOceans\":true, \"seaLevel\":63 }";
 	}
 }

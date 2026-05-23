@@ -33,7 +33,7 @@ import java.util.Calendar;
 
 import static nc.config.NCConfig.*;
 
-public class EntityFeralGhoul extends EntityZombie {
+public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	
 	private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityFeralGhoul.class, DataSerializers.BYTE);
 	

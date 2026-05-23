@@ -72,5 +72,6 @@ public class GSContainer extends GroovyPropertyContainer {
 		RECIPE_REGISTRY_MAP.put("radiation_scrubber", GSRadiationScrubberRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("radiation_block_mutation", GSRadiationBlockMutationRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("radiation_block_purification", GSRadiationBlockPurificationRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("wasteland_block_mapping", GSWastelandBlockMappingRecipeRegistry::new);
 	}
 }

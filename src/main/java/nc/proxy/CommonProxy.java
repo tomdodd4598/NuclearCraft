@@ -24,7 +24,8 @@ import nc.tab.NCTabs;
 import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.MushroomGenerator;
-import nc.worldgen.dimension.NCWorlds;
+import nc.worldgen.dimension.*;
+import nc.worldgen.dimension.WastelandMapper;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -128,6 +129,7 @@ public class CommonProxy {
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new MushroomGenerator(NCBlocks.glowing_mushroom.getDefaultState()), 255);
+		MinecraftForge.EVENT_BUS.register(new WastelandMapper());
 		
 		NCEntities.register();
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());

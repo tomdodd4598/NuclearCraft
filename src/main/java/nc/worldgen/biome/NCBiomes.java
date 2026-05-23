@@ -32,6 +32,7 @@ public class NCBiomes {
 			BiomeManager.addBiome(BiomeType.DESERT, new BiomeEntry(NUCLEAR_WASTELAND, wasteland_biome_weight));
 			BiomeManager.addSpawnBiome(NUCLEAR_WASTELAND);
 			BiomeManager.addStrongholdBiome(NUCLEAR_WASTELAND);
+			BiomeManager.addVillageBiome(NUCLEAR_WASTELAND, true);
 			BiomeDictionary.addTypes(NUCLEAR_WASTELAND, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.WASTELAND);
 		}
 	}

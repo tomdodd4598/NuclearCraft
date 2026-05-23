@@ -23,4 +23,12 @@ public class MaterialHelper {
 	public static boolean isDirt(Material mat) {
 		return mat.getMaterialMapColor().equals(MapColor.DIRT) || isGrass(mat);
 	}
+	
+	public static boolean isSnow(Material mat) {
+		return mat.getMaterialMapColor().equals(MapColor.SNOW);
+	}
+	
+	public static boolean isCloth(Material mat) {
+		return mat.getMaterialMapColor().equals(MapColor.CLOTH);
+	}
 }

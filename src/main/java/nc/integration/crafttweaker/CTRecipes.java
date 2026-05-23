@@ -1306,4 +1306,34 @@ public class CTRecipes {
 			getRecipeHandler().ctRemoveAllRecipes();
 		}
 	}
+	
+	@ZenClass("mods.nuclearcraft.WastelandBlockMapping")
+	@ZenRegister
+	public static class WastelandBlockMappingMethods {
+		
+		@ZenMethod
+		public static BasicRecipeHandler getRecipeHandler() {
+			return NCRecipes.wasteland_block_mapping;
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient blockInput, IIngredient blockOutput) {
+			getRecipeHandler().ctAddRecipe(blockInput, blockOutput);
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient blockInput) {
+			getRecipeHandler().ctRemoveRecipeWithInput(blockInput);
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient blockOutput) {
+			getRecipeHandler().ctRemoveRecipeWithOutput(blockOutput);
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			getRecipeHandler().ctRemoveAllRecipes();
+		}
+	}
 }

@@ -414,4 +414,16 @@ public class GSBasicRecipeRegistryImpl {
 			return new GSRadiationBlockPurificationRecipeBuilder(this);
 		}
 	}
+	
+	@RegistryDescription
+	public static class GSWastelandBlockMappingRecipeRegistry extends GSBasicRecipeRegistry {
+		
+		public GSWastelandBlockMappingRecipeRegistry(String name) {
+			super(name);
+		}
+		
+		public GSWastelandBlockMappingRecipeBuilder builder() {
+			return new GSWastelandBlockMappingRecipeBuilder(this);
+		}
+	}
 }

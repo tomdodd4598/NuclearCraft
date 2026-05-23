@@ -6,7 +6,6 @@ import nc.tile.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -64,27 +63,21 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	public double getRadiation() {
 		double radiation = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
-			if (getDecayRecipe(side) != null) {
-				radiation += getDecayRecipe(side).getDecayGeneratorRadiation();
+			BasicRecipe recipe = getDecayRecipe(side);
+			if (recipe != null) {
+				radiation += recipe.getDecayGeneratorRadiation();
 			}
 		}
 		return machine_update_rate * radiation;
 	}
 	
 	public double decayGen(EnumFacing side) {
-		if (getDecayRecipe(side) == null) {
-			return 0D;
-		}
-		ItemStack stack = getOutput(side);
-		if (stack == null || stack.isEmpty()) {
+		IBlockState result = getRecipeOutput(side);
+		if (result == null) {
 			return 0D;
 		}
 		if (rand.nextDouble() * getRecipeLifetime(side) / machine_update_rate < 1D) {
-			IBlockState block = StackHelper.getBlockStateFromStack(stack);
-			if (block == null) {
-				return 0D;
-			}
-			world.setBlockState(pos.offset(side), block);
+			world.setBlockState(pos.offset(side), result);
 			refreshRecipe(side);
 		}
 		return getRecipePower(side);
@@ -121,24 +114,17 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	}
 	
 	public double getRecipeLifetime(EnumFacing side) {
-		if (getDecayRecipe(side) == null) {
-			return 1200D;
-		}
-		return getDecayRecipe(side).getDecayGeneratorLifetime();
+		BasicRecipe recipe = getDecayRecipe(side);
+		return recipe == null ? 1200D : recipe.getDecayGeneratorLifetime();
 	}
 	
 	public double getRecipePower(EnumFacing side) {
-		if (getDecayRecipe(side) == null) {
-			return 0D;
-		}
-		return getDecayRecipe(side).getDecayGeneratorPower();
+		BasicRecipe recipe = getDecayRecipe(side);
+		return recipe == null ? 0D : recipe.getDecayGeneratorPower();
 	}
 	
-	public ItemStack getOutput(EnumFacing side) {
-		if (getDecayRecipe(side) == null) {
-			return ItemStack.EMPTY;
-		}
-		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipe(side).getItemProducts(), 0);
-		return output != null ? output : ItemStack.EMPTY;
+	public IBlockState getRecipeOutput(EnumFacing side) {
+		BasicRecipe recipe = getDecayRecipe(side);
+		return recipe == null ? null : RecipeHelper.getBlockStateFromProductList(recipe.getItemProducts(), 0);
 	}
 }

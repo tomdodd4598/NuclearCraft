@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.source.IRadiationSource;
-import nc.entity.EntityFeralGhoul;
+import nc.entity.IRadiationMob;
 import nc.recipe.*;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.*;
@@ -14,7 +14,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -32,6 +31,7 @@ public class WorldRadiationHandler {
 	
 	private static final Random RAND = new Random();
 	
+	private static final Lazy<BasicRecipeHandler> RADIATION_BLOCK_MUTATION = new Lazy<>(() -> NCRecipes.radiation_block_mutation);
 	private static final Lazy<BasicRecipeHandler> RADIATION_BLOCK_PURIFICATION = new Lazy<>(() -> NCRecipes.radiation_block_purification);
 	
 	private static EnumFacing tile_side = EnumFacing.DOWN;
@@ -148,7 +148,7 @@ public class WorldRadiationHandler {
 						}
 						
 						if (entityLiving instanceof IMob) {
-							if (radiation_mob_rads_fatal && entityRads.isFatal()) {
+							if (radiation_mob_rads_fatal && !(entityLiving instanceof IRadiationMob) && entityRads.isFatal()) {
 								entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 							}
 							else {
@@ -158,7 +158,8 @@ public class WorldRadiationHandler {
 						else {
 							if (entityRads.isFatal()) {
 								if (register_entity[0] && entityLiving instanceof INpc) {
-									spawnFeralGhoul(world, entityLiving);
+									RadiationHelper.spawnFeralGhoul(world, entityLiving);
+									entityLiving.setDead();
 								}
 								else if (radiation_passive_rads_fatal) {
 									entityLiving.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
@@ -296,19 +297,11 @@ public class WorldRadiationHandler {
 		while (j > 0) {
 			--j;
 			BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
-			IBlockState state = world.getBlockState(randomChunkPos);
-			
-			ItemStack stack = StackHelper.blockStateToStack(state);
-			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<BasicRecipe> mutationInfo = RADIATION_BLOCK_PURIFICATION.get().getRecipeInfoFromInputs(Lists.newArrayList(stack), Collections.emptyList());
-				if (mutationInfo != null && radiation >= mutationInfo.recipe.getBlockMutationThreshold()) {
-					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.recipe.getItemProducts(), 0);
-					if (output != null) {
-						IBlockState result = StackHelper.getBlockStateFromStack(output);
-						if (result != null) {
-							world.setBlockState(randomChunkPos, result);
-						}
-					}
+			BasicRecipe mutationRecipe = RecipeHelper.blockRecipe(RADIATION_BLOCK_MUTATION.get(), world, randomChunkPos);
+			if (mutationRecipe != null && radiation >= mutationRecipe.getBlockMutationThreshold()) {
+				IBlockState result = RecipeHelper.getBlockStateFromProductList(mutationRecipe.getItemProducts(), 0);
+				if (result != null) {
+					world.setBlockState(randomChunkPos, result);
 				}
 			}
 		}
@@ -317,33 +310,13 @@ public class WorldRadiationHandler {
 		while (j > 0) {
 			--j;
 			BlockPos randomChunkPos = newRandomPosInChunk(world, chunk);
-			IBlockState state = world.getBlockState(randomChunkPos);
-			ItemStack stack = StackHelper.blockStateToStack(state);
-			if (stack != null && !stack.isEmpty()) {
-				RecipeInfo<BasicRecipe> mutationInfo = RADIATION_BLOCK_PURIFICATION.get().getRecipeInfoFromInputs(Lists.newArrayList(stack), Collections.emptyList());
-				if (mutationInfo != null && radiation < mutationInfo.recipe.getBlockMutationThreshold()) {
-					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.recipe.getItemProducts(), 0);
-					if (output != null) {
-						IBlockState result = StackHelper.getBlockStateFromStack(output);
-						if (result != null) {
-							world.setBlockState(randomChunkPos, result);
-						}
-					}
+			BasicRecipe purificationRecipe = RecipeHelper.blockRecipe(RADIATION_BLOCK_PURIFICATION.get(), world, randomChunkPos);
+			if (purificationRecipe != null && radiation < purificationRecipe.getBlockMutationThreshold()) {
+				IBlockState result = RecipeHelper.getBlockStateFromProductList(purificationRecipe.getItemProducts(), 0);
+				if (result != null) {
+					world.setBlockState(randomChunkPos, result);
 				}
 			}
 		}
-	}
-	
-	public static void spawnFeralGhoul(World world, EntityLiving entityLiving) {
-		EntityFeralGhoul feralGhoul = new EntityFeralGhoul(world);
-		feralGhoul.setLocationAndAngles(entityLiving.posX, entityLiving.posY, entityLiving.posZ, entityLiving.rotationYaw, entityLiving.rotationPitch);
-		feralGhoul.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(feralGhoul)), null);
-		feralGhoul.setNoAI(entityLiving.isAIDisabled());
-		if (entityLiving.hasCustomName()) {
-			feralGhoul.setCustomNameTag(entityLiving.getCustomNameTag());
-			feralGhoul.setAlwaysRenderNameTag(entityLiving.getAlwaysRenderNameTag());
-		}
-		world.spawnEntity(feralGhoul);
-		entityLiving.setDead();
 	}
 }

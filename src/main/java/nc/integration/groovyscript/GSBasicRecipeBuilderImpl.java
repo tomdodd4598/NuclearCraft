@@ -400,4 +400,11 @@ public class GSBasicRecipeBuilderImpl {
 			return setExtra(0, radiationThreshold);
 		}
 	}
+	
+	public static class GSWastelandBlockMappingRecipeBuilder extends GSBasicRecipeBuilder<GSWastelandBlockMappingRecipeBuilder> {
+		
+		public GSWastelandBlockMappingRecipeBuilder(GSBasicRecipeRegistry registry) {
+			super(registry);
+		}
+	}
 }

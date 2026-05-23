@@ -9,6 +9,7 @@ import nc.capability.radiation.IRadiation;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.capability.radiation.source.IRadiationSource;
+import nc.entity.EntityFeralGhoul;
 import nc.init.NCItems;
 import nc.radiation.RadPotionEffects.RadEffect;
 import nc.tile.dummy.TileDummy;
@@ -23,7 +24,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.ILootContainer;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -424,6 +427,20 @@ public class RadiationHelper {
 				break;
 			}
 		}
+	}
+	
+	// Feral Ghoul Spawning
+	
+	public static void spawnFeralGhoul(World world, EntityLiving entityLiving) {
+		EntityFeralGhoul feralGhoul = new EntityFeralGhoul(world);
+		feralGhoul.setLocationAndAngles(entityLiving.posX, entityLiving.posY, entityLiving.posZ, entityLiving.rotationYaw, entityLiving.rotationPitch);
+		feralGhoul.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(feralGhoul)), null);
+		feralGhoul.setNoAI(entityLiving.isAIDisabled());
+		if (entityLiving.hasCustomName()) {
+			feralGhoul.setCustomNameTag(entityLiving.getCustomNameTag());
+			feralGhoul.setAlwaysRenderNameTag(entityLiving.getAlwaysRenderNameTag());
+		}
+		world.spawnEntity(feralGhoul);
 	}
 	
 	// Radiation HUD

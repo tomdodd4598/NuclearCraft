@@ -530,6 +530,15 @@ mods.nuclearcraft.RadiationBlockPurification.removeRecipeWithInput(IIngredient b
 mods.nuclearcraft.RadiationBlockPurification.removeRecipeWithOutput(IIngredient blockOutput);
 
 
+Wasteland Mapping:
+------------------
+
+mods.nuclearcraft.WastelandBlockMapping.addRecipe(IIngredient blockInput, IIngredient blockOutput);
+
+mods.nuclearcraft.WastelandBlockMapping.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.WastelandBlockMapping.removeRecipeWithOutput(IIngredient blockOutput);
+
+
 Entity Radiation:
 -----------------
 

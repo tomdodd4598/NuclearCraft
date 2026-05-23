@@ -19,7 +19,7 @@ public class RadBlockEffects {
 		public void addRecipes() {
 			addRecipe(Lists.newArrayList("dirt", "grass"), NCBlocks.wasteland_earth, 10D);
 			addRecipe(Lists.newArrayList("treeLeaves", "vine"), Blocks.AIR, 1D);
-			addRecipe(Lists.newArrayList("treeSapling", "cropWheat", "cropPotato", "cropCarrot"), Blocks.AIR, 4D);
+			addRecipe("treeSapling", Blocks.DEADBUSH, 4D);
 		}
 		
 		@Override
@@ -45,6 +45,24 @@ public class RadBlockEffects {
 		public List<Object> fixedExtras(List<Object> extras) {
 			ExtrasFixer fixer = new ExtrasFixer(extras);
 			fixer.add(Double.class, 0D);
+			return fixer.fixed;
+		}
+	}
+	
+	public static class WastelandBlockMapping extends BasicRecipeHandler {
+		
+		public WastelandBlockMapping() {
+			super("wasteland_block_mapping", 1, 0, 1, 0);
+		}
+		
+		@Override
+		public void addRecipes() {
+		
+		}
+		
+		@Override
+		public List<Object> fixedExtras(List<Object> extras) {
+			ExtrasFixer fixer = new ExtrasFixer(extras);
 			return fixer.fixed;
 		}
 	}

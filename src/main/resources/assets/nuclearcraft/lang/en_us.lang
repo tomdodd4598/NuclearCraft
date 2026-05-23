@@ -2821,6 +2821,8 @@ gui.nc.config.wasteland_dimension_gen=Enable Wasteland Dimension
 gui.nc.config.wasteland_dimension_gen.comment=Will the wasteland dimension be generated?
 gui.nc.config.wasteland_dimension=Wasteland Dimension ID
 gui.nc.config.wasteland_dimension.comment=Sets the ID for the wasteland dimension.
+gui.nc.config.wasteland_mapping_chunks_per_tick=Wasteland Block Mapping Chunks Per Tick
+gui.nc.config.wasteland_mapping_chunks_per_tick.comment=The maximum number of queued populated chunks to process per tick. If set to zero, wasteland block mapping is disabled.
 
 gui.nc.config.mushroom_spread_rate=Mushroom Spread Rate
 gui.nc.config.mushroom_spread_rate.comment=The rate at which mushrooms added by NC will spread - higher numbers correspond to higher spread rates.
@@ -3049,7 +3051,7 @@ gui.nc.config.fission_meltdown_radiation_multiplier.comment=Modifies the radiati
 gui.nc.config.fission_heat_damage=Heat Contact Damage
 gui.nc.config.fission_heat_damage.comment=Can hot fission components hurt the player? Note that this is disabled by default as the hit boxes of fission reactor components are modified.
 gui.nc.config.fission_neutron_reach=Neutron Radiation Reach
-gui.nc.config.fission_neutron_reach.comment=Maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them.
+gui.nc.config.fission_neutron_reach.comment=The maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them.
 gui.nc.config.fission_heat_dissipation=Reactor Heat Dissipation
 gui.nc.config.fission_heat_dissipation.comment=Sets whether fission reactors dissipate heat while idle and active, respectively.
 gui.nc.config.fission_heat_dissipation_rate=Reactor Heat Dissipation Rate

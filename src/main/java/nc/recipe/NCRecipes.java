@@ -135,6 +135,7 @@ public class NCRecipes {
 		putHandler(new RadiationScrubberRecipes());
 		putHandler(new RadiationBlockMutation());
 		putHandler(new RadiationBlockPurification());
+		putHandler(new WastelandBlockMapping());
 		
 		registerShortcuts();
 		
@@ -194,6 +195,7 @@ public class NCRecipes {
 	public static RadiationScrubberRecipes radiation_scrubber;
 	public static RadiationBlockMutation radiation_block_mutation;
 	public static RadiationBlockPurification radiation_block_purification;
+	public static WastelandBlockMapping wasteland_block_mapping;
 	
 	public void registerShortcuts() {
 		manufactory = getHandler("manufactory");
@@ -243,6 +245,7 @@ public class NCRecipes {
 		radiation_scrubber = getHandler("radiation_scrubber");
 		radiation_block_mutation = getHandler("radiation_block_mutation");
 		radiation_block_purification = getHandler("radiation_block_purification");
+		wasteland_block_mapping = getHandler("wasteland_block_mapping");
 	}
 	
 	public static void initGTCEIntegration() {

@@ -449,6 +449,7 @@ public class NCConfig {
 	
 	public static boolean wasteland_dimension_gen;
 	public static int wasteland_dimension;
+	public static int wasteland_mapping_chunks_per_tick;
 	
 	public static int mushroom_spread_rate;
 	public static boolean mushroom_gen;
@@ -521,6 +522,7 @@ public class NCConfig {
 		wasteland_biome_weight = sync(CATEGORY_WORLD_GEN, "wasteland_biome_weight", 5, 0, 255);
 		wasteland_dimension_gen = sync(CATEGORY_WORLD_GEN, "wasteland_dimension_gen", true);
 		wasteland_dimension = sync(CATEGORY_WORLD_GEN, "wasteland_dimension", 4598, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		wasteland_mapping_chunks_per_tick = sync(CATEGORY_WORLD_GEN, "wasteland_mapping_chunks_per_tick", 8, 0, 400);
 		mushroom_spread_rate = sync(CATEGORY_WORLD_GEN, "mushroom_spread_rate", 16, 0, 511);
 		mushroom_gen = sync(CATEGORY_WORLD_GEN, "mushroom_gen", true);
 		mushroom_gen_size = sync(CATEGORY_WORLD_GEN, "mushroom_gen_size", 32, 0, 511);
