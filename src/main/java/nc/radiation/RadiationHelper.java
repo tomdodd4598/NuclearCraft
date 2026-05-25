@@ -1,6 +1,5 @@
 package nc.radiation;
 
-import baubles.api.BaubleType;
 import baubles.api.cap.*;
 import ic2.api.reactor.IReactor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -461,8 +460,8 @@ public class RadiationHelper {
 				return false;
 			}
 			
-			for (int slot : BaubleType.TRINKET.getValidSlots()) {
-				if (baublesHandler.getStackInSlot(slot).isItemEqual(geiger_counter)) {
+			for (int i = 0; baublesHandler.getSlots(); ++i) {
+				if (baublesHandler.getStackInSlot(i).isItemEqual(geiger_counter)) {
 					return true;
 				}
 			}
