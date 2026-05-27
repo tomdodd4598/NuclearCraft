@@ -34,7 +34,8 @@ public class RenderHandler {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTurbineController.class, new RenderTurbineRotor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumComputerQubit.class, new RenderQuantumComputerQubit());
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityFeralGhoul.class, RenderFeralGhoul::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityFeralGhoul.class, x -> new RenderFeralGhoul(x, "feral_ghoul", null));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFeralGhoul.Glowing.class, x -> new RenderFeralGhoul(x, "glowing_ghoul", "glowing_ghoul_glow"));
 		
 		MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockRayTraceHandler());

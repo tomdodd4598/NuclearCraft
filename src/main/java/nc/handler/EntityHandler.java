@@ -8,12 +8,13 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.*;
+
+import java.util.Iterator;
 
 import static nc.config.NCConfig.*;
 
@@ -22,31 +23,21 @@ public class EntityHandler {
 	@SubscribeEvent
 	public void onEntityLivingSpawn(LivingSpawnEvent.CheckSpawn event) {
 		EntityLivingBase entity = event.getEntityLiving();
+		
+		if (entity.world.provider.getDimension() == wasteland_dimension && !(entity instanceof EntityFeralGhoul) && !(entity instanceof INpc)) {
+			event.setResult(Result.DENY);
+			return;
+		}
+		
 		if (entity instanceof EntityFeralGhoul) {
 			if (!event.isSpawner()) {
-				World world = entity.world;
 				BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
-				
-				boolean canSeeSky = world.canSeeSky(pos);
-				
-				if (!canSeeSky) {
-					event.setResult(Result.DENY);
-					return;
-				}
-				
-				boolean tooManyGhouls = false;
-				ClassInheritanceMultiMap<Entity>[] entityListArray = world.getChunk(pos).getEntityLists();
-				loop:
-				for (ClassInheritanceMultiMap<Entity> entities : entityListArray) {
-					Iterable<EntityFeralGhoul> ghouls = entities.getByClass(EntityFeralGhoul.class);
-					while (ghouls.iterator().hasNext()) {
-						tooManyGhouls = true;
-						break loop;
+				for (ClassInheritanceMultiMap<Entity> entities : entity.world.getChunk(pos).getEntityLists()) {
+					Iterator<EntityFeralGhoul> ghouls = entities.getByClass(EntityFeralGhoul.class).iterator();
+					if (ghouls.hasNext()) {
+						event.setResult(Result.DENY);
+						return;
 					}
-				}
-				
-				if (tooManyGhouls) {
-					event.setResult(Result.DENY);
 				}
 			}
 		}

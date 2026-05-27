@@ -114,6 +114,12 @@ public class NCItems {
 	public static Item moresmore;
 	public static Item foursmore;
 	
+	public static Item pikelet;
+	public static Item congress_tart;
+	public static Item ricecake;
+	public static Item fish_and_ricecake;
+	public static Item fish_a_la_fred;
+	
 	public static Item record_wanderer;
 	public static Item record_end_of_the_world;
 	public static Item record_money_for_nothing;
@@ -203,15 +209,21 @@ public class NCItems {
 		cocoa_butter = addWithName(Global.MOD_ID, "cocoa_butter", new NCItemFood(2, 0.2F, false, new PotionEffect[] {PotionHelper.newEffect(22, 1, 300)}), NCTabs.misc);
 		cocoa_solids = addWithName(Global.MOD_ID, "cocoa_solids", new NCItem(), NCTabs.misc);
 		unsweetened_chocolate = addWithName(Global.MOD_ID, "unsweetened_chocolate", new NCItemFood(2, 0.2F, false, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300)}), NCTabs.misc);
-		dark_chocolate = addWithName(Global.MOD_ID, "dark_chocolate", new NCItemFood(3, 0.4F, false, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300)}), NCTabs.misc);
-		milk_chocolate = addWithName(Global.MOD_ID, "milk_chocolate", new NCItemFood(4, 0.6F, false, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(22, 1, 300)}), NCTabs.misc);
+		dark_chocolate = addWithName(Global.MOD_ID, "dark_chocolate", new NCItemFood(3, 0.4F, false, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(3, 1, 300)}), NCTabs.misc);
+		milk_chocolate = addWithName(Global.MOD_ID, "milk_chocolate", new NCItemFood(4, 0.6F, false, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(22, 1, 300)}), NCTabs.misc);
 		
 		gelatin = addWithName(Global.MOD_ID, "gelatin", new NCItem(), NCTabs.misc);
 		marshmallow = addWithName(Global.MOD_ID, "marshmallow", new NCItemFood(1, 0.4F, false, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300)}), NCTabs.misc);
 		
-		smore = addWithName(Global.MOD_ID, "smore", new NCItemFood(8, 1.4F, false, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)}), NCTabs.misc);
-		moresmore = addWithName(Global.MOD_ID, "moresmore", new NCItemFood(20, 3.8F, false, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)}), NCTabs.misc);
-		foursmore = addWithName(Global.MOD_ID, "foursmore", new NCItemFood(48, 8.6F, false, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)}), null);
+		smore = addWithName(Global.MOD_ID, "smore", new NCItemFood(8, 1.4F, false, new PotionEffect[] {PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(22, 2, 300)}), NCTabs.misc);
+		moresmore = addWithName(Global.MOD_ID, "moresmore", new NCItemFood(20, 3.8F, false, new PotionEffect[] {PotionHelper.newEffect(1, 3, 300), PotionHelper.newEffect(3, 3, 300), PotionHelper.newEffect(22, 3, 300)}), NCTabs.misc);
+		foursmore = addWithName(Global.MOD_ID, "foursmore", new NCItemFood(48, 8.6F, false, new PotionEffect[] {PotionHelper.newEffect(1, 4, 300), PotionHelper.newEffect(3, 4, 300), PotionHelper.newEffect(22, 4, 300)}), null);
+		
+		pikelet = addWithName(Global.MOD_ID, "pikelet", new NCItemFood(6, 1.2F, false, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(13, 1, 300)}), NCTabs.misc);
+		congress_tart = addWithName(Global.MOD_ID, "congress_tart", new NCItemFood(8, 4.4F, false, new PotionEffect[] {PotionHelper.newEffect(5, 2, 300), PotionHelper.newEffect(12, 2, 300), PotionHelper.newEffect(22, 2, 300)}), NCTabs.misc);
+		ricecake = addWithName(Global.MOD_ID, "ricecake", new NCItemFood(2, 0.2F, false, new PotionEffect[] {PotionHelper.newEffect(11, 1, 300)}), NCTabs.misc);
+		fish_and_ricecake = addWithName(Global.MOD_ID, "fish_and_ricecake", new NCItemFood(10, 2.4F, true, new PotionEffect[] {PotionHelper.newEffect(5, 2, 300), PotionHelper.newEffect(10, 2, 300), PotionHelper.newEffect(11, 2, 300)}), null);
+		fish_a_la_fred = addWithName(Global.MOD_ID, "fish_a_la_fred", new NCItemFood(6, 0.8F, false, new PotionEffect[] {PotionHelper.newEffect(13, 2, 300), PotionHelper.newEffect(16, 2, 300), PotionHelper.newEffect(17, 2, 300)}), null);
 		
 		record_wanderer = addWithName(Global.MOD_ID, "record_wanderer", new NCItemRecord("record_wanderer", NCSounds.wanderer), NCTabs.misc);
 		record_end_of_the_world = addWithName(Global.MOD_ID, "record_end_of_the_world", new NCItemRecord("record_end_of_the_world", NCSounds.end_of_the_world), NCTabs.misc);

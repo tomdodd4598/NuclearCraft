@@ -269,6 +269,14 @@ public class OreDictHandler {
 		OreDictionary.registerOre("charcoal", new ItemStack(Items.COAL, 1, 1));
 		OreDictionary.registerOre("wool", new ItemStack(Blocks.WOOL, 1, OreDictionary.WILDCARD_VALUE));
 		
+		for (int i = 0; i < 4; ++i) {
+			OreDictionary.registerOre("itemFish", new ItemStack(Items.FISH, 1, i));
+		}
+		
+		for (int i = 0; i < 2; ++i) {
+			OreDictionary.registerOre("itemCookedFish", new ItemStack(Items.COOKED_FISH, 1, i));
+		}
+		
 		// Entry Mergers
 		for (ItemStack stack : OreDictionary.getOres("foodCocoapowder", false)) {
 			OreDictionary.registerOre("dustCocoa", stack);

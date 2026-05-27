@@ -1,5 +1,6 @@
 package nc.worldgen.dimension;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGeneratorOverworld;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -8,7 +9,7 @@ public class ChunkGeneratorWasteland extends ChunkGeneratorOverworld {
 	
 	public ChunkGeneratorWasteland(World world) {
 		super(world, world.getSeed(), world.getWorldInfo().isMapFeaturesEnabled(), getGeneratorOptions());
-		oceanBlock = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
+		oceanBlock = Blocks.AIR.getDefaultState();
 	}
 	
 	// net.minecraft.client.gui.GuiScreenCustomizePresets

@@ -368,6 +368,7 @@ public class NCConfig {
 	public static double radiation_ic2_reactor_mult;
 	
 	public static double radiation_feral_ghoul_attack;
+	public static double radiation_glowing_ghoul_attack;
 	
 	public static double radiation_radaway_amount;
 	public static double radiation_radaway_slow_amount;
@@ -449,6 +450,7 @@ public class NCConfig {
 	
 	public static boolean wasteland_dimension_gen;
 	public static int wasteland_dimension;
+	public static boolean wasteland_mapping_enabled;
 	public static int wasteland_mapping_chunks_per_tick;
 	
 	public static int mushroom_spread_rate;
@@ -522,6 +524,7 @@ public class NCConfig {
 		wasteland_biome_weight = sync(CATEGORY_WORLD_GEN, "wasteland_biome_weight", 5, 0, 255);
 		wasteland_dimension_gen = sync(CATEGORY_WORLD_GEN, "wasteland_dimension_gen", true);
 		wasteland_dimension = sync(CATEGORY_WORLD_GEN, "wasteland_dimension", 4598, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		wasteland_mapping_enabled = sync(CATEGORY_WORLD_GEN, "wasteland_mapping_enabled", true);
 		wasteland_mapping_chunks_per_tick = sync(CATEGORY_WORLD_GEN, "wasteland_mapping_chunks_per_tick", 8, 0, 400);
 		mushroom_spread_rate = sync(CATEGORY_WORLD_GEN, "mushroom_spread_rate", 16, 0, 511);
 		mushroom_gen = sync(CATEGORY_WORLD_GEN, "mushroom_gen", true);
@@ -802,7 +805,7 @@ public class NCConfig {
 		radiation_immune_players = sync(CATEGORY_RADIATION, "radiation_immune_players", new String[] {}, LIST);
 		radiation_world_chunks_per_tick = sync(CATEGORY_RADIATION, "radiation_world_chunks_per_tick", 5, 1, 400);
 		radiation_player_tick_rate = sync(CATEGORY_RADIATION, "radiation_player_tick_rate", 5, 1, 400);
-		radiation_worlds = sync(CATEGORY_RADIATION, "radiation_worlds", new String[] {"4598_2.25"}, LIST);
+		radiation_worlds = sync(CATEGORY_RADIATION, "radiation_worlds", new String[] {"4598_1.75"}, LIST);
 		radiation_biomes = sync(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, LIST);
 		radiation_structures = sync(CATEGORY_RADIATION, "radiation_structures", new String[] {}, LIST);
 		radiation_world_limits = sync(CATEGORY_RADIATION, "radiation_world_limits", new String[] {}, LIST);
@@ -836,7 +839,8 @@ public class NCConfig {
 		radiation_swim_mult = sync(CATEGORY_RADIATION, "radiation_swim_mult", 2D, 0.000001D, 1000000D);
 		radiation_ic2_reactor_mult = sync(CATEGORY_RADIATION, "radiation_ic2_reactor_mult", 0.00001D, 0D, 1000000D);
 		
-		radiation_feral_ghoul_attack = sync(CATEGORY_RADIATION, "radiation_feral_ghoul_attack", RadSources.CAESIUM_137, 0.000001D, 1000000D);
+		radiation_feral_ghoul_attack = sync(CATEGORY_RADIATION, "radiation_feral_ghoul_attack", 10D * RadSources.CAESIUM_137, 0.000001D, 1000000D);
+		radiation_glowing_ghoul_attack = sync(CATEGORY_RADIATION, "radiation_glowing_ghoul_attack", 10D * RadSources.CALIFORNIUM_252, 0.000001D, 1000000D);
 		
 		radiation_radaway_amount = sync(CATEGORY_RADIATION, "radiation_radaway_amount", 300D, 0.001D, 1000000000D);
 		radiation_radaway_slow_amount = sync(CATEGORY_RADIATION, "radiation_radaway_slow_amount", 300D, 0.001D, 1000000000D);
@@ -899,7 +903,7 @@ public class NCConfig {
 		register_tic_tool = sync(CATEGORY_REGISTRATION, "register_tic_tool", new boolean[] {true, true, true, true, true, true, true, true}, ARRAY);
 		register_armor = sync(CATEGORY_REGISTRATION, "register_armor", new boolean[] {true, true, true, true}, ARRAY);
 		register_conarm_armor = sync(CATEGORY_REGISTRATION, "register_conarm_armor", new boolean[] {true, true, true, true, true, true, true, true}, ARRAY);
-		register_entity = sync(CATEGORY_REGISTRATION, "register_entity", new boolean[] {true}, ARRAY);
+		register_entity = sync(CATEGORY_REGISTRATION, "register_entity", new boolean[] {true, true}, ARRAY);
 		register_fluid_blocks = sync(CATEGORY_REGISTRATION, "register_fluid_blocks", false);
 		register_cofh_fluids = sync(CATEGORY_REGISTRATION, "register_cofh_fluids", false);
 		register_tic_recipes = sync(CATEGORY_REGISTRATION, "register_tic_recipes", true);

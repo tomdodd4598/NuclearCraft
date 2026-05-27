@@ -13,8 +13,12 @@ public class NCEntities {
 	
 	public static void register() {
 		registerEntity(Global.MOD_ID, "feral_ghoul", EntityFeralGhoul.class, 0, 0x967D73, 0x302C28);
+		registerEntity(Global.MOD_ID, "glowing_ghoul", EntityFeralGhoul.Glowing.class, 1, 0xAAC76A, 0x85714A);
 		if (register_entity[0]) {
 			EntityRegistry.addSpawn(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1, EnumCreatureType.MONSTER, NCBiomes.NUCLEAR_WASTELAND);
+		}
+		if (register_entity[1]) {
+			EntityRegistry.addSpawn(EntityFeralGhoul.Glowing.class, Short.MAX_VALUE, 1, 1, EnumCreatureType.MONSTER, NCBiomes.NUCLEAR_WASTELAND);
 		}
 	}
 	

@@ -75,6 +75,8 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		blacklist(jeiHelpers, NCItems.foursmore);
+		blacklist(jeiHelpers, NCItems.fish_and_ricecake);
+		blacklist(jeiHelpers, NCItems.fish_a_la_fred);
 		
 		NCUtil.getLogger().info("JEI integration complete!");
 	}

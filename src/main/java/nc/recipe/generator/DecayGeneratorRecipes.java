@@ -20,8 +20,8 @@ public class DecayGeneratorRecipes extends BasicRecipeHandler {
 		addDecayRecipes("Thorium", "Lead", decay_lifetime[0], decay_power[0], RadSources.THORIUM);
 		addDecayRecipes("Uranium", "Uranium238", decay_lifetime[1], decay_power[1], RadSources.URANIUM);
 		
-		addDecayRecipes("Uranium238", OreDictHelper.oreExists("Radium") ? "Radium" : "Lead", decay_lifetime[2], decay_power[2], RadSources.URANIUM_238);
-		addDecayRecipes("Neptunium237", OreDictHelper.oreExists("Bismuth") ? "Bismuth" : "Lead", decay_lifetime[3], decay_power[3], RadSources.NEPTUNIUM_237);
+		addDecayRecipes("Uranium238", OreDictHelper.oreExists("blockRadium") ? "Radium" : "Lead", decay_lifetime[2], decay_power[2], RadSources.URANIUM_238);
+		addDecayRecipes("Neptunium237", OreDictHelper.oreExists("blockBismuth") ? "Bismuth" : "Lead", decay_lifetime[3], decay_power[3], RadSources.NEPTUNIUM_237);
 		addDecayRecipes("Plutonium242", "Uranium238", decay_lifetime[4], decay_power[4], RadSources.PLUTONIUM_242);
 		addDecayRecipes("Americium243", "Lead", decay_lifetime[5], decay_power[5], RadSources.AMERICIUM_243);
 		addDecayRecipes("Curium246", "Plutonium242", decay_lifetime[6], decay_power[6], RadSources.CURIUM_246);

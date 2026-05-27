@@ -23,7 +23,8 @@ public class EntityAIFeralGhoulLeap extends EntityAIBase {
 			return false;
 		}
 		else {
-			if (ghoul.getDistanceSq(leapTarget) > 16D && ghoul.getDistanceSq(leapTarget) < 64D) {
+			double distanceSq = ghoul.getDistanceSq(leapTarget);
+			if (distanceSq > 16D && distanceSq < 64D) {
 				if (!ghoul.onGround) {
 					return false;
 				}

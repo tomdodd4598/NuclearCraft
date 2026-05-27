@@ -464,6 +464,9 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCItems.moresmore, NCItems.smore, "ingotChocolate", "ingotMarshmallow", NCItems.smore);
 		addShapelessOreRecipe(NCItems.foursmore, NCItems.moresmore, "ingotChocolate", "ingotMarshmallow", NCItems.moresmore);
 		
+		addShapelessOreRecipe(NCItems.fish_and_ricecake, "itemCookedFish", NCItems.ricecake);
+		addShapelessOreRecipe(NCItems.fish_a_la_fred, "itemCookedFish", "dustSilica");
+		
 		addShapedOreRecipe(NCItems.geiger_counter, "SFF", "CRR", "BFF", 'S', "ingotSteel", 'F', "ingotFerroboron", 'C', "ingotCopper", 'R', "dustRedstone", 'B', "bioplastic");
 		addShapedOreRecipe(NCItems.radiation_badge, " C ", "SRS", " L ", 'C', "ingotCopper", 'S', "string", 'R', "dustRedstone", 'L', "ingotLead");
 		

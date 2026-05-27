@@ -1094,6 +1094,9 @@ fluid.soul=Concentrated Souls
 tile.nuclearcraft.fluid_mysterious_soul.name=Mysterious Souls
 fluid.mysterious_soul=Mysterious Souls
 
+tile.nuclearcraft.fluid_roentgen_josh.name=Roentgen Josh
+fluid.roentgen_josh=Roentgen Josh
+
 tile.nuclearcraft.fluid_thorium.name=Molten Thorium
 fluid.thorium=Molten Thorium
 tile.nuclearcraft.fluid_uranium.name=Molten Uranium
@@ -2646,7 +2649,7 @@ item.nuclearcraft.portable_ender_chest.name=Portable Ender Chest
 item.nuclearcraft.portable_ender_chest.desc=Access your Ender Chest on the move.
 
 item.nuclearcraft.dominos.name=Domino's Special
-item.nuclearcraft.dominos.desc=Paul's favorite - restore 16 hunger points with this beauty.
+item.nuclearcraft.dominos.desc=Paul's favorite.
 
 item.nuclearcraft.flour.name=Flour
 item.nuclearcraft.graham_cracker.name=Graham Cracker
@@ -2667,6 +2670,16 @@ item.nuclearcraft.smore.name=S'more S'mingot
 item.nuclearcraft.moresmore.name=MoreS'more DoubleS'mingot
 item.nuclearcraft.foursmore.name=FourS'more QuadS'mingot
 
+item.nuclearcraft.pikelet.name=Pikelet
+item.nuclearcraft.pikelet.desc=It's like a thin crumpet, innit?
+item.nuclearcraft.congress_tart.name=Congress Tart
+item.nuclearcraft.congress_tart.desc=You can't get 'em in London.
+item.nuclearcraft.ricecake.name=Ricecake
+item.nuclearcraft.fish_and_ricecake.name=Fish and a Ricecake
+item.nuclearcraft.fish_and_ricecake.desc=At 8 in the morning he'll have fish and a ricecake, at 10 he'll have fish, at 12 he'll have fish and a ricecake, at 2 he'll have fish, at 4, just before he trains, he'll have fish and a ricecake, he'll train, he'll have his fish, he'll come home and have some more fish with a ricecake and then have some fish before he goes to bed.
+item.nuclearcraft.fish_a_la_fred.name=Fish a la Fred
+item.nuclearcraft.fish_a_la_fred.desc=That's not salt!
+
 item.nuclearcraft.record_wanderer.name=Music Disc
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
 item.nuclearcraft.record_wanderer.des1=8-Bit Cover by '8 Bit Universe'
@@ -2681,6 +2694,7 @@ item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=By Riku Nuottajärvi
 
 entity.nuclearcraft.feral_ghoul.name=Feral Ghoul
+entity.nuclearcraft.glowing_ghoul.name=Glowing Ghoul
 
 jei.nuclearcraft.chance_output=Output: %s-%s [Mean: %s]
 
@@ -2821,6 +2835,8 @@ gui.nc.config.wasteland_dimension_gen=Enable Wasteland Dimension
 gui.nc.config.wasteland_dimension_gen.comment=Will the wasteland dimension be generated?
 gui.nc.config.wasteland_dimension=Wasteland Dimension ID
 gui.nc.config.wasteland_dimension.comment=Sets the ID for the wasteland dimension.
+gui.nc.config.wasteland_mapping_enabled=Wasteland Block Mapping Enabled
+gui.nc.config.wasteland_mapping_enabled.comment=Will blocks of newly populated chunks in the wasteland dimension be transformed?
 gui.nc.config.wasteland_mapping_chunks_per_tick=Wasteland Block Mapping Chunks Per Tick
 gui.nc.config.wasteland_mapping_chunks_per_tick.comment=The maximum number of queued populated chunks to process per tick. If set to zero, wasteland block mapping is disabled.
 
@@ -3460,6 +3476,8 @@ gui.nc.config.radiation_ic2_reactor_mult.comment=Multiplier for the radiation le
 
 gui.nc.config.radiation_feral_ghoul_attack=Feral Ghoul Attack Radiation
 gui.nc.config.radiation_feral_ghoul_attack.comment=The amount of radiation received from an attack by a feral ghoul.
+gui.nc.config.radiation_glowing_ghoul_attack=Glowing Ghoul Attack Radiation
+gui.nc.config.radiation_glowing_ghoul_attack.comment=The amount of radiation received from an attack by a glowing ghoul.
 
 gui.nc.config.radiation_radaway_amount=RadAway Rads Removed
 gui.nc.config.radiation_radaway_amount.comment=The total number of rads removed when using RadAway.
@@ -3583,7 +3601,7 @@ gui.nc.config.register_armor.comment=Register armor types to the game? Order: bo
 gui.nc.config.register_conarm_armor=ConArm Armor Material Registration
 gui.nc.config.register_conarm_armor.comment=Will these materials be registered as armor materials for Construct's Armory? Order: boron, tough alloy, hard carbon, boron nitride, thorium, uranium, magnesium, chocolate.
 gui.nc.config.register_entity=Entity Spawn Registration
-gui.nc.config.register_entity.comment=Will these entities be registered to spawn? Order: feral ghoul.
+gui.nc.config.register_entity.comment=Will these entities be registered to spawn? Order: feral ghoul, glowing ghoul.
 gui.nc.config.register_fluid_blocks=Register Fluid Blocks
 gui.nc.config.register_fluid_blocks.comment=Register fluid blocks? Keep false if running low on block IDs.
 gui.nc.config.register_cofh_fluids=Register CoFH Fluid Alternatives
@@ -4190,6 +4208,8 @@ commands.nuclearcraft.set_chunk_radiation.usage=/nc_set_chunk_radiation <radiati
 commands.nuclearcraft.set_chunk_radius_radiation.usage=/nc_set_chunk_radius_radiation <radiation_level> <chunk_radius>
 commands.nuclearcraft.set_world_radiation.usage=/nc_set_world_radiation <radiation_level>
 commands.nuclearcraft.set_player_radiation.usage=/nc_set_player_radiation <radiation_level> [player]
+
+commands.nuclearcraft.generate_vault.usage=/nc_generate_vault
 
 commands.nuclearcraft.reconstruct_script_addons.usage=/nc_reload_script_addons ["syntax"]
 commands.nuclearcraft.reconstruct_script_addons.success=Successfully reconstructed script addons!

@@ -1,0 +1,188 @@
+{
+	"pools": [
+		{
+			"name": "main",
+			"rolls": {
+				"min": 6,
+				"max": 8
+			},
+			"entries": [
+				{
+					"type": "item",
+					"name": "nuclearcraft:radaway",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:radaway_slow",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:rad_x",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:rad_shielding",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": 2
+						},
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "rare",
+			"rolls": {
+				"min": 2,
+				"max": 4
+			},
+			"entries": [
+				{
+					"type": "item",
+					"name": "minecraft:golden_apple",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": 1
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:plutonium",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": 0
+						},
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:californium",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": 5
+						},
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "epic",
+			"rolls": 2,
+			"entries": [
+				{
+					"type": "item",
+					"name": "nuclearcraft:pikelet",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:congress_tart",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 2,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "nuclearcraft:ricecake",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 4,
+								"max": 8
+							}
+						}
+					]
+				},
+				{
+					"type": "item",
+					"name": "forge:bucketFilled",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_nbt",
+							"tag": "{FluidName:\"roentgen_josh\"}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

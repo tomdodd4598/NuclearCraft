@@ -1123,6 +1123,12 @@
 			"custom": {
 				"fluid": "mysterious_soul"
 			}
+		},
+		"fluid_roentgen_josh": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "roentgen_josh"
+			}
 		}
 	}
 }

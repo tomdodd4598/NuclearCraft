@@ -20,7 +20,7 @@ public class BiomeNuclearWasteland extends NCBiome {
 		
 		topBlock = NCBlocks.wasteland_earth.getDefaultState();
 		fillerBlock = Blocks.SAND.getDefaultState();
-		waterBlock = FluidRegistry.getFluid("corium").getBlock().getDefaultState();
+		waterBlock = Blocks.AIR.getDefaultState();
 		frozenBlock = Blocks.MAGMA.getDefaultState();
 		
 		setSpawnables();
@@ -33,7 +33,8 @@ public class BiomeNuclearWasteland extends NCBiome {
 		spawnableWaterCreatureList.clear();
 		spawnableCaveCreatureList.clear();
 		
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1));
+		spawnableMonsterList.add(new SpawnListEntry(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1));
+		spawnableMonsterList.add(new SpawnListEntry(EntityFeralGhoul.Glowing.class, Short.MAX_VALUE, 1, 1));
 	}
 	
 	protected void setFlowers() {

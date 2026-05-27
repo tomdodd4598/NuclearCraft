@@ -17,7 +17,7 @@ public class FuelReprocessorRecipes extends BasicProcessorRecipeHandler {
 			return;
 		}
 		
-		String oreCesium137 = OreDictHelper.oreExists("Cesium137") ? "Cesium137" : "Caesium137";
+		String oreCesium137 = OreDictHelper.oreExists("dustCesium137") ? "Cesium137" : "Caesium137";
 		
 		addReprocessingRecipes("TBU", "Uranium233", 1, "Uranium238", 5, "Neptunium236", 1, "Neptunium237", 1, "Strontium90", oreCesium137, 0.5D, 50);
 		

@@ -10,5 +10,6 @@ public class CommandHandler {
 		serverStartEvent.registerServerCommand(new CommandSetWorldRadiation());
 		serverStartEvent.registerServerCommand(new CommandSetPlayerRadiation());
 		serverStartEvent.registerServerCommand(new CommandReconstructScriptAddons());
+		serverStartEvent.registerServerCommand(new CommandGenerateVault());
 	}
 }

@@ -1,10 +1,10 @@
 package nc.entity;
 
 import nc.capability.radiation.entity.IEntityRads;
-import nc.config.NCConfig;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.entity.ai.EntityAIFeralGhoulLeap;
 import nc.init.NCSounds;
-import nc.radiation.RadiationHelper;
+import nc.radiation.*;
 import nc.util.NCMath;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -25,6 +25,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.*;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -35,10 +37,50 @@ import static nc.config.NCConfig.*;
 
 public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	
-	private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityFeralGhoul.class, DataSerializers.BYTE);
+	protected static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityFeralGhoul.class, DataSerializers.BYTE);
 	
 	public EntityFeralGhoul(World world) {
 		super(world);
+	}
+	
+	protected FeralGhoulType getGhoulType() {
+		return FeralGhoulType.STANDARD;
+	}
+	
+	public static class Glowing extends EntityFeralGhoul {
+		
+		public Glowing(World world) {
+			super(world);
+		}
+		
+		@Override
+		protected FeralGhoulType getGhoulType() {
+			return FeralGhoulType.GLOWING;
+		}
+		
+		@Override
+		protected boolean isValidLightLevel() {
+			if (!radiation_enabled_public || !isValidLightLevelBase() || canSeeSky()) {
+				return false;
+			}
+			
+			BlockPos pos = getBlockPos();
+			Chunk chunk = world.getChunk(pos);
+			IRadiationSource source = chunk == null || !chunk.isLoaded() ? null : RadiationHelper.getRadiationSource(chunk);
+			if (source == null) {
+				return false;
+			}
+			
+			Biome biome;
+			try {
+				biome = chunk.getBiome(pos, world.getBiomeProvider());
+			}
+			catch (Exception e) {
+				return false;
+			}
+			
+			return source.getRadiationLevel() > Math.max(RadBiomes.RAD_MAP.getOrDefault(biome, 1D), RadWorlds.RAD_MAP.getOrDefault(wasteland_dimension, 1D));
+		}
 	}
 	
 	@Override
@@ -49,17 +91,21 @@ public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	
 	@Override
 	protected void initEntityAI() {
-		tasks.addTask(2, new EntityAIZombieAttack(this, 1D, false));
-		tasks.addTask(1, new EntityAIFeralGhoulLeap(this));
+		FeralGhoulType type = getGhoulType();
+		
+		tasks.addTask(2, new EntityAIZombieAttack(this, type.speed, false));
+		if (type.canLeap) {
+			tasks.addTask(1, new EntityAIFeralGhoulLeap(this));
+		}
 		
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1D));
-		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1D));
+		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, type.speed));
+		tasks.addTask(7, new EntityAIWanderAvoidWater(this, type.speed));
 		
-		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 24F));
+		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, type.watchDistance));
 		tasks.addTask(8, new EntityAILookIdle(this));
 		
-		tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1D, false));
+		tasks.addTask(6, new EntityAIMoveThroughVillage(this, type.speed, false));
 		
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, EntityPigZombie.class));
 		
@@ -71,24 +117,24 @@ public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16D);
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D);
+		FeralGhoulType type = getGhoulType();
 		
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.4D);
-		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(type.health);
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(type.armor);
+		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(type.damage);
+		
+		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(type.speed);
+		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(type.knockbackResistance);
+		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(type.followRange);
 	}
 	
 	@Override
 	protected SoundEvent getAmbientSound() {
-		// return SoundHandler.feral_ghoul_ambient;
 		return SoundEvents.ENTITY_HUSK_AMBIENT;
 	}
 	
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSource) {
-		// return SoundHandler.feral_ghoul_hurt;
 		return NCSounds.feral_ghoul_charge;
 	}
 	
@@ -99,14 +145,17 @@ public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	
 	@Override
 	protected SoundEvent getFallSound(int fallHeight) {
-		// return SoundHandler.feral_ghoul_fall;
 		return fallHeight > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
 	}
 	
 	@Override
 	protected SoundEvent getStepSound() {
-		// return SoundHandler.feral_ghoul_step;
 		return SoundEvents.ENTITY_HUSK_STEP;
+	}
+	
+	@Override
+	protected float getSoundPitch() {
+		return (rand.nextFloat() - rand.nextFloat()) * 0.2F + (isChild() ? 0.5F : 0F) + getGhoulType().baseSoundPitch;
 	}
 	
 	@Override
@@ -128,7 +177,8 @@ public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	
 	@Override
 	public void onUpdate() {
-		if (!register_entity[0]) {
+		FeralGhoulType type = getGhoulType();
+		if (!register_entity[type.id]) {
 			setDead();
 			return;
 		}
@@ -150,30 +200,36 @@ public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 		boolean flag = super.attackEntityAsMob(entityIn);
 		
 		if (flag && entityIn instanceof EntityLivingBase target && !(entityIn instanceof IMob)) {
-			int mult = NCMath.toInt(30F * MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 2.5F));
-			target.addPotionEffect(new PotionEffect(MobEffects.POISON, mult));
+			float mult = MathHelper.clamp(world.getDifficultyForLocation(getBlockPos()).getAdditionalDifficulty(), 1F, 2F);
+			target.addPotionEffect(new PotionEffect(MobEffects.POISON, NCMath.toInt(25F * mult)));
 			
 			IEntityRads entityRads = RadiationHelper.getEntityRadiation(target);
 			if (entityRads != null) {
-				double attackRadiation = NCConfig.radiation_feral_ghoul_attack * mult;
+				double attackRadiation = getGhoulType().attackRadiation * mult;
 				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + attackRadiation);
 				entityRads.setRecentPoisonAddition(attackRadiation);
-				playSound(NCSounds.rad_poisoning, (float) (1.35D * radiation_sound_volumes[7]), 1F + 0.2F * (rand.nextFloat() - rand.nextFloat()));
+				playSound(NCSounds.rad_poisoning, (float) (1.5D * radiation_sound_volumes[7]), 1F + 0.2F * (rand.nextFloat() - rand.nextFloat()));
 			}
 		}
 		
 		return flag;
 	}
 	
-	@Override
-	public boolean getCanSpawnHere() {
-		// Spawning limitations controlled in EntityHandler
-		return super.getCanSpawnHere();
+	protected boolean canSeeSky() {
+		return world.canSeeSky(getBlockPos());
 	}
 	
 	@Override
 	protected boolean isValidLightLevel() {
-		return true;
+		return isValidLightLevelBase() || canSeeSky();
+	}
+	
+	protected boolean isValidLightLevelBase() {
+		return super.isValidLightLevel();
+	}
+	
+	protected BlockPos getBlockPos() {
+		return new BlockPos(posX, getEntityBoundingBox().minY, posZ);
 	}
 	
 	@Nullable
@@ -523,9 +579,5 @@ public class EntityFeralGhoul extends EntityZombie implements IRadiationMob {
 	@Override
 	protected ItemStack getSkullDrop() {
 		return ItemStack.EMPTY;
-	}
-	
-	static class Data implements IEntityLivingData {
-	
 	}
 }

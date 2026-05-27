@@ -26,7 +26,6 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	}
 	
 	private static final String NOT_HARDCORE = Lang.localize("item.nuclearcraft.rad_shielding.not_hardcore");
-	// private static final String FAILED_NOT_HARDCORE = Lang.localize("item.nuclearcraft.rad_shielding.failed_not_hardcore");
 	private static final String INSTALL_FAIL = Lang.localize("item.nuclearcraft.rad_shielding.install_fail");
 	private static final String INSTALL_SUCCESS = Lang.localize("item.nuclearcraft.rad_shielding.install_success");
 	

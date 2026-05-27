@@ -31,7 +31,7 @@ public class IngotFormerRecipes extends BasicProcessorRecipeHandler {
 		addIngotFormingRecipe("lithium_6", "Lithium6");
 		addIngotFormingRecipe("lithium_7", "Lithium7");
 		
-		String oreCesium137 = OreDictHelper.oreExists("Cesium137") ? "Cesium137" : "Caesium137";
+		String oreCesium137 = OreDictHelper.oreExists("ingotCesium137") ? "Cesium137" : "Caesium137";
 		
 		addIngotFormingRecipe("cesium_137", oreCesium137);
 		addIngotFormingRecipe("caesium_137", oreCesium137);

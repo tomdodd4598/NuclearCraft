@@ -43,7 +43,7 @@ ________________________________________________________________________________
 26.x+: Remove fission clusters?
 26.x+: Make moderators reflectors form clusters and conduct heat
 
-26.x+: MSR split: NaK coolant for thermal, eutectic Pb-Bi alloy coolant for fast?
+26.x+: MSR split: FLiBe fuel and NaK coolant for thermal, fluoride fuel and eutectic Pb-Bi alloy coolant for fast?
 26.x+: Negative temperature coefficient for MSR anf PBR
 ___________________________________________________________________________________________________________________________
 

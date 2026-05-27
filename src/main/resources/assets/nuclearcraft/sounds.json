@@ -78,5 +78,50 @@
 		"category": "record",
 		"subtitle": "music.nc.hyperspace",
 		"sounds": [ { "name": "nuclearcraft:music/hyperspace", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_1": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_1",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_1", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_2": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_2",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_2", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_3": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_3",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_3", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_4": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_4",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_4", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_5": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_5",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_5", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_6": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_6",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_6", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_7": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_7",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_7", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_8": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_8",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_8", "stream": true } ]
+	},
+	"music.nc.wasteland_ambience_9": {
+		"category": "music",
+		"subtitle": "music.nc.wasteland_ambience_9",
+		"sounds": [ { "name": "nuclearcraft:music/wasteland_ambience_9", "stream": true } ]
 	}
 }

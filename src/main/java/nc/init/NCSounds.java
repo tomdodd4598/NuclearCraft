@@ -21,17 +21,15 @@ public class NCSounds {
 	public static SoundEvent chems_wear_off;
 	public static SoundEvent rad_poisoning;
 	
-	// public static SoundEvent feral_ghoul_ambient;
-	// public static SoundEvent feral_ghoul_hurt;
 	public static SoundEvent feral_ghoul_death;
-	// public static SoundEvent feral_ghoul_fall;
-	// public static SoundEvent feral_ghoul_step;
 	public static SoundEvent feral_ghoul_charge;
 	
 	public static SoundEvent wanderer;
 	public static SoundEvent end_of_the_world;
 	public static SoundEvent money_for_nothing;
 	public static SoundEvent hyperspace;
+	
+	public static SoundEvent[] wasteland_ambience = new SoundEvent[9];
 	
 	public static void init() {
 		electrolyzer_run = register(Global.MOD_ID, "block.nc.electrolyzer_run", true);
@@ -46,17 +44,17 @@ public class NCSounds {
 		chems_wear_off = register(Global.MOD_ID, "player.nc.chems_wear_off", false);
 		rad_poisoning = register(Global.MOD_ID, "player.nc.rad_poisoning", false);
 		
-		// feral_ghoul_ambient = register(Global.MOD_ID, "entity.nc.feral_ghoul_ambient", false);
-		// feral_ghoul_hurt = register(Global.MOD_ID, "entity.nc.feral_ghoul_hurt", false);
 		feral_ghoul_death = register(Global.MOD_ID, "entity.nc.feral_ghoul_death", false);
-		// feral_ghoul_step = register(Global.MOD_ID, "entity.nc.feral_ghoul_step", false);
-		// feral_ghoul_fall = register(Global.MOD_ID, "entity.nc.feral_ghoul_fall", false);
 		feral_ghoul_charge = register(Global.MOD_ID, "entity.nc.feral_ghoul_charge", false);
 		
 		wanderer = register(Global.MOD_ID, "music.nc.wanderer", false);
 		end_of_the_world = register(Global.MOD_ID, "music.nc.end_of_the_world", false);
 		money_for_nothing = register(Global.MOD_ID, "music.nc.money_for_nothing", false);
 		hyperspace = register(Global.MOD_ID, "music.nc.hyperspace", false);
+		
+		for (int i = 0; i < wasteland_ambience.length; ++i) {
+			wasteland_ambience[i] = register(Global.MOD_ID, "music.nc.wasteland_ambience_" + (i + 1), false);
+		}
 	}
 	
 	private static SoundEvent register(String modId, String name, boolean trackable) {

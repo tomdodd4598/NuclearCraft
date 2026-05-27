@@ -486,6 +486,7 @@ public class NCBlocks {
 		
 		glowing_mushroom = addWithName(Global.MOD_ID, "glowing_mushroom", new BlockGlowingMushroom().setCreativeTab(NCTabs.radiation));
 		glowing_mushroom_block = addWithName(Global.MOD_ID, "glowing_mushroom_block", new BlockHugeGlowingMushroom().setCreativeTab(NCTabs.radiation));
+		
 		wasteland_earth = addWithName(Global.MOD_ID, "wasteland_earth", new NCBlock(Material.ROCK).setCreativeTab(NCTabs.radiation));
 		
 		wasteland_portal = addWithName(Global.MOD_ID, "wasteland_portal", new BlockPortalWasteland().setCreativeTab(NCTabs.radiation));

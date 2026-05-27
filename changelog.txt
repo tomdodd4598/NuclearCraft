@@ -1,3 +1,13 @@
+v2o.9.7
+
+* A few other minor fixes and changes
+
++ Added mam's Salford classics
+
+* Acquired recipe from Fred
+
+* Updated the wasteland dimension
+
 v2o.9.6
 
 + Added recipe chains for fusion reactor materials

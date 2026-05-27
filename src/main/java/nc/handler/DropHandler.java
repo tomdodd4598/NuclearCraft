@@ -8,7 +8,7 @@ import nc.init.NCItems;
 import nc.radiation.RadiationHelper;
 import nc.util.*;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.Blocks;
@@ -33,17 +33,46 @@ public class DropHandler {
 		Entity entity = event.getEntity();
 		if (entity.getEntityWorld().getGameRules().getBoolean("doMobLoot")) {
 			if (entity instanceof EntityFeralGhoul) {
-				if (rand.nextInt(50) < 1) {
-					event.getDrops().add(entityItem(entity, new ItemStack(NCItems.ingot, 1, 3), "ingotThorium"));
+				List<EntityItem> drops = event.getDrops();
+				if (entity instanceof EntityFeralGhoul.Glowing) {
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 2), "dustPolonium"));
+					}
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 4), "dustProtactinium233"));
+					}
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 5), "dustStrontium90"));
+					}
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 7), "dustRuthenium106"));
+					}
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 8), "dustCesium137"));
+					}
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 9), "dustPromethium147"));
+					}
+					if (rand.nextInt(25) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 10), "dustEuropium155"));
+					}
 				}
-				if (rand.nextInt(50) < 1) {
-					event.getDrops().add(entityItem(entity, new ItemStack(NCItems.ingot, 1, 4), "ingotUranium"));
+				else {
+					if (rand.nextInt(50) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 0), "dustBismuth"));
+					}
+					if (rand.nextInt(50) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 1), "dustRadium"));
+					}
+					if (rand.nextInt(50) == 0) {
+						drops.add(entityItem(entity, new ItemStack(NCItems.fission_dust, 1 + rand.nextInt(2), 6), "dustMolybdenum"));
+					}
 				}
 			}
 			
 			if (rare_drops) {
-				if (entity instanceof EntityMob) {
-					if (rand.nextInt(100) < 1) {
+				if (entity instanceof EntityMob || entity instanceof INpc) {
+					if (rand.nextInt(100) == 0) {
 						event.getDrops().add(entityItem(entity, new ItemStack(NCItems.dominos, 1), null));
 					}
 				}
@@ -80,8 +109,6 @@ public class DropHandler {
 			if (!event.isSilkTouching()) {
 				if (ore_drops[0]) {
 					blockDrop(drops, block, NCItems.gem, 1, 1, 0, Blocks.REDSTONE_ORE, 25);
-				}
-				if (ore_drops[0]) {
 					blockDrop(drops, block, NCItems.gem, 1, 1, 0, Blocks.LIT_REDSTONE_ORE, 25);
 				}
 				if (ore_drops[1]) {

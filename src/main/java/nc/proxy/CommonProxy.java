@@ -25,11 +25,14 @@ import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.MushroomGenerator;
 import nc.worldgen.dimension.*;
-import nc.worldgen.dimension.WastelandMapper;
+import nc.worldgen.dimension.WastelandEventHandler;
 import nc.worldgen.ore.OreGenerator;
+import nc.worldgen.structure.NCStructures;
+import nc.worldgen.structure.vault.VaultComponent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.event.*;
@@ -126,10 +129,12 @@ public class CommonProxy {
 		
 		NCBiomes.initBiomeManagerAndDictionary();
 		NCWorlds.registerDimensions();
+		NCStructures.init();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new MushroomGenerator(NCBlocks.glowing_mushroom.getDefaultState()), 255);
-		MinecraftForge.EVENT_BUS.register(new WastelandMapper());
+		MinecraftForge.EVENT_BUS.register(new WastelandEventHandler());
+		LootTableList.register(VaultComponent.LOOT_TABLE);
 		
 		NCEntities.register();
 		MinecraftForge.EVENT_BUS.register(new EntityHandler());

@@ -75,7 +75,7 @@ public class ManufactoryRecipes extends BasicProcessorRecipeHandler {
 		addRecipe("bone", new ItemStack(Items.DYE, 6, 15), 0.5D, 1D);
 		addRecipe(NCItems.roasted_cocoa_beans, NCItems.ground_cocoa_nibs, 0.5D, 0.5D);
 		addRecipe(Items.PORKCHOP, new ItemStack(NCItems.gelatin, 8), 0.5D, 0.5D);
-		addRecipe(Lists.newArrayList(Items.FISH, new ItemStack(Items.FISH, 1, 1), new ItemStack(Items.FISH, 1, 2), new ItemStack(Items.FISH, 1, 3)), new ItemStack(NCItems.gelatin, 4), 0.5D, 0.5D);
+		addRecipe("itemFish", new ItemStack(NCItems.gelatin, 4), 0.5D, 0.5D);
 		
 		// EnderIO
 		addRecipe("itemPrecientCrystal", "itemPrecientPowder", 1D, 1D);

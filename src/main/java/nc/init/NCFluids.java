@@ -106,7 +106,7 @@ public class NCFluids {
 		addFluidPair(FluidType.GAS, "hydrogen_sulfide", 0x785830);
 		addFluidPair(FluidType.GAS, "depleted_hydrogen_sulfide", 0x59514E);
 		
-		for (Triple<String, Float, Integer> triple : Arrays.asList(Triple.of("hot", 4F, 1000), Triple.of("exhaust", 2F, 800))) {
+		for (Triple<String, Float, Integer> triple : Arrays.asList(Triple.of("hot", 4F, 1000), Triple.of("exhaust", 0.25F, 800))) {
 			String suffix = triple.getLeft();
 			Float saturation = triple.getMiddle();
 			Integer temp = triple.getRight();
@@ -229,6 +229,8 @@ public class NCFluids {
 		
 		addFluidPair(FluidType.SOUL, "soul", 0x7B6F68, SoundEvents.ENTITY_GHAST_HURT, SoundEvents.ENTITY_GHAST_SCREAM);
 		addFluidPair(FluidType.SOUL, "mysterious_soul", 0x985CA4, SoundEvents.ENTITY_GHAST_AMBIENT, SoundEvents.ENTITY_GHAST_WARN);
+		
+		addFluidPair(FluidType.CORIUM, "roentgen_josh", 0xCC4B07);
 	}
 	
 	private static <T extends Fluid, V extends NCBlockFluid> void addFluidPair(FluidType type, Object... args) {

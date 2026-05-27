@@ -53,8 +53,8 @@ public class MelterRecipes extends BasicProcessorRecipeHandler {
 		addIngotMeltingRecipes("alugentum");
 		addIngotMeltingRecipes("hastelloy");
 		addIngotMeltingRecipes("LeadPlatinum", "lead_platinum");
-		addIngotMeltingRecipes("ingotBariumOxide", "barium_oxide");
-		addIngotMeltingRecipes("ingotNickelOxide", "nickel_oxide");
+		addIngotMeltingRecipes("BariumOxide", "barium_oxide");
+		addIngotMeltingRecipes("NickelOxide", "nickel_oxide");
 		
 		addIngotMeltingRecipes("polydimethylsilylene");
 		addIngotMeltingRecipes("PolymethylsilyleneMethylene", "polymethylsilylene_methylene");
@@ -175,7 +175,9 @@ public class MelterRecipes extends BasicProcessorRecipeHandler {
 		String fluidCesium137 = FluidRegHelper.fluidExists("cesium_137") ? "cesium_137" : "caesium_137";
 		
 		addIngotMeltingRecipes("Strontium90", "strontium_90");
-		addIngotMeltingRecipes("Molybdenum", "molybdenum");
+		if (!OreDictHelper.oreExists("ingotMolybdenum")) {
+			addIngotMeltingRecipes("Molybdenum", "molybdenum");
+		}
 		addIngotMeltingRecipes("Ruthenium106", "ruthenium_106");
 		addIngotMeltingRecipes("Cesium137", fluidCesium137);
 		addIngotMeltingRecipes("Caesium137", fluidCesium137);
