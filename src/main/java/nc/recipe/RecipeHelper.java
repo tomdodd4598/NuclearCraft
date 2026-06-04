@@ -2,7 +2,7 @@ package nc.recipe;
 
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.ingredient.*;
@@ -553,12 +553,8 @@ public class RecipeHelper {
 		return stack == null ? null : StackHelper.getBlockStateFromStack(stack);
 	}
 	
-	public static double getDecayTimeMultiplier(double baseRads, double radiation, double scaleFactor) {
-		return radiation > baseRads ? (Math.log1p(baseRads / scaleFactor) / Math.log1p(radiation / scaleFactor)) : (1D + (Math.log1p(scaleFactor / radiation) / Math.log1p(scaleFactor / baseRads) - 1D) * (baseRads / scaleFactor) * (Math.log1p(scaleFactor / baseRads) / Math.log1p(baseRads / scaleFactor)));
-	}
-	
-	public static double getDecayPowerMultiplier(double baseRads, double radiation, double scaleFactor) {
-		return getDecayTimeMultiplier(baseRads, 1D / radiation, scaleFactor);
+	public static double getDecayTimeMultiplier(double radiation, double scale) {
+		return radiation > scale ? (Math.log(2D) / Math.log1p(radiation / scale)) : (Math.log1p(scale / radiation) / Math.log(2D));
 	}
 	
 	public static InventoryCrafting fakeCrafter(int width, int height) {

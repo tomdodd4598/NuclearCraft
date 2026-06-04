@@ -9,6 +9,12 @@
 		},
 		"active=true,type=boron_silver": {
 			"model": "nuclearcraft:fission_shield/boron_silver_on"
+		},
+		"active=false,type=gadolinium_samarium": {
+			"model": "nuclearcraft:fission_shield/gadolinium_samarium_off"
+		},
+		"active=true,type=gadolinium_samarium": {
+			"model": "nuclearcraft:fission_shield/gadolinium_samarium_on"
 		}
 	}
 }

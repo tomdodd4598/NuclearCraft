@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TMacro extends Token
-{
-	public TMacro()
-	{
+public final class TMacro extends Token {
+	public TMacro() {
 		super.setText("macro");
 	}
-
-	public TMacro(int line, int pos)
-	{
+	
+	public TMacro(int line, int pos) {
 		super.setText("macro");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TMacro(getLine(), getPos());
+	public Object clone() {
+		return new TMacro(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTMacro(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TMacro text.");
 	}
 }

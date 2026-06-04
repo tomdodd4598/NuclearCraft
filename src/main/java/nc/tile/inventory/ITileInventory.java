@@ -24,7 +24,8 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	// Inventory
 	
-	@Nonnull NonNullList<ItemStack> getInventoryStacks();
+	@Nonnull
+	NonNullList<ItemStack> getInventoryStacks();
 	
 	default void clearAllSlots() {
 		@Nonnull NonNullList<ItemStack> stacks = getInventoryStacks();

@@ -1,8 +1,8 @@
 package nc.tile.multiblock;
 
-import nc.multiblock.*;
+import nc.multiblock.Multiblock;
 
-import java.util.*;
+import java.util.Arrays;
 
 public interface ITileSorptionPart<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends ITileMultiblockPart<MULTIBLOCK, T> {
 	

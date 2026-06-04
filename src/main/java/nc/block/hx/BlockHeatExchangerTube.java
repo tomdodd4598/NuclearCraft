@@ -1,6 +1,6 @@
 package nc.block.hx;
 
-import nc.block.property.*;
+import nc.block.property.PropertySidedEnum;
 import nc.block.tile.IDynamicState;
 import nc.multiblock.hx.*;
 import nc.tile.hx.*;
@@ -169,14 +169,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPart implements ID
 	
 	private static final AxisAlignedBB CENTER_AABB = new AxisAlignedBB(PIXEL * 2D, PIXEL * 2D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D);
 	
-	private static final AxisAlignedBB[] SIDE_AABB = {
-			new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 2D, PIXEL * 14D, PIXEL * 2D, PIXEL * 14D),
-			new AxisAlignedBB(PIXEL * 2D, 1D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D),
-			new AxisAlignedBB(PIXEL * 2D, PIXEL * 2D, 0D, PIXEL * 14D, PIXEL * 14D, PIXEL * 2D),
-			new AxisAlignedBB(PIXEL * 2D, PIXEL * 2D, 1D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D),
-			new AxisAlignedBB(0D, PIXEL * 2D, PIXEL * 2D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D),
-			new AxisAlignedBB(1D, PIXEL * 2D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D)
-	};
+	private static final AxisAlignedBB[] SIDE_AABB = {new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 2D, PIXEL * 14D, PIXEL * 2D, PIXEL * 14D), new AxisAlignedBB(PIXEL * 2D, 1D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D), new AxisAlignedBB(PIXEL * 2D, PIXEL * 2D, 0D, PIXEL * 14D, PIXEL * 14D, PIXEL * 2D), new AxisAlignedBB(PIXEL * 2D, PIXEL * 2D, 1D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D), new AxisAlignedBB(0D, PIXEL * 2D, PIXEL * 2D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D), new AxisAlignedBB(1D, PIXEL * 2D, PIXEL * 2D, PIXEL * 14D, PIXEL * 14D, PIXEL * 14D)};
 	
 	@Override
 	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {

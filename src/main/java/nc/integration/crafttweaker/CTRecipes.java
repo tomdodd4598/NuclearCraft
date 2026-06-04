@@ -872,6 +872,66 @@ public class CTRecipes {
 		}
 	}
 	
+	@ZenClass("mods.nuclearcraft.MultiblockDecayPool")
+	@ZenRegister
+	public static class MultiblockDecayPoolMethods {
+		
+		@ZenMethod
+		public static BasicRecipeHandler getRecipeHandler() {
+			return NCRecipes.multiblock_decay_pool;
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient fluidInput, IIngredient fluidOutput, int heatPerInputMB) {
+			getRecipeHandler().ctAddRecipe(fluidInput, fluidOutput, heatPerInputMB);
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient fluidInput) {
+			getRecipeHandler().ctRemoveRecipeWithInput(fluidInput);
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient fluidOutput) {
+			getRecipeHandler().ctRemoveRecipeWithOutput(fluidOutput);
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			getRecipeHandler().ctRemoveAllRecipes();
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.DecayPoolHeatSource")
+	@ZenRegister
+	public static class DecayPoolHeatSourceMethods {
+		
+		@ZenMethod
+		public static BasicRecipeHandler getRecipeHandler() {
+			return NCRecipes.decay_pool_heat_source;
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient itemInput, IIngredient fluidInput, IIngredient itemOutput, IIngredient fluidOutput, double meanLifetime, double heat) {
+			getRecipeHandler().ctAddRecipe(itemInput, fluidInput, itemOutput, fluidOutput, meanLifetime, heat);
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient itemInput, IIngredient fluidInput) {
+			getRecipeHandler().ctRemoveRecipeWithInput(itemInput, fluidInput);
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient itemOutput, IIngredient fluidOutput) {
+			getRecipeHandler().ctRemoveRecipeWithOutput(itemOutput, fluidOutput);
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			getRecipeHandler().ctRemoveAllRecipes();
+		}
+	}
+	
 	@ZenClass("mods.nuclearcraft.FissionModerator")
 	@ZenRegister
 	public static class FissionModeratorMethods {

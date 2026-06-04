@@ -1,11 +1,11 @@
 package nc.tile.fission;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
 import nc.tile.fission.IFissionFuelComponent.*;
 import nc.util.*;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

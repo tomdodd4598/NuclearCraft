@@ -2,32 +2,27 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TBoolValue extends Token
-{
-	public TBoolValue(String text)
-	{
+public final class TBoolValue extends Token {
+	public TBoolValue(String text) {
 		setText(text);
 	}
-
-	public TBoolValue(String text, int line, int pos)
-	{
+	
+	public TBoolValue(String text, int line, int pos) {
 		setText(text);
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TBoolValue(getText(), getLine(), getPos());
+	public Object clone() {
+		return new TBoolValue(getText(), getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTBoolValue(this);
 	}
 }

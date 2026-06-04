@@ -2,7 +2,6 @@
 
 package nc.dssl.node;
 
-public interface Switch
-{
-		// Empty body
+public interface Switch {
+	// Empty body
 }

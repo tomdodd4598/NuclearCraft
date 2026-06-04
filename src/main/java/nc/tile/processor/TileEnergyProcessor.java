@@ -1,7 +1,7 @@
 package nc.tile.processor;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.ModCheck;

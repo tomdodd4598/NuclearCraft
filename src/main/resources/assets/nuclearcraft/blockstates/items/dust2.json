@@ -50,6 +50,11 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/dust/dysprosium"
 				}
+			},
+			"gadolinium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/dust/gadolinium"
+				}
 			}
 		}
 	}

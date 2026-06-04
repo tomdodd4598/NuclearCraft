@@ -4,7 +4,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 import nc.render.BlockHighlightTracker;
 import nc.util.*;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

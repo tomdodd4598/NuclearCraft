@@ -4,9 +4,9 @@ import nc.container.slot.*;
 import nc.multiblock.fission.*;
 import nc.network.tile.multiblock.port.ItemPortUpdatePacket;
 import nc.recipe.*;
+import nc.tile.TileContainerInfo;
 import nc.tile.fission.*;
 import nc.tile.fission.port.TileFissionIrradiatorPort;
-import nc.tile.TileContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 

@@ -28,7 +28,7 @@ public class GuiNuclearFurnace extends NCGui {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = furnace.getDisplayName().getUnformattedText();
-		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 4210752);
+		fontRenderer.drawString(s, centeredWidth(s) / 2, 6, 4210752);
 		fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
 	}
 	

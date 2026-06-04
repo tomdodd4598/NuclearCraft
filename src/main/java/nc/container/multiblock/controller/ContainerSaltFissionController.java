@@ -2,8 +2,8 @@ package nc.container.multiblock.controller;
 
 import nc.multiblock.fission.FissionReactor;
 import nc.network.multiblock.FissionUpdatePacket;
-import nc.tile.fission.*;
 import nc.tile.TileContainerInfo;
+import nc.tile.fission.*;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerSaltFissionController extends ContainerMultiblockController<FissionReactor, IFissionPart, FissionUpdatePacket, TileSaltFissionController, TileContainerInfo<TileSaltFissionController>> {

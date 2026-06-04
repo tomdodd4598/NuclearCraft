@@ -3,7 +3,8 @@ package nc.config;
 import nc.*;
 import nc.network.config.ConfigUpdatePacket;
 import nc.radiation.RadSources;
-import nc.recipe.NCRecipes;
+import nc.recipe.*;
+import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.*;
@@ -565,8 +566,8 @@ public class NCConfig {
 		
 		rtg_power = sync(CATEGORY_GENERATOR, "rtg_power", new int[] {1, 40, 10, 200}, 1, Integer.MAX_VALUE, ARRAY);
 		solar_power = sync(CATEGORY_GENERATOR, "solar_power", new int[] {5, 20, 80, 320}, 1, Integer.MAX_VALUE, ARRAY);
-		decay_lifetime = sync(CATEGORY_GENERATOR, "decay_lifetime", new double[] {12000D / 0.75D, 12000D / 1.2D, 1200D, 12000D / 2.2D, 12000D / 3D, 12000D / 18D, 12000D / 28D, 12000D / 80D, 12000D / 1000D}, 1D, 16777215D, ARRAY);
-		decay_power = sync(CATEGORY_GENERATOR, "decay_power", new double[] {0.75D, 1.2D, 1D, 2.2D, 3D, 18D, 28D, 80D, 1000D}, 0D, 32767D, ARRAY);
+		decay_lifetime = sync(CATEGORY_GENERATOR, "decay_lifetime", Arrays.stream(DecayGeneratorRecipes.DEFAULT_BASE_RADIATION).map(x -> NCMath.roundTo(12000D * RecipeHelper.getDecayTimeMultiplier(x, 1E-6D), 5D)).toArray(), 1D, 16777215D, ARRAY);
+		decay_power = sync(CATEGORY_GENERATOR, "decay_power", Arrays.stream(DecayGeneratorRecipes.DEFAULT_BASE_RADIATION).map(x -> NCMath.roundTo(20D / RecipeHelper.getDecayTimeMultiplier(x, 1E-6D), 0.05D)).toArray(), 0D, 32767D, ARRAY);
 		
 		battery_block_capacity = sync(CATEGORY_ENERGY_STORAGE, "battery_block_capacity", new int[] {1600000, 6400000, 25600000, 102400000, 32000000, 128000000, 512000000, 2048000000}, 1, Integer.MAX_VALUE, ARRAY);
 		battery_block_max_transfer = sync(CATEGORY_ENERGY_STORAGE, "battery_block_max_transfer", new int[] {16000, 64000, 256000, 1024000, 320000, 1280000, 5120000, 20480000}, 1, Integer.MAX_VALUE, ARRAY);
@@ -616,8 +617,8 @@ public class NCConfig {
 		fission_moderator_efficiency = sync(CATEGORY_FISSION, "fission_moderator_efficiency", new double[] {1.1D, 1.05D, 1D}, 0D, 255D, ARRAY);
 		fission_reflector_efficiency = sync(CATEGORY_FISSION, "fission_reflector_efficiency", new double[] {0.5D, 0.25D}, 0D, 255D, ARRAY);
 		fission_reflector_reflectivity = sync(CATEGORY_FISSION, "fission_reflector_reflectivity", new double[] {1D, 0.5D}, 0D, 1D, ARRAY);
-		fission_shield_heat_per_flux = sync(CATEGORY_FISSION, "fission_shield_heat_per_flux", new double[] {5D}, 0D, 32767D, ARRAY);
-		fission_shield_efficiency = sync(CATEGORY_FISSION, "fission_shield_efficiency", new double[] {0.5D}, 0D, 255D, ARRAY);
+		fission_shield_heat_per_flux = sync(CATEGORY_FISSION, "fission_shield_heat_per_flux", new double[] {5D, 10D}, 0D, 32767D, ARRAY);
+		fission_shield_efficiency = sync(CATEGORY_FISSION, "fission_shield_efficiency", new double[] {0.5D, 0.75D}, 0D, 255D, ARRAY);
 		fission_irradiator_heat_per_flux = sync(CATEGORY_FISSION, "fission_irradiator_heat_per_flux", new double[] {0D, 0D, 0D}, 0D, 32767D, ARRAY);
 		fission_irradiator_efficiency = sync(CATEGORY_FISSION, "fission_irradiator_efficiency", new double[] {0D, 0D, 0.5D}, 0D, 32767D, ARRAY);
 		fission_cooling_efficiency_leniency = sync(CATEGORY_FISSION, "fission_cooling_efficiency_leniency", 10, 0, 32767);
@@ -918,7 +919,7 @@ public class NCConfig {
 		corium_solidification_list_type = sync(CATEGORY_MISC, "corium_solidification_list_type", false);
 		ore_dict_raw_material_recipes = sync(CATEGORY_MISC, "ore_dict_raw_material_recipes", false);
 		ore_dict_priority_bool = sync(CATEGORY_MISC, "ore_dict_priority_bool", true);
-		ore_dict_priority = sync(CATEGORY_MISC, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "libvulpes", "advancedrocketry", "thaumcraft", "biomesoplenty"}, LIST);
+		ore_dict_priority = sync(CATEGORY_MISC, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "qmd", "trinity", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "libvulpes", "advancedrocketry", "thaumcraft", "biomesoplenty"}, LIST);
 		hwyla_enabled = sync(CATEGORY_MISC, "hwyla_enabled", true);
 		
 		setCategoryPropertyOrders(config);

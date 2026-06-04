@@ -95,6 +95,11 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/alloy/hastelloy"
 				}
+			},
+			"samarium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/samarium"
+				}
 			}
 		}
 	}

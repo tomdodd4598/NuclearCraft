@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRoll extends Token
-{
-	public TRoll()
-	{
+public final class TRoll extends Token {
+	public TRoll() {
 		super.setText("roll");
 	}
-
-	public TRoll(int line, int pos)
-	{
+	
+	public TRoll(int line, int pos) {
 		super.setText("roll");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TRoll(getLine(), getPos());
+	public Object clone() {
+		return new TRoll(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTRoll(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TRoll text.");
 	}
 }

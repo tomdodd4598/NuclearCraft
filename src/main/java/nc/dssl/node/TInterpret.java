@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TInterpret extends Token
-{
-	public TInterpret()
-	{
+public final class TInterpret extends Token {
+	public TInterpret() {
 		super.setText("interpret");
 	}
-
-	public TInterpret(int line, int pos)
-	{
+	
+	public TInterpret(int line, int pos) {
 		super.setText("interpret");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TInterpret(getLine(), getPos());
+	public Object clone() {
+		return new TInterpret(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTInterpret(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TInterpret text.");
 	}
 }

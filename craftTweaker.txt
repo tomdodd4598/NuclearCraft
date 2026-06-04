@@ -388,6 +388,24 @@ mods.nuclearcraft.InfiltratorPressureFluid.remove(ILiquidStack fluid);
 mods.nuclearcraft.InfiltratorPressureFluid.removeAll();
 
 
+Multiblock Decay Pool:
+----------------------
+
+mods.nuclearcraft.MultiblockDecayPool.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int heatPerInputMB);
+
+mods.nuclearcraft.MultiblockDecayPool.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.MultiblockDecayPool.removeRecipeWithOutput(ILiquidStack fluidOutput);
+
+
+Decay Pool Heat Source:
+-----------------------
+
+mods.nuclearcraft.DecayPoolHeatSource.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, IIngredient itemOutput, ILiquidStack fluidOutput, double meanLifetime, double heat);
+
+mods.nuclearcraft.DecayPoolHeatSource.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
+mods.nuclearcraft.DecayPoolHeatSource.removeRecipeWithOutput(IIngredient itemOutput, ILiquidStack fluidOutput);
+
+
 Fission Moderator:
 ------------------
 

@@ -1,6 +1,6 @@
 package nc.multiblock;
 
-import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.*;
 import nc.Global;
 import nc.multiblock.fission.*;
@@ -289,6 +289,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		Machine.LOGIC_MAP.put("electrolyzer", ElectrolyzerLogic::new);
 		Machine.LOGIC_MAP.put("distiller", DistillerLogic::new);
 		Machine.LOGIC_MAP.put("infiltrator", InfiltratorLogic::new);
+		Machine.LOGIC_MAP.put("decay_pool", DecayPoolLogic::new);
 		
 		FissionReactor.LOGIC_MAP.put("", FissionReactorLogic::new);
 		FissionReactor.LOGIC_MAP.put("pebble_bed", PebbleBedFissionLogic::new);

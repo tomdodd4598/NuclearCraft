@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TContinue extends Token
-{
-	public TContinue()
-	{
+public final class TContinue extends Token {
+	public TContinue() {
 		super.setText("continue");
 	}
-
-	public TContinue(int line, int pos)
-	{
+	
+	public TContinue(int line, int pos) {
 		super.setText("continue");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TContinue(getLine(), getPos());
+	public Object clone() {
+		return new TContinue(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTContinue(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TContinue text.");
 	}
 }

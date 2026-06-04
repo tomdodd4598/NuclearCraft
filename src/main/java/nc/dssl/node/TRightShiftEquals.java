@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRightShiftEquals extends Token
-{
-	public TRightShiftEquals()
-	{
+public final class TRightShiftEquals extends Token {
+	public TRightShiftEquals() {
 		super.setText(">>=");
 	}
-
-	public TRightShiftEquals(int line, int pos)
-	{
+	
+	public TRightShiftEquals(int line, int pos) {
 		super.setText(">>=");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TRightShiftEquals(getLine(), getPos());
+	public Object clone() {
+		return new TRightShiftEquals(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTRightShiftEquals(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TRightShiftEquals text.");
 	}
 }

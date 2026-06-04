@@ -20,7 +20,7 @@ import java.math.*;
 import java.util.*;
 import java.util.function.*;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.factor_recipes;
 
 @ZenClass("mods.nuclearcraft.BasicRecipeHandler")
 @ZenRegister

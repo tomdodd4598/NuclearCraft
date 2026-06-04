@@ -1,7 +1,7 @@
 package nc.tile.internal.processor;
 
 import nc.network.tile.processor.ProcessorUpdatePacket;
-import nc.recipe.*;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import net.minecraft.tileentity.TileEntity;

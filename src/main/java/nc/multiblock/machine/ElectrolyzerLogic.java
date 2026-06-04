@@ -440,7 +440,7 @@ public class ElectrolyzerLogic extends MachineLogic {
 	
 	@Override
 	public MachineUpdatePacket getMultiblockUpdatePacket() {
-		return new ElectrolyzerUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.time, multiblock.processor.baseProcessTime, multiblock.baseProcessPower, multiblock.tanks, multiblock.baseSpeedMultiplier, multiblock.basePowerMultiplier, multiblock.recipeUnitInfo, electrolyteEfficiency);
+		return new ElectrolyzerUpdatePacket(multiblock.controller.getTilePos(), multiblock.isMachineOn, multiblock.processor.isProcessing, multiblock.processor.time, multiblock.processor.baseProcessTime, multiblock.baseProcessPower, multiblock.tanks, multiblock.baseSpeedMultiplier, multiblock.basePowerMultiplier, multiblock.recipeUnitInfo, multiblock.readyToProcess, electrolyteEfficiency);
 	}
 	
 	@Override

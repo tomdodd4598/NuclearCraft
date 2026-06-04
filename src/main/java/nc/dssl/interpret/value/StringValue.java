@@ -19,7 +19,8 @@ public class StringValue extends PrimitiveValue<String> {
 			try {
 				intValue = new BigInteger(raw);
 			}
-			catch (Exception ignored) {}
+			catch (Exception ignored) {
+			}
 			return intValue;
 		}
 		return null;
@@ -37,7 +38,8 @@ public class StringValue extends PrimitiveValue<String> {
 			try {
 				floatValue = Double.parseDouble(raw);
 			}
-			catch (Exception ignored) {}
+			catch (Exception ignored) {
+			}
 			return floatValue;
 		}
 		return null;

@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TDivide extends Token
-{
-	public TDivide()
-	{
+public final class TDivide extends Token {
+	public TDivide() {
 		super.setText("/");
 	}
-
-	public TDivide(int line, int pos)
-	{
+	
+	public TDivide(int line, int pos) {
 		super.setText("/");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TDivide(getLine(), getPos());
+	public Object clone() {
+		return new TDivide(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTDivide(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TDivide text.");
 	}
 }

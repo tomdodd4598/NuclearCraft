@@ -1,7 +1,7 @@
 package nc.multiblock.hx;
 
 import nc.enumm.ITileEnum;
-import nc.tile.hx.*;
+import nc.tile.hx.TileHeatExchangerTube;
 import net.minecraft.util.IStringSerializable;
 
 import static nc.config.NCConfig.*;

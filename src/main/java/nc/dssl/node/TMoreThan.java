@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TMoreThan extends Token
-{
-	public TMoreThan()
-	{
+public final class TMoreThan extends Token {
+	public TMoreThan() {
 		super.setText(">");
 	}
-
-	public TMoreThan(int line, int pos)
-	{
+	
+	public TMoreThan(int line, int pos) {
 		super.setText(">");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TMoreThan(getLine(), getPos());
+	public Object clone() {
+		return new TMoreThan(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTMoreThan(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TMoreThan text.");
 	}
 }

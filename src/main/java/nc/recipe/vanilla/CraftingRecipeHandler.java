@@ -139,7 +139,7 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCBlocks.machine_glass, NCBlocks.machine_frame, "blockGlass");
 		addShapedOreRecipe(new ItemStack(NCBlocks.machine_power_port, 4), "BPB", "RCR", "BPB", 'B', "ingotBronze", 'P', "ingotCopper", 'R', "dustRedstone", 'C', "chassis");
 		addShapedOreRecipe(new ItemStack(NCBlocks.machine_process_port, 4), "BHB", "SCS", "BHB", 'B', "ingotBronze", 'H', Blocks.HOPPER, 'S', "servo", 'C', "chassis");
-		addShapedOreRecipe(new ItemStack(NCBlocks.machine_reservoir_port, 4), "BSB", "TCT", "BSB", 'B', "ingotBronze", 'S', "servo", 'T', "ingotSteel", 'C', "chassis");
+		addShapedOreRecipe(new ItemStack(NCBlocks.machine_reservoir_port, 4), "BHB", "TCT", "BSB", 'B', "ingotBronze", 'H', Blocks.HOPPER, 'T', "ingotSteel", 'S', "servo", 'C', "chassis");
 		addShapedOreRecipe(NCBlocks.machine_redstone_port, "BRB", "TCT", "BRB", 'B', "ingotBronze", 'R', "dustRedstone", 'T', Blocks.REDSTONE_TORCH, 'C', "chassis");
 		if (ModCheck.openComputersLoaded()) {
 			addShapedOreRecipe(NCBlocks.machine_computer_port, "BMB", "LCL", "BPB", 'B', "ingotBronze", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'L', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'C', "chassis");
@@ -169,6 +169,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.infiltrator_controller, "BEB", "TCT", "BEB", 'B', "ingotBronze", 'E', "ingotExtreme", 'T', "ingotThermoconducting", 'C', "chassis");
 		addShapedOreRecipe(NCBlocks.infiltrator_pressure_chamber, "BAB", "ECE", "BAB", 'B', "ingotBronze", 'A', "actuator", 'E', "ingotExtreme", 'C', "chassis");
 		addShapedOreRecipe(NCBlocks.infiltrator_heating_unit, "BSB", "TCT", "BSB", 'B', "ingotBronze", 'S', "solenoidCopper", 'T', "ingotThermoconducting", 'C', "chassis");
+		
+		addShapedOreRecipe(NCBlocks.decay_pool_controller, "BTB", "SCS", "BTB", 'B', "ingotBronze", 'T', "ingotTough", 'S', "ingotSiliconCarbide", 'C', "chassis");
+		addShapedOreRecipe(new ItemStack(NCBlocks.decay_pool_container, 4), "BLB", "SCS", "BLB", 'B', "ingotBronze", 'L', "ingotLead", 'S', "ingotSteel", 'C', "chassis");
 		
 		addShapedOreRecipe(NCBlocks.rtg_uranium, "PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateBasic", 'U', "blockUranium238");
 		addShapedOreRecipe(NCBlocks.rtg_plutonium, "PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'U', "ingotPlutonium238All");
@@ -232,6 +235,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_source, 2, 1), "PLP", "BFB", "PLP", 'P', "plateBasic", 'L', "dustPolonium", 'B', "dustBeryllium", 'F', "steelFrame");
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_source, 2, 2), "PCP", "CFC", "PCP", 'P', "plateBasic", 'C', "ingotCalifornium252All", 'F', "steelFrame");
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_shield, 4, 0), "PBP", "SFS", "PBP", 'P', "plateBasic", 'B', "ingotBoron", 'S', "ingotSilver", 'F', "steelFrame");
+		addShapedOreRecipe(new ItemStack(NCBlocks.fission_shield, 4, 1), "PGP", "SFS", "PGP", 'P', "plateBasic", 'G', "ingotGadolinium", 'S', "ingotSamarium", 'F', "steelFrame");
 		if (ModCheck.openComputersLoaded()) {
 			addShapedOreRecipe(NCBlocks.fission_computer_port, "PMP", "CFC", "PBP", 'P', "plateBasic", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'B', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'F', "steelFrame");
 		}

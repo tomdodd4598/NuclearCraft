@@ -139,7 +139,8 @@ public class MetaEnums {
 		RUTHENIUM_OXIDE("ruthenium_oxide", 5, SoundType.STONE),
 		IRIDIUM_OXIDE("iridium_oxide", 6, SoundType.STONE),
 		HOLMIUM("holmium", 7, SoundType.METAL),
-		DYSPROSIUM("dysprosium", 8, SoundType.METAL);
+		DYSPROSIUM("dysprosium", 8, SoundType.METAL),
+		GADOLINIUM("gadolinium", 9, SoundType.METAL);
 		
 		private final String name;
 		private final int id;
@@ -436,7 +437,8 @@ public class MetaEnums {
 	
 	public enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum, ITileEnum<TileFissionShield.Meta> {
 		
-		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], TileFissionShield.BoronSilver.class);
+		BORON_SILVER("boron_silver", 0, fission_shield_heat_per_flux[0], fission_shield_efficiency[0], TileFissionShield.BoronSilver.class),
+		GADOLINIUM_SAMARIUM("gadolinium_samarium", 1, fission_shield_heat_per_flux[1], fission_shield_efficiency[1], TileFissionShield.GadoliniumSamarium.class);
 		
 		private final String name;
 		private final int id;
@@ -907,7 +909,8 @@ public class MetaEnums {
 		SIC_SIC_CMC("sic_sic_cmc", 14),
 		HSLA_STEEL("hsla_steel", 15),
 		ZIRCONIUM_MOLYBDENUM("zirconium_molybdenum", 16),
-		HASTELLOY("hastelloy", 17);
+		HASTELLOY("hastelloy", 17),
+		SAMARIUM("samarium", 18);
 		
 		private final String name;
 		private final int id;

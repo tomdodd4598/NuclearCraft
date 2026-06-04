@@ -6,7 +6,7 @@ import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 
 import static nc.config.NCConfig.*;
-import static nc.util.FluidStackHelper.*;
+import static nc.util.FluidStackHelper.INGOT_VOLUME;
 
 public class ExtractorRecipes extends BasicProcessorRecipeHandler {
 	

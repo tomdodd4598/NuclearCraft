@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TLBrace extends Token
-{
-	public TLBrace()
-	{
+public final class TLBrace extends Token {
+	public TLBrace() {
 		super.setText("{");
 	}
-
-	public TLBrace(int line, int pos)
-	{
+	
+	public TLBrace(int line, int pos) {
 		super.setText("{");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TLBrace(getLine(), getPos());
+	public Object clone() {
+		return new TLBrace(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTLBrace(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TLBrace text.");
 	}
 }

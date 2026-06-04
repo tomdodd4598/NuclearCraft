@@ -1,7 +1,7 @@
 package nc.multiblock.fission;
 
 import it.unimi.dsi.fastutil.longs.*;
-import nc.tile.fission.*;
+import nc.tile.fission.IFissionFuelBunchComponent;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 

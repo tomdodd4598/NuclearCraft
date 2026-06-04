@@ -30,9 +30,8 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurb
 	IntBinaryOperator powerBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.turbine_controller.power_bonus") + " " + NCMath.pcDecimalPlaces(multiblock.powerBonus, 1));
 	IntBinaryOperator recipeInputRateText = centeredTracker(() -> {
 		double maxRecipeRateMultiplierFP = multiblock.getLogic().getMaxRecipeRateMultiplier();
-		double rateRatio = (double) multiblock.recipeInputRate / maxRecipeRateMultiplierFP;
-		double rateRatioFP = multiblock.recipeInputRateFP / maxRecipeRateMultiplierFP;
-		return Lang.localize("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(multiblock.recipeInputRateFP, 5, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatio > 1D ? "] [!]" : "]");
+		double rateRatioFP = maxRecipeRateMultiplierFP <= 0D ? 0D : multiblock.recipeInputRateFP / maxRecipeRateMultiplierFP;
+		return Lang.localize("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(multiblock.recipeInputRateFP, 5, "B/t", -1) + " [" + NCMath.pcDecimalPlaces(rateRatioFP, 1) + (rateRatioFP > 1D ? "] [!]" : "]");
 	});
 	
 	public GuiTurbineController(Container inventory, EntityPlayer player, TileTurbineController controller, String textureLocation) {
@@ -58,10 +57,10 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurb
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isTurbineOn ? -1 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.turbine_controller." + "turbine");
-		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
 		
 		powerText.applyAsInt(22, fontColor);
 		

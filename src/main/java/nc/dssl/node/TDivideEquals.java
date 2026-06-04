@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TDivideEquals extends Token
-{
-	public TDivideEquals()
-	{
+public final class TDivideEquals extends Token {
+	public TDivideEquals() {
 		super.setText("/=");
 	}
-
-	public TDivideEquals(int line, int pos)
-	{
+	
+	public TDivideEquals(int line, int pos) {
 		super.setText("/=");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TDivideEquals(getLine(), getPos());
+	public Object clone() {
+		return new TDivideEquals(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTDivideEquals(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TDivideEquals text.");
 	}
 }

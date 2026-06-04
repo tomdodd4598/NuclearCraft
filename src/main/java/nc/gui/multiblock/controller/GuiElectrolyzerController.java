@@ -21,7 +21,7 @@ public class GuiElectrolyzerController extends GuiLogicMultiblockController<Mach
 	
 	IntBinaryOperator electrodeEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.electrolyzer_controller.electrode_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.basePowerMultiplier <= 0D ? 0D : 8D * multiblock.baseSpeedMultiplier / multiblock.basePowerMultiplier, 1));
 	IntBinaryOperator electrolyteEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.electrolyzer_controller.electrolyte_efficiency") + " " + NCMath.pcDecimalPlaces(getLogic().electrolyteEfficiency, 1));
-	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5));
+	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(multiblock.readyToProcess ? logic.getProcessTimeFP() : null, 5));
 	IntBinaryOperator powerText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t"));
 	
 	public GuiElectrolyzerController(Container inventory, EntityPlayer player, TileElectrolyzerController controller, String textureLocation) {
@@ -47,10 +47,10 @@ public class GuiElectrolyzerController extends GuiLogicMultiblockController<Mach
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isMachineOn ? 4210752 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.electrolyzer_controller.electrolyzer");
-		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
 		
 		electrodeEfficiencyText.applyAsInt(22, fontColor);
 		

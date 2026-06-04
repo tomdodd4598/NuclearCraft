@@ -1437,7 +1437,6 @@ public abstract class QuantumOperationWrapper {
 		double alpha = azyz[0], beta = azyz[1], hgam = azyz[2] / 2D, hbpd = (azyz[1] + azyz[3]) / 2D, hdmb = (azyz[3] - azyz[1]) / 2D;
 		boolean hgam_f = full(hgam), hbpd_f = full(hbpd);
 		
-		
 		if (controls.length == 1) {
 			if (!full(hdmb)) {
 				new RZ(gate.qc, hdmb, targets).addDecomposition(decomposition);

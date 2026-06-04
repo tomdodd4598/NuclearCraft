@@ -139,7 +139,7 @@ public class CentrifugeRecipes extends BasicProcessorRecipeHandler {
 	}
 	
 	public ChanceFluidIngredient wasteStack(String waste, double chancePercent) {
-		return chanceFluidStack(waste, waste.equals("molybdenum") ? 2 * NUGGET_VOLUME : NUGGET_VOLUME, NCMath.toInt(chancePercent), NUGGET_VOLUME);
+		return chanceFluidStack(waste, 2 * NUGGET_VOLUME, NCMath.toInt(chancePercent), NUGGET_VOLUME);
 	}
 	
 	@Override

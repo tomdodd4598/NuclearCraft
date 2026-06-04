@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
-import static nc.multiblock.quantum.QuantumOperationWrapper.*;
+import static nc.multiblock.quantum.QuantumOperationWrapper.intsToString;
 
 public abstract class TileQuantumComputerGate extends TileQuantumComputerPart implements ITickable {
 	

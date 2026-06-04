@@ -4,7 +4,7 @@ import nc.recipe.BasicRecipeHandler;
 
 import java.util.List;
 
-import static nc.config.NCConfig.*;
+import static nc.config.NCConfig.machine_infiltrator_pressure_fluid_efficiency;
 
 public class InfiltratorPressureFluidRecipes extends BasicRecipeHandler {
 	

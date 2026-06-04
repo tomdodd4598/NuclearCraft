@@ -229,7 +229,6 @@ public class TileRTG extends TileMultiblockPart<RTGMultiblock, TileRTG> implemen
 		writeEnergyConnections(nbt);
 		nbt.setByteArray("ignoreSide", NCMath.booleansToBytes(ignoreSide));
 		
-		
 		if (rtgType == null) {
 			nbt.setLong("power", power);
 			nbt.setDouble("radiationRate", radiation);

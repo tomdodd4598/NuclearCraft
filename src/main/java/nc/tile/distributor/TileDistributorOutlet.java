@@ -4,7 +4,6 @@ import gregtech.api.capability.GregtechCapabilities;
 import nc.*;
 import nc.multiblock.distributor.Distributor;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.inventory.RawItemHandler;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.*;
 import nc.tile.internal.fluid.*;
@@ -250,7 +249,7 @@ public class TileDistributorOutlet extends TileDistributorPart implements ITileI
 	
 	@Override
 	public int getSourceTier() {
-		return isMultiblockAssembled() ? 1 : getMultiblock().getPowerPortEUSourceTier();
+		return !isMultiblockAssembled() ? 1 : getMultiblock().getPowerPortEUSourceTier();
 	}
 	
 	// NBT

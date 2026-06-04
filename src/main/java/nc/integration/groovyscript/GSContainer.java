@@ -57,6 +57,8 @@ public class GSContainer extends GroovyPropertyContainer {
 		RECIPE_REGISTRY_MAP.put("multiblock_distiller", GSMultiblockDistillerRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("multiblock_infiltrator", GSMultiblockInfiltratorRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("infiltrator_pressure_fluid", GSInfiltratorPressureFluidRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("multiblock_decay_pool", GSMultiblockDecayPoolRecipeRegistry::new);
+		RECIPE_REGISTRY_MAP.put("decay_pool_heat_source", GSDecayPoolHeatSourceRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("fission_moderator", GSFissionModeratorRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("fission_reflector", GSFissionReflectorRecipeRegistry::new);
 		RECIPE_REGISTRY_MAP.put("fission_irradiator", GSFissionIrradiatorRecipeRegistry::new);

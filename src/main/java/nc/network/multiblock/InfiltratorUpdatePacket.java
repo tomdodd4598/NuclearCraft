@@ -19,8 +19,8 @@ public class InfiltratorUpdatePacket extends MachineUpdatePacket {
 		super();
 	}
 	
-	public InfiltratorUpdatePacket(BlockPos pos, boolean isMachineOn, boolean isProcessing, double time, double baseProcessTime, double baseProcessPower, List<Tank> tanks, double baseSpeedMultiplier, double basePowerMultiplier, RecipeUnitInfo recipeUnitInfo, double pressureFluidEfficiency, double heatingBonus) {
-		super(pos, isMachineOn, isProcessing, time, baseProcessTime, baseProcessPower, tanks, baseSpeedMultiplier, basePowerMultiplier, recipeUnitInfo);
+	public InfiltratorUpdatePacket(BlockPos pos, boolean isMachineOn, boolean isProcessing, double time, double baseProcessTime, double baseProcessPower, List<Tank> tanks, double baseSpeedMultiplier, double basePowerMultiplier, RecipeUnitInfo recipeUnitInfo, boolean readyToProcess, double pressureFluidEfficiency, double heatingBonus) {
+		super(pos, isMachineOn, isProcessing, time, baseProcessTime, baseProcessPower, tanks, baseSpeedMultiplier, basePowerMultiplier, recipeUnitInfo, readyToProcess);
 		this.pressureFluidEfficiency = pressureFluidEfficiency;
 		this.heatingBonus = heatingBonus;
 	}

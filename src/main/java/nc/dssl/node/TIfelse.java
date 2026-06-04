@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TIfelse extends Token
-{
-	public TIfelse()
-	{
+public final class TIfelse extends Token {
+	public TIfelse() {
 		super.setText("ifelse");
 	}
-
-	public TIfelse(int line, int pos)
-	{
+	
+	public TIfelse(int line, int pos) {
 		super.setText("ifelse");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TIfelse(getLine(), getPos());
+	public Object clone() {
+		return new TIfelse(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTIfelse(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TIfelse text.");
 	}
 }

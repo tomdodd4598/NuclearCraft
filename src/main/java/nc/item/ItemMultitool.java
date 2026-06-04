@@ -152,7 +152,8 @@ public class ItemMultitool extends NCItem implements IToolWrench, IToolHammer {
 	
 	public interface MultitoolRightClickLogic {
 		
-		@Nullable ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem);
+		@Nullable
+		ActionResult<ItemStack> onRightClick(ItemMultitool itemMultitool, World world, EntityPlayer player, EnumHand hand, ItemStack heldItem);
 	}
 	
 	/**

@@ -11,7 +11,7 @@ import nc.tile.processor.IProcessor;
 import nc.tile.processor.info.ProcessorContainerInfo;
 import net.minecraft.tileentity.TileEntity;
 
-import java.util.*;
+import java.util.List;
 
 public class JEIProcessorCategoryInfo<TILE extends TileEntity & IProcessor<TILE, PACKET, INFO>, PACKET extends ProcessorUpdatePacket, INFO extends ProcessorContainerInfo<TILE, PACKET, INFO>, WRAPPER extends JEIProcessorRecipeWrapper<TILE, PACKET, INFO, WRAPPER>> extends JEICategoryInfo<WRAPPER, JEIProcessorRecipeCategory<TILE, PACKET, INFO, WRAPPER>, JEIProcessorCategoryInfo<TILE, PACKET, INFO, WRAPPER>> {
 	

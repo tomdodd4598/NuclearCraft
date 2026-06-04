@@ -3,8 +3,8 @@ package nc.gui.multiblock.port;
 import nc.gui.GuiInfoTile;
 import nc.gui.element.GuiItemRenderer;
 import nc.network.tile.multiblock.port.ItemPortUpdatePacket;
-import nc.tile.fission.port.TileFissionCellPort;
 import nc.tile.TileContainerInfo;
+import nc.tile.fission.port.TileFissionCellPort;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 

@@ -1,14 +1,14 @@
 package nc.quantum.operator;
 
 public class DiagonalOperator extends Operator {
-
+	
 	protected final double[] elems;
-
+	
 	public DiagonalOperator(double[] elems) {
 		super(Integer.numberOfTrailingZeros(elems.length) - 1);
 		this.elems = elems;
 	}
-
+	
 	@Override
 	public void partialMap(double[] source, double[] target, int start, int[] window) {
 		for (int i = 0; i < dim; ++i) {
@@ -18,7 +18,7 @@ public class DiagonalOperator extends Operator {
 			target[x + 1] = a * d + b * c;
 		}
 	}
-
+	
 	@Override
 	public Operator rebased(int[] basis) {
 		int[] perm = perm(basis);

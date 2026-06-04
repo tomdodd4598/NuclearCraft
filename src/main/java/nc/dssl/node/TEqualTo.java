@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TEqualTo extends Token
-{
-	public TEqualTo()
-	{
+public final class TEqualTo extends Token {
+	public TEqualTo() {
 		super.setText("==");
 	}
-
-	public TEqualTo(int line, int pos)
-	{
+	
+	public TEqualTo(int line, int pos) {
 		super.setText("==");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TEqualTo(getLine(), getPos());
+	public Object clone() {
+		return new TEqualTo(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTEqualTo(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TEqualTo text.");
 	}
 }

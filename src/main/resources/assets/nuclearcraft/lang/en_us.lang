@@ -33,6 +33,7 @@ tile.nuclearcraft.ingot_block2.ruthenium_oxide.name=Ruthenium Oxide Block
 tile.nuclearcraft.ingot_block2.iridium_oxide.name=Iridium Oxide Block
 tile.nuclearcraft.ingot_block2.holmium.name=Holmium Block
 tile.nuclearcraft.ingot_block2.dysprosium.name=Dysprosium Block
+tile.nuclearcraft.ingot_block2.gadolinium.name=Gadolinium Block
 
 tile.nuclearcraft.material_block.molybdenum.name=Molybdenum Block
 tile.nuclearcraft.material_block.copper_oxide.name=Copper Oxide Block
@@ -182,6 +183,9 @@ tile.nuclearcraft.infiltrator_controller.name=Infiltrator Controller
 tile.nuclearcraft.infiltrator_pressure_chamber.name=Infiltrator Pressure Chamber
 tile.nuclearcraft.infiltrator_heating_unit.name=Infiltrator Heating Unit
 
+tile.nuclearcraft.decay_pool_controller.name=Decay Pool Controller
+tile.nuclearcraft.decay_pool_container.name=Decay Pool Container
+
 tile.nuclearcraft.rtg_uranium.name=Uranium RTG
 tile.nuclearcraft.rtg_plutonium.name=Plutonium RTG
 tile.nuclearcraft.rtg_americium.name=Americium RTG
@@ -226,6 +230,7 @@ tile.nuclearcraft.fission_source.californium.name=Cf-252 Fission Neutron Source
 info.nuclearcraft.fission_source.efficiency.fixd=Efficiency Multiplier: %s
 
 tile.nuclearcraft.fission_shield.boron_silver.name=Boron-Silver Fission Neutron Shield
+tile.nuclearcraft.fission_shield.gadolinium_samarium.name=Gadolinium-Samarium Fission Neutron Shield
 
 info.nuclearcraft.fission_shield.heat_per_flux.fixd=Heat Gen Per Flux: %s
 info.nuclearcraft.fission_shield.efficiency.fixd=Efficiency Multiplier: %s
@@ -738,6 +743,9 @@ fluid.barium=Molten Barium
 tile.nuclearcraft.fluid_nickel.name=Molten Nickel
 fluid.nickel=Molten Nickel
 
+tile.nuclearcraft.fluid_palladium.name=Molten Palladium
+fluid.palladium=Molten Palladium
+
 tile.nuclearcraft.fluid_chromium.name=Molten Chromium
 fluid.chromium=Molten Chromium
 
@@ -746,6 +754,9 @@ fluid.holmium=Molten Holmium
 
 tile.nuclearcraft.fluid_dysprosium.name=Molten Dysprosium
 fluid.dysprosium=Molten Dysprosium
+
+tile.nuclearcraft.fluid_gadolinium.name=Molten Gadolinium
+fluid.gadolinium=Molten Gadolinium
 
 tile.nuclearcraft.fluid_sulfur_dioxide.name=Sulfur Dioxide
 fluid.sulfur_dioxide=Sulfur Dioxide
@@ -1922,6 +1933,7 @@ item.nuclearcraft.ingot2.ruthenium_oxide.name=Ruthenium Oxide Ingot
 item.nuclearcraft.ingot2.iridium_oxide.name=Iridium Oxide Ingot
 item.nuclearcraft.ingot2.holmium.name=Holmium Ingot
 item.nuclearcraft.ingot2.dysprosium.name=Dysprosium Ingot
+item.nuclearcraft.ingot2.gadolinium.name=Gadolinium Ingot
 
 item.nuclearcraft.dust.copper.name=Copper Dust
 item.nuclearcraft.dust.tin.name=Tin Dust
@@ -1952,6 +1964,7 @@ item.nuclearcraft.dust2.ruthenium_oxide.name=Ruthenium Oxide Dust
 item.nuclearcraft.dust2.iridium_oxide.name=Iridium Oxide Dust
 item.nuclearcraft.dust2.holmium.name=Holmium Dust
 item.nuclearcraft.dust2.dysprosium.name=Dysprosium Dust
+item.nuclearcraft.dust2.gadolinium.name=Gadolinium Dust
 
 item.nuclearcraft.gem.rhodochrosite.name=Rhodochrosite
 #item.nuclearcraft.gem.rhodochrosite.desc=Obtained alongside Redstone when breaking Redstone Ore.
@@ -2000,6 +2013,7 @@ item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC Ceramic Matrix Composite Ingot
 item.nuclearcraft.alloy.hsla_steel.name=HSLA Steel Ingot
 item.nuclearcraft.alloy.zirconium_molybdenum.name=Zirconium-Molybdenum Alloy Ingot
 item.nuclearcraft.alloy.hastelloy.name=Hastelloy Ingot
+item.nuclearcraft.alloy.samarium.name=Samarium Ingot
 
 item.nuclearcraft.compound.calcium_sulfate.name=Calcium Sulfate
 item.nuclearcraft.compound.crystal_binder.name=Crystal Binder
@@ -2713,6 +2727,11 @@ jei.nuclearcraft.infiltrator_heating_factor=Heating Factor:
 
 jei.nuclearcraft.infiltrator_pressure_fluid_efficiency=Efficiency Multiplier:
 
+jei.nuclearcraft.decay_pool_heating_required=Heating Required:
+
+jei.nuclearcraft.decay_pool_container_lifetime=Mean Lifetime:
+jei.nuclearcraft.decay_pool_container_heat=Heat Gen:
+
 jei.nuclearcraft.irradiator_flux_required=Total Flux Required:
 jei.nuclearcraft.irradiator_heat_per_flux=Heat Gen Per Flux:
 jei.nuclearcraft.irradiator_process_efficiency=Efficiency Bonus:
@@ -3028,9 +3047,9 @@ gui.nc.config.fission_reflector_efficiency.comment=Efficiency multipliers for ne
 gui.nc.config.fission_reflector_reflectivity=Reflector Reflectivity Factors
 gui.nc.config.fission_reflector_reflectivity.comment=Reflectivity factors for neutron reflectors of this type. Order: beryllium-carbon, lead-steel.
 gui.nc.config.fission_shield_heat_per_flux=Neutron Shield Heat Per Flux
-gui.nc.config.fission_shield_heat_per_flux.comment=Heat generated per unit flux for neutron shields of this type. Order: boron-silver.
+gui.nc.config.fission_shield_heat_per_flux.comment=Heat generated per unit flux for neutron shields of this type. Order: boron-silver, gadolinium-samarium.
 gui.nc.config.fission_shield_efficiency=Neutron Shield Efficiency Multipliers
-gui.nc.config.fission_shield_efficiency.comment=Efficiency multipliers for neutron shields of this type. Order: boron-silver.
+gui.nc.config.fission_shield_efficiency.comment=Efficiency multipliers for neutron shields of this type. Order: boron-silver, gadolinium-samarium.
 gui.nc.config.fission_irradiator_heat_per_flux=Irradiation Heat Per Flux
 gui.nc.config.fission_irradiator_heat_per_flux.comment=Heat generated per unit flux for irradiator recipe ingredients of this type. Order: thorium, protactinium-enriched thorium, bismuth.
 gui.nc.config.fission_irradiator_efficiency=Irradiation Efficiency Multipliers
@@ -3805,6 +3824,11 @@ gui.nc.container.infiltrator_controller.infiltrator=Infiltrator
 gui.nc.container.infiltrator_controller.pressure_chamber_efficiency=Chamber Efficiency:
 gui.nc.container.infiltrator_controller.pressure_fluid_efficiency=Fluid Efficiency:
 
+gui.nc.container.decay_pool_controller.decay_pool=Decay Pool
+gui.nc.container.decay_pool_controller.containers=Container Count:
+gui.nc.container.decay_pool_controller.heating_rate=Heating Rate:
+gui.nc.container.decay_pool_controller.total_decay_rate=Total Decay Rate:
+
 gui.nc.container.no_cluster=No cluster!
 
 gui.nc.container.fission_controller.clusters=Number of Clusters:
@@ -3932,6 +3956,8 @@ nuclearcraft.electrolyzer_anode.jei_name=Electrolyzer Anode
 nuclearcraft.multiblock_distiller.jei_name=Multiblock Distiller
 nuclearcraft.multiblock_infiltrator.jei_name=Multiblock Infiltrator
 nuclearcraft.infiltrator_pressure_fluid.jei_name=Infiltrator Pressure Fluid
+nuclearcraft.multiblock_decay_pool.jei_name=Multiblock Decay Pool
+nuclearcraft.decay_pool_heat_source.jei_name=Decay Pool Heat Source
 nuclearcraft.fission_moderator.jei_name=Fission Moderator
 nuclearcraft.fission_reflector.jei_name=Fission Reflector
 nuclearcraft.fission_irradiator.jei_name=Fission Irradiator
@@ -4097,6 +4123,9 @@ advancement.nuclearcraft.distiller_assembled.desc=Build a Multiblock Distiller
 advancement.nuclearcraft.infiltrator_assembled.name=Hola Pablo
 advancement.nuclearcraft.infiltrator_assembled.desc=Build a Multiblock Infiltrator
 
+advancement.nuclearcraft.decay_pool_assembled.name=In at the Deep End
+advancement.nuclearcraft.decay_pool_assembled.desc=Build a Multiblock Decay Pool
+
 advancement.nuclearcraft.pebble_fission_reactor_assembled.name=Watch For Roentgen Rocks [2/2]
 advancement.nuclearcraft.pebble_fission_reactor_assembled.desc=Build a Pebble Bed Fission Reactor
 
@@ -4165,6 +4194,16 @@ music.nc.wanderer=Wanderer
 music.nc.end_of_the_world=End of the World
 music.nc.money_for_nothing=Money For Nothing
 music.nc.hyperspace=Hyperspace
+
+music.nc.wasteland_ambience_1=Wasteland Ambience 1
+music.nc.wasteland_ambience_2=Wasteland Ambience 2
+music.nc.wasteland_ambience_3=Wasteland Ambience 3
+music.nc.wasteland_ambience_4=Wasteland Ambience 4
+music.nc.wasteland_ambience_5=Wasteland Ambience 5
+music.nc.wasteland_ambience_6=Wasteland Ambience 6
+music.nc.wasteland_ambience_7=Wasteland Ambience 7
+music.nc.wasteland_ambience_8=Wasteland Ambience 8
+music.nc.wasteland_ambience_9=Wasteland Ambience 9
 
 material.boron.name=Boron
 material.tough.name=Tough Alloy

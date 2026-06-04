@@ -1,7 +1,7 @@
 package nc.quantum;
 
 public class Helpers {
-
+	
 	public static int[] powers(int[] targets, int size) {
 		int count = targets.length, len = size - count;
 		int[] powers = new int[len];
@@ -15,7 +15,7 @@ public class Helpers {
 		}
 		return powers;
 	}
-
+	
 	public static int[] offsets(int[] powers) {
 		int[] offsets = new int[1 << powers.length];
 		for (int i = 1, len = offsets.length; i < len; ++i) {
@@ -24,11 +24,11 @@ public class Helpers {
 		}
 		return offsets;
 	}
-
+	
 	public static int[] starts(int[] targets, int size) {
 		return offsets(powers(targets, size));
 	}
-
+	
 	public static int[] window(int[] targets) {
 		int[] powers = new int[targets.length];
 		for (int i = 0, len = targets.length; i < len; ++i) {

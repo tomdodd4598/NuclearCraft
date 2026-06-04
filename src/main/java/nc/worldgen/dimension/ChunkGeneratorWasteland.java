@@ -3,7 +3,6 @@ package nc.worldgen.dimension;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGeneratorOverworld;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class ChunkGeneratorWasteland extends ChunkGeneratorOverworld {
 	

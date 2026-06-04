@@ -4,5 +4,6 @@ import javax.annotation.Nonnull;
 
 public interface Invokable {
 	
-	@Nonnull TokenResult invoke(TokenExecutor exec);
+	@Nonnull
+	TokenResult invoke(TokenExecutor exec);
 }

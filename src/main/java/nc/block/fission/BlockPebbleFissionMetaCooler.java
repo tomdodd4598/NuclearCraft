@@ -2,7 +2,7 @@ package nc.block.fission;
 
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.FissionReactor;
-import nc.tile.fission.*;
+import nc.tile.fission.TilePebbleFissionCooler;
 import nc.util.*;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.*;

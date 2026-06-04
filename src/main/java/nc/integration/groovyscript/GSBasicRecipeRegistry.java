@@ -47,14 +47,7 @@ public abstract class GSBasicRecipeRegistry extends VirtualizedRegistry<BasicRec
 	protected @Nullable BasicRecipe addRecipeInternal(Object... objects) {
 		BasicRecipeHandler recipeHandler = getRecipeHandler();
 		List<Object> objectList = Arrays.asList(objects);
-		BasicRecipe recipe = recipeHandler.buildRecipe(
-				StreamHelper.map(objectList.subList(0, recipeHandler.itemInputLastIndex), GSHelper::buildAdditionItemIngredient),
-				StreamHelper.map(objectList.subList(recipeHandler.itemInputLastIndex, recipeHandler.fluidInputLastIndex), GSHelper::buildAdditionFluidIngredient),
-				StreamHelper.map(objectList.subList(recipeHandler.fluidInputLastIndex, recipeHandler.itemOutputLastIndex), GSHelper::buildAdditionItemIngredient),
-				StreamHelper.map(objectList.subList(recipeHandler.itemOutputLastIndex, recipeHandler.fluidOutputLastIndex), GSHelper::buildAdditionFluidIngredient),
-				objectList.subList(recipeHandler.fluidOutputLastIndex, objects.length),
-				recipeHandler.isShapeless
-		);
+		BasicRecipe recipe = recipeHandler.buildRecipe(StreamHelper.map(objectList.subList(0, recipeHandler.itemInputLastIndex), GSHelper::buildAdditionItemIngredient), StreamHelper.map(objectList.subList(recipeHandler.itemInputLastIndex, recipeHandler.fluidInputLastIndex), GSHelper::buildAdditionFluidIngredient), StreamHelper.map(objectList.subList(recipeHandler.fluidInputLastIndex, recipeHandler.itemOutputLastIndex), GSHelper::buildAdditionItemIngredient), StreamHelper.map(objectList.subList(recipeHandler.itemOutputLastIndex, recipeHandler.fluidOutputLastIndex), GSHelper::buildAdditionFluidIngredient), objectList.subList(recipeHandler.fluidOutputLastIndex, objects.length), recipeHandler.isShapeless);
 		
 		if (recipeHandler.addRecipe(recipe) != null) {
 			addScripted(recipe);

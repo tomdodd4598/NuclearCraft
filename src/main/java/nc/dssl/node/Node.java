@@ -5,73 +5,63 @@ package nc.dssl.node;
 import java.util.*;
 
 @SuppressWarnings("nls")
-public abstract class Node implements Switchable, Cloneable
-{
+public abstract class Node implements Switchable, Cloneable {
 	private Node parent;
-
+	
 	@Override
 	public abstract Object clone();
-
-	public Node parent()
-	{
+	
+	public Node parent() {
 		return this.parent;
 	}
-
-	void parent(@SuppressWarnings("hiding") Node parent)
-	{
+	
+	void parent(@SuppressWarnings("hiding") Node parent) {
 		this.parent = parent;
 	}
-
+	
 	abstract void removeChild(Node child);
+	
 	abstract void replaceChild(Node oldChild, Node newChild);
-
-	public void replaceBy(Node node)
-	{
+	
+	public void replaceBy(Node node) {
 		this.parent.replaceChild(this, node);
 	}
-
-	protected String toString(Node node)
-	{
-		if(node != null)
-		{
+	
+	protected String toString(Node node) {
+		if (node != null) {
 			return node.toString();
 		}
-
+		
 		return "";
 	}
-
-	protected String toString(List<?> list)
-	{
+	
+	protected String toString(List<?> list) {
 		StringBuilder s = new StringBuilder();
 		
 		for (Object o : list) {
 			s.append(o);
 		}
-
+		
 		return s.toString();
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	protected <T extends Node> T cloneNode(T node)
-	{
-		if(node != null)
-		{
+	protected <T extends Node> T cloneNode(T node) {
+		if (node != null) {
 			return (T) node.clone();
 		}
-
+		
 		return null;
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	protected <T extends Node> List<T> cloneList(List<T> list)
-	{
+	protected <T extends Node> List<T> cloneList(List<T> list) {
 		List<T> clone = new LinkedList<>();
-
-		for(T n : list)
-		{
+		
+		for (T n : list) {
 			clone.add((T) n.clone());
 		}
-
+		
 		return clone;
 	}
 }

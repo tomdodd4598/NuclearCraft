@@ -2,32 +2,27 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TIntValue extends Token
-{
-	public TIntValue(String text)
-	{
+public final class TIntValue extends Token {
+	public TIntValue(String text) {
 		setText(text);
 	}
-
-	public TIntValue(String text, int line, int pos)
-	{
+	
+	public TIntValue(String text, int line, int pos) {
 		setText(text);
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TIntValue(getText(), getLine(), getPos());
+	public Object clone() {
+		return new TIntValue(getText(), getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTIntValue(this);
 	}
 }

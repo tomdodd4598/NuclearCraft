@@ -11,24 +11,7 @@ public class GasCoolerRecipes extends FissionCoolingRecipes {
 		super("gas_cooler", "_cooler");
 	}
 	
-	public static final String[] COOLANTS = {
-			"oxygen",
-			"hydrogen",
-			"helium",
-			"nitrogen",
-			"fluorine",
-			"methane",
-			"carbon_dioxide",
-			"carbon_monoxide",
-			"ethene",
-			"ethyne",
-			"fluoromethane",
-			"ammonia",
-			"diborane",
-			"sulfur_dioxide",
-			"sulfur_trioxide",
-			"sulfur_hexafluoride"
-	};
+	public static final String[] COOLANTS = {"oxygen", "hydrogen", "helium", "nitrogen", "fluorine", "methane", "carbon_dioxide", "carbon_monoxide", "ethene", "ethyne", "fluoromethane", "ammonia", "diborane", "sulfur_dioxide", "sulfur_trioxide", "sulfur_hexafluoride"};
 	
 	@Override
 	public void addRecipes() {

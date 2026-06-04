@@ -5,7 +5,7 @@ import nc.util.Complex;
 import java.util.Arrays;
 
 public class Matrix {
-
+	
 	public static void addTo(double[] a, double[] b) {
 		for (int i = 0, len = a.length; i < len; ++i) {
 			a[i] += b[i];
@@ -20,7 +20,7 @@ public class Matrix {
 			matrix[x + 1] = mult.im;
 		}
 	}
-
+	
 	public static double[] identity(int dim) {
 		double[] matrix = new double[(dim * dim) << 1];
 		for (int i = 0; i < dim; ++i) {
@@ -43,7 +43,7 @@ public class Matrix {
 				throw new UnsupportedOperationException();
 		}
 	}
-
+	
 	public static double[] tensorProduct(int dimA, double[] matrixA, int dimB, double[] matrixB) {
 		int dimC = dimA * dimB;
 		double[] matrixC = new double[(dimC * dimC) << 1];
@@ -65,13 +65,13 @@ public class Matrix {
 		}
 		return matrixC;
 	}
-
+	
 	public static void changeIndexBasis(int dim, double[] matrix, int[] basis) {
 		int[] perm = new int[dim];
 		for (int i = 0; i < dim; ++i) {
 			perm[i] = changeIntBasis(i, basis);
 		}
-
+		
 		double[] source = Arrays.copyOf(matrix, matrix.length);
 		for (int i = 0; i < dim; ++i) {
 			int r = i * dim, s = perm[i] * dim;
@@ -82,7 +82,7 @@ public class Matrix {
 			}
 		}
 	}
-
+	
 	public static int changeIntBasis(int x, int[] basis) {
 		int y = 0;
 		for (int i = 0, len = basis.length; i < len; ++i) {
@@ -91,86 +91,42 @@ public class Matrix {
 		return y;
 	}
 	
-	public static final double[] I = {
-			1, 0, 0, 0,
-			0, 0, 1, 0,
-	};
+	public static final double[] I = {1, 0, 0, 0, 0, 0, 1, 0,};
 	
-	public static final double[] X = {
-			0, 0, 1, 0,
-			1, 0, 0, 0,
-	};
+	public static final double[] X = {0, 0, 1, 0, 1, 0, 0, 0,};
 	
-	public static final double[] Y = {
-			0, 0, 0, -1,
-			0, 1, 0, 0,
-	};
+	public static final double[] Y = {0, 0, 0, -1, 0, 1, 0, 0,};
 	
-	public static final double[] Z = {
-			1, 0, 0, 0,
-			0, 0, -1, 0,
-	};
+	public static final double[] Z = {1, 0, 0, 0, 0, 0, -1, 0,};
 	
-	public static final double[] H = {
-			Math.sqrt(0.5), 0, Math.sqrt(0.5), 0,
-			Math.sqrt(0.5), 0, -Math.sqrt(0.5), 0,
-	};
+	public static final double[] H = {Math.sqrt(0.5), 0, Math.sqrt(0.5), 0, Math.sqrt(0.5), 0, -Math.sqrt(0.5), 0,};
 	
-	public static final double[] S = {
-			1, 0, 0, 0,
-			0, 0, 0, 1,
-	};
+	public static final double[] S = {1, 0, 0, 0, 0, 0, 0, 1,};
 	
-	public static final double[] Sdg = {
-			1, 0, 0, 0,
-			0, 0, 0, -1,
-	};
+	public static final double[] Sdg = {1, 0, 0, 0, 0, 0, 0, -1,};
 	
-	public static final double[] T = {
-			1, 0, 0, 0,
-			0, 0, Math.sqrt(0.5), Math.sqrt(0.5),
-	};
+	public static final double[] T = {1, 0, 0, 0, 0, 0, Math.sqrt(0.5), Math.sqrt(0.5),};
 	
-	public static final double[] Tdg = {
-			1, 0, 0, 0,
-			0, 0, Math.sqrt(0.5), -Math.sqrt(0.5),
-	};
+	public static final double[] Tdg = {1, 0, 0, 0, 0, 0, Math.sqrt(0.5), -Math.sqrt(0.5),};
 	
 	public static double[] phase(double angle) {
-		return new double[] {
-				1, 0, 0, 0,
-				0, 0, Math.cos(angle), Math.sin(angle),
-		};
+		return new double[] {1, 0, 0, 0, 0, 0, Math.cos(angle), Math.sin(angle),};
 	}
 	
 	public static double[] rotateX(double angle) {
 		double c = Math.cos(angle), s = Math.sin(angle);
-		return new double[] {
-				c, 0, 0, -s,
-				0, -s, c, 0,
-		};
+		return new double[] {c, 0, 0, -s, 0, -s, c, 0,};
 	}
 	
 	public static double[] rotateY(double angle) {
 		double c = Math.cos(angle), s = Math.sin(angle);
-		return new double[] {
-				c, 0, -s, 0,
-				s, 0, c, 0,
-		};
+		return new double[] {c, 0, -s, 0, s, 0, c, 0,};
 	}
 	
 	public static double[] rotateZ(double angle) {
 		double c = Math.cos(angle), s = Math.sin(angle);
-		return new double[] {
-				c, -s, 0, 0,
-				0, 0, c, s,
-		};
+		return new double[] {c, -s, 0, 0, 0, 0, c, s,};
 	}
 	
-	public static final double[] SWAP = {
-			1, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 1, 0, 0, 0,
-			0, 0, 1, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 1, 0,
-	};
+	public static final double[] SWAP = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,};
 }

@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TConcatEquals extends Token
-{
-	public TConcatEquals()
-	{
+public final class TConcatEquals extends Token {
+	public TConcatEquals() {
 		super.setText("~=");
 	}
-
-	public TConcatEquals(int line, int pos)
-	{
+	
+	public TConcatEquals(int line, int pos) {
 		super.setText("~=");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TConcatEquals(getLine(), getPos());
+	public Object clone() {
+		return new TConcatEquals(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTConcatEquals(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TConcatEquals text.");
 	}
 }

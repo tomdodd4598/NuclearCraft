@@ -5,7 +5,7 @@ import nc.multiblock.quantum.*;
 import nc.network.tile.multiblock.QuantumComputerQubitRenderPacket;
 import nc.tile.ITilePacket;
 import nc.util.*;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;

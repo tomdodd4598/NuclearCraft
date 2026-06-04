@@ -1,0 +1,19 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:decay_pool_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.decay_pool_assembled.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.decay_pool_assembled.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/separator",
+	"criteria": {
+		"decay_pool_assembled": {
+			"trigger": "nuclearcraft:decay_pool_assembled"
+		}
+	}
+}

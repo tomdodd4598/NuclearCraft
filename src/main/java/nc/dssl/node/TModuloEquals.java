@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TModuloEquals extends Token
-{
-	public TModuloEquals()
-	{
+public final class TModuloEquals extends Token {
+	public TModuloEquals() {
 		super.setText("%%=");
 	}
-
-	public TModuloEquals(int line, int pos)
-	{
+	
+	public TModuloEquals(int line, int pos) {
 		super.setText("%%=");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TModuloEquals(getLine(), getPos());
+	public Object clone() {
+		return new TModuloEquals(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTModuloEquals(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TModuloEquals text.");
 	}
 }

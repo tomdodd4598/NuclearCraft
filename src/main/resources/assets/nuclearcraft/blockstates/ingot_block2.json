@@ -49,6 +49,11 @@
 				"textures": {
 					"all": "nuclearcraft:blocks/ingot_block/dysprosium"
 				}
+			},
+			"gadolinium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/gadolinium"
+				}
 			}
 		}
 	}

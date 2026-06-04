@@ -25,7 +25,6 @@ import nc.util.*;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.MushroomGenerator;
 import nc.worldgen.dimension.*;
-import nc.worldgen.dimension.WastelandEventHandler;
 import nc.worldgen.ore.OreGenerator;
 import nc.worldgen.structure.NCStructures;
 import nc.worldgen.structure.vault.VaultComponent;

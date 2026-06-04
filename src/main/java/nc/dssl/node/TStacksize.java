@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TStacksize extends Token
-{
-	public TStacksize()
-	{
+public final class TStacksize extends Token {
+	public TStacksize() {
 		super.setText("stacksize");
 	}
-
-	public TStacksize(int line, int pos)
-	{
+	
+	public TStacksize(int line, int pos) {
 		super.setText("stacksize");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TStacksize(getLine(), getPos());
+	public Object clone() {
+		return new TStacksize(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTStacksize(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TStacksize text.");
 	}
 }

@@ -1,10 +1,7 @@
 package nc.tile.turbine;
 
-import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.cuboidal.*;
 import nc.multiblock.turbine.Turbine;
-
-import javax.annotation.Nullable;
 
 public abstract class TileTurbinePart extends TileCuboidalMultiblockPart<Turbine, ITurbinePart> implements ITurbinePart {
 	

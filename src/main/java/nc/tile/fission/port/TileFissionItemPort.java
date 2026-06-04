@@ -9,7 +9,6 @@ import nc.multiblock.fission.FissionReactor;
 import nc.network.tile.multiblock.port.ItemPortUpdatePacket;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.*;
-import nc.tile.internal.inventory.RawItemHandler;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.*;
 import nc.util.*;

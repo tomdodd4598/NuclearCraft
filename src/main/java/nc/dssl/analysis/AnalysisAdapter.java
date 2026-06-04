@@ -6,635 +6,527 @@ import nc.dssl.node.*;
 
 import java.util.Hashtable;
 
-public class AnalysisAdapter implements Analysis
-{
-	private Hashtable<Node,Object> in;
-	private Hashtable<Node,Object> out;
-
+public class AnalysisAdapter implements Analysis {
+	private Hashtable<Node, Object> in;
+	private Hashtable<Node, Object> out;
+	
 	@Override
-	public Object getIn(Node node)
-	{
-		if(this.in == null)
-		{
+	public Object getIn(Node node) {
+		if (this.in == null) {
 			return null;
 		}
-
+		
 		return this.in.get(node);
 	}
-
+	
 	@Override
-	public void setIn(Node node, Object o)
-	{
-		if(this.in == null)
-		{
-			this.in = new Hashtable<Node,Object>(1);
+	public void setIn(Node node, Object o) {
+		if (this.in == null) {
+			this.in = new Hashtable<Node, Object>(1);
 		}
-
-		if(o != null)
-		{
+		
+		if (o != null) {
 			this.in.put(node, o);
 		}
-		else
-		{
+		else {
 			this.in.remove(node);
 		}
 	}
-
+	
 	@Override
-	public Object getOut(Node node)
-	{
-		if(this.out == null)
-		{
+	public Object getOut(Node node) {
+		if (this.out == null) {
 			return null;
 		}
-
+		
 		return this.out.get(node);
 	}
-
+	
 	@Override
-	public void setOut(Node node, Object o)
-	{
-		if(this.out == null)
-		{
-			this.out = new Hashtable<Node,Object>(1);
+	public void setOut(Node node, Object o) {
+		if (this.out == null) {
+			this.out = new Hashtable<Node, Object>(1);
 		}
-
-		if(o != null)
-		{
+		
+		if (o != null) {
 			this.out.put(node, o);
 		}
-		else
-		{
+		else {
 			this.out.remove(node);
 		}
 	}
-
+	
 	@Override
-	public void caseTBlank(TBlank node)
-	{
+	public void caseTBlank(TBlank node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTComment(TComment node)
-	{
+	public void caseTComment(TComment node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLBrace(TLBrace node)
-	{
+	public void caseTLBrace(TLBrace node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRBrace(TRBrace node)
-	{
+	public void caseTRBrace(TRBrace node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRangeLBracket(TRangeLBracket node)
-	{
+	public void caseTRangeLBracket(TRangeLBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRangeRBracket(TRangeRBracket node)
-	{
+	public void caseTRangeRBracket(TRangeRBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTListLBracket(TListLBracket node)
-	{
+	public void caseTListLBracket(TListLBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTListRBracket(TListRBracket node)
-	{
+	public void caseTListRBracket(TListRBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTSetLBracket(TSetLBracket node)
-	{
+	public void caseTSetLBracket(TSetLBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTSetRBracket(TSetRBracket node)
-	{
+	public void caseTSetRBracket(TSetRBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDictLBracket(TDictLBracket node)
-	{
+	public void caseTDictLBracket(TDictLBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDictRBracket(TDictRBracket node)
-	{
+	public void caseTDictRBracket(TDictRBracket node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTInclude(TInclude node)
-	{
+	public void caseTInclude(TInclude node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTImport(TImport node)
-	{
+	public void caseTImport(TImport node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTNative(TNative node)
-	{
+	public void caseTNative(TNative node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDef(TDef node)
-	{
+	public void caseTDef(TDef node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMacro(TMacro node)
-	{
+	public void caseTMacro(TMacro node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTClass(TClass node)
-	{
+	public void caseTClass(TClass node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDeref(TDeref node)
-	{
+	public void caseTDeref(TDeref node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDelete(TDelete node)
-	{
+	public void caseTDelete(TDelete node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTNew(TNew node)
-	{
+	public void caseTNew(TNew node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTNull(TNull node)
-	{
+	public void caseTNull(TNull node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTType(TType node)
-	{
+	public void caseTType(TType node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTCast(TCast node)
-	{
+	public void caseTCast(TCast node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIs(TIs node)
-	{
+	public void caseTIs(TIs node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTExch(TExch node)
-	{
+	public void caseTExch(TExch node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRoll(TRoll node)
-	{
+	public void caseTRoll(TRoll node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPop(TPop node)
-	{
+	public void caseTPop(TPop node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDup(TDup node)
-	{
+	public void caseTDup(TDup node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTStacksize(TStacksize node)
-	{
+	public void caseTStacksize(TStacksize node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTStackindex(TStackindex node)
-	{
+	public void caseTStackindex(TStackindex node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRead(TRead node)
-	{
+	public void caseTRead(TRead node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPrint(TPrint node)
-	{
+	public void caseTPrint(TPrint node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPrintln(TPrintln node)
-	{
+	public void caseTPrintln(TPrintln node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTInterpret(TInterpret node)
-	{
+	public void caseTInterpret(TInterpret node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTExec(TExec node)
-	{
+	public void caseTExec(TExec node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIf(TIf node)
-	{
+	public void caseTIf(TIf node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIfelse(TIfelse node)
-	{
+	public void caseTIfelse(TIfelse node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLoop(TLoop node)
-	{
+	public void caseTLoop(TLoop node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRepeat(TRepeat node)
-	{
+	public void caseTRepeat(TRepeat node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTForeach(TForeach node)
-	{
+	public void caseTForeach(TForeach node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTContinue(TContinue node)
-	{
+	public void caseTContinue(TContinue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTBreak(TBreak node)
-	{
+	public void caseTBreak(TBreak node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTQuit(TQuit node)
-	{
+	public void caseTQuit(TQuit node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTEquals(TEquals node)
-	{
+	public void caseTEquals(TEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIncrement(TIncrement node)
-	{
+	public void caseTIncrement(TIncrement node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDecrement(TDecrement node)
-	{
+	public void caseTDecrement(TDecrement node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPlusEquals(TPlusEquals node)
-	{
+	public void caseTPlusEquals(TPlusEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTAndEquals(TAndEquals node)
-	{
+	public void caseTAndEquals(TAndEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTOrEquals(TOrEquals node)
-	{
+	public void caseTOrEquals(TOrEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTXorEquals(TXorEquals node)
-	{
+	public void caseTXorEquals(TXorEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMinusEquals(TMinusEquals node)
-	{
+	public void caseTMinusEquals(TMinusEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTConcatEquals(TConcatEquals node)
-	{
+	public void caseTConcatEquals(TConcatEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLeftShiftEquals(TLeftShiftEquals node)
-	{
+	public void caseTLeftShiftEquals(TLeftShiftEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRightShiftEquals(TRightShiftEquals node)
-	{
+	public void caseTRightShiftEquals(TRightShiftEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMultiplyEquals(TMultiplyEquals node)
-	{
+	public void caseTMultiplyEquals(TMultiplyEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDivideEquals(TDivideEquals node)
-	{
+	public void caseTDivideEquals(TDivideEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRemainderEquals(TRemainderEquals node)
-	{
+	public void caseTRemainderEquals(TRemainderEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPowerEquals(TPowerEquals node)
-	{
+	public void caseTPowerEquals(TPowerEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIdivideEquals(TIdivideEquals node)
-	{
+	public void caseTIdivideEquals(TIdivideEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTModuloEquals(TModuloEquals node)
-	{
+	public void caseTModuloEquals(TModuloEquals node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTEqualTo(TEqualTo node)
-	{
+	public void caseTEqualTo(TEqualTo node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTNotEqualTo(TNotEqualTo node)
-	{
+	public void caseTNotEqualTo(TNotEqualTo node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLessThan(TLessThan node)
-	{
+	public void caseTLessThan(TLessThan node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLessOrEqual(TLessOrEqual node)
-	{
+	public void caseTLessOrEqual(TLessOrEqual node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMoreThan(TMoreThan node)
-	{
+	public void caseTMoreThan(TMoreThan node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMoreOrEqual(TMoreOrEqual node)
-	{
+	public void caseTMoreOrEqual(TMoreOrEqual node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPlus(TPlus node)
-	{
+	public void caseTPlus(TPlus node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTAnd(TAnd node)
-	{
+	public void caseTAnd(TAnd node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTOr(TOr node)
-	{
+	public void caseTOr(TOr node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTXor(TXor node)
-	{
+	public void caseTXor(TXor node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMinus(TMinus node)
-	{
+	public void caseTMinus(TMinus node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTConcat(TConcat node)
-	{
+	public void caseTConcat(TConcat node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLeftShift(TLeftShift node)
-	{
+	public void caseTLeftShift(TLeftShift node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRightShift(TRightShift node)
-	{
+	public void caseTRightShift(TRightShift node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMultiply(TMultiply node)
-	{
+	public void caseTMultiply(TMultiply node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTDivide(TDivide node)
-	{
+	public void caseTDivide(TDivide node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTRemainder(TRemainder node)
-	{
+	public void caseTRemainder(TRemainder node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTPower(TPower node)
-	{
+	public void caseTPower(TPower node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIdivide(TIdivide node)
-	{
+	public void caseTIdivide(TIdivide node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTModulo(TModulo node)
-	{
+	public void caseTModulo(TModulo node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTNot(TNot node)
-	{
+	public void caseTNot(TNot node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIntValue(TIntValue node)
-	{
+	public void caseTIntValue(TIntValue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTBoolValue(TBoolValue node)
-	{
+	public void caseTBoolValue(TBoolValue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTFloatValue(TFloatValue node)
-	{
+	public void caseTFloatValue(TFloatValue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTCharValue(TCharValue node)
-	{
+	public void caseTCharValue(TCharValue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTBlockStringValue(TBlockStringValue node)
-	{
+	public void caseTBlockStringValue(TBlockStringValue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLineStringValue(TLineStringValue node)
-	{
+	public void caseTLineStringValue(TLineStringValue node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTIdentifier(TIdentifier node)
-	{
+	public void caseTIdentifier(TIdentifier node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTLabel(TLabel node)
-	{
+	public void caseTLabel(TLabel node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTMember(TMember node)
-	{
+	public void caseTMember(TMember node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseTModule(TModule node)
-	{
+	public void caseTModule(TModule node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseEOF(EOF node)
-	{
+	public void caseEOF(EOF node) {
 		defaultCase(node);
 	}
-
+	
 	@Override
-	public void caseInvalidToken(InvalidToken node)
-	{
+	public void caseInvalidToken(InvalidToken node) {
 		defaultCase(node);
 	}
-
-	public void defaultCase(@SuppressWarnings("unused") Node node)
-	{
+	
+	public void defaultCase(@SuppressWarnings("unused") Node node) {
 		// do nothing
 	}
 }

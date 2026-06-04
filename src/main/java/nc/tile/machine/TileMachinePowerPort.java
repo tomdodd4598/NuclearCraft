@@ -7,7 +7,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.machine.*;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.*;
-import nc.util.*;
+import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

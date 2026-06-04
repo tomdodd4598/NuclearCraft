@@ -34,7 +34,7 @@ public class DecayHastenerRecipes extends BasicProcessorRecipeHandler {
 		addDecayRecipes("Ruthenium106", "Palladium", RadSources.RUTHENIUM_106);
 		addDecayRecipes("Cesium137", "Barium", RadSources.CAESIUM_137);
 		addDecayRecipes("Caesium137", "Barium", RadSources.CAESIUM_137);
-		addDecayRecipes("Promethium147", "Neodymium", RadSources.PROMETHIUM_147);
+		addDecayRecipes("Promethium147", "Samarium", RadSources.PROMETHIUM_147);
 		addDecayRecipes("Europium155", "Gadolinium", RadSources.EUROPIUM_155);
 		
 		addDecayRecipes("Uranium233", "Bismuth", RadSources.URANIUM_233);
@@ -67,15 +67,15 @@ public class DecayHastenerRecipes extends BasicProcessorRecipeHandler {
 		addDecayRecipes("Californium252", "Thorium", RadSources.CALIFORNIUM_252);
 	}
 	
-	private static final Set<String> NON_FISSION = Sets.newHashSet("Thorium", "Lead", "Bismuth", "Thallium", "Radium", "Polonium", "TBP", "Zirconium", "Palladium", "Barium", "Neodymium", "Gadolinium");
+	private static final Set<String> NON_FISSION = Sets.newHashSet("Thorium", "Lead", "Bismuth", "Thallium", "Radium", "Polonium", "TBP", "Zirconium", "Palladium", "Barium", "Samarium", "Neodymium", "Gadolinium");
 	
 	public void addDecayRecipes(String input, String output, double radiation) {
-		String inputName = (OreDictHelper.oreExists("ingot" + input) ? "ingot" : "dust") + input;
-		double timeMult = NCMath.roundTo(RecipeHelper.getDecayTimeMultiplier(1E-6D, radiation, 3.16E-7D), 5D / (processor_time_multiplier * processor_time[2]));
+		double timeMult = NCMath.roundTo(RecipeHelper.getDecayTimeMultiplier(radiation / 9D, 1E-6D), 5D / (processor_time_multiplier * processor_time[2]));
 		if (NON_FISSION.contains(output)) {
-			addRecipe(Lists.newArrayList(inputName, inputName + "Oxide", inputName + "Nitride"), "dust" + output, timeMult, 1D, radiation);
+			addRecipe(Lists.newArrayList("ingot" + input, "ingot" + input + "Oxide", "ingot" + input + "Nitride", "dust" + input, "dust" + input + "Oxide", "dust" + input + "Nitride"), (OreDictHelper.oreExists("dust" + output) ? "dust" : "ingot") + output, timeMult, 1D, radiation);
 		}
 		else {
+			String inputName = (OreDictHelper.oreExists("ingot" + input) ? "ingot" : "dust") + input;
 			for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
 				addRecipe(inputName + type, "ingot" + output + type, timeMult, 1D, radiation);
 			}

@@ -9,7 +9,7 @@ import nc.network.multiblock.*;
 import nc.recipe.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fission.*;
-import nc.tile.fission.port.*;
+import nc.tile.fission.port.TileFissionCellPort;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.*;
@@ -68,12 +68,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		return !containsBlacklistedPart() && !isMissingSorption();
 	}
 	
-	public static final List<Pair<Class<? extends IFissionPart>, String>> SOLID_FUEL_PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TilePebbleFissionChamber.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_chambers"),
-			Pair.of(TilePebbleFissionCooler.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_coolers"),
-			Pair.of(TileSaltFissionVessel.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_vessels"),
-			Pair.of(TileSaltFissionHeater.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_heaters")
-	);
+	public static final List<Pair<Class<? extends IFissionPart>, String>> SOLID_FUEL_PART_BLACKLIST = Lists.newArrayList(Pair.of(TilePebbleFissionChamber.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_chambers"), Pair.of(TilePebbleFissionCooler.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_coolers"), Pair.of(TileSaltFissionVessel.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_vessels"), Pair.of(TileSaltFissionHeater.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_heaters"));
 	
 	@Override
 	public List<Pair<Class<? extends IFissionPart>, String>> getPartBlacklist() {
@@ -81,9 +76,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean isMissingSorption() {
-		return super.isMissingSorption()
-				|| isMissingSorption(TileFissionCellPort.class, TileSolidFissionCell.class, NCBlocks.fission_cell_port.getLocalizedName())
-				|| isMissingSorption(TileFissionVent.class, NCBlocks.fission_vent.getLocalizedName());
+		return super.isMissingSorption() || isMissingSorption(TileFissionCellPort.class, TileSolidFissionCell.class, NCBlocks.fission_cell_port.getLocalizedName()) || isMissingSorption(TileFissionVent.class, NCBlocks.fission_vent.getLocalizedName());
 	}
 	
 	@Override
@@ -171,7 +164,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			refreshRecipe();
 			if (heatingRecipeInfo != null) {
 				BasicRecipe recipe = heatingRecipeInfo.recipe;
-				heatingOutputRateFP = recipe.getFluidProducts().get(0).getMaxStackSize(0) * effectiveHeating / recipe.getFissionHeatingHeatPerInputMB();
+				int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(heatingRecipeInfo.getFluidIngredientNumbers().get(0));
+				heatingOutputRateFP = inputSize <= 0 ? 0D : recipe.getFluidProducts().get(0).getMaxStackSize(0) * effectiveHeating / (recipe.getFissionHeatingHeatPerInputMB() * inputSize);
 			}
 		}
 	}

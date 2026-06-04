@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TDelete extends Token
-{
-	public TDelete()
-	{
+public final class TDelete extends Token {
+	public TDelete() {
 		super.setText("delete");
 	}
-
-	public TDelete(int line, int pos)
-	{
+	
+	public TDelete(int line, int pos) {
 		super.setText("delete");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TDelete(getLine(), getPos());
+	public Object clone() {
+		return new TDelete(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTDelete(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TDelete text.");
 	}
 }

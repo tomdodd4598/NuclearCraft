@@ -18,11 +18,15 @@ import nc.tile.machine.*;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.*;
 import net.minecraft.client.audio.ISound;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.*;
+import net.minecraftforge.items.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.*;
@@ -62,6 +66,14 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		
 		multiblock.energyStorage.setStorageCapacity(energyCapacity);
 		multiblock.energyStorage.setMaxTransfer(energyCapacity);
+		
+		InventoryStackList prevReservoirInventoryStacks = multiblock.reservoirInventoryStacks;
+		
+		multiblock.reservoirInventoryStacks = InventoryStackList.withSize(reservoirInventorySize());
+		
+		for (int i = 0, len = Math.min(prevReservoirInventoryStacks.size(), multiblock.reservoirInventoryStacks.size()); i < len; ++i) {
+			multiblock.reservoirInventoryStacks.set(i, prevReservoirInventoryStacks.get(i));
+		}
 		
 		int nextReservoirTankCount = reservoirTankCount(), prevReservoirTankCount = multiblock.reservoirTanks.size();
 		
@@ -164,8 +176,16 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		}).collect(Collectors.toList());
 	}
 	
+	public int reservoirInventorySize() {
+		return 0;
+	}
+	
 	public int reservoirTankCount() {
 		return 0;
+	}
+	
+	public boolean usesReservoirPorts() {
+		return reservoirInventorySize() > 0 || reservoirTankCount() > 0;
 	}
 	
 	public List<Set<String>> getReservoirValidFluids() {
@@ -294,7 +314,7 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 			return false;
 		}
 		
-		if (reservoirTankCount() == 0) {
+		if (!usesReservoirPorts()) {
 			Long2ObjectMap<TileMachineReservoirPort> reservoirPortMap = getPartMap(TileMachineReservoirPort.class);
 			if (!reservoirPortMap.isEmpty()) {
 				multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.machine.invalid_reservoir_port", reservoirPortMap.keySet());
@@ -325,13 +345,46 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 			multiblock.energyStorage.mergeEnergyStorage(assimilated.energyStorage);
 			
 			if (getID().equals(other.getID())) {
-				for (int i = 0, len = Math.min(multiblock.reservoirTanks.size(), assimilated.reservoirTanks.size()); i < len; ++i) {
-					multiblock.reservoirTanks.get(i).mergeTank(assimilated.reservoirTanks.get(i));
-				}
-				for (int i = 0, len = Math.min(multiblock.tanks.size(), assimilated.tanks.size()); i < len; ++i) {
-					multiblock.tanks.get(i).mergeTank(assimilated.tanks.get(i));
+				mergeInventoryStacks(multiblock.reservoirInventoryStacks, assimilated.reservoirInventoryStacks);
+				mergeTanks(multiblock.reservoirTanks, assimilated.reservoirTanks);
+				mergeInventoryStacks(multiblock.inventoryStacks, assimilated.inventoryStacks);
+				mergeTanks(multiblock.tanks, assimilated.tanks);
+			}
+		}
+	}
+	
+	protected static void mergeInventoryStacks(NonNullList<ItemStack> stacks, NonNullList<ItemStack> assimilatedStacks) {
+		for (ItemStack assimilatedStack : assimilatedStacks) {
+			if (assimilatedStack.isEmpty()) {
+				continue;
+			}
+			
+			ItemStack remaining = assimilatedStack.copy();
+			for (ItemStack stack : stacks) {
+				if (!remaining.isEmpty() && ItemHandlerHelper.canItemStacksStack(stack, remaining)) {
+					int transfer = Math.min(remaining.getCount(), stack.getMaxStackSize() - stack.getCount());
+					if (transfer > 0) {
+						stack.grow(transfer);
+						remaining.shrink(transfer);
+					}
 				}
 			}
+			
+			for (int i = 0; i < stacks.size() && !remaining.isEmpty(); ++i) {
+				if (stacks.get(i).isEmpty()) {
+					int transfer = Math.min(remaining.getCount(), remaining.getMaxStackSize());
+					ItemStack stack = remaining.copy();
+					stack.setCount(transfer);
+					stacks.set(i, stack);
+					remaining.shrink(transfer);
+				}
+			}
+		}
+	}
+	
+	protected static void mergeTanks(List<Tank> tanks, List<Tank> assimilatedTanks) {
+		for (int i = 0, len = Math.min(tanks.size(), assimilatedTanks.size()); i < len; ++i) {
+			tanks.get(i).mergeTank(assimilatedTanks.get(i));
 		}
 	}
 	
@@ -347,6 +400,9 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		}
 		
 		boolean shouldUpdate = multiblock.processor.onTick();
+		if (multiblock.machineActivityCooldown <= 0 && multiblock.machineActivityDirty) {
+			shouldUpdate |= setIsMachineOnInternal(multiblock.isMachineOnQueued);
+		}
 		
 		if (multiblock.controller != null) {
 			multiblock.sendRenderPacketToAll();
@@ -361,11 +417,18 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 	
 	public void setIsMachineOn(boolean isMachineOn) {
 		if (multiblock.machineActivityCooldown > 0) {
+			multiblock.isMachineOnQueued = isMachineOn;
+			multiblock.machineActivityDirty = isMachineOn != multiblock.isMachineOn;
 			return;
 		}
 		
+		setIsMachineOnInternal(isMachineOn);
+	}
+	
+	protected boolean setIsMachineOnInternal(boolean isMachineOn) {
 		boolean oldIsMachineOn = multiblock.isMachineOn;
 		multiblock.isMachineOn = isMachineOn;
+		multiblock.machineActivityDirty = false;
 		if (multiblock.isMachineOn != oldIsMachineOn) {
 			multiblock.machineActivityCooldown = NCConfig.machine_update_rate;
 			if (multiblock.controller != null) {
@@ -373,6 +436,7 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 				multiblock.sendMultiblockUpdatePacketToAll();
 			}
 		}
+		return multiblock.isMachineOn != oldIsMachineOn;
 	}
 	
 	protected void setRecipeStats(@Nullable BasicRecipe recipe) {
@@ -475,9 +539,130 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		return isGenerator() ? EnergyHelper.getEUTier(getProcessPower()) : 1;
 	}
 	
-	public @Nonnull List<Tank> getReservoirPortTanks(List<Tank> backupTanks) {
+	public @Nonnull NonNullList<ItemStack> getReservoirPortInventoryStacks(TileMachineReservoirPort port) {
+		return multiblock.reservoirInventoryStacks;
+	}
+	
+	public @Nonnull InventoryConnection[] getReservoirPortInventoryConnections(TileMachineReservoirPort port) {
+		return port.backupInventoryConnections;
+	}
+	
+	public @Nonnull ItemStack getReservoirPortStackInSlot(TileMachineReservoirPort port, int slot) {
+		NonNullList<ItemStack> stacks = port.getInventoryStacks();
+		return slot >= 0 && slot < stacks.size() ? stacks.get(slot) : ItemStack.EMPTY;
+	}
+	
+	public @Nonnull ItemStack decrReservoirPortStackSize(TileMachineReservoirPort port, int slot, int amount) {
+		NonNullList<ItemStack> stacks = port.getInventoryStacks();
+		if (slot < 0 || slot >= stacks.size() || amount <= 0) {
+			return ItemStack.EMPTY;
+		}
+		
+		ItemStack stack = ItemStackHelper.getAndSplit(stacks, slot, amount);
+		if (!stack.isEmpty()) {
+			onReservoirPortInventoryChanged(port, slot);
+		}
+		return stack;
+	}
+	
+	public @Nonnull ItemStack removeReservoirPortStackFromSlot(TileMachineReservoirPort port, int slot) {
+		NonNullList<ItemStack> stacks = port.getInventoryStacks();
+		if (slot < 0 || slot >= stacks.size()) {
+			return ItemStack.EMPTY;
+		}
+		
+		ItemStack stack = ItemStackHelper.getAndRemove(stacks, slot);
+		if (!stack.isEmpty()) {
+			onReservoirPortInventoryChanged(port, slot);
+		}
+		return stack;
+	}
+	
+	public void setReservoirPortInventorySlotContents(TileMachineReservoirPort port, int slot, ItemStack stack) {
+		NonNullList<ItemStack> stacks = port.getInventoryStacks();
+		if (slot < 0 || slot >= stacks.size()) {
+			return;
+		}
+		
+		ItemStack stackInSlot = stacks.get(slot);
+		boolean sameStack = !stack.isEmpty() && stack.isItemEqual(stackInSlot) && StackHelper.areItemStackTagsEqual(stack, stackInSlot);
+		
+		if (stack.getCount() > port.getInventoryStackLimit()) {
+			stack.setCount(port.getInventoryStackLimit());
+		}
+		
+		stacks.set(slot, stack);
+		
+		if (!sameStack) {
+			port.markTileDirty();
+		}
+		onReservoirPortInventoryChanged(port, slot);
+	}
+	
+	public void clearReservoirPortInventory(TileMachineReservoirPort port) {
+		Collections.fill(port.getInventoryStacks(), ItemStack.EMPTY);
+		onReservoirPortInventoryCleared(port);
+	}
+	
+	public boolean hasReservoirPortItemCapability(TileMachineReservoirPort port, @Nullable EnumFacing side) {
+		return !port.getInventoryStacks().isEmpty() && port.hasInventorySideCapability(side);
+	}
+	
+	public @Nonnull IItemHandler getReservoirPortItemHandler(TileMachineReservoirPort port, @Nullable EnumFacing side) {
+		return port.getItemHandler(side);
+	}
+	
+	public void pushReservoirPortItemToSide(TileMachineReservoirPort port, @Nonnull EnumFacing side) {
+		NonNullList<ItemStack> stacks = port.getInventoryStacks();
+		if (!stacks.isEmpty()) {
+			port.pushStacksToSide(side);
+		}
+	}
+	
+	public boolean isReservoirPortItemValid(TileMachineReservoirPort port, int slot, ItemStack stack) {
+		NonNullList<ItemStack> stacks = port.getInventoryStacks();
+		return slot >= 0 && slot < stacks.size() && !stack.isEmpty();
+	}
+	
+	public void onReservoirPortInventoryChanged(TileMachineReservoirPort port, int slot) {
+		refreshRecipe();
+		refreshActivity();
+	}
+	
+	public void onReservoirPortInventoryCleared(TileMachineReservoirPort port) {
+		refreshRecipe();
+		refreshActivity();
+	}
+	
+	public @Nonnull List<Tank> getReservoirPortTanks(TileMachineReservoirPort port) {
 		return multiblock.reservoirTanks;
 	}
+	
+	public @Nonnull FluidConnection[] getReservoirPortFluidConnections(TileMachineReservoirPort port) {
+		return port.backupFluidConnections;
+	}
+	
+	public boolean hasReservoirPortFluidCapability(TileMachineReservoirPort port, @Nullable EnumFacing side) {
+		return !port.getTanks().isEmpty() && port.hasFluidSideCapability(side);
+	}
+	
+	public @Nonnull IFluidHandler getReservoirPortFluidHandler(TileMachineReservoirPort port, @Nonnull EnumFacing side) {
+		return port.getFluidSide(side);
+	}
+	
+	public void pushReservoirPortFluidToSide(TileMachineReservoirPort port, @Nonnull EnumFacing side) {
+		List<Tank> tanks = port.getTanks();
+		if (!tanks.isEmpty() && !tanks.get(0).isEmpty() && port.getTankSorption(side, 0).canDrain()) {
+			port.pushFluidToSide(side);
+		}
+	}
+	
+	public boolean isReservoirPortFluidValid(TileMachineReservoirPort port, int tankNumber, FluidStack stack) {
+		List<Tank> tanks = port.getTanks();
+		return tankNumber >= 0 && tankNumber < tanks.size() && tanks.get(tankNumber).canFillFluidType(stack);
+	}
+	
+	public void onReservoirPortTanksCleared(TileMachineReservoirPort port) {}
 	
 	public @Nonnull NonNullList<ItemStack> getProcessPortInventoryStacks(NonNullList<ItemStack> backupStacks, int slot) {
 		return multiblock.isAssembled() && slot >= 0 ? multiblock.inventoryStacks.subList(slot, slot + 1) : backupStacks;
@@ -523,6 +708,9 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		logicTag.setDouble("radiationLevel", multiblock.radiation.getRadiationLevel());
 		
 		multiblock.energyStorage.writeToNBT(logicTag, "energyStorage");
+		NBTTagCompound reservoirInventoryTag = new NBTTagCompound();
+		writeStacks(multiblock.reservoirInventoryStacks, reservoirInventoryTag);
+		logicTag.setTag("reservoirInventoryStacks", reservoirInventoryTag);
 		writeTanks(multiblock.reservoirTanks, logicTag, "reservoirTanks");
 		
 		writeStacks(multiblock.inventoryStacks, logicTag);
@@ -535,6 +723,8 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		logicTag.setDouble("basePowerMultiplier", multiblock.basePowerMultiplier);
 		
 		multiblock.recipeUnitInfo.writeToNBT(logicTag, "recipeUnitInfo");
+		
+		logicTag.setBoolean("readyToProcess", multiblock.readyToProcess);
 	}
 	
 	@Override
@@ -545,6 +735,7 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		multiblock.radiation.setRadiationLevel(logicTag.getDouble("radiationLevel"));
 		
 		multiblock.energyStorage.readFromNBT(logicTag, "energyStorage");
+		readStacks(multiblock.reservoirInventoryStacks, logicTag.getCompoundTag("reservoirInventoryStacks"));
 		readTanks(multiblock.reservoirTanks, logicTag, "reservoirTanks");
 		
 		readStacks(multiblock.inventoryStacks, logicTag);
@@ -557,6 +748,8 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		multiblock.basePowerMultiplier = logicTag.getDouble("basePowerMultiplier");
 		
 		multiblock.recipeUnitInfo = RecipeUnitInfo.readFromNBT(logicTag, "recipeUnitInfo");
+		
+		multiblock.readyToProcess = logicTag.getBoolean("readyToProcess");
 	}
 	
 	// Packets
@@ -577,6 +770,7 @@ public class MachineLogic extends MultiblockLogic<Machine, MachineLogic, IMachin
 		multiblock.baseSpeedMultiplier = message.baseSpeedMultiplier;
 		multiblock.basePowerMultiplier = message.basePowerMultiplier;
 		multiblock.recipeUnitInfo = message.recipeUnitInfo;
+		multiblock.readyToProcess = message.readyToProcess;
 	}
 	
 	public MachineRenderPacket getRenderPacket() {

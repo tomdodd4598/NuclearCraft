@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRead extends Token
-{
-	public TRead()
-	{
+public final class TRead extends Token {
+	public TRead() {
 		super.setText("read");
 	}
-
-	public TRead(int line, int pos)
-	{
+	
+	public TRead(int line, int pos) {
 		super.setText("read");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TRead(getLine(), getPos());
+	public Object clone() {
+		return new TRead(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTRead(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TRead text.");
 	}
 }

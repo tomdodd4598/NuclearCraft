@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TForeach extends Token
-{
-	public TForeach()
-	{
+public final class TForeach extends Token {
+	public TForeach() {
 		super.setText("foreach");
 	}
-
-	public TForeach(int line, int pos)
-	{
+	
+	public TForeach(int line, int pos) {
 		super.setText("foreach");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TForeach(getLine(), getPos());
+	public Object clone() {
+		return new TForeach(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTForeach(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TForeach text.");
 	}
 }

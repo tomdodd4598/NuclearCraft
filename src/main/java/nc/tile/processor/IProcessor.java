@@ -53,9 +53,11 @@ public interface IProcessor<TILE extends TileEntity & IProcessor<TILE, PACKET, I
 		}
 	}
 	
-	@Nonnull NonNullList<ItemStack> getConsumedStacks();
+	@Nonnull
+	NonNullList<ItemStack> getConsumedStacks();
 	
-	@Nonnull List<Tank> getConsumedTanks();
+	@Nonnull
+	List<Tank> getConsumedTanks();
 	
 	default List<ItemStack> getItemInputs(boolean consumed) {
 		return consumed ? getConsumedStacks() : getInventoryStacks().subList(0, getContainerInfo().itemInputSize);

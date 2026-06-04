@@ -1,7 +1,7 @@
 package nc.block;
 
 import nc.enumm.*;
-import nc.enumm.MetaEnums.*;
+import nc.enumm.MetaEnums.MachineSieveAssemblyType;
 import nc.tab.NCTabs;
 import nc.tile.ITile;
 import nc.util.*;

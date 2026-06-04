@@ -1,10 +1,26 @@
 v2o.9.7
 
++ Added Multiblock Decay Pool - utilise the radioactivity of fission products!
+* Use reservoir ports to send radioisotopes into decay pool containers
+* Send in water via process ports to be heated by the radioactivity
+
++ Added Gadolinium-Samarium Fission Neutron Shield
+
+* Fixed various multiblocks assuming a recipe input size of 1 mB
+
++ Added QMD and Trinity to default ore dict priority list
+
+* Modified default decay generator recipe stats
+
+* Fixed large machine multiblock GUIs occasionally updating incorrectly
+
 * A few other minor fixes and changes
 
 + Added mam's Salford classics
 
-* Acquired recipe from Fred
++ Acquired recipe from Fred
+
+* Failed to prevent absorption of calamitous radiation doses
 
 * Updated the wasteland dimension
 

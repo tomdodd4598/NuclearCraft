@@ -2,32 +2,27 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TLabel extends Token
-{
-	public TLabel(String text)
-	{
+public final class TLabel extends Token {
+	public TLabel(String text) {
 		setText(text);
 	}
-
-	public TLabel(String text, int line, int pos)
-	{
+	
+	public TLabel(String text, int line, int pos) {
 		setText(text);
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TLabel(getText(), getLine(), getPos());
+	public Object clone() {
+		return new TLabel(getText(), getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTLabel(this);
 	}
 }

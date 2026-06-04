@@ -2,10 +2,10 @@
 
 package nc.dssl.lexer;
 
-import java.io.*;
+import java.io.IOException;
 
-public interface IPushbackReader
-{
+public interface IPushbackReader {
 	int read() throws IOException;
+	
 	void unread(int c) throws IOException;
 }

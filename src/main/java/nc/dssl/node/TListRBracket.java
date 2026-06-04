@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TListRBracket extends Token
-{
-	public TListRBracket()
-	{
+public final class TListRBracket extends Token {
+	public TListRBracket() {
 		super.setText("]");
 	}
-
-	public TListRBracket(int line, int pos)
-	{
+	
+	public TListRBracket(int line, int pos) {
 		super.setText("]");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TListRBracket(getLine(), getPos());
+	public Object clone() {
+		return new TListRBracket(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTListRBracket(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TListRBracket text.");
 	}
 }

@@ -25,7 +25,8 @@ public interface ITileFluid extends ITile {
 	
 	// Tanks
 	
-	@Nonnull List<Tank> getTanks();
+	@Nonnull
+	List<Tank> getTanks();
 	
 	// Tank Logic
 	

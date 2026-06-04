@@ -2,20 +2,17 @@
 
 package nc.dssl.lexer;
 
-import nc.dssl.node.*;
+import nc.dssl.node.InvalidToken;
 
-public class LexerException extends Exception
-{
+public class LexerException extends Exception {
 	private final InvalidToken invalidToken;
 	
-	public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message)
-	{
+	public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message) {
 		super(message);
 		this.invalidToken = invalidToken;
 	}
-
-	public InvalidToken getToken()
-	{
+	
+	public InvalidToken getToken() {
 		return this.invalidToken;
 	}
 }

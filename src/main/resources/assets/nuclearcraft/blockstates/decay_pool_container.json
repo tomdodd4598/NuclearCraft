@@ -1,0 +1,13 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/machine/decay_pool/container"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}]
+	}
+}

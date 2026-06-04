@@ -1,3 +1,5 @@
+Remove gas and NaK fission heating recipes
+
 Fission monitors: cluster information, S'tack, etc.
 
 Fission controller: invalid cluster warning (if any) instead of net cluster heating
@@ -20,9 +22,6 @@ Keep clusters running even when multiblock is invalidated
 Patchouli documentation
 
 GroovyScript documentation
-___________________________________________________________________________________________________________________________
-
-Decay pool to preheat condensate water from radioactive isotopes? (https://discordapp.com/channels/425461908712325130/425470889354723350/574303555465510912)
 ___________________________________________________________________________________________________________________________
 
 Fusion Reactor: https://discordapp.com/channels/425461908712325130/425471153067524098/621412674948825134

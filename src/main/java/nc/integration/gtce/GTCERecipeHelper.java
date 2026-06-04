@@ -252,7 +252,8 @@ public class GTCERecipeHelper {
 			try {
 				eutLong = new MethodWrapper<>(RecipeBuilder.class, "EUt", long.class);
 			}
-			catch (Exception ignored) {}
+			catch (Exception ignored) {
+			}
 		}
 		EUT_INT = eutInt;
 		EUT_LONG = eutLong;

@@ -187,6 +187,20 @@ public class BasicRecipe implements IRecipe {
 		return (double) extras.get(0);
 	}
 	
+	// Decay Pool
+	
+	public int getDecayPoolHeatPerInputMB() {
+		return (int) extras.get(0);
+	}
+	
+	public double getDecayPoolContainerLifetime() {
+		return (double) extras.get(0);
+	}
+	
+	public double getDecayPoolContainerHeat() {
+		return (double) extras.get(1);
+	}
+	
 	// Fission Moderator
 	
 	public int getFissionModeratorFluxFactor() {

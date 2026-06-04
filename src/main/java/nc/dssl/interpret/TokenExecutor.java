@@ -196,7 +196,8 @@ public class TokenExecutor extends TokenReader implements HierarchicalScope {
 	@FunctionalInterface
 	protected interface TokenFunction {
 		
-		@Nonnull TokenResult apply(TokenExecutor exec, @Nonnull Token token);
+		@Nonnull
+		TokenResult apply(TokenExecutor exec, @Nonnull Token token);
 	}
 	
 	protected static class TokenFunctionMap {
@@ -212,8 +213,7 @@ public class TokenExecutor extends TokenReader implements HierarchicalScope {
 		}
 		
 		protected <T extends Token> @Nonnull TokenResult apply(TokenExecutor exec, @Nonnull T token) {
-			@SuppressWarnings("unchecked")
-			Class<T> clazz = (Class<T>) token.getClass();
+			@SuppressWarnings("unchecked") Class<T> clazz = (Class<T>) token.getClass();
 			TokenFunction function = get(clazz);
 			if (function == null) {
 				throw new IllegalArgumentException(String.format("Encountered unsupported %s token \"%s\"!", clazz.getSimpleName(), token.getText()));

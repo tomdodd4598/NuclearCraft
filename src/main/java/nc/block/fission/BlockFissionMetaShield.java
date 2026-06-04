@@ -44,6 +44,7 @@ public class BlockFissionMetaShield extends BlockFissionMetaPart<MetaEnums.Neutr
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return switch (metadata) {
 			case 0 -> new TileFissionShield.BoronSilver();
+			case 1 -> new TileFissionShield.GadoliniumSamarium();
 			default -> new TileFissionShield.BoronSilver();
 		};
 	}

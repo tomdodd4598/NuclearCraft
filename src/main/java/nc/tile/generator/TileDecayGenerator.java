@@ -115,7 +115,7 @@ public class TileDecayGenerator extends TileEnergy implements ITickable, IInterf
 	
 	public double getRecipeLifetime(EnumFacing side) {
 		BasicRecipe recipe = getDecayRecipe(side);
-		return recipe == null ? 1200D : recipe.getDecayGeneratorLifetime();
+		return recipe == null ? 12000D : recipe.getDecayGeneratorLifetime();
 	}
 	
 	public double getRecipePower(EnumFacing side) {

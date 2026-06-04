@@ -1,7 +1,7 @@
 package nc.tile.machine;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.machine.*;
+import nc.multiblock.machine.Machine;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

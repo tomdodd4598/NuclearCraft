@@ -2,7 +2,6 @@
 
 package nc.dssl.node;
 
-public interface Switchable
-{
+public interface Switchable {
 	void apply(Switch sw);
 }

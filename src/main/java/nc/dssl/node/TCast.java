@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCast extends Token
-{
-	public TCast()
-	{
+public final class TCast extends Token {
+	public TCast() {
 		super.setText("cast");
 	}
-
-	public TCast(int line, int pos)
-	{
+	
+	public TCast(int line, int pos) {
 		super.setText("cast");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TCast(getLine(), getPos());
+	public Object clone() {
+		return new TCast(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTCast(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TCast text.");
 	}
 }

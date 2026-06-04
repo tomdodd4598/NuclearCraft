@@ -2,7 +2,7 @@ package nc.multiblock.fission;
 
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.init.NCBlocks;
 import nc.network.multiblock.*;
@@ -61,12 +61,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		return !containsBlacklistedPart() && !isMissingSorption();
 	}
 	
-	public static final List<Pair<Class<? extends IFissionPart>, String>> MOLTEN_SALT_PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TilePebbleFissionChamber.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_chambers"),
-			Pair.of(TilePebbleFissionCooler.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_coolers"),
-			Pair.of(TileSolidFissionCell.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_cells"),
-			Pair.of(TileSolidFissionSink.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_sinks")
-	);
+	public static final List<Pair<Class<? extends IFissionPart>, String>> MOLTEN_SALT_PART_BLACKLIST = Lists.newArrayList(Pair.of(TilePebbleFissionChamber.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_chambers"), Pair.of(TilePebbleFissionCooler.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_coolers"), Pair.of(TileSolidFissionCell.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_cells"), Pair.of(TileSolidFissionSink.class, Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_sinks"));
 	
 	@Override
 	public List<Pair<Class<? extends IFissionPart>, String>> getPartBlacklist() {
@@ -74,8 +69,7 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean isMissingSorption() {
-		return super.isMissingSorption()
-				|| isMissingSorption(TileFissionVesselPort.class, TileSaltFissionVessel.class, NCBlocks.fission_vessel_port.getLocalizedName());
+		return super.isMissingSorption() || isMissingSorption(TileFissionVesselPort.class, TileSaltFissionVessel.class, NCBlocks.fission_vessel_port.getLocalizedName());
 	}
 	
 	@Override
@@ -239,6 +233,11 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
 	public boolean canProduceProducts() {
 		BasicRecipe recipe = emergencyCoolingRecipeInfo.recipe;
+		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(emergencyCoolingRecipeInfo.getFluidIngredientNumbers().get(0));
+		if (inputSize <= 0 || recipe.getEmergencyCoolingHeatPerInputMB() <= 0D) {
+			return false;
+		}
+		
 		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
 		int productSize = fluidProduct.getMaxStackSize(0);
 		if (productSize <= 0 || fluidProduct.getStack() == null) {
@@ -246,32 +245,43 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		}
 		
 		Tank outputTank = tanks.get(1);
-		return outputTank.isEmpty() || outputTank.getFluid().isFluidEqual(fluidProduct.getStack());
+		return outputTank.isEmpty() ? outputTank.getCapacity() >= productSize : outputTank.getFluid().isFluidEqual(fluidProduct.getStack()) && outputTank.getCapacity() - outputTank.getFluidAmount() >= productSize;
 	}
 	
 	public void produceProducts() {
 		Tank inputTank = tanks.get(0), outputTank = tanks.get(1);
 		
 		BasicRecipe recipe = emergencyCoolingRecipeInfo.recipe;
-		int usedInput = NCMath.toInt(Math.min(inputTank.getFluidAmount() / recipe.getEmergencyCoolingHeatPerInputMB(), Math.min(heatBuffer.getHeatStored(), (long) FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class))));
+		int inputSize = recipe.getFluidIngredients().get(0).getMaxStackSize(emergencyCoolingRecipeInfo.getFluidIngredientNumbers().get(0));
+		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
+		int productSize = fluidProduct.getMaxStackSize(0);
+		double heatPerRecipe = recipe.getEmergencyCoolingHeatPerInputMB() * inputSize;
+		if (inputSize <= 0 || productSize <= 0 || heatPerRecipe <= 0D) {
+			return;
+		}
 		
-		inputTank.changeFluidAmount(-usedInput);
+		int outputSpace = outputTank.isEmpty() ? outputTank.getCapacity() : outputTank.getCapacity() - outputTank.getFluidAmount();
+		int recipeRate = NCMath.toInt(Math.min((double) inputTank.getFluidAmount() / inputSize, Math.min((double) heatBuffer.getHeatStored() / heatPerRecipe, Math.min((double) FissionReactor.BASE_TANK_CAPACITY * getPartCount(TileFissionVent.class) / inputSize, (double) outputSpace / productSize))));
+		if (recipeRate <= 0) {
+			return;
+		}
+		int inputAmount = NCMath.toInt((long) recipeRate * inputSize);
+		int productAmount = NCMath.toInt((long) recipeRate * productSize);
+		
+		inputTank.changeFluidAmount(-inputAmount);
 		if (inputTank.getFluidAmount() <= 0) {
 			inputTank.setFluidStored(null);
 		}
 		
-		IFluidIngredient fluidProduct = recipe.getFluidProducts().get(0);
-		if (fluidProduct.getMaxStackSize(0) > 0) {
-			if (outputTank.isEmpty()) {
-				outputTank.setFluidStored(fluidProduct.getNextStack(0));
-				outputTank.setFluidAmount(usedInput);
-			}
-			else if (outputTank.getFluid().isFluidEqual(fluidProduct.getStack())) {
-				outputTank.changeFluidAmount(usedInput);
-			}
+		if (outputTank.isEmpty()) {
+			outputTank.setFluidStored(fluidProduct.getNextStack(0));
+			outputTank.setFluidAmount(productAmount);
+		}
+		else if (outputTank.getFluid().isFluidEqual(fluidProduct.getStack())) {
+			outputTank.changeFluidAmount(productAmount);
 		}
 		
-		heatBuffer.changeHeatStored((long) (-usedInput * recipe.getEmergencyCoolingHeatPerInputMB()));
+		heatBuffer.changeHeatStored((long) (-recipeRate * heatPerRecipe));
 	}
 	
 	public long getNetClusterHeating() {

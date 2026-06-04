@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TDef extends Token
-{
-	public TDef()
-	{
+public final class TDef extends Token {
+	public TDef() {
 		super.setText("def");
 	}
-
-	public TDef(int line, int pos)
-	{
+	
+	public TDef(int line, int pos) {
 		super.setText("def");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TDef(getLine(), getPos());
+	public Object clone() {
+		return new TDef(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTDef(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TDef text.");
 	}
 }

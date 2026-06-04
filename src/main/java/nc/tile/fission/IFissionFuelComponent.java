@@ -1,7 +1,7 @@
 package nc.tile.fission;
 
 import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.multiblock.fission.FissionReactor;
 import nc.recipe.*;
 import net.minecraft.util.EnumFacing;

@@ -75,6 +75,13 @@ public class TileFissionShield extends TileFissionPart implements IFissionHeatin
 		}
 	}
 	
+	public static class GadoliniumSamarium extends Meta {
+		
+		public GadoliniumSamarium() {
+			super(MetaEnums.NeutronShieldType.GADOLINIUM_SAMARIUM);
+		}
+	}
+	
 	@Override
 	public void onMachineAssembled(FissionReactor multiblock) {
 		doStandardNullControllerResponse(multiblock);

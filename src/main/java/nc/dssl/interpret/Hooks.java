@@ -16,9 +16,11 @@ public interface Hooks {
 	@Nonnull
 	TokenResult onInclude(TokenExecutor exec);
 	
-	@Nonnull TokenResult onImport(TokenExecutor exec);
+	@Nonnull
+	TokenResult onImport(TokenExecutor exec);
 	
-	@Nonnull TokenResult onNative(TokenExecutor exec);
+	@Nonnull
+	TokenResult onNative(TokenExecutor exec);
 	
 	TokenIterator getBlockIterator(TokenExecutor exec, @Nonnull BlockElement block);
 	

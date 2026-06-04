@@ -4,8 +4,8 @@ import nc.Global;
 import nc.gui.element.MultiblockButton;
 import nc.multiblock.fission.*;
 import nc.network.multiblock.*;
-import nc.tile.fission.*;
 import nc.tile.TileContainerInfo;
+import nc.tile.fission.*;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,13 +65,13 @@ public class GuiSolidFissionController extends GuiLogicMultiblockController<Fiss
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isReactorOn ? -1 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.solid_fission_controller.reactor");
-		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
 		
 		String clusters = Lang.localize("gui.nc.container.fission_controller.clusters") + " " + multiblock.clusterCount;
-		fontRenderer.drawString(clusters, xSize / 2 - fontRenderer.getStringWidth(clusters) / 2, 22, fontColor);
+		fontRenderer.drawString(clusters, centeredWidth(clusters) / 2, 22, fontColor);
 		
 		if (NCUtil.isModifierKeyDown()) {
 			heatMultText.applyAsInt(34, fontColor);
@@ -90,7 +90,7 @@ public class GuiSolidFissionController extends GuiLogicMultiblockController<Fiss
 		}
 		
 		String temperature = Lang.localize("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? Math.round(logic.getTemperature() - 273.15D) + " C" : Math.round(logic.getTemperature()) + " K");
-		fontRenderer.drawString(temperature, xSize / 2 - fontRenderer.getStringWidth(temperature) / 2, NCUtil.isModifierKeyDown() ? 70 : 76, fontColor);
+		fontRenderer.drawString(temperature, centeredWidth(temperature) / 2, NCUtil.isModifierKeyDown() ? 70 : 76, fontColor);
 		
 		if (!NCUtil.isModifierKeyDown()) {
 			netClusterHeatingText.applyAsInt(88, fontColor);

@@ -21,14 +21,7 @@ public class FurnaceFuelHandler implements IFuelHandler {
 		}
 	}
 	
-	Lazy<List<FuelPair>> fuelPairs = new Lazy<>(() -> Arrays.asList(
-			new FuelPair(new ItemStack(NCItems.ingot, 1, 8), 1600),
-			new FuelPair(new ItemStack(NCItems.dust, 1, 8), 1600),
-			new FuelPair(new ItemStack(NCBlocks.ingot_block, 1, 8), 16000),
-			new FuelPair(new ItemStack(NCItems.gem_dust, 1, 7), 1600),
-			new FuelPair(new ItemStack(Items.REEDS), 200),
-			new FuelPair(new ItemStack(Items.SUGAR), 200)
-	));
+	Lazy<List<FuelPair>> fuelPairs = new Lazy<>(() -> Arrays.asList(new FuelPair(new ItemStack(NCItems.ingot, 1, 8), 1600), new FuelPair(new ItemStack(NCItems.dust, 1, 8), 1600), new FuelPair(new ItemStack(NCBlocks.ingot_block, 1, 8), 16000), new FuelPair(new ItemStack(NCItems.gem_dust, 1, 7), 1600), new FuelPair(new ItemStack(Items.REEDS), 200), new FuelPair(new ItemStack(Items.SUGAR), 200)));
 	
 	@Override
 	public int getBurnTime(ItemStack fuel) {

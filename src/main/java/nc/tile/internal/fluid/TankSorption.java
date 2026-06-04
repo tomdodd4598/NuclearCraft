@@ -74,11 +74,7 @@ public enum TankSorption implements IStringSerializable, IGuiButton {
 		}
 	}
 	
-	private static final TankSorption[][] FROM_INT_ARRAYS = {
-			{IN, OUT, BOTH, NON},
-			{IN, OUT, AUTO_OUT, NON},
-			{OUT, AUTO_OUT, NON}
-	};
+	private static final TankSorption[][] FROM_INT_ARRAYS = {{IN, OUT, BOTH, NON}, {IN, OUT, AUTO_OUT, NON}, {OUT, AUTO_OUT, NON}};
 	
 	public static TankSorption fromInt(Type type, int index) {
 		return FROM_INT_ARRAYS[type.ordinal()][index];

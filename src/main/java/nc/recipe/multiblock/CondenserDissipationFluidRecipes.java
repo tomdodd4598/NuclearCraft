@@ -1,7 +1,7 @@
 package nc.recipe.multiblock;
 
 import nc.recipe.BasicRecipeHandler;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.*;
 
@@ -13,10 +13,7 @@ public class CondenserDissipationFluidRecipes extends BasicRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		FluidRegistry.getRegisteredFluids().entrySet().stream()
-				.filter(x -> x.getValue().getTemperature() <= 300)
-				.sorted(Comparator.comparing(x -> x.getValue().getTemperature()))
-				.forEach(x -> addRecipe(x.getKey(), x.getValue().getTemperature()));
+		FluidRegistry.getRegisteredFluids().entrySet().stream().filter(x -> x.getValue().getTemperature() <= 300).sorted(Comparator.comparing(x -> x.getValue().getTemperature())).forEach(x -> addRecipe(x.getKey(), x.getValue().getTemperature()));
 	}
 	
 	@Override

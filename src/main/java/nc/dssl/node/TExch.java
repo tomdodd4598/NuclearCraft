@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TExch extends Token
-{
-	public TExch()
-	{
+public final class TExch extends Token {
+	public TExch() {
 		super.setText("exch");
 	}
-
-	public TExch(int line, int pos)
-	{
+	
+	public TExch(int line, int pos) {
 		super.setText("exch");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TExch(getLine(), getPos());
+	public Object clone() {
+		return new TExch(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTExch(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TExch text.");
 	}
 }

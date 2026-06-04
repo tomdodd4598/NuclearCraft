@@ -107,6 +107,9 @@ public class NCBlocks {
 	public static Block infiltrator_pressure_chamber;
 	public static Block infiltrator_heating_unit;
 	
+	public static Block decay_pool_controller;
+	public static Block decay_pool_container;
+	
 	public static Block rtg_uranium;
 	public static Block rtg_plutonium;
 	public static Block rtg_americium;
@@ -346,6 +349,9 @@ public class NCBlocks {
 		infiltrator_controller = addWithName(Global.MOD_ID, "infiltrator_controller", new BlockInfiltratorController());
 		infiltrator_pressure_chamber = addWithName(Global.MOD_ID, "infiltrator_pressure_chamber", new BlockInfiltratorPressureChamber());
 		infiltrator_heating_unit = addWithName(Global.MOD_ID, "infiltrator_heating_unit", new BlockInfiltratorHeatingUnit());
+		
+		decay_pool_controller = addWithName(Global.MOD_ID, "decay_pool_controller", new BlockDecayPoolController());
+		decay_pool_container = addWithName(Global.MOD_ID, "decay_pool_container", new BlockDecayPoolContainer());
 		
 		rtg_uranium = addWithName(Global.MOD_ID, "rtg_uranium", new BlockRTG(RTGType.URANIUM), NCInfo.rtgInfo(rtg_power[0]));
 		rtg_plutonium = addWithName(Global.MOD_ID, "rtg_plutonium", new BlockRTG(RTGType.PLUTONIUM), NCInfo.rtgInfo(rtg_power[1]));

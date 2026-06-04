@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TExec extends Token
-{
-	public TExec()
-	{
+public final class TExec extends Token {
+	public TExec() {
 		super.setText("exec");
 	}
-
-	public TExec(int line, int pos)
-	{
+	
+	public TExec(int line, int pos) {
 		super.setText("exec");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TExec(getLine(), getPos());
+	public Object clone() {
+		return new TExec(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTExec(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TExec text.");
 	}
 }

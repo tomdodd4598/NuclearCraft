@@ -52,9 +52,11 @@ public class NCFluids {
 		addFluidPair(FluidType.MOLTEN, "barium_oxide", 0xC7D4D6);
 		addFluidPair(FluidType.MOLTEN, "nickel", 0xA3A998);
 		addFluidPair(FluidType.MOLTEN, "nickel_oxide", 0x435E49);
+		addFluidPair(FluidType.MOLTEN, "palladium", 0x767676);
 		addFluidPair(FluidType.MOLTEN, "chromium", 0xE7E7E7);
 		addFluidPair(FluidType.MOLTEN, "holmium", 0xDCB49C);
 		addFluidPair(FluidType.MOLTEN, "dysprosium", 0xC381E4);
+		addFluidPair(FluidType.MOLTEN, "gadolinium", 0x99C3F2);
 		
 		addFluidPair(FluidType.SUPERFLUID, "liquid_helium");
 		addFluidPair(FluidType.LIQUID, "liquid_nitrogen", false, 0x31C23A, 810, 70, 170, 0);
@@ -195,7 +197,7 @@ public class NCFluids {
 		addFluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 550);
 		addFluidPair(FluidType.STEAM, "low_quality_steam", 0x828282, 350);
 		
-		addFluidPair(FluidType.LIQUID, "preheated_water", false, 0x2F43F4, 1000, 400, 250, 0);
+		addFluidPair(FluidType.LIQUID, "preheated_water", false, 0x1D35F2, 1000, 400, 250, 0);
 		addFluidPair(FluidType.LIQUID, "condensate_water", false, 0x2F43F4, 1000, 350, 850, 0);
 		
 		addFluidPair(FluidType.MOLTEN, "sodium", 0xC1898C);

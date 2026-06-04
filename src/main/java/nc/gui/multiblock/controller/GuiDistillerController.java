@@ -13,7 +13,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.function.*;
+import java.util.function.IntBinaryOperator;
 
 public class GuiDistillerController extends GuiLogicMultiblockController<Machine, MachineLogic, IMachinePart, MachineUpdatePacket, TileDistillerController, TileContainerInfo<TileDistillerController>, DistillerLogic> {
 	
@@ -22,7 +22,7 @@ public class GuiDistillerController extends GuiLogicMultiblockController<Machine
 	IntBinaryOperator refluxBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.distiller_controller.reflux_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().refluxUnitBonus, 1));
 	IntBinaryOperator reboilingBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.distiller_controller.reboiling_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().reboilingUnitBonus, 1));
 	IntBinaryOperator distributionBonusText = centeredTracker(() -> Lang.localize("gui.nc.container.distiller_controller.distribution_bonus") + " " + NCMath.pcDecimalPlaces(getLogic().liquidDistributorBonus, 1));
-	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5));
+	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(multiblock.readyToProcess ? logic.getProcessTimeFP() : null, 5));
 	IntBinaryOperator powerText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t"));
 	
 	public GuiDistillerController(Container inventory, EntityPlayer player, TileDistillerController controller, String textureLocation) {

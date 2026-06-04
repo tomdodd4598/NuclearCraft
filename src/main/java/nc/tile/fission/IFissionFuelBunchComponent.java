@@ -12,7 +12,8 @@ public interface IFissionFuelBunchComponent extends IFissionFuelComponent {
 		componentFailCache.putAll(getFuelBunch().fuelComponentMap);
 	}
 	
-	@Nullable FissionFuelBunch getFuelBunch();
+	@Nullable
+	FissionFuelBunch getFuelBunch();
 	
 	void setFuelBunch(@Nullable FissionFuelBunch fuelBunch);
 	

@@ -69,6 +69,6 @@ public class FuelReprocessorRecipes extends BasicProcessorRecipeHandler {
 	}
 	
 	public ChanceItemIngredient wasteStack(String waste, double chancePercent) {
-		return chanceOreStack("dust" + waste, waste.equals("Molybdenum") ? 2 : 1, NCMath.toInt(chancePercent));
+		return chanceOreStack("dust" + waste, 2, NCMath.toInt(chancePercent));
 	}
 }

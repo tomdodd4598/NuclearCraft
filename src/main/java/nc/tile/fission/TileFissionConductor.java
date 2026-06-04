@@ -1,7 +1,7 @@
 package nc.tile.fission;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.*;
 import net.minecraft.nbt.NBTTagCompound;

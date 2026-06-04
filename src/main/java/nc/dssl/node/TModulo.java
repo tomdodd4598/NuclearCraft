@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TModulo extends Token
-{
-	public TModulo()
-	{
+public final class TModulo extends Token {
+	public TModulo() {
 		super.setText("%%");
 	}
-
-	public TModulo(int line, int pos)
-	{
+	
+	public TModulo(int line, int pos) {
 		super.setText("%%");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TModulo(getLine(), getPos());
+	public Object clone() {
+		return new TModulo(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTModulo(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TModulo text.");
 	}
 }

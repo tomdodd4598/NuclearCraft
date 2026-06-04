@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TPrint extends Token
-{
-	public TPrint()
-	{
+public final class TPrint extends Token {
+	public TPrint() {
 		super.setText("print");
 	}
-
-	public TPrint(int line, int pos)
-	{
+	
+	public TPrint(int line, int pos) {
 		super.setText("print");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TPrint(getLine(), getPos());
+	public Object clone() {
+		return new TPrint(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTPrint(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TPrint text.");
 	}
 }

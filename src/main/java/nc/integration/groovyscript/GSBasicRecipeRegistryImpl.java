@@ -203,6 +203,30 @@ public class GSBasicRecipeRegistryImpl {
 	}
 	
 	@RegistryDescription
+	public static class GSMultiblockDecayPoolRecipeRegistry extends GSBasicRecipeRegistry {
+		
+		public GSMultiblockDecayPoolRecipeRegistry(String name) {
+			super(name);
+		}
+		
+		public GSMultiblockDecayPoolRecipeBuilder builder() {
+			return new GSMultiblockDecayPoolRecipeBuilder(this);
+		}
+	}
+	
+	@RegistryDescription
+	public static class GSDecayPoolHeatSourceRecipeRegistry extends GSBasicRecipeRegistry {
+		
+		public GSDecayPoolHeatSourceRecipeRegistry(String name) {
+			super(name);
+		}
+		
+		public GSDecayPoolHeatSourceRecipeBuilder builder() {
+			return new GSDecayPoolHeatSourceRecipeBuilder(this);
+		}
+	}
+	
+	@RegistryDescription
 	public static class GSFissionModeratorRecipeRegistry extends GSBasicRecipeRegistry {
 		
 		public GSFissionModeratorRecipeRegistry(String name) {

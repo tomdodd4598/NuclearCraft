@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TMultiplyEquals extends Token
-{
-	public TMultiplyEquals()
-	{
+public final class TMultiplyEquals extends Token {
+	public TMultiplyEquals() {
 		super.setText("*=");
 	}
-
-	public TMultiplyEquals(int line, int pos)
-	{
+	
+	public TMultiplyEquals(int line, int pos) {
 		super.setText("*=");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TMultiplyEquals(getLine(), getPos());
+	public Object clone() {
+		return new TMultiplyEquals(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTMultiplyEquals(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TMultiplyEquals text.");
 	}
 }

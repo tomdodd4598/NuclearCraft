@@ -1,6 +1,6 @@
 package nc.block.machine;
 
-import nc.block.tile.*;
+import nc.block.tile.IActivatable;
 import nc.tile.machine.TileMachineReservoirPort;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;

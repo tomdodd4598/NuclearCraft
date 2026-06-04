@@ -1,6 +1,6 @@
 package nc.block.distributor;
 
-import nc.tile.distributor.*;
+import nc.tile.distributor.TileDistributorInlet;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

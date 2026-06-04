@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TLoop extends Token
-{
-	public TLoop()
-	{
+public final class TLoop extends Token {
+	public TLoop() {
 		super.setText("loop");
 	}
-
-	public TLoop(int line, int pos)
-	{
+	
+	public TLoop(int line, int pos) {
 		super.setText("loop");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TLoop(getLine(), getPos());
+	public Object clone() {
+		return new TLoop(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTLoop(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TLoop text.");
 	}
 }

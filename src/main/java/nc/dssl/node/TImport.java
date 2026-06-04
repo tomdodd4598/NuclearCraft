@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TImport extends Token
-{
-	public TImport()
-	{
+public final class TImport extends Token {
+	public TImport() {
 		super.setText("import");
 	}
-
-	public TImport(int line, int pos)
-	{
+	
+	public TImport(int line, int pos) {
 		super.setText("import");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TImport(getLine(), getPos());
+	public Object clone() {
+		return new TImport(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTImport(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TImport text.");
 	}
 }

@@ -105,6 +105,32 @@ public class GSBasicRecipeBuilderImpl {
 		}
 	}
 	
+	public static class GSMultiblockDecayPoolRecipeBuilder extends GSBasicRecipeBuilder<GSMultiblockDecayPoolRecipeBuilder> {
+		
+		public GSMultiblockDecayPoolRecipeBuilder(GSBasicRecipeRegistry registry) {
+			super(registry);
+		}
+		
+		public GSMultiblockDecayPoolRecipeBuilder heatPerInputMB(int heatPerInputMB) {
+			return setExtra(0, heatPerInputMB);
+		}
+	}
+	
+	public static class GSDecayPoolHeatSourceRecipeBuilder extends GSBasicRecipeBuilder<GSDecayPoolHeatSourceRecipeBuilder> {
+		
+		public GSDecayPoolHeatSourceRecipeBuilder(GSBasicRecipeRegistry registry) {
+			super(registry);
+		}
+		
+		public GSDecayPoolHeatSourceRecipeBuilder meanLifetime(double meanLifetime) {
+			return setExtra(0, meanLifetime);
+		}
+		
+		public GSDecayPoolHeatSourceRecipeBuilder power(double heat) {
+			return setExtra(1, heat);
+		}
+	}
+	
 	public static class GSFissionIrradiatorRecipeBuilder extends GSBasicRecipeBuilder<GSFissionIrradiatorRecipeBuilder> {
 		
 		public GSFissionIrradiatorRecipeBuilder(GSBasicRecipeRegistry registry) {

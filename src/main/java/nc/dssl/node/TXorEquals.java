@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TXorEquals extends Token
-{
-	public TXorEquals()
-	{
+public final class TXorEquals extends Token {
+	public TXorEquals() {
 		super.setText("^=");
 	}
-
-	public TXorEquals(int line, int pos)
-	{
+	
+	public TXorEquals(int line, int pos) {
 		super.setText("^=");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TXorEquals(getLine(), getPos());
+	public Object clone() {
+		return new TXorEquals(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTXorEquals(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TXorEquals text.");
 	}
 }

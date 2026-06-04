@@ -50,6 +50,11 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/ingot/dysprosium"
 				}
+			},
+			"gadolinium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/gadolinium"
+				}
 			}
 		}
 	}

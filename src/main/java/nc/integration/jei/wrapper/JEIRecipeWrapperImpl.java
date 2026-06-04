@@ -300,12 +300,12 @@ public class JEIRecipeWrapperImpl {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return NCMath.toInt(getDecayGeneratorLifetime() / 5D);
+			return NCMath.toInt(Math.sqrt(getDecayGeneratorLifetime()));
 		}
 		
 		protected double getDecayGeneratorLifetime() {
 			if (recipe == null) {
-				return 1200D;
+				return 12000D;
 			}
 			return recipe.getDecayGeneratorLifetime();
 		}
@@ -461,11 +461,11 @@ public class JEIRecipeWrapperImpl {
 			return tooltip;
 		}
 		
-		public static final String ELECTROLYTE = Lang.localize("jei.nuclearcraft.electrolyte");
-		public static final String ELECTROLYTE_EFFICIENCY = Lang.localize("jei.nuclearcraft.electrolyte_efficiency");
-		public static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
-		public static final String BASE_POWER = Lang.localize("jei.nuclearcraft.base_process_power");
-		public static final String BASE_RADIATION = Lang.localize("jei.nuclearcraft.base_process_radiation");
+		private static final String ELECTROLYTE = Lang.localize("jei.nuclearcraft.electrolyte");
+		private static final String ELECTROLYTE_EFFICIENCY = Lang.localize("jei.nuclearcraft.electrolyte_efficiency");
+		private static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
+		private static final String BASE_POWER = Lang.localize("jei.nuclearcraft.base_process_power");
+		private static final String BASE_RADIATION = Lang.localize("jei.nuclearcraft.base_process_radiation");
 	}
 	
 	public static class ElectrolyzerCathodeRecipeWrapper extends JEISimpleRecipeWrapper<ElectrolyzerCathodeRecipeWrapper> {
@@ -548,10 +548,10 @@ public class JEIRecipeWrapperImpl {
 			return tooltip;
 		}
 		
-		public static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
-		public static final String BASE_POWER = Lang.localize("jei.nuclearcraft.base_process_power");
-		public static final String SIEVE_TRAY_COUNT = Lang.localize("jei.nuclearcraft.distiller_sieve_tray_count");
-		public static final String BASE_RADIATION = Lang.localize("jei.nuclearcraft.base_process_radiation");
+		private static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
+		private static final String BASE_POWER = Lang.localize("jei.nuclearcraft.base_process_power");
+		private static final String SIEVE_TRAY_COUNT = Lang.localize("jei.nuclearcraft.distiller_sieve_tray_count");
+		private static final String BASE_RADIATION = Lang.localize("jei.nuclearcraft.base_process_radiation");
 	}
 	
 	public static class MultiblockInfiltratorRecipeWrapper extends JEISimpleRecipeWrapper<MultiblockInfiltratorRecipeWrapper> {
@@ -615,10 +615,10 @@ public class JEIRecipeWrapperImpl {
 			return tooltip;
 		}
 		
-		public static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
-		public static final String BASE_POWER = Lang.localize("jei.nuclearcraft.base_process_power");
-		public static final String HEATING_FACTOR = Lang.localize("jei.nuclearcraft.infiltrator_heating_factor");
-		public static final String BASE_RADIATION = Lang.localize("jei.nuclearcraft.base_process_radiation");
+		private static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
+		private static final String BASE_POWER = Lang.localize("jei.nuclearcraft.base_process_power");
+		private static final String HEATING_FACTOR = Lang.localize("jei.nuclearcraft.infiltrator_heating_factor");
+		private static final String BASE_RADIATION = Lang.localize("jei.nuclearcraft.base_process_radiation");
 	}
 	
 	public static class InfiltratorPressureFluidRecipeWrapper extends JEISimpleRecipeWrapper<InfiltratorPressureFluidRecipeWrapper> {
@@ -645,6 +645,79 @@ public class JEIRecipeWrapperImpl {
 		}
 		
 		private static final String EFFICIENCY = Lang.localize("jei.nuclearcraft.infiltrator_pressure_fluid_efficiency");
+	}
+	
+	public static class MultiblockDecayPoolRecipeWrapper extends JEISimpleRecipeWrapper<MultiblockDecayPoolRecipeWrapper> {
+		
+		public MultiblockDecayPoolRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<MultiblockDecayPoolRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return NCMath.toInt(4D * getDecayPoolHeatPerInputMB());
+		}
+		
+		protected int getDecayPoolHeatPerInputMB() {
+			if (recipe == null) {
+				return 64;
+			}
+			return recipe.getDecayPoolHeatPerInputMB();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<>();
+			
+			if (showTooltip(mouseX, mouseY)) {
+				tooltip.add(TextFormatting.YELLOW + HEATING_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPoolHeatPerInputMB(), 5, "H/mB"));
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String HEATING_REQUIRED = Lang.localize("jei.nuclearcraft.decay_pool_heating_required");
+	}
+	
+	public static class DecayPoolHeatSourceRecipeWrapper extends JEISimpleRecipeWrapper<DecayPoolHeatSourceRecipeWrapper> {
+		
+		public DecayPoolHeatSourceRecipeWrapper(IGuiHelper guiHelper, JEISimpleCategoryInfo<DecayPoolHeatSourceRecipeWrapper> categoryInfo, BasicRecipe recipe) {
+			super(guiHelper, categoryInfo, recipe);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return NCMath.toInt(Math.sqrt(getDecayPoolContainerLifetime()));
+		}
+		
+		protected double getDecayPoolContainerLifetime() {
+			if (recipe == null) {
+				return 1D;
+			}
+			return recipe.getDecayPoolContainerLifetime();
+		}
+		
+		protected double getDecayPoolContainerHeat() {
+			if (recipe == null) {
+				return 0D;
+			}
+			return recipe.getDecayPoolContainerHeat();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<>();
+			
+			if (showTooltip(mouseX, mouseY)) {
+				tooltip.add(TextFormatting.GREEN + TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getDecayPoolContainerLifetime(), 3, 1));
+				tooltip.add(TextFormatting.YELLOW + HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPoolContainerHeat(), 5, "H/t"));
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String TIME = Lang.localize("jei.nuclearcraft.decay_pool_container_lifetime");
+		private static final String HEAT = Lang.localize("jei.nuclearcraft.decay_pool_container_heat");
 	}
 	
 	public static class FissionModeratorRecipeWrapper extends JEISimpleRecipeWrapper<FissionModeratorRecipeWrapper> {
@@ -1217,7 +1290,7 @@ public class JEIRecipeWrapperImpl {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return NCMath.toInt(16D / getEmergencyCoolingHeatPerInputMB());
+			return NCMath.toInt(16D * getEmergencyCoolingHeatPerInputMB());
 		}
 		
 		public double getEmergencyCoolingHeatPerInputMB() {

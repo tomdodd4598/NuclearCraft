@@ -9,7 +9,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import static nc.block.property.BlockProperties.*;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class BlockTurbineInlet extends BlockTurbinePart {
 	

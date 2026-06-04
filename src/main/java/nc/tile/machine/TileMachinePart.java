@@ -2,7 +2,7 @@ package nc.tile.machine;
 
 import nc.capability.radiation.source.IRadiationSource;
 import nc.multiblock.cuboidal.*;
-import nc.multiblock.machine.*;
+import nc.multiblock.machine.Machine;
 
 import javax.annotation.Nullable;
 

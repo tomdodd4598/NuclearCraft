@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRepeat extends Token
-{
-	public TRepeat()
-	{
+public final class TRepeat extends Token {
+	public TRepeat() {
 		super.setText("repeat");
 	}
-
-	public TRepeat(int line, int pos)
-	{
+	
+	public TRepeat(int line, int pos) {
 		super.setText("repeat");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TRepeat(getLine(), getPos());
+	public Object clone() {
+		return new TRepeat(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTRepeat(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TRepeat text.");
 	}
 }

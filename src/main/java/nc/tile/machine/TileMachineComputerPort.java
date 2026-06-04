@@ -3,8 +3,8 @@ package nc.tile.machine;
 import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.machine.*;
 import nc.multiblock.machine.Machine;
+import nc.multiblock.machine.*;
 import nc.util.OCHelper;
 import net.minecraftforge.fml.common.Optional;
 

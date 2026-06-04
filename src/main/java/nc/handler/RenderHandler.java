@@ -29,6 +29,7 @@ public class RenderHandler {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileElectrolyzerController.class, new RenderMultiblockElectrolyzer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileDistillerController.class, new RenderMultiblockDistiller());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileInfiltratorController.class, new RenderMultiblockInfiltrator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileDecayPoolController.class, new RenderMultiblockDecayPool());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHeatExchangerController.class, new RenderMultiblockHeatExchanger());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCondenserController.class, new RenderMultiblockCondenser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTurbineController.class, new RenderTurbineRotor());

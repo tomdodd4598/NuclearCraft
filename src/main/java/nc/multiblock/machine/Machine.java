@@ -41,13 +41,14 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 	
 	public @Nonnull EnergyStorage energyStorage = new EnergyStorage(1);
 	
+	public @Nonnull InventoryStackList reservoirInventoryStacks = new InventoryStackList(Collections.emptyList());
 	public @Nonnull List<Tank> reservoirTanks = Collections.emptyList();
 	
 	public BasicRecipeHandler recipeHandler;
 	
 	public int itemInputSize, itemOutputSize, fluidInputSize, fluidOutputSize;
 	
-	public @Nonnull InventoryStackList inventoryStacks = new InventoryStackList(new ArrayList<>());
+	public @Nonnull InventoryStackList inventoryStacks = new InventoryStackList(Collections.emptyList());
 	public @Nonnull List<Tank> tanks = Collections.emptyList();
 	
 	public @Nonnull List<InventoryConnection[]> inventoryConnections = Collections.emptyList();
@@ -61,9 +62,10 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 	
 	public RecipeUnitInfo recipeUnitInfo = RecipeUnitInfo.DEFAULT;
 	
-	public boolean isMachineOn, fullHalt;
+	public boolean isMachineOn, fullHalt, readyToProcess;
 	
 	public int machineActivityCooldown = 0;
+	public boolean isMachineOnQueued = false, machineActivityDirty = false;
 	
 	@SideOnly(Side.CLIENT)
 	protected Object2ObjectMap<BlockPos, ISound> soundMap;
@@ -376,6 +378,7 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 	
 	@Override
 	public MachineUpdatePacket getMultiblockUpdatePacket() {
+		readyToProcess = processor.readyToProcess();
 		return logic.getMultiblockUpdatePacket();
 	}
 	
@@ -440,8 +443,9 @@ public class Machine extends CuboidalMultiblock<Machine, IMachinePart> implement
 			tank.setFluidStored(null);
 		}
 		
-		for (Tank reservoirTank : reservoirTanks) {
-			reservoirTank.setFluidStored(null);
+		Collections.fill(reservoirInventoryStacks, ItemStack.EMPTY);
+		for (Tank tank : reservoirTanks) {
+			tank.setFluidStored(null);
 		}
 	}
 }

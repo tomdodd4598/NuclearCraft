@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TPower extends Token
-{
-	public TPower()
-	{
+public final class TPower extends Token {
+	public TPower() {
 		super.setText("**");
 	}
-
-	public TPower(int line, int pos)
-	{
+	
+	public TPower(int line, int pos) {
 		super.setText("**");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TPower(getLine(), getPos());
+	public Object clone() {
+		return new TPower(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTPower(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TPower text.");
 	}
 }

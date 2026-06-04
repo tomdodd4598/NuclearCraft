@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TType extends Token
-{
-	public TType()
-	{
+public final class TType extends Token {
+	public TType() {
 		super.setText("type");
 	}
-
-	public TType(int line, int pos)
-	{
+	
+	public TType(int line, int pos) {
 		super.setText("type");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TType(getLine(), getPos());
+	public Object clone() {
+		return new TType(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTType(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TType text.");
 	}
 }

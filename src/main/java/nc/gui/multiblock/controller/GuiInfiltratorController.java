@@ -21,7 +21,7 @@ public class GuiInfiltratorController extends GuiLogicMultiblockController<Machi
 	
 	IntBinaryOperator pressureChamberEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.infiltrator_controller.pressure_chamber_efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.basePowerMultiplier <= 0D ? 0D : multiblock.baseSpeedMultiplier * (1D + getLogic().heatingBonus) / multiblock.basePowerMultiplier, 1));
 	IntBinaryOperator pressureFluidEfficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.infiltrator_controller.pressure_fluid_efficiency") + " " + NCMath.pcDecimalPlaces(getLogic().pressureFluidEfficiency, 1));
-	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(logic.getProcessTimeFP(), 5));
+	IntBinaryOperator rateText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.rate") + " " + multiblock.recipeUnitInfo.getString(multiblock.readyToProcess ? logic.getProcessTimeFP() : null, 5));
 	IntBinaryOperator powerText = centeredTracker(() -> Lang.localize("gui.nc.container.machine_controller.power") + " " + UnitHelper.prefix(logic.getProcessPower(), 5, "RF/t"));
 	
 	public GuiInfiltratorController(Container inventory, EntityPlayer player, TileInfiltratorController controller, String textureLocation) {
@@ -47,10 +47,10 @@ public class GuiInfiltratorController extends GuiLogicMultiblockController<Machi
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isMachineOn ? 4210752 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.infiltrator_controller.infiltrator");
-		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, xSize / 2 - fontRenderer.getStringWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
 		
 		pressureChamberEfficiencyText.applyAsInt(22, fontColor);
 		

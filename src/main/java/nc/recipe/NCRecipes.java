@@ -31,28 +31,7 @@ public class NCRecipes {
 	
 	private static final Object2BooleanMap<String> GTCE_INTEGRATION = new Object2BooleanOpenHashMap<>();
 	
-	public static final String[] BASIC_PROCESSOR_RECIPE_HANDLER_NAME_ARRAY = {
-			"manufactory",
-			"separator",
-			"decay_hastener",
-			"fuel_reprocessor",
-			"alloy_furnace",
-			"infuser",
-			"melter",
-			"supercooler",
-			"electrolyzer",
-			"assembler",
-			"ingot_former",
-			"pressurizer",
-			"chemical_reactor",
-			"salt_mixer",
-			"crystallizer",
-			"enricher",
-			"extractor",
-			"centrifuge",
-			"rock_crusher",
-			"electric_furnace"
-	};
+	public static final String[] BASIC_PROCESSOR_RECIPE_HANDLER_NAME_ARRAY = {"manufactory", "separator", "decay_hastener", "fuel_reprocessor", "alloy_furnace", "infuser", "melter", "supercooler", "electrolyzer", "assembler", "ingot_former", "pressurizer", "chemical_reactor", "salt_mixer", "crystallizer", "enricher", "extractor", "centrifuge", "rock_crusher", "electric_furnace"};
 	
 	public static void putHandler(BasicRecipeHandler handler) {
 		RECIPE_HANDLER_MAP.put(handler.getName(), handler);
@@ -118,6 +97,8 @@ public class NCRecipes {
 		putHandler(new MultiblockDistillerRecipes());
 		putHandler(new MultiblockInfiltratorRecipes());
 		putHandler(new InfiltratorPressureFluidRecipes());
+		putHandler(new MultiblockDecayPoolRecipes());
+		putHandler(new DecayPoolHeatSourceRecipes());
 		putHandler(new FissionModeratorRecipes());
 		putHandler(new FissionReflectorRecipes());
 		putHandler(new FissionIrradiatorRecipes());
@@ -178,6 +159,8 @@ public class NCRecipes {
 	public static MultiblockDistillerRecipes multiblock_distiller;
 	public static MultiblockInfiltratorRecipes multiblock_infiltrator;
 	public static InfiltratorPressureFluidRecipes infiltrator_pressure_fluid;
+	public static MultiblockDecayPoolRecipes multiblock_decay_pool;
+	public static DecayPoolHeatSourceRecipes decay_pool_heat_source;
 	public static FissionModeratorRecipes fission_moderator;
 	public static FissionReflectorRecipes fission_reflector;
 	public static FissionIrradiatorRecipes fission_irradiator;
@@ -228,6 +211,8 @@ public class NCRecipes {
 		multiblock_distiller = getHandler("multiblock_distiller");
 		multiblock_infiltrator = getHandler("multiblock_infiltrator");
 		infiltrator_pressure_fluid = getHandler("infiltrator_pressure_fluid");
+		multiblock_decay_pool = getHandler("multiblock_decay_pool");
+		decay_pool_heat_source = getHandler("decay_pool_heat_source");
 		fission_moderator = getHandler("fission_moderator");
 		fission_reflector = getHandler("fission_reflector");
 		fission_irradiator = getHandler("fission_irradiator");

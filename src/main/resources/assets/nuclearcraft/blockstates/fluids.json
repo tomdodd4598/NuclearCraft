@@ -392,6 +392,12 @@
 				"fluid": "barium"
 			}
 		},
+		"fluid_palladium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "palladium"
+			}
+		},
 		"fluid_chromium": {
 			"model": "forge:fluid",
 			"custom": {
@@ -408,6 +414,12 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "dysprosium"
+			}
+		},
+		"fluid_gadolinium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "gadolinium"
 			}
 		},
 		"fluid_silicon": {

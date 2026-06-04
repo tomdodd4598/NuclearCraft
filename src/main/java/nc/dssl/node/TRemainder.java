@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRemainder extends Token
-{
-	public TRemainder()
-	{
+public final class TRemainder extends Token {
+	public TRemainder() {
 		super.setText("%");
 	}
-
-	public TRemainder(int line, int pos)
-	{
+	
+	public TRemainder(int line, int pos) {
 		super.setText("%");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TRemainder(getLine(), getPos());
+	public Object clone() {
+		return new TRemainder(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTRemainder(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TRemainder text.");
 	}
 }

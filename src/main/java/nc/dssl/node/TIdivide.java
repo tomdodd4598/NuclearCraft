@@ -2,38 +2,32 @@
 
 package nc.dssl.node;
 
-import nc.dssl.analysis.*;
+import nc.dssl.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TIdivide extends Token
-{
-	public TIdivide()
-	{
+public final class TIdivide extends Token {
+	public TIdivide() {
 		super.setText("//");
 	}
-
-	public TIdivide(int line, int pos)
-	{
+	
+	public TIdivide(int line, int pos) {
 		super.setText("//");
 		setLine(line);
 		setPos(pos);
 	}
-
+	
 	@Override
-	public Object clone()
-	{
-	  return new TIdivide(getLine(), getPos());
+	public Object clone() {
+		return new TIdivide(getLine(), getPos());
 	}
-
+	
 	@Override
-	public void apply(Switch sw)
-	{
+	public void apply(Switch sw) {
 		((Analysis) sw).caseTIdivide(this);
 	}
-
+	
 	@Override
-	public void setText(@SuppressWarnings("unused") String text)
-	{
+	public void setText(@SuppressWarnings("unused") String text) {
 		throw new RuntimeException("Cannot change TIdivide text.");
 	}
 }

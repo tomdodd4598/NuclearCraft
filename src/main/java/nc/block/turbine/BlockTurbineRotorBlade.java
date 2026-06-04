@@ -16,11 +16,7 @@ import static nc.util.NCRenderHelper.PIXEL;
 
 public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRotorBlade {
 	
-	private static final AxisAlignedBB[] BLADE_AABB = {
-			new AxisAlignedBB(0D, PIXEL * 7D, PIXEL * 2D, PIXEL * 16D, PIXEL * 9D, PIXEL * 14D),
-			new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 7D, PIXEL * 14D, PIXEL * 16D, PIXEL * 9D),
-			new AxisAlignedBB(PIXEL * 2D, PIXEL * 7D, 0D, PIXEL * 14D, PIXEL * 9D, PIXEL * 16D)
-	};
+	private static final AxisAlignedBB[] BLADE_AABB = {new AxisAlignedBB(0D, PIXEL * 7D, PIXEL * 2D, PIXEL * 16D, PIXEL * 9D, PIXEL * 14D), new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 7D, PIXEL * 14D, PIXEL * 16D, PIXEL * 9D), new AxisAlignedBB(PIXEL * 2D, PIXEL * 7D, 0D, PIXEL * 14D, PIXEL * 9D, PIXEL * 16D)};
 	
 	private final TurbineRotorBladeType bladeType;
 	
