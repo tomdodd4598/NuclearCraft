@@ -14,6 +14,8 @@ v2o.9.7
 
 * Fixed large machine multiblock GUIs occasionally updating incorrectly
 
+* Fixed incompatibility with Bubbles API [thanks to CaliforniaDemise!]
+
 * A few other minor fixes and changes
 
 + Added mam's Salford classics
