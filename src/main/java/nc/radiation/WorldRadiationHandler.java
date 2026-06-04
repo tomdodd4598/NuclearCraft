@@ -23,7 +23,6 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkProviderServer;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 import static nc.config.NCConfig.*;
 
@@ -36,33 +35,7 @@ public class WorldRadiationHandler {
 	
 	private static EnumFacing tile_side = EnumFacing.DOWN;
 	
-	private final ExecutorService executor = Executors.newSingleThreadExecutor();
-	
-	private final Set<Integer> dims = ConcurrentHashMap.newKeySet();
-	
 	public void update(WorldServer world) {
-		int dimension = world.provider.getDimension();
-		if (!dims.add(dimension)) {
-			return;
-		}
-		
-		try {
-			executor.submit(() -> {
-				try {
-					updateInternal(world);
-				}
-				finally {
-					dims.remove(dimension);
-				}
-			});
-		}
-		catch (RejectedExecutionException e) {
-			dims.remove(dimension);
-			throw e;
-		}
-	}
-	
-	private void updateInternal(WorldServer world) {
 		ChunkProviderServer chunkProvider = world.getChunkProvider();
 		List<Chunk> chunks = new ArrayList<>(chunkProvider.getLoadedChunks());
 		
