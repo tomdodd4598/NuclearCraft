@@ -57,10 +57,10 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine, ITurb
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isTurbineOn ? -1 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.turbine_controller." + "turbine");
-		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title), 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline), 12, fontColor);
 		
 		powerText.applyAsInt(22, fontColor);
 		

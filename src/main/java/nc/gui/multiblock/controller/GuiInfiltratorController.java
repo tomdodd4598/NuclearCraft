@@ -47,10 +47,10 @@ public class GuiInfiltratorController extends GuiLogicMultiblockController<Machi
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isMachineOn ? 4210752 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.infiltrator_controller.infiltrator");
-		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title), 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline), 12, fontColor);
 		
 		pressureChamberEfficiencyText.applyAsInt(22, fontColor);
 		

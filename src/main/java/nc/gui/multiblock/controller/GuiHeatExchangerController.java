@@ -49,10 +49,10 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isExchangerOn ? 4210752 : 15619328;
 		String title = multiblock.getInteriorLengthX() + "*" + multiblock.getInteriorLengthY() + "*" + multiblock.getInteriorLengthZ() + " " + Lang.localize("gui.nc.container.heat_exchanger_controller.heat_exchanger");
-		fontRenderer.drawString(title, centeredWidth(title) / 2, 6, fontColor);
+		fontRenderer.drawString(title, centeredWidth(title), 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double) fontRenderer.getStringWidth(title) / fontRenderer.getStringWidth("-")));
-		fontRenderer.drawString(underline, centeredWidth(underline) / 2, 12, fontColor);
+		fontRenderer.drawString(underline, centeredWidth(underline), 12, fontColor);
 		
 		if (NCUtil.isModifierKeyDown()) {
 			networkCountText.applyAsInt(22, fontColor);
