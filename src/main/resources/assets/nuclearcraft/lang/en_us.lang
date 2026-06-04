@@ -3849,6 +3849,7 @@ gui.nc.container.fission_component.heat_stored=Cluster Heat Level:
 gui.nc.container.fission_irradiator.irradiator=Fission Irradiator
 
 gui.nc.container.pebble_fission_controller.reactor=Pebble Bed Reactor
+gui.nc.container.pebble_fission_controller.heating_speed_multiplier=Mean Heating Speed:
 
 gui.nc.container.solid_fission_controller.reactor=Solid Fuel Reactor
 gui.nc.container.solid_fission_controller.output_rate=Production Rate:

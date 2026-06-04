@@ -460,7 +460,7 @@ public class RadiationHelper {
 				return false;
 			}
 			
-			for (int i = 0; baublesHandler.getSlots(); ++i) {
+			for (int i = 0, len = baublesHandler.getSlots(); i < len; ++i) {
 				if (baublesHandler.getStackInSlot(i).isItemEqual(geiger_counter)) {
 					return true;
 				}

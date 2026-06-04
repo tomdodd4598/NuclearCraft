@@ -23,6 +23,7 @@ public class GuiPebbleFissionController extends GuiLogicMultiblockController<Fis
 	
 	IntBinaryOperator heatMultText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.pcDecimalPlaces(multiblock.meanHeatMult, 1));
 	IntBinaryOperator efficiencyText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.efficiency") + " " + NCMath.pcDecimalPlaces(multiblock.meanEfficiency, 1));
+	IntBinaryOperator speedMultText = centeredTracker(() -> Lang.localize("gui.nc.container.pebble_fission_controller.heating_speed_multiplier") + " " + NCMath.pcDecimalPlaces(getLogic().meanHeatingSpeedMultiplier, 1));
 	IntBinaryOperator sparsityText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.sparsity") + " " + NCMath.pcDecimalPlaces(multiblock.sparsityEfficiencyMult, 1));
 	IntBinaryOperator usefulPartCountText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume());
 	IntBinaryOperator netClusterHeatingText = centeredTracker(() -> Lang.localize("gui.nc.container.fission_controller.net_cluster_heating") + " " + UnitHelper.prefix(getLogic().getNetClusterHeating(), 5, "H/t"));
@@ -78,6 +79,8 @@ public class GuiPebbleFissionController extends GuiLogicMultiblockController<Fis
 		else {
 			efficiencyText.applyAsInt(34, fontColor);
 		}
+		
+		speedMultText.applyAsInt(46, fontColor);
 		
 		if (NCUtil.isModifierKeyDown()) {
 			sparsityText.applyAsInt(58, fontColor);
