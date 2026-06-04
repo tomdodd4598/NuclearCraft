@@ -9,30 +9,27 @@ import net.minecraft.util.math.BlockPos;
 
 public class PebbleFissionUpdatePacket extends FissionUpdatePacket {
 	
-	public double meanHeatingSpeedMultiplier, totalHeatingSpeedMultiplier;
+	public double meanHeatingSpeedMultiplier;
 	
 	public PebbleFissionUpdatePacket() {
 		super();
 	}
 	
-	public PebbleFissionUpdatePacket(BlockPos pos, boolean isReactorOn, HeatBuffer heatBuffer, int clusterCount, long cooling, long rawHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, double meanHeatingSpeedMultiplier, double totalHeatingSpeedMultiplier) {
-		super(pos, isReactorOn, heatBuffer, clusterCount, cooling, rawHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult);
+	public PebbleFissionUpdatePacket(BlockPos pos, boolean isReactorOn, HeatBuffer heatBuffer, int clusterCount, long cooling, long rawHeating, double meanHeatMult, long usefulPartCount, double meanEfficiency, double sparsityEfficiencyMult, double meanHeatingSpeedMultiplier) {
+		super(pos, isReactorOn, heatBuffer, clusterCount, cooling, rawHeating, meanHeatMult, usefulPartCount, meanEfficiency, sparsityEfficiencyMult);
 		this.meanHeatingSpeedMultiplier = meanHeatingSpeedMultiplier;
-		this.totalHeatingSpeedMultiplier = totalHeatingSpeedMultiplier;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		super.fromBytes(buf);
 		meanHeatingSpeedMultiplier = buf.readDouble();
-		totalHeatingSpeedMultiplier = buf.readDouble();
 	}
 	
 	@Override
 	public void toBytes(ByteBuf buf) {
 		super.toBytes(buf);
 		buf.writeDouble(meanHeatingSpeedMultiplier);
-		buf.writeDouble(totalHeatingSpeedMultiplier);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<FissionReactor, IFissionPart, FissionUpdatePacket, TilePebbleFissionController, TileContainerInfo<TilePebbleFissionController>, PebbleFissionUpdatePacket> {

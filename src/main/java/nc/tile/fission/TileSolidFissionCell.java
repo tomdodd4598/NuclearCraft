@@ -365,11 +365,6 @@ public class TileSolidFissionCell extends TileFissionPart implements IBasicProce
 	}
 	
 	@Override
-	public double getEfficiencyIgnoreCoolingPenalty(boolean simulate) {
-		return isRunning(simulate) ? 0D : 1D;
-	}
-	
-	@Override
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor) {
 		this.undercoolingLifetimeFactor = undercoolingLifetimeFactor;
 	}

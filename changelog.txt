@@ -6,6 +6,8 @@ v2o.9.7
 
 + Added Gadolinium-Samarium Fission Neutron Shield
 
+* Improved fission reactor efficiency and heat multiplier stats [thanks to QuantumTraverse!]
+
 * Fixed various multiblocks assuming a recipe input size of 1 mB
 
 + Added QMD and Trinity to default ore dict priority list

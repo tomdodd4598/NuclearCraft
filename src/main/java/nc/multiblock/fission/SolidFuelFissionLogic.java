@@ -102,9 +102,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 				multiblock.fuelComponentCount += cluster.fuelComponentCount;
 				multiblock.cooling += cluster.cooling;
 				multiblock.rawHeating += cluster.rawHeating;
+				multiblock.totalBaseFuelHeating += cluster.totalBaseFuelHeating;
 				effectiveHeating += cluster.effectiveHeating;
-				multiblock.totalHeatMult += cluster.totalHeatMult;
-				multiblock.totalEfficiency += cluster.totalEfficiency;
 			}
 		}
 		
@@ -112,9 +111,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		double usefulPartRatio = (double) multiblock.usefulPartCount / (double) multiblock.getInteriorVolume();
 		multiblock.sparsityEfficiencyMult = usefulPartRatio >= fission_sparsity_penalty_params[1] ? 1D : (1D - fission_sparsity_penalty_params[0]) * Math.sin(usefulPartRatio * Math.PI / (2D * fission_sparsity_penalty_params[1])) + fission_sparsity_penalty_params[0];
 		effectiveHeating *= multiblock.sparsityEfficiencyMult;
-		multiblock.totalEfficiency *= multiblock.sparsityEfficiencyMult;
-		multiblock.meanHeatMult = multiblock.fuelComponentCount == 0 ? 0D : (double) multiblock.totalHeatMult / (double) multiblock.fuelComponentCount;
-		multiblock.meanEfficiency = multiblock.fuelComponentCount == 0 ? 0D : multiblock.totalEfficiency / multiblock.fuelComponentCount;
+		multiblock.meanHeatMult = multiblock.totalBaseFuelHeating <= 0D ? 0D : (double) multiblock.rawHeating / multiblock.totalBaseFuelHeating;
+		multiblock.meanEfficiency = multiblock.totalBaseFuelHeating <= 0D ? 0D : effectiveHeating / multiblock.totalBaseFuelHeating;
 	}
 	
 	// Server
@@ -339,7 +337,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	
 	@Override
 	public SolidFissionUpdatePacket getMultiblockUpdatePacket() {
-		return new SolidFissionUpdatePacket(multiblock.controller.getTilePos(), multiblock.isReactorOn, heatBuffer, multiblock.clusterCount, multiblock.cooling, multiblock.rawHeating, multiblock.totalHeatMult, multiblock.meanHeatMult, multiblock.fuelComponentCount, multiblock.usefulPartCount, multiblock.totalEfficiency, multiblock.meanEfficiency, multiblock.sparsityEfficiencyMult, effectiveHeating, heatingOutputRateFP, reservedEffectiveHeat);
+		return new SolidFissionUpdatePacket(multiblock.controller.getTilePos(), multiblock.isReactorOn, heatBuffer, multiblock.clusterCount, multiblock.cooling, multiblock.rawHeating, multiblock.meanHeatMult, multiblock.usefulPartCount, multiblock.meanEfficiency, multiblock.sparsityEfficiencyMult, effectiveHeating, heatingOutputRateFP, reservedEffectiveHeat);
 	}
 	
 	@Override

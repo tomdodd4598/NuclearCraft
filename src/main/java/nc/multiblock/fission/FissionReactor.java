@@ -44,8 +44,8 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 	public boolean refreshFlag = true, isSimulation = false, isReactorOn = false;
 	public double ambientTemp = 290D;
 	public int fuelComponentCount = 0;
-	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
-	public double meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D;
+	public long cooling = 0L, rawHeating = 0L, usefulPartCount = 0L;
+	public double totalBaseFuelHeating = 0D, meanHeatMult = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D;
 	
 	protected final Set<EntityPlayer> updatePacketListeners = new ObjectOpenHashSet<>();
 	
@@ -81,8 +81,8 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 	public void resetStats() {
 		logic.onResetStats();
 		fuelComponentCount = 0;
-		cooling = rawHeating = totalHeatMult = usefulPartCount = 0L;
-		meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = 0D;
+		cooling = rawHeating = usefulPartCount = 0L;
+		totalBaseFuelHeating = meanHeatMult = meanEfficiency = sparsityEfficiencyMult = 0D;
 	}
 	
 	// Multiblock Size Limits
@@ -303,11 +303,9 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 		data.setInteger("clusterCount", clusterCount);
 		data.setLong("cooling", cooling);
 		data.setLong("rawHeating", rawHeating);
-		data.setLong("totalHeatMult", totalHeatMult);
 		data.setDouble("meanHeatMult", meanHeatMult);
 		data.setInteger("fuelComponentCount", fuelComponentCount);
 		data.setLong("usefulPartCount", usefulPartCount);
-		data.setDouble("totalEfficiency", totalEfficiency);
 		data.setDouble("meanEfficiency", meanEfficiency);
 		data.setDouble("sparsityEfficiencyMult", sparsityEfficiencyMult);
 		
@@ -321,11 +319,9 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 		clusterCount = data.getInteger("clusterCount");
 		cooling = data.getLong("cooling");
 		rawHeating = data.getLong("rawHeating");
-		totalHeatMult = data.getLong("totalHeatMult");
 		meanHeatMult = data.getDouble("meanHeatMult");
 		fuelComponentCount = data.getInteger("fuelComponentCount");
 		usefulPartCount = data.getLong("usefulPartCount");
-		totalEfficiency = data.getDouble("totalEfficiency");
 		meanEfficiency = data.getDouble("meanEfficiency");
 		sparsityEfficiencyMult = data.getDouble("sparsityEfficiencyMult");
 		
@@ -350,11 +346,8 @@ public class FissionReactor extends CuboidalMultiblock<FissionReactor, IFissionP
 		clusterCount = message.clusterCount;
 		cooling = message.cooling;
 		rawHeating = message.rawHeating;
-		totalHeatMult = message.totalHeatMult;
 		meanHeatMult = message.meanHeatMult;
-		fuelComponentCount = message.fuelComponentCount;
 		usefulPartCount = message.usefulPartCount;
-		totalEfficiency = message.totalEfficiency;
 		meanEfficiency = message.meanEfficiency;
 		sparsityEfficiencyMult = message.sparsityEfficiencyMult;
 		
