@@ -10,7 +10,7 @@
 #### Features  
 * Forge Energy, RF, IC2 EU and GTCEu EU compatibility
 * Multiblock solid-fuel, pebble bed and molten salt fission reactors
-* Multiblock heat exchangers, condensers and turbines
+* Multiblock heat exchangers, condensers turbines and decay pools
 * Multiblock electrolysis, distillation and infiltration
 * Single block machines, generators and batteries
 * In-depth nuclear fuel system
@@ -22,7 +22,6 @@
 * More materials, weapons, tools and armour
 
 #### Planned  
-* Multiblock decay pools
 * Stellamak fusion reactors
 
 **[JEI](https://www.curseforge.com/minecraft/mc-mods/jei), [The One Probe](https://www.curseforge.com/minecraft/mc-mods/the-one-probe), [Patchouli](https://www.curseforge.com/minecraft/mc-mods/patchouli) and [ConnectedTexturesMod](https://www.curseforge.com/minecraft/mc-mods/ctm) are highly recommended!**
