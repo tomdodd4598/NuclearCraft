@@ -22,26 +22,17 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
-import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implements IItemFluidProcessor, IGui<ProcessorUpdatePacket>, IUpgradable {
 	
@@ -150,12 +141,8 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 					pushCooldown = 50;
 				}
 				else if (pushCooldown <= 0) {
-					for (int i = 0; i < itemOutputSize; i++) {
-						shouldUpdate |= pushItemProducts(i + itemInputSize);
-					}
-					for (int i = 0; i < fluidOutputSize; i++) {
-						shouldUpdate |= pushFluidProducts(i + fluidInputSize);
-					}
+					shouldUpdate |= pushItems();
+					shouldUpdate |= pushFluids();
 					pushCooldown = 50;
 				}
 				pushCooldown--;
@@ -341,7 +328,6 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getNextStackSize(0));
 				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
-			pushItemProducts(j + itemInputSize);
 		}
 		for (int j = 0; j < fluidOutputSize; j++) {
 			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
@@ -355,54 +341,17 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 			} else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
-			pushFluidProducts(j + fluidInputSize);
 		}
+		pushItems();
+		pushFluids();
 	}
 
-	private boolean pushItemProducts(int slot) {
-		ItemStack stackInSlot = getInventoryStacks().get(slot);
-		if (stackInSlot.isEmpty()) return false;
-		InventoryConnection[] connections = getInventoryConnections();
-		boolean hasDoneWork = false;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			if (connections[side.ordinal()].getItemSorption(slot) == ItemSorption.PUSH)	{
-				TileEntity tile = world.getTileEntity(pos.offset(side));
-				if (tile == null) continue;
-				IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-				if (inventory == null) continue;
-				ItemStack remainder = ItemHandlerHelper.insertItemStacked(inventory, stackInSlot, false);
-				hasDoneWork |= remainder.getCount() != stackInSlot.getCount();
-				stackInSlot = remainder;
-				if (stackInSlot.isEmpty()) break;
-			}
-		}
-		getInventoryStacks().set(slot, stackInSlot);
-		return hasDoneWork;
+	private boolean pushItems() {
+		return IProcessor.pushItems(world, pos, getInventoryStacks(), getInventoryConnections(), itemInputSize, itemOutputSize);
 	}
 
-	private boolean pushFluidProducts(int slot) {
-		Tank tank = getTanks().get(slot);
-		FluidStack fluidInTank = tank.getFluid();
-		if (fluidInTank == null) return false;
-		FluidConnection[] connections = getFluidConnections();
-		boolean hasDoneWork = false;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			if (connections[side.ordinal()].getTankSorption(slot) == TankSorption.PUSH)	{
-				TileEntity tile = world.getTileEntity(pos.offset(side));
-				if (tile == null) continue;
-				IFluidHandler externalTanks = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-				if (externalTanks == null) continue;
-				int filledAmount = externalTanks.fill(fluidInTank, true);
-				hasDoneWork |= filledAmount > 0;
-				fluidInTank.amount -= filledAmount;
-				if (fluidInTank.amount <= 0) {
-					fluidInTank = null;
-					break;
-				}
-			}
-		}
-		tank.setFluid(fluidInTank);
-		return hasDoneWork;
+	private boolean pushFluids() {
+		return IProcessor.pushFluids(world, pos, getTanks(), getFluidConnections(), fluidInputSize, fluidOutputSize);
 	}
 	
 	public void loseProgress() {

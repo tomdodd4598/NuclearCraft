@@ -402,8 +402,8 @@ public class RadiationHelper {
 			IBaublesItemHandler baublesHandler = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
 			if (baublesHandler == null) return false;
 			
-			for (int slot : BaubleType.TRINKET.getValidSlots()) {
-				if (baublesHandler.getStackInSlot(slot).isItemEqual(geiger_counter)) return true;
+			for (int i = 0, len = baublesHandler.getSlots(); i < len; ++i) {
+				if (baublesHandler.getStackInSlot(i).isItemEqual(geiger_counter)) return true;
 			}
 		}
 		

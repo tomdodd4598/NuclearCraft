@@ -948,7 +948,7 @@ public class NCConfig {
 		propertyOreDictRawMaterialRecipes.setLanguageKey("gui.config.other.ore_dict_raw_material_recipes");
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", true, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
-		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
+		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "qmd", "trinity", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();

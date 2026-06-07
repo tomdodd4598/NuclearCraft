@@ -139,7 +139,7 @@ public class RecipeHelper {
 	public static List<ItemStack> getItemOutputList(List<IItemIngredient> list) {
 		if (list.contains(null)) return new ArrayList<ItemStack>();
 		List stacks = new ArrayList<ItemStack>();
-		list.forEach(ingredient -> stacks.add(ingredient.getStack()));
+		list.forEach(ingredient -> stacks.add(ingredient.getNextStack(0)));
 		if (stacks.contains(null)) return new ArrayList<ItemStack>();
 		return stacks;
 	}
@@ -148,7 +148,7 @@ public class RecipeHelper {
 	public static List<FluidStack> getFluidOutputList(List<IFluidIngredient> list) {
 		if (list.contains(null)) return new ArrayList<FluidStack>();
 		List stacks = new ArrayList<FluidStack>();
-		list.forEach(ingredient -> stacks.add(ingredient.getStack()));
+		list.forEach(ingredient -> stacks.add(ingredient.getNextStack(0)));
 		if (stacks.contains(null)) return new ArrayList<FluidStack>();
 		return stacks;
 	}
@@ -445,7 +445,7 @@ public class RecipeHelper {
 			
 			@Override
 			public void onCraftMatrixChanged(IInventory inventory) {
-				
+			
 			}
 			
 			@Override

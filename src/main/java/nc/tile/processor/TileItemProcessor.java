@@ -21,19 +21,14 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, IGui<ProcessorUpdatePacket>, IUpgradable {
 	
@@ -126,9 +121,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 					pushCooldown = 50;
 				}
 				else if (pushCooldown <= 0) {
-					for (int i = 0; i < itemOutputSize; i++) {
-						shouldUpdate |= pushItemProducts(i + itemInputSize);
-					}
+					shouldUpdate |= pushItems();
 					pushCooldown = 50;
 				}
 				pushCooldown--;
@@ -287,29 +280,12 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 				int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getNextStackSize(0));
 				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
-			pushItemProducts(j + itemInputSize);
 		}
+		pushItems();
 	}
 
-	private boolean pushItemProducts(int slot) {
-		ItemStack stackInSlot = getInventoryStacks().get(slot);
-		if (stackInSlot.isEmpty()) return false;
-		InventoryConnection[] connections = getInventoryConnections();
-		boolean hasDoneWork = false;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			if (connections[side.ordinal()].getItemSorption(slot) == ItemSorption.PUSH)	{
-				TileEntity tile = world.getTileEntity(pos.offset(side));
-				if (tile == null) continue;
-				IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-				if (inventory == null) continue;
-				ItemStack remainder = ItemHandlerHelper.insertItemStacked(inventory, stackInSlot, false);
-				hasDoneWork |= remainder.getCount() != stackInSlot.getCount();
-				stackInSlot = remainder;
-				if (stackInSlot.isEmpty()) break;
-			}
-		}
-		getInventoryStacks().set(slot, stackInSlot);
-		return hasDoneWork;
+	private boolean pushItems() {
+		return IProcessor.pushItems(world, pos, getInventoryStacks(), getInventoryConnections(), itemInputSize, itemOutputSize);
 	}
 	
 	public void loseProgress() {

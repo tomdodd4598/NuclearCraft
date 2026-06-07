@@ -1,7 +1,6 @@
 package nc.proxy;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import nc.Global;
 import nc.block.fluid.NCBlockFluid;
@@ -9,8 +8,7 @@ import nc.config.NCConfig;
 import nc.handler.RenderHandler;
 import nc.handler.SoundHandler;
 import nc.handler.TooltipHandler;
-import nc.init.NCCoolantFluids;
-import nc.init.NCFissionFluids;
+import nc.init.*;
 import nc.model.ModelTexturedFluid;
 import nc.radiation.RadiationRenders;
 import nc.render.ColorRenderer;
@@ -21,6 +19,7 @@ import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,6 +34,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
 
@@ -128,19 +128,24 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initFluidColors() {
 		super.initFluidColors();
-		List<Fluid> fluidList = new ArrayList<Fluid>();
-		fluidList.addAll(NCCoolantFluids.fluidList);
-		fluidList.addAll(NCFissionFluids.fluidList);
-		initFluidColors(fluidList);
-	}
-	
-	private static <T extends Fluid> void initFluidColors(List<T> fluidList) {
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			for(T fluid : fluidList) {
-				if (fluid.getBlock() != null) if (NCBlockFluid.class.isAssignableFrom(fluid.getBlock().getClass())) {
-					NCBlockFluid block = (NCBlockFluid) fluid.getBlock();
-					Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ColorRenderer.FluidBlockColor(block), block);
-					Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(block), block);
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+			BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
+			ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
+			
+			for (List<? extends Fluid> fluidList : Arrays.asList(NCCoolantFluids.fluidList, NCFissionFluids.fluidList)) {
+				for (Fluid fluid : fluidList) {
+					if (fluid.getBlock() instanceof NCBlockFluid fluidBlock) {
+						blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
+						itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+					}
+				}
+			}
+			
+			for (Pair<Fluid, NCBlockFluid> fluidPair : NCFluids.fluidPairList) {
+				NCBlockFluid fluidBlock = fluidPair.getRight();
+				if (fluidBlock != null) {
+					blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
+					itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
 				}
 			}
 		}
