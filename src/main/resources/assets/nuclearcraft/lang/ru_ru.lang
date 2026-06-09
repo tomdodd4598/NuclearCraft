@@ -1,7 +1,7 @@
 # Original translation by Artenaft69
 # Updated and rebrewed by Karl F. Meinkopf (aka TheDeadFerryman)
-
 # Corrected by Golyb007
+# [2026] Updated by MrKoteo
 # DISCLAIMER: The translation still have many aspects to improve!
 
 tile.nuclearcraft.ore.copper.name=Медная руда
@@ -2458,7 +2458,7 @@ gui.nc.config.category.energy_storage=Настройка хранилищ эне
 gui.nc.config.category.energy_storage.tooltip=Настройка хранилищ энергии.
 
 gui.nc.config.battery_capacity=Ёмкость аккумулятора
-gui.nc.config.battery_capacity.comment=Максимальная хранимая мощность RF. Порядок: Вольтова куча [Базовый, Продвинутый, DU, Элитный], Литий-ионная батарея [Базовый, Продвинутый, DU, Элитный].
+gui.nc.config.battery_capacity.comment=Максимальная хранимая мощность RF. Порядок: Вольтова куча [Базовый, Продвинутый, ДУ, Элитный], Литий-ионная батарея [Базовый, Продвинутый, ДУ, Элитный].
 
 gui.nc.config.category.fission=Настройка ядерных реакторов
 gui.nc.config.category.fission.tooltip=Настройка значений для ядерных реакторов.
@@ -2823,11 +2823,11 @@ gui.nc.config.radiation_poison_time=Время отравления радиац
 gui.nc.config.radiation_poison_time.comment=Время, за которое доза радиационного отравления добавляется к количеству радов игрока, в тиках.
 gui.nc.config.radiation_radaway_cooldown=Время охлаждения радиационного излучения
 gui.nc.config.radiation_radaway_cooldown.comment=Время, которое должно пройти между дозами RadAway в тиках.
-gui.nc.config.radiation_rad_x_amount=Сопротивление радиации Рад-Х
+gui.nc.config.radiation_rad_x_amount=Сопротивление радиации Rad-X
 gui.nc.config.radiation_rad_x_amount.comment=Управляет количеством сопротивления рада, получаемого при потреблении Rad-X.
-gui.nc.config.radiation_rad_x_lifetime=Время жизни Рад-Х
+gui.nc.config.radiation_rad_x_lifetime=Время жизни Rad-X
 gui.nc.config.radiation_rad_x_lifetime.comment=Время действия одной дозы Rad-X в тиках.
-gui.nc.config.radiation_rad_x_cooldown=Время охлаждения Рад-Х
+gui.nc.config.radiation_rad_x_cooldown=Время охлаждения Rad-X
 gui.nc.config.radiation_rad_x_cooldown.comment=Время, которое должно пройти между дозами Rad-X в тиках.
 gui.nc.config.radiation_shielding_level=Уровни экранирования радиации
 gui.nc.config.radiation_shielding_level.comment=Уровни радиационной стойкости, обеспечиваемые тремя уровнями экранирования. Порядок: лёгкий, средний, тяжёлый.
@@ -2945,7 +2945,7 @@ gui.nc.config.category.misc.tooltip=Различные конфигурации.
 gui.nc.config.single_creative_tab=Одна творческая вкладка
 gui.nc.config.single_creative_tab.comment=Соединить все творческие вкладки в одну большую?
 gui.nc.config.ctrl_info=Строка для получения дополнительной информации
-gui.nc.config.ctrl_info.comment=Удерживать клавишу control, а не shift для отображения дополнительной информации во всплывающей подсказке?
+gui.nc.config.ctrl_info.comment=Удерживать клавишу Ctrl, а не Shift для отображения дополнительной информации во всплывающей подсказке?
 gui.nc.config.jei_chance_items_include_null=Отображение вывода шансов JEI
 gui.nc.config.jei_chance_items_include_null.comment=Будет ли цикл вывода случайных элементов в JEI включать пустые стеки, если возможный размер стека вывода равен 0? Если false, то будет показан минимальный размер стека 1 - хотя таким образом теряется некоторая информация о рецепте, выглядит это гораздо аккуратнее. Это повлияет только на выходные данные в JEI, но не на фактическое функционирование машин.
 
@@ -3932,11 +3932,11 @@ gui.nc.config.gtce_recipe_integration_global.comment=Отключает инте
 gui.nc.config.factor_recipes=Факторизация рецептов
 gui.nc.config.factor_recipes.comment=Упрощает количество ингредиентов в рецептах.
 gui.nc.config.battery_block_capacity=Ёмкость батарейных блоков
-gui.nc.config.battery_block_capacity.comment=Макс. хранимая RF. Порядок: Вольтаические батареи [Баз, Продв, DU, Элит], Литий-ионные [Баз, Продв, DU, Элит].
+gui.nc.config.battery_block_capacity.comment=Макс. хранимая RF. Порядок: Вольтаические батареи [Баз, Продв, ДУ, Элит], Литий-ионные [Баз, Продв, ДУ, Элит].
 gui.nc.config.battery_block_max_transfer=Передача батарейных блоков
-gui.nc.config.battery_block_max_transfer.comment=Макс. передача RF/t. Порядок: Вольтаические батареи [Баз, Продв, DU, Элит], Литий-ионные [Баз, Продв, DU, Элит].
+gui.nc.config.battery_block_max_transfer.comment=Макс. передача RF/t. Порядок: Вольтаические батареи [Баз, Продв, ДУ, Элит], Литий-ионные [Баз, Продв, ДУ, Элит].
 gui.nc.config.battery_block_energy_tier=Энергоуровень батарейных блоков
-gui.nc.config.battery_block_energy_tier.comment=Уровни энергии IC2/GTCE EU. Порядок: Вольтаические батареи [Баз, Продв, DU, Элит], Литий-ионные [Баз, Продв, DU, Элит].
+gui.nc.config.battery_block_energy_tier.comment=Уровни энергии IC2/GTCE EU. Порядок: Вольтаические батареи [Баз, Продв, ДУ, Элит], Литий-ионные [Баз, Продв, ДУ, Элит].
 gui.nc.config.battery_item_capacity=Ёмкость батарейных предметов
 gui.nc.config.battery_item_capacity.comment=Макс. хранимая RF. Порядок: Литий-ионные ячейки.
 gui.nc.config.battery_item_max_transfer=Передача батарейных предметов
