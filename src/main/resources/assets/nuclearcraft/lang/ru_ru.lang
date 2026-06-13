@@ -2762,7 +2762,7 @@ gui.nc.config.radiation_from_biomes_dims_blacklist=Чёрный список и�
 gui.nc.config.radiation_from_biomes_dims_blacklist.comment=Список идентификаторов измерений для чёрного списка фоновой радиации биома.
 
 gui.nc.config.radiation_ores=Радиация рудных стеков
-gui.nc.config.radiation_ores.comment=Список записей в дикте руды и их уровней радиации в стеке. Может использоваться для перезаписи значений по умолчанию. Можно использовать подстановочные знаки в стиле Unix для названия руды. Формат: 'oreName_radiationLevel'.
+gui.nc.config.radiation_ores.comment=Список записей в OreDict и их уровней радиации в стеке. Может использоваться для перезаписи значений по умолчанию. Можно использовать подстановочные знаки в стиле Unix для названия руды. Формат: 'oreName_radiationLevel'.
 gui.nc.config.radiation_items=Излучение стека элементов
 gui.nc.config.radiation_items.comment=Список предметов и их уровней радиации стека. Может использоваться для перезаписи значений по умолчанию. Формат: 'modid:name:meta_radiationLevel'.
 gui.nc.config.radiation_blocks=Радиация стека блоков
@@ -2773,7 +2773,7 @@ gui.nc.config.radiation_foods=Радиация и устойчивость пр�
 gui.nc.config.radiation_foods.comment=Список продуктов питания и получаемых при их употреблении радиации и сопротивления. Отрицательные значения означают, что радиация и сопротивление будут потеряны. Может использоваться для перезаписи значений по умолчанию. Формат: 'modid:name:meta_radiationLevel_radiationResistance'.
 
 gui.nc.config.radiation_ores_blacklist=Чёрный список радиации в стеках
-gui.nc.config.radiation_ores_blacklist.comment=Список записей в дикте руды, которые будут принудительно не иметь уровня радиации. Можно использовать подстановочные знаки в стиле Unix для названия руды. Формат: 'oreName'.
+gui.nc.config.radiation_ores_blacklist.comment=Список записей в OreDict, которые будут принудительно не иметь уровня радиации. Можно использовать подстановочные знаки в стиле Unix для названия руды. Формат: 'oreName'.
 gui.nc.config.radiation_items_blacklist=Чёрный список радиации стека предметов
 gui.nc.config.radiation_items_blacklist.comment=Список предметов, которые будут принудительно не иметь уровня радиации. Формат: 'modid:name:meta'.
 gui.nc.config.radiation_blocks_blacklist=Чёрный список радиации стека блоков
@@ -2954,12 +2954,12 @@ gui.nc.config.rare_drops.comment=Будут ли мобы выпадать ре�
 gui.nc.config.dungeon_loot=Включить лут из подземелий
 gui.nc.config.dungeon_loot.comment=Сгенерирует ли NuclearCraft лут в сундуках?
 
-gui.nc.config.ore_dict_raw_material_recipes=Включить рецепты сырья для диктанта руды
-gui.nc.config.ore_dict_raw_material_recipes.comment=Будут ли ингредиенты из словаря руды использоваться для рецептов крафтинга 'слиток <-> блок' и печей 'пыль -> слиток'? Если false, то будет использоваться ингредиент NC.
+gui.nc.config.ore_dict_raw_material_recipes=Включить рецепты сырья для OreDict
+gui.nc.config.ore_dict_raw_material_recipes.comment=Будут ли ингредиенты из OreDict использоваться для рецептов крафтинга 'слиток <-> блок' и печей 'пыль -> слиток'? Если false, то будет использоваться ингредиент NC.
 gui.nc.config.ore_dict_priority_bool=Включить приоритет мода Ore Dict Mod Priority
-gui.nc.config.ore_dict_priority_bool.comment=Будут ли выходы Рудного словаря приоритетными в соответствии с приведённым ниже списком модов? Если false, то при определении выходов машины будет использоваться запись Ore Dict по умолчанию.
-gui.nc.config.ore_dict_priority=Приоритет модов рудного словаря
-gui.nc.config.ore_dict_priority.comment=Определяет приоритет записей рудного словаря каждого мода - ID более ранних модов в этом списке имеют более высокий приоритет. Это используется для определения того, какой из модов производит соответствующий элемент в машинных рецептах. Если подходящий мод не найден, используется запись по умолчанию.
+gui.nc.config.ore_dict_priority_bool.comment=Будут ли выходы OreDict приоритетными в соответствии с приведённым ниже списком модов? Если false, то при определении выходов машины будет использоваться запись Ore Dict по умолчанию.
+gui.nc.config.ore_dict_priority=Приоритет модов OreDict
+gui.nc.config.ore_dict_priority.comment=Определяет приоритет записей OreDict каждого мода - ID более ранних модов в этом списке имеют более высокий приоритет. Это используется для определения того, какой из модов производит соответствующий элемент в машинных рецептах. Если подходящий мод не найден, используется запись по умолчанию.
 
 gui.nc.computer.method_not_found=Такого метода нет... какой позор... Какой позор! Загляните на GitHub, прочистите мозги, и мы найдем ваш пропавший метод.
 gui.nc.computer.invalid_method_number=Несуществующий номер метода
