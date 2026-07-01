@@ -246,7 +246,7 @@ tile.nuclearcraft.fusion_core.desc=这是多方块聚变反应堆的中心部分
 tile.nuclearcraft.fusion_dummy_side.name=聚变堆核心
 tile.nuclearcraft.fusion_dummy_top.name=聚变堆核心
 
-tile.nuclearcraft.salt_fission_controller.name=熔融盐裂变控制器
+tile.nuclearcraft.salt_fission_controller.name=熔盐裂变控制器
 tile.nuclearcraft.salt_fission_controller.desc=反应堆的核心 - 需要在侧面置有一个才能成型。
 tile.nuclearcraft.salt_fission_wall.name=熔盐反应堆外壳
 tile.nuclearcraft.salt_fission_wall.desc=构成反应堆结构的面。
@@ -270,7 +270,7 @@ tile.nuclearcraft.salt_fission_retriever.name=熔盐枯竭燃料回收器
 tile.nuclearcraft.salt_fission_retriever.desc=放置在反应堆的侧面 - 能够从所有容器中回收枯竭燃料，有速度限制。
 tile.nuclearcraft.salt_fission_redstone_port.name=熔盐反应堆红石接口
 tile.nuclearcraft.salt_fission_redstone_port.desc=用于开启/关闭反应堆。通过比较器放置在此方块旁，能够读取反应堆热量。
-tile.nuclearcraft.salt_fission_computer_port.name=熔融盐反应堆电脑接口
+tile.nuclearcraft.salt_fission_computer_port.name=熔盐反应堆电脑接口
 tile.nuclearcraft.salt_fission_computer_port.desc=用于通过 OpenComputers 连接反应堆。
 
 tile.nuclearcraft.heat_exchanger_controller.name=热交换器控制器
@@ -2067,7 +2067,7 @@ gui.config.fusion.fusion_radiation.comment=燃料组合的基础辐射。顺序�
 gui.config.fusion.fusion_electromagnet_power=电磁铁功率
 gui.config.fusion.fusion_electromagnet_power.comment=保持电磁铁激活所需的RF/s
 
-gui.config.category.salt_fission=熔融盐裂变配置
+gui.config.category.salt_fission=熔盐裂变配置
 gui.config.category.salt_fission.tooltip=配置熔盐裂变反应堆的各个方面。
 
 gui.config.salt_fission.salt_fission_power=产能倍率
@@ -2082,13 +2082,13 @@ gui.config.salt_fission.salt_fission_overheat.comment=熔盐裂变反应堆是�
 gui.config.salt_fission.salt_fission_meltdown_radiation_multiplier=熔毁辐射倍率
 gui.config.salt_fission.salt_fission_meltdown_radiation_multiplier.comment=修改熔毁泄漏出来的辐射。
 gui.config.salt_fission.salt_fission_min_size=最小结构长度
-gui.config.salt_fission.salt_fission_min_size.comment=熔融盐裂变反应堆的最小边长。
+gui.config.salt_fission.salt_fission_min_size.comment=熔盐裂变反应堆的最小边长。
 gui.config.salt_fission.salt_fission_max_size=最大结构长度
-gui.config.salt_fission.salt_fission_max_size.comment=熔融盐裂变反应堆的最大边长。
+gui.config.salt_fission.salt_fission_max_size.comment=熔盐裂变反应堆的最大边长。
 gui.config.salt_fission.salt_fission_cooling_rate=钠钾冷却剂冷却速率
 gui.config.salt_fission.salt_fission_cooling_rate.comment=每tick移除的热量。顺序：水，红石，石英，金，荧石，青金石，钻石，液氦，末影，凛冰，铁，绿宝石，铜，锡，镁。
 gui.config.salt_fission.salt_fission_redstone_max_heat=最大热量-红石信号输出
-gui.config.salt_fission.salt_fission_redstone_max_heat.comment=熔融盐裂变反应堆发出全满红石信号时候的热量百分比。
+gui.config.salt_fission.salt_fission_redstone_max_heat.comment=熔盐裂变反应堆发出全满红石信号时候的热量百分比。
 gui.config.salt_fission.salt_fission_max_distribution_rate=最大燃料分配速率
 gui.config.salt_fission.salt_fission_max_distribution_rate.comment=燃料分配器和回收器从容器中抽入取出最大的速率，单位 mB/s。
 gui.config.salt_fission.salt_fission_vessel_spread_ratio=裂变容器扩散比例
@@ -2589,7 +2589,7 @@ gui.container.fusion_core.fuels=当前燃料：
 gui.container.fusion_core.empty=空
 gui.container.fusion_core.reactor_not_found=无法进入聚变反应堆 - 结构不完整
 
-gui.container.salt_fission_controller.reactor=熔融盐反应堆
+gui.container.salt_fission_controller.reactor=熔盐反应堆
 gui.container.salt_fission_controller.pos=方块位置
 gui.container.salt_fission_controller.vessels=裂变容器：
 gui.container.salt_fission_controller.heaters=冷却液加热器：
@@ -2667,8 +2667,8 @@ nuclearcraft.multiblock_validation.turbine.space_between_blades=每个转子叶�
 nuclearcraft.multiblock_validation.turbine.different_type_blades=每个转子轴上的转子叶片或涡轮定子必须为相同类型
 nuclearcraft.multiblock_validation.turbine.missing_blades=每一段转子轴上的转子叶片或涡轮定子必须被完全延伸到墙上
 
-nuclearcraft.multiblock_gui.salt_fission.jei_name=熔融盐裂变
-nuclearcraft.multiblock_gui.coolant_heater.jei_name=熔融盐冷却器
+nuclearcraft.multiblock_gui.salt_fission.jei_name=熔盐裂变
+nuclearcraft.multiblock_gui.coolant_heater.jei_name=熔盐冷却器
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=热交换器管道
 nuclearcraft.multiblock_gui.condenser.jei_name=冷凝管道
 nuclearcraft.multiblock_gui.turbine.jei_name=涡轮机
