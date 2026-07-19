@@ -1,6 +1,5 @@
 package nc.tile.radiation;
 
-import nc.radiation.environment.RadiationEnvironmentInfo;
 import nc.tile.ITile;
 import nc.util.FourPos;
 
@@ -11,8 +10,6 @@ public interface ITileRadiationEnvironment extends ITile {
 	}
 	
 	void checkRadiationEnvironmentInfo();
-	
-	void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info);
 	
 	double getRadiationContributionFraction();
 	

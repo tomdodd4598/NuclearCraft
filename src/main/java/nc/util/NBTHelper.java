@@ -9,8 +9,7 @@ import net.minecraft.nbt.*;
 import net.minecraft.util.math.BlockPos;
 
 import javax.vecmath.Vector3f;
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.List;
 
 public class NBTHelper {
 	
@@ -389,32 +388,6 @@ public class NBTHelper {
 			int i = 0;
 			while (tag.hasKey("double" + i)) {
 				collection.add(tag.getDouble("double" + i));
-				++i;
-			}
-		}
-	}
-	
-	// Map<BlockPos, Integer>
-	
-	public static NBTTagCompound writeBlockPosToIntegerMap(NBTTagCompound nbt, Map<BlockPos, Integer> map, String name) {
-		NBTTagCompound tag = new NBTTagCompound();
-		int i = 0;
-		for (Entry<BlockPos, Integer> entry : map.entrySet()) {
-			writeBlockPos(tag, entry.getKey(), "pos" + i);
-			tag.setInteger("int" + i, entry.getValue());
-			++i;
-		}
-		nbt.setTag(name, tag);
-		return nbt;
-	}
-	
-	public static void readBlockPosToIntegerMap(NBTTagCompound nbt, Map<BlockPos, Integer> map, String name) {
-		if (nbt.hasKey(name, 10)) {
-			NBTTagCompound tag = nbt.getCompoundTag(name);
-			map.clear();
-			int i = 0;
-			while (tag.hasKey("pos" + i)) {
-				map.put(readBlockPos(tag, "pos" + i), tag.getInteger("int" + i));
 				++i;
 			}
 		}
