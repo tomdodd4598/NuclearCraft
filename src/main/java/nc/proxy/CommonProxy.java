@@ -37,7 +37,6 @@ import nc.radiation.RadSources;
 import nc.radiation.RadStructures;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationHandler;
-import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.GasHelper;
@@ -145,7 +144,6 @@ public class CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
-		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
 		//RadBiomes.init();
 		
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
