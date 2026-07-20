@@ -17,7 +17,6 @@ import nc.item.ItemMultitool;
 import nc.multiblock.*;
 import nc.ncpf.NCPFWriter;
 import nc.radiation.*;
-import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.*;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.tab.NCTabs;
@@ -175,7 +174,6 @@ public class CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
-		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 		
