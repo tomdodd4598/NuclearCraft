@@ -345,8 +345,9 @@ public class NCConfig {
 	public static boolean mushroom_gen;
 	public static int mushroom_gen_size;
 	public static int mushroom_gen_rate;
-	
+
 	public static boolean register_fission_fluid_blocks;
+	public static boolean disableALLFluidItemBlocks;
 	public static boolean register_cofh_fluids;
 	
 	public static boolean register_projecte_emc;
@@ -938,6 +939,8 @@ public class NCConfig {
 		
 		Property propertyRegisterFluidBlocks = config.get(CATEGORY_OTHER, "register_fluid_blocks", false, Lang.localise("gui.config.other.register_fluid_blocks.comment"));
 		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
+		Property propertyDisableALLFluidItemBlocks = config.get(CATEGORY_OTHER, "disableALLFluidItemBlocks", false, Lang.localise("gui.config.other.disable_ALL_Fluid_Item_Blocks.comment"));
+		propertyDisableALLFluidItemBlocks.setLanguageKey("gui.config.other.disable_ALL_Fluid_Item_Blocks");
 		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
 		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
 		
@@ -1258,6 +1261,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyMushroomGenSize.getName());
 		propertyOrderOther.add(propertyMushroomGenRate.getName());
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
+		propertyOrderOther.add(propertyDisableALLFluidItemBlocks.getName());
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
 		propertyOrderOther.add(propertyRegisterProjectEEMC.getName());
 		propertyOrderOther.add(propertyOreDictRawMaterialRecipes.getName());
@@ -1558,6 +1562,7 @@ public class NCConfig {
 			mushroom_gen_size = propertyMushroomGenSize.getInt();
 			mushroom_gen_rate = propertyMushroomGenRate.getInt();
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
+			disableALLFluidItemBlocks = propertyDisableALLFluidItemBlocks.getBoolean();
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			register_projecte_emc = propertyRegisterProjectEEMC.getBoolean();
 			ore_dict_raw_material_recipes = propertyOreDictRawMaterialRecipes.getBoolean();
@@ -1856,6 +1861,7 @@ public class NCConfig {
 		propertyMushroomGenSize.set(mushroom_gen_size);
 		propertyMushroomGenRate.set(mushroom_gen_rate);
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
+		propertyDisableALLFluidItemBlocks.set(disableALLFluidItemBlocks);
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		propertyRegisterProjectEEMC.set(register_projecte_emc);
 		propertyOreDictRawMaterialRecipes.set(ore_dict_raw_material_recipes);
