@@ -839,8 +839,8 @@ fluid.oxygen=Kyslík
 tile.nuclearcraft.fluid_hydrogen.name=Vodík
 fluid.hydrogen=Vodík
 
-tile.nuclearcraft.fluid_deuterium.name=Deutérium
-fluid.deuterium=Deutérium
+tile.nuclearcraft.fluid_deuterium.name=Deuterium
+fluid.deuterium=Deuterium
 
 tile.nuclearcraft.fluid_tritium.name=Tritium
 fluid.tritium=Tritium
@@ -961,13 +961,13 @@ tile.nuclearcraft.fluid_redstone_ethanol.name=Ruditem napuštěný ethanol
 fluid.redstone_ethanol=Ruditem napuštěný ethanol
 
 tile.nuclearcraft.fluid_beryllium.name=Roztavené beryllium
-fluid.beryllium=Roztavené berylium
+fluid.beryllium=Roztavené beryllium
 
 tile.nuclearcraft.fluid_lif.name=Roztavený fluorid lithný
 fluid.lif=Roztavený fluorid lithný
 
 tile.nuclearcraft.fluid_bef2.name=Roztavený fluorid beryllnatý
-fluid.bef2=Roztavený fluorid berylnatý
+fluid.bef2=Roztavený fluorid beryllnatý
 
 tile.nuclearcraft.fluid_flibe.name=Roztavená směs FLiBe soli
 fluid.flibe=Roztavená směs FLiBe soli
@@ -2634,7 +2634,7 @@ info.nuclearcraft.moderator.efficiency.fixd=Násobič účinnosti: %s
 
 # info.nuclearcraft.moderator.desc=Moderátory jsou médium přes které posílá jeden článek / plášť reaktoru neutronový flux k sobě nebo k jinému. Moderátorové vedení se skládá z NEJVÍC %s spojených moderátorů s článkem nebo plášťem a článkem nebo plášťěm na druhé nebo ALESPOŇ %s spojených moderátorů na jednom koncovém bodě a s neutronovým reflektorem na druhé. Moderátory jsou "aktivní" jen když jsou část vedení A u jednoho koncového článku nebo krytu. Aktivní nebo fuknční článek / kryt posílá flux přes vedení, aby byl přijat článkem / krytem nebo poslán zpátky reflektorem. Celkový počet zaslaného fluxu je suma fluxových faktorů moderátorů ve vedení. Toto je zdvojnásobeno v případě odražení, a je to násobeno odrážecím faktorem reflektorů. Na závěr, celková účinnost článků na konečných bodech je násobena průměrnou účinností vedení ze kterých získává flux - účinnost vedení je průměrný násobitel účinnosti moderátorů ve vedení.
 
-tile.nuclearcraft.fission_reflector.beryllium_carbon.name=Berylio-uhlíkový neutronový reflektor
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=Beryllio-uhlíkový neutronový reflektor
 tile.nuclearcraft.fission_reflector.lead_steel.name=Olověno-ocelový neutronový reflektor
 
 info.nuclearcraft.reflector.fixd=Reflektor štepného reaktoru
@@ -2728,7 +2728,7 @@ tile.nuclearcraft.rtg.desc=Nepřetržitě vyrábí %s.
 
 tile.nuclearcraft.solar_panel_basic.name=Základní solární panel
 tile.nuclearcraft.solar_panel_advanced.name=Pokročilý solární panel
-tile.nuclearcraft.solar_panel_du.name=DU solární panel
+tile.nuclearcraft.solar_panel_du.name=OU solární panel
 tile.nuclearcraft.solar_panel_elite.name=Elitní solární panel
 tile.nuclearcraft.solar_panel.desc=Za denního světla nepřetržitě vyrábí %s.
 
@@ -2737,12 +2737,12 @@ tile.nuclearcraft.decay_generator.desc=Vyrábí energii z rozpadu okolních radi
 
 tile.nuclearcraft.voltaic_pile_basic.name=Základní voltaický článek
 tile.nuclearcraft.voltaic_pile_advanced.name=Pokročilý voltaický článek
-tile.nuclearcraft.voltaic_pile_du.name=DU voltaický článek
+tile.nuclearcraft.voltaic_pile_du.name=OU voltaický článek
 tile.nuclearcraft.voltaic_pile_elite.name=Elitní voltaický článek
 
 tile.nuclearcraft.lithium_ion_battery_basic.name=Základní lithium-iontová baterie
 tile.nuclearcraft.lithium_ion_battery_advanced.name=Pokročilá lithium-iontová baterie
-tile.nuclearcraft.lithium_ion_battery_du.name=DU lithium iontová-baterie
+tile.nuclearcraft.lithium_ion_battery_du.name=OU lithium iontová-baterie
 tile.nuclearcraft.lithium_ion_battery_elite.name=Elitní lithium-iontová baterie
 tile.nuclearcraft.energy_storage.desc=Klikni pravým tlačítkem na stranu, aby jsi zobrazil úroveň energie, a klikni pravým tlačítkem s multinástrojem pro přepnutí spojení na straně. Skrčení při položení udrží konfiguraci spojení.
 
