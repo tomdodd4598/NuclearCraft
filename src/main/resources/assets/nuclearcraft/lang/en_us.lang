@@ -2425,6 +2425,8 @@ gui.config.other.dungeon_loot.comment=Will NuclearCraft loot generate in chests?
 
 gui.config.other.register_fluid_blocks=Register Fission Fluid Blocks
 gui.config.other.register_fluid_blocks.comment=Register fission fluid and molten salt coolant blocks? Keep false if running low on block IDs.
+gui.config.other.disable_ALL_Fluid_Item_Blocks=Disable ALL Fluid Block Items
+gui.config.other.disable_ALL_Fluid_Item_Blocks.comment=Disable the item forms of NuclearCraft fluid blocks? This allows JEI to display these fluids as proper fluid ingredients instead of block items. Requires a full restart and may break existing items or scripts that reference the fluid block items.
 gui.config.other.register_cofh_fluids=Register CoFH Fluid Alternatives
 gui.config.other.register_cofh_fluids.comment=Register alternative Thermal Foundation fluids? It is recommended that this is set to true if no CoFH mods are installed.
 

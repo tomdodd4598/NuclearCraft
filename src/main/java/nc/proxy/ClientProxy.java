@@ -92,17 +92,18 @@ public class ClientProxy extends CommonProxy {
 	static {
 		ModelLoaderRegistry.registerLoader(ModelTexturedFluid.FluidTexturedLoader.INSTANCE);
 	}
-	
+
 	@Override
 	public void registerFluidBlockRendering(Block block, String name) {
 		name = name.toLowerCase();
 		super.registerFluidBlockRendering(block, name);
 		FluidStateMapper mapper = new FluidStateMapper(name);
-		
-		Item item = Item.getItemFromBlock(block);
-		ModelBakery.registerItemVariants(item);
-		ModelLoader.setCustomMeshDefinition(item, mapper);
 
+		if (!NCConfig.disableALLFluidItemBlocks) {
+			Item item = Item.getItemFromBlock(block);
+			ModelBakery.registerItemVariants(item);
+			ModelLoader.setCustomMeshDefinition(item, mapper);
+		}
 		//ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(block.LEVEL).build());
 		ModelLoader.setCustomStateMapper(block, mapper);
 	}
@@ -124,28 +125,28 @@ public class ClientProxy extends CommonProxy {
 			return location;
 		}
 	}
-	
+
 	@Override
 	public void initFluidColors() {
 		super.initFluidColors();
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
 			ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
-			
+
 			for (List<? extends Fluid> fluidList : Arrays.asList(NCCoolantFluids.fluidList, NCFissionFluids.fluidList)) {
 				for (Fluid fluid : fluidList) {
 					if (fluid.getBlock() instanceof NCBlockFluid fluidBlock) {
 						blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
-						itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+						if (!NCConfig.disableALLFluidItemBlocks) itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
 					}
 				}
 			}
-			
+
 			for (Pair<Fluid, NCBlockFluid> fluidPair : NCFluids.fluidPairList) {
 				NCBlockFluid fluidBlock = fluidPair.getRight();
 				if (fluidBlock != null) {
 					blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
-					itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+					if (!NCConfig.disableALLFluidItemBlocks) itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
 				}
 			}
 		}
