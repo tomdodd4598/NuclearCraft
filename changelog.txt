@@ -4,7 +4,14 @@ v2.19d
 
 * Improved performance of recipe stat access
 
+* Improved efficiency of radiation environment handler [thanks to Meldexun!]
+
++ Added config to disable registration of fluid itemblocks [thanks to kaduvill!]
+
 * Fixed turbine render packets being sent unnecessarily
+
++ Added Czech language file [thanks to RomanPlayer22!]
+* Updated Chinese language file [thanks to ZHAY10086!]
 
 v2.19c
 
