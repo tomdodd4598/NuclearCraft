@@ -3,7 +3,7 @@ package nc.tile.radiation;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.Iterables;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import li.cil.oc.api.machine.Arguments;
@@ -20,7 +20,6 @@ import nc.util.MaterialHelper;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
@@ -32,57 +31,41 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	
 	private static final Map<World, Object2IntOpenHashMap<BlockPos>> occlusionMaps = new WeakHashMap<>();
 	
-	private int radCheckCount = 0;
+	private int radCheckCount = 0, occlusionRadius = -1;
 	
 	public TileRadiationScrubber() {
 		super("radiation_scrubber", new OreIngredient("dustBorax", 1), -NCConfig.radiation_scrubber_borax_rate, -NCConfig.radiation_scrubber_power, NCConfig.machine_update_rate / 5);
 		stackChange = new OreIngredient("dustBorax", MathHelper.abs(itemChange)*NCConfig.machine_update_rate / 5);
 	}
 	
-	private static Object2IntOpenHashMap<BlockPos> occlusionMap(World world) {
-		return occlusionMaps.computeIfAbsent(world, k -> new Object2IntOpenHashMap<>());
+	private static Object2IntOpenHashMap<BlockPos> getOcclusionMap(World world) {
+		return occlusionMaps.computeIfAbsent(world, x -> new Object2IntOpenHashMap<>());
 	}
 	
-	private Iterable<BlockPos> affectedPositions() {
-		return () -> new AbstractIterator<BlockPos>() {
-			private final MutableBlockPos mutable = new MutableBlockPos();
-			private int x = -searchRadius();
-			private int y = -searchRadius();
-			private int z = -searchRadius();
-			
-			@Override
-			protected BlockPos computeNext() {
-				for (; x <= searchRadius(); x++) {
-					for (; y <= searchRadius(); y++) {
-						for (; z <= searchRadius(); z++) {
-							if (x * x + y * y + z * z < NCMath.square(searchRadius())) {
-								return mutable.setPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
-							}
-						}
-					}
-				}
-				return endOfData();
-			}
-		};
+	private Iterable<BlockPos.MutableBlockPos> getAffectedPositions(int radius) {
+		return Iterables.filter(BlockPos.getAllInBoxMutable(pos.add(-radius, -radius, -radius), pos.add(radius, radius, radius)), p -> pos.distanceSq(p) < NCMath.square(radius));
 	}
-	
+
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		if(!world.isRemote) {
-			Object2IntOpenHashMap<BlockPos> occlusionMap = occlusionMap(world);
-			for (BlockPos p : affectedPositions()) {
+		if (!world.isRemote && occlusionRadius < 0) {
+			occlusionRadius = searchRadius();
+			Object2IntOpenHashMap<BlockPos> occlusionMap = getOcclusionMap(world);
+			for (BlockPos p : getAffectedPositions(occlusionRadius)) {
 				occlusionMap.addTo(p.toImmutable(), 1);
 			}
 		}
 	}
-	
+
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			tickRadCount();
-			if(shouldRadCheck()) checkRadiationEnvironmentInfo();
+			if(shouldRadCheck()) {
+				checkRadiationEnvironmentInfo();
+			}
 		}
 	}
 	
@@ -110,29 +93,31 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		if (!world.isRemote) {
-			Object2IntOpenHashMap<BlockPos> occlusionMap = occlusionMap(world);
-			for (BlockPos p : affectedPositions()) {
-				if (occlusionMap.addTo(p, -1) <= 1) {
-					occlusionMap.removeInt(p);
-				}
-			}
-		}
+		removeOcclusion();
+		isAdded = false;
 	}
-	
+
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (!world.isRemote) {
-			Object2IntOpenHashMap<BlockPos> occlusionMap = occlusionMap(world);
-			for (BlockPos p : affectedPositions()) {
-				if (occlusionMap.addTo(p, -1) <= 1) {
-					occlusionMap.removeInt(p);
-				}
+		removeOcclusion();
+		isAdded = false;
+	}
+
+	private void removeOcclusion() {
+		if (world == null || world.isRemote || occlusionRadius < 0) {
+			return;
+		}
+		
+		Object2IntOpenHashMap<BlockPos> occlusionMap = getOcclusionMap(world);
+		for (BlockPos p : getAffectedPositions(occlusionRadius)) {
+			if (occlusionMap.addTo(p, -1) <= 1) {
+				occlusionMap.removeInt(p);
 			}
 		}
+		occlusionRadius = -1;
 	}
-	
+
 	// IRadiationEnvironmentHandler
 	
 	@Override
@@ -141,8 +126,8 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 		
 		int occlusionCount = 0;
 		double tileCount = 0D;
-		Object2IntOpenHashMap<BlockPos> occlusionMap = occlusionMap(world);
-		for (BlockPos p : affectedPositions()) {
+		Object2IntOpenHashMap<BlockPos> occlusionMap = getOcclusionMap(world);
+		for (BlockPos p : getAffectedPositions(searchRadius())) {
 			if (isOcclusive(pos, world, p)) {
 				newScrubberFraction -= getOcclusionPenalty() / pos.distanceSq(p);
 				++occlusionCount;
@@ -193,7 +178,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	// Helper
 	
 	private static boolean isOcclusive(BlockPos pos, World world, BlockPos otherPos) {
-		return !MaterialHelper.isEmpty(world.getBlockState(otherPos).getMaterial());
+		return !pos.equals(otherPos) && !MaterialHelper.isEmpty(world.getBlockState(otherPos).getMaterial());
 	}
 	
 	@Override

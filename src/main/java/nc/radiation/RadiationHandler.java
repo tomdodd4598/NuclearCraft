@@ -20,7 +20,6 @@ import nc.util.ItemStackHelper;
 import nc.util.StructureHelper;
 import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
@@ -302,10 +301,7 @@ public class RadiationHandler {
 			}
 			
 			if (NCConfig.radiation_check_blocks && i == chunkStart) {
-				int packed = RecipeItemHelper.pack(ItemStackHelper.blockStateToStack(world.getBlockState(randomChunkPos)));
-				if (RadSources.STACK_MAP.containsKey(packed)) {
-					RadiationHelper.addToSourceBuffer(chunkSource, RadSources.STACK_MAP.get(packed));
-				}
+				RadiationHelper.addToSourceBuffer(chunkSource, RadSources.getBlockRadiation(world.getBlockState(randomChunkPos)));
 			}
 			
 			double currentLevel = chunkSource.getRadiationLevel(), currentBuffer = chunkSource.getRadiationBuffer();

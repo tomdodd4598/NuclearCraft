@@ -146,7 +146,9 @@ public class NCFissionFluids {
 
 	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(withName(block));
-		if (!NCConfig.disableALLFluidItemBlocks) ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
+		if (NCConfig.register_fluid_item_blocks) {
+			ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
+		}
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
 	}
 	

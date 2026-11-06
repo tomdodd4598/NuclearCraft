@@ -712,7 +712,7 @@ fluid.neptunium_237=Molten Neptunium-237
 tile.nuclearcraft.fluid_neptunium_237_fluoride.name=Molten Neptunium-237 Fluoride
 fluid.neptunium_237_fluoride=Molten Neptunium-237 Fluoride
 tile.nuclearcraft.fluid_neptunium_237_fluoride_flibe.name=Molten FLiBe Salt Solution of Neptunium-237 Fluoride
-fluid.neptunium_237_fluoride_flibe=Molten FLiBe Salt Solution of Neptunium-237 
+fluid.neptunium_237_fluoride_flibe=Molten FLiBe Salt Solution of Neptunium-237
 
 tile.nuclearcraft.fluid_plutonium_238.name=Molten Plutonium-238
 fluid.plutonium_238=Molten Plutonium-238
@@ -1740,9 +1740,9 @@ item.nuclearcraft.configuration_blueprint_empty.name=Configuration Blueprint (Em
 item.nuclearcraft.configuration_blueprint_empty.desc=Right click on a processor while sneaking in order to copy its configuration. Right click without sneaking on a processor of the same type in order to set its configuration to that of the blueprint. Reset by sneak right-clicking while not facing a processor.
 item.nuclearcraft.configuration_blueprint.name=Configuration Blueprint
 
-item.nuclearcraft.configuration_blueprint.speed_upgrades=Speed Upgrades x 
-item.nuclearcraft.configuration_blueprint.energy_upgrades=Energy Upgrades x 
-item.nuclearcraft.configuration_blueprint.missing_upgrades=Missing upgrades: 
+item.nuclearcraft.configuration_blueprint.speed_upgrades=Speed Upgrades x
+item.nuclearcraft.configuration_blueprint.energy_upgrades=Energy Upgrades x
+item.nuclearcraft.configuration_blueprint.missing_upgrades=Missing upgrades:
 
 entity.nuclearcraft.feral_ghoul.name=Feral Ghoul
 
@@ -2425,8 +2425,8 @@ gui.config.other.dungeon_loot.comment=Will NuclearCraft loot generate in chests?
 
 gui.config.other.register_fluid_blocks=Register Fission Fluid Blocks
 gui.config.other.register_fluid_blocks.comment=Register fission fluid and molten salt coolant blocks? Keep false if running low on block IDs.
-gui.config.other.disable_ALL_Fluid_Item_Blocks=Disable ALL Fluid Block Items
-gui.config.other.disable_ALL_Fluid_Item_Blocks.comment=Disable the item forms of NuclearCraft fluid blocks? This allows JEI to display these fluids as proper fluid ingredients instead of block items. Requires a full restart and may break existing items or scripts that reference the fluid block items.
+gui.config.other.register_fluid_item_blocks=Register Fluid Itemblocks
+gui.config.other.register_fluid_item_blocks.comment=Register fluid itemblocks? Set to false to allow JEI to correctly display the associated fluids as ingredients.
 gui.config.other.register_cofh_fluids=Register CoFH Fluid Alternatives
 gui.config.other.register_cofh_fluids.comment=Register alternative Thermal Foundation fluids? It is recommended that this is set to true if no CoFH mods are installed.
 
@@ -2902,7 +2902,7 @@ message.nuclearcraft.radiation_config_info_jei=Radiation is enabled on this serv
 
 death.attack.superfluid_freeze=%1$s was Bose-Einstein condensated
 death.attack.plasma_burn=%1$s was incinerated by plasma
-death.attack.gas_burn=%1$s was vaporized 
+death.attack.gas_burn=%1$s was vaporized
 death.attack.steam_burn=%1$s would have fared better in a kettle
 death.attack.molten_burn=%1$s went to hell but didn't come back
 death.attack.corium_burn=%1$s tried swimming in what's left of their reactor

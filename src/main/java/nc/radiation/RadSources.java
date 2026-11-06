@@ -15,14 +15,17 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
+import nc.util.ItemStackHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RadSources {
@@ -61,12 +64,21 @@ public class RadSources {
 			}
 		}
 	}
-	
+
 	public static void addToFoodMaps(ItemStack stack, double radiation, double resistance) {
 		int packed = RecipeItemHelper.pack(stack);
 		if (packed == 0) return;
 		FOOD_RAD_MAP.put(packed, radiation);
 		FOOD_RESISTANCE_MAP.put(packed, resistance);
+	}
+	
+	public static double getBlockRadiation(IBlockState state) {
+		ItemStack stack = ItemStackHelper.blockStateToStack(state);
+		if (stack.isEmpty() && state.getBlock() instanceof IFluidBlock) {
+			Fluid fluid = ((IFluidBlock) state.getBlock()).getFluid();
+			return fluid == null ? 0D : FLUID_MAP.getDouble(fluid.getName());
+		}
+		return STACK_MAP.get(RecipeItemHelper.pack(stack));
 	}
 	
 	public static final double INGOT = 1D;

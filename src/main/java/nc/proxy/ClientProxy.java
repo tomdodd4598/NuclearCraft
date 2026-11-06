@@ -99,7 +99,7 @@ public class ClientProxy extends CommonProxy {
 		super.registerFluidBlockRendering(block, name);
 		FluidStateMapper mapper = new FluidStateMapper(name);
 
-		if (!NCConfig.disableALLFluidItemBlocks) {
+		if (NCConfig.register_fluid_item_blocks) {
 			Item item = Item.getItemFromBlock(block);
 			ModelBakery.registerItemVariants(item);
 			ModelLoader.setCustomMeshDefinition(item, mapper);
@@ -137,7 +137,9 @@ public class ClientProxy extends CommonProxy {
 				for (Fluid fluid : fluidList) {
 					if (fluid.getBlock() instanceof NCBlockFluid fluidBlock) {
 						blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
-						if (!NCConfig.disableALLFluidItemBlocks) itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+						if (NCConfig.register_fluid_item_blocks) {
+							itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+						}
 					}
 				}
 			}
@@ -146,7 +148,9 @@ public class ClientProxy extends CommonProxy {
 				NCBlockFluid fluidBlock = fluidPair.getRight();
 				if (fluidBlock != null) {
 					blockColors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
-					if (!NCConfig.disableALLFluidItemBlocks) itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+					if (NCConfig.register_fluid_item_blocks) {
+						itemColors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
+					}
 				}
 			}
 		}
