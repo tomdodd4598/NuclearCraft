@@ -1,3 +1,11 @@
+v2.19d
+
+* Improved performance of fission reactor block checking
+
+* Improved performance of recipe stat access
+
+* Fixed turbine render packets being sent unnecessarily
+
 v2.19c
 
 * Improved performance of processor auto-output logic

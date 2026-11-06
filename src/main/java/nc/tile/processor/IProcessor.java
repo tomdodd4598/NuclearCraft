@@ -2,7 +2,6 @@ package nc.tile.processor;
 
 import java.util.List;
 
-import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
@@ -26,13 +25,7 @@ public interface IProcessor extends IInterfaceable, IBufferable {
 	public void refreshActivityOnProduction();
 	
 	public static double maxStat(ProcessorRecipeHandler recipeHandler, int i) {
-		double max = 1D;
-		List<ProcessorRecipe> recipes = recipeHandler.getRecipeList();
-		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null || recipe.extras().size() <= i) continue;
-			else if (recipe.extras().get(i) instanceof Double) max = Math.max(max, (double) recipe.extras().get(i));
-		}
-		return max;
+		return recipeHandler.getMaxStat(i);
 	}
 	
 	public static double maxBaseProcessTime(ProcessorRecipeHandler recipeHandler, int defaultProcessTime) {

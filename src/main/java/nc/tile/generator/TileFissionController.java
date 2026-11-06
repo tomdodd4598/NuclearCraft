@@ -826,10 +826,11 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					}
 					
 					// Passive Coolers
-					for (int i = 1; i < CoolerType.values().length; i++) {
-						if (findCooler(x, y, z, i)) if (coolerRequirements(x, y, z, i)) {
-							coolerHeatThisTick -= CoolerType.values()[i].getCooling();
-							break;
+					IBlockState coolerState = getFinder().getBlockState(x, y, z);
+					if (coolerState.getBlock() == NCBlocks.cooler) {
+						int coolerMeta = NCBlocks.cooler.getMetaFromState(coolerState);
+						if (coolerMeta > 0 && coolerRequirements(x, y, z, coolerMeta)) {
+							coolerHeatThisTick -= CoolerType.values()[coolerMeta].getCooling();
 						}
 					}
 					
@@ -941,12 +942,13 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					}*/
 					
 					// Passive Coolers
-					for (int i = 1; i < CoolerType.values().length; i++) {
-						if (findCooler(x, y, z, i)) if (coolerRequirements(x, y, z, i)) {
-							coolerHeatThisTick -= CoolerType.values()[i].getCooling();
-							break;
+					IBlockState coolerState = getFinder().getBlockState(x, y, z);
+					if (coolerState.getBlock() == NCBlocks.cooler) {
+						int coolerMeta = NCBlocks.cooler.getMetaFromState(coolerState);
+						if (coolerMeta > 0 && coolerRequirements(x, y, z, coolerMeta)) {
+							coolerHeatThisTick -= CoolerType.values()[coolerMeta].getCooling();
 						}
-					}	
+					}
 					
 					// Active Coolers
 					if (getFinder().find(x, y, z, NCBlocks.active_cooler)) {

@@ -186,8 +186,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity(IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
-		getEnergyStorage().setMaxTransfer(IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
+		int capacity = IProcessor.getCapacity(recipeHandler, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier());
+		getEnergyStorage().setStorageCapacity(capacity);
+		getEnergyStorage().setMaxTransfer(capacity);
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft

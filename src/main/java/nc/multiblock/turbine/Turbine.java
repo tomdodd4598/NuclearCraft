@@ -43,6 +43,7 @@ import nc.util.SoundHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -55,6 +56,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -770,10 +772,16 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 			if (wasProcessing != isProcessing) {
 				sendUpdateToAllPlayers();
 			}
+			TurbineRenderPacket packet = getRenderPacket();
+			BlockPos controllerPos = controller.getPos();
+			for (EntityPlayer player : WORLD.playerEntities) {
+				EntityPlayerMP serverPlayer = (EntityPlayerMP) player;
+				if (((WorldServer) WORLD).getPlayerChunkMap().isPlayerWatchingChunk(serverPlayer, controllerPos.getX() >> 4, controllerPos.getZ() >> 4)) {
+					PacketHandler.instance.sendTo(packet, serverPlayer);
+				}
+			}
 		}
 		energyStorage.changeEnergyStored((int)power);
-		
-		PacketHandler.instance.sendToAll(getRenderPacket());
 	}
 	
 	protected void refreshRecipe() {

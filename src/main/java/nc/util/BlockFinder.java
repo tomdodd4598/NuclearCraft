@@ -1,6 +1,5 @@
 package nc.util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -44,16 +43,19 @@ public class BlockFinder {
 	}
 	
 	public boolean find(BlockPos pos, Object... blocks) {
+		IBlockState state = getBlockState(pos);
+		ItemStack stack = null;
 		for (int i = 0; i < blocks.length; i++) {
 			if (blocks[i] == null) continue;
 			if (blocks[i] instanceof IBlockState) {
-				if (getBlockState(pos) == (IBlockState)blocks[i]) return true;
+				if (state == (IBlockState)blocks[i]) return true;
 			}
 			if (blocks[i] instanceof String) {
-				if (findOre(pos, (String)blocks[i])) return true;
+				if (stack == null) stack = ItemStackHelper.blockStateToStack(state);
+				if (findOre(stack, (String)blocks[i])) return true;
 			}
 			boolean isSubClass = Block.class.isAssignableFrom(blocks[i].getClass());
-			if (isSubClass && getBlockState(pos).getBlock() == (Block)blocks[i]) return true;
+			if (isSubClass && state.getBlock() == (Block)blocks[i]) return true;
 		}
 		return false;
 	}
@@ -63,14 +65,14 @@ public class BlockFinder {
 	}
 	
 	public boolean findOre(BlockPos pos, String... names) {
-		List<ItemStack> stackList = new ArrayList<ItemStack>();
+		return findOre(ItemStackHelper.blockStateToStack(getBlockState(pos)), names);
+	}
+
+	private boolean findOre(ItemStack stack, String... names) {
 		for (int i = 0; i < names.length; i++) {
-			List<ItemStack> stacks = OreDictionary.getOres(names[i], false);
-			stackList.addAll(stacks);
-		}
-		ItemStack stack = ItemStackHelper.blockStateToStack(getBlockState(pos));
-		for (ItemStack oreStack : stackList) {
-			if (oreStack.isItemEqual(stack)) return true;
+			for (ItemStack oreStack : OreDictionary.getOres(names[i], false)) {
+				if (oreStack.isItemEqual(stack)) return true;
+			}
 		}
 		return false;
 	}

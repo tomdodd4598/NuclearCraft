@@ -1,7 +1,9 @@
 package nc.recipe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,6 +23,8 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	public final boolean isShapeless;
 	private final String recipeName;
+	
+	private final Map<Integer, Double> maxStats = new HashMap<>();
 	
 	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
 		this(recipeName, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
@@ -57,6 +61,49 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		addRecipe(recipe);
 	}
 	
+	public double getMaxStat(int i) {
+		Double cached = maxStats.get(i);
+		if (cached != null) {
+			return cached;
+		}
+		
+		double max = 1D;
+		for (ProcessorRecipe recipe : recipeList) {
+			if (recipe == null || recipe.extras().size() <= i) {
+				continue;
+			}
+			if (recipe.extras().get(i) instanceof Double) {
+				max = Math.max(max, (double) recipe.extras().get(i));
+			}
+		}
+		maxStats.put(i, max);
+		return max;
+	}
+
+	@Override
+	public boolean addRecipe(ProcessorRecipe recipe) {
+		maxStats.clear();
+		return super.addRecipe(recipe);
+	}
+
+	@Override
+	public boolean removeRecipe(ProcessorRecipe recipe) {
+		maxStats.clear();
+		return super.removeRecipe(recipe);
+	}
+
+	@Override
+	public void removeAllRecipes() {
+		maxStats.clear();
+		super.removeAllRecipes();
+	}
+
+	@Override
+	public void refreshCache() {
+		maxStats.clear();
+		super.refreshCache();
+	}
+
 	public void addGTCERecipes() {
 		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName)) {
 			for (ProcessorRecipe recipe : recipeList) {
